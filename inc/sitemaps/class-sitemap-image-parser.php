@@ -495,14 +495,4 @@ class WPSEO_Sitemap_Image_Parser {
 		$get_attachments = new WP_Query();
 		return $get_attachments->query( $args );
 	}
-
-	/**
-	 * Cache attached images and thumbnails for a set of posts.
-	 *
-	 * @deprecated 3.3 Blanket caching no longer makes sense with modern galleries. R.
-	 */
-	public function cache_attachments() {
-
-		_deprecated_function( __METHOD__, '3.3' );
-	}
 }

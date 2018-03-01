@@ -32,16 +32,12 @@
             <key name="metadesc-archive-wpseo" />
             <key name="title-search-wpseo" />
             <key name="title-404-wpseo" />
-        </key>
-        <key name="wpseo_internallinks">
             <key name="breadcrumbs-sep" />
             <key name="breadcrumbs-home" />
             <key name="breadcrumbs-prefix" />
             <key name="breadcrumbs-archiveprefix" />
             <key name="breadcrumbs-searchprefix" />
             <key name="breadcrumbs-404crumb" />
-        </key>
-        <key name="wpseo_rss">
             <key name="rssbefore" />
             <key name="rssafter" />
         </key>

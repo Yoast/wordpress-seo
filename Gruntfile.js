@@ -5,7 +5,6 @@ var loadGruntConfig = require( "load-grunt-config" );
 const { flattenVersionForFile } = require( "./webpack/paths" );
 
 module.exports = function( grunt ) {
-	"use strict";
 
 	timeGrunt( grunt );
 

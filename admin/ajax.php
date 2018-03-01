@@ -60,10 +60,7 @@ function wpseo_set_ignore() {
 	check_ajax_referer( 'wpseo-ignore' );
 
 	$ignore_key = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
-	$options    = get_option( 'wpseo' );
-
-	$options[ 'ignore_' . $ignore_key ] = true;
-	update_option( 'wpseo', $options );
+	WPSEO_Options::set( 'ignore_' . $ignore_key, true );
 
 	die( '1' );
 }
@@ -356,8 +353,6 @@ new WPSEO_GSC_Ajax();
 // SEO Score Recalculations.
 new WPSEO_Recalculate_Scores_Ajax();
 
-new Yoast_Dashboard_Widget();
-
 new Yoast_OnPage_Ajax();
 
 new WPSEO_Shortcode_Filter();
@@ -369,17 +364,6 @@ new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax:
 
 /********************** DEPRECATED METHODS **********************/
 
-/**
- * Create an export and return the URL
- *
- * @deprecated 3.3.2
- * @codeCoverageIgnore
- */
-function wpseo_get_export() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.2', 'This method is deprecated.' );
-
-	wpseo_ajax_json_echo_die( '' );
-}
 
 /**
  * Removes stopword from the sample permalink that is generated in an AJAX request
@@ -396,11 +380,11 @@ function wpseo_remove_stopwords_sample_permalink() {
 /**
  * Function used to delete blocking files, dies on exit.
  *
- * @deprecated 6.4
+ * @deprecated 7.0
  * @codeCoverageIgnore
  */
 function wpseo_kill_blocking_files() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 6.4', 'This method is deprecated.' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.0', 'This method is deprecated.' );
 
 	wpseo_ajax_json_echo_die( '' );
 }

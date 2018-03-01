@@ -29,10 +29,10 @@ $wpseo_up_settings_header = sprintf( __( '%1$s settings', 'wordpress-seo' ), 'Yo
 
 	<?php if ( WPSEO_Options::get( 'keyword_analysis_active', false ) ) : ?>
 		<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_keyword_analysis_disable"
-			   name="wpseo_keyword_analysis_disable" aria-describedby="wpseo_keyword_analysis_disable_desc"
-			   value="on" <?php echo ( get_the_author_meta( 'wpseo_keyword_analysis_disable', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
+			name="wpseo_keyword_analysis_disable" aria-describedby="wpseo_keyword_analysis_disable_desc"
+			value="on" <?php echo ( get_the_author_meta( 'wpseo_keyword_analysis_disable', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
 		<label class="yoast-label-strong"
-			   for="wpseo_keyword_analysis_disable"><?php esc_html_e( 'Disable SEO analysis', 'wordpress-seo' ); ?></label>
+			for="wpseo_keyword_analysis_disable"><?php esc_html_e( 'Disable SEO analysis', 'wordpress-seo' ); ?></label>
 		<br>
 		<p class="description" id="wpseo_keyword_analysis_disable_desc">
 			<?php esc_html_e( 'Removes the keyword tab from the metabox and disables all SEO-related suggestions.', 'wordpress-seo' ); ?>
@@ -41,10 +41,10 @@ $wpseo_up_settings_header = sprintf( __( '%1$s settings', 'wordpress-seo' ), 'Yo
 
 	<?php if ( WPSEO_Options::get( 'content_analysis_active', false ) ) : ?>
 		<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_content_analysis_disable"
-			   name="wpseo_content_analysis_disable" aria-describedby="wpseo_content_analysis_disable_desc"
-			   value="on" <?php echo ( get_the_author_meta( 'wpseo_content_analysis_disable', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
+			name="wpseo_content_analysis_disable" aria-describedby="wpseo_content_analysis_disable_desc"
+			value="on" <?php echo ( get_the_author_meta( 'wpseo_content_analysis_disable', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
 		<label class="yoast-label-strong"
-			   for="wpseo_content_analysis_disable"><?php esc_html_e( 'Disable readability analysis', 'wordpress-seo' ); ?></label>
+			for="wpseo_content_analysis_disable"><?php esc_html_e( 'Disable readability analysis', 'wordpress-seo' ); ?></label>
 		<br>
 		<p class="description" id="wpseo_content_analysis_disable_desc">
 			<?php esc_html_e( 'Removes the readability tab from the metabox and disables all readability-related suggestions.', 'wordpress-seo' ); ?>

@@ -75,7 +75,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			return;
 		}
 		$this->data = array(
-			'@context' => 'http://schema.org',
+			'@context' => 'https://schema.org',
 			'@type'    => 'WebSite',
 			'@id'      => '#website',
 			'url'      => $this->get_home_url(),
@@ -121,7 +121,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			$this->data['@type'] = 'Organization';
 			$this->data['@id']   = '#organization';
 			$this->data['name']  = WPSEO_Options::get( 'company_name' );
-			$this->data['logo']  = WPSEO_Options::get( 'company_logo' );
+			$this->data['logo']  = WPSEO_Options::get( 'company_logo', '' );
 
 			return;
 		}
@@ -149,7 +149,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$this->fetch_social_profiles();
 
 		$this->data = array(
-			'@context' => 'http://schema.org',
+			'@context' => 'https://schema.org',
 			'@type'    => '',
 			'url'      => $this->get_home_url(),
 			'sameAs'   => $this->profiles,
@@ -179,7 +179,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			}
 		}
 
-		if ( WPSEO_Options::get( 'twitter_site', false ) ) {
+		if ( WPSEO_Options::get( 'twitter_site', '' ) !== '' ) {
 			$this->profiles[] = 'https://twitter.com/' . WPSEO_Options::get( 'twitter_site' );
 		}
 	}
@@ -249,18 +249,5 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		}
 
 		return get_bloginfo( 'name' );
-	}
-
-	/**
-	 * Renders internal search schema markup.
-	 *
-	 * @deprecated 2.1
-	 * @deprecated use WPSEO_JSON_LD::website()
-	 * @codeCoverageIgnore
-	 */
-	public function internal_search() {
-		_deprecated_function( __METHOD__, 'WPSEO 2.1', 'WPSEO_JSON_LD::website()' );
-
-		$this->website();
 	}
 }

@@ -90,7 +90,8 @@ p.desc {
 	padding: 0 0 8px 25px;
 }
 
-p.desc.label {
+p.desc.label,
+div.desc.label {
 	margin: 0 0 20px;
 	padding: 0 0 10px 200px;
 }
@@ -105,8 +106,9 @@ p.desc.label {
 	margin-left: 200px;
 }
 
-/* Styles for Yoast specific content. @todo: check this. */
+/* Styles for Yoast specific content. */
 .wpseo_content_wrapper h3 {
+	font-size: 1.15em;
 	margin: 1em 0 0.5em 0;
 }
 
@@ -284,6 +286,11 @@ table.yoast_help .yoast-variable-desc {
 	margin-left: 6px;
 }
 
+.wpseotab .tab-block {
+	display: block;
+	margin: 30px 0;
+}
+
 .wpseotab p.expl strong {
 	font-size: 115%;
 }
@@ -320,7 +327,7 @@ textarea.wpseo-new-metadesc {
 	max-width: 100%;
 }
 
-/* Titles & Metas: title separator. */
+/* Search Appearance: title separator. */
 #separator {
 	margin: 1.5em 0 0.5em;
 }
@@ -693,7 +700,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		max-width: 100%;
 	}
 
-	p.desc.label {
+	p.desc.label,
+	div.desc.label {
 		padding-left: 0;
 	}
 

@@ -36,8 +36,6 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		/* translators: %1$s expands to the social network, %2$s to the recommended image size. */
 		$image_size_text = __( 'The recommended image size for %1$s is %2$s pixels.', 'wordpress-seo' );
 
-		$options = WPSEO_Options::get_option( 'wpseo_social' );
-
 		$social_networks = array(
 			'opengraph' => __( 'Facebook', 'wordpress-seo' ),
 			'twitter'   => __( 'Twitter', 'wordpress-seo' ),
@@ -53,7 +51,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		);
 
 		foreach ( $social_networks as $network => $label ) {
-			if ( true === $options[ $network ] ) {
+			if ( true === WPSEO_Options::get( $network, false ) ) {
 				/* translators: %s expands to the name of a social network. */
 				self::$meta_fields['social'][ $network . '-title' ]['title']       = sprintf( __( '%s Title', 'wordpress-seo' ), $label );
 				self::$meta_fields['social'][ $network . '-title' ]['description'] = sprintf( $title_text, $label );
@@ -240,48 +238,4 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			}
 		}
 	}
-
-
-	/********************** DEPRECATED METHODS **********************/
-
-	// @codeCoverageIgnoreStart
-	/**
-	 * Define the meta boxes for the Social tab.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
-	 * @see        WPSEO_Meta::get_meta_field_defs()
-	 *
-	 * @param string $post_type Optional post type string.
-	 *
-	 * @return    array    Array containing the meta boxes.
-	 */
-	public function get_meta_boxes( $post_type = 'post' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
-
-		return $this->get_meta_field_defs( 'social' );
-	}
-
-	/**
-	 * @deprecated 3.0 Removed.
-	 *
-	 * @return string
-	 */
-	public function tab_header() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
-
-		return '';
-	}
-
-	/**
-	 * @deprecated 3.0 Removed.
-	 *
-	 * @return string
-	 */
-	public function tab_content() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
-
-		return '';
-	}
-	// @codeCoverageIgnoreEnd
 } /* End of class */

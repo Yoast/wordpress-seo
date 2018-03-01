@@ -1,4 +1,4 @@
-// https://github.com/blazersix/grunt-wp-i18n
+// See https://github.com/blazersix/grunt-wp-i18n for details.
 module.exports = {
 	options: {
 		textdomain: "<%= pkg.plugin.textdomain %>",
