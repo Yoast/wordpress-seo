@@ -1,7 +1,6 @@
 /* global jQuery, YoastSEO, wpseoPostScraperL10n */
 import isEmpty from "lodash/isEmpty";
 
-
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import removeMarks from "yoastseo/js/markers/removeMarks";
 import tmceHelper from "../wp-seo-tinymce";
