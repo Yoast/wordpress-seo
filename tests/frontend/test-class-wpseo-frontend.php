@@ -226,7 +226,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * Tests adjecent rel links on post type overview pages.
+	 * Tests adjacent rel links on post type overview pages.
 	 *
 	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 * @covers WPSEO_Frontend::rel_links_archive
@@ -257,7 +257,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * Tests adjecent rel links on author overview.
+	 * Tests adjacent rel links on author overview.
 	 *
 	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 * @covers WPSEO_Frontend::rel_links_archive
@@ -281,7 +281,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * Tests adjecent rel links in a date archive.
+	 * Tests adjacent rel links in a date archive.
 	 *
 	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 * @covers WPSEO_Frontend::rel_links_archive
@@ -301,7 +301,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * Tests adjecent rel links on a category.
+	 * Tests adjacent rel links on a category.
 	 *
 	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 * @covers WPSEO_Frontend::rel_links_archive
