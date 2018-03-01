@@ -56,6 +56,12 @@ export default class SnippetPreviewExample extends Component {
 		} );
 	}
 
+	updateTitle( event ) {
+		this.setState( {
+			title: event.target.value,
+		} );
+	}
+
 	/**
 	 * Renders the SnippetPreview component.
 	 *
@@ -77,6 +83,7 @@ export default class SnippetPreviewExample extends Component {
 		return <Container>
 			<button onClick={ this.switch.bind( this, "desktop" ) }>Desktop</button>
 			<button onClick={ this.switch.bind( this, "mobile" ) }>Mobile</button>
+			<input type="text" onChange={ this.updateTitle.bind( this ) } value={ this.state.title } />
 
 			<br /><br /><br />
 

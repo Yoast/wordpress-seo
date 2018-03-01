@@ -100,7 +100,11 @@ export const TitleUnboundedDesktop = styled.span`
 `;
 
 export const TitleUnboundedMobile = styled.span`
-	word-wrap: break-word
+	display: inline-block;
+	line-height: 1.2em;
+	max-height: 2.4em;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 export const BaseUrl = styled.div`
@@ -193,78 +197,82 @@ export default class SnippetPreview extends Component {
 	 */
 	constructor( props ) {
 		super( props );
+
+		this.state = {
+			title: props.title,
+		};
+
+		this.setTitleRef = this.setTitleRef.bind( this );
+	}
+
+	setTitleRef( titleElement ) {
+		this._titleElement = titleElement;
 	}
 
 	/**
-	 * Renders the snippet preview.
+	 * Returns whether an element has content that doesn't fit.
 	 *
-	 * @returns {ReactElement} The rendered snippet preview.
+	 * @param {HTMLElement} element The element to check.
+	 *
+	 * @returns {boolean} Whether it has content that doesn't fit.
 	 */
-	render() {
-		const { title,
-			url,
-			description,
-			keyword,
-			isDescriptionGenerated,
-			locale,
-			onClick,
-			onMouseLeave,
-			onMouseOver,
-			mode,
-		} = this.props;
+	hasOverflowedContent( element ) {
+		return element.clientHeight !== element.scrollHeight;
+	}
 
-		const Title       = this.addCaretStyles( "title", BaseTitle );
-		const Description = this.addCaretStyles( "description", BaseDescription );
-		const Url         = this.addCaretStyles( "url", BaseUrl );
+	/**
+	 * Set the title in the state so it fits in two lines.
+	 *
+	 * @returns {void}
+	 */
+	fitTitle() {
+		const titleElement = this._titleElement;
 
-		const renderedDate = this.renderDate();
+		// When the title is 600 pixels it approximately fits 200 characters.
+		const TWO_LINES_OF_CHARACTERS_PER_WIDTH = 3;
 
-		const PartContainer  = mode === DESKTOP ? DesktopPartContainer  : MobilePartContainer;
-		const Container      = mode === DESKTOP ? DesktopContainer      : MobileContainer;
-		const separator      = mode === DESKTOP ? null                  : <Separator />;
-		const downArrow      = mode === DESKTOP ? <UrlDownArrow />      : null;
-		const TitleUnbounded = mode === DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
+		if ( this.hasOverflowedContent( titleElement ) ) {
+			let prevTitle = this.state.title;
 
-		return (
-			<section>
-				<Container onMouseLeave={this.onMouseLeave} width={ 640 } padding={ 20 }>
-					<PartContainer>
-						<ScreenReaderText>SEO title preview:</ScreenReaderText>
-						<Title onClick={onClick.bind( null, "title" )}
-						       onMouseOver={partial( onMouseOver, "title" )}
-						       onMouseLeave={partial( onMouseLeave, "title" )}>
-							<TitleBounded>
-								<TitleUnbounded>
-									{title}
-								</TitleUnbounded>
-							</TitleBounded>
-						</Title>
-						<ScreenReaderText>Slug preview:</ScreenReaderText>
-						<Url onClick={ onClick.bind( null, "url" ) }
-						     onMouseOver={ partial( onMouseOver, "url" ) }
-						     onMouseLeave={ partial( onMouseLeave, "url" ) }>
-							{ highlightKeyword( locale, keyword, url ) }
-						</Url>
-						{ downArrow }
-					</PartContainer>
-					{ separator }
-					<PartContainer>
-						<ScreenReaderText>Meta description
-							preview:</ScreenReaderText>
-						<Description isDescriptionGenerated={ isDescriptionGenerated }
-						             onClick={ onClick.bind( null, "description" ) }
-						             onMouseOver={ partial( onMouseOver, "description" ) }
-						             onMouseLeave={ partial( onMouseLeave, "description" ) }>
-							{ renderedDate }
-							{ highlightKeyword( locale, keyword, truncate( description, {
-								length: DESCRIPTION_LIMIT,
-								omission: "",
-							} ) ) }
-						</Description>
-					</PartContainer>
-				</Container>
-			</section>
-		);
+			// Heuristic to prevent too many re-renders.
+			const maxCharacterCount = titleElement.clientWidth / TWO_LINES_OF_CHARACTERS_PER_WIDTH;
+
+			if ( prevTitle.length > maxCharacterCount ) {
+				prevTitle = prevTitle.substring( 0, maxCharacterCount );
+			}
+
+			const newTitle = this.dropLastWord( prevTitle );
+
+			this.setState( {
+				title: newTitle,
+			} );
+		}
+	}
+
+	/**
+	 * Removes the last word of a sentence.
+	 *
+	 * @param {string} sentence The sentence to drop a word of.
+	 * @returns {string} The new sentence.
+	 */
+	dropLastWord( sentence ) {
+		let titleParts = sentence.split( " " );
+		titleParts.pop();
+
+		return titleParts.join( " " );
+	}
+
+	/**
+	 * Returns the title for rendering.
+	 *
+	 * @returns {string} The title to render.
+	 */
+	getTitle() {
+		if ( this.props.title !== this.state.title ) {
+			return this.state.title + " ...";
+		}
+
+		return this.props.title;
 	}
 
 	/**
@@ -302,6 +310,104 @@ export default class SnippetPreview extends Component {
 		}
 
 		return BaseComponent;
+	}
+
+	/**
+	 * Before we receive props we need to set the title in the state.
+	 *
+	 * @param {Object} nextProps The props this component will receive.
+	 *
+	 * @returns {void}
+	 */
+	componentWillReceiveProps( nextProps ) {
+		if ( this.props.title !== nextProps.title ) {
+			this.setState( {
+				title: nextProps.title,
+			} );
+		}
+	}
+
+	/**
+	 * After a component updates we need to fit the title.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate() {
+		if ( this.props.mode === MOBILE ) {
+			this.fitTitle();
+		}
+	}
+
+	/**
+	 * Renders the snippet preview.
+	 *
+	 * @returns {ReactElement} The rendered snippet preview.
+	 */
+	render() {
+		const {
+			url,
+			description,
+			keyword,
+			isDescriptionGenerated,
+			locale,
+			onClick,
+			onMouseLeave,
+			onMouseOver,
+			mode,
+		} = this.props;
+
+		const Title       = this.addCaretStyles( "title", BaseTitle );
+		const Description = this.addCaretStyles( "description", BaseDescription );
+		const Url         = this.addCaretStyles( "url", BaseUrl );
+
+		const renderedDate = this.renderDate();
+
+		const PartContainer  = mode === DESKTOP ? DesktopPartContainer  : MobilePartContainer;
+		const Container      = mode === DESKTOP ? DesktopContainer      : MobileContainer;
+		const separator      = mode === DESKTOP ? null                  : <Separator />;
+		const downArrow      = mode === DESKTOP ? <UrlDownArrow />      : null;
+		const TitleUnbounded = mode === DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
+
+		return (
+			<section>
+				<Container onMouseLeave={this.onMouseLeave} width={ 640 } padding={ 20 }>
+					<PartContainer>
+						<ScreenReaderText>SEO title preview:</ScreenReaderText>
+						<Title onClick={onClick.bind( null, "title" )}
+						       onMouseOver={partial( onMouseOver, "title" )}
+						       onMouseLeave={partial( onMouseLeave, "title" )}>
+							<TitleBounded>
+								<TitleUnbounded innerRef={ this.setTitleRef } >
+									{ this.getTitle() }
+								</TitleUnbounded>
+							</TitleBounded>
+						</Title>
+						<ScreenReaderText>Slug preview:</ScreenReaderText>
+						<Url onClick={ onClick.bind( null, "url" ) }
+						     onMouseOver={ partial( onMouseOver, "url" ) }
+						     onMouseLeave={ partial( onMouseLeave, "url" ) }>
+							{ highlightKeyword( locale, keyword, url ) }
+						</Url>
+						{ downArrow }
+					</PartContainer>
+					{ separator }
+					<PartContainer>
+						<ScreenReaderText>Meta description
+							preview:</ScreenReaderText>
+						<Description isDescriptionGenerated={ isDescriptionGenerated }
+						             onClick={ onClick.bind( null, "description" ) }
+						             onMouseOver={ partial( onMouseOver, "description" ) }
+						             onMouseLeave={ partial( onMouseLeave, "description" ) }>
+							{ renderedDate }
+							{ highlightKeyword( locale, keyword, truncate( description, {
+								length: DESCRIPTION_LIMIT,
+								omission: "",
+							} ) ) }
+						</Description>
+					</PartContainer>
+				</Container>
+			</section>
+		);
 	}
 }
 
