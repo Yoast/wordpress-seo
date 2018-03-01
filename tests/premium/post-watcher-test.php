@@ -171,6 +171,8 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if a redirect is not deleted when no redirect is found.
+	 *
+	 * @covers WPSEO_Post_Watcher::remove_colliding_redirect
 	 */
 	public function test_no_redirect_exists_dont_delete_redirect() {
 		$redirect_manager = $this
@@ -194,6 +196,8 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if a redirect is not deleted when the targets do not match.
+	 *
+	 * @covers WPSEO_Post_Watcher::remove_colliding_redirect
 	 */
 	public function test_target_from_before_does_match() {
 		$post_before = (object) array(
@@ -233,6 +237,8 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if a redirect is deleted when a redirect is found and the targets match.
+	 *
+	 * @covers WPSEO_Post_Watcher::remove_colliding_redirect
 	 */
 	public function test_redirect_being_deleted() {
 		$post_before = (object) array(
