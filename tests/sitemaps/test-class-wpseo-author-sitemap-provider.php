@@ -1,15 +1,15 @@
 <?php
 /**
- * @package WPSEO\Tests\Sitemaps.
+ * @package WPSEO\Tests\Sitemaps
  */
 
 /**
- * Class Test_WPSEO_Author_Sitemap_Provider.
+ * Class Test_WPSEO_Author_Sitemap_Provider
  */
 class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Author_Sitemap_Provider.
+	 * @var WPSEO_Author_Sitemap_Provider
 	 */
 	private static $class_instance;
 
