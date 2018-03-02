@@ -10,6 +10,11 @@
  */
 class WPSEO_Import_External {
 	/**
+	 * @var WPSEO_Import_Status
+	 */
+	public $status;
+
+	/**
 	 * @var WPSEO_External_Importer
 	 */
 	protected $importer;
@@ -19,25 +24,24 @@ class WPSEO_Import_External {
 	 *
 	 * @param WPSEO_External_Importer $importer The importer that needs to perform this action.
 	 * @param string $action The action to perform.
-	 *
-	 * @return WPSEO_Import_Status
 	 */
 	public function __construct( WPSEO_External_Importer $importer, $action ) {
 		$this->importer = $importer;
 
 		switch( $action ) {
 			case 'cleanup':
-				$status = $this->importer->cleanup();
+				$this->status = $this->importer->cleanup();
+				break;
+			case 'detect':
+			default:
+				$this->status = $this->importer->detect();
 				break;
 			case 'import':
-			default:
-				$status = $this->importer->import();
+				$this->status = $this->importer->import();
 				break;
 		}
 
-		$status->set_msg( $this->complete_msg( $status->get_msg() ) );
-
-		return $status;
+		$this->status->set_msg( $this->complete_msg( $this->status->get_msg() ) );
 	}
 
 	/**
@@ -50,5 +54,4 @@ class WPSEO_Import_External {
 	protected function complete_msg( $msg ) {
 		return sprintf( $msg, $this->importer->plugin_name() );
 	}
-
 }

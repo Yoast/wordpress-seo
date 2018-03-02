@@ -32,6 +32,7 @@ class WPSEO_Import_Status {
 	/**
 	 * WPSEO_Import_Status constructor.
 	 *
+	 * @param string $action The type of import action.
 	 * @param bool   $status The status of the import.
 	 * @param string $msg    Extra messages about the status.
 	 */
@@ -64,6 +65,9 @@ class WPSEO_Import_Status {
 				case 'cleanup':
 					return $this->default_cleanup_message();
 					break;
+				case 'detect':
+					return $this->default_detect_message();
+					break;
 			}
 		}
 		return $this->msg;
@@ -79,6 +83,16 @@ class WPSEO_Import_Status {
 	}
 
 	/**
+	 * Set the import action, set status to false.
+	 *
+	 * @param string $action The type of action to set as import action.
+	 */
+	public function set_action( $action ) {
+		$this->action = $action;
+		$this->status = false;
+	}
+
+	/**
 	 * Sets the importer status message.
 	 *
 	 * @param string $msg The message to set.
@@ -91,9 +105,12 @@ class WPSEO_Import_Status {
 	 * Set the importer status.
 	 *
 	 * @param bool $status The status to set.
+	 *
+	 * @return WPSEO_Import_Status The current object.
 	 */
 	public function set_status( $status ) {
 		$this->status = (bool) $status;
+		return $this;
 	}
 
 	/**
@@ -116,6 +133,18 @@ class WPSEO_Import_Status {
 	private function default_cleanup_message() {
 		if ( $this->status ) {
 			return __( '%s data successfully removed.', 'wordpress-seo' );
+		}
+		return __( '%s data not found.', 'wordpress-seo' );
+	}
+
+	/**
+	 * Returns the default detect message for the current status.
+	 *
+	 * @return string
+	 */
+	private function default_detect_message() {
+		if ( $this->status ) {
+			return __( '%s data found.', 'wordpress-seo' );
 		}
 		return __( '%s data not found.', 'wordpress-seo' );
 	}

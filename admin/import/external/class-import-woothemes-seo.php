@@ -35,20 +35,22 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 		global $wpdb;
 
 		$this->db = $wpdb;
+
+		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
 
 	/**
 	 * Detect whether there is post meta data to import.
 	 *
-	 * @return bool True when there is data, false when there's no data.
+	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$affected_rows = $this->db->query( $this->db->prepare( "SELECT  FROM $this->db->postmeta WHERE meta_key = %s", 'seo_title' ) );
-		if ( $affected_rows === 0 ) {
-			return false;
+		$count = $this->db->get_var( "SELECT COUNT(*) FROM {$this->db->postmeta} WHERE meta_key = 'seo\_title'" );
+		if ( $count === '0' ) {
+			return $this->status;
 		}
 
-		return true;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -66,7 +68,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function import() {
-		$this->status = new WPSEO_Import_Status( 'import', false );
+		$this->status->set_action( 'import' );
 
 		WPSEO_Options::initialize();
 		$this->options = WPSEO_Options::get_all();
@@ -90,7 +92,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$this->status = new WPSEO_Import_Status( 'cleanup', false );
+		$this->status->set_action( 'cleanup' );
 
 		$this->cleanup_options();
 		$this->cleanup_meta();
@@ -124,7 +126,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * @param string $key The meta_key to delete.
 	 */
 	private function cleanup_meta_key( $key ) {
-		$affected_rows = $this->db->query( $this->db->prepare( "DELETE FROM $this->db->postmeta WHERE meta_key = %s", $key ) );
+		$affected_rows = $this->db->query( $this->db->prepare( "DELETE FROM {$this->db->postmeta} WHERE meta_key = %s", $key ) );
 		if ( $affected_rows > 0 ) {
 			$this->status->set_status( true );
 		}

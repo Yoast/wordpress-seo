@@ -33,8 +33,10 @@ class WPSEO_Import_AIOSEO implements WPSEO_External_Importer {
 		global $wpdb;
 
 		$this->db = $wpdb;
+
+		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
-	
+
 	/**
 	 * Returns the plugin name.
 	 *
@@ -45,27 +47,37 @@ class WPSEO_Import_AIOSEO implements WPSEO_External_Importer {
 	}
 
 	/**
+	 * Detect whether there is post meta data to import.
+	 *
+	 * @return WPSEO_Import_Status
+	 */
+	public function detect() {
+		$count = $this->db->get_var( "SELECT COUNT(*) FROM {$this->db->postmeta} WHERE meta_key LIKE '\_aioseop\_%'" );
+		if ( $count === '0' ) {
+			return $this->status;
+		}
+
+		return $this->status->set_status( true );
+	}
+
+	/**
 	 * Imports the All in one SEO Pack settings.
 	 * 
 	 * @return WPSEO_Import_Status
 	 */
 	public function import() {
-		$this->status = new WPSEO_Import_Status( 'import', false );
+		$this->status->set_action( 'import' );
 
-		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key LIKE '_aioseop_%'" );
-		if ( $affected_rows === 0 ) {
+		if ( ! $this->detect() ) {
 			return $this->status;
 		}
 
-		$this->status->set_status( true );
-
 		$this->aioseo_options = get_option( 'aioseop_options' );
 
-		$this->success = true;
 		$this->import_metas();
 		$this->import_ga();
 
-		return $this->status;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -74,8 +86,8 @@ class WPSEO_Import_AIOSEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$this->status = new WPSEO_Import_Status( 'cleanup', false );
-		$affected_rows = $this->db->query( "DELETE FROM $this->db->postmeta WHERE meta_key LIKE '_aioseop_%'" );
+		$this->status->set_action( 'cleanup' );
+		$affected_rows = $this->db->query( "DELETE FROM {$this->db->postmeta} WHERE meta_key LIKE '_aioseop_%'" );
 		if ( $affected_rows > 0 ) {
 			$this->status->set_status( true );
 		}

@@ -15,12 +15,21 @@ class WPSEO_Import_Jetpack_SEO implements WPSEO_External_Importer {
 	protected $db;
 
 	/**
+	 * Holds the import status object.
+	 *
+	 * @var WPSEO_Import_Status
+	 */
+	private $status;
+
+	/**
 	 * WPSEO_Import_Jetpack_SEO constructor.
 	 */
 	public function __construct() {
 		global $wpdb;
 
 		$this->db = $wpdb;
+
+		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
 
 	/**
@@ -35,15 +44,15 @@ class WPSEO_Import_Jetpack_SEO implements WPSEO_External_Importer {
 	/**
 	 * Detect whether there is post meta data to import.
 	 *
-	 * @return bool True when there is data, false when there's no data.
+	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key = 'advanced_seo_description'" );
-		if ( $affected_rows === 0 ) {
-			return false;
+		$count = $this->db->get_var( "SELECT COUNT(*) FROM {$this->db->postmeta} WHERE meta_key = 'advanced\_seo\_description'" );
+		if ( $count === '0' ) {
+			return $this->status;
 		}
 
-		return true;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -52,14 +61,13 @@ class WPSEO_Import_Jetpack_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$status = new WPSEO_Import_Status( 'cleanup', false );
-		$affected_rows = $this->db->query( "DELETE FROM $this->db->postmeta WHERE meta_key = 'advanced_seo_description'" );
+		$this->status->set_action( 'cleanup' );
+		$affected_rows = $this->db->query( "DELETE FROM {$this->db->postmeta} WHERE meta_key = 'advanced_seo_description'" );
 		if ( $affected_rows > 0 ) {
-			return $status;
+			return $this->status;
 		}
 
-		$status->set_status( true );
-		return $status;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -68,15 +76,13 @@ class WPSEO_Import_Jetpack_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function import() {
-		$status = new WPSEO_Import_Status( 'cleanup', false );
+		$this->status->set_action( 'import' );
 
 		if ( ! $this->detect() ) {
-			return $status;
+			return $this->status;
 		}
 
 		WPSEO_Meta::replace_meta( 'advanced_seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
-		$status->set_status( true );
-
-		return $status;
+		return $this->status->set_status( true );
 	}
 }

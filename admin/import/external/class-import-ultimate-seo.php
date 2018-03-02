@@ -13,12 +13,21 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_External_Importer {
 	protected $db;
 
 	/**
+	 * Holds the import status object.
+	 *
+	 * @var WPSEO_Import_Status
+	 */
+	private $status;
+
+	/**
 	 * WPSEO_Import_Ultimate_SEO constructor.
 	 */
 	public function __construct() {
 		global $wpdb;
 
 		$this->db = $wpdb;
+
+		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
 
 	/**
@@ -33,15 +42,15 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_External_Importer {
 	/**
 	 * Detect whether there is post meta data to import.
 	 *
-	 * @return bool True when there is data, false when there's no data.
+	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key LIKE '_su_%'" );
-		if ( $affected_rows === 0 ) {
-			return false;
+		$count = $this->db->get_var( "SELECT COUNT(*) FROM {$this->db->postmeta} WHERE meta_key LIKE '\_su\_%'" );
+		if ( $count === '0' ) {
+			return $this->status;
 		}
 
-		return true;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -50,10 +59,10 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_External_Importer {
 	 * @returns WPSEO_Import_Status
 	 */
 	public function import() {
-		$status = new WPSEO_Import_Status( 'import', false );
+		$this->status->set_action( 'import' );
 
 		if ( ! $this->detect() ) {
-			return $status;
+			return $this->status;
 		}
 
 		WPSEO_Meta::replace_meta( '_su_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
@@ -63,9 +72,8 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_External_Importer {
 		WPSEO_Meta::replace_meta( '_su_og_description', WPSEO_Meta::$meta_prefix . 'opengraph-description', false );
 		WPSEO_Meta::replace_meta( '_su_og_image', WPSEO_Meta::$meta_prefix . 'opengraph-image', false );
 		WPSEO_Meta::replace_meta( '_su_title', WPSEO_Meta::$meta_prefix . 'title', false );
-		$status->set_status( true );
 
-		return $status;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -74,13 +82,12 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$status = new WPSEO_Import_Status( 'cleanup', false );
-		$affected_rows = $this->db->query( "DELETE FROM {$this->db->prefix}postmeta WHERE meta_key LIKE '_su_%'" );
+		$this->status->set_action( 'cleanup' );
+		$affected_rows = $this->db->query( "DELETE FROM {$this->db->postmeta} WHERE meta_key LIKE '_su_%'" );
 		if ( $affected_rows > 0 ) {
-			$status->set_status( true );
-			return $status;
+			return $this->status->set_status( true );
 		}
 
-		return $status;
+		return $this->status;
 	}
 }

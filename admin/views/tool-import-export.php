@@ -57,8 +57,7 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 	    $import = new WPSEO_Import_External( new WPSEO_Import_SEOPressor, $action );
 	}
 }
-
-if ( isset( $_FILES['settings_import_file'] ) ) {
+elseif ( isset( $_FILES['settings_import_file'] ) ) {
 	check_admin_referer( 'wpseo-import-file' );
 
 	$import = new WPSEO_Import();
@@ -77,10 +76,10 @@ if ( $import ) {
 	 *
 	 * @api  string  $msg  The message.
 	 */
-	$msg = apply_filters( 'wpseo_import_message', $import->get_msg() );
+	$msg = apply_filters( 'wpseo_import_message', $import->status->get_msg() );
 
 	if ( ! empty( $msg ) ) {
-		$status = ( $import->get_status() ) ? 'updated' : 'error';
+		$status = ( $import->status->get_status() ) ? 'updated' : 'error';
 
 		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
 	}

@@ -11,6 +11,18 @@
 class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 
 	/**
+	 * @var wpdb Holds the WPDB instance.
+	 */
+	protected $db;
+
+	/**
+	 * Holds the import status object.
+	 *
+	 * @var WPSEO_Import_Status
+	 */
+	private $status;
+
+	/**
 	 * Returns the plugin name.
 	 *
 	 * @return string
@@ -20,31 +32,28 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	}
 
 	/**
-	 * @var wpdb Holds the WPDB instance.
-	 */
-	protected $db;
-
-	/**
 	 * WPSEO_Import_SEOPressor constructor.
 	 */
 	public function __construct() {
 		global $wpdb;
 
 		$this->db = $wpdb;
+
+		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
 
 	/**
 	 * Detect whether there is post meta data to import.
 	 *
-	 * @return bool True when there is data, false when there's no data.
+	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key LIKE '_seop_settings'" );
-		if ( $affected_rows === 0 ) {
-			return false;
+		$count = $this->db->get_var( "SELECT COUNT(*) FROM {$this->db->postmeta} WHERE meta_key LIKE '\_seop\_settings'" );
+		if ( $count === '0' ) {
+			return $this->status;
 		}
 
-		return true;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -53,10 +62,10 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function import() {
-		$status = new WPSEO_Import_Status( 'import', false );
+		$this->status->set_action( 'import' );
 
 		if ( ! $this->detect() ) {
-			return $status;
+			return $this->status;
 		}
 
 		// Query for all the posts that have an _seop_settings meta set.
@@ -65,8 +74,7 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 			$this->import_post_focus_keywords( $post_id );
 			$this->import_seopressor_post_settings( $post_id );
 		}
-		$status->set_status( true );
-		return $status;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -75,14 +83,14 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$status = new WPSEO_Import_Status( 'cleanup', false );
+		$this->status->set_action( 'cleanup' );
 
 		// If we get to replace the data, let's do some proper cleanup.
-		$affected_rows = $this->db->query( "DELETE FROM $this->db->postmeta WHERE meta_key LIKE '_seop_%'" );
+		$affected_rows = $this->db->query( "DELETE FROM {$this->db->postmeta} WHERE meta_key LIKE '_seop_%'" );
 		if ( $affected_rows > 0 ) {
-			$status->set_status( true );
+			return $this->status->set_status( true );
 		}
-		return $status;
+		return $this->status;
 	}
 
 	/**

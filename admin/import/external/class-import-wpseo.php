@@ -26,20 +26,22 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 		global $wpdb;
 
 		$this->db = $wpdb;
+
+		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
 
 	/**
 	 * Detect whether there is post meta data to import.
 	 *
-	 * @return bool True when there is data, false when there's no data.
+	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key LIKE '_wpseo_edit_%'" );
-		if ( $affected_rows === 0 ) {
-			return false;
+		$count = $this->db->get_var( "SELECT COUNT(*) FROM {$this->db->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
+		if ( $count === '0' ) {
+			return $this->status;
 		}
 
-		return true;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -48,7 +50,7 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function import() {
-		$this->status = new WPSEO_Import_Status( 'import', false );
+		$this->status->set_action( 'import' );
 		$this->import_post_metas();
 		$this->import_taxonomy_metas();
 
@@ -61,7 +63,7 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$this->status = new WPSEO_Import_Status( 'cleanup', false );
+		$this->status->set_action( 'cleanup' );
 		$this->cleanup_term_meta();
 		$this->cleanup_post_meta();
 
@@ -247,7 +249,7 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 */
 	private function cleanup_post_meta() {
 		// If we get to replace the data, let's do some proper cleanup.
-		$affected_rows = $this->db->query( "DELETE FROM $this->db->postmeta WHERE meta_key LIKE '_wpseo_edit_%'" );
+		$affected_rows = $this->db->query( "DELETE FROM {$this->db->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
 
 		if ( $affected_rows > 0 ) {
 			$this->status->set_status( true );

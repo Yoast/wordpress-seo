@@ -33,7 +33,7 @@ interface WPSEO_External_Importer {
 	/**
 	 * Detects whether an import for this plugin is needed.
 	 *
-	 * @return bool
+	 * @return WPSEO_Import_Status
 	 */
 	public function detect();
 }
