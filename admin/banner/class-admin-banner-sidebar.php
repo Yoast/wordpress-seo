@@ -88,14 +88,14 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$premium_spot->set_extra(
 			/* translators: %1$s expands to the plugin name */
-			'<h2>' . sprintf( __( 'Upgrade to %1$s', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</h2>' .
+			'<h2>' . sprintf( esc_html__( 'Upgrade to %1$s', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</h2>' .
 			'<ul>' .
-			'<li><strong>' . __( 'Rank for up to 5 focus keywords per page', 'wordpress-seo' ) . '</strong></li>' .
-			'<li><strong>' . __( 'Preview your page in Facebook and Twitter', 'wordpress-seo' ) . '</strong></li>' .
-			'<li><strong>' . __( 'Get real-time suggestions for internal links', 'wordpress-seo' ) . '</strong></li>' .
-			'<li><strong>' . __( 'No more dead links a.k.a. 404 pages', 'wordpress-seo' ) . '</strong></li>' .
-			'<li><strong>' . __( '24/7 email support', 'wordpress-seo' ) . '</strong></li>' .
-			'<li><strong>' . __( 'No ads', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( 'Rank for up to 5 focus keywords per page', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( 'Preview your page in Facebook and Twitter', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( 'Get real-time suggestions for internal links', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( 'No more dead links a.k.a. 404 pages', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( '24/7 email support', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( 'No ads', 'wordpress-seo' ) . '</strong></li>' .
 			'</ul>' .
 			/* translators: %s expands to Yoast SEO Premium */
 			'<a id="wpseo-premium-button" class="button button-primary" href="' . $premium_uri . '" target="_blank">' . sprintf( __( 'Get %s now', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>'
@@ -135,22 +135,6 @@ class WPSEO_Admin_Banner_Sidebar {
 				)
 			)
 		);
-
-		/*
-		$service_spot->add_banner(
-			new WPSEO_Admin_Banner(
-				WPSEO_Shortlinker::get( 'https://yoa.st/seo-care-banner' ),
-				'seo-care.png',
-				261,
-				152,
-				sprintf(
-				/* translators: %1$s expands to Yoast SEO Care. * /
-					__( 'Let us help you take care of the SEO of your website. Order %1$s now!', 'wordpress-seo' ),
-					'Yoast SEO Care'
-				)
-			)
-		);
-		*/
 
 		return $service_spot;
 	}
