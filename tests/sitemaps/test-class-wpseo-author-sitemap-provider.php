@@ -1,20 +1,20 @@
 <?php
 /**
- * @package WPSEO\Tests\Sitemaps
+ * @package WPSEO\Tests\Sitemaps.
  */
 
 /**
- * Class Test_WPSEO_Author_Sitemap_Provider
+ * Class Test_WPSEO_Author_Sitemap_Provider.
  */
 class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Author_Sitemap_Provider
+	 * @var WPSEO_Author_Sitemap_Provider.
 	 */
 	private static $class_instance;
 
 	/**
-	 * Set up our double class
+	 * Set up our double class.
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
@@ -26,7 +26,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if a user is excluded from the sitemap when there are no posts
+	 * Test if a user is excluded from the sitemap when there are no posts.
 	 */
 	public function test_author_excluded_from_sitemap_by_zero_posts() {
 		// Remove authors with no posts.
@@ -43,7 +43,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if a user is NOT excluded from the sitemap when there are posts
+	 * Tests if a user is NOT excluded from the sitemap when there are posts.
 	 */
 	public function test_author_not_excluded_from_sitemap_non_zero_posts() {
 		// Remove authors with no posts.
@@ -65,7 +65,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if a user is NOT excluded from the sitemap when there are no posts
+	 * Test if a user is NOT excluded from the sitemap when there are no posts.
 	 */
 	public function test_author_not_excluded_from_sitemap_by_zero_posts() {
 		// Don't remove authors with no posts.
