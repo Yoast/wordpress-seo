@@ -10,12 +10,12 @@ class WPSEO_Extensions {
 
 	/** @var array Array with the Yoast extensions */
 	protected $extensions = array(
-		'Yoast SEO Premium'     => array(
+		'Yoast SEO Premium' => array(
 			'slug'       => 'yoast-seo-premium',
 			'identifier' => 'wordpress-seo-premium',
 			'classname'  => 'WPSEO_Premium',
 		),
-		'News SEO'              => array(
+		'News SEO' => array(
 			'slug'       => 'news-seo',
 			'identifier' => 'wpseo-news',
 			'classname'  => 'WPSEO_News',
@@ -25,12 +25,12 @@ class WPSEO_Extensions {
 			'identifier' => 'wpseo-woocommerce',
 			'classname'  => 'Yoast_WooCommerce_SEO',
 		),
-		'Video SEO'             => array(
+		'Video SEO' => array(
 			'slug'       => 'video-seo-for-wordpress',
 			'identifier' => 'wpseo-video',
 			'classname'  => 'WPSEO_Video_Sitemap',
 		),
-		'Local SEO'             => array(
+		'Local SEO' => array(
 			'slug'       => 'local-seo-for-wordpress',
 			'identifier' => 'wpseo-local',
 			'classname'  => 'WPSEO_Local_Core',

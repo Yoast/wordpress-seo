@@ -61,6 +61,7 @@ class WPSEO_Import_AIOSEO implements WPSEO_External_Importer {
 
 		$this->aioseo_options = get_option( 'aioseop_options' );
 
+		$this->success = true;
 		$this->import_metas();
 		$this->import_ga();
 

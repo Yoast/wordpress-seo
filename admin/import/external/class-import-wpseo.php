@@ -29,6 +29,20 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	}
 
 	/**
+	 * Detect whether there is post meta data to import.
+	 *
+	 * @return bool True when there is data, false when there's no data.
+	 */
+	public function detect() {
+		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key LIKE '_wpseo_edit_%'" );
+		if ( $affected_rows === 0 ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Import wpSEO settings
 	 *
 	 * @return WPSEO_Import_Status
@@ -67,8 +81,7 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 * Import the post meta values to Yoast SEO by replacing the wpSEO fields by Yoast SEO fields
 	 */
 	private function import_post_metas() {
-		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key LIKE '_wpseo_edit_%'" );
-		if ( $affected_rows > 0 ) {
+		if ( $this->detect() ) {
 			WPSEO_Meta::replace_meta( '_wpseo_edit_title', WPSEO_Meta::$meta_prefix . 'title', false );
 			WPSEO_Meta::replace_meta( '_wpseo_edit_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
 			WPSEO_Meta::replace_meta( '_wpseo_edit_keywords', WPSEO_Meta::$meta_prefix . 'keywords', false );

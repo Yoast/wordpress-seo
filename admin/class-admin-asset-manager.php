@@ -9,9 +9,27 @@
 class WPSEO_Admin_Asset_Manager {
 
 	/**
+	 * @var WPSEO_Admin_Asset_Location
+	 */
+	protected $asset_location;
+
+	/**
 	 *  Prefix for naming the assets.
 	 */
 	const PREFIX = 'yoast-seo-';
+
+	/**
+	 * Constructs a manager of assets. Needs a location to know where to register assets at.
+	 *
+	 * @param WPSEO_Admin_Asset_Location $asset_location The provider of the asset location.
+	 */
+	public function __construct( WPSEO_Admin_Asset_Location $asset_location = null ) {
+		if ( $asset_location === null ) {
+			$asset_location = self::create_default_location();
+		}
+
+		$this->asset_location = $asset_location;
+	}
 
 	/**
 	 * Enqueues scripts.
@@ -39,7 +57,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_script( WPSEO_Admin_Asset $script ) {
 		wp_register_script(
 			self::PREFIX . $script->get_name(),
-			$script->get_url( WPSEO_Admin_Asset::TYPE_JS, WPSEO_FILE ),
+			$this->asset_location->get_url( $script, WPSEO_Admin_Asset::TYPE_JS ),
 			$script->get_deps(),
 			$script->get_version(),
 			$script->is_in_footer()
@@ -54,7 +72,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_style( WPSEO_Admin_Asset $style ) {
 		wp_register_style(
 			self::PREFIX . $style->get_name(),
-			$style->get_url( WPSEO_Admin_Asset::TYPE_CSS, WPSEO_FILE ),
+			$this->asset_location->get_url( $style, WPSEO_Admin_Asset::TYPE_CSS ),
 			$style->get_deps(),
 			$style->get_version(),
 			$style->get_media()
@@ -129,11 +147,26 @@ class WPSEO_Admin_Asset_Manager {
 	public function flatten_version( $version ) {
 		$parts = explode( '.', $version );
 
-		if ( count( $parts ) === 2 ) {
+		if ( count( $parts ) === 2 && preg_match( '/^\d+$/', $parts[1] ) === 1 ) {
 			$parts[] = '0';
 		}
 
 		return implode( '', $parts );
+	}
+
+	/**
+	 * Creates a default location object for use in the admin asset manager.
+	 *
+	 * @return WPSEO_Admin_Asset_Location The location to use in the asset manager.
+	 */
+	public static function create_default_location() {
+		if ( defined( 'YOAST_SEO_DEV_SERVER' ) && YOAST_SEO_DEV_SERVER ) {
+			$url = defined( 'YOAST_SEO_DEV_SERVER_URL' ) ? YOAST_SEO_DEV_SERVER_URL : WPSEO_Admin_Asset_Dev_Server_Location::DEFAULT_URL;
+
+			return new WPSEO_Admin_Asset_Dev_Server_Location( $url );
+		}
+
+		return new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
 	}
 
 	/**
@@ -217,8 +250,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => 'wp-seo-metabox-' . $flat_version,
 				'deps'      => array(
 					'jquery',
-					'jquery-ui-core',
-					'jquery-ui-autocomplete',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
 					self::PREFIX . 'react-dependencies',

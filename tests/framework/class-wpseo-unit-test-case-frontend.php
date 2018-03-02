@@ -16,8 +16,6 @@ abstract class WPSEO_UnitTestCase_Frontend extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		require_once WPSEO_TESTS_PATH . 'doubles/frontend-double.php';
-
 		self::$class_instance = WPSEO_Frontend_Double::get_instance();
 	}
 }

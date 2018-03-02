@@ -22,6 +22,13 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	private $status;
 
 	/**
+	 * Holds the Yoast SEO Title options.
+	 *
+	 * @var array
+	 */
+	private $options;
+
+	/**
 	 * WPSEO_Import_WooThemes_SEO constructor.
 	 */
 	public function __construct() {
@@ -31,11 +38,18 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	}
 
 	/**
-	 * Holds the Yoast SEO Title options.
+	 * Detect whether there is post meta data to import.
 	 *
-	 * @var array
+	 * @return bool True when there is data, false when there's no data.
 	 */
-	private $options;
+	public function detect() {
+		$affected_rows = $this->db->query( $this->db->prepare( "SELECT  FROM $this->db->postmeta WHERE meta_key = %s", 'seo_title' ) );
+		if ( $affected_rows === 0 ) {
+			return false;
+		}
+
+		return true;
+	}
 
 	/**
 	 * Returns the plugin name.

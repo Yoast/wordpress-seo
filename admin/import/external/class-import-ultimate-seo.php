@@ -31,14 +31,28 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_External_Importer {
 	}
 
 	/**
+	 * Detect whether there is post meta data to import.
+	 *
+	 * @return bool True when there is data, false when there's no data.
+	 */
+	public function detect() {
+		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key LIKE '_su_%'" );
+		if ( $affected_rows === 0 ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Imports the Ultimate SEO  meta values.
 	 *
 	 * @returns WPSEO_Import_Status
 	 */
 	public function import() {
 		$status = new WPSEO_Import_Status( 'import', false );
-		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key LIKE '_su_%'" );
-		if ( $affected_rows === 0 ) {
+
+		if ( ! $this->detect() ) {
 			return $status;
 		}
 

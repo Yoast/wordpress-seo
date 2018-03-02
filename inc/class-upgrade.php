@@ -8,90 +8,90 @@
  * This code handles the option upgrades
  */
 class WPSEO_Upgrade {
-
-	/**
-	 * Holds the Yoast SEO options
-	 *
-	 * @var array
-	 */
-	private $options = array();
-
 	/**
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_option( 'wpseo' );
+		$version = WPSEO_Options::get( 'version' );
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
-		if ( version_compare( $this->options['version'], '1.5.0', '<' ) ) {
-			$this->upgrade_15( $this->options['version'] );
+		if ( version_compare( $version, '1.5.0', '<' ) ) {
+			$this->upgrade_15( $version );
 		}
 
-		if ( version_compare( $this->options['version'], '2.0', '<' ) ) {
+		if ( version_compare( $version, '2.0', '<' ) ) {
 			$this->upgrade_20();
 		}
 
-		if ( version_compare( $this->options['version'], '2.1', '<' ) ) {
+		if ( version_compare( $version, '2.1', '<' ) ) {
 			$this->upgrade_21();
 		}
 
-		if ( version_compare( $this->options['version'], '2.2', '<' ) ) {
+		if ( version_compare( $version, '2.2', '<' ) ) {
 			$this->upgrade_22();
 		}
 
-		if ( version_compare( $this->options['version'], '2.3', '<' ) ) {
+		if ( version_compare( $version, '2.3', '<' ) ) {
 			$this->upgrade_23();
 		}
 
-		if ( version_compare( $this->options['version'], '3.0', '<' ) ) {
+		if ( version_compare( $version, '3.0', '<' ) ) {
 			$this->upgrade_30();
 		}
 
-		if ( version_compare( $this->options['version'], '3.3', '<' ) ) {
+		if ( version_compare( $version, '3.3', '<' ) ) {
 			$this->upgrade_33();
 		}
 
-		if ( version_compare( $this->options['version'], '3.6', '<' ) ) {
+		if ( version_compare( $version, '3.6', '<' ) ) {
 			$this->upgrade_36();
 		}
 
-		if ( version_compare( $this->options['version'], '4.0', '<' ) ) {
+		if ( version_compare( $version, '4.0', '<' ) ) {
 			$this->upgrade_40();
 		}
 
-		if ( version_compare( $this->options['version'], '4.4', '<' ) ) {
+		if ( version_compare( $version, '4.4', '<' ) ) {
 			$this->upgrade_44();
 		}
 
-		if ( version_compare( $this->options['version'], '4.7', '<' ) ) {
+		if ( version_compare( $version, '4.7', '<' ) ) {
 			$this->upgrade_47();
 		}
 
-		if ( version_compare( $this->options['version'], '4.9', '<' ) ) {
+		if ( version_compare( $version, '4.9', '<' ) ) {
 			$this->upgrade_49();
 		}
 
-		if ( version_compare( $this->options['version'], '5.0', '<' ) ) {
+		if ( version_compare( $version, '5.0', '<' ) ) {
 			$this->upgrade_50();
 		}
 
-		if ( version_compare( $this->options['version'], '5.0', '>=' )
-			&& version_compare( $this->options['version'], '5.1', '<' )
+		if ( version_compare( $version, '5.0', '>=' )
+			&& version_compare( $version, '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
 
-		if ( version_compare( $this->options['version'], '5.5', '<' ) ) {
+		if ( version_compare( $version, '5.5', '<' ) ) {
 			$this->upgrade_55();
 		}
 
-		if ( version_compare( $this->options['version'], '5.6', '<' ) ) {
+		if ( version_compare( $version, '5.6', '<' ) ) {
 			$this->upgrade_56();
 		}
 
-		if ( version_compare( $this->options['version'], '6.1', '<' ) ) {
+		if ( version_compare( $version, '6.1', '<' ) ) {
 			$this->upgrade_61();
+		}
+
+		if ( version_compare( $version, '6.3', '<' ) ) {
+			$this->upgrade_63();
+		}
+
+		if ( version_compare( $version, '7.0-RC0', '<' ) ) {
+			$this->upgrade_70();
 		}
 
 		// Since 3.7.
@@ -103,9 +103,64 @@ class WPSEO_Upgrade {
 		 *
 		 * @api        string - The current version of Yoast SEO
 		 */
-		do_action( 'wpseo_run_upgrade', $this->options['version'] );
+		do_action( 'wpseo_run_upgrade', $version );
 
 		$this->finish_up();
+	}
+
+	/**
+	 * Helper function to remove keys from options.
+	 *
+	 * @param string       $option The option to remove the keys from.
+	 * @param string|array $keys   The key or keys to remove.
+	 */
+	private function remove_key_from_option( $option, $keys ) {
+		$options = WPSEO_Options::get_option( $option );
+
+		if ( ! is_array( $keys ) ) {
+			$keys = array( $keys );
+		}
+		foreach ( $keys as $key ) {
+			unset( $options[ $key ] );
+		}
+
+		update_option( $option, $options );
+	}
+
+	/**
+	 * Helper function to move a key from one option to another.
+	 *
+	 * @param string      $old_option Name of the "from" option.
+	 * @param string      $new_option Name of the "to" option.
+	 * @param string      $old_key    Name of the key in the "from" option.
+	 * @param string|null $new_key    Name of the key in the "to" option.
+	 */
+	private function move_key_to_other_option( $old_option, $new_option, $old_key, $new_key = null ) {
+		if ( $new_key === null ) {
+			$new_key = $old_key;
+		}
+
+		$old_options = WPSEO_Options::get_option( $old_option );
+		$new_options = WPSEO_Options::get_option( $new_option );
+		if ( isset( $old_options[ $old_key ] ) ) {
+			$new_options[ $new_key ] = $old_options[ $old_key ];
+			unset( $old_options[ $old_key ] );
+
+			update_option( $old_option, $old_options );
+			update_option( $new_option, $new_options );
+		}
+	}
+
+	/**
+	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
+	 */
+	private function finish_up() {
+		WPSEO_Options::set( 'version', WPSEO_VERSION );
+
+		add_action( 'shutdown', 'flush_rewrite_rules' );                     // Just flush rewrites, always, to at least make them work after an upgrade.
+		WPSEO_Sitemaps_Cache::clear();                                       // Flush the sitemap cache.
+
+		WPSEO_Options::ensure_options_exist();                               // Make sure all our options always exist - issue #1245.
 	}
 
 	/**
@@ -129,7 +184,7 @@ class WPSEO_Upgrade {
 		 */
 		delete_option( 'wpseo_ms' );
 
-		$this->move_pinterest_option();
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_social', 'pinterestverify' );
 	}
 
 	/**
@@ -163,9 +218,12 @@ class WPSEO_Upgrade {
 		wp_clear_scheduled_hook( 'yoast_tracking' );
 
 		// Clear the tracking settings, the seen about setting and the ignore tour setting.
-		$options = get_option( 'wpseo' );
-		unset( $options['tracking_popup_done'], $options['yoast_tracking'], $options['seen_about'], $options['ignore_tour'] );
-		update_option( 'wpseo', $options );
+		$this->remove_key_from_option( 'wpseo', array(
+			'tracking_popup_done',
+			'yoast_tracking',
+			'seen_about',
+			'ignore_tour',
+		) );
 	}
 
 	/**
@@ -208,7 +266,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to Yoast SEO 3.0
+	 * Performs upgrade functions to Yoast SEO 3.0.
 	 */
 	private function upgrade_30() {
 		// Remove the meta fields for sitemap prio.
@@ -216,7 +274,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to Yoast SEO 3.3
+	 * Performs upgrade functions to Yoast SEO 3.3.
 	 */
 	private function upgrade_33() {
 		// Notification dismissals have been moved to User Meta instead of global option.
@@ -224,40 +282,13 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to Yoast SEO 3.6
+	 * Performs upgrade functions to Yoast SEO 3.6.
 	 */
 	private function upgrade_36() {
 		global $wpdb;
 
 		// Between 3.2 and 3.4 the sitemap options were saved with autoloading enabled.
 		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%" AND autoload = "yes"' );
-	}
-
-	/**
-	 * Move the pinterest verification option from the wpseo option to the wpseo_social option
-	 */
-	private function move_pinterest_option() {
-		$options_social = get_option( 'wpseo_social' );
-
-		if ( isset( $option_wpseo['pinterestverify'] ) ) {
-			$options_social['pinterestverify'] = $option_wpseo['pinterestverify'];
-			unset( $option_wpseo['pinterestverify'] );
-			update_option( 'wpseo_social', $options_social );
-			update_option( 'wpseo', $option_wpseo );
-		}
-	}
-
-	/**
-	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
-	 */
-	private function finish_up() {
-		$this->options = WPSEO_Options::get_option( 'wpseo' );              // Re-get to make sure we have the latest version.
-		update_option( 'wpseo', $this->options );                           // This also ensures the DB version is equal to WPSEO_VERSION.
-
-		add_action( 'shutdown', 'flush_rewrite_rules' );                    // Just flush rewrites, always, to at least make them work after an upgrade.
-		WPSEO_Sitemaps_Cache::clear();                                 // Flush the sitemap cache.
-
-		WPSEO_Options::ensure_options_exist();                              // Make sure all our options always exist - issue #1245.
 	}
 
 	/**
@@ -276,19 +307,8 @@ class WPSEO_Upgrade {
 	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
 	 */
 	private function upgrade_44() {
-		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
-		$option_wpseo  = WPSEO_Options::get_option( 'wpseo' );
-
-		if ( isset( $option_titles['content-analysis-active'] ) && isset( $option_titles['keyword-analysis-active'] ) ) {
-			$option_wpseo['content_analysis_active'] = $option_titles['content-analysis-active'];
-			unset( $option_titles['content-analysis-active'] );
-
-			$option_wpseo['keyword_analysis_active'] = $option_titles['keyword-analysis-active'];
-			unset( $option_titles['keyword-analysis-active'] );
-
-			update_option( 'wpseo_titles', $option_titles );
-			update_option( 'wpseo', $option_wpseo );
-		}
+		$this->move_key_to_other_option( 'wpseo_titles', 'wpseo', 'content-analysis-active', 'content_analysis_active' );
+		$this->move_key_to_other_option( 'wpseo_titles', 'wpseo', 'keyword-analysis-active', 'keyword_analysis_active' );
 	}
 
 	/**
@@ -323,7 +343,7 @@ class WPSEO_Upgrade {
 		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
 
 		$usermetas = $wpdb->get_results(
-			$wpdb->prepare('
+			$wpdb->prepare( '
 				SELECT user_id, meta_value
 				FROM ' . $wpdb->usermeta . '
 				WHERE meta_key = %s AND meta_value LIKE %s
@@ -396,7 +416,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Register new capabilities and roles
+	 * Register new capabilities and roles.
 	 */
 	private function upgrade_55() {
 		// Register roles.
@@ -441,5 +461,82 @@ class WPSEO_Upgrade {
 
 		$meta_storage = new WPSEO_Meta_Storage();
 		$wpdb->query( 'DELETE FROM ' . $meta_storage->get_table_name() );
+	}
+
+	/**
+	 * Removes some no longer used options for noindexing subpages and for meta keywords and its associated templates.
+	 *
+	 * @return void
+	 */
+	private function upgrade_63() {
+		$this->remove_key_from_option( 'wpseo_titles', array( 'noindex-subpages-wpseo', 'usemetakeywords' ) );
+
+		// Remove all the meta keyword template options we've stored.
+		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
+		foreach ( array_keys( $option_titles ) as $key ) {
+			if ( strpos( $key, 'metakey' ) === 0 ) {
+				unset( $option_titles[ $key ] );
+			}
+		}
+		update_option( 'wpseo_titles', $option_titles );
+	}
+
+	/**
+	 * Perform the 7.0 upgrade, moves settings around, deletes several options.
+	 */
+	private function upgrade_70() {
+		// Move some permalink settings, then delete the option.
+		$this->move_key_to_other_option( 'wpseo_permalinks', 'wpseo_titles', 'redirectattachment', 'disable-attachment' );
+		$this->move_key_to_other_option( 'wpseo_permalinks', 'wpseo_titles', 'stripcategorybase' );
+		delete_option( 'wpseo_permalinks' );
+
+		// Move one XML sitemap setting, then delete the option.
+		$this->move_key_to_other_option( 'wpseo_xml', 'wpseo', 'enablexmlsitemap', 'enable_xml_sitemap' );
+		delete_option( 'wpseo_xml' );
+
+		// Move the RSS settings to the search appearance settings, then delete the RSS option.
+		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssbefore' );
+		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssafter' );
+		delete_option( 'wpseo_rss' );
+
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_logo' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_name' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_or_person' );
+		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'person_name' );
+
+		// Remove the website name and altername name as we no longer need them.
+		$this->remove_key_from_option( 'wpseo', array( 'website_name', 'alternate_website_name' ) );
+
+		// All the breadcrumbs settings have moved to the search appearance settings.
+		$internal_links = (array) get_option( 'wpseo_internallinks' );
+		foreach ( array_keys( $internal_links ) as $key ) {
+			$this->move_key_to_other_option( 'wpseo_internallinks', 'wpseo_titles', $key );
+		}
+		delete_option( 'wpseo_internallinks' );
+
+		// Convert hidden metabox options to display metabox options.
+		$title_options = get_option( 'wpseo_titles' );
+
+		foreach ( $title_options as $key => $value ) {
+			if ( strpos( $key, 'hideeditbox-tax-' ) === 0 ) {
+				$taxonomy = substr( $key, strlen( 'hideeditbox-tax-' ) );
+				WPSEO_Options::set( 'display-metabox-tax-' . $taxonomy, ! $value );
+				continue;
+			}
+
+			if ( strpos( $key, 'hideeditbox-' ) === 0 ) {
+				$post_type = substr( $key, strlen( 'hideeditbox-' ) );
+				WPSEO_Options::set( 'display-metabox-pt-' . $post_type, ! $value );
+				continue;
+			}
+		}
+
+		// Remove possibly present plugin conflict notice for plugin that was removed from the list of conflicting plugins.
+		$yoast_plugin_conflict = WPSEO_Plugin_Conflict::get_instance();
+		$yoast_plugin_conflict->clear_error( 'header-footer/plugin.php' );
+
+		// Moves the user meta for excluding from the XML sitemap to a noindex.
+		global $wpdb;
+		$wpdb->query( "UPDATE $wpdb->usermeta SET meta_key = 'wpseo_noindex_author' WHERE meta_key = 'wpseo_excludeauthorsitemap'" );
 	}
 }

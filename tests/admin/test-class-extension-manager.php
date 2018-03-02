@@ -14,16 +14,6 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 	private $class_instance;
 
 	/**
-	 * Set up a WPSEO_Extension_Manager object.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		// Create instance of WPSEO_Extension_Manager class.
-		require_once WPSEO_TESTS_PATH . 'doubles/class-extension-manager-double.php';
-	}
-
-	/**
 	 * Sets up the test class.
 	 */
 	public function setUp() {
@@ -74,7 +64,7 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 					'get_active_extensions',
 					'set_cached_extensions',
 					'get_cached_extensions',
-					'retrieve_active_extensions'
+					'retrieve_active_extensions',
 				)
 			)
 			->getMock();

@@ -1,6 +1,5 @@
 @import "yoastseo";
 @import "help-center-metabox";
-@import "../../node_modules/yoast-components/forms/StyledSection/StyledSection";
 
 @function svg-icon-list($color) {
 	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M384 1408q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm0-512q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm-1408-928q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm0-512v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5z"/></svg>');
@@ -163,8 +162,7 @@ ul.wpseo-metabox-tabs li {
 
 /* Content tab. */
 #wpseosnippet,
-#wpseofocuskeyword,
-#wpseometakeywords {
+#wpseofocuskeyword {
 	margin-bottom: 2em;
 }
 
@@ -291,7 +289,6 @@ ul.wpseo-metabox-tabs li {
 }
 
 .wpseotab #yoast_wpseo_focuskw_text_input,
-.wpseotab #yoast_wpseo_metakeywords,
 .wpseotab select[multiple] {
 	margin-top: 0;
 }
@@ -397,63 +394,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	color: #23282d;
 	background-color: #fafafa;
 	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
-}
-
-.yoast_help.yoast-help-button {
-	overflow: visible;
-	position: relative;
-	width: 20px;
-	height: 20px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: none;
-	color: #72777c;
-	background: transparent;
-	box-shadow: none;
-	vertical-align: top;
-	/* IE 11 */
-	cursor: pointer;
-}
-
-.wpseotab .yoast_help.yoast-help-button {
-	float: right;
-}
-
-.wpseotab.content .yoast_help.yoast-help-button {
-	margin-top: -47px;
-}
-
-.wpseo-admin-page .yoast_help.yoast-help-button {
-	margin-right: 6px;
-}
-
-.yoast_help.yoast-help-button:before {
-	position: absolute;
-	top: 0;
-	left: 0;
-	padding: 4px;
-	content: "\f223";
-}
-
-.yoast_help.yoast-help-button:hover,
-.yoast_help.yoast-help-button:focus {
-	color: #0073aa;
-}
-
-.yoast_help.yoast-help-button:focus:before,
-.assessment-results__mark:focus {
-	border-radius: 100%;
-	box-shadow: 0 0 0 1px #5b9dd9,
-	0 0 2px 1px rgba(30, 140, 190, 0.8);
-}
-
-.yoast-help-panel {
-	display: none;
-	max-width: 30em !important;
-	padding: 0 0 1em;
-	font-weight: normal;
-	white-space: normal;
 }
 
 .wpseo-admin-page .subsubsub li {
@@ -652,6 +592,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 // TODO: Move this to the yoast-components repository
+// The variable $color_headings comes from YoastSEO.js and is #555555.
 .yoast-section {
 	&__heading {
 		&-icon-list {
@@ -667,6 +608,39 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 		}
 	}
 }
+
+// TODO: To be removed when the styled section will use the StyledSection component.
+.yoast-section {
+	box-shadow: 0 1px 2px rgba( 0, 0, 0, .2 );
+	position: relative;
+	background-color: #fff;
+	padding: 0 20px 15px;
+
+	&__heading {
+		padding: 8px 20px;
+		font-size: 0.9rem;
+		margin: 0 -20px 15px;
+		font-family: "Open Sans", sans-serif;
+		font-weight: 300;
+		color: #555;
+
+		&-icon {
+			padding-left: 44px; // 44 - 20 (icon width) = 24 for the 8px grid
+			background-repeat: no-repeat;
+			background-position: left 20px top 0.6em;
+			background-size: 16px;
+		}
+	}
+
+	*, & {
+		box-sizing: border-box;
+
+		&:before, &:after {
+			box-sizing: border-box;
+		}
+	}
+}
+
 
 .yoast-tooltip.yoast-tooltip-hidden::before,
 .yoast-tooltip.yoast-tooltip-hidden::after {

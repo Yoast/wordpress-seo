@@ -168,9 +168,12 @@ class WPSEO_Replace_Vars {
 		/**
 		 * Filter: 'wpseo_replacements' - Allow customization of the replacements before they are applied.
 		 *
-		 * @api array $replacements The replacements.
+		 * @api     array   $replacements The replacements.
+		 *
+		 * @param   array   $args The object some of the replacement values might come from,
+		 *                       could be a post, taxonomy or term.
 		 */
-		$replacements = apply_filters( 'wpseo_replacements', $replacements );
+		$replacements = apply_filters( 'wpseo_replacements', $replacements, $this->args );
 
 		// Do the actual replacements.
 		if ( is_array( $replacements ) && $replacements !== array() ) {
@@ -352,7 +355,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
-		if ( ! empty( $this->args->ID ) && $this->args->post_excerpt !== ''  && ! post_password_required( $this->args->ID ) ) {
+		if ( ! empty( $this->args->ID ) && $this->args->post_excerpt !== '' && ! post_password_required( $this->args->ID ) ) {
 			$replacement = wp_strip_all_tags( $this->args->post_excerpt );
 		}
 

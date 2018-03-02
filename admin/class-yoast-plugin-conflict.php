@@ -222,7 +222,7 @@ class Yoast_Plugin_Conflict {
 	 *
 	 * @param string $plugin_file Clear the optional notification for this plugin.
 	 */
-	protected function clear_error( $plugin_file ) {
+	public function clear_error( $plugin_file ) {
 		$identifier = $this->get_notification_identifier( $plugin_file );
 
 		$notification_center = Yoast_Notification_Center::get();

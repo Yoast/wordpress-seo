@@ -15,9 +15,6 @@ if ( false !== getenv( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', getenv( 'WP_PLUGIN_DIR' ) );
 }
 
-define( 'YOAST_ENVIRONMENT', 'production' );
-
-
 $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array( 'wordpress-seo/wp-seo.php' ),
 );
@@ -29,8 +26,16 @@ else {
 	require_once '../../../../tests/phpunit/includes/bootstrap.php';
 }
 
+if ( defined( 'WPSEO_TESTS_PATH' ) && WPSEO_TESTS_PATH !== dirname( __FILE__ ) . '/' ) {
+	echo 'WPSEO_TESTS_PATH is already defined and does not match expected path.';
+	exit( 1 ); // Exit with error code, to make the build fail.
+}
 define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
 
-// Include unit test base class.
-require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case.php';
-require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case-frontend.php';
+// Load autoloader.
+if ( PHP_VERSION_ID <= 53000 ) {
+	require_once dirname( WPSEO_TESTS_PATH ) . '/vendor/autoload_52.php';
+}
+else {
+	require_once dirname( WPSEO_TESTS_PATH ) . '/vendor/autoload.php';
+}

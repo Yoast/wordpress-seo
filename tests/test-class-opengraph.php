@@ -42,13 +42,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if options were properly fetched upon class instantiation.
-	 */
-	public function test_options_not_empty() {
-		$this->assertNotEmpty( self::$class_instance->options );
-	}
-
-	/**
 	 * @covers WPSEO_OpenGraph::opengraph
 	 */
 	public function test_opengraph() {
@@ -104,7 +97,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_opengraph_namespace() {
 		$c        = self::$class_instance;
-		$expected = ' prefix="og: http://ogp.me/ns#' . ( ( $c->options['fbadminapp'] != 0 || ( is_array( $c->options['fb_admins'] ) && $c->options['fb_admins'] !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
+		$expected = ' prefix="og: http://ogp.me/ns#' . ( ( WPSEO_Options::get( 'fbadminapp' ) != 0 || ( is_array( WPSEO_Options::get( 'fb_admins' ) ) && WPSEO_Options::get( 'fb_admins' ) !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
 		$this->assertEquals( $c->add_opengraph_namespace( '' ), $expected );
 	}
 
@@ -142,7 +135,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( self::$class_instance->website_facebook() );
 
 		// Set option.
-		self::$class_instance->options['facebook_site'] = 'http://facebook.com/mysite/';
+		WPSEO_Options::set( 'facebook_site', 'http://facebook.com/mysite/' );
 
 		// Test home output.
 		$this->go_to_home();
@@ -246,9 +239,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 				->setMethods( array( 'og_tag' ) )
 				->getMock();
 
-		$stub->options = array(
-			'og_frontpage_image' => get_site_url() . '/wp-content/uploads/2015/01/iphone5_ios7-300x198.jpg',
-		);
+		WPSEO_Options::set( 'og_frontpage_image', get_site_url() . '/wp-content/uploads/2015/01/iphone5_ios7-300x198.jpg' );
 
 		$stub
 			->expects( $this->once() )

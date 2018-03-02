@@ -373,7 +373,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function emulate_filter_bool( $value ) {
-		$true = array(
+		$true  = array(
 			'1',
 			'true',
 			'True',
@@ -780,13 +780,13 @@ class WPSEO_Utils {
 		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
 
 		// Get the titles option and the separator options.
-		$titles_options    = WPSEO_Options::get_option( 'wpseo_titles' );
+		$separator         = WPSEO_Options::get( 'separator' );
 		$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
 
 		// This should always be set, but just to be sure.
-		if ( isset( $seperator_options[ $titles_options['separator'] ] ) ) {
+		if ( isset( $seperator_options[ $separator ] ) ) {
 			// Set the new replacement.
-			$replacement = $seperator_options[ $titles_options['separator'] ];
+			$replacement = $seperator_options[ $separator ];
 		}
 
 		/**
@@ -829,7 +829,6 @@ class WPSEO_Utils {
 			'wpseo_dashboard',
 			'wpseo_titles',
 			'wpseo_social',
-			'wpseo_xml',
 			'wpseo_advanced',
 			'wpseo_tools',
 			'wpseo_search_console',
@@ -896,8 +895,7 @@ class WPSEO_Utils {
 			return $home_url;
 		}
 
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$home_path = parse_url( $home_url, PHP_URL_PATH );
+		$home_path = wp_parse_url( $home_url, PHP_URL_PATH );
 
 		if ( '/' === $home_path ) { // Home at site root, already slashed.
 			return $home_url;
@@ -984,92 +982,57 @@ class WPSEO_Utils {
 		return WPSEO_Language_Utils::get_user_locale();
 	}
 
-	// @codeCoverageIgnoreStart
 	/**
-	 * Wrapper for the PHP filter input function.
+	 * Determine whether or not the metabox should be displayed for a post type.
 	 *
-	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
+	 * @param string|null $post_type Optional. The post type to check the visibility of the metabox for.
 	 *
-	 * @since      1.8.0
-	 *
-	 * @deprecated 3.0
-	 * @deprecated Passes through to PHP call, no longer used in code.
-	 *
-	 * @param int    $type          Input type constant.
-	 * @param string $variable_name Variable name to get.
-	 * @param int    $filter        Filter to apply.
-	 *
-	 * @return mixed
+	 * @return bool Whether or not the metabox should be displayed.
 	 */
-	public static function filter_input( $type, $variable_name, $filter = FILTER_DEFAULT ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0', 'PHP native filter_input()' );
+	protected static function display_post_type_metabox( $post_type = null ) {
+		if ( ! isset( $post_type ) ) {
+			$post_type = get_post_type();
+		}
 
-		return filter_input( $type, $variable_name, $filter );
+		if ( ! isset( $post_type ) || ! WPSEO_Post_Type::is_post_type_accessible( $post_type ) ) {
+			return false;
+		}
+
+		return WPSEO_Options::get( 'display-metabox-pt-' . $post_type );
 	}
 
 	/**
-	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared.
+	 * Determine whether or not the metabox should be displayed for a taxonomy.
 	 *
-	 * @since      2.2.0
+	 * @param string|null $taxonomy Optional. The post type to check the visibility of the metabox for.
 	 *
-	 * @deprecated 3.2
-	 * @see        WPSEO_Sitemaps_Cache::register_clear_on_option_update()
-	 *
-	 * @param string $option Option name.
-	 * @param string $type   Sitemap type.
+	 * @return bool Whether or not the metabox should be displayed.
 	 */
-	public static function register_cache_clear_option( $option, $type = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Cache::register_clear_on_option_update()' );
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option, $type );
+	protected static function display_taxonomy_metabox( $taxonomy = null ) {
+		if ( ! isset( $taxonomy ) || ! in_array( $taxonomy, get_taxonomies( array( 'public' => true ), 'names' ), true ) ) {
+			return false;
+		}
+
+		return WPSEO_Options::get( 'display-metabox-tax-' . $taxonomy );
 	}
 
 	/**
-	 * Clears the transient cache when a given option is updated, if that option has been registered before.
+	 * Determines whether the metabox is active for the given identifier and type.
 	 *
-	 * @since      2.2.0
+	 * @param string $identifier The identifier to check for.
+	 * @param string $type       The type to check for.
 	 *
-	 * @deprecated 3.2
-	 * @see        WPSEO_Sitemaps_Cache::clear_on_option_update()
-	 *
-	 * @param string $option The option that's being updated.
+	 * @return bool Whether or not the metabox is active.
 	 */
-	public static function clear_transient_cache( $option ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Cache::clear_on_option_update()' );
-		WPSEO_Sitemaps_Cache::clear_on_option_update( $option );
-	}
+	public static function is_metabox_active( $identifier, $type ) {
+		if ( $type === 'post_type' ) {
+			return self::display_post_type_metabox( $identifier );
+		}
 
-	/**
-	 * Clear entire XML sitemap cache.
-	 *
-	 * @since      1.8.0
-	 *
-	 * @deprecated 3.2
-	 * @see        WPSEO_Sitemaps_Cache::clear()
-	 *
-	 * @param array $types Set of sitemap types to invalidate cache for.
-	 */
-	public static function clear_sitemap_cache( $types = array() ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Cache::clear()' );
-		WPSEO_Sitemaps_Cache::clear( $types );
-	}
+		if ( $type === 'taxonomy' ) {
+			return self::display_taxonomy_metabox( $identifier );
+		}
 
-	/**
-	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exist.
-	 *
-	 * @since      3.0.0
-	 *
-	 * @deprecated 3.3 Core versions without wp_json_encode() no longer supported, fallback unnecessary.
-	 *
-	 * @param array $array_to_encode The array which will be encoded.
-	 * @param int   $options         Optional. Array with options which will be passed in to the encoding methods.
-	 * @param int   $depth           Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
-	 *
-	 * @return false|string
-	 */
-	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.3', 'wp_json_encode()' );
-
-		return wp_json_encode( $array_to_encode, $options, $depth );
+		return false;
 	}
-	// @codeCoverageIgnoreEnd
 }

@@ -3,8 +3,6 @@
  * @package WPSEO\Tests\Frontend
  */
 
-require_once WPSEO_TESTS_PATH . 'framework/class-wpseo-unit-test-case-frontend.php';
-
 /**
  * Unit Test Class.
  *
@@ -95,24 +93,9 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * @covers WPSEO_Frontend::robots()
 	 */
-	public function test_subpages_robots_noindex() {
-		// Go to home.
-		$this->go_to_home();
-
-		set_query_var( 'paged', 2 );
-
-		self::$class_instance->options['noindex-subpages-wpseo'] = true;
-		$this->assertEquals( 'noindex,follow', self::$class_instance->robots() );
-
-		// Clean-up.
-		self::$class_instance->options['noindex-subpages-wpseo'] = false;
-		set_query_var( 'paged', 0 );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::robots()
-	 */
 	public function test_post_robots_default_state() {
+		WPSEO_Options::set( 'noindex-post', false );
+
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
@@ -131,7 +114,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Test noindex-post option.
-		WPSEO_Options::save_option( 'wpseo_titles', 'noindex-post', true );
+		WPSEO_Options::set( 'noindex-post', true );
 		$this->assertEquals( 'noindex,follow', self::$class_instance->robots() );
 	}
 
@@ -182,35 +165,11 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Test category with noindex-tax-category option.
 		$expected = 'noindex,follow';
-		self::$class_instance->options['noindex-tax-category'] = true;
+		WPSEO_Options::set( 'noindex-tax-category', true );
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// Clean-up.
 		self::$class_instance->options['noindex-tax-category'] = false;
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::robots()
-	 */
-	public function test_subpages_category_archives() {
-		// Go to category page.
-		$category_id = wp_create_category( 'Category Name' );
-		flush_rewrite_rules();
-
-		// Add posts to category.
-		$this->factory->post->create_many( 6, array( 'post_category' => array( $category_id ) ) );
-
-		$category_link = get_category_link( $category_id );
-		$this->go_to( $category_link );
-
-
-		// Test subpages of category archives.
-		update_site_option( 'posts_per_page', 1 );
-		self::$class_instance->options['noindex-subpages-wpseo'] = true;
-		$this->go_to( add_query_arg( array( 'paged' => 2 ), $category_link ) );
-
-		$expected = 'noindex,follow';
-		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
 	/**
@@ -236,11 +195,32 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Test author archive with 'noindex-author-wpseo'.
 		$expected = 'noindex,follow';
-		self::$class_instance->options['noindex-author-wpseo'] = true;
+		WPSEO_Options::set( 'noindex-author-wpseo', true );
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// Clean-up.
 		self::$class_instance->options['noindex-author-wpseo'] = false;
+	}
+
+	/**
+	 * Tests whether an author, when set to not appear in search results, gets a noindex.
+	 *
+	 * @covers WPSEO_Frontend::robots()
+	 */
+	public function test_individual_archive_noindex() {
+		// Go to author page.
+		$user_id = $this->factory->user->create();
+		update_user_meta( $user_id, 'wpseo_noindex_author', 'on' );
+		$this->go_to( get_author_posts_url( $user_id ) );
+
+		$expected = 'noindex,follow';
+		$this->assertEquals( $expected, self::$class_instance->robots() );
+
+		// Test that when this is _not_ set, we also do NOT have a noindex.
+		$user_id = $this->factory->user->create();
+		$this->go_to( get_author_posts_url( $user_id ) );
+		$expected = ''; // index,follow is automatically set to empty string.
+		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
 	/**

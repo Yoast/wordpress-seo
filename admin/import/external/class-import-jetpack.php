@@ -33,6 +33,20 @@ class WPSEO_Import_Jetpack_SEO implements WPSEO_External_Importer {
 	}
 
 	/**
+	 * Detect whether there is post meta data to import.
+	 *
+	 * @return bool True when there is data, false when there's no data.
+	 */
+	public function detect() {
+		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key = 'advanced_seo_description'" );
+		if ( $affected_rows === 0 ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Removes the Jetpack SEO data from the database.
 	 *
 	 * @return WPSEO_Import_Status
@@ -55,12 +69,13 @@ class WPSEO_Import_Jetpack_SEO implements WPSEO_External_Importer {
 	 */
 	public function import() {
 		$status = new WPSEO_Import_Status( 'cleanup', false );
-		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key = 'advanced_seo_description'" );
-		if ( $affected_rows > 0 ) {
-			WPSEO_Meta::replace_meta( 'advanced_seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
-			$status->set_status( true );
+
+		if ( ! $this->detect() ) {
 			return $status;
 		}
+
+		WPSEO_Meta::replace_meta( 'advanced_seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
+		$status->set_status( true );
 
 		return $status;
 	}

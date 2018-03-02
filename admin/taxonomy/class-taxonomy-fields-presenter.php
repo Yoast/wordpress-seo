@@ -94,9 +94,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				$field .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
 				break;
 			case 'pageanalysis':
-				$options = WPSEO_Options::get_option( 'wpseo' );
-
-				if ( $options['content_analysis_active'] === false && $options['keyword_analysis_active'] === false ) {
+				if ( WPSEO_Options::get( 'content_analysis_active', true ) === false && WPSEO_Options::get( 'keyword_analysis_active', true ) === false ) {
 					break;
 				}
 

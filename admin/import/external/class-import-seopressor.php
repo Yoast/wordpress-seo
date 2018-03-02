@@ -34,6 +34,20 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	}
 
 	/**
+	 * Detect whether there is post meta data to import.
+	 *
+	 * @return bool True when there is data, false when there's no data.
+	 */
+	public function detect() {
+		$affected_rows = $this->db->query( "SELECT COUNT(*) FROM $this->db->postmeta WHERE meta_key LIKE '_seop_settings'" );
+		if ( $affected_rows === 0 ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Imports the post meta values to Yoast SEO.
 	 *
 	 * @return WPSEO_Import_Status
@@ -41,17 +55,17 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	public function import() {
 		$status = new WPSEO_Import_Status( 'import', false );
 
-		// Query for all the posts that have an _seop_settings meta set.
-		$query_posts = new WP_Query( 'post_type=any&meta_key=_seop_settings&order=ASC&fields=ids&nopaging=true' );
-		if ( ! empty( $query_posts->posts ) ) {
-			foreach ( array_values( $query_posts->posts ) as $post_id ) {
-				$this->import_post_focus_keywords( $post_id );
-				$this->import_seopressor_post_settings( $post_id );
-			}
-			$status->set_status( true );
+		if ( ! $this->detect() ) {
 			return $status;
 		}
 
+		// Query for all the posts that have an _seop_settings meta set.
+		$query_posts = new WP_Query( 'post_type=any&meta_key=_seop_settings&order=ASC&fields=ids&nopaging=true' );
+		foreach ( array_values( $query_posts->posts ) as $post_id ) {
+			$this->import_post_focus_keywords( $post_id );
+			$this->import_seopressor_post_settings( $post_id );
+		}
+		$status->set_status( true );
 		return $status;
 	}
 
@@ -160,7 +174,7 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 
 		// Saving the new meta values for Yoast SEO.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', $robot_value['index'], $post_id );
-		WPSEO_Meta::set_value( 'meta-robots-nofollow',$robot_value['follow'], $post_id );
+		WPSEO_Meta::set_value( 'meta-robots-nofollow', $robot_value['follow'], $post_id );
 		WPSEO_Meta::set_value( 'meta-robots-adv', $robot_value['advanced'], $post_id );
 	}
 

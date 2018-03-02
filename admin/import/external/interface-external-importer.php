@@ -30,4 +30,10 @@ interface WPSEO_External_Importer {
 	 */
 	public function plugin_name();
 
+	/**
+	 * Detects whether an import for this plugin is needed.
+	 *
+	 * @return bool
+	 */
+	public function detect();
 }

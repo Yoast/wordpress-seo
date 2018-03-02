@@ -21,7 +21,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		ob_start();
 
 		// Create instance of WPSEO_Twitter class.
-		require_once WPSEO_TESTS_PATH . 'doubles/class-expose-wpseo-twitter.php';
 		self::$class_instance = new Expose_WPSEO_Twitter();
 		WPSEO_Frontend::get_instance()->reset();
 		// Clean output which was outputted by WPSEO_Twitter constructor.
@@ -69,20 +68,20 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_type() {
 
 		// Test invalid option, should default to summary.
-		self::$class_instance->options['twitter_card_type'] = 'something_invalid';
-		$expected = $this->metatag( 'card', 'summary' );
-
-		self::$class_instance->type();
-		$this->expectOutput( $expected );
-
-		// Test valid option.
-		self::$class_instance->options['twitter_card_type'] = 'summary_large_image';
+		WPSEO_Options::set( 'twitter_card_type', 'something_invalid' );
 		$expected = $this->metatag( 'card', 'summary_large_image' );
 
 		self::$class_instance->type();
 		$this->expectOutput( $expected );
 
-		self::$class_instance->options['twitter_card_type'] = 'summary';
+		// Test valid option.
+		WPSEO_Options::set( 'twitter_card_type', 'summary' );
+		$expected = $this->metatag( 'card', 'summary' );
+
+		self::$class_instance->type();
+		$this->expectOutput( $expected );
+
+		WPSEO_Options::set( 'twitter_card_type', 'summary' );
 	}
 
 	/**
@@ -100,8 +99,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_site_twitter() {
 		// Test valid option.
-		self::$class_instance->options['twitter_site'] = 'yoast';
-		$expected                                      = $this->metatag( 'site', '@yoast' );
+		WPSEO_Options::set( 'twitter_site', 'yoast' );
+		$expected = $this->metatag( 'site', '@yoast' );
 
 		self::$class_instance->site_twitter();
 		$this->expectOutput( $expected );
@@ -126,7 +125,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Test fallback to twitter_site option.
-		self::$class_instance->options['twitter_site'] = 'yoast';
+		WPSEO_Options::set( 'twitter_site', 'yoast' );
 		self::$class_instance->author();
 		$expected = $this->metatag( 'creator', '@yoast' );
 		$this->expectOutput( $expected );
@@ -289,7 +288,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$image_url = 'http://url-default-image.jpg';
 
 		// Reset default_image option.
-		self::$class_instance->options['og_frontpage_image'] = $image_url;
+		WPSEO_Options::set( 'og_frontpage_image', $image_url );
 
 		$this->go_to_home();
 		$expected = $this->metatag( 'image', $image_url );
@@ -309,7 +308,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		// Test default image.
 		$image_url = 'http://url-default-image.jpg';
 
-		self::$class_instance->options['og_default_image'] = $image_url;
+		WPSEO_Options::set( 'og_default_image', $image_url );
 		$expected = $this->get_expected_image_output( $image_url );
 
 		self::$class_instance->image();

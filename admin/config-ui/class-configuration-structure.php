@@ -46,7 +46,7 @@ class WPSEO_Configuration_Structure {
 		foreach ( $post_type_factory->get_fields() as $post_type_field ) {
 			$fields[] = $post_type_field->get_identifier();
 		}
-		$this->add_step( 'postTypeVisibility', __( 'Post type visibility', 'wordpress-seo' ), $fields );
+		$this->add_step( 'postTypeVisibility', __( 'Search engine visibility', 'wordpress-seo' ), $fields );
 
 		$this->add_step( 'multipleAuthors', __( 'Multiple authors', 'wordpress-seo' ), array( 'multipleAuthors' ) );
 		$this->add_step( 'connectGoogleSearchConsole', __( 'Google Search Console', 'wordpress-seo' ), array(
@@ -58,6 +58,7 @@ class WPSEO_Configuration_Structure {
 			'siteName',
 			'separator',
 		) );
+
 		$this->add_step( 'newsletter', __( 'Newsletter', 'wordpress-seo' ), array(
 			'mailchimpSignup',
 		), true, true );
