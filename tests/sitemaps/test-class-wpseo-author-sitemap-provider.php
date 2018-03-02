@@ -93,6 +93,8 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		// Create a user with 3 posts.
 		$user_id = $this->factory->user->create( array( 'role' => 'author' ) );
 		$this->factory->post->create_many( 3, array( 'post_author' => $user_id ) );
+
+		// Exclude the user from the sitemaps.
 		update_user_meta( $user_id, 'wpseo_noindex_author', 'on' );
 
 		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
