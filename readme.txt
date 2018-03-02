@@ -98,11 +98,11 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Screenshots ==
 
 1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
-2. The fully configurable XML sitemap for Yoast SEO.
-3. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
-4. Example of the SEO analysis functionality.
-5. Example of the readability analysis functionality.
-6. The advanced section of the Yoast SEO meta box.
+2. Example of the SEO analysis functionality.
+3. Example of the readability analysis functionality.
+4. Overview of site-wide SEO problems and possible improvements.
+5. Control over which features you want to use.
+6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
 
