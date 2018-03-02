@@ -81,9 +81,10 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		// We should now have three in the XML sitemap.
 		$this->assertCount( 3, $sitemap_links );
 
-		$this->assertContains( get_author_posts_url( $author_id ), wp_list_pluck( $sitemap_links, 'loc' ) );
-		$this->assertContains( get_author_posts_url( $admin_id ), wp_list_pluck( $sitemap_links, 'loc' ) );
-		$this->assertContains( get_author_posts_url( $editor_id ), wp_list_pluck( $sitemap_links, 'loc' ) );
+		$sitemap_urls = wp_list_pluck( $sitemap_links, 'loc' );
+		$this->assertContains( get_author_posts_url( $author_id ), $sitemap_urls );
+		$this->assertContains( get_author_posts_url( $admin_id ), $sitemap_urls );
+		$this->assertContains( get_author_posts_url( $editor_id ), $sitemap_urls );
 	}
 
 	/**
