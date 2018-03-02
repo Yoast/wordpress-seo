@@ -19,44 +19,40 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
+		// Make sure the author archives are enabled.
 		WPSEO_Options::set( 'disable-author', false );
-		WPSEO_Options::set( 'noindex-author-noposts-wpseo', true );
+
 		self::$class_instance = new WPSEO_Author_Sitemap_Provider();
-	}
-
-	/**
-	 * Remove all created filters.
-	 */
-	public function tearDown() {
-		parent::tearDown();
-	}
-
-	/**
-	 * Get a test user
-	 *
-	 * @return stdClass
-	 */
-	public function get_user() {
-		static $user_id = 1;
-
-		$user        = new stdClass();
-		$user->roles = array( 'administrator' );
-		$user->ID    = $user_id++;
-
-		return $user;
 	}
 
 	/**
 	 * Test if a user is excluded from the sitemap when there are no posts
 	 */
 	public function test_author_excluded_from_sitemap_by_zero_posts() {
-		$user_id = $this->factory->user->create( array( 'role' => 'author' ) );
+		// Remove authors with no posts.
+		WPSEO_Options::set( 'noindex-author-noposts-wpseo', true );
 
+		// Create a user, without any posts.
+		$this->factory->user->create( array( 'role' => 'author' ) );
+
+		// Check which authors are in the sitemap.
 		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
 
-		// User should not be seen.
+		// User should not be in the list.
 		$this->assertEmpty( $sitemap_links );
+	}
 
+	/**
+	 * Tests if a user is NOT excluded from the sitemap when there are posts
+	 */
+	public function test_author_not_excluded_from_sitemap_non_zero_posts() {
+		// Remove authors with no posts.
+		WPSEO_Options::set( 'noindex-author-noposts-wpseo', true );
+
+		// Create a user, without any posts.
+		$user_id = $this->factory->user->create( array( 'role' => 'author' ) );
+
+		// Create posts.
 		$this->factory->post->create_many( 3, array( 'post_author' => $user_id ) );
 
 		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
@@ -64,23 +60,30 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		// User should now be in the XML sitemap as user now has 3 posts.
 		$this->assertCount( 1, $sitemap_links );
 
+		// Make sure it's the user we expected.
+		$this->assertContains( get_author_posts_url( $user_id ), wp_list_pluck( $sitemap_links, 'loc' ) );
 	}
 
 	/**
 	 * Test if a user is NOT excluded from the sitemap when there are no posts
 	 */
 	public function test_author_not_excluded_from_sitemap_by_zero_posts() {
+		// Don't remove authors with no posts.
 		WPSEO_Options::set( 'noindex-author-noposts-wpseo', false );
 
 		// Add three more users (of different types) without posts.
-		$this->factory->user->create( array( 'role' => 'author' ) );
-		$this->factory->user->create( array( 'role' => 'administrator' ) );
-		$this->factory->user->create( array( 'role' => 'editor' ) );
+		$author_id = $this->factory->user->create( array( 'role' => 'author' ) );
+		$admin_id  = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$editor_id = $this->factory->user->create( array( 'role' => 'editor' ) );
 
 		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
 
 		// We should now have three in the XML sitemap.
 		$this->assertCount( 3, $sitemap_links );
+
+		$this->assertContains( get_author_posts_url( $author_id ), wp_list_pluck( $sitemap_links, 'loc' ) );
+		$this->assertContains( get_author_posts_url( $admin_id ), wp_list_pluck( $sitemap_links, 'loc' ) );
+		$this->assertContains( get_author_posts_url( $editor_id ), wp_list_pluck( $sitemap_links, 'loc' ) );
 	}
 
 	/**
@@ -96,27 +99,5 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
 		// User should not be in the XML sitemap.
 		$this->assertEmpty( $sitemap_links );
-	}
-
-	/**
-	 * Pretend user has 0 posts
-	 *
-	 * @param mixed $count Null.
-	 *
-	 * @return int
-	 */
-	public function filter_user_has_no_posts( $count = 0 ) {
-		return 0;
-	}
-
-	/**
-	 * Pretend user has posts
-	 *
-	 * @param mixed $count Null.
-	 *
-	 * @return int
-	 */
-	public function filter_user_has_posts( $count = 0 ) {
-		return 1;
 	}
 }
