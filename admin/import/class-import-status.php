@@ -10,18 +10,18 @@
  */
 class WPSEO_Import_Status {
 	/**
+	 * The import status.
+	 *
+	 * @var bool
+	 */
+	public $status = false;
+
+	/**
 	 * The import message.
 	 *
 	 * @var string
 	 */
 	private $msg = '';
-
-	/**
-	 * The import status.
-	 *
-	 * @var bool
-	 */
-	private $status = false;
 
 	/**
 	 * The type of action performed.
@@ -40,15 +40,6 @@ class WPSEO_Import_Status {
 		$this->action = $action;
 		$this->status = $status;
 		$this->msg    = $msg;
-	}
-
-	/**
-	 * Get the import status.
-	 *
-	 * @return bool
-	 */
-	public function get_status() {
-		return $this->status;
 	}
 
 	/**

@@ -59,7 +59,7 @@ if ( $import ) {
 	$msg = apply_filters( 'wpseo_import_message', $import->status->get_msg() );
 
 	if ( ! empty( $msg ) ) {
-		$status = ( $import->status->get_status() ) ? 'updated' : 'error';
+		$status = ( $import->status->status ) ? 'updated' : 'error';
 
 		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
 	}

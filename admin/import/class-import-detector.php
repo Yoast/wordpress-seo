@@ -21,7 +21,7 @@ class WPSEO_Import_External_Detector {
 		foreach ( WPSEO_Import_External_Importers::$importers as $importer_class ) {
 			$importer = new $importer_class;
 			$detect   = new WPSEO_Import_External( $importer, 'detect' );
-			if ( $detect->status->get_status() ) {
+			if ( $detect->status->status ) {
 				$this->needs_import[ $importer_class ] = $importer->plugin_name();
 			}
 		}
