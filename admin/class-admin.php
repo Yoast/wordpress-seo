@@ -66,7 +66,6 @@ class WPSEO_Admin {
 		add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
 
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
-		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
 		add_action( 'admin_init', array( $this, 'map_manage_options_cap' ) );
 
@@ -100,18 +99,6 @@ class WPSEO_Admin {
 			$integration->register_hooks();
 		}
 
-	}
-
-	/**
-	 * Setting the hooks for importing data from other plugins.
-	 */
-	public function import_plugin_hooks() {
-		if ( current_user_can( $this->get_manage_options_cap() ) ) {
-			$plugin_imports = array(
-				'wpSEO'       => new WPSEO_Import_WPSEO_Hooks(),
-				'aioseo'      => new WPSEO_Import_AIOSEO_Hooks(),
-			);
-		}
 	}
 
 	/**

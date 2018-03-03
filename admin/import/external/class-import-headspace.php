@@ -104,25 +104,4 @@ class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
 		WPSEO_Meta::replace_meta( '_headspace_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );
 	}
 
-	/**
-	 * Imports the slightly harder robots meta field
-	 */
-	private function replace_noarchive_meta() {
-		/*
-				 * @todo - [JRF => whomever] check if this can be done more efficiently by querying only the meta table
-				 * possibly directly changing it using concat on the existing values
-				 */
-		$posts = $this->wpdb->get_results( "SELECT ID FROM $this->wpdb->posts" );
-		if ( is_array( $posts ) && $posts !== array() ) {
-			foreach ( $posts as $post ) {
-				$custom         = get_post_custom( $post->ID );
-				$robotsmeta_adv = '';
-				if ( isset( $custom['_headspace_noarchive'] ) ) {
-					$robotsmeta_adv .= 'noarchive,';
-				}
-				$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
-				WPSEO_Meta::set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
-			}
-		}
-	}
 }

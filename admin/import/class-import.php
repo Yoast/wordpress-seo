@@ -158,18 +158,10 @@ class WPSEO_Import {
 	 * @param array  $options   Options data.
 	 */
 	private function parse_option_group( $name, $opt_group, $options ) {
-		if ( $name === 'wpseo_taxonomy_meta' ) {
-			$opt_group = json_decode( urldecode( $opt_group['wpseo_taxonomy_meta'] ), true );
-		}
-
 		// Make sure that the imported options are cleaned/converted on import.
 		$option_instance = WPSEO_Options::get_option_instance( $name );
 		if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
 			$option_instance->import( $opt_group, $this->old_wpseo_version, $options );
-		}
-		elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
-			/* translators: %s expands to the name of an outdated setting. */
-			$this->status->set_msg( sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name ) );
 		}
 	}
 
