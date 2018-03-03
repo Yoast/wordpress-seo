@@ -28,8 +28,6 @@ class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
 		global $wpdb;
 
 		$this->wpdb = $wpdb;
-
-		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
 
 	/**
@@ -47,9 +45,10 @@ class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '\_headspace\_%'" );
-		if ( $count === '0' ) {
-			return $this->status;
+		$this->status = new WPSEO_Import_Status( 'detect', false );
+
+		if ( ! $this->detect_helper() ) {
+			return $this->status->set_status( false );
 		}
 
 		return $this->status->set_status( true );
@@ -61,14 +60,13 @@ class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function import() {
-		$this->status->set_action( 'import' );
+		$this->status = new WPSEO_Import_Status( 'import', false );
 
-		if ( ! $this->detect() ) {
-			return $this->status;
+		if ( ! $this->detect_helper() ) {
+			return $this->status->set_status( false );
 		}
 
 		$this->replace_metas();
-		$this->replace_noarchive_meta();
 
 		return $this->status->set_status( true );
 	}
@@ -79,13 +77,27 @@ class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$this->status->set_action( 'cleanup' );
-		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_headspace_%'" );
+		$this->status = new WPSEO_Import_Status( 'cleanup', false );
+		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '\_headspace\_%'" );
 		if ( $affected_rows > 0 ) {
-			return $this->status;
+			return $this->status->set_status( true );
 		}
 
-		return $this->status->set_status( true );
+		return $this->status;
+	}
+
+	/**
+	 * Detect whether there is post meta data to import.
+	 *
+	 * @return bool
+	 */
+	private function detect_helper() {
+		$result = $this->wpdb->get_var( "SELECT COUNT(*) AS `count` FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_headspace_%'" );
+		if ( $result === '0' ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

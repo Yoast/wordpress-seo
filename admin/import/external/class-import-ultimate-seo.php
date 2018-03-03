@@ -24,10 +24,7 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_External_Importer {
 	 */
 	public function __construct() {
 		global $wpdb;
-
 		$this->wpdb = $wpdb;
-
-		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
 
 	/**
@@ -45,8 +42,8 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '\_su\_%'" );
-		if ( $count === '0' ) {
+		$this->status = new WPSEO_Import_Status( 'detect', false );
+		if ( ! $this->detect_helper() ) {
 			return $this->status;
 		}
 
@@ -59,9 +56,8 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_External_Importer {
 	 * @returns WPSEO_Import_Status
 	 */
 	public function import() {
-		$this->status->set_action( 'import' );
-
-		if ( ! $this->detect() ) {
+		$this->status = new WPSEO_Import_Status( 'import', false );
+		if ( ! $this->detect_helper() ) {
 			return $this->status;
 		}
 
@@ -82,12 +78,27 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$this->status->set_action( 'cleanup' );
+		$this->status = new WPSEO_Import_Status( 'cleanup', false );
+
 		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_su_%'" );
 		if ( $affected_rows > 0 ) {
 			return $this->status->set_status( true );
 		}
 
 		return $this->status;
+	}
+
+	/**
+	 * Detect whether there is post meta data to import.
+	 *
+	 * @return bool
+	 */
+	private function detect_helper() {
+		$result = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_su_%'" );
+		if ( $result === '0' ) {
+			return false;
+		}
+
+		return true;
 	}
 }

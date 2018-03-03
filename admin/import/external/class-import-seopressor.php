@@ -38,8 +38,6 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 		global $wpdb;
 
 		$this->wpdb = $wpdb;
-
-		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
 
 	/**
@@ -48,8 +46,8 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '\_seop\_settings'" );
-		if ( $count === '0' ) {
+		$this->status = new WPSEO_Import_Status( 'detect', false );
+		if ( ! $this->detect_helper() ) {
 			return $this->status;
 		}
 
@@ -62,9 +60,8 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function import() {
-		$this->status->set_action( 'import' );
-
-		if ( ! $this->detect() ) {
+		$this->status = new WPSEO_Import_Status( 'import', false );
+		if ( ! $this->detect_helper() ) {
 			return $this->status;
 		}
 
@@ -83,14 +80,28 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$this->status->set_action( 'cleanup' );
+		$this->status = new WPSEO_Import_Status( 'cleanup', false );
+		if ( ! $this->detect_helper() ) {
+			return $this->status;
+		}
 
 		// If we get to replace the data, let's do some proper cleanup.
-		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_seop_%'" );
-		if ( $affected_rows > 0 ) {
-			return $this->status->set_status( true );
+		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_seop_%'" );
+		return $this->status->set_status( true );
+	}
+
+	/**
+	 * Detect whether there is post meta data to import.
+	 *
+	 * @return bool
+	 */
+	private function detect_helper() {
+		$result = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_seop_settings'" );
+		if ( $result === '0' ) {
+			return false;
 		}
-		return $this->status;
+
+		return true;
 	}
 
 	/**
@@ -119,7 +130,9 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 			$this->import_meta_helper( $seopressor_key, $yoast_key, $settings, $post_id );
 		}
 
-		$this->import_post_robots( $settings['meta_rules'], $post_id );
+		if ( isset( $settings['meta_rules'] ) ) {
+			$this->import_post_robots( $settings['meta_rules'], $post_id );
+		}
 	}
 
 	/**
@@ -176,9 +189,6 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	 * @return void
 	 */
 	private function import_post_robots( $meta_rules, $post_id ) {
-		if ( ! is_string( $meta_rules ) ) {
-			return;
-		}
 		$seopressor_robots = explode( '#|#|#', $meta_rules );
 		$robot_value = $this->get_robot_value( $seopressor_robots );
 
@@ -206,7 +216,7 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 			$return['index'] = 1;
 		}
 		if ( in_array( 'nofollow', $seopressor_robots, true ) ) {
-			$return['follow'] = 0;
+			$return['follow'] = 1;
 		}
 		foreach ( array( 'noarchive', 'nosnippet', 'noimageindex' ) as $needle ) {
 			if ( in_array( $needle, $seopressor_robots, true ) ) {

@@ -65,10 +65,7 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 */
 	public function __construct() {
 		global $wpdb;
-
 		$this->wpdb = $wpdb;
-
-		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
 
 	/**
@@ -77,11 +74,10 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
-		if ( $count === '0' ) {
+		$this->status = new WPSEO_Import_Status( 'detect', false );
+		if ( ! $this->detect_helper() ) {
 			return $this->status;
 		}
-
 		return $this->status->set_status( true );
 	}
 
@@ -91,11 +87,15 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function import() {
-		$this->status->set_action( 'import' );
+		$this->status = new WPSEO_Import_Status( 'import', false );
+		if ( ! $this->detect_helper() ) {
+			return $this->status;
+		}
+
 		$this->import_post_metas();
 		$this->import_taxonomy_metas();
 
-		return $this->status;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -104,11 +104,15 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$this->status->set_action( 'cleanup' );
+		$this->status = new WPSEO_Import_Status( 'cleanup', false );
+		if ( ! $this->detect_helper() ) {
+			return $this->status;
+		}
+
 		$this->cleanup_term_meta();
 		$this->cleanup_post_meta();
 
-		return $this->status;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -121,16 +125,29 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	}
 
 	/**
+	 * Detect whether there is post meta data to import.
+	 *
+	 * @return bool
+	 */
+	private function detect_helper() {
+		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
+		if ( $count === '0' ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Import the post meta values to Yoast SEO by replacing the wpSEO fields by Yoast SEO fields
 	 */
 	private function import_post_metas() {
-		if ( $this->detect() ) {
+		if ( $this->detect_helper() ) {
 			WPSEO_Meta::replace_meta( '_wpseo_edit_title', WPSEO_Meta::$meta_prefix . 'title', false );
 			WPSEO_Meta::replace_meta( '_wpseo_edit_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
 			WPSEO_Meta::replace_meta( '_wpseo_edit_keywords', WPSEO_Meta::$meta_prefix . 'keywords', false );
 			WPSEO_Meta::replace_meta( '_wpseo_edit_canonical', WPSEO_Meta::$meta_prefix . 'canonical', false );
 
-			$this->status->set_status( true );
 			$this->import_post_robots();
 		}
 	}
@@ -158,8 +175,8 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 		$robot_value  = $this->get_robot_value( $wpseo_robots );
 
 		// Saving the new meta values for Yoast SEO.
-		WPSEO_Meta::set_value( $robot_value['index'], 'meta-robots-noindex', $post_id );
-		WPSEO_Meta::set_value( $robot_value['follow'], 'meta-robots-nofollow', $post_id );
+		WPSEO_Meta::set_value( 'meta-robots-noindex', $robot_value['index'], $post_id );
+		WPSEO_Meta::set_value( 'meta-robots-nofollow', $robot_value['follow'], $post_id );
 	}
 
 	/**
@@ -189,7 +206,6 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 		if ( $description !== false ) {
 			// Import description.
 			$tax_meta[ $taxonomy ][ $term_id ]['wpseo_desc'] = $description;
-			$this->status->set_status( true );
 		}
 	}
 
@@ -207,7 +223,6 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 			$new_robot_value = ( in_array( (int) $wpseo_robots, array( 1, 2, 6 ), true ) ) ? 'index' : 'noindex';
 
 			$tax_meta[ $taxonomy ][ $term_id ]['wpseo_noindex'] = $new_robot_value;
-			$this->status->set_status( true );
 		}
 	}
 
@@ -218,11 +233,8 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 * @param string $term_id  The ID of the current term.
 	 */
 	private function delete_taxonomy_metas( $taxonomy, $term_id ) {
-		$opt1 = delete_option( 'wpseo_' . $taxonomy . '_' . $term_id );
-		$opt2 = delete_option( 'wpseo_' . $taxonomy . '_' . $term_id . '_robots' );
-		if ( $opt1 || $opt2 ) {
-			$this->status->set_status( true );
-		}
+		delete_option( 'wpseo_' . $taxonomy . '_' . $term_id );
+		delete_option( 'wpseo_' . $taxonomy . '_' . $term_id . '_robots' );
 	}
 
 	/**
@@ -245,11 +257,7 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 */
 	private function cleanup_post_meta() {
 		// If we get to replace the data, let's do some proper cleanup.
-		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
-
-		if ( $affected_rows > 0 ) {
-			$this->status->set_status( true );
-		}
+		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
 	}
 
 	/**
@@ -258,10 +266,7 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	private function cleanup_term_meta() {
 		$terms = get_terms( get_taxonomies(), array( 'hide_empty' => false ) );
 		foreach ( $terms as $term ) {
-			$outcome = $this->delete_taxonomy_metas( $term->taxonomy, $term->term_id );
-			if ( $outcome ) {
-				$this->status->set_status( true );
-			}
+			$this->delete_taxonomy_metas( $term->taxonomy, $term->term_id );
 		}
 	}
 }

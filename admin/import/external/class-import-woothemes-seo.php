@@ -26,10 +26,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 */
 	public function __construct() {
 		global $wpdb;
-
 		$this->wpdb = $wpdb;
-
-		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
 
 	/**
@@ -38,11 +35,10 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key = 'seo\_title'" );
-		if ( $count === '0' ) {
+		$this->status = new WPSEO_Import_Status( 'detect', false );
+		if ( ! $this->detect_helper() ) {
 			return $this->status;
 		}
-
 		return $this->status->set_status( true );
 	}
 
@@ -61,13 +57,15 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function import() {
-		$this->status->set_action( 'import' );
+		$this->status = new WPSEO_Import_Status( 'import', false );
+		if ( ! $this->detect_helper() ) {
+			return $this->status;
+		}
 
-		$this->import_home();
 		$this->import_custom_values( 'seo_woo_meta_home_desc', 'metadesc-home-wpseo' );
 		$this->import_metas();
 
-		return $this->status;
+		return $this->status->set_status( true );
 	}
 
 	/**
@@ -76,12 +74,28 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$this->status->set_action( 'cleanup' );
+		$this->status = new WPSEO_Import_Status( 'cleanup', false );
+		if ( ! $this->detect_helper() ) {
+			return $this->status;
+		}
 
 		$this->cleanup_options();
 		$this->cleanup_meta();
 
-		return $this->status;
+		return $this->status->set_status( true );
+	}
+
+	/**
+	 * Detect whether there is post meta data to import.
+	 *
+	 * @return bool
+	 */
+	private function detect_helper() {
+		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key = 'seo_title'" );
+		if ( $count === '0' ) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -99,10 +113,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 				'seo_woo_home_layout',
 			) as $option
 		) {
-			$success = delete_option( $option );
-			if ( $success ) {
-				$this->status->set_status( true );
-			}
+			delete_option( $option );
 		}
 	}
 
@@ -121,10 +132,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * @param string $key The meta_key to delete.
 	 */
 	private function cleanup_meta_key( $key ) {
-		$affected_rows = $this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $key ) );
-		if ( $affected_rows > 0 ) {
-			$this->status->set_status( true );
-		}
+		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $key ) );
 	}
 
 	/**
@@ -138,24 +146,6 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 		if ( 'c' === get_option( $option ) ) {
 			WPSEO_Options::set( $key, get_option( $option . '_custom' ) );
 		}
-	}
-
-	/**
-	 * Imports the WooThemes SEO homepage settings
-	 */
-	private function import_home() {
-		switch ( get_option( 'seo_woo_home_layout' ) ) {
-			case 'a':
-				$template = '%%sitename%% %%sep%% %%sitedesc%%';
-				break;
-			case 'b':
-				$template = '%%sitename%% ' . get_option( 'seo_woo_paged_var' ) . ' %%pagenum%%';
-				break;
-			case 'c':
-				$template = '%%sitedesc%%';
-				break;
-		}
-		WPSEO_Options::set( 'title-home-wpseo', $template );
 	}
 
 	/**

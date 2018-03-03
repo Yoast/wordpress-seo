@@ -8,13 +8,6 @@
  */
 class WPSEO_Import_AIOSEO implements WPSEO_External_Importer {
 	/**
-	 * Holds the AOIOSEO options
-	 *
-	 * @var array
-	 */
-	private $aioseo_options;
-
-	/**
 	 * @var wpdb Holds the WPDB instance.
 	 */
 	protected $wpdb;
@@ -33,8 +26,6 @@ class WPSEO_Import_AIOSEO implements WPSEO_External_Importer {
 		global $wpdb;
 
 		$this->wpdb = $wpdb;
-
-		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
 
 	/**
@@ -47,13 +38,14 @@ class WPSEO_Import_AIOSEO implements WPSEO_External_Importer {
 	}
 
 	/**
-	 * Detect whether there is post meta data to import.
+	 * Return whether there is post meta data to import.
 	 *
 	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '\_aioseop\_%'" );
-		if ( $count === '0' ) {
+		$this->status = new WPSEO_Import_Status( 'detect', false );
+
+		if ( ! $this->detect_helper() ) {
 			return $this->status;
 		}
 
@@ -66,13 +58,11 @@ class WPSEO_Import_AIOSEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function import() {
-		$this->status->set_action( 'import' );
+		$this->status = new WPSEO_Import_Status( 'import', false );
 
-		if ( ! $this->detect() ) {
+		if ( ! $this->detect_helper() ) {
 			return $this->status;
 		}
-
-		$this->aioseo_options = get_option( 'aioseop_options' );
 
 		$this->import_metas();
 
@@ -85,13 +75,27 @@ class WPSEO_Import_AIOSEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function cleanup() {
-		$this->status->set_action( 'cleanup' );
-		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_aioseop_%'" );
-		if ( $affected_rows > 0 ) {
-			$this->status->set_status( true );
+		$this->status = new WPSEO_Import_Status( 'cleanup', false );
+		if ( ! $this->detect_helper() ) {
+			return $this->status;
 		}
 
-		return $this->status;
+		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_aioseop_%'" );
+		return $this->status->set_status( true );
+	}
+
+	/**
+	 * Detect whether there is post meta data to import.
+	 *
+	 * @return bool
+	 */
+	private function detect_helper() {
+		$result = $this->wpdb->get_var( "SELECT COUNT(*) AS `count` FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_aioseop_%'" );
+		if ( $result === '0' ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
