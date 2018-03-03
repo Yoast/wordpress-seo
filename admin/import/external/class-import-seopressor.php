@@ -176,8 +176,10 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	 * @return void
 	 */
 	private function import_post_robots( $meta_rules, $post_id ) {
+		if ( ! is_string( $meta_rules ) ) {
+			return;
+		}
 		$seopressor_robots = explode( '#|#|#', $meta_rules );
-
 		$robot_value = $this->get_robot_value( $seopressor_robots );
 
 		// Saving the new meta values for Yoast SEO.

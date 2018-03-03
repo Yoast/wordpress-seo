@@ -20,42 +20,22 @@ $import  = false;
  * Yoast SEO that we can import stuff for that plugin.
  */
 if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' ) ) {
-
 	check_admin_referer( 'wpseo-import' );
 
 	$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 	$action = 'import';
-	if ( ( ! empty( $post_wpseo['deleteolddata'] ) && $post_wpseo['deleteolddata'] === 'on' ) ) {
-		$action = 'cleanup';
-	}
+}
+elseif ( filter_input( INPUT_POST, 'import_external' ) ) {
+	check_admin_referer( 'wpseo-import-external' );
 
-	if ( ! empty( $post_wpseo['importwoo'] ) ) {
-		$import = new WPSEO_Import_External( new WPSEO_Import_WooThemes_SEO, $action );
-	}
+	$class = filter_input( INPUT_POST, 'import_external_plugin' );
+	$import = new WPSEO_Import_External( new $class, 'import' );
+}
+elseif ( filter_input( INPUT_POST, 'clean_external' ) ) {
+	check_admin_referer( 'wpseo-clean-external' );
 
-	if ( ! empty( $post_wpseo['importaioseo'] ) || filter_input( INPUT_GET, 'importaioseo' ) ) {
-		$import = new WPSEO_Import_External( new WPSEO_Import_AIOSEO, $action );
-	}
-
-	if ( ! empty( $post_wpseo['importheadspace'] ) ) {
-		$import = new WPSEO_Import_External( new WPSEO_Import_HeadSpace, $action );
-	}
-
-	if ( ! empty( $post_wpseo['importjetpackseo'] ) || filter_input( INPUT_GET, 'importjetpackseo' ) ) {
-		$import = new WPSEO_Import_External( new WPSEO_Import_Jetpack_SEO, $action );
-	}
-
-	if ( ! empty( $post_wpseo['importwpseo'] ) || filter_input( INPUT_GET, 'importwpseo' ) ) {
-		$import = new WPSEO_Import_External( new WPSEO_Import_WPSEO, $action );
-	}
-
-	if ( ! empty( $post_wpseo['importseoultimate'] ) || filter_input( INPUT_GET, 'importseoultimate' ) ) {
-		$import = new WPSEO_Import_External( new WPSEO_Import_Ultimate_SEO, $action );
-	}
-
-	if ( ! empty( $post_wpseo['importseopressor'] ) || filter_input( INPUT_GET, 'importseopressor' ) ) {
-	    $import = new WPSEO_Import_External( new WPSEO_Import_SEOPressor, $action );
-	}
+	$class = filter_input( INPUT_POST, 'clean_external_plugin' );
+	$import = new WPSEO_Import_External( new $class, 'cleanup' );
 }
 elseif ( isset( $_FILES['settings_import_file'] ) ) {
 	check_admin_referer( 'wpseo-import-file' );
