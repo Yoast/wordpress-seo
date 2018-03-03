@@ -13,7 +13,7 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	/**
 	 * @var wpdb Holds the WPDB instance.
 	 */
-	protected $db;
+	protected $wpdb;
 
 	/**
 	 * Holds the import status object.
@@ -37,7 +37,7 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	public function __construct() {
 		global $wpdb;
 
-		$this->db = $wpdb;
+		$this->wpdb = $wpdb;
 
 		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
@@ -48,7 +48,7 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$count = $this->db->get_var( "SELECT COUNT(*) FROM {$this->db->postmeta} WHERE meta_key LIKE '\_seop\_settings'" );
+		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '\_seop\_settings'" );
 		if ( $count === '0' ) {
 			return $this->status;
 		}
@@ -86,7 +86,7 @@ class WPSEO_Import_SEOPressor implements WPSEO_External_Importer {
 		$this->status->set_action( 'cleanup' );
 
 		// If we get to replace the data, let's do some proper cleanup.
-		$affected_rows = $this->db->query( "DELETE FROM {$this->db->postmeta} WHERE meta_key LIKE '_seop_%'" );
+		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_seop_%'" );
 		if ( $affected_rows > 0 ) {
 			return $this->status->set_status( true );
 		}

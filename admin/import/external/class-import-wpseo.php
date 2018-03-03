@@ -12,7 +12,7 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	/**
 	 * @var wpdb Holds the WPDB instance.
 	 */
-	protected $db;
+	protected $wpdb;
 
 	/**
 	 * @var WPSEO_Import_Status
@@ -20,12 +20,53 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	private $status;
 
 	/**
+	 * The values 1 - 6 are the configured values from wpSEO. This array will map the values of wpSEO to our values.
+	 *
+	 * There are some double array like 1-6 and 3-4. The reason is they only set the index value. The follow value is
+	 * the default we use in the cases there isn't a follow value present.
+	 *
+	 * @var array
+	 */
+	private $robot_values = array(
+		// In wpSEO: index, follow.
+		1 => array(
+			'index'  => 2,
+			'follow' => 0,
+		),
+		// In wpSEO: index, nofollow.
+		2 => array(
+			'index'  => 2,
+			'follow' => 1,
+		),
+		// In wpSEO: noindex.
+		3 => array(
+			'index'  => 1,
+			'follow' => 0,
+		),
+		// In wpSEO: noindex, follow.
+		4 => array(
+			'index'  => 1,
+			'follow' => 0,
+		),
+		// In wpSEO: noindex, nofollow.
+		5 => array(
+			'index'  => 1,
+			'follow' => 1,
+		),
+		// In wpSEO: index.
+		6 => array(
+			'index'  => 2,
+			'follow' => 0,
+		),
+	);
+
+	/**
 	 * WPSEO_Import_WPSEO constructor.
 	 */
 	public function __construct() {
 		global $wpdb;
 
-		$this->db = $wpdb;
+		$this->wpdb = $wpdb;
 
 		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
@@ -36,7 +77,7 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$count = $this->db->get_var( "SELECT COUNT(*) FROM {$this->db->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
+		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
 		if ( $count === '0' ) {
 			return $this->status;
 		}
@@ -192,56 +233,11 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 * @return array
 	 */
 	private function get_robot_value( $wpseo_robots ) {
-		static $robot_values;
-
-		if ( $robot_values === null ) {
-			/**
-			 * The values 1 - 6 are the configured values from wpSEO. This array will map the values of wpSEO to our values.
-			 *
-			 * There are some double array like 1-6 and 3-4. The reason is they only set the index value. The follow value is
-			 * the default we use in the cases there isn't a follow value present.
-			 *
-			 * @var array
-			 */
-			$robot_values = array(
-				// In wpSEO: index, follow.
-				1 => array(
-					'index'  => 2,
-					'follow' => 0,
-				),
-				// In wpSEO: index, nofollow.
-				2 => array(
-					'index'  => 2,
-					'follow' => 1,
-				),
-				// In wpSEO: noindex.
-				3 => array(
-					'index'  => 1,
-					'follow' => 0,
-				),
-				// In wpSEO: noindex, follow.
-				4 => array(
-					'index'  => 1,
-					'follow' => 0,
-				),
-				// In wpSEO: noindex, nofollow.
-				5 => array(
-					'index'  => 1,
-					'follow' => 1,
-				),
-				// In wpSEO: index.
-				6 => array(
-					'index'  => 2,
-					'follow' => 0,
-				),
-			);
+		if ( array_key_exists( $wpseo_robots, $this->robot_values ) ) {
+			return $this->robot_values[ $wpseo_robots ];
 		}
 
-		if ( array_key_exists( $wpseo_robots, $robot_values ) ) {
-			return $robot_values[ $wpseo_robots ];
-		}
-
-		return $robot_values[1];
+		return $this->robot_values[1];
 	}
 
 	/**
@@ -249,7 +245,7 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 	 */
 	private function cleanup_post_meta() {
 		// If we get to replace the data, let's do some proper cleanup.
-		$affected_rows = $this->db->query( "DELETE FROM {$this->db->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
+		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
 
 		if ( $affected_rows > 0 ) {
 			$this->status->set_status( true );
@@ -268,5 +264,4 @@ class WPSEO_Import_WPSEO implements WPSEO_External_Importer {
 			}
 		}
 	}
-
 }

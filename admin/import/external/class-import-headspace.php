@@ -12,7 +12,7 @@ class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
 	/**
 	 * @var wpdb Holds the WPDB instance.
 	 */
-	protected $db;
+	protected $wpdb;
 
 	/**
 	 * Holds the import status object.
@@ -27,7 +27,7 @@ class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
 	public function __construct() {
 		global $wpdb;
 
-		$this->db = $wpdb;
+		$this->wpdb = $wpdb;
 
 		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
@@ -47,7 +47,7 @@ class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$count = $this->db->get_var( "SELECT COUNT(*) FROM {$this->db->postmeta} WHERE meta_key LIKE '\_headspace\_%'" );
+		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '\_headspace\_%'" );
 		if ( $count === '0' ) {
 			return $this->status;
 		}
@@ -67,33 +67,8 @@ class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
 			return $this->status;
 		}
 
-		WPSEO_Meta::replace_meta( '_headspace_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
-		WPSEO_Meta::replace_meta( '_headspace_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', false );
-		WPSEO_Meta::replace_meta( '_headspace_page_title', WPSEO_Meta::$meta_prefix . 'title', false );
-
-		/**
-		 * @todo [JRF => whomever] verify how headspace sets these metas ( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' )
-		 * and if the values saved are concurrent with the ones we use (i.e. 0/1/2)
-		 */
-		WPSEO_Meta::replace_meta( '_headspace_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', false );
-		WPSEO_Meta::replace_meta( '_headspace_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );
-
-		/*
-		 * @todo - [JRF => whomever] check if this can be done more efficiently by querying only the meta table
-		 * possibly directly changing it using concat on the existing values
-		 */
-		$posts = $this->db->get_results( "SELECT ID FROM $this->db->posts" );
-		if ( is_array( $posts ) && $posts !== array() ) {
-			foreach ( $posts as $post ) {
-				$custom         = get_post_custom( $post->ID );
-				$robotsmeta_adv = '';
-				if ( isset( $custom['_headspace_noarchive'] ) ) {
-					$robotsmeta_adv .= 'noarchive,';
-				}
-				$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
-				WPSEO_Meta::set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
-			}
-		}
+		$this->replace_metas();
+		$this->replace_noarchive_meta();
 
 		return $this->status->set_status( true );
 	}
@@ -105,11 +80,49 @@ class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
 	 */
 	public function cleanup() {
 		$this->status->set_action( 'cleanup' );
-		$affected_rows = $this->db->query( "DELETE FROM {$this->db->postmeta} WHERE meta_key LIKE '_headspace_%'" );
+		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_headspace_%'" );
 		if ( $affected_rows > 0 ) {
 			return $this->status;
 		}
 
 		return $this->status->set_status( true );
+	}
+
+	/**
+	 * Imports the simple meta fields
+	 */
+	private function replace_metas() {
+		WPSEO_Meta::replace_meta( '_headspace_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
+		WPSEO_Meta::replace_meta( '_headspace_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', false );
+		WPSEO_Meta::replace_meta( '_headspace_page_title', WPSEO_Meta::$meta_prefix . 'title', false );
+
+		/**
+		 * @todo [JRF => whomever] verify how headspace sets these metas ( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' )
+		 * and if the values saved are concurrent with the ones we use (i.e. 0/1/2)
+		 */
+		WPSEO_Meta::replace_meta( '_headspace_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', false );
+		WPSEO_Meta::replace_meta( '_headspace_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );
+	}
+
+	/**
+	 * Imports the slightly harder robots meta field
+	 */
+	private function replace_noarchive_meta() {
+		/*
+				 * @todo - [JRF => whomever] check if this can be done more efficiently by querying only the meta table
+				 * possibly directly changing it using concat on the existing values
+				 */
+		$posts = $this->wpdb->get_results( "SELECT ID FROM $this->wpdb->posts" );
+		if ( is_array( $posts ) && $posts !== array() ) {
+			foreach ( $posts as $post ) {
+				$custom         = get_post_custom( $post->ID );
+				$robotsmeta_adv = '';
+				if ( isset( $custom['_headspace_noarchive'] ) ) {
+					$robotsmeta_adv .= 'noarchive,';
+				}
+				$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
+				WPSEO_Meta::set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
+			}
+		}
 	}
 }

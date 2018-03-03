@@ -12,15 +12,13 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	/**
 	 * @var wpdb Holds the WPDB instance.
 	 */
-	protected $db;
-
+	protected $wpdb;
 	/**
 	 * Holds the import status object.
 	 *
 	 * @var WPSEO_Import_Status
 	 */
 	private $status;
-
 	/**
 	 * Holds the Yoast SEO Title options.
 	 *
@@ -34,7 +32,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	public function __construct() {
 		global $wpdb;
 
-		$this->db = $wpdb;
+		$this->wpdb = $wpdb;
 
 		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
@@ -45,7 +43,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$count = $this->db->get_var( "SELECT COUNT(*) FROM {$this->db->postmeta} WHERE meta_key = 'seo\_title'" );
+		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key = 'seo\_title'" );
 		if ( $count === '0' ) {
 			return $this->status;
 		}
@@ -96,6 +94,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 
 		$this->cleanup_options();
 		$this->cleanup_meta();
+
 		return $this->status;
 	}
 
@@ -103,7 +102,17 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * Removes the Woo Options from the database.
 	 */
 	private function cleanup_options() {
-		foreach ( array( 'seo_woo_archive_layout', 'seo_woo_single_layout', 'seo_woo_page_layout', 'seo_woo_wp_title', 'seo_woo_meta_single_desc', 'seo_woo_meta_single_key', 'seo_woo_home_layout' ) as $option ) {
+		foreach (
+			array(
+				'seo_woo_archive_layout',
+				'seo_woo_single_layout',
+				'seo_woo_page_layout',
+				'seo_woo_wp_title',
+				'seo_woo_meta_single_desc',
+				'seo_woo_meta_single_key',
+				'seo_woo_home_layout',
+			) as $option
+		) {
 			$success = delete_option( $option );
 			if ( $success ) {
 				$this->status->set_status( true );
@@ -115,7 +124,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * Removes the post meta fields from the database.
 	 */
 	private function cleanup_meta() {
-		foreach( array( 'seo_follow', 'seo_noindex', 'seo_title', 'seo_description', 'seo_keywords' ) as $key ) {
+		foreach ( array( 'seo_follow', 'seo_noindex', 'seo_title', 'seo_description', 'seo_keywords' ) as $key ) {
 			$this->cleanup_meta_key( $key );
 		}
 	}
@@ -126,7 +135,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * @param string $key The meta_key to delete.
 	 */
 	private function cleanup_meta_key( $key ) {
-		$affected_rows = $this->db->query( $this->db->prepare( "DELETE FROM {$this->db->postmeta} WHERE meta_key = %s", $key ) );
+		$affected_rows = $this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $key ) );
 		if ( $affected_rows > 0 ) {
 			$this->status->set_status( true );
 		}
@@ -135,27 +144,20 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	/**
 	 * Import options.
 	 *
-	 * @param string $option    Option key.
-	 * @param string $post_type Post type name to import for.
+	 * @param string $option_key Option key.
+	 * @param string $post_type  Post type name to import for.
 	 */
-	private function import_option( $option, $post_type ) {
-		switch ( get_option( $option ) ) {
-			case 'a':
-				$this->options[ 'title-' . $post_type ] = '%%title%% %%sep%% %%sitename%%';
-				break;
-			case 'b':
-				$this->options[ 'title-' . $post_type ] = '%%title%%';
-				break;
-			case 'c':
-				$this->options[ 'title-' . $post_type ] = '%%sitename%% %%sep%% %%title%%';
-				break;
-			case 'd':
-				$this->options[ 'title-' . $post_type ] = '%%title%% %%sep%% %%sitedesc%%';
-				break;
-			case 'e':
-				$this->options[ 'title-' . $post_type ] = '%%sitename%% %%sep%% %%title%% %%sep%% %%sitedesc%%';
-				break;
-		}
+	private function import_option( $option_key, $post_type ) {
+		$option    = get_option( $option_key );
+		$templates = array(
+			'a' => '%%title%% %%sep%% %%sitename%%',
+			'b' => '%%title%%',
+			'c' => '%%sitename%% %%sep%% %%title%%',
+			'd' => '%%title%% %%sep%% %%sitedesc%%',
+			'e' => '%%sitename%% %%sep%% %%title%% %%sep%% %%sitedesc%%',
+		);
+
+		$this->options[ 'title-' . $post_type ] = $templates[ $option ];
 	}
 
 	/**

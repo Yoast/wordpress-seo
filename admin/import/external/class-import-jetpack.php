@@ -12,7 +12,7 @@ class WPSEO_Import_Jetpack_SEO implements WPSEO_External_Importer {
 	/**
 	 * @var wpdb Holds the WPDB instance.
 	 */
-	protected $db;
+	protected $wpdb;
 
 	/**
 	 * Holds the import status object.
@@ -27,7 +27,7 @@ class WPSEO_Import_Jetpack_SEO implements WPSEO_External_Importer {
 	public function __construct() {
 		global $wpdb;
 
-		$this->db = $wpdb;
+		$this->wpdb = $wpdb;
 
 		$this->status = new WPSEO_Import_Status( 'detect', false );
 	}
@@ -47,7 +47,7 @@ class WPSEO_Import_Jetpack_SEO implements WPSEO_External_Importer {
 	 * @return WPSEO_Import_Status
 	 */
 	public function detect() {
-		$count = $this->db->get_var( "SELECT COUNT(*) FROM {$this->db->postmeta} WHERE meta_key = 'advanced\_seo\_description'" );
+		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key = 'advanced\_seo\_description'" );
 		if ( $count === '0' ) {
 			return $this->status;
 		}
@@ -62,7 +62,7 @@ class WPSEO_Import_Jetpack_SEO implements WPSEO_External_Importer {
 	 */
 	public function cleanup() {
 		$this->status->set_action( 'cleanup' );
-		$affected_rows = $this->db->query( "DELETE FROM {$this->db->postmeta} WHERE meta_key = 'advanced_seo_description'" );
+		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key = 'advanced_seo_description'" );
 		if ( $affected_rows > 0 ) {
 			return $this->status;
 		}
