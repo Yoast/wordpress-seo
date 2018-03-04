@@ -25,6 +25,7 @@ class WPSEO_Import_Status {
 
 	/**
 	 * The type of action performed.
+	 *
 	 * @var string
 	 */
 	private $action;
@@ -49,7 +50,7 @@ class WPSEO_Import_Status {
 	 */
 	public function get_msg() {
 		if ( $this->msg === '' ) {
-			switch( $this->action ) {
+			switch ( $this->action ) {
 				case 'import':
 					return $this->default_import_message();
 					break;
@@ -61,6 +62,7 @@ class WPSEO_Import_Status {
 					break;
 			}
 		}
+
 		return $this->msg;
 	}
 
@@ -101,6 +103,7 @@ class WPSEO_Import_Status {
 	 */
 	public function set_status( $status ) {
 		$this->status = (bool) $status;
+
 		return $this;
 	}
 
@@ -113,6 +116,7 @@ class WPSEO_Import_Status {
 		if ( $this->status ) {
 			return __( '%s data successfully imported.', 'wordpress-seo' );
 		}
+
 		return __( '%s data not found.', 'wordpress-seo' );
 	}
 
@@ -125,6 +129,7 @@ class WPSEO_Import_Status {
 		if ( $this->status ) {
 			return __( '%s data successfully removed.', 'wordpress-seo' );
 		}
+
 		return __( '%s data not found.', 'wordpress-seo' );
 	}
 
@@ -137,6 +142,7 @@ class WPSEO_Import_Status {
 		if ( $this->status ) {
 			return __( '%s data found.', 'wordpress-seo' );
 		}
+
 		return __( '%s data not found.', 'wordpress-seo' );
 	}
 }

@@ -54,7 +54,7 @@ class WPSEO_Import_AIOSEO implements WPSEO_External_Importer {
 
 	/**
 	 * Imports the All in one SEO Pack settings.
-	 * 
+	 *
 	 * @return WPSEO_Import_Status
 	 */
 	public function import() {

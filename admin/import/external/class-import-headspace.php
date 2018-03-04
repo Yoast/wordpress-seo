@@ -36,7 +36,7 @@ class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
 	 * @return string
 	 */
 	public function plugin_name() {
-		Return 'HeadSpace SEO';
+		return 'HeadSpace SEO';
 	}
 
 	/**

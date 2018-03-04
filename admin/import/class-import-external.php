@@ -23,12 +23,12 @@ class WPSEO_Import_External {
 	 * Import class constructor.
 	 *
 	 * @param WPSEO_External_Importer $importer The importer that needs to perform this action.
-	 * @param string $action The action to perform.
+	 * @param string                  $action   The action to perform.
 	 */
 	public function __construct( WPSEO_External_Importer $importer, $action ) {
 		$this->importer = $importer;
 
-		switch( $action ) {
+		switch ( $action ) {
 			case 'cleanup':
 				$this->status = $this->importer->cleanup();
 				break;

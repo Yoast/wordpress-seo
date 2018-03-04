@@ -102,17 +102,15 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	 * Removes the Woo Options from the database.
 	 */
 	private function cleanup_options() {
-		foreach (
-			array(
-				'seo_woo_archive_layout',
-				'seo_woo_single_layout',
-				'seo_woo_page_layout',
-				'seo_woo_wp_title',
-				'seo_woo_meta_single_desc',
-				'seo_woo_meta_single_key',
-				'seo_woo_home_layout',
-			) as $option
-		) {
+		foreach ( array(
+			'seo_woo_archive_layout',
+			'seo_woo_single_layout',
+			'seo_woo_page_layout',
+			'seo_woo_wp_title',
+			'seo_woo_meta_single_desc',
+			'seo_woo_meta_single_key',
+			'seo_woo_home_layout',
+			) as $option ) {
 			delete_option( $option );
 		}
 	}
