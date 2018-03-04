@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Tests\Admin
+ * @package WPSEO\Tests\Admin\Import
  */
 
 /**
@@ -109,7 +109,7 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_Status::get_msg
-	 * @covers WPSEO_Import_Status::default_import_message
+	 * @covers WPSEO_Import_Status::default_cleanup_message
 	 */
 	public function test_default_cleanup_message_true() {
 		$import = new WPSEO_Import_Status( 'cleanup', true );

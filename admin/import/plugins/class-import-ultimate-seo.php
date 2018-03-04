@@ -1,12 +1,12 @@
 <?php
 /**
- * @package WPSEO\Admin\Import\External
+ * @package WPSEO\Admin\Import\Plugins
  */
 
 /**
  * Class with functionality to import Yoast SEO settings from Ultimate SEO.
  */
-class WPSEO_Import_Ultimate_SEO implements WPSEO_External_Importer {
+class WPSEO_Import_Ultimate_SEO implements WPSEO_Plugin_Importer {
 	/**
 	 * @var wpdb Holds the WPDB instance.
 	 */

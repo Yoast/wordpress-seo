@@ -1,14 +1,14 @@
 <?php
 /**
- * @package WPSEO\Admin\Import\External
+ * @package WPSEO\Admin\Import\Plugins
  */
 
 /**
- * Class WPSEO_Import_External_Importers
+ * Class WPSEO_Plugin_Importers
  *
  * Object which contains all importers.
  */
-class WPSEO_Import_External_Importers {
+class WPSEO_Plugin_Importers {
 	/**
 	 * @var array
 	 */

@@ -4,8 +4,8 @@
  */
 
 /**
- * @var Yoast_Form                     $yform
- * @var WPSEO_Import_External_Detector $import_check
+ * @var Yoast_Form                    $yform
+ * @var WPSEO_Import_Plugins_Detector $import_check
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -15,7 +15,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 // Determine if we have plugins we can import from, if so, load that tab, otherwise, load an empty tab.
-$import_check = new WPSEO_Import_External_Detector();
+$import_check = new WPSEO_Import_Plugins_Detector();
 $import_check->detect();
 if ( count( $import_check->needs_import ) === 0 ) {
 	echo '<h2>', esc_html__( 'Import from other SEO plugins', 'wordpress-seo' ), '</h2>';
@@ -63,7 +63,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 	<form action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"
 		  method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 		<?php
-		wp_nonce_field( 'wpseo-import-external', '_wpnonce', true, true );
+		wp_nonce_field( 'wpseo-import-plugins', '_wpnonce', true, true );
 		wpseo_import_external_select( 'import_external_plugin', $import_check->needs_import );
 		?>
 		<?php
@@ -89,7 +89,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 	<form action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"
 		  method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 		<?php
-		wp_nonce_field( 'wpseo-clean-external', '_wpnonce', true, true );
+		wp_nonce_field( 'wpseo-clean-plugins', '_wpnonce', true, true );
 		wpseo_import_external_select( 'clean_external_plugin', $import_check->needs_import );
 		?>
 		<input type="submit" class="button button-primary" name="clean_external"

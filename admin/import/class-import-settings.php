@@ -4,15 +4,15 @@
  */
 
 /**
- * Class WPSEO_Import
+ * Class WPSEO_Import_Settings
  *
  * Class with functionality to import the Yoast SEO settings
  */
-class WPSEO_Import {
+class WPSEO_Import_Settings {
 	/**
 	 * @var WPSEO_Import_Status
 	 */
-	private $status;
+	public $status;
 
 	/**
 	 * @var array
@@ -41,8 +41,6 @@ class WPSEO_Import {
 
 	/**
 	 * Class constructor
-	 *
-	 * @return WPSEO_Import_Status
 	 */
 	public function __construct() {
 		$this->status = new WPSEO_Import_Status( 'import', false );
@@ -61,8 +59,6 @@ class WPSEO_Import {
 		$this->parse_options();
 
 		$this->clean_up();
-
-		return $this->status;
 	}
 
 	/**

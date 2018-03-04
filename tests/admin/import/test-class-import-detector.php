@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Tests\Admin
+ * @package WPSEO\Tests\Admin\Import\Plugins
  */
 
 /**
@@ -9,21 +9,21 @@
 class WPSEO_Import_External_Detector_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @covers WPSEO_Import_External_Detector::detect
+	 * @covers WPSEO_Import_Plugins_Detector::detect
 	 */
 	public function test_detect_no_data() {
-		$detector = new WPSEO_Import_External_Detector();
+		$detector = new WPSEO_Import_Plugins_Detector();
 		$detector->detect();
 
 		$this->assertEquals( array(), $detector->needs_import );
 	}
 
 	/**
-	 * @covers WPSEO_Import_External_Detector::detect
+	 * @covers WPSEO_Import_Plugins_Detector::detect
 	 */
 	public function test_detect_with_data() {
 		$this->setup_post();
-		$detector = new WPSEO_Import_External_Detector();
+		$detector = new WPSEO_Import_Plugins_Detector();
 		$detector->detect();
 
 		$this->assertCount( 1, $detector->needs_import );

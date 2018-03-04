@@ -1,31 +1,31 @@
 <?php
 /**
- * @package WPSEO\Admin\Import\External
+ * @package WPSEO\Admin\Import\Plugins
  */
 
 /**
- * Class WPSEO_Import_External
+ * Class WPSEO_Import_Plugin
  *
  * Class with functionality to import Yoast SEO settings from other plugins
  */
-class WPSEO_Import_External {
+class WPSEO_Import_Plugin {
 	/**
 	 * @var WPSEO_Import_Status
 	 */
 	public $status;
 
 	/**
-	 * @var WPSEO_External_Importer
+	 * @var WPSEO_Plugin_Importer
 	 */
 	protected $importer;
 
 	/**
 	 * Import class constructor.
 	 *
-	 * @param WPSEO_External_Importer $importer The importer that needs to perform this action.
-	 * @param string                  $action   The action to perform.
+	 * @param WPSEO_Plugin_Importer $importer The importer that needs to perform this action.
+	 * @param string                $action   The action to perform.
 	 */
-	public function __construct( WPSEO_External_Importer $importer, $action ) {
+	public function __construct( WPSEO_Plugin_Importer $importer, $action ) {
 		$this->importer = $importer;
 
 		switch ( $action ) {

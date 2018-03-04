@@ -1,14 +1,14 @@
 <?php
 /**
- * @package WPSEO\Admin\Import\External
+ * @package WPSEO\Admin\Import\Plugins
  */
 
 /**
- * Class WPSEO_Import_External_Detector
+ * Class WPSEO_Import_Plugins_Detector
  *
  * Class with functionality to detect whether we should import from another SEO plugin
  */
-class WPSEO_Import_External_Detector {
+class WPSEO_Import_Plugins_Detector {
 	/**
 	 * @var array Plugins we need to import from.
 	 */
@@ -18,9 +18,9 @@ class WPSEO_Import_External_Detector {
 	 * Detects whether we need to import anything.
 	 */
 	public function detect() {
-		foreach ( WPSEO_Import_External_Importers::$importers as $importer_class ) {
+		foreach ( WPSEO_Plugin_Importers::$importers as $importer_class ) {
 			$importer = new $importer_class;
-			$detect   = new WPSEO_Import_External( $importer, 'detect' );
+			$detect   = new WPSEO_Import_Plugin( $importer, 'detect' );
 			if ( $detect->status->status ) {
 				$this->needs_import[ $importer_class ] = $importer->plugin_name();
 			}

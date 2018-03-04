@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Admin\Import\External
+ * @package WPSEO\Admin\Import\Plugins
  */
 
 /**
@@ -8,7 +8,7 @@
  *
  * Class with functionality to import Yoast SEO settings from other plugins
  */
-class WPSEO_Import_HeadSpace implements WPSEO_External_Importer {
+class WPSEO_Import_HeadSpace implements WPSEO_Plugin_Importer {
 	/**
 	 * @var wpdb Holds the WPDB instance.
 	 */

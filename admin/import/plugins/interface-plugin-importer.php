@@ -1,14 +1,14 @@
 <?php
 /**
- * @package WPSEO\Admin\Import\External
+ * @package WPSEO\Admin\Import\Plugins
  */
 
 /**
- * Class WPSEO_Import_External
+ * Class WPSEO_Plugin_Importer
  *
  * Class with functionality to import Yoast SEO settings from other plugins
  */
-interface WPSEO_External_Importer {
+interface WPSEO_Plugin_Importer {
 	/**
 	 * Imports the settings and post meta data from another SEO plugin.
 	 *
