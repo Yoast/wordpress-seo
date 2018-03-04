@@ -70,4 +70,58 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 		$import->set_status( true );
 		$this->assertEquals( true, $import->status );
 	}
+
+	/**
+	 * @covers WPSEO_Import_Status::get_msg
+	 * @covers WPSEO_Import_Status::default_import_message
+	 */
+	public function test_default_import_message_true() {
+		$import = new WPSEO_Import_Status( 'import', true );
+		$this->assertEquals( '%s data successfully imported.', $import->get_msg() );
+	}
+
+	/**
+	 * @covers WPSEO_Import_Status::get_msg
+	 * @covers WPSEO_Import_Status::default_import_message
+	 */
+	public function test_default_import_message_false() {
+		$import = new WPSEO_Import_Status( 'import', false );
+		$this->assertEquals( '%s data not found.', $import->get_msg() );
+	}
+
+	/**
+	 * @covers WPSEO_Import_Status::get_msg
+	 * @covers WPSEO_Import_Status::default_detect_message
+	 */
+	public function test_default_detect_message_true() {
+		$import = new WPSEO_Import_Status( 'detect', true );
+		$this->assertEquals( '%s data found.', $import->get_msg() );
+	}
+
+	/**
+	 * @covers WPSEO_Import_Status::get_msg
+	 * @covers WPSEO_Import_Status::default_detect_message
+	 */
+	public function test_default_detect_message_false() {
+		$import = new WPSEO_Import_Status( 'detect', false );
+		$this->assertEquals( '%s data not found.', $import->get_msg() );
+	}
+
+	/**
+	 * @covers WPSEO_Import_Status::get_msg
+	 * @covers WPSEO_Import_Status::default_import_message
+	 */
+	public function test_default_cleanup_message_true() {
+		$import = new WPSEO_Import_Status( 'cleanup', true );
+		$this->assertEquals( '%s data successfully removed.', $import->get_msg() );
+	}
+
+	/**
+	 * @covers WPSEO_Import_Status::get_msg
+	 * @covers WPSEO_Import_Status::default_cleanup_message
+	 */
+	public function test_default_cleanup_message_false() {
+		$import = new WPSEO_Import_Status( 'cleanup', false );
+		$this->assertEquals( '%s data not found.', $import->get_msg() );
+	}
 }

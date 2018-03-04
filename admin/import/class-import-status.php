@@ -59,7 +59,6 @@ class WPSEO_Import_Status {
 					break;
 				case 'detect':
 					return $this->default_detect_message();
-					break;
 			}
 		}
 

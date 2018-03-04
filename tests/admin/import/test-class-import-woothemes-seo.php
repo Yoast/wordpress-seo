@@ -60,7 +60,6 @@ class WPSEO_Import_WooThemes_SEO_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_WooThemes_SEO::import
-	 * @covers WPSEO_Import_WooThemes_SEO::import_custom_values
 	 * @covers WPSEO_Import_WooThemes_SEO::import_metas
 	 */
 	public function test_import() {
@@ -73,16 +72,6 @@ class WPSEO_Import_WooThemes_SEO_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $seo_title, 'Test title' );
 		$this->assertEquals( $seo_desc, 'Test description' );
 		$this->assertEquals( $this->status( 'import', true ), $result );
-		$this->assertEquals( '', WPSEO_Options::get( 'metadesc-home-wpseo' ) );
-	}
-
-	/**
-	 * @covers WPSEO_Import_WooThemes_SEO::import
-	 * @covers WPSEO_Import_WooThemes_SEO::import_custom_values
-	 */
-	public function test_import_homepage_data() {
-		update_option( 'seo_woo_meta_home_desc', 'Home meta desc' );
-		$this->class_instance->import();
 		$this->assertEquals( '', WPSEO_Options::get( 'metadesc-home-wpseo' ) );
 	}
 

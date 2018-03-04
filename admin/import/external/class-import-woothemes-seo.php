@@ -62,7 +62,6 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 			return $this->status;
 		}
 
-		$this->import_custom_values( 'seo_woo_meta_home_desc', 'metadesc-home-wpseo' );
 		$this->import_metas();
 
 		return $this->status->set_status( true );
@@ -134,19 +133,6 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 	}
 
 	/**
-	 * Import custom descriptions and meta keys
-	 *
-	 * @param string $option Option key.
-	 * @param string $key    Internal key to import over.
-	 */
-	private function import_custom_values( $option, $key ) {
-		// Import the custom homepage description.
-		if ( 'c' === get_option( $option ) ) {
-			WPSEO_Options::set( $key, get_option( $option . '_custom' ) );
-		}
-	}
-
-	/**
 	 * Import meta values if they're applicable
 	 */
 	private function import_metas() {
@@ -161,11 +147,6 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_External_Importer {
 		// If WooSEO is set to use the Woo meta descriptions, import those.
 		if ( 'b' === get_option( 'seo_woo_meta_single_desc' ) ) {
 			WPSEO_Meta::replace_meta( 'seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
-		}
-
-		// If WooSEO is set to use the Woo meta keywords, import those.
-		if ( 'b' === get_option( 'seo_woo_meta_single_key' ) ) {
-			WPSEO_Meta::replace_meta( 'seo_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', false );
 		}
 	}
 }
