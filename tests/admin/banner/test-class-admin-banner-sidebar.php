@@ -17,7 +17,7 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->admin_banner_sidebar = new WPSEO_Admin_Banner_Sidebar( 'test-title', new WPSEO_Admin_Banner_Renderer() );
+		$this->admin_banner_sidebar = new WPSEO_Admin_Banner_Sidebar( new WPSEO_Admin_Banner_Renderer() );
 	}
 
 	/**
@@ -29,7 +29,7 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	 */
 	public function getSidebarMock( array $methods_to_mock ) {
 		return $this->getMockBuilder( 'WPSEO_Admin_Banner_Sidebar' )
-			->setConstructorArgs( array( 'test', new WPSEO_Admin_Banner_Renderer() ) )
+			->setConstructorArgs( array( new WPSEO_Admin_Banner_Renderer() ) )
 			->setMethods( $methods_to_mock )
 			->getMock();
 	}
@@ -41,18 +41,9 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Banner_Sidebar::__construct
 	 */
 	public function test_constructor() {
-		$admin_banner_sidebar = new WPSEO_Admin_Banner_Sidebar( 'test-title', new WPSEO_Admin_Banner_Renderer() );
+		$admin_banner_sidebar = new WPSEO_Admin_Banner_Sidebar( new WPSEO_Admin_Banner_Renderer() );
 
-		$this->assertEquals( 'test-title', $admin_banner_sidebar->get_title() );
-	}
-
-	/**
-	 * Test the getting of the title.
-	 *
-	 * @covers WPSEO_Admin_Banner_Sidebar::get_title
-	 */
-	public function test_get_title() {
-		$this->assertEquals( 'test-title', $this->admin_banner_sidebar->get_title() );
+		$this->assertEquals( array(), $admin_banner_sidebar->get_banner_spots() );
 	}
 
 	/**
@@ -194,7 +185,7 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	public function test_get_remove_banner_spot() {
 		$mock = $this->getSidebarMock( array( 'get_remove_banner_spot' ) );
 		$mock
-			->expects( $this->once() )
+			->expects( $this->atLeastOnce() )
 			->method( 'get_remove_banner_spot' )
 			->will(
 				$this->returnValue( new WPSEO_Admin_Banner_Spot( 'remove_banner' ) )

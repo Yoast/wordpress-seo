@@ -16,7 +16,7 @@ class WPSEO_Admin_Banner_Sidebar_Renderer_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->sidebar = new WPSEO_Admin_Banner_Sidebar( 'test_title', new WPSEO_Admin_Banner_Renderer() );
+		$this->sidebar = new WPSEO_Admin_Banner_Sidebar( new WPSEO_Admin_Banner_Renderer() );
 		$this->sidebar->initialize( new WPSEO_Features() );
 	}
 
@@ -36,9 +36,6 @@ class WPSEO_Admin_Banner_Sidebar_Renderer_Test extends WPSEO_UnitTestCase {
 		$this->stringContains(
 			'<div class="wpseo_content_cell_title yoast-sidebar__title ">', $output
 		);
-
-
-		$this->stringContains( 'test_title', $output );
 	}
 
 	/**
