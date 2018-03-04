@@ -8,9 +8,6 @@
  */
 class WPSEO_Admin_Banner_Sidebar {
 
-	/** @var string */
-	protected $title = '';
-
 	/** @var WPSEO_Admin_Banner_Spot[] */
 	protected $banner_spots = array();
 
@@ -20,21 +17,10 @@ class WPSEO_Admin_Banner_Sidebar {
 	/**
 	 * WPSEO_Admin_Banner_Sidebar constructor.
 	 *
-	 * @param string                      $title           The title for the sidebar.
 	 * @param WPSEO_Admin_Banner_Renderer $banner_renderer The render class for banners.
 	 */
-	public function __construct( $title, WPSEO_Admin_Banner_Renderer $banner_renderer ) {
-		$this->title           = $title;
+	public function __construct( WPSEO_Admin_Banner_Renderer $banner_renderer ) {
 		$this->banner_renderer = $banner_renderer;
-	}
-
-	/**
-	 * Returns the set title.
-	 *
-	 * @return string
-	 */
-	public function get_title() {
-		return $this->title;
 	}
 
 	/**
@@ -43,6 +29,7 @@ class WPSEO_Admin_Banner_Sidebar {
 	 * @param WPSEO_Features $features Class regarding WPSEO Features.
 	 */
 	public function initialize( WPSEO_Features $features ) {
+		$this->add_banner_spot( $this->get_remove_banner_spot() );
 		if ( $features->is_free() ) {
 			$this->add_banner_spot( $this->get_premium_spot() );
 		}
