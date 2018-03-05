@@ -150,7 +150,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_Plugin_Importer {
 		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', false );
 
 		// If WooSEO is set to use the Woo titles, import those.
-		if ( get_option( 'seo_woo_wp_title' ) == 'true' ) {
+		if ( get_option( 'seo_woo_wp_title' ) === 'true' ) {
 			WPSEO_Meta::replace_meta( 'seo_title', WPSEO_Meta::$meta_prefix . 'title', false );
 		}
 
