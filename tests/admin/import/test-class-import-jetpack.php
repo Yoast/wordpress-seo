@@ -56,6 +56,7 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_Jetpack_SEO::import
+	 * @covers WPSEO_Import_Jetpack_SEO::import_helper
 	 */
 	public function test_import() {
 		$post_id = $this->setup_post();
@@ -77,6 +78,7 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_Jetpack_SEO::cleanup
+	 * @covers WPSEO_Import_Jetpack_SEO::cleanup_helper
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_post();

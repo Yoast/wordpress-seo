@@ -60,7 +60,7 @@ class WPSEO_Import_WooThemes_SEO_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_WooThemes_SEO::import
-	 * @covers WPSEO_Import_WooThemes_SEO::import_metas
+	 * @covers WPSEO_Import_WooThemes_SEO::import_helper
 	 */
 	public function test_import() {
 		$post_id = $this->setup_post();
@@ -84,6 +84,7 @@ class WPSEO_Import_WooThemes_SEO_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_WooThemes_SEO::cleanup
+	 * @covers WPSEO_Import_WooThemes_SEO::cleanup_helper
 	 * @covers WPSEO_Import_WooThemes_SEO::cleanup_options
 	 * @covers WPSEO_Import_WooThemes_SEO::cleanup_meta
 	 * @covers WPSEO_Import_WooThemes_SEO::cleanup_meta_key

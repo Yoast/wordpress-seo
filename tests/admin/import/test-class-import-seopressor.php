@@ -55,6 +55,7 @@ class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_SEOPressor::import
+	 * @covers WPSEO_Import_SEOPressor::import_helper
 	 * @covers WPSEO_Import_SEOPressor::import_post_focus_keywords
 	 * @covers WPSEO_Import_SEOPressor::import_post_robots
 	 * @covers WPSEO_Import_SEOPressor::get_robot_value
@@ -90,6 +91,7 @@ class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_SEOPressor::cleanup
+	 * @covers WPSEO_Import_SEOPressor::cleanup_helper
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_post();

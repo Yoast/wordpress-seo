@@ -56,7 +56,7 @@ class WPSEO_Import_HeadSpace_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_HeadSpace::import
-	 * @covers WPSEO_Import_HeadSpace::replace_metas
+	 * @covers WPSEO_Import_HeadSpace::import_helper
 	 */
 	public function test_import_with_data() {
 		$post_id = $this->setup_post();
@@ -80,6 +80,7 @@ class WPSEO_Import_HeadSpace_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_HeadSpace::cleanup
+	 * @covers WPSEO_Import_HeadSpace::cleanup_helper
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_post();
