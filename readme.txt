@@ -98,11 +98,11 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Screenshots ==
 
 1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
-2. The fully configurable XML sitemap for Yoast SEO.
-3. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
-4. Example of the SEO analysis functionality.
-5. Example of the readability analysis functionality.
-6. The advanced section of the Yoast SEO meta box.
+2. Example of the SEO analysis functionality.
+3. Example of the readability analysis functionality.
+4. Overview of site-wide SEO problems and possible improvements.
+5. Control over which features you want to use.
+6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
 
@@ -144,6 +144,8 @@ Release Date: March 6th, 2018
 * Fixes a bug where you would not stay on the same option tab after using the save button in Safari.
 * Hides the "Save changes" button on option tabs where there is nothing to save.
 * When we set `noindex` on a page, we no longer add a canonical, to prevent confusing search engines.
+* Fixes an issue where the categories / tags overview pages were incorrectly showing elements marked as noindex when in reality they weren't set to noindex (and vice versa). This meant that blue bullets were being shown incorrectly.
+* Fixes an issue where setting posts and pages to noindex didn't change the overview.
 
 = 6.3.1 =
 Release Date: February 19th, 2018
