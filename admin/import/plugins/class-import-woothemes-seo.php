@@ -148,15 +148,7 @@ class WPSEO_Import_WooThemes_SEO implements WPSEO_Plugin_Importer {
 	private function import_metas() {
 		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );
 		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', false );
-
-		// If WooSEO is set to use the Woo titles, import those.
-		if ( get_option( 'seo_woo_wp_title' ) === true ) {
-			WPSEO_Meta::replace_meta( 'seo_title', WPSEO_Meta::$meta_prefix . 'title', false );
-		}
-
-		// If WooSEO is set to use the Woo meta descriptions, import those.
-		if ( get_option( 'seo_woo_meta_single_desc' ) === 'b' ) {
-			WPSEO_Meta::replace_meta( 'seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
-		}
+		WPSEO_Meta::replace_meta( 'seo_title', WPSEO_Meta::$meta_prefix . 'title', false );
+		WPSEO_Meta::replace_meta( 'seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
 	}
 }
