@@ -752,6 +752,7 @@ class WPSEO_OpenGraph {
 	 * @return void
 	 *
 	 * @deprecated 7.1
+	 * @codeCoverageIgnore
 	 */
 	public function site_owner() {
 		// As this is a frontend method, we want to make sure it is not displayed for non-logged in users.
