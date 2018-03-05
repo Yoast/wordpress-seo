@@ -1,4 +1,4 @@
-/* global wpseoAdminL10n, ajaxurl, tb_remove, wpseoSelect2Locale */
+/* global wpseoAdminL10n, ajaxurl, wpseoSelect2Locale */
 
 import a11ySpeak from "a11y-speak";
 
