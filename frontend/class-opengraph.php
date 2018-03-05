@@ -749,8 +749,8 @@ class WPSEO_OpenGraph {
 	 * Outputs the site owner.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 * @return boolean
-	 *
+	 * @return void
+	 * 
 	 * @deprecated 7.1
 	 */
 	public function site_owner() {
