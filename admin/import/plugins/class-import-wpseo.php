@@ -8,16 +8,16 @@
  *
  * Class with functionality to import Yoast SEO settings from wpSEO.
  */
-class WPSEO_Import_WPSEO implements WPSEO_Plugin_Importer {
+class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	/**
-	 * @var wpdb Holds the WPDB instance.
+	 * @var string The plugin name
 	 */
-	protected $wpdb;
+	protected $plugin_name = 'wpSEO.de';
 
 	/**
-	 * @var WPSEO_Import_Status
+	 * @var string Meta key, used in like clause for detect query.
 	 */
-	private $status;
+	protected $meta_key = '_wpseo_edit_%';
 
 	/**
 	 * The values 1 - 6 are the configured values from wpSEO. This array will map the values of wpSEO to our values.
@@ -61,68 +61,23 @@ class WPSEO_Import_WPSEO implements WPSEO_Plugin_Importer {
 	);
 
 	/**
-	 * WPSEO_Import_WPSEO constructor.
-	 */
-	public function __construct() {
-		global $wpdb;
-		$this->wpdb = $wpdb;
-	}
-
-	/**
-	 * Detects whether there is post meta data to import.
-	 *
-	 * @return WPSEO_Import_Status Import status object.
-	 */
-	public function detect() {
-		$this->status = new WPSEO_Import_Status( 'detect', false );
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-		return $this->status->set_status( true );
-	}
-
-	/**
 	 * Imports wpSEO settings.
 	 *
-	 * @return WPSEO_Import_Status Import status object.
+	 * @return void
 	 */
-	public function import() {
-		$this->status = new WPSEO_Import_Status( 'import', false );
-
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-
+	protected function import_helper() {
 		$this->import_post_metas();
 		$this->import_taxonomy_metas();
-
-		return $this->status->set_status( true );
 	}
 
 	/**
 	 * Removes wpseo.de post meta's.
 	 *
-	 * @return WPSEO_Import_Status Import status object.
+	 * @return void
 	 */
-	public function cleanup() {
-		$this->status = new WPSEO_Import_Status( 'cleanup', false );
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-
+	protected function cleanup_helper() {
 		$this->cleanup_term_meta();
 		$this->cleanup_post_meta();
-
-		return $this->status->set_status( true );
-	}
-
-	/**
-	 * Returns the plugin name.
-	 *
-	 * @return string Plugin name.
-	 */
-	public function plugin_name() {
-		return 'wpSEO.de';
 	}
 
 	/**
@@ -130,9 +85,8 @@ class WPSEO_Import_WPSEO implements WPSEO_Plugin_Importer {
 	 *
 	 * @return bool Boolean indicating whether there is something to import.
 	 */
-	private function detect_helper() {
-		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
-		if ( $count !== '0' ) {
+	protected function detect_helper() {
+		if ( parent::detect_helper() ) {
 			return true;
 		}
 
@@ -140,6 +94,7 @@ class WPSEO_Import_WPSEO implements WPSEO_Plugin_Importer {
 		if ( $count !== '0' ) {
 			return true;
 		}
+
 		return false;
 	}
 

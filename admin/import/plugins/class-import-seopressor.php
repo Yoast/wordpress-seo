@@ -8,100 +8,39 @@
  *
  * Class with functionality to import Yoast SEO settings from SEOpressor.
  */
-class WPSEO_Import_SEOPressor implements WPSEO_Plugin_Importer {
+class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
+	/**
+	 * @var string The plugin name
+	 */
+	protected $plugin_name = 'SEOpressor';
 
 	/**
-	 * @var wpdb Holds the WPDB instance.
+	 * @var string Meta key, used in like clause for detect query.
 	 */
-	protected $wpdb;
-
-	/**
-	 * Holds the import status object.
-	 *
-	 * @var WPSEO_Import_Status
-	 */
-	private $status;
-
-	/**
-	 * Returns the plugin name.
-	 *
-	 * @return string Plugin name.
-	 */
-	public function plugin_name() {
-		return 'SEOpressor';
-	}
-
-	/**
-	 * WPSEO_Import_SEOPressor constructor.
-	 */
-	public function __construct() {
-		global $wpdb;
-
-		$this->wpdb = $wpdb;
-	}
-
-	/**
-	 * Detects whether there is post meta data to import.
-	 *
-	 * @return WPSEO_Import_Status Import status object.
-	 */
-	public function detect() {
-		$this->status = new WPSEO_Import_Status( 'detect', false );
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-
-		return $this->status->set_status( true );
-	}
+	protected $meta_key = '_seop_settings';
 
 	/**
 	 * Imports the post meta values to Yoast SEO.
 	 *
-	 * @return WPSEO_Import_Status Import status object.
+	 * @return void
 	 */
-	public function import() {
-		$this->status = new WPSEO_Import_Status( 'import', false );
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-
+	protected function import_helper() {
 		// Query for all the posts that have an _seop_settings meta set.
 		$query_posts = new WP_Query( 'post_type=any&meta_key=_seop_settings&order=ASC&fields=ids&nopaging=true' );
 		foreach ( $query_posts->posts as $key => $post_id ) {
 			$this->import_post_focus_keywords( $post_id );
 			$this->import_seopressor_post_settings( $post_id );
 		}
-		return $this->status->set_status( true );
 	}
 
 	/**
 	 * Removes all the post meta fields SEOpressor creates.
 	 *
-	 * @return WPSEO_Import_Status Import status object.
+	 * @return void
 	 */
-	public function cleanup() {
-		$this->status = new WPSEO_Import_Status( 'cleanup', false );
-		if ( ! $this->detect_helper() ) {
-			return $this->status;
-		}
-
+	protected function cleanup_helper() {
 		// If we get to replace the data, let's do some proper cleanup.
 		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_seop_%'" );
-		return $this->status->set_status( true );
-	}
-
-	/**
-	 * Detects whether there is post meta data to import.
-	 *
-	 * @return bool Boolean indicating whether there is something to import.
-	 */
-	private function detect_helper() {
-		$result = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_seop_settings'" );
-		if ( $result === '0' ) {
-			return false;
-		}
-
-		return true;
 	}
 
 	/**

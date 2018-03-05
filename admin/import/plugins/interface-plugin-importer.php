@@ -4,11 +4,11 @@
  */
 
 /**
- * Class WPSEO_Plugin_Importer
+ * Class WPSEO_Plugin_Importer_Interface
  *
  * Class with functionality to import Yoast SEO settings from other plugins.
  */
-interface WPSEO_Plugin_Importer {
+interface WPSEO_Plugin_Importer_Interface {
 	/**
 	 * Imports the settings and post meta data from another SEO plugin.
 	 *
