@@ -4,21 +4,15 @@
  */
 
 /**
- * Class WPSEO_Import
+ * Class WPSEO_Import_Settings
  *
- * Class with functionality to import the Yoast SEO settings
+ * Class with functionality to import the Yoast SEO settings.
  */
-class WPSEO_Import {
-
+class WPSEO_Import_Settings {
 	/**
-	 * Message about the import
-	 *
-	 * @var string
+	 * @var WPSEO_Import_Status
 	 */
-	public $msg = '';
-
-	/** @var bool $success If import was a success flag. */
-	public $success = false;
+	public $status;
 
 	/**
 	 * @var array
@@ -49,8 +43,9 @@ class WPSEO_Import {
 	 * Class constructor
 	 */
 	public function __construct() {
+		$this->status = new WPSEO_Import_Status( 'import', false );
 		if ( ! $this->handle_upload() ) {
-			return;
+			return $this->status;
 		}
 
 		$this->determine_path();
@@ -58,7 +53,7 @@ class WPSEO_Import {
 		if ( ! $this->unzip_file() ) {
 			$this->clean_up();
 
-			return;
+			return $this->status;
 		}
 
 		$this->parse_options();
@@ -69,26 +64,26 @@ class WPSEO_Import {
 	/**
 	 * Handle the file upload
 	 *
-	 * @return boolean
+	 * @return boolean Import status.
 	 */
 	private function handle_upload() {
 		$overrides  = array( 'mimes' => array( 'zip' => 'application/zip' ) ); // Explicitly allow zip in multisite.
 		$this->file = wp_handle_upload( $_FILES['settings_import_file'], $overrides );
 
 		if ( is_wp_error( $this->file ) ) {
-			$this->msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $this->file->get_error_message();
+			$this->status->set_msg( __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $this->file->get_error_message() );
 
 			return false;
 		}
 
 		if ( is_array( $this->file ) && isset( $this->file['error'] ) ) {
-			$this->msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $this->file['error'];
+			$this->status->set_msg( __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $this->file['error'] );
 
 			return false;
 		}
 
 		if ( ! isset( $this->file['file'] ) ) {
-			$this->msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Upload failed.', 'wordpress-seo' );
+			$this->status->set_msg( __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Upload failed.', 'wordpress-seo' ) );
 
 			return false;
 		}
@@ -123,14 +118,14 @@ class WPSEO_Import {
 
 		if ( is_wp_error( $unzipped ) ) {
 			/* translators: %s expands to an error message. */
-			$this->msg = $msg_base . sprintf( __( 'Unzipping failed with error "%s".', 'wordpress-seo' ), $unzipped->get_error_message() );
+			$this->status->set_msg( $msg_base . sprintf( __( 'Unzipping failed with error "%s".', 'wordpress-seo' ), $unzipped->get_error_message() ) );
 
 			return false;
 		}
 
 		$this->filename = $this->path . 'settings.ini';
 		if ( ! is_file( $this->filename ) || ! is_readable( $this->filename ) ) {
-			$this->msg = $msg_base . __( 'Unzipping failed - file settings.ini not found.', 'wordpress-seo' );
+			$this->status->set_msg( $msg_base . __( 'Unzipping failed - file settings.ini not found.', 'wordpress-seo' ) );
 
 			return false;
 		}
@@ -150,40 +145,24 @@ class WPSEO_Import {
 		$options = parse_ini_file( $this->filename, true, INI_SCANNER_RAW );
 
 		if ( is_array( $options ) && $options !== array() ) {
-			if ( isset( $options['wpseo']['version'] ) && $options['wpseo']['version'] !== '' ) {
-				$this->old_wpseo_version = $options['wpseo']['version'];
-			}
-			foreach ( $options as $name => $opt_group ) {
-				$this->parse_option_group( $name, $opt_group, $options );
-			}
-			$this->msg     = __( 'Settings successfully imported.', 'wordpress-seo' );
-			$this->success = true;
+			$this->import_options( $options );
+			return;
 		}
-		else {
-			$this->msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' );
-		}
+		$this->status->set_msg( __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' ) );
 	}
 
 	/**
 	 * Parse the option group and import it
 	 *
-	 * @param string $name      Name string.
-	 * @param array  $opt_group Option group data.
-	 * @param array  $options   Options data.
+	 * @param string $name         Name string.
+	 * @param array  $option_group Option group data.
+	 * @param array  $options      Options data.
 	 */
-	private function parse_option_group( $name, $opt_group, $options ) {
-		if ( $name === 'wpseo_taxonomy_meta' ) {
-			$opt_group = json_decode( urldecode( $opt_group['wpseo_taxonomy_meta'] ), true );
-		}
-
+	private function parse_option_group( $name, $option_group, $options ) {
 		// Make sure that the imported options are cleaned/converted on import.
 		$option_instance = WPSEO_Options::get_option_instance( $name );
 		if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
-			$option_instance->import( $opt_group, $this->old_wpseo_version, $options );
-		}
-		elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
-			/* translators: %s expands to the name of an outdated setting. */
-			$this->msg = sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name );
+			$option_instance->import( $option_group, $this->old_wpseo_version, $options );
 		}
 	}
 
@@ -201,5 +180,22 @@ class WPSEO_Import {
 			$wp_file = new WP_Filesystem_Direct( $this->path );
 			$wp_file->rmdir( $this->path, true );
 		}
+	}
+
+	/**
+	 * Imports the options if found.
+	 *
+	 * @param array $options The options parsed from the ini file.
+	 */
+	private function import_options( $options ) {
+		if ( isset( $options['wpseo']['version'] ) && $options['wpseo']['version'] !== '' ) {
+			$this->old_wpseo_version = $options['wpseo']['version'];
+		}
+
+		foreach ( $options as $name => $option_group ) {
+			$this->parse_option_group( $name, $option_group, $options );
+		}
+		$this->status->set_msg( __( 'Settings successfully imported.', 'wordpress-seo' ) );
+		$this->status->set_status( true );
 	}
 }
