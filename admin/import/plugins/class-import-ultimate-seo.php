@@ -32,13 +32,4 @@ class WPSEO_Import_Ultimate_SEO extends WPSEO_Plugin_Importer {
 		WPSEO_Meta::replace_meta( '_su_title', WPSEO_Meta::$meta_prefix . 'title', false );
 	}
 
-	/**
-	 * Removes all leftover SEO ultimate data from the database.
-	 *
-	 * @return void
-	 */
-	protected function cleanup_helper() {
-		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_su_%'" );
-	}
-
 }

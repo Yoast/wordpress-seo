@@ -20,15 +20,6 @@ class WPSEO_Import_Jetpack_SEO extends WPSEO_Plugin_Importer {
 	protected $meta_key = 'advanced_seo_description';
 
 	/**
-	 * Removes the Jetpack SEO data from the database.
-	 *
-	 * @return void
-	 */
-	protected function cleanup_helper() {
-		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key = 'advanced_seo_description'" );
-	}
-
-	/**
 	 * Imports Jetpack SEO meta values.
 	 *
 	 * @return void

@@ -20,15 +20,6 @@ class WPSEO_Import_HeadSpace extends WPSEO_Plugin_Importer {
 	protected $meta_key = '_headspace_%';
 
 	/**
-	 * Removes the HeadSpace data from the database.
-	 *
-	 * @return void
-	 */
-	protected function cleanup_helper() {
-		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '\_headspace\_%'" );
-	}
-
-	/**
 	 * Imports the simple meta fields.
 	 *
 	 * @return void

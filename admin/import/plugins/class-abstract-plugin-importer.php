@@ -91,11 +91,13 @@ abstract class WPSEO_Plugin_Importer implements WPSEO_Plugin_Importer_Interface 
 	}
 
 	/**
-	 * Cleans up the data from another SEO plugin (preferably after a successful import).
+	 * Removes the plugin data from the database.
 	 *
 	 * @return void
 	 */
-	abstract protected function cleanup_helper();
+	protected function cleanup_helper() {
+		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE %s", $this->meta_key ) );
+	}
 
 	/**
 	 * Detects whether an import for this plugin is needed.
