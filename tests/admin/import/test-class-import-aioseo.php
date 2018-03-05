@@ -23,8 +23,6 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_AIOSEO::plugin_name
-	 *
-	 * @group test
 	 */
 	public function test_plugin_name() {
 		$this->assertEquals( 'All In One SEO Pack', $this->class_instance->plugin_name() );
