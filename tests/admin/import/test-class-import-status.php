@@ -4,7 +4,7 @@
  */
 
 /**
- * Unit test class.
+ * Tests for our import status object.
  */
 class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 

@@ -4,7 +4,7 @@
  */
 
 /**
- * Unit test class.
+ * Tests for our wrapper import class.
  */
 class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 

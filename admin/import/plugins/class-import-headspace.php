@@ -103,7 +103,7 @@ class WPSEO_Import_HeadSpace implements WPSEO_Plugin_Importer {
 	}
 
 	/**
-	 * Imports the simple meta fields
+	 * Imports the simple meta fields.
 	 *
 	 * @return void
 	 */
