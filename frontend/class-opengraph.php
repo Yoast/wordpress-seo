@@ -750,7 +750,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 * @return void
-	 * 
+	 *
 	 * @deprecated 7.1
 	 */
 	public function site_owner() {
