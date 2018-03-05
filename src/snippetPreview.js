@@ -43,7 +43,7 @@ var defaults = {
 	},
 	addTrailingSlash: true,
 	metaDescriptionDate: "",
-	previewMode: "desktop",
+	previewMode: "mobile",
 
 };
 
@@ -266,23 +266,29 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
  *
  * @property {Object}      element                        - The elements for this snippet editor.
+ *
+ * @property {Object}      element.measurers              - The elements for rendered measurements.
+ * @property {HTMLElement} element.measurers.metaHeight   - The rendered meta height element.
+ *
  * @property {Object}      element.rendered               - The rendered elements.
  * @property {HTMLElement} element.rendered.title         - The rendered title element.
  * @property {HTMLElement} element.rendered.urlPath       - The rendered url path element.
  * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
  * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
  *
- * @property {HTMLElement} element.measurers.titleWidth   - The rendered title width element.
- * @property {HTMLElement} element.measurers.metaHeight   - The rendered meta height element.
- *
  * @property {Object}      element.input                  - The input elements.
  * @property {HTMLElement} element.input.title            - The title input element.
  * @property {HTMLElement} element.input.urlPath          - The url path input element.
  * @property {HTMLElement} element.input.metaDesc         - The meta description input element.
  *
- * @property {HTMLElement} element.container              - The main container element.
+ * @property {Object}      element.progress               - The progress bar elements.
+ * @property {HTMLElement} element.progress.title         - The title progress par.
+ * @property {HTMLElement} element.progress.metaDesc      - The meta description progress bar.
+ *
  * @property {HTMLElement} element.formContainer          - The form container element.
  * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
+ * @property {HTMLElement} element.closeEditor            - The button that closes the editor form.
+ * @property {Array}       element.formFields             - Other form fields, e.g. the ones in the Social Previews.
  *
  * @property {Object}      data                           - The data for this snippet editor.
  * @property {string}      data.title                     - The title.
@@ -406,7 +412,6 @@ SnippetPreview.prototype.renderTemplate = function() {
 			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[ 0 ],
 			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[ 0 ],
 		},
-		container: document.getElementById( "snippet_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[ 0 ],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[ 0 ],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[ 0 ],
@@ -437,7 +442,6 @@ SnippetPreview.prototype.renderTemplate = function() {
 	}
 
 	this.initPreviewToggler();
-	this.setInitialView();
 
 	this.opened = false;
 	this.createMeasurementElements();
@@ -945,20 +949,11 @@ SnippetPreview.prototype.updateProgressBars = function() {
 };
 
 /**
- * Gets the width of the Snippet Preview to set its initial view to desktop or mobile.
- * @returns {void}
- */
-SnippetPreview.prototype.setInitialView = function() {
-	var previewWidth = document.getElementById( "snippet_preview" ).getBoundingClientRect().width;
-	this.snippetPreviewToggle.setVisibility( previewWidth );
-};
-
-/**
  * When the window is resized, gets the width of the Snippet Preview to set the Scroll Hint visibility.
  * @returns {void}
  */
 SnippetPreview.prototype.handleWindowResizing = debounce( function() {
-	var previewWidth = document.getElementById( "snippet_preview" ).getBoundingClientRect().width;
+	var previewWidth = this.snippetPreviewToggle.viewElement.getBoundingClientRect().width;
 	this.snippetPreviewToggle.setScrollHintVisibility( previewWidth );
 }, 25 );
 
@@ -1074,7 +1069,7 @@ SnippetPreview.prototype.openEditor = function() {
  */
 SnippetPreview.prototype.closeEditor = function() {
 	// Hide these elements.
-	domManipulation.addClass( this.element.formContainer,     "snippet-editor--hidden" );
+	domManipulation.addClass( this.element.formContainer, "snippet-editor--hidden" );
 
 	this.element.editToggle.setAttribute( "aria-expanded", "false" );
 	this.element.editToggle.focus();
@@ -1233,6 +1228,19 @@ SnippetPreview.prototype.measureMetaDescription = function() {
  */
 SnippetPreview.prototype.getTitleWidth = function() {
 	return this.data.titleWidth;
+};
+
+/**
+ * Allows to manually set the title width.
+ *
+ * This may be useful in setups where the title field will not always be rendered.
+ *
+ * @param {Number} titleWidth The width of the title in pixels.
+ *
+ * @returns {void}
+ */
+SnippetPreview.prototype.setTitleWidth = function( titleWidth ) {
+	this.data.titleWidth = titleWidth;
 };
 
 /**

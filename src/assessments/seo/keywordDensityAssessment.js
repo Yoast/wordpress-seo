@@ -1,5 +1,4 @@
 var AssessmentResult = require( "../../values/AssessmentResult.js" );
-var matchWords = require( "../../stringProcessing/matchTextWithWord.js" );
 var countWords = require( "../../stringProcessing/countWords.js" );
 var formatNumber = require( "../../helpers/formatNumber.js" );
 var inRange = require( "../../helpers/inRange.js" );
@@ -18,7 +17,6 @@ var inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
  */
 var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount ) {
 	var score, text, max;
-
 	var roundedKeywordDensity = formatNumber( keywordDensity );
 	var keywordDensityPercentage = roundedKeywordDensity + "%";
 
@@ -86,7 +84,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
  */
 var keywordDensityAssessment = function( paper, researcher, i18n ) {
 	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
-	var keywordCount = matchWords( paper.getText(), paper.getKeyword(), paper.getLocale() );
+	var keywordCount = researcher.getResearch( "keywordCount" );
 
 	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n, keywordCount );
 	var assessmentResult = new AssessmentResult();

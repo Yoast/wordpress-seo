@@ -12,6 +12,23 @@ describe( "A test for checking the Spanish participle", function() {
 		// Direct precedence exception word: un.
 		let mockParticiple = new SpanishParticiple( "sentido", "fue un sentido monumental y grandilocuente.", { auxiliaries: [ "fue" ], type: "irregular" } );
 		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 7 ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 7 ) ).toBe( false );
+		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	});
+
+	it( "checks the properties of the Spanish participle object with a precedence exception (directly preceding)", function() {
+		// Precedence exception word: estaban.
+		let mockParticiple = new SpanishParticiple( "armados", "eran casi en su totalidad exsamuráis y estaban armados", { auxiliaries: [ "eran" ], type: "irregular" } );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 47 ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 47 ) ).toBe( true );
+		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	});
+
+	it( "checks the properties of the Spanish participle object with a precedence exception (indirectly preceding)", function() {
+		// Precedence exception word: estaban.
+		let mockParticiple = new SpanishParticiple( "esperado", "son famosos estaban en un programa de televisión muy esperado.", { auxiliaries: [ "son" ], type: "irregular" } );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 53 ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 53 ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
@@ -20,6 +37,7 @@ describe( "A test for checking the Spanish participle", function() {
 		mockParticiple._participle = null;
 		checkException.call( mockParticiple );
 		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 4 ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 4 ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 });

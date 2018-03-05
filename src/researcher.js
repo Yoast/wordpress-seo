@@ -14,7 +14,8 @@ var getLinks = require( "./researches/getLinks.js" );
 var urlLength = require( "./researches/urlIsTooLong.js" );
 var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
 var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
-var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
+const getKeywordDensity = require( "./researches/getKeywordDensity.js" );
+const keywordCount = require( "./researches/keywordCount" );
 var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
 var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
 var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
@@ -35,6 +36,7 @@ var findTransitionWords = require( "./researches/findTransitionWords.js" );
 var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 var relevantWords = require( "./researches/relevantWords" );
+var readingTime = require( "./researches/readingTime" );
 
 /**
  * This contains all possible, default researches.
@@ -56,6 +58,7 @@ var Researcher = function( paper ) {
 		imageCount: imageCount,
 		altTagCount: altTagCount,
 		matchKeywordInSubheadings: matchKeywordInSubheadings,
+		keywordCount: keywordCount,
 		getKeywordDensity: getKeywordDensity,
 		stopWordsInKeyword: stopWordsInKeyword,
 		stopWordsInUrl: stopWordsInUrl,
@@ -74,6 +77,7 @@ var Researcher = function( paper ) {
 		passiveVoice: passiveVoice,
 		getSentenceBeginnings: getSentenceBeginnings,
 		relevantWords: relevantWords,
+		readingTime: readingTime,
 		sentences,
 	};
 
