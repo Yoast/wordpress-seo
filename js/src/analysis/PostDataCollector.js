@@ -28,6 +28,15 @@ let PostDataCollector = function( args ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
 
+	if( typeof window._wpGutenbergPost !== "undefined" ) {
+		this.selectors = {};
+		this.isGutenberg = true;
+		const select =  _get( window, "wp.data.select" );
+		if ( select ) {
+			this.selectors = select( "core/editor" ) || {};
+		}
+	}
+
 	this._tabManager = args.tabManager;
 };
 
@@ -102,6 +111,9 @@ PostDataCollector.prototype.getText = function() {
  * @returns {string} The title.
  */
 PostDataCollector.prototype.getTitle = function() {
+	if( this.isGutenberg ) {
+		return this.selectors.getEditedPostAttribute( "title" );
+	}
 	return document.getElementById( "title" ) && document.getElementById( "title" ).value || "";
 };
 
