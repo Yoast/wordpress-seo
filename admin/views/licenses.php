@@ -26,7 +26,7 @@ $extensions->add(
 			'title'     => 'Yoast SEO Premium',
 			/* translators: %1$s expands to Yoast SEO */
 			'desc'      => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
-			'image'     => plugins_url( 'images/extensions-premium-ribbon.png', WPSEO_FILE ),
+			'image'     => plugins_url( 'images/extensions-premium-ribbon.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
 			'benefits'  => array(),
 		)
 	)
@@ -40,7 +40,7 @@ $extensions->add(
 			'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zw/' ),
 			'title'     => 'Video SEO',
 			'desc'      => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
-			'image'     => plugins_url( 'images/extensions-video.png', WPSEO_FILE ),
+			'image'     => plugins_url( 'images/extensions-video.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
 			'benefits'  => array(
 				__( 'Show your videos in Google Videos', 'wordpress-seo' ),
 				__( 'Enhance the experience of sharing posts with videos', 'wordpress-seo' ),
@@ -58,7 +58,7 @@ $extensions->add(
 			'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zu/' ),
 			'title'     => 'News SEO',
 			'desc'      => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
-			'image'     => plugins_url( 'images/extensions-news.png', WPSEO_FILE ),
+			'image'     => plugins_url( 'images/extensions-news.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
 			'benefits'  => array(
 				__( 'Optimize your site for Google News', 'wordpress-seo' ),
 				__( 'Immediately pings Google on the publication of a new post', 'wordpress-seo' ),
@@ -77,7 +77,7 @@ if ( ! defined( 'WPSEO_LOCAL_WOOCOMMERCE_VERSION' ) ) {
 				'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
 				'title'     => 'Local SEO',
 				'desc'      => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
-				'image'     => plugins_url( 'images/extensions-local.png', WPSEO_FILE ),
+				'image'     => plugins_url( 'images/extensions-local.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
 				'benefits'  => array(
 					__( 'Get found by potential clients', 'wordpress-seo' ),
 					__( 'Easily insert Google Maps, a store locator, opening hours and more', 'wordpress-seo' ),
@@ -96,7 +96,7 @@ $extensions->add(
 			'infoUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/273' ),
 			'title'     => 'Local SEO for WooCommerce',
 			'desc'      => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
-			'image'     => plugins_url( 'images/extensions-local-for-woocommerce.png', WPSEO_FILE ),
+			'image'     => plugins_url( 'images/extensions-local-for-woocommerce.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
 			'benefits'  => array(
 				esc_html__( 'Get better search results in local search', 'wordpress-seo' ),
 				esc_html__( 'Enhance your contact pages with Google Maps, opening hours and a store locator', 'wordpress-seo' ),
@@ -118,7 +118,7 @@ if ( class_exists( 'Woocommerce' ) ) {
 				'title'      => 'Yoast WooCommerce SEO',
 				/* translators: %1$s expands to Yoast SEO */
 				'desc'       => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
-				'image'      => plugins_url( 'images/extensions-woo.png', WPSEO_FILE ),
+				'image'      => plugins_url( 'images/extensions-woo.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
 				'benefits'   => array(
 					sprintf( __( 'Improve sharing on Pinterest', 'wordpress-seo' ) ),
 
