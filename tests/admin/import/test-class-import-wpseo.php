@@ -4,7 +4,7 @@
  */
 
 /**
- * Unit test class.
+ * Test importing meta data from wpSEO.de.
  */
 class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	/**
@@ -54,14 +54,14 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_Import_WPSEO::detect_helper
 	 * @covers WPSEO_Import_WPSEO::import
 	 * @covers WPSEO_Import_WPSEO::import_post_metas
 	 * @covers WPSEO_Import_WPSEO::import_post_robot
 	 * @covers WPSEO_Import_WPSEO::import_post_robots
 	 * @covers WPSEO_Import_WPSEO::get_robot_value
-	 * @covers WPSEO_Import_WPSEO::import_taxonomy_metas
-	 * @covers WPSEO_Import_WPSEO::import_taxonomy_robots
-	 * @covers WPSEO_Import_WPSEO::import_taxonomy_description
+	 *
+	 * @group  test
 	 */
 	public function test_import() {
 		$post_id = $this->setup_data();
@@ -72,16 +72,35 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 		$robots_noindex  = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', true );
 		$robots_nofollow = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', true );
 
-		$cat_metadesc = WPSEO_Taxonomy_Meta::get_term_meta( 'test-category', 'category', 'desc' );
-		$cat_robots   = WPSEO_Taxonomy_Meta::get_term_meta( 'test-category', 'category', 'noindex' );
-
 		$this->assertEquals( 'Test title', $seo_title );
 		$this->assertEquals( 'Test description', $seo_desc );
 		$this->assertEquals( 1, $robots_noindex );
 		$this->assertEquals( 1, $robots_nofollow );
+		$this->assertEquals( $this->status( 'import', true ), $result );
+	}
+
+	/**
+	 * @covers WPSEO_Import_WPSEO::detect_helper
+	 * @covers WPSEO_Import_WPSEO::import
+	 * @covers WPSEO_Import_WPSEO::import_taxonomy_metas
+	 * @covers WPSEO_Import_WPSEO::import_taxonomy_robots
+	 * @covers WPSEO_Import_WPSEO::import_taxonomy_description
+	 *
+	 * @group test
+	 */
+	public function test_import_category() {
+		$this->create_category_metadata( 'test-category', 'Test-category description', 5 );
+		$this->create_category_metadata( 'test-category-2', 'Test-category 2 description', 6 );
+		$result = $this->class_instance->import();
+
+		$cat_metadesc = WPSEO_Taxonomy_Meta::get_term_meta( 'test-category', 'category', 'desc' );
+		$cat_robots   = WPSEO_Taxonomy_Meta::get_term_meta( 'test-category', 'category', 'noindex' );
+		$cat_robots_2 = WPSEO_Taxonomy_Meta::get_term_meta( 'test-category-2', 'category', 'noindex' );
+
+		$this->assertEquals( $this->status( 'import', true ), $result );
 		$this->assertEquals( 'Test-category description', $cat_metadesc );
 		$this->assertEquals( 'noindex', $cat_robots );
-		$this->assertEquals( $this->status( 'import', true ), $result );
+		$this->assertEquals( 'index', $cat_robots_2 );
 	}
 
 	/**
@@ -130,14 +149,16 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	 * @param string $action The action to return.
 	 * @param bool   $bool   The status.
 	 *
-	 * @return WPSEO_Import_Status
+	 * @return WPSEO_Import_Status Import status object.
 	 */
 	private function status( $action, $bool ) {
 		return new WPSEO_Import_Status( $action, $bool );
 	}
 
 	/**
-	 * Sets up a test post
+	 * Sets up a test post.
+	 *
+	 * @return int $post_id ID for the post created.
 	 */
 	private function setup_data() {
 		$post_id = $this->factory()->post->create();
@@ -145,15 +166,26 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 		update_post_meta( $post_id, '_wpseo_edit_description', 'Test description' );
 		update_post_meta( $post_id, '_wpseo_edit_robots', 5 );
 
+		return $post_id;
+	}
+
+	/**
+	 * Helper function to create category metadata.
+	 *
+	 * @param string $name   Category name and slug.
+	 * @param string $desc   Category meta description.
+	 * @param int    $robots Category wpSEO.de robots setting.
+	 *
+	 * @return void
+	 */
+	private function create_category_metadata( $name, $desc, $robots ) {
 		$term_id = $this->factory->term->create(
 			array(
-				'name'     => 'test-category',
+				'name'     => $name,
 				'taxonomy' => 'category',
 			)
 		);
-		update_option( 'wpseo_category_' . $term_id, 'Test-category description' );
-		update_option( 'wpseo_category_' . $term_id . '_robots', 5 );
-
-		return $post_id;
+		update_option( 'wpseo_category_' . $term_id, $desc );
+		update_option( 'wpseo_category_' . $term_id . '_robots', $robots );
 	}
 }

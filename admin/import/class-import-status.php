@@ -46,29 +46,24 @@ class WPSEO_Import_Status {
 	/**
 	 * Get the import message.
 	 *
-	 * @return string
+	 * @return string Message about current status.
 	 */
 	public function get_msg() {
-		if ( $this->msg === '' ) {
-			switch ( $this->action ) {
-				case 'import':
-					return $this->default_import_message();
-					break;
-				case 'cleanup':
-					return $this->default_cleanup_message();
-					break;
-				case 'detect':
-					return $this->default_detect_message();
-			}
+		if ( $this->msg !== '' ) {
+			return $this->msg;
 		}
 
-		return $this->msg;
+		if ( $this->status === false ) {
+			return __( '%s data not found.', 'wordpress-seo' );
+		}
+
+		return $this->get_default_success_message();
 	}
 
 	/**
 	 * Get the import action.
 	 *
-	 * @return string
+	 * @return string Import action type.
 	 */
 	public function get_action() {
 		return $this->action;
@@ -78,6 +73,8 @@ class WPSEO_Import_Status {
 	 * Set the import action, set status to false.
 	 *
 	 * @param string $action The type of action to set as import action.
+	 *
+	 * @return void
 	 */
 	public function set_action( $action ) {
 		$this->action = $action;
@@ -88,13 +85,15 @@ class WPSEO_Import_Status {
 	 * Sets the importer status message.
 	 *
 	 * @param string $msg The message to set.
+	 *
+	 * @return void
 	 */
 	public function set_msg( $msg ) {
 		$this->msg = $msg;
 	}
 
 	/**
-	 * Set the importer status.
+	 * Sets the importer status.
 	 *
 	 * @param bool $status The status to set.
 	 *
@@ -107,41 +106,21 @@ class WPSEO_Import_Status {
 	}
 
 	/**
-	 * Returns the default import message for the current status.
+	 * Depending on the action returns a success message.
 	 *
-	 * @return string
+	 * @return string Returns a success message for the current action.
 	 */
-	private function default_import_message() {
-		if ( $this->status ) {
-			return __( '%s data successfully imported.', 'wordpress-seo' );
+	private function get_default_success_message() {
+		switch ( $this->action ) {
+			case 'import':
+				return __( '%s data successfully imported.', 'wordpress-seo' );
+				break;
+			case 'cleanup':
+				return __( '%s data successfully removed.', 'wordpress-seo' );
+				break;
+			case 'detect':
+			default:
+				return __( '%s data found.', 'wordpress-seo' );
 		}
-
-		return __( '%s data not found.', 'wordpress-seo' );
-	}
-
-	/**
-	 * Returns the default cleanup message for the current status.
-	 *
-	 * @return string
-	 */
-	private function default_cleanup_message() {
-		if ( $this->status ) {
-			return __( '%s data successfully removed.', 'wordpress-seo' );
-		}
-
-		return __( '%s data not found.', 'wordpress-seo' );
-	}
-
-	/**
-	 * Returns the default detect message for the current status.
-	 *
-	 * @return string
-	 */
-	private function default_detect_message() {
-		if ( $this->status ) {
-			return __( '%s data found.', 'wordpress-seo' );
-		}
-
-		return __( '%s data not found.', 'wordpress-seo' );
 	}
 }

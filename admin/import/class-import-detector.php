@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Import_Plugins_Detector
  *
- * Class with functionality to detect whether we should import from another SEO plugin
+ * Class with functionality to detect whether we should import from another SEO plugin.
  */
 class WPSEO_Import_Plugins_Detector {
 	/**
@@ -18,7 +18,7 @@ class WPSEO_Import_Plugins_Detector {
 	 * Detects whether we need to import anything.
 	 */
 	public function detect() {
-		foreach ( WPSEO_Plugin_Importers::$importers as $importer_class ) {
+		foreach ( WPSEO_Plugin_Importers::get() as $importer_class ) {
 			$importer = new $importer_class;
 			$detect   = new WPSEO_Import_Plugin( $importer, 'detect' );
 			if ( $detect->status->status ) {

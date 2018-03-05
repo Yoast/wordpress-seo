@@ -14,7 +14,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-// Determine if we have plugins we can import from, if so, load that tab, otherwise, load an empty tab.
+// Determine if we have plugins we can import from. If so, load that tab. Otherwise, load an empty tab.
 $import_check = new WPSEO_Import_Plugins_Detector();
 $import_check->detect();
 if ( count( $import_check->needs_import ) === 0 ) {
@@ -27,10 +27,12 @@ if ( count( $import_check->needs_import ) === 0 ) {
 }
 
 /**
- * Create a select box given a name and plugins array.
+ * Creates a select box given a name and plugins array.
  *
  * @param string $name    Name field for the select field.
- * @param array  $plugins An array of plugins & classes.
+ * @param array  $plugins An array of plugins and classes.
+ *
+ * @return void
  */
 function wpseo_import_external_select( $name, $plugins ) {
 	_e( 'Plugin: ', 'wordpress-seo' );

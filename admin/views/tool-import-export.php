@@ -46,7 +46,7 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 /**
  * Allow custom import actions.
  *
- * @api WPSEO_Import_Status $import Contains info about the handled import
+ * @api WPSEO_Import_Status $import Contains info about the handled import.
  */
 $import = apply_filters( 'wpseo_handle_import', $import );
 
@@ -59,7 +59,10 @@ if ( $import ) {
 	$msg = apply_filters( 'wpseo_import_message', $import->status->get_msg() );
 
 	if ( ! empty( $msg ) ) {
-		$status = ( $import->status->status ) ? 'updated' : 'error';
+		$status = 'error';
+		if ( $import->status->status ) {
+			$status = 'updated';
+		}
 
 		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
 	}

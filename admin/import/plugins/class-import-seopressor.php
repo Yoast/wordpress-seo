@@ -25,7 +25,7 @@ class WPSEO_Import_SEOPressor implements WPSEO_Plugin_Importer {
 	/**
 	 * Returns the plugin name.
 	 *
-	 * @return string
+	 * @return string Plugin name.
 	 */
 	public function plugin_name() {
 		return 'SEOpressor';
@@ -41,9 +41,9 @@ class WPSEO_Import_SEOPressor implements WPSEO_Plugin_Importer {
 	}
 
 	/**
-	 * Detect whether there is post meta data to import.
+	 * Detects whether there is post meta data to import.
 	 *
-	 * @return WPSEO_Import_Status
+	 * @return WPSEO_Import_Status Import status object.
 	 */
 	public function detect() {
 		$this->status = new WPSEO_Import_Status( 'detect', false );
@@ -57,7 +57,7 @@ class WPSEO_Import_SEOPressor implements WPSEO_Plugin_Importer {
 	/**
 	 * Imports the post meta values to Yoast SEO.
 	 *
-	 * @return WPSEO_Import_Status
+	 * @return WPSEO_Import_Status Import status object.
 	 */
 	public function import() {
 		$this->status = new WPSEO_Import_Status( 'import', false );
@@ -67,7 +67,7 @@ class WPSEO_Import_SEOPressor implements WPSEO_Plugin_Importer {
 
 		// Query for all the posts that have an _seop_settings meta set.
 		$query_posts = new WP_Query( 'post_type=any&meta_key=_seop_settings&order=ASC&fields=ids&nopaging=true' );
-		foreach ( array_values( $query_posts->posts ) as $post_id ) {
+		foreach ( $query_posts->posts as $key => $post_id ) {
 			$this->import_post_focus_keywords( $post_id );
 			$this->import_seopressor_post_settings( $post_id );
 		}
@@ -77,7 +77,7 @@ class WPSEO_Import_SEOPressor implements WPSEO_Plugin_Importer {
 	/**
 	 * Removes all the post meta fields SEOpressor creates.
 	 *
-	 * @return WPSEO_Import_Status
+	 * @return WPSEO_Import_Status Import status object.
 	 */
 	public function cleanup() {
 		$this->status = new WPSEO_Import_Status( 'cleanup', false );
@@ -91,9 +91,9 @@ class WPSEO_Import_SEOPressor implements WPSEO_Plugin_Importer {
 	}
 
 	/**
-	 * Detect whether there is post meta data to import.
+	 * Detects whether there is post meta data to import.
 	 *
-	 * @return bool
+	 * @return bool Boolean indicating whether there is something to import.
 	 */
 	private function detect_helper() {
 		$result = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_seop_settings'" );

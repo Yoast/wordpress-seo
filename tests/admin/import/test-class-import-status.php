@@ -73,7 +73,7 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_Status::get_msg
-	 * @covers WPSEO_Import_Status::default_import_message
+	 * @covers WPSEO_Import_Status::get_default_success_message
 	 */
 	public function test_default_import_message_true() {
 		$import = new WPSEO_Import_Status( 'import', true );
@@ -82,7 +82,6 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_Status::get_msg
-	 * @covers WPSEO_Import_Status::default_import_message
 	 */
 	public function test_default_import_message_false() {
 		$import = new WPSEO_Import_Status( 'import', false );
@@ -91,7 +90,7 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_Status::get_msg
-	 * @covers WPSEO_Import_Status::default_detect_message
+	 * @covers WPSEO_Import_Status::get_default_success_message
 	 */
 	public function test_default_detect_message_true() {
 		$import = new WPSEO_Import_Status( 'detect', true );
@@ -100,7 +99,6 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_Status::get_msg
-	 * @covers WPSEO_Import_Status::default_detect_message
 	 */
 	public function test_default_detect_message_false() {
 		$import = new WPSEO_Import_Status( 'detect', false );
@@ -109,7 +107,7 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_Status::get_msg
-	 * @covers WPSEO_Import_Status::default_cleanup_message
+	 * @covers WPSEO_Import_Status::get_default_success_message
 	 */
 	public function test_default_cleanup_message_true() {
 		$import = new WPSEO_Import_Status( 'cleanup', true );
@@ -118,7 +116,6 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_Status::get_msg
-	 * @covers WPSEO_Import_Status::default_cleanup_message
 	 */
 	public function test_default_cleanup_message_false() {
 		$import = new WPSEO_Import_Status( 'cleanup', false );

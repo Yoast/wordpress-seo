@@ -12,7 +12,7 @@ class WPSEO_Plugin_Importers {
 	/**
 	 * @var array
 	 */
-	public static $importers = array(
+	private static $importers = array(
 		'WPSEO_Import_AIOSEO',
 		'WPSEO_Import_HeadSpace',
 		'WPSEO_Import_Jetpack_SEO',
@@ -21,4 +21,13 @@ class WPSEO_Plugin_Importers {
 		'WPSEO_Import_WooThemes_SEO',
 		'WPSEO_Import_WPSEO',
 	);
+
+	/**
+	 * Returns an array of importers available.
+	 *
+	 * @return array Available importers.
+	 */
+	public static function get() {
+		return self::$importers;
+	}
 }

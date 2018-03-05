@@ -4,7 +4,7 @@
  */
 
 /**
- * Unit test class.
+ * Test importing meta data from Jetpack SEO.
  */
 class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 	/**
@@ -54,7 +54,7 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $this->status( 'import', false ), $result );
 	}
 
-		/**
+	/**
 	 * @covers WPSEO_Import_Jetpack_SEO::import
 	 */
 	public function test_import() {
@@ -94,14 +94,16 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 	 * @param string $action The action to return.
 	 * @param bool   $bool   The status.
 	 *
-	 * @return WPSEO_Import_Status
+	 * @return WPSEO_Import_Status Import status object.
 	 */
 	private function status( $action, $bool ) {
 		return new WPSEO_Import_Status( $action, $bool );
 	}
 
 	/**
-	 * Sets up a test post
+	 * Sets up a test post.
+	 *
+	 * @return int $post_id ID for the post created.
 	 */
 	private function setup_post() {
 		$post_id = $this->factory()->post->create();

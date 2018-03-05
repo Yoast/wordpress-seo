@@ -30,19 +30,20 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_Plugin_Importer {
 	/**
 	 * Returns the plugin name.
 	 *
-	 * @return string
+	 * @return string Plugin name.
 	 */
 	public function plugin_name() {
 		return 'Ultimate SEO';
 	}
 
 	/**
-	 * Detect whether there is post meta data to import.
+	 * Detects whether there is post meta data to import.
 	 *
-	 * @return WPSEO_Import_Status
+	 * @return WPSEO_Import_Status Import status object.
 	 */
 	public function detect() {
 		$this->status = new WPSEO_Import_Status( 'detect', false );
+
 		if ( ! $this->detect_helper() ) {
 			return $this->status;
 		}
@@ -53,10 +54,11 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_Plugin_Importer {
 	/**
 	 * Imports the Ultimate SEO  meta values.
 	 *
-	 * @returns WPSEO_Import_Status
+	 * @returns WPSEO_Import_Status Import status object.
 	 */
 	public function import() {
 		$this->status = new WPSEO_Import_Status( 'import', false );
+
 		if ( ! $this->detect_helper() ) {
 			return $this->status;
 		}
@@ -75,23 +77,24 @@ class WPSEO_Import_Ultimate_SEO implements WPSEO_Plugin_Importer {
 	/**
 	 * Removes all leftover SEO ultimate data from the database.
 	 *
-	 * @return WPSEO_Import_Status
+	 * @return WPSEO_Import_Status Import status object.
 	 */
 	public function cleanup() {
 		$this->status = new WPSEO_Import_Status( 'cleanup', false );
 
-		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_su_%'" );
-		if ( $affected_rows > 0 ) {
-			return $this->status->set_status( true );
+		if ( ! $this->detect_helper() ) {
+			return $this->status;
 		}
 
-		return $this->status;
+		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_su_%'" );
+
+		return $this->status->set_status( true );
 	}
 
 	/**
-	 * Detect whether there is post meta data to import.
+	 * Detects whether there is post meta data to import.
 	 *
-	 * @return bool
+	 * @return bool Boolean indicating whether there is something to import.
 	 */
 	private function detect_helper() {
 		$result = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_su_%'" );

@@ -4,7 +4,7 @@
  */
 
 /**
- * Unit test class.
+ * Test whether we can detect plugin data to import successfully.
  */
 class WPSEO_Import_External_Detector_Test extends WPSEO_UnitTestCase {
 
@@ -30,9 +30,9 @@ class WPSEO_Import_External_Detector_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Sets up a test post
+	 * Sets up a test post.
 	 *
-	 * @return int $post_id
+	 * @return int $post_id ID for the post created.
 	 */
 	private function setup_post() {
 		$post_id = $this->factory()->post->create();

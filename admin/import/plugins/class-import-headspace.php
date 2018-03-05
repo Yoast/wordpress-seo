@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Import_HeadSpace
  *
- * Class with functionality to import Yoast SEO settings from other plugins
+ * Class with functionality to import Yoast SEO settings from other plugins.
  */
 class WPSEO_Import_HeadSpace implements WPSEO_Plugin_Importer {
 	/**
@@ -33,22 +33,22 @@ class WPSEO_Import_HeadSpace implements WPSEO_Plugin_Importer {
 	/**
 	 * Returns the plugin name.
 	 *
-	 * @return string
+	 * @return string Plugin name.
 	 */
 	public function plugin_name() {
 		return 'HeadSpace SEO';
 	}
 
 	/**
-	 * Detect whether there is post meta data to import.
+	 * Detects whether there is post meta data to import.
 	 *
-	 * @return WPSEO_Import_Status
+	 * @return WPSEO_Import_Status Import status object.
 	 */
 	public function detect() {
 		$this->status = new WPSEO_Import_Status( 'detect', false );
 
 		if ( ! $this->detect_helper() ) {
-			return $this->status->set_status( false );
+			return $this->status;
 		}
 
 		return $this->status->set_status( true );
@@ -57,13 +57,13 @@ class WPSEO_Import_HeadSpace implements WPSEO_Plugin_Importer {
 	/**
 	 * Import HeadSpace SEO settings.
 	 *
-	 * @return WPSEO_Import_Status
+	 * @return WPSEO_Import_Status Import status object.
 	 */
 	public function import() {
 		$this->status = new WPSEO_Import_Status( 'import', false );
 
 		if ( ! $this->detect_helper() ) {
-			return $this->status->set_status( false );
+			return $this->status;
 		}
 
 		$this->replace_metas();
@@ -74,22 +74,24 @@ class WPSEO_Import_HeadSpace implements WPSEO_Plugin_Importer {
 	/**
 	 * Removes the HeadSpace data from the database.
 	 *
-	 * @return WPSEO_Import_Status
+	 * @return WPSEO_Import_Status Import status object.
 	 */
 	public function cleanup() {
 		$this->status = new WPSEO_Import_Status( 'cleanup', false );
-		$affected_rows = $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '\_headspace\_%'" );
-		if ( $affected_rows > 0 ) {
-			return $this->status->set_status( true );
+
+		if ( ! $this->detect_helper() ) {
+			return $this->status;
 		}
 
-		return $this->status;
+		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '\_headspace\_%'" );
+
+		return $this->status->set_status( true );
 	}
 
 	/**
-	 * Detect whether there is post meta data to import.
+	 * Detects whether there is post meta data to import.
 	 *
-	 * @return bool
+	 * @return bool Boolean indicating whether there is something to import.
 	 */
 	private function detect_helper() {
 		$result = $this->wpdb->get_var( "SELECT COUNT(*) AS `count` FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_headspace_%'" );
@@ -102,6 +104,8 @@ class WPSEO_Import_HeadSpace implements WPSEO_Plugin_Importer {
 
 	/**
 	 * Imports the simple meta fields
+	 *
+	 * @return void
 	 */
 	private function replace_metas() {
 		WPSEO_Meta::replace_meta( '_headspace_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
