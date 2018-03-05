@@ -98,11 +98,11 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Screenshots ==
 
 1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
-2. The fully configurable XML sitemap for Yoast SEO.
-3. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
-4. Example of the SEO analysis functionality.
-5. Example of the readability analysis functionality.
-6. The advanced section of the Yoast SEO meta box.
+2. Example of the SEO analysis functionality.
+3. Example of the readability analysis functionality.
+4. Overview of site-wide SEO problems and possible improvements.
+5. Control over which features you want to use.
+6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
 
@@ -118,14 +118,19 @@ Release Date: March 6th, 2018
     * Removes the option to remove the `replytocom` variable. We now disable this automatically with a filter (`wpseo_remove_reply_to_com`).
     * Removes the option to exclude an author from the XML sitemap in favor of a broader option. Instead, we now have an option to set whether this author's archive should be visible in the search results. If you choose not to allow this archive in the search results, it's also excluded from the author sitemap.
     * Removes the XML sitemaps settings page in favor of a feature toggle on the Features tab and a question in Titles & Meta's "Do you want to show X in search results?".
+    * Moves the setting to disable the Advanced Meta Box for authors to the Features Tab. The setting now also defaults to 'On'.
+    * Expands the content analysis headers by default.
 
 * JSON+LD:
     * Shows JSON+LD markup for website and search on the front page.
     * Makes sure JSON+LD organization markup properly links to the frontpage.
 
 * Copy:
-    * Clarifies the copy on the Edit Post page to ask "Allow search engines to show this Post in search results?" instead of having a heading "Meta Robots", which was quite non-understandable for non-SEO's. Similar changes have been made to the `follow`/`nofollow` setting.
+    * Clarifies the copy on the Edit Post page to ask "Allow search engines to show this Post in search results?" instead of having a heading "Meta Robots", which was quite difficult to understand for non-SEO's. Similar changes have been made to the `follow` / `nofollow` setting.
     * Introduces the question: "Allow search engines to show this `<taxonomy>` in search results?" and bases both the `noindex` and the inclusion in XML sitemaps on this decision.
+    * Changes the wording in the indexing dropdown menu in the Advanced Tab of the metabox from `Yes (Default for posts` / `Yes` / `No` to `Default for Posts, currently: Yes` / `Yes` / `No`.
+    * Renames the Dashboard menu item to General.
+
 * Other:
     * Removes the feature that automatically removed stop words from the slug.
     * Removes `media` post type from the Configuration Wizard, which brings the question about indexing in line with the rest of the plugin.
@@ -138,12 +143,17 @@ Release Date: March 6th, 2018
     * Fixes a reference to the ACF Content Analysis for Yoast SEO plugin
     * Removes all functions, methods and files that were deprecated since before version 4.0 and were showing a deprecation warning.
     * Removes the plugin conflict check for the `Head, Footer and Post Injections`-plugin as it no longer manages OpenGraph tags.
+    * Migrates the `hideeditbox-<post type>` and `hideeditbox-tax-<taxonomy>` settings to a saner `display-metabox-pt-<post type>` and `display-metabox-tax-<taxonomy>`.
 
 ## Bugs:
 
 * Fixes a bug where you would not stay on the same option tab after using the save button in Safari.
 * Hides the "Save changes" button on option tabs where there is nothing to save.
 * When we set `noindex` on a page, we no longer add a canonical, to prevent confusing search engines.
+* Fixes an issue where the categories / tags overview pages were incorrectly showing elements marked as noindex when in reality they weren't set to noindex (and vice versa). This meant that blue bullets were being shown incorrectly.
+* Fixes an issue where setting posts and pages to noindex didn't change the overview.
+* Fixes a bug where importing of the values of ini files were being parsed for dynamic content.
+
 
 = 6.3.1 =
 Release Date: February 19th, 2018
