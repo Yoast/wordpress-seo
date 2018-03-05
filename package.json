@@ -103,7 +103,7 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "yoast-components": "^3.1.0",
-    "yoastseo": "^1.29"
+    "yoastseo": "^1.30"
   },
   "yoast": {
     "pluginVersion": "6.3.1"
