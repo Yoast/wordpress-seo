@@ -63,7 +63,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that adding of valid metaboxes works properly.
 	 *
-	 * @covers WPSEO_Meta::add_meta_box
+	 * @covers WPSEO_Metabox::add_meta_box
 	 */
 	public function test_add_metabox() {
 		global $wp_meta_boxes;
@@ -91,7 +91,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that saving postdata works properly.
 	 *
-	 * @covers WPSEO_Meta::save_postdata
+	 * @covers WPSEO_Metabox::save_postdata
 	 */
 	public function test_save_postdata() {
 
