@@ -137,7 +137,12 @@ class WPSEO_Import_Settings {
 	 * Parse the option file
 	 */
 	private function parse_options() {
-		$options = parse_ini_file( $this->filename, true );
+		/*
+		 * Implemented INI_SCANNER_RAW to make sure variables aren't parsed.
+		 *
+		 * http://php.net/manual/en/function.parse-ini-file.php#99943
+		 */
+		$options = parse_ini_file( $this->filename, true, INI_SCANNER_RAW );
 
 		if ( is_array( $options ) && $options !== array() ) {
 			$this->import_options( $options );
