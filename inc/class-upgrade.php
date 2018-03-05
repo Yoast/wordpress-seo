@@ -69,7 +69,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $version, '5.0', '>=' )
-			&& version_compare( $version, '5.1', '<' )
+			 && version_compare( $version, '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}
@@ -92,6 +92,10 @@ class WPSEO_Upgrade {
 
 		if ( version_compare( $version, '7.0-RC0', '<' ) ) {
 			$this->upgrade_70();
+		}
+
+		if ( version_compare( $version, '7.1-RC0', '<' ) ) {
+			$this->upgrade_71();
 		}
 
 		// Since 3.7.
@@ -538,5 +542,12 @@ class WPSEO_Upgrade {
 		// Moves the user meta for excluding from the XML sitemap to a noindex.
 		global $wpdb;
 		$wpdb->query( "UPDATE $wpdb->usermeta SET meta_key = 'wpseo_noindex_author' WHERE meta_key = 'wpseo_excludeauthorsitemap'" );
+	}
+
+	/**
+	 * Perform the 7.1 upgrade.
+	 */
+	private function upgrade_71() {
+		$this->remove_key_from_option( 'wpseo_social', array( 'fbadminapp', 'fb_admins', 'fbconnectkey', 'fb_adminid', 'fb_appid' ) );
 	}
 }

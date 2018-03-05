@@ -49,8 +49,9 @@
 	.switch-light label,
 	.switch-light > span,
 	.switch-toggle label,
-	.switch-toggle > span {
-		line-height: 2em;
+	.switch-toggle > span,
+	.switch-light-visual-label {
+		line-height: 2;
 		vertical-align: middle;
 	}
 
@@ -240,19 +241,25 @@
 }
 
 @media only screen {
-	.switch-light.switch-yoast-seo {
-		margin-bottom: 0.2em;
-	}
-
-	.fieldset-switch-toggle legend,
-	.switch-light.switch-yoast-seo > strong {
-		display: block;
+	.fieldset-switch-toggle legend {
+		float: left;
 		box-sizing: border-box;
 		min-width: 200px;
-		margin-top: 10px;
-		padding-right: 1em;
-		line-height: 2em;
+		margin: 8px 0;
+		padding-right: 16px;
+		line-height: 2;
 		vertical-align: middle;
+	}
+
+	.switch-container__has-help legend,
+	.switch-container__has-help .switch-light-visual-label {
+		float: left;
+		min-width: 0;
+		padding-right: 0;
+	}
+
+	.switch-container__has-help .yoast_help.yoast-help-button {
+		margin: 8px 0 0 4px;
 	}
 
 	.switch-toggle.switch-yoast-seo,
@@ -267,6 +274,7 @@
 	.switch-toggle.switch-yoast-seo,
 	.switch-light.switch-yoast-seo {
 		float: left;
+		clear: both;
 	}
 
 	.switch-light.switch-yoast-seo > span {
@@ -354,22 +362,24 @@
 		vertical-align: top;
 	}
 
-	.switch-container .label-text {
+	.switch-container .label-text,
+	.switch-light-visual-label {
 		display: block;
-		margin: 0.5em 0;
+		margin: 8px 0;
 		font-weight: 400;
+		line-height: 2;
 	}
 
 	.switch-container {
 		clear: both;
-		margin: 0 0 1em 0;
+		margin: 0 0 2em 0;
 	}
 
 	.switch-container + .switch-container {
-		margin-top: 0.5em;
+		margin-top: 8px;
 	}
 
 	.switch-container + p {
-		margin: -0.5em 0 1em 0;
+		margin: -8px 0 16px 0;
 	}
 }

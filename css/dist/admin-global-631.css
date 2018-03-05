@@ -670,6 +670,7 @@ td.column-wpseo-linked {
 
 .yoast-help-panel {
 	display: none;
+	clear: both;
 	max-width: 30em !important;
 	padding: 0 0 1em;
 	font-weight: normal;
@@ -678,4 +679,8 @@ td.column-wpseo-linked {
 
 .wpseo-admin-page .yoast-help-panel {
 	max-width: 600px !important;
+}
+
+.copy-home-meta-description .yoast-help-panel {
+	max-width: 400px !important;
 }
