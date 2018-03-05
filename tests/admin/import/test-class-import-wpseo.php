@@ -56,6 +56,7 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Import_WPSEO::detect_helper
 	 * @covers WPSEO_Import_WPSEO::import
+	 * @covers WPSEO_Import_WPSEO::import_helper
 	 * @covers WPSEO_Import_WPSEO::import_post_metas
 	 * @covers WPSEO_Import_WPSEO::import_post_robot
 	 * @covers WPSEO_Import_WPSEO::import_post_robots
@@ -82,6 +83,7 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Import_WPSEO::detect_helper
 	 * @covers WPSEO_Import_WPSEO::import
+	 * @covers WPSEO_Import_WPSEO::import_helper
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_metas
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_robots
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_description
@@ -127,6 +129,7 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_WPSEO::cleanup
+	 * @covers WPSEO_Import_WPSEO::cleanup_helper
 	 * @covers WPSEO_Import_WPSEO::cleanup_post_meta
 	 * @covers WPSEO_Import_WPSEO::cleanup_term_meta
 	 * @covers WPSEO_Import_WPSEO::delete_taxonomy_metas
