@@ -106,7 +106,7 @@ class WPSEO_Import_Status {
 	}
 
 	/**
-	 * Depending on the action returns a success message.
+	 * Returns a success message depending on the action.
 	 *
 	 * @return string Returns a success message for the current action.
 	 */
