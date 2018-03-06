@@ -6,11 +6,15 @@ Others:
 * Includes every change in Yoast SEO core 7.1.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 7.0.0: March 6th, 2018
-Enhancement:
-* Added SEO titles and meta descriptions to the focus keyword export.
+Enhancements:
+* Adds SEO titles and meta descriptions to the focus keyword export.
+
+Bugfixes:
+* Removes unnecessary HTML from button.
 
 Other:
 * Includes every change in Yoast SEO core 7.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+* Removes the deprecated `WPSEO_Premium:: add_admin_pages` method.
 
 ### 6.3.1: February 19th, 2018
 * Includes every change in Yoast SEO core 6.3.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).

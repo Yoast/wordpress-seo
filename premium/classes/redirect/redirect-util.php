@@ -9,6 +9,7 @@
  * Helpers for redirects.
  */
 class WPSEO_Redirect_Util {
+
 	/**
 	 * @var bool
 	 */
