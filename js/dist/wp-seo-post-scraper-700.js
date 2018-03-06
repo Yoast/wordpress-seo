@@ -5379,8 +5379,7 @@ var SvgIcon = function (_React$Component) {
 			    icon = _props.icon,
 			    className = _props.className,
 			    color = _props.color,
-			    _props$size = _props.size,
-			    size = _props$size === undefined ? "16" : _props$size;
+			    size = _props.size;
 
 			var path = void 0;
 
@@ -5471,6 +5470,10 @@ SvgIcon.propTypes = {
 	color: _propTypes2.default.string,
 	size: _propTypes2.default.string,
 	className: _propTypes2.default.string
+};
+
+SvgIcon.defaultProps = {
+	size: "16px"
 };
 
 /***/ }),
@@ -47331,7 +47334,6 @@ var ContentAnalysis = function (_React$Component) {
 					{
 						hasHeading: true,
 						headingLevel: headingLevel,
-						initialIsOpen: true,
 						title: this.props.intl.formatMessage(messages.errorsHeader)
 					},
 					this.getResults(errorsResults)
@@ -47341,7 +47343,6 @@ var ContentAnalysis = function (_React$Component) {
 					{
 						hasHeading: true,
 						headingLevel: headingLevel,
-						initialIsOpen: true,
 						title: this.props.intl.formatMessage(messages.problemsHeader)
 					},
 					this.getResults(problemsResults)
@@ -47351,7 +47352,6 @@ var ContentAnalysis = function (_React$Component) {
 					{
 						hasHeading: true,
 						headingLevel: headingLevel,
-						initialIsOpen: problemsFound === 0,
 						title: this.props.intl.formatMessage(messages.improvementsHeader)
 					},
 					this.getResults(improvementsResults)
@@ -47361,7 +47361,6 @@ var ContentAnalysis = function (_React$Component) {
 					{
 						hasHeading: true,
 						headingLevel: headingLevel,
-						initialIsOpen: problemsFound === 0 && improvementsFound === 0,
 						title: this.props.intl.formatMessage(messages.considerationsHeader)
 					},
 					this.getResults(considerationsResults)
@@ -47371,7 +47370,6 @@ var ContentAnalysis = function (_React$Component) {
 					{
 						hasHeading: true,
 						headingLevel: headingLevel,
-						initialIsOpen: problemsFound === 0 && improvementsFound === 0 && considerationsFound === 0,
 						title: this.props.intl.formatMessage(messages.goodHeader)
 					},
 					this.getResults(goodResults)
@@ -47882,7 +47880,7 @@ AnalysisCollapsible.propTypes = {
 };
 
 AnalysisCollapsible.defaultProps = {
-	initialIsOpen: false,
+	initialIsOpen: true,
 	hasHeading: false,
 	headingLevel: 2
 };

@@ -17404,8 +17404,7 @@ var SvgIcon = function (_React$Component) {
 			    icon = _props.icon,
 			    className = _props.className,
 			    color = _props.color,
-			    _props$size = _props.size,
-			    size = _props$size === undefined ? "16" : _props$size;
+			    size = _props.size;
 
 			var path = void 0;
 
@@ -17496,6 +17495,10 @@ SvgIcon.propTypes = {
 	color: _propTypes2.default.string,
 	size: _propTypes2.default.string,
 	className: _propTypes2.default.string
+};
+
+SvgIcon.defaultProps = {
+	size: "16px"
 };
 
 /***/ }),
