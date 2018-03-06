@@ -34,6 +34,17 @@ class WPSEO_Post_Type {
 	}
 
 	/**
+	 * Returns whether the passed post type is considered accessible.
+	 *
+	 * @param string $post_type The post type to check.
+	 *
+	 * @return bool Whether or not the post type is considered accessible.
+	 */
+	public static function is_post_type_accessible( $post_type ) {
+		return in_array( $post_type, self::get_accessible_post_types(), true );
+	}
+
+	/**
 	 * Checks if the request post type is public and indexable.
 	 *
 	 * @param string $post_type_name The name of the post type to lookup.
@@ -41,13 +52,11 @@ class WPSEO_Post_Type {
 	 * @return bool True when post type is set to index.
 	 */
 	public static function is_post_type_indexable( $post_type_name ) {
-		$option = WPSEO_Options::get_option( 'wpseo_titles' );
-
-		if ( ! array_key_exists( 'noindex-' . $post_type_name, $option ) ) {
+		if ( WPSEO_Options::get( 'disable-' . $post_type_name, false ) ) {
 			return false;
 		}
 
-		return empty( $option[ 'noindex-' . $post_type_name ] );
+		return ( false === WPSEO_Options::get( 'noindex-' . $post_type_name, false ) );
 	}
 
 	/**

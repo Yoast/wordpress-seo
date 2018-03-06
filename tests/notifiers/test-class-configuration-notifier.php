@@ -14,9 +14,10 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Configuration_Notifier::notify()
 	 */
 	public function test_notify_when_onboarding_wizard_notice_wont_be_shown() {
-		$notifier = new WPSEO_Configuration_Notifier( array( 'show_onboarding_notice' => false ) );
+		WPSEO_Options::set( 'show_onboarding_notice', false );
+		$notifier = new WPSEO_Configuration_Notifier();
 
-		$this->assertEquals( '', $notifier->notify() );
+		$this->assertEquals( '<div class="yoast-container yoast-container__configuration-wizard"><img src="http://example.org/wp-content/plugins/wordpress-seo/images/new-to-configuration-notice.svg" height="60" width="60"  /><div class="yoast-container__configuration-wizard--content"><h3>Check SEO configuration</h3><p>Want to make sure your Yoast SEO settings are still OK? <a href="http://example.org/wp-admin/admin.php?page=wpseo_configurator">Open the configuration wizard again</a> to validate them.</p></div></div>', $notifier->notify() );
 	}
 
 	/**
@@ -25,7 +26,8 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Configuration_Notifier::notify()
 	 */
 	public function test_notify_when_onboarding_wizard_notice_will_be_shown() {
-		$notifier = new WPSEO_Configuration_Notifier( array( 'show_onboarding_notice' => true ) );
+		WPSEO_Options::set( 'show_onboarding_notice', true );
+		$notifier = new WPSEO_Configuration_Notifier();
 
 		$this->assertNotEquals( '', $notifier->notify() );
 	}

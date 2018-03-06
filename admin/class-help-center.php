@@ -103,20 +103,20 @@ class WPSEO_Help_Center {
 
 		$formatted_data['contactSupportParagraphs'] = array(
 			array(
-				'image' => array(
+				'image'   => array(
 					'src'    => esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/support-team.svg' ),
 					'width'  => 100,
 					'height' => 100,
 					'alt'    => '',
 				),
-				'content'  => null,
+				'content' => null,
 			),
 			array(
-				'image' => null,
-				'content'  => __( 'If you have a problem that you can\'t solve with our video tutorials or knowledge base, you can send a message to our support team. They can be reached 24/7.', 'wordpress-seo' ),
+				'image'   => null,
+				'content' => __( 'If you have a problem that you can\'t solve with our video tutorials or knowledge base, you can send a message to our support team. They can be reached 24/7.', 'wordpress-seo' ),
 			),
 			array(
-				'image' => null,
+				'image'   => null,
 				'content' => __( 'Support requests you create here are sent directly into our support system, which is secured with 256 bit SSL, so communication is 100% secure.', 'wordpress-seo' ),
 			),
 		);
@@ -245,7 +245,7 @@ class WPSEO_Help_Center {
 	/**
 	 * Outputs the help center.
 	 *
-	 * @deprecated
+	 * @deprecated 5.6
 	 */
 	public function output_help_center() {
 		_deprecated_function( 'WPSEO_Help_Center::output_help_center', 'WPSEO 5.6.0', 'WPSEO_Help_Center::mount()' );

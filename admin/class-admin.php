@@ -12,11 +12,6 @@ class WPSEO_Admin {
 	const PAGE_IDENTIFIER = 'wpseo_dashboard';
 
 	/**
-	 * @var array
-	 */
-	private $options;
-
-	/**
 	 * Array of classes that add admin functionality.
 	 *
 	 * @var array
@@ -34,13 +29,11 @@ class WPSEO_Admin {
 		$wpseo_menu = new WPSEO_Menu();
 		$wpseo_menu->register_hooks();
 
-		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks' ) );
-
 		if ( is_multisite() ) {
 			WPSEO_Options::maybe_set_multisite_defaults( false );
 		}
 
-		if ( $this->options['stripcategorybase'] === true ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
 			add_action( 'created_category', array( $this, 'schedule_rewrite_flush' ) );
 			add_action( 'edited_category', array( $this, 'schedule_rewrite_flush' ) );
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
@@ -64,10 +57,6 @@ class WPSEO_Admin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_global_style' ) );
-
-		if ( $this->options['cleanslugs'] === true ) {
-			add_filter( 'name_save_pre', array( $this, 'remove_stopwords_from_slug' ), 0 );
-		}
 
 		add_filter( 'user_contactmethods', array( $this, 'update_contactmethods' ), 10, 1 );
 
@@ -282,57 +271,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Cleans stopwords out of the slug, if the slug hasn't been set yet.
-	 *
-	 * @since 1.1.7
-	 *
-	 * @param string $slug If this isn't empty, the function will return an unaltered slug.
-	 *
-	 * @return string $clean_slug cleaned slug
-	 */
-	public function remove_stopwords_from_slug( $slug ) {
-		return $this->filter_stopwords_from_slug( $slug, filter_input( INPUT_POST, 'post_title' ) );
-	}
-
-	/**
-	 * Filter the stopwords from the slug
-	 *
-	 * @param string $slug       The current slug, if not empty there will be done nothing.
-	 * @param string $post_title The title which will be used in case of an empty slug.
-	 *
-	 * @return string
-	 */
-	public function filter_stopwords_from_slug( $slug, $post_title ) {
-		// Don't change an existing slug.
-		if ( isset( $slug ) && $slug !== '' ) {
-			return $slug;
-		}
-
-		// When the post title is empty, just return the slug.
-		if ( empty( $post_title ) ) {
-			return $slug;
-		}
-
-		// Don't change the slug if this is a multisite installation and the site has been switched.
-		if ( is_multisite() && ms_is_switched() ) {
-			return $slug;
-		}
-
-		// Don't change slug if the post is a draft, this conflicts with polylang.
-		// Doesn't work with filter_input() since need current value, not originally submitted one.
-		// @codingStandardsIgnoreLine
-		if ( 'draft' === $_POST['post_status'] ) {
-			return $slug;
-		}
-
-		// Lowercase the slug and strip slashes.
-		$new_slug = sanitize_title( stripslashes( $post_title ) );
-
-		$stop_words = new WPSEO_Admin_Stop_Words();
-		return $stop_words->remove_in( $new_slug );
-	}
-
-	/**
 	 * Log the updated timestamp for user profiles when theme is changed.
 	 */
 	public function switch_theme() {
@@ -413,7 +351,7 @@ class WPSEO_Admin {
 	 * Loads the cornerstone filter.
 	 */
 	protected function initialize_cornerstone_content() {
-		if ( ! $this->options['enable_cornerstone_content'] ) {
+		if ( ! WPSEO_Options::get( 'enable_cornerstone_content' ) ) {
 			return;
 		}
 
@@ -435,7 +373,7 @@ class WPSEO_Admin {
 		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
 		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
 
-		if ( ! $this->options['enable_text_link_counter'] ) {
+		if ( ! WPSEO_Options::get( 'enable_text_link_counter' ) ) {
 			$link_table_compatibility_notifier->remove_notification();
 
 			return $integrations;
@@ -483,68 +421,6 @@ class WPSEO_Admin {
 
 	// @codeCoverageIgnoreStart
 	/**
-	 * Check whether the current user is allowed to access the configuration.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Utils::grant_access()
-	 * @see        WPSEO_Utils::grant_access()
-	 *
-	 * @return boolean
-	 */
-	public function grant_access() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::grant_access()' );
-
-		return WPSEO_Utils::grant_access();
-	}
-
-	/**
-	 * Check whether the current user is allowed to access the configuration.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use wpseo_do_upgrade()
-	 * @see        WPSEO_Upgrade
-	 */
-	public function maybe_upgrade() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
-		new WPSEO_Upgrade();
-	}
-
-	/**
-	 * Clears the cache.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Utils::clear_cache()
-	 * @see        WPSEO_Utils::clear_cache()
-	 */
-	public function clear_cache() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_cache()' );
-		WPSEO_Utils::clear_cache();
-	}
-
-	/**
-	 * Clear rewrites.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Utils::clear_rewrites()
-	 * @see        WPSEO_Utils::clear_rewrites()
-	 */
-	public function clear_rewrites() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_rewrites()' );
-		WPSEO_Utils::clear_rewrites();
-	}
-
-	/**
-	 * Register all the options needed for the configuration pages.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Option::register_setting() on each individual option
-	 * @see        WPSEO_Option::register_setting()
-	 */
-	public function options_init() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
-	}
-
-	/**
 	 * Register the menu item and its sub menu's.
 	 *
 	 * @deprecated 5.5
@@ -591,72 +467,25 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Display an error message when the blog is set to private.
+	 * Cleans stopwords out of the slug, if the slug hasn't been set yet.
 	 *
-	 * @deprecated 3.3
+	 * @deprecated 7.0
+	 *
+	 * @return void
 	 */
-	public function blog_public_warning() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
+	public function remove_stopwords_from_slug() {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**
-	 * Display an error message when the theme contains a meta description tag.
+	 * Filter the stopwords from the slug.
 	 *
-	 * @since 1.4.14
+	 * @deprecated 7.0
 	 *
-	 * @deprecated 3.3
+	 * @return void
 	 */
-	public function meta_description_warning() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
-	}
-
-	/**
-	 * Returns the stopwords for the current language.
-	 *
-	 * @since 1.1.7
-	 * @deprecated 3.1 Use WPSEO_Admin_Stop_Words::list_stop_words() instead.
-	 *
-	 * @return array $stopwords Array of stop words to check and / or remove from slug.
-	 */
-	public function stopwords() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1', 'WPSEO_Admin_Stop_Words::list_stop_words' );
-
-		$stop_words = new WPSEO_Admin_Stop_Words();
-		return $stop_words->list_stop_words();
-	}
-
-	/**
-	 * Check whether the stopword appears in the string.
-	 *
-	 * @deprecated 3.1
-	 *
-	 * @param string $haystack     The string to be checked for the stopword.
-	 * @param bool   $checking_url Whether or not we're checking a URL.
-	 *
-	 * @return bool|mixed
-	 */
-	public function stopwords_check( $haystack, $checking_url = false ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
-
-		$stop_words = $this->stopwords();
-
-		if ( is_array( $stop_words ) && $stop_words !== array() ) {
-			foreach ( $stop_words as $stop_word ) {
-				// If checking a URL remove the single quotes.
-				if ( $checking_url ) {
-					$stop_word = str_replace( "'", '', $stop_word );
-				}
-
-				// Check whether the stopword appears as a whole word.
-				// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-).
-				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stop_word, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
-				if ( $res > 0 ) {
-					return $stop_word;
-				}
-			}
-		}
-
-		return false;
+	public function filter_stopwords_from_slug() {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
 	}
 
 	/**

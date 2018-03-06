@@ -139,9 +139,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 
 		$this->go_to_home();
 
-		$this->run_webmaster_tools_authentication_option_test( 'msverify', '<meta name="msvalidate.01" content="msverify" />' . "\n" );
-		$this->run_webmaster_tools_authentication_option_test( 'googleverify', '<meta name="google-site-verification" content="googleverify" />' . "\n" );
-		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '<meta name="yandex-verification" content="yandexverify" />' . "\n" );
+		$this->run_webmaster_tools_authentication_option_test( 'googleverify', 'googleverify', '<meta name="google-site-verification" content="googleverify" />' . "\n" );
+		$this->run_webmaster_tools_authentication_option_test( 'msverify', 'acfacfacf', '<meta name="msvalidate.01" content="acfacfacf" />' . "\n" );
+		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', 'defdefdef', '<meta name="yandex-verification" content="defdefdef" />' . "\n" );
 	}
 
 	/**
@@ -317,10 +317,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->assertFalse( self::$class_instance->publisher() );
 
 		// Set publisher option.
-		self::$class_instance->options['plus-publisher'] = 'https://plus.google.com/+JoostdeValk';
+		$expected = 'https://plus.google.com/+JoostdeValk';
+		WPSEO_Options::set( 'plus-publisher', $expected );
 
 		// Publisher set, should echo.
-		$expected = '<link rel="publisher" href="' . esc_url( self::$class_instance->options['plus-publisher'] ) . '"/>' . "\n";
+		$expected = '<link rel="publisher" href="' . esc_url( $expected ) . '"/>' . "\n";
 
 		$this->assertTrue( self::$class_instance->publisher() );
 		$this->expectOutput( $expected );
@@ -333,84 +334,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 		$input    = '<a href="#">A link</a>';
 		$expected = str_replace( '<a ', '<a rel="nofollow" ', $input );
 		$this->assertEquals( $expected, self::$class_instance->nofollow_link( $input ) );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::add_trailingslash
-	 */
-	public function test_add_trailingslash() {
-		$url = 'http://yoast.com/post';
-
-		// Test single pages.
-		$expected = $url;
-		$this->assertEquals( $expected, self::$class_instance->add_trailingslash( $url, 'single' ) );
-
-		// Test other.
-		$expected = trailingslashit( $url );
-		$this->assertEquals( $expected, self::$class_instance->add_trailingslash( $url, 'other' ) );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::remove_reply_to_com
-	 */
-	public function test_remove_reply_to_com() {
-
-		$link     = '<a href="http://yoast.com/post?replytocom=123#respond">Reply to Comment</a>';
-		$expected = '<a href="#comment-123">Reply to Comment</a>';
-
-		$this->assertEquals( $expected, self::$class_instance->remove_reply_to_com( $link ) );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::replytocom_redirect
-	 */
-	public function test_replytocom_redirect() {
-		$c = self::$class_instance;
-
-		// Test with cleanreplytocom set to false.
-		$c->options['cleanreplytocom'] = false;
-		$this->assertFalse( $c->replytocom_redirect() );
-
-		// Enable clean replytocom.
-		$c->options['cleanreplytocom'] = true;
-
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Test with no replytocom set in $_GET.
-		$this->assertFalse( $c->replytocom_redirect() );
-
-		$_GET['replytocom']      = 123;
-		$_SERVER['QUERY_STRING'] = '';
-
-		// The following call should redirect.
-		$this->assertTrue( $c->replytocom_redirect() );
-
-		// Go to home / move away from singular page.
-		$this->go_to_home();
-
-		// Test while not on singular page.
-		$this->assertFalse( $c->replytocom_redirect() );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::clean_permalink
-	 */
-	public function test_clean_permalink() {
-
-		$c = self::$class_instance;
-
-		// Test requests to the robots file.
-		$this->go_to( add_query_arg( array( 'robots' => 1 ), home_url( '/' ) ) );
-		$this->assertFalse( $c->clean_permalink() );
-
-		// test requests to the sitemap
-		// @todo get_query_var only returns 'known' query_vars.. 'sitemap' will always return an empty string
-		// $this->go_to( add_query_arg( array( 'sitemap' => 1 ), home_url() ) );
-		// $this->assertFalse( $c->clean_permalink() );
-
-		// @todo test actual function... good luck ;)
 	}
 
 	/**
@@ -505,9 +428,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( get_bloginfo( 'rss2_url' ) );
 
 		// Test if input was changed.
-		self::$class_instance->options['rssbefore'] = 'Some RSS before text';
-		self::$class_instance->options['rssafter']  = '';
-		$expected                                   = wpautop( self::$class_instance->options['rssbefore'] ) . $input;
+		$expected_string = 'Some RSS before text';
+		WPSEO_Options::set( 'rssbefore', $expected_string );
+		WPSEO_Options::set( 'rssafter', '' );
+
+		$expected = wpautop( $expected_string ) . $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input, 'full' ) );
 	}
 
@@ -718,14 +643,15 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 
 	/**
 	 * @param string $option_name Option name.
+	 * @param string $test_value  Test value to use.
 	 * @param string $expected    Expected output.
 	 *
 	 * @return void
 	 */
-	private function run_webmaster_tools_authentication_option_test( $option_name, $expected ) {
-		self::$class_instance->options[ $option_name ] = $option_name;
+	private function run_webmaster_tools_authentication_option_test( $option_name, $test_value, $expected ) {
+		WPSEO_Options::set( $option_name, $test_value );
 		$this->expectOutput( $expected, self::$class_instance->webmaster_tools_authentication() );
-		self::$class_instance->options[ $option_name ] = '';
+		WPSEO_Options::set( $option_name, '' );
 	}
 
 	/**
@@ -733,8 +659,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_queried_post_type() {
 		$wp_query = $this->getMockBuilder( 'WP_Query' )
-						 ->setMethods( array( 'get' ) )
-						 ->getMock();
+			->setMethods( array( 'get' ) )
+			->getMock();
 
 		$wp_query
 			->expects( $this->once() )
@@ -752,8 +678,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_queried_post_type_array() {
 		$wp_query = $this->getMockBuilder( 'WP_Query' )
-						 ->setMethods( array( 'get' ) )
-						 ->getMock();
+			->setMethods( array( 'get' ) )
+			->getMock();
 
 		$wp_query
 			->expects( $this->once() )

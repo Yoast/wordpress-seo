@@ -27,3 +27,4 @@ exclude_paths:
 - grunt/**/*
 - inc/wpseo-functions-deprecated.php
 - js/dist/*
+- css/dist/*

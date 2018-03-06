@@ -96,40 +96,14 @@ import a11ySpeak from "a11y-speak";
 	}
 
 	/**
-	 * Do the kill blocking files action
-	 *
-	 * @param {string} nonce Nonce to validate request.
-	 *
-	 * @returns {void}
-	 */
-	function wpseoKillBlockingFiles( nonce ) {
-		jQuery.post( ajaxurl, {
-			action: "wpseo_kill_blocking_files",
-			// eslint-disable-next-line
-			_ajax_nonce: nonce,
-		} ).done( function( response ) {
-			var noticeContainer = jQuery( ".yoast-notice-blocking-files" ),
-				noticeParagraph = jQuery( "#blocking_files" );
-
-			noticeParagraph.html( response.data.message );
-			// Make the notice focusable and move focue on it so screen readers will read out its content.
-			noticeContainer.attr( "tabindex", "-1" ).focus();
-
-			if ( response.success ) {
-				noticeContainer.removeClass( "notice-error" ).addClass( "notice-success" );
-			} else {
-				noticeContainer.addClass( "yoast-blocking-files-error" );
-			}
-		} );
-	}
-
-	/**
-	 * Copies the meta description for the homepage
+	 * Copies the meta description for the homepage.
 	 *
 	 * @returns {void}
 	 */
 	function wpseoCopyHomeMeta() {
-		jQuery( "#og_frontpage_desc" ).val( jQuery( "#meta_description" ).val() );
+		jQuery( "#copy-home-meta-description" ).on( "click", function() {
+			jQuery( "#og_frontpage_desc" ).val( jQuery( "#meta_description" ).val() );
+		} );
 	}
 
 	/**
@@ -228,6 +202,11 @@ import a11ySpeak from "a11y-speak";
 	 */
 	function setInitialActiveTab() {
 		var activeTabId = window.location.hash.replace( "#top#", "" );
+		/* In some cases, the second # gets replace by %23, which makes the tab
+		 * switching not work unless we do this. */
+		if ( activeTabId.search( "#top" ) !== -1 ) {
+			activeTabId = window.location.hash.replace( "#top%23", "" );
+		}
 		/*
 		 * WordPress uses fragment identifiers for its own in-page links, e.g.
 		 * `#wpbody-content` and other plugins may do that as well. Also, facebook
@@ -248,7 +227,6 @@ import a11ySpeak from "a11y-speak";
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
-	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
 	// eslint-disable-next-line
 	window.wpseoAddFbAdmin = wpseoAddFbAdmin;
@@ -260,11 +238,6 @@ import a11ySpeak from "a11y-speak";
 		 * When the hash changes, get the base url from the action and then add the current hash.
 		 */
 		wpseoSetTabHash();
-
-		// Toggle the XML sitemap section.
-		jQuery( "#enablexmlsitemap" ).change( function() {
-			jQuery( "#sitemapinfo" ).toggle( jQuery( this ).is( ":checked" ) );
-		} ).change();
 
 		// Toggle the Author archives section.
 		jQuery( "#disable-author input[type='radio']" ).change( function() {
@@ -282,6 +255,14 @@ import a11ySpeak from "a11y-speak";
 			}
 		} ).change();
 
+		// Toggle the Media section.
+		jQuery( "#disable-attachment input[type='radio']" ).change( function() {
+			// The value on is disabled, off is enabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#media_settings" ).toggle( jQuery( this ).val() === "off" );
+			}
+		} ).change();
+
 		// Toggle the Format-based archives section.
 		jQuery( "#disable-post_format" ).change( function() {
 			jQuery( "#post_format-titles-metas" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
@@ -292,26 +273,20 @@ import a11ySpeak from "a11y-speak";
 			jQuery( "#breadcrumbsinfo" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
-		// Toggle the Author / user sitemap section.
-		jQuery( "#disable_author_sitemap" ).find( "input:radio" ).change( function() {
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#xml_user_block" ).toggle( jQuery( this ).val() === "off" );
-			}
-		} ).change();
-
-		// Toggle the Redirect ugly URLs to clean permalinks section.
-		jQuery( "#cleanpermalinks" ).change( function() {
-			jQuery( "#cleanpermalinksdiv" ).toggle( jQuery( this ).is( ":checked" ) );
-		} ).change();
-
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
 			jQuery( ".wpseotab" ).removeClass( "active" );
 
 			var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
-			jQuery( "#" + id ).addClass( "active" );
+			var activeTab = jQuery( "#" + id );
+			activeTab.addClass( "active" );
 			jQuery( this ).addClass( "nav-tab-active" );
+			if ( activeTab.hasClass( "nosave" ) ) {
+				jQuery( "#submit" ).hide();
+			} else {
+				jQuery( "#submit" ).show();
+			}
 		} );
 
 		// Handle the Company or Person select.
@@ -336,11 +311,6 @@ import a11ySpeak from "a11y-speak";
 			wpseoDetectWrongVariables( jQuery( this ) );
 		} ).change();
 
-		// XML sitemaps "Fix it" button.
-		jQuery( "#blocking_files .button" ).on( "click", function() {
-			wpseoKillBlockingFiles( jQuery( this ).data( "nonce" ) );
-		} );
-
 		// Prevent form submission when pressing Enter on the switch-toggles.
 		jQuery( ".switch-yoast-seo input" ).on( "keydown", function( event ) {
 			if ( "keydown" === event.type && 13 === event.which ) {
@@ -348,6 +318,7 @@ import a11ySpeak from "a11y-speak";
 			}
 		} );
 
+		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
 	} );

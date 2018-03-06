@@ -72,8 +72,7 @@ class WPSEO_Sitemaps {
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 		add_action( 'wpseo_ping_search_engines', array( __CLASS__, 'ping_search_engines' ) );
 
-		$options           = WPSEO_Options::get_all();
-		$this->max_entries = $options['entries-per-page'];
+		$this->max_entries = $this->get_entries_per_page();
 		$this->timezone    = new WPSEO_Sitemap_Timezone();
 		$this->router      = new WPSEO_Sitemaps_Router();
 		$this->renderer    = new WPSEO_Sitemaps_Renderer();
@@ -530,69 +529,18 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Build the `<url>` tag for a given URL.
+	 * Get the maximum number of entries per XML sitemap.
 	 *
-	 * @deprecated 3.2
-	 * @see WPSEO_Sitemaps_Renderer::sitemap_url()
-	 *
-	 * @param array $url Array of parts that make up this entry.
-	 *
-	 * @return string
+	 * @return int The maximum number of entries.
 	 */
-	public function sitemap_url( $url ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Renderer::sitemap_url()' );
-		return $this->renderer->sitemap_url( $url );
-	}
-
-	/**
-	 * Set a custom stylesheet for this sitemap. Set to empty to just remove the default stylesheet.
-	 *
-	 * @deprecated 3.2
-	 * @see WPSEO_Sitemaps_Renderer::set_stylesheet()
-	 *
-	 * @param string $stylesheet Full xml-stylesheet declaration.
-	 */
-	public function set_stylesheet( $stylesheet ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.2', 'WPSEO_Sitemaps_Renderer::set_stylesheet()' );
-		$this->renderer->set_stylesheet( $stylesheet );
-	}
-
-	/**
-	 * Function to dynamically filter the change frequency.
-	 *
-	 * @deprecated 3.5 Change frequency data dropped from sitemaps.
-	 *
-	 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for
-	 *                        numerous specific URLs.
-	 * @param string $default The default value for the frequency.
-	 * @param string $url     The URL of the current entry.
-	 *
-	 * @return mixed|void
-	 */
-	public static function filter_frequency( $filter, $default, $url ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.5' );
-
+	protected function get_entries_per_page() {
 		/**
-		 * Filter the specific change frequency
+		 * Filter the maximum number of entries per XML sitemap.
 		 *
-		 * @param string $default The default change frequency.
-		 * @param string $url     URL to filter frequency for.
+		 * @param int $entries The maximum number of entries per XML sitemap.
 		 */
-		$change_freq = apply_filters( 'wpseo_sitemap_' . $filter . '_change_freq', $default, $url );
+		$entries = (int) apply_filters( 'wpseo_sitemap_entries_per_page', 1000 );
 
-		if ( ! in_array( $change_freq, array(
-			'always',
-			'hourly',
-			'daily',
-			'weekly',
-			'monthly',
-			'yearly',
-			'never',
-		), true )
-		) {
-			$change_freq = $default;
-		}
-
-		return $change_freq;
+		return $entries;
 	}
 }

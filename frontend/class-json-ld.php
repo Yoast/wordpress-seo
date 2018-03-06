@@ -11,28 +11,14 @@
  * @since 1.8
  */
 class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
-
-	/**
-	 * @var array Holds the plugins options.
-	 */
-	public $options = array();
-
 	/**
 	 * @var array Holds the social profiles for the entity
 	 */
 	private $profiles = array();
-
 	/**
 	 * @var array Holds the data to put out
 	 */
 	private $data = array();
-
-	/**
-	 * Class constructor.
-	 */
-	public function __construct() {
-		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
-	}
 
 	/**
 	 * Registers the hooks.
@@ -58,13 +44,14 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @since 1.8
 	 */
 	public function organization_or_person() {
-		if ( '' === $this->options['company_or_person'] ) {
+		$company_or_person = WPSEO_Options::get( 'company_or_person', '' );
+		if ( '' === $company_or_person ) {
 			return;
 		}
 
 		$this->prepare_organization_person_markup();
 
-		switch ( $this->options['company_or_person'] ) {
+		switch ( $company_or_person ) {
 			case 'company':
 				$this->organization();
 				break;
@@ -73,7 +60,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 				break;
 		}
 
-		$this->output( $this->options['company_or_person'] );
+		$this->output( $company_or_person );
 	}
 
 	/**
@@ -84,8 +71,11 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @link  https://developers.google.com/structured-data/site-name
 	 */
 	public function website() {
+		if ( ! is_front_page() ) {
+			return;
+		}
 		$this->data = array(
-			'@context' => 'http://schema.org',
+			'@context' => 'https://schema.org',
 			'@type'    => 'WebSite',
 			'@id'      => '#website',
 			'url'      => $this->get_home_url(),
@@ -127,11 +117,12 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * Schema for Organization.
 	 */
 	private function organization() {
-		if ( '' !== $this->options['company_name'] ) {
+		if ( '' !== WPSEO_Options::get( 'company_name', '' ) ) {
 			$this->data['@type'] = 'Organization';
 			$this->data['@id']   = '#organization';
-			$this->data['name']  = $this->options['company_name'];
-			$this->data['logo']  = $this->options['company_logo'];
+			$this->data['name']  = WPSEO_Options::get( 'company_name' );
+			$this->data['logo']  = WPSEO_Options::get( 'company_logo', '' );
+
 			return;
 		}
 		$this->data = false;
@@ -141,10 +132,11 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * Schema for Person.
 	 */
 	private function person() {
-		if ( '' !== $this->options['person_name'] ) {
+		if ( '' !== WPSEO_Options::get( 'person_name', '' ) ) {
 			$this->data['@type'] = 'Person';
 			$this->data['@id']   = '#person';
-			$this->data['name']  = $this->options['person_name'];
+			$this->data['name']  = WPSEO_Options::get( 'person_name' );
+
 			return;
 		}
 		$this->data = false;
@@ -157,9 +149,9 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$this->fetch_social_profiles();
 
 		$this->data = array(
-			'@context' => 'http://schema.org',
+			'@context' => 'https://schema.org',
 			'@type'    => '',
-			'url'      => WPSEO_Frontend::get_instance()->canonical( false, true ),
+			'url'      => $this->get_home_url(),
 			'sameAs'   => $this->profiles,
 		);
 	}
@@ -182,13 +174,13 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			'pinterest_url',
 		);
 		foreach ( $social_profiles as $profile ) {
-			if ( $this->options[ $profile ] !== '' ) {
-				$this->profiles[] = $this->options[ $profile ];
+			if ( WPSEO_Options::get( $profile, '' ) !== '' ) {
+				$this->profiles[] = WPSEO_Options::get( $profile );
 			}
 		}
 
-		if ( ! empty( $this->options['twitter_site'] ) ) {
-			$this->profiles[] = 'https://twitter.com/' . $this->options['twitter_site'];
+		if ( WPSEO_Options::get( 'twitter_site', '' ) !== '' ) {
+			$this->profiles[] = 'https://twitter.com/' . WPSEO_Options::get( 'twitter_site' );
 		}
 	}
 
@@ -210,15 +202,17 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * Returns an alternate name if one was specified in the Yoast SEO settings.
 	 */
 	private function add_alternate_name() {
-		if ( '' !== $this->options['alternate_website_name'] ) {
-			$this->data['alternateName'] = $this->options['alternate_website_name'];
+		if ( '' !== WPSEO_Options::get( 'alternate_website_name', '' ) ) {
+			$this->data['alternateName'] = WPSEO_Options::get( 'alternate_website_name' );
 		}
 	}
 
 	/**
-	 * Adds the internal search JSON LD code if it's not disabled.
+	 * Adds the internal search JSON LD code to the homepage if it's not disabled.
 	 *
 	 * @link https://developers.google.com/structured-data/slsb-overview
+	 *
+	 * @return void
 	 */
 	private function internal_search_section() {
 		/**
@@ -250,24 +244,10 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @return string
 	 */
 	private function get_website_name() {
-		if ( '' !== $this->options['website_name'] ) {
-			return $this->options['website_name'];
+		if ( '' !== WPSEO_Options::get( 'website_name', '' ) ) {
+			return WPSEO_Options::get( 'website_name' );
 		}
 
 		return get_bloginfo( 'name' );
-	}
-
-	/**
-	 * Renders internal search schema markup.
-	 *
-	 * @deprecated 2.1
-	 * @deprecated use WPSEO_JSON_LD::website()
-
-	 * @codeCoverageIgnore
-	 */
-	public function internal_search() {
-		_deprecated_function( __METHOD__, 'WPSEO 2.1', 'WPSEO_JSON_LD::website()' );
-
-		$this->website();
 	}
 }

@@ -262,9 +262,8 @@ class WPSEO_Meta {
 	 */
 	public static function init() {
 
-		$options = WPSEO_Options::get_option( 'wpseo_social' );
 		foreach ( self::$social_networks as $option => $network ) {
-			if ( true === $options[ $option ] ) {
+			if ( true === WPSEO_Options::get( $option, false ) ) {
 				foreach ( self::$social_fields as $box => $type ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = array(
 						'type'          => $type,
@@ -275,7 +274,7 @@ class WPSEO_Meta {
 				}
 			}
 		}
-		unset( $options, $option, $network, $box, $type );
+		unset( $option, $network, $box, $type );
 
 		/**
 		 * Allow add-on plugins to register their meta fields for management by this class
@@ -350,7 +349,6 @@ class WPSEO_Meta {
 
 
 			case 'general':
-				$options = WPSEO_Options::get_option( 'wpseo_titles' );
 				/**
 				 * Filter the WPSEO metabox form field definitions for the general tab, backward compatibility
 				 *
@@ -369,9 +367,7 @@ class WPSEO_Meta {
 			case 'advanced':
 				global $post;
 
-				$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_titles', 'wpseo_internallinks' ) );
-
-				if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && $options['disableadvanced_meta'] ) {
+				if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) ) {
 					return array();
 				}
 
@@ -383,8 +379,12 @@ class WPSEO_Meta {
 					$post_type = sanitize_text_field( $_GET['post_type'] );
 				}
 
-				/* Adjust the no-index 'default for post type' text string based on the post type */
-				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options[ 'noindex-' . $post_type ] ) && $options[ 'noindex-' . $post_type ] === true ) ? 'noindex' : 'index' ) );
+				/* Adjust the no-index text strings based on the post type. */
+				$post_type_object = get_post_type_object( $post_type );
+
+				$field_defs['meta-robots-noindex']['title']        = sprintf( $field_defs['meta-robots-noindex']['title'], $post_type_object->labels->singular_name );
+				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( WPSEO_Options::get( 'noindex-' . $post_type, false ) === true ) ? $field_defs['meta-robots-noindex']['options']['1'] : $field_defs['meta-robots-noindex']['options']['2'] ), $post_type_object->label );
+				$field_defs['meta-robots-nofollow']['title']       = sprintf( $field_defs['meta-robots-nofollow']['title'], $post_type_object->labels->singular_name );
 
 				/* Adjust the robots advanced 'site-wide default' text string based on those settings */
 				$robots_adv = __( 'None', 'wordpress-seo' );
@@ -394,7 +394,7 @@ class WPSEO_Meta {
 
 
 				/* Don't show the breadcrumb title field if breadcrumbs aren't enabled */
-				if ( $options['breadcrumbs-enable'] !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
+				if ( WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
 					unset( $field_defs['bctitle'] );
 				}
 

@@ -14,191 +14,93 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	/**
-	 * Set up our double class
+	 * Set up our double class.
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
+
+		// Make sure the author archives are enabled.
+		WPSEO_Options::set( 'disable-author', false );
 
 		self::$class_instance = new WPSEO_Author_Sitemap_Provider();
 	}
 
 	/**
-	 * Remove all created filters.
-	 */
-	public function tearDown() {
-		parent::tearDown();
-
-		remove_filter( 'get_usernumposts', array( $this, 'filter_user_has_no_posts' ) );
-		remove_filter( 'get_usernumposts', array( $this, 'filter_user_has_posts' ) );
-
-		remove_filter( 'pre_option_wpseo_xml', array( $this, 'filter_enable_author_sitemaps' ) );
-		remove_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_role' ) );
-		remove_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_no_posts' ) );
-
-		remove_filter( 'get_the_author_wpseo_excludeauthorsitemap', array( $this, 'filter_user_meta_exclude_author_from_sitemap' ) );
-	}
-
-	/**
-	 * Get a test user
-	 *
-	 * @return stdClass
-	 */
-	public function get_user() {
-		static $user_id = 1;
-
-		$user        = new stdClass();
-		$user->roles = array( 'administrator' );
-		$user->ID    = $user_id++;
-
-		return $user;
-	}
-
-	/**
-	 * Exclude user from sitemaps by excluding the entire role
-	 */
-	public function test_author_exclusion_from_sitemap_by_role() {
-		$user = $this->get_user();
-
-		// Filter out all administrators.
-		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_administrator_role' ) );
-
-		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
-
-		// User should be removed.
-		$this->assertEmpty( $sitemap_links );
-	}
-
-	/**
-	 * Test if a user is excluded from sitemaps when disabled on profile
-	 */
-	public function test_author_exclusion_from_sitemap_by_preference() {
-		$user = $this->get_user();
-
-		// Enable author sitemaps.
-		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_enable_author_sitemaps' ) );
-
-		// Make sure the user has posts.
-		add_filter( 'get_usernumposts', array( $this, 'filter_user_has_posts' ) );
-
-		// Add filter to exclude the user.
-		add_filter( 'get_the_author_wpseo_excludeauthorsitemap', array( $this, 'filter_user_meta_exclude_author_from_sitemap' ) );
-
-		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
-
-		// User should be removed.
-		$this->assertEmpty( $sitemap_links );
-	}
-
-	/**
-	 * Test if a user is excluded from the sitemap when there are no posts
+	 * Test if a user is excluded from the sitemap when there are no posts.
 	 */
 	public function test_author_excluded_from_sitemap_by_zero_posts() {
-		$user = $this->get_user();
+		// Remove authors with no posts.
+		WPSEO_Options::set( 'noindex-author-noposts-wpseo', true );
 
-		// Don't allow no posts.
-		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_no_posts' ) );
+		// Create a user, without any posts.
+		$this->factory->user->create( array( 'role' => 'author' ) );
 
-		// Make the user have -no- posts.
-		add_filter( 'get_usernumposts', array( $this, 'filter_user_has_no_posts' ) );
-
+		// Check which authors are in the sitemap.
 		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
 
-		// User should be removed.
+		// User should not be in the list.
 		$this->assertEmpty( $sitemap_links );
 	}
 
 	/**
-	 * Get defaults
-	 *
-	 * @return array
+	 * Tests if a user is NOT excluded from the sitemap when there are posts.
 	 */
-	private function wpseo_option_xml_defaults() {
-		static $defaults;
+	public function test_author_not_excluded_from_sitemap_non_zero_posts() {
+		// Remove authors with no posts.
+		WPSEO_Options::set( 'noindex-author-noposts-wpseo', true );
 
-		if ( ! isset( $defaults ) ) {
-			$wpseo_option_xml = WPSEO_Option_XML_Double::get_instance();
-			$defaults         = $wpseo_option_xml->get_defaults();
+		// Create a user, without any posts.
+		$user_id = $this->factory->user->create( array( 'role' => 'author' ) );
 
-			// Make sure the author sitemaps are enabled.
-			$defaults['disable_author_sitemap'] = false;
-		}
+		// Create posts.
+		$this->factory->post->create_many( 3, array( 'post_author' => $user_id ) );
 
-		return $defaults;
+		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
+
+		// User should now be in the XML sitemap as user now has 3 posts.
+		$this->assertCount( 1, $sitemap_links );
+
+		// Make sure it's the user we expected.
+		$this->assertContains( get_author_posts_url( $user_id ), wp_list_pluck( $sitemap_links, 'loc' ) );
 	}
 
 	/**
-	 * Exclude author by role
-	 *
-	 * @param mixed $false False.
-	 *
-	 * @return array
+	 * Test if a user is NOT excluded from the sitemap when there are no posts.
 	 */
-	public function filter_exclude_author_by_administrator_role( $false = false ) {
-		return array_merge(
-			$this->wpseo_option_xml_defaults(),
-			array(
-				'user_role-administrator-not_in_sitemap' => true,
-			)
-		);
+	public function test_author_not_excluded_from_sitemap_by_zero_posts() {
+		// Don't remove authors with no posts.
+		WPSEO_Options::set( 'noindex-author-noposts-wpseo', false );
+
+		// Add three more users (of different types) without posts.
+		$author_id = $this->factory->user->create( array( 'role' => 'author' ) );
+		$admin_id  = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$editor_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+
+		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
+
+		// We should now have three in the XML sitemap.
+		$this->assertCount( 3, $sitemap_links );
+
+		$sitemap_urls = wp_list_pluck( $sitemap_links, 'loc' );
+		$this->assertContains( get_author_posts_url( $author_id ), $sitemap_urls );
+		$this->assertContains( get_author_posts_url( $admin_id ), $sitemap_urls );
+		$this->assertContains( get_author_posts_url( $editor_id ), $sitemap_urls );
 	}
 
 	/**
-	 * Don't exclude author by role
-	 *
-	 * @param mixed $false False.
-	 *
-	 * @return array
+	 * Test whether setting a user to not be visible in search results excludes user from XML sitemap.
 	 */
-	public function filter_enable_author_sitemaps( $false = false ) {
-		return $this->wpseo_option_xml_defaults();
-	}
+	public function test_author_exclusion() {
+		// Create a user with 3 posts.
+		$user_id = $this->factory->user->create( array( 'role' => 'author' ) );
+		$this->factory->post->create_many( 3, array( 'post_author' => $user_id ) );
 
-	/**
-	 * Exclude author that has no posts
-	 *
-	 * @param mixed $false False.
-	 *
-	 * @return array
-	 */
-	public function filter_exclude_author_by_no_posts( $false = false ) {
-		return array_merge(
-			$this->wpseo_option_xml_defaults(),
-			array(
-				'disable_author_noposts' => true,
-			)
-		);
-	}
+		// Exclude the user from the sitemaps.
+		update_user_meta( $user_id, 'wpseo_noindex_author', 'on' );
 
-	/**
-	 * Exclude author by profile setting
-	 *
-	 * @param mixed $value Value.
-	 *
-	 * @return string
-	 */
-	public function filter_user_meta_exclude_author_from_sitemap( $value ) {
-		return 'on';
-	}
+		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
 
-	/**
-	 * Pretend user has 0 posts
-	 *
-	 * @param mixed $count Null.
-	 *
-	 * @return int
-	 */
-	public function filter_user_has_no_posts( $count = 0 ) {
-		return 0;
-	}
-
-	/**
-	 * Pretend user has posts
-	 *
-	 * @param mixed $count Null.
-	 *
-	 * @return int
-	 */
-	public function filter_user_has_posts( $count = 0 ) {
-		return 1;
+		// User should not be in the XML sitemap.
+		$this->assertEmpty( $sitemap_links );
 	}
 }

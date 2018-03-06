@@ -288,16 +288,17 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Create a light switch input field.
+	 * Create a light switch input field using a single checkbox.
 	 *
 	 * @since 3.1
 	 *
 	 * @param string  $var        The variable within the option to create the checkbox for.
-	 * @param string  $label      The label to show for the variable.
-	 * @param array   $buttons    Array of two labels for the buttons (defaults Off/On).
+	 * @param string  $label      The label element text for the checkbox.
+	 * @param array   $buttons    Array of two visual labels for the buttons (defaults Disabled/Enabled).
 	 * @param boolean $reverse    Reverse order of buttons (default true).
+	 * @param string  $help       Inline Help that will be printed out before the visible toggles text.
 	 */
-	public function light_switch( $var, $label, $buttons = array(), $reverse = true ) {
+	public function light_switch( $var, $label, $buttons = array(), $reverse = true, $help = '' ) {
 
 		if ( ! isset( $this->options[ $var ] ) ) {
 			$this->options[ $var ] = false;
@@ -320,10 +321,16 @@ class Yoast_Form {
 
 		list( $off_button, $on_button ) = $buttons;
 
-		echo '<div class="switch-container">',
-		'<label class="', esc_attr( $class ), '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
+		$help_class               = '';
+		$screen_reader_text_class = '';
+
+		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
+
+		echo "<div class='switch-container$help_class'>",
+		"<span class='switch-light-visual-label'>{$label}</span>" . $help,
+		'<label class="', $class, '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
 		'<input type="checkbox" aria-labelledby="', $aria_labelledby, '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>',
-		"<b class='label-text' id='{$aria_labelledby}'>{$label}</b>",
+		"<b class='label-text screen-reader-text' id='{$aria_labelledby}'>{$label}</b>",
 		'<span aria-hidden="true">
 			<span>', esc_html( $off_button ) ,'</span>
 			<span>', esc_html( $on_button ) ,'</span>
@@ -559,15 +566,18 @@ class Yoast_Form {
 
 
 	/**
-	 * Create a toggle switch input field.
+	 * Create a toggle switch input field using two radio buttons.
 	 *
 	 * @since 3.1
 	 *
-	 * @param string $var    The variable within the option to create the file upload field for.
-	 * @param array  $values The radio options to choose from.
-	 * @param string $label  The label to show for the variable.
+	 * @param string $var    The variable within the option to create the radio buttons for.
+	 * @param array  $values Associative array of on/off keys and their values to be used as
+	 *                       the label elements text for the radio buttons. Optionally, each
+	 *                       value can be an array of visible label text and screen reader text.
+	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
+	 * @param string $help   Inline Help that will be printed out before the visible toggles text.
 	 */
-	public function toggle_switch( $var, $values, $label ) {
+	public function toggle_switch( $var, $values, $label, $help = '' ) {
 		if ( ! is_array( $values ) || $values === array() ) {
 			return;
 		}
@@ -581,19 +591,79 @@ class Yoast_Form {
 			$this->options[ $var ] = 'off';
 		}
 
+		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
+
 		$var_esc = esc_attr( $var );
 
-		echo '<div class="switch-container">';
-		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>
-		<div class="switch-toggle switch-candy switch-yoast-seo">';
+		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
+		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help,
+		'<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {
+			$screen_reader_text      = '';
+			$screen_reader_text_html = '';
+
+			if ( is_array( $value ) ) {
+				$screen_reader_text      = $value['screen_reader_text'];
+				$screen_reader_text_html = '<span class="screen-reader-text"> ' . esc_html( $screen_reader_text ) . '</span>';
+				$value                   = $value['text'];
+			}
+
 			$key_esc = esc_attr( $key );
 			$for     = $var_esc . '-' . $key_esc;
 			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />',
-			'<label for="', $for, '">', $value, '</label>';
+			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html,'</label>';
 		}
 
 		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
+	}
+
+	/**
+	 * Creates a toggle switch to define whether an indexable should be indexed or not.
+	 *
+	 * @param string $var    The variable within the option to create the radio buttons for.
+	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
+	 * @param string $help   Inline Help that will be printed out before the visible toggles text.
+	 *
+	 * @return void
+	 */
+	public function index_switch( $var, $label, $help = '' ) {
+		$index_switch_values = array(
+			'off' => __( 'Yes', 'wordpress-seo' ),
+			'on'  => __( 'No', 'wordpress-seo' ),
+		);
+
+		$this->toggle_switch(
+			$var,
+			$index_switch_values,
+			sprintf(
+				/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
+				esc_html__( 'Show %s in search results?', 'wordpress-seo' ),
+				'<strong>' . esc_html( $label ) . '</strong>'
+			),
+			$help
+		);
+	}
+
+	/**
+	 * Creates a toggle switch to show hide certain options.
+	 *
+	 * @param string $var           The variable within the option to create the radio buttons for.
+	 * @param string $label         The visual label for the radio buttons group, used as the fieldset legend.
+	 * @param bool   $inverse_keys  Whether or not the option keys need to be inverted to support older functions.
+	 * @param string $help          Inline Help that will be printed out before the visible toggles text.
+	 *
+	 * @return void
+	 */
+	public function show_hide_switch( $var, $label, $inverse_keys = false, $help = '' ) {
+		$on_key  = ( $inverse_keys ) ? 'off' : 'on';
+		$off_key = ( $inverse_keys ) ? 'on' : 'off';
+
+		$show_hide_switch = array(
+			$on_key  => __( 'Show', 'wordpress-seo' ),
+			$off_key => __( 'Hide', 'wordpress-seo' ),
+		);
+
+		$this->toggle_switch( $var, $show_hide_switch, $label, $help );
 	}
 }

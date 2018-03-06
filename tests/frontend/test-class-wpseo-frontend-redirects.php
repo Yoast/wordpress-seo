@@ -69,12 +69,12 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 
 		$frontend = self::$class_instance;
 
-		$wp_query->is_author                 = true;
-		$frontend->options['disable-author'] = true;
+		$wp_query->is_author = true;
+		WPSEO_Options::set( 'disable-author', true );
 		$this->assertTrue( $frontend->archive_redirect() );
 
-		$wp_query->is_date                 = true;
-		$frontend->options['disable-date'] = true;
+		$wp_query->is_date = true;
+		WPSEO_Options::set( 'disable-date', true );
 		$this->assertTrue( $frontend->archive_redirect() );
 	}
 
@@ -84,14 +84,12 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect() {
-		// Create parent post ID.
-		$parent_post_id = $this->factory->post->create();
+		WPSEO_Options::set( 'disable-attachment', true );
 
 		// Create an attachment with parent.
 		$post_id = $this->factory->post->create(
 			array(
 				'post_type'   => 'attachment',
-				'post_parent' => $parent_post_id,
 			)
 		);
 		$this->go_to( get_permalink( $post_id ) );
@@ -106,6 +104,8 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
 	public function test_attachment_redirect_no_attachment() {
+		WPSEO_Options::set( 'disable-attachment', true );
+
 		$post_id = $this->factory->post->create( array( 'post_type' => 'post' ) );
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -131,21 +131,21 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * Tests for a request without a parent on an attachment.
+	 * Tests for a request when attachment redirect is not enabled.
 	 *
 	 * @covers WPSEO_Frontend::attachment_redirect
 	 */
-	public function test_attachment_redirect_no_parent() {
+	public function test_attachment_redirect_not_enabled() {
+		WPSEO_Options::set( 'disable-attachment', false );
+
 		// Create and go to post.
 		$post_id = $this->factory->post->create(
 			array(
 				'post_type'   => 'attachment',
-				'post_parent' => 0,
 			)
 		);
 		$this->go_to( get_permalink( $post_id ) );
 
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
-		$this->assertEquals( 1, did_action( 'wpseo_redirect_orphan_attachment' ) );
 	}
 }

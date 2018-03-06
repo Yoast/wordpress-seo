@@ -25,11 +25,6 @@ class WPSEO_Twitter {
 	 */
 	public $shown_images = array();
 
-	/**
-	 * @var array $options Holds the options for the Twitter Card functionality
-	 */
-	public $options;
-
 	/** @var WPSEO_Frontend_Page_Type */
 	protected $frontend_page_type;
 
@@ -44,8 +39,6 @@ class WPSEO_Twitter {
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_option( 'wpseo_social' );
-
 		// Class for determine the current page type.
 		$this->frontend_page_type = new WPSEO_Frontend_Page_Type();
 
@@ -101,7 +94,7 @@ class WPSEO_Twitter {
 	 * Determines the twitter card type for the current page
 	 */
 	private function determine_card_type() {
-		$this->type = $this->options['twitter_card_type'];
+		$this->type = WPSEO_Options::get( 'twitter_card_type' );
 
 		// @todo This should be reworked to use summary_large_image for any fitting image R.
 		if ( is_singular() && has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
@@ -318,7 +311,7 @@ class WPSEO_Twitter {
 		 *
 		 * @api string $unsigned Twitter site account string
 		 */
-		$site = apply_filters( 'wpseo_twitter_site', $this->options['twitter_site'] );
+		$site = apply_filters( 'wpseo_twitter_site', WPSEO_Options::get( 'twitter_site' ) );
 		$site = $this->get_twitter_id( $site );
 
 		if ( is_string( $site ) && $site !== '' ) {
@@ -357,8 +350,8 @@ class WPSEO_Twitter {
 			$this->single_image_output();
 		}
 
-		if ( count( $this->shown_images ) === 0 && $this->options['og_default_image'] !== '' ) {
-			$this->image_output( $this->options['og_default_image'] );
+		if ( count( $this->shown_images ) === 0 && WPSEO_Options::get( 'og_default_image', '' ) !== '' ) {
+			$this->image_output( WPSEO_Options::get( 'og_default_image' ) );
 		}
 	}
 
@@ -442,8 +435,8 @@ class WPSEO_Twitter {
 	 */
 	private function homepage_image_output() {
 		if ( is_front_page() ) {
-			if ( $this->options['og_frontpage_image'] !== '' ) {
-				$this->image_output( $this->options['og_frontpage_image'] );
+			if ( WPSEO_Options::get( 'og_frontpage_image', '' ) !== '' ) {
+				$this->image_output( WPSEO_Options::get( 'og_frontpage_image' ) );
 
 				return true;
 			}
@@ -638,8 +631,8 @@ class WPSEO_Twitter {
 		if ( is_string( $twitter ) && $twitter !== '' ) {
 			$this->output_metatag( 'creator', '@' . $twitter );
 		}
-		elseif ( $this->options['twitter_site'] !== '' && is_string( $this->options['twitter_site'] ) ) {
-			$this->output_metatag( 'creator', '@' . $this->options['twitter_site'] );
+		elseif ( WPSEO_Options::get( 'twitter_site', '' ) !== '' && is_string( WPSEO_Options::get( 'twitter_site' ) ) ) {
+			$this->output_metatag( 'creator', '@' . WPSEO_Options::get( 'twitter_site' ) );
 		}
 	}
 
@@ -654,16 +647,5 @@ class WPSEO_Twitter {
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * Displays the domain tag for the site.
-	 *
-	 * @deprecated 3.0
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function site_domain() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
 	}
 } /* End of class */

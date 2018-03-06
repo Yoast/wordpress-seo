@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '6.3.1' );
+define( 'WPSEO_VERSION', '7.0' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -266,18 +266,16 @@ function wpseo_init() {
 	WPSEO_Options::get_instance();
 	WPSEO_Meta::init();
 
-	$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks', 'wpseo_xml' ) );
-	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
+	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
 		new WPSEO_Upgrade();
 		// Get a cleaned up version of the $options.
-		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks', 'wpseo_xml' ) );
 	}
 
-	if ( $options['stripcategorybase'] === true ) {
+	if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
 		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 	}
 
-	if ( $options['enablexmlsitemap'] === true ) {
+	if ( WPSEO_Options::get( 'enable_xml_sitemap' ) === true ) {
 		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps();
 	}
 
@@ -325,8 +323,7 @@ function wpseo_init_rest_api() {
 function wpseo_frontend_init() {
 	add_action( 'init', 'initialize_wpseo_front' );
 
-	$options = WPSEO_Options::get_option( 'wpseo_internallinks' );
-	if ( $options['breadcrumbs-enable'] === true ) {
+	if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
 		/**
 		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
 		 * there's no reason to have bbPress breadcrumbs as well.
@@ -344,12 +341,11 @@ function wpseo_frontend_init() {
  * Instantiate the different social classes on the frontend
  */
 function wpseo_frontend_head_init() {
-	$options = WPSEO_Options::get_option( 'wpseo_social' );
-	if ( $options['twitter'] === true ) {
+	if ( WPSEO_Options::get( 'twitter' ) === true ) {
 		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
 	}
 
-	if ( $options['opengraph'] === true ) {
+	if ( WPSEO_Options::get( 'opengraph' ) === true ) {
 		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph();
 	}
 
