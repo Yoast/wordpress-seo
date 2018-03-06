@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 6.3.1\n"
+"Project-Id-Version: Yoast SEO 7.0\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-03-06 09:38:06+00:00\n"
+"POT-Creation-Date: 2018-03-06 12:00:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -335,8 +335,8 @@ msgstr ""
 msgid "Why Google won't display the right page title"
 msgstr ""
 
-#: admin/class-admin.php:497 admin/class-admin.php:498
-#: admin/pages/metas.php:40 admin/pages/metas.php:61
+#: admin/class-admin.php:497 admin/class-admin.php:498 admin/pages/metas.php:40
+#: admin/pages/metas.php:61
 msgid "Template explanation"
 msgstr ""
 
@@ -352,13 +352,11 @@ msgstr ""
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:511 admin/class-admin.php:512
-#: admin/pages/metas.php:68
+#: admin/class-admin.php:511 admin/class-admin.php:512 admin/pages/metas.php:68
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:519 admin/class-admin.php:520
-#: admin/pages/metas.php:74
+#: admin/class-admin.php:519 admin/class-admin.php:520 admin/pages/metas.php:74
 msgid "Advanced Variables"
 msgstr ""
 
@@ -714,13 +712,11 @@ msgid ""
 "site and enabling %1$s for it in %2$s."
 msgstr ""
 
-#: admin/class-meta-columns.php:65
-#: admin/taxonomy/class-taxonomy-columns.php:60
+#: admin/class-meta-columns.php:65 admin/taxonomy/class-taxonomy-columns.php:60
 msgid "SEO score"
 msgstr ""
 
-#: admin/class-meta-columns.php:69
-#: admin/taxonomy/class-taxonomy-columns.php:64
+#: admin/class-meta-columns.php:69 admin/taxonomy/class-taxonomy-columns.php:64
 msgid "Readability score"
 msgstr ""
 
@@ -972,14 +968,12 @@ msgid "The recommended image size for %1$s is %2$s pixels."
 msgstr ""
 
 #: admin/class-social-admin.php:40 admin/class-social-admin.php:161
-#: admin/pages/social.php:17
-#: admin/taxonomy/class-taxonomy-social-fields.php:95
+#: admin/pages/social.php:17 admin/taxonomy/class-taxonomy-social-fields.php:95
 msgid "Facebook"
 msgstr ""
 
 #: admin/class-social-admin.php:41 admin/class-social-admin.php:164
-#: admin/pages/social.php:18
-#: admin/taxonomy/class-taxonomy-social-fields.php:99
+#: admin/pages/social.php:18 admin/taxonomy/class-taxonomy-social-fields.php:99
 msgid "Twitter"
 msgstr ""
 
@@ -4835,97 +4829,6 @@ msgid ""
 "provide."
 msgstr ""
 
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:92
-msgid ""
-"Please explain what you're trying to find or do. If something isn't working, "
-"please explain what you expect to happen. If you can make a screenshot, "
-"please attach it."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:94
-msgid "Note: submitting this form also sends us debug info about your server."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:106
-msgid "What can we help you with?"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:107
-msgid ""
-"Your search timed out. Please double-check your internet connection and try "
-"again."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:108
-msgid "No results found for"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:109
-msgid "Send a Message"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:110
-msgid "Attach a file"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:111
-msgid "The maximum file size is 10 MB"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:112
-msgid "Your Name"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:113
-msgid "Please enter your name"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:114
-msgid "Email address"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:115
-msgid "Please enter a valid email address"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:116
-msgid "Select a topic"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:117
-msgid "Please select a topic from the list"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:118
-msgid "Subject"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:119
-msgid "Please enter a subject"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:120
-msgid "How can we help you?"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:121
-msgid "Please enter a message"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:122
-msgid "Send"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:123
-msgid "Message sent, thank you!"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:124
-msgid ""
-"Someone from Team Yoast will get back to you soon, normally within a couple "
-"of hours."
-msgstr ""
-
 #: wp-seo-main.php:448
 msgid ""
 "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask "
@@ -5027,6 +4930,7 @@ msgstr ""
 #. Translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
 #. %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score.
 #: node_modules/yoastseo/js/assessments/readability/fleschReadingEaseAssessment.js:76
+#, javascript-format
 msgid ""
 "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s"
 msgstr ""
@@ -5037,6 +4941,7 @@ msgstr ""
 
 #. Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
 #: node_modules/yoastseo/js/assessments/readability/paragraphTooLongAssessment.js:59
+#, javascript-format
 msgid ""
 "%1$d of the paragraphs contains more than the recommended maximum of %2$d "
 "words. Are you sure all information is about the same topic, and therefore "
@@ -5051,6 +4956,7 @@ msgstr[1] ""
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:48
+#, javascript-format
 msgid ""
 "%1$s of the sentences contain %2$spassive voice%3$s, which is less than or "
 "equal to the recommended maximum of %4$s."
@@ -5059,6 +4965,7 @@ msgstr ""
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:57
+#, javascript-format
 msgid ""
 "%1$s of the sentences contain %2$spassive voice%3$s, which is more than the "
 "recommended maximum of %4$s. Try to use their active counterparts."
@@ -5067,6 +4974,7 @@ msgstr ""
 #. Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start with the same word.
 #. %2$d expands to the number of consecutive sentences starting with the same word.
 #: node_modules/yoastseo/js/assessments/readability/sentenceBeginningsAssessment.js:46
+#, javascript-format
 msgid ""
 "The text contains %2$d consecutive sentences starting with the same word. "
 "Try to mix things up!"
@@ -5079,12 +4987,14 @@ msgstr[1] ""
 #. Translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
 #. %3$s expands to the anchor end tag.
 #: node_modules/yoastseo/js/assessments/readability/sentenceLengthInDescriptionAssessment.js:40
+#, javascript-format
 msgid "The meta description contains no sentences %1$sover %2$s words%3$s."
 msgstr ""
 
 #. Translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag.
 #: node_modules/yoastseo/js/assessments/readability/sentenceLengthInDescriptionAssessment.js:48
+#, javascript-format
 msgid ""
 "The meta description contains %1$d sentence %2$sover %3$s words%4$s. Try to "
 "shorten this sentence."
@@ -5098,6 +5008,7 @@ msgstr[1] ""
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
 #: node_modules/yoastseo/js/assessments/readability/sentenceLengthInTextAssessment.js:126
+#, javascript-format
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less "
 "than or equal to the recommended maximum of %5$s."
@@ -5107,6 +5018,7 @@ msgstr ""
 #. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
 #. %5$s expands to the recommended maximum percentage.
 #: node_modules/yoastseo/js/assessments/readability/sentenceLengthInTextAssessment.js:132
+#, javascript-format
 msgid ""
 "%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more "
 "than the recommended maximum of %5$s. Try to shorten the sentences."
@@ -5114,12 +5026,14 @@ msgstr ""
 
 #. Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 #: node_modules/yoastseo/js/assessments/readability/subheadingDistributionTooLongAssessment.js:168
+#, javascript-format
 msgid ""
 "The text does not contain any %1$ssubheadings%2$s. Add at least one "
 "subheading."
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/readability/subheadingDistributionTooLongAssessment.js:171
+#, javascript-format
 msgid ""
 "The amount of words following each of the subheadings doesn't exceed the "
 "recommended maximum of %1$d words, which is great."
@@ -5127,6 +5041,7 @@ msgstr ""
 
 #. Translators: %1$d expands to the number of subheadings, %2$d expands to the recommended value
 #: node_modules/yoastseo/js/assessments/readability/subheadingDistributionTooLongAssessment.js:174
+#, javascript-format
 msgid ""
 "%1$d subheading is followed by more than the recommended maximum of %2$d "
 "words. Try to insert another subheading."
@@ -5145,6 +5060,7 @@ msgstr ""
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
 #: node_modules/yoastseo/js/assessments/readability/transitionWordsAssessment.js:57
+#, javascript-format
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "less than the recommended minimum of %4$s."
@@ -5153,6 +5069,7 @@ msgstr ""
 #. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag.
 #: node_modules/yoastseo/js/assessments/readability/transitionWordsAssessment.js:66
+#, javascript-format
 msgid ""
 "%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
 "great."
@@ -5162,6 +5079,7 @@ msgstr ""
 #. %3$d expands to the recommended maximum number of syllables,
 #. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 #: node_modules/yoastseo/js/assessments/readability/wordComplexityAssessment.js:56
+#, javascript-format
 msgid ""
 "%1$s of the words contain %2$sover %3$s syllables%4$s, which is less than or "
 "equal to the recommended maximum of %5$s."
@@ -5171,6 +5089,7 @@ msgstr ""
 #. %3$d expands to the recommended maximum number of syllables,
 #. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 #: node_modules/yoastseo/js/assessments/readability/wordComplexityAssessment.js:66
+#, javascript-format
 msgid ""
 "%1$s of the words contain %2$sover %3$s syllables%4$s, which is more than "
 "the recommended maximum of %5$s."
@@ -5183,11 +5102,13 @@ msgstr ""
 
 #. Translators: %1$s expands the number of internal links
 #: node_modules/yoastseo/js/assessments/seo/internalLinksAssessment.js:23
+#, javascript-format
 msgid "This page has %1$s internal link(s), all nofollowed."
 msgstr ""
 
 #. Translators: %1$s expands to the number of nofollow links, %2$s to the number of internal links
 #: node_modules/yoastseo/js/assessments/seo/internalLinksAssessment.js:30
+#, javascript-format
 msgid ""
 "This page has %1$s nofollowed internal link(s) and %2$s normal internal "
 "link(s)."
@@ -5195,6 +5116,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of internal links
 #: node_modules/yoastseo/js/assessments/seo/internalLinksAssessment.js:37
+#, javascript-format
 msgid "This page has %1$s internal link(s)."
 msgstr ""
 
@@ -5221,6 +5143,7 @@ msgstr ""
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
 #: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:26
+#, javascript-format
 msgid ""
 "The keyword density is %1$s, which is way over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
@@ -5229,6 +5152,7 @@ msgstr ""
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
 #: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:34
+#, javascript-format
 msgid ""
 "The keyword density is %1$s, which is over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
@@ -5236,6 +5160,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
 #: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:41
+#, javascript-format
 msgid ""
 "The keyword density is %1$s, which is great; the focus keyword was found "
 "%2$d times."
@@ -5243,6 +5168,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
 #: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:47
+#, javascript-format
 msgid ""
 "The keyword density is %1$s, which is too low; the focus keyword was found "
 "%2$d times."
@@ -5250,6 +5176,7 @@ msgstr ""
 
 #. Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link
 #: node_modules/yoastseo/js/assessments/seo/keywordStopWordsAssessment.js:18
+#, javascript-format
 msgid ""
 "The focus keyword contains a stop word. This may or may not be wise "
 "depending on the circumstances. %1$sLearn more about the stop words%2$s."
@@ -5276,12 +5203,14 @@ msgid ""
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js:110
+#, javascript-format
 msgid ""
 "The meta description is under %1$d characters long. However, up to %2$d "
 "characters are available."
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js:113
+#, javascript-format
 msgid ""
 "The meta description is over %1$d characters. Reducing the length will "
 "ensure the entire description will be visible."
@@ -5298,11 +5227,13 @@ msgstr ""
 
 #. Translators: %1$s expands the number of outbound links
 #: node_modules/yoastseo/js/assessments/seo/outboundLinksAssessment.js:125
+#, javascript-format
 msgid "This page has %1$s outbound link(s), all nofollowed."
 msgstr ""
 
 #. Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links
 #: node_modules/yoastseo/js/assessments/seo/outboundLinksAssessment.js:129
+#, javascript-format
 msgid ""
 "This page has %1$s nofollowed outbound link(s) and %2$s normal outbound "
 "link(s)."
@@ -5310,6 +5241,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of outbound links
 #: node_modules/yoastseo/js/assessments/seo/outboundLinksAssessment.js:133
+#, javascript-format
 msgid "This page has %1$s outbound link(s)."
 msgstr ""
 
@@ -5332,6 +5264,7 @@ msgid "Please create an SEO title."
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/subheadingsKeywordAssessment.js:116
+#, javascript-format
 msgid ""
 "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy."
 msgstr ""
@@ -5353,6 +5286,7 @@ msgstr ""
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:123
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:130
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:137
+#, javascript-format
 msgid "The text contains %1$d word."
 msgid_plural "The text contains %1$d words."
 msgstr[0] ""
@@ -5361,6 +5295,7 @@ msgstr[1] ""
 #. Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words.
 #: node_modules/yoastseo/js/assessments/seo/taxonomyTextLengthAssessment.js:20
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:118
+#, javascript-format
 msgid "This is more than or equal to the recommended minimum of %2$d word."
 msgid_plural ""
 "This is more than or equal to the recommended minimum of %2$d words."
@@ -5371,6 +5306,7 @@ msgstr[1] ""
 #. Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words
 #: node_modules/yoastseo/js/assessments/seo/taxonomyTextLengthAssessment.js:30
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:125
+#, javascript-format
 msgid ""
 "This is slightly below the recommended minimum of %2$d word. Add a bit more "
 "copy."
@@ -5385,6 +5321,7 @@ msgstr[1] ""
 #: node_modules/yoastseo/js/assessments/seo/taxonomyTextLengthAssessment.js:40
 #: node_modules/yoastseo/js/assessments/seo/taxonomyTextLengthAssessment.js:50
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:132
+#, javascript-format
 msgid ""
 "This is below the recommended minimum of %2$d word. Add more content that is "
 "relevant for the topic."
@@ -5398,6 +5335,7 @@ msgstr[1] ""
 #. Translators: The preceding sentence is "The text contains x words.", %2$s expands to the recommended minimum of words
 #: node_modules/yoastseo/js/assessments/seo/taxonomyTextLengthAssessment.js:60
 #: node_modules/yoastseo/js/assessments/seo/textLengthAssessment.js:139
+#, javascript-format
 msgid ""
 "This is far below the recommended minimum of %2$d word. Add more content "
 "that is relevant for the topic."
@@ -5436,6 +5374,7 @@ msgid "The images on this page are missing alt attributes."
 msgstr ""
 
 #: node_modules/yoastseo/js/assessments/seo/titleKeywordAssessment.js:17
+#, javascript-format
 msgid "The focus keyword '%1$s' does not appear in the SEO title."
 msgstr ""
 
@@ -5467,6 +5406,7 @@ msgstr ""
 
 #. Translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link
 #: node_modules/yoastseo/js/assessments/seo/urlStopWordsAssessment.js:18
+#, javascript-format
 msgid ""
 "The slug for this page contains a %1$sstop word%2$s, consider removing it."
 msgid_plural ""
@@ -5481,6 +5421,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the name of the assessment.
 #: node_modules/yoastseo/js/assessor.js:165
+#, javascript-format
 msgid "An error occurred in the '%1$s' assessment"
 msgstr ""
 
@@ -5491,6 +5432,7 @@ msgstr ""
 #. Translators: %1$s and %2$s expand to an admin link where the focus keyword is already used. %3$s and %4$s
 #. expand to a link to an article on yoast.com about why you should not use a keyword more than once.
 #: node_modules/yoastseo/js/bundledPlugins/previouslyUsedKeywords.js:74
+#, javascript-format
 msgid ""
 "You've used this focus keyword %1$sonce before%2$s. It’s probably a good "
 "idea to read about %3$swhy you should not use your focus keyword more than "
@@ -5501,6 +5443,7 @@ msgstr ""
 #. of times this focus keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com
 #. about why you should not use a keyword more than once.
 #: node_modules/yoastseo/js/bundledPlugins/previouslyUsedKeywords.js:84
+#, javascript-format
 msgid ""
 "You've used this focus keyword %1$s%2$d times before%3$s. It’s probably a "
 "good idea to read about %4$swhy you should not use your focus keyword more "
