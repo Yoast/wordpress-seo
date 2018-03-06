@@ -123,7 +123,7 @@ class WPSEO_Export_Keywords_CSV_Test extends WPSEO_UnitTestCase {
 
 		// One line for each keyword.
 		$this->assertCount( 3, $lines );
-		$this->assertEquals( '"0","post","fake title","http://www.example.org","bad","foo","ok","fake SEO title","this is a fake meta description"',$lines[0] );
+		$this->assertEquals( '"0","post","fake title","http://www.example.org","bad","foo","ok","fake SEO title","this is a fake meta description"', $lines[0] );
 		$this->assertEquals( '"0","post","fake title","http://www.example.org","bad","bar","good","fake SEO title","this is a fake meta description"', $lines[1] );
 		$this->assertEquals( '"0","post","fake title","http://www.example.org","bad","baz","na","fake SEO title","this is a fake meta description"', $lines[2] );
 	}
