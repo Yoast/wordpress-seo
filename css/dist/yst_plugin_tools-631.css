@@ -87,7 +87,8 @@ p.desc {
 	padding: 0 0 8px 25px;
 }
 
-p.desc.label {
+p.desc.label,
+div.desc.label {
 	margin: 0 0 20px;
 	padding: 0 0 10px 200px;
 }
@@ -263,12 +264,6 @@ table.yoast_help .yoast-variable-desc {
 	padding: 5px 8px;
 }
 
-/* Add Facebook admins buttons. @todo: remove this. */
-.fb-buttons .button-primary,
-.fb-buttons .button {
-	margin-right: 8px;
-}
-
 /* Tabs. */
 .wpseotab {
 	display: none;
@@ -425,11 +420,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .wpseo-progressbar .ui-progressbar-value {
 	height: 25px;
 	background: #006691;
-}
-
-/* Add Facebook admin popup: notification when submitting empty form. */
-.wpseo-add-fb-admin-form-wrap .notice span {
-	margin-left: 10px;
 }
 
 .archives-titles-metas-content {
@@ -640,7 +630,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		display: block;
 		max-width: 100%;
 	}
-	p.desc.label {
+	p.desc.label,
+	div.desc.label {
 		padding-left: 0;
 	}
 	.wp-core-ui .button.wpseo-gsc-save-profile {
