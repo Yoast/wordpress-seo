@@ -45,7 +45,7 @@ ul.wpseo-metabox-tabs:after {
 	clear: both;
 }
 
-.wpseo-metabox-tabs-div ul {
+.yoast.wpseo-metabox .wpseo-metabox-content ul {
 	list-style: none;
 }
 
@@ -318,20 +318,6 @@ ul.wpseo-metabox-tabs li {
 #current_seo_title span {
 	padding: 2px 5px;
 	background-color: lightyellow;
-}
-
-#focuskwresults ul {
-	margin: 0;
-}
-
-#focuskwresults p,
-#focuskwresults li {
-	font-size: 13px;
-}
-
-#focuskwresults li {
-	margin: 0 0 0 20px;
-	list-style-type: disc;
 }
 
 .wpseo_hidden {
