@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 7.0\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-03-06 12:00:13+00:00\n"
+"POT-Creation-Date: 2018-03-06 12:03:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4955,7 +4955,7 @@ msgstr[1] ""
 
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:48
+#: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:44
 #, javascript-format
 msgid ""
 "%1$s of the sentences contain %2$spassive voice%3$s, which is less than or "
@@ -4964,7 +4964,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 #. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-#: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:57
+#: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:53
 #, javascript-format
 msgid ""
 "%1$s of the sentences contain %2$spassive voice%3$s, which is more than the "
@@ -5142,7 +5142,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
-#: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:26
+#: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:27
 #, javascript-format
 msgid ""
 "The keyword density is %1$s, which is way over the advised %3$s maximum; the "
@@ -5151,7 +5151,7 @@ msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 #. %3$s expands to the maximum keyword density percentage.
-#: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:34
+#: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:35
 #, javascript-format
 msgid ""
 "The keyword density is %1$s, which is over the advised %3$s maximum; the "
@@ -5159,7 +5159,7 @@ msgid ""
 msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
-#: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:41
+#: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:42
 #, javascript-format
 msgid ""
 "The keyword density is %1$s, which is great; the focus keyword was found "
@@ -5167,7 +5167,7 @@ msgid ""
 msgstr ""
 
 #. Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
-#: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:47
+#: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:48
 #, javascript-format
 msgid ""
 "The keyword density is %1$s, which is too low; the focus keyword was found "
@@ -5490,56 +5490,56 @@ msgstr ""
 msgid "Remove marks in the text"
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:329
+#: node_modules/yoastseo/js/snippetPreview.js:323
 msgid "Edit snippet"
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:331
+#: node_modules/yoastseo/js/snippetPreview.js:325
 msgid "Slug"
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:333
+#: node_modules/yoastseo/js/snippetPreview.js:327
 msgid "Close snippet editor"
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:334
+#: node_modules/yoastseo/js/snippetPreview.js:328
 msgid "Snippet preview"
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:335
+#: node_modules/yoastseo/js/snippetPreview.js:329
 msgid "SEO title preview:"
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:336
+#: node_modules/yoastseo/js/snippetPreview.js:330
 msgid "Slug preview:"
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:337
+#: node_modules/yoastseo/js/snippetPreview.js:331
 msgid "Meta description preview:"
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:338
+#: node_modules/yoastseo/js/snippetPreview.js:332
 msgid ""
 "You can click on each element in the preview to jump to the Snippet Editor."
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:339
+#: node_modules/yoastseo/js/snippetPreview.js:333
 msgid "Desktop preview"
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:340
+#: node_modules/yoastseo/js/snippetPreview.js:334
 msgid "Mobile preview"
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:341
+#: node_modules/yoastseo/js/snippetPreview.js:335
 msgid "Scroll to see the preview content."
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:517
+#: node_modules/yoastseo/js/snippetPreview.js:513
 msgid "Please provide an SEO title by editing the snippet below."
 msgstr ""
 
-#: node_modules/yoastseo/js/snippetPreview.js:576
+#: node_modules/yoastseo/js/snippetPreview.js:572
 msgid "Please provide a meta description by editing the snippet below."
 msgstr ""
 
