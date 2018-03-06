@@ -11,6 +11,8 @@ module.exports = {
 		},
 		src: "readme.txt",
 	},
+
+	// When changing or adding entries, make sure to update `aliases.yml` for "update-version-trunk".
 	pluginFile: {
 		options: {
 			regEx: /(\* Version: )(\d+(\.\d+){0,3})([^\n^\.\d]?.*?)(\n)/,
