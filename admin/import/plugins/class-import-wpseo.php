@@ -65,7 +65,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @return void
 	 */
-	protected function import_helper() {
+	protected function import() {
 		$this->import_post_metas();
 		$this->import_taxonomy_metas();
 	}
@@ -75,7 +75,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @return void
 	 */
-	protected function cleanup_helper() {
+	protected function cleanup() {
 		$this->cleanup_term_meta();
 		$this->cleanup_post_meta();
 	}
@@ -85,8 +85,8 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @return bool Boolean indicating whether there is something to import.
 	 */
-	protected function detect_helper() {
-		if ( parent::detect_helper() ) {
+	protected function detect() {
+		if ( parent::detect() ) {
 			return true;
 		}
 
@@ -104,7 +104,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 * @return void
 	 */
 	private function import_post_metas() {
-		if ( $this->detect_helper() ) {
+		if ( $this->detect() ) {
 			WPSEO_Meta::replace_meta( '_wpseo_edit_title', WPSEO_Meta::$meta_prefix . 'title', false );
 			WPSEO_Meta::replace_meta( '_wpseo_edit_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
 			WPSEO_Meta::replace_meta( '_wpseo_edit_keywords', WPSEO_Meta::$meta_prefix . 'keywords', false );

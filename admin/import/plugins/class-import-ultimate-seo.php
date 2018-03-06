@@ -22,7 +22,7 @@ class WPSEO_Import_Ultimate_SEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @returns void
 	 */
-	protected function import_helper() {
+	protected function import() {
 		WPSEO_Meta::replace_meta( '_su_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
 		WPSEO_Meta::replace_meta( '_su_meta_robots_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );
 		WPSEO_Meta::replace_meta( '_su_meta_robots_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );

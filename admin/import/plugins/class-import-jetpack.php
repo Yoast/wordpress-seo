@@ -24,7 +24,7 @@ class WPSEO_Import_Jetpack_SEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @return void
 	 */
-	protected function import_helper() {
+	protected function import() {
 		WPSEO_Meta::replace_meta( 'advanced_seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
 	}
 

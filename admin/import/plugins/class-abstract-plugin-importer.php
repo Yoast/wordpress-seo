@@ -8,7 +8,7 @@
  *
  * Class with functionality to import Yoast SEO settings from other plugins.
  */
-abstract class WPSEO_Plugin_Importer implements WPSEO_Plugin_Importer_Interface {
+abstract class WPSEO_Plugin_Importer {
 	/**
 	 * Holds the import status object.
 	 *
@@ -36,7 +36,6 @@ abstract class WPSEO_Plugin_Importer implements WPSEO_Plugin_Importer_Interface 
 	 */
 	public function __construct() {
 		global $wpdb;
-
 		$this->wpdb = $wpdb;
 	}
 
@@ -45,7 +44,7 @@ abstract class WPSEO_Plugin_Importer implements WPSEO_Plugin_Importer_Interface 
 	 *
 	 * @return string Plugin name.
 	 */
-	public function plugin_name() {
+	public function get_plugin_name() {
 		return $this->plugin_name;
 	}
 
@@ -54,14 +53,14 @@ abstract class WPSEO_Plugin_Importer implements WPSEO_Plugin_Importer_Interface 
 	 *
 	 * @return WPSEO_Import_Status Import status object.
 	 */
-	public function import() {
+	public function run_import() {
 		$this->status = new WPSEO_Import_Status( 'import', false );
 
-		if ( ! $this->detect_helper() ) {
+		if ( ! $this->detect() ) {
 			return $this->status;
 		}
 
-		$this->import_helper();
+		$this->import();
 
 		return $this->status->set_status( true );
 	}
@@ -71,21 +70,21 @@ abstract class WPSEO_Plugin_Importer implements WPSEO_Plugin_Importer_Interface 
 	 *
 	 * @return void
 	 */
-	abstract protected function import_helper();
+	abstract protected function import();
 
 	/**
 	 * Removes the plugin data from the database.
 	 *
 	 * @return WPSEO_Import_Status Import status object.
 	 */
-	public function cleanup() {
+	public function run_cleanup() {
 		$this->status = new WPSEO_Import_Status( 'cleanup', false );
 
-		if ( ! $this->detect_helper() ) {
+		if ( ! $this->detect() ) {
 			return $this->status;
 		}
 
-		$this->cleanup_helper();
+		$this->cleanup();
 
 		return $this->status->set_status( true );
 	}
@@ -95,7 +94,7 @@ abstract class WPSEO_Plugin_Importer implements WPSEO_Plugin_Importer_Interface 
 	 *
 	 * @return void
 	 */
-	protected function cleanup_helper() {
+	protected function cleanup() {
 		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE %s", $this->meta_key ) );
 	}
 
@@ -104,10 +103,10 @@ abstract class WPSEO_Plugin_Importer implements WPSEO_Plugin_Importer_Interface 
 	 *
 	 * @return WPSEO_Import_Status Import status object.
 	 */
-	public function detect() {
+	public function run_detect() {
 		$this->status = new WPSEO_Import_Status( 'detect', false );
 
-		if ( ! $this->detect_helper() ) {
+		if ( ! $this->detect() ) {
 			return $this->status;
 		}
 
@@ -119,7 +118,7 @@ abstract class WPSEO_Plugin_Importer implements WPSEO_Plugin_Importer_Interface 
 	 *
 	 * @return bool Boolean indicating whether there is something to import.
 	 */
-	protected function detect_helper() {
+	protected function detect() {
 		$result = $this->wpdb->get_var( $this->wpdb->prepare( "SELECT COUNT(*) AS `count` FROM {$this->wpdb->postmeta} WHERE meta_key LIKE %s", $this->meta_key ) );
 		if ( $result === '0' ) {
 			return false;

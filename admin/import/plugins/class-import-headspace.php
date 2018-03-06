@@ -24,7 +24,7 @@ class WPSEO_Import_HeadSpace extends WPSEO_Plugin_Importer {
 	 *
 	 * @return void
 	 */
-	protected function import_helper() {
+	protected function import() {
 		WPSEO_Meta::replace_meta( '_headspace_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
 		WPSEO_Meta::replace_meta( '_headspace_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', false );
 		WPSEO_Meta::replace_meta( '_headspace_page_title', WPSEO_Meta::$meta_prefix . 'title', false );

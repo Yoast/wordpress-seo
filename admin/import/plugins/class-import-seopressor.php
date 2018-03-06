@@ -24,7 +24,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	 *
 	 * @return void
 	 */
-	protected function import_helper() {
+	protected function import() {
 		// Query for all the posts that have an _seop_settings meta set.
 		$query_posts = new WP_Query( 'post_type=any&meta_key=_seop_settings&order=ASC&fields=ids&nopaging=true' );
 		foreach ( $query_posts->posts as $key => $post_id ) {
@@ -38,7 +38,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	 *
 	 * @return void
 	 */
-	protected function cleanup_helper() {
+	protected function cleanup() {
 		// If we get to replace the data, let's do some proper cleanup.
 		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_seop_%'" );
 	}

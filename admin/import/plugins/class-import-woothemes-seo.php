@@ -24,7 +24,7 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @return void
 	 */
-	protected function cleanup_helper() {
+	protected function cleanup() {
 		$this->cleanup_options();
 		$this->cleanup_meta();
 	}
@@ -34,7 +34,7 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @return void
 	 */
-	protected function import_helper() {
+	protected function import() {
 		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );
 		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', false );
 		WPSEO_Meta::replace_meta( 'seo_title', WPSEO_Meta::$meta_prefix . 'title', false );

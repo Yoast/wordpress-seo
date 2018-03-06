@@ -22,41 +22,41 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Import_WPSEO::plugin_name
+	 * @covers WPSEO_Import_WPSEO::get_plugin_name
 	 */
 	public function test_plugin_name() {
-		$this->assertEquals( 'wpSEO.de', $this->class_instance->plugin_name() );
+		$this->assertEquals( 'wpSEO.de', $this->class_instance->get_plugin_name() );
 	}
 
 	/**
+	 * @covers WPSEO_Import_WPSEO::run_detect
 	 * @covers WPSEO_Import_WPSEO::detect
-	 * @covers WPSEO_Import_WPSEO::detect_helper
 	 */
 	public function test_detect_no_data() {
-		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->detect() );
+		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
 	}
 
 	/**
 	 * @covers WPSEO_Import_WPSEO::__construct
+	 * @covers WPSEO_Import_WPSEO::run_detect
 	 * @covers WPSEO_Import_WPSEO::detect
-	 * @covers WPSEO_Import_WPSEO::detect_helper
 	 */
 	public function test_detect() {
 		$this->setup_data();
-		$this->assertEquals( $this->status( 'detect', true ), $this->class_instance->detect() );
+		$this->assertEquals( $this->status( 'detect', true ), $this->class_instance->run_detect() );
 	}
 
 	/**
-	 * @covers WPSEO_Import_WPSEO::import
+	 * @covers WPSEO_Import_WPSEO::run_import
 	 */
 	public function test_import_no_data() {
-		$this->assertEquals( $this->status( 'import', false ), $this->class_instance->import() );
+		$this->assertEquals( $this->status( 'import', false ), $this->class_instance->run_import() );
 	}
 
 	/**
-	 * @covers WPSEO_Import_WPSEO::detect_helper
+	 * @covers WPSEO_Import_WPSEO::detect
+	 * @covers WPSEO_Import_WPSEO::run_import
 	 * @covers WPSEO_Import_WPSEO::import
-	 * @covers WPSEO_Import_WPSEO::import_helper
 	 * @covers WPSEO_Import_WPSEO::import_post_metas
 	 * @covers WPSEO_Import_WPSEO::import_post_robot
 	 * @covers WPSEO_Import_WPSEO::import_post_robots
@@ -66,7 +66,7 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_import() {
 		$post_id = $this->setup_data();
-		$result  = $this->class_instance->import();
+		$result  = $this->class_instance->run_import();
 
 		$seo_title       = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
 		$seo_desc        = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
@@ -81,9 +81,9 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Import_WPSEO::detect_helper
+	 * @covers WPSEO_Import_WPSEO::detect
+	 * @covers WPSEO_Import_WPSEO::run_import
 	 * @covers WPSEO_Import_WPSEO::import
-	 * @covers WPSEO_Import_WPSEO::import_helper
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_metas
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_robots
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_description
@@ -93,7 +93,7 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	public function test_import_category() {
 		$this->create_category_metadata( 'test-category', 'Test-category description', 5 );
 		$this->create_category_metadata( 'test-category-2', 'Test-category 2 description', 6 );
-		$result = $this->class_instance->import();
+		$result = $this->class_instance->run_import();
 
 		$cat_metadesc = WPSEO_Taxonomy_Meta::get_term_meta( 'test-category', 'category', 'desc' );
 		$cat_robots   = WPSEO_Taxonomy_Meta::get_term_meta( 'test-category', 'category', 'noindex' );
@@ -106,7 +106,7 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Import_WPSEO::import
+	 * @covers WPSEO_Import_WPSEO::run_import
 	 * @covers WPSEO_Import_WPSEO::import_post_robot
 	 * @covers WPSEO_Import_WPSEO::import_post_robots
 	 * @covers WPSEO_Import_WPSEO::get_robot_value
@@ -115,28 +115,28 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->setup_data();
 		update_post_meta( $post_id, '_wpseo_edit_robots', 9 );
 
-		$this->class_instance->import();
+		$this->class_instance->run_import();
 		$robots_noindex = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', true );
 		$this->assertEquals( 2, $robots_noindex );
 	}
 
 	/**
-	 * @covers WPSEO_Import_WPSEO::cleanup
+	 * @covers WPSEO_Import_WPSEO::run_cleanup
 	 */
 	public function test_cleanup_no_data() {
-		$this->assertEquals( $this->status( 'cleanup', false ), $this->class_instance->cleanup() );
+		$this->assertEquals( $this->status( 'cleanup', false ), $this->class_instance->run_cleanup() );
 	}
 
 	/**
+	 * @covers WPSEO_Import_WPSEO::run_cleanup
 	 * @covers WPSEO_Import_WPSEO::cleanup
-	 * @covers WPSEO_Import_WPSEO::cleanup_helper
 	 * @covers WPSEO_Import_WPSEO::cleanup_post_meta
 	 * @covers WPSEO_Import_WPSEO::cleanup_term_meta
 	 * @covers WPSEO_Import_WPSEO::delete_taxonomy_metas
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_data();
-		$result  = $this->class_instance->cleanup();
+		$result  = $this->class_instance->run_cleanup();
 
 		$seo_title = get_post_meta( $post_id, '_wpseo_edit_title', true );
 		$seo_desc  = get_post_meta( $post_id, '_wpseo_edit_description', true );

@@ -22,7 +22,7 @@ class WPSEO_Import_Plugins_Detector {
 			$importer = new $importer_class;
 			$detect   = new WPSEO_Import_Plugin( $importer, 'detect' );
 			if ( $detect->status->status ) {
-				$this->needs_import[ $importer_class ] = $importer->plugin_name();
+				$this->needs_import[ $importer_class ] = $importer->get_plugin_name();
 			}
 		}
 	}
