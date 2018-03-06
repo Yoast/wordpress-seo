@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.4
-Stable tag: 6.3.1
+Stable tag: 7.0
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -109,43 +109,53 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 7.0.0 =
 Release Date: March 6th, 2018
 
-## Enhancements:
+Enhancements:
 * Interface:
     * Introduces an overhaul of the Admin settings to simplify the plugin configuration.
-    * Introduces a new setting to redirect attachment URLs. Previously, we had an option to redirect attachment URLs to their post parent. This didn't work for attachments that weren't attached to anything. This new setting redirects *all* attachment URLs to the URL of the original image / media item. This is all explained on the new Media tab under Titles & Meta's. This setting is enabled by default for new installations.
+    * Introduces a new setting to redirect attachment URLs. Previously, we had an option to redirect attachment URLs to their post parent. This didn't work for attachments that weren't attached to anything. This new setting redirects *all* attachment URLs to the URL of the original image / media item. This is all explained on the new `Media` tab under `Search Appearance`. This setting is enabled by default for new installations.
     * Moves the `Text link counter calculation` to the `Tools` submenu.
-    * Moves the RSS tab from Advanced to Titles & Meta's.
+    * Moves the RSS tab from `Advanced` to `Search Appearance`.
     * Removes the option to remove the `replytocom` variable. We now disable this automatically with a filter (`wpseo_remove_reply_to_com`).
     * Removes the option to exclude an author from the XML sitemap in favor of a broader option. Instead, we now have an option to set whether this author's archive should be visible in the search results. If you choose not to allow this archive in the search results, it's also excluded from the author sitemap.
     * Removes the XML sitemaps settings page in favor of a feature toggle on the Features tab and a question in Titles & Meta's "Do you want to show X in search results?".
+    * Moves the setting to disable the Advanced Meta Box for authors to the Features Tab. The setting now also defaults to 'On'.
+    * Expands the content analysis headers by default.
 
 * JSON+LD:
     * Shows JSON+LD markup for website and search on the front page.
     * Makes sure JSON+LD organization markup properly links to the frontpage.
 
 * Copy:
-    * Clarifies the copy on the Edit Post page to ask "Allow search engines to show this Post in search results?" instead of having a heading "Meta Robots", which was quite non-understandable for non-SEO's. Similar changes have been made to the `follow`/`nofollow` setting.
+    * Clarifies the copy on the Edit Post page to ask "Allow search engines to show this Post in search results?" instead of having a heading "Meta Robots", which was quite difficult to understand for non-SEO's. Similar changes have been made to the `follow` / `nofollow` setting.
     * Introduces the question: "Allow search engines to show this `<taxonomy>` in search results?" and bases both the `noindex` and the inclusion in XML sitemaps on this decision.
+    * Changes the wording in the indexing dropdown menu in the Advanced Tab of the metabox from `Yes (Default for posts)` / `Yes` / `No` to `Default for Posts, currently: Yes` / `Yes` / `No`.
+    * Renames the Dashboard menu item to General.
+
 * Other:
     * Removes the feature that automatically removed stop words from the slug.
     * Removes `media` post type from the Configuration Wizard, which brings the question about indexing in line with the rest of the plugin.
-    * Removes jQuery UI autocomplete from the enqueued scripts.
+    * Removes `jQuery UI autocomplete` from the enqueued scripts.
     * Adds a filter `wpseo_exclude_from_sitemap_by_post_ids` for controlling which posts are excluded from the sitemap.
     * Improves the switch toggle settings for use with assistive technologies.
     * Removes code to add a trailing slash in weird permutations of permalink settings. Canonical should solve this properly.
     * Removes the functionality to automatically remove blocking XML sitemap files.
     * Removes the clean permalinks feature, as it was created before canonical was introduced and is no longer needed.
-    * Fixes a reference to the ACF Content Analysis for Yoast SEO plugin
+    * Fixes a reference to the `ACF Content Analysis for Yoast SEO` plugin.
     * Removes all functions, methods and files that were deprecated since before version 4.0 and were showing a deprecation warning.
     * Removes the plugin conflict check for the `Head, Footer and Post Injections`-plugin as it no longer manages OpenGraph tags.
+    * Migrates the `hideeditbox-<post type>` and `hideeditbox-tax-<taxonomy>` settings to a saner `display-metabox-pt-<post type>` and `display-metabox-tax-<taxonomy>` settings.
 
-## Bugs:
+Bugfixes:
 
-* Fixes a bug where you would not stay on the same option tab after using the save button in Safari.
 * Hides the "Save changes" button on option tabs where there is nothing to save.
+* Fixes a bug where you would not stay on the same option tab after using the save button in Safari.
 * When we set `noindex` on a page, we no longer add a canonical, to prevent confusing search engines.
 * Fixes an issue where the categories / tags overview pages were incorrectly showing elements marked as noindex when in reality they weren't set to noindex (and vice versa). This meant that blue bullets were being shown incorrectly.
 * Fixes an issue where setting posts and pages to noindex didn't change the overview.
+
+Security:
+
+* Fixes a security issue where importing of the values of ini files were being parsed for dynamic content.
 
 = 6.3.1 =
 Release Date: February 19th, 2018
