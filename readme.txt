@@ -110,7 +110,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: March 6th, 2018
 
 Bugfixes:
-* Fixes a bug where the Breadcrumbs-settings are not migrated properly and are reset to their defaults.
+* Fixes a bug where the Breadcrumbs-settings are not migrated properly.
 
 = 7.0.0 =
 Release Date: March 6th, 2018
