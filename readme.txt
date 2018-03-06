@@ -110,7 +110,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: March 6th, 2018
 
 Bugfixes:
-* Fixes a bug where the some settings are not maintained properly after upgrading from 6.3.1 or lower.
+* Fixes a bug where the some settings are not properly migrated after upgrading to 7.0.
 
 = 7.0.0 =
 Release Date: March 6th, 2018
