@@ -20,7 +20,7 @@
 #sidebar-container {
 	/* For historical reasons banner images have a 261px width. */
 	width: 261px;
-	padding: 0 0 0 19px;
+	padding: 0 19px 0 0;
 }
 
 /* @todo: check this. */
@@ -36,13 +36,13 @@ tr.yst_row.even {
 
 /* @todo: check this. */
 .postbox {
-	margin: 10px 10px 0 0;
+	margin: 10px 0 0 10px;
 }
 
 /* Forms. */
 label.textinput,
 label.select {
-	float: left;
+	float: right;
 	width: 200px;
 	margin: 5px 0;
 }
@@ -68,7 +68,7 @@ select.select {
 input.radio,
 input.checkbox,
 input.checkbox.double {
-	margin: 6px 10px 6px 0;
+	margin: 6px 0 6px 10px;
 }
 
 /* @todo: check this. */
@@ -84,13 +84,13 @@ textarea.import {
 
 p.desc {
 	margin: 6px 0 10px 0;
-	padding: 0 0 8px 25px;
+	padding: 0 25px 8px 0;
 }
 
 p.desc.label,
 div.desc.label {
 	margin: 0 0 20px;
-	padding: 0 0 10px 200px;
+	padding: 0 200px 10px 0;
 }
 
 /* Google Search Console: Reload crawl issues form. */
@@ -100,7 +100,7 @@ div.desc.label {
 }
 
 .wp-core-ui .button.wpseo-gsc-save-profile {
-	margin-left: 200px;
+	margin-right: 200px;
 }
 
 /* Styles for Yoast specific content. */
@@ -128,7 +128,7 @@ h4 {
 
 /* @todo: check this. */
 table.wpseo th {
-	text-align: left;
+	text-align: right;
 }
 
 /* Notices below Settings pages tabs. */
@@ -188,7 +188,7 @@ table.yoast_help td {
 table.yoast_help th,
 table.yoast_help td {
 	padding: 5px 10px;
-	text-align: left;
+	text-align: right;
 	vertical-align: top;
 }
 
@@ -253,13 +253,13 @@ table.yoast_help .yoast-variable-desc {
 
 /* @todo: check this. */
 .button.fixit {
-	float: right;
+	float: left;
 	margin: 0 5px;
 }
 
 /* @todo: check this. */
 .button.checkit {
-	float: right;
+	float: left;
 	margin: 0 5px;
 	padding: 5px 8px;
 }
@@ -267,7 +267,7 @@ table.yoast_help .yoast-variable-desc {
 /* Add Facebook admins buttons. @todo: remove this. */
 .fb-buttons .button-primary,
 .fb-buttons .button {
-	margin-right: 8px;
+	margin-left: 8px;
 }
 
 /* Tabs. */
@@ -280,7 +280,7 @@ table.yoast_help .yoast-variable-desc {
 }
 
 .wpseotab p.expl {
-	margin-left: 6px;
+	margin-right: 6px;
 }
 
 .wpseotab .tab-block {
@@ -313,7 +313,7 @@ table.yoast_help .yoast-variable-desc {
 
 #wpseo-debug-info .wpseo-debug {
 	display: inline-block;
-	padding-left: 20px;
+	padding-right: 20px;
 	color: #c00;
 }
 
@@ -324,45 +324,6 @@ textarea.wpseo-new-metadesc {
 	max-width: 100%;
 }
 
-.wpseotab .extension {
-	float: left;
-	box-sizing: border-box;
-	width: 300px;
-	height: 230px;
-	margin: 10px 20px 10px 0;
-	border: 1px solid #ccc;
-}
-
-.wpseotab .extension p {
-	margin: 0;
-	padding: 10px;
-}
-
-.wpseotab .extension h3 {
-	box-sizing: border-box;
-	height: 110px;
-	margin: 0;
-	padding: 20px 10px 0 120px;
-	border-bottom: 1px solid #ccc;
-	background: #fff no-repeat left 10px;
-	background-size: 130px 100px;
-}
-
-.wpseotab .extension a {
-	text-decoration: none;
-}
-
-.wpseotab .extension button.installed {
-	border-color: #00a000;
-	background-color: #00a000;
-	cursor: default;
-}
-
-/* For the Premium "Site wide analysis" tab. */
-#site-analysis.active ~ .submit {
-	display: none;
-}
-
 /* Search Appearance: title separator. */
 #separator {
 	margin: 1.5em 0 0.5em;
@@ -371,15 +332,15 @@ textarea.wpseo-new-metadesc {
 #separator input.radio {
 	/* visually hide the radio buttons but keep them accessible */
 	position: absolute;
-	left: -9999em;
+	right: -9999em;
 	width: 1px;
 	height: 1px;
 }
 
 #separator input.radio + label {
-	float: left;
+	float: right;
 	width: 30px !important;
-	margin: 0 5px 0.5em 0 !important;
+	margin: 0 0 0.5em 5px !important;
 	padding: 9px 6px;
 	border: 1px solid #ccc;
 	/* Don't change: these mimic Google's font and font size for titles */
@@ -398,7 +359,7 @@ textarea.wpseo-new-metadesc {
 
 #separator input.radio:focus + label {
 	border-radius: 10px;
-	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 /* @todo: check this. */
@@ -432,7 +393,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .nav-tab .pinteresticon {
 	width: 12px;
 	height: 24px;
-	margin-right: 2px;
+	margin-left: 2px;
 	background-image: url(../../images/pinterest-23x30.png);
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -469,7 +430,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 /* Add Facebook admin popup: notification when submitting empty form. */
 .wpseo-add-fb-admin-form-wrap .notice span {
-	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .archives-titles-metas-content {
@@ -485,7 +446,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	border-bottom: 1px solid #a4286a; 
 	color: #a4286a;
 	line-height: 19px;
-	text-align: left;
+	text-align: right;
 }
 
 .yoast-sidebar__spot {
@@ -503,12 +464,12 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	position: relative;
 }
 .yoast-sidebar__spot li {
-	margin-left: 20px; 
+	margin-right: 20px; 
 	list-style: none;
 }
 .yoast-sidebar__spot li::before {
 	position: absolute;
-	left: 0;
+	right: 0;
 	font-weight: bold; 
 	content: "+";
 }
@@ -559,13 +520,13 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	flex: 0 0 50%;
 }
 .yoast_premium_upsell_admin_block--argument {
-	padding: 0 8px 0 20px;
+	padding: 0 20px 0 8px;
 }
 .yoast_premium_upsell_admin_block--argument::before {
 	position: relative;
 	top: -1px; 
-	left: -16px;
-	margin-right: -10px;
+	right: -16px;
+	margin-left: -10px;
 	font-weight: bold;
 	content: "+";
 }
@@ -593,11 +554,11 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .yoast-table-scrollable__container.yoast-has-scroll:after {
 	position: absolute;
 	top: 0;
-	left: 100%;
+	right: 100%;
 	width: 50px;
 	height: calc( 100% - 16px);
-	border-radius: 10px 0 0 10px / 50% 0 0 50%;
-	box-shadow: -5px 0 10px rgba(0, 0, 0, 0.25); 
+	border-radius: 0 10px 10px 0 / 0 50% 50% 0;
+	box-shadow: 5px 0 10px rgba(0, 0, 0, 0.25); 
 	content: "";
 }
 .yoast-table-scrollable__container.yoast-has-scroll .yoast-table-scrollable__inner {
@@ -617,7 +578,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 .yoast-has-scroll .yoast-table-scrollable__hint:before {
 	display: inline-block;
-	margin-right: 10px;
+	margin-left: 10px;
 	font-size: 20px;
 	line-height: inherit;
 	vertical-align: text-top; 
@@ -641,7 +602,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 /* Banners sidebar. */
 	.yoast-sidebar__spot {
-		float: left;
+		float: right;
 		width: 50%;
 		border: none;
 		text-align: center;
@@ -650,13 +611,13 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		display: block;
 		max-width: 261px;
 		margin: 0 auto;
-		text-align: left;
+		text-align: right;
 	}
 	.yoast-sidebar__spot ul,
 	.yoast-sidebar__spot p {
 		max-width: 261px;
 		margin: 1em auto; 
-		text-align: left;
+		text-align: right;
 	}
 }
 
@@ -682,10 +643,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 	p.desc.label,
 	div.desc.label {
-		padding-left: 0;
+		padding-right: 0;
 	}
 	.wp-core-ui .button.wpseo-gsc-save-profile {
-		margin-left: 0;
+		margin-right: 0;
 	}
 
 /* Google Search Console: Reload crawl issues form. */
@@ -723,10 +684,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .wpseo-checkmark-ok-icon {
-	float: left;
+	float: right;
 	width: 18px;
 	height: 18px;
-	margin-right: 5px;
+	margin-left: 5px;
 	background: url("data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%2377B227%22%20d%3D%22M1671%20566q0%2040%2D28%2068l%2D724%20724%2D136%20136q%2D28%2028%2D68%2028t%2D68%2D28l%2D136%2D136%2D362%2D362q%2D28%2D28%2D28%2D68t28%2D68l136%2D136q28%2D28%2068%2D28t68%2028l294%20295%20656%2D657q28%2D28%2068%2D28t68%2028l136%20136q28%2028%2028%2068z%22%2F%3E%3C%2Fsvg%3E") no-repeat;
 	background-size: 18px;
 	vertical-align: top;
