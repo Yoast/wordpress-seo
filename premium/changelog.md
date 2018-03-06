@@ -2,9 +2,8 @@
 Enhancements:
 * Adds SEO titles and meta descriptions to the focus keyword export.
 
-* Copy:
-
-    * Removes unnecessary HTML from button.
+Bugfixes:
+* Removes unnecessary HTML from button.
 
 Other:
 * Includes every change in Yoast SEO core 7.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
