@@ -76,7 +76,4 @@ $yform->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
 
 <?php
 
-$social_facebook = new Yoast_Social_Facebook();
-$social_facebook->show_form();
-
 do_action( 'wpseo_admin_opengraph_section' );
