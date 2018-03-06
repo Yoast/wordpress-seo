@@ -1,3 +1,6 @@
+### 7.0.1: March 6th, 2018
+* Includes every change in Yoast SEO core 7.0.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 7.0.0: March 6th, 2018
 Enhancements:
 * Adds SEO titles and meta descriptions to the focus keyword export.
