@@ -140,8 +140,9 @@ class WPSEO_Upgrade {
 			$new_key = $old_key;
 		}
 
-		$old_options = WPSEO_Options::get_option( $old_option );
+		$old_options = get_option( $old_option );
 		$new_options = WPSEO_Options::get_option( $new_option );
+
 		if ( isset( $old_options[ $old_key ] ) ) {
 			$new_options[ $new_key ] = $old_options[ $old_key ];
 			unset( $old_options[ $old_key ] );
