@@ -63,7 +63,7 @@ module.exports = {
   
 ### Additional configuration
 
-In the `entry` of your webpack you should include [babel-bolyfill](https://babeljs.io/docs/usage/polyfill/#usage-in-node-browserify-webpack) as the very first element:
+In the `entry` of your webpack you should include [babel-polyfill](https://babeljs.io/docs/usage/polyfill/#usage-in-node-browserify-webpack) as the very first element:
 
 ```js
 module.exports = {
