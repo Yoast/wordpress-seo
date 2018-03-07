@@ -1,1 +1,0 @@
-{"version":3,"file":"removeNonWordCharacters.js","sourceRoot":"","sources":["../../src/stringProcessing/removeNonWordCharacters.js"],"names":[],"mappings":";AAAA,0DAA0D;AAE1D;;;;;GAKG;AACH,MAAM,CAAC,OAAO,GAAG,UAAU,MAAM;IAChC,MAAM,CAAC,MAAM,CAAC,OAAO,CAAE,+BAA+B,EAAE,EAAE,CAAE,CAAC;AAC9D,CAAC,CAAC"}
