@@ -57,6 +57,7 @@ const getGutenbergData = () => {
 		content: wp.data.select( "core/editor" ).getEditedPostAttribute( "content" ),
 		title: wp.data.select( "core/editor" ).getEditedPostAttribute( "title" ),
 		slug: wp.data.select( "core/editor" ).getEditedPostAttribute( "slug" ),
+		excerpt: wp.data.select( "core/editor" ).getEditedPostAttribute( "excerpt" ),
 	};
 	data = updateData( data, gutenbergData );
 
@@ -81,6 +82,7 @@ export const subscribeToGutenberg = function() {
 			content: wp.data.select( "core/editor" ).getEditedPostAttribute( "content" ),
 			title: wp.data.select( "core/editor" ).getEditedPostAttribute( "title" ),
 			slug: wp.data.select( "core/editor" ).getEditedPostAttribute( "slug" ),
+			excerpt: wp.data.select( "core/editor" ).getEditedPostAttribute( "excerpt" ),
 		};
 		wp.data.subscribe(
 			subscriber

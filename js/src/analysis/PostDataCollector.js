@@ -54,7 +54,7 @@ PostDataCollector.prototype.getData = function() {
 		text: gutenbergData && gutenbergData.content ? gutenbergData.content : text,
 		title: gutenbergData && gutenbergData.title ? gutenbergData.title : this.getTitle(),
 		url: gutenbergData && gutenbergData.slug ? gutenbergData.slug : this.getUrl(),
-		excerpt: this.getExcerpt(),
+		excerpt: gutenbergData && gutenbergData.excerpt ? gutenbergData.excerpt : this.getExcerpt(),
 		snippetTitle: this.getSnippetTitle(),
 		snippetMeta: this.getSnippetMeta(),
 		snippetCite: this.getSnippetCite(),
