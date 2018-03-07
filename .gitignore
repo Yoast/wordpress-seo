@@ -65,3 +65,11 @@ travis.sh
 test.sh
 /artifact/
 /artifact.zip
+
+############
+# Dist files
+############
+languages/
+js/dist/
+css/dist/
+languages/
