@@ -23,6 +23,15 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test setup
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		WPSEO_Options::set( 'keyword_analysis_active', true );
+	}
+
+	/**
 	 * Determines what dataprovider to use for SEO filters.
 	 *
 	 * @return array The SEO filters dataprovider.
@@ -259,6 +268,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Metabox::column_heading()
+	 * @group test
 	 */
 	public function test_column_heading_has_score() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -269,6 +279,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Metabox::column_heading()
+	 * @group test
 	 */
 	public function test_column_heading_has_focuskw() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -315,7 +326,6 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox::column_hidden()
 	 */
 	public function test_column_hidden_KEEP_OPTION() {
-
 		// Option shouldn't be touched if the user has set it already.
 		$user = $this->getMockBuilder( 'WP_User' )
 			->getMock();
@@ -336,6 +346,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox::column_hidden()
 	 */
 	public function test_column_hidden_UNEXPECTED_VALUE() {
+		WPSEO_Options::set( 'keyword_analysis_active', true );
+
 		$user = $this->getMockBuilder( 'WP_User' )
 			->getMock();
 
