@@ -268,7 +268,6 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Metabox::column_heading()
-	 * @group test
 	 */
 	public function test_column_heading_has_score() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -279,7 +278,6 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Metabox::column_heading()
-	 * @group test
 	 */
 	public function test_column_heading_has_focuskw() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -346,8 +344,6 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox::column_hidden()
 	 */
 	public function test_column_hidden_UNEXPECTED_VALUE() {
-		WPSEO_Options::set( 'keyword_analysis_active', true );
-
 		$user = $this->getMockBuilder( 'WP_User' )
 			->getMock();
 
