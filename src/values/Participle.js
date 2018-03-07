@@ -11,6 +11,7 @@ var forEach = require( "lodash/forEach" );
 var defaultAttributes = {
 	auxiliaries: [],
 	type: "",
+	language: "",
 };
 
 /**
@@ -105,6 +106,14 @@ Participle.prototype.getType = function() {
  */
 Participle.prototype.getAuxiliaries = function() {
 	return this._attributes.auxiliaries;
+};
+
+/**
+ * Returns the language.
+ * @returns {String} The language.
+ */
+Participle.prototype.getLanguage = function() {
+	return this._attributes.language;
 };
 
 /**

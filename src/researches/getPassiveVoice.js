@@ -51,7 +51,7 @@ var getSentenceParts = function( sentence, language ) {
 var determinePassives = function( sentencePart, language ) {
 	switch( language ) {
 		case "de":
-			sentencePart.setPassive( determinePassivesGerman( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries() ) );
+			sentencePart.setPassive( determinePassivesGerman( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries() ), "de" );
 			break;
 		case "fr":
 			sentencePart.setPassive( determinePassivesDefault( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "fr" ) );

@@ -34,16 +34,16 @@ module.exports = function( sentencePartText, auxiliaries, language ) {
 			switch ( language ) {
 				case "fr":
 					foundParticiples.push( new FrenchParticiple( word, sentencePartText,
-						{ auxiliaries: auxiliaries, type: type } ) );
+						{ auxiliaries: auxiliaries, type: type, language: language } ) );
 					break;
 				case "es":
 					foundParticiples.push( new SpanishParticiple( word, sentencePartText,
-						{ auxiliaries: auxiliaries, type: type } ) );
+						{ auxiliaries: auxiliaries, type: type, language: language } ) );
 					break;
 				case "en":
 				default:
 					foundParticiples.push( new EnglishParticiple( word, sentencePartText,
-						{ auxiliaries: auxiliaries, type: type } ) );
+						{ auxiliaries: auxiliaries, type: type, language: language } ) );
 					break;
 			}
 		}
