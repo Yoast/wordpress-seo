@@ -9,10 +9,20 @@
  * @since 7.0.2
  */
 class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
+	/** @var bool Are the filters hooked or not. */
+	protected $hooked = false;
+
 	/**
 	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
+		// Make sure we don't hook multiple times.
+		if ( $this->hooked ) {
+			return;
+		}
+
+		$this->hooked = true;
+
 		// Backfill options that were removed.
 		foreach ( $this->get_lookups() as $option ) {
 			add_filter( 'pre_option_' . $option, array( $this, 'backfill_option' ), 10, 2 );
@@ -24,6 +34,25 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 		// Extend the options that have removed items.
 		add_filter( 'option_wpseo_titles', array( $this, 'extend_wpseo_titles' ), 10, 1 );
 		add_filter( 'option_wpseo', array( $this, 'extend_wpseo' ), 10, 1 );
+	}
+
+	/**
+	 * Removes the option filters.
+	 */
+	public function remove_hooks() {
+		// Backfill options that were removed.
+		foreach ( $this->get_lookups() as $option ) {
+			remove_filter( 'pre_option_' . $option, array( $this, 'backfill_option' ), 10 );
+		}
+
+		// Make sure renamed meta key is backfilled.
+		remove_filter( 'get_user_metadata', array( $this, 'backfill_usermeta' ), 10 );
+
+		// Extend the options that have removed items.
+		remove_filter( 'option_wpseo_titles', array( $this, 'extend_wpseo_titles' ), 10 );
+		remove_filter( 'option_wpseo', array( $this, 'extend_wpseo' ), 10 );
+
+		$this->hooked = false;
 	}
 
 	/**
