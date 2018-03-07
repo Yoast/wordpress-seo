@@ -18,14 +18,14 @@ var cannotBeBetweenAuxiliaryAndParticipleSpanish = require( "../researches/spani
  */
 module.exports = function( sentencePart, participleIndex ) {
 	var precedenceExceptionRegex;
-	switch ( this.constructor.name ) {
-		case "FrenchParticiple":
+	switch ( this.getLanguage() ) {
+		case "fr":
 			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleFrench );
 			break;
-		case "SpanishParticiple":
+		case "es":
 			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleSpanish );
 			break;
-		case "EnglishParticiple":
+		case "en":
 		default:
 			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleEnglish );
 			break;
