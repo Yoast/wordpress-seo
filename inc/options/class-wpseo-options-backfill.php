@@ -4,7 +4,7 @@
  */
 
 /**
- * Backfill the removed options in Yoast SEO 7.0
+ * Backfill the removed options in Yoast SEO 7.0.
  *
  * @since 7.0.2
  */
