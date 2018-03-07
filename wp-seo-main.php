@@ -286,6 +286,10 @@ function wpseo_init() {
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
 
+	// Backfill option values after transferring them to another base.
+	$wpseo_options_backfill = new WPSEO_Options_Backfill();
+	$wpseo_options_backfill->register_hooks();
+
 	/*
 	 * Initializes the link watcher for both the frontend and backend.
 	 * Required to process scheduled items properly.
