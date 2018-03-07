@@ -113,19 +113,9 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 	public function test_added_fields_to_wpseo_titles() {
 		$result = get_option( 'wpseo_titles' );
 
-		foreach ( $result as $key => $value ) {
-			if ( strpos( $key, 'display-metabox-tax-' ) === 0 ) {
-				$taxonomy = substr( $key, strlen( 'display-metabox-tax-' ) );
-				$this->assertEquals( ! $value, $result[ 'hideeditbox-tax-' . $taxonomy ], 'Expected the inverse for Taxonomy: ' . $taxonomy );
-				continue;
-			}
-
-			if ( strpos( $key, 'display-metabox-pt-' ) === 0 ) {
-				$post_type = substr( $key, strlen( 'display-metabox-pt-' ) );
-				$this->assertEquals( ! $value, $result[ 'hideeditbox-' . $post_type ], 'Expected the inverse for Post Type: ' . $post_type );
-				continue;
-			}
-		}
+		$this->assertNotEquals( $result['display-metabox-tax-category'], $result['hideeditbox-tax-category'] );
+		$this->assertNotEquals( $result['display-metabox-pt-post'], $result['hideeditbox-post'] );
+		$this->assertNotEquals( $result['display-metabox-pt-page'], $result['hideeditbox-page'] );
 	}
 
 	/**
