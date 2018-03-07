@@ -24,7 +24,7 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 		),
 		'wpseo_rss'           => array(
 			'rssbefore' => 'rssbefore',
-			'rssafter'  => 'rssafter'
+			'rssafter'  => 'rssafter',
 		),
 		'wpseo_xml'           => array(
 			'enablexmlsitemap'       => 'enable_xml_sitemap',
@@ -34,7 +34,7 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 		'wpseo_permalinks'    => array(
 			'redirectattachment' => 'disable-attachment',
 			'stripcategorybase'  => 'stripcategorybase',
-		)
+		),
 	);
 
 	/**
@@ -77,7 +77,7 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 			'company_logo',
 			'company_name',
 			'company_or_person',
-			'person_name'
+			'person_name',
 		);
 
 		foreach ( $keys as $key ) {
@@ -118,7 +118,7 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 	/**
 	 * Backfills the options that have been removed with the current values.
 	 *
-	 * @param mixed  $value  Current value for the option/
+	 * @param mixed  $value  Current value for the option.
 	 * @param string $option Name of the option.
 	 *
 	 * @return array Option data.
