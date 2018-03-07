@@ -110,7 +110,7 @@ Participle.prototype.getAuxiliaries = function() {
 
 /**
  * Returns the language.
- * @returns {String} The language.
+ * @returns {string} The language.
  */
 Participle.prototype.getLanguage = function() {
 	return this._attributes.language;

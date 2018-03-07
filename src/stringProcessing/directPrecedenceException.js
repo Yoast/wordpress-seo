@@ -17,7 +17,7 @@ var cannotDirectlyPrecedePassiveParticipleSpanish = require( "../researches/span
  */
 module.exports = function( sentencePart, participleIndex ) {
 	var directPrecedenceExceptionRegex;
-	switch ( this._attributes.language ) {
+	switch ( this.getLanguage() ) {
 		case "fr":
 			directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticipleFrench );
 			break;
