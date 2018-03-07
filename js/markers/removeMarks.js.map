@@ -1,0 +1,1 @@
+{"version":3,"file":"removeMarks.js","sourceRoot":"","sources":["../../src/markers/removeMarks.js"],"names":[],"mappings":";AAAA;;;;;GAKG;AACH,MAAM,CAAC,OAAO,GAAG,UAAU,IAAI;IAC9B,MAAM,CAAC,IAAI;SACT,OAAO,CAAE,IAAI,MAAM,CAAE,kBAAkB,EAAE,GAAG,CAAE,EAAE,EAAE,CAAE;SACpD,OAAO,CAAE,IAAI,MAAM,CAAE,cAAc,EAAE,GAAG,CAAE,EAAE,EAAE,CAAE,CAAC;AACpD,CAAC,CAAC"}

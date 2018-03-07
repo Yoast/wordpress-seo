@@ -1,0 +1,1 @@
+{"version":3,"file":"stopWordsInUrl.js","sourceRoot":"","sources":["../../src/researches/stopWordsInUrl.js"],"names":[],"mappings":";AAAA,wCAAwC;AAExC,IAAI,eAAe,GAAG,OAAO,CAAE,sBAAsB,CAAE,CAAC;AAExD;;;;GAIG;AACH,MAAM,CAAC,OAAO,GAAG,UAAU,KAAK;IAC/B,MAAM,CAAC,eAAe,CAAE,KAAK,CAAC,MAAM,EAAE,CAAC,OAAO,CAAE,OAAO,EAAE,GAAG,CAAE,CAAE,CAAC;AAClE,CAAC,CAAC"}
