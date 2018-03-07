@@ -27,7 +27,9 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 			'rssafter'  => 'rssafter'
 		),
 		'wpseo_xml'           => array(
-			'enablexmlsitemap' => 'enable_xml_sitemap',
+			'enablexmlsitemap'       => 'enable_xml_sitemap',
+			'disable_author_sitemap' => 'noindex-author-wpseo',
+			'disable_author_noposts' => 'noindex-author-noposts-wpseo',
 		),
 		'wpseo_permalinks'    => array(
 			'redirectattachment' => 'disable-attachment',
@@ -128,6 +130,7 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 		}
 
 		if ( $option === 'wpseo_permalinks' ) {
+			// Add defaults for completely removed settings in the option.
 			$output = array_merge(
 				$output,
 				array(
@@ -143,13 +146,12 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 		}
 
 		if ( $option === 'wpseo_xml' ) {
+			// Add dynamic implementations for settings that are not in any option anymore.
 			$output = array_merge(
 				$output,
 				array(
-					'disable_author_sitemap' => WPSEO_Options::get( 'noindex-author-wpseo' ),
-					'disable_author_noposts' => WPSEO_Options::get( 'noindex-author-noposts-wpseo' ),
-					'entries-per-page'       => (int) apply_filters( 'wpseo_sitemap_entries_per_page', 1000 ),
-					'excluded-posts'         => apply_filters( 'wpseo_exclude_from_sitemap_by_post_ids', array() ),
+					'entries-per-page' => (int) apply_filters( 'wpseo_sitemap_entries_per_page', 1000 ),
+					'excluded-posts'   => apply_filters( 'wpseo_exclude_from_sitemap_by_post_ids', array() ),
 				)
 			);
 		}
