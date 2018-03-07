@@ -272,7 +272,7 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Determines the Readabilty score filter to the meta query, based on the passed Readabilty filter.
+	 * Determines the Readability score filter to the meta query, based on the passed Readability filter.
 	 *
 	 * @param string $readability_filter The Readability filter to use to determine what further filter to apply.
 	 *
