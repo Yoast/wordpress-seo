@@ -207,11 +207,11 @@ class WPSEO_Taxonomy_Metabox {
 	 * @param string $icon    The icon for the tab.
 	 * @param string $label   The label for the tab.
 	 *
-	 * @return WPSEO_Metabox_Form_Tab|bool
+	 * @return WPSEO_Metabox_Form_Tab A WPSEO_Metabox_Form_Tab instance.
 	 */
 	private function create_tab( $name, $network, $icon, $label ) {
 		if ( WPSEO_Options::get( $network ) !== true ) {
-			return false;
+			return new WPSEO_Metabox_Null_Tab();
 		}
 
 		$meta_fields = $this->taxonomy_social_fields->get_by_network( $network );
