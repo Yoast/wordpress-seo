@@ -48,17 +48,26 @@ const updateData = ( data, gutenbergData ) => {
 };
 
 /**
- * Gets the Gutenberg data.
+ * Collects the content, title, slug and excerpt of a post from Gutenberg.
  *
- * @returns {void}
+ * @returns {{content: string, title: string, slug: string, excerpt: string}} The content, title, slug and excerpt.
  */
-const getGutenbergData = () => {
-	let gutenbergData = {
+const collectGutenbergData =  () => {
+	return {
 		content: wp.data.select( "core/editor" ).getEditedPostAttribute( "content" ),
 		title: wp.data.select( "core/editor" ).getEditedPostAttribute( "title" ),
 		slug: wp.data.select( "core/editor" ).getEditedPostAttribute( "slug" ),
 		excerpt: wp.data.select( "core/editor" ).getEditedPostAttribute( "excerpt" ),
 	};
+};
+
+/**
+ * Refreshes YoastSEO's app when the Gutenberg data is dirty.
+ *
+ * @returns {void}
+ */
+const refreshYoastSEO = () => {
+	let gutenbergData = collectGutenbergData();
 	data = updateData( data, gutenbergData );
 
 	if ( isDirty ) {
@@ -67,7 +76,7 @@ const getGutenbergData = () => {
 	isDirty = false;
 };
 
-const subscriber = debounce( getGutenbergData, 500 );
+const subscriber = debounce( refreshYoastSEO, 500 );
 
 /**
  * Listens to the Gutenberg data.
@@ -78,12 +87,7 @@ export const subscribeToGutenberg = function() {
 	// Only subscribe when Gutenberg's data API is available.
 	if ( wp && wp.data ) {
 		// Fill data object on page load.
-		data = {
-			content: wp.data.select( "core/editor" ).getEditedPostAttribute( "content" ),
-			title: wp.data.select( "core/editor" ).getEditedPostAttribute( "title" ),
-			slug: wp.data.select( "core/editor" ).getEditedPostAttribute( "slug" ),
-			excerpt: wp.data.select( "core/editor" ).getEditedPostAttribute( "excerpt" ),
-		};
+		data = collectGutenbergData();
 		wp.data.subscribe(
 			subscriber
 		);
