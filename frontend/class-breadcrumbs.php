@@ -332,7 +332,7 @@ class WPSEO_Breadcrumbs {
 			if ( isset( $this->post->post_parent ) && 0 === $this->post->post_parent ) {
 				$this->maybe_add_taxonomy_crumbs_for_post();
 			}
-			if ( ! isset( $this->post->post_parent ) || 0 === $this->post->post_parent ) {
+			if ( isset( $this->post->post_parent ) && $this->post->post_parent !== 0 ) {
 				$this->add_post_ancestor_crumbs();
 			}
 
