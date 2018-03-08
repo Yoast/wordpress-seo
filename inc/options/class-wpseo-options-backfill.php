@@ -40,15 +40,15 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 	 * Removes the option filters.
 	 */
 	public function remove_hooks() {
-		// Backfill options that were removed.
+		// Remove backfill options filter.
 		foreach ( $this->get_lookups() as $option ) {
 			remove_filter( 'pre_option_' . $option, array( $this, 'backfill_option' ), 10 );
 		}
 
-		// Make sure renamed meta key is backfilled.
+		// Remove user meta filter.
 		remove_filter( 'get_user_metadata', array( $this, 'backfill_usermeta' ), 10 );
 
-		// Extend the options that have removed items.
+		// Remove option extending filters.
 		remove_filter( 'option_wpseo_titles', array( $this, 'extend_wpseo_titles' ), 10 );
 		remove_filter( 'option_wpseo', array( $this, 'extend_wpseo' ), 10 );
 
