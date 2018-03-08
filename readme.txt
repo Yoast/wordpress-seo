@@ -106,6 +106,15 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.0.2 =
+Release Date: March 8th, 2018
+
+Bugfixes:
+* Fixes a bug where a fatal error occurs on a taxonomy edit page when social graphs has been disabled for either Facebook or Twitter.
+* Fixes a bug where the breadcrumb path were missing parent entries.
+* Fixes a bug where RSS `before` and `after` content settings were being cleaned too aggressively.
+* Fixes the problem that other plugins are depending on the options we've removed. This patch adds those options as backfills to make them available again.
+
 = 7.0.1 =
 Release Date: March 6th, 2018
 
