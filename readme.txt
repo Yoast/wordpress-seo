@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.4
-Stable tag: 7.0.1
+Stable tag: 7.0.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -125,6 +125,15 @@ Release Date: March 20th, 2018
 * Fixes a bug where the `page` and `paged` values could cause errors if they weren't properly handled as integers.
 * Fixes a bug where division by zero errors in the passive voice assessment would cause `NaN%` to show up in the feedback.
 * Fixes a bug where multiple `rel` arguments prevented correct `nofollow` detection.
+
+= 7.0.2 =
+Release Date: March 8th, 2018
+
+Bugfixes:
+* Fixes a bug where a fatal error occurs on a taxonomy edit page when social graphs has been disabled for either Facebook or Twitter.
+* Fixes a bug where the breadcrumb path were missing parent entries.
+* Fixes a bug where RSS `before` and `after` content settings were being cleaned too aggressively.
+* Fixes the problem that other plugins are depending on the options we've removed. This patch adds those options as backfills to make them available again.
 
 = 7.0.1 =
 Release Date: March 6th, 2018
