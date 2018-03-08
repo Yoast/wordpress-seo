@@ -48,18 +48,19 @@ var checkIrregular = function() {
 FrenchParticiple.prototype.isPassive = function() {
 	let sentencePart = this.getSentencePart();
 	let participleIndex = sentencePart.indexOf( this.getParticiple() );
+	let language = this.getLanguage();
 
 	// Only check precedence exceptions for irregular participles.
 	if ( checkIrregular.call( this ) ) {
-		return ! this.directPrecedenceException( sentencePart, participleIndex ) &&
-			! this.precedenceException( sentencePart, participleIndex );
+		return ! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
+			! this.precedenceException( sentencePart, participleIndex, language );
 	}
 	// Check precedence exceptions and exception lists for regular participles.
 	return ! this.isOnAdjectivesVerbsExceptionList() &&
 		! this.isOnNounsExceptionList() &&
 		! this.isOnOthersExceptionList() &&
-		! this.directPrecedenceException( sentencePart, participleIndex ) &&
-		! this.precedenceException( sentencePart, participleIndex );
+		! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
+		! this.precedenceException( sentencePart, participleIndex, language );
 };
 
 /**

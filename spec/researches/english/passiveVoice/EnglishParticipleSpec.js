@@ -7,8 +7,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "fired" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );
 		expect( mockParticiple.hasRidException() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 7 ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 7 ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 7, "en" ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, "en" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	});
 
@@ -17,8 +17,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "wellbred" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( true );
 		expect( mockParticiple.hasRidException() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 6 ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 6 ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 6, "en" ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 6, "en" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
@@ -27,8 +27,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "rid" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );
 		expect( mockParticiple.hasRidException() ).toBe( true );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 16 ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 16 ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 16, "en" ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 16, "en" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
@@ -37,8 +37,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "read" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );
 		expect( mockParticiple.hasRidException() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 22 ) ).toBe( true );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 22 ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 22, "en" ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 22, "en" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
@@ -47,8 +47,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "left" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );
 		expect( mockParticiple.hasRidException() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 14 ) ).toBe( true );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 14 ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 14, "en" ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 14, "en" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
@@ -57,8 +57,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "left" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );
 		expect( mockParticiple.hasRidException() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 7 ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 7 ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 7, "en" ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 7, "en" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	});
 
@@ -67,8 +67,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "fit" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );
 		expect( mockParticiple.hasRidException() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 10 ) ).toBe( true );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 10 ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 10, "en" ) ).toBe( true );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 10, "en" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
@@ -77,8 +77,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "painted" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );
 		expect( mockParticiple.hasRidException() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 24 ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 24 ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 24, "en" ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 24, "en" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	});
 
@@ -87,8 +87,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "fit" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );
 		expect( mockParticiple.hasRidException() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 18 ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 18 ) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 18, "en" ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 18, "en" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	});
 
@@ -104,8 +104,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "enjoyed" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );
 		expect( mockParticiple.hasRidException() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 27 ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 27 ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 27, "en" ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 27, "en" ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
@@ -114,8 +114,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "adopted" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );
 		expect( mockParticiple.hasRidException() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 37 ) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 37 ) ).toBe( true );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 37, "en" ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 37, "en" ) ).toBe( true );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	});
 
@@ -124,8 +124,8 @@ describe( "A test for checking the English Participle", function() {
 		expect( mockParticiple.getParticiple() ).toBe( "stolen" );
 		expect( mockParticiple.isNonVerbEndingEd() ).toBe( false );
 		expect( mockParticiple.hasRidException() ).toBe( false );
-		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 14) ).toBe( false );
-		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 14) ).toBe( false );
+		expect( mockParticiple.directPrecedenceException( mockParticiple._sentencePart, 14, "en" ) ).toBe( false );
+		expect( mockParticiple.precedenceException( mockParticiple._sentencePart, 14, "en" ) ).toBe( false );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
 	});
 });
