@@ -2,7 +2,6 @@
 import debounce from "lodash/debounce";
 
 let data = {};
-let isDirty;
 
 /**
  * Checks whether the current data and the Gutenberg data are the same.
@@ -19,32 +18,7 @@ const isShallowEqual = ( currentData, gutenbergData ) => {
 			}
 		}
 	}
-	for( let dataPoint in gutenbergData ) {
-		if ( gutenbergData.hasOwnProperty( dataPoint ) ) {
-			if( ! ( dataPoint in currentData ) || currentData[ dataPoint ] !== gutenbergData[ dataPoint ] ) {
-				return false;
-			}
-		}
-	}
 	return true;
-};
-
-/**
- * Updates the data object.
- *
- * @param {Object} data The current data.
- * @param {Object} gutenbergData The data from Gutenberg.
- * @returns {Object} The data.
- */
-const updateData = ( data, gutenbergData ) => {
-	// Set isDirty to false if the current data and Gutenberg data are unequal.
-	isDirty = ! isShallowEqual( data, gutenbergData );
-
-	// If there is new data from Gutenberg, overwrite the data object with the new data.
-	if ( isDirty ) {
-		data = gutenbergData;
-	}
-	return data;
 };
 
 /**
@@ -68,12 +42,14 @@ const collectGutenbergData =  () => {
  */
 const refreshYoastSEO = () => {
 	let gutenbergData = collectGutenbergData();
-	data = updateData( data, gutenbergData );
+
+	// Set isDirty to false if the current data and Gutenberg data are unequal.
+	let isDirty = ! isShallowEqual( data, gutenbergData );
 
 	if ( isDirty ) {
+		data = gutenbergData;
 		YoastSEO.app.refresh();
 	}
-	isDirty = false;
 };
 
 const subscriber = debounce( refreshYoastSEO, 500 );

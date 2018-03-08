@@ -46,12 +46,11 @@ PostDataCollector.prototype.getData = function() {
 	if( ! isEmpty( getData() ) ) {
 		gutenbergData = getData();
 	}
-	let text = this.getText();
 
 	return {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		meta: this.getMeta(),
-		text: gutenbergData && gutenbergData.content ? gutenbergData.content : text,
+		text: gutenbergData && gutenbergData.content ? gutenbergData.content : this.getText(),
 		title: gutenbergData && gutenbergData.title ? gutenbergData.title : this.getTitle(),
 		url: gutenbergData && gutenbergData.slug ? gutenbergData.slug : this.getUrl(),
 		excerpt: gutenbergData && gutenbergData.excerpt ? gutenbergData.excerpt : this.getExcerpt(),
