@@ -30,10 +30,17 @@ class WPSEO_Options {
 	 */
 	protected static $instance;
 
+	/** @var WPSEO_Options_Backfill Backfill instance. */
+	protected static $backfill;
+
 	/**
 	 * Instantiate all the WPSEO option management classes.
 	 */
 	protected function __construct() {
+		// Backfill option values after transferring them to another base.
+		self::$backfill = new WPSEO_Options_Backfill();
+		self::$backfill->register_hooks();
+
 		$is_multisite = is_multisite();
 
 		foreach ( self::$options as $option_name => $option_class ) {
@@ -447,12 +454,17 @@ class WPSEO_Options {
 	 */
 	private static function get_lookup_table() {
 		$lookup_table = array();
+
+		self::$backfill->remove_hooks();
+
 		foreach ( array_keys( self::$options ) as $option_name ) {
 			$full_option = self::get_option( $option_name );
 			foreach ( $full_option as $key => $value ) {
 				$lookup_table[ $key ] = $option_name;
 			}
 		}
+
+		self::$backfill->register_hooks();
 
 		return $lookup_table;
 	}
