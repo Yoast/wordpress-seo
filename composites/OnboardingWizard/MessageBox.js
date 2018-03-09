@@ -2,7 +2,7 @@ import React from "react";
 import interpolateComponents from "interpolate-components";
 
 import Icon from "../Plugin/Shared/components/Icon";
-import YoastLogo from "../basic/YoastLogo";
+import PropTypes from "prop-types";
 
 /**
  * Creates a message box in the style of the onboarding wizard.
@@ -21,5 +21,9 @@ const MessageBox = ( props ) => (
 		</div>
 	</div>
 );
+
+MessageBox.propTypes = {
+	icon: PropTypes.func.isRequired,
+};
 
 export default MessageBox;
