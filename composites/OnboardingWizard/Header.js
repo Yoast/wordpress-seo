@@ -16,13 +16,14 @@ const Header = ( props ) => {
 		<div
 			role="banner"
 			className="yoast-wizard--header">
-			<Icon icon={ props.icon } width="56px" height="56px"/>
+			{ ( props.icon ) ? <Icon icon={ props.icon } width="56px" height="56px"/> : null }
 			{ ( props.headerTitle ) ? <p className="yoast-wizard--header--page-title">{ props.headerTitle }</p> : null }
 		</div>
 	);
 };
 
 Header.propTypes = {
+	icon: PropTypes.string,
 	headerTitle: PropTypes.string,
 };
 
