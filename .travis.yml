@@ -124,11 +124,11 @@ before_script:
 - git --version
 - svn --version
 -|
- if [[ "$CHECKJS" == "1" ]]; then
-  npm --version
-  node --version
-  yarn --version
-  grunt --version
+  if [[ "$CHECKJS" == "1" ]]; then
+    npm --version
+    node --version
+    yarn --version
+    grunt --version
   fi
 - locale -a
 
