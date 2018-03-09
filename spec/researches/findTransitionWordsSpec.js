@@ -302,7 +302,7 @@ describe( "a test for finding transition words from a string", function () {
 
 	it( "returns 1 when a two-part transition word is found in a sentence (Russian)", function () {
 		// Transition word: стоило...как
-		mockPaper = new Paper("Стоило ему прийти, как она ушла.", { locale: 'ru_RU'} );
+		mockPaper = new Paper( "Стоило ему прийти, как она ушла.", { locale: 'ru_RU'} );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
