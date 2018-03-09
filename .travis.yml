@@ -123,7 +123,7 @@ before_script:
 - curl --version
 - git --version
 - svn --version
--|
+- |
   if [[ "$CHECKJS" == "1" ]]; then
     npm --version
     node --version
