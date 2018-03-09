@@ -16,7 +16,7 @@ const Header = ( props ) => {
 		<div
 			role="banner"
 			className="yoast-wizard--header">
-			<Icon icon={ YoastSeoIcon } width="56px" height="56px"/>
+			<Icon icon={ props.icon } width="56px" height="56px"/>
 			{ ( props.headerTitle ) ? <p className="yoast-wizard--header--page-title">{ props.headerTitle }</p> : null }
 		</div>
 	);
