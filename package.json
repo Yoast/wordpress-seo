@@ -80,9 +80,9 @@
     "sassdash": "^0.8.1",
     "svg-react-loader": "^0.4.5",
     "time-grunt": "^1.0.0",
-    "webpack-dev-server": "^2.11.0",
     "unminified-webpack-plugin": "^1.4.2",
-    "webpack": "^3.4.1"
+    "webpack": "^3.4.1",
+    "webpack-dev-server": "^2.11.0"
   },
   "optionalDependencies": {
     "grunt-contrib-imagemin": "^2.0.1"
@@ -102,7 +102,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
-    "yoast-components": "^3.1.0",
+    "yoast-components": "git+https://github.com/Yoast/yoast-components#433-replace-old-yoast-icon",
     "yoastseo": "^1.29"
   },
   "yoast": {

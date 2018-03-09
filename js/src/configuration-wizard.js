@@ -17,6 +17,8 @@ import FinalStep from "./components/FinalStep";
 import { setTranslations } from "yoast-components/utils/i18n";
 import isUndefined from "lodash/isUndefined";
 
+import YoastIcon from '../../images/Yoast_SEO_Icon.svg';
+
 injectTapEventPlugin();
 
 class App extends React.Component {
@@ -127,7 +129,7 @@ class App extends React.Component {
 		if ( typeof ( this.state.config ) !== "undefined" && this.state.config !== {} ) {
 			return (
 				<div>
-					<OnboardingWizard { ...this.state.config }/>
+					<OnboardingWizard { ...this.state.config } headerIcon={YoastIcon} />
 				</div>
 			);
 		}
@@ -142,7 +144,7 @@ class App extends React.Component {
 
 		return (
 			<div>
-				<MessageBox { ...message }/>
+				<MessageBox { ...message } icon={YoastIcon} />
 			</div>
 		);
 	}
