@@ -1,9 +1,22 @@
+### 7.0.2: March 8th, 2018
+* Includes every change in Yoast SEO core 7.0.2 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
+### 7.0.1: March 6th, 2018
+* Includes every change in Yoast SEO core 7.0.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 7.0.0: March 6th, 2018
-Enhancement:
-* Added SEO titles and meta descriptions to the focus keyword export.
+Enhancements:
+* Adds SEO titles and meta descriptions to the focus keyword export.
+
+Bugfixes:
+* Removes unnecessary HTML from button.
 
 Other:
 * Includes every change in Yoast SEO core 7.0.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+* Removes the deprecated `WPSEO_Premium:: add_admin_pages` method.
+
+### 6.3.1: February 19th, 2018
+* Includes every change in Yoast SEO core 6.3.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 6.3.0: February 13th, 2018
 Enhancements:
@@ -19,6 +32,7 @@ Other:
 * Includes every change in Yoast SEO core 6.3.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 6.2.0: January 23rd, 2018
+* Removes the `WPSEO_Premium:: add_admin_pages` method which was deprecated before version 4.0.
 * Includes every change in Yoast SEO core 6.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 6.1.2: January 12th, 2018

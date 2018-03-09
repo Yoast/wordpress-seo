@@ -20,7 +20,7 @@ class WPSEO_Premium_Orphaned_Content_Utils {
 			return false;
 		}
 
-		return WPSEO_Options::get( 'enable_text_link_counter' ,false );
+		return WPSEO_Options::get( 'enable_text_link_counter', false );
 	}
 
 	/**

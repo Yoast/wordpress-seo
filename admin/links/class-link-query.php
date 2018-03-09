@@ -138,7 +138,7 @@ class WPSEO_Link_Query {
 	 * @return string
 	 */
 	protected static function get_count_table_name() {
-		$storage     = new WPSEO_Meta_Storage();
+		$storage = new WPSEO_Meta_Storage();
 		return $storage->get_table_name();
 	}
 

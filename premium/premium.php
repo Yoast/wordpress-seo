@@ -27,7 +27,7 @@ class WPSEO_Premium {
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
 	/** @var string */
-	const PLUGIN_VERSION_NAME = '6.3';
+	const PLUGIN_VERSION_NAME = '7.0.2';
 
 	/** @var string */
 	const PLUGIN_VERSION_CODE = '16';
@@ -491,19 +491,6 @@ class WPSEO_Premium {
 	 */
 	public function change_premium_indicator_text( $text ) {
 		return __( 'Enabled', 'wordpress-seo-premium' );
-	}
-
-	/**
-	 * Add redirects to admin pages so the Yoast scripts are loaded
-	 *
-	 * @param array $admin_pages Array with the admin pages.
-	 *
-	 * @return array
-	 * @deprecated 3.1
-	 */
-	public function add_admin_pages( $admin_pages ) {
-		_deprecated_function( 'WPSEO_Premium::add_admin_pages', 'WPSEO 3.1' );
-		return $admin_pages;
 	}
 
 	/**
