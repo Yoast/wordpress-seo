@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Icon from "../Plugin/Shared/components/Icon";
-import YoastSeoIcon from "../basic/YoastSeoIcon";
 
 /**
  * Onboarding wizard header.
