@@ -26,7 +26,11 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param WPSEO_Redirect_Manager|null $redirect_manager Redirect Manager to use.
 	 */
 	public function __construct( WPSEO_Redirect_Manager $redirect_manager = null ) {
-		$this->redirect_manager = ( $redirect_manager === null ) ? new WPSEO_Redirect_Manager() : $redirect_manager;
+		if ( $redirect_manager === null ) {
+			$redirect_manager = new WPSEO_Redirect_Manager();
+		}
+
+		$this->redirect_manager = $redirect_manager;
 
 		$this->set_hooks();
 	}
@@ -117,6 +121,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 *
 	 * @param WP_Post $post        The post with the new values.
 	 * @param WP_Post $post_before The post with the previous values.
+	 *
+	 * @return void
 	 */
 	protected function remove_colliding_redirect( $post, $post_before ) {
 		$redirect = $this->redirect_manager->get_redirect( $this->get_target_url( $post ) );
@@ -141,7 +147,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	protected function is_redirect_relevant( $post, $post_before ) {
 		// If post is a revision do not create redirect.
-		if ( wp_is_post_revision( $post_before ) && wp_is_post_revision( $post ) ) {
+		if ( wp_is_post_revision( $post_before ) !== false && wp_is_post_revision( $post ) !== false ) {
 			return false;
 		}
 
@@ -330,21 +336,21 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool|string
 	 */
 	protected function get_old_url( $post, $post_before ) {
-		$wpseo_old_post_url = filter_input( INPUT_POST, 'wpseo_old_post_url' );
+		$wpseo_old_post_url = $this->get_post_wpseo_old_post_url();
 
-		if ( empty( $wpseo_old_post_url ) ) {
-			// Check if request is inline action and new slug is not old slug, if so set wpseo_post_old_url.
-			$action = filter_input( INPUT_POST, 'action' );
-
-			$url_before = $this->get_target_url( $post_before );
-			if ( ! empty( $action ) && $action === 'inline-save' && $this->get_target_url( $post ) !== $url_before ) {
-				return $url_before;
-			}
-
-			return false;
+		if ( ! empty( $wpseo_old_post_url ) ) {
+			return $wpseo_old_post_url;
 		}
 
-		return $wpseo_old_post_url;
+		// Check if request is inline action and new slug is not old slug, if so set wpseo_post_old_url.
+		$action = $this->get_post_action();
+
+		$url_before = $this->get_target_url( $post_before );
+		if ( ! empty( $action ) && $action === 'inline-save' && $this->get_target_url( $post ) !== $url_before ) {
+			return $url_before;
+		}
+
+		return false;
 	}
 
 	/**
@@ -431,7 +437,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool True when in an AJAX-request and the action is inline-save.
 	 */
 	protected function is_action_inline_save() {
-		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && filter_input( INPUT_POST, 'action' ) === 'inline-save' );
+		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && $this->get_post_action() === 'inline-save' );
 	}
 
 	/**
@@ -443,5 +449,19 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	protected function is_nested_pages( $current_page ) {
 		return ( $current_page === 'admin.php' && filter_input( INPUT_GET, 'page' ) === 'nestedpages' );
+	}
+
+	/**
+	 * @return mixed
+	 */
+	protected function get_post_wpseo_old_post_url() {
+		return filter_input( INPUT_POST, 'wpseo_old_post_url' );
+	}
+
+	/**
+	 * @return mixed
+	 */
+	protected function get_post_action() {
+		return filter_input( INPUT_POST, 'action' );
 	}
 }
