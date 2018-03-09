@@ -70,7 +70,7 @@ cache:
 
 before_install:
 - PHPUNIT_BIN="phpunit"
-- if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then PHPUNIT_BIN="vendor/bin/phpunit" fi;
+- if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then PHPUNIT_BIN="vendor/bin/phpunit"; fi
 - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
 - |
