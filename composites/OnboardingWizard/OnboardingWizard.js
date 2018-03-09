@@ -298,7 +298,7 @@ class OnboardingWizard extends React.Component {
 		return (
 			<MuiThemeProvider muiTheme={muiTheme}>
 				<div className="yoast-wizard-body">
-					<Header headerTitle={ headerTitle } icon={ this.props.icon } />
+					<Header headerTitle={ headerTitle } icon={ this.props.headerIcon } />
 					<StepIndicator steps={this.props.steps} stepIndex={this.getCurrentStepNumber() - 1}
 					               onClick={( stepNumber, evt ) => this.postStep( stepNumber, evt )}/>
 					<main className="yoast-wizard-container">
