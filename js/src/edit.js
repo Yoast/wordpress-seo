@@ -15,6 +15,7 @@ import activeKeyword from "./redux/reducers/activeKeyword";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 import { subscribeToGutenberg } from "./analysis/data.js";
+import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -120,7 +121,11 @@ function renderReactApps( store, args ) {
 export function initialize( args ) {
 	const store = configureStore();
 
-	subscribeToGutenberg();
+	// Only subscribe if Gutenberg's data API is available.
+	if ( isGutenbergDataAvailable() ) {
+		subscribeToGutenberg();
+	}
+
 	renderReactApps( store, args );
 
 	return {
