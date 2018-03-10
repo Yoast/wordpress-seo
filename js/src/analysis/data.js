@@ -1,21 +1,21 @@
-/* global wp YoastSEO */
 import debounce from "lodash/debounce";
 
 /**
  * Represents the data.
  */
-class data {
+class Data {
 	/**
 	 *
 	 *
-	 * @param {object}
+	 * @param {Object} wpData The Gutenberg data API.
+	 * @param {Object} YoastSEOApp The app of YoastSEO.
 	 * @returns {void}
 	 */
-	constructor( wp.data, YoastSEO.app ) {
-		super();
-		this._wpData = wp.data;
-		this._yoastSEOApp = YoastSEO.app;
+	constructor( wpData, YoastSEOApp ) {
+		this._wpData = wpData;
+		this._yoastSEOApp = YoastSEOApp;
 		this.data = {};
+		this.subscriber = debounce( this.refreshYoastSEO, 500 );
 	}
 
 	/**
@@ -25,7 +25,7 @@ class data {
 	 * @param {Object} gutenbergData The data from Gutenberg.
 	 * @returns {boolean} Whether the current data and the gutenbergData is the same.
 	 */
-	isShallowEqual = ( currentData, gutenbergData ) => {
+	isShallowEqual( currentData, gutenbergData ) {
 		if ( Object.keys( currentData ).length !== Object.keys( gutenbergData ).length ) {
 			return false;
 		}
@@ -38,7 +38,7 @@ class data {
 			}
 		}
 		return true;
-	};
+	}
 
 	/**
 	 * Retrieves the Gutenberg data for the passed post attribute.
@@ -46,64 +46,63 @@ class data {
 	 * @param {string} attribute The post attribute you'd like to retrieve.
 	 * @returns {string} The post attribute .
 	 */
-	getPostAttribute = ( attribute ) => {
+	getPostAttribute( attribute ) {
 		return this._wpData.select( "core/editor" ).getEditedPostAttribute( attribute );
-	};
+	}
 
 	/**
 	 * Collects the content, title, slug and excerpt of a post from Gutenberg.
 	 *
+	 * @param {Function} retriever The data retriever function.
 	 * @returns {{content: string, title: string, slug: string, excerpt: string}} The content, title, slug and excerpt.
 	 */
-	collectGutenbergData =  ( retriever ) => {
+	collectGutenbergData( retriever ) {
 		return {
 			content: retriever( "content" ),
 			title: retriever( "title" ),
 			slug: retriever( "slug" ),
 			excerpt: retriever( "excerpt" ),
 		};
-	};
+	}
 
 	/**
 	 * Refreshes YoastSEO's app when the Gutenberg data is dirty.
 	 *
 	 * @returns {void}
 	 */
-	refreshYoastSEO = () => {
-		let gutenbergData = collectGutenbergData( getPostAttribute );
+	refreshYoastSEO() {
+		let gutenbergData = this.collectGutenbergData( this.getPostAttribute );
 
 		// Set isDirty to false if the current data and Gutenberg data are unequal.
-		let isDirty = ! isShallowEqual( data, gutenbergData );
+		let isDirty = ! this.isShallowEqual( this.data, gutenbergData );
 
 		if ( isDirty ) {
-			data = gutenbergData;
-			YoastSEO.app.refresh();
+			this.data = gutenbergData;
+			this._yoastSEOApp.refresh();
 		}
-	};
-
-	subscriber = debounce( refreshYoastSEO, 500 );
+	}
 
 	/**
 	 * Listens to the Gutenberg data.
 	 *
 	 * @returns {void}
 	 */
-	subscribeToGutenberg = () => {
+	subscribeToGutenberg() {
 		// Fill data object on page load.
-		data = collectGutenbergData( getPostAttribute );
-		wp.data.subscribe(
-			subscriber
+		this.data = this.collectGutenbergData( this.getPostAttribute );
+		this._wpData.subscribe(
+			this.subscriber
 		);
-	};
+	}
 
 	/**
 	 * Returns the data and whether the data is dirty.
 	 *
 	 * @returns {Object} The data and whether the data is dirty.
 	 */
-	getData = () => {
-		console.log( data )
-		return data;
-	};
+	getData() {
+		console.log( this.data );
+		return this.data;
+	}
 }
-module.exports = data;
+module.exports = Data;

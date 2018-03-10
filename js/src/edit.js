@@ -1,4 +1,4 @@
-/* global window wpseoPostScraperL10n wpseoTermScraperL10n process */
+/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp YoastSEO */
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
@@ -14,7 +14,7 @@ import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducer
 import activeKeyword from "./redux/reducers/activeKeyword";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
-import { subscribeToGutenberg } from "./analysis/data.js";
+import Data from "./analysis/data.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
@@ -123,7 +123,8 @@ export function initialize( args ) {
 
 	// Only subscribe if Gutenberg's data API is available.
 	if ( isGutenbergDataAvailable() ) {
-		subscribeToGutenberg();
+		const gutenbergData = new Data( wp.data, YoastSEO.app );
+		gutenbergData.subscribeToGutenberg();
 	}
 
 	renderReactApps( store, args );

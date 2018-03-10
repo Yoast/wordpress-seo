@@ -9,7 +9,6 @@ describe( 'initialize', () => {
 				locale: "en_EN",
 			},
 		};
-		window.wp = {};
 		const actual = initialize( {} );
 		expect( actual.store ).toBeDefined();
 	} );
