@@ -484,11 +484,11 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_70() {
 
-		$wpseo_permalinks    = get_option( 'wpseo_permalinks' );
-		$wpseo_xml           = get_option( 'wpseo_xml' );
-		$wpseo_rss           = get_option( 'wpseo_rss' );
-		$wpseo               = get_option( 'wpseo' );
-		$wpseo_internallinks = (array) get_option( 'wpseo_internallinks' );
+		$wpseo_permalinks    = $this->get_option_raw( 'wpseo_permalinks' );
+		$wpseo_xml           = $this->get_option_raw( 'wpseo_xml' );
+		$wpseo_rss           = $this->get_option_raw( 'wpseo_rss' );
+		$wpseo               = $this->get_option_raw( 'wpseo' );
+		$wpseo_internallinks = $this->get_option_raw( 'wpseo_internallinks' );
 
 		// Move some permalink settings, then delete the option.
 		$this->move_key_to_other_option( $wpseo_permalinks, 'wpseo_titles', 'redirectattachment', 'disable-attachment' );
@@ -546,5 +546,21 @@ class WPSEO_Upgrade {
 		// Moves the user meta for excluding from the XML sitemap to a noindex.
 		global $wpdb;
 		$wpdb->query( "UPDATE $wpdb->usermeta SET meta_key = 'wpseo_noindex_author' WHERE meta_key = 'wpseo_excludeauthorsitemap'" );
+	}
+
+	/**
+	 * Retrieves the option value directly from the database.
+	 *
+	 * @param string $option_name Option to retrieve.
+	 *
+	 * @return array|mixed
+	 */
+	private function get_option_raw( $option_name ) {
+		global $wpdb;
+
+		$sql = $wpdb->prepare( 'SELECT option_value FROM ' . $wpdb->options . ' WHERE option_name = %s', $option_name );
+		$result = $wpdb->get_row( $sql, ARRAY_N );
+
+		return maybe_unserialize( $result );
 	}
 }
