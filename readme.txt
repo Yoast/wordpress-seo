@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.0.3 =
+Release Date: March 12th, 2018
+
+Bugfixes:
+* Fixes a bug where the option settings that needs to be migrated are backfilled prematurely, resulting in settings not being migrated as expected.
+* Fixes a bug where adding a `wpseo_sitemap_entries_per_page` is not being applied as expected.
+
 = 7.0.2 =
 Release Date: March 8th, 2018
 
