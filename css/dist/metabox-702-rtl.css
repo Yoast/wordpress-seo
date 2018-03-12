@@ -1550,6 +1550,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .yoast-notice-go-premium {
+	margin: 0; 
 	border-right-color: #a4286a;
 	background: #f1f1f1;
 }
