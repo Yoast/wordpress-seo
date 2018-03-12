@@ -336,7 +336,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool|string
 	 */
 	protected function get_old_url( $post, $post_before ) {
-		$wpseo_old_post_url = $this->get_post_wpseo_old_post_url();
+		$wpseo_old_post_url = $this->get_post_old_post_url();
 
 		if ( ! empty( $wpseo_old_post_url ) ) {
 			return $wpseo_old_post_url;
@@ -452,14 +452,18 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * @return mixed
+	 * Retrieves wpseo_old_post_url field from the post.
+	 *
+	 * @return mixed.
 	 */
-	protected function get_post_wpseo_old_post_url() {
+	protected function get_post_old_post_url() {
 		return filter_input( INPUT_POST, 'wpseo_old_post_url' );
 	}
 
 	/**
-	 * @return mixed
+	 * Retrieves action field from the post.
+	 *
+	 * @return mixed.
 	 */
 	protected function get_post_action() {
 		return filter_input( INPUT_POST, 'action' );

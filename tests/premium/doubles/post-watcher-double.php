@@ -1,5 +1,13 @@
 <?php
+/**
+ * WPSEO Premium plugin test file.
+ *
+ * @package WPSEO\Tests\Premium\Doubles
+ */
 
+/**
+ * Test Helper Class.
+ */
 class WPSEO_Post_Watcher_Double extends WPSEO_Post_Watcher {
 	/**
 	 * @inheritdoc
@@ -46,7 +54,7 @@ class WPSEO_Post_Watcher_Double extends WPSEO_Post_Watcher {
 	/**
 	 * @inheritdoc
 	 */
-	public function get_post_wpseo_old_post_url() {
-		return parent::get_post_wpseo_old_post_url();
+	public function get_post_old_post_url() {
+		return parent::get_post_old_post_url();
 	}
 }

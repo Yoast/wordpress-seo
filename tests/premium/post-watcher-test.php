@@ -35,7 +35,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Method `set_notification()` should not be called if slugs stay the same.
+	 * Method `set_undo_slug_notification()` should not be called if slugs stay the same.
 	 *
 	 * @covers WPSEO_Post_Watcher::detect_slug_change
 	 */
@@ -62,7 +62,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Method `set_notification()` should be called when the slug is changed.
+	 * Method `set_undo_slug_notification()` should be called when the slug is changed.
 	 */
 	public function test_detect_slug_change_slug_IS_CHANGED() {
 		$post = (object) array(
@@ -93,7 +93,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Methods `get_target_url()` and `set_notification()` should not be called when post is not published.
+	 * Methods `get_target_url()` and `set_undo_slug_notification()` should not be called when post is not published.
 	 */
 	public function test_detect_slug_change_slug_post_IS_NOT_published() {
 		$post = (object) array(
@@ -375,6 +375,40 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if $wpseo_old_post_url is correctly returned when not empty.
+	 *
+	 * @covers WPSEO_Post_Watcher::get_old_url
+	 */
+	public function test_if_wpseo_old_post_url_is_returned() {
+		$this->set_permalink_structure( '/%postname%/' );
+
+		// Prepare two (empty) posts.
+		$post = $this->factory->post->create();
+		$post_before = $this->factory->post->create();
+
+		/** @var WPSEO_Post_Watcher_Double $instance */
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
+			->setMethods( array(
+				'get_post_old_post_url',
+			) )
+			->setConstructorArgs( array( ) )
+			->getMock();
+
+		$post        = get_post( $post );
+		$post_before = get_post( $post_before );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_post_old_post_url' )
+			->will( $this->returnValue( '/test_url/' ) );
+
+		$get_old_url_function_call = $instance->get_old_url($post, $post_before);
+
+		$this->assertEquals('/test_url/', $get_old_url_function_call);
+	}
+
+	/**
 	 * Tests if the correct url is returned if there is no old post url and $action is inline-save.
 	 *
 	 * @covers WPSEO_Post_Watcher::get_old_url
@@ -403,7 +437,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
-				'get_post_wpseo_old_post_url',
+				'get_post_old_post_url',
 				'get_post_action',
 			) )
 			->setConstructorArgs( array( ) )
@@ -414,7 +448,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$instance
 			->expects( $this->once() )
-			->method( 'get_post_wpseo_old_post_url' )
+			->method( 'get_post_old_post_url' )
 			->will( $this->returnValue( '' ) );
 
 		$instance
@@ -457,7 +491,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
-				'get_post_wpseo_old_post_url',
+				'get_post_old_post_url',
 				'get_post_action',
 			) )
 			->setConstructorArgs( array( ) )
@@ -468,7 +502,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$instance
 			->expects( $this->once() )
-			->method( 'get_post_wpseo_old_post_url' )
+			->method( 'get_post_old_post_url' )
 			->will( $this->returnValue( '' ) );
 
 		$instance
