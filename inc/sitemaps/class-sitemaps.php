@@ -22,9 +22,6 @@ class WPSEO_Sitemaps {
 	/** @var bool $transient Whether or not the XML sitemap was served from a transient or not. */
 	private $transient = false;
 
-	/** @var int $max_entries The maximum number of entries per sitemap page. */
-	private $max_entries;
-
 	/**
 	 * @var string $http_protocol HTTP protocol to use in headers.
 	 * @since 3.2
@@ -72,7 +69,6 @@ class WPSEO_Sitemaps {
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 		add_action( 'wpseo_ping_search_engines', array( __CLASS__, 'ping_search_engines' ) );
 
-		$this->max_entries = $this->get_entries_per_page();
 		$this->timezone    = new WPSEO_Sitemap_Timezone();
 		$this->router      = new WPSEO_Sitemaps_Router();
 		$this->renderer    = new WPSEO_Sitemaps_Renderer();
@@ -323,7 +319,7 @@ class WPSEO_Sitemaps {
 				continue;
 			}
 
-			$links = $provider->get_sitemap_links( $type, $this->max_entries, $this->current_page );
+			$links = $provider->get_sitemap_links( $type, $this->get_entries_per_page(), $this->current_page );
 
 			if ( empty( $links ) ) {
 				$this->bad_sitemap = true;
@@ -356,7 +352,7 @@ class WPSEO_Sitemaps {
 		$links = array();
 
 		foreach ( $this->providers as $provider ) {
-			$links = array_merge( $links, $provider->get_index_links( $this->max_entries ) );
+			$links = array_merge( $links, $provider->get_index_links( $this->get_entries_per_page() ) );
 		}
 
 		if ( empty( $links ) ) {
@@ -536,6 +532,9 @@ class WPSEO_Sitemaps {
 	protected function get_entries_per_page() {
 		/**
 		 * Filter the maximum number of entries per XML sitemap.
+		 *
+		 * After changing the output of the filter, make sure that you disable and enable the
+		 * sitemaps to make sure the value is picked up for the sitemap cache.
 		 *
 		 * @param int $entries The maximum number of entries per XML sitemap.
 		 */
