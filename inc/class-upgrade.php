@@ -112,21 +112,16 @@ class WPSEO_Upgrade {
 	 * Helper function to move a key from one option to another.
 	 *
 	 * @param array       $old_options The option containing the value to be migrated.
-	 * @param string      $new_option  Name of the "to" option.
 	 * @param string      $old_key     Name of the key in the "from" option.
 	 * @param string|null $new_key     Name of the key in the "to" option.
 	 */
-	private function move_key_to_other_option( $old_options, $new_option, $old_key, $new_key = null ) {
+	private function move_key_to_other_option( $old_options, $old_key, $new_key = null ) {
 		if ( $new_key === null ) {
 			$new_key = $old_key;
 		}
 
-		$new_options = WPSEO_Options::get_option( $new_option );
-
 		if ( isset( $old_options[ $old_key ] ) ) {
-			$new_options[ $new_key ] = $old_options[ $old_key ];
-
-			update_option( $new_option, $new_options );
+			WPSEO_Options::set( $new_key, $old_options[ $old_key ] );
 		}
 	}
 
@@ -163,7 +158,11 @@ class WPSEO_Upgrade {
 		 */
 		delete_option( 'wpseo_ms' );
 
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_social', 'pinterestverify' );
+		$wpseo = $this->get_option_raw( 'wpseo' );
+		$this->move_key_to_other_option( $wpseo, 'pinterestverify' );
+
+		// Re-save option to trigger sanitization.
+		$this->refresh_option_content( 'wpseo' );
 	}
 
 	/**
@@ -280,8 +279,13 @@ class WPSEO_Upgrade {
 	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
 	 */
 	private function upgrade_44() {
-		$this->move_key_to_other_option( 'wpseo_titles', 'wpseo', 'content-analysis-active', 'content_analysis_active' );
-		$this->move_key_to_other_option( 'wpseo_titles', 'wpseo', 'keyword-analysis-active', 'keyword_analysis_active' );
+		$wpseo_titles = $this->get_option_raw( 'wpseo_titles' );
+
+		$this->move_key_to_other_option( $wpseo_titles, 'content-analysis-active', 'content_analysis_active' );
+		$this->move_key_to_other_option( $wpseo_titles, 'keyword-analysis-active', 'keyword_analysis_active' );
+
+		// Remove irrelevant content from the option.
+		$this->refresh_option_content( 'wpseo_titles' );
 	}
 
 	/**
@@ -457,29 +461,28 @@ class WPSEO_Upgrade {
 		$wpseo_internallinks = $this->get_option_raw( 'wpseo_internallinks' );
 
 		// Move some permalink settings, then delete the option.
-		$this->move_key_to_other_option( $wpseo_permalinks, 'wpseo_titles', 'redirectattachment', 'disable-attachment' );
-		$this->move_key_to_other_option( $wpseo_permalinks, 'wpseo_titles', 'stripcategorybase' );
-
+		$this->move_key_to_other_option( $wpseo_permalinks, 'redirectattachment', 'disable-attachment' );
+		$this->move_key_to_other_option( $wpseo_permalinks, 'stripcategorybase' );
 
 		// Move one XML sitemap setting, then delete the option.
-		$this->move_key_to_other_option( $wpseo_xml, 'wpseo', 'enablexmlsitemap', 'enable_xml_sitemap' );
+		$this->move_key_to_other_option( $wpseo_xml, 'enablexmlsitemap', 'enable_xml_sitemap' );
 
 
 		// Move the RSS settings to the search appearance settings, then delete the RSS option.
-		$this->move_key_to_other_option( $wpseo_rss, 'wpseo_titles', 'rssbefore' );
-		$this->move_key_to_other_option( $wpseo_rss, 'wpseo_titles', 'rssafter' );
+		$this->move_key_to_other_option( $wpseo_rss, 'rssbefore' );
+		$this->move_key_to_other_option( $wpseo_rss, 'rssafter' );
 
-		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'company_logo' );
-		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'company_name' );
-		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'company_or_person' );
-		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'person_name' );
+		$this->move_key_to_other_option( $wpseo, 'company_logo' );
+		$this->move_key_to_other_option( $wpseo, 'company_name' );
+		$this->move_key_to_other_option( $wpseo, 'company_or_person' );
+		$this->move_key_to_other_option( $wpseo, 'person_name' );
 
 		// Remove the website name and altername name as we no longer need them.
 		$this->refresh_option_content( 'wpseo' );
 
 		// All the breadcrumbs settings have moved to the search appearance settings.
 		foreach ( array_keys( $wpseo_internallinks ) as $key ) {
-			$this->move_key_to_other_option( $wpseo_internallinks, 'wpseo_titles', $key );
+			$this->move_key_to_other_option( $wpseo_internallinks, $key );
 		}
 
 		// Convert hidden metabox options to display metabox options.
@@ -524,9 +527,27 @@ class WPSEO_Upgrade {
 	private function get_option_raw( $option_name ) {
 		global $wpdb;
 
-		$sql = $wpdb->prepare( 'SELECT option_value FROM ' . $wpdb->options . ' WHERE option_name = %s', $option_name );
-		$result = $wpdb->get_row( $sql, ARRAY_N );
+		// Load option directly from the database, to avoid filtering and sanitization.
+		$sql     = $wpdb->prepare( 'SELECT option_value FROM ' . $wpdb->options . ' WHERE option_name = %s', $option_name );
+		$results = $wpdb->get_results( $sql, ARRAY_A );
+		if ( ! empty( $results ) ) {
+			return maybe_unserialize( $results[0]['option_value'] );
+		}
 
-		return maybe_unserialize( $result );
+		return array();
+	}
+
+	/**
+	 * Re-save the option to make sure only the expected values are there.
+	 *
+	 * @param string $option_name Option name to sanitize.
+	 */
+	protected function refresh_option_content( $option_name ) {
+		$data = get_option( $option_name, array() );
+		if ( ! is_array( $data ) || $data === array() ) {
+			return;
+		}
+
+		update_option( $option_name, $data );
 	}
 }
