@@ -114,9 +114,8 @@ class WPSEO_Options {
 		if ( is_network_admin() && isset( self::$option_instances[ $option_name ] ) ) {
 			return self::$option_instances[ $option_name ]->update_site_option( $value );
 		}
-		else {
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
