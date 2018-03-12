@@ -48,6 +48,7 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_AIOSEO::run_import
+	 * @covers WPSEO_Import_AIOSEO::meta_key_clone
 	 */
 	public function test_import_without_data() {
 		$result = $this->class_instance->run_import();
@@ -62,11 +63,15 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->setup_post();
 		$result  = $this->class_instance->run_import();
 
-		$seo_title = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
-		$seo_desc  = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
+		$seo_title       = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
+		$seo_desc        = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
+		$robots_noindex  = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', true );
+		$robots_nofollow = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', true );
 
-		$this->assertEquals( $seo_title, 'Test title' );
-		$this->assertEquals( $seo_desc, 'Test description' );
+		$this->assertEquals( 'Test title', $seo_title );
+		$this->assertEquals( 'Test description', $seo_desc );
+		$this->assertEquals( 1, $robots_noindex );
+		$this->assertEquals( 1, $robots_nofollow );
 		$this->assertEquals( $this->status( 'import', true ), $result );
 	}
 
@@ -115,6 +120,8 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory()->post->create();
 		update_post_meta( $post_id, '_aioseop_title', 'Test title' );
 		update_post_meta( $post_id, '_aioseop_description', 'Test description' );
+		update_post_meta( $post_id, '_aioseop_noindex', 'on' );
+		update_post_meta( $post_id, '_aioseop_nofollow', 'on' );
 
 		return $post_id;
 	}

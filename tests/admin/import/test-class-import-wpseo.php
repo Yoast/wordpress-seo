@@ -87,6 +87,7 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_metas
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_robots
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_description
+	 * @covers WPSEO_Import_WPSEO::meta_key_clone
 	 *
 	 * @group test
 	 */

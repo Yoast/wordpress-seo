@@ -56,6 +56,7 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Import_Ultimate_SEO::run_import
 	 * @covers WPSEO_Import_Ultimate_SEO::import
+	 * @covers WPSEO_Import_Ultimate_SEO::meta_key_clone
 	 */
 	public function test_import() {
 		$post_id = $this->setup_post();
