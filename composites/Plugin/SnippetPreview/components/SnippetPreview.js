@@ -586,8 +586,11 @@ SnippetPreview.defaultProps = {
 	breadcrumbs: null,
 	isDescriptionGenerated: false,
 	locale: "en_US",
-	onHover: () => {},
 	hoveredField: "",
 	activeField: "",
 	mode: "desktop",
+
+	onHover: () => {},
+	onMouseOver: () => {},
+	onMouseLeave: () => {},
 };

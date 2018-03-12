@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
+.c1 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
+}
+
+.c0 {
+  background-color: white;
+  font-family: arial,sans-serif;
+  max-width: 640px;
+  box-sizing: border-box;
+}
+
+.c3 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c5 {
+  color: #1e0fbe;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c4 {
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c6 {
+  white-space: nowrap;
+}
+
+.c7 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #545454;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+}
+
+.c8 {
+  display: inline-block;
+  margin-top: 6px;
+  margin-left: 6px;
+  border-top: 5px solid #006621;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+<section>
+  <div
+    className="c0 c1"
+    width={640}
+  >
+    <div
+      className="c2"
+      width={600}
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c3"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          <div
+            className="c4 c5"
+          >
+            <span
+              className="c6"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Slug preview:
+        </span>
+        <div
+          className="c7"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          https
+          <strong>
+            :/
+          </strong>
+          /example.org
+        </div>
+        <div
+          className="c8"
+        />
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c9"
+          color="#545454"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
