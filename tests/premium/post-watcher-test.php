@@ -123,7 +123,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_slug_changed_matching_redirect() {
 		$redirect = new WPSEO_Redirect( 'to', 'from', 301, 'plain' );
 
-		// Create a redirect manager
+		// Create a redirect manager.
 		$manager = new WPSEO_Redirect_Manager();
 		$manager->create_redirect( $redirect );
 
@@ -510,7 +510,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->method( 'get_post_action' )
 			->will( $this->returnValue( 'not-a-save-action' ) );
 
-		//Call to get_old_url(), expect it to return false.
+		// Call to get_old_url(), expect it to return false.
 		$get_old_url_function_call = $instance->get_old_url($post, $post_before);
 		$this->assertFalse($get_old_url_function_call);
 	}
