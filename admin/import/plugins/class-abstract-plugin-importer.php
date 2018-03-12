@@ -138,22 +138,22 @@ abstract class WPSEO_Plugin_Importer {
 		$this->wpdb->query( $this->wpdb->prepare( "CREATE TEMPORARY TABLE tmp_meta_table SELECT * FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $old_key ) );
 
 		// We set meta_id to NULL so on re-insert into the postmeta table, MYSQL can set new meta_id's and we don't get duplicates.
-		$this->wpdb->query( "UPDATE tmp_meta_table SET meta_id = NULL" );
+		$this->wpdb->query( 'UPDATE tmp_meta_table SET meta_id = NULL' );
 
 		// Now we rename the meta_key.
-		$this->wpdb->query( $this->wpdb->prepare( "UPDATE tmp_meta_table SET meta_key = %s", WPSEO_Meta::$meta_prefix . $new_key ) );
+		$this->wpdb->query( $this->wpdb->prepare( 'UPDATE tmp_meta_table SET meta_key = %s', WPSEO_Meta::$meta_prefix . $new_key ) );
 
 		// Now we replace values if needed.
 		if ( is_array( $replace_values ) && $replace_values !== array() ) {
 			foreach ( $replace_values as $old_value => $new_value ) {
-				$this->wpdb->query( $this->wpdb->prepare( "UPDATE tmp_meta_table SET meta_value = %s WHERE meta_value = %s", $new_value, $old_value ) );
+				$this->wpdb->query( $this->wpdb->prepare( 'UPDATE tmp_meta_table SET meta_value = %s WHERE meta_value = %s', $new_value, $old_value ) );
 			}
 		}
 
 		// With everything done, we insert all our newly cloned lines into the postmeta table.
-		$this->wpdb->query( "	INSERT INTO {$this->wpdb->postmeta} SELECT * FROM tmp_meta_table" );
+		$this->wpdb->query( "INSERT INTO {$this->wpdb->postmeta} SELECT * FROM tmp_meta_table" );
 
 		// Now we drop our temporary table.
-		$this->wpdb->query( "	DROP TEMPORARY TABLE IF EXISTS tmp_meta_table" );
+		$this->wpdb->query( 'DROP TEMPORARY TABLE IF EXISTS tmp_meta_table' );
 	}
 }
