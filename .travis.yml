@@ -89,7 +89,8 @@ install:
   if [[ "$CHECKJS" == "1" ]]; then
     yarn global add grunt-cli
     yarn install
-    cd premium && yarn install && cd -
+    cd premium && yarn install
+    cd -
   fi
 
 before_script:
@@ -117,21 +118,13 @@ before_script:
 - export -f travis_time_finish
 
 script:
-- if [[ "$PHPLINT" == "1" ]]; then find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -path ./premium/node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
-- if [[ "$PHPCS" == "1" ]]; then vendor/bin/phpcs -v --runtime-set ignore_warnings_on_exit 1; fi
-- |
-  if [[ "$CHECKJS" == "1" ]]; then
-    cd premium && grunt check
-    cd -
-  fi
-- if [[ "$COVERAGE" != "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "5" || $TRAVIS_PHP_VERSION == hhv* ]]; then phpunit -c phpunit.xml; fi
-- if [[ "$COVERAGE" != "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then phpunit -c phpunit.xml; fi
-
 # JavaScript checks
 - |
   if [[ "$CHECKJS" == "1" ]]; then
     travis_fold start "JavaScript.check" && travis_time_start
     grunt check:js
+    cd premium && grunt check:eslint
+    cd -
     travis_time_finish && travis_fold end "JavaScript.check"
   fi
 # JavaScript tests
@@ -145,7 +138,7 @@ script:
 - |
   if [[ "$PHPLINT" == "1" ]]; then
     travis_fold start "PHP.check" && travis_time_start
-    find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+    find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -path ./premium/node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     travis_time_finish && travis_fold end "PHP.check"
   fi
 # PHP CS
