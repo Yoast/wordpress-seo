@@ -141,7 +141,7 @@ class WPSEO_Upgrade {
 		 */
 		delete_option( 'wpseo_ms' );
 
-		$wpseo = $this->get_option_raw( 'wpseo' );
+		$wpseo = $this->get_option_from_database( 'wpseo' );
 		$this->save_option_setting( $wpseo, 'pinterestverify' );
 
 		// Re-save option to trigger sanitization.
@@ -262,7 +262,7 @@ class WPSEO_Upgrade {
 	 * Moves the content-analysis-active and keyword-analysis-acive options from wpseo-titles to wpseo.
 	 */
 	private function upgrade_44() {
-		$wpseo_titles = $this->get_option_raw( 'wpseo_titles' );
+		$wpseo_titles = $this->get_option_from_database( 'wpseo_titles' );
 
 		$this->save_option_setting( $wpseo_titles, 'content-analysis-active', 'content_analysis_active' );
 		$this->save_option_setting( $wpseo_titles, 'keyword-analysis-active', 'keyword_analysis_active' );
@@ -439,11 +439,11 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_70() {
 
-		$wpseo_permalinks    = $this->get_option_raw( 'wpseo_permalinks' );
-		$wpseo_xml           = $this->get_option_raw( 'wpseo_xml' );
-		$wpseo_rss           = $this->get_option_raw( 'wpseo_rss' );
-		$wpseo               = $this->get_option_raw( 'wpseo' );
-		$wpseo_internallinks = $this->get_option_raw( 'wpseo_internallinks' );
+		$wpseo_permalinks    = $this->get_option_from_database( 'wpseo_permalinks' );
+		$wpseo_xml           = $this->get_option_from_database( 'wpseo_xml' );
+		$wpseo_rss           = $this->get_option_from_database( 'wpseo_rss' );
+		$wpseo               = $this->get_option_from_database( 'wpseo' );
+		$wpseo_internallinks = $this->get_option_from_database( 'wpseo_internallinks' );
 
 		// Move some permalink settings, then delete the option.
 		$this->save_option_setting( $wpseo_permalinks, 'redirectattachment', 'disable-attachment' );
@@ -509,7 +509,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return array|mixed The content of the option if exists, otherwise an empty array.
 	 */
-	protected function get_option_raw( $option_name ) {
+	protected function get_option_from_database( $option_name ) {
 		global $wpdb;
 
 		// Load option directly from the database, to avoid filtering and sanitization.
