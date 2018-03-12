@@ -62,7 +62,7 @@
     "yoast-components": "^3.1.0",
     "yoast-premium-components": "git+ssh://git@github.com/yoast/yoast-premium-components.git#1.6.0",
     "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews#1.4.2",
-    "yoastseo": "^1.30"
+    "yoastseo": "^1.30.1"
   },
   "yoast": {
     "pluginVersion": "7.0.2"
