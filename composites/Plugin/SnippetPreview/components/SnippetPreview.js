@@ -26,8 +26,8 @@ const MAX_WIDTH = 600;
 const WIDTH_PADDING = 20;
 const DESCRIPTION_LIMIT = 280;
 
-const DESKTOP = "desktop";
-const MOBILE = "mobile";
+export const DESKTOP = "desktop";
+export const MOBILE = "mobile";
 
 export const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: white;
@@ -550,6 +550,7 @@ export default class SnippetPreview extends Component {
 
 		const Title = this.addCaretStyles( "title", BaseTitle );
 		const Description = this.addCaretStyles( "description", BaseDescription );
+
 		return {
 			PartContainer,
 			Container,
