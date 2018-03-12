@@ -25,16 +25,15 @@ class WPSEO_Import_HeadSpace extends WPSEO_Plugin_Importer {
 	 * @return void
 	 */
 	protected function import() {
-		WPSEO_Meta::replace_meta( '_headspace_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
-		WPSEO_Meta::replace_meta( '_headspace_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', false );
-		WPSEO_Meta::replace_meta( '_headspace_page_title', WPSEO_Meta::$meta_prefix . 'title', false );
+		$this->meta_key_clone( '_headspace_description', 'metadesc' );
+		$this->meta_key_clone( '_headspace_page_title', 'title' );
 
 		/**
 		 * @todo [JRF => whomever] verify how headspace sets these metas ( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' )
 		 * and if the values saved are concurrent with the ones we use (i.e. 0/1/2)
 		 */
-		WPSEO_Meta::replace_meta( '_headspace_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', false );
-		WPSEO_Meta::replace_meta( '_headspace_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );
+		$this->meta_key_clone( '_headspace_noindex', 'meta-robots-noindex' );
+		$this->meta_key_clone( '_headspace_nofollow', 'meta-robots-nofollow' );
 	}
 
 }

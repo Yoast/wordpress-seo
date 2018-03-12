@@ -15,17 +15,14 @@ abstract class WPSEO_Plugin_Importer {
 	 * @var WPSEO_Import_Status
 	 */
 	protected $status;
-
 	/**
 	 * @var wpdb Holds the WPDB instance.
 	 */
 	protected $wpdb;
-
 	/**
 	 * @var string The plugin name.
 	 */
 	protected $plugin_name;
-
 	/**
 	 * @var string Meta key, used in like clause for detect query.
 	 */
@@ -125,5 +122,38 @@ abstract class WPSEO_Plugin_Importer {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Helper function to clone meta keys and (optionally) change their values in bulk.
+	 *
+	 * @param string $old_key        The existing meta key.
+	 * @param string $new_key        The new meta key.
+	 * @param array  $replace_values An array, keys old value, values new values.
+	 *
+	 * @return void
+	 */
+	protected function meta_key_clone( $old_key, $new_key, $replace_values = array() ) {
+		// First we create a temp table with all the values for meta_key.
+		$this->wpdb->query( $this->wpdb->prepare( "CREATE TEMPORARY TABLE tmp_meta_table SELECT * FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $old_key ) );
+
+		// We set meta_id to NULL so on re-insert into the postmeta table, MYSQL can set new meta_id's and we don't get duplicates.
+		$this->wpdb->query( "UPDATE tmp_meta_table SET meta_id = NULL" );
+
+		// Now we rename the meta_key.
+		$this->wpdb->query( $this->wpdb->prepare( "UPDATE tmp_meta_table SET meta_key = %s", WPSEO_Meta::$meta_prefix . $new_key ) );
+
+		// Now we replace values if needed.
+		if ( is_array( $replace_values ) && $replace_values !== array() ) {
+			foreach ( $replace_values as $old_value => $new_value ) {
+				$this->wpdb->query( $this->wpdb->prepare( "UPDATE tmp_meta_table SET meta_value = %s WHERE meta_value = %s", $new_value, $old_value ) );
+			}
+		}
+
+		// With everything done, we insert all our newly cloned lines into the postmeta table.
+		$this->wpdb->query( "	INSERT INTO {$this->wpdb->postmeta} SELECT * FROM tmp_meta_table" );
+
+		// Now we drop our temporary table.
+		$this->wpdb->query( "	DROP TEMPORARY TABLE IF EXISTS tmp_meta_table" );
 	}
 }

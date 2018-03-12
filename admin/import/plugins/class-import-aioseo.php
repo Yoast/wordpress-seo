@@ -23,8 +23,9 @@ class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 	 * @return void
 	 */
 	protected function import() {
-		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
-		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', false );
-		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', false );
+		$this->meta_key_clone( '_aioseop_description', 'metadesc' );
+		$this->meta_key_clone( '_aioseop_title', 'title' );
+		$this->meta_key_clone( '_aioseop_noindex', 'meta-robots-noindex', array( 'on' => 1 ) );
+		$this->meta_key_clone( '_aioseop_nofollow', 'meta-robots-nofollow', array( 'on' => 1 ) );
 	}
 }

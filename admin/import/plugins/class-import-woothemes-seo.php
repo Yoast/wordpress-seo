@@ -35,10 +35,10 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	 * @return void
 	 */
 	protected function import() {
-		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );
-		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', false );
-		WPSEO_Meta::replace_meta( 'seo_title', WPSEO_Meta::$meta_prefix . 'title', false );
-		WPSEO_Meta::replace_meta( 'seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
+		$this->meta_key_clone( 'seo_follow', 'meta-robots-nofollow' );
+		$this->meta_key_clone( 'seo_noindex', 'meta-robots-noindex' );
+		$this->meta_key_clone( 'seo_title', 'title' );
+		$this->meta_key_clone( 'seo_description', 'metadesc' );
 	}
 
 	/**

@@ -105,10 +105,10 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 */
 	private function import_post_metas() {
 		if ( $this->detect() ) {
-			WPSEO_Meta::replace_meta( '_wpseo_edit_title', WPSEO_Meta::$meta_prefix . 'title', false );
-			WPSEO_Meta::replace_meta( '_wpseo_edit_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
-			WPSEO_Meta::replace_meta( '_wpseo_edit_keywords', WPSEO_Meta::$meta_prefix . 'keywords', false );
-			WPSEO_Meta::replace_meta( '_wpseo_edit_canonical', WPSEO_Meta::$meta_prefix . 'canonical', false );
+			$this->meta_key_clone( '_wpseo_edit_title', 'title' );
+			$this->meta_key_clone( '_wpseo_edit_description', 'metadesc' );
+			$this->meta_key_clone( '_wpseo_edit_keywords', 'keywords' );
+			$this->meta_key_clone( '_wpseo_edit_canonical', 'canonical' );
 
 			$this->import_post_robots();
 		}

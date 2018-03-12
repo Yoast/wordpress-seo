@@ -23,13 +23,13 @@ class WPSEO_Import_Ultimate_SEO extends WPSEO_Plugin_Importer {
 	 * @returns void
 	 */
 	protected function import() {
-		WPSEO_Meta::replace_meta( '_su_description', WPSEO_Meta::$meta_prefix . 'metadesc', false );
-		WPSEO_Meta::replace_meta( '_su_meta_robots_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );
-		WPSEO_Meta::replace_meta( '_su_meta_robots_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', false );
-		WPSEO_Meta::replace_meta( '_su_og_title', WPSEO_Meta::$meta_prefix . 'opengraph-title', false );
-		WPSEO_Meta::replace_meta( '_su_og_description', WPSEO_Meta::$meta_prefix . 'opengraph-description', false );
-		WPSEO_Meta::replace_meta( '_su_og_image', WPSEO_Meta::$meta_prefix . 'opengraph-image', false );
-		WPSEO_Meta::replace_meta( '_su_title', WPSEO_Meta::$meta_prefix . 'title', false );
+		$this->meta_key_clone( '_su_description', 'metadesc' );
+		$this->meta_key_clone( '_su_meta_robots_nofollow', 'meta-robots-nofollow' );
+		$this->meta_key_clone( '_su_meta_robots_noindex', 'meta-robots-noindex' );
+		$this->meta_key_clone( '_su_og_title', 'opengraph-title' );
+		$this->meta_key_clone( '_su_og_description', 'opengraph-description' );
+		$this->meta_key_clone( '_su_og_image', 'opengraph-image' );
+		$this->meta_key_clone( '_su_title', 'title' );
 	}
 
 }
