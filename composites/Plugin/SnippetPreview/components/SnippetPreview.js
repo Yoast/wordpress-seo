@@ -472,7 +472,6 @@ export default class SnippetPreview extends Component {
 	 */
 	render() {
 		const {
-			description,
 			keyword,
 			isDescriptionGenerated,
 			locale,
@@ -482,15 +481,17 @@ export default class SnippetPreview extends Component {
 			mode,
 		} = this.props;
 
-		const BaseDescription = mode === DESKTOP ? DesktopDescription    : MobileDescription;
-		const PartContainer   = mode === DESKTOP ? DesktopPartContainer  : MobilePartContainer;
-		const Container       = mode === DESKTOP ? DesktopContainer      : MobileContainer;
-		const separator       = mode === DESKTOP ? null                  : <Separator />;
-		const downArrow       = mode === DESKTOP ? <UrlDownArrow />      : null;
-		const TitleUnbounded  = mode === DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
+		const {
+			PartContainer,
+			Container,
+			TitleUnbounded,
+			Title,
+			Description,
+		} = this.getPreparedComponents( mode );
 
-		const Title        = this.addCaretStyles( "title", BaseTitle );
-		const Description  = this.addCaretStyles( "description", BaseDescription );
+		const separator = mode === DESKTOP ? null : <Separator/>;
+		const downArrow = mode === DESKTOP ? <UrlDownArrow/> : null;
+
 		const renderedDate = this.renderDate();
 
 		return (
@@ -527,6 +528,35 @@ export default class SnippetPreview extends Component {
 				</Container>
 			</section>
 		);
+	}
+
+	/**
+	 * Returns the prepared components based on the mode we are currently in.
+	 *
+	 * @param {string} mode The mode we are in.
+	 * @returns {{
+	 *     PartContainer: ReactComponent,
+	 *     Container: ReactComponent,
+	 *     TitleUnbounded: ReactComponent,
+	 *     Title: ReactComponent,
+	 *     Description: ReactComponent
+	 * }} The prepared components.
+	 */
+	getPreparedComponents( mode ) {
+		const BaseDescription = mode === DESKTOP ? DesktopDescription : MobileDescription;
+		const PartContainer = mode === DESKTOP ? DesktopPartContainer : MobilePartContainer;
+		const Container = mode === DESKTOP ? DesktopContainer : MobileContainer;
+		const TitleUnbounded = mode === DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
+
+		const Title = this.addCaretStyles( "title", BaseTitle );
+		const Description = this.addCaretStyles( "description", BaseDescription );
+		return {
+			PartContainer,
+			Container,
+			TitleUnbounded,
+			Title,
+			Description,
+		};
 	}
 }
 

@@ -13,13 +13,27 @@ export default class SnippetPreviewExample extends Component {
 		super( props );
 
 		this.state = {
-			title: "Welcome to the Gutenberg Editor - Local WordPress Dev. Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title",
+			title: "Welcome to the Gutenberg Editor - Local WordPress Dev. Snippet Title Snippet" +
+			" Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet" +
+			" Title Snippet Title Snippet Title Snippet Title Snippet Title",
 			url: "https://local.wordpress.test/welcome-to-the-gutenberg-editor-2/",
-			description: "Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of",
+			description: "Of Mountains & Printing Presses The goal of this new editor is to make" +
+			" adding rich content to WordPress simple and enjoyable. This whole post is composed" +
+			" of. Of Mountains & Printing Presses The goal of this new editor is to make adding" +
+			" rich content to WordPress simple and enjoyable. This whole post is composed of. Of" +
+			" Mountains & Printing Presses The goal of this new editor is to make adding rich" +
+			" content to WordPress simple and enjoyable. This whole post is composed of Of Mountains" +
+			" & Printing Presses The goal of this new editor is to make adding rich content to" +
+			" WordPress simple and enjoyable. This whole post is composed of. Of Mountains & Printing" +
+			" Presses The goal of this new editor is to make adding rich content to WordPress" +
+			" simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses" +
+			" The goal of this new editor is to make adding rich content to WordPress simple and" +
+			" enjoyable. This whole post is composed of",
 			keyword: "editor",
 			date: "Jan 8, 2018",
 			locale: "en_US",
 			onClick( type ) {
+				// eslint-disable-next-line no-console
 				console.log( "clicked:", type );
 			},
 			hoveredField: "",
