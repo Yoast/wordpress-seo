@@ -444,6 +444,7 @@ class WPSEO_Upgrade {
 		$wpseo_rss           = $this->get_option_from_database( 'wpseo_rss' );
 		$wpseo               = $this->get_option_from_database( 'wpseo' );
 		$wpseo_internallinks = $this->get_option_from_database( 'wpseo_internallinks' );
+		$wpseo_titles        = $this->get_option_from_database( 'wpseo_titles' );
 
 		// Move some permalink settings, then delete the option.
 		$this->save_option_setting( $wpseo_permalinks, 'redirectattachment', 'disable-attachment' );
@@ -471,9 +472,7 @@ class WPSEO_Upgrade {
 		}
 
 		// Convert hidden metabox options to display metabox options.
-		$title_options = get_option( 'wpseo_titles' );
-
-		foreach ( $title_options as $key => $value ) {
+		foreach ( $wpseo_titles as $key => $value ) {
 			if ( strpos( $key, 'hideeditbox-tax-' ) === 0 ) {
 				$taxonomy = substr( $key, strlen( 'hideeditbox-tax-' ) );
 				WPSEO_Options::set( 'display-metabox-tax-' . $taxonomy, ! $value );
