@@ -36,10 +36,12 @@ require( "util" ).inherits( EnglishParticiple, Participle );
 EnglishParticiple.prototype.isPassive = function() {
 	let sentencePart = this.getSentencePart();
 	let participleIndex = sentencePart.indexOf( this.getParticiple() );
+	let language = this.getLanguage();
+
 	return 	! this.isNonVerbEndingEd() &&
 		! this.hasRidException() &&
-		! this.directPrecedenceException( sentencePart, participleIndex ) &&
-		! this.precedenceException( sentencePart, participleIndex );
+		! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
+		! this.precedenceException( sentencePart, participleIndex, language );
 };
 
 /**

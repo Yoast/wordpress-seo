@@ -11,6 +11,7 @@ describe("Test for matching Spanish participles", function(){
 		expect( foundParticiples[ 0 ].getType() ).toEqual( "irregular" );
 		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "fueron agasajados con un lunch." );
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "fueron" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "es" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 

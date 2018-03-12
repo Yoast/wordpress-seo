@@ -11,6 +11,7 @@ describe("Test for matching English participles", function(){
 		expect( foundParticiples[ 0 ].getType() ).toEqual( "regular" );
 		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "He was fired." );
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "was" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "en" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 
@@ -23,6 +24,7 @@ describe("Test for matching English participles", function(){
 		expect( foundParticiples[ 0 ].getType() ).toEqual( "irregular" );
 		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "The show was broadcast at a new channel." );
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "was" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "en" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 
