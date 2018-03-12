@@ -33,11 +33,12 @@ let multipleWords = [ "а вдобавок", "а именно", "а не", "а �
 	"тем не менее", "тем паче что", "то бишь", "то есть", "тогда как", "только бы", "только лишь", "только чуть",
 	"чуть лишь", "чуть только", "в частности" ];
 
-// The following four categories of transition words usually appear at the beginning of the sentence/clause
-// (singleIntroWordsWithoutComma, multipleIntroWordsWithoutComma, singleIntroWordsWithComma, multipleIntroWordsWithComma).
-// The last two demand obligatory comma after them (otherwise, they might be parts of regular non-transition expressions.
-// For the present purposes, these words are treated the same way as other transition words.
-
+/*
+ * The following four categories of transition words usually appear at the beginning of the sentence/clause
+ * (singleIntroWordsWithoutComma, multipleIntroWordsWithoutComma, singleIntroWordsWithComma, multipleIntroWordsWithComma).
+ * The last two demand obligatory comma after them (otherwise, they might be parts of regular non-transition expressions.
+ * For the present purposes, these words are treated the same way as other transition words.
+ */
 let singleIntroWordsWithoutComma = [ "бесспорно", "вишь", "во-вторых", "во-первых", "вообще-то", "впрочем", "кажись",
 	"лучше", "наверно", "наверное", "например", "небось", "однако", "поди", "пожалуй", "позволь", "позвольте", "помнится" ];
 
