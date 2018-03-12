@@ -145,7 +145,7 @@ class WPSEO_Upgrade {
 		$this->save_option_setting( $wpseo, 'pinterestverify' );
 
 		// Re-save option to trigger sanitization.
-		$this->refresh_option_content( 'wpseo' );
+		$this->cleanup_option_data( 'wpseo' );
 	}
 
 	/**
@@ -178,7 +178,7 @@ class WPSEO_Upgrade {
 		// Unschedule our tracking.
 		wp_clear_scheduled_hook( 'yoast_tracking' );
 
-		$this->refresh_option_content( 'wpseo' );
+		$this->cleanup_option_data( 'wpseo' );
 	}
 
 	/**
@@ -268,7 +268,7 @@ class WPSEO_Upgrade {
 		$this->save_option_setting( $wpseo_titles, 'keyword-analysis-active', 'keyword_analysis_active' );
 
 		// Remove irrelevant content from the option.
-		$this->refresh_option_content( 'wpseo_titles' );
+		$this->cleanup_option_data( 'wpseo_titles' );
 	}
 
 	/**
@@ -429,7 +429,7 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_63() {
-		$this->refresh_option_content( 'wpseo_titles' );
+		$this->cleanup_option_data( 'wpseo_titles' );
 	}
 
 	/**
@@ -463,7 +463,7 @@ class WPSEO_Upgrade {
 		$this->save_option_setting( $wpseo, 'person_name' );
 
 		// Remove the website name and altername name as we no longer need them.
-		$this->refresh_option_content( 'wpseo' );
+		$this->cleanup_option_data( 'wpseo' );
 
 		// All the breadcrumbs settings have moved to the search appearance settings.
 		foreach ( array_keys( $wpseo_internallinks ) as $key ) {
@@ -523,18 +523,24 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Re-save the option to make sure only the expected values are there.
+	 * Cleans the option to make sure only relevant settings are there.
 	 *
-	 * @param string $option_name Option name to sanitize.
+	 * @param string $option_name Option name save.
 	 *
 	 * @return void
 	 */
-	protected function refresh_option_content( $option_name ) {
+	protected function cleanup_option_data( $option_name ) {
 		$data = get_option( $option_name, array() );
 		if ( ! is_array( $data ) || $data === array() ) {
 			return;
 		}
 
+		/*
+		 * Clean up the option by re-saving it.
+		 *
+		 * The option framework will remove any settings that are not configure
+		 * for this option, removing any migrated settings.
+		 */
 		update_option( $option_name, $data );
 	}
 
