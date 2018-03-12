@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.4
-Stable tag: 7.0.2
+Stable tag: 7.0.3
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -105,6 +105,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 7.0.3 =
+Release Date: March 12th, 2018
+
+Bugfixes:
+* Fixes a bug where the option settings that needs to be migrated are backfilled prematurely, resulting in settings not being migrated as expected.
+* Fixes a bug where adding a `wpseo_sitemap_entries_per_page` is not being applied as expected.
 
 = 7.0.2 =
 Release Date: March 8th, 2018
