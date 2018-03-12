@@ -109,25 +109,6 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Saves an option setting to where it should be stored.
-	 *
-	 * @param array       $source_data    The option containing the value to be migrated.
-	 * @param string      $source_setting Name of the key in the "from" option.
-	 * @param string|null $target_setting Name of the key in the "to" option.
-	 *
-	 * @return void
-	 */
-	private function save_option_setting( $source_data, $source_setting, $target_setting = null ) {
-		if ( $target_setting === null ) {
-			$target_setting = $source_setting;
-		}
-
-		if ( isset( $source_data[ $source_setting ] ) ) {
-			WPSEO_Options::set( $target_setting, $source_data[ $source_setting ] );
-		}
-	}
-
-	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
 	private function finish_up() {
@@ -555,5 +536,24 @@ class WPSEO_Upgrade {
 		}
 
 		update_option( $option_name, $data );
+	}
+
+	/**
+	 * Saves an option setting to where it should be stored.
+	 *
+	 * @param array       $source_data    The option containing the value to be migrated.
+	 * @param string      $source_setting Name of the key in the "from" option.
+	 * @param string|null $target_setting Name of the key in the "to" option.
+	 *
+	 * @return void
+	 */
+	protected function save_option_setting( $source_data, $source_setting, $target_setting = null ) {
+		if ( $target_setting === null ) {
+			$target_setting = $source_setting;
+		}
+
+		if ( isset( $source_data[ $source_setting ] ) ) {
+			WPSEO_Options::set( $target_setting, $source_data[ $source_setting ] );
+		}
 	}
 }
