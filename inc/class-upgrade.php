@@ -109,25 +109,6 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Helper function to remove keys from options.
-	 *
-	 * @param string       $option The option to remove the keys from.
-	 * @param string|array $keys   The key or keys to remove.
-	 */
-	private function remove_key_from_option( $option, $keys ) {
-		$options = WPSEO_Options::get_option( $option );
-
-		if ( ! is_array( $keys ) ) {
-			$keys = array( $keys );
-		}
-		foreach ( $keys as $key ) {
-			unset( $options[ $key ] );
-		}
-
-		update_option( $option, $options );
-	}
-
-	/**
 	 * Helper function to move a key from one option to another.
 	 *
 	 * @param array       $old_options The option containing the value to be migrated.
@@ -215,13 +196,7 @@ class WPSEO_Upgrade {
 		// Unschedule our tracking.
 		wp_clear_scheduled_hook( 'yoast_tracking' );
 
-		// Clear the tracking settings, the seen about setting and the ignore tour setting.
-		$this->remove_key_from_option( 'wpseo', array(
-			'tracking_popup_done',
-			'yoast_tracking',
-			'seen_about',
-			'ignore_tour',
-		) );
+		$this->refresh_option_content( 'wpseo' );
 	}
 
 	/**
@@ -467,16 +442,7 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_63() {
-		$this->remove_key_from_option( 'wpseo_titles', array( 'noindex-subpages-wpseo', 'usemetakeywords' ) );
-
-		// Remove all the meta keyword template options we've stored.
-		$option_titles = WPSEO_Options::get_option( 'wpseo_titles' );
-		foreach ( array_keys( $option_titles ) as $key ) {
-			if ( strpos( $key, 'metakey' ) === 0 ) {
-				unset( $option_titles[ $key ] );
-			}
-		}
-		update_option( 'wpseo_titles', $option_titles );
+		$this->refresh_option_content( 'wpseo_titles' );
 	}
 
 	/**
@@ -509,7 +475,7 @@ class WPSEO_Upgrade {
 		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'person_name' );
 
 		// Remove the website name and altername name as we no longer need them.
-		$this->remove_key_from_option( 'wpseo', array( 'website_name', 'alternate_website_name', 'company_logo', 'company_name', 'company_or_person', 'person_name' ) );
+		$this->refresh_option_content( 'wpseo' );
 
 		// All the breadcrumbs settings have moved to the search appearance settings.
 		foreach ( array_keys( $wpseo_internallinks ) as $key ) {
