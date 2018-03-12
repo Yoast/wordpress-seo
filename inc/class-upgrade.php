@@ -538,7 +538,7 @@ class WPSEO_Upgrade {
 		/*
 		 * Clean up the option by re-saving it.
 		 *
-		 * The option framework will remove any settings that are not configure
+		 * The option framework will remove any settings that are not configured
 		 * for this option, removing any migrated settings.
 		 */
 		update_option( $option_name, $data );
