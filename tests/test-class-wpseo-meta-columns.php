@@ -23,6 +23,15 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test setup
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		WPSEO_Options::set( 'keyword_analysis_active', true );
+	}
+
+	/**
 	 * Determines what dataprovider to use for SEO filters.
 	 *
 	 * @return array The SEO filters dataprovider.
@@ -315,7 +324,6 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Meta_Columns::column_hidden()
 	 */
 	public function test_column_hidden_KEEP_OPTION() {
-
 		// Option shouldn't be touched if the user has set it already.
 		$user = $this->getMockBuilder( 'WP_User' )
 			->getMock();
