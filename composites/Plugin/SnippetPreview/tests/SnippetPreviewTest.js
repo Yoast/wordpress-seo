@@ -67,23 +67,3 @@ describe( "SnippetPreview", () => {
 		} );
 	} );
 } );
-
-
-
-// 	title: PropTypes.string.isRequired,
-//  url: PropTypes.string.isRequired,
-// 	description: PropTypes.string.isRequired,
-// 	date: PropTypes.string,
-// 	breadcrumbs: PropTypes.array,
-//
-// 	hoveredField: PropTypes.string,
-// 	activeField: PropTypes.string,
-// 	keyword: PropTypes.string,
-// 	isDescriptionGenerated: PropTypes.bool,
-// 	locale: PropTypes.string,
-// 	mode: PropTypes.oneOf( [ DESKTOP, MOBILE ] ),
-//
-// 	onClick: PropTypes.func.isRequired,
-// 	onHover: PropTypes.func,
-// 	onMouseOver: PropTypes.func,
-// 	onMouseLeave: PropTypes.func,
