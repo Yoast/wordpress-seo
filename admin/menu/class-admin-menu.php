@@ -207,7 +207,7 @@ class WPSEO_Admin_Menu implements WPSEO_WordPress_Integration {
 		// Use WordPress global $submenu to directly access it's properties.
 		global $submenu;
 		if ( isset( $submenu[ $this->menu->get_page_identifier() ] ) && WPSEO_Capability_Utils::current_user_can( $this->get_manage_capability() ) ) {
-			$submenu[ $this->menu->get_page_identifier() ][0][0] = __( 'Dashboard', 'wordpress-seo' );
+			$submenu[ $this->menu->get_page_identifier() ][0][0] = __( 'General', 'wordpress-seo' );
 		}
 	}
 

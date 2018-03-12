@@ -97,7 +97,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_opengraph_namespace() {
 		$c        = self::$class_instance;
-		$expected = ' prefix="og: http://ogp.me/ns#' . ( ( WPSEO_Options::get( 'fbadminapp' ) != 0 || ( is_array( WPSEO_Options::get( 'fb_admins' ) ) && WPSEO_Options::get(  'fb_admins' ) !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
+		$expected = ' prefix="og: http://ogp.me/ns#"';
 		$this->assertEquals( $c->add_opengraph_namespace( '' ), $expected );
 	}
 
@@ -146,15 +146,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 		$this->assertTrue( self::$class_instance->website_facebook() );
 		$this->expectOutput( '<meta property="article:publisher" content="http://facebook.com/mysite/" />' . "\n" );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::site_owner
-	 */
-	public function test_site_owner() {
-		$this->assertFalse( self::$class_instance->site_owner() );
-
-		// @todo
 	}
 
 	/**

@@ -173,9 +173,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 * @covers WPSEO_Configuration_Options_Adapter::get()
 	 */
 	public function test_get_yoast_option() {
-		$key    = 'version';
-
-		$expected = WPSEO_Options::get( 'version' );
+		$key      = 'version';
+		$expected = WPSEO_Options::get( $key );
 
 		$field = new WPSEO_Config_Field( 'field', 'component' );
 

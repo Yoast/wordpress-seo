@@ -238,48 +238,4 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			}
 		}
 	}
-
-
-	/********************** DEPRECATED METHODS **********************/
-
-	// @codeCoverageIgnoreStart
-	/**
-	 * Define the meta boxes for the Social tab.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
-	 * @see        WPSEO_Meta::get_meta_field_defs()
-	 *
-	 * @param string $post_type Optional post type string.
-	 *
-	 * @return    array    Array containing the meta boxes.
-	 */
-	public function get_meta_boxes( $post_type = 'post' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
-
-		return $this->get_meta_field_defs( 'social' );
-	}
-
-	/**
-	 * @deprecated 3.0 Removed.
-	 *
-	 * @return string
-	 */
-	public function tab_header() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
-
-		return '';
-	}
-
-	/**
-	 * @deprecated 3.0 Removed.
-	 *
-	 * @return string
-	 */
-	public function tab_content() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
-
-		return '';
-	}
-	// @codeCoverageIgnoreEnd
 } /* End of class */

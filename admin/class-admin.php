@@ -66,7 +66,6 @@ class WPSEO_Admin {
 		add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
 
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
-		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
 		add_action( 'admin_init', array( $this, 'map_manage_options_cap' ) );
 
@@ -102,18 +101,6 @@ class WPSEO_Admin {
 			$integration->register_hooks();
 		}
 
-	}
-
-	/**
-	 * Setting the hooks for importing data from other plugins.
-	 */
-	public function import_plugin_hooks() {
-		if ( current_user_can( $this->get_manage_options_cap() ) ) {
-			$plugin_imports = array(
-				'wpSEO'       => new WPSEO_Import_WPSEO_Hooks(),
-				'aioseo'      => new WPSEO_Import_AIOSEO_Hooks(),
-			);
-		}
 	}
 
 	/**
@@ -423,68 +410,6 @@ class WPSEO_Admin {
 
 	// @codeCoverageIgnoreStart
 	/**
-	 * Check whether the current user is allowed to access the configuration.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Utils::grant_access()
-	 * @see        WPSEO_Utils::grant_access()
-	 *
-	 * @return boolean
-	 */
-	public function grant_access() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::grant_access()' );
-
-		return WPSEO_Utils::grant_access();
-	}
-
-	/**
-	 * Check whether the current user is allowed to access the configuration.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use wpseo_do_upgrade()
-	 * @see        WPSEO_Upgrade
-	 */
-	public function maybe_upgrade() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
-		new WPSEO_Upgrade();
-	}
-
-	/**
-	 * Clears the cache.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Utils::clear_cache()
-	 * @see        WPSEO_Utils::clear_cache()
-	 */
-	public function clear_cache() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_cache()' );
-		WPSEO_Utils::clear_cache();
-	}
-
-	/**
-	 * Clear rewrites.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Utils::clear_rewrites()
-	 * @see        WPSEO_Utils::clear_rewrites()
-	 */
-	public function clear_rewrites() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_rewrites()' );
-		WPSEO_Utils::clear_rewrites();
-	}
-
-	/**
-	 * Register all the options needed for the configuration pages.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Option::register_setting() on each individual option
-	 * @see        WPSEO_Option::register_setting()
-	 */
-	public function options_init() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
-	}
-
-	/**
 	 * Register the menu item and its sub menu's.
 	 *
 	 * @deprecated 5.5
@@ -528,48 +453,6 @@ class WPSEO_Admin {
 	 */
 	public function filter_settings_pages( array $pages ) {
 		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
-	}
-
-	/**
-	 * Display an error message when the blog is set to private.
-	 *
-	 * @deprecated 3.3
-	 */
-	public function blog_public_warning() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
-	}
-
-	/**
-	 * Display an error message when the theme contains a meta description tag.
-	 *
-	 * @since 1.4.14
-	 *
-	 * @deprecated 3.3
-	 */
-	public function meta_description_warning() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.3.0' );
-	}
-
-	/**
-	 * Returns the stopwords for the current language.
-	 *
-	 * @since 1.1.7
-	 *
-	 * @return void
-	 */
-	public function stopwords() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
-	}
-
-	/**
-	 * Check whether the stopword appears in the string.
-	 *
-	 * @deprecated 3.1
-	 *
-	 * @return void
-	 */
-	public function stopwords_check() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1' );
 	}
 
 	/**

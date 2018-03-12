@@ -35,7 +35,6 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			'facebook-thumb-fixer/_facebook-thumb-fixer.php',        // Facebook Thumb Fixer.
 			'facebook-and-digg-thumbnail-generator/facebook-and-digg-thumbnail-generator.php',
 			// Fedmich's Facebook Open Graph Meta.
-			'header-footer/plugin.php',                              // Header and Footer.
 			'network-publisher/networkpub.php',                      // Network Publisher.
 			'nextgen-facebook/nextgen-facebook.php',                 // NextGEN Facebook OG.
 			'opengraph/opengraph.php',                               // Open Graph.

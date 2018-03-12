@@ -94,6 +94,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_70();
 		}
 
+		if ( version_compare( $version, '7.1-RC0', '<' ) ) {
+			$this->upgrade_71();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -130,23 +134,21 @@ class WPSEO_Upgrade {
 	/**
 	 * Helper function to move a key from one option to another.
 	 *
-	 * @param string      $old_option Name of the "from" option.
-	 * @param string      $new_option Name of the "to" option.
-	 * @param string      $old_key    Name of the key in the "from" option.
-	 * @param string|null $new_key    Name of the key in the "to" option.
+	 * @param array       $old_options The option containing the value to be migrated.
+	 * @param string      $new_option  Name of the "to" option.
+	 * @param string      $old_key     Name of the key in the "from" option.
+	 * @param string|null $new_key     Name of the key in the "to" option.
 	 */
-	private function move_key_to_other_option( $old_option, $new_option, $old_key, $new_key = null ) {
+	private function move_key_to_other_option( $old_options, $new_option, $old_key, $new_key = null ) {
 		if ( $new_key === null ) {
 			$new_key = $old_key;
 		}
 
-		$old_options = WPSEO_Options::get_option( $old_option );
 		$new_options = WPSEO_Options::get_option( $new_option );
+
 		if ( isset( $old_options[ $old_key ] ) ) {
 			$new_options[ $new_key ] = $old_options[ $old_key ];
-			unset( $old_options[ $old_key ] );
 
-			update_option( $old_option, $old_options );
 			update_option( $new_option, $new_options );
 		}
 	}
@@ -485,37 +487,75 @@ class WPSEO_Upgrade {
 	 * Perform the 7.0 upgrade, moves settings around, deletes several options.
 	 */
 	private function upgrade_70() {
+
+		$wpseo_permalinks    = get_option( 'wpseo_permalinks' );
+		$wpseo_xml           = get_option( 'wpseo_xml' );
+		$wpseo_rss           = get_option( 'wpseo_rss' );
+		$wpseo               = get_option( 'wpseo' );
+		$wpseo_internallinks = (array) get_option( 'wpseo_internallinks' );
+
 		// Move some permalink settings, then delete the option.
-		$this->move_key_to_other_option( 'wpseo_permalinks', 'wpseo_titles', 'redirectattachment', 'disable-attachment' );
-		$this->move_key_to_other_option( 'wpseo_permalinks', 'wpseo_titles', 'stripcategorybase' );
-		delete_option( 'wpseo_permalinks' );
+		$this->move_key_to_other_option( $wpseo_permalinks, 'wpseo_titles', 'redirectattachment', 'disable-attachment' );
+		$this->move_key_to_other_option( $wpseo_permalinks, 'wpseo_titles', 'stripcategorybase' );
+
 
 		// Move one XML sitemap setting, then delete the option.
-		$this->move_key_to_other_option( 'wpseo_xml', 'wpseo', 'enablexmlsitemap', 'enable_xml_sitemap' );
-		delete_option( 'wpseo_xml' );
+		$this->move_key_to_other_option( $wpseo_xml, 'wpseo', 'enablexmlsitemap', 'enable_xml_sitemap' );
+
 
 		// Move the RSS settings to the search appearance settings, then delete the RSS option.
-		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssbefore' );
-		$this->move_key_to_other_option( 'wpseo_rss', 'wpseo_titles', 'rssafter' );
-		delete_option( 'wpseo_rss' );
+		$this->move_key_to_other_option( $wpseo_rss, 'wpseo_titles', 'rssbefore' );
+		$this->move_key_to_other_option( $wpseo_rss, 'wpseo_titles', 'rssafter' );
 
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_logo' );
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_name' );
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'company_or_person' );
-		$this->move_key_to_other_option( 'wpseo', 'wpseo_titles', 'person_name' );
+		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'company_logo' );
+		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'company_name' );
+		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'company_or_person' );
+		$this->move_key_to_other_option( $wpseo, 'wpseo_titles', 'person_name' );
 
 		// Remove the website name and altername name as we no longer need them.
-		$this->remove_key_from_option( 'wpseo', array( 'website_name', 'alternate_website_name' ) );
+		$this->remove_key_from_option( 'wpseo', array( 'website_name', 'alternate_website_name', 'company_logo', 'company_name', 'company_or_person', 'person_name' ) );
 
 		// All the breadcrumbs settings have moved to the search appearance settings.
-		$internal_links = (array) get_option( 'wpseo_internallinks' );
-		foreach ( array_keys( $internal_links ) as $key ) {
-			$this->move_key_to_other_option( 'wpseo_internallinks', 'wpseo_titles', $key );
+		foreach ( array_keys( $wpseo_internallinks ) as $key ) {
+			$this->move_key_to_other_option( $wpseo_internallinks, 'wpseo_titles', $key );
 		}
+
+		// Convert hidden metabox options to display metabox options.
+		$title_options = get_option( 'wpseo_titles' );
+
+		foreach ( $title_options as $key => $value ) {
+			if ( strpos( $key, 'hideeditbox-tax-' ) === 0 ) {
+				$taxonomy = substr( $key, strlen( 'hideeditbox-tax-' ) );
+				WPSEO_Options::set( 'display-metabox-tax-' . $taxonomy, ! $value );
+				continue;
+			}
+
+			if ( strpos( $key, 'hideeditbox-' ) === 0 ) {
+				$post_type = substr( $key, strlen( 'hideeditbox-' ) );
+				WPSEO_Options::set( 'display-metabox-pt-' . $post_type, ! $value );
+				continue;
+			}
+		}
+
+		// Cleanup removed options.
+		delete_option( 'wpseo_xml' );
+		delete_option( 'wpseo_permalinks' );
+		delete_option( 'wpseo_rss' );
 		delete_option( 'wpseo_internallinks' );
+
+		// Remove possibly present plugin conflict notice for plugin that was removed from the list of conflicting plugins.
+		$yoast_plugin_conflict = WPSEO_Plugin_Conflict::get_instance();
+		$yoast_plugin_conflict->clear_error( 'header-footer/plugin.php' );
 
 		// Moves the user meta for excluding from the XML sitemap to a noindex.
 		global $wpdb;
 		$wpdb->query( "UPDATE $wpdb->usermeta SET meta_key = 'wpseo_noindex_author' WHERE meta_key = 'wpseo_excludeauthorsitemap'" );
+	}
+
+	/**
+	 * Perform the 7.1 upgrade.
+	 */
+	private function upgrade_71() {
+		$this->remove_key_from_option( 'wpseo_social', array( 'fbadminapp', 'fb_admins', 'fbconnectkey', 'fb_adminid', 'fb_appid' ) );
 	}
 }
