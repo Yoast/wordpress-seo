@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "3.0.0",
+  "version": "3.0.2",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "main": "index.js",
@@ -39,7 +39,6 @@
     "jed": "^1.1.1",
     "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
-    "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
     "react-tabs": "^2.2.1",
     "redux": "^3.7.2",
@@ -81,6 +80,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-hot-loader": "^4.0.0-beta.17",
+    "react-intl": "^2.4.0",
     "react-tap-event-plugin": "^3.0.2",
     "react-test-renderer": "^16.2.0",
     "redux-devtools": "^3.4.1",
@@ -98,7 +98,8 @@
   "peerDependencies": {
     "material-ui": "^0.18.6",
     "react": "^16.2.0",
-    "react-dom": "16.2.0"
+    "react-dom": "16.2.0",
+    "react-intl": "^2.4.0"
   },
   "browserify": {
     "transform": [

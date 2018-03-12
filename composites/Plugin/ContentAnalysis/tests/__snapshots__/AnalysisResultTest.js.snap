@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the AnalysisResult component matches the snapshot 1`] = `
-.c3 {
+.c4 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -14,11 +14,11 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   height: 23px;
 }
 
-.c3:hover {
+.c4:hover {
   border-color: #fff;
 }
 
-.c3:disabled {
+.c4:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -44,11 +44,27 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   left: -1px;
 }
 
-.c2 {
+.c3 {
   margin: 0 8px 0 11px;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+}
+
+.c2 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
 }
 
 <li
@@ -56,13 +72,12 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1"
+    className="yoast-svg-icon yoast-svg-icon-circle c1 c2"
     fill="blue"
     focusable="false"
-    height="13px"
     role="img"
+    size="13px"
     viewBox="0 0 1792 1792"
-    width="13px"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -70,7 +85,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
     />
   </svg>
   <p
-    className="c2"
+    className="c3"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -80,7 +95,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="c3"
+    className="c4"
     disabled={false}
     id="Result button"
     onClick={[Function]}
@@ -88,13 +103,12 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye"
+      className="yoast-svg-icon yoast-svg-icon-eye c5"
       fill="#fff"
       focusable="false"
-      height="18px"
       role="img"
+      size="18px"
       viewBox="0 0 1792 1792"
-      width="18px"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -106,7 +120,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 `;
 
 exports[`the AnalysisResult component with disabled buttons matches the snapshot 1`] = `
-.c3 {
+.c4 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -119,11 +133,11 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   height: 23px;
 }
 
-.c3:hover {
+.c4:hover {
   border-color: #fff;
 }
 
-.c3:disabled {
+.c4:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -149,11 +163,27 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   left: -1px;
 }
 
-.c2 {
+.c3 {
   margin: 0 8px 0 11px;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+}
+
+.c2 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
 }
 
 <li
@@ -161,13 +191,12 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1"
+    className="yoast-svg-icon yoast-svg-icon-circle c1 c2"
     fill="blue"
     focusable="false"
-    height="13px"
     role="img"
+    size="13px"
     viewBox="0 0 1792 1792"
-    width="13px"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -175,7 +204,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
     />
   </svg>
   <p
-    className="c2"
+    className="c3"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -185,7 +214,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="c3"
+    className="c4"
     disabled={true}
     id="Result button"
     onClick={[Function]}
@@ -193,13 +222,12 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye"
+      className="yoast-svg-icon yoast-svg-icon-eye c5"
       fill="#ddd"
       focusable="false"
-      height="18px"
       role="img"
+      size="18px"
       viewBox="0 0 1792 1792"
-      width="18px"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -230,11 +258,19 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
   left: -1px;
 }
 
-.c2 {
+.c3 {
   margin: 0 8px 0 11px;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+}
+
+.c2 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
 }
 
 <li
@@ -242,13 +278,12 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1"
+    className="yoast-svg-icon yoast-svg-icon-circle c1 c2"
     fill="blue"
     focusable="false"
-    height="13px"
     role="img"
+    size="13px"
     viewBox="0 0 1792 1792"
-    width="13px"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -256,7 +291,7 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
     />
   </svg>
   <p
-    className="c2"
+    className="c3"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -267,7 +302,7 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
 `;
 
 exports[`the AnalysisResult component with html in the text matches the snapshot 1`] = `
-.c3 {
+.c4 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -280,11 +315,11 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   height: 23px;
 }
 
-.c3:hover {
+.c4:hover {
   border-color: #fff;
 }
 
-.c3:disabled {
+.c4:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -310,11 +345,27 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   left: -1px;
 }
 
-.c2 {
+.c3 {
   margin: 0 8px 0 11px;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+}
+
+.c2 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
 }
 
 <li
@@ -322,13 +373,12 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1"
+    className="yoast-svg-icon yoast-svg-icon-circle c1 c2"
     fill="blue"
     focusable="false"
-    height="13px"
     role="img"
+    size="13px"
     viewBox="0 0 1792 1792"
-    width="13px"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -336,7 +386,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
     />
   </svg>
   <p
-    className="c2"
+    className="c3"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing <b>great!</b>",
@@ -346,7 +396,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="c3"
+    className="c4"
     disabled={false}
     id="Result button"
     onClick={[Function]}
@@ -354,13 +404,12 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye"
+      className="yoast-svg-icon yoast-svg-icon-eye c5"
       fill="#fff"
       focusable="false"
-      height="18px"
       role="img"
+      size="18px"
       viewBox="0 0 1792 1792"
-      width="18px"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
