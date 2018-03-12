@@ -231,7 +231,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$posts_to_exclude = $this->get_excluded_posts();
 
 		// Create the temporary table
-		$this->create_table( $post_type );
+		$this->create_temporary_table( $post_type );
 
 		while ( $total > $offset ) {
 
@@ -282,8 +282,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			unset( $post, $url );
 		}
-
-		$this->drop_table( $post_type );
 
 		return $links;
 	}
@@ -536,22 +534,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Drop temporary
-	 */
-	protected function drop_table( $post_type ) {
-
-		global $wpdb;
-
-		$dropSql = "DROP TABLE IF EXISTS {$wpdb->prefix}temp_sitemap_generator_{$post_type};";
-		$wpdb->query($dropSql);
-	}
-
-	/**
 	 * Create temporary table to sitemap
 	 *
 	 * @param string $post_type Post type to retrieve.
 	 */
-	protected function create_table( $post_type ) {
+	protected function create_temporary_table( $post_type ) {
 
 		global $wpdb;
 
