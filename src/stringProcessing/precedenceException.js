@@ -12,20 +12,21 @@ var cannotBeBetweenAuxiliaryAndParticipleSpanish = require( "../researches/spani
  *
  * @param {string} sentencePart The sentence part that contains the participle.
  * @param {number} participleIndex The index of the participle.
+ * @param {string} language The language of the participle.
  *
  * @returns {boolean} Returns true if a word from the precedence exception list occurs anywhere in the
  * sentence part before the participle, otherwise returns false.
  */
-module.exports = function( sentencePart, participleIndex ) {
+module.exports = function( sentencePart, participleIndex, language ) {
 	var precedenceExceptionRegex;
-	switch ( this.constructor.name ) {
-		case "FrenchParticiple":
+	switch ( language ) {
+		case "fr":
 			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleFrench );
 			break;
-		case "SpanishParticiple":
+		case "es":
 			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleSpanish );
 			break;
-		case "EnglishParticiple":
+		case "en":
 		default:
 			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleEnglish );
 			break;

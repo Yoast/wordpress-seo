@@ -11,6 +11,7 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].getType() ).toEqual( "regular" );
 		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "fut remarquée par un agent de théâtre." );
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "fut" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 
@@ -23,6 +24,7 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].getType() ).toEqual( "regular" );
 		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "était-il informé de cela ?" );
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "était-il" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 
@@ -37,6 +39,8 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 1 ].getType() ).toEqual( "regular" );
 		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "été remarquée par un agent de théâtre." );
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "été" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "fr" );
+		expect( foundParticiples[ 1 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( false );
 		expect( foundParticiples[ 1 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
@@ -50,6 +54,7 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].getType() ).toEqual( "irregular" );
 		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "fut dit sans malice." );
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "fut" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 
@@ -62,6 +67,7 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].getType() ).toEqual( "irregular" );
 		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "était mû par un désir puissant." );
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "était" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
 
@@ -76,6 +82,8 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 1 ].getType() ).toEqual( "irregular" );
 		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "été promise à maintes reprises." );
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "été" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "fr" );
+		expect( foundParticiples[ 1 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( false );
 		expect( foundParticiples[ 1 ].determinesSentencePartIsPassive() ).toEqual( true );
 	});
