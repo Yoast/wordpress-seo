@@ -11,7 +11,9 @@
 class WPSEO_Redirect_CSV_Loader extends WPSEO_Redirect_Abstract_Loader {
 
 	/**
-	 * @var string Path of the CSV file to load.
+	 * Path of the CSV file to load.
+	 *
+	 * @var string
 	 */
 	protected $csv_file;
 

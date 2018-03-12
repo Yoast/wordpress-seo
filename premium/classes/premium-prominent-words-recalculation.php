@@ -10,13 +10,19 @@
  */
 class WPSEO_Premium_Prominent_Words_Recalculation implements WPSEO_WordPress_Integration {
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const MODAL_DIALOG_HEIGHT_BASE = 150;
 
-	/** @var int */
+	/**
+	 * @var int
+	 */
 	const PROGRESS_BAR_HEIGHT = 32;
 
-	/** @var WPSEO_Premium_Prominent_Words_Unindexed_Post_Query */
+	/**
+	 * @var WPSEO_Premium_Prominent_Words_Unindexed_Post_Query
+	 */
 	protected $post_query;
 
 	/**

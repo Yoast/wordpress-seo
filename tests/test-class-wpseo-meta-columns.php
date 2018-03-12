@@ -267,7 +267,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Metabox::column_heading()
+	 * @covers WPSEO_Meta_Columns::column_heading()
 	 */
 	public function test_column_heading_has_score() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -277,7 +277,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Metabox::column_heading()
+	 * @covers WPSEO_Meta_Columns::column_heading()
 	 */
 	public function test_column_heading_has_focuskw() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -287,7 +287,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Metabox::column_heading()
+	 * @covers WPSEO_Meta_Columns::column_heading()
 	 */
 	public function test_column_heading_has_metadesc() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -299,7 +299,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that column_hidden returns the columns to hide so that WordPress hides them
 	 *
-	 * @covers WPSEO_Metabox::column_hidden()
+	 * @covers WPSEO_Meta_Columns::column_hidden()
 	 */
 	public function test_column_hidden_HIDE_COLUMNS() {
 		$user = $this->getMockBuilder( 'WP_User' )
@@ -321,7 +321,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 *
 	 * This is so the user can still set the columns they want to hide.
 	 *
-	 * @covers WPSEO_Metabox::column_hidden()
+	 * @covers WPSEO_Meta_Columns::column_hidden()
 	 */
 	public function test_column_hidden_KEEP_OPTION() {
 		// Option shouldn't be touched if the user has set it already.
@@ -341,7 +341,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if column_hidden can deal with non array values returned from WordPress
 	 *
-	 * @covers WPSEO_Metabox::column_hidden()
+	 * @covers WPSEO_Meta_Columns::column_hidden()
 	 */
 	public function test_column_hidden_UNEXPECTED_VALUE() {
 		$user = $this->getMockBuilder( 'WP_User' )

@@ -17,7 +17,9 @@ class WPSEO_Facebook_Profile {
 	const TRANSIENT_NAME = 'yoast_facebook_profiles';
 
 	/**
-	 * @var string URL providing us the full name belonging to the user.
+	 * URL providing us the full name belonging to the user.
+	 *
+	 * @var string
 	 */
 	private $facebook_endpoint = 'https://www.facebook.com/plugins/follow.php?href=';
 

@@ -11,7 +11,9 @@
 abstract class WPSEO_Watcher {
 
 	/**
-	 * @var string The type to watch for.
+	 * The type to watch for.
+	 *
+	 * @var string
 	 */
 	protected $watch_type;
 

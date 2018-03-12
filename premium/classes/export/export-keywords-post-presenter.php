@@ -13,7 +13,9 @@
 class WPSEO_Export_Keywords_Post_Presenter implements WPSEO_Export_Keywords_Presenter {
 
 	/**
-	 * @var array The columns to query for.
+	 * The columns to query for.
+	 *
+	 * @var array
 	 */
 	protected $columns;
 

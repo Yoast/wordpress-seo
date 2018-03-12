@@ -12,22 +12,46 @@
  */
 class WPSEO_Export_Keywords_Post_Query implements WPSEO_Export_Keywords_Query {
 
-	/** @var wpdb The WordPress database object. */
+	/**
+	 * The WordPress database object.
+	 *
+	 * @var wpdb
+	 */
 	protected $wpdb;
 
-	/** @var array The columns to query for. */
+	/**
+	 * The columns to query for.
+	 *
+	 * @var array
+	 */
 	protected $columns;
 
-	/** @var array The database columns to select in the query. */
+	/**
+	 * The database columns to select in the query.
+	 *
+	 * @var array
+	 */
 	protected $selects;
 
-	/** @var array The database tables to join in the query. */
+	/**
+	 * The database tables to join in the query.
+	 *
+	 * @var array
+	 */
 	protected $joins = array();
 
-	/** @var int Number of items to fetch per page */
+	/**
+	 * Number of items to fetch per page.
+	 *
+	 * @var int
+	 */
 	protected $page_size;
 
-	/** @var  string Escaped list of post types */
+	/**
+	 * Escaped list of post types.
+	 *
+	 * @var string
+	 */
 	protected $escaped_post_types;
 
 	/**

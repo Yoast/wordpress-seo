@@ -9,13 +9,20 @@
  * Test Helper Class.
  */
 class WPSEO_Export_Keywords_Term_Query_Database_Mock {
-	/** @var string */
+
+	/**
+	 * @var string
+	 */
 	public $prefix = 'bamboozled';
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	public $query;
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	public $type;
 
 	/**

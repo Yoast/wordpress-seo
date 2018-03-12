@@ -11,7 +11,9 @@
 class WPSEO_Redirect_HTAccess_Loader extends WPSEO_Redirect_Abstract_Loader {
 
 	/**
-	 * @var string The contents of the htaccess file to import.
+	 * The contents of the htaccess file to import.
+	 *
+	 * @var string
 	 */
 	protected $htaccess;
 

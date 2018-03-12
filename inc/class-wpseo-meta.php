@@ -360,7 +360,7 @@ class WPSEO_Meta {
 				 *
 				 * @return     array
 				 */
-				$field_defs = apply_filters( 'wpseo_metabox_entries', $field_defs );
+				$field_defs = apply_filters_deprecated( 'wpseo_metabox_entries', array( $field_defs ), 'WPSEO 7.0','wpseo_metabox_entries_general' );
 				break;
 
 

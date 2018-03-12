@@ -11,7 +11,9 @@
 class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 	/**
-	 * @var string Type of watcher, will be used for the filters.
+	 * Type of watcher, will be used for the filters.
+	 *
+	 * @var string
 	 */
 	protected $watch_type = 'post';
 

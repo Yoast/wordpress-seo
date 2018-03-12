@@ -12,10 +12,18 @@
  */
 class WPSEO_Export_Keywords_CSV {
 
-	/** @var array The columns that should be presented */
+	/**
+	 * The columns that should be presented.
+	 *
+	 * @var array
+	 */
 	protected $columns;
 
-	/** @var array Data to be exported */
+	/**
+	 * Data to be exported.
+	 *
+	 * @var array
+	 */
 	protected $data = '';
 
 	/**
