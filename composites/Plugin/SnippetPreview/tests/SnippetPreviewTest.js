@@ -1,7 +1,6 @@
 import SnippetPreview, { DESKTOP, MOBILE } from "../components/SnippetPreview";
 import React from "react";
 import renderer from "react-test-renderer";
-import PropTypes from "prop-types";
 
 const defaultArgs = {
 	description: "Description",
