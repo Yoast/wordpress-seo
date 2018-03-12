@@ -314,12 +314,14 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
+		$entries_per_page = $this->get_entries_per_page();
+
 		foreach ( $this->providers as $provider ) {
 			if ( ! $provider->handles_type( $type ) ) {
 				continue;
 			}
 
-			$links = $provider->get_sitemap_links( $type, $this->get_entries_per_page(), $this->current_page );
+			$links = $provider->get_sitemap_links( $type, $entries_per_page, $this->current_page );
 
 			if ( empty( $links ) ) {
 				$this->bad_sitemap = true;
@@ -350,9 +352,10 @@ class WPSEO_Sitemaps {
 	public function build_root_map() {
 
 		$links = array();
+		$entries_per_page = $this->get_entries_per_page();
 
 		foreach ( $this->providers as $provider ) {
-			$links = array_merge( $links, $provider->get_index_links( $this->get_entries_per_page() ) );
+			$links = array_merge( $links, $provider->get_index_links( $entries_per_page ) );
 		}
 
 		if ( empty( $links ) ) {
