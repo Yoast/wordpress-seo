@@ -11,7 +11,7 @@ var TitleWidth = require( "yoastseo/js/assessments/seo/pageTitleWidthAssessment.
 var UrlKeyword = require( "yoastseo/js/assessments/seo/urlKeywordAssessment.js" );
 var UrlLength = require( "yoastseo/js/assessments/seo/urlLengthAssessment.js" );
 var urlStopWords = require( "yoastseo/js/assessments/seo/urlStopWordsAssessment.js" );
-var taxonomyTextLength = require( "yoastseo/js/assessments/seo/taxonomyTextLengthAssessment" );
+var TextLength = require( "yoastseo/js/assessments/seo/textLengthAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -29,16 +29,20 @@ var TaxonomyAssessor = function( i18n ) {
 		keywordStopWords,
 		metaDescriptionKeyword,
 		new MetaDescriptionLength(),
-		taxonomyTextLength,
 		titleKeyword,
 		new TitleWidth(),
 		new UrlKeyword(),
 		new UrlLength(),
 		urlStopWords,
+		new TextLength( {
+			recommendedMinimum: 250,
+			slightlyBelowMinimum: 200,
+			belowMinimum: 150,
+			veryFarBelowMinimum: 100,
+		} ),
 	];
 };
 
 module.exports = TaxonomyAssessor;
 
 require( "util" ).inherits( module.exports, Assessor );
-
