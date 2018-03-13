@@ -48,7 +48,6 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Import_AIOSEO::run_import
-	 * @covers WPSEO_Import_AIOSEO::meta_key_clone
 	 */
 	public function test_import_without_data() {
 		$result = $this->class_instance->run_import();
@@ -58,6 +57,7 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Import_AIOSEO::run_import
 	 * @covers WPSEO_Import_AIOSEO::import
+	 * @covers WPSEO_Import_AIOSEO::meta_key_clone
 	 */
 	public function test_import_with_data() {
 		$post_id = $this->setup_post();
@@ -81,6 +81,27 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	public function test_cleanup_without_data() {
 		$result  = $this->class_instance->run_cleanup();
 		$this->assertEquals( $this->status( 'cleanup', false ), $result );
+	}
+
+	/**
+	 * @covers WPSEO_Import_AIOSEO::run_import
+	 * @covers WPSEO_Import_AIOSEO::import
+	 * @covers WPSEO_Import_AIOSEO::meta_key_clone
+	 */
+	public function test_import_without_overwriting_data() {
+		$post_id = $this->setup_post( true );
+		$result  = $this->class_instance->run_import();
+
+		$seo_title       = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
+		$seo_desc        = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
+		$robots_noindex  = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', true );
+		$robots_nofollow = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', true );
+
+		$this->assertEquals( 'Test title', $seo_title );
+		$this->assertEquals( 'Existing Yoast SEO Test description', $seo_desc );
+		$this->assertEquals( 0, $robots_noindex );
+		$this->assertEquals( 1, $robots_nofollow );
+		$this->assertEquals( $this->status( 'import', true ), $result );
 	}
 
 	/**
@@ -114,15 +135,21 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Sets up a test post.
 	 *
+	 * @param bool $pre_existing_yoast_data Whether or not to insert pre-existing Yoast SEO data.
+	 *
 	 * @return int $post_id ID for the post created.
 	 */
-	private function setup_post() {
+	private function setup_post( $pre_existing_yoast_data = false ) {
 		$post_id = $this->factory()->post->create();
 		update_post_meta( $post_id, '_aioseop_title', 'Test title' );
 		update_post_meta( $post_id, '_aioseop_description', 'Test description' );
 		update_post_meta( $post_id, '_aioseop_noindex', 'on' );
 		update_post_meta( $post_id, '_aioseop_nofollow', 'on' );
 
+		if ( $pre_existing_yoast_data ) {
+			update_post_meta( $post_id, '_yoast_wpseo_metadesc', 'Existing Yoast SEO Test description' );
+			update_post_meta( $post_id, '_yoast_wpseo_meta-robots-noindex', 0 );
+		}
 		return $post_id;
 	}
 }

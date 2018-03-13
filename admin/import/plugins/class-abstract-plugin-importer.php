@@ -137,6 +137,9 @@ abstract class WPSEO_Plugin_Importer {
 		// First we create a temp table with all the values for meta_key.
 		$this->wpdb->query( $this->wpdb->prepare( "CREATE TEMPORARY TABLE tmp_meta_table SELECT * FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $old_key ) );
 
+		// Delete all the values in our temp table for posts that already have data for $new_key.
+		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM tmp_meta_table WHERE post_id IN ( SELECT post_id FROM {$this->wpdb->postmeta} WHERE meta_key = %s )", $new_key ) );
+
 		// We set meta_id to NULL so on re-insert into the postmeta table, MYSQL can set new meta_id's and we don't get duplicates.
 		$this->wpdb->query( 'UPDATE tmp_meta_table SET meta_id = NULL' );
 
