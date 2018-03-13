@@ -115,7 +115,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
-	private function finish_up() {
+	protected function finish_up() {
 		WPSEO_Options::set( 'version', WPSEO_VERSION );
 
 		add_action( 'shutdown', 'flush_rewrite_rules' );                     // Just flush rewrites, always, to at least make them work after an upgrade.
