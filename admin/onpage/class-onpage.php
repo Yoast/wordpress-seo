@@ -19,11 +19,45 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	private $is_manual_request = false;
 
 	/**
-	 * Constructing the object
+	 * Constructs the object.
 	 */
 	public function __construct() {
 		// We never want to fetch on AJAX request because doing a remote request is really slow.
 		$this->catch_redo_listener();
+	}
+
+	/**
+	 * Sets up the hooks.
+	 */
+	public function register_hooks() {
+		if ( ! $this->is_active() ) {
+			return;
+		}
+
+		// Add weekly schedule to the cron job schedules.
+		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
+
+		// Adding admin notice if necessary.
+		add_filter( 'admin_init', array( $this, 'show_notice' ) );
+
+		// Setting the action for the Ryte fetch.
+		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
+	}
+
+	/**
+	 * Show a notice when the website is not indexable
+	 */
+	public function show_notice() {
+		$notification        = $this->get_indexability_notification();
+		$notification_center = Yoast_Notification_Center::get();
+
+		if ( $this->should_show_notice() ) {
+			$notification_center->add_notification( $notification );
+
+			return;
+		}
+
+		$notification_center->remove_notification( $notification );
 	}
 
 	/**
@@ -40,18 +74,18 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * The hooks to run on plugin activation
+	 * Hooks to run on plugin activation.
 	 */
 	public function activate_hooks() {
 		$this->set_cron();
 	}
 
 	/**
-	 * Adding a weekly schedule to the schedules array
+	 * Adds a weekly cron schedule.
 	 *
-	 * @param array $schedules Array with schedules.
+	 * @param array $schedules Currently scheduled items.
 	 *
-	 * @return array
+	 * @return array Enriched list of schedules.
 	 */
 	public function add_weekly_schedule( array $schedules ) {
 		$schedules['weekly'] = array(
@@ -63,9 +97,9 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Fetching the data from Ryte.
+	 * Fetches the data from Ryte.
 	 *
-	 * @return bool
+	 * @return bool True if this has been run.
 	 */
 	public function fetch_from_onpage() {
 		$onpage_option = $this->get_option();
@@ -108,23 +142,6 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Show a notice when the website is not indexable
-	 */
-	public function show_notice() {
-
-		$notification        = $this->get_indexability_notification();
-		$notification_center = Yoast_Notification_Center::get();
-
-		if ( $this->should_show_notice() ) {
-			$notification_center->add_notification( $notification );
-
-			return;
-		}
-
-		$notification_center->remove_notification( $notification );
-	}
-
-	/**
 	 * Builds the indexability notification
 	 *
 	 * @return Yoast_Notification
@@ -148,7 +165,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Send a request to Ryte to get the indexability.
+	 * Sends a request to Ryte to get the indexability.
 	 *
 	 * @return int(0)|int(1)|false
 	 */
@@ -171,7 +188,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	/**
 	 * Should the notice being given?
 	 *
-	 * @return bool
+	 * @return bool True if a notice should be shown.
 	 */
 	protected function should_show_notice() {
 		// If development mode is on or the blog is not public, just don't show this notice.
@@ -183,7 +200,9 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Notify the admins
+	 * Notifies the admins
+	 *
+	 * @return void
 	 */
 	protected function notify_admins() {
 		/*
@@ -194,25 +213,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Setting up the hooks.
-	 */
-	public function register_hooks() {
-		if ( ! $this->is_active() ) {
-			return;
-		}
-
-		// Add weekly schedule to the cron job schedules.
-		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
-
-		// Adding admin notice if necessary.
-		add_filter( 'admin_init', array( $this, 'show_notice' ) );
-
-		// Setting the action for the Ryte fetch.
-		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
-	}
-
-	/**
-	 * Setting the cronjob to get the new indexibility status.
+	 * Sets up the cronjob to get the new indexibility status.
 	 */
 	private function set_cron() {
 		if ( ! wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
