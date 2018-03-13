@@ -1,5 +1,9 @@
 <?php
-/** @package WPSEO\Admin\Watchers */
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Watchers
+ */
 
 /**
  * Class WPSEO_Slug_Change_Watcher

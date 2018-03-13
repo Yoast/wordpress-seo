@@ -1,6 +1,8 @@
 <?php
 /**
- * @package WPSEO|Admin
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin
  */
 
 /**
