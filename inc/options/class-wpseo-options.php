@@ -223,7 +223,6 @@ class WPSEO_Options {
 	 * @return mixed|null Returns value if found, $default if not.
 	 */
 	public static function get( $key, $default = null ) {
-		self::get_instance();
 		self::$backfill->remove_hooks();
 
 		$option = self::get_all();
