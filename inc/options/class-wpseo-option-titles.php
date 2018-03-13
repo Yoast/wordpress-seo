@@ -395,7 +395,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'rssbefore':
 				case 'rssafter':
 					if ( isset( $dirty[ $key ] ) ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
+						$clean[ $key ] = wp_kses_post( $dirty[ $key ] );
 					}
 					break;
 

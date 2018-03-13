@@ -88,44 +88,18 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$premium_spot->set_extra(
 			/* translators: %1$s expands to the plugin name */
-			'<h2>' . sprintf( __( 'Get %1$s', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</h2>' .
+			'<h2>' . sprintf( esc_html__( 'Upgrade to %1$s', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</h2>' .
 			'<ul>' .
-			'<li><strong>' . __( 'Multiple keywords', 'wordpress-seo' ) . '</strong><br/>' . __( 'Increase your SEO reach', 'wordpress-seo' ) . '</li>' .
-			'<li><strong>' . __( 'No more dead links', 'wordpress-seo' ) . '</strong><br/>' . __( 'Easy redirect manager', 'wordpress-seo' ) . '</li>' .
-			'<li><strong>' . __( 'Internal linking suggestions', 'wordpress-seo' ) . '</strong><br/>' . __( 'Find related posts superfast', 'wordpress-seo' ) . '</li>' .
-			'<li><strong>' . __( 'Social media preview', 'wordpress-seo' ) . '</strong><br/>' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ) . '</li>' .
-			'<li><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></li>' .
-			'<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( 'Rank for up to 5 focus keywords per page', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( 'Preview your page in Facebook and Twitter', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( 'Get real-time suggestions for internal links', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( 'No more dead links a.k.a. 404 pages', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( '24/7 email support', 'wordpress-seo' ) . '</strong></li>' .
+			'<li><strong>' . esc_html__( 'No ads', 'wordpress-seo' ) . '</strong></li>' .
 			'</ul>' .
 			/* translators: %s expands to Yoast SEO Premium */
-			'<a id="wpseo-premium-button" class="button button-primary" href="' . $premium_uri . '" target="_blank">' . sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>'
+			'<a id="wpseo-premium-button" class="button button-primary" href="' . $premium_uri . '" target="_blank">' . sprintf( __( 'Get %s now', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</a><br/>'
 		);
-
-		/*
-		$premium_spot->set_description(
-			sprintf(
-				/* translators: %1$s expands to a link start tag to the Yoast plugin page, %2$s is the link closing tag * /
-						__( 'Want to get the most out of your SEO-strategy? %1$sGo premium!%2$s.', 'wordpress-seo' ),
-						'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/ji' ) . '">',
-						'</a>'
-					)
-				);
-				/*
-
-				$premium_spot->add_banner(
-					new WPSEO_Admin_Banner(
-						WPSEO_Shortlinker::get( 'https://yoa.st/jj' ),
-						'premium-seo.png',
-						261,
-						152,
-						sprintf(
-							/* translators: %1$s expands to Yoast SEO Premium. * /
-					__( 'Buy the %1$s plugin now and get access to extra features and 24/7 support!', 'wordpress-seo' ),
-					'Yoast SEO Premium'
-				)
-			)
-		);
-		*/
 
 		return $premium_spot;
 	}
@@ -161,22 +135,6 @@ class WPSEO_Admin_Banner_Sidebar {
 				)
 			)
 		);
-
-		/*
-		$service_spot->add_banner(
-			new WPSEO_Admin_Banner(
-				WPSEO_Shortlinker::get( 'https://yoa.st/seo-care-banner' ),
-				'seo-care.png',
-				261,
-				152,
-				sprintf(
-				/* translators: %1$s expands to Yoast SEO Care. * /
-					__( 'Let us help you take care of the SEO of your website. Order %1$s now!', 'wordpress-seo' ),
-					'Yoast SEO Care'
-				)
-			)
-		);
-		*/
 
 		return $service_spot;
 	}
@@ -286,12 +244,12 @@ class WPSEO_Admin_Banner_Sidebar {
 	 * @return WPSEO_Admin_Banner_Spot
 	 */
 	protected function get_courses_spot() {
-		$courses_spot = new WPSEO_Admin_Banner_Spot( __( 'Courses', 'wordpress-seo' ), $this->banner_renderer );
+		$courses_spot = new WPSEO_Admin_Banner_Spot( __( 'Improve your SEO skills', 'wordpress-seo' ), $this->banner_renderer );
 
 		$courses_spot->set_description(
 			sprintf(
 				/* translators: %1$s expands to a link start tag to the Yoast Services page, %2$s is the link closing tag. */
-				__( 'Do you want to get a grip on your own SEO-strategy? Learn all about it in one of %1$sour courses%2$s.', 'wordpress-seo' ),
+				__( 'We believe SEO should be for everyone. That’s why we develop courses on any topic related to SEO. %1$sDiscover our online SEO courses &raquo;%2$s', 'wordpress-seo' ),
 				'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/jt' ) . '">',
 				'</a>'
 			)
