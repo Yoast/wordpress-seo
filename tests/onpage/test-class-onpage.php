@@ -34,6 +34,8 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OnPage::add_weekly_schedule
 	 */
 	public function test_add_weekly_schedule() {
+		$this->class_instance->register_hooks();
+
 		$schedules = wp_get_schedules();
 
 		$this->assertTrue( array_key_exists( 'weekly', $schedules ) );
