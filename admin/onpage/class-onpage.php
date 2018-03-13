@@ -6,7 +6,7 @@
 /**
  * Handle the request for getting the Ryte status.
  */
-class WPSEO_OnPage {
+class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 
 	/**
 	 * The name of the user meta key for storing the dismissed status.
@@ -28,13 +28,12 @@ class WPSEO_OnPage {
 	 */
 	public function __construct() {
 		// We never want to fetch on AJAX request because doing a remote request is really slow.
-		if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) ) {
-			$this->onpage_option = new WPSEO_OnPage_Option();
+		$this->catch_redo_listener();
+	}
 
-			if ( $this->onpage_option->is_enabled() ) {
-				$this->set_hooks();
-				$this->catch_redo_listener();
-			}
+	protected function is_active() {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) {
+			return false;
 		}
 	}
 
@@ -184,9 +183,10 @@ class WPSEO_OnPage {
 	/**
 	 * Setting up the hooks.
 	 */
-	private function set_hooks() {
-		// Schedule cronjob when it doesn't exists on activation.
-		register_activation_hook( WPSEO_FILE, array( $this, 'activate_hooks' ) );
+	public function register_hooks() {
+		if ( ! $this->is_active() ) {
+			return;
+		}
 
 		// Add weekly schedule to the cron job schedules.
 		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
@@ -211,6 +211,10 @@ class WPSEO_OnPage {
 	 * Redo the fetch request for Ryte.
 	 */
 	private function catch_redo_listener() {
+		if ( ! $this->is_active() ) {
+			return;
+		}
+
 		if ( filter_input( INPUT_GET, 'wpseo-redo-onpage' ) === '1' ) {
 			$this->is_manual_request = true;
 
