@@ -22,10 +22,10 @@ class WPSEO_Import_Jetpack_SEO extends WPSEO_Plugin_Importer {
 	/**
 	 * Imports Jetpack SEO meta values.
 	 *
-	 * @return void
+	 * @return bool Import success status.
 	 */
 	protected function import() {
-		$this->meta_key_clone( 'advanced_seo_description', 'metadesc' );
+		return $this->meta_key_clone( 'advanced_seo_description', 'metadesc' );
 	}
 
 }

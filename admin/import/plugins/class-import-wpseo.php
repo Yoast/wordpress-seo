@@ -63,11 +63,13 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	/**
 	 * Imports wpSEO settings.
 	 *
-	 * @return void
+	 * @return bool Import success status.
 	 */
 	protected function import() {
 		$this->import_post_metas();
 		$this->import_taxonomy_metas();
+
+		return true;
 	}
 
 	/**
@@ -105,10 +107,21 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 */
 	private function import_post_metas() {
 		if ( $this->detect() ) {
-			$this->meta_key_clone( '_wpseo_edit_title', 'title' );
-			$this->meta_key_clone( '_wpseo_edit_description', 'metadesc' );
-			$this->meta_key_clone( '_wpseo_edit_keywords', 'keywords' );
-			$this->meta_key_clone( '_wpseo_edit_canonical', 'canonical' );
+			$clone_keys = array(
+				array(
+					'old_key' => '_wpseo_edit_description',
+					'new_key' => 'metadesc',
+				),
+				array(
+					'old_key' => '_wpseo_edit_title',
+					'new_key' => 'title',
+				),
+				array(
+					'old_key' => '_wpseo_edit_canonical',
+					'new_key' => 'canonical',
+				),
+			);
+			$this->meta_keys_clone( $clone_keys );
 
 			$this->import_post_robots();
 		}
@@ -141,8 +154,8 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 		$robot_value  = $this->get_robot_value( $wpseo_robots );
 
 		// Saving the new meta values for Yoast SEO.
-		WPSEO_Meta::set_value( 'meta-robots-noindex', $robot_value['index'], $post_id );
-		WPSEO_Meta::set_value( 'meta-robots-nofollow', $robot_value['follow'], $post_id );
+		$this->maybe_save_post_meta( 'meta-robots-noindex', $robot_value['index'], $post_id );
+		$this->maybe_save_post_meta( 'meta-robots-nofollow', $robot_value['follow'], $post_id );
 	}
 
 	/**

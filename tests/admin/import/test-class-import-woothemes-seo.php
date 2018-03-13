@@ -62,6 +62,7 @@ class WPSEO_Import_WooThemes_SEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_WooThemes_SEO::run_import
 	 * @covers WPSEO_Import_WooThemes_SEO::import
 	 * @covers WPSEO_Import_WooThemes_SEO::meta_key_clone
+	 * @covers WPSEO_Import_WooThemes_SEO::meta_keys_clone
 	 */
 	public function test_import() {
 		$post_id = $this->setup_post();

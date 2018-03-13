@@ -58,6 +58,7 @@ class WPSEO_Import_HeadSpace_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_HeadSpace::run_import
 	 * @covers WPSEO_Import_HeadSpace::import
 	 * @covers WPSEO_Import_HeadSpace::meta_key_clone
+	 * @covers WPSEO_Import_HeadSpace::meta_keys_clone
 	 */
 	public function test_import_with_data() {
 		$post_id = $this->setup_post();

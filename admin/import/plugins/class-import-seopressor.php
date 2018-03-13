@@ -22,7 +22,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	/**
 	 * Imports the post meta values to Yoast SEO.
 	 *
-	 * @return void
+	 * @return bool Import success status.
 	 */
 	protected function import() {
 		// Query for all the posts that have an _seop_settings meta set.
@@ -31,6 +31,8 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 			$this->import_post_focus_keywords( $post_id );
 			$this->import_seopressor_post_settings( $post_id );
 		}
+
+		return true;
 	}
 
 	/**
@@ -86,7 +88,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	 */
 	private function import_meta_helper( $seo_pressor_key, $yoast_key, $seopressor_settings, $post_id ) {
 		if ( ! empty( $seopressor_settings[ $seo_pressor_key ] ) ) {
-			WPSEO_Meta::set_value( $yoast_key, $seopressor_settings[ $seo_pressor_key ], $post_id );
+			$this->maybe_save_post_meta( $yoast_key, $seopressor_settings[ $seo_pressor_key ], $post_id );
 		}
 	}
 
@@ -100,7 +102,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	private function import_post_focus_keywords( $post_id ) {
 		// Import the focus keyword.
 		$focuskw = trim( get_post_meta( $post_id, '_seop_kw_1', true ) );
-		WPSEO_Meta::set_value( 'focuskw', $focuskw, $post_id );
+		$this->maybe_save_post_meta( 'focuskw', $focuskw, $post_id );
 
 		// Import additional focus keywords for use in premium.
 		$focuskw2 = trim( get_post_meta( $post_id, '_seop_kw_2', true ) );
@@ -115,7 +117,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 		}
 
 		if ( $focus_keywords !== array() ) {
-			WPSEO_Meta::set_value( 'focuskeywords', wp_json_encode( $focus_keywords ), $post_id );
+			$this->maybe_save_post_meta( 'focuskeywords', wp_json_encode( $focus_keywords ), $post_id );
 		}
 	}
 
@@ -132,9 +134,9 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 		$robot_value = $this->get_robot_value( $seopressor_robots );
 
 		// Saving the new meta values for Yoast SEO.
-		WPSEO_Meta::set_value( 'meta-robots-noindex', $robot_value['index'], $post_id );
-		WPSEO_Meta::set_value( 'meta-robots-nofollow', $robot_value['follow'], $post_id );
-		WPSEO_Meta::set_value( 'meta-robots-adv', $robot_value['advanced'], $post_id );
+		$this->maybe_save_post_meta( 'meta-robots-noindex', $robot_value['index'], $post_id );
+		$this->maybe_save_post_meta( 'meta-robots-nofollow', $robot_value['follow'], $post_id );
+		$this->maybe_save_post_meta( 'meta-robots-adv', $robot_value['advanced'], $post_id );
 	}
 
 	/**

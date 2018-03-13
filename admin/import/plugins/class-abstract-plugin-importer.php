@@ -15,14 +15,17 @@ abstract class WPSEO_Plugin_Importer {
 	 * @var WPSEO_Import_Status
 	 */
 	protected $status;
+
 	/**
 	 * @var wpdb Holds the WPDB instance.
 	 */
 	protected $wpdb;
+
 	/**
 	 * @var string The plugin name.
 	 */
 	protected $plugin_name;
+
 	/**
 	 * @var string Meta key, used in like clause for detect query.
 	 */
@@ -30,9 +33,13 @@ abstract class WPSEO_Plugin_Importer {
 
 	/**
 	 * Class constructor.
+	 *
+	 * @param wpdb $wpdb The WPDB object.
 	 */
-	public function __construct() {
-		global $wpdb;
+	public function __construct( $wpdb = null ) {
+		if ( $wpdb === null ) {
+			global $wpdb;
+		}
 		$this->wpdb = $wpdb;
 	}
 
@@ -57,15 +64,13 @@ abstract class WPSEO_Plugin_Importer {
 			return $this->status;
 		}
 
-		$this->import();
-
-		return $this->status->set_status( true );
+		return $this->status->set_status( $this->import() );
 	}
 
 	/**
 	 * Handles post meta data to import.
 	 *
-	 * @return void
+	 * @return bool Import success status.
 	 */
 	abstract protected function import();
 
@@ -131,12 +136,15 @@ abstract class WPSEO_Plugin_Importer {
 	 * @param string $new_key        The new meta key.
 	 * @param array  $replace_values An array, keys old value, values new values.
 	 *
-	 * @return void
+	 * @return bool Clone status.
 	 */
 	protected function meta_key_clone( $old_key, $new_key, $replace_values = array() ) {
 		// First we create a temp table with all the values for meta_key.
-		$this->wpdb->query( $this->wpdb->prepare( "CREATE TEMPORARY TABLE tmp_meta_table SELECT * FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $old_key ) );
-
+		$result = $this->wpdb->query( $this->wpdb->prepare( "CREATE TEMPORARY TABLE tmp_meta_table SELECT * FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $old_key ) );
+		if ( $result === false ) {
+			$this->set_missing_db_rights_status();
+			return false;
+		}
 		// Delete all the values in our temp table for posts that already have data for $new_key.
 		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM tmp_meta_table WHERE post_id IN ( SELECT post_id FROM {$this->wpdb->postmeta} WHERE meta_key = %s )", $new_key ) );
 
@@ -158,5 +166,47 @@ abstract class WPSEO_Plugin_Importer {
 
 		// Now we drop our temporary table.
 		$this->wpdb->query( 'DROP TEMPORARY TABLE IF EXISTS tmp_meta_table' );
+
+		return true;
+	}
+
+	/**
+	 * Clones multiple meta keys.
+	 *
+	 * @param array $clone_keys The keys to clone.
+	 *
+	 * @return bool Success status.
+	 */
+	protected function meta_keys_clone( $clone_keys ) {
+		foreach( $clone_keys as $clone_key ) {
+			$result = $this->meta_key_clone( $clone_key['old_key'], $clone_key['new_key'], isset( $clone_key['convert'] ) ? $clone_key['convert'] : array() );
+			if ( ! $result ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Sets the import status to false and returns a message about why it failed.
+	 */
+	protected function set_missing_db_rights_status() {
+		$this->status->set_status( false );
+		/* translators: %s is replaced with Yoast SEO. */
+		$this->status->set_msg( sprintf( __( 'The %s importer functionality uses temporary database tables. It seems your WordPress install does not have the capability to do this, please consult your hosting provider.', 'wordpress-seo' ), 'Yoast SEO' ) );
+	}
+
+	/**
+	 * Saves a post meta value if it doesn't already exist.
+	 *
+	 * @param string $new_key The key to save.
+	 * @param mixed  $value   The value to set the key to.
+	 * @param int    $post_id The Post to save the meta for.
+	 */
+	protected function maybe_save_post_meta( $new_key, $value, $post_id ) {
+		$existing_value = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . $new_key, true );
+		if ( empty( $existing_value ) ) {
+			WPSEO_Meta::set_value( $new_key, $value, $post_id );
+		}
 	}
 }

@@ -61,8 +61,6 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_WPSEO::import_post_robot
 	 * @covers WPSEO_Import_WPSEO::import_post_robots
 	 * @covers WPSEO_Import_WPSEO::get_robot_value
-	 *
-	 * @group  test
 	 */
 	public function test_import() {
 		$post_id = $this->setup_data();
@@ -88,8 +86,7 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_robots
 	 * @covers WPSEO_Import_WPSEO::import_taxonomy_description
 	 * @covers WPSEO_Import_WPSEO::meta_key_clone
-	 *
-	 * @group test
+	 * @covers WPSEO_Import_WPSEO::meta_keys_clone
 	 */
 	public function test_import_category() {
 		$this->create_category_metadata( 'test-category', 'Test-category description', 5 );

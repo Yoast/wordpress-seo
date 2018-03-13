@@ -22,18 +22,30 @@ class WPSEO_Import_HeadSpace extends WPSEO_Plugin_Importer {
 	/**
 	 * Imports the simple meta fields.
 	 *
-	 * @return void
+	 * @return bool Import success status.
 	 */
 	protected function import() {
-		$this->meta_key_clone( '_headspace_description', 'metadesc' );
-		$this->meta_key_clone( '_headspace_page_title', 'title' );
-
-		/**
-		 * @todo [JRF => whomever] verify how headspace sets these metas ( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' )
-		 * and if the values saved are concurrent with the ones we use (i.e. 0/1/2)
-		 */
-		$this->meta_key_clone( '_headspace_noindex', 'meta-robots-noindex' );
-		$this->meta_key_clone( '_headspace_nofollow', 'meta-robots-nofollow' );
+		$clone_keys = array(
+			array(
+				'old_key' => '_headspace_description',
+				'new_key' => 'metadesc',
+			),
+			array(
+				'old_key' => '_headspace_page_title',
+				'new_key' => 'title',
+			),
+			array(
+				'old_key' => '_headspace_noindex',
+				'new_key' => 'meta-robots-noindex',
+				'convert' => array( 'on' => 1 ),
+			),
+			array(
+				'old_key' => '_headspace_nofollow',
+				'new_key' => 'meta-robots-nofollow',
+				'convert' => array( 'on' => 1 ),
+			),
+		);
+		return $this->meta_keys_clone( $clone_keys );
 	}
 
 }

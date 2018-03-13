@@ -20,16 +20,42 @@ class WPSEO_Import_Ultimate_SEO extends WPSEO_Plugin_Importer {
 	/**
 	 * Imports the Ultimate SEO  meta values.
 	 *
-	 * @returns void
+	 * @returns bool Import success status.
 	 */
 	protected function import() {
-		$this->meta_key_clone( '_su_description', 'metadesc' );
-		$this->meta_key_clone( '_su_meta_robots_nofollow', 'meta-robots-nofollow' );
-		$this->meta_key_clone( '_su_meta_robots_noindex', 'meta-robots-noindex' );
-		$this->meta_key_clone( '_su_og_title', 'opengraph-title' );
-		$this->meta_key_clone( '_su_og_description', 'opengraph-description' );
-		$this->meta_key_clone( '_su_og_image', 'opengraph-image' );
-		$this->meta_key_clone( '_su_title', 'title' );
+		$clone_keys = array(
+			array(
+				'old_key' => '_su_description',
+				'new_key' => 'metadesc',
+			),
+			array(
+				'old_key' => '_su_title',
+				'new_key' => 'title',
+			),
+			array(
+				'old_key' => '_su_og_title',
+				'new_key' => 'opengraph-title',
+			),
+			array(
+				'old_key' => '_su_og_description',
+				'new_key' => 'opengraph-description',
+			),
+			array(
+				'old_key' => '_su_og_image',
+				'new_key' => 'opengraph-image',
+			),
+			array(
+				'old_key' => '_su_meta_robots_noindex',
+				'new_key' => 'meta-robots-noindex',
+				'convert' => array( 'on' => 1 ),
+			),
+			array(
+				'old_key' => '_su_meta_robots_nofollow',
+				'new_key' => 'meta-robots-nofollow',
+				'convert' => array( 'on' => 1 ),
+			),
+		);
+		return $this->meta_keys_clone( $clone_keys );
 	}
 
 }

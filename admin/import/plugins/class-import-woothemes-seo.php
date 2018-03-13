@@ -32,13 +32,28 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	/**
 	 * Imports meta values if they're applicable.
 	 *
-	 * @return void
+	 * @return bool Import success status.
 	 */
 	protected function import() {
-		$this->meta_key_clone( 'seo_follow', 'meta-robots-nofollow' );
-		$this->meta_key_clone( 'seo_noindex', 'meta-robots-noindex' );
-		$this->meta_key_clone( 'seo_title', 'title' );
-		$this->meta_key_clone( 'seo_description', 'metadesc' );
+		$clone_keys = array(
+			array(
+				'old_key' => 'seo_description',
+				'new_key' => 'metadesc',
+			),
+			array(
+				'old_key' => 'seo_title',
+				'new_key' => 'title',
+			),
+			array(
+				'old_key' => 'seo_noindex',
+				'new_key' => 'meta-robots-noindex',
+			),
+			array(
+				'old_key' => 'seo_follow',
+				'new_key' => 'meta-robots-nofollow',
+			),
+		);
+		return $this->meta_keys_clone( $clone_keys );
 	}
 
 	/**
