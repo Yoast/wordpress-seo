@@ -29,7 +29,7 @@ printf(
 echo '<p>';
 printf(
 	/* translators: %1$s / %2$s expands to a link to pinterest.com's help page. */
-	esc_html__( 'To %1$sconfirm your site with Pinterest%2$s, add the meta tag here:', 'wordpress-seo' ),
+	esc_html__( 'To %1$sconfirm your site with Pinterest%2$s, add the key from your meta tag here:', 'wordpress-seo' ),
 	'<a target="_blank" href="https://help.pinterest.com/en/articles/confirm-your-website#meta_tag">',
 	'</a>'
 );
