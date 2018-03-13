@@ -1,5 +1,4 @@
 /* global jQuery, YoastSEO, wpseoPostScraperL10n */
-import isEmpty from "lodash/isEmpty";
 
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import removeMarks from "yoastseo/js/markers/removeMarks";
@@ -10,9 +9,8 @@ import getIndicatorForScore from "./getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar }from "../ui/adminBar";
 
-import { getData } from  "./data";
-
 import publishBox from "../ui/publishBox";
+import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 
 let $ = jQuery;
 let currentKeyword = "";
@@ -21,6 +19,7 @@ let currentKeyword = "";
  * Show warning in console when the unsupported CkEditor is used
  *
  * @param {Object} args The arguments for the post scraper.
+ * @param {Object} args.data The data.
  * @param {TabManager} args.tabManager The tab manager for this post.
  *
  * @constructor
@@ -30,6 +29,7 @@ let PostDataCollector = function( args ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
 
+	this._data = args.data;
 	this._tabManager = args.tabManager;
 };
 
@@ -42,9 +42,9 @@ let PostDataCollector = function( args ) {
 PostDataCollector.prototype.getData = function() {
 	let gutenbergData;
 
-	// Only use data from Gutenberg if the Gutenberg data object isn't empty.
-	if( ! isEmpty( getData() ) ) {
-		gutenbergData = getData();
+	// Only use data from Gutenberg if Gutenberg is available.
+	if ( isGutenbergDataAvailable() ) {
+		gutenbergData = this._data.getData();
 	}
 
 	return {

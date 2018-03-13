@@ -5,17 +5,17 @@ import debounce from "lodash/debounce";
  */
 class Data {
 	/**
-	 *
+	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
 	 * @param {Object} wpData The Gutenberg data API.
-	 * @param {Object} YoastSEOApp The app of YoastSEO.
+	 * @param {Function} refresh The YoastSEO refresh function.
 	 * @returns {void}
 	 */
-	constructor( wpData, YoastSEOApp ) {
+	constructor( wpData, refresh ) {
 		this._wpData = wpData;
-		this._yoastSEOApp = YoastSEOApp;
+		this._refresh = refresh;
 		this.data = {};
-		this.subscriber = debounce( this.refreshYoastSEO, 500 );
+		this.getPostAttribute = this.getPostAttribute.bind( this );
 	}
 
 	/**
@@ -53,15 +53,15 @@ class Data {
 	/**
 	 * Collects the content, title, slug and excerpt of a post from Gutenberg.
 	 *
-	 * @param {Function} retriever The data retriever function.
+	 * @param {Function} getPostAttribute The post attribute retrieval function.
 	 * @returns {{content: string, title: string, slug: string, excerpt: string}} The content, title, slug and excerpt.
 	 */
-	collectGutenbergData( retriever ) {
+	collectGutenbergData( getPostAttribute ) {
 		return {
-			content: retriever( "content" ),
-			title: retriever( "title" ),
-			slug: retriever( "slug" ),
-			excerpt: retriever( "excerpt" ),
+			content: getPostAttribute( "content" ),
+			title: getPostAttribute( "title" ),
+			slug: getPostAttribute( "slug" ),
+			excerpt: getPostAttribute( "excerpt" ),
 		};
 	}
 
@@ -78,7 +78,7 @@ class Data {
 
 		if ( isDirty ) {
 			this.data = gutenbergData;
-			this._yoastSEOApp.refresh();
+			this._refresh();
 		}
 	}
 
@@ -90,6 +90,7 @@ class Data {
 	subscribeToGutenberg() {
 		// Fill data object on page load.
 		this.data = this.collectGutenbergData( this.getPostAttribute );
+		this.subscriber = debounce( this.refreshYoastSEO, 500 );
 		this._wpData.subscribe(
 			this.subscriber
 		);

@@ -120,17 +120,20 @@ function renderReactApps( store, args ) {
  */
 export function initialize( args ) {
 	const store = configureStore();
+	let data = {};
 
-	// Only subscribe if Gutenberg's data API is available.
+	// Only use Gutenberg's data if Gutenberg is available.
 	if ( isGutenbergDataAvailable() ) {
-		const gutenbergData = new Data( wp.data, YoastSEO.app );
+		const gutenbergData = new Data( wp.data, args.onRefreshRequest );
 		gutenbergData.subscribeToGutenberg();
+		data = gutenbergData;
 	}
 
 	renderReactApps( store, args );
 
 	return {
 		store,
+		data,
 	};
 }
 

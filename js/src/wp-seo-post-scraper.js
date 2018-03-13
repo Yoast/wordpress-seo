@@ -237,11 +237,14 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	/**
 	 * Initializes post data collector.
 	 *
+	 * @param {Object} data The data.
+	 *
 	 * @returns {PostDataCollector} The initialized post data collector.
 	 */
-	function initializePostDataCollector() {
+	function initializePostDataCollector( data ) {
 		let postDataCollector = new PostDataCollector( {
 			tabManager,
+			data,
 		} );
 		postDataCollector.leavePostNameUntouched = false;
 
@@ -380,8 +383,9 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		const editArgs = {
 			readabilityTarget: "yoast-seo-content-analysis",
 			seoTarget: "wpseo-pageanalysis",
+			onRefreshRequest: () => {},
 		};
-		store = initializeEdit( editArgs ).store;
+		const { store, data } =  initializeEdit( editArgs );
 
 		snippetContainer = $( "#wpseosnippet" );
 
@@ -391,7 +395,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		}
 
 		tabManager = initializeTabManager();
-		postDataCollector = initializePostDataCollector();
+		postDataCollector = initializePostDataCollector( data );
 		publishBox.initalise();
 		snippetPreview = initSnippetPreview( postDataCollector );
 
@@ -453,6 +457,9 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 		// Set initial keyword.
 		store.dispatch( setActiveKeyword( tabManager.getKeywordTab().getKeyWord() ) );
+
+		// Set refresh function.
+		editArgs.onRefreshRequest = app.refresh();
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );
