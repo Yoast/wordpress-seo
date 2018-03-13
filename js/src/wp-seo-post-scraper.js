@@ -199,11 +199,11 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		const targets = {};
 
 		if ( isKeywordAnalysisActive() ) {
-			targets.output = "wpseo-pageanalysis";
+			targets.output = "does-not-really-exist-but-it-needs-something";
 		}
 
 		if ( isContentAnalysisActive() ) {
-			targets.contentOutput = "yoast-seo-content-analysis";
+			targets.contentOutput = "also-does-not-really-exist-but-it-needs-something";
 		}
 
 		return targets;
@@ -378,8 +378,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	 */
 	function initializePostAnalysis() {
 		const editArgs = {
-			readabilityTarget: "yoast-seo-content-analysis",
-			seoTarget: "wpseo-pageanalysis",
+			analysisSection: "pageanalysis",
 		};
 		store = initializeEdit( editArgs ).store;
 
