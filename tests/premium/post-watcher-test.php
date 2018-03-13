@@ -22,14 +22,20 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+
 		$this->class_instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher' )
-			->setMethods( array( 'get_old_url', 'set_undo_slug_notification', 'get_target_url' ) )
+			->setMethods( array(
+				'get_old_url',
+				'set_undo_slug_notification',
+				'get_target_url',
+				'is_redirect_relevant',
+			) )
 			->getMock();
 	}
 
 	/**
-	 * Method `set_notification()` should not be called if slugs stay the same.
+	 * Method `set_undo_slug_notification()` should not be called if slugs stay the same.
 	 *
 	 * @covers WPSEO_Post_Watcher::detect_slug_change
 	 */
@@ -42,10 +48,8 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->expects( $this->never() )
 			->method( 'set_undo_slug_notification' );
 
-
 		$post = (object) array(
 			'ID'          => 1,
-			'post_name'   => '',
 			'post_status' => 'publish',
 			'post_name'   => 'Test Post',
 		);
@@ -58,26 +62,11 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Method `set_notification()` should be called when the slug is changed.
+	 * Method `set_undo_slug_notification()` should be called when the slug is changed.
 	 */
 	public function test_detect_slug_change_slug_IS_CHANGED() {
-		$this->class_instance
-			->expects( $this->once() )
-			->method( 'get_old_url' )
-			->will( $this->returnValue( '/test/' ) );
-
-		$this->class_instance
-			->expects( $this->once() )
-			->method( 'get_target_url' )
-			->will( $this->returnValue( '/test2/' ) );
-
-		$this->class_instance
-			->expects( $this->once() )
-			->method( 'set_undo_slug_notification' );
-
 		$post = (object) array(
 			'ID'          => 1,
-			'post_name'   => '',
 			'post_status' => 'publish',
 			'post_name'   => 'test',
 		);
@@ -86,40 +75,443 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			'post_name' => 'test2',
 		);
 
-		$this->class_instance->detect_slug_change( 1, $post, $post_before );
-	}
-
-	/**
-	 * Methods `get_target_url()` and `set_notification()` should not be called when post is not published.
-	 */
-	public function test_detect_slug_change_slug_post_IS_NOT_published() {
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'get_old_url' )
 			->will( $this->returnValue( '/test/' ) );
 
 		$this->class_instance
-			->expects( $this->never() )
-			->method( 'get_target_url' )
-			->will( $this->returnValue( '/test2/' ) );
+			->expects( $this->once() )
+			->method( 'is_redirect_relevant' )
+			->will( $this->returnValue( true ) );
+
+		$this->class_instance
+			->expects( $this->once() )
+			->method( 'set_undo_slug_notification' );
+
+		$this->class_instance->detect_slug_change( 1, $post, $post_before );
+	}
+
+	/**
+	 * Methods `get_target_url()` and `set_undo_slug_notification()` should not be called when post is not published.
+	 */
+	public function test_detect_slug_change_slug_post_IS_NOT_published() {
+		$post = (object) array(
+			'ID'          => 1,
+			'post_status' => 'draft',
+		);
+
+		$post_before = (object) array(
+			'post_status' => 'draft',
+		);
+
+		$this->class_instance
+			->expects( $this->once() )
+			->method( 'is_redirect_relevant' )
+			->will( $this->returnValue( true ) );
 
 		$this->class_instance
 			->expects( $this->never() )
 			->method( 'set_undo_slug_notification' );
 
-		$post = (object) array(
-			'ID'          => 1,
-			'post_name'   => '',
-			'post_status' => 'draft',
-			'post_name'   => 'test',
-		);
-
-		$post_before = (object) array(
-			'post_status' => 'draft',
-			'post_name'   => 'test2',
-		);
-
 		$this->class_instance->detect_slug_change( 1, $post, $post_before );
 	}
-}
 
+	/**
+	 * Creates a redirect and then creates a post with a slug that overlaps with the redirect, this should remove the redirect.
+	 */
+	public function test_slug_changed_matching_redirect() {
+		$redirect = new WPSEO_Redirect( 'to', 'from', 301, 'plain' );
+
+		// Create a redirect manager.
+		$manager = new WPSEO_Redirect_Manager();
+		$manager->create_redirect( $redirect );
+
+		// Make sure we have pretty permalinks.
+		update_option( 'permalink_structure', '/%postname%/' );
+
+		// Assure the redirect is added.
+		$this->assertEquals( 1, count( $manager->get_all_redirects() ) );
+
+		// Prepare a post.
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title'  => 'fake post',
+				'post_name'   => 'from',
+				'post_status' => 'publish',
+			)
+		);
+
+		$post = get_post( $post_id, ARRAY_A );
+
+		// Add the post watcher, to trigger on the post save.
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
+			->setMethods( array( 'post_redirect_can_be_made' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'post_redirect_can_be_made' )
+			->will( $this->returnValue( true ) );
+
+		/** var WPSEO_Post_Watcher_Double $instance */
+		$instance->set_hooks();
+
+		// Save post with a new slug.
+		$post['ID']        = $post_id;
+		$post['post_name'] = 'to';
+
+		wp_update_post( $post );
+
+		$this->assertEmpty( $manager->get_all_redirects() );
+	}
+
+	/**
+	 * Tests if a redirect is not deleted when no redirect is found.
+	 *
+	 * @covers WPSEO_Post_Watcher::remove_colliding_redirect
+	 */
+	public function test_no_redirect_exists_dont_delete_redirect() {
+		$redirect_manager = $this
+			->getMockBuilder( 'WPSEO_Redirect_Manager' )
+			->setMethods( array( 'get_redirect', 'delete_redirects' ) )
+			->getMock();
+
+		$redirect_manager
+			->expects( $this->once() )
+			->method( 'get_redirect' )
+			->will( $this->returnValue( false ) );
+
+		$redirect_manager
+			->expects( $this->never() )
+			->method( 'delete_redirects' );
+
+		$instance = new WPSEO_Post_Watcher_Double( $redirect_manager );
+		$instance->remove_colliding_redirect( array(), array() );
+	}
+
+	/**
+	 * Tests if a redirect is not deleted when the targets do not match.
+	 *
+	 * @covers WPSEO_Post_Watcher::remove_colliding_redirect
+	 */
+	public function test_target_from_before_does_match() {
+		$post_before = (object) array(
+			'post_name' => 'name',
+		);
+
+		$redirect_manager = $this
+			->getMockBuilder( 'WPSEO_Redirect_Manager' )
+			->setMethods( array( 'get_redirect', 'delete_redirects' ) )
+			->getMock();
+
+		$redirect_manager
+			->expects( $this->once() )
+			->method( 'get_redirect' )
+			->will( $this->returnValue( new WPSEO_Redirect( '', 'name' ) ) );
+
+		$redirect_manager
+			->expects( $this->never() )
+			->method( 'delete_redirects' );
+
+		/** @var WPSEO_Post_Watcher_Double $instance */
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
+			->setMethods( array(
+				'get_target_url',
+			) )
+			->setConstructorArgs( array( $redirect_manager ) )
+			->getMock();
+
+		$instance
+			->expects( $this->exactly( 2 ) )
+			->method( 'get_target_url' )
+			->will( $this->returnValue( 'not_name' ) );
+
+		$instance->remove_colliding_redirect( array(), $post_before );
+	}
+
+	/**
+	 * Tests if a redirect is deleted when a redirect is found and the targets match.
+	 *
+	 * @covers WPSEO_Post_Watcher::remove_colliding_redirect
+	 */
+	public function test_redirect_being_deleted() {
+		$post_before = (object) array(
+			'post_name' => 'name',
+		);
+
+		$redirect_manager = $this
+			->getMockBuilder( 'WPSEO_Redirect_Manager' )
+			->setMethods( array( 'get_redirect', 'delete_redirects' ) )
+			->getMock();
+
+		$redirect_manager
+			->expects( $this->once() )
+			->method( 'get_redirect' )
+			->will( $this->returnValue( new WPSEO_Redirect( '', 'name' ) ) );
+
+		$redirect_manager
+			->expects( $this->once() )
+			->method( 'delete_redirects' );
+
+		/** @var WPSEO_Post_Watcher_Double $instance */
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
+			->setMethods( array(
+				'get_target_url',
+			) )
+			->setConstructorArgs( array( $redirect_manager ) )
+			->getMock();
+
+		$instance
+			->expects( $this->exactly( 2 ) )
+			->method( 'get_target_url' )
+			->will( $this->returnValue( 'name' ) );
+
+		$instance->remove_colliding_redirect( array(), $post_before );
+	}
+
+	/**
+	 * Tests if is_redirect_relevant returns false when both posts are a revision.
+	 *
+	 * @covers WPSEO_Post_Watcher::is_redirect_relevant
+	 */
+	public function test_redirect_is_irrelevant_for_revisions() {
+
+		// Prepare two posts.
+		$post = $this->factory->post->create(
+			array(
+				'post_title'  => 'first post',
+				'post_name'   => 'first',
+				'post_type'   => 'revision',
+			)
+		);
+
+		$post_before = $this->factory->post->create(
+			array(
+				'post_title'  => 'second post',
+				'post_name'   => 'second',
+				'post_type'   => 'revision',
+			)
+		);
+
+		$instance = new WPSEO_Post_Watcher_Double();
+
+		$post        = get_post( $post );
+		$post_before = get_post( $post_before );
+
+		$is_relevant = $instance->is_redirect_relevant($post, $post_before);
+		$this->assertFalse($is_relevant);
+	}
+
+	/**
+	 * Tests if is_redirect_relevant returns false when both posts have the same url.
+	 *
+	 * @covers WPSEO_Post_Watcher::is_redirect_relevant
+	 */
+	public function test_redirect_is_irrelevant_for_revisions_with_same_slug() {
+		$this->set_permalink_structure( '/%postname%/' );
+
+		// Prepare two posts.
+		$post = $this->factory->post->create(
+			array(
+				'post_title'  => 'first post',
+				'post_name'   => 'same',
+				'post_type'   => 'revision',
+			)
+		);
+
+		$post_before = $this->factory->post->create(
+			array(
+				'post_title'  => 'second post',
+				'post_name'   => 'same',
+				'post_type'   => 'post',
+			)
+		);
+
+		$instance = new WPSEO_Post_Watcher_Double();
+
+		$post        = get_post( $post );
+		$post_before = get_post( $post_before );
+
+		$is_relevant = $instance->is_redirect_relevant( $post, $post_before );
+		$this->assertFalse( $is_relevant );
+	}
+
+	/**
+	 * Tests if is_redirect_relevant returns true when there is a slug change.
+	 *
+	 * @covers WPSEO_Post_Watcher::is_redirect_relevant
+	 */
+	public function test_redirect_is_relevant_with_slug_change() {
+		$this->set_permalink_structure( '/%postname%/' );
+
+		// Prepare two posts.
+		$post = $this->factory->post->create(
+			array(
+				'post_title'  => 'first post',
+				'post_name'   => 'first',
+				'post_type'   => 'post',
+			)
+		);
+
+		$post_before = $this->factory->post->create(
+			array(
+				'post_title'  => 'second post',
+				'post_name'   => 'second',
+				'post_type'   => 'post',
+			)
+		);
+
+		$instance = new WPSEO_Post_Watcher_Double();
+
+		$post        = get_post( $post );
+		$post_before = get_post( $post_before );
+
+		$is_relevant = $instance->is_redirect_relevant( $post, $post_before );
+		$this->assertTrue( $is_relevant );
+	}
+
+	/**
+	 * Tests if $wpseo_old_post_url is correctly returned when not empty.
+	 *
+	 * @covers WPSEO_Post_Watcher::get_old_url
+	 */
+	public function test_if_wpseo_old_post_url_is_returned() {
+		$this->set_permalink_structure( '/%postname%/' );
+
+		// Prepare two (empty) posts.
+		$post = $this->factory->post->create();
+		$post_before = $this->factory->post->create();
+
+		/** @var WPSEO_Post_Watcher_Double $instance */
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
+			->setMethods( array(
+				'get_post_old_post_url',
+			) )
+			->setConstructorArgs( array( ) )
+			->getMock();
+
+		$post        = get_post( $post );
+		$post_before = get_post( $post_before );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_post_old_post_url' )
+			->will( $this->returnValue( '/test_url/' ) );
+
+		$get_old_url_function_call = $instance->get_old_url($post, $post_before);
+
+		$this->assertEquals('/test_url/', $get_old_url_function_call);
+	}
+
+	/**
+	 * Tests if the correct url is returned if there is no old post url and $action is inline-save.
+	 *
+	 * @covers WPSEO_Post_Watcher::get_old_url
+	 */
+	public function test_if_old_url_is_returned() {
+		$this->set_permalink_structure( '/%postname%/' );
+
+		// Prepare two posts.
+		$post = $this->factory->post->create(
+			array(
+				'post_title'  => 'first post',
+				'post_name'   => 'first',
+				'post_type'   => 'revision',
+			)
+		);
+
+		$post_before = $this->factory->post->create(
+			array(
+				'post_title'  => 'second post',
+				'post_name'   => 'second',
+				'post_type'   => 'revision',
+			)
+		);
+
+		/** @var WPSEO_Post_Watcher_Double $instance */
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
+			->setMethods( array(
+				'get_post_old_post_url',
+				'get_post_action',
+			) )
+			->setConstructorArgs( array( ) )
+			->getMock();
+
+		$post        = get_post( $post );
+		$post_before = get_post( $post_before );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_post_old_post_url' )
+			->will( $this->returnValue( '' ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_post_action' )
+			->will( $this->returnValue( 'inline-save' ) );
+
+		$get_old_url_function_call = $instance->get_old_url($post, $post_before);
+		$target_url_from_post_before =  $instance->get_target_url($post_before);
+
+		$this->assertEquals($get_old_url_function_call, $target_url_from_post_before);
+	}
+
+	/**
+	 * Tests if the get_old_url returnes false when there is no old old url and $action is not inline-save
+	 *
+	 * @covers WPSEO_Post_Watcher::get_old_url
+	 */
+	public function test_if_old_url_returns_false() {
+		$this->set_permalink_structure( '/%postname%/' );
+
+		// Prepare two posts.
+		$post = $this->factory->post->create(
+			array(
+				'post_title'  => 'first post',
+				'post_name'   => 'first',
+				'post_type'   => 'revision',
+			)
+		);
+
+		$post_before = $this->factory->post->create(
+			array(
+				'post_title'  => 'second post',
+				'post_name'   => 'second',
+				'post_type'   => 'revision',
+			)
+		);
+
+		/** @var WPSEO_Post_Watcher_Double $instance */
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
+			->setMethods( array(
+				'get_post_old_post_url',
+				'get_post_action',
+			) )
+			->setConstructorArgs( array( ) )
+			->getMock();
+
+		$post        = get_post( $post );
+		$post_before = get_post( $post_before );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_post_old_post_url' )
+			->will( $this->returnValue( '' ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_post_action' )
+			->will( $this->returnValue( 'not-a-save-action' ) );
+
+		// Call to get_old_url(), expect it to return false.
+		$get_old_url_function_call = $instance->get_old_url($post, $post_before);
+		$this->assertFalse($get_old_url_function_call);
+	}
+}
