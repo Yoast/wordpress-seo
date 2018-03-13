@@ -533,6 +533,190 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 </section>
 `;
 
+exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] = `
+.c0 {
+  border-bottom: 1px hidden #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  margin: 0 20px 10px;
+  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+.c2 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c4 {
+  color: #1e0fbe;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c3 {
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c5 {
+  display: inline-block;
+  line-height: 1.2em;
+  max-height: 2.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c7 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+}
+
+.c10 {
+  color: #545454;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+}
+
+.c9 {
+  line-height: 1em;
+  max-height: 4em;
+  overflow: hidden;
+}
+
+.c1 {
+  padding: 16px;
+}
+
+.c8 {
+  border: 0;
+  border-bottom: 1px solid #DFE1E5;
+  margin: 0;
+}
+
+.c6 {
+  background-size: 100% 100%;
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+  margin-bottom: -1px;
+  opacity: 0.46;
+  margin-right: 6px;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAQAAABLCVATAAABr0lEQVR4AbWWJYCUURhFD04Zi7hrLzgFd4nzV9x6wKHinmYb7g4zq71gIw2LWBnZ3Q8df/fh96Tn/t2HVIw4CVKk+fSFNCkSxInxW1pFkhLmoMRjVvFLmkEX5ocuZuBVPw5jv8hh+iEU5QEmuMK+prz7RN3dPMMEGQYzxpH/lGjzou5jgl7mAvOdZfcbF+jbm3MAbFZ7VX9SJnlL1D8UMyjLe+BrAYDb+jJUr59JrlNWRtcqX9GkrPCR4QBAf4qYJAkQoyQrbKKs8RiaEjEI0GvvQ1mLMC9xaBFFBaZS1TbMSwJSomg39erDF+TxpCCNOXjGQJTCvG6qn4ZPzkcxA61Tjhaf4KMj+6Q3XvW6Lopraa8IozRQxIi0a7NXorULc5JyHX/3F3q+0PsFYytVTaGgjz/AvCyiegE69IUsPxHNBMpa738i6tGWlzkAABjKe/+j9YeRHGVd9oWRnwe2ewDASp/L/UqoPQ5AmFeYZMavBP8dAJz0GWWDHQlzXApMdz4KYUfKICcxkKeOfGmQyrIPcgE9m+g/+kT812/Nr3+0kqzitxQjoKXh6xfor99nlEdFjyvH15gAAAAASUVORK5CYII=);
+}
+
+<section>
+  <div
+    className="c0"
+    onMouseLeave={undefined}
+    width={640}
+  >
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
+      <div
+        className="c2"
+        onClick={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOver={[Function]}
+      >
+        <div
+          className="c3 c4"
+        >
+          <span
+            className="c5"
+          >
+            Title
+          </span>
+        </div>
+      </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Slug preview:
+      </span>
+      <div
+        className="c6"
+      />
+      <div
+        className="c7"
+        onClick={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOver={[Function]}
+      >
+        https://example.org
+      </div>
+    </div>
+    <hr
+      className="c8"
+    />
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Meta description preview:
+      </span>
+      <div
+        className="c9 c10"
+        color="#545454"
+        onClick={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOver={[Function]}
+      >
+        Description
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
 exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 .c0 {
   border-bottom: 1px hidden #fff;

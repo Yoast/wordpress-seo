@@ -64,5 +64,9 @@ describe( "SnippetPreview", () => {
 		it( "renders differently than desktop", () => {
 			renderSnapshotWithArgs( { mode: MOBILE } );
 		} );
+
+		it( "renders an AMP logo when isAmp is true", () => {
+			renderSnapshotWithArgs( { mode: MOBILE, isAmp: true } );
+		} );
 	} );
 } );
