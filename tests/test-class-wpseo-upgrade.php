@@ -86,7 +86,7 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 			'version'     => WPSEO_VERSION,
 		);
 
-		// Set option with invalid keys in the database
+		// Set option with invalid keys in the database.
 		$this->set_option_in_database( 'wpseo', $original );
 
 		// The key should be present on the option.
@@ -201,8 +201,7 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 			$wpdb->options,
 			array(
 				'option_name'  => $option_name,
-				'option_value' => serialize( $option_value
-				)
+				'option_value' => serialize( $option_value )
 			),
 			array( 'option_name' => $option_name )
 		);
