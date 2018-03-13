@@ -31,10 +31,17 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 		$this->catch_redo_listener();
 	}
 
+	/**
+	 * Determines if we can run OnPage functionality.
+	 *
+	 * @return bool True if OnPage can be used.
+	 */
 	protected function is_active() {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) {
 			return false;
 		}
+
+		return true;
 	}
 
 	/**
@@ -66,32 +73,43 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 * @return bool
 	 */
 	public function fetch_from_onpage() {
-		if ( $this->onpage_option->should_be_fetched() ) {
-			$new_status = $this->request_indexability();
-			if ( false !== $new_status ) {
-
-				// Updates the timestamp in the option.
-				$this->onpage_option->set_last_fetch( time() );
-
-				// The currently indexability status.
-				$old_status = $this->onpage_option->get_status();
-
-				// Saving the new status.
-				$this->onpage_option->set_status( $new_status );
-
-				// Saving the option.
-				$this->onpage_option->save_option();
-
-				// Check if the status has been changed.
-				if ( $old_status !== $new_status && $new_status !== WPSEO_OnPage_Option::CANNOT_FETCH ) {
-					$this->notify_admins();
-				}
-
-				return true;
-			}
+		$onpage_option = $this->get_option();
+		if ( ! $onpage_option->should_be_fetched() ) {
+			return false;
 		}
 
-		return false;
+		$new_status = $this->request_indexability();
+		if ( false === $new_status ) {
+			return false;
+		}
+
+		// Updates the timestamp in the option.
+		$onpage_option->set_last_fetch( time() );
+
+		// The currently indexability status.
+		$old_status = $onpage_option->get_status();
+
+		// Saving the new status.
+		$onpage_option->set_status( $new_status );
+
+		// Saving the option.
+		$onpage_option->save_option();
+
+		// Check if the status has been changed.
+		if ( $old_status !== $new_status && $new_status !== WPSEO_OnPage_Option::CANNOT_FETCH ) {
+			$this->notify_admins();
+		}
+
+		return true;
+	}
+
+	/**
+	 * Retrieves the option to use.
+	 *
+	 * @return WPSEO_OnPage_Option The option.
+	 */
+	protected function get_option() {
+		return new WPSEO_OnPage_Option();
 	}
 
 	/**
@@ -166,7 +184,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 			return false;
 		}
 
-		return $this->onpage_option->get_status() === WPSEO_OnPage_Option::IS_NOT_INDEXABLE;
+		return $this->get_option()->get_status() === WPSEO_OnPage_Option::IS_NOT_INDEXABLE;
 	}
 
 	/**
