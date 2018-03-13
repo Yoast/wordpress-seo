@@ -14,11 +14,6 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	const USER_META_KEY = 'wpseo_dismiss_onpage';
 
 	/**
-	 * @var WPSEO_OnPage_Option The Ryte option class.
-	 */
-	private $onpage_option;
-
-	/**
 	 * @var boolean Is the request started by pressing the fetch button.
 	 */
 	private $is_manual_request = false;
