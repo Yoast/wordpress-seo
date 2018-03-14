@@ -4,7 +4,7 @@
  */
 
 /**
- * Handle the request for getting the Ryte status.
+ * Handles the request for getting the Ryte status.
  */
 class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 
@@ -22,30 +22,33 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 * Constructs the object.
 	 */
 	public function __construct() {
-		// We never want to fetch on AJAX request because doing a remote request is really slow.
 		$this->catch_redo_listener();
 	}
 
 	/**
 	 * Sets up the hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		if ( ! $this->is_active() ) {
 			return;
 		}
 
-		// Add weekly schedule to the cron job schedules.
+		// Adds weekly schedule to the cron job schedules.
 		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
 
-		// Adding admin notice if necessary.
+		// Adds admin notice if necessary.
 		add_filter( 'admin_init', array( $this, 'show_notice' ) );
 
-		// Setting the action for the Ryte fetch.
+		// Sets the action for the Ryte fetch.
 		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
 	}
 
 	/**
-	 * Show a notice when the website is not indexable
+	 * Shows a notice when the website is not indexable.
+	 *
+	 * @return void
 	 */
 	public function show_notice() {
 		$notification        = $this->get_indexability_notification();
@@ -61,9 +64,9 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Determines if we can run OnPage functionality.
+	 * Determines if we can use the functionality.
 	 *
-	 * @return bool True if OnPage can be used.
+	 * @return bool True if this functionality can be used.
 	 */
 	protected function is_active() {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) {
@@ -118,10 +121,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 		// The currently indexability status.
 		$old_status = $onpage_option->get_status();
 
-		// Saving the new status.
 		$onpage_option->set_status( $new_status );
-
-		// Saving the option.
 		$onpage_option->save_option();
 
 		// Check if the status has been changed.
@@ -200,7 +200,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Notifies the admins
+	 * Notifies the admins.
 	 *
 	 * @return void
 	 */
