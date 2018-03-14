@@ -1,3 +1,10 @@
+### 7.1.0: March 20th, 2018
+Enhancement:
+* Adds Portuguese Insights and Linking suggestions. Props to [amesdigital](https://github.com/amesdigital).
+
+Others:
+* Includes every change in Yoast SEO core 7.1.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 7.0.3: March 12th, 2018
 * Includes every change in Yoast SEO core 7.0.3 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 

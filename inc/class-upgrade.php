@@ -510,7 +510,7 @@ class WPSEO_Upgrade {
 	 * Perform the 7.1 upgrade.
 	 */
 	private function upgrade_71() {
-		$this->remove_key_from_option( 'wpseo_social', array( 'fbadminapp', 'fb_admins', 'fbconnectkey', 'fb_adminid', 'fb_appid' ) );
+		$this->cleanup_option_data( 'wpseo_social' );
 	}
 
 	/**
