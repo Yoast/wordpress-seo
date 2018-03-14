@@ -1,9 +1,9 @@
 import GetSupportFree from "./GetSupportFree";
-import GetSupportPremium from "./GetSupportPremium";
+import ModalTestContent from "./ModalTestContent";
 
 const modals = {
 	GetSupportFree: GetSupportFree,
-	GetSupportPremium: GetSupportPremium,
+	ModalTestContent: ModalTestContent,
 };
 
 export default modals;

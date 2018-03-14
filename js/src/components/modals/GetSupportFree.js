@@ -1,9 +1,13 @@
 import React from "react";
 
+import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
+import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
+
 const GetSupportFree = () => {
 	return (
 		<div>
 			This is the free modal content.
+			<Icon icon={ YoastSeoIcon } width="150px" height="150px" className="alignright" />
 			<form>
 				<button type="button">tabbing</button>
 				<button type="button">is constrained</button>

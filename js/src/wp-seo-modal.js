@@ -1,20 +1,10 @@
-/* global yoastModalConfig wpseoPostScraperL10n wpseoTermScraperL10n */
+/* global yoastModalConfig */
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
-import { injectIntl, intlShape } from "react-intl";
 
 import YoastModal from "yoast-components/composites/Plugin/Shared/components/YoastModal";
 import modals from "./components/modals";
-import IntlProvider from "./components/IntlProvider";
-
-// Replace this with specific modal messages.
-let localizedData = { intl: {} };
-if ( window.wpseoPostScraperL10n ) {
-	localizedData = wpseoPostScraperL10n;
-} else if ( window.wpseoTermScraperL10n ) {
-	localizedData = wpseoTermScraperL10n;
-}
 
 class Modal extends React.Component {
 
@@ -28,7 +18,7 @@ class Modal extends React.Component {
 		this.openModal = this.openModal.bind( this );
 		this.closeModal = this.closeModal.bind( this );
 
-		this.appElement = document.querySelector( this.props.hide );
+		this.appElement = document.querySelector( this.props.appElement );
 	}
 
 	openModal() {
@@ -54,16 +44,24 @@ class Modal extends React.Component {
 
 		return (
 			<React.Fragment>
-				<button type="button" onClick={ this.openModal }>{ this.props.labels.open }</button>
+				<button
+					type="button"
+					onClick={ this.openModal }
+					className={ `${ this.props.classes.openButton } yoast-modal__button-open` }
+				>
+					{ this.props.labels.open }
+				</button>
 				<YoastModal
 					isOpen={ this.state.modalIsOpen }
 					onClose={ this.closeModal }
-					modalAriaLabel={ this.props.labels.modal }
+					modalAriaLabel={ this.props.labels.label }
 					appElement={ this.appElement }
+					heading={ this.props.labels.heading }
+					closeIconButton={ this.props.labels.xLabel }
+					closeButton={ this.props.labels.close }
+					closeButtonClassName={ this.props.classes.closeButton }
 				>
-					<h1>Modal: { this.props.labels.modal }</h1>
 					<ModalContent />
-					<button type="button" onClick={ this.closeModal }>{ this.props.labels.close }</button>
 				</YoastModal>
 			</React.Fragment>
 		);
@@ -72,13 +70,11 @@ class Modal extends React.Component {
 
 Modal.propTypes = {
 	className: PropTypes.string,
-	intl: intlShape.isRequired,
-	hide: PropTypes.string.isRequired,
+	appElement: PropTypes.string.isRequired,
 	labels: PropTypes.object,
 	content: PropTypes.string.isRequired,
+	classes: PropTypes.object,
 };
-
-const ModalIntl = injectIntl( Modal );
 
 yoastModalConfig.forEach(
 	( config ) => {
@@ -90,14 +86,13 @@ yoastModalConfig.forEach(
 
 		if ( element ) {
 			ReactDOM.render(
-				<IntlProvider messages={ localizedData.intl }>
-					<ModalIntl
-						hook={ config.hook }
-						hide={ config.hide }
-						labels={ config.labels }
-						content={ config.content }
-					/>
-				</IntlProvider>,
+				<Modal
+					hook={ config.hook }
+					appElement={ config.appElement }
+					labels={ config.labels }
+					content={ config.content }
+					classes={ config.classes }
+				/>,
 				element
 			);
 		}

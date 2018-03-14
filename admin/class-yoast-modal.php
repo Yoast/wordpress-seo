@@ -8,8 +8,12 @@
  */
 class Yoast_Modal {
 
+	/** @var array The modal configuration. */
 	private static $config = array();
 
+	/**
+	 * Class constructor.
+	 */
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_footer', array( $this, 'print_localized_config' ) );
@@ -33,6 +37,8 @@ class Yoast_Modal {
 
 	/**
 	 * Adds a single modal configuration to the modals configuration.
+	 *
+	 * @param array $args The modal configuration argument.
 	 */
 	public static function add( $args ) {
 		$defaults = self::get_defaults();
@@ -55,13 +61,19 @@ class Yoast_Modal {
 	 */
 	public static function get_defaults() {
 		$config = array(
-			'hook'   => '',
-			'hide'   => 'body',
-			'labels' => array(
-				'open'  => __( 'Open a nice modal', 'wordpress-seo' ),
-				'close' => __( 'Close this nice modal', 'wordpress-seo' ),
-				'modal' => __( 'Hello, I\'m a nice modal', 'wordpress-seo' ),
+			'hook'       => '',
+			'appElement' => 'body',
+			'labels'     => array(
+				'open'    => __( 'Open', 'wordpress-seo' ),
+				'label'   => null,
+				'xLabel'  => null,
+				'heading' => null,
+				'close'   => null,
 			),
+			'classes'    => array(
+				'closeButton' => '',
+			),
+			'content'    => null,
 		);
 
 		return $config;

@@ -19,26 +19,37 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		add_thickbox();
 
 		$add_keyword_modal_config = array(
-			'hook' => '.wpseo-add-keyword-modal-class-test',
-			'hide' => '#wpwrap',
-			'labels' => array(
-				'modal' => __( 'First modal aria-label', 'wordpress-seo' ),
-				'close' => __( 'Close me 1', 'wordpress-seo' ),
-				'open'  => __( 'First modal', 'wordpress-seo' ),
+			'hook'       => '.wpseo-add-keyword-modal-class-test',
+			'appElement' => '#wpwrap',
+			'labels'     => array(
+				'open'    => esc_html__( 'Add keyword', 'wordpress-seo' ),
+				'label'   => esc_attr( sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ) ),
+				'heading' => esc_html( sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ) ),
+				'xLabel'  => esc_attr( __( 'Close', 'wordpress-seo' ) ),
+				'close'   => esc_html__( 'Close', 'wordpress-seo' ),
 			),
-			'content' => 'GetSupportFree',
+			'classes'    => array(
+				'openButton' => 'wpseo-add-keyword button button-link',
+				'closeButton' => 'button',
+			),
+			'content'    => 'GetSupportFree',
 		);
 		Yoast_Modal::add( $add_keyword_modal_config );
 
 		$more_modal_config = array(
-			'hook' => '.inside .wpseo-metabox-buy-premium',
-			'hide' => '#wpwrap',
-			'labels' => array(
-				'modal' => __( 'Second modal aria-label', 'wordpress-seo' ),
-				'close' => __( 'Close me 2', 'wordpress-seo' ),
-				'open'  => __( 'Second modal', 'wordpress-seo' ),
+			'hook'       => '.inside .wpseo-metabox-buy-premium',
+			'appElement' => '#wpwrap',
+			'labels'     => array(
+				'open'    => esc_html__( 'Second modal', 'wordpress-seo' ),
+				'label'   => esc_attr__( 'Second modal aria-label', 'wordpress-seo' ),
+				'heading' => esc_html__( 'Second modal heading', 'wordpress-seo' ),
+				'xLabel'  => esc_attr__( 'Close me 2 aria-label', 'wordpress-seo' ),
+				'close'   => esc_html__( 'Close me 2', 'wordpress-seo' ),
 			),
-			'content' => 'GetSupportPremium',
+			'classes'    => array(
+				'closeButton' => 'button button-primary',
+			),
+			'content'    => 'ModalTestContent',
 		);
 		Yoast_Modal::add( $more_modal_config );
 
@@ -51,7 +62,7 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 			</button>
 		</li>
 
-		<li id="wpseo-add-keyword-modal-id-test" class="wpseo-add-keyword-modal-class-test">modal placeholder</li>
+		<li id="wpseo-add-keyword-modal-id-test" class="wpseo-tab-add-keyword wpseo-add-keyword-modal-class-test">modal placeholder</li>
 
 		<?php
 		$popup_title = __( 'Want to add more than one keyword?', 'wordpress-seo' );
