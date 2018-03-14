@@ -13,7 +13,9 @@ jobs:
   fast_finish: true
   include:
     - php: 7.2
-      env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 COVERAGE=1 TRAVIS_NODE_VERSION=node
+      env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 TRAVIS_NODE_VERSION=node
+    - php: 7.2
+      env: WP_VERSION=4.9 WP_MULTISITE=1 COVERAGE=1
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
@@ -67,6 +69,8 @@ cache:
     - node_modules
 
 before_install:
+- PHPUNIT_BIN="phpunit"
+- if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then PHPUNIT_BIN="vendor/bin/phpunit"; fi
 - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
 - |
@@ -111,6 +115,22 @@ before_script:
 - export -f travis_fold
 - export -f travis_time_start
 - export -f travis_time_finish
+- mysql --version
+- phpenv versions
+- php --version
+- php -m
+- $PHPUNIT_BIN --version
+- curl --version
+- git --version
+- svn --version
+- |
+  if [[ "$CHECKJS" == "1" ]]; then
+    npm --version
+    node --version
+    yarn --version
+    grunt --version
+  fi
+- locale -a
 
 script:
 # JavaScript checks
@@ -145,8 +165,7 @@ script:
 - |
   if [[ "$COVERAGE" != "1" ]]; then
     travis_fold start "PHP.tests" && travis_time_start
-    if [[ ${TRAVIS_PHP_VERSION:0:1} == "5" ]]; then phpunit -c phpunit.xml; fi
-    if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then vendor/bin/phpunit -c phpunit.xml; fi
+    $PHPUNIT_BIN -c phpunit.xml
     travis_time_finish && travis_fold end "PHP.tests"
   fi;
 # Coverage environment variable is only set on the PHP 7 build, so we can safely
@@ -154,7 +173,7 @@ script:
 - |
   if [[ "$COVERAGE" == "1" ]]; then
     travis_fold start "PHP.coverage" && travis_time_start
-    vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml
+    $PHPUNIT_BIN -c phpunit.xml --coverage-clover build/logs/clover.xml
     travis_time_finish && travis_fold end "PHP.coverage"
   fi
 # Validate the composer.json file.
@@ -162,7 +181,7 @@ script:
 - if [[ $TRAVIS_PHP_VERSION == "5.3" || $TRAVIS_PHP_VERSION == "7.2" ]]; then composer validate --no-check-all; fi
 
 after_script:
-  - if [[ "$COVERAGE" == "1" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
+- if [[ "$COVERAGE" == "1" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
 
 notifications:
   slack:

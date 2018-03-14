@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -173,19 +175,22 @@ class WPSEO_Taxonomy_Columns {
 	 *
 	 * @param mixed $term The current term.
 	 *
-	 * @return bool
+	 * @return bool Whether or not the term is indexable.
 	 */
 	private function is_indexable( $term ) {
 		// When the no_index value is not empty and not default, check if its value is index.
 		$no_index = WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $this->taxonomy, 'noindex' );
+
+		// Check if the default for taxonomy is empty (this will be index).
 		if ( ! empty( $no_index ) && $no_index !== 'default' ) {
 			return ( $no_index === 'index' );
 		}
 
-		// Check if the default for taxonomy is empty (this will be index).
-		$no_index_key = 'noindex-tax-' . $term->taxonomy;
 		if ( is_object( $term ) ) {
-			return WPSEO_Options::get( $no_index_key, false );
+			$no_index_key = 'noindex-tax-' . $term->taxonomy;
+
+			// If the option is false, this means we want to index it.
+			return WPSEO_Options::get( $no_index_key, false ) === false;
 		}
 
 		return true;

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -272,7 +274,7 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Determines the Readabilty score filter to the meta query, based on the passed Readabilty filter.
+	 * Determines the Readability score filter to the meta query, based on the passed Readability filter.
 	 *
 	 * @param string $readability_filter The Readability filter to use to determine what further filter to apply.
 	 *
@@ -535,6 +537,39 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
+	 * Determines whether a particular post_id is of an indexable post type.
+	 *
+	 * @param string $post_id The post ID to check.
+	 *
+	 * @return bool Whether or not it is indexable.
+	 */
+	protected function is_indexable( $post_id ) {
+		if ( ! empty( $post_id ) && ! $this->uses_default_indexing( $post_id ) ) {
+			return WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '2';
+		}
+
+		$post = get_post( $post_id );
+
+		if ( is_object( $post ) ) {
+			// If the option is false, this means we want to index it.
+			return WPSEO_Options::get( 'noindex-' . $post->post_type, false ) === false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Determines whether the given post ID uses the default indexing settings.
+	 *
+	 * @param integer $post_id The post ID to check.
+	 *
+	 * @return bool Whether or not the default indexing is being used for the post.
+	 */
+	protected function uses_default_indexing( $post_id ) {
+		return WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '0';
+	}
+
+	/**
 	 * Returns filters when $order_by is matched in the if-statement.
 	 *
 	 * @param string $order_by The ID of the column by which to order the posts.
@@ -567,7 +602,7 @@ class WPSEO_Meta_Columns {
 	 * @return string The HTML for the SEO score indicator.
 	 */
 	private function parse_column_score( $post_id ) {
-		if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
+		if ( ! $this->is_indexable( $post_id ) ) {
 			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
 			$title = __( 'Post is set to noindex.', 'wordpress-seo' );
 

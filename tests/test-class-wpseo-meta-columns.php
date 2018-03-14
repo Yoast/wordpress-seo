@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests
  */
 
@@ -22,6 +24,20 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 		self::$class_instance = new WPSEO_Meta_Columns_Double();
 	}
 
+	/**
+	 * Test setup
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		WPSEO_Options::set( 'keyword_analysis_active', true );
+	}
+
+	/**
+	 * Determines what dataprovider to use for SEO filters.
+	 *
+	 * @return array The SEO filters dataprovider.
+	 */
 	public function determine_seo_filters_dataprovider() {
 		return array(
 			array(
@@ -134,6 +150,11 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
+	/**
+	 * Determines what dataprovider to use for Readability filters.
+	 *
+	 * @return array The Readability filters dataprovider.
+	 */
 	public function build_filter_query_dataprovider() {
 		return array(
 			array(
@@ -248,7 +269,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Metabox::column_heading()
+	 * @covers WPSEO_Meta_Columns::column_heading()
 	 */
 	public function test_column_heading_has_score() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -258,7 +279,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Metabox::column_heading()
+	 * @covers WPSEO_Meta_Columns::column_heading()
 	 */
 	public function test_column_heading_has_focuskw() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -268,7 +289,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Metabox::column_heading()
+	 * @covers WPSEO_Meta_Columns::column_heading()
 	 */
 	public function test_column_heading_has_metadesc() {
 		self::$class_instance->set_current_post_type( 'post' );
@@ -280,7 +301,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that column_hidden returns the columns to hide so that WordPress hides them
 	 *
-	 * @covers WPSEO_Metabox::column_hidden()
+	 * @covers WPSEO_Meta_Columns::column_hidden()
 	 */
 	public function test_column_hidden_HIDE_COLUMNS() {
 		$user = $this->getMockBuilder( 'WP_User' )
@@ -302,10 +323,9 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 *
 	 * This is so the user can still set the columns they want to hide.
 	 *
-	 * @covers WPSEO_Metabox::column_hidden()
+	 * @covers WPSEO_Meta_Columns::column_hidden()
 	 */
 	public function test_column_hidden_KEEP_OPTION() {
-
 		// Option shouldn't be touched if the user has set it already.
 		$user = $this->getMockBuilder( 'WP_User' )
 			->getMock();
@@ -323,7 +343,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if column_hidden can deal with non array values returned from WordPress
 	 *
-	 * @covers WPSEO_Metabox::column_hidden()
+	 * @covers WPSEO_Meta_Columns::column_hidden()
 	 */
 	public function test_column_hidden_UNEXPECTED_VALUE() {
 		$user = $this->getMockBuilder( 'WP_User' )
@@ -396,5 +416,99 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 		$result = self::$class_instance->build_filter_query( $vars, $filters );
 
 		$this->assertEquals( $expected, $result );
+	}
+
+	/**
+	 * Tests whether the default indexing is being used.
+	 *
+	 * @covers WPSEO_Meta_Columns::uses_default_indexing()
+	 */
+	public function test_is_using_default_indexing() {
+		$post = $this->factory()->post->create_and_get( array() );
+
+		// Set metavalue
+		WPSEO_Meta::set_value( 'meta-robots-noindex', '0', $post->ID );
+
+		$uses_default_indexing = self::$class_instance->uses_default_indexing( $post->ID );
+
+		$this->assertTrue( $uses_default_indexing );
+	}
+
+	/**
+	 * Tests whether the default indexing is not being used.
+	 *
+	 * @covers WPSEO_Meta_Columns::uses_default_indexing()
+	 */
+	public function test_is_not_using_default_indexing() {
+		$post = $this->factory()->post->create_and_get( array() );
+
+		// Set metavalue
+		WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
+
+		$uses_default_indexing = self::$class_instance->uses_default_indexing( $post->ID );
+
+		$this->assertFalse( $uses_default_indexing );
+	}
+
+	/**
+	 * Tests whether a hard set indexing value on a post, is considered indexable.
+	 *
+	 * @covers WPSEO_Meta_Columns::is_indexable()
+	 */
+	public function test_is_indexable_when_set_on_post() {
+		$post = $this->factory()->post->create_and_get( array() );
+
+		// Set metavalue
+		WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
+
+		$is_indexable = self::$class_instance->is_indexable( $post->ID );
+
+		$this->assertTrue( $is_indexable );
+	}
+
+	/**
+	 * Tests whether a not hard set indexing value on a post, is considered indexable based on the default setting.
+	 *
+	 * @covers WPSEO_Meta_Columns::is_indexable()
+	 */
+	public function test_is_indexable_when_using_default() {
+		$post = $this->factory()->post->create_and_get( array( 'post_type' => 'post' ) );
+
+		// Set metavalue
+		WPSEO_Meta::set_value( 'meta-robots-noindex', '0', $post->ID );
+		WPSEO_Options::set( 'noindex-post', false );
+
+		$is_indexable = self::$class_instance->is_indexable( $post->ID );
+
+		$this->assertTrue( $is_indexable );
+	}
+
+	/**
+	 * Tests whether a not hard set indexing value on a post, is considered not indexable based on the default setting.
+	 *
+	 * @covers WPSEO_Meta_Columns::is_indexable()
+	 */
+	public function test_is_not_indexable_when_using_default() {
+		$post = $this->factory()->post->create_and_get( array( 'post_type' => 'post' ) );
+
+		// Set metavalue
+		WPSEO_Meta::set_value( 'meta-robots-noindex', '0', $post->ID );
+		WPSEO_Options::set( 'noindex-post', true );
+
+		$is_indexable = self::$class_instance->is_indexable( $post->ID );
+
+		$this->assertFalse( $is_indexable );
+	}
+
+	/**
+	 * Tests whether a malformed post object defaults to true.
+	 *
+	 * @covers WPSEO_Meta_Columns::is_indexable()
+	 */
+	public function test_is_indexable_when_using_malformed_post_object() {
+		$post         = '';
+		$is_indexable = self::$class_instance->is_indexable( $post );
+
+		$this->assertTrue( $is_indexable );
 	}
 }

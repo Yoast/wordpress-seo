@@ -1,7 +1,9 @@
 <?php
 /**
- * @package    WPSEO\Internals
- * @since      1.5.4
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Internals
+ * @since   1.5.4
  */
 
 // Avoid direct calls to this file.
