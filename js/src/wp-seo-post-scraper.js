@@ -254,9 +254,11 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	/**
 	 * Returns the arguments necessary to initialize the app.
 	 *
+	 * @param {Object} store The store.
+	 *
 	 * @returns {Object} The arguments to initialize the app
 	 */
-	function getAppArgs() {
+	function getAppArgs( store ) {
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -385,7 +387,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 			seoTarget: "wpseo-pageanalysis",
 			onRefreshRequest: () => {},
 		};
-		const { store, data } =  initializeEdit( editArgs );
+		const { store, data } = initializeEdit( editArgs );
 
 		snippetContainer = $( "#wpseosnippet" );
 
@@ -399,7 +401,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		publishBox.initalise();
 		snippetPreview = initSnippetPreview( postDataCollector );
 
-		let appArgs = getAppArgs();
+		let appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
 		postDataCollector.app = app;
@@ -459,7 +461,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		store.dispatch( setActiveKeyword( tabManager.getKeywordTab().getKeyWord() ) );
 
 		// Set refresh function.
-		editArgs.onRefreshRequest = app.refresh();
+		data.setRefresh( app.refresh );
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

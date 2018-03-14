@@ -16,6 +16,18 @@ class Data {
 		this._refresh = refresh;
 		this.data = {};
 		this.getPostAttribute = this.getPostAttribute.bind( this );
+		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
+	}
+
+	/**
+	 * Sets the refresh function.
+	 *
+	 * @param {Function} refresh The refresh function.
+	 *
+	 * @returns {void}
+	 */
+	setRefresh( refresh ) {
+		this._refresh = refresh;
 	}
 
 	/**
@@ -75,6 +87,8 @@ class Data {
 
 		// Set isDirty to false if the current data and Gutenberg data are unequal.
 		let isDirty = ! this.isShallowEqual( this.data, gutenbergData );
+		console.log( "isDirty", isDirty );
+		console.log( "refresh", this._refresh );
 
 		if ( isDirty ) {
 			this.data = gutenbergData;
@@ -102,7 +116,6 @@ class Data {
 	 * @returns {Object} The data and whether the data is dirty.
 	 */
 	getData() {
-		console.log( this.data );
 		return this.data;
 	}
 }

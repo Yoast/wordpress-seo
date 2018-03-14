@@ -1,4 +1,4 @@
-/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp YoastSEO */
+/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp */
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
