@@ -314,7 +314,7 @@ class WPSEO_Admin {
 	 * Initializes Whip to show a notice for outdated PHP versions.
 	 *
 	 *
-	 * @todo Deprecate this method when WordPress 5.1 is our supported version.
+	 * @todo Deprecate this method when WordPress 5.1 is our currently minimal supported version.
 	 *
 	 * @return void
 	 */
@@ -323,7 +323,8 @@ class WPSEO_Admin {
 		 * The Whip message shouldn't be shown from WordPress 4.9.5 and higher because
 		 * that version introduces Serve Happy which is almost similar to Whip.
 		 */
-		if ( version_compare( $GLOBALS['wp_version'], '4.9.5', '>=' ) ) {
+		$minimal_required_wordpress_version = '4.9.5';
+		if ( version_compare( $GLOBALS['wp_version'], $minimal_required_wordpress_version, '>=' ) ) {
 			return;
 		}
 
