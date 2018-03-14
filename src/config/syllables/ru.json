@@ -13,12 +13,7 @@
     ],
     "words": {
       "full": [],
-      "fragments": {
-        "global": [],
-        "atEnd": [],
-        "atBeginning": [],
-        "atBeginningOrEnd": []
-      }
+      "fragments": []
     }
   }
 }
