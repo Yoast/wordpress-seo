@@ -11,6 +11,7 @@ import HelpCenterWrapper from "./app/HelpCenterWrapper";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
+import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
 
 const components = [
 	{
@@ -47,6 +48,19 @@ const components = [
 		id: "help-center",
 		name: "Help center",
 		component: <HelpCenterWrapper />,
+	},
+	{
+		id: "checkbox",
+		name: "Checkbox",
+		component: <Checkbox
+			id="exampleCheckbox"
+			label={ [
+				"This is a label that also accepts arrays, so you can pass links such as ",
+				<a key="1" href="https://yoa.st/metabox-help-cornerstone?utm_content=7.0.3" target="_blank">cornerstone content</a>,
+				", for example.",
+			] }
+			onChange={ event => console.log( event ) }
+		/>,
 	},
 ];
 
