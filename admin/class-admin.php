@@ -313,7 +313,6 @@ class WPSEO_Admin {
 	/**
 	 * Initializes Whip to show a notice for outdated PHP versions.
 	 *
-	 *
 	 * @todo Deprecate this method when WordPress 5.1 is our currently minimal supported version.
 	 *
 	 * @return void
