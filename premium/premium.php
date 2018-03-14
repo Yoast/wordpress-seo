@@ -535,6 +535,7 @@ class WPSEO_Premium {
 		if ( isset( $page ) && $page !== false ) {
 			$query_var = $page;
 		}
+
 		$is_beacon_page = in_array( strtolower( $query_var ), $this->get_beacon_pages(), true );
 
 		// Only add the helpscout beacon on Yoast SEO pages.
