@@ -113,7 +113,7 @@ class Yoast_Dashboard_Widget {
 		return array(
 			'feed_header'      => sprintf(
 				/* translators: %1$s resolves to Yoast.com */
-				__( 'Latest blogposts on %1$s', 'wordpress-seo' ),
+				__( 'Latest blog posts on %1$s', 'wordpress-seo' ),
 				'Yoast.com'
 			),
 			'feed_footer'      => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),

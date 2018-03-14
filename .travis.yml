@@ -13,7 +13,9 @@ jobs:
   fast_finish: true
   include:
     - php: 7.2
-      env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 COVERAGE=1 TRAVIS_NODE_VERSION=node
+      env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1 PHPCS=1 CHECKJS=1 TRAVIS_NODE_VERSION=node
+    - php: 7.2
+      env: WP_VERSION=4.9 WP_MULTISITE=1 COVERAGE=1
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
@@ -64,6 +66,7 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
+    - node_modules
 
 before_install:
 - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
@@ -107,17 +110,55 @@ before_script:
     chmod +x ./cc-test-reporter
     ./cc-test-reporter before-build
   fi
+- export -f travis_fold
+- export -f travis_time_start
+- export -f travis_time_finish
 
 script:
-- if [[ "$PHPLINT" == "1" ]]; then find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
-- if [[ "$PHPCS" == "1" ]]; then vendor/bin/phpcs -v --runtime-set ignore_warnings_on_exit 1; fi
-- if [[ "$CHECKJS" == "1" ]]; then grunt check:js; fi
-- if [[ "$COVERAGE" != "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "5" || $TRAVIS_PHP_VERSION == hhv* ]]; then phpunit -c phpunit.xml; fi
-- if [[ "$COVERAGE" != "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then phpunit -c phpunit.xml; fi
+# JavaScript checks
+- |
+  if [[ "$CHECKJS" == "1" ]]; then
+    travis_fold start "JavaScript.check" && travis_time_start
+    grunt check:js
+    travis_time_finish && travis_fold end "JavaScript.check"
+  fi
+# JavaScript tests
+- |
+  if [[ "$CHECKJS" == "1" ]]; then
+    travis_fold start "JavaScript.tests" && travis_time_start
+    yarn test
+    travis_time_finish && travis_fold end "JavaScript.tests"
+  fi
+# PHP Linting
+- |
+  if [[ "$PHPLINT" == "1" ]]; then
+    travis_fold start "PHP.check" && travis_time_start
+    find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+    travis_time_finish && travis_fold end "PHP.check"
+  fi
+# PHP CS
+- |
+  if [[ "$PHPCS" == "1" ]]; then
+    travis_fold start "PHP.code-style" && travis_time_start
+    vendor/bin/phpcs -q --runtime-set ignore_warnings_on_exit 1
+    travis_time_finish && travis_fold end "PHP.code-style"
+  fi
+# PHP Unit
+- |
+  if [[ "$COVERAGE" != "1" ]]; then
+    travis_fold start "PHP.tests" && travis_time_start
+    if [[ ${TRAVIS_PHP_VERSION:0:1} == "5" ]]; then phpunit -c phpunit.xml; fi
+    if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then vendor/bin/phpunit -c phpunit.xml; fi
+    travis_time_finish && travis_fold end "PHP.tests"
+  fi;
 # Coverage environment variable is only set on the PHP 7 build, so we can safely
 # assume that PHPUnit is in the vendor directory.
-- if [[ "$COVERAGE" == "1" ]]; then vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; fi
-- if [[ "$CHECKJS" == "1" ]]; then yarn test; fi
+- |
+  if [[ "$COVERAGE" == "1" ]]; then
+    travis_fold start "PHP.coverage" && travis_time_start
+    vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml
+    travis_time_finish && travis_fold end "PHP.coverage"
+  fi
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
 - if [[ $TRAVIS_PHP_VERSION == "5.3" || $TRAVIS_PHP_VERSION == "7.2" ]]; then composer validate --no-check-all; fi
