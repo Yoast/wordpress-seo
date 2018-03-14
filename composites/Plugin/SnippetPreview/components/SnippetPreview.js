@@ -32,7 +32,6 @@ export const MOBILE = "mobile";
 export const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: white;
 	font-family: arial, sans-serif;
-	max-width: ${ MAX_WIDTH + 2 * WIDTH_PADDING }px;
 	box-sizing: border-box;
 `;
 
