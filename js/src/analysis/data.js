@@ -87,8 +87,6 @@ class Data {
 
 		// Set isDirty to false if the current data and Gutenberg data are unequal.
 		let isDirty = ! this.isShallowEqual( this.data, gutenbergData );
-		console.log( "isDirty", isDirty );
-		console.log( "refresh", this._refresh );
 
 		if ( isDirty ) {
 			this.data = gutenbergData;
