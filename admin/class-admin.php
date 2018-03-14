@@ -314,6 +314,10 @@ class WPSEO_Admin {
 	 * Initializes Whip to show a notice for outdated PHP versions.
 	 */
 	protected function check_php_version() {
+		if ( version_compare( $GLOBALS['wp_version'], '4.9.5', '>=' ) ) {
+			return;
+		}
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
