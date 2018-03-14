@@ -115,7 +115,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
-	private function finish_up() {
+	protected function finish_up() {
 		WPSEO_Options::set( 'version', WPSEO_VERSION );
 
 		add_action( 'shutdown', 'flush_rewrite_rules' );                     // Just flush rewrites, always, to at least make them work after an upgrade.
@@ -510,7 +510,7 @@ class WPSEO_Upgrade {
 	 * Perform the 7.1 upgrade.
 	 */
 	private function upgrade_71() {
-		$this->remove_key_from_option( 'wpseo_social', array( 'fbadminapp', 'fb_admins', 'fbconnectkey', 'fb_adminid', 'fb_appid' ) );
+		$this->cleanup_option_data( 'wpseo_social' );
 	}
 
 	/**
