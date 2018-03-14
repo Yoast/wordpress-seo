@@ -102,7 +102,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
-    "yoast-components": "git+https://github.com/Yoast/yoast-components#433-replace-old-yoast-icon",
+    "yoast-components": "^3.2.0",
     "yoastseo": "^1.29"
   },
   "yoast": {
