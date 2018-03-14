@@ -49,7 +49,7 @@ AnalysisSection.defaultProps = {
  *
  * @returns {Object} Props that should be passed to AnalysisSection.
  */
-function mapStateToProps( state, ownProps ) {
+function mapStateToProps( state ) {
 	return {
 		activeTab: state.activeTab,
 	};
