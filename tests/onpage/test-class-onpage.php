@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\OnPage
  */
 
@@ -106,4 +108,46 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 		$class_instance->fetch_from_onpage();
 	}
 
+	/**
+	 * Tests whether OnPage is disable, the notice should not be shown.
+	 *
+	 * @covers WPSEO_OnPage::__construct
+	 * @covers WPSEO_OnPage::should_show_notice
+	 */
+	public function test_show_notice_being_hooked() {
+		$option = new OnPage_Option_Mock( false, WPSEO_OnPage_Option::IS_INDEXABLE, true );
+
+		$instance = new WPSEO_OnPage_Double( $option );
+
+		$this->assertTrue( has_action( 'admin_init', array( $instance, 'show_notice' ) ) > 0 );
+	}
+
+	/**
+	 * Tests whether OnPage is disable, the notice should not be shown.
+	 *
+	 * @covers WPSEO_OnPage::__construct
+	 * @covers WPSEO_OnPage::should_show_notice
+	 */
+	public function test_should_show_notice_disabled() {
+		$option = new OnPage_Option_Mock( false, WPSEO_OnPage_Option::IS_INDEXABLE, true );
+
+		$instance = new WPSEO_OnPage_Double( $option );
+
+		$this->assertFalse( $instance->should_show_notice() );
+	}
+
+	/**
+	 * Tests whether OnPage is not indexable and enabled, the notice should be shown.
+	 *
+	 * @covers WPSEO_OnPage::__construct
+	 * @covers WPSEO_OnPage::should_show_notice
+	 */
+	public function test_should_show_notice() {
+		$option   = new OnPage_Option_Mock( true, WPSEO_OnPage_Option::IS_NOT_INDEXABLE, true );
+		$instance = new WPSEO_OnPage_Double( $option );
+
+		update_option( 'blog_public', 1 );
+
+		$this->assertTrue( $instance->should_show_notice() );
+	}
 }
