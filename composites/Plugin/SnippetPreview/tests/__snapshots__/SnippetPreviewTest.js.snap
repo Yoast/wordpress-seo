@@ -16,7 +16,6 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 .c0 {
   background-color: white;
   font-family: arial,sans-serif;
-  max-width: 640px;
   box-sizing: border-box;
 }
 
@@ -193,7 +192,6 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 .c0 {
   background-color: white;
   font-family: arial,sans-serif;
-  max-width: 640px;
   box-sizing: border-box;
 }
 
@@ -369,7 +367,6 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 .c0 {
   background-color: white;
   font-family: arial,sans-serif;
-  max-width: 640px;
   box-sizing: border-box;
 }
 
@@ -615,7 +612,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   margin-bottom: -1px;
   opacity: 0.46;
   margin-right: 6px;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAQAAABLCVATAAABr0lEQVR4AbWWJYCUURhFD04Zi7hrLzgFd4nzV9x6wKHinmYb7g4zq71gIw2LWBnZ3Q8df/fh96Tn/t2HVIw4CVKk+fSFNCkSxInxW1pFkhLmoMRjVvFLmkEX5ocuZuBVPw5jv8hh+iEU5QEmuMK+prz7RN3dPMMEGQYzxpH/lGjzou5jgl7mAvOdZfcbF+jbm3MAbFZ7VX9SJnlL1D8UMyjLe+BrAYDb+jJUr59JrlNWRtcqX9GkrPCR4QBAf4qYJAkQoyQrbKKs8RiaEjEI0GvvQ1mLMC9xaBFFBaZS1TbMSwJSomg39erDF+TxpCCNOXjGQJTCvG6qn4ZPzkcxA61Tjhaf4KMj+6Q3XvW6Lopraa8IozRQxIi0a7NXorULc5JyHX/3F3q+0PsFYytVTaGgjz/AvCyiegE69IUsPxHNBMpa738i6tGWlzkAABjKe/+j9YeRHGVd9oWRnwe2ewDASp/L/UqoPQ5AmFeYZMavBP8dAJz0GWWDHQlzXApMdz4KYUfKICcxkKeOfGmQyrIPcgE9m+g/+kT812/Nr3+0kqzitxQjoKXh6xfor99nlEdFjyvH15gAAAAASUVORK5CYII=);
+  background-image: url( data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAQAAABLCVATAAABr0lEQVR4AbWWJYCUURhFD04Zi7hrLzgFd4nzV9x6wKHinmYb7g4zq71gIw2LWBnZ3Q8df/fh96Tn/t2HVIw4CVKk+fSFNCkSxInxW1pFkhLmoMRjVvFLmkEX5ocuZuBVPw5jv8hh+iEU5QEmuMK+prz7RN3dPMMEGQYzxpH/lGjzou5jgl7mAvOdZfcbF+jbm3MAbFZ7VX9SJnlL1D8UMyjLe+BrAYDb+jJUr59JrlNWRtcqX9GkrPCR4QBAf4qYJAkQoyQrbKKs8RiaEjEI0GvvQ1mLMC9xaBFFBaZS1TbMSwJSomg39erDF+TxpCCNOXjGQJTCvG6qn4ZPzkcxA61Tjhaf4KMj+6Q3XvW6Lopraa8IozRQxIi0a7NXorULc5JyHX/3F3q+0PsFYytVTaGgjz/AvCyiegE69IUsPxHNBMpa738i6tGWlzkAABjKe/+j9YeRHGVd9oWRnwe2ewDASp/L/UqoPQ5AmFeYZMavBP8dAJz0GWWDHQlzXApMdz4KYUfKICcxkKeOfGmQyrIPcgE9m+g/+kT812/Nr3+0kqzitxQjoKXh6xfor99nlEdFjyvH15gAAAAASUVORK5CYII= );
 }
 
 <section>
@@ -903,7 +900,6 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 .c0 {
   background-color: white;
   font-family: arial,sans-serif;
-  max-width: 640px;
   box-sizing: border-box;
 }
 
@@ -1080,7 +1076,6 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 .c0 {
   background-color: white;
   font-family: arial,sans-serif;
-  max-width: 640px;
   box-sizing: border-box;
 }
 
@@ -1269,7 +1264,6 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 .c0 {
   background-color: white;
   font-family: arial,sans-serif;
-  max-width: 640px;
   box-sizing: border-box;
 }
 
@@ -1458,7 +1452,6 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 .c0 {
   background-color: white;
   font-family: arial,sans-serif;
-  max-width: 640px;
   box-sizing: border-box;
 }
 
@@ -1647,7 +1640,6 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 .c0 {
   background-color: white;
   font-family: arial,sans-serif;
-  max-width: 640px;
   box-sizing: border-box;
 }
 
@@ -1836,7 +1828,6 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 .c0 {
   background-color: white;
   font-family: arial,sans-serif;
-  max-width: 640px;
   box-sizing: border-box;
 }
 
@@ -2025,7 +2016,6 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 .c0 {
   background-color: white;
   font-family: arial,sans-serif;
-  max-width: 640px;
   box-sizing: border-box;
 }
 
@@ -2214,7 +2204,6 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 .c0 {
   background-color: white;
   font-family: arial,sans-serif;
-  max-width: 640px;
   box-sizing: border-box;
 }
 
