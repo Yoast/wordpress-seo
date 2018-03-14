@@ -97,7 +97,8 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 					 ->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
 					 ->setMethods( array( 'query' ) )
 					 ->getMock();
-		$mock->method( 'query' )
+		$mock->expects( $this->any() )
+			 ->method( 'query' )
 			 ->will( $this->returnValue( false ) );
 		$class_instance  = new WPSEO_Import_AIOSEO( $mock );
 		$result          = $class_instance->run_import();
