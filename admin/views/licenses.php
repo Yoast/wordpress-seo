@@ -1,7 +1,9 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
- * @since      5.1
+ * @since   5.1
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
