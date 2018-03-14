@@ -2,7 +2,7 @@ import React from "react";
 import { IntlProvider } from "react-intl";
 
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
-import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
+import SnippetPreviewExample from "./composites/Plugin/SnippetPreview/components/SnippetPreviewExample";
 import ContentAnalysis from "./app/ContentAnalysisWrapper";
 import Wizard from "./app/WizardWrapper";
 import DashboardWidget from "./app/DashboardWidgetWrapper";
@@ -21,7 +21,7 @@ const components = [
 	{
 		id: "snippet-preview",
 		name: "Snippet preview",
-		component: <SnippetPreview />,
+		component: <SnippetPreviewExample />,
 	},
 	{
 		id: "wizard",
@@ -58,7 +58,7 @@ class App extends React.Component {
 		injectTapEventPlugin();
 
 		this.state = {
-			activeComponent: "content-analysis",
+			activeComponent: "snippet-preview",
 		};
 	}
 
