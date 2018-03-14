@@ -104,7 +104,7 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	 */
 	private function cleanup_meta_key( $key ) {
 		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $key ) );
-		return $this->wpdb->__get('result' );
+		return $this->wpdb->__get( 'result' );
 	}
 
 }

@@ -101,10 +101,10 @@ abstract class WPSEO_Plugin_Importer {
 	 */
 	protected function cleanup() {
 		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE %s", $this->meta_key ) );
-		$result = $this->wpdb->__get('result' );
+		$result = $this->wpdb->__get( 'result' );
 		if ( ! $result ) {
 			/* translators: %s is replaced with the plugin's name. */
-			$this->status->set_msg( sprintf( __('Cleanup of %s data failed.', 'wordpress-seo' ), $this->plugin_name ) );
+			$this->status->set_msg( sprintf( __( 'Cleanup of %s data failed.', 'wordpress-seo' ), $this->plugin_name ) );
 		}
 
 		return $result;
@@ -188,7 +188,7 @@ abstract class WPSEO_Plugin_Importer {
 	 * @return bool Success status.
 	 */
 	protected function meta_keys_clone( $clone_keys ) {
-		foreach( $clone_keys as $clone_key ) {
+		foreach ( $clone_keys as $clone_key ) {
 			$result = $this->meta_key_clone( $clone_key['old_key'], $clone_key['new_key'], isset( $clone_key['convert'] ) ? $clone_key['convert'] : array() );
 			if ( ! $result ) {
 				return false;
