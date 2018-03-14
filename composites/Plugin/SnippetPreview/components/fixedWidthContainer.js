@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import debounce from "lodash/debounce";
+import { FormattedMessage } from "react-intl";
 
 const FixedWidth = styled.div`
 	overflow: auto;
@@ -34,7 +35,8 @@ const ScrollHint = styled.div`
 		box-sizing: border-box;
 	}
 `;
-/*
+
+/**
  * Component with a fixed width, but still make it viewable on smaller screens.
  *
  * @param {number} width Width of the component.
@@ -112,7 +114,10 @@ export default class FixedWidthContainer extends Component {
 			{ this.state.showScrollHint &&
 				<ScrollHintContainer>
 					<ScrollHint>
-						Scroll to see the preview content.
+						<FormattedMessage
+							id="fixedWidthContainer.scroll"
+							defaultMessage="Scroll to see the preview content."
+						/>
 					</ScrollHint>
 				</ScrollHintContainer>
 			}

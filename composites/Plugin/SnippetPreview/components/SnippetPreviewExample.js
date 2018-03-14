@@ -39,6 +39,7 @@ export default class SnippetPreviewExample extends Component {
 			hoveredField: "",
 			activeField: "description",
 			breadcrumbs: [ "hallo", "is", "it", "me", "you" ],
+			isAmp: true,
 		};
 
 		this.onMouseOver = this.onMouseOver.bind( this );

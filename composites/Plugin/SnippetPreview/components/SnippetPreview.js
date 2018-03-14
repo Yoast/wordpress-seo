@@ -83,7 +83,7 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 }
 
 export const Title = styled.div`
-	color: ${colorTitle};
+	color: ${ colorTitle };
 	text-decoration: none;
 	font-size: 18px;
 	line-height: 1.2;
@@ -117,7 +117,7 @@ export const TitleUnboundedMobile = styled.span`
 
 export const BaseUrl = styled.div`
 	display: inline-block;
-	color: ${colorUrl};
+	color: ${ colorUrl };
 	cursor: pointer;
 	position: relative;
 `;
@@ -275,14 +275,18 @@ export default class SnippetPreview extends Component {
 	fitTitle() {
 		const titleElement = this._titleElement;
 
-		// When the title is 600 pixels it approximately fits 200 characters.
-		const TWO_LINES_OF_CHARACTERS_PER_WIDTH = 3;
+		/*
+		 * When the title is 600 pixels in width and two lines it approximately fits 200
+		 * characters. Because we need to translate the pixels (current width) to the
+		 * amount of characters we need a ratio. That ratio is 600/200 = 3.
+		 */
+		const PIXELS_PER_CHARACTER_FOR_TWO_LINES = 3;
 
 		if ( this.hasOverflowedContent( titleElement ) ) {
 			let prevTitle = this.state.title;
 
 			// Heuristic to prevent too many re-renders.
-			const maxCharacterCount = titleElement.clientWidth / TWO_LINES_OF_CHARACTERS_PER_WIDTH;
+			const maxCharacterCount = titleElement.clientWidth / PIXELS_PER_CHARACTER_FOR_TWO_LINES;
 
 			if ( prevTitle.length > maxCharacterCount ) {
 				prevTitle = prevTitle.substring( 0, maxCharacterCount );
@@ -303,13 +307,18 @@ export default class SnippetPreview extends Component {
 	 */
 	fitDescription() {
 		const descriptionElement = this._descriptionElement;
-		const FOUR_LINES_OF_CHARACTERS_PER_WIDTH = 1.75;
+
+		/*
+		 * See the logic for TWO_LINES_OF_CHARACTERS_PER_WIDTH. We've determined that
+		 * 1.75 is a good amount as a heuristic.
+		 */
+		const PIXELS_PER_CHARACTER_FOR_FOUR_LINES = 1.75;
 
 		if ( this.hasOverflowedContent( descriptionElement ) ) {
 			let prevDescription = this.state.description;
 
 			// Heuristic to prevent too many re-renders.
-			const maxCharacterCount = descriptionElement.clientWidth / FOUR_LINES_OF_CHARACTERS_PER_WIDTH;
+			const maxCharacterCount = descriptionElement.clientWidth / PIXELS_PER_CHARACTER_FOR_FOUR_LINES;
 
 			if ( prevDescription.length > maxCharacterCount ) {
 				prevDescription = prevDescription.substring( 0, maxCharacterCount );
@@ -350,11 +359,11 @@ export default class SnippetPreview extends Component {
 	}
 
 	/**
-	 * Renders the description for display
+	 * Returns the description for rendering.
 	 *
-	 * @returns {ReactElement} The rendered description.
+	 * @returns {string} The description to render.
 	 */
-	renderDescription() {
+	getDescription() {
 		if ( this.props.mode === MOBILE && this.props.description !== this.state.description ) {
 			return this.state.description + " ...";
 		}
@@ -381,7 +390,7 @@ export default class SnippetPreview extends Component {
 	}
 
 	/**
-	 * Adds carret styles tot the base component if relevant prop is active.
+	 * Adds caret styles to the base component if relevant prop is active.
 	 *
 	 * @param {string} fieldName The field to add caret styles to.
 	 * @param {ReactComponent} BaseComponent The base component for the field.
@@ -521,12 +530,14 @@ export default class SnippetPreview extends Component {
 
 		return (
 			<section>
-				<Container onMouseLeave={this.onMouseLeave} width={ MAX_WIDTH + 2 * WIDTH_PADDING } padding={ WIDTH_PADDING }>
+				<Container onMouseLeave={ this.onMouseLeave }
+				           width={ MAX_WIDTH + 2 * WIDTH_PADDING }
+				           padding={ WIDTH_PADDING }>
 					<PartContainer>
 						<ScreenReaderText>SEO title preview:</ScreenReaderText>
-						<Title onClick={onClick.bind( null, "title" )}
-						       onMouseOver={partial( onMouseOver, "title" )}
-						       onMouseLeave={partial( onMouseLeave, "title" )}>
+						<Title onClick={ onClick.bind( null, "title" ) }
+						       onMouseOver={ partial( onMouseOver, "title" ) }
+						       onMouseLeave={ partial( onMouseLeave, "title" ) }>
 							<TitleBounded>
 								<TitleUnbounded innerRef={ this.setTitleRef } >
 									{ this.getTitle() }
@@ -548,7 +559,7 @@ export default class SnippetPreview extends Component {
 						             onMouseLeave={ partial( onMouseLeave, "description" ) }
 						             innerRef={ this.setDescriptionRef } >
 							{ renderedDate }
-							{ highlightKeyword( locale, keyword, this.renderDescription() ) }
+							{ highlightKeyword( locale, keyword, this.getDescription() ) }
 						</Description>
 					</PartContainer>
 				</Container>
