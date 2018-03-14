@@ -40,11 +40,11 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	/**
 	 * Removes all the post meta fields SEOpressor creates.
 	 *
-	 * @return void
+	 * @return bool Cleanup status.
 	 */
 	protected function cleanup() {
 		// If we get to replace the data, let's do some proper cleanup.
-		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_seop_%'" );
+		return $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_seop_%'" );
 	}
 
 	/**

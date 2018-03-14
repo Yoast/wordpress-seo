@@ -100,8 +100,8 @@ class WPSEO_Import_WooThemes_SEO_Test extends WPSEO_UnitTestCase {
 		$seo_title = get_post_meta( $post_id, 'seo_title', true );
 		$seo_desc  = get_post_meta( $post_id, 'seo_description', true );
 
-		$this->assertEquals( $seo_title, false );
-		$this->assertEquals( $seo_desc, false );
+		$this->assertEquals( false, $seo_title );
+		$this->assertEquals( false, $seo_desc );
 		$this->assertEquals( $this->status( 'cleanup', true ), $result );
 	}
 

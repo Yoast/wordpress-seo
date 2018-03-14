@@ -24,11 +24,14 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	/**
 	 * Cleans up the WooThemes SEO settings.
 	 *
-	 * @return void
+	 * @return bool Cleanup status.
 	 */
 	protected function cleanup() {
-		$this->cleanup_options();
-		$this->cleanup_meta();
+		$result = $this->cleanup_meta();
+		if ( $result ) {
+			$this->cleanup_options();
+		}
+		return $result;
 	}
 
 	/**
@@ -80,12 +83,16 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	/**
 	 * Removes the post meta fields from the database.
 	 *
-	 * @return void
+	 * @return bool Cleanup status.
 	 */
 	private function cleanup_meta() {
 		foreach ( array( 'seo_follow', 'seo_noindex', 'seo_title', 'seo_description', 'seo_keywords' ) as $key ) {
-			$this->cleanup_meta_key( $key );
+			$result = $this->cleanup_meta_key( $key );
+			if ( ! $result ) {
+				return false;
+			}
 		}
+		return true;
 	}
 
 	/**
@@ -93,10 +100,11 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @param string $key The meta_key to delete.
 	 *
-	 * @return void
+	 * @return bool Cleanup status.
 	 */
 	private function cleanup_meta_key( $key ) {
 		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $key ) );
+		return $this->wpdb->__get('result' );
 	}
 
 }

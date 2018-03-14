@@ -64,7 +64,12 @@ abstract class WPSEO_Plugin_Importer {
 			return $this->status;
 		}
 
-		return $this->status->set_status( $this->import() );
+		$this->status->set_status( $this->import() );
+
+		// Flush the entire cache, as we no longer know what's valid and what's not.
+		wp_cache_flush();
+
+		return $this->status;
 	}
 
 	/**
@@ -86,18 +91,22 @@ abstract class WPSEO_Plugin_Importer {
 			return $this->status;
 		}
 
-		$this->cleanup();
-
-		return $this->status->set_status( true );
+		return $this->status->set_status( $this->cleanup() );
 	}
 
 	/**
 	 * Removes the plugin data from the database.
 	 *
-	 * @return void
+	 * @return bool Cleanup status.
 	 */
 	protected function cleanup() {
 		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE %s", $this->meta_key ) );
+		$result = $this->wpdb->__get('result' );
+		if ( ! $result ) {
+			$this->status->set_msg( 'Cleanup of %s data failed.', 'wordpress-seo' );
+		}
+
+		return $result;
 	}
 
 	/**

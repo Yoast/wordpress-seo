@@ -77,11 +77,12 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	/**
 	 * Removes wpseo.de post meta's.
 	 *
-	 * @return void
+	 * @return bool Cleanup status.
 	 */
 	protected function cleanup() {
 		$this->cleanup_term_meta();
-		$this->cleanup_post_meta();
+		$result = $this->cleanup_post_meta();
+		return $result;
 	}
 
 	/**
@@ -249,11 +250,11 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	/**
 	 * Deletes wpSEO postmeta from the database.
 	 *
-	 * @return void
+	 * @return bool Cleanup status.
 	 */
 	private function cleanup_post_meta() {
 		// If we get to replace the data, let's do some proper cleanup.
-		$this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
+		return $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
 	}
 
 	/**
