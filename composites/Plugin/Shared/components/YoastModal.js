@@ -2,7 +2,26 @@ import React from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import styled from "styled-components";
-import { injectIntl, intlShape } from "react-intl";
+
+import colors from "../../../../style-guide/colors.json";
+import SvgIcon from "./SvgIcon";
+
+const StyledHeading = styled.h1`
+	float: left;
+	margin: -4px 0 2rem;
+	font-size: 1rem;
+`;
+
+const StyledButton = styled.button`
+	float: right;
+	width: 44px;
+	height: 44px;
+	background: transparent;
+	border: 0;
+	margin: -16px -16px 0 0;
+	padding: 0;
+	cursor: pointer;
+`;
 
 class BaseYoastModal extends React.Component {
 
@@ -26,7 +45,35 @@ class BaseYoastModal extends React.Component {
 				className={ `${ this.props.className } yoast-modal__content` }
 				appElement={ this.props.appElement }
 			>
-				{ this.props.children }
+				{
+					this.props.heading &&
+						<StyledHeading className="yoast-modal__title">{ this.props.heading }</StyledHeading>
+				}
+				{
+					this.props.closeIconButton &&
+						<StyledButton
+							onClick={ this.props.onClose }
+							className="yoast-modal__button-close-icon"
+							aria-label={ this.props.closeIconButton }
+						>
+							<SvgIcon icon="times" color={ colors.$color_grey_text } />
+						</StyledButton>
+				}
+				<div className="yoast-modal__inside">
+					{ this.props.children }
+				</div>
+				{
+					this.props.closeButton &&
+						<div className="yoast-modal__actions">
+							<button
+								type="button"
+								onClick={ this.props.onClose }
+								className={ `${ this.props.closeButtonClassName } yoast-modal__button-close` }
+							>
+								{ this.props.closeButton }
+							</button>
+						</div>
+				}
 			</Modal>
 		);
 	}
@@ -35,11 +82,14 @@ class BaseYoastModal extends React.Component {
 BaseYoastModal.propTypes = {
 	children: PropTypes.any,
 	className: PropTypes.string,
-	intl: intlShape.isRequired,
 	isOpen: PropTypes.bool,
 	onClose: PropTypes.func.isRequired,
 	modalAriaLabel: PropTypes.string.isRequired,
 	appElement: PropTypes.object.isRequired,
+	heading: PropTypes.string,
+	closeIconButton: PropTypes.string,
+	closeButton: PropTypes.string,
+	closeButtonClassName: PropTypes.string,
 };
 
 BaseYoastModal.defaultProps = {
@@ -84,14 +134,18 @@ const YoastModal = styled( BaseYoastModal )`
 		}
 	}
 
+	.yoast-modal__inside {
+		clear: both;
+	}
+
 	.yoast-modal__actions {
-		padding-top: 1em;
+		padding-top: 24px;
 		text-align: right;
 	}
 
 	.yoast-modal__actions button {
-		margin-left: 1em;
+		margin-left: 8px;
 	}
 `;
 
-export default injectIntl( YoastModal );
+export default YoastModal;
