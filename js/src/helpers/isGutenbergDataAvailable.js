@@ -8,7 +8,7 @@ import isUndefined from "lodash/isUndefined";
  * @returns {boolean} True if the data API is available.
  */
 const isGutenbergDataAvailable = () => {
-	return ( ! isUndefined( wp ) && ! isUndefined( wp.data ) );
+	return ( ! isUndefined( window.wp ) && ! isUndefined( wp.data ) );
 };
 
 export default isGutenbergDataAvailable;
