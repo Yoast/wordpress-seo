@@ -103,7 +103,8 @@ abstract class WPSEO_Plugin_Importer {
 		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE %s", $this->meta_key ) );
 		$result = $this->wpdb->__get('result' );
 		if ( ! $result ) {
-			$this->status->set_msg( 'Cleanup of %s data failed.', 'wordpress-seo' );
+			/* translators: %s is replaced with the plugin's name. */
+			$this->status->set_msg( sprintf( __('Cleanup of %s data failed.', 'wordpress-seo' ), $this->plugin_name ) );
 		}
 
 		return $result;

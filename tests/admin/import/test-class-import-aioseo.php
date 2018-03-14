@@ -161,6 +161,25 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_Import_AIOSEO::__construct
+	 * @covers WPSEO_Import_AIOSEO::run_cleanup
+	 * @covers WPSEO_Import_AIOSEO::cleanup
+	 */
+	public function test_cleanup_gone_bad() {
+		$mock = $this->getMockBuilder( 'wpdb' )
+					 ->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
+					 ->setMethods( array( 'query' ) )
+					 ->getMock();
+		$mock->method( 'query' )
+			 ->will( $this->returnValue( false ) );
+		$class_instance  = new WPSEO_Import_AIOSEO( $mock );
+		$result          = $class_instance->run_cleanup();
+		$expected_result = $this->status( 'cleanup', false );
+		$expected_result->set_msg( 'Cleanup of All In One SEO Pack data failed.' );
+		$this->assertEquals( $expected_result, $result );
+	}
+
+	/**
 	 * Returns a WPSEO_Import_Status object to check against.
 	 *
 	 * @param string $action The action to return.
