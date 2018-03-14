@@ -15,6 +15,9 @@ import activeKeyword from "./redux/reducers/activeKeyword";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 
+import { SnippetPreview, StyledSection } from "yoast-components";
+import SnippetPreviewSection from "./components/SnippetPreviewSection";
+
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
 if( window.wpseoPostScraperL10n ) {
@@ -93,6 +96,25 @@ function renderReactApp( target, component, store ) {
 }
 
 /**
+ * Renders the snippet preview for display
+ *
+ * @param {Object} store Redux store.
+ *
+ * @returns {void}
+ */
+function renderSnippetPreview( store ) {
+	const targetElement = document.getElementById( "wpseosnippet" );
+
+	const container = document.createElement( "div" );
+	targetElement.parentNode.insertBefore( container, targetElement );
+
+	ReactDOM.render(
+		wrapInTopLevelComponents( SnippetPreviewSection, store ),
+		container,
+	);
+}
+
+/**
  * Renders the react apps.
  *
  * @param {Object} store Redux store.
@@ -111,6 +133,9 @@ function renderReactApps( store, args ) {
  * This can be a post or a term edit screen.
  *
  * @param {Object} args Edit initialize arguments.
+ * @param {boolean} args.shouldRenderSnippetPreview Whether the new reactified
+ *                                                  snippet preview should be
+ *                                                  rendered.
  * @param {string} args.seoTarget Target to render the seo analysis.
  * @param {string} args.readabilityTarget Target to render the readability analysis.
  *
@@ -120,6 +145,10 @@ export function initialize( args ) {
 	const store = configureStore();
 
 	renderReactApps( store, args );
+
+	if ( args.shouldRenderSnippetPreview ) {
+		renderSnippetPreview( store );
+	}
 
 	return {
 		store,

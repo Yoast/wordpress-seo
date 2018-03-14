@@ -380,6 +380,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		const editArgs = {
 			readabilityTarget: "yoast-seo-content-analysis",
 			seoTarget: "wpseo-pageanalysis",
+			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
 		};
 		store = initializeEdit( editArgs ).store;
 
