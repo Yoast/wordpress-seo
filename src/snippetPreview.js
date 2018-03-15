@@ -43,10 +43,10 @@ var defaults = {
 	},
 	addTrailingSlash: true,
 	metaDescriptionDate: "",
-	previewMode: "mobile",
+	previewMode: "desktop",
 
 };
-
+console.log("hi");
 var titleMaxLength = 600;
 var metadescriptionMaxLength = 320;
 
