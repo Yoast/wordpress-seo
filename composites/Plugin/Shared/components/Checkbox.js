@@ -58,7 +58,6 @@ Checkbox.propTypes = {
 
 Checkbox.defaultProps = {
 	checked: false,
-	label: "",
 };
 
 export default Checkbox;
