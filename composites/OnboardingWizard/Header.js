@@ -22,7 +22,7 @@ const Header = ( props ) => {
 };
 
 Header.propTypes = {
-	icon: PropTypes.string,
+	icon: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]),
 	headerTitle: PropTypes.string,
 };
 
