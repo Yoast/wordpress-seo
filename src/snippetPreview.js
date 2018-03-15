@@ -46,7 +46,7 @@ var defaults = {
 	previewMode: "desktop",
 
 };
-console.log("hi");
+
 var titleMaxLength = 600;
 var metadescriptionMaxLength = 320;
 
