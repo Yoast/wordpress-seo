@@ -122,7 +122,8 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 			return true;
 		}
 
-		$count = $this->wpdb->get_var( "SELECT COUNT(*) FROM {$this->wpdb->options} WHERE option_name LIKE 'wpseo_category_%'" );
+		global $wpdb;
+		$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name LIKE 'wpseo_category_%'" );
 		if ( $count !== '0' ) {
 			return true;
 		}
@@ -253,8 +254,10 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 * @return bool Cleanup status.
 	 */
 	private function cleanup_post_meta() {
+		global $wpdb;
+
 		// If we get to replace the data, let's do some proper cleanup.
-		return $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
+		return $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE '_wpseo_edit_%'" );
 	}
 
 	/**

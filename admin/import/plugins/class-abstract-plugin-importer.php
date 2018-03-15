@@ -1,6 +1,6 @@
 <?php
 /**
- * This file hols the abstract class for dealing with imports from other plugins.
+ * This file holds the abstract class for dealing with imports from other plugins.
  *
  * @package WPSEO\Admin\Import\Plugins
  */
@@ -19,13 +19,6 @@ abstract class WPSEO_Plugin_Importer {
 	protected $status;
 
 	/**
-	 * Holds the WPDB instance.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
 	 * The plugin name.
 	 *
 	 * @var string
@@ -41,14 +34,8 @@ abstract class WPSEO_Plugin_Importer {
 
 	/**
 	 * Class constructor.
-	 *
-	 * @param wpdb $wpdb The WPDB object.
 	 */
-	public function __construct( $wpdb = null ) {
-		if ( $wpdb === null ) {
-			global $wpdb;
-		}
-		$this->wpdb = $wpdb;
+	public function __construct() {
 	}
 
 	/**
@@ -110,8 +97,14 @@ abstract class WPSEO_Plugin_Importer {
 	 * @return bool Cleanup status.
 	 */
 	protected function cleanup() {
-		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE %s", $this->meta_key ) );
-		$result = $this->wpdb->__get( 'result' );
+		global $wpdb;
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE %s",
+				$this->meta_key
+			)
+		);
+		$result = $wpdb->__get( 'result' );
 		if ( ! $result ) {
 			/* translators: %s is replaced with the plugin's name. */
 			$this->status->set_msg( sprintf( __( 'Cleanup of %s data failed.', 'wordpress-seo' ), $this->plugin_name ) );
@@ -141,7 +134,13 @@ abstract class WPSEO_Plugin_Importer {
 	 * @return bool Boolean indicating whether there is something to import.
 	 */
 	protected function detect() {
-		$result = $this->wpdb->get_var( $this->wpdb->prepare( "SELECT COUNT(*) AS `count` FROM {$this->wpdb->postmeta} WHERE meta_key LIKE %s", $this->meta_key ) );
+		global $wpdb;
+		$result = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(*) AS `count` FROM {$wpdb->postmeta} WHERE meta_key LIKE %s",
+				$this->meta_key
+			)
+		);
 		if ( $result === '0' ) {
 			return false;
 		}
@@ -159,33 +158,55 @@ abstract class WPSEO_Plugin_Importer {
 	 * @return bool Clone status.
 	 */
 	protected function meta_key_clone( $old_key, $new_key, $replace_values = array() ) {
+		global $wpdb;
+
 		// First we create a temp table with all the values for meta_key.
-		$result = $this->wpdb->query( $this->wpdb->prepare( "CREATE TEMPORARY TABLE tmp_meta_table SELECT * FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $old_key ) );
+		$result = $wpdb->query(
+			$wpdb->prepare(
+				"CREATE TEMPORARY TABLE tmp_meta_table SELECT * FROM {$wpdb->postmeta} WHERE meta_key = %s",
+				$old_key
+			)
+		);
 		if ( $result === false ) {
 			$this->set_missing_db_rights_status();
 			return false;
 		}
 		// Delete all the values in our temp table for posts that already have data for $new_key.
-		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM tmp_meta_table WHERE post_id IN ( SELECT post_id FROM {$this->wpdb->postmeta} WHERE meta_key = %s )", $new_key ) );
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM tmp_meta_table WHERE post_id IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s )",
+				$new_key
+			)
+		);
 
 		// We set meta_id to NULL so on re-insert into the postmeta table, MYSQL can set new meta_id's and we don't get duplicates.
-		$this->wpdb->query( 'UPDATE tmp_meta_table SET meta_id = NULL' );
+		$wpdb->query( 'UPDATE tmp_meta_table SET meta_id = NULL' );
 
 		// Now we rename the meta_key.
-		$this->wpdb->query( $this->wpdb->prepare( 'UPDATE tmp_meta_table SET meta_key = %s', WPSEO_Meta::$meta_prefix . $new_key ) );
+		$wpdb->query(
+			$wpdb->prepare(
+				'UPDATE tmp_meta_table SET meta_key = %s', WPSEO_Meta::$meta_prefix . $new_key
+			)
+		);
 
 		// Now we replace values if needed.
 		if ( is_array( $replace_values ) && $replace_values !== array() ) {
 			foreach ( $replace_values as $old_value => $new_value ) {
-				$this->wpdb->query( $this->wpdb->prepare( 'UPDATE tmp_meta_table SET meta_value = %s WHERE meta_value = %s', $new_value, $old_value ) );
+				$wpdb->query(
+					$wpdb->prepare(
+						'UPDATE tmp_meta_table SET meta_value = %s WHERE meta_value = %s',
+						$new_value,
+						$old_value
+					)
+				);
 			}
 		}
 
 		// With everything done, we insert all our newly cloned lines into the postmeta table.
-		$this->wpdb->query( "INSERT INTO {$this->wpdb->postmeta} SELECT * FROM tmp_meta_table" );
+		$wpdb->query( "INSERT INTO {$wpdb->postmeta} SELECT * FROM tmp_meta_table" );
 
 		// Now we drop our temporary table.
-		$this->wpdb->query( 'DROP TEMPORARY TABLE IF EXISTS tmp_meta_table' );
+		$wpdb->query( 'DROP TEMPORARY TABLE IF EXISTS tmp_meta_table' );
 
 		return true;
 	}

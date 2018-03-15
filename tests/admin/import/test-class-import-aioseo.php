@@ -106,18 +106,25 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_AIOSEO::set_missing_db_rights_status
 	 */
 	public function test_import_without_rights_to_temp_table() {
-		$mock = $this->getMockBuilder( 'wpdb' )
+		$class_instance  = new WPSEO_Import_AIOSEO();
+		global $wpdb;
+		// Save for later return.
+		$original_wpdb = $wpdb;
+
+		$wpdb = $this->getMockBuilder( 'wpdb' )
 			->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
 			->setMethods( array( 'query' ) )
 			->getMock();
-		$mock->expects( $this->any() )
+		$wpdb->expects( $this->any() )
 			->method( 'query' )
 			->will( $this->returnValue( false ) );
-		$class_instance  = new WPSEO_Import_AIOSEO( $mock );
 		$result          = $class_instance->run_import();
 		$expected_result = $this->status( 'import', false );
 		$expected_result->set_msg( 'The Yoast SEO importer functionality uses temporary database tables. It seems your WordPress install does not have the capability to do this, please consult your hosting provider.' );
 		$this->assertEquals( $expected_result, $result );
+
+		// Return to proper $wpdb.
+		$wpdb = $original_wpdb;
 	}
 
 	/**
@@ -187,18 +194,25 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_AIOSEO::cleanup
 	 */
 	public function test_cleanup_gone_bad() {
-		$mock = $this->getMockBuilder( 'wpdb' )
+		$class_instance  = new WPSEO_Import_AIOSEO();
+
+		global $wpdb;
+		$original_wpdb = $wpdb;
+
+		$wpdb = $this->getMockBuilder( 'wpdb' )
 			->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
 			->setMethods( array( 'query' ) )
 			->getMock();
-		$mock->expects( $this->any() )
+		$wpdb->expects( $this->any() )
 			->method( 'query' )
 			->will( $this->returnValue( false ) );
-		$class_instance  = new WPSEO_Import_AIOSEO( $mock );
+
 		$result          = $class_instance->run_cleanup();
 		$expected_result = $this->status( 'cleanup', false );
 		$expected_result->set_msg( 'Cleanup of All In One SEO Pack data failed.' );
 		$this->assertEquals( $expected_result, $result );
+
+		$wpdb = $original_wpdb;
 	}
 
 	/**

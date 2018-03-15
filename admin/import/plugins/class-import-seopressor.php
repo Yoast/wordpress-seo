@@ -47,8 +47,10 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	 * @return bool Cleanup status.
 	 */
 	protected function cleanup() {
+		global $wpdb;
+
 		// If we get to replace the data, let's do some proper cleanup.
-		return $this->wpdb->query( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key LIKE '_seop_%'" );
+		return $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE '_seop_%'" );
 	}
 
 	/**

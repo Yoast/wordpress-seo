@@ -111,8 +111,15 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	 * @return bool Cleanup status.
 	 */
 	private function cleanup_meta_key( $key ) {
-		$this->wpdb->query( $this->wpdb->prepare( "DELETE FROM {$this->wpdb->postmeta} WHERE meta_key = %s", $key ) );
-		return $this->wpdb->__get( 'result' );
+		global $wpdb;
+
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM {$wpdb->postmeta} WHERE meta_key = %s",
+				$key
+			)
+		);
+		return $wpdb->__get( 'result' );
 	}
 
 }
