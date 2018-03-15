@@ -139,12 +139,11 @@ const YoastModal = styled( BaseYoastModal )`
 	}
 
 	.yoast-modal__actions {
-		padding-top: 24px;
 		text-align: right;
 	}
 
 	.yoast-modal__actions button {
-		margin-left: 8px;
+		margin: 24px 0 0 8px;
 	}
 `;
 
