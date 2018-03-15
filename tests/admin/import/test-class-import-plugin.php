@@ -11,6 +11,8 @@
 class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Test message for detect without data.
+	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
 	 */
@@ -23,6 +25,8 @@ class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test message for detect with data.
+	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
 	 */
@@ -35,6 +39,8 @@ class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test message for import without data.
+	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
 	 */
@@ -47,6 +53,8 @@ class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test message for import with data.
+	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
 	 */
@@ -59,6 +67,8 @@ class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test message for cleanup without data.
+	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
 	 */
@@ -71,6 +81,8 @@ class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test message for cleanup with data.
+	 *
 	 * @covers WPSEO_Import_Plugin::__construct
 	 * @covers WPSEO_Import_Plugin::complete_msg
 	 */
