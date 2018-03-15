@@ -11,7 +11,7 @@
 class WPSEO_Import_External_Detector_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 *  Test whether we can return proplery when do not detect a plugin's data.
+	 *  Test whether we can return properly when there's no plugin data.
 	 *
 	 * @covers WPSEO_Import_Plugins_Detector::detect
 	 */

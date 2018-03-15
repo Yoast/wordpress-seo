@@ -50,11 +50,32 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	);
 
 	/**
+	 * Holds the meta fields we can delete after import.
+	 *
+	 * @var array
+	 */
+	protected $cleanup_metas = array(
+		'seo_follow',
+		'seo_noindex',
+		'seo_title',
+		'seo_description',
+		'seo_keywords'
+	);
+
+	/**
 	 * Holds the options we can delete after import.
 	 *
 	 * @var array
 	 */
-	protected $cleanup_options = array( 'seo_follow', 'seo_noindex', 'seo_title', 'seo_description', 'seo_keywords' );
+	protected $cleanup_options = array(
+		'seo_woo_archive_layout',
+		'seo_woo_single_layout',
+		'seo_woo_page_layout',
+		'seo_woo_wp_title',
+		'seo_woo_meta_single_desc',
+		'seo_woo_meta_single_key',
+		'seo_woo_home_layout',
+	);
 
 	/**
 	 * Cleans up the WooThemes SEO settings.
@@ -75,15 +96,7 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	 * @return void
 	 */
 	private function cleanup_options() {
-		foreach ( array(
-			'seo_woo_archive_layout',
-			'seo_woo_single_layout',
-			'seo_woo_page_layout',
-			'seo_woo_wp_title',
-			'seo_woo_meta_single_desc',
-			'seo_woo_meta_single_key',
-			'seo_woo_home_layout',
-			) as $option ) {
+		foreach ( $this->cleanup_options as $option ) {
 			delete_option( $option );
 		}
 	}
@@ -94,7 +107,7 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	 * @return bool Cleanup status.
 	 */
 	private function cleanup_meta() {
-		foreach ( $this->cleanup_options as $key ) {
+		foreach ( $this->cleanup_metas as $key ) {
 			$result = $this->cleanup_meta_key( $key );
 			if ( ! $result ) {
 				return false;
