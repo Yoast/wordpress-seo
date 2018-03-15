@@ -185,22 +185,12 @@ abstract class WPSEO_Plugin_Importer {
 		// Now we rename the meta_key.
 		$wpdb->query(
 			$wpdb->prepare(
-				'UPDATE tmp_meta_table SET meta_key = %s', WPSEO_Meta::$meta_prefix . $new_key
+				'UPDATE tmp_meta_table SET meta_key = %s',
+				WPSEO_Meta::$meta_prefix . $new_key
 			)
 		);
 
-		// Now we replace values if needed.
-		if ( is_array( $replace_values ) && $replace_values !== array() ) {
-			foreach ( $replace_values as $old_value => $new_value ) {
-				$wpdb->query(
-					$wpdb->prepare(
-						'UPDATE tmp_meta_table SET meta_value = %s WHERE meta_value = %s',
-						$new_value,
-						$old_value
-					)
-				);
-			}
-		}
+		$this->meta_key_clone_replace( $replace_values );
 
 		// With everything done, we insert all our newly cloned lines into the postmeta table.
 		$wpdb->query( "INSERT INTO {$wpdb->postmeta} SELECT * FROM tmp_meta_table" );
@@ -248,6 +238,30 @@ abstract class WPSEO_Plugin_Importer {
 		$existing_value = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . $new_key, true );
 		if ( empty( $existing_value ) ) {
 			WPSEO_Meta::set_value( $new_key, $value, $post_id );
+		}
+	}
+
+	/**
+	 * Replaces values in our temporary table according to our settings.
+	 *
+	 * @param array $replace_values Key value pair of values to replace with other values.
+	 *
+	 * @return void
+	 */
+	protected function meta_key_clone_replace( $replace_values ) {
+		global $wpdb;
+
+		// Now we replace values if needed.
+		if ( is_array( $replace_values ) && $replace_values !== array() ) {
+			foreach ( $replace_values as $old_value => $new_value ) {
+				$wpdb->query(
+					$wpdb->prepare(
+						'UPDATE tmp_meta_table SET meta_value = %s WHERE meta_value = %s',
+						$new_value,
+						$old_value
+					)
+				);
+			}
 		}
 	}
 }
