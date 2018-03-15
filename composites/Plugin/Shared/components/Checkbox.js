@@ -25,8 +25,7 @@ class Checkbox extends React.Component {
 	 * @returns {void} Fires the onChange function passed in the props.
 	 */
 	handleChange( event ) {
-		this.setState( { checked: event.target.checked } );
-		this.props.onChange( this.state.checked );
+		this.setState( { checked: event.target.checked }, () => this.props.onChange( this.state.checked ) );
 	}
 
 	/**
@@ -52,7 +51,7 @@ Checkbox.propTypes = {
 	label: PropTypes.oneOfType( [
 		PropTypes.string,
 		PropTypes.array,
-	] ),
+	] ).isRequired,
 	checked: PropTypes.bool,
 
 };
