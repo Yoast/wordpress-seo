@@ -106,7 +106,7 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_AIOSEO::set_missing_db_rights_status
 	 */
 	public function test_import_without_rights_to_temp_table() {
-		$class_instance  = new WPSEO_Import_AIOSEO();
+		$class_instance = new WPSEO_Import_AIOSEO();
 		global $wpdb;
 		// Save for later return.
 		$original_wpdb = $wpdb;
@@ -194,7 +194,7 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_AIOSEO::cleanup
 	 */
 	public function test_cleanup_gone_bad() {
-		$class_instance  = new WPSEO_Import_AIOSEO();
+		$class_instance = new WPSEO_Import_AIOSEO();
 
 		global $wpdb;
 		$original_wpdb = $wpdb;
