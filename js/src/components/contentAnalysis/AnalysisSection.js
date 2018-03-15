@@ -12,7 +12,7 @@ import SeoAnalysis from "./SeoAnalysis";
  */
 class AnalysisSection extends React.Component {
 	render() {
-		const { activeTab, title } = this.props;
+		const { activeTab, title, className } = this.props;
 
 		return (
 			<StyledSection
@@ -22,6 +22,7 @@ class AnalysisSection extends React.Component {
 				headingIcon="list"
 				headingIconColor={ colors.$color_headings }
 				headingIconSize="16px"
+				className={ className }
 			>
 				{ activeTab === "keyword" ? <SeoAnalysis/> : null }
 				{ activeTab === "readability" ? <ReadabilityAnalysis/> : null }
