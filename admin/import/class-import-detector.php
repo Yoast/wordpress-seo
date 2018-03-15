@@ -12,7 +12,9 @@
  */
 class WPSEO_Import_Plugins_Detector {
 	/**
-	 * @var array Plugins we need to import from.
+	 * Plugins we need to import from.
+	 *
+	 * @var array
 	 */
 	public $needs_import = array();
 

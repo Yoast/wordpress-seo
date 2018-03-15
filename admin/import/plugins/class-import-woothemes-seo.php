@@ -12,17 +12,23 @@
  */
 class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	/**
-	 * @var string The plugin name
+	 * The plugin name.
+	 *
+	 * @var string
 	 */
 	protected $plugin_name = 'WooThemes SEO';
 
 	/**
-	 * @var string Meta key, used in SQL LIKE clause for detect query.
+	 * Meta key, used in SQL LIKE clause for detect query.
+	 *
+	 * @var string
 	 */
 	protected $meta_key = 'seo_title';
 
 	/**
-	 * @var array The arrays of keys to clone into Yoast SEO.
+	 * The arrays of keys to clone into Yoast SEO.
+	 *
+	 * @var array
 	 */
 	protected $clone_keys = array(
 		array(
@@ -42,6 +48,13 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 			'new_key' => 'meta-robots-nofollow',
 		),
 	);
+
+	/**
+	 * Holds the options we can delete after import.
+	 *
+	 * @var array
+	 */
+	protected $cleanup_options = array( 'seo_follow', 'seo_noindex', 'seo_title', 'seo_description', 'seo_keywords' );
 
 	/**
 	 * Cleans up the WooThemes SEO settings.
@@ -81,7 +94,7 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	 * @return bool Cleanup status.
 	 */
 	private function cleanup_meta() {
-		foreach ( array( 'seo_follow', 'seo_noindex', 'seo_title', 'seo_description', 'seo_keywords' ) as $key ) {
+		foreach ( $this->cleanup_options as $key ) {
 			$result = $this->cleanup_meta_key( $key );
 			if ( ! $result ) {
 				return false;

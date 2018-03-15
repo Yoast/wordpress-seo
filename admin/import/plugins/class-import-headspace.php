@@ -12,17 +12,23 @@
  */
 class WPSEO_Import_HeadSpace extends WPSEO_Plugin_Importer {
 	/**
-	 * @var string The plugin name
+	 * The plugin name.
+	 *
+	 * @var string
 	 */
 	protected $plugin_name = 'HeadSpace SEO';
 
 	/**
-	 * @var string Meta key, used in SQL LIKE clause for detect query.
+	 * Meta key, used in SQL LIKE clause for detect query.
+	 *
+	 * @var string
 	 */
 	protected $meta_key = '_headspace_%';
 
 	/**
-	 * @var array The arrays of keys to clone into Yoast SEO.
+	 * The arrays of keys to clone into Yoast SEO.
+	 *
+	 * @var array
 	 */
 	protected $clone_keys = array(
 		array(

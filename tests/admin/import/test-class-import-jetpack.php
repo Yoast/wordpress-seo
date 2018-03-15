@@ -77,7 +77,7 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->setup_post();
 		$result  = $this->class_instance->run_import();
 
-		$seo_desc  = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
+		$seo_desc = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
 
 		$this->assertEquals( $seo_desc, 'Test description' );
 		$this->assertEquals( $this->status( 'import', true ), $result );
@@ -103,7 +103,7 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->setup_post();
 		$result  = $this->class_instance->run_cleanup();
 
-		$seo_desc  = get_post_meta( $post_id, 'advanced_seo_description', true );
+		$seo_desc = get_post_meta( $post_id, 'advanced_seo_description', true );
 
 		$this->assertEquals( $seo_desc, false );
 		$this->assertEquals( $this->status( 'cleanup', true ), $result );

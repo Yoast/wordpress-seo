@@ -12,12 +12,16 @@
  */
 class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	/**
-	 * @var string The plugin name
+	 * The plugin name.
+	 *
+	 * @var string
 	 */
 	protected $plugin_name = 'SEOpressor';
 
 	/**
-	 * @var string Meta key, used in SQL LIKE clause for detect query.
+	 * Meta key, used in SQL LIKE clause for detect query.
+	 *
+	 * @var string
 	 */
 	protected $meta_key = '_seop_settings';
 

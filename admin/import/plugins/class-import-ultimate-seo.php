@@ -10,17 +10,23 @@
  */
 class WPSEO_Import_Ultimate_SEO extends WPSEO_Plugin_Importer {
 	/**
-	 * @var string The plugin name
+	 * The plugin name.
+	 *
+	 * @var string
 	 */
 	protected $plugin_name = 'Ultimate SEO';
 
 	/**
-	 * @var string Meta key, used in SQL LIKE clause for detect query.
+	 * Meta key, used in SQL LIKE clause for detect query.
+	 *
+	 * @var string
 	 */
 	protected $meta_key = '_su_%';
 
 	/**
-	 * @var array The arrays of keys to clone into Yoast SEO.
+	 * The arrays of keys to clone into Yoast SEO.
+	 *
+	 * @var array
 	 */
 	protected $clone_keys = array(
 		array(

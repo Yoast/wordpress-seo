@@ -10,17 +10,23 @@
  */
 class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 	/**
-	 * @var string The plugin name
+	 * The plugin name.
+	 *
+	 * @var string
 	 */
 	protected $plugin_name = 'All In One SEO Pack';
 
 	/**
-	 * @var string Meta key, used in SQL LIKE clause for detect query.
+	 * Meta key, used in SQL LIKE clause for detect query.
+	 *
+	 * @var string
 	 */
 	protected $meta_key = '_aioseop_%';
 
 	/**
-	 * @var array Array of keys to clone
+	 * Array of keys to clone.
+	 *
+	 * @var array
 	 */
 	protected $clone_keys = array(
 		array(

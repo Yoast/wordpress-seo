@@ -56,6 +56,7 @@ class WPSEO_Import_Status {
 		}
 
 		if ( $this->status === false ) {
+			/* translators: %s is replaced with the name of the plugin we're trying to find data from. */
 			return __( '%s data not found.', 'wordpress-seo' );
 		}
 
