@@ -74,6 +74,9 @@ class Yoast_Modal {
 				'closeButton' => '',
 			),
 			'content'    => null,
+			'strings'    => array(
+				'locale' => WPSEO_Utils::get_user_locale(),
+			),
 		);
 
 		return $config;

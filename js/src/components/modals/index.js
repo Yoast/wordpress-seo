@@ -1,8 +1,8 @@
-import GetSupportFree from "./GetSupportFree";
+import AddKeyword from "./AddKeyword";
 import ModalTestContent from "./ModalTestContent";
 
 const modals = {
-	GetSupportFree: GetSupportFree,
+	AddKeyword: AddKeyword,
 	ModalTestContent: ModalTestContent,
 };
 

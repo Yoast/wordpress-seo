@@ -2,6 +2,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
+import { injectIntl, intlShape } from "react-intl";
+import IntlProvider from "./components/IntlProvider";
 
 import YoastModal from "yoast-components/composites/Plugin/Shared/components/YoastModal";
 import modals from "./components/modals";
@@ -61,7 +63,7 @@ class Modal extends React.Component {
 					closeButton={ this.props.labels.close }
 					closeButtonClassName={ this.props.classes.closeButton }
 				>
-					<ModalContent />
+					<ModalContent translations={ this.props.translations } />
 				</YoastModal>
 			</React.Fragment>
 		);
@@ -74,11 +76,15 @@ Modal.propTypes = {
 	labels: PropTypes.object,
 	content: PropTypes.string.isRequired,
 	classes: PropTypes.object,
+	translations: PropTypes.object,
+	intl: intlShape.isRequired,
 };
+
+const ModalIntl = injectIntl( Modal );
 
 yoastModalConfig.forEach(
 	( config ) => {
-		if ( ! config.hook ) {
+		if ( ! config.hook || ! config.content ) {
 			return;
 		}
 
@@ -86,13 +92,16 @@ yoastModalConfig.forEach(
 
 		if ( element ) {
 			ReactDOM.render(
-				<Modal
-					hook={ config.hook }
-					appElement={ config.appElement }
-					labels={ config.labels }
-					content={ config.content }
-					classes={ config.classes }
-				/>,
+				<IntlProvider messages={ config.strings }>
+					<ModalIntl
+						hook={ config.hook }
+						appElement={ config.appElement }
+						labels={ config.labels }
+						content={ config.content }
+						classes={ config.classes }
+						translations={ config.strings }
+					/>
+				</IntlProvider>,
 				element
 			);
 		}
