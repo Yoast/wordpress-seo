@@ -1,6 +1,6 @@
 <?php
 /**
- * WPSEO plugin file.
+ * File with the class to handle data from SEOPressor.
  *
  * @package WPSEO\Admin\Import\Plugins
  */
@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_Import_SEOPressor
  *
- * Class with functionality to import Yoast SEO settings from SEOpressor.
+ * Class with functionality to import & clean SEOPressor post metadata.
  */
 class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	/**

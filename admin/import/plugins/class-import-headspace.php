@@ -1,6 +1,6 @@
 <?php
 /**
- * WPSEO plugin file.
+ * File with the class to handle data from HeadSpace.
  *
  * @package WPSEO\Admin\Import\Plugins
  */
@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_Import_HeadSpace
  *
- * Class with functionality to import Yoast SEO settings from other plugins.
+ * Class with functionality to import & clean HeadSpace SEO post metadata.
  */
 class WPSEO_Import_HeadSpace extends WPSEO_Plugin_Importer {
 	/**

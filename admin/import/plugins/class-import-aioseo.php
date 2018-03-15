@@ -1,12 +1,12 @@
 <?php
 /**
- * WPSEO plugin file.
+ * File with the class to handle data from All in One SEO Pack.
  *
  * @package WPSEO\Admin\Import\Plugins
  */
 
 /**
- * Class with functionality to import Yoast SEO settings from All In One SEO.
+ * Class with functionality to import & clean All in One SEO Pack post metadata.
  */
 class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 	/**
@@ -24,12 +24,12 @@ class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 	 */
 	protected $clone_keys = array(
 		array(
-			'old_key' => '_aioseop_description',
-			'new_key' => 'metadesc',
-		),
-		array(
 			'old_key' => '_aioseop_title',
 			'new_key' => 'title',
+		),
+		array(
+			'old_key' => '_aioseop_description',
+			'new_key' => 'metadesc',
 		),
 		array(
 			'old_key' => '_aioseop_noindex',
