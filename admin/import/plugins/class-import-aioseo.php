@@ -15,7 +15,7 @@ class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 	protected $plugin_name = 'All In One SEO Pack';
 
 	/**
-	 * @var string Meta key, used in like clause for detect query.
+	 * @var string Meta key, used in SQL LIKE clause for detect query.
 	 */
 	protected $meta_key = '_aioseop_%';
 
@@ -81,7 +81,7 @@ class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 	 */
 	private function import_post_opengraph( $post_id ) {
 		$meta = get_post_meta( $post_id, '_aioseop_opengraph_settings', true );
-		$meta = unserialize( $meta );
+		$meta = maybe_unserialize( $meta );
 
 		$import_keys = array(
 			'aioseop_opengraph_settings_title'             => 'opengraph-title',

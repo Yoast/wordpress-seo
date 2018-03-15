@@ -17,7 +17,7 @@ class WPSEO_Import_Jetpack_SEO extends WPSEO_Plugin_Importer {
 	protected $plugin_name = 'Jetpack';
 
 	/**
-	 * @var string Meta key, used in like clause for detect query.
+	 * @var string Meta key, used in SQL LIKE clause for detect query.
 	 */
 	protected $meta_key = 'advanced_seo_description';
 

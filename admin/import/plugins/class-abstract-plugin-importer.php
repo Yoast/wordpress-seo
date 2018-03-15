@@ -1,12 +1,14 @@
 <?php
 /**
+ * This file hols the abstract class for dealing with imports from other plugins.
+ *
  * @package WPSEO\Admin\Import\Plugins
  */
 
 /**
  * Class WPSEO_Plugin_Importer
  *
- * Class with functionality to import Yoast SEO settings from other plugins.
+ * Class with functionality to import meta data from other plugins.
  */
 abstract class WPSEO_Plugin_Importer {
 	/**
@@ -17,17 +19,23 @@ abstract class WPSEO_Plugin_Importer {
 	protected $status;
 
 	/**
-	 * @var wpdb Holds the WPDB instance.
+	 * Holds the WPDB instance.
+	 *
+	 * @var wpdb
 	 */
 	protected $wpdb;
 
 	/**
-	 * @var string The plugin name.
+	 * The plugin name.
+	 *
+	 * @var string
 	 */
 	protected $plugin_name;
 
 	/**
-	 * @var string Meta key, used in like clause for detect query.
+	 * Meta key, used in SQL LIKE clause for detect query.
+	 *
+	 * @var string
 	 */
 	protected $meta_key;
 

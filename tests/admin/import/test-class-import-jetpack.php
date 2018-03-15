@@ -10,6 +10,8 @@
  */
 class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 	/**
+	 * Holds the class instance.
+	 *
 	 * @var WPSEO_Import_Jetpack_SEO
 	 */
 	private $class_instance;
@@ -24,6 +26,8 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the plugin name function.
+	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::get_plugin_name
 	 */
 	public function test_plugin_name() {
@@ -31,6 +35,8 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can return false when there's no detectable data.
+	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::__construct
 	 * @covers WPSEO_Import_Jetpack_SEO::run_detect
 	 * @covers WPSEO_Import_Jetpack_SEO::detect
@@ -40,6 +46,8 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can detect data.
+	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::run_detect
 	 * @covers WPSEO_Import_Jetpack_SEO::detect
 	 */
@@ -49,6 +57,8 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can return properly when there's nothing to import.
+	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::run_import
 	 */
 	public function test_import_without_data() {
@@ -57,6 +67,8 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can properly import data.
+	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::run_import
 	 * @covers WPSEO_Import_Jetpack_SEO::import
 	 * @covers WPSEO_Import_Jetpack_SEO::meta_key_clone
@@ -72,14 +84,18 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can properly return an error when there is no data to clean.
+	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::run_cleanup
 	 */
 	public function test_cleanup_without_data() {
-		$result  = $this->class_instance->run_cleanup();
+		$result = $this->class_instance->run_cleanup();
 		$this->assertEquals( $this->status( 'cleanup', false ), $result );
 	}
 
 	/**
+	 * Tests whether we can properly clean up.
+	 *
 	 * @covers WPSEO_Import_Jetpack_SEO::run_cleanup
 	 * @covers WPSEO_Import_Jetpack_SEO::cleanup
 	 */

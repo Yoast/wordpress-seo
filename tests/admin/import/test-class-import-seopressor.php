@@ -10,6 +10,8 @@
  */
 class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 	/**
+	 * Holds the class instance.
+	 *
 	 * @var WPSEO_Import_SEOPressor
 	 */
 	private $class_instance;
@@ -24,6 +26,8 @@ class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the plugin name function.
+	 *
 	 * @covers WPSEO_Import_SEOPressor::get_plugin_name
 	 */
 	public function test_plugin_name() {
@@ -31,6 +35,8 @@ class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can return false when there's no detectable data.
+	 *
 	 * @covers WPSEO_Import_SEOPressor::__construct
 	 * @covers WPSEO_Import_SEOPressor::run_detect
 	 * @covers WPSEO_Import_SEOPressor::detect
@@ -40,6 +46,8 @@ class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can detect data.
+	 *
 	 * @covers WPSEO_Import_SEOPressor::run_detect
 	 * @covers WPSEO_Import_SEOPressor::detect
 	 */
@@ -49,6 +57,8 @@ class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can return properly when there's nothing to import.
+	 *
 	 * @covers WPSEO_Import_SEOPressor::run_import
 	 */
 	public function test_import_no_data() {
@@ -56,6 +66,8 @@ class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can properly import data.
+	 *
 	 * @covers WPSEO_Import_SEOPressor::run_import
 	 * @covers WPSEO_Import_SEOPressor::import
 	 * @covers WPSEO_Import_SEOPressor::import_post_focus_keywords
@@ -85,6 +97,8 @@ class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can properly return an error when there is no data to clean.
+	 *
 	 * @covers WPSEO_Import_SEOPressor::run_cleanup
 	 */
 	public function test_cleanup_no_data() {
@@ -92,6 +106,8 @@ class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether we can properly clean up.
+	 *
 	 * @covers WPSEO_Import_SEOPressor::run_cleanup
 	 * @covers WPSEO_Import_SEOPressor::cleanup
 	 */

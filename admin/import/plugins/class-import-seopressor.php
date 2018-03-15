@@ -17,7 +17,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	protected $plugin_name = 'SEOpressor';
 
 	/**
-	 * @var string Meta key, used in like clause for detect query.
+	 * @var string Meta key, used in SQL LIKE clause for detect query.
 	 */
 	protected $meta_key = '_seop_settings';
 
@@ -133,7 +133,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	 */
 	private function import_post_robots( $meta_rules, $post_id ) {
 		$seopressor_robots = explode( '#|#|#', $meta_rules );
-		$robot_value = $this->get_robot_value( $seopressor_robots );
+		$robot_value       = $this->get_robot_value( $seopressor_robots );
 
 		// Saving the new meta values for Yoast SEO.
 		$this->maybe_save_post_meta( 'meta-robots-noindex', $robot_value['index'], $post_id );

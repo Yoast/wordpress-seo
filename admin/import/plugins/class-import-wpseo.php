@@ -17,7 +17,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	protected $plugin_name = 'wpSEO.de';
 
 	/**
-	 * @var string Meta key, used in like clause for detect query.
+	 * @var string Meta key, used in SQL LIKE clause for detect query.
 	 */
 	protected $meta_key = '_wpseo_edit_%';
 

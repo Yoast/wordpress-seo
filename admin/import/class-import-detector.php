@@ -21,7 +21,7 @@ class WPSEO_Import_Plugins_Detector {
 	 */
 	public function detect() {
 		foreach ( WPSEO_Plugin_Importers::get() as $importer_class ) {
-			$importer = new $importer_class;
+			$importer = new $importer_class();
 			$detect   = new WPSEO_Import_Plugin( $importer, 'detect' );
 			if ( $detect->status->status ) {
 				$this->needs_import[ $importer_class ] = $importer->get_plugin_name();
