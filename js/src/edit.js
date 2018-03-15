@@ -115,8 +115,9 @@ function renderReactApps( store, args ) {
  * @param {Object} args Edit initialize arguments.
  * @param {string} args.seoTarget Target to render the seo analysis.
  * @param {string} args.readabilityTarget Target to render the readability analysis.
+ * @param {Function} args.onRefreshRequest The function to refresh the analysis.
  *
- * @returns {Object} Things that need to be exposed, such as the store.
+ * @returns {Object} The store and the data.
  */
 export function initialize( args ) {
 	const store = configureStore();
@@ -126,6 +127,7 @@ export function initialize( args ) {
 	if ( isGutenbergDataAvailable() ) {
 		const gutenbergData = new Data( wp.data, args.onRefreshRequest );
 		gutenbergData.subscribeToGutenberg();
+		gutenbergData.setRefresh( () => {} );
 		data = gutenbergData;
 	}
 
