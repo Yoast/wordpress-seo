@@ -115,13 +115,16 @@ class WPSEO_Import_Status {
 	private function get_default_success_message() {
 		switch ( $this->action ) {
 			case 'import':
+				/* translators: %s is replaced with the name of the plugin we're importing data from. */
 				return __( '%s data successfully imported.', 'wordpress-seo' );
 				break;
 			case 'cleanup':
+				/* translators: %s is replaced with the name of the plugin we're removing data from. */
 				return __( '%s data successfully removed.', 'wordpress-seo' );
 				break;
 			case 'detect':
 			default:
+			/* translators: %s is replaced with the name of the plugin we've found data from. */
 				return __( '%s data found.', 'wordpress-seo' );
 		}
 	}
