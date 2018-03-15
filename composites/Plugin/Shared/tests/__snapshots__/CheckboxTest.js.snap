@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Checkbox executes callback 1`] = `
+exports[`the Checkbox executes callback 1`] = `
 Array [
   .c0 {
   margin-right: 0.5em;
@@ -20,7 +20,47 @@ Array [
 ]
 `;
 
-exports[`Checkbox executes callback 2`] = `
+exports[`the Checkbox executes callback 2`] = `
+Array [
+  .c0 {
+  margin-right: 0.5em;
+}
+
+<input
+    className="c0"
+    id="testCallback"
+    onChange={[Function]}
+    type="checkbox"
+/>,
+  <label
+    htmlFor="testCallback"
+>
+    testCallbackLabel
+</label>,
+]
+`;
+
+exports[`the Checkbox executes callback when the state changes 1`] = `
+Array [
+  .c0 {
+  margin-right: 0.5em;
+}
+
+<input
+    className="c0"
+    id="testCallback"
+    onChange={[Function]}
+    type="checkbox"
+/>,
+  <label
+    htmlFor="testCallback"
+>
+    testCallbackLabel
+</label>,
+]
+`;
+
+exports[`the Checkbox executes callback when the state changes 2`] = `
 Array [
   .c0 {
   margin-right: 0.5em;

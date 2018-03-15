@@ -7,7 +7,7 @@ const YoastCheckbox = styled.input`
 `;
 
 /**
- * Creates a React Checkbox and Label component.
+ * Creates a React Checkbox which consists of a checkbox and a label.
  */
 class Checkbox extends React.Component {
 	constructor( props ) {
@@ -31,7 +31,7 @@ class Checkbox extends React.Component {
 	/**
 	 * Renders a checkbox and a label.
 	 *
-	 * @returns {ReactElement} The Checkbox react component including label.
+	 * @returns {ReactElement} The Checkbox react component including its label.
 	 */
 	render() {
 		return(

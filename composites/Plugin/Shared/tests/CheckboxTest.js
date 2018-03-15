@@ -21,10 +21,35 @@ test( "the Checkbox matches the snapshot when an array is provided as a label", 
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "Checkbox executes callback", () => {
+test( "the Checkbox executes callback", () => {
 	let event = {
 		target: {
 			checked: false,
+		},
+	};
+	const component = renderer.create(
+		<Checkbox
+			id="testCallback"
+			onChange={ () => {
+				console.log( "changed" );
+			} }
+			label="testCallbackLabel"
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+
+	tree[ 0 ].props.onChange( event );
+
+	tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
+test( "the Checkbox executes callback when the state changes", () => {
+	let event = {
+		target: {
+			checked: true,
 		},
 	};
 	const component = renderer.create(

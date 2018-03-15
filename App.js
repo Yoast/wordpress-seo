@@ -53,7 +53,7 @@ const components = [
 		id: "checkbox",
 		name: "Checkbox",
 		component: <Checkbox
-			id="exampleCheckbox"
+			id="example-checkbox"
 			label={ [
 				"This is a label that also accepts arrays, so you can pass links such as ",
 				<a key="1" href="https://yoa.st/metabox-help-cornerstone?utm_content=7.0.3" target="_blank">cornerstone content</a>,
