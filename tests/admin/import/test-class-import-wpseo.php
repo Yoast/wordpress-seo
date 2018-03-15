@@ -59,7 +59,6 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_WPSEO::detect
 	 * @covers WPSEO_Import_WPSEO::run_import
 	 * @covers WPSEO_Import_WPSEO::import
-	 * @covers WPSEO_Import_WPSEO::import_post_metas
 	 * @covers WPSEO_Import_WPSEO::import_post_robot
 	 * @covers WPSEO_Import_WPSEO::import_post_robots
 	 * @covers WPSEO_Import_WPSEO::get_robot_value

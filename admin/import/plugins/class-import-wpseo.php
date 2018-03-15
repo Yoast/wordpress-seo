@@ -22,6 +22,24 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	protected $meta_key = '_wpseo_edit_%';
 
 	/**
+	 * @var array The arrays of keys to clone into Yoast SEO.
+	 */
+	protected $clone_keys = array(
+		array(
+			'old_key' => '_wpseo_edit_description',
+			'new_key' => 'metadesc',
+		),
+		array(
+			'old_key' => '_wpseo_edit_title',
+			'new_key' => 'title',
+		),
+		array(
+			'old_key' => '_wpseo_edit_canonical',
+			'new_key' => 'canonical',
+		),
+	);
+
+	/**
 	 * The values 1 - 6 are the configured values from wpSEO. This array will map the values of wpSEO to our values.
 	 *
 	 * There are some double array like 1-6 and 3-4. The reason is they only set the index value. The follow value is
@@ -68,10 +86,13 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 * @return bool Import success status.
 	 */
 	protected function import() {
-		$this->import_post_metas();
-		$this->import_taxonomy_metas();
+		$status = parent::import();
+		if ( $status ) {
+			$this->import_post_robots();
+			$this->import_taxonomy_metas();
+		}
 
-		return true;
+		return $status;
 	}
 
 	/**
@@ -101,33 +122,6 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Imports the post meta values to Yoast SEO by replacing the wpSEO fields by Yoast SEO fields.
-	 *
-	 * @return void
-	 */
-	private function import_post_metas() {
-		if ( $this->detect() ) {
-			$clone_keys = array(
-				array(
-					'old_key' => '_wpseo_edit_description',
-					'new_key' => 'metadesc',
-				),
-				array(
-					'old_key' => '_wpseo_edit_title',
-					'new_key' => 'title',
-				),
-				array(
-					'old_key' => '_wpseo_edit_canonical',
-					'new_key' => 'canonical',
-				),
-			);
-			$this->meta_keys_clone( $clone_keys );
-
-			$this->import_post_robots();
-		}
 	}
 
 	/**

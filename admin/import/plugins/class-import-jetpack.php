@@ -22,12 +22,13 @@ class WPSEO_Import_Jetpack_SEO extends WPSEO_Plugin_Importer {
 	protected $meta_key = 'advanced_seo_description';
 
 	/**
-	 * Imports Jetpack SEO meta values.
-	 *
-	 * @return bool Import success status.
+	 * @var array The arrays of keys to clone into Yoast SEO.
 	 */
-	protected function import() {
-		return $this->meta_key_clone( 'advanced_seo_description', 'metadesc' );
-	}
+	protected $clone_keys = array(
+		array(
+			'old_key' => 'advanced_seo_description',
+			'new_key' => 'metadesc',
+		),
+	);
 
 }

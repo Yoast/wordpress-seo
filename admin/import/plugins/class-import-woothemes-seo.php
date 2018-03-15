@@ -22,6 +22,28 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 	protected $meta_key = 'seo_title';
 
 	/**
+	 * @var array The arrays of keys to clone into Yoast SEO.
+	 */
+	protected $clone_keys = array(
+		array(
+			'old_key' => 'seo_description',
+			'new_key' => 'metadesc',
+		),
+		array(
+			'old_key' => 'seo_title',
+			'new_key' => 'title',
+		),
+		array(
+			'old_key' => 'seo_noindex',
+			'new_key' => 'meta-robots-noindex',
+		),
+		array(
+			'old_key' => 'seo_follow',
+			'new_key' => 'meta-robots-nofollow',
+		),
+	);
+
+	/**
 	 * Cleans up the WooThemes SEO settings.
 	 *
 	 * @return bool Cleanup status.
@@ -32,33 +54,6 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 			$this->cleanup_options();
 		}
 		return $result;
-	}
-
-	/**
-	 * Imports meta values if they're applicable.
-	 *
-	 * @return bool Import success status.
-	 */
-	protected function import() {
-		$clone_keys = array(
-			array(
-				'old_key' => 'seo_description',
-				'new_key' => 'metadesc',
-			),
-			array(
-				'old_key' => 'seo_title',
-				'new_key' => 'title',
-			),
-			array(
-				'old_key' => 'seo_noindex',
-				'new_key' => 'meta-robots-noindex',
-			),
-			array(
-				'old_key' => 'seo_follow',
-				'new_key' => 'meta-robots-nofollow',
-			),
-		);
-		return $this->meta_keys_clone( $clone_keys );
 	}
 
 	/**

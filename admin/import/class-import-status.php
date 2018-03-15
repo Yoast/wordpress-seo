@@ -124,7 +124,7 @@ class WPSEO_Import_Status {
 				break;
 			case 'detect':
 			default:
-			/* translators: %s is replaced with the name of the plugin we've found data from. */
+				/* translators: %s is replaced with the name of the plugin we've found data from. */
 				return __( '%s data found.', 'wordpress-seo' );
 		}
 	}

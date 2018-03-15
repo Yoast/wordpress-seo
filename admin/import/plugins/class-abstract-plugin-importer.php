@@ -77,7 +77,9 @@ abstract class WPSEO_Plugin_Importer {
 	 *
 	 * @return bool Import success status.
 	 */
-	abstract protected function import();
+	protected function import() {
+		return $this->meta_keys_clone( $this->clone_keys );
+	}
 
 	/**
 	 * Removes the plugin data from the database.

@@ -61,7 +61,6 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_AIOSEO::import
 	 * @covers WPSEO_Import_AIOSEO::import_opengraph
 	 * @covers WPSEO_Import_AIOSEO::import_post_opengraph
-	 * @covers WPSEO_Import_AIOSEO::import_simple_metas
 	 * @covers WPSEO_Import_AIOSEO::meta_key_clone
 	 * @covers WPSEO_Import_AIOSEO::meta_keys_clone
 	 */
@@ -115,7 +114,6 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_AIOSEO::maybe_save_post_meta
 	 * @covers WPSEO_Import_AIOSEO::import_opengraph
 	 * @covers WPSEO_Import_AIOSEO::import_post_opengraph
-	 * @covers WPSEO_Import_AIOSEO::import_simple_metas
 	 */
 	public function test_import_without_overwriting_data() {
 		$post_id = $this->setup_post( true );
