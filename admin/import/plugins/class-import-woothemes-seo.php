@@ -59,7 +59,7 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
 		'seo_noindex',
 		'seo_title',
 		'seo_description',
-		'seo_keywords'
+		'seo_keywords',
 	);
 
 	/**
