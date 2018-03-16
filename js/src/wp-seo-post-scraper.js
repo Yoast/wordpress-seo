@@ -460,8 +460,10 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		// Set initial keyword.
 		store.dispatch( setActiveKeyword( tabManager.getKeywordTab().getKeyWord() ) );
 
-		// Set refresh function.
-		data.setRefresh( app.refresh );
+		// Set refresh function. data.setRefresh is only defined when Gutenberg is available.
+		if ( data.setRefresh ) {
+			data.setRefresh( app.refresh );
+		}
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );
