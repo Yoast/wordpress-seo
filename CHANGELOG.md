@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.30.2  March 16th, 2018
+### Changed
+* Reverted the default view of the snippet preview to desktop.
+
 ## 1.30.1 March 12th, 2018
 ### Fixed
 * Fixes a bug that broke a filter which marks Spanish and French sentences as non-passive when certain exception words occur between the auxiliary and the participle.
