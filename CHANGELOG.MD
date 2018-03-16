@@ -5,6 +5,11 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 3.2.1 March 16th, 2018
+
+### Bugfix
+* Fixed the PropType to `func` for the dynamically supplied icon.
+
 ## 3.2.0 March 14th, 2018
 
 ### Added
