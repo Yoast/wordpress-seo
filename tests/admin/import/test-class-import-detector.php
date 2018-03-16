@@ -11,6 +11,8 @@
 class WPSEO_Import_External_Detector_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 *  Test whether we can return properly when there's no plugin data.
+	 *
 	 * @covers WPSEO_Import_Plugins_Detector::detect
 	 */
 	public function test_detect_no_data() {
@@ -21,6 +23,8 @@ class WPSEO_Import_External_Detector_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test whether we can detect a plugin's data.
+	 *
 	 * @covers WPSEO_Import_Plugins_Detector::detect
 	 */
 	public function test_detect_with_data() {
