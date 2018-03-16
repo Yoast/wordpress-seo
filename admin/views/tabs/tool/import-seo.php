@@ -84,9 +84,18 @@ function wpseo_import_external_select( $name, $plugins ) {
 </div>
 
 <div class="tab-block">
-	<h3><?php esc_html_e( 'Step 4: Clean up', 'wordpress-seo' ); ?></h3>
+	<h3><?php esc_html_e( 'Step 4: Run the configuration wizard', 'wordpress-seo' ); ?></h3>
 	<p>
-		<?php esc_html_e( 'This will remove all the original data.', 'wordpress-seo' ); ?>
+		<?php
+			printf( esc_html__( 'You should run the configuration wizard, from the SEO &rarr; General &rarr; Dashboard page, to make sure all the settings for your site are correct.', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '">','</a>' );
+		?>
+	</p>
+</div>
+
+<div class="tab-block">
+	<h3><?php esc_html_e( 'Step 5: Clean up', 'wordpress-seo' ); ?></h3>
+	<p>
+		<?php esc_html_e( 'Once you\'re certain your site is OK, you can clean up. This will remove all the original data.', 'wordpress-seo' ); ?>
 	</p>
 	<form action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"
 		  method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
