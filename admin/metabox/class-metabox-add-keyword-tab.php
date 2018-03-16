@@ -18,18 +18,25 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 	public function link() {
 
 		$add_keyword_modal_config = array(
-			'hook'       => '.wpseo-tab-add-keyword',
-			'labels'     => array(
+			'hook'           => '.wpseo-tab-add-keyword',
+			'openButtonIcon' => 'plus',
+			'labels'         => array(
 				'open'    => __( 'Add keyword', 'wordpress-seo' ),
-				'label'   => sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
-				'heading' => sprintf( __( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
+				'label'   => sprintf(
+					/* translators: %s expands to 'Yoast SEO Premium'. */
+					__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
+				),
+				'heading' => sprintf(
+					/* translators: %s expands to 'Yoast SEO Premium'. */
+					__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
+				),
 				'xLabel'  => __( 'Close', 'wordpress-seo' ),
 			),
-			'classes'    => array(
+			'classes'        => array(
 				'openButton' => 'wpseo-add-keyword button button-link',
 			),
-			'content'    => 'AddKeyword',
-			'strings'       => array(
+			'content'        => 'AddKeyword',
+			'strings'        => array(
 				'title'    => __( 'Want to add more than one keyword?', 'wordpress-seo' ),
 				'intro'    => sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */

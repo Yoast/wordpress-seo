@@ -2,11 +2,26 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
+import styled from "styled-components";
 import { injectIntl, intlShape } from "react-intl";
 import IntlProvider from "./components/IntlProvider";
 
 import YoastModal from "yoast-components/composites/Plugin/Shared/components/YoastModal";
+import SvgIcon from "yoast-components/composites/Plugin/Shared/components/SvgIcon";
 import modals from "./components/modals";
+
+const StyledButton = styled.button`
+	// Increase specificity to override WP rules.
+	&& {
+		display: flex;
+		align-items: center;
+	}
+
+	.yoast-svg-icon {
+		margin: 1px 7px 0 0;
+		fill: currentColor;
+	}
+`;
 
 class Modal extends React.Component {
 
@@ -46,13 +61,14 @@ class Modal extends React.Component {
 
 		return (
 			<React.Fragment>
-				<button
+				<StyledButton
 					type="button"
 					onClick={ this.openModal }
 					className={ `${ this.props.classes.openButton } yoast-modal__button-open` }
 				>
+					{ this.props.openButtonIcon && <SvgIcon icon={ this.props.openButtonIcon } size="13px" /> }
 					{ this.props.labels.open }
-				</button>
+				</StyledButton>
 				<YoastModal
 					isOpen={ this.state.modalIsOpen }
 					onClose={ this.closeModal }
@@ -73,6 +89,7 @@ class Modal extends React.Component {
 Modal.propTypes = {
 	className: PropTypes.string,
 	appElement: PropTypes.string.isRequired,
+	openButtonIcon: PropTypes.string,
 	labels: PropTypes.object,
 	content: PropTypes.string.isRequired,
 	classes: PropTypes.object,
@@ -96,6 +113,7 @@ yoastModalConfig.forEach(
 					<ModalIntl
 						hook={ config.hook }
 						appElement={ config.appElement }
+						openButtonIcon={ config.openButtonIcon }
 						labels={ config.labels }
 						content={ config.content }
 						classes={ config.classes }

@@ -61,20 +61,21 @@ class Yoast_Modal {
 	 */
 	public static function get_defaults() {
 		$config = array(
-			'hook'       => '',
-			'appElement' => '#wpwrap',
-			'labels'     => array(
+			'hook'           => '',
+			'appElement'     => '#wpwrap',
+			'openButtonIcon' => '',
+			'labels'         => array(
 				'open'    => __( 'Open', 'wordpress-seo' ),
 				'label'   => null,
 				'xLabel'  => null,
 				'heading' => null,
 				'close'   => null,
 			),
-			'classes'    => array(
+			'classes'        => array(
 				'closeButton' => '',
 			),
-			'content'    => null,
-			'strings'    => array(
+			'content'        => null,
+			'strings'        => array(
 				'locale' => WPSEO_Utils::get_user_locale(),
 			),
 		);
