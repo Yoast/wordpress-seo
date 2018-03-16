@@ -25,6 +25,10 @@ describe("a test for getting the correct first word exception array", function()
 		expect(firstWordExceptions("it_IT")()).toEqual([ 'il', 'lo', 'la', 'i', 'gli', 'le', 'uno', 'un', 'una', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove', 'dieci', 'questo', 'questa', 'quello', 'quella', 'questi', 'queste', 'quelli', 'quelle', 'codesto', 'codesti', 'codesta', 'codeste' ]);
 	});
 
+	it("returns the Russian first word exception array in case of ru_RU locale", function () {
+		expect(firstWordExceptions("ru_RU")()).toEqual([ "один", "одна", "одно", "два", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять", "этот", "этого", "этому", "этим", "этом", "эта", "этой", "эту", "это", "этого", "этому", "эти", "этих", "этим", "этими", "тот", "того", "тому", "тем", "том", "та", "той", "ту", "те", "тех", "тем", "теми", "тех", "такой", "такого", "такому", "таким", "такая", "такую", "такое", "такие", "таких", "таким", "такими", "стольких", "стольким", "столько", "столькими", "вот" ]);
+	});
+
 	it("returns the English first word exception array in case of empty locale", function () {
 		expect(firstWordExceptions("")()).toEqual([ 'the', 'a', 'an', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'this', 'that', 'these', 'those' ]);
 	});
