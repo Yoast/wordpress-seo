@@ -346,7 +346,7 @@ OnboardingWizard.propTypes = {
 	customComponents: PropTypes.object,
 	finishUrl: PropTypes.string,
 	translate: PropTypes.any,
-	headerIcon: PropTypes.string,
+	headerIcon: PropTypes.func,
 };
 
 OnboardingWizard.defaultProps = {
