@@ -85,22 +85,6 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	}
 
 	/**
-	 * Represents the Helper function to store the meta value should it be set in SEOPressor's settings.
-	 *
-	 * @param string $seo_pressor_key     The key in the SEOPressor array.
-	 * @param string $yoast_key           The identifier we use in our meta settings.
-	 * @param array  $seopressor_settings The array of settings for this post in SEOpressor.
-	 * @param int    $post_id             The post ID.
-	 *
-	 * @return void
-	 */
-	private function import_meta_helper( $seo_pressor_key, $yoast_key, $seopressor_settings, $post_id ) {
-		if ( ! empty( $seopressor_settings[ $seo_pressor_key ] ) ) {
-			$this->maybe_save_post_meta( $yoast_key, $seopressor_settings[ $seo_pressor_key ], $post_id );
-		}
-	}
-
-	/**
 	 * Imports the focus keywords, and stores them for later use.
 	 *
 	 * @param integer $post_id Post ID.
