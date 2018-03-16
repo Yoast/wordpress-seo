@@ -62,7 +62,7 @@ class Yoast_Modal {
 	public static function get_defaults() {
 		$config = array(
 			'hook'       => '',
-			'appElement' => 'body',
+			'appElement' => '#wpwrap',
 			'labels'     => array(
 				'open'    => __( 'Open', 'wordpress-seo' ),
 				'label'   => null,
