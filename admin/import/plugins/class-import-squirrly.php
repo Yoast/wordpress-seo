@@ -25,6 +25,13 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 	 */
 	protected $table_name;
 
+	/**
+	 * Meta key, used in SQL LIKE clause for detect query.
+	 *
+	 * @var string
+	 */
+	protected $meta_key = '_sq_post_keyword';
+
 	public function __construct() {
 		parent::__construct();
 
@@ -65,6 +72,9 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 
 		// If we can clean, let's clean.
 		$wpdb->query( "DROP TABLE " . $this->table_name );
+
+		// This removes the post meta field for the focus keyword from the DB.
+		parent::cleanup();
 
 		// If we can still see the table, something went wrong.
 		if ( $this->detect() ) {
