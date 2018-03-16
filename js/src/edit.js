@@ -127,7 +127,6 @@ export function initialize( args ) {
 	if ( isGutenbergDataAvailable() ) {
 		const gutenbergData = new Data( wp.data, args.onRefreshRequest );
 		gutenbergData.subscribeToGutenberg();
-		gutenbergData.setRefresh( () => {} );
 		data = gutenbergData;
 	}
 
