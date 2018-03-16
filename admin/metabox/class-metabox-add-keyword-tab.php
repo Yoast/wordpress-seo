@@ -39,8 +39,9 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 			'strings'        => array(
 				'title'    => __( 'Want to add more than one keyword?', 'wordpress-seo' ),
 				'intro'    => sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( 'Great news: you can, with %s!', 'wordpress-seo' ), 'Yoast SEO Premium'
+					/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
+					__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
+					'{{link}}Yoast SEO Premium{{/link}}'
 				),
 				'link'     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
 				'buylink'  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
@@ -54,11 +55,19 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 					__( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium'
 				),
 				'benefits' => array(
-					__( 'No more dead links: easy redirect manager', 'wordpress-seo' ),
-					__( 'Superfast internal links suggestions', 'wordpress-seo' ),
-					__( 'Social media preview: Facebook & Twitter', 'wordpress-seo' ),
-					__( '24/7 support', 'wordpress-seo' ),
-					__( 'No ads!', 'wordpress-seo' ),
+					sprintf(
+						/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+						__( '%1$sNo more dead links%2$s: easy redirect manager', 'wordpress-seo' ),
+						'{{strong}}', '{{/strong}}'
+					),
+					'{{strong}}' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '{{/strong}}',
+					sprintf(
+						/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
+						__( '%1$sSocial media preview%2$s: Facebook & Twitter', 'wordpress-seo' ),
+						'{{strong}}', '{{/strong}}'
+					),
+					'{{strong}}' . __( '24/7 support', 'wordpress-seo' ) . '{{/strong}}',
+					'{{strong}}' . __( 'No ads!', 'wordpress-seo' ) . '{{/strong}}',
 				),
 				'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 			),

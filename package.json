@@ -80,9 +80,9 @@
     "sassdash": "^0.8.1",
     "svg-react-loader": "^0.4.5",
     "time-grunt": "^1.0.0",
-    "webpack-dev-server": "^2.11.0",
     "unminified-webpack-plugin": "^1.4.2",
-    "webpack": "^3.4.1"
+    "webpack": "^3.4.1",
+    "webpack-dev-server": "^2.11.0"
   },
   "optionalDependencies": {
     "grunt-contrib-imagemin": "^2.0.1"
@@ -91,6 +91,7 @@
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "grunt-wp-deploy": "^1.2.1",
+    "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
