@@ -125,6 +125,7 @@ Release Date: March 20th, 2018
 * Fixes a bug where the `page` and `paged` values could cause errors if they weren't properly handled as integers.
 * Fixes a bug where division by zero errors in the passive voice assessment would cause `NaN%` to show up in the feedback.
 * Fixes a bug where multiple `rel` arguments prevented correct `nofollow` detection.
+* Fixes a bug where enabling the Show blog page in the breadcrumb settings had the inverse effect. Internally renamed `breadcrumbs-blog-remove` to `breadcrumbs-display-blog-page` to fix logic issues.
 
 = 7.0.3 =
 Release Date: March 12th, 2018

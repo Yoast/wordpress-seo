@@ -71,7 +71,7 @@ class WPSEO_Customizer {
 	 */
 	private function breadcrumbs_blog_remove_setting() {
 		$this->wp_customize->add_setting(
-			'wpseo_titles[breadcrumbs-blog-remove]', array(
+			'wpseo_titles[breadcrumbs-display-blog-page]', array(
 				'default'   => '',
 				'type'      => 'option',
 				'transport' => 'refresh',
@@ -80,11 +80,11 @@ class WPSEO_Customizer {
 
 		$this->wp_customize->add_control(
 			new WP_Customize_Control(
-				$this->wp_customize, 'wpseo-breadcrumbs-blog-remove', array(
+				$this->wp_customize, 'wpseo-breadcrumbs-display-blog-page', array(
 					'label'           => __( 'Remove blog page from breadcrumbs', 'wordpress-seo' ),
 					'type'            => 'checkbox',
 					'section'         => 'wpseo_breadcrumbs_customizer_section',
-					'settings'        => 'wpseo_titles[breadcrumbs-blog-remove]',
+					'settings'        => 'wpseo_titles[breadcrumbs-display-blog-page]',
 					'context'         => '',
 					'active_callback' => array( $this, 'breadcrumbs_blog_remove_active_cb' ),
 				)
