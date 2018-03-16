@@ -105,7 +105,7 @@ $snippet_width: 600px;
 		&--desktop {
 			width: $snippet_width + 40;
 			max-width: 100%;
-			padding: 0 0 0 20px;
+			padding: 0 20px;
 			overflow: auto;
 		}
 
@@ -245,7 +245,7 @@ $snippet_width: 600px;
 			margin-right: 10px;
 			font-size: 20px;
 			line-height: inherit;
-			vertical-align: middle;
+			vertical-align: text-top;
 		}
 	}
 
