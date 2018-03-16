@@ -73,7 +73,10 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 			),
 
 		);
-		Yoast_Modal::add( $add_keyword_modal_config );
+
+		if ( ! WPSEO_UTILS::is_yoast_seo_premium() ) {
+			Yoast_Modal::add( $add_keyword_modal_config );
+		}
 
 		$more_modal_config = array(
 			'hook'       => '.inside .wpseo-metabox-buy-premium',
@@ -91,9 +94,15 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		);
 		Yoast_Modal::add( $more_modal_config );
 
+		// Keep the default Add Keyword button for Premium. On free it's replaced by React.
 		ob_start();
 		?>
-		<li class="wpseo-tab-add-keyword"></li>
+		<li class="wpseo-tab-add-keyword">
+			<button type="button" class="wpseo-add-keyword button button-link">
+				<span class="wpseo-add-keyword-plus" aria-hidden="true">+</span>
+				<?php esc_html_e( 'Add keyword', 'wordpress-seo' ); ?>
+			</button>
+		</li>
 		<?php
 		return ob_get_clean();
 	}
