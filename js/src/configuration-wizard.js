@@ -17,7 +17,7 @@ import FinalStep from "./components/FinalStep";
 import { setTranslations } from "yoast-components/utils/i18n";
 import isUndefined from "lodash/isUndefined";
 
-import YoastIcon from '../../images/Yoast_SEO_Icon.svg';
+import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
 
 injectTapEventPlugin();
 
