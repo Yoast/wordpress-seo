@@ -406,7 +406,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[ 0 ],
 			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[ 0 ],
 		},
-		container: document.getElementById( "snippet_preview"),
+		container: document.getElementById( "snippet_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[ 0 ],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[ 0 ],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[ 0 ],
