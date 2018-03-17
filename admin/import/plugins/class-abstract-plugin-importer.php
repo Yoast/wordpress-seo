@@ -98,6 +98,9 @@ abstract class WPSEO_Plugin_Importer {
 	 */
 	protected function cleanup() {
 		global $wpdb;
+		if ( empty( $this->meta_key ) ) {
+			return true;
+		}
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE %s",

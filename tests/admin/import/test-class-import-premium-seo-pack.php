@@ -8,11 +8,11 @@
 /**
  * Test importing meta data from AIOSEO.
  */
-class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
+class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Holds the class instance.
 	 *
-	 * @var WPSEO_Import_Squirrly
+	 * @var WPSEO_Import_Premium_SEO_Pack
 	 */
 	private $class_instance;
 
@@ -21,7 +21,7 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->class_instance = new WPSEO_Import_Squirrly();
+		$this->class_instance = new WPSEO_Import_Premium_SEO_Pack();
 	}
 
 	/**
@@ -37,18 +37,18 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the plugin name function.
 	 *
-	 * @covers WPSEO_Import_Squirrly::get_plugin_name
+	 * @covers WPSEO_Import_Premium_SEO_Pack::get_plugin_name
 	 */
 	public function test_plugin_name() {
-		$this->assertEquals( 'Squirrly SEO', $this->class_instance->get_plugin_name() );
+		$this->assertEquals( 'Premium SEO Pack', $this->class_instance->get_plugin_name() );
 	}
 
 	/**
 	 * Tests whether we can return false when there's no detectable data.
 	 *
-	 * @covers WPSEO_Import_Squirrly::__construct
-	 * @covers WPSEO_Import_Squirrly::run_detect
-	 * @covers WPSEO_Import_Squirrly::detect
+	 * @covers WPSEO_Import_Premium_SEO_Pack::__construct
+	 * @covers WPSEO_Import_Premium_SEO_Pack::run_detect
+	 * @covers WPSEO_Import_Premium_SEO_Pack::detect
 	 */
 	public function test_detect_without_data() {
 		$expected = $this->status( 'detect', false );
@@ -60,8 +60,8 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can detect data.
 	 *
-	 * @covers WPSEO_Import_Squirrly::run_detect
-	 * @covers WPSEO_Import_Squirrly::detect
+	 * @covers WPSEO_Import_Premium_SEO_Pack::run_detect
+	 * @covers WPSEO_Import_Premium_SEO_Pack::detect
 	 */
 	public function test_detect_with_data() {
 		$this->setup_post();
@@ -71,7 +71,7 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can return properly when there's nothing to import.
 	 *
-	 * @covers WPSEO_Import_Squirrly::run_import
+	 * @covers WPSEO_Import_Premium_SEO_Pack::run_import
 	 */
 	public function test_import_without_data() {
 		$result = $this->class_instance->run_import();
@@ -81,13 +81,13 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can properly import data.
 	 *
-	 * @covers WPSEO_Import_Squirrly::run_import
-	 * @covers WPSEO_Import_Squirrly::import
-	 * @covers WPSEO_Import_Squirrly::import_post_values
-	 * @covers WPSEO_Import_Squirrly::retrieve_post_data
-	 * @covers WPSEO_Import_Squirrly::maybe_add_focus_kw
-	 * @covers WPSEO_Import_Squirrly::retrieve_posts_query
-	 * @covers WPSEO_Import_Squirrly::retrieve_posts
+	 * @covers WPSEO_Import_Premium_SEO_Pack::run_import
+	 * @covers WPSEO_Import_Premium_SEO_Pack::import
+	 * @covers WPSEO_Import_Premium_SEO_Pack::import_post_values
+	 * @covers WPSEO_Import_Premium_SEO_Pack::retrieve_post_data
+	 * @covers WPSEO_Import_Premium_SEO_Pack::maybe_add_focus_kw
+	 * @covers WPSEO_Import_Premium_SEO_Pack::retrieve_posts_query
+	 * @covers WPSEO_Import_Premium_SEO_Pack::retrieve_posts
 	 */
 	public function test_import_with_data() {
 		$post_id = $this->setup_post();
@@ -114,12 +114,12 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we will not overwrite already existing Yoast SEO data with imported data.
 	 *
-	 * @covers WPSEO_Import_Squirrly::run_import
-	 * @covers WPSEO_Import_Squirrly::import
-	 * @covers WPSEO_Import_Squirrly::import_meta_helper
-	 * @covers WPSEO_Import_Squirrly::import_post_values
-	 * @covers WPSEO_Import_Squirrly::maybe_save_post_meta
-	 * @covers WPSEO_Import_Squirrly::retrieve_post_data
+	 * @covers WPSEO_Import_Premium_SEO_Pack::run_import
+	 * @covers WPSEO_Import_Premium_SEO_Pack::import
+	 * @covers WPSEO_Import_Premium_SEO_Pack::import_meta_helper
+	 * @covers WPSEO_Import_Premium_SEO_Pack::import_post_values
+	 * @covers WPSEO_Import_Premium_SEO_Pack::maybe_save_post_meta
+	 * @covers WPSEO_Import_Premium_SEO_Pack::retrieve_post_data
 	 */
 	public function test_import_without_overwriting_data() {
 		$post_id = $this->setup_post( true );
@@ -144,49 +144,16 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we will not overwrite already existing Yoast SEO data with imported data.
 	 *
-	 * @covers WPSEO_Import_Squirrly::run_import
-	 * @covers WPSEO_Import_Squirrly::import
-	 * @covers WPSEO_Import_Squirrly::import_meta_helper
-	 * @covers WPSEO_Import_Squirrly::import_post_values
-	 * @covers WPSEO_Import_Squirrly::maybe_save_post_meta
-	 * @covers WPSEO_Import_Squirrly::maybe_add_focus_kw
-	 * @covers WPSEO_Import_Squirrly::retrieve_post_data
-	 */
-	public function test_import_without_focus_keyword() {
-		$post_id = $this->setup_post( true );
-		delete_post_meta( $post_id, '_sq_post_keyword' );
-
-		$result  = $this->class_instance->run_import();
-
-		$seo_title       = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
-		$seo_desc        = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
-		$robots_noindex  = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', true );
-		$robots_nofollow = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', true );
-		$opengraph_image = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'opengraph-image', true );
-		$opengraph_title = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'opengraph-title', true );
-
-		$this->assertEquals( 'Test title', $seo_title );
-		$this->assertEquals( 'Existing Yoast SEO Test description', $seo_desc );
-		$this->assertEquals( 0, $robots_noindex );
-		$this->assertEquals( 1, $robots_nofollow );
-		$this->assertEquals( 'http://local.wordpress.test/wp-content/uploads/2018/01/actionable-seo.png', $opengraph_image );
-		$this->assertEquals( 'Pre-existing Yoast SEO test OpenGraph title', $opengraph_title );
-		$this->assertEquals( $this->status( 'import', true ), $result );
-	}
-
-	/**
-	 * Tests whether we will not overwrite already existing Yoast SEO data with imported data.
-	 *
-	 * @covers WPSEO_Import_Squirrly::run_import
-	 * @covers WPSEO_Import_Squirrly::import
-	 * @covers WPSEO_Import_Squirrly::import_meta_helper
-	 * @covers WPSEO_Import_Squirrly::import_post_values
-	 * @covers WPSEO_Import_Squirrly::retrieve_post_data
+	 * @covers WPSEO_Import_Premium_SEO_Pack::run_import
+	 * @covers WPSEO_Import_Premium_SEO_Pack::import
+	 * @covers WPSEO_Import_Premium_SEO_Pack::import_meta_helper
+	 * @covers WPSEO_Import_Premium_SEO_Pack::import_post_values
+	 * @covers WPSEO_Import_Premium_SEO_Pack::retrieve_post_data
 	 */
 	public function test_import_without_seo_column_in_db() {
 		$this->setup_post();
 		global $wpdb;
-		$wpdb->query( "ALTER TABLE {$wpdb->prefix}qss DROP COLUMN seo" );
+		$wpdb->query( "ALTER TABLE {$wpdb->prefix}psp DROP COLUMN seo" );
 
 		$result = $this->class_instance->run_import();
 
@@ -196,12 +163,9 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can properly return an error when there is no data to clean.
 	 *
-	 * @covers WPSEO_Import_Squirrly::run_cleanup
+	 * @covers WPSEO_Import_Premium_SEO_Pack::run_cleanup
 	 */
 	public function test_cleanup_without_data() {
-		ob_flush();
-		echo 'Test cleanup without data' . "\n";
-
 		$result = $this->class_instance->run_cleanup();
 		$this->assertEquals( $this->status( 'cleanup', false ), $result );
 	}
@@ -209,15 +173,15 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can properly clean up.
 	 *
-	 * @covers WPSEO_Import_Squirrly::run_cleanup
-	 * @covers WPSEO_Import_Squirrly::cleanup
+	 * @covers WPSEO_Import_Premium_SEO_Pack::run_cleanup
+	 * @covers WPSEO_Import_Premium_SEO_Pack::cleanup
 	 */
 	public function test_cleanup() {
 		$this->setup_post();
 		$result = $this->class_instance->run_cleanup();
 
 		global $wpdb;
-		$dbResult = $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}qss'" );
+		$dbResult = $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}psp'" );
 
 		$this->assertNull( $dbResult );
 		$this->assertEquals( $this->status( 'cleanup', true ), $result );
@@ -226,12 +190,14 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether can handle a cleanup gone wrong.
 	 *
-	 * @covers WPSEO_Import_Squirrly::__construct
-	 * @covers WPSEO_Import_Squirrly::run_cleanup
-	 * @covers WPSEO_Import_Squirrly::cleanup
+	 * @covers WPSEO_Import_Premium_SEO_Pack::__construct
+	 * @covers WPSEO_Import_Premium_SEO_Pack::run_cleanup
+	 * @covers WPSEO_Import_Premium_SEO_Pack::cleanup
+	 * @covers WPSEO_Plugin_Importer::cleanup
+	 * @covers WPSEO_Import_Premium_SEO_Pack::cleanup_error_msg
 	 */
 	public function test_cleanup_gone_bad() {
-		$class_instance = new WPSEO_Import_Squirrly();
+		$class_instance = new WPSEO_Import_Premium_SEO_Pack();
 
 		$this->setup_post();
 
@@ -249,11 +215,11 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 		// For this to work the detect() function needs to run first and return the right table.
 		$wpdb->expects( $this->any() )
 			 ->method( 'get_var' )
-			 ->will( $this->returnValue( $wpdb->prefix . 'qss' ) );
+			 ->will( $this->returnValue( $wpdb->prefix . 'psp' ) );
 
 		$result          = $class_instance->run_cleanup();
 		$expected_result = $this->status( 'cleanup', false );
-		$expected_result->set_msg( 'Cleanup of Squirrly SEO data failed.' );
+		$expected_result->set_msg( 'Cleanup of Premium SEO Pack data failed.' );
 		$this->assertEquals( $expected_result, $result );
 
 		$wpdb = $original_wpdb;
@@ -293,7 +259,6 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 			)
 		);
 		$this->insert_post( $post_id, $blob );
-		update_post_meta( $post_id, '_sq_post_keyword', '{"keyword":"squirrly test","update":1521207189}' );
 
 		if ( $pre_existing_yoast_data ) {
 			update_post_meta( $post_id, '_yoast_wpseo_metadesc', 'Existing Yoast SEO Test description' );
@@ -305,7 +270,7 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Builds a blob of data similar to what Squirrly uses internally.
+	 * Builds a blob of data similar to what Premium SEO Pack uses internally.
 	 *
 	 * @param array $data Test data to add, merged with default data.
 	 *
@@ -341,7 +306,7 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Inserts a post into the Squirrly table.
+	 * Inserts a post into the Premium SEO Pack table.
 	 *
 	 * @param int   $post_id Post ID.
 	 * @param array $blob    Data to throw into the `seo` column.
@@ -350,7 +315,7 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 		global $wpdb;
 		$wpdb->query(
 			$wpdb->prepare(
-				'INSERT INTO `' . $wpdb->prefix . 'qss` 
+				'INSERT INTO `' . $wpdb->prefix . 'psp` 
 				(`blog_id`, `post_id`, `URL`, `url_hash`, `seo`)
 				VALUES
 				(
@@ -371,14 +336,14 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Creates a copy of the Squirrly SEO DB table.
+	 * Creates a copy of the PSP SEO DB table.
 	 */
 	private function create_table() {
 		// We need to test creating and dropping tables, so we can't have this.
 		remove_all_filters( 'query' );
 
 		global $wpdb;
-		$wpdb->query( "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}qss (
+		$wpdb->query( "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}psp (
 			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 			`blog_id` int(10) NOT NULL,
 			`post_id` bigint(20) NOT NULL DEFAULT '0',

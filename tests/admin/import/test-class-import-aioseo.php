@@ -74,6 +74,7 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_AIOSEO::import_opengraph
 	 * @covers WPSEO_Import_AIOSEO::import_post_opengraph
 	 * @covers WPSEO_Import_AIOSEO::meta_key_clone
+	 * @covers WPSEO_Import_AIOSEO::meta_key_clone_replace
 	 * @covers WPSEO_Import_AIOSEO::meta_keys_clone
 	 */
 	public function test_import_with_data() {
@@ -102,6 +103,7 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_AIOSEO::__construct
 	 * @covers WPSEO_Import_AIOSEO::import
 	 * @covers WPSEO_Import_AIOSEO::meta_key_clone
+	 * @covers WPSEO_Import_AIOSEO::meta_key_clone_replace
 	 * @covers WPSEO_Import_AIOSEO::run_import
 	 * @covers WPSEO_Import_AIOSEO::set_missing_db_rights_status
 	 */
@@ -133,6 +135,7 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_AIOSEO::run_import
 	 * @covers WPSEO_Import_AIOSEO::import
 	 * @covers WPSEO_Import_AIOSEO::meta_key_clone
+	 * @covers WPSEO_Import_AIOSEO::meta_key_clone_replace
 	 * @covers WPSEO_Import_AIOSEO::meta_keys_clone
 	 * @covers WPSEO_Import_AIOSEO::maybe_save_post_meta
 	 * @covers WPSEO_Import_AIOSEO::import_opengraph
@@ -192,6 +195,7 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_AIOSEO::__construct
 	 * @covers WPSEO_Import_AIOSEO::run_cleanup
 	 * @covers WPSEO_Import_AIOSEO::cleanup
+	 * @covers WPSEO_Import_AIOSEO::cleanup_error_msg
 	 */
 	public function test_cleanup_gone_bad() {
 		$class_instance = new WPSEO_Import_AIOSEO();
