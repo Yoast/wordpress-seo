@@ -33,6 +33,27 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 	protected $meta_key = '_sq_post_keyword';
 
 	/**
+	 * Data to import from (and the target to field) the serialized array stored in the SEO field in the Squirrly table.
+	 *
+	 * @var array
+	 */
+	protected $seo_field_keys = array(
+		'noindex'        => 'meta-robots-noindex',
+		'nofollow'       => 'meta-robots-nofollow',
+		'title'          => 'title',
+		'description'    => 'metadesc',
+		'canonical'      => 'canonical',
+		'cornerstone'    => '_yst_is_cornerstone',
+		'tw_media'       => 'twitter-image',
+		'tw_title'       => 'twitter-title',
+		'tw_description' => 'twitter-description',
+		'og_title'       => 'opengraph-title',
+		'og_description' => 'opengraph-description',
+		'og_media'       => 'opengraph-image',
+		'focuskw'        => 'focuskw',
+	);
+
+	/**
 	 * WPSEO_Import_Squirrly constructor.
 	 */
 	public function __construct() {
@@ -144,21 +165,7 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 			$data['focuskw'] = $this->maybe_add_focus_kw( $post_identifier );
 		}
 
-		foreach ( array(
-				'noindex'        => 'meta-robots-noindex',
-				'nofollow'       => 'meta-robots-nofollow',
-				'title'          => 'title',
-				'description'    => 'metadesc',
-				'canonical'      => 'canonical',
-				'cornerstone'    => '_yst_is_cornerstone',
-				'tw_media'       => 'twitter-image',
-				'tw_title'       => 'twitter-title',
-				'tw_description' => 'twitter-description',
-				'og_title'       => 'opengraph-title',
-				'og_description' => 'opengraph-description',
-				'og_media'       => 'opengraph-image',
-				'focuskw'        => 'focuskw',
-			) as $squirrly_key => $yoast_key ) {
+		foreach ( $this->seo_field_keys as $squirrly_key => $yoast_key ) {
 			$this->import_meta_helper( $squirrly_key, $yoast_key, $data, $post_id );
 		}
 		return true;
