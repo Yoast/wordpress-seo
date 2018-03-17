@@ -179,7 +179,7 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 			$query_where     = 'post_id = %d';
 		}
 		if ( ! is_numeric( $post_identifier ) ) {
-			$query_where = 'URL = %s"';
+			$query_where = 'URL = %s';
 		}
 		$data = $wpdb->get_var(
 			$wpdb->prepare(
