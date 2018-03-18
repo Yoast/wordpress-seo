@@ -151,7 +151,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 
 		$this->go_to_home();
 
-		$this->run_webmaster_tools_authentication_option_test( 'baiduverify', 'h95vqTAZZq', '<meta name="baidu-site-verification", content="h95vqTAZZq" />' . "\n" );
+		$this->run_webmaster_tools_authentication_option_test( 'baiduverify', 'h95vqTAZZq', '<meta name="baidu-site-verification" content="h95vqTAZZq" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'googleverify', 'googleverify', '<meta name="google-site-verification" content="googleverify" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'msverify', 'acfacfacf', '<meta name="msvalidate.01" content="acfacfacf" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', 'defdefdef', '<meta name="yandex-verification" content="defdefdef" />' . "\n" );
