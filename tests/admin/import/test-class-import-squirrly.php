@@ -208,9 +208,6 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_Squirrly::run_cleanup
 	 */
 	public function test_cleanup_without_data() {
-		ob_flush();
-		echo 'Test cleanup without data' . "\n";
-
 		$result = $this->class_instance->run_cleanup();
 		$this->assertEquals( $this->status( 'cleanup', false ), $result );
 	}
@@ -222,6 +219,8 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_Squirrly::cleanup
 	 */
 	public function test_cleanup() {
+		remove_all_filters( 'query' );
+
 		$this->setup_post();
 		$result = $this->class_instance->run_cleanup();
 
@@ -230,6 +229,7 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 
 		$this->assertNull( $dbResult );
 		$this->assertEquals( $this->status( 'cleanup', true ), $result );
+		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
 	}
 
 	/**

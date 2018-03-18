@@ -91,6 +91,9 @@ class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_Platinum_SEO::import
 	 * @covers WPSEO_Import_Platinum_SEO::meta_key_clone
 	 * @covers WPSEO_Import_Platinum_SEO::meta_keys_clone
+	 * @covers WPSEO_Import_Platinum_SEO::import_robots_meta
+	 * @covers WPSEO_Import_Platinum_SEO::import_by_meta_robots
+	 * @covers WPSEO_Import_Platinum_SEO::find_posts_by_robots_meta
 	 *
 	 * @group test
 	 */
