@@ -28,7 +28,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		// Form fields.
 		'disableadvanced_meta'            => true,
 		'onpage_indexability'             => true,
-		'baiduverify'                     => '',
+		'baiduverify'                     => '', // Text field.
 		'googleverify'                    => '', // Text field.
 		'msverify'                        => '', // Text field.
 		'yandexverify'                    => '',
