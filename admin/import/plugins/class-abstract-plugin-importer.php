@@ -26,14 +26,14 @@ abstract class WPSEO_Plugin_Importer {
 	protected $plugin_name;
 
 	/**
-	 * Meta key, used in SQL LIKE clause for detect query.
+	 * Meta key, used in SQL LIKE clause for delete query.
 	 *
 	 * @var string
 	 */
 	protected $meta_key;
 
 	/**
-	 * Array of meta keys to import.
+	 * Array of meta keys to detect and import.
 	 *
 	 * @var array
 	 */
@@ -152,10 +152,13 @@ abstract class WPSEO_Plugin_Importer {
 	 */
 	protected function detect() {
 		global $wpdb;
-		$result = $wpdb->get_var(
+
+		$meta_keys    = wp_list_pluck( $this->clone_keys, 'old_key' );
+		$placeholders = implode( ', ', array_fill( 0, count( $meta_keys ), '%s' ) );
+		$result       = $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(*) AS `count` FROM {$wpdb->postmeta} WHERE meta_key LIKE %s",
-				$this->meta_key
+				"SELECT COUNT(*) AS `count` FROM {$wpdb->postmeta} WHERE meta_key IN ( $placeholders )",
+				$meta_keys
 			)
 		);
 		if ( $result === '0' ) {
