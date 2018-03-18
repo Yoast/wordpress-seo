@@ -785,7 +785,7 @@ babel-plugin-syntax-jsx@^6.3.13, babel-plugin-syntax-jsx@^6.8.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
 
-babel-plugin-syntax-object-rest-spread@^6.13.0:
+babel-plugin-syntax-object-rest-spread@^6.13.0, babel-plugin-syntax-object-rest-spread@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
 
@@ -983,6 +983,13 @@ babel-plugin-transform-flow-strip-types@^6.22.0:
   dependencies:
     babel-plugin-syntax-flow "^6.18.0"
     babel-runtime "^6.22.0"
+
+babel-plugin-transform-object-rest-spread@^6.26.0:
+  version "6.26.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-object-rest-spread/-/babel-plugin-transform-object-rest-spread-6.26.0.tgz#0f36692d50fef6b7e2d4b3ac1478137a963b7b06"
+  dependencies:
+    babel-plugin-syntax-object-rest-spread "^6.8.0"
+    babel-runtime "^6.26.0"
 
 babel-plugin-transform-react-display-name@^6.23.0:
   version "6.25.0"
@@ -9975,9 +9982,9 @@ yoast-components@^3.1.0:
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoastseo@^1.30:
-  version "1.30.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.30.0.tgz#9bd482097ad4aa0e48a74af2c2b5484e70e51fba"
+yoastseo@^1.30.1:
+  version "1.30.1"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.30.1.tgz#56ae066ede0009d840debaf3f129c130433b363a"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"

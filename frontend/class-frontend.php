@@ -789,7 +789,7 @@ class WPSEO_Frontend {
 		}
 
 		// If a page has a noindex, it should _not_ have a canonical, as these are opposing indexing directives.
-		if ( $robots['index'] === 'noindex' ) {
+		if ( strpos( $robotsstr, 'noindex' ) !== false ) {
 			remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		}
 
@@ -1191,7 +1191,7 @@ class WPSEO_Frontend {
 				echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
 			}
 			elseif ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
-				echo '<!-- ', esc_html__( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
+				echo '<!-- ', esc_html__( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Search Appearance menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
 			}
 		}
 		else {
@@ -1337,6 +1337,7 @@ class WPSEO_Frontend {
 	 * Outputs noindex values for the current page.
 	 */
 	public function noindex_page() {
+		remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		echo '<meta name="robots" content="noindex" />', "\n";
 	}
 
