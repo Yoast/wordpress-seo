@@ -43,6 +43,30 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 			'old_key' => '_wpseo_edit_canonical',
 			'new_key' => 'canonical',
 		),
+		array(
+			'old_key' => '_wpseo_edit_og_title',
+			'new_key' => 'opengraph-title',
+		),
+		array(
+			'old_key' => '_wpseo_edit_og_description',
+			'new_key' => 'opengraph-description',
+		),
+		array(
+			'old_key' => '_wpseo_edit_og_image',
+			'new_key' => 'opengraph-image',
+		),
+		array(
+			'old_key' => '_wpseo_edit_twittercard_title',
+			'new_key' => 'twitter-title',
+		),
+		array(
+			'old_key' => '_wpseo_edit_twittercard_description',
+			'new_key' => 'twitter-description',
+		),
+		array(
+			'old_key' => '_wpseo_edit_twittercard_image',
+			'new_key' => 'twitter-image',
+		),
 	);
 
 	/**

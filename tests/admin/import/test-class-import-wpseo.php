@@ -83,6 +83,8 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_WPSEO::import_post_robot
 	 * @covers WPSEO_Import_WPSEO::import_post_robots
 	 * @covers WPSEO_Import_WPSEO::get_robot_value
+	 *
+	 * @group test
 	 */
 	public function test_import() {
 		$post_id = $this->setup_data();
@@ -90,11 +92,15 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 
 		$seo_title       = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
 		$seo_desc        = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
+		$og_title        = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'opengraph-title', true );
+		$tw_title        = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'twitter-title', true );
 		$robots_noindex  = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', true );
 		$robots_nofollow = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', true );
 
 		$this->assertEquals( 'Test title', $seo_title );
 		$this->assertEquals( 'Test description', $seo_desc );
+		$this->assertEquals( 'Test OG title', $og_title );
+		$this->assertEquals( 'Test Twitter title', $tw_title );
 		$this->assertEquals( 1, $robots_noindex );
 		$this->assertEquals( 1, $robots_nofollow );
 		$this->assertEquals( $this->status( 'import', true ), $result );
@@ -196,6 +202,8 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 		update_post_meta( $post_id, '_wpseo_edit_title', 'Test title' );
 		update_post_meta( $post_id, '_wpseo_edit_description', 'Test description' );
 		update_post_meta( $post_id, '_wpseo_edit_robots', 5 );
+		update_post_meta( $post_id, '_wpseo_edit_og_title', 'Test OG title' );
+		update_post_meta( $post_id, '_wpseo_edit_twittercard_title', 'Test Twitter title' );
 
 		return $post_id;
 	}
