@@ -1145,8 +1145,8 @@ class WPSEO_Replace_Vars {
 	 */
 	private static function set_advanced_help_texts() {
 		self::$help_texts['advanced'] = array(
-			'pt_single'                 => __( 'Replaced with the post type single label', 'wordpress-seo' ),
-			'pt_plural'                 => __( 'Replaced with the post type plural label', 'wordpress-seo' ),
+			'pt_single'                 => __( 'Replaced with the content type single label', 'wordpress-seo' ),
+			'pt_plural'                 => __( 'Replaced with the content type plural label', 'wordpress-seo' ),
 			'modified'                  => __( 'Replaced with the post/page modified time', 'wordpress-seo' ),
 			'id'                        => __( 'Replaced with the post/page ID', 'wordpress-seo' ),
 			'name'                      => __( 'Replaced with the post/page author\'s \'nicename\'', 'wordpress-seo' ),
