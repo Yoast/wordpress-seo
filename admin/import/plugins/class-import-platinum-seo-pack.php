@@ -17,14 +17,14 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 	protected $plugin_name = 'Platinum SEO Pack';
 
 	/**
-	 * Meta key, used in SQL LIKE clause for detect query.
+	 * Meta key, used in SQL LIKE clause for delete query.
 	 *
 	 * @var string
 	 */
 	protected $meta_key = 'title';
 
 	/**
-	 * The arrays of keys to clone into Yoast SEO.
+	 * Array of meta keys to detect and import.
 	 *
 	 * @var array
 	 */
@@ -100,10 +100,9 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 	 */
 	protected function import_by_meta_robots( $value, $metas ) {
 		$posts = $this->find_posts_by_robots_meta( $value );
-		if ( ! empty( $posts ) ) {
+		if ( is_array( $posts ) ) {
 			foreach ( $posts as $post_id ) {
 				foreach( $metas as $meta ) {
-					echo "Save $meta";
 					$this->maybe_save_post_meta( 'meta-robots-' . $meta, 1, $post_id );
 				}
 			}
@@ -115,7 +114,7 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @param string $meta_value Robots meta value.
 	 *
-	 * @return array
+	 * @return array|bool Array of Post IDs on success, false on failure.
 	 */
 	protected function find_posts_by_robots_meta( $meta_value ) {
 		$posts = get_posts(

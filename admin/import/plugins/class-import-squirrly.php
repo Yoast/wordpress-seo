@@ -26,7 +26,7 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 	protected $table_name;
 
 	/**
-	 * Meta key, used in SQL LIKE clause for detect query.
+	 * Meta key, used in SQL LIKE clause for delete query.
 	 *
 	 * @var string
 	 */

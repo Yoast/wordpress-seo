@@ -17,14 +17,14 @@ class WPSEO_Import_Smartcrawl_SEO extends WPSEO_Plugin_Importer {
 	protected $plugin_name = 'Smartcrawl SEO';
 
 	/**
-	 * Meta key, used in SQL LIKE clause for detect query.
+	 * Meta key, used in SQL LIKE clause for delete query.
 	 *
 	 * @var string
 	 */
 	protected $meta_key = '_wds_%';
 
 	/**
-	 * The arrays of keys to clone into Yoast SEO.
+	 * Array of meta keys to detect and import.
 	 *
 	 * @var array
 	 */

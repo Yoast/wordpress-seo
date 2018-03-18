@@ -19,11 +19,22 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	protected $plugin_name = 'SEOpressor';
 
 	/**
-	 * Meta key, used in SQL LIKE clause for detect query.
+	 * Meta key, used in SQL LIKE clause for delete query.
 	 *
 	 * @var string
 	 */
 	protected $meta_key = '_seop_settings';
+
+	/**
+	 * Array of meta keys to detect and import.
+	 *
+	 * @var array
+	 */
+	protected $clone_keys = array(
+		array(
+			'old_key' => '_seop_settings',
+		)
+	);
 
 	/**
 	 * Imports the post meta values to Yoast SEO.

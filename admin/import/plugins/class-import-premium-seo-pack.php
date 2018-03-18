@@ -1,6 +1,6 @@
 <?php
 /**
- * File with the class to handle data from Squirrly.
+ * File with the class to handle data from Premium SEO Pack.
  *
  * @package WPSEO\Admin\Import\Plugins
  */
@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_Import_Premium_SEO_Pack
  *
- * Class with functionality to import & clean Squirrly post metadata.
+ * Class with functionality to import & clean Premium SEO Pack post metadata.
  */
 class WPSEO_Import_Premium_SEO_Pack extends WPSEO_Import_Squirrly {
 	/**
