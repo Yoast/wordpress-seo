@@ -37,6 +37,15 @@ $googleverify_link = add_query_arg(
 	'https://www.google.com/webmasters/verification/verification'
 );
 
+$yform->textinput( 'baiduverify', __( 'Baidu verification code', 'wordpress-seo' ) );
+echo '<p class="desc label">';
+printf(
+	/* translators: 1: link open tag; 2: link close tag. */
+	esc_html__( 'Get your Baidu verification code in %1$sBaidu Webmaster Tools%2$s.', 'wordpress' ),
+	'<a target="_blank" href="' . esc_url( 'https://ziyuan.baidu.com/site/siteadd' ) . '" rel="noopener noreferrer">',
+	'</a>'
+);
+echo '</p>';
 
 $yform->textinput( 'msverify', __( 'Bing verification code', 'wordpress-seo' ) );
 echo '<p class="desc label">';
