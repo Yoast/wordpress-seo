@@ -6,13 +6,13 @@
  */
 
 /**
- * Test importing meta data from Ultimate SEO.
+ * Test importing meta data from WP Meta SEO.
  */
-class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
+class WPSEO_Import_WP_Meta_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Holds the class instance.
 	 *
-	 * @var WPSEO_Import_Ultimate_SEO
+	 * @var WPSEO_Import_WP_Meta_SEO
 	 */
 	private $class_instance;
 
@@ -22,16 +22,16 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->class_instance = new WPSEO_Import_Ultimate_SEO();
+		$this->class_instance = new WPSEO_Import_WP_Meta_SEO();
 	}
 
 	/**
 	 * Tests the plugin name function.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::get_plugin_name
+	 * @covers WPSEO_Import_WP_Meta_SEO::get_plugin_name
 	 */
 	public function test_plugin_name() {
-		$this->assertEquals( 'Ultimate SEO', $this->class_instance->get_plugin_name() );
+		$this->assertEquals( 'WP Meta SEO', $this->class_instance->get_plugin_name() );
 	}
 
 	/**
@@ -40,14 +40,14 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Plugin_Importers::get
 	 */
 	public function test_importer_registered() {
-		$this->assertContains( 'WPSEO_Import_Ultimate_SEO', WPSEO_Plugin_Importers::get() );
+		$this->assertContains( 'WPSEO_Import_WP_Meta_SEO', WPSEO_Plugin_Importers::get() );
 	}
 
 	/**
 	 * Tests whether we can return false when there's no detectable data.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::run_detect
-	 * @covers WPSEO_Import_Ultimate_SEO::detect
+	 * @covers WPSEO_Import_WP_Meta_SEO::run_detect
+	 * @covers WPSEO_Import_WP_Meta_SEO::detect
 	 */
 	public function test_detect_no_data() {
 		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
@@ -56,9 +56,9 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can detect data.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::__construct
-	 * @covers WPSEO_Import_Ultimate_SEO::run_detect
-	 * @covers WPSEO_Import_Ultimate_SEO::detect
+	 * @covers WPSEO_Import_WP_Meta_SEO::__construct
+	 * @covers WPSEO_Import_WP_Meta_SEO::run_detect
+	 * @covers WPSEO_Import_WP_Meta_SEO::detect
 	 */
 	public function test_detect() {
 		$this->setup_post();
@@ -68,7 +68,7 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can return properly when there's nothing to import.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::run_import
+	 * @covers WPSEO_Import_WP_Meta_SEO::run_import
 	 */
 	public function test_import_no_data() {
 		$this->assertEquals( $this->status( 'import', false ), $this->class_instance->run_import() );
@@ -77,10 +77,10 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can properly import data.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::run_import
-	 * @covers WPSEO_Import_Ultimate_SEO::import
-	 * @covers WPSEO_Import_Ultimate_SEO::meta_key_clone
-	 * @covers WPSEO_Import_Ultimate_SEO::meta_keys_clone
+	 * @covers WPSEO_Import_WP_Meta_SEO::run_import
+	 * @covers WPSEO_Import_WP_Meta_SEO::import
+	 * @covers WPSEO_Import_WP_Meta_SEO::meta_key_clone
+	 * @covers WPSEO_Import_WP_Meta_SEO::meta_keys_clone
 	 */
 	public function test_import() {
 		$post_id = $this->setup_post();
@@ -92,7 +92,7 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 		$robots_nofollow = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', true );
 
 		$this->assertEquals( 1, $robots_noindex );
-		$this->assertEquals( 1, $robots_nofollow );
+		$this->assertEquals( 0, $robots_nofollow );
 		$this->assertEquals( 'Test title', $seo_title );
 		$this->assertEquals( 'Test description', $seo_desc );
 		$this->assertEquals( $this->status( 'import', true ), $result );
@@ -101,7 +101,7 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can properly return an error when there is no data to clean.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::run_cleanup
+	 * @covers WPSEO_Import_WP_Meta_SEO::run_cleanup
 	 */
 	public function test_cleanup_no_data() {
 		$this->assertEquals( $this->status( 'cleanup', false ), $this->class_instance->run_cleanup() );
@@ -110,8 +110,8 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can properly clean up.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::run_cleanup
-	 * @covers WPSEO_Import_Ultimate_SEO::cleanup
+	 * @covers WPSEO_Import_WP_Meta_SEO::run_cleanup
+	 * @covers WPSEO_Import_WP_Meta_SEO::cleanup
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_post();
@@ -144,10 +144,11 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	 */
 	private function setup_post() {
 		$post_id = $this->factory()->post->create();
-		update_post_meta( $post_id, '_su_title', 'Test title' );
-		update_post_meta( $post_id, '_su_description', 'Test description' );
-		update_post_meta( $post_id, '_su_meta_robots_noindex', 'on' );
-		update_post_meta( $post_id, '_su_meta_robots_nofollow', 'on' );
+		update_post_meta( $post_id, '_metaseo_metatitle', 'Test title' );
+		update_post_meta( $post_id, '_metaseo_metadesc', 'Test description' );
+		update_post_meta( $post_id, '_metaseo_metafollow', 'follow' );
+		update_post_meta( $post_id, '_metaseo_metaindex', 'noindex' );
+
 		return $post_id;
 	}
 }

@@ -16,7 +16,7 @@ class WPSEO_Plugin_Importers_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Plugin_Importers::get
 	 */
 	public function test_importers() {
-		$this->assertCount( 13, WPSEO_Plugin_Importers::get() );
+		$this->assertCount( 14, WPSEO_Plugin_Importers::get() );
 	}
 
 }
