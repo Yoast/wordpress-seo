@@ -24,7 +24,8 @@ class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 	protected $meta_key = '_aioseop_%';
 
 	/**
-	 * OpenGraph keys to import
+	 * OpenGraph keys to import.
+	 *
 	 * @var array
 	 */
 	protected $import_keys = array(

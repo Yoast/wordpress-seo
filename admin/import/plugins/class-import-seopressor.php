@@ -33,7 +33,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 	protected $clone_keys = array(
 		array(
 			'old_key' => '_seop_settings',
-		)
+		),
 	);
 
 	/**

@@ -94,7 +94,7 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 	 * Imports the values for all index, nofollow posts.
 	 *
 	 * @param string $value The meta robots value to find posts for.
-	 * @param array $metas The meta field(s) to save.
+	 * @param array  $metas The meta field(s) to save.
 	 *
 	 * @return void
 	 */
@@ -105,7 +105,7 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 		}
 
 		foreach ( $posts as $post_id ) {
-			foreach( $metas as $meta ) {
+			foreach ( $metas as $meta ) {
 				$this->maybe_save_post_meta( 'meta-robots-' . $meta, 1, $post_id );
 			}
 		}
