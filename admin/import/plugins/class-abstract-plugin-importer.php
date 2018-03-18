@@ -33,6 +33,13 @@ abstract class WPSEO_Plugin_Importer {
 	protected $meta_key;
 
 	/**
+	 * Array of meta keys to import.
+	 *
+	 * @var array
+	 */
+	protected $clone_keys;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -181,11 +188,12 @@ abstract class WPSEO_Plugin_Importer {
 			$this->set_missing_db_rights_status();
 			return false;
 		}
+
 		// Delete all the values in our temp table for posts that already have data for $new_key.
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM tmp_meta_table WHERE post_id IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s )",
-				$new_key
+				WPSEO_Meta::$meta_prefix . $new_key
 			)
 		);
 

@@ -18,6 +18,7 @@ class WPSEO_Plugin_Importers {
 		'WPSEO_Import_AIOSEO',
 		'WPSEO_Import_HeadSpace',
 		'WPSEO_Import_Jetpack_SEO',
+		'WPSEO_Import_Platinum_SEO',
 		'WPSEO_Import_Premium_SEO_Pack',
 		'WPSEO_Import_Smartcrawl_SEO',
 		'WPSEO_Import_SEOPressor',
