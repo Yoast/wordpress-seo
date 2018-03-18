@@ -175,7 +175,7 @@ abstract class WPSEO_Plugin_Importer {
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM tmp_meta_table WHERE post_id IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s )",
-				$new_key
+				WPSEO_Meta::$meta_prefix . $new_key
 			)
 		);
 
