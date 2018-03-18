@@ -16,6 +16,7 @@ class WPSEO_Plugin_Importers {
 	 */
 	private static $importers = array(
 		'WPSEO_Import_AIOSEO',
+		'WPSEO_Import_Greg_SEO',
 		'WPSEO_Import_HeadSpace',
 		'WPSEO_Import_Jetpack_SEO',
 		'WPSEO_Import_Platinum_SEO',
