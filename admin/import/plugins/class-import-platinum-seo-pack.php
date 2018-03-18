@@ -100,11 +100,13 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 	 */
 	protected function import_by_meta_robots( $value, $metas ) {
 		$posts = $this->find_posts_by_robots_meta( $value );
-		if ( is_array( $posts ) ) {
-			foreach ( $posts as $post_id ) {
-				foreach( $metas as $meta ) {
-					$this->maybe_save_post_meta( 'meta-robots-' . $meta, 1, $post_id );
-				}
+		if ( ! $posts ) {
+			return;
+		}
+
+		foreach ( $posts as $post_id ) {
+			foreach( $metas as $meta ) {
+				$this->maybe_save_post_meta( 'meta-robots-' . $meta, 1, $post_id );
 			}
 		}
 	}
