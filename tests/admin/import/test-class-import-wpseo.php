@@ -35,6 +35,15 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether this importer has been registered.
+	 *
+	 * @covers WPSEO_Plugin_Importers::get
+	 */
+	public function test_importer_registered() {
+		$this->assertContains( 'WPSEO_Import_WPSEO', WPSEO_Plugin_Importers::get() );
+	}
+
+	/**
 	 * Tests whether we can return false when there's no detectable data.
 	 *
 	 * @covers WPSEO_Import_WPSEO::run_detect
