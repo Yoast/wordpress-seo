@@ -199,11 +199,11 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		const targets = {};
 
 		if ( isKeywordAnalysisActive() ) {
-			targets.output = "does-not-really-exist-but-it-needs-something";
+			targets.output = "wpseo-pageanalysis";
 		}
 
 		if ( isContentAnalysisActive() ) {
-			targets.contentOutput = "also-does-not-really-exist-but-it-needs-something";
+			targets.contentOutput = "yoast-seo-content-analysis";
 		}
 
 		return targets;
@@ -383,7 +383,8 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	 */
 	function initializePostAnalysis() {
 		const editArgs = {
-			analysisSection: "pageanalysis",
+			readabilityTarget: "yoast-seo-content-analysis",
+			seoTarget: "wpseo-pageanalysis",
 			onRefreshRequest: () => {},
 			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
 		};
