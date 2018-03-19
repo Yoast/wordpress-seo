@@ -14,8 +14,6 @@ import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducer
 import activeKeyword from "./redux/reducers/activeKeyword";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
-
-import { SnippetPreview, StyledSection } from "yoast-components";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
@@ -96,7 +94,7 @@ function renderReactApp( target, component, store ) {
 }
 
 /**
- * Renders the snippet preview for display
+ * Renders the snippet preview for display.
  *
  * @param {Object} store Redux store.
  *
@@ -104,6 +102,10 @@ function renderReactApp( target, component, store ) {
  */
 function renderSnippetPreview( store ) {
 	const targetElement = document.getElementById( "wpseosnippet" );
+
+	if ( ! targetElement ) {
+		return;
+	}
 
 	const container = document.createElement( "div" );
 	targetElement.parentNode.insertBefore( container, targetElement );
