@@ -127,7 +127,6 @@ class WPSEO_Metabox_Formatter {
 				),
 			),
 			'markdownEnabled'       => $this->is_markdown_enabled(),
-			'analysisHeadingTitle'  => __( 'Analysis', 'wordpress-seo' ),
 		);
 	}
 
