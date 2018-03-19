@@ -12,11 +12,11 @@ import IntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
-import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
-import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
-import SnippetPreviewSection from "./components/SnippetPreviewSection";
+import activeTab from "./redux/reducers/activeTab";
+import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import SnippetPreviewSection from "./components/SnippetPreviewSection";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -52,6 +52,7 @@ function configureStore() {
 		marksButtonStatus: markerStatusReducer,
 		analysis: analysis,
 		activeKeyword: activeKeyword,
+		activeTab,
 	} );
 
 	return createStore( rootReducer, {}, flowRight( enhancers ) );
@@ -62,15 +63,16 @@ function configureStore() {
  *
  * @param {ReactElement} Component The component to be wrapped.
  * @param {Object} store Redux store.
+ * @param {Object} props React props to pass to the Component.
  *
  * @returns {ReactElement} The wrapped component.
  */
-function wrapInTopLevelComponents( Component, store ) {
+function wrapInTopLevelComponents( Component, store, props ) {
 	return (
 		<IntlProvider
 			messages={ localizedData.intl } >
 			<Provider store={ store } >
-				<Component hideMarksButtons={ localizedData.show_markers !== "1" } />
+				<Component { ...props } />
 			</Provider>
 		</IntlProvider>
 	);
@@ -87,9 +89,13 @@ function wrapInTopLevelComponents( Component, store ) {
  */
 function renderReactApp( target, component, store ) {
 	const targetElement = document.getElementById( target );
+	const props = {
+		title: localizedData.analysisHeadingTitle,
+		hideMarksButtons: localizedData.show_markers !== "1",
+	};
 	if( targetElement ) {
 		ReactDOM.render(
-			wrapInTopLevelComponents( component, store ),
+			wrapInTopLevelComponents( component, store, props ),
 			targetElement
 		);
 	}
@@ -127,8 +133,7 @@ function renderSnippetPreview( store ) {
  * @returns {void}
  */
 function renderReactApps( store, args ) {
-	renderReactApp( args.readabilityTarget, ContentAnalysis, store );
-	renderReactApp( args.seoTarget, SeoAnalysis, store );
+	renderReactApp( args.analysisSection, AnalysisSection, store );
 }
 
 /**

@@ -4,6 +4,7 @@ var defaultsDeep = require( "lodash/defaultsDeep" );
 
 var KeywordTab = require( "./keywordTab" );
 var GenericTab = require( "./genericTab" );
+import { setActiveTab } from "../redux/actions/activeTab";
 
 var $ = jQuery;
 
@@ -46,16 +47,9 @@ TabManager.prototype.init = function() {
 	} );
 
 	this.focusKeywordRow = $( "#wpseofocuskeyword" );
-	this.contentAnalysis = $( "#yoast-seo-content-analysis" );
-	this.keywordAnalysis = $( "#wpseo-pageanalysis, #wpseo_analysis" );
 	this.snippetPreview  = $( "#wpseosnippet" );
 
 	var initialKeyword   = $( this.arguments.focusKeywordField ).val();
-
-	// We start on the content analysis 'tab'.
-	this.contentAnalysis.show();
-	this.keywordAnalysis.hide();
-	this.focusKeywordRow.hide();
 
 	// Initialize an instance of the keyword tab.
 	this.mainKeywordTab = new KeywordTab( {
@@ -100,12 +94,12 @@ TabManager.prototype.init = function() {
  */
 TabManager.prototype.showKeywordAnalysis = function() {
 	this.focusKeywordRow.show();
-	this.keywordAnalysis.show();
-	this.contentAnalysis.hide();
 
 	if ( this.arguments.keywordAnalysisActive ) {
 		this.snippetPreview.show();
 	}
+
+	YoastSEO.store.dispatch( setActiveTab( "keyword" ) );
 };
 
 /**
@@ -115,12 +109,12 @@ TabManager.prototype.showKeywordAnalysis = function() {
  */
 TabManager.prototype.showContentAnalysis = function() {
 	this.focusKeywordRow.hide();
-	this.keywordAnalysis.hide();
-	this.contentAnalysis.show();
 
 	if ( this.arguments.keywordAnalysisActive ) {
 		this.snippetPreview.hide();
 	}
+
+	YoastSEO.store.dispatch( setActiveTab( "readability" ) );
 };
 
 /**
