@@ -237,11 +237,14 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	/**
 	 * Initializes post data collector.
 	 *
+	 * @param {Object} data The data.
+	 *
 	 * @returns {PostDataCollector} The initialized post data collector.
 	 */
-	function initializePostDataCollector() {
+	function initializePostDataCollector( data ) {
 		let postDataCollector = new PostDataCollector( {
 			tabManager,
+			data,
 		} );
 		postDataCollector.leavePostNameUntouched = false;
 
@@ -251,9 +254,11 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	/**
 	 * Returns the arguments necessary to initialize the app.
 	 *
+	 * @param {Object} store The store.
+	 *
 	 * @returns {Object} The arguments to initialize the app
 	 */
-	function getAppArgs() {
+	function getAppArgs( store ) {
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -379,8 +384,9 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	function initializePostAnalysis() {
 		const editArgs = {
 			analysisSection: "pageanalysis",
+			onRefreshRequest: () => {},
 		};
-		store = initializeEdit( editArgs ).store;
+		const { store, data } = initializeEdit( editArgs );
 
 		snippetContainer = $( "#wpseosnippet" );
 
@@ -390,11 +396,11 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		}
 
 		tabManager = initializeTabManager();
-		postDataCollector = initializePostDataCollector();
+		postDataCollector = initializePostDataCollector( data );
 		publishBox.initalise();
 		snippetPreview = initSnippetPreview( postDataCollector );
 
-		let appArgs = getAppArgs();
+		let appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
 		postDataCollector.app = app;
@@ -452,6 +458,11 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 		// Set initial keyword.
 		store.dispatch( setActiveKeyword( tabManager.getKeywordTab().getKeyWord() ) );
+
+		// Set refresh function. data.setRefresh is only defined when Gutenberg is available.
+		if ( data.setRefresh ) {
+			data.setRefresh( app.refresh );
+		}
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

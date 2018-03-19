@@ -1,6 +1,8 @@
 <?php
 /**
- * @package WPSEO\admin|google_search_console
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\admin\google_search_console
  */
 
 /**

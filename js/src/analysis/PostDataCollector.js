@@ -10,7 +10,7 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar }from "../ui/adminBar";
 
 import publishBox from "../ui/publishBox";
-import _get from "lodash/get";
+import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 
 let $ = jQuery;
 let currentKeyword = "";
@@ -19,6 +19,7 @@ let currentKeyword = "";
  * Show warning in console when the unsupported CkEditor is used
  *
  * @param {Object} args The arguments for the post scraper.
+ * @param {Object} args.data The data.
  * @param {TabManager} args.tabManager The tab manager for this post.
  *
  * @constructor
@@ -28,34 +29,31 @@ let PostDataCollector = function( args ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
 
+	this._data = args.data;
 	this._tabManager = args.tabManager;
 };
 
 /**
  * Get data from input fields and store them in an analyzerData object. This object will be used to fill
- * the analyzer and the snippet preview.
+ * the analyzer and the snippet preview. If Gutenberg data is available, use it.
  *
- * @returns {void}
+ * @returns {Object} The data.
  */
 PostDataCollector.prototype.getData = function() {
-	let text = this.getText();
+	let gutenbergData;
 
-	/*
-	 * Gutenberg exposes a global on the window. Which is `_wpGutenbergPost`. The post has two content
-	 * properties: `rendered` and `raw`. For the content analysis we are interested in the rendered content.
-	 */
-	let gutenbergContent = _get( window, "_wpGutenbergPost.content.rendered", "" );
-	if ( gutenbergContent !== "" ) {
-		text = gutenbergContent;
+	// Only use data from Gutenberg if Gutenberg is available.
+	if ( isGutenbergDataAvailable() ) {
+		gutenbergData = this._data.getData();
 	}
 
 	return {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		meta: this.getMeta(),
-		text,
-		title: this.getTitle(),
-		url: this.getUrl(),
-		excerpt: this.getExcerpt(),
+		text: gutenbergData && gutenbergData.content ? gutenbergData.content : this.getText(),
+		title: gutenbergData && gutenbergData.title ? gutenbergData.title : this.getTitle(),
+		url: gutenbergData && gutenbergData.slug ? gutenbergData.slug : this.getUrl(),
+		excerpt: gutenbergData && gutenbergData.excerpt ? gutenbergData.excerpt : this.getExcerpt(),
 		snippetTitle: this.getSnippetTitle(),
 		snippetMeta: this.getSnippetMeta(),
 		snippetCite: this.getSnippetCite(),

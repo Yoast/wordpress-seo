@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -25,16 +27,23 @@ class WPSEO_OnPage {
 
 	/**
 	 * Constructing the object
+	 *
+	 * @param WPSEO_OnPage_Option|null $option Option to use.
 	 */
-	public function __construct() {
+	public function __construct( WPSEO_OnPage_Option $option = null ) {
 		// We never want to fetch on AJAX request because doing a remote request is really slow.
-		if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) ) {
-			$this->onpage_option = new WPSEO_OnPage_Option();
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) {
+			return;
+		}
 
-			if ( $this->onpage_option->is_enabled() ) {
-				$this->set_hooks();
-				$this->catch_redo_listener();
-			}
+		$this->onpage_option = ( $option === null ) ? new WPSEO_OnPage_Option() : $option;
+
+		// Adding admin notice if necessary.
+		add_action( 'admin_init', array( $this, 'show_notice' ) );
+
+		if ( $this->onpage_option->is_enabled() ) {
+			$this->set_hooks();
+			$this->catch_redo_listener();
 		}
 	}
 
@@ -162,6 +171,10 @@ class WPSEO_OnPage {
 	 * @return bool
 	 */
 	protected function should_show_notice() {
+		if ( ! $this->onpage_option->is_enabled() ) {
+			return false;
+		}
+
 		// If development mode is on or the blog is not public, just don't show this notice.
 		if ( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
 			return false;
@@ -190,9 +203,6 @@ class WPSEO_OnPage {
 
 		// Add weekly schedule to the cron job schedules.
 		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
-
-		// Adding admin notice if necessary.
-		add_filter( 'admin_init', array( $this, 'show_notice' ) );
 
 		// Setting the action for the Ryte fetch.
 		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
