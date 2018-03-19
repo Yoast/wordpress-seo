@@ -1,4 +1,4 @@
-/* global window wpseoPostScraperL10n wpseoTermScraperL10n process */
+/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp */
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
@@ -15,6 +15,8 @@ import activeKeyword from "./redux/reducers/activeKeyword";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
+import Data from "./analysis/data.js";
+import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -140,11 +142,20 @@ function renderReactApps( store, args ) {
  *                                                  rendered.
  * @param {string} args.seoTarget Target to render the seo analysis.
  * @param {string} args.readabilityTarget Target to render the readability analysis.
+ * @param {Function} args.onRefreshRequest The function to refresh the analysis.
  *
- * @returns {Object} Things that need to be exposed, such as the store.
+ * @returns {Object} The store and the data.
  */
 export function initialize( args ) {
 	const store = configureStore();
+	let data = {};
+
+	// Only use Gutenberg's data if Gutenberg is available.
+	if ( isGutenbergDataAvailable() ) {
+		const gutenbergData = new Data( wp.data, args.onRefreshRequest );
+		gutenbergData.subscribeToGutenberg();
+		data = gutenbergData;
+	}
 
 	renderReactApps( store, args );
 
@@ -154,6 +165,7 @@ export function initialize( args ) {
 
 	return {
 		store,
+		data,
 	};
 }
 
