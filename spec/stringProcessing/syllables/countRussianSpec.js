@@ -12,4 +12,4 @@ describe( "a syllable counter for Russian text strings", function () {
 		expect( countSyllableFunction( "сияет", "ru_RU" ) ).toBe( 3 );
 		expect( countSyllableFunction( "реэлтор", "ru_RU" ) ).toBe( 3 );
 	} );
-} )
+} );
