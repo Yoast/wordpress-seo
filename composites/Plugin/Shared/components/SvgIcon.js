@@ -40,6 +40,18 @@ export default class SvgIcon extends React.Component {
 			case "angle-up":
 				path = "M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z";
 				break;
+			case "arrow-down":
+				path = "M896 1791L120.91 448.5L1671.09 448.5z";
+				break;
+			case "arrow-left":
+				path = "M1343.5 1671.09L1 896L1343.5 120.91z";
+				break;
+			case "arrow-right":
+				path = "M1791 896L448.5 1671.09L448.5 120.91z";
+				break;
+			case "arrow-up":
+				path = "M1671.09 1343.5L120.91 1343.5L896 1z";
+				break;
 			case "circle":
 				path = "M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z";
 				break;
