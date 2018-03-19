@@ -36,6 +36,9 @@ export default function SidebarCollapsibleWrapper() {
 					title="Insert some collapsible title here"
 					hasHeading={ false }
 					initialIsOpen={ true }
+					prefixIcon="circle"
+					prefixIconCollapsed="circle"
+					prefixIconColor="red"
 				>
 					<h4>Some content</h4>
 					<p>With some text under it of course. Otherwise this would not make much sense, right?</p>
@@ -52,6 +55,7 @@ export default function SidebarCollapsibleWrapper() {
 					<h4>Some other content</h4>
 					<p>I should start using lorem ipsum here to write my material.</p>
 				</Collapsible>
+				<Collapsible/>
 			</WidgetContainer>
 		</SortableContainer>
 	);
