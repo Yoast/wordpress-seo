@@ -105,11 +105,16 @@ class WPSEO_Import_Smartcrawl_SEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @param int    $post_id Post ID.
 	 * @param string $key     The meta key to import.
+	 *
+	 * @return void
 	 */
 	protected function import_serialized_post_meta( $post_id, $key ) {
 		$data = get_post_meta( $post_id, $key, true );
 		$data = maybe_unserialize( $data );
 		foreach ( $this->social_keys as $key => $meta_key ) {
+			if ( ! isset( $data[ $key ] ) ) {
+				return;
+			}
 			$value = $data[ $key ];
 			if ( is_array( $value ) ) {
 				$value = $value[0];
