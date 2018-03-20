@@ -193,7 +193,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 * @return bool True if a notice should be shown.
 	 */
 	protected function should_show_notice() {
-		if ( ! $this->onpage_option->is_enabled() ) {
+		if ( ! $this->get_option()->is_enabled() ) {
 			return false;
 		}
 
