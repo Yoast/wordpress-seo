@@ -264,12 +264,6 @@ table.yoast_help .yoast-variable-desc {
 	padding: 5px 8px;
 }
 
-/* Add Facebook admins buttons. @todo: remove this. */
-.fb-buttons .button-primary,
-.fb-buttons .button {
-	margin-left: 8px;
-}
-
 /* Tabs. */
 .wpseotab {
 	display: none;
@@ -426,11 +420,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .wpseo-progressbar .ui-progressbar-value {
 	height: 25px;
 	background: #006691;
-}
-
-/* Add Facebook admin popup: notification when submitting empty form. */
-.wpseo-add-fb-admin-form-wrap .notice span {
-	margin-right: 10px;
 }
 
 .archives-titles-metas-content {

@@ -1037,64 +1037,70 @@ class WPSEO_Frontend {
 			return;
 		}
 
-		global $wp_query;
-
-		if ( ! is_singular() ) {
-			$url = $this->canonical( false, true, true );
-
-			if ( is_string( $url ) && $url !== '' ) {
-				$paged = get_query_var( 'paged' );
-
-				if ( 0 === $paged ) {
-					$paged = 1;
-				}
-
-				if ( $paged === 2 ) {
-					$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ), true );
-				}
-
-				// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
-				if ( is_front_page() ) {
-					$url = WPSEO_Sitemaps_Router::get_base_url( '' );
-				}
-
-				if ( $paged > 2 ) {
-					$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ), true );
-				}
-
-				if ( $paged < $wp_query->max_num_pages ) {
-					$this->adjacent_rel_link( 'next', $url, ( $paged + 1 ), true );
-				}
-			}
+		if ( is_singular() ) {
+			$this->rel_links_single();
+			return;
 		}
-		else {
-			$numpages = 0;
-			if ( isset( $wp_query->post->post_content ) ) {
-				$numpages = ( substr_count( $wp_query->post->post_content, '<!--nextpage-->' ) + 1 );
-			}
-			if ( $numpages > 1 ) {
-				$page = get_query_var( 'page' );
-				if ( ! $page ) {
-					$page = 1;
-				}
 
-				$url = get_permalink( $wp_query->post->ID );
+		$this->rel_links_archive();
+	}
 
-				// If the current page is the frontpage, pagination should use /base/.
-				if ( $this->is_home_static_page() ) {
-					$usebase = true;
-				}
-				else {
-					$usebase = false;
-				}
+	/**
+	 * Output the rel next/prev links for a single post / page.
+	 *
+	 * @return void
+	 */
+	protected function rel_links_single() {
+		$num_pages = 1;
 
-				if ( $page > 1 ) {
-					$this->adjacent_rel_link( 'prev', $url, ( $page - 1 ), $usebase, 'single_paged' );
-				}
-				if ( $page < $numpages ) {
-					$this->adjacent_rel_link( 'next', $url, ( $page + 1 ), $usebase, 'single_paged' );
-				}
-			}
+		$queried_object = get_queried_object();
+		if ( ! empty( $queried_object ) ) {
+			$num_pages = ( substr_count( $queried_object->post_content, '<!--nextpage-->' ) + 1 );
+		}
+
+		if ( $num_pages === 1 ) {
+			return;
+		}
+
+		$page = max( 1, (int) get_query_var( 'page' ) );
+		$url = get_permalink( get_queried_object_id() );
+
+		if ( $page > 1 ) {
+			$this->adjacent_rel_link( 'prev', $url, ( $page - 1 ), 'page' );
+		}
+
+		if ( $page < $num_pages ) {
+			$this->adjacent_rel_link( 'next', $url, ( $page + 1 ), 'page' );
+		}
+	}
+
+	/**
+	 * Output the rel next/prev links for an archive page.
+	 */
+	protected function rel_links_archive() {
+		$url = $this->canonical( false, true, true );
+
+		if ( ! is_string( $url ) || $url === '' ) {
+			return;
+		}
+
+		$paged = max( 1, (int) get_query_var( 'paged' ) );
+
+		if ( $paged === 2 ) {
+			$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ) );
+		}
+
+		// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
+		if ( is_front_page() ) {
+			$url = WPSEO_Sitemaps_Router::get_base_url( '' );
+		}
+
+		if ( $paged > 2 ) {
+			$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ) );
+		}
+
+		if ( $paged < $GLOBALS['wp_query']->max_num_pages ) {
+			$this->adjacent_rel_link( 'next', $url, ( $paged + 1 ) );
 		}
 	}
 
@@ -1102,30 +1108,28 @@ class WPSEO_Frontend {
 	 * Get adjacent pages link for archives.
 	 *
 	 * @since 1.0.2
+	 * @since 7.1    Added $query_arg parameter for single post/page pagination.
 	 *
-	 * @param string  $rel                  Link relationship, prev or next.
-	 * @param string  $url                  The un-paginated URL of the current archive.
-	 * @param string  $page                 The page number to add on to $url for the $link tag.
-	 * @param boolean $incl_pagination_base Whether or not to include /page/ or not.
+	 * @param string $rel       Link relationship, prev or next.
+	 * @param string $url       The un-paginated URL of the current archive.
+	 * @param string $page      The page number to add on to $url for the $link tag.
+	 * @param string $query_arg Optional. The argument to use to set for the page to load.
 	 *
 	 * @return void
 	 */
-	private function adjacent_rel_link( $rel, $url, $page, $incl_pagination_base ) {
+	private function adjacent_rel_link( $rel, $url, $page, $query_arg = 'paged' ) {
 		global $wp_rewrite;
 		if ( ! $wp_rewrite->using_permalinks() ) {
 			if ( $page > 1 ) {
-				$url = add_query_arg( 'paged', $page, $url );
+				$url = add_query_arg( $query_arg, $page, $url );
 			}
 		}
 		else {
 			if ( $page > 1 ) {
-				$base = '';
-				if ( $incl_pagination_base ) {
-					$base = trailingslashit( $wp_rewrite->pagination_base );
-				}
-				$url = user_trailingslashit( trailingslashit( $url ) . $base . $page );
+				$url = user_trailingslashit( trailingslashit( $url ) . $this->get_pagination_base() . $page );
 			}
 		}
+
 		/**
 		 * Filter: 'wpseo_' . $rel . '_rel_link' - Allow changing link rel output by Yoast SEO.
 		 *
@@ -1136,6 +1140,20 @@ class WPSEO_Frontend {
 		if ( is_string( $link ) && $link !== '' ) {
 			echo $link;
 		}
+	}
+
+	/**
+	 * Return the base for pagination.
+	 *
+	 * @return string The pagination base.
+	 */
+	private function get_pagination_base() {
+		// If the current page is the frontpage, pagination should use /base/.
+		$base = '';
+		if ( ! is_singular() || $this->is_home_static_page() ) {
+			$base = trailingslashit( $GLOBALS['wp_rewrite']->pagination_base );
+		}
+		return $base;
 	}
 
 	/**
@@ -1171,7 +1189,7 @@ class WPSEO_Frontend {
 				echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
 			}
 			elseif ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
-				echo '<!-- ', esc_html__( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
+				echo '<!-- ', esc_html__( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Search Appearance menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
 			}
 		}
 		else {

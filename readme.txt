@@ -106,6 +106,32 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.1.0 =
+Release Date: March 20th, 2018
+
+## Enhancements
+
+* Adds a filter to mark Spanish sentences as non-passive when certain exception words occur between the auxiliary and the participle. The list of exception words includes all forms of the copula 'estar'.
+* Adds transition words assessment for Portuguese, props [amesdigital](https://github.com/amesdigital).
+* Increases the height of the meta description box so it matches the maximum amount of characters without needing a scrollbar.
+* Detects when you need to import old SEO plugin data and allows you to import it on the import plugins page. After importing you can check whether the import was completed successfully and then delete the data.
+* Changes the formatting of text in the dashboard widget to improve the reading experience.
+* Adds an extra argument to `wpseo_replacements` filter. This makes it possible to access post, taxonomy or term instances when applying the filter.
+* Adds support for a new template variable `%%archive_title%%`.
+* Remove all Facebook Insights functionality as it's no longer supported.
+
+## Bugs
+
+* Fixes a bug that broke a filter which marks Spanish and French sentences as non-passive when certain exception words occur between the auxiliary and the participle.
+* Fixes a bug where the `page` and `paged` values could cause errors if they weren't properly handled as integers.
+* Fixes a bug where division by zero errors in the passive voice assessment would cause `NaN%` to show up in the feedback.
+* Fixes a bug where multiple `rel` arguments prevented correct `nofollow` detection.
+* Fixes a bug where enabling the Show blog page in the breadcrumb settings had the inverse effect. Internally renamed `breadcrumbs-blog-remove` to `breadcrumbs-display-blog-page` to fix logic issues.
+* Fixes a bug where the rewrite rules weren't removed after stripping the category base. This resulted in an unaccessible page.
+* Fixes a bug where adding a `wpseo_sitemap_entries_per_page` was not being used when rendering the sitemaps.
+* Fixes a bug where the Yoast logo in the Configuration Wizard was showing the old version.
+* Removes the backfill hooks when calling `WPSEO_Options::get()` to improve performance.
+
 = 7.0.3 =
 Release Date: March 12th, 2018
 
@@ -178,63 +204,6 @@ Bugfixes:
 Security:
 
 * Fixes a security issue where importing of the values of ini files were being parsed for dynamic content.
-
-= 6.3.1 =
-Release Date: February 19th, 2018
-
-Bugfixes:
-
-* Fixes a bug where a non-existing JavaScript `chunk` file was loaded, causing a console error. This only affected users using a locale different than `en_US`.
-
-= 6.3.0 =
-Release Date: February 13th, 2018
-
-Bugfixes:
-
-* Reverts the shortlink in the HTML comment back to the hard link it was before.
-* Fixes a bug where the Local SEO for WooCommerce extension was not shown on the licenses page.
-* Fixes a bug where the `current_user_can()` function was not called with the post ID as argument.
-* Fixes a bug where the auto-generated meta descriptions were not using the new 320 characters limitation.
-* Fixes a bug where specific external links were not filtered from the post_type sitemap.
-* Fixes a bug where trashed posts were displayed in the bulk editor overview.
-* Fixes a bug where old meta values were not deleted during import.
-* Fixes a bug where only 10 posts when executing meta robots import from wpSEO.de.
-* Clears the sitemap cache when the Site URL is changed.
-
-Enhancements:
-
-* Adds an importer for the SEO Ultimate plugin SEO data.
-* Adds an importer for the SEOpressor plugin SEO data.
-* Adds links to explanatory articles on the features tab.
-* Adds additional explanation for entries on the features tab.
-* Improves Open Graph copy for Facebook and Twitter in the Social settings to better explain what it does.
-* Improves Content Analysis and Publish box copy for better translations.
-* Applies design changes to the Help Center support tab for Premium.
-
-Other:
-
-* Removes "meta keywords" from the plugin as this has had no search result value for at least 7 years.
-* Removes the "noindex subpages" feature as Google has gotten much better at paginated series, and it's now actually detrimental to use.
-* Removes the "Other" tab from the Titles & Metas settings screen, as all options have been moved or removed.
-* Security hardening.
-
-= 6.2.0 =
-Release Date: January 23rd, 2018
-
-Enhancements:
-
-* Allows more strings to be translated.
-* Adds the passive voice assessment for French.
-* Adds the passive voice assessment for Spanish.
-* Simplifies the feedback message for the assessment that checks whether subheadings contain the keyword.
-
-Bugfixes:
-
-* Security hardening through stricter code checks.
-* Reduces the number of times the content analysis is refreshed on page load.
-* Fixes a bug where relative URLs were not counted as internal links in the internal link assessment.
-* Fixes a bug where Premium users would be shown ads when following a certain path through the SEO menu.
-* Fixes a bug where the method of setting the title and meta description templates for the WooCommerce shop page would not work anymore.
 
 = Earlier versions =
 
