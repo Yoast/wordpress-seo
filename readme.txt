@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.4
-Stable tag: 7.0.3
+Stable tag: 7.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -109,22 +109,26 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 7.1.0 =
 Release Date: March 20th, 2018
 
-## Enhancements
-
+Enhancements:
 * Adds a filter to mark Spanish sentences as non-passive when certain exception words occur between the auxiliary and the participle. The list of exception words includes all forms of the copula 'estar'.
 * Adds transition words assessment for Portuguese, props [amesdigital](https://github.com/amesdigital).
-* Shows the mobile preview in the snippet preview by default.
 * Increases the height of the meta description box so it matches the maximum amount of characters without needing a scrollbar.
 * Detects when you need to import old SEO plugin data and allows you to import it on the import plugins page. After importing you can check whether the import was completed successfully and then delete the data.
 * Changes the formatting of text in the dashboard widget to improve the reading experience.
 * Adds an extra argument to `wpseo_replacements` filter. This makes it possible to access post, taxonomy or term instances when applying the filter.
 * Adds support for a new template variable `%%archive_title%%`.
+* Remove all Facebook Insights functionality as it's no longer supported.
 
-## Bugs
-
+Bugfixes:
+* Fixes a bug that broke a filter which marks Spanish and French sentences as non-passive when certain exception words occur between the auxiliary and the participle.
 * Fixes a bug where the `page` and `paged` values could cause errors if they weren't properly handled as integers.
 * Fixes a bug where division by zero errors in the passive voice assessment would cause `NaN%` to show up in the feedback.
 * Fixes a bug where multiple `rel` arguments prevented correct `nofollow` detection.
+* Fixes a bug where enabling the Show blog page in the breadcrumb settings had the inverse effect. Internally renamed `breadcrumbs-blog-remove` to `breadcrumbs-display-blog-page` to fix logic issues.
+* Fixes a bug where the rewrite rules weren't removed after stripping the category base. This resulted in an unaccessible page.
+* Fixes a bug where adding a `wpseo_sitemap_entries_per_page` was not being used when rendering the sitemaps.
+* Fixes a bug where the Yoast logo in the Configuration Wizard was showing the old version.
+* Removes the backfill hooks when calling `WPSEO_Options::get()` to improve performance.
 
 = 7.0.3 =
 Release Date: March 12th, 2018
