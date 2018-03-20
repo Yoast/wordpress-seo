@@ -1014,15 +1014,15 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 </div>
 `;
 
-exports[`Collapsible matches the snapshot with a heading 1`] = `
-.c8 {
+exports[`CollapsibleStateless matches the snapshot by default 1`] = `
+.c7 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c7 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1051,31 +1051,31 @@ exports[`Collapsible matches the snapshot with a heading 1`] = `
   min-height: 32px;
 }
 
-.c7 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c6::-moz-focus-inner {
+.c5::-moz-focus-inner {
   border-width: 0;
 }
 
-.c6:focus {
+.c5:focus {
   outline: none;
   border-color: #0066cd;
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c5:hover {
+.c4:hover {
   color: #000;
 }
 
-.c4:active {
+.c3:active {
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c3 {
+.c2 {
   font-size: 0.8rem;
 }
 
@@ -1083,7 +1083,11 @@ exports[`Collapsible matches the snapshot with a heading 1`] = `
   background-color: #fff;
 }
 
-.c2 {
+.c9 {
+  padding: 0 15px;
+}
+
+.c1 {
   width: 100%;
   background-color: #fff;
   padding: 15px;
@@ -1097,15 +1101,15 @@ exports[`Collapsible matches the snapshot with a heading 1`] = `
   color: #000;
 }
 
-.c2 svg:first-child {
+.c1 svg:first-child {
   margin-right: 8px;
 }
 
-.c2 svg:last-child {
+.c1 svg:last-child {
   margin-left: 8px;
 }
 
-.c9 {
+.c8 {
   word-wrap: break-word;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
@@ -1116,21 +1120,8 @@ exports[`Collapsible matches the snapshot with a heading 1`] = `
   font-weight: 600;
 }
 
-.c1 {
-  margin: 0;
-  font-weight: normal;
-}
-
-.c10 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c7::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1140,35 +1131,329 @@ exports[`Collapsible matches the snapshot with a heading 1`] = `
 <div
   className="c0"
 >
-  <h3
-    className="c1"
+  <button
+    aria-expanded={true}
+    className="c1 c2 c3 c4 c5 c6 c7"
+    onClick={[Function]}
+    type="button"
   >
-    <button
-      aria-expanded={false}
-      className="c2 c3 c4 c5 c6 c7 c8"
-      onClick={[Function]}
-      type="button"
+    <span
+      className="c8"
     >
-      <span
-        className="c9"
-      >
-        Lorem ipsum dolor sit amet
-      </span>
-      <svg
-        aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-right c10"
-        fill="#000"
-        focusable="false"
-        role="img"
-        size="16px"
-        viewBox="0 0 1792 1792"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M1791 896L448.5 1671.09L448.5 120.91z"
-        />
-      </svg>
-    </button>
-  </h3>
+      Lorem ipsum dolor sit amet
+    </span>
+  </button>
+  <div
+    className="c9"
+  >
+    <h4>
+      Vivamus rutrum velit ut nunc dignissim vulputate.
+    </h4>
+    <p>
+      In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+    </p>
+    <h4>
+      Ut id ex efficitur risus suscipit fermentum.
+    </h4>
+    <p>
+      Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+    </p>
+  </div>
+</div>
+`;
+
+exports[`CollapsibleStateless matches the snapshot when it is opened and closed 1`] = `
+.c7 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c5::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c5:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c4:hover {
+  color: #000;
+}
+
+.c3:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c2 {
+  font-size: 0.8rem;
+}
+
+.c0 {
+  background-color: #fff;
+}
+
+.c9 {
+  padding: 0 15px;
+}
+
+.c1 {
+  width: 100%;
+  background-color: #fff;
+  padding: 15px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  color: #000;
+}
+
+.c1 svg:first-child {
+  margin-right: 8px;
+}
+
+.c1 svg:last-child {
+  margin-left: 8px;
+}
+
+.c8 {
+  word-wrap: break-word;
+  -ms-flex-positive: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-size: 1.03em;
+  font-weight: 600;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div
+  className="c0"
+>
+  <button
+    aria-expanded={true}
+    className="c1 c2 c3 c4 c5 c6 c7"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="c8"
+    >
+      Lorem ipsum dolor sit amet
+    </span>
+  </button>
+  <div
+    className="c9"
+  >
+    <h4>
+      Vivamus rutrum velit ut nunc dignissim vulputate.
+    </h4>
+    <p>
+      In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+    </p>
+    <h4>
+      Ut id ex efficitur risus suscipit fermentum.
+    </h4>
+    <p>
+      Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+    </p>
+  </div>
+</div>
+`;
+
+exports[`CollapsibleStateless matches the snapshot when it is opened and closed 2`] = `
+.c7 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c5::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c5:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c4:hover {
+  color: #000;
+}
+
+.c3:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c2 {
+  font-size: 0.8rem;
+}
+
+.c0 {
+  background-color: #fff;
+}
+
+.c9 {
+  padding: 0 15px;
+}
+
+.c1 {
+  width: 100%;
+  background-color: #fff;
+  padding: 15px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  color: #000;
+}
+
+.c1 svg:first-child {
+  margin-right: 8px;
+}
+
+.c1 svg:last-child {
+  margin-left: 8px;
+}
+
+.c8 {
+  word-wrap: break-word;
+  -ms-flex-positive: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-size: 1.03em;
+  font-weight: 600;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div
+  className="c0"
+>
+  <button
+    aria-expanded={true}
+    className="c1 c2 c3 c4 c5 c6 c7"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="c8"
+    >
+      Lorem ipsum dolor sit amet
+    </span>
+  </button>
+  <div
+    className="c9"
+  >
+    <h4>
+      Vivamus rutrum velit ut nunc dignissim vulputate.
+    </h4>
+    <p>
+      In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.
+    </p>
+    <h4>
+      Ut id ex efficitur risus suscipit fermentum.
+    </h4>
+    <p>
+      Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.
+    </p>
+  </div>
 </div>
 `;

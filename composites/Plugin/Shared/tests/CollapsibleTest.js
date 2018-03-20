@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Collapsible from "../components/Collapsible";
+import { Collapsible, CollapsibleStateless } from "../components/Collapsible";
 
 describe( "Collapsible", () => {
 	const content = (
@@ -25,17 +25,6 @@ describe( "Collapsible", () => {
 		// After toggling it should be the opposite.
 		component.getInstance().toggleCollapse();
 		expect( component.toJSON() ).toMatchSnapshot();
-	} );
-
-	it( "matches the snapshot with a heading", () => {
-		const component = renderer.create(
-			<Collapsible title="Lorem ipsum dolor sit amet" hasHeading={ true }>
-				{ content }
-			</Collapsible>
-		);
-
-		let tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
 	} );
 
 	it( "matches the snapshot when it is open", () => {
@@ -65,6 +54,47 @@ describe( "Collapsible", () => {
 
 		// After toggling it should be the opposite.
 		component.getInstance().toggleCollapse();
+		expect( component.toJSON() ).toMatchSnapshot();
+	} );
+} );
+
+describe( "CollapsibleStateless", () => {
+	const content = (
+		<React.Fragment>
+			<h4>Vivamus rutrum velit ut nunc dignissim vulputate.</h4>
+			<p>In a purus quis leo dictum ultrices. Aenean commodo erat at pellentesque placerat.</p>
+			<h4>Ut id ex efficitur risus suscipit fermentum.</h4>
+			<p>Proin sed dolor neque. Vestibulum id leo ut ante luctus interdum sed ut sem.</p>
+		</React.Fragment>
+	);
+
+	it( "matches the snapshot by default", () => {
+		const component = renderer.create(
+			<CollapsibleStateless title="Lorem ipsum dolor sit amet" isOpen={ true } onToggle={ () => {} }>
+				{ content }
+			</CollapsibleStateless>
+		);
+
+		let tree = component.toJSON();
+		expect( tree ).toMatchSnapshot();
+	} );
+
+	it( "matches the snapshot when it is opened and closed", () => {
+		let isOpen = true;
+		const onToggle = () => {
+			isOpen = ! isOpen;
+		};
+		const component = renderer.create(
+			<CollapsibleStateless title="Lorem ipsum dolor sit amet" isOpen={ isOpen } onToggle={ onToggle }>
+				{ content }
+			</CollapsibleStateless>
+		);
+
+		let tree = component.toJSON();
+		expect( tree ).toMatchSnapshot();
+
+		// After toggling it should be the opposite.
+		onToggle();
 		expect( component.toJSON() ).toMatchSnapshot();
 	} );
 } );
