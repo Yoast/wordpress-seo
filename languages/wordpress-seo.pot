@@ -268,7 +268,7 @@ msgstr ""
 #. setting page, %2$s resolves to the closing tag of the link
 #: admin/class-admin-init.php:151
 msgid ""
-"Simply uncheck the box before \"Break comments into pages...\" on the "
+"To fix this uncheck the box in front of the \"Break comments into pages...\" on the "
 "%1$sComment settings page%2$s."
 msgstr ""
 
