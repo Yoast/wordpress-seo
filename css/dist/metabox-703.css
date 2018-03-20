@@ -87,9 +87,9 @@
 
 .snippet-editor__view--desktop {
 	overflow: auto;
-	width: 620px;
+	width: 640px;
 	max-width: 100%;
-	padding: 0 0 0 20px;
+	padding: 0 20px;
 }
 
 .snippet-editor__view .snippet_container__title {
@@ -217,7 +217,7 @@
 	margin-right: 10px;
 	font-size: 20px;
 	line-height: inherit;
-	vertical-align: middle;
+	vertical-align: text-top;
 	content: "\21c4";
 }
 
