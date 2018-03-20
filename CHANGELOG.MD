@@ -5,6 +5,31 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+### 3.3.0 March 19th, 2018
+
+### Added
+
+* Implements `SnippetPreview` component. This component will show a representation of how Google will show a certain page.
+
+## 3.2.1 March 16th, 2018
+
+### Bugfix
+* Fixed the PropType to `func` for the dynamically supplied icon.
+
+## 3.2.0 March 14th, 2018
+
+### Added
+* Made it possible to dynamically pass an icon to the Onboarding Wizard component.
+
+### Other
+* Fixed a typo in the readme.
+
+## 3.1.0 March 1st, 2018
+
+### Other
+* `react-intl` is now a peer dependency of `yoast-component`. Updated documentation in regards to to using `react-intl`.
+* `AnalysisHeaderCollapsible` is now open by default. This means all headers in `ContentAnalysis` are now open by default.
+
 ## 3.0.2 February 22nd, 2018
 
 ### Other

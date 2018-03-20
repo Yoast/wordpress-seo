@@ -8,7 +8,7 @@ import colors from "../../style-guide/colors.json";
 import { rgba } from "../../style-guide/helpers";
 import SvgIcon from "../../composites/Plugin/Shared/components/SvgIcon";
 
-const StyledHeading = styled( Heading )``;
+export const StyledHeading = styled( Heading )``;
 
 const StyledIcon = styled( SvgIcon )``;
 
