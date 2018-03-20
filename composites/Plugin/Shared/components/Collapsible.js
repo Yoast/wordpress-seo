@@ -49,7 +49,7 @@ const StyledTitle = styled.span`
  *
  * @returns {ReactElement} The wrapped component.
  */
-function wrapInHeading( Component, headingLevel ) {
+export function wrapInHeading( Component, headingLevel ) {
 	const Heading = `h${ headingLevel }`;
 	const StyledHeading = styled( Heading )`
 		margin: 0;
@@ -65,6 +65,8 @@ function wrapInHeading( Component, headingLevel ) {
 	};
 }
 
+const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
+
 /**
  * Base collapsible panel. Optionally has a heading around the button.
  *
@@ -78,14 +80,14 @@ export const CollapsibleStateless = ( props ) => {
 			<props.Heading
 				aria-expanded={ props.isOpen }
 				onClick={ props.onToggle }
-				prefixIcon={ props.prefixIcon }
+				prefixIcon={ props.isOpen ? props.prefixIcon : props.prefixIconCollapsed }
 				prefixIconColor={ props.prefixIconColor }
-				suffixIcon={ props.suffixIcon }
+				suffixIcon={ props.isOpen ? props.suffixIcon : props.suffixIconCollapsed }
 				suffixIconColor={ props.suffixIconColor }
 			>
 				<StyledTitle>{ props.title }</StyledTitle>
 			</props.Heading>
-			{ props.children }
+			{ props.isOpen && props.children }
 		</StyledContainer>
 	);
 };
@@ -99,14 +101,16 @@ CollapsibleStateless.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	onToggle: PropTypes.func.isRequired,
 	prefixIcon: PropTypes.string,
+	prefixIconCollapsed: PropTypes.string,
 	prefixIconColor: PropTypes.string,
 	suffixIcon: PropTypes.string,
+	suffixIconCollapsed: PropTypes.string,
 	suffixIconColor: PropTypes.string,
 	title: PropTypes.string,
 };
 
 CollapsibleStateless.defaultProps = {
-	Heading: StyledIconsButton,
+	Heading: StyledHeading,
 	prefixIconColor: colors.$black,
 	suffixIconColor: colors.$black,
 };
@@ -134,7 +138,7 @@ export class Collapsible extends React.Component {
 		 * instead of doing it in the render function to avoid a full re-render of the button,
 		 * which is bad for accessibility.
 		 */
-		this.Heading = this.getHeading( props );
+		this.Heading = Collapsible.getHeading( props );
 		this.toggleCollapse = this.toggleCollapse.bind( this );
 	}
 
@@ -142,7 +146,7 @@ export class Collapsible extends React.Component {
 		const { headingLevel } = this.props;
 
 		if ( nextProps.headingLevel !== headingLevel ) {
-			this.Heading = this.getHeading( nextProps );
+			this.Heading = Collapsible.getHeading( nextProps );
 		}
 	}
 
@@ -162,12 +166,12 @@ export class Collapsible extends React.Component {
 	/**
 	 * Creates the header by wrapping the IconsButton with a header.
 	 *
+	 * @param {object} props The properties for the component.
+	 *
 	 * @returns {ReactElement} The header to render.
 	 */
-	getHeading() {
-		const { headingLevel } = this.props;
-
-		return wrapInHeading( StyledIconsButton, headingLevel );
+	static getHeading( props ) {
+		return wrapInHeading( StyledIconsButton, props.headingLevel );
 	}
 
 	/**
@@ -189,9 +193,11 @@ export class Collapsible extends React.Component {
 				Heading={ this.Heading }
 				isOpen={ isOpen }
 				onToggle={ this.toggleCollapse }
-				prefixIcon={ isOpen ? prefixIcon : prefixIconCollapsed }
+				prefixIcon={ prefixIcon }
+				prefixIconCollapsed={ prefixIconCollapsed }
 				prefixIconColor={ prefixIconColor }
-				suffixIcon={ isOpen ? suffixIcon : suffixIconCollapsed }
+				suffixIcon={ suffixIcon }
+				suffixIconCollapsed={ suffixIconCollapsed }
 				suffixIconColor={ suffixIconColor }
 				title={ title }
 			>

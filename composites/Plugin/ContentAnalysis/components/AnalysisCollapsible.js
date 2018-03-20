@@ -4,13 +4,10 @@ import styled from "styled-components";
 
 import { getChildrenCount } from "../../../../utils/reactUtils";
 import colors from "../../../../style-guide/colors.json";
-import { IconButton } from "../../Shared/components/Button";
+import { IconsButton } from "../../Shared/components/Button";
+import { CollapsibleStateless, wrapInHeading } from "../../Shared/components/Collapsible";
 
-const AnalysisHeaderContainer = styled.div`
-	background-color: ${ colors.$color_white };
-`;
-
-const AnalysisHeaderButton = styled( IconButton )`
+const StyledIconsButton = styled( IconsButton )`
 	width: 100%;
 	background-color: ${ colors.$color_white };
 	padding: 0;
@@ -38,44 +35,23 @@ const AnalysisHeaderButton = styled( IconButton )`
 		width: 20px;
 		height: 20px;
 	}
+	
+	span {
+		margin: 8px 0;
+		word-wrap: break-word;
+		font-size: 1.25em;
+		line-height: 1.25;
+		font-weight: inherit;
+	}
 `;
 
-const AnalysisTitle = styled.span`
-	margin: 8px 0;
-	word-wrap: break-word;
-	font-size: 1.25em;
-	line-height: 1.25;
-`;
+const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
 
 const AnalysisList = styled.ul`
 	margin: 0;
 	list-style: none;
 	padding: 0 16px 0 0;
 `;
-
-/**
- * Wraps a component in a heading element with a defined heading level.
- *
- * @param {ReactElement} Component    The component to wrap.
- * @param {int}          headingLevel The heading level.
- *
- * @returns {ReactElement} The wrapped component.
- */
-function wrapInHeading( Component, headingLevel ) {
-	const Heading = `h${ headingLevel }`;
-	const StyledHeading = styled( Heading )`
-		margin: 0;
-		font-weight: normal;
-	`;
-
-	return function Wrapped( props ) {
-		return (
-			<StyledHeading>
-				<Component { ...props } />
-			</StyledHeading>
-		);
-	};
-}
 
 /**
  * A collapsible header used to show sets of analysis results. Expects list items as children.
@@ -86,67 +62,71 @@ function wrapInHeading( Component, headingLevel ) {
  * @returns {ReactElement} A collapsible analysisresult set.
  */
 export const AnalysisCollapsibleStateless = ( props ) => {
-	let title = props.title;
 	let count = getChildrenCount( props.children );
 
-	const Button = props.element;
-
 	return (
-		<AnalysisHeaderContainer>
-			<Button
-				aria-expanded={ props.isOpen }
-				onClick={ props.onToggle }
-				icon={ props.isOpen ? "angle-up" : "angle-down" }
-				iconColor={ colors.$color_grey_dark } >
-				<AnalysisTitle>{ `${ title } (${ count })` }</AnalysisTitle>
-			</Button>
-			{
-				props.isOpen && props.children &&
-					<AnalysisList role="list">{ props.children }</AnalysisList>
-			}
-		</AnalysisHeaderContainer>
+		<CollapsibleStateless
+			Heading={ props.Heading }
+			isOpen={ props.isOpen }
+			onToggle={ props.onToggle }
+			prefixIcon="angle-up"
+			prefixIconCollapsed="angle-down"
+			prefixIconColor={ colors.$color_grey_dark }
+			title={ `${ props.title } (${ count })` }
+		>
+			<AnalysisList role="list">{ props.children }</AnalysisList>
+		</CollapsibleStateless>
 	);
 };
 
 AnalysisCollapsibleStateless.propTypes = {
-	title: PropTypes.string.isRequired,
-	isOpen: PropTypes.bool.isRequired,
-	hasHeading: PropTypes.bool,
-	headingLevel: PropTypes.number,
-	onToggle: PropTypes.func.isRequired,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
 	] ),
-	element: PropTypes.func,
+	Heading: PropTypes.func,
+	isOpen: PropTypes.bool.isRequired,
+	onToggle: PropTypes.func.isRequired,
+	title: PropTypes.string,
 };
 
 AnalysisCollapsibleStateless.defaultProps = {
-	hasHeading: false,
-	headingLevel: 2,
+	Heading: StyledHeading,
+	prefixIcon: "angle-up",
+	prefixIconCollapsed: "angle-down",
+	prefixIconColor: colors.$color_grey_dark,
 };
 
 export class AnalysisCollapsible extends React.Component {
 	/**
 	 * The constructor.
 	 *
-	 * @param {Object} props The props to use.
+	 * @param {object} props The properties for the component.
+	 *
+	 * @returns {ReactElement} The analysis collapsible panel.
 	 */
 	constructor( props ) {
 		super( props );
 
 		this.state = {
-			isOpen: null,
+			isOpen: props.initialIsOpen,
 		};
-
-		this.toggleOpen = this.toggleOpen.bind( this );
 
 		/*
 		 * Evaluate if the button should be wrapped in a heading in this constructor
-		 * instead of doing it in the AnalysisCollapsibleStateless component to
-		 * avoid a full re-render of the button, which is bad for accessibility.
+		 * instead of doing it in the render function to avoid a full re-render of the button,
+		 * which is bad for accessibility.
 		 */
-		this.element = props.hasHeading ? wrapInHeading( AnalysisHeaderButton, props.headingLevel ) : AnalysisHeaderButton;
+		this.Heading = AnalysisCollapsible.getHeading( props );
+		this.toggleOpen = this.toggleOpen.bind( this );
+	}
+
+	componentWillReceiveProps( nextProps ) {
+		const { headingLevel } = this.props;
+
+		if ( nextProps.headingLevel !== headingLevel ) {
+			this.Heading = AnalysisCollapsible.getHeading( nextProps );
+		}
 	}
 
 	/**
@@ -155,23 +135,22 @@ export class AnalysisCollapsible extends React.Component {
 	 * @returns {void}
 	 */
 	toggleOpen() {
+		const { isOpen } = this.state;
+
 		this.setState( {
-			isOpen: ! this.isOpen(),
+			isOpen: ! isOpen,
 		} );
 	}
 
 	/**
-	 * Returns whether or not the collapsible should be rendered open or closed.
+	 * Creates the header by wrapping the IconsButton with a header.
 	 *
-	 * @returns {boolean} Whether or not this component is open.
+	 * @param {object} props The properties for the component.
+	 *
+	 * @returns {ReactElement} The header to render.
 	 */
-	isOpen() {
-		// When `isOpen` is null then the user has never opened or closed the collapsible.
-		if ( this.state.isOpen === null ) {
-			return this.props.initialIsOpen;
-		}
-
-		return this.state.isOpen === true;
+	static getHeading( props ) {
+		return wrapInHeading( StyledIconsButton, props.headingLevel );
 	}
 
 	/**
@@ -180,35 +159,34 @@ export class AnalysisCollapsible extends React.Component {
 	 * @returns {ReactElement} The rendered collapsible analysisHeader.
 	 */
 	render() {
+		const { isOpen } = this.state;
+		const { children, title } = this.props;
+
 		return (
 			<AnalysisCollapsibleStateless
-				title={ this.props.title }
-				onToggle={ this.toggleOpen.bind( this ) }
-				isOpen={ this.isOpen() }
-				hasHeading={ this.props.hasHeading }
-				headingLevel={ this.props.headingLevel }
-				element={ this.element }
+				Heading={ this.Heading }
+				isOpen={ isOpen }
+				onToggle={ this.toggleOpen }
+				title={ title }
 			>
-				{ this.props.children }
+				{ children }
 			</AnalysisCollapsibleStateless>
 		);
 	}
 }
 
 AnalysisCollapsible.propTypes = {
-	title: PropTypes.string.isRequired,
-	initialIsOpen: PropTypes.bool,
-	hasHeading: PropTypes.bool,
-	headingLevel: PropTypes.number,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
 	] ),
+	initialIsOpen: PropTypes.bool,
+	headingLevel: PropTypes.number,
+	title: PropTypes.string.isRequired,
 };
 
 AnalysisCollapsible.defaultProps = {
 	initialIsOpen: true,
-	hasHeading: false,
 	headingLevel: 2,
 };
 

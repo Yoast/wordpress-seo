@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
-.c7 {
+.c8 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
+.c7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -37,31 +37,31 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
   min-height: 32px;
 }
 
-.c6 svg {
+.c7 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c5::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c5:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c4:hover {
+.c5:hover {
   color: #000;
 }
 
-.c3:active {
+.c4:active {
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c2 {
+.c3 {
   font-size: 0.8rem;
 }
 
@@ -69,7 +69,18 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
   background-color: #fff;
 }
 
-.c1 {
+.c10 {
+  word-wrap: break-word;
+  -ms-flex-positive: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-size: 1.03em;
+  font-weight: 600;
+}
+
+.c2 {
   width: 100%;
   background-color: #fff;
   padding: 0;
@@ -84,28 +95,29 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
   color: #0066cd;
 }
 
-.c1:hover {
+.c2:hover {
   border-color: transparent;
   color: #0066cd;
 }
 
-.c1:active {
+.c2:active {
   box-shadow: none;
   background-color: #fff;
   color: #0066cd;
 }
 
-.c1 svg {
+.c2 svg {
   margin: 0 8px 0 -5px;
   width: 20px;
   height: 20px;
 }
 
-.c10 {
+.c2 span {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
   line-height: 1.25;
+  font-weight: inherit;
 }
 
 .c11 {
@@ -114,11 +126,9 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
   padding: 0 16px 0 0;
 }
 
-.c8 {
-  margin: 0 8px 0 0;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
+.c1 {
+  margin: 0;
+  font-weight: normal;
 }
 
 .c9 {
@@ -130,7 +140,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
+  .c7::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -140,32 +150,36 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
 <div
   className="c0"
 >
-  <button
-    aria-expanded={true}
-    className="c1 c2 c3 c4 c5 c6 c7"
-    onClick={[Function]}
-    type="button"
+  <h2
+    className="c1"
   >
-    <svg
-      aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-up c8 c9"
-      fill="#555"
-      focusable="false"
-      role="img"
-      size="16px"
-      viewBox="0 0 1792 1792"
-      xmlns="http://www.w3.org/2000/svg"
+    <button
+      aria-expanded={true}
+      className="c2 c3 c4 c5 c6 c7 c8"
+      onClick={[Function]}
+      type="button"
     >
-      <path
-        d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
-      />
-    </svg>
-    <span
-      className="c10"
-    >
-      Problems (4)
-    </span>
-  </button>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-up c9"
+        fill="#555"
+        focusable="false"
+        role="img"
+        size="16px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+        />
+      </svg>
+      <span
+        className="c10"
+      >
+        Problems (4)
+      </span>
+    </button>
+  </h2>
   <ul
     className="c11"
     role="list"
@@ -187,14 +201,14 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
 `;
 
 exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
-.c7 {
+.c8 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
+.c7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -223,31 +237,31 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
   min-height: 32px;
 }
 
-.c6 svg {
+.c7 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c5::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c5:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c4:hover {
+.c5:hover {
   color: #000;
 }
 
-.c3:active {
+.c4:active {
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c2 {
+.c3 {
   font-size: 0.8rem;
 }
 
@@ -255,7 +269,18 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
   background-color: #fff;
 }
 
-.c1 {
+.c10 {
+  word-wrap: break-word;
+  -ms-flex-positive: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-size: 1.03em;
+  font-weight: 600;
+}
+
+.c2 {
   width: 100%;
   background-color: #fff;
   padding: 0;
@@ -270,35 +295,34 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
   color: #0066cd;
 }
 
-.c1:hover {
+.c2:hover {
   border-color: transparent;
   color: #0066cd;
 }
 
-.c1:active {
+.c2:active {
   box-shadow: none;
   background-color: #fff;
   color: #0066cd;
 }
 
-.c1 svg {
+.c2 svg {
   margin: 0 8px 0 -5px;
   width: 20px;
   height: 20px;
 }
 
-.c10 {
+.c2 span {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
   line-height: 1.25;
+  font-weight: inherit;
 }
 
-.c8 {
-  margin: 0 8px 0 0;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
+.c1 {
+  margin: 0;
+  font-weight: normal;
 }
 
 .c9 {
@@ -310,7 +334,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
+  .c7::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -320,44 +344,48 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
 <div
   className="c0"
 >
-  <button
-    aria-expanded={false}
-    className="c1 c2 c3 c4 c5 c6 c7"
-    onClick={[Function]}
-    type="button"
+  <h2
+    className="c1"
   >
-    <svg
-      aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-down c8 c9"
-      fill="#555"
-      focusable="false"
-      role="img"
-      size="16px"
-      viewBox="0 0 1792 1792"
-      xmlns="http://www.w3.org/2000/svg"
+    <button
+      aria-expanded={false}
+      className="c2 c3 c4 c5 c6 c7 c8"
+      onClick={[Function]}
+      type="button"
     >
-      <path
-        d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
-      />
-    </svg>
-    <span
-      className="c10"
-    >
-      Problems (4)
-    </span>
-  </button>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-down c9"
+        fill="#555"
+        focusable="false"
+        role="img"
+        size="16px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+        />
+      </svg>
+      <span
+        className="c10"
+      >
+        Problems (4)
+      </span>
+    </button>
+  </h2>
 </div>
 `;
 
 exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
-.c7 {
+.c8 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
+.c7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -386,31 +414,31 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
   min-height: 32px;
 }
 
-.c6 svg {
+.c7 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c5::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c5:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c4:hover {
+.c5:hover {
   color: #000;
 }
 
-.c3:active {
+.c4:active {
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c2 {
+.c3 {
   font-size: 0.8rem;
 }
 
@@ -418,7 +446,18 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
   background-color: #fff;
 }
 
-.c1 {
+.c10 {
+  word-wrap: break-word;
+  -ms-flex-positive: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-size: 1.03em;
+  font-weight: 600;
+}
+
+.c2 {
   width: 100%;
   background-color: #fff;
   padding: 0;
@@ -433,35 +472,34 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
   color: #0066cd;
 }
 
-.c1:hover {
+.c2:hover {
   border-color: transparent;
   color: #0066cd;
 }
 
-.c1:active {
+.c2:active {
   box-shadow: none;
   background-color: #fff;
   color: #0066cd;
 }
 
-.c1 svg {
+.c2 svg {
   margin: 0 8px 0 -5px;
   width: 20px;
   height: 20px;
 }
 
-.c10 {
+.c2 span {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
   line-height: 1.25;
+  font-weight: inherit;
 }
 
-.c8 {
-  margin: 0 8px 0 0;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
+.c1 {
+  margin: 0;
+  font-weight: normal;
 }
 
 .c9 {
@@ -473,7 +511,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
+  .c7::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -483,44 +521,48 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
 <div
   className="c0"
 >
-  <button
-    aria-expanded={false}
-    className="c1 c2 c3 c4 c5 c6 c7"
-    onClick={[Function]}
-    type="button"
+  <h2
+    className="c1"
   >
-    <svg
-      aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-down c8 c9"
-      fill="#555"
-      focusable="false"
-      role="img"
-      size="16px"
-      viewBox="0 0 1792 1792"
-      xmlns="http://www.w3.org/2000/svg"
+    <button
+      aria-expanded={false}
+      className="c2 c3 c4 c5 c6 c7 c8"
+      onClick={[Function]}
+      type="button"
     >
-      <path
-        d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
-      />
-    </svg>
-    <span
-      className="c10"
-    >
-      Problems (4)
-    </span>
-  </button>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-down c9"
+        fill="#555"
+        focusable="false"
+        role="img"
+        size="16px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+        />
+      </svg>
+      <span
+        className="c10"
+      >
+        Problems (4)
+      </span>
+    </button>
+  </h2>
 </div>
 `;
 
 exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
-.c7 {
+.c8 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
+.c7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -549,31 +591,31 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
   min-height: 32px;
 }
 
-.c6 svg {
+.c7 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c5::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c5:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c4:hover {
+.c5:hover {
   color: #000;
 }
 
-.c3:active {
+.c4:active {
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c2 {
+.c3 {
   font-size: 0.8rem;
 }
 
@@ -581,7 +623,18 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
   background-color: #fff;
 }
 
-.c1 {
+.c10 {
+  word-wrap: break-word;
+  -ms-flex-positive: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-size: 1.03em;
+  font-weight: 600;
+}
+
+.c2 {
   width: 100%;
   background-color: #fff;
   padding: 0;
@@ -596,28 +649,29 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
   color: #0066cd;
 }
 
-.c1:hover {
+.c2:hover {
   border-color: transparent;
   color: #0066cd;
 }
 
-.c1:active {
+.c2:active {
   box-shadow: none;
   background-color: #fff;
   color: #0066cd;
 }
 
-.c1 svg {
+.c2 svg {
   margin: 0 8px 0 -5px;
   width: 20px;
   height: 20px;
 }
 
-.c10 {
+.c2 span {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
   line-height: 1.25;
+  font-weight: inherit;
 }
 
 .c11 {
@@ -626,11 +680,9 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
   padding: 0 16px 0 0;
 }
 
-.c8 {
-  margin: 0 8px 0 0;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
+.c1 {
+  margin: 0;
+  font-weight: normal;
 }
 
 .c9 {
@@ -642,7 +694,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
+  .c7::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -652,32 +704,36 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
 <div
   className="c0"
 >
-  <button
-    aria-expanded={true}
-    className="c1 c2 c3 c4 c5 c6 c7"
-    onClick={[Function]}
-    type="button"
+  <h2
+    className="c1"
   >
-    <svg
-      aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-up c8 c9"
-      fill="#555"
-      focusable="false"
-      role="img"
-      size="16px"
-      viewBox="0 0 1792 1792"
-      xmlns="http://www.w3.org/2000/svg"
+    <button
+      aria-expanded={true}
+      className="c2 c3 c4 c5 c6 c7 c8"
+      onClick={[Function]}
+      type="button"
     >
-      <path
-        d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
-      />
-    </svg>
-    <span
-      className="c10"
-    >
-      Problems (4)
-    </span>
-  </button>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-up c9"
+        fill="#555"
+        focusable="false"
+        role="img"
+        size="16px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+        />
+      </svg>
+      <span
+        className="c10"
+      >
+        Problems (4)
+      </span>
+    </button>
+  </h2>
   <ul
     className="c11"
     role="list"
@@ -699,14 +755,14 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
 `;
 
 exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
-.c7 {
+.c8 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
+.c7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -735,31 +791,31 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
   min-height: 32px;
 }
 
-.c6 svg {
+.c7 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c5::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c5:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c4:hover {
+.c5:hover {
   color: #000;
 }
 
-.c3:active {
+.c4:active {
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c2 {
+.c3 {
   font-size: 0.8rem;
 }
 
@@ -767,7 +823,18 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
   background-color: #fff;
 }
 
-.c1 {
+.c10 {
+  word-wrap: break-word;
+  -ms-flex-positive: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-size: 1.03em;
+  font-weight: 600;
+}
+
+.c2 {
   width: 100%;
   background-color: #fff;
   padding: 0;
@@ -782,28 +849,29 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
   color: #0066cd;
 }
 
-.c1:hover {
+.c2:hover {
   border-color: transparent;
   color: #0066cd;
 }
 
-.c1:active {
+.c2:active {
   box-shadow: none;
   background-color: #fff;
   color: #0066cd;
 }
 
-.c1 svg {
+.c2 svg {
   margin: 0 8px 0 -5px;
   width: 20px;
   height: 20px;
 }
 
-.c10 {
+.c2 span {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
   line-height: 1.25;
+  font-weight: inherit;
 }
 
 .c11 {
@@ -812,11 +880,9 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
   padding: 0 16px 0 0;
 }
 
-.c8 {
-  margin: 0 8px 0 0;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
+.c1 {
+  margin: 0;
+  font-weight: normal;
 }
 
 .c9 {
@@ -828,7 +894,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
+  .c7::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -838,32 +904,36 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
 <div
   className="c0"
 >
-  <button
-    aria-expanded={true}
-    className="c1 c2 c3 c4 c5 c6 c7"
-    onClick={[Function]}
-    type="button"
+  <h2
+    className="c1"
   >
-    <svg
-      aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-up c8 c9"
-      fill="#555"
-      focusable="false"
-      role="img"
-      size="16px"
-      viewBox="0 0 1792 1792"
-      xmlns="http://www.w3.org/2000/svg"
+    <button
+      aria-expanded={true}
+      className="c2 c3 c4 c5 c6 c7 c8"
+      onClick={[Function]}
+      type="button"
     >
-      <path
-        d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
-      />
-    </svg>
-    <span
-      className="c10"
-    >
-      Problems (4)
-    </span>
-  </button>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-up c9"
+        fill="#555"
+        focusable="false"
+        role="img"
+        size="16px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z"
+        />
+      </svg>
+      <span
+        className="c10"
+      >
+        Problems (4)
+      </span>
+    </button>
+  </h2>
   <ul
     className="c11"
     role="list"
@@ -885,14 +955,14 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
 `;
 
 exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
-.c7 {
+.c8 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
+.c7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -921,31 +991,31 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
   min-height: 32px;
 }
 
-.c6 svg {
+.c7 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c5::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c5:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c4:hover {
+.c5:hover {
   color: #000;
 }
 
-.c3:active {
+.c4:active {
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c2 {
+.c3 {
   font-size: 0.8rem;
 }
 
@@ -953,7 +1023,18 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
   background-color: #fff;
 }
 
-.c1 {
+.c10 {
+  word-wrap: break-word;
+  -ms-flex-positive: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-size: 1.03em;
+  font-weight: 600;
+}
+
+.c2 {
   width: 100%;
   background-color: #fff;
   padding: 0;
@@ -968,35 +1049,34 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
   color: #0066cd;
 }
 
-.c1:hover {
+.c2:hover {
   border-color: transparent;
   color: #0066cd;
 }
 
-.c1:active {
+.c2:active {
   box-shadow: none;
   background-color: #fff;
   color: #0066cd;
 }
 
-.c1 svg {
+.c2 svg {
   margin: 0 8px 0 -5px;
   width: 20px;
   height: 20px;
 }
 
-.c10 {
+.c2 span {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
   line-height: 1.25;
+  font-weight: inherit;
 }
 
-.c8 {
-  margin: 0 8px 0 0;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
+.c1 {
+  margin: 0;
+  font-weight: normal;
 }
 
 .c9 {
@@ -1008,7 +1088,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
+  .c7::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1018,32 +1098,36 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
 <div
   className="c0"
 >
-  <button
-    aria-expanded={false}
-    className="c1 c2 c3 c4 c5 c6 c7"
-    onClick={[Function]}
-    type="button"
+  <h2
+    className="c1"
   >
-    <svg
-      aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-down c8 c9"
-      fill="#555"
-      focusable="false"
-      role="img"
-      size="16px"
-      viewBox="0 0 1792 1792"
-      xmlns="http://www.w3.org/2000/svg"
+    <button
+      aria-expanded={false}
+      className="c2 c3 c4 c5 c6 c7 c8"
+      onClick={[Function]}
+      type="button"
     >
-      <path
-        d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
-      />
-    </svg>
-    <span
-      className="c10"
-    >
-      Problems (4)
-    </span>
-  </button>
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-down c9"
+        fill="#555"
+        focusable="false"
+        role="img"
+        size="16px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z"
+        />
+      </svg>
+      <span
+        className="c10"
+      >
+        Problems (4)
+      </span>
+    </button>
+  </h2>
 </div>
 `;
 
@@ -1116,6 +1200,17 @@ exports[`AnalysisCollapsible matches the snapshot with a heading 1`] = `
   background-color: #fff;
 }
 
+.c10 {
+  word-wrap: break-word;
+  -ms-flex-positive: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-size: 1.03em;
+  font-weight: 600;
+}
+
 .c2 {
   width: 100%;
   background-color: #fff;
@@ -1148,14 +1243,15 @@ exports[`AnalysisCollapsible matches the snapshot with a heading 1`] = `
   height: 20px;
 }
 
-.c11 {
+.c2 span {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
   line-height: 1.25;
+  font-weight: inherit;
 }
 
-.c12 {
+.c11 {
   margin: 0;
   list-style: none;
   padding: 0 16px 0 0;
@@ -1167,13 +1263,6 @@ exports[`AnalysisCollapsible matches the snapshot with a heading 1`] = `
 }
 
 .c9 {
-  margin: 0 8px 0 0;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-}
-
-.c10 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -1203,7 +1292,7 @@ exports[`AnalysisCollapsible matches the snapshot with a heading 1`] = `
     >
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-angle-up c9 c10"
+        className="yoast-svg-icon yoast-svg-icon-angle-up c9"
         fill="#555"
         focusable="false"
         role="img"
@@ -1216,14 +1305,14 @@ exports[`AnalysisCollapsible matches the snapshot with a heading 1`] = `
         />
       </svg>
       <span
-        className="c11"
+        className="c10"
       >
         Problems (4)
       </span>
     </button>
   </h2>
   <ul
-    className="c12"
+    className="c11"
     role="list"
   >
     <li>
