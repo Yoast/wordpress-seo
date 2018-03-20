@@ -23,7 +23,7 @@ describe( "Collapsible", () => {
 		expect( tree ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
-		component.getInstance().toggleOpen();
+		component.getInstance().toggleCollapse();
 		expect( component.toJSON() ).toMatchSnapshot();
 	} );
 
@@ -49,7 +49,7 @@ describe( "Collapsible", () => {
 		expect( tree ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
-		component.getInstance().toggleOpen();
+		component.getInstance().toggleCollapse();
 		expect( component.toJSON() ).toMatchSnapshot();
 	} );
 
@@ -64,7 +64,7 @@ describe( "Collapsible", () => {
 		expect( tree ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
-		component.getInstance().toggleOpen();
+		component.getInstance().toggleCollapse();
 		expect( component.toJSON() ).toMatchSnapshot();
 	} );
 } );

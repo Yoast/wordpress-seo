@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import colors from "../../../../style-guide/colors.json";
 import { IconsButton } from "../../Shared/components/Button";
+import {getChildrenCount} from "../../../../utils/reactUtils";
 
 const StyledContainer = styled.div`
 	background-color: ${ colors.$color_white };
@@ -66,8 +67,53 @@ function wrapInHeading( Component, headingLevel ) {
 }
 
 /**
- * Base collapsible panel with a header.
- * Optionally has a heading around the button.
+ * Base collapsible panel. Optionally has a heading around the button.
+ *
+ * @param {object} props The properties for the component.
+ *
+ * @returns {ReactElement} A collapsible panel.
+ */
+export const CollapsibleStateless = ( props ) => {
+	return (
+		<StyledContainer>
+			<props.Heading
+				aria-expanded={ props.isOpen }
+				onClick={ props.onToggle }
+				prefixIcon={ props.prefixIcon }
+				prefixIconColor={ props.prefixIconColor }
+				suffixIcon={ props.suffixIcon }
+				suffixIconColor={ props.suffixIconColor }
+			>
+				<StyledTitle>{ props.title }</StyledTitle>
+			</props.Heading>
+			{ props.children }
+		</StyledContainer>
+	);
+};
+
+CollapsibleStateless.propTypes = {
+	children: PropTypes.oneOfType( [
+		PropTypes.arrayOf( PropTypes.node ),
+		PropTypes.node,
+	] ),
+	Heading: PropTypes.func,
+	isOpen: PropTypes.bool.isRequired,
+	onToggle: PropTypes.func.isRequired,
+	prefixIcon: PropTypes.string,
+	prefixIconColor: PropTypes.string,
+	suffixIcon: PropTypes.string,
+	suffixIconColor: PropTypes.string,
+	title: PropTypes.string,
+};
+
+CollapsibleStateless.defaultProps = {
+	Heading: StyledIconsButton,
+	prefixIconColor: colors.$black,
+	suffixIconColor: colors.$black,
+};
+
+/**
+ * Stateful collapsible panel. Optionally has a heading around the button.
  */
 export class Collapsible extends React.Component {
 	/**
@@ -94,9 +140,9 @@ export class Collapsible extends React.Component {
 	}
 
 	componentWillReceiveProps( nextProps ) {
-		const { hasHeading, headingLevel } = this.props;
+		const { headingLevel } = this.props;
 
-		if ( nextProps.hasHeading !== hasHeading || nextProps.headingLevel !== headingLevel ) {
+		if ( nextProps.headingLevel !== headingLevel ) {
 			this.Heading = this.getHeading( nextProps );
 		}
 	}
@@ -114,10 +160,15 @@ export class Collapsible extends React.Component {
 		} );
 	}
 
+	/**
+	 * Creates the header by wrapping the IconsButton with a header.
+	 *
+	 * @returns {ReactElement} The header to render.
+	 */
 	getHeading() {
-		const { hasHeading, headingLevel } = this.props;
+		const { headingLevel } = this.props;
 
-		return hasHeading ? wrapInHeading( StyledIconsButton, headingLevel ) : StyledIconsButton;
+		return wrapInHeading( StyledIconsButton, headingLevel );
 	}
 
 	/**
@@ -135,19 +186,18 @@ export class Collapsible extends React.Component {
 		} = this.props;
 
 		return (
-			<StyledContainer>
-				<this.Heading
-					aria-expanded={ isOpen }
-					onClick={ this.toggleCollapse }
-					prefixIcon={ isOpen ? prefixIcon : prefixIconCollapsed }
-					prefixIconColor={ prefixIconColor }
-					suffixIcon={ isOpen ? suffixIcon : suffixIconCollapsed }
-					suffixIconColor={ suffixIconColor }
-				>
-					<StyledTitle>{ title }</StyledTitle>
-				</this.Heading>
+			<CollapsibleStateless
+				Heading={ this.Heading }
+				isOpen={ isOpen }
+				onToggle={ this.toggleCollapse }
+				prefixIcon={ isOpen ? prefixIcon : prefixIconCollapsed }
+				prefixIconColor={ prefixIconColor }
+				suffixIcon={ isOpen ? suffixIcon : suffixIconCollapsed }
+				suffixIconColor={ suffixIconColor }
+				title={ title }
+			>
 				{ isOpen && <StyledContent>{ children }</StyledContent> }
-			</StyledContainer>
+			</CollapsibleStateless>
 		);
 	}
 }
@@ -157,7 +207,6 @@ Collapsible.propTypes = {
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
 	] ),
-	hasHeading: PropTypes.bool,
 	headingLevel: PropTypes.number,
 	initialIsOpen: PropTypes.bool,
 	prefixIcon: PropTypes.string,
@@ -170,9 +219,9 @@ Collapsible.propTypes = {
 };
 
 Collapsible.defaultProps = {
-	hasHeading: false,
 	headingLevel: 3,
 	initialIsOpen: false,
+	prefixIconColor: colors.$black,
 	suffixIcon: "arrow-down",
 	suffixIconCollapsed: "arrow-right",
 	suffixIconColor: colors.$black,

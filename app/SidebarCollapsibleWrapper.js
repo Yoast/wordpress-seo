@@ -34,7 +34,6 @@ export default function SidebarCollapsibleWrapper() {
 			<WidgetContainer>
 				<Collapsible
 					title="Insert some collapsible title here"
-					hasHeading={ false }
 					initialIsOpen={ true }
 					prefixIcon="circle"
 					prefixIconCollapsed="circle"
@@ -46,8 +45,7 @@ export default function SidebarCollapsibleWrapper() {
 					<p>I should start using lorem ipsum here to write my material.</p>
 				</Collapsible>
 				<Collapsible
-					title="Collapsible with a header"
-					hasHeading={ true }
+					title="Collapsible initially closed"
 					initialIsOpen={ false }
 				>
 					<h4>Some content</h4>
@@ -56,6 +54,13 @@ export default function SidebarCollapsibleWrapper() {
 					<p>I should start using lorem ipsum here to write my material.</p>
 				</Collapsible>
 				<Collapsible/>
+				<Collapsible
+					suffixIcon="question-circle"
+					suffixIconCollapsed="question-circle"
+					suffixIconColor="purple"
+				>
+					<p>Maybe some help text here with a link <a target="_blank" href="https://yoast.com">Go to Yoast</a></p>
+				</Collapsible>
 			</WidgetContainer>
 		</SortableContainer>
 	);
