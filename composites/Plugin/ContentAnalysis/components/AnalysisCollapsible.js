@@ -87,14 +87,11 @@ AnalysisCollapsibleStateless.propTypes = {
 	Heading: PropTypes.func,
 	isOpen: PropTypes.bool.isRequired,
 	onToggle: PropTypes.func.isRequired,
-	title: PropTypes.string,
+	title: PropTypes.string.isRequired,
 };
 
 AnalysisCollapsibleStateless.defaultProps = {
 	Heading: StyledHeading,
-	prefixIcon: "angle-up",
-	prefixIconCollapsed: "angle-down",
-	prefixIconColor: colors.$color_grey_dark,
 };
 
 export class AnalysisCollapsible extends React.Component {

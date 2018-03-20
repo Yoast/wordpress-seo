@@ -21,20 +21,6 @@ describe( "AnalysisCollapsible", () => {
 		expect( component.toJSON() ).toMatchSnapshot();
 	} );
 
-	it( "matches the snapshot with a heading", () => {
-		const component = renderer.create(
-			<AnalysisCollapsible title="Problems" hasHeading={ true }>
-				<li> First item </li>
-				<li> Second item </li>
-				<li> Third item </li>
-				<li> Fourth item </li>
-			</AnalysisCollapsible>
-		);
-
-		let tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
-	} );
-
 	it( "matches the snapshot when it is open", () => {
 		const component = renderer.create(
 			<AnalysisCollapsible title="Problems" initialIsOpen={ true }>
