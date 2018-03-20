@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 import colors from "../../../../style-guide/colors.json";
 import { IconsButton } from "../../Shared/components/Button";
-import {getChildrenCount} from "../../../../utils/reactUtils";
 
 const StyledContainer = styled.div`
 	background-color: ${ colors.$color_white };
