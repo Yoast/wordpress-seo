@@ -123,15 +123,14 @@ Release Date: March 20th, 2018
 ## Bugs
 
 * Fixes a bug that broke a filter which marks Spanish and French sentences as non-passive when certain exception words occur between the auxiliary and the participle.
-* Fixes a bug where the `page` and `paged` values could cause errors if they weren't properly handled as integers.0
+* Fixes a bug where the `page` and `paged` values could cause errors if they weren't properly handled as integers.
 * Fixes a bug where division by zero errors in the passive voice assessment would cause `NaN%` to show up in the feedback.
 * Fixes a bug where multiple `rel` arguments prevented correct `nofollow` detection.
 * Fixes a bug where enabling the Show blog page in the breadcrumb settings had the inverse effect. Internally renamed `breadcrumbs-blog-remove` to `breadcrumbs-display-blog-page` to fix logic issues.
 * Fixes a bug where the rewrite rules weren't removed after stripping the category base. This resulted in an unaccessible page.
-* Fixes a bug where adding a `wpseo_sitemap_entries_per_page` is not being used when rendering the sitemaps.
-* Fixes the issue where the Yoast logo in the Configuration Wizard was showing the old version.
+* Fixes a bug where adding a `wpseo_sitemap_entries_per_page` was not being used when rendering the sitemaps.
+* Fixes a bug where the Yoast logo in the Configuration Wizard was showing the old version.
 * Removes the backfill hooks when calling `WPSEO_Options::get()` to improve performance.
-* Renames `breadcrumbs-blog-remove` to `breadcrumbs-display-blog-page` to fix logic issues. Previously when you enabled the `Show blog page` in the breadcrumb settings, it'd be disabled and vice versa.
 
 = 7.0.3 =
 Release Date: March 12th, 2018
