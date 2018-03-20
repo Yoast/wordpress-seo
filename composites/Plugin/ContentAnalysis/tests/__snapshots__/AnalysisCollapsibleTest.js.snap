@@ -70,7 +70,9 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
 }
 
 .c10 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -270,7 +272,9 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
 }
 
 .c10 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -447,7 +451,9 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
 }
 
 .c10 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -624,7 +630,9 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
 }
 
 .c10 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -824,7 +832,9 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
 }
 
 .c10 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -1024,7 +1034,9 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
 }
 
 .c10 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;

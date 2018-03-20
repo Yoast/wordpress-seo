@@ -120,7 +120,9 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 }
 
 .c12 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -838,7 +840,9 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 }
 
 .c12 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -1534,7 +1538,9 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 }
 
 .c14 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -2312,7 +2318,9 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 }
 
 .c14 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -3072,7 +3080,9 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 }
 
 .c12 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -3814,7 +3824,9 @@ exports[`the ContentAnalysis component with specified header level matches the s
 }
 
 .c11 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -4539,7 +4551,9 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 }
 
 .c11 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -5264,7 +5278,9 @@ exports[`the ContentAnalysis component without problems and considerations, but 
 }
 
 .c11 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -5785,7 +5801,9 @@ exports[`the ContentAnalysis component without problems and improvements matches
 }
 
 .c11 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -6306,7 +6324,9 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 }
 
 .c11 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -6913,7 +6933,9 @@ exports[`the ContentAnalysis component without problems, improvements and consid
 }
 
 .c11 {
-  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
   -ms-flex-positive: 1;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
