@@ -225,6 +225,9 @@ class WPSEO_Options {
 	 * @return mixed|null Returns value if found, $default if not.
 	 */
 	public static function get( $key, $default = null ) {
+		if ( ! self::$backfill ) {
+			self::get_instance();
+		}
 		self::$backfill->remove_hooks();
 
 		$option = self::get_all();
@@ -459,6 +462,9 @@ class WPSEO_Options {
 	 * @return array The lookup table.
 	 */
 	private static function get_lookup_table() {
+		if ( ! self::$backfill ) {
+			self::get_instance();
+		}
 		$lookup_table = array();
 
 		self::$backfill->remove_hooks();
