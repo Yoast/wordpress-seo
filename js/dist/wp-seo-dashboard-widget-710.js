@@ -1,6 +1,6 @@
 yoastWebpackJsonp([4],{
 
-/***/ 1005:
+/***/ 1009:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12,23 +12,23 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(70);
+var _reactDom = __webpack_require__(69);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _SeoAssessment = __webpack_require__(1006);
+var _SeoAssessment = __webpack_require__(1010);
 
 var _SeoAssessment2 = _interopRequireDefault(_SeoAssessment);
 
-var _ScoreAssessments = __webpack_require__(824);
+var _ScoreAssessments = __webpack_require__(829);
 
 var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
 
-var _getFeed2 = __webpack_require__(1008);
+var _getFeed2 = __webpack_require__(1012);
 
 var _getFeed3 = _interopRequireDefault(_getFeed2);
 
-var _WordpressFeed = __webpack_require__(1009);
+var _WordpressFeed = __webpack_require__(1013);
 
 var _WordpressFeed2 = _interopRequireDefault(_WordpressFeed);
 
@@ -279,7 +279,7 @@ if (element) {
 
 /***/ }),
 
-/***/ 1006:
+/***/ 1010:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -304,11 +304,11 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _StackedProgressBar = __webpack_require__(1007);
+var _StackedProgressBar = __webpack_require__(1011);
 
 var _StackedProgressBar2 = _interopRequireDefault(_StackedProgressBar);
 
-var _ScoreAssessments = __webpack_require__(824);
+var _ScoreAssessments = __webpack_require__(829);
 
 var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
 
@@ -374,7 +374,7 @@ exports.default = SeoAssessment;
 
 /***/ }),
 
-/***/ 1007:
+/***/ 1011:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -462,7 +462,7 @@ exports.default = StackedProgressBar;
 
 /***/ }),
 
-/***/ 1008:
+/***/ 1012:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -643,7 +643,7 @@ function getFeed(url) {
 
 /***/ }),
 
-/***/ 1009:
+/***/ 1013:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -809,7 +809,7 @@ exports.default = WordpressFeed;
 
 /***/ }),
 
-/***/ 824:
+/***/ 829:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -928,4 +928,4 @@ module.exports = {"$palette_white":"#fff","$palette_grey_ultra_light":"#f7f7f7",
 
 /***/ })
 
-},[1005]);
+},[1009]);

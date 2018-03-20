@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '7.0.3' );
+define( 'WPSEO_VERSION', '7.1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -182,6 +182,10 @@ function _wpseo_activate() {
 	$notifier = new WPSEO_Link_Notifier();
 	$notifier->manage_notification();
 
+	// Schedule cronjob when it doesn't exists on activation.
+	$wpseo_onpage = new WPSEO_OnPage();
+	$wpseo_onpage->activate_hooks();
+
 	do_action( 'wpseo_activate' );
 }
 /**
@@ -292,6 +296,12 @@ function wpseo_init() {
 	 */
 	$link_watcher = new WPSEO_Link_Watcher_Loader();
 	$link_watcher->load();
+
+	// Loading Ryte integration.
+	if ( WPSEO_Options::get( 'onpage_indexability' ) ) {
+		$wpseo_onpage = new WPSEO_OnPage();
+		$wpseo_onpage->register_hooks();
+	}
 }
 
 /**
@@ -405,9 +415,6 @@ register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
 register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
-
-// Loading Ryte integration.
-new WPSEO_OnPage();
 
 // Registers SEO capabilities.
 $wpseo_register_capabilities = new WPSEO_Register_Capabilities();

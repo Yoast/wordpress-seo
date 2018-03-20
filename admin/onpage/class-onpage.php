@@ -4,9 +4,9 @@
  */
 
 /**
- * Handle the request for getting the Ryte status.
+ * Handles the request for getting the Ryte status.
  */
-class WPSEO_OnPage {
+class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 
 	/**
 	 * The name of the user meta key for storing the dismissed status.
@@ -14,43 +14,81 @@ class WPSEO_OnPage {
 	const USER_META_KEY = 'wpseo_dismiss_onpage';
 
 	/**
-	 * @var WPSEO_OnPage_Option The Ryte option class.
-	 */
-	private $onpage_option;
-
-	/**
 	 * @var boolean Is the request started by pressing the fetch button.
 	 */
 	private $is_manual_request = false;
 
 	/**
-	 * Constructing the object
+	 * Constructs the object.
 	 */
 	public function __construct() {
-		// We never want to fetch on AJAX request because doing a remote request is really slow.
-		if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) ) {
-			$this->onpage_option = new WPSEO_OnPage_Option();
-
-			if ( $this->onpage_option->is_enabled() ) {
-				$this->set_hooks();
-				$this->catch_redo_listener();
-			}
-		}
+		$this->catch_redo_listener();
 	}
 
 	/**
-	 * The hooks to run on plugin activation
+	 * Sets up the hooks.
+	 *
+	 * @return void
+	 */
+	public function register_hooks() {
+		if ( ! $this->is_active() ) {
+			return;
+		}
+
+		// Adds weekly schedule to the cron job schedules.
+		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
+
+		// Adds admin notice if necessary.
+		add_filter( 'admin_init', array( $this, 'show_notice' ) );
+
+		// Sets the action for the Ryte fetch.
+		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
+	}
+
+	/**
+	 * Shows a notice when the website is not indexable.
+	 *
+	 * @return void
+	 */
+	public function show_notice() {
+		$notification        = $this->get_indexability_notification();
+		$notification_center = Yoast_Notification_Center::get();
+
+		if ( $this->should_show_notice() ) {
+			$notification_center->add_notification( $notification );
+
+			return;
+		}
+
+		$notification_center->remove_notification( $notification );
+	}
+
+	/**
+	 * Determines if we can use the functionality.
+	 *
+	 * @return bool True if this functionality can be used.
+	 */
+	protected function is_active() {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Hooks to run on plugin activation.
 	 */
 	public function activate_hooks() {
 		$this->set_cron();
 	}
 
 	/**
-	 * Adding a weekly schedule to the schedules array
+	 * Adds a weekly cron schedule.
 	 *
-	 * @param array $schedules Array with schedules.
+	 * @param array $schedules Currently scheduled items.
 	 *
-	 * @return array
+	 * @return array Enriched list of schedules.
 	 */
 	public function add_weekly_schedule( array $schedules ) {
 		$schedules['weekly'] = array(
@@ -62,54 +100,45 @@ class WPSEO_OnPage {
 	}
 
 	/**
-	 * Fetching the data from Ryte.
+	 * Fetches the data from Ryte.
 	 *
-	 * @return bool
+	 * @return bool True if this has been run.
 	 */
 	public function fetch_from_onpage() {
-		if ( $this->onpage_option->should_be_fetched() ) {
-			$new_status = $this->request_indexability();
-			if ( false !== $new_status ) {
-
-				// Updates the timestamp in the option.
-				$this->onpage_option->set_last_fetch( time() );
-
-				// The currently indexability status.
-				$old_status = $this->onpage_option->get_status();
-
-				// Saving the new status.
-				$this->onpage_option->set_status( $new_status );
-
-				// Saving the option.
-				$this->onpage_option->save_option();
-
-				// Check if the status has been changed.
-				if ( $old_status !== $new_status && $new_status !== WPSEO_OnPage_Option::CANNOT_FETCH ) {
-					$this->notify_admins();
-				}
-
-				return true;
-			}
+		$onpage_option = $this->get_option();
+		if ( ! $onpage_option->should_be_fetched() ) {
+			return false;
 		}
 
-		return false;
+		$new_status = $this->request_indexability();
+		if ( false === $new_status ) {
+			return false;
+		}
+
+		// Updates the timestamp in the option.
+		$onpage_option->set_last_fetch( time() );
+
+		// The currently indexability status.
+		$old_status = $onpage_option->get_status();
+
+		$onpage_option->set_status( $new_status );
+		$onpage_option->save_option();
+
+		// Check if the status has been changed.
+		if ( $old_status !== $new_status && $new_status !== WPSEO_OnPage_Option::CANNOT_FETCH ) {
+			$this->notify_admins();
+		}
+
+		return true;
 	}
 
 	/**
-	 * Show a notice when the website is not indexable
+	 * Retrieves the option to use.
+	 *
+	 * @return WPSEO_OnPage_Option The option.
 	 */
-	public function show_notice() {
-
-		$notification        = $this->get_indexability_notification();
-		$notification_center = Yoast_Notification_Center::get();
-
-		if ( $this->should_show_notice() ) {
-			$notification_center->add_notification( $notification );
-
-			return;
-		}
-
-		$notification_center->remove_notification( $notification );
+	protected function get_option() {
+		return new WPSEO_OnPage_Option();
 	}
 
 	/**
@@ -136,7 +165,7 @@ class WPSEO_OnPage {
 	}
 
 	/**
-	 * Send a request to Ryte to get the indexability.
+	 * Sends a request to Ryte to get the indexability.
 	 *
 	 * @return int(0)|int(1)|false
 	 */
@@ -159,7 +188,7 @@ class WPSEO_OnPage {
 	/**
 	 * Should the notice being given?
 	 *
-	 * @return bool
+	 * @return bool True if a notice should be shown.
 	 */
 	protected function should_show_notice() {
 		// If development mode is on or the blog is not public, just don't show this notice.
@@ -167,11 +196,13 @@ class WPSEO_OnPage {
 			return false;
 		}
 
-		return $this->onpage_option->get_status() === WPSEO_OnPage_Option::IS_NOT_INDEXABLE;
+		return $this->get_option()->get_status() === WPSEO_OnPage_Option::IS_NOT_INDEXABLE;
 	}
 
 	/**
-	 * Notify the admins
+	 * Notifies the admins.
+	 *
+	 * @return void
 	 */
 	protected function notify_admins() {
 		/*
@@ -182,24 +213,7 @@ class WPSEO_OnPage {
 	}
 
 	/**
-	 * Setting up the hooks.
-	 */
-	private function set_hooks() {
-		// Schedule cronjob when it doesn't exists on activation.
-		register_activation_hook( WPSEO_FILE, array( $this, 'activate_hooks' ) );
-
-		// Add weekly schedule to the cron job schedules.
-		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
-
-		// Adding admin notice if necessary.
-		add_filter( 'admin_init', array( $this, 'show_notice' ) );
-
-		// Setting the action for the Ryte fetch.
-		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
-	}
-
-	/**
-	 * Setting the cronjob to get the new indexibility status.
+	 * Sets up the cronjob to get the new indexibility status.
 	 */
 	private function set_cron() {
 		if ( ! wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
@@ -211,6 +225,10 @@ class WPSEO_OnPage {
 	 * Redo the fetch request for Ryte.
 	 */
 	private function catch_redo_listener() {
+		if ( ! $this->is_active() ) {
+			return;
+		}
+
 		if ( filter_input( INPUT_GET, 'wpseo-redo-onpage' ) === '1' ) {
 			$this->is_manual_request = true;
 

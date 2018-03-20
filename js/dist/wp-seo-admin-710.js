@@ -121,40 +121,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	jQuery(window).on("hashchange", wpseoSetTabHash);
 
 	/**
-  * Add a Facebook admin for via AJAX.
-  *
-  * @returns {void}
-  */
-	function wpseoAddFbAdmin() {
-		var targetForm = jQuery("#TB_ajaxContent");
-
-		jQuery.post(ajaxurl, {
-			_wpnonce: targetForm.find("input[name=fb_admin_nonce]").val(),
-			admin_name: targetForm.find("input[name=fb_admin_name]").val(),
-			admin_id: targetForm.find("input[name=fb_admin_id]").val(),
-			action: "wpseo_add_fb_admin"
-		}, function (response) {
-			var resp = jQuery.parseJSON(response);
-
-			targetForm.find("p.notice").remove();
-
-			switch (resp.success) {
-				case 1:
-
-					targetForm.find("input[type=text]").val("");
-
-					jQuery("#user_admin").append(resp.html);
-					jQuery("#connected_fb_admins").show();
-					tb_remove();
-					break;
-				case 0:
-					targetForm.find(".form-wrap").prepend(resp.html);
-					break;
-			}
-		});
-	}
-
-	/**
   * Adds select2 for selected fields.
   *
   * @returns {void}
@@ -221,8 +187,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
 	// eslint-disable-next-line
-	window.wpseoAddFbAdmin = wpseoAddFbAdmin;
-	window.wpseo_add_fb_admin = wpseoAddFbAdmin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery(document).ready(function () {
@@ -312,7 +276,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		setInitialActiveTab();
 		initSelect2();
 	});
-})(); /* global wpseoAdminL10n, ajaxurl, tb_remove, wpseoSelect2Locale */
+})(); /* global wpseoAdminL10n, ajaxurl, wpseoSelect2Locale */
 
 },{"a11y-speak":2}],2:[function(require,module,exports){
 var containerPolite, containerAssertive, previousMessage = "";
