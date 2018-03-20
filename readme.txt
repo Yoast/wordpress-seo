@@ -109,8 +109,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 7.1.0 =
 Release Date: March 20th, 2018
 
-## Enhancements
-
+Enhancements:
 * Adds a filter to mark Spanish sentences as non-passive when certain exception words occur between the auxiliary and the participle. The list of exception words includes all forms of the copula 'estar'.
 * Adds transition words assessment for Portuguese, props [amesdigital](https://github.com/amesdigital).
 * Increases the height of the meta description box so it matches the maximum amount of characters without needing a scrollbar.
@@ -120,8 +119,7 @@ Release Date: March 20th, 2018
 * Adds support for a new template variable `%%archive_title%%`.
 * Remove all Facebook Insights functionality as it's no longer supported.
 
-## Bugs
-
+Bugfixes:
 * Fixes a bug that broke a filter which marks Spanish and French sentences as non-passive when certain exception words occur between the auxiliary and the participle.
 * Fixes a bug where the `page` and `paged` values could cause errors if they weren't properly handled as integers.
 * Fixes a bug where division by zero errors in the passive voice assessment would cause `NaN%` to show up in the feedback.
