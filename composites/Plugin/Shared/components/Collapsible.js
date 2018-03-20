@@ -34,7 +34,9 @@ const StyledIconsButton = styled( IconsButton )`
 `;
 
 const StyledTitle = styled.span`
-	word-wrap: break-word;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
 	-ms-flex-positive: 1;
 	flex-grow: 1;
 	font-size: 1.03em;
