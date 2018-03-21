@@ -21,8 +21,8 @@ class GutenbergDataCollector extends DataProvider {
 	 */
 	getParentTitle() {
 		const parentId = wp.data.select( "core/editor" ).getEditedPostAttribute( "parent" );
-		if ( parentId === 0 ) {
-			return "";
+		if ( ! parentId || parentId === 0 ) {
+			return null;
 		}
 		const cachedParentTitle = get( this.parentTitles, parentId );
 		if( cachedParentTitle ) {
@@ -30,10 +30,12 @@ class GutenbergDataCollector extends DataProvider {
 		}
 		const model = new wp.api.models.Page( { id: parentId } );
 		model.fetch().done( data => {
+			console.log( data );
 			this.parentTitles[ parentId ] = data.title.rendered;
 			this.refresh();
 		} ).fail( () => {} );
 	}
 }
+
 
 export default GutenbergDataCollector;
