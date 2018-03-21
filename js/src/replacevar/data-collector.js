@@ -2,8 +2,17 @@
  * Prototype class for replacevar data collectors.
  */
 class DataCollector {
-	getParentTitle() {
-		return "";
+	getParentTitle( parentId, callback ) {
+		callback( "" );
+	}
+
+	/**
+	 * Gets the parent id.
+	 *
+	 * @returns {string} The parent id.
+	 */
+	getParentId() {
+		return null;
 	}
 }
 

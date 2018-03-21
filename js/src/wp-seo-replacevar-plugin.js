@@ -33,11 +33,11 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 	 *
 	 * @returns {void }
 	 */
-	var YoastReplaceVarPlugin = function( app ) {
+	var YoastReplaceVarPlugin = function( app, store ) {
 		this._app = app;
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
 
-		this._data = new DataProvider( this.getDataCollector() );
+		this._data = new DataProvider( app.refresh, this.getDataCollector(), store );
 
 		this.registerReplacements();
 		this.registerModifications();
