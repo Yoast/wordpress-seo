@@ -513,6 +513,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Perform the 7.1 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_71() {
 		$this->cleanup_option_data( 'wpseo_social' );
@@ -528,7 +530,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Perform the 7.3 upgrade
+	 * Perform the 7.3 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_73() {
 		global $wpdb;
