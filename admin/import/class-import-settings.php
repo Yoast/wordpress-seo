@@ -146,7 +146,9 @@ class WPSEO_Import_Settings {
 			 * http://php.net/manual/en/function.parse-ini-file.php#99943
 			 */
 			$options = parse_ini_file( $this->filename, true, INI_SCANNER_RAW );
-		} else {
+		}
+		else {
+			// PHP 5.2 does not implement the 3rd argument, this is a fallback.
 			$options = parse_ini_file( $this->filename, true );
 		}
 
