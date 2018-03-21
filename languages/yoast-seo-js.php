@@ -394,10 +394,10 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/snippetPreview.js:341
 	__( 'Scroll to see the preview content.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:517
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:522
 	__( 'Please provide an SEO title by editing the snippet below.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:576
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:581
 	__( 'Please provide a meta description by editing the snippet below.', 'wordpress-seo' )
 );
 /* THIS IS THE END OF THE GENERATED FILE */

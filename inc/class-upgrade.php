@@ -512,6 +512,15 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_71() {
 		$this->cleanup_option_data( 'wpseo_social' );
+
+		// Move the breadcrumbs setting and invert it.
+		$title_options = $this->get_option_from_database( 'wpseo_titles' );
+
+		if ( array_key_exists( 'breadcrumbs-blog-remove', $title_options ) ) {
+			WPSEO_Options::set( 'breadcrumbs-display-blog-page', ! $title_options['breadcrumbs-blog-remove'] );
+
+			$this->cleanup_option_data( 'wpseo_titles' );
+		}
 	}
 
 	/**
