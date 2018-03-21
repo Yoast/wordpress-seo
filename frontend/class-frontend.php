@@ -1191,7 +1191,7 @@ class WPSEO_Frontend {
 				echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
 			}
 			elseif ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
-				echo '<!-- ', esc_html__( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Search Appearance menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
+				echo '<!-- ', esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the SEO -> Search Appearance menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
 			}
 		}
 		else {
