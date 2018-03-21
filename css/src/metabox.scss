@@ -75,7 +75,6 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-metabox-sidebar {
 	float: left;
 	width: 50px;
-	padding: 0;
 	background-color: #fff;
 }
 
@@ -701,9 +700,9 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	.wpseo-meta-section-link .yst-traffic-light-container {
 		display: block;
 		width: 40px;
-		height: 35px; /* 35+5+2+3=45 must be 5px taller than the container to show the border outside of the contaiiner. */
-		margin: 0;
-		padding: 5px 0 2px;
+		height: 40px;
+		margin: 0 5px 0 5px;
+		padding: 0 5px 0 2px;
 		border-left-width: 0;
 		border-bottom-width: 3px;
 	}
@@ -725,7 +724,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 		display: inline-block;
 		width: 20px;
 		height: 20px;
-		padding: 0 5px 0;
 	}
 
 	.yoast-help-panel {
