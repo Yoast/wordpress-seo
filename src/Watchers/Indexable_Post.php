@@ -7,6 +7,8 @@ use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
 
+// @todo Use \WPSEO_Meta::get_value()
+
 class Indexable_Post implements Integration {
 	/**
 	 * Registers all hooks to WordPress.
@@ -60,14 +62,14 @@ class Indexable_Post implements Integration {
 			$indexable->{$indexable_key} = $this->get_meta_value( $post_meta, $meta_key );
 		}
 
-		$noindex = isset($post_meta['_yoast_wpseo_meta-robots-noindex']) ? $post_meta['_yoast_wpseo_meta-robots-noindex'][0] : '';
-		$indexable->robots_noindex = $this->get_robots_noindex( $noindex );
+		$noindex                      = isset( $post_meta['_yoast_wpseo_meta-robots-noindex'] ) ? $post_meta['_yoast_wpseo_meta-robots-noindex'][0] : '';
+		$indexable->is_robots_noindex = $this->get_robots_noindex( $noindex );
 
 		// Set additional meta-robots values.
 		$nonidex_advanced = isset( $post_meta['_yoast_wpseo_meta-robots-adv'] ) ? $post_meta['_yoast_wpseo_meta-robots-adv'][0] : '';
-		$meta_robots = explode( ',', $nonidex_advanced );
+		$meta_robots      = explode( ',', $nonidex_advanced );
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
-			$indexable->{'robots_' . $meta_robots_option} = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
+			$indexable->{'is_robots_' . $meta_robots_option} = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
 
 		$this->set_link_count( $post_id, $indexable );
@@ -142,7 +144,7 @@ class Indexable_Post implements Integration {
 								   ->find_one();
 
 			if ( $seo_meta ) {
-				$indexable->internal_link_count = $seo_meta->internal_link_count;
+				$indexable->link_count          = $seo_meta->internal_link_count;
 				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
 			}
 		} catch ( \Exception $exception ) {
@@ -232,8 +234,11 @@ class Indexable_Post implements Integration {
 	 */
 	protected function get_meta_lookup() {
 		return array(
+			'_yoast_wpseo_linkdex'       => 'primary_focus_keyword_score',
+			'_yoast_wpseo_focuskw'       => 'primary_focus_keyword',
+			'_yoast_wpseo_content_score' => 'readability_score',
+
 			'_yoast_wpseo_canonical'            => 'canonical',
-			'_yoast_wpseo_content_score'        => 'content_score',
 			'_yoast_wpseo_meta-robots-nofollow' => 'robots_nofollow',
 			'_yoast_wpseo_title'                => 'title',
 			'_yoast_wpseo_metadesc'             => 'description',

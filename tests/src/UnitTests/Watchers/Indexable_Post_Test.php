@@ -235,11 +235,11 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$instance->save_meta( $post_id );
 
 		$this->assertAttributeEquals( 'permalink', 'permalink', $indexable_mock );
-		$this->assertAttributeEquals( true, 'robots_noindex', $indexable_mock );
+		$this->assertAttributeEquals( true, 'is_robots_noindex', $indexable_mock );
 		$this->assertAttributeEquals( 'a', 'a', $indexable_mock );
-		$this->assertAttributeEquals( 1, 'robots_robots_1', $indexable_mock );
-		$this->assertAttributeEquals( 1, 'robots_robots_2', $indexable_mock );
-		$this->assertAttributeEquals( null, 'robots_robots_3', $indexable_mock );
+		$this->assertAttributeEquals( 1, 'is_robots_robots_1', $indexable_mock );
+		$this->assertAttributeEquals( 1, 'is_robots_robots_2', $indexable_mock );
+		$this->assertAttributeEquals( null, 'is_robots_robots_3', $indexable_mock );
 	}
 
 	/**

@@ -184,17 +184,10 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'get_meta_lookup' )
 			->will( $this->returnValue( array( 'a' => 'a' ) ) );
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_sitemap_include_value' )
-			->with( 1 )
-			->will( $this->returnValue( true ) );
-
 		$instance->save_meta( $post_id, '', 'taxonomy' );
 
 		$this->assertAttributeEquals( 'permalink', 'permalink', $indexable_mock );
 		$this->assertAttributeEquals( 'a', 'a', $indexable_mock );
-		$this->assertAttributeEquals( 1, 'include_in_sitemap', $indexable_mock );
 	}
 
 	/**

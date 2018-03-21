@@ -191,7 +191,6 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertAttributeEquals( 'permalink', 'permalink', $indexable_mock );
 		$this->assertAttributeEquals( 'title', 'title', $indexable_mock );
 		$this->assertAttributeEquals( 'metadesc', 'description', $indexable_mock );
-		$this->assertAttributeEquals( false, 'include_in_sitemap', $indexable_mock );
 	}
 
 	/**

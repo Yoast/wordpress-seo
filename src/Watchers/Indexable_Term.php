@@ -61,12 +61,13 @@ class Indexable_Term implements Integration {
 			$indexable->{$indexable_key} = $term_meta[ $meta_key ];
 		}
 
-		$indexable->include_in_sitemap = $this->get_sitemap_include_value( $term_meta['wpseo_sitemap_include'] );
+		// @todo set robots noindex based on sitemap include.
+		// $indexable->include_in_sitemap = $this->get_sitemap_include_value( $term_meta['wpseo_sitemap_include'] );
 
 		// Not implemented yet.
-		$indexable->cornerstone     = 0;
-		$indexable->robots_nofollow = 0;
-		// $model->internal_link_count = null;
+		$indexable->is_cornerstone     = 0;
+		$indexable->is_robots_nofollow = 0;
+		// $model->link_count = null;
 		// $model->incoming_link_count = null;
 
 		$indexable->save();
@@ -114,9 +115,12 @@ class Indexable_Term implements Integration {
 		$meta_to_indexable = array(
 			'wpseo_canonical' => 'canonical',
 
+			'wpseo_focuskw' => 'primary_focus_keyword',
+			'wpseo_linkdex' => 'primary_focus_keyword_score',
+
 			'wpseo_title'         => 'title',
 			'wpseo_desc'          => 'description',
-			'wpseo_content_score' => 'content_score',
+			'wpseo_content_score' => 'readability_score',
 
 			'wpseo_bctitle' => 'breadcrumb_title',
 

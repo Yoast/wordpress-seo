@@ -17,17 +17,17 @@ use Yoast\YoastSEO\Yoast_Model;
  * @property string  $canonical
  * @property int     $content_score
  *
- * @property boolean $robots_noindex
- * @property boolean $robots_nofollow
- * @property boolean $robots_noarchive
- * @property boolean $robots_noimageindex
- * @property boolean $robots_nosnippet
+ * @property boolean $is_robots_noindex
+ * @property boolean $is_robots_nofollow
+ * @property boolean $is_robots_noarchive
+ * @property boolean $is_robots_noimageindex
+ * @property boolean $is_robots_nosnippet
  *
  * @property string  $title
  * @property string  $description
  * @property string  $breadcrumb_title
  *
- * @property boolean $cornerstone
+ * @property boolean $is_cornerstone
  *
  * @property string  $og_title
  * @property string  $og_image
@@ -37,10 +37,13 @@ use Yoast\YoastSEO\Yoast_Model;
  * @property string  $twitter_image
  * @property string  $twitter_description
  *
- * @property int     $internal_link_count
- * @property int     $incoming_link_count
+ * @property string  $primary_focus_keyword
+ * @property int     $primary_focus_keyword_score
  *
- * @property boolean $include_in_sitemap
+ * @property int     $readability_score
+ *
+ * @property int     $link_count
+ * @property int     $incoming_link_count
  */
 class Indexable extends Yoast_Model {
 }

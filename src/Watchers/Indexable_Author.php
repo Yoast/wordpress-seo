@@ -54,7 +54,7 @@ class Indexable_Author implements Integration {
 
 		$indexable->title              = $meta_data['wpseo_title'];
 		$indexable->description        = $meta_data['wpseo_metadesc'];
-		$indexable->include_in_sitemap = $this->get_sitemap_include_value( $meta_data['wpseo_excludeauthorsitemap'] );
+		// @todo implement is_robots_noindex based on author without posts?
 
 		$indexable->save();
 	}
