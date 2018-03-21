@@ -1,4 +1,6 @@
-export const SET_MARKER_STATUS = "WPSEO_SET_MARKER_STATUS";
+import { PREFIX } from "./prefix";
+
+export const SET_MARKER_STATUS = `${ PREFIX }SET_MARKER_STATUS`;
 
 /**
  * An action creator for setting the marks button status.

@@ -7,6 +7,10 @@
       ]
     }
   } ] ],
-  "plugins": [ "transform-react-jsx", "dynamic-import-webpack" ],
+  "plugins": [
+    "transform-react-jsx",
+    "dynamic-import-webpack",
+    "transform-object-rest-spread",
+  ],
   "comments": true
 }

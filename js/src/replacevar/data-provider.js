@@ -3,7 +3,7 @@
  */
 class ReplacevarData {
 	/**
-	 * @param {function} dataCollector The data collector.
+	 * @param {DataCollector} dataCollector The data collector.
 	 */
 	constructor( dataCollector ) {
 		this.dataCollector = dataCollector;
