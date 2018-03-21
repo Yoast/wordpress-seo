@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d1224f16ccee47ceb6be900b94abec9",
+    "content-hash": "12e961bd204f7e4ea95f6cb9d9c1e719",
     "packages": [
         {
             "name": "composer/installers",
@@ -316,6 +316,43 @@
             ],
             "description": "A WordPress package to nudge users to upgrade their software versions (starting with PHP)",
             "time": "2017-08-04T10:00:35+00:00"
+        },
+        {
+            "name": "yoast/wp-helpscout",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yoast/wp-helpscout.git",
+                "reference": "00c6d777497c935af76ba1b4962823165139bbbc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yoast/wp-helpscout/zipball/00c6d777497c935af76ba1b4962823165139bbbc",
+                "reference": "00c6d777497c935af76ba1b4962823165139bbbc",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ],
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Team Yoast",
+                    "email": "support@yoast.com",
+                    "homepage": "https://yoast.com"
+                }
+            ],
+            "description": "A package to integrate the helpscout beacon into WordPress",
+            "time": "2017-08-03T07:48:33+00:00"
         }
     ],
     "packages-dev": [
