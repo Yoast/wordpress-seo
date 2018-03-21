@@ -10,6 +10,8 @@
  */
 class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
+	 * Holds the class instance.
+	 *
 	 * @var WPSEO_Import_Ultimate_SEO
 	 */
 	private $class_instance;
@@ -24,43 +26,56 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Import_Ultimate_SEO::plugin_name
+	 * Tests the plugin name function.
+	 *
+	 * @covers WPSEO_Import_Ultimate_SEO::get_plugin_name
 	 */
 	public function test_plugin_name() {
-		$this->assertEquals( 'Ultimate SEO', $this->class_instance->plugin_name() );
+		$this->assertEquals( 'Ultimate SEO', $this->class_instance->get_plugin_name() );
 	}
 
 	/**
+	 * Tests whether we can return false when there's no detectable data.
+	 *
+	 * @covers WPSEO_Import_Ultimate_SEO::run_detect
 	 * @covers WPSEO_Import_Ultimate_SEO::detect
-	 * @covers WPSEO_Import_Ultimate_SEO::detect_helper
 	 */
 	public function test_detect_no_data() {
-		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->detect() );
+		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
 	}
 
 	/**
+	 * Tests whether we can detect data.
+	 *
 	 * @covers WPSEO_Import_Ultimate_SEO::__construct
+	 * @covers WPSEO_Import_Ultimate_SEO::run_detect
 	 * @covers WPSEO_Import_Ultimate_SEO::detect
-	 * @covers WPSEO_Import_Ultimate_SEO::detect_helper
 	 */
 	public function test_detect() {
 		$this->setup_post();
-		$this->assertEquals( $this->status( 'detect', true ), $this->class_instance->detect() );
+		$this->assertEquals( $this->status( 'detect', true ), $this->class_instance->run_detect() );
 	}
 
 	/**
-	 * @covers WPSEO_Import_Ultimate_SEO::import
+	 * Tests whether we can return properly when there's nothing to import.
+	 *
+	 * @covers WPSEO_Import_Ultimate_SEO::run_import
 	 */
 	public function test_import_no_data() {
-		$this->assertEquals( $this->status( 'import', false ), $this->class_instance->import() );
+		$this->assertEquals( $this->status( 'import', false ), $this->class_instance->run_import() );
 	}
 
 	/**
+	 * Tests whether we can properly import data.
+	 *
+	 * @covers WPSEO_Import_Ultimate_SEO::run_import
 	 * @covers WPSEO_Import_Ultimate_SEO::import
+	 * @covers WPSEO_Import_Ultimate_SEO::meta_key_clone
+	 * @covers WPSEO_Import_Ultimate_SEO::meta_keys_clone
 	 */
 	public function test_import() {
 		$post_id = $this->setup_post();
-		$result  = $this->class_instance->import();
+		$result  = $this->class_instance->run_import();
 
 		$seo_title = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
 		$seo_desc  = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
@@ -71,18 +86,23 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Import_Ultimate_SEO::cleanup
+	 * Tests whether we can properly return an error when there is no data to clean.
+	 *
+	 * @covers WPSEO_Import_Ultimate_SEO::run_cleanup
 	 */
 	public function test_cleanup_no_data() {
-		$this->assertEquals( $this->status( 'cleanup', false ), $this->class_instance->cleanup() );
+		$this->assertEquals( $this->status( 'cleanup', false ), $this->class_instance->run_cleanup() );
 	}
 
 	/**
+	 * Tests whether we can properly clean up.
+	 *
+	 * @covers WPSEO_Import_Ultimate_SEO::run_cleanup
 	 * @covers WPSEO_Import_Ultimate_SEO::cleanup
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_post();
-		$result  = $this->class_instance->cleanup();
+		$result  = $this->class_instance->run_cleanup();
 
 		$seo_title = get_post_meta( $post_id, '_su_title', true );
 		$seo_desc  = get_post_meta( $post_id, '_su_description', true );
