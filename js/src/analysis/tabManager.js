@@ -1,6 +1,7 @@
 /* global YoastSEO */
 
 var defaultsDeep = require( "lodash/defaultsDeep" );
+import isUndefined from "lodash/isUndefined";
 
 var KeywordTab = require( "./keywordTab" );
 var GenericTab = require( "./genericTab" );
@@ -99,7 +100,10 @@ TabManager.prototype.showKeywordAnalysis = function() {
 		this.snippetPreview.show();
 	}
 
-	YoastSEO.store.dispatch( setActiveTab( "keyword" ) );
+	if ( ! isUndefined( YoastSEO.store ) )
+	{
+		YoastSEO.store.dispatch( setActiveTab( "keyword" ) );
+	}
 };
 
 /**
@@ -114,7 +118,10 @@ TabManager.prototype.showContentAnalysis = function() {
 		this.snippetPreview.hide();
 	}
 
-	YoastSEO.store.dispatch( setActiveTab( "readability" ) );
+	if ( ! isUndefined( YoastSEO.store ) )
+	{
+		YoastSEO.store.dispatch( setActiveTab( "readability" ) );
+	}
 };
 
 /**
