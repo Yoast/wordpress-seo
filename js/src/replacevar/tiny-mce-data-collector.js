@@ -4,18 +4,21 @@ import isUndefined from "lodash/isUndefined";
 
 class TinyMceDataCollector {
 	/**
-	 * Gets the parent title from the select box.
+	 * Gets the parent title.
+	 *
+	 * @param {number|string} parentId The parent id to get the title for.
+	 * @param {function}      callback Callback to call when parent title has been fetched.
 	 *
 	 * @returns {string} Parent title.
 	 */
-	getParentTitle() {
+	getParentTitle( parentId, callback ) {
 		const select = jQuery( "#parent_id, #parent" ).eq( 0 );
 
 		if ( ! this.hasParentTitle( select ) ) {
 			return "";
 		}
 
-		return this.getParentTitleReplacement( select );
+		callback( this.getParentTitleReplacement( select ) );
 	}
 
 	/**
@@ -43,6 +46,16 @@ class TinyMceDataCollector {
 		}
 
 		return parentText;
+	}
+
+	/**
+	 * Gets the parent id.
+	 *
+	 * @returns {string} The parent id.
+	 */
+	getParentId() {
+		const select = jQuery( "#parent_id, #parent" ).eq( 0 );
+		return select.find( "option:selected" ).val();
 	}
 }
 
