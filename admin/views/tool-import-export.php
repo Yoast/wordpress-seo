@@ -51,12 +51,16 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 $import = apply_filters( 'wpseo_handle_import', $import );
 
 if ( $import ) {
-	$message = $import->status instanceof WPSEO_Import_Status ? $import->status->get_msg() : '';
+
+	$message = '';
+	if ( $import->status instanceof WPSEO_Import_Status ) {
+		$message = $import->status->get_msg();
+	}
 
 	/**
-	 * Allow customization of import&export message
+	 * Allow customization of import/export message.
 	 *
-	 * @api  string  $msg  The message.
+	 * @api string $msg The message.
 	 */
 	$msg = apply_filters( 'wpseo_import_message', $message );
 
