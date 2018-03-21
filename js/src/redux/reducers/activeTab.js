@@ -1,6 +1,6 @@
 import { SET_ACTIVE_TAB } from "../actions/activeTab";
 
-const INITIAL_STATE = null;
+const INITIAL_STATE = "keyword";
 
 /**
  * A reducer for the active tab.
