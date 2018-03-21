@@ -24,7 +24,6 @@ class ReplacevarData {
 	 */
 	getParentTitle() {
 		const parentId = this.dataCollector.getParentId();
-		console.log( parentId );
 		if( ! parentId || parentId === 0 ) {
 			return "";
 		}
