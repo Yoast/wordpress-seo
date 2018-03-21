@@ -123,9 +123,8 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OnPage::should_show_notice
 	 */
 	public function test_show_notice_being_hooked() {
-		$option = new OnPage_Option_Mock( false, WPSEO_OnPage_Option::IS_INDEXABLE, true );
-
-		$instance = new WPSEO_OnPage_Double( $option );
+		$instance = new WPSEO_OnPage();
+		$instance->register_hooks();
 
 		$this->assertTrue( has_action( 'admin_init', array( $instance, 'show_notice' ) ) > 0 );
 	}
@@ -137,9 +136,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OnPage::should_show_notice
 	 */
 	public function test_should_show_notice_disabled() {
-		$option = new OnPage_Option_Mock( false, WPSEO_OnPage_Option::IS_INDEXABLE, true );
-
-		$instance = new WPSEO_OnPage_Double( $option );
+		$instance = new WPSEO_OnPage_Double();
 
 		$this->assertFalse( $instance->should_show_notice() );
 	}
@@ -151,10 +148,16 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OnPage::should_show_notice
 	 */
 	public function test_should_show_notice() {
-		$option   = new OnPage_Option_Mock( true, WPSEO_OnPage_Option::IS_NOT_INDEXABLE, true );
-		$instance = new WPSEO_OnPage_Double( $option );
-
+		$option = new OnPage_Option_Mock( true, WPSEO_OnPage_Option::IS_NOT_INDEXABLE, true );
 		update_option( 'blog_public', 1 );
+
+		$instance = $this->getMockBuilder( 'WPSEO_OnPage_Double' )
+			->setMethods( array( 'get_option' ) )
+			->getMock();
+
+		$instance->expects( $this->atLeastOnce() )
+			->method( 'get_option' )
+			->will( $this->returnValue( $option ) );
 
 		$this->assertTrue( $instance->should_show_notice() );
 	}
