@@ -34,6 +34,8 @@
     "algoliasearch": "^3.22.3",
     "debug": "^3.0.0",
     "draft-js": "^0.10.5",
+    "draft-js-mention-plugin": "^2.0.1",
+    "draft-js-plugins-editor": "^2.0.4",
     "grunt-scss-to-json": "^1.0.1",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",

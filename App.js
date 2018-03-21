@@ -9,6 +9,7 @@ import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
 import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
+import SnippetEditorWrapper from "./app/SnippetEditorWrapper";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
@@ -68,6 +69,11 @@ const components = [
 		name: "Sidebar Collapsible",
 		component: <SidebarCollapsibleWrapper />,
 	},
+	{
+		id: "snippet-editor",
+		name: "Snippet editor",
+		component: <SnippetEditorWrapper />,
+	}
 ];
 
 class App extends React.Component {
