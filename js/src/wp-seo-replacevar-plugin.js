@@ -3,6 +3,7 @@ var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
 var ReplaceVar = require( "./values/replaceVar" );
+import ReplaceVarData from "./replacevar/data";
 
 ( function() {
 	var modifiableFields = [
@@ -23,11 +24,13 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 *
 	 * @param {app} app The app object.
 	 *
-	 * @returns {void}
+	 * @returns {void }
 	 */
 	var YoastReplaceVarPlugin = function( app ) {
 		this._app = app;
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
+
+		this._data = new ReplaceVarData( app.refresh );
 
 		this.registerReplacements();
 		this.registerModifications();
@@ -491,40 +494,17 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * @returns {string} The data with all its placeholders replaced by actual values.
 	 */
 	YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
-		var parent = jQuery( "#parent_id, #parent" ).eq( 0 );
+		if( ! data.match( /%%parent_title%%/ ) ) {
+			return data;
+		}
 
-		if ( this.hasParentTitle( parent ) ) {
-			data = data.replace( /%%parent_title%%/, this.getParentTitleReplacement( parent ) );
+		const parentTitle = this._data.getParentTitle();
+
+		if ( parentTitle ) {
+			data = data.replace( /%%parent_title%%/, parentTitle );
 		}
 
 		return data;
-	};
-
-	/**
-	 * Checks whether or not there's a parent title available.
-	 *
-	 * @param {Object} parent The parent element.
- 	 *
-	 * @returns {boolean} Whether or not there is a parent title present.
-	 */
-	YoastReplaceVarPlugin.prototype.hasParentTitle = function( parent ) {
-		return ( ! isUndefined( parent ) && ! isUndefined( parent.prop( "options" ) ) );
-	};
-
-	/**
-	 * Gets the replacement for the parent title.
-	 *
-	 * @param {Object} parent The parent object to use to look for the selected option.
-	 * @returns {string} The string to replace the placeholder with.
-	 */
-	YoastReplaceVarPlugin.prototype.getParentTitleReplacement = function( parent ) {
-		var parentText = parent.find( "option:selected" ).text();
-
-		if ( parentText === wpseoReplaceVarsL10n.no_parent_text ) {
-			return "";
-		}
-
-		return parentText;
 	};
 
 	/*
