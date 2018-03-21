@@ -5,7 +5,7 @@ module.exports = {
 	},
 	readme: {
 		options: {
-			regEx: /(Stable tag: )(\d+(\.\d+){0,3})([^\n^\.\d]?.*?)(\n)/,
+			regEx: /(Stable tag:\s+)(\d+(\.\d+){0,3})([^\n^\.\d]?.*?)(\n)/,
 			preVersionMatch: "$1",
 			postVersionMatch: "$5",
 		},
