@@ -9,10 +9,9 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 		$indexable_table = $this->create_table( $table_name );
 
-		// $indexable_table->column('guid', 'string', array('primary_key' => true, 'limit' => 64));
 		$indexable_table->column( 'object_id', 'integer', array( 'unsigned' => true, 'null' => true, 'limit' => 11 ) );
-		$indexable_table->column( 'object_type', 'string', array( 'null' => true, 'limit' => 16 ) );
-		$indexable_table->column( 'object_sub_type', 'string', array( 'null' => true, 'limit' => 16 ) );
+		$indexable_table->column( 'object_type', 'string', array( 'limit' => 16 ) );
+		$indexable_table->column( 'object_sub_type', 'string', array( 'null' => true, 'limit' => 100 ) );
 
 		$indexable_table->column( 'permalink', 'string', array( 'null' => true, 'limit' => 255 ) );
 		$indexable_table->column( 'canonical', 'string', array( 'null' => true, 'limit' => 255 ) );
@@ -29,18 +28,20 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'twitter_description', 'text', array( 'null' => true ) );
 		$indexable_table->column( 'twitter_image', 'string', array( 'null' => true, 'limit' => 255 ) );
 
-		$indexable_table->column( 'robots_noindex', 'boolean', array( 'null' => true ) );
-		$indexable_table->column( 'robots_nofollow', 'boolean', array( 'null' => true ) );
-		$indexable_table->column( 'robots_noarchive', 'boolean', array( 'null' => true ) );
-		$indexable_table->column( 'robots_noimageindex', 'boolean', array( 'null' => true ) );
-		$indexable_table->column( 'robots_nosnippet', 'boolean', array( 'null' => true ) );
+		$indexable_table->column( 'is_robots_noindex', 'boolean', array( 'null' => true ) ); // @todo default: false
+		$indexable_table->column( 'is_robots_nofollow', 'boolean', array( 'null' => true ) ); // @todo default: false
+		$indexable_table->column( 'is_robots_noarchive', 'boolean', array( 'null' => true ) ); // @todo default: false
+		$indexable_table->column( 'is_robots_noimageindex', 'boolean', array( 'null' => true ) ); // @todo default: false
+		$indexable_table->column( 'is_robots_nosnippet', 'boolean', array( 'null' => true ) ); // @todo default: false
 
-		$indexable_table->column( 'content_score', 'integer', array( 'null' => true, 'limit' => 5 ) );
-		$indexable_table->column( 'cornerstone', 'boolean', array( 'null' => true ) );
+		$indexable_table->column( 'primary_focus_keyword', 'string', array( 'null' => true, 'limit' => 255 ) );
+		$indexable_table->column( 'primary_focus_keyword_score', 'integer', array( 'null' => true, 'limit' => 3 ) );
 
-		$indexable_table->column( 'include_in_sitemap', 'boolean', array( 'null' => true ) );
+		$indexable_table->column( 'readability_score', 'integer', array( 'null' => true, 'limit' => 3 ) );
 
-		$indexable_table->column( 'internal_link_count', 'integer', array( 'null' => true, 'limit' => 11 ) );
+		$indexable_table->column( 'is_cornerstone', 'boolean' ); // @todo default: false
+
+		$indexable_table->column( 'link_count', 'integer', array( 'null' => true, 'limit' => 11 ) );
 		$indexable_table->column( 'incoming_link_count', 'integer', array( 'null' => true, 'limit' => 11 ) );
 
 		// Exexcute the SQL to create the table.
