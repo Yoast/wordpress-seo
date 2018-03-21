@@ -2,8 +2,15 @@
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
+
 var ReplaceVar = require( "./values/replaceVar" );
-import ReplaceVarData from "./replacevar/data";
+import {
+	GutenbergDataCollector,
+	TinyMceDataCollector,
+	DataProvider,
+} from "./replacevar";
+import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+
 
 ( function() {
 	var modifiableFields = [
@@ -30,7 +37,7 @@ import ReplaceVarData from "./replacevar/data";
 		this._app = app;
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
 
-		this._data = new ReplaceVarData( app.refresh );
+		this._data = new DataProvider( this.getDataCollector() );
 
 		this.registerReplacements();
 		this.registerModifications();
@@ -40,6 +47,18 @@ import ReplaceVarData from "./replacevar/data";
 	/*
 	 * GENERIC
 	 */
+
+	/**
+	 * Returns the data collector that should be used.
+	 *
+	 * @returns {DataCollector} The data collector.
+	 */
+	YoastReplaceVarPlugin.prototype.getDataCollector = function() {
+		if ( isGutenbergDataAvailable() ) {
+			return new GutenbergDataCollector( this._app.refresh );
+		}
+		return new TinyMceDataCollector();
+	}
 
 	/**
 	 * Registers all the placeholders and their replacements.

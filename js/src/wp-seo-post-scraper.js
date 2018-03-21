@@ -321,7 +321,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
 	 * @returns {void}
 	 */
-	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin ) {
+	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin, store ) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
@@ -415,7 +415,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 			markdownPlugin.register();
 		}
 
-		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
+		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin, store );
 
 		setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
