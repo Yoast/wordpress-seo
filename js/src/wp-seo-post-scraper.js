@@ -386,6 +386,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 			readabilityTarget: "yoast-seo-content-analysis",
 			seoTarget: "wpseo-pageanalysis",
 			onRefreshRequest: () => {},
+			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
 		};
 		const { store, data } = initializeEdit( editArgs );
 

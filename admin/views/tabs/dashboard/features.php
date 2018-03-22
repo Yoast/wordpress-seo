@@ -53,7 +53,7 @@ $feature_toggles = array(
 		'order'           => 40,
 	),
 	(object) array(
-		'name'            => __( 'XML Sitemaps', 'wordpress-seo' ),
+		'name'            => __( 'XML sitemaps', 'wordpress-seo' ),
 		'setting'         => 'enable_xml_sitemap',
 		/* translators: %s expands to Yoast SEO */
 		'label'           => sprintf( __( 'Enable the XML sitemaps that %s generates.', 'wordpress-seo' ), 'Yoast SEO' ),
@@ -67,7 +67,7 @@ $feature_toggles = array(
 		'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Ryte' ),
 		'setting'         => 'onpage_indexability',
 		/* translators: %1$s expands to Ryte. */
-		'label'           => sprintf( __( '%1$s can check daily if your site is still indexable by search engines and will notify you when this is not the case.', 'wordpress-seo' ), 'Ryte' ),
+		'label'           => sprintf( __( '%1$s will check weekly if your site is still indexable by search engines and Yoast SEO will notify you when this is not the case.', 'wordpress-seo' ), 'Ryte' ),
 		/* translators: %s expands to Ryte. */
 		'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'Ryte ' ),
 		'read_more_url'   => 'https://yoa.st/2an',
