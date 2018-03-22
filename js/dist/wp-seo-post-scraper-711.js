@@ -1,16 +1,48 @@
 yoastWebpackJsonp([0],[
 /* 0 */,
-/* 1 */,
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (false) {
+  var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol.for && Symbol.for('react.element') || 0xeac7;
+
+  var isValidElement = function isValidElement(object) {
+    return (typeof object === 'undefined' ? 'undefined' : _typeof(object)) === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = require('./factoryWithTypeCheckers')(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(131)();
+}
+
+/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayEach = __webpack_require__(194),
-    baseEach = __webpack_require__(105),
-    castFunction = __webpack_require__(536),
-    isArray = __webpack_require__(5);
+var arrayEach = __webpack_require__(135),
+    baseEach = __webpack_require__(84),
+    castFunction = __webpack_require__(370),
+    isArray = __webpack_require__(4);
 
 /**
  * Iterates over elements of `collection` and invokes `iteratee` for each element.
@@ -86,8 +118,42 @@ module.exports = isUndefined;
 "use strict";
 
 
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+module.exports = isArray;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var isUndefined = __webpack_require__(3);
-var isNumber = __webpack_require__(233);
+var isNumber = __webpack_require__(257);
 /**
  * A function that only returns an empty that can be used as an empty marker
  *
@@ -234,42 +300,41 @@ module.exports = AssessmentResult;
 //# sourceMappingURL=AssessmentResult.js.map
 
 /***/ }),
-/* 5 */
+/* 6 */,
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-module.exports = isArray;
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (false) {
+  var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol.for && Symbol.for('react.element') || 0xeac7;
+
+  var isValidElement = function isValidElement(object) {
+    return (typeof object === 'undefined' ? 'undefined' : _typeof(object)) === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = require('./factoryWithTypeCheckers')(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(181)();
+}
 
 /***/ }),
-/* 6 */,
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -310,16 +375,16 @@ function isObject(value) {
 module.exports = isObject;
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayMap = __webpack_require__(29),
-    baseIteratee = __webpack_require__(45),
-    baseMap = __webpack_require__(353),
-    isArray = __webpack_require__(5);
+var arrayMap = __webpack_require__(31),
+    baseIteratee = __webpack_require__(47),
+    baseMap = __webpack_require__(390),
+    isArray = __webpack_require__(4);
 
 /**
  * Creates an array of values by running each element in `collection` thru
@@ -371,12 +436,6 @@ function map(collection, iteratee) {
 module.exports = map;
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-module.exports = {"$palette_white":"#fff","$palette_grey_ultra_light":"#f7f7f7","$palette_grey_light":"#f1f1f1","$palette_grey":"#ddd","$palette_grey_medium":"#ccc","$palette_grey_disabled":"#a0a5aa","$palette_grey_medium_dark":"#888","$palette_grey_text":"#646464","$palette_grey_dark":"#555","$palette_black":"#000","$palette_purple":"#5d237a","$palette_purple_dark":"#6c2548","$palette_pink":"#d73763","$palette_pink_light":"#e1bee7","$palette_pink_dark":"#a4286a","$palette_blue":"#0066cd","$palette_blue_light":"#a9a9ce","$palette_blue_dark":"#084a67","$palette_green":"#77b227","$palette_green_light":"#7ad03a","$palette_green_medium_light":"#64a60a","$palette_green_medium":"#008a00","$palette_green_blue":"#009288","$palette_orange":"#dc5c04","$palette_orange_light":"#ee7c1b","$palette_red":"#dc3232","$palette_red_light":"#f9bdbd","$palette_yellow":"#ffeb3b","$color_bad":"#dc3232","$color_ok":"#ee7c1b","$color_good":"#7ad03a","$color_score_icon":"#888","$color_white":"#fff","$color_black":"#000","$color_green":"#77b227","$color_green_medium":"#008a00","$color_green_blue":"#009288","$color_grey":"#ddd","$color_grey_dark":"#555","$color_purple":"#5d237a","$color_purple_dark":"#6c2548","$color_pink":"#d73763","$color_pink_light":"#e1bee7","$color_pink_dark":"#a4286a","$color_blue":"#0066cd","$color_blue_light":"#a9a9ce","$color_blue_dark":"#084a67","$color_red":"#dc3232","$color_border_light":"#f7f7f7","$color_border":"#ccc","$color_input_border":"#ddd","$color_background_light":"#f7f7f7","$color_button":"#f7f7f7","$color_button_text":"#555","$color_button_border":"#ccc","$color_button_hover":"#fff","$color_button_border_hover":"#888","$color_button_text_hover":"#000","$color_button_border_active":"#000","$color_headings":"#555","$color_marker_inactive":"#555","$color_marker_active":"#fff","$color_marker_disabled":"#a0a5aa","$color_error":"#dc3232","$color_orange":"#dc5c04","$color_orange_hover":"#c35204","$color_grey_hover":"#cecece","$color_pink_hover":"#cc2956","$color_grey_cta":"#ddd","$color_grey_line":"#ddd","$color_grey_quote":"#646464","$color_grey_text":"#646464","$color_grey_medium_dark":"#888","$color_green_medium_light":"#64a60a","$color_grey_disabled":"#a0a5aa","$color_grey_medium":"#ccc","$color_grey_light":"#f1f1f1","$color_yellow":"#ffeb3b","$color_error_message":"#f9bdbd"}
-
-/***/ }),
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -385,7 +444,7 @@ module.exports = {"$palette_white":"#fff","$palette_grey_ultra_light":"#f7f7f7",
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var freeGlobal = __webpack_require__(113);
+var freeGlobal = __webpack_require__(124);
 
 /** Detect free variable `self`. */
 var freeSelf = (typeof self === 'undefined' ? 'undefined' : _typeof(self)) == 'object' && self && self.Object === Object && self;
@@ -397,6 +456,12 @@ module.exports = root;
 
 /***/ }),
 /* 11 */
+/***/ (function(module, exports) {
+
+module.exports = {"$palette_white":"#fff","$palette_grey_ultra_light":"#f7f7f7","$palette_grey_light":"#f1f1f1","$palette_grey":"#ddd","$palette_grey_medium":"#ccc","$palette_grey_disabled":"#a0a5aa","$palette_grey_medium_dark":"#888","$palette_grey_text":"#646464","$palette_grey_dark":"#555","$palette_black":"#000","$palette_purple":"#5d237a","$palette_purple_dark":"#6c2548","$palette_pink":"#d73763","$palette_pink_light":"#e1bee7","$palette_pink_dark":"#a4286a","$palette_blue":"#0066cd","$palette_blue_light":"#a9a9ce","$palette_blue_dark":"#084a67","$palette_green":"#77b227","$palette_green_light":"#7ad03a","$palette_green_medium_light":"#64a60a","$palette_green_medium":"#008a00","$palette_green_blue":"#009288","$palette_orange":"#dc5c04","$palette_orange_light":"#ee7c1b","$palette_red":"#dc3232","$palette_red_light":"#f9bdbd","$palette_yellow":"#ffeb3b","$color_bad":"#dc3232","$color_ok":"#ee7c1b","$color_good":"#7ad03a","$color_score_icon":"#888","$color_white":"#fff","$color_black":"#000","$color_green":"#77b227","$color_green_medium":"#008a00","$color_green_blue":"#009288","$color_grey":"#ddd","$color_grey_dark":"#555","$color_purple":"#5d237a","$color_purple_dark":"#6c2548","$color_pink":"#d73763","$color_pink_light":"#e1bee7","$color_pink_dark":"#a4286a","$color_blue":"#0066cd","$color_blue_light":"#a9a9ce","$color_blue_dark":"#084a67","$color_red":"#dc3232","$color_border_light":"#f7f7f7","$color_border":"#ccc","$color_input_border":"#ddd","$color_background_light":"#f7f7f7","$color_button":"#f7f7f7","$color_button_text":"#555","$color_button_border":"#ccc","$color_button_hover":"#fff","$color_button_border_hover":"#888","$color_button_text_hover":"#000","$color_button_border_active":"#000","$color_headings":"#555","$color_marker_inactive":"#555","$color_marker_active":"#fff","$color_marker_disabled":"#a0a5aa","$color_error":"#dc3232","$color_orange":"#dc5c04","$color_orange_hover":"#c35204","$color_grey_hover":"#cecece","$color_pink_hover":"#cc2956","$color_grey_cta":"#ddd","$color_grey_line":"#ddd","$color_grey_quote":"#646464","$color_grey_text":"#646464","$color_grey_medium_dark":"#888","$color_green_medium_light":"#64a60a","$color_grey_disabled":"#a0a5aa","$color_grey_medium":"#ccc","$color_grey_light":"#f1f1f1","$color_yellow":"#ffeb3b","$color_error_message":"#f9bdbd"}
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -426,7 +491,46 @@ try {
 module.exports = g;
 
 /***/ }),
-/* 12 */
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object';
+}
+
+module.exports = isObjectLike;
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -457,20 +561,20 @@ if (typeof Object.create === 'function') {
 }
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseKeys = __webpack_require__(174),
-    getTag = __webpack_require__(123),
-    isArguments = __webpack_require__(66),
-    isArray = __webpack_require__(5),
+var baseKeys = __webpack_require__(193),
+    getTag = __webpack_require__(137),
+    isArguments = __webpack_require__(70),
+    isArray = __webpack_require__(4),
     isArrayLike = __webpack_require__(22),
-    isBuffer = __webpack_require__(67),
-    isPrototype = __webpack_require__(65),
-    isTypedArray = __webpack_require__(89);
+    isBuffer = __webpack_require__(71),
+    isPrototype = __webpack_require__(69),
+    isTypedArray = __webpack_require__(101);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -540,46 +644,7 @@ function isEmpty(value) {
 module.exports = isEmpty;
 
 /***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object';
-}
-
-module.exports = isObjectLike;
-
-/***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1077,7 +1142,7 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-exports.isBuffer = __webpack_require__(516);
+exports.isBuffer = __webpack_require__(546);
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
@@ -1114,7 +1179,7 @@ exports.log = function () {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
-exports.inherits = __webpack_require__(517);
+exports.inherits = __webpack_require__(547);
 
 exports._extend = function (origin, add) {
   // Don't do anything if add isn't an object
@@ -1131,19 +1196,19 @@ exports._extend = function (origin, add) {
 function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(51)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(54)))
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayFilter = __webpack_require__(122),
-    baseFilter = __webpack_require__(355),
-    baseIteratee = __webpack_require__(45),
-    isArray = __webpack_require__(5);
+var arrayFilter = __webpack_require__(136),
+    baseFilter = __webpack_require__(391),
+    baseIteratee = __webpack_require__(47),
+    isArray = __webpack_require__(4);
 
 /**
  * Iterates over elements of `collection`, returning an array of all elements
@@ -1190,15 +1255,15 @@ function filter(collection, predicate) {
 module.exports = filter;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Symbol = __webpack_require__(23),
-    getRawTag = __webpack_require__(168),
-    objectToString = __webpack_require__(169);
+var _Symbol = __webpack_require__(26),
+    getRawTag = __webpack_require__(187),
+    objectToString = __webpack_require__(188);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -1224,32 +1289,32 @@ function baseGetTag(value) {
 module.exports = baseGetTag;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-
-var baseIsNative = __webpack_require__(167),
-    getValue = __webpack_require__(172);
-
+/** @module stringProcessing/stripSpaces */
 /**
- * Gets the native function at `key` of `object`.
+ * Strip double spaces from text
  *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
+ * @param {String} text The text to strip spaces from.
+ * @returns {String} The text without double spaces
  */
-function getNative(object, key) {
-  var value = getValue(object, key);
-  return baseIsNative(value) ? value : undefined;
-}
 
-module.exports = getNative;
+module.exports = function (text) {
+    // Replace multiple spaces with single space
+    text = text.replace(/\s{2,}/g, " ");
+    // Replace spaces followed by periods with only the period.
+    text = text.replace(/\s\./g, ".");
+    // Remove first/last character if space
+    text = text.replace(/^\s+|\s+$/g, "");
+    return text;
+};
+//# sourceMappingURL=stripSpaces.js.map
+//# sourceMappingURL=stripSpaces.js.map
 
 /***/ }),
-/* 19 */,
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1257,8 +1322,8 @@ module.exports = getNative;
 
 /** @module stringProcessing/stripHTMLTags */
 
-var stripSpaces = __webpack_require__(21);
-var blockElements = __webpack_require__(235).blockElements;
+var stripSpaces = __webpack_require__(19);
+var blockElements = __webpack_require__(144).blockElements;
 var blockElementStartRegex = new RegExp("^<(" + blockElements.join("|") + ")[^>]*?>", "i");
 var blockElementEndRegex = new RegExp("</(" + blockElements.join("|") + ")[^>]*?>$", "i");
 /**
@@ -1308,25 +1373,24 @@ module.exports = {
 
 "use strict";
 
-/** @module stringProcessing/stripSpaces */
-/**
- * Strip double spaces from text
- *
- * @param {String} text The text to strip spaces from.
- * @returns {String} The text without double spaces
- */
 
-module.exports = function (text) {
-    // Replace multiple spaces with single space
-    text = text.replace(/\s{2,}/g, " ");
-    // Replace spaces followed by periods with only the period.
-    text = text.replace(/\s\./g, ".");
-    // Remove first/last character if space
-    text = text.replace(/^\s+|\s+$/g, "");
-    return text;
-};
-//# sourceMappingURL=stripSpaces.js.map
-//# sourceMappingURL=stripSpaces.js.map
+var baseIsNative = __webpack_require__(186),
+    getValue = __webpack_require__(191);
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+module.exports = getNative;
 
 /***/ }),
 /* 22 */
@@ -1335,8 +1399,8 @@ module.exports = function (text) {
 "use strict";
 
 
-var isFunction = __webpack_require__(64),
-    isLength = __webpack_require__(115);
+var isFunction = __webpack_require__(68),
+    isLength = __webpack_require__(126);
 
 /**
  * Checks if `value` is array-like. A value is considered array-like if it's
@@ -1370,21 +1434,46 @@ function isArrayLike(value) {
 module.exports = isArrayLike;
 
 /***/ }),
-/* 23 */
+/* 23 */,
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var root = __webpack_require__(10);
+var toString = __webpack_require__(77);
 
-/** Built-in value references. */
-var _Symbol = root.Symbol;
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g,
+    reHasRegExpChar = RegExp(reRegExpChar.source);
 
-module.exports = _Symbol;
+/**
+ * Escapes the `RegExp` special characters "^", "$", "\", ".", "*", "+",
+ * "?", "(", ")", "[", "]", "{", "}", and "|" in `string`.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category String
+ * @param {string} [string=''] The string to escape.
+ * @returns {string} Returns the escaped string.
+ * @example
+ *
+ * _.escapeRegExp('[lodash](https://lodash.com/)');
+ * // => '\[lodash\]\(https://lodash\.com/\)'
+ */
+function escapeRegExp(string) {
+  string = toString(string);
+  return string && reHasRegExpChar.test(string) ? string.replace(reRegExpChar, '\\$&') : string;
+}
+
+module.exports = escapeRegExp;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1401,19 +1490,19 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                                                                                                                                                                                                                                                                                 * See the accompanying LICENSE file for terms.
                                                                                                                                                                                                                                                                                 */
 
-var _index = __webpack_require__(211);
+var _index = __webpack_require__(225);
 
 var _index2 = _interopRequireDefault(_index);
 
-var _intlMessageformat = __webpack_require__(101);
+var _intlMessageformat = __webpack_require__(112);
 
 var _intlMessageformat2 = _interopRequireDefault(_intlMessageformat);
 
-var _intlRelativeformat = __webpack_require__(220);
+var _intlRelativeformat = __webpack_require__(234);
 
 var _intlRelativeformat2 = _interopRequireDefault(_intlRelativeformat);
 
-var _propTypes = __webpack_require__(1);
+var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -1421,11 +1510,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _invariant = __webpack_require__(128);
+var _invariant = __webpack_require__(141);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
-var _intlFormatCache = __webpack_require__(227);
+var _intlFormatCache = __webpack_require__(241);
 
 var _intlFormatCache2 = _interopRequireDefault(_intlFormatCache);
 
@@ -2991,89 +3080,18 @@ exports.FormattedMessage = FormattedMessage;
 exports.FormattedHTMLMessage = FormattedHTMLMessage;
 
 /***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseMerge = __webpack_require__(236),
-    createAssigner = __webpack_require__(119);
-
-/**
- * This method is like `_.assign` except that it recursively merges own and
- * inherited enumerable string keyed properties of source objects into the
- * destination object. Source properties that resolve to `undefined` are
- * skipped if a destination value exists. Array and plain object properties
- * are merged recursively. Other objects and value types are overridden by
- * assignment. Source objects are applied from left to right. Subsequent
- * sources overwrite property assignments of previous sources.
- *
- * **Note:** This method mutates `object`.
- *
- * @static
- * @memberOf _
- * @since 0.5.0
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} [sources] The source objects.
- * @returns {Object} Returns `object`.
- * @example
- *
- * var object = {
- *   'a': [{ 'b': 2 }, { 'd': 4 }]
- * };
- *
- * var other = {
- *   'a': [{ 'c': 3 }, { 'e': 5 }]
- * };
- *
- * _.merge(object, other);
- * // => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }
- */
-var merge = createAssigner(function (object, source, srcIndex) {
-  baseMerge(object, source, srcIndex);
-});
-
-module.exports = merge;
-
-/***/ }),
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var toString = __webpack_require__(98);
+var root = __webpack_require__(10);
 
-/**
- * Used to match `RegExp`
- * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
- */
-var reRegExpChar = /[\\^$.*+?()[\]{}|]/g,
-    reHasRegExpChar = RegExp(reRegExpChar.source);
+/** Built-in value references. */
+var _Symbol = root.Symbol;
 
-/**
- * Escapes the `RegExp` special characters "^", "$", "\", ".", "*", "+",
- * "?", "(", ")", "[", "]", "{", "}", and "|" in `string`.
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category String
- * @param {string} [string=''] The string to escape.
- * @returns {string} Returns the escaped string.
- * @example
- *
- * _.escapeRegExp('[lodash](https://lodash.com/)');
- * // => '\[lodash\]\(https://lodash\.com/\)'
- */
-function escapeRegExp(string) {
-  string = toString(string);
-  return string && reHasRegExpChar.test(string) ? string.replace(reRegExpChar, '\\$&') : string;
-}
-
-module.exports = escapeRegExp;
+module.exports = _Symbol;
 
 /***/ }),
 /* 27 */
@@ -3082,180 +3100,7 @@ module.exports = escapeRegExp;
 "use strict";
 
 
-var baseIndexOf = __webpack_require__(248),
-    isArrayLike = __webpack_require__(22),
-    isString = __webpack_require__(249),
-    toInteger = __webpack_require__(141),
-    values = __webpack_require__(396);
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
-
-/**
- * Checks if `value` is in `collection`. If `collection` is a string, it's
- * checked for a substring of `value`, otherwise
- * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
- * is used for equality comparisons. If `fromIndex` is negative, it's used as
- * the offset from the end of `collection`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object|string} collection The collection to inspect.
- * @param {*} value The value to search for.
- * @param {number} [fromIndex=0] The index to search from.
- * @param- {Object} [guard] Enables use as an iteratee for methods like `_.reduce`.
- * @returns {boolean} Returns `true` if `value` is found, else `false`.
- * @example
- *
- * _.includes([1, 2, 3], 1);
- * // => true
- *
- * _.includes([1, 2, 3], 1, 2);
- * // => false
- *
- * _.includes({ 'a': 1, 'b': 2 }, 1);
- * // => true
- *
- * _.includes('abcd', 'bc');
- * // => true
- */
-function includes(collection, value, fromIndex, guard) {
-  collection = isArrayLike(collection) ? collection : values(collection);
-  fromIndex = fromIndex && !guard ? toInteger(fromIndex) : 0;
-
-  var length = collection.length;
-  if (fromIndex < 0) {
-    fromIndex = nativeMax(length + fromIndex, 0);
-  }
-  return isString(collection) ? fromIndex <= length && collection.indexOf(value, fromIndex) > -1 : !!length && baseIndexOf(collection, value, fromIndex) > -1;
-}
-
-module.exports = includes;
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var assignValue = __webpack_require__(88),
-    baseAssignValue = __webpack_require__(112);
-
-/**
- * Copies properties of `source` to `object`.
- *
- * @private
- * @param {Object} source The object to copy properties from.
- * @param {Array} props The property identifiers to copy.
- * @param {Object} [object={}] The object to copy properties to.
- * @param {Function} [customizer] The function to customize copied values.
- * @returns {Object} Returns `object`.
- */
-function copyObject(source, props, object, customizer) {
-  var isNew = !object;
-  object || (object = {});
-
-  var index = -1,
-      length = props.length;
-
-  while (++index < length) {
-    var key = props[index];
-
-    var newValue = customizer ? customizer(object[key], source[key], key, object, source) : undefined;
-
-    if (newValue === undefined) {
-      newValue = source[key];
-    }
-    if (isNew) {
-      baseAssignValue(object, key, newValue);
-    } else {
-      assignValue(object, key, newValue);
-    }
-  }
-  return object;
-}
-
-module.exports = copyObject;
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A specialized version of `_.map` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function arrayMap(array, iteratee) {
-  var index = -1,
-      length = array == null ? 0 : array.length,
-      result = Array(length);
-
-  while (++index < length) {
-    result[index] = iteratee(array[index], index, array);
-  }
-  return result;
-}
-
-module.exports = arrayMap;
-
-/***/ }),
-/* 30 */,
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var baseGetTag = __webpack_require__(17),
-    isObjectLike = __webpack_require__(14);
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'symbol' || isObjectLike(value) && baseGetTag(value) == symbolTag;
-}
-
-module.exports = isSymbol;
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var MapCache = __webpack_require__(85);
+var MapCache = __webpack_require__(93);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -3330,7 +3175,291 @@ memoize.Cache = MapCache;
 module.exports = memoize;
 
 /***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseMerge = __webpack_require__(259),
+    createAssigner = __webpack_require__(133);
+
+/**
+ * This method is like `_.assign` except that it recursively merges own and
+ * inherited enumerable string keyed properties of source objects into the
+ * destination object. Source properties that resolve to `undefined` are
+ * skipped if a destination value exists. Array and plain object properties
+ * are merged recursively. Other objects and value types are overridden by
+ * assignment. Source objects are applied from left to right. Subsequent
+ * sources overwrite property assignments of previous sources.
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.5.0
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} [sources] The source objects.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * var object = {
+ *   'a': [{ 'b': 2 }, { 'd': 4 }]
+ * };
+ *
+ * var other = {
+ *   'a': [{ 'c': 3 }, { 'e': 5 }]
+ * };
+ *
+ * _.merge(object, other);
+ * // => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }
+ */
+var merge = createAssigner(function (object, source, srcIndex) {
+  baseMerge(object, source, srcIndex);
+});
+
+module.exports = merge;
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseIndexOf = __webpack_require__(146),
+    isArrayLike = __webpack_require__(22),
+    isString = __webpack_require__(271),
+    toInteger = __webpack_require__(96),
+    values = __webpack_require__(425);
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * Checks if `value` is in `collection`. If `collection` is a string, it's
+ * checked for a substring of `value`, otherwise
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * is used for equality comparisons. If `fromIndex` is negative, it's used as
+ * the offset from the end of `collection`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Collection
+ * @param {Array|Object|string} collection The collection to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} [fromIndex=0] The index to search from.
+ * @param- {Object} [guard] Enables use as an iteratee for methods like `_.reduce`.
+ * @returns {boolean} Returns `true` if `value` is found, else `false`.
+ * @example
+ *
+ * _.includes([1, 2, 3], 1);
+ * // => true
+ *
+ * _.includes([1, 2, 3], 1, 2);
+ * // => false
+ *
+ * _.includes({ 'a': 1, 'b': 2 }, 1);
+ * // => true
+ *
+ * _.includes('abcd', 'bc');
+ * // => true
+ */
+function includes(collection, value, fromIndex, guard) {
+  collection = isArrayLike(collection) ? collection : values(collection);
+  fromIndex = fromIndex && !guard ? toInteger(fromIndex) : 0;
+
+  var length = collection.length;
+  if (fromIndex < 0) {
+    fromIndex = nativeMax(length + fromIndex, 0);
+  }
+  return isString(collection) ? fromIndex <= length && collection.indexOf(value, fromIndex) > -1 : !!length && baseIndexOf(collection, value, fromIndex) > -1;
+}
+
+module.exports = includes;
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var assignValue = __webpack_require__(99),
+    baseAssignValue = __webpack_require__(123);
+
+/**
+ * Copies properties of `source` to `object`.
+ *
+ * @private
+ * @param {Object} source The object to copy properties from.
+ * @param {Array} props The property identifiers to copy.
+ * @param {Object} [object={}] The object to copy properties to.
+ * @param {Function} [customizer] The function to customize copied values.
+ * @returns {Object} Returns `object`.
+ */
+function copyObject(source, props, object, customizer) {
+  var isNew = !object;
+  object || (object = {});
+
+  var index = -1,
+      length = props.length;
+
+  while (++index < length) {
+    var key = props[index];
+
+    var newValue = customizer ? customizer(object[key], source[key], key, object, source) : undefined;
+
+    if (newValue === undefined) {
+      newValue = source[key];
+    }
+    if (isNew) {
+      baseAssignValue(object, key, newValue);
+    } else {
+      assignValue(object, key, newValue);
+    }
+  }
+  return object;
+}
+
+module.exports = copyObject;
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A specialized version of `_.map` for arrays without support for iteratee
+ * shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ */
+function arrayMap(array, iteratee) {
+  var index = -1,
+      length = array == null ? 0 : array.length,
+      result = Array(length);
+
+  while (++index < length) {
+    result[index] = iteratee(array[index], index, array);
+  }
+  return result;
+}
+
+module.exports = arrayMap;
+
+/***/ }),
+/* 32 */,
 /* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var arrayLikeKeys = __webpack_require__(166),
+    baseKeys = __webpack_require__(193),
+    isArrayLike = __webpack_require__(22);
+
+/**
+ * Creates an array of the own enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects. See the
+ * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+ * for more details.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keys(new Foo);
+ * // => ['a', 'b'] (iteration order is not guaranteed)
+ *
+ * _.keys('hi');
+ * // => ['0', '1']
+ */
+function keys(object) {
+  return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
+}
+
+module.exports = keys;
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var baseGetTag = __webpack_require__(18),
+    isObjectLike = __webpack_require__(13);
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+    return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'symbol' || isObjectLike(value) && baseGetTag(value) == symbolTag;
+}
+
+module.exports = isSymbol;
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * The function getting the language part of the locale.
+ *
+ * @param {string} locale The locale.
+ * @returns {string} The language part of the locale.
+ */
+
+module.exports = function (locale) {
+  return locale.split("_")[0];
+};
+//# sourceMappingURL=getLanguage.js.map
+//# sourceMappingURL=getLanguage.js.map
+
+/***/ }),
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3400,57 +3529,12 @@ module.exports = Assessment;
 //# sourceMappingURL=assessment.js.map
 
 /***/ }),
-/* 34 */,
-/* 35 */,
-/* 36 */,
 /* 37 */,
 /* 38 */,
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var arrayLikeKeys = __webpack_require__(153),
-    baseKeys = __webpack_require__(174),
-    isArrayLike = __webpack_require__(22);
-
-/**
- * Creates an array of the own enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects. See the
- * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
- * for more details.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keys(new Foo);
- * // => ['a', 'b'] (iteration order is not guaranteed)
- *
- * _.keys('hi');
- * // => ['0', '1']
- */
-function keys(object) {
-  return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
-}
-
-module.exports = keys;
-
-/***/ }),
-/* 40 */
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3495,13 +3579,13 @@ function eq(value, other) {
 module.exports = eq;
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var eq = __webpack_require__(40);
+var eq = __webpack_require__(42);
 
 /**
  * Gets the index at which the `key` is found in `array` of key-value pairs.
@@ -3524,13 +3608,13 @@ function assocIndexOf(array, key) {
 module.exports = assocIndexOf;
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getNative = __webpack_require__(18);
+var getNative = __webpack_require__(21);
 
 /* Built-in method references that are verified to be native. */
 var nativeCreate = getNative(Object, 'create');
@@ -3538,13 +3622,13 @@ var nativeCreate = getNative(Object, 'create');
 module.exports = nativeCreate;
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isKeyable = __webpack_require__(190);
+var isKeyable = __webpack_require__(209);
 
 /**
  * Gets the data for `map`.
@@ -3562,16 +3646,16 @@ function getMapData(map, key) {
 module.exports = getMapData;
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isArray = __webpack_require__(5),
-    isKey = __webpack_require__(97),
-    stringToPath = __webpack_require__(203),
-    toString = __webpack_require__(98);
+var isArray = __webpack_require__(4),
+    isKey = __webpack_require__(109),
+    stringToPath = __webpack_require__(220),
+    toString = __webpack_require__(77);
 
 /**
  * Casts `value` to a path array if it's not one.
@@ -3591,7 +3675,7 @@ function castPath(value, object) {
 module.exports = castPath;
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3599,11 +3683,11 @@ module.exports = castPath;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var baseMatches = __webpack_require__(519),
-    baseMatchesProperty = __webpack_require__(528),
-    identity = __webpack_require__(54),
-    isArray = __webpack_require__(5),
-    property = __webpack_require__(530);
+var baseMatches = __webpack_require__(549),
+    baseMatchesProperty = __webpack_require__(558),
+    identity = __webpack_require__(50),
+    isArray = __webpack_require__(4),
+    property = __webpack_require__(560);
 
 /**
  * The base implementation of `_.iteratee`.
@@ -3630,32 +3714,44 @@ function baseIteratee(value) {
 module.exports = baseIteratee;
 
 /***/ }),
-/* 46 */
+/* 48 */,
+/* 49 */,
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
 
 /**
- * The function getting the language part of the locale.
+ * This method returns the first argument it receives.
  *
- * @param {string} locale The locale.
- * @returns {string} The language part of the locale.
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ *
+ * console.log(_.identity(object) === object);
+ * // => true
  */
+function identity(value) {
+  return value;
+}
 
-module.exports = function (locale) {
-  return locale.split("_")[0];
-};
-//# sourceMappingURL=getLanguage.js.map
-//# sourceMappingURL=getLanguage.js.map
+module.exports = identity;
 
 /***/ }),
-/* 47 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isSymbol = __webpack_require__(31);
+var isSymbol = __webpack_require__(34);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -3678,10 +3774,9 @@ function toKey(value) {
 module.exports = toKey;
 
 /***/ }),
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */
+/* 52 */,
+/* 53 */,
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3874,25 +3969,25 @@ process.umask = function () {
 };
 
 /***/ }),
-/* 52 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var map = __webpack_require__(8);
+var map = __webpack_require__(9);
 var isUndefined = __webpack_require__(3);
 var forEach = __webpack_require__(2);
-var isNaN = __webpack_require__(537);
-var filter = __webpack_require__(16);
-var flatMap = __webpack_require__(137);
-var isEmpty = __webpack_require__(13);
-var negate = __webpack_require__(356);
-var memoize = __webpack_require__(32);
-var core = __webpack_require__(357);
-var getBlocks = __webpack_require__(235).getBlocks;
-var normalizeQuotes = __webpack_require__(106).normalize;
-var unifyWhitespace = __webpack_require__(358).unifyNonBreakingSpace;
+var isNaN = __webpack_require__(562);
+var filter = __webpack_require__(17);
+var flatMap = __webpack_require__(152);
+var isEmpty = __webpack_require__(15);
+var negate = __webpack_require__(392);
+var memoize = __webpack_require__(27);
+var core = __webpack_require__(251);
+var getBlocks = __webpack_require__(144).getBlocks;
+var normalizeQuotes = __webpack_require__(117).normalize;
+var unifyWhitespace = __webpack_require__(393).unifyNonBreakingSpace;
 // All characters that indicate a sentence delimiter.
 var fullStop = ".";
 // The \u2026 character is an ellipsis
@@ -4152,14 +4247,14 @@ module.exports = function (text) {
 //# sourceMappingURL=getSentences.js.map
 
 /***/ }),
-/* 53 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/countWords */
 
-var getWords = __webpack_require__(58);
+var getWords = __webpack_require__(61);
 /**
  * Calculates the wordcount of a certain text.
  *
@@ -4173,46 +4268,42 @@ module.exports = function (text) {
 //# sourceMappingURL=countWords.js.map
 
 /***/ }),
-/* 54 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+
+var identity = __webpack_require__(50),
+    overRest = __webpack_require__(165),
+    setToString = __webpack_require__(134);
 
 /**
- * This method returns the first argument it receives.
+ * The base implementation of `_.rest` which doesn't validate or coerce arguments.
  *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
+ * @private
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @returns {Function} Returns the new function.
  */
-function identity(value) {
-  return value;
+function baseRest(func, start) {
+  return setToString(overRest(func, start, identity), func + '');
 }
 
-module.exports = identity;
+module.exports = baseRest;
 
 /***/ }),
-/* 55 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var listCacheClear = __webpack_require__(177),
-    listCacheDelete = __webpack_require__(178),
-    listCacheGet = __webpack_require__(179),
-    listCacheHas = __webpack_require__(180),
-    listCacheSet = __webpack_require__(181);
+var listCacheClear = __webpack_require__(196),
+    listCacheDelete = __webpack_require__(197),
+    listCacheGet = __webpack_require__(198),
+    listCacheHas = __webpack_require__(199),
+    listCacheSet = __webpack_require__(200);
 
 /**
  * Creates an list cache object.
@@ -4242,33 +4333,9 @@ ListCache.prototype.set = listCacheSet;
 module.exports = ListCache;
 
 /***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var identity = __webpack_require__(54),
-    overRest = __webpack_require__(151),
-    setToString = __webpack_require__(152);
-
-/**
- * The base implementation of `_.rest` which doesn't validate or coerce arguments.
- *
- * @private
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @returns {Function} Returns the new function.
- */
-function baseRest(func, start) {
-  return setToString(overRest(func, start, identity), func + '');
-}
-
-module.exports = baseRest;
-
-/***/ }),
-/* 57 */,
-/* 58 */
+/* 59 */,
+/* 60 */,
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4276,10 +4343,10 @@ module.exports = baseRest;
 /** @module stringProcessing/countWords */
 
 var stripTags = __webpack_require__(20).stripFullTags;
-var stripSpaces = __webpack_require__(21);
-var removePunctuation = __webpack_require__(540);
-var map = __webpack_require__(8);
-var filter = __webpack_require__(16);
+var stripSpaces = __webpack_require__(19);
+var removePunctuation = __webpack_require__(565);
+var map = __webpack_require__(9);
+var filter = __webpack_require__(17);
 /**
  * Returns an array with words used in the text.
  *
@@ -4303,7 +4370,7 @@ module.exports = function (text) {
 //# sourceMappingURL=getWords.js.map
 
 /***/ }),
-/* 59 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4337,7 +4404,7 @@ module.exports = function (text) {
 
 /*<replacement>*/
 
-var processNextTick = __webpack_require__(138);
+var processNextTick = __webpack_require__(153);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -4352,12 +4419,12 @@ var objectKeys = Object.keys || function (obj) {
 module.exports = Duplex;
 
 /*<replacement>*/
-var util = __webpack_require__(109);
-util.inherits = __webpack_require__(12);
+var util = __webpack_require__(119);
+util.inherits = __webpack_require__(14);
 /*</replacement>*/
 
-var Readable = __webpack_require__(370);
-var Writable = __webpack_require__(244);
+var Readable = __webpack_require__(404);
+var Writable = __webpack_require__(267);
 
 util.inherits(Duplex, Readable);
 
@@ -4433,7 +4500,7 @@ function forEach(xs, f) {
 }
 
 /***/ }),
-/* 60 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4482,13 +4549,13 @@ module.exports = {
 //# sourceMappingURL=inRange.js.map
 
 /***/ }),
-/* 61 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(253);
+var defaults = __webpack_require__(275);
 /**
  * Represents a marked piece of text
  *
@@ -4532,7 +4599,7 @@ module.exports = Mark;
 //# sourceMappingURL=Mark.js.map
 
 /***/ }),
-/* 62 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4551,15 +4618,182 @@ module.exports = function (text) {
 //# sourceMappingURL=addMark.js.map
 
 /***/ }),
-/* 63 */,
-/* 64 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetTag = __webpack_require__(17),
-    isObject = __webpack_require__(7);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _templateObject = _taggedTemplateLiteral(["\n\t\t\twidth: ", ";\n\t\t\theight: ", ";\n\t\t\tflex: none;\n\t\t"], ["\n\t\t\twidth: ", ";\n\t\t\theight: ", ";\n\t\t\tflex: none;\n\t\t"]);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _styledComponents = __webpack_require__(6);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Returns the SvgIcon component.
+ *
+ * @param {object} props Component props.
+ *
+ * @returns {ReactElement} SvgIcon component.
+ */
+var SvgIcon = function (_React$Component) {
+	_inherits(SvgIcon, _React$Component);
+
+	/**
+  * Constructor for the component.
+  *
+  * @param {Object} props The props to assign to the current component.
+  *
+  * @constructor
+  */
+	function SvgIcon(props) {
+		_classCallCheck(this, SvgIcon);
+
+		return _possibleConstructorReturn(this, (SvgIcon.__proto__ || Object.getPrototypeOf(SvgIcon)).call(this, props));
+	}
+
+	/* eslint-disable complexity */
+
+
+	_createClass(SvgIcon, [{
+		key: "render",
+		value: function render() {
+			var _props = this.props,
+			    icon = _props.icon,
+			    className = _props.className,
+			    color = _props.color,
+			    size = _props.size;
+
+			var path = void 0;
+
+			/* eslint-disable max-len */
+			switch (icon) {
+				case "angle-down":
+					path = "M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z";
+					break;
+				case "angle-left":
+					path = "M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z";
+					break;
+				case "angle-right":
+					path = "M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z";
+					break;
+				case "angle-up":
+					path = "M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z";
+					break;
+				case "circle":
+					path = "M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z";
+					break;
+				case "edit":
+					path = "M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z";
+					break;
+				case "eye":
+					path = "M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z";
+					break;
+				case "file-text":
+					path = "M1596 380q28 28 48 76t20 88v1152q0 40-28 68t-68 28h-1344q-40 0-68-28t-28-68v-1600q0-40 28-68t68-28h896q40 0 88 20t76 48zm-444-244v376h376q-10-29-22-41l-313-313q-12-12-41-22zm384 1528v-1024h-416q-40 0-68-28t-28-68v-416h-768v1536h1280zm-1024-864q0-14 9-23t23-9h704q14 0 23 9t9 23v64q0 14-9 23t-23 9h-704q-14 0-23-9t-9-23v-64zm736 224q14 0 23 9t9 23v64q0 14-9 23t-23 9h-704q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h704zm0 256q14 0 23 9t9 23v64q0 14-9 23t-23 9h-704q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h704z";
+					break;
+				case "key":
+					path = "M832 512q0-80-56-136t-136-56-136 56-56 136q0 42 19 83-41-19-83-19-80 0-136 56t-56 136 56 136 136 56 136-56 56-136q0-42-19-83 41 19 83 19 80 0 136-56t56-136zm851 704q0 17-49 66t-66 49q-9 0-28.5-16t-36.5-33-38.5-40-24.5-26l-96 96 220 220q28 28 28 68 0 42-39 81t-81 39q-40 0-68-28l-671-671q-176 131-365 131-163 0-265.5-102.5t-102.5-265.5q0-160 95-313t248-248 313-95q163 0 265.5 102.5t102.5 265.5q0 189-131 365l355 355 96-96q-3-3-26-24.5t-40-38.5-33-36.5-16-28.5q0-17 49-66t66-49q13 0 23 10 6 6 46 44.5t82 79.5 86.5 86 73 78 28.5 41z";
+					break;
+				case "list":
+					path = "M384 1408q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm0-512q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm-1408-928q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm0-512v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5z";
+					break;
+				case "question-circle":
+					path = "M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z";
+					break;
+				case "search":
+					path = "M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z";
+					break;
+				case "times":
+					path = "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z";
+					break;
+			}
+			/* eslint-enable max-len */
+
+			if (!path) {
+				console.warn("Invalid icon name passed to the SvgIcon component.");
+				return null;
+			}
+
+			var iconClass = ["yoast-svg-icon", "yoast-svg-icon-" + icon, className].filter(Boolean).join(" ");
+
+			var StyledSvg = _styledComponents2.default.svg(_templateObject, function (props) {
+				return props.size;
+			}, function (props) {
+				return props.size;
+			});
+
+			return _react2.default.createElement(
+				StyledSvg,
+				{
+					"aria-hidden": true,
+					role: "img",
+					focusable: "false",
+					size: size,
+					className: iconClass,
+					xmlns: "http://www.w3.org/2000/svg",
+					viewBox: "0 0 1792 1792",
+					fill: color
+				},
+				_react2.default.createElement("path", { d: path })
+			);
+		}
+		/* eslint-enable complexity */
+
+	}]);
+
+	return SvgIcon;
+}(_react2.default.Component);
+
+exports.default = SvgIcon;
+
+
+SvgIcon.propTypes = {
+	icon: _propTypes2.default.string.isRequired,
+	color: _propTypes2.default.string,
+	size: _propTypes2.default.string,
+	className: _propTypes2.default.string
+};
+
+SvgIcon.defaultProps = {
+	size: "16px"
+};
+
+/***/ }),
+/* 67 */,
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseGetTag = __webpack_require__(18),
+    isObject = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -4597,7 +4831,7 @@ function isFunction(value) {
 module.exports = isFunction;
 
 /***/ }),
-/* 65 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4623,14 +4857,14 @@ function isPrototype(value) {
 module.exports = isPrototype;
 
 /***/ }),
-/* 66 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIsArguments = __webpack_require__(305),
-    isObjectLike = __webpack_require__(14);
+var baseIsArguments = __webpack_require__(325),
+    isObjectLike = __webpack_require__(13);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -4668,7 +4902,7 @@ var isArguments = baseIsArguments(function () {
 module.exports = isArguments;
 
 /***/ }),
-/* 67 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4677,7 +4911,7 @@ module.exports = isArguments;
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var root = __webpack_require__(10),
-    stubFalse = __webpack_require__(306);
+    stubFalse = __webpack_require__(326);
 
 /** Detect free variable `exports`. */
 var freeExports = ( false ? 'undefined' : _typeof(exports)) == 'object' && exports && !exports.nodeType && exports;
@@ -4714,17 +4948,17 @@ var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
 var isBuffer = nativeIsBuffer || stubFalse;
 
 module.exports = isBuffer;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(49)(module)))
 
 /***/ }),
-/* 68 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayLikeKeys = __webpack_require__(153),
-    baseKeysIn = __webpack_require__(318),
+var arrayLikeKeys = __webpack_require__(166),
+    baseKeysIn = __webpack_require__(337),
     isArrayLike = __webpack_require__(22);
 
 /**
@@ -4757,14 +4991,237 @@ function keysIn(object) {
 module.exports = keysIn;
 
 /***/ }),
-/* 69 */,
-/* 70 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getNative = __webpack_require__(18),
+var isObject = __webpack_require__(8),
+    now = __webpack_require__(244),
+    toNumber = __webpack_require__(95);
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        result = wait - timeSinceLastCall;
+
+    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return lastCallTime === undefined || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+module.exports = debounce;
+
+/***/ }),
+/* 74 */,
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return !!length && (typeof value == 'number' || reIsUint.test(value)) && value > -1 && value % 1 == 0 && value < length;
+}
+
+module.exports = isIndex;
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getNative = __webpack_require__(21),
     root = __webpack_require__(10);
 
 /* Built-in method references that are verified to be native. */
@@ -4773,14 +5230,50 @@ var Map = getNative(root, 'Map');
 module.exports = Map;
 
 /***/ }),
-/* 71 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var castPath = __webpack_require__(44),
-    toKey = __webpack_require__(47);
+var baseToString = __webpack_require__(173);
+
+/**
+ * Converts `value` to a string. An empty string is returned for `null`
+ * and `undefined` values. The sign of `-0` is preserved.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ * @example
+ *
+ * _.toString(null);
+ * // => ''
+ *
+ * _.toString(-0);
+ * // => '-0'
+ *
+ * _.toString([1, 2, 3]);
+ * // => '1,2,3'
+ */
+function toString(value) {
+  return value == null ? '' : baseToString(value);
+}
+
+module.exports = toString;
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var castPath = __webpack_require__(46),
+    toKey = __webpack_require__(51);
 
 /**
  * The base implementation of `_.get` without support for default values.
@@ -4805,9 +5298,9 @@ function baseGet(object, path) {
 module.exports = baseGet;
 
 /***/ }),
-/* 72 */,
-/* 73 */,
-/* 74 */
+/* 79 */,
+/* 80 */,
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5086,376 +5579,78 @@ function isUndefined(arg) {
 }
 
 /***/ }),
-/* 75 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 82 */
+/***/ (function(module, exports) {
 
-"use strict";
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
 
-
-var isObject = __webpack_require__(7),
-    now = __webpack_require__(230),
-    toNumber = __webpack_require__(103);
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide `options` to indicate whether `func` should be invoked on the
- * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent
- * calls to the debounced function return the result of the last `func`
- * invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the debounced function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=false]
- *  Specify invoking on the leading edge of the timeout.
- * @param {number} [options.maxWait]
- *  The maximum time `func` is allowed to be delayed before it's invoked.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
-function debounce(func, wait, options) {
-  var lastArgs,
-      lastThis,
-      maxWait,
-      result,
-      timerId,
-      lastCallTime,
-      lastInvokeTime = 0,
-      leading = false,
-      maxing = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  wait = toNumber(wait) || 0;
-  if (isObject(options)) {
-    leading = !!options.leading;
-    maxing = 'maxWait' in options;
-    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function invokeFunc(time) {
-    var args = lastArgs,
-        thisArg = lastThis;
-
-    lastArgs = lastThis = undefined;
-    lastInvokeTime = time;
-    result = func.apply(thisArg, args);
-    return result;
-  }
-
-  function leadingEdge(time) {
-    // Reset any `maxWait` timer.
-    lastInvokeTime = time;
-    // Start the timer for the trailing edge.
-    timerId = setTimeout(timerExpired, wait);
-    // Invoke the leading edge.
-    return leading ? invokeFunc(time) : result;
-  }
-
-  function remainingWait(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime,
-        result = wait - timeSinceLastCall;
-
-    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
-  }
-
-  function shouldInvoke(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime;
-
-    // Either this is the first call, activity has stopped and we're at the
-    // trailing edge, the system time has gone backwards and we're treating
-    // it as the trailing edge, or we've hit the `maxWait` limit.
-    return lastCallTime === undefined || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
-  }
-
-  function timerExpired() {
-    var time = now();
-    if (shouldInvoke(time)) {
-      return trailingEdge(time);
-    }
-    // Restart the timer.
-    timerId = setTimeout(timerExpired, remainingWait(time));
-  }
-
-  function trailingEdge(time) {
-    timerId = undefined;
-
-    // Only invoke if we have `lastArgs` which means `func` has been
-    // debounced at least once.
-    if (trailing && lastArgs) {
-      return invokeFunc(time);
-    }
-    lastArgs = lastThis = undefined;
-    return result;
-  }
-
-  function cancel() {
-    if (timerId !== undefined) {
-      clearTimeout(timerId);
-    }
-    lastInvokeTime = 0;
-    lastArgs = lastCallTime = lastThis = timerId = undefined;
-  }
-
-  function flush() {
-    return timerId === undefined ? result : trailingEdge(now());
-  }
-
-  function debounced() {
-    var time = now(),
-        isInvoking = shouldInvoke(time);
-
-    lastArgs = arguments;
-    lastThis = this;
-    lastCallTime = time;
-
-    if (isInvoking) {
-      if (timerId === undefined) {
-        return leadingEdge(lastCallTime);
-      }
-      if (maxing) {
-        // Handle invocations in a tight loop.
-        timerId = setTimeout(timerExpired, wait);
-        return invokeFunc(lastCallTime);
-      }
-    }
-    if (timerId === undefined) {
-      timerId = setTimeout(timerExpired, wait);
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  debounced.flush = flush;
-  return debounced;
-}
-
-module.exports = debounce;
+/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 76 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _templateObject = _taggedTemplateLiteral(["\n\t\t\twidth: ", ";\n\t\t\theight: ", ";\n\t\t\tflex: none;\n\t\t"], ["\n\t\t\twidth: ", ";\n\t\t\theight: ", ";\n\t\t\tflex: none;\n\t\t"]);
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _styledComponents = __webpack_require__(6);
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
+/** @module stringProcessing/addWordboundary */
 /**
- * Returns the SvgIcon component.
+ * Returns a string that can be used in a regex to match a matchString with word boundaries.
  *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} SvgIcon component.
+ * @param {string} matchString The string to generate a regex string for.
+ * @param {boolean} [positiveLookAhead] Boolean indicating whether or not to include a positive look ahead
+ * for the word boundaries at the end.
+ * @param {string} [extraWordBoundary] Extra characters to match a word boundary on.
+ * @returns {string} A regex string that matches the matchString with word boundaries.
  */
-var SvgIcon = function (_React$Component) {
-	_inherits(SvgIcon, _React$Component);
 
-	/**
-  * Constructor for the component.
-  *
-  * @param {Object} props The props to assign to the current component.
-  *
-  * @constructor
-  */
-	function SvgIcon(props) {
-		_classCallCheck(this, SvgIcon);
+module.exports = function (matchString) {
+    var positiveLookAhead = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var extraWordBoundary = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
 
-		return _possibleConstructorReturn(this, (SvgIcon.__proto__ || Object.getPrototypeOf(SvgIcon)).call(this, props));
-	}
-
-	/* eslint-disable complexity */
-
-
-	_createClass(SvgIcon, [{
-		key: "render",
-		value: function render() {
-			var _props = this.props,
-			    icon = _props.icon,
-			    className = _props.className,
-			    color = _props.color,
-			    size = _props.size;
-
-			var path = void 0;
-
-			/* eslint-disable max-len */
-			switch (icon) {
-				case "angle-down":
-					path = "M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z";
-					break;
-				case "angle-left":
-					path = "M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z";
-					break;
-				case "angle-right":
-					path = "M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z";
-					break;
-				case "angle-up":
-					path = "M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z";
-					break;
-				case "circle":
-					path = "M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z";
-					break;
-				case "edit":
-					path = "M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z";
-					break;
-				case "eye":
-					path = "M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z";
-					break;
-				case "file-text":
-					path = "M1596 380q28 28 48 76t20 88v1152q0 40-28 68t-68 28h-1344q-40 0-68-28t-28-68v-1600q0-40 28-68t68-28h896q40 0 88 20t76 48zm-444-244v376h376q-10-29-22-41l-313-313q-12-12-41-22zm384 1528v-1024h-416q-40 0-68-28t-28-68v-416h-768v1536h1280zm-1024-864q0-14 9-23t23-9h704q14 0 23 9t9 23v64q0 14-9 23t-23 9h-704q-14 0-23-9t-9-23v-64zm736 224q14 0 23 9t9 23v64q0 14-9 23t-23 9h-704q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h704zm0 256q14 0 23 9t9 23v64q0 14-9 23t-23 9h-704q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h704z";
-					break;
-				case "key":
-					path = "M832 512q0-80-56-136t-136-56-136 56-56 136q0 42 19 83-41-19-83-19-80 0-136 56t-56 136 56 136 136 56 136-56 56-136q0-42-19-83 41 19 83 19 80 0 136-56t56-136zm851 704q0 17-49 66t-66 49q-9 0-28.5-16t-36.5-33-38.5-40-24.5-26l-96 96 220 220q28 28 28 68 0 42-39 81t-81 39q-40 0-68-28l-671-671q-176 131-365 131-163 0-265.5-102.5t-102.5-265.5q0-160 95-313t248-248 313-95q163 0 265.5 102.5t102.5 265.5q0 189-131 365l355 355 96-96q-3-3-26-24.5t-40-38.5-33-36.5-16-28.5q0-17 49-66t66-49q13 0 23 10 6 6 46 44.5t82 79.5 86.5 86 73 78 28.5 41z";
-					break;
-				case "list":
-					path = "M384 1408q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm0-512q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm-1408-928q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm0-512v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5z";
-					break;
-				case "question-circle":
-					path = "M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z";
-					break;
-				case "search":
-					path = "M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z";
-					break;
-				case "times":
-					path = "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z";
-					break;
-			}
-			/* eslint-enable max-len */
-
-			if (!path) {
-				console.warn("Invalid icon name passed to the SvgIcon component.");
-				return null;
-			}
-
-			var iconClass = ["yoast-svg-icon", "yoast-svg-icon-" + icon, className].filter(Boolean).join(" ");
-
-			var StyledSvg = _styledComponents2.default.svg(_templateObject, function (props) {
-				return props.size;
-			}, function (props) {
-				return props.size;
-			});
-
-			return _react2.default.createElement(
-				StyledSvg,
-				{
-					"aria-hidden": true,
-					role: "img",
-					focusable: "false",
-					size: size,
-					className: iconClass,
-					xmlns: "http://www.w3.org/2000/svg",
-					viewBox: "0 0 1792 1792",
-					fill: color
-				},
-				_react2.default.createElement("path", { d: path })
-			);
-		}
-		/* eslint-enable complexity */
-
-	}]);
-
-	return SvgIcon;
-}(_react2.default.Component);
-
-exports.default = SvgIcon;
-
-
-SvgIcon.propTypes = {
-	icon: _propTypes2.default.string.isRequired,
-	color: _propTypes2.default.string,
-	size: _propTypes2.default.string,
-	className: _propTypes2.default.string
+    var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
+    wordBoundary = "[ \\u00a0\xA0\\n\\r\\t.,'()\"+-;!?:/\xBB\xAB\u2039\u203A" + extraWordBoundary + "<>]";
+    wordBoundaryStart = "(^|" + wordBoundary + ")";
+    if (positiveLookAhead) {
+        wordBoundary = "(?=" + wordBoundary + ")";
+    }
+    wordBoundaryEnd = "($|" + wordBoundary + ")";
+    return wordBoundaryStart + matchString + wordBoundaryEnd;
 };
-
-SvgIcon.defaultProps = {
-	size: "16px"
-};
+//# sourceMappingURL=addWordboundary.js.map
+//# sourceMappingURL=addWordboundary.js.map
 
 /***/ }),
-/* 77 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Parser = __webpack_require__(364),
-    DomHandler = __webpack_require__(552);
+var baseForOwn = __webpack_require__(367),
+    createBaseEach = __webpack_require__(369);
+
+/**
+ * The base implementation of `_.forEach` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ */
+var baseEach = createBaseEach(baseForOwn);
+
+module.exports = baseEach;
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Parser = __webpack_require__(398),
+    DomHandler = __webpack_require__(571);
 
 function defineProp(name, value) {
 	delete module.exports[name];
@@ -5465,26 +5660,26 @@ function defineProp(name, value) {
 
 module.exports = {
 	Parser: Parser,
-	Tokenizer: __webpack_require__(365),
-	ElementType: __webpack_require__(108),
+	Tokenizer: __webpack_require__(399),
+	ElementType: __webpack_require__(118),
 	DomHandler: DomHandler,
 	get FeedHandler() {
-		return defineProp("FeedHandler", __webpack_require__(554));
+		return defineProp("FeedHandler", __webpack_require__(573));
 	},
 	get Stream() {
-		return defineProp("Stream", __webpack_require__(555));
+		return defineProp("Stream", __webpack_require__(574));
 	},
 	get WritableStream() {
-		return defineProp("WritableStream", __webpack_require__(369));
+		return defineProp("WritableStream", __webpack_require__(403));
 	},
 	get ProxyHandler() {
-		return defineProp("ProxyHandler", __webpack_require__(570));
+		return defineProp("ProxyHandler", __webpack_require__(589));
 	},
 	get DomUtils() {
-		return defineProp("DomUtils", __webpack_require__(571));
+		return defineProp("DomUtils", __webpack_require__(590));
 	},
 	get CollectingHandler() {
-		return defineProp("CollectingHandler", __webpack_require__(583));
+		return defineProp("CollectingHandler", __webpack_require__(602));
 	},
 	// For legacy support
 	DefaultHandler: DomHandler,
@@ -5524,16 +5719,16 @@ module.exports = {
 };
 
 /***/ }),
-/* 78 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/matchTextWithWord */
 
-var stripSomeTags = __webpack_require__(376);
-var unifyWhitespace = __webpack_require__(358).unifyAllSpaces;
-var matchStringWithTransliteration = __webpack_require__(238);
+var stripSomeTags = __webpack_require__(410);
+var unifyWhitespace = __webpack_require__(393).unifyAllSpaces;
+var matchStringWithTransliteration = __webpack_require__(261);
 /**
  * Returns the number of matches in a given string
  *
@@ -5553,15 +5748,15 @@ module.exports = function (text, wordToMatch, locale, extraBoundary) {
 //# sourceMappingURL=matchTextWithWord.js.map
 
 /***/ }),
-/* 79 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/createRegexFromArray */
 
-var addWordBoundary = __webpack_require__(107);
-var map = __webpack_require__(8);
+var addWordBoundary = __webpack_require__(83);
+var map = __webpack_require__(9);
 /**
  * Creates a regex of combined strings from the input array.
  *
@@ -5585,14 +5780,14 @@ module.exports = function (array, disableWordBoundary) {
 //# sourceMappingURL=createRegexFromArray.js.map
 
 /***/ }),
-/* 80 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var indexOf = __webpack_require__(701);
-var getLanguage = __webpack_require__(46);
+var indexOf = __webpack_require__(717);
+var getLanguage = __webpack_require__(35);
 /**
  * Checks whether the language of the locale is available.
  *
@@ -5608,16 +5803,16 @@ module.exports = function (locale, languages) {
 //# sourceMappingURL=getLanguageAvailability.js.map
 
 /***/ }),
-/* 81 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var apply = __webpack_require__(120),
-    baseRest = __webpack_require__(56),
-    customDefaultsMerge = __webpack_require__(716),
-    mergeWith = __webpack_require__(717);
+var apply = __webpack_require__(100),
+    baseRest = __webpack_require__(57),
+    customDefaultsMerge = __webpack_require__(732),
+    mergeWith = __webpack_require__(733);
 
 /**
  * This method is like `_.defaults` except that it recursively assigns
@@ -5646,7 +5841,7 @@ var defaultsDeep = baseRest(function (args) {
 module.exports = defaultsDeep;
 
 /***/ }),
-/* 82 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5674,46 +5869,40 @@ function getL10nObject() {
 module.exports = getL10nObject;
 
 /***/ }),
-/* 83 */,
-/* 84 */
+/* 91 */,
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/** Used to detect unsigned integer values. */
-var reIsUint = /^(?:0|[1-9]\d*)$/;
 
 /**
- * Checks if `value` is a valid array-like index.
+ * The base implementation of `_.unary` without support for storing metadata.
  *
  * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ * @param {Function} func The function to cap arguments for.
+ * @returns {Function} Returns the new capped function.
  */
-function isIndex(value, length) {
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return !!length && (typeof value == 'number' || reIsUint.test(value)) && value > -1 && value % 1 == 0 && value < length;
+function baseUnary(func) {
+  return function (value) {
+    return func(value);
+  };
 }
 
-module.exports = isIndex;
+module.exports = baseUnary;
 
 /***/ }),
-/* 85 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var mapCacheClear = __webpack_require__(182),
-    mapCacheDelete = __webpack_require__(189),
-    mapCacheGet = __webpack_require__(191),
-    mapCacheHas = __webpack_require__(192),
-    mapCacheSet = __webpack_require__(193);
+var mapCacheClear = __webpack_require__(201),
+    mapCacheDelete = __webpack_require__(208),
+    mapCacheGet = __webpack_require__(210),
+    mapCacheHas = __webpack_require__(211),
+    mapCacheSet = __webpack_require__(212);
 
 /**
  * Creates a map cache object to store key-value pairs.
@@ -5743,24 +5932,178 @@ MapCache.prototype.set = mapCacheSet;
 module.exports = MapCache;
 
 /***/ }),
-/* 86 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Researcher = __webpack_require__(234);
-var MissingArgument = __webpack_require__(133);
-var removeDuplicateMarks = __webpack_require__(696);
-var AssessmentResult = __webpack_require__(4);
-var showTrace = __webpack_require__(700).showTrace;
+var isObject = __webpack_require__(8);
+
+/** Built-in value references. */
+var objectCreate = Object.create;
+
+/**
+ * The base implementation of `_.create` without support for assigning
+ * properties to the created object.
+ *
+ * @private
+ * @param {Object} proto The object to inherit from.
+ * @returns {Object} Returns the new object.
+ */
+var baseCreate = function () {
+  function object() {}
+  return function (proto) {
+    if (!isObject(proto)) {
+      return {};
+    }
+    if (objectCreate) {
+      return objectCreate(proto);
+    }
+    object.prototype = proto;
+    var result = new object();
+    object.prototype = undefined;
+    return result;
+  };
+}();
+
+module.exports = baseCreate;
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isObject = __webpack_require__(8),
+    isSymbol = __webpack_require__(34);
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? other + '' : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
+}
+
+module.exports = toNumber;
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var toFinite = __webpack_require__(253);
+
+/**
+ * Converts `value` to an integer.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {number} Returns the converted integer.
+ * @example
+ *
+ * _.toInteger(3.2);
+ * // => 3
+ *
+ * _.toInteger(Number.MIN_VALUE);
+ * // => 0
+ *
+ * _.toInteger(Infinity);
+ * // => 1.7976931348623157e+308
+ *
+ * _.toInteger('3.2');
+ * // => 3
+ */
+function toInteger(value) {
+  var result = toFinite(value),
+      remainder = result % 1;
+
+  return result === result ? remainder ? result - remainder : result : 0;
+}
+
+module.exports = toInteger;
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Researcher = __webpack_require__(258);
+var MissingArgument = __webpack_require__(148);
+var removeDuplicateMarks = __webpack_require__(712);
+var AssessmentResult = __webpack_require__(5);
+var showTrace = __webpack_require__(716).showTrace;
 var isUndefined = __webpack_require__(3);
-var isFunction = __webpack_require__(64);
+var isFunction = __webpack_require__(68);
 var forEach = __webpack_require__(2);
-var filter = __webpack_require__(16);
-var map = __webpack_require__(8);
-var findIndex = __webpack_require__(140);
-var find = __webpack_require__(246);
+var filter = __webpack_require__(17);
+var map = __webpack_require__(9);
+var findIndex = __webpack_require__(155);
+var find = __webpack_require__(269);
 var ScoreRating = 9;
 /**
  * Creates the Assessor.
@@ -6004,15 +6347,15 @@ module.exports = Assessor;
 //# sourceMappingURL=assessor.js.map
 
 /***/ }),
-/* 87 */,
-/* 88 */
+/* 98 */,
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseAssignValue = __webpack_require__(112),
-    eq = __webpack_require__(40);
+var baseAssignValue = __webpack_require__(123),
+    eq = __webpack_require__(42);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -6040,15 +6383,48 @@ function assignValue(object, key, value) {
 module.exports = assignValue;
 
 /***/ }),
-/* 89 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIsTypedArray = __webpack_require__(307),
-    baseUnary = __webpack_require__(90),
-    nodeUtil = __webpack_require__(308);
+/**
+ * A faster alternative to `Function#apply`, this function invokes `func`
+ * with the `this` binding of `thisArg` and the arguments of `args`.
+ *
+ * @private
+ * @param {Function} func The function to invoke.
+ * @param {*} thisArg The `this` binding of `func`.
+ * @param {Array} args The arguments to invoke `func` with.
+ * @returns {*} Returns the result of `func`.
+ */
+function apply(func, thisArg, args) {
+  switch (args.length) {
+    case 0:
+      return func.call(thisArg);
+    case 1:
+      return func.call(thisArg, args[0]);
+    case 2:
+      return func.call(thisArg, args[0], args[1]);
+    case 3:
+      return func.call(thisArg, args[0], args[1], args[2]);
+  }
+  return func.apply(thisArg, args);
+}
+
+module.exports = apply;
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseIsTypedArray = __webpack_require__(327),
+    baseUnary = __webpack_require__(92),
+    nodeUtil = __webpack_require__(299);
 
 /* Node.js helper references. */
 var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
@@ -6075,40 +6451,18 @@ var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedA
 module.exports = isTypedArray;
 
 /***/ }),
-/* 90 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-/**
- * The base implementation of `_.unary` without support for storing metadata.
- *
- * @private
- * @param {Function} func The function to cap arguments for.
- * @returns {Function} Returns the new capped function.
- */
-function baseUnary(func) {
-  return function (value) {
-    return func(value);
-  };
-}
-
-module.exports = baseUnary;
-
-/***/ }),
-/* 91 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var ListCache = __webpack_require__(55),
-    stackClear = __webpack_require__(311),
-    stackDelete = __webpack_require__(312),
-    stackGet = __webpack_require__(313),
-    stackHas = __webpack_require__(314),
-    stackSet = __webpack_require__(315);
+var ListCache = __webpack_require__(58),
+    stackClear = __webpack_require__(330),
+    stackDelete = __webpack_require__(331),
+    stackGet = __webpack_require__(332),
+    stackHas = __webpack_require__(333),
+    stackSet = __webpack_require__(334);
 
 /**
  * Creates a stack cache object to store key-value pairs.
@@ -6132,14 +6486,42 @@ Stack.prototype.set = stackSet;
 module.exports = Stack;
 
 /***/ }),
-/* 92 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayFilter = __webpack_require__(122),
-    stubArray = __webpack_require__(155);
+/**
+ * Copies the values of `source` to `array`.
+ *
+ * @private
+ * @param {Array} source The array to copy values from.
+ * @param {Array} [array=[]] The array to copy values to.
+ * @returns {Array} Returns `array`.
+ */
+function copyArray(source, array) {
+  var index = -1,
+      length = source.length;
+
+  array || (array = Array(length));
+  while (++index < length) {
+    array[index] = source[index];
+  }
+  return array;
+}
+
+module.exports = copyArray;
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var arrayFilter = __webpack_require__(136),
+    stubArray = __webpack_require__(168);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -6170,7 +6552,7 @@ var getSymbols = !nativeGetSymbols ? stubArray : function (object) {
 module.exports = getSymbols;
 
 /***/ }),
-/* 93 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6198,13 +6580,13 @@ function arrayPush(array, values) {
 module.exports = arrayPush;
 
 /***/ }),
-/* 94 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var overArg = __webpack_require__(154);
+var overArg = __webpack_require__(167);
 
 /** Built-in value references. */
 var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -6212,13 +6594,13 @@ var getPrototype = overArg(Object.getPrototypeOf, Object);
 module.exports = getPrototype;
 
 /***/ }),
-/* 95 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Uint8Array = __webpack_require__(199);
+var Uint8Array = __webpack_require__(216);
 
 /**
  * Creates a clone of `arrayBuffer`.
@@ -6236,7 +6618,7 @@ function cloneArrayBuffer(arrayBuffer) {
 module.exports = cloneArrayBuffer;
 
 /***/ }),
-/* 96 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6262,7 +6644,7 @@ function setToArray(set) {
 module.exports = setToArray;
 
 /***/ }),
-/* 97 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6270,8 +6652,8 @@ module.exports = setToArray;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var isArray = __webpack_require__(5),
-    isSymbol = __webpack_require__(31);
+var isArray = __webpack_require__(4),
+    isSymbol = __webpack_require__(34);
 
 /** Used to match property names within property paths. */
 var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
@@ -6299,50 +6681,14 @@ function isKey(value, object) {
 module.exports = isKey;
 
 /***/ }),
-/* 98 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseToString = __webpack_require__(205);
-
-/**
- * Converts `value` to a string. An empty string is returned for `null`
- * and `undefined` values. The sign of `-0` is preserved.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- * @example
- *
- * _.toString(null);
- * // => ''
- *
- * _.toString(-0);
- * // => '-0'
- *
- * _.toString([1, 2, 3]);
- * // => '1,2,3'
- */
-function toString(value) {
-  return value == null ? '' : baseToString(value);
-}
-
-module.exports = toString;
-
-/***/ }),
-/* 99 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var arrayPush = __webpack_require__(93),
-    isFlattenable = __webpack_require__(337);
+var arrayPush = __webpack_require__(105),
+    isFlattenable = __webpack_require__(356);
 
 /**
  * The base implementation of `_.flatten` with support for restricting flattening.
@@ -6381,8 +6727,8 @@ function baseFlatten(array, depth, predicate, isStrict, result) {
 module.exports = baseFlatten;
 
 /***/ }),
-/* 100 */,
-/* 101 */
+/* 111 */,
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6390,11 +6736,11 @@ module.exports = baseFlatten;
 
 
 
-var IntlMessageFormat = __webpack_require__(212)['default'];
+var IntlMessageFormat = __webpack_require__(226)['default'];
 
 // Add all locale data to `IntlMessageFormat`. This module will be ignored when
 // bundling for the browser with Browserify/Webpack.
-__webpack_require__(219);
+__webpack_require__(233);
 
 // Re-export `IntlMessageFormat` as the CommonJS default exports with all the
 // locale data registered, and with English set as the default locale. Define
@@ -6403,7 +6749,7 @@ exports = module.exports = IntlMessageFormat;
 exports['default'] = exports;
 
 /***/ }),
-/* 102 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6447,110 +6793,62 @@ exports.hop = hop;
 //# sourceMappingURL=utils.js.map
 
 /***/ }),
-/* 103 */
+/* 114 */,
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isObject = __webpack_require__(7),
-    isSymbol = __webpack_require__(31);
+var baseCreate = __webpack_require__(94),
+    baseLodash = __webpack_require__(116);
 
-/** Used as references for various `Number` constants. */
-var NAN = 0 / 0;
-
-/** Used to match leading and trailing whitespace. */
-var reTrim = /^\s+|\s+$/g;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
+/** Used as references for the maximum length and index of an array. */
+var MAX_ARRAY_LENGTH = 4294967295;
 
 /**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3.2);
- * // => 3.2
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3.2');
- * // => 3.2
- */
-function toNumber(value) {
-  if (typeof value == 'number') {
-    return value;
-  }
-  if (isSymbol(value)) {
-    return NAN;
-  }
-  if (isObject(value)) {
-    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-    value = isObject(other) ? other + '' : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = value.replace(reTrim, '');
-  var isBinary = reIsBinary.test(value);
-  return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
-}
-
-module.exports = toNumber;
-
-/***/ }),
-/* 104 */
-/***/ (function(module, exports) {
-
-/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
-module.exports = __webpack_amd_options__;
-
-/* WEBPACK VAR INJECTION */}.call(exports, {}))
-
-/***/ }),
-/* 105 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseForOwn = __webpack_require__(533),
-    createBaseEach = __webpack_require__(535);
-
-/**
- * The base implementation of `_.forEach` without support for iteratee shorthands.
+ * Creates a lazy wrapper object which wraps `value` to enable lazy evaluation.
  *
  * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array|Object} Returns `collection`.
+ * @constructor
+ * @param {*} value The value to wrap.
  */
-var baseEach = createBaseEach(baseForOwn);
+function LazyWrapper(value) {
+  this.__wrapped__ = value;
+  this.__actions__ = [];
+  this.__dir__ = 1;
+  this.__filtered__ = false;
+  this.__iteratees__ = [];
+  this.__takeCount__ = MAX_ARRAY_LENGTH;
+  this.__views__ = [];
+}
 
-module.exports = baseEach;
+// Ensure `LazyWrapper` is an instance of `baseLodash`.
+LazyWrapper.prototype = baseCreate(baseLodash.prototype);
+LazyWrapper.prototype.constructor = LazyWrapper;
+
+module.exports = LazyWrapper;
 
 /***/ }),
-/* 106 */
+/* 116 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * The function whose prototype chain sequence wrappers inherit from.
+ *
+ * @private
+ */
+function baseLodash() {
+  // No operation performed.
+}
+
+module.exports = baseLodash;
+
+/***/ }),
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6592,40 +6890,7 @@ module.exports = {
 //# sourceMappingURL=quotes.js.map
 
 /***/ }),
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/** @module stringProcessing/addWordboundary */
-/**
- * Returns a string that can be used in a regex to match a matchString with word boundaries.
- *
- * @param {string} matchString The string to generate a regex string for.
- * @param {boolean} [positiveLookAhead] Boolean indicating whether or not to include a positive look ahead
- * for the word boundaries at the end.
- * @param {string} [extraWordBoundary] Extra characters to match a word boundary on.
- * @returns {string} A regex string that matches the matchString with word boundaries.
- */
-
-module.exports = function (matchString) {
-    var positiveLookAhead = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-    var extraWordBoundary = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
-
-    var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
-    wordBoundary = "[ \\u00a0\xA0\\n\\r\\t.,'()\"+-;!?:/\xBB\xAB\u2039\u203A" + extraWordBoundary + "<>]";
-    wordBoundaryStart = "(^|" + wordBoundary + ")";
-    if (positiveLookAhead) {
-        wordBoundary = "(?=" + wordBoundary + ")";
-    }
-    wordBoundaryEnd = "($|" + wordBoundary + ")";
-    return wordBoundaryStart + matchString + wordBoundaryEnd;
-};
-//# sourceMappingURL=addWordboundary.js.map
-//# sourceMappingURL=addWordboundary.js.map
-
-/***/ }),
-/* 108 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6648,7 +6913,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 109 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6759,10 +7024,10 @@ exports.isBuffer = Buffer.isBuffer;
 function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(243).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(266).Buffer))
 
 /***/ }),
-/* 110 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6783,7 +7048,7 @@ module.exports = function (number) {
 //# sourceMappingURL=formatNumber.js.map
 
 /***/ }),
-/* 111 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6814,13 +7079,62 @@ module.exports = function () {
 //# sourceMappingURL=auxiliaries.js.map
 
 /***/ }),
-/* 112 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defineProperty = __webpack_require__(150);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.rgba = rgba;
+/**
+ * Converts a hexadecimal color notation in a RGB notation.
+ *
+ * @param {string} hexColor The color in hex notation: ‘#’ followed by either three or six hexadecimal characters.
+ *
+ * @returns {string} The color in RGB notation.
+ */
+function parseToRgb(hexColor) {
+	if (typeof hexColor !== "string") {
+		throw new Error("Please pass a string representation of a color in hex notation.");
+	}
+
+	var hexRegex = /^#[a-fA-F0-9]{6}$/;
+	var shortHexRegex = /^#[a-fA-F0-9]{3}$/;
+
+	if (hexColor.match(hexRegex)) {
+		return parseInt("" + hexColor[1] + hexColor[2], 16) + ", " + parseInt("" + hexColor[3] + hexColor[4], 16) + ", " + parseInt("" + hexColor[5] + hexColor[6], 16);
+	}
+
+	if (hexColor.match(shortHexRegex)) {
+		return parseInt("" + hexColor[1] + hexColor[1], 16) + ", " + parseInt("" + hexColor[2] + hexColor[2], 16) + ", " + parseInt(" " + hexColor[3] + hexColor[3], 16);
+	}
+
+	throw new Error("Couldn't parse the color string. Please provide the color as a string in hex notation.");
+}
+
+/**
+ * Returns a CSS color in RGBA format.
+ *
+ * @param {string}        hexColor The color in hex notation: ‘#’ followed by either three or six hexadecimal characters.
+ * @param {string|number} alpha    The alpha opacity value for the color, in a range from 0.0 to 1.0.
+ *
+ * @returns {string} The CSS color formatted as a RGBA value.
+ */
+function rgba(hexColor, alpha) {
+	return "rgba( " + parseToRgb(hexColor) + ", " + alpha + " )";
+}
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var defineProperty = __webpack_require__(164);
 
 /**
  * The base implementation of `assignValue` and `assignMergeValue` without
@@ -6847,7 +7161,7 @@ function baseAssignValue(object, key, value) {
 module.exports = baseAssignValue;
 
 /***/ }),
-/* 113 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6859,10 +7173,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var freeGlobal = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) == 'object' && global && global.Object === Object && global;
 
 module.exports = freeGlobal;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 114 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6896,7 +7210,7 @@ function toSource(func) {
 module.exports = toSource;
 
 /***/ }),
-/* 115 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6938,7 +7252,7 @@ function isLength(value) {
 module.exports = isLength;
 
 /***/ }),
-/* 116 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6972,16 +7286,123 @@ function arrayReduce(array, iteratee, accumulator, initAccum) {
 module.exports = arrayReduce;
 
 /***/ }),
-/* 117 */,
-/* 118 */,
-/* 119 */
+/* 128 */,
+/* 129 */,
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseRest = __webpack_require__(56),
-    isIterateeCall = __webpack_require__(173);
+var baseCreate = __webpack_require__(94),
+    baseLodash = __webpack_require__(116);
+
+/**
+ * The base constructor for creating `lodash` wrapper objects.
+ *
+ * @private
+ * @param {*} value The value to wrap.
+ * @param {boolean} [chainAll] Enable explicit method chain sequences.
+ */
+function LodashWrapper(value, chainAll) {
+  this.__wrapped__ = value;
+  this.__actions__ = [];
+  this.__chain__ = !!chainAll;
+  this.__index__ = 0;
+  this.__values__ = undefined;
+}
+
+LodashWrapper.prototype = baseCreate(baseLodash.prototype);
+LodashWrapper.prototype.constructor = LodashWrapper;
+
+module.exports = LodashWrapper;
+
+/***/ }),
+/* 131 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var emptyFunction = __webpack_require__(48);
+var invariant = __webpack_require__(59);
+var ReactPropTypesSecret = __webpack_require__(132);
+
+module.exports = function () {
+  function shim(props, propName, componentName, location, propFullName, secret) {
+    if (secret === ReactPropTypesSecret) {
+      // It is still safe when called from React.
+      return;
+    }
+    invariant(false, 'Calling PropTypes validators directly is not supported by the `prop-types` package. ' + 'Use PropTypes.checkPropTypes() to call them. ' + 'Read more at http://fb.me/use-check-prop-types');
+  };
+  shim.isRequired = shim;
+  function getShim() {
+    return shim;
+  };
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
+  var ReactPropTypes = {
+    array: shim,
+    bool: shim,
+    func: shim,
+    number: shim,
+    object: shim,
+    string: shim,
+    symbol: shim,
+
+    any: shim,
+    arrayOf: getShim,
+    element: shim,
+    instanceOf: getShim,
+    node: shim,
+    objectOf: getShim,
+    oneOf: getShim,
+    oneOfType: getShim,
+    shape: getShim,
+    exact: getShim
+  };
+
+  ReactPropTypes.checkPropTypes = emptyFunction;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+/***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseRest = __webpack_require__(57),
+    isIterateeCall = __webpack_require__(192);
 
 /**
  * Creates a function like `_.assign`.
@@ -7017,68 +7438,59 @@ function createAssigner(assigner) {
 module.exports = createAssigner;
 
 /***/ }),
-/* 120 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+var baseSetToString = __webpack_require__(322),
+    shortOut = __webpack_require__(298);
+
 /**
- * A faster alternative to `Function#apply`, this function invokes `func`
- * with the `this` binding of `thisArg` and the arguments of `args`.
+ * Sets the `toString` method of `func` to return `string`.
  *
  * @private
- * @param {Function} func The function to invoke.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {Array} args The arguments to invoke `func` with.
- * @returns {*} Returns the result of `func`.
+ * @param {Function} func The function to modify.
+ * @param {Function} string The `toString` result.
+ * @returns {Function} Returns `func`.
  */
-function apply(func, thisArg, args) {
-  switch (args.length) {
-    case 0:
-      return func.call(thisArg);
-    case 1:
-      return func.call(thisArg, args[0]);
-    case 2:
-      return func.call(thisArg, args[0], args[1]);
-    case 3:
-      return func.call(thisArg, args[0], args[1], args[2]);
-  }
-  return func.apply(thisArg, args);
-}
+var setToString = shortOut(baseSetToString);
 
-module.exports = apply;
+module.exports = setToString;
 
 /***/ }),
-/* 121 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 /**
- * Copies the values of `source` to `array`.
+ * A specialized version of `_.forEach` for arrays without support for
+ * iteratee shorthands.
  *
  * @private
- * @param {Array} source The array to copy values from.
- * @param {Array} [array=[]] The array to copy values to.
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
  * @returns {Array} Returns `array`.
  */
-function copyArray(source, array) {
+function arrayEach(array, iteratee) {
   var index = -1,
-      length = source.length;
+      length = array == null ? 0 : array.length;
 
-  array || (array = Array(length));
   while (++index < length) {
-    array[index] = source[index];
+    if (iteratee(array[index], index, array) === false) {
+      break;
+    }
   }
   return array;
 }
 
-module.exports = copyArray;
+module.exports = arrayEach;
 
 /***/ }),
-/* 122 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7111,19 +7523,19 @@ function arrayFilter(array, predicate) {
 module.exports = arrayFilter;
 
 /***/ }),
-/* 123 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var DataView = __webpack_require__(322),
-    Map = __webpack_require__(70),
-    Promise = __webpack_require__(323),
-    Set = __webpack_require__(197),
-    WeakMap = __webpack_require__(198),
-    baseGetTag = __webpack_require__(17),
-    toSource = __webpack_require__(114);
+var DataView = __webpack_require__(341),
+    Map = __webpack_require__(76),
+    Promise = __webpack_require__(342),
+    Set = __webpack_require__(215),
+    WeakMap = __webpack_require__(172),
+    baseGetTag = __webpack_require__(18),
+    toSource = __webpack_require__(125);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -7178,53 +7590,15 @@ if (DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag || Map &
 module.exports = getTag;
 
 /***/ }),
-/* 124 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isObject = __webpack_require__(7);
-
-/** Built-in value references. */
-var objectCreate = Object.create;
-
-/**
- * The base implementation of `_.create` without support for assigning
- * properties to the created object.
- *
- * @private
- * @param {Object} proto The object to inherit from.
- * @returns {Object} Returns the new object.
- */
-var baseCreate = function () {
-  function object() {}
-  return function (proto) {
-    if (!isObject(proto)) {
-      return {};
-    }
-    if (objectCreate) {
-      return objectCreate(proto);
-    }
-    object.prototype = proto;
-    var result = new object();
-    object.prototype = undefined;
-    return result;
-  };
-}();
-
-module.exports = baseCreate;
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseGetTag = __webpack_require__(17),
-    getPrototype = __webpack_require__(94),
-    isObjectLike = __webpack_require__(14);
+var baseGetTag = __webpack_require__(18),
+    getPrototype = __webpack_require__(106),
+    isObjectLike = __webpack_require__(13);
 
 /** `Object#toString` result references. */
 var objectTag = '[object Object]';
@@ -7285,15 +7659,15 @@ function isPlainObject(value) {
 module.exports = isPlainObject;
 
 /***/ }),
-/* 126 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var flatten = __webpack_require__(207),
-    overRest = __webpack_require__(151),
-    setToString = __webpack_require__(152);
+var flatten = __webpack_require__(222),
+    overRest = __webpack_require__(165),
+    setToString = __webpack_require__(134);
 
 /**
  * A specialized version of `baseRest` which flattens the rest array.
@@ -7309,8 +7683,8 @@ function flatRest(func) {
 module.exports = flatRest;
 
 /***/ }),
-/* 127 */,
-/* 128 */
+/* 140 */,
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7364,89 +7738,236 @@ var invariant = function invariant(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 /***/ }),
-/* 129 */
+/* 142 */,
+/* 143 */,
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.rgba = rgba;
+var blockElements = ["address", "article", "aside", "blockquote", "canvas", "dd", "div", "dl", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main", "nav", "noscript", "ol", "output", "p", "pre", "section", "table", "tfoot", "ul", "video"];
+var inlineElements = ["b", "big", "i", "small", "tt", "abbr", "acronym", "cite", "code", "dfn", "em", "kbd", "strong", "samp", "time", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup", "button", "input", "label", "select", "textarea"];
+var blockElementsRegex = new RegExp("^(" + blockElements.join("|") + ")$", "i");
+var inlineElementsRegex = new RegExp("^(" + inlineElements.join("|") + ")$", "i");
+var blockElementStartRegex = new RegExp("^<(" + blockElements.join("|") + ")[^>]*?>$", "i");
+var blockElementEndRegex = new RegExp("^</(" + blockElements.join("|") + ")[^>]*?>$", "i");
+var inlineElementStartRegex = new RegExp("^<(" + inlineElements.join("|") + ")[^>]*>$", "i");
+var inlineElementEndRegex = new RegExp("^</(" + inlineElements.join("|") + ")[^>]*>$", "i");
+var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/;
+var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
+var contentRegex = /^[^<]+$/;
+var greaterThanContentRegex = /^<[^><]*$/;
+var commentRegex = /<!--(.|[\r\n])*?-->/g;
+var core = __webpack_require__(251);
+var forEach = __webpack_require__(2);
+var memoize = __webpack_require__(27);
+var tokens = [];
+var htmlBlockTokenizer;
 /**
- * Converts a hexadecimal color notation in a RGB notation.
+ * Creates a tokenizer to tokenize HTML into blocks.
  *
- * @param {string} hexColor The color in hex notation: ‘#’ followed by either three or six hexadecimal characters.
- *
- * @returns {string} The color in RGB notation.
+ * @returns {void}
  */
-function parseToRgb(hexColor) {
-	if (typeof hexColor !== "string") {
-		throw new Error("Please pass a string representation of a color in hex notation.");
-	}
-
-	var hexRegex = /^#[a-fA-F0-9]{6}$/;
-	var shortHexRegex = /^#[a-fA-F0-9]{3}$/;
-
-	if (hexColor.match(hexRegex)) {
-		return parseInt("" + hexColor[1] + hexColor[2], 16) + ", " + parseInt("" + hexColor[3] + hexColor[4], 16) + ", " + parseInt("" + hexColor[5] + hexColor[6], 16);
-	}
-
-	if (hexColor.match(shortHexRegex)) {
-		return parseInt("" + hexColor[1] + hexColor[1], 16) + ", " + parseInt("" + hexColor[2] + hexColor[2], 16) + ", " + parseInt(" " + hexColor[3] + hexColor[3], 16);
-	}
-
-	throw new Error("Couldn't parse the color string. Please provide the color as a string in hex notation.");
+function createTokenizer() {
+    tokens = [];
+    htmlBlockTokenizer = core(function (token) {
+        tokens.push(token);
+    });
+    htmlBlockTokenizer.addRule(contentRegex, "content");
+    htmlBlockTokenizer.addRule(greaterThanContentRegex, "greater-than-sign-content");
+    htmlBlockTokenizer.addRule(blockElementStartRegex, "block-start");
+    htmlBlockTokenizer.addRule(blockElementEndRegex, "block-end");
+    htmlBlockTokenizer.addRule(inlineElementStartRegex, "inline-start");
+    htmlBlockTokenizer.addRule(inlineElementEndRegex, "inline-end");
+    htmlBlockTokenizer.addRule(otherElementStartRegex, "other-element-start");
+    htmlBlockTokenizer.addRule(otherElementEndRegex, "other-element-end");
 }
-
 /**
- * Returns a CSS color in RGBA format.
+ * Returns whether or not the given element name is a block element.
  *
- * @param {string}        hexColor The color in hex notation: ‘#’ followed by either three or six hexadecimal characters.
- * @param {string|number} alpha    The alpha opacity value for the color, in a range from 0.0 to 1.0.
- *
- * @returns {string} The CSS color formatted as a RGBA value.
+ * @param {string} htmlElementName The name of the HTML element.
+ * @returns {boolean} Whether or not it is a block element.
  */
-function rgba(hexColor, alpha) {
-	return "rgba( " + parseToRgb(hexColor) + ", " + alpha + " )";
+function isBlockElement(htmlElementName) {
+    return blockElementsRegex.test(htmlElementName);
 }
+/**
+ * Returns whether or not the given element name is an inline element.
+ *
+ * @param {string} htmlElementName The name of the HTML element.
+ * @returns {boolean} Whether or not it is an inline element.
+ */
+function isInlineElement(htmlElementName) {
+    return inlineElementsRegex.test(htmlElementName);
+}
+/**
+ * Splits a text into blocks based on HTML block elements.
+ *
+ * @param {string} text The text to split.
+ * @returns {Array} A list of blocks based on HTML block elements.
+ */
+function getBlocks(text) {
+    var blocks = [],
+        depth = 0,
+        blockStartTag = "",
+        currentBlock = "",
+        blockEndTag = "";
+    // Remove all comments because it is very hard to tokenize them.
+    text = text.replace(commentRegex, "");
+    createTokenizer();
+    htmlBlockTokenizer.onText(text);
+    htmlBlockTokenizer.end();
+    forEach(tokens, function (token, i) {
+        var nextToken = tokens[i + 1];
+        switch (token.type) {
+            case "content":
+            case "greater-than-sign-content":
+            case "inline-start":
+            case "inline-end":
+            case "other-tag":
+            case "other-element-start":
+            case "other-element-end":
+            case "greater than sign":
+                if (!nextToken || depth === 0 && (nextToken.type === "block-start" || nextToken.type === "block-end")) {
+                    currentBlock += token.src;
+                    blocks.push(currentBlock);
+                    blockStartTag = "";
+                    currentBlock = "";
+                    blockEndTag = "";
+                } else {
+                    currentBlock += token.src;
+                }
+                break;
+            case "block-start":
+                if (depth !== 0) {
+                    if (currentBlock.trim() !== "") {
+                        blocks.push(currentBlock);
+                    }
+                    currentBlock = "";
+                    blockEndTag = "";
+                }
+                depth++;
+                blockStartTag = token.src;
+                break;
+            case "block-end":
+                depth--;
+                blockEndTag = token.src;
+                /*
+                 * We try to match the most deep blocks so discard any other blocks that have been started but not
+                 * finished.
+                 */
+                if ("" !== blockStartTag && "" !== blockEndTag) {
+                    blocks.push(blockStartTag + currentBlock + blockEndTag);
+                } else if ("" !== currentBlock.trim()) {
+                    blocks.push(currentBlock);
+                }
+                blockStartTag = "";
+                currentBlock = "";
+                blockEndTag = "";
+                break;
+        }
+        // Handles HTML with too many closing tags.
+        if (depth < 0) {
+            depth = 0;
+        }
+    });
+    return blocks;
+}
+module.exports = {
+    blockElements: blockElements,
+    inlineElements: inlineElements,
+    isBlockElement: isBlockElement,
+    isInlineElement: isInlineElement,
+    getBlocks: memoize(getBlocks)
+};
+//# sourceMappingURL=html.js.map
+//# sourceMappingURL=html.js.map
 
 /***/ }),
-/* 130 */,
-/* 131 */,
-/* 132 */
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseIndexOf = __webpack_require__(146);
+
+/**
+ * A specialized version of `_.includes` for arrays without support for
+ * specifying an index to search from.
+ *
+ * @private
+ * @param {Array} [array] The array to inspect.
+ * @param {*} target The value to search for.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludes(array, value) {
+  var length = array == null ? 0 : array.length;
+  return !!length && baseIndexOf(array, value, 0) > -1;
+}
+
+module.exports = arrayIncludes;
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseFindIndex = __webpack_require__(256),
+    baseIsNaN = __webpack_require__(376),
+    strictIndexOf = __webpack_require__(377);
+
+/**
+ * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseIndexOf(array, value, fromIndex) {
+    return value === value ? strictIndexOf(array, value, fromIndex) : baseFindIndex(array, baseIsNaN, fromIndex);
+}
+
+module.exports = baseIndexOf;
+
+/***/ }),
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var plugins = {
-	usedKeywords: __webpack_require__(515)
+	usedKeywords: __webpack_require__(545)
 };
 
 var helpers = {
-	scoreToRating: __webpack_require__(134)
+	scoreToRating: __webpack_require__(149)
 };
 
 module.exports = {
-	Assessor: __webpack_require__(86),
-	SEOAssessor: __webpack_require__(264),
-	ContentAssessor: __webpack_require__(265),
-	App: __webpack_require__(720),
-	Pluggable: __webpack_require__(421),
-	Researcher: __webpack_require__(234),
-	SnippetPreview: __webpack_require__(418),
+	Assessor: __webpack_require__(97),
+	SEOAssessor: __webpack_require__(285),
+	ContentAssessor: __webpack_require__(286),
+	App: __webpack_require__(736),
+	Pluggable: __webpack_require__(449),
+	Researcher: __webpack_require__(258),
+	SnippetPreview: __webpack_require__(446),
 
-	Paper: __webpack_require__(422),
-	AssessmentResult: __webpack_require__(4),
+	Paper: __webpack_require__(450),
+	AssessmentResult: __webpack_require__(5),
 
 	bundledPlugins: plugins,
 	helpers: helpers
 };
 
 /***/ }),
-/* 133 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7457,12 +7978,12 @@ module.exports = function MissingArgumentError(message) {
     this.name = this.constructor.name;
     this.message = message;
 };
-__webpack_require__(15).inherits(module.exports, Error);
+__webpack_require__(16).inherits(module.exports, Error);
 //# sourceMappingURL=missingArgument.js.map
 //# sourceMappingURL=missingArgument.js.map
 
 /***/ }),
-/* 134 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7497,15 +8018,15 @@ module.exports = ScoreToRating;
 //# sourceMappingURL=scoreToRating.js.map
 
 /***/ }),
-/* 135 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var MapCache = __webpack_require__(85),
-    setCacheAdd = __webpack_require__(522),
-    setCacheHas = __webpack_require__(523);
+var MapCache = __webpack_require__(93),
+    setCacheAdd = __webpack_require__(552),
+    setCacheHas = __webpack_require__(553);
 
 /**
  *
@@ -7532,7 +8053,7 @@ SetCache.prototype.has = setCacheHas;
 module.exports = SetCache;
 
 /***/ }),
-/* 136 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7553,14 +8074,14 @@ function cacheHas(cache, key) {
 module.exports = cacheHas;
 
 /***/ }),
-/* 137 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseFlatten = __webpack_require__(99),
-    map = __webpack_require__(8);
+var baseFlatten = __webpack_require__(110),
+    map = __webpack_require__(9);
 
 /**
  * Creates a flattened array of values by running each element in `collection`
@@ -7590,7 +8111,7 @@ function flatMap(collection, iteratee) {
 module.exports = flatMap;
 
 /***/ }),
-/* 138 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7635,17 +8156,17 @@ function nextTick(fn, arg1, arg2, arg3) {
       });
   }
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(51)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(54)))
 
 /***/ }),
-/* 139 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 /* eslint-disable node/no-deprecated-api */
-var buffer = __webpack_require__(243);
+var buffer = __webpack_require__(266);
 var Buffer = buffer.Buffer;
 
 // alternative to using Object.keys for old browsers
@@ -7708,15 +8229,15 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 };
 
 /***/ }),
-/* 140 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseFindIndex = __webpack_require__(382),
-    baseIteratee = __webpack_require__(45),
-    toInteger = __webpack_require__(141);
+var baseFindIndex = __webpack_require__(256),
+    baseIteratee = __webpack_require__(47),
+    toInteger = __webpack_require__(96);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max;
@@ -7771,51 +8292,7 @@ function findIndex(array, predicate, fromIndex) {
 module.exports = findIndex;
 
 /***/ }),
-/* 141 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var toFinite = __webpack_require__(383);
-
-/**
- * Converts `value` to an integer.
- *
- * **Note:** This method is loosely based on
- * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {number} Returns the converted integer.
- * @example
- *
- * _.toInteger(3.2);
- * // => 3
- *
- * _.toInteger(Number.MIN_VALUE);
- * // => 0
- *
- * _.toInteger(Infinity);
- * // => 1.7976931348623157e+308
- *
- * _.toInteger('3.2');
- * // => 3
- */
-function toInteger(value) {
-  var result = toFinite(value),
-      remainder = result % 1;
-
-  return result === result ? remainder ? result - remainder : result : 0;
-}
-
-module.exports = toInteger;
-
-/***/ }),
-/* 142 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7882,19 +8359,19 @@ module.exports = SentencePart;
 //# sourceMappingURL=SentencePart.js.map
 
 /***/ }),
-/* 143 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWords = __webpack_require__(58);
-var matchParticiples = __webpack_require__(650)();
+var getWords = __webpack_require__(61);
+var matchParticiples = __webpack_require__(666)();
 var regularParticipleRegex = matchParticiples.regularParticiples;
 var irregularParticipleRegex = matchParticiples.irregularParticiples;
-var EnglishParticiple = __webpack_require__(653);
-var FrenchParticiple = __webpack_require__(660);
-var SpanishParticiple = __webpack_require__(661);
+var EnglishParticiple = __webpack_require__(669);
+var FrenchParticiple = __webpack_require__(676);
+var SpanishParticiple = __webpack_require__(677);
 var forEach = __webpack_require__(2);
 /**
  * Creates participle objects for the participles found in a sentence part.
@@ -7936,15 +8413,15 @@ module.exports = function (sentencePartText, auxiliaries, language) {
 //# sourceMappingURL=getParticiples.js.map
 
 /***/ }),
-/* 144 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getType = __webpack_require__(398).getType;
-var isSameType = __webpack_require__(398).isSameType;
-var defaults = __webpack_require__(253);
+var getType = __webpack_require__(427).getType;
+var isSameType = __webpack_require__(427).isSameType;
+var defaults = __webpack_require__(275);
 var forEach = __webpack_require__(2);
 /**
  * Default attributes to be used by the Participle if they are left undefined.
@@ -8067,7 +8544,7 @@ module.exports = Participle;
 //# sourceMappingURL=Participle.js.map
 
 /***/ }),
-/* 145 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8103,17 +8580,17 @@ module.exports = function () {
 //# sourceMappingURL=exceptionsParticiples.js.map
 
 /***/ }),
-/* 146 */,
-/* 147 */,
-/* 148 */,
-/* 149 */,
-/* 150 */
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getNative = __webpack_require__(18);
+var getNative = __webpack_require__(21);
 
 var defineProperty = function () {
   try {
@@ -8126,13 +8603,13 @@ var defineProperty = function () {
 module.exports = defineProperty;
 
 /***/ }),
-/* 151 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var apply = __webpack_require__(120);
+var apply = __webpack_require__(100);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max;
@@ -8170,40 +8647,18 @@ function overRest(func, start, transform) {
 module.exports = overRest;
 
 /***/ }),
-/* 152 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseSetToString = __webpack_require__(301),
-    shortOut = __webpack_require__(303);
-
-/**
- * Sets the `toString` method of `func` to return `string`.
- *
- * @private
- * @param {Function} func The function to modify.
- * @param {Function} string The `toString` result.
- * @returns {Function} Returns `func`.
- */
-var setToString = shortOut(baseSetToString);
-
-module.exports = setToString;
-
-/***/ }),
-/* 153 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseTimes = __webpack_require__(304),
-    isArguments = __webpack_require__(66),
-    isArray = __webpack_require__(5),
-    isBuffer = __webpack_require__(67),
-    isIndex = __webpack_require__(84),
-    isTypedArray = __webpack_require__(89);
+var baseTimes = __webpack_require__(324),
+    isArguments = __webpack_require__(70),
+    isArray = __webpack_require__(4),
+    isBuffer = __webpack_require__(71),
+    isIndex = __webpack_require__(75),
+    isTypedArray = __webpack_require__(101);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -8247,7 +8702,7 @@ function arrayLikeKeys(value, inherited) {
 module.exports = arrayLikeKeys;
 
 /***/ }),
-/* 154 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8270,7 +8725,7 @@ function overArg(func, transform) {
 module.exports = overArg;
 
 /***/ }),
-/* 155 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8301,16 +8756,16 @@ function stubArray() {
 module.exports = stubArray;
 
 /***/ }),
-/* 156 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayPush = __webpack_require__(93),
-    getPrototype = __webpack_require__(94),
-    getSymbols = __webpack_require__(92),
-    stubArray = __webpack_require__(155);
+var arrayPush = __webpack_require__(105),
+    getPrototype = __webpack_require__(106),
+    getSymbols = __webpack_require__(104),
+    stubArray = __webpack_require__(168);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeGetSymbols = Object.getOwnPropertySymbols;
@@ -8334,14 +8789,14 @@ var getSymbolsIn = !nativeGetSymbols ? stubArray : function (object) {
 module.exports = getSymbolsIn;
 
 /***/ }),
-/* 157 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayPush = __webpack_require__(93),
-    isArray = __webpack_require__(5);
+var arrayPush = __webpack_require__(105),
+    isArray = __webpack_require__(4);
 
 /**
  * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
@@ -8362,15 +8817,15 @@ function baseGetAllKeys(object, keysFunc, symbolsFunc) {
 module.exports = baseGetAllKeys;
 
 /***/ }),
-/* 158 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetAllKeys = __webpack_require__(157),
-    getSymbolsIn = __webpack_require__(156),
-    keysIn = __webpack_require__(68);
+var baseGetAllKeys = __webpack_require__(170),
+    getSymbolsIn = __webpack_require__(169),
+    keysIn = __webpack_require__(72);
 
 /**
  * Creates an array of own and inherited enumerable property names and
@@ -8387,7 +8842,197 @@ function getAllKeysIn(object) {
 module.exports = getAllKeysIn;
 
 /***/ }),
-/* 159 */
+/* 172 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getNative = __webpack_require__(21),
+    root = __webpack_require__(10);
+
+/* Built-in method references that are verified to be native. */
+var WeakMap = getNative(root, 'WeakMap');
+
+module.exports = WeakMap;
+
+/***/ }),
+/* 173 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _Symbol = __webpack_require__(26),
+    arrayMap = __webpack_require__(31),
+    isArray = __webpack_require__(4),
+    isSymbol = __webpack_require__(34);
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0;
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = _Symbol ? _Symbol.prototype : undefined,
+    symbolToString = symbolProto ? symbolProto.toString : undefined;
+
+/**
+ * The base implementation of `_.toString` which doesn't convert nullish
+ * values to empty strings.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ */
+function baseToString(value) {
+  // Exit early for strings to avoid a performance hit in some environments.
+  if (typeof value == 'string') {
+    return value;
+  }
+  if (isArray(value)) {
+    // Recursively convert values (susceptible to call stack limits).
+    return arrayMap(value, baseToString) + '';
+  }
+  if (isSymbol(value)) {
+    return symbolToString ? symbolToString.call(value) : '';
+  }
+  var result = value + '';
+  return result == '0' && 1 / value == -INFINITY ? '-0' : result;
+}
+
+module.exports = baseToString;
+
+/***/ }),
+/* 174 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * The base implementation of `_.slice` without an iteratee call guard.
+ *
+ * @private
+ * @param {Array} array The array to slice.
+ * @param {number} [start=0] The start position.
+ * @param {number} [end=array.length] The end position.
+ * @returns {Array} Returns the slice of `array`.
+ */
+function baseSlice(array, start, end) {
+  var index = -1,
+      length = array.length;
+
+  if (start < 0) {
+    start = -start > length ? 0 : length + start;
+  }
+  end = end > length ? length : end;
+  if (end < 0) {
+    end += length;
+  }
+  length = start > end ? 0 : end - start >>> 0;
+  start >>>= 0;
+
+  var result = Array(length);
+  while (++index < length) {
+    result[index] = array[index + start];
+  }
+  return result;
+}
+
+module.exports = baseSlice;
+
+/***/ }),
+/* 175 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var stringifyPrimitive = function stringifyPrimitive(v) {
+  switch (typeof v === 'undefined' ? 'undefined' : _typeof(v)) {
+    case 'string':
+      return v;
+
+    case 'boolean':
+      return v ? 'true' : 'false';
+
+    case 'number':
+      return isFinite(v) ? v : '';
+
+    default:
+      return '';
+  }
+};
+
+module.exports = function (obj, sep, eq, name) {
+  sep = sep || '&';
+  eq = eq || '=';
+  if (obj === null) {
+    obj = undefined;
+  }
+
+  if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object') {
+    return map(objectKeys(obj), function (k) {
+      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+      if (isArray(obj[k])) {
+        return map(obj[k], function (v) {
+          return ks + encodeURIComponent(stringifyPrimitive(v));
+        }).join(sep);
+      } else {
+        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+      }
+    }).join(sep);
+  }
+
+  if (!name) return '';
+  return encodeURIComponent(stringifyPrimitive(name)) + eq + encodeURIComponent(stringifyPrimitive(obj));
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+function map(xs, f) {
+  if (xs.map) return xs.map(f);
+  var res = [];
+  for (var i = 0; i < xs.length; i++) {
+    res.push(f(xs[i], i));
+  }
+  return res;
+}
+
+var objectKeys = Object.keys || function (obj) {
+  var res = [];
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+  }
+  return res;
+};
+
+/***/ }),
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8408,9 +9053,9 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactIntl = __webpack_require__(24);
+var _reactIntl = __webpack_require__(25);
 
-var _A11yNotice = __webpack_require__(231);
+var _A11yNotice = __webpack_require__(245);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8469,13 +9114,112 @@ var makeOutboundLink = exports.makeOutboundLink = function makeOutboundLink() {
 };
 
 /***/ }),
-/* 160 */,
-/* 161 */,
-/* 162 */,
-/* 163 */,
-/* 164 */,
-/* 165 */,
-/* 166 */
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var metaMap = __webpack_require__(301),
+    noop = __webpack_require__(254);
+
+/**
+ * Gets metadata for `func`.
+ *
+ * @private
+ * @param {Function} func The function to query.
+ * @returns {*} Returns the metadata for `func`.
+ */
+var getData = !metaMap ? noop : function (func) {
+  return metaMap.get(func);
+};
+
+module.exports = getData;
+
+/***/ }),
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var emptyFunction = __webpack_require__(48);
+var invariant = __webpack_require__(59);
+var ReactPropTypesSecret = __webpack_require__(182);
+
+module.exports = function () {
+  function shim(props, propName, componentName, location, propFullName, secret) {
+    if (secret === ReactPropTypesSecret) {
+      // It is still safe when called from React.
+      return;
+    }
+    invariant(false, 'Calling PropTypes validators directly is not supported by the `prop-types` package. ' + 'Use PropTypes.checkPropTypes() to call them. ' + 'Read more at http://fb.me/use-check-prop-types');
+  };
+  shim.isRequired = shim;
+  function getShim() {
+    return shim;
+  };
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
+  var ReactPropTypes = {
+    array: shim,
+    bool: shim,
+    func: shim,
+    number: shim,
+    object: shim,
+    string: shim,
+    symbol: shim,
+
+    any: shim,
+    arrayOf: getShim,
+    element: shim,
+    instanceOf: getShim,
+    node: shim,
+    objectOf: getShim,
+    oneOf: getShim,
+    oneOfType: getShim,
+    shape: getShim,
+    exact: getShim
+  };
+
+  ReactPropTypes.checkPropTypes = emptyFunction;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+/***/ }),
+/* 182 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+/***/ }),
+/* 183 */,
+/* 184 */,
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9553,16 +10297,16 @@ in order to offer easy upgrades -- jsgettext.berlios.de
 })(undefined);
 
 /***/ }),
-/* 167 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isFunction = __webpack_require__(64),
-    isMasked = __webpack_require__(170),
-    isObject = __webpack_require__(7),
-    toSource = __webpack_require__(114);
+var isFunction = __webpack_require__(68),
+    isMasked = __webpack_require__(189),
+    isObject = __webpack_require__(8),
+    toSource = __webpack_require__(125);
 
 /**
  * Used to match `RegExp`
@@ -9605,13 +10349,13 @@ function baseIsNative(value) {
 module.exports = baseIsNative;
 
 /***/ }),
-/* 168 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Symbol = __webpack_require__(23);
+var _Symbol = __webpack_require__(26);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -9659,7 +10403,7 @@ function getRawTag(value) {
 module.exports = getRawTag;
 
 /***/ }),
-/* 169 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9689,13 +10433,13 @@ function objectToString(value) {
 module.exports = objectToString;
 
 /***/ }),
-/* 170 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var coreJsData = __webpack_require__(171);
+var coreJsData = __webpack_require__(190);
 
 /** Used to detect methods masquerading as native. */
 var maskSrcKey = function () {
@@ -9717,7 +10461,7 @@ function isMasked(func) {
 module.exports = isMasked;
 
 /***/ }),
-/* 171 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9731,7 +10475,7 @@ var coreJsData = root['__core-js_shared__'];
 module.exports = coreJsData;
 
 /***/ }),
-/* 172 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9752,7 +10496,7 @@ function getValue(object, key) {
 module.exports = getValue;
 
 /***/ }),
-/* 173 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9760,10 +10504,10 @@ module.exports = getValue;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var eq = __webpack_require__(40),
+var eq = __webpack_require__(42),
     isArrayLike = __webpack_require__(22),
-    isIndex = __webpack_require__(84),
-    isObject = __webpack_require__(7);
+    isIndex = __webpack_require__(75),
+    isObject = __webpack_require__(8);
 
 /**
  * Checks if the given arguments are from an iteratee call.
@@ -9789,14 +10533,14 @@ function isIterateeCall(value, index, object) {
 module.exports = isIterateeCall;
 
 /***/ }),
-/* 174 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isPrototype = __webpack_require__(65),
-    nativeKeys = __webpack_require__(309);
+var isPrototype = __webpack_require__(69),
+    nativeKeys = __webpack_require__(328);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -9827,20 +10571,20 @@ function baseKeys(object) {
 module.exports = baseKeys;
 
 /***/ }),
-/* 175 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayMap = __webpack_require__(29),
-    baseClone = __webpack_require__(176),
-    baseUnset = __webpack_require__(333),
-    castPath = __webpack_require__(44),
-    copyObject = __webpack_require__(28),
-    customOmitClone = __webpack_require__(336),
-    flatRest = __webpack_require__(126),
-    getAllKeysIn = __webpack_require__(158);
+var arrayMap = __webpack_require__(31),
+    baseClone = __webpack_require__(195),
+    baseUnset = __webpack_require__(352),
+    castPath = __webpack_require__(46),
+    copyObject = __webpack_require__(30),
+    customOmitClone = __webpack_require__(355),
+    flatRest = __webpack_require__(139),
+    getAllKeysIn = __webpack_require__(171);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1,
@@ -9892,31 +10636,31 @@ var omit = flatRest(function (object, paths) {
 module.exports = omit;
 
 /***/ }),
-/* 176 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Stack = __webpack_require__(91),
-    arrayEach = __webpack_require__(194),
-    assignValue = __webpack_require__(88),
-    baseAssign = __webpack_require__(316),
-    baseAssignIn = __webpack_require__(317),
-    cloneBuffer = __webpack_require__(195),
-    copyArray = __webpack_require__(121),
-    copySymbols = __webpack_require__(320),
-    copySymbolsIn = __webpack_require__(321),
-    getAllKeys = __webpack_require__(196),
-    getAllKeysIn = __webpack_require__(158),
-    getTag = __webpack_require__(123),
-    initCloneArray = __webpack_require__(324),
-    initCloneByTag = __webpack_require__(325),
-    initCloneObject = __webpack_require__(202),
-    isArray = __webpack_require__(5),
-    isBuffer = __webpack_require__(67),
-    isObject = __webpack_require__(7),
-    keys = __webpack_require__(39);
+var Stack = __webpack_require__(102),
+    arrayEach = __webpack_require__(135),
+    assignValue = __webpack_require__(99),
+    baseAssign = __webpack_require__(335),
+    baseAssignIn = __webpack_require__(336),
+    cloneBuffer = __webpack_require__(213),
+    copyArray = __webpack_require__(103),
+    copySymbols = __webpack_require__(339),
+    copySymbolsIn = __webpack_require__(340),
+    getAllKeys = __webpack_require__(214),
+    getAllKeysIn = __webpack_require__(171),
+    getTag = __webpack_require__(137),
+    initCloneArray = __webpack_require__(343),
+    initCloneByTag = __webpack_require__(344),
+    initCloneObject = __webpack_require__(219),
+    isArray = __webpack_require__(4),
+    isBuffer = __webpack_require__(71),
+    isObject = __webpack_require__(8),
+    keys = __webpack_require__(33);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1,
@@ -10038,7 +10782,7 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
 module.exports = baseClone;
 
 /***/ }),
-/* 177 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10059,13 +10803,13 @@ function listCacheClear() {
 module.exports = listCacheClear;
 
 /***/ }),
-/* 178 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assocIndexOf = __webpack_require__(41);
+var assocIndexOf = __webpack_require__(43);
 
 /** Used for built-in method references. */
 var arrayProto = Array.prototype;
@@ -10102,13 +10846,13 @@ function listCacheDelete(key) {
 module.exports = listCacheDelete;
 
 /***/ }),
-/* 179 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assocIndexOf = __webpack_require__(41);
+var assocIndexOf = __webpack_require__(43);
 
 /**
  * Gets the list cache value for `key`.
@@ -10129,13 +10873,13 @@ function listCacheGet(key) {
 module.exports = listCacheGet;
 
 /***/ }),
-/* 180 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assocIndexOf = __webpack_require__(41);
+var assocIndexOf = __webpack_require__(43);
 
 /**
  * Checks if a list cache value for `key` exists.
@@ -10153,13 +10897,13 @@ function listCacheHas(key) {
 module.exports = listCacheHas;
 
 /***/ }),
-/* 181 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assocIndexOf = __webpack_require__(41);
+var assocIndexOf = __webpack_require__(43);
 
 /**
  * Sets the list cache `key` to `value`.
@@ -10187,15 +10931,15 @@ function listCacheSet(key, value) {
 module.exports = listCacheSet;
 
 /***/ }),
-/* 182 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Hash = __webpack_require__(183),
-    ListCache = __webpack_require__(55),
-    Map = __webpack_require__(70);
+var Hash = __webpack_require__(202),
+    ListCache = __webpack_require__(58),
+    Map = __webpack_require__(76);
 
 /**
  * Removes all key-value entries from the map.
@@ -10216,17 +10960,17 @@ function mapCacheClear() {
 module.exports = mapCacheClear;
 
 /***/ }),
-/* 183 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var hashClear = __webpack_require__(184),
-    hashDelete = __webpack_require__(185),
-    hashGet = __webpack_require__(186),
-    hashHas = __webpack_require__(187),
-    hashSet = __webpack_require__(188);
+var hashClear = __webpack_require__(203),
+    hashDelete = __webpack_require__(204),
+    hashGet = __webpack_require__(205),
+    hashHas = __webpack_require__(206),
+    hashSet = __webpack_require__(207);
 
 /**
  * Creates a hash object.
@@ -10256,13 +11000,13 @@ Hash.prototype.set = hashSet;
 module.exports = Hash;
 
 /***/ }),
-/* 184 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var nativeCreate = __webpack_require__(42);
+var nativeCreate = __webpack_require__(44);
 
 /**
  * Removes all key-value entries from the hash.
@@ -10279,7 +11023,7 @@ function hashClear() {
 module.exports = hashClear;
 
 /***/ }),
-/* 185 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10304,13 +11048,13 @@ function hashDelete(key) {
 module.exports = hashDelete;
 
 /***/ }),
-/* 186 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var nativeCreate = __webpack_require__(42);
+var nativeCreate = __webpack_require__(44);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -10342,13 +11086,13 @@ function hashGet(key) {
 module.exports = hashGet;
 
 /***/ }),
-/* 187 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var nativeCreate = __webpack_require__(42);
+var nativeCreate = __webpack_require__(44);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -10373,13 +11117,13 @@ function hashHas(key) {
 module.exports = hashHas;
 
 /***/ }),
-/* 188 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var nativeCreate = __webpack_require__(42);
+var nativeCreate = __webpack_require__(44);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -10404,13 +11148,13 @@ function hashSet(key, value) {
 module.exports = hashSet;
 
 /***/ }),
-/* 189 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getMapData = __webpack_require__(43);
+var getMapData = __webpack_require__(45);
 
 /**
  * Removes `key` and its value from the map.
@@ -10430,7 +11174,7 @@ function mapCacheDelete(key) {
 module.exports = mapCacheDelete;
 
 /***/ }),
-/* 190 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10453,13 +11197,13 @@ function isKeyable(value) {
 module.exports = isKeyable;
 
 /***/ }),
-/* 191 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getMapData = __webpack_require__(43);
+var getMapData = __webpack_require__(45);
 
 /**
  * Gets the map value for `key`.
@@ -10477,13 +11221,13 @@ function mapCacheGet(key) {
 module.exports = mapCacheGet;
 
 /***/ }),
-/* 192 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getMapData = __webpack_require__(43);
+var getMapData = __webpack_require__(45);
 
 /**
  * Checks if a map value for `key` exists.
@@ -10501,13 +11245,13 @@ function mapCacheHas(key) {
 module.exports = mapCacheHas;
 
 /***/ }),
-/* 193 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getMapData = __webpack_require__(43);
+var getMapData = __webpack_require__(45);
 
 /**
  * Sets the map `key` to `value`.
@@ -10531,37 +11275,7 @@ function mapCacheSet(key, value) {
 module.exports = mapCacheSet;
 
 /***/ }),
-/* 194 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A specialized version of `_.forEach` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns `array`.
- */
-function arrayEach(array, iteratee) {
-  var index = -1,
-      length = array == null ? 0 : array.length;
-
-  while (++index < length) {
-    if (iteratee(array[index], index, array) === false) {
-      break;
-    }
-  }
-  return array;
-}
-
-module.exports = arrayEach;
-
-/***/ }),
-/* 195 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10604,18 +11318,18 @@ function cloneBuffer(buffer, isDeep) {
 }
 
 module.exports = cloneBuffer;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(49)(module)))
 
 /***/ }),
-/* 196 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetAllKeys = __webpack_require__(157),
-    getSymbols = __webpack_require__(92),
-    keys = __webpack_require__(39);
+var baseGetAllKeys = __webpack_require__(170),
+    getSymbols = __webpack_require__(104),
+    keys = __webpack_require__(33);
 
 /**
  * Creates an array of own enumerable property names and symbols of `object`.
@@ -10631,13 +11345,13 @@ function getAllKeys(object) {
 module.exports = getAllKeys;
 
 /***/ }),
-/* 197 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getNative = __webpack_require__(18),
+var getNative = __webpack_require__(21),
     root = __webpack_require__(10);
 
 /* Built-in method references that are verified to be native. */
@@ -10646,22 +11360,7 @@ var Set = getNative(root, 'Set');
 module.exports = Set;
 
 /***/ }),
-/* 198 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var getNative = __webpack_require__(18),
-    root = __webpack_require__(10);
-
-/* Built-in method references that are verified to be native. */
-var WeakMap = getNative(root, 'WeakMap');
-
-module.exports = WeakMap;
-
-/***/ }),
-/* 199 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10675,7 +11374,7 @@ var Uint8Array = root.Uint8Array;
 module.exports = Uint8Array;
 
 /***/ }),
-/* 200 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10701,13 +11400,13 @@ function mapToArray(map) {
 module.exports = mapToArray;
 
 /***/ }),
-/* 201 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var cloneArrayBuffer = __webpack_require__(95);
+var cloneArrayBuffer = __webpack_require__(107);
 
 /**
  * Creates a clone of `typedArray`.
@@ -10725,15 +11424,15 @@ function cloneTypedArray(typedArray, isDeep) {
 module.exports = cloneTypedArray;
 
 /***/ }),
-/* 202 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseCreate = __webpack_require__(124),
-    getPrototype = __webpack_require__(94),
-    isPrototype = __webpack_require__(65);
+var baseCreate = __webpack_require__(94),
+    getPrototype = __webpack_require__(106),
+    isPrototype = __webpack_require__(69);
 
 /**
  * Initializes an object clone.
@@ -10749,13 +11448,13 @@ function initCloneObject(object) {
 module.exports = initCloneObject;
 
 /***/ }),
-/* 203 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var memoizeCapped = __webpack_require__(204);
+var memoizeCapped = __webpack_require__(221);
 
 /** Used to match property names within property paths. */
 var reLeadingDot = /^\./,
@@ -10785,13 +11484,13 @@ var stringToPath = memoizeCapped(function (string) {
 module.exports = stringToPath;
 
 /***/ }),
-/* 204 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var memoize = __webpack_require__(32);
+var memoize = __webpack_require__(27);
 
 /** Used as the maximum memoize cache size. */
 var MAX_MEMOIZE_SIZE = 500;
@@ -10819,97 +11518,13 @@ function memoizeCapped(func) {
 module.exports = memoizeCapped;
 
 /***/ }),
-/* 205 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Symbol = __webpack_require__(23),
-    arrayMap = __webpack_require__(29),
-    isArray = __webpack_require__(5),
-    isSymbol = __webpack_require__(31);
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = _Symbol ? _Symbol.prototype : undefined,
-    symbolToString = symbolProto ? symbolProto.toString : undefined;
-
-/**
- * The base implementation of `_.toString` which doesn't convert nullish
- * values to empty strings.
- *
- * @private
- * @param {*} value The value to process.
- * @returns {string} Returns the string.
- */
-function baseToString(value) {
-  // Exit early for strings to avoid a performance hit in some environments.
-  if (typeof value == 'string') {
-    return value;
-  }
-  if (isArray(value)) {
-    // Recursively convert values (susceptible to call stack limits).
-    return arrayMap(value, baseToString) + '';
-  }
-  if (isSymbol(value)) {
-    return symbolToString ? symbolToString.call(value) : '';
-  }
-  var result = value + '';
-  return result == '0' && 1 / value == -INFINITY ? '-0' : result;
-}
-
-module.exports = baseToString;
-
-/***/ }),
-/* 206 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * The base implementation of `_.slice` without an iteratee call guard.
- *
- * @private
- * @param {Array} array The array to slice.
- * @param {number} [start=0] The start position.
- * @param {number} [end=array.length] The end position.
- * @returns {Array} Returns the slice of `array`.
- */
-function baseSlice(array, start, end) {
-  var index = -1,
-      length = array.length;
-
-  if (start < 0) {
-    start = -start > length ? 0 : length + start;
-  }
-  end = end > length ? length : end;
-  if (end < 0) {
-    end += length;
-  }
-  length = start > end ? 0 : end - start >>> 0;
-  start >>>= 0;
-
-  var result = Array(length);
-  while (++index < length) {
-    result[index] = array[index + start];
-  }
-  return result;
-}
-
-module.exports = baseSlice;
-
-/***/ }),
-/* 207 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseFlatten = __webpack_require__(99);
+var baseFlatten = __webpack_require__(110);
 
 /**
  * Flattens `array` a single level deep.
@@ -10933,106 +11548,15 @@ function flatten(array) {
 module.exports = flatten;
 
 /***/ }),
-/* 208 */,
-/* 209 */,
-/* 210 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var stringifyPrimitive = function stringifyPrimitive(v) {
-  switch (typeof v === 'undefined' ? 'undefined' : _typeof(v)) {
-    case 'string':
-      return v;
-
-    case 'boolean':
-      return v ? 'true' : 'false';
-
-    case 'number':
-      return isFinite(v) ? v : '';
-
-    default:
-      return '';
-  }
-};
-
-module.exports = function (obj, sep, eq, name) {
-  sep = sep || '&';
-  eq = eq || '=';
-  if (obj === null) {
-    obj = undefined;
-  }
-
-  if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object') {
-    return map(objectKeys(obj), function (k) {
-      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-      if (isArray(obj[k])) {
-        return map(obj[k], function (v) {
-          return ks + encodeURIComponent(stringifyPrimitive(v));
-        }).join(sep);
-      } else {
-        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-      }
-    }).join(sep);
-  }
-
-  if (!name) return '';
-  return encodeURIComponent(stringifyPrimitive(name)) + eq + encodeURIComponent(stringifyPrimitive(obj));
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-function map(xs, f) {
-  if (xs.map) return xs.map(f);
-  var res = [];
-  for (var i = 0; i < xs.length; i++) {
-    res.push(f(xs[i], i));
-  }
-  return res;
-}
-
-var objectKeys = Object.keys || function (obj) {
-  var res = [];
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-  }
-  return res;
-};
-
-/***/ }),
-/* 211 */
+/* 223 */,
+/* 224 */,
+/* 225 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 212 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11040,8 +11564,8 @@ var objectKeys = Object.keys || function (obj) {
 
 
 
-var src$core$$ = __webpack_require__(213),
-    src$en$$ = __webpack_require__(218);
+var src$core$$ = __webpack_require__(227),
+    src$en$$ = __webpack_require__(232);
 
 src$core$$["default"].__addLocaleData(src$en$$["default"]);
 src$core$$["default"].defaultLocale = 'en';
@@ -11051,7 +11575,7 @@ exports["default"] = src$core$$["default"];
 //# sourceMappingURL=main.js.map
 
 /***/ }),
-/* 213 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11065,10 +11589,10 @@ See the accompanying LICENSE file for terms.
 
 
 
-var src$utils$$ = __webpack_require__(102),
-    src$es5$$ = __webpack_require__(214),
-    src$compiler$$ = __webpack_require__(215),
-    intl$messageformat$parser$$ = __webpack_require__(216);
+var src$utils$$ = __webpack_require__(113),
+    src$es5$$ = __webpack_require__(228),
+    src$compiler$$ = __webpack_require__(229),
+    intl$messageformat$parser$$ = __webpack_require__(230);
 exports["default"] = MessageFormat;
 
 // -- MessageFormat --------------------------------------------------------
@@ -11333,7 +11857,7 @@ MessageFormat.prototype._resolveLocale = function (locales) {
 //# sourceMappingURL=core.js.map
 
 /***/ }),
-/* 214 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11347,7 +11871,7 @@ See the accompanying LICENSE file for terms.
 
 
 
-var src$utils$$ = __webpack_require__(102);
+var src$utils$$ = __webpack_require__(113);
 
 // Purposely using the same implementation as the Intl.js `Intl` polyfill.
 // Copyright 2013 Andy Earnshaw, MIT License
@@ -11392,7 +11916,7 @@ exports.defineProperty = defineProperty, exports.objCreate = objCreate;
 //# sourceMappingURL=es5.js.map
 
 /***/ }),
-/* 215 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11599,17 +12123,17 @@ SelectFormat.prototype.getOption = function (value) {
 //# sourceMappingURL=compiler.js.map
 
 /***/ }),
-/* 216 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports = module.exports = __webpack_require__(217)['default'];
+exports = module.exports = __webpack_require__(231)['default'];
 exports['default'] = exports;
 
 /***/ }),
-/* 217 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13073,7 +13597,7 @@ exports["default"] = function () {
 //# sourceMappingURL=parser.js.map
 
 /***/ }),
-/* 218 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13091,13 +13615,13 @@ exports["default"] = { "locale": "en", "pluralRuleFunction": function pluralRule
 //# sourceMappingURL=en.js.map
 
 /***/ }),
-/* 219 */
+/* 233 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 220 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13105,11 +13629,11 @@ exports["default"] = { "locale": "en", "pluralRuleFunction": function pluralRule
 
 
 
-var IntlRelativeFormat = __webpack_require__(221)['default'];
+var IntlRelativeFormat = __webpack_require__(235)['default'];
 
 // Add all locale data to `IntlRelativeFormat`. This module will be ignored when
 // bundling for the browser with Browserify/Webpack.
-__webpack_require__(226);
+__webpack_require__(240);
 
 // Re-export `IntlRelativeFormat` as the CommonJS default exports with all the
 // locale data registered, and with English set as the default locale. Define
@@ -13118,7 +13642,7 @@ exports = module.exports = IntlRelativeFormat;
 exports['default'] = exports;
 
 /***/ }),
-/* 221 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13126,8 +13650,8 @@ exports['default'] = exports;
 
 
 
-var src$core$$ = __webpack_require__(222),
-    src$en$$ = __webpack_require__(225);
+var src$core$$ = __webpack_require__(236),
+    src$en$$ = __webpack_require__(239);
 
 src$core$$["default"].__addLocaleData(src$en$$["default"]);
 src$core$$["default"].defaultLocale = 'en';
@@ -13137,7 +13661,7 @@ exports["default"] = src$core$$["default"];
 //# sourceMappingURL=main.js.map
 
 /***/ }),
-/* 222 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13151,9 +13675,9 @@ See the accompanying LICENSE file for terms.
 
 
 
-var intl$messageformat$$ = __webpack_require__(101),
-    src$diff$$ = __webpack_require__(223),
-    src$es5$$ = __webpack_require__(224);
+var intl$messageformat$$ = __webpack_require__(112),
+    src$diff$$ = __webpack_require__(237),
+    src$es5$$ = __webpack_require__(238);
 exports["default"] = RelativeFormat;
 
 // -----------------------------------------------------------------------------
@@ -13419,7 +13943,7 @@ RelativeFormat.prototype._selectUnits = function (diffReport) {
 //# sourceMappingURL=core.js.map
 
 /***/ }),
-/* 223 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13478,7 +14002,7 @@ exports["default"] = function (from, to) {
 //# sourceMappingURL=diff.js.map
 
 /***/ }),
-/* 224 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13562,7 +14086,7 @@ exports.defineProperty = defineProperty, exports.objCreate = objCreate, exports.
 //# sourceMappingURL=es5.js.map
 
 /***/ }),
-/* 225 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13580,23 +14104,23 @@ exports["default"] = { "locale": "en", "pluralRuleFunction": function pluralRule
 //# sourceMappingURL=en.js.map
 
 /***/ }),
-/* 226 */
+/* 240 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 227 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports = module.exports = __webpack_require__(228)['default'];
+exports = module.exports = __webpack_require__(242)['default'];
 exports['default'] = exports;
 
 /***/ }),
-/* 228 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13612,7 +14136,7 @@ See the accompanying LICENSE file for terms.
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var src$es5$$ = __webpack_require__(229);
+var src$es5$$ = __webpack_require__(243);
 exports["default"] = createFormatCache;
 
 // -----------------------------------------------------------------------------
@@ -13690,7 +14214,7 @@ function orderedProps(obj) {
 //# sourceMappingURL=memoizer.js.map
 
 /***/ }),
-/* 229 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13775,7 +14299,7 @@ exports.bind = bind, exports.defineProperty = defineProperty, exports.objCreate 
 //# sourceMappingURL=es5.js.map
 
 /***/ }),
-/* 230 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13806,7 +14330,7 @@ var now = function now() {
 module.exports = now;
 
 /***/ }),
-/* 231 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13835,15 +14359,373 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 var A11yNotice = exports.A11yNotice = _styledComponents2.default.span(_templateObject);
 
 /***/ }),
-/* 232 */,
-/* 233 */
+/* 246 */,
+/* 247 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/** @module stringProcessing/replaceDiacritics */
+
+var transliterationsMap = __webpack_require__(365);
+/**
+ * Replaces all special characters from the text based on the transliterations map.
+ *
+ * @param {string} text The text to remove special characters from.
+ * @param {string} locale The locale.
+ * @returns {string} The text with all special characters replaced.
+ */
+module.exports = function (text, locale) {
+    var map = transliterationsMap(locale);
+    for (var i = 0; i < map.length; i++) {
+        text = text.replace(map[i].letter, map[i].alternative);
+    }
+    return text;
+};
+//# sourceMappingURL=transliterate.js.map
+//# sourceMappingURL=transliterate.js.map
+
+/***/ }),
+/* 248 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/** @module stringProcessing/stringToRegex */
+
+var isUndefined = __webpack_require__(3);
+var replaceDiacritics = __webpack_require__(249);
+var addWordBoundary = __webpack_require__(83);
+var sanitizeString = __webpack_require__(250);
+var escapeRegExp = __webpack_require__(24);
+var memoize = __webpack_require__(27);
+/**
+ * Creates a regex from a string so it can be matched everywhere in the same way.
+ *
+ * @param {string} string The string to make a regex from.
+ * @param {string} [extraBoundary=""] A string that is used as extra boundary for the regex.
+ * @param {boolean} [doReplaceDiacritics=true] If set to false, it doesn't replace diacritics. Defaults to true.
+ * @returns {RegExp} regex The regex made from the keyword
+ */
+module.exports = memoize(function (string, extraBoundary, doReplaceDiacritics) {
+    if (isUndefined(extraBoundary)) {
+        extraBoundary = "";
+    }
+    if (isUndefined(doReplaceDiacritics) || doReplaceDiacritics === true) {
+        string = replaceDiacritics(string);
+    }
+    string = sanitizeString(string);
+    string = escapeRegExp(string);
+    string = addWordBoundary(string, false, extraBoundary);
+    return new RegExp(string, "ig");
+});
+//# sourceMappingURL=createWordRegex.js.map
+//# sourceMappingURL=createWordRegex.js.map
+
+/***/ }),
+/* 249 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/** @module stringProcessing/replaceDiacritics */
+
+var diacriticsRemovalMap = __webpack_require__(366);
+/**
+ * Replaces all diacritics from the text based on the diacritics removal map.
+ *
+ * @param {string} text The text to remove diacritics from.
+ * @returns {string} The text with all diacritics replaced.
+ */
+module.exports = function (text) {
+    var map = diacriticsRemovalMap();
+    for (var i = 0; i < map.length; i++) {
+        text = text.replace(map[i].letters, map[i].base);
+    }
+    return text;
+};
+//# sourceMappingURL=replaceDiacritics.js.map
+//# sourceMappingURL=replaceDiacritics.js.map
+
+/***/ }),
+/* 250 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/** @module stringProcessing/sanitizeString */
+
+var stripTags = __webpack_require__(20).stripFullTags;
+var stripSpaces = __webpack_require__(19);
+/**
+ * Strip HTMLtags characters from string that break regex
+ *
+ * @param {String} text The text to strip the characters from.
+ * @returns {String} The text without characters.
+ */
+module.exports = function (text) {
+  text = stripTags(text);
+  text = stripSpaces(text);
+  return text;
+};
+//# sourceMappingURL=sanitizeString.js.map
+//# sourceMappingURL=sanitizeString.js.map
+
+/***/ }),
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetTag = __webpack_require__(17),
-    isObjectLike = __webpack_require__(14);
+var findMatchingRule = function findMatchingRule(rules, text) {
+  var i;
+  for (i = 0; i < rules.length; i++) {
+    if (rules[i].regex.test(text)) return rules[i];
+  }return undefined;
+};
+
+var findMaxIndexAndRule = function findMaxIndexAndRule(rules, text) {
+  var i, rule, last_matching_rule;
+  for (i = 0; i < text.length; i++) {
+    rule = findMatchingRule(rules, text.substring(0, i + 1));
+    if (rule) last_matching_rule = rule;else if (last_matching_rule) return { max_index: i, rule: last_matching_rule };
+  }
+  return last_matching_rule ? { max_index: text.length, rule: last_matching_rule } : undefined;
+};
+
+module.exports = function (onToken_orig) {
+  var buffer = "";
+  var rules = [];
+  var line = 1;
+  var col = 1;
+
+  var onToken = function onToken(src, type) {
+    onToken_orig({
+      type: type,
+      src: src,
+      line: line,
+      col: col
+    });
+    var lines = src.split("\n");
+    line += lines.length - 1;
+    col = (lines.length > 1 ? 1 : col) + lines[lines.length - 1].length;
+  };
+
+  return {
+    addRule: function addRule(regex, type) {
+      rules.push({ regex: regex, type: type });
+    },
+    onText: function onText(text) {
+      var str = buffer + text;
+      var m = findMaxIndexAndRule(rules, str);
+      while (m && m.max_index !== str.length) {
+        onToken(str.substring(0, m.max_index), m.rule.type);
+
+        //now find the next token
+        str = str.substring(m.max_index);
+        m = findMaxIndexAndRule(rules, str);
+      }
+      buffer = str;
+    },
+    end: function end() {
+      if (buffer.length === 0) return;
+
+      var rule = findMatchingRule(rules, buffer);
+      if (!rule) {
+        var err = new Error("unable to tokenize");
+        err.tokenizer2 = {
+          buffer: buffer,
+          line: line,
+          col: col
+        };
+        throw err;
+      }
+
+      onToken(buffer, rule.type);
+    }
+  };
+};
+
+/***/ }),
+/* 252 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createBaseFor = __webpack_require__(368);
+
+/**
+ * The base implementation of `baseForOwn` which iterates over `object`
+ * properties returned by `keysFunc` and invokes `iteratee` for each property.
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @returns {Object} Returns `object`.
+ */
+var baseFor = createBaseFor();
+
+module.exports = baseFor;
+
+/***/ }),
+/* 253 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var toNumber = __webpack_require__(95);
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0,
+    MAX_INTEGER = 1.7976931348623157e+308;
+
+/**
+ * Converts `value` to a finite number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.12.0
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {number} Returns the converted number.
+ * @example
+ *
+ * _.toFinite(3.2);
+ * // => 3.2
+ *
+ * _.toFinite(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toFinite(Infinity);
+ * // => 1.7976931348623157e+308
+ *
+ * _.toFinite('3.2');
+ * // => 3.2
+ */
+function toFinite(value) {
+  if (!value) {
+    return value === 0 ? value : 0;
+  }
+  value = toNumber(value);
+  if (value === INFINITY || value === -INFINITY) {
+    var sign = value < 0 ? -1 : 1;
+    return sign * MAX_INTEGER;
+  }
+  return value === value ? value : 0;
+}
+
+module.exports = toFinite;
+
+/***/ }),
+/* 254 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * This method returns `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @since 2.3.0
+ * @category Util
+ * @example
+ *
+ * _.times(2, _.noop);
+ * // => [undefined, undefined]
+ */
+function noop() {
+  // No operation performed.
+}
+
+module.exports = noop;
+
+/***/ }),
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var realNames = __webpack_require__(373);
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Gets the name of `func`.
+ *
+ * @private
+ * @param {Function} func The function to query.
+ * @returns {string} Returns the function name.
+ */
+function getFuncName(func) {
+  var result = func.name + '',
+      array = realNames[result],
+      length = hasOwnProperty.call(realNames, result) ? array.length : 0;
+
+  while (length--) {
+    var data = array[length],
+        otherFunc = data.func;
+    if (otherFunc == null || otherFunc == func) {
+      return data.name;
+    }
+  }
+  return result;
+}
+
+module.exports = getFuncName;
+
+/***/ }),
+/* 256 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * The base implementation of `_.findIndex` and `_.findLastIndex` without
+ * support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Function} predicate The function invoked per iteration.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseFindIndex(array, predicate, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 1 : -1);
+
+  while (fromRight ? index-- : ++index < length) {
+    if (predicate(array[index], index, array)) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = baseFindIndex;
+
+/***/ }),
+/* 257 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseGetTag = __webpack_require__(18),
+    isObjectLike = __webpack_require__(13);
 
 /** `Object#toString` result references. */
 var numberTag = '[object Number]';
@@ -13881,50 +14763,50 @@ function isNumber(value) {
 module.exports = isNumber;
 
 /***/ }),
-/* 234 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var sentences_1 = __webpack_require__(518);
-var merge = __webpack_require__(25);
-var InvalidTypeError = __webpack_require__(360);
-var MissingArgument = __webpack_require__(133);
+var sentences_1 = __webpack_require__(548);
+var merge = __webpack_require__(28);
+var InvalidTypeError = __webpack_require__(395);
+var MissingArgument = __webpack_require__(148);
 var isUndefined = __webpack_require__(3);
-var isEmpty = __webpack_require__(13);
+var isEmpty = __webpack_require__(15);
 // Researches
-var wordCountInText = __webpack_require__(361);
-var getLinkStatistics = __webpack_require__(541);
-var linkCount = __webpack_require__(584);
-var getLinks = __webpack_require__(375);
-var urlLength = __webpack_require__(585);
-var findKeywordInPageTitle = __webpack_require__(586);
-var matchKeywordInSubheadings = __webpack_require__(587);
-var getKeywordDensity = __webpack_require__(592);
-var keywordCount = __webpack_require__(593);
-var stopWordsInKeyword = __webpack_require__(594);
-var stopWordsInUrl = __webpack_require__(597);
-var calculateFleschReading = __webpack_require__(598);
-var metaDescriptionLength = __webpack_require__(615);
-var imageCount = __webpack_require__(385);
-var altTagCount = __webpack_require__(617);
-var keyphraseLength = __webpack_require__(619);
-var metaDescriptionKeyword = __webpack_require__(620);
-var keywordCountInUrl = __webpack_require__(621);
-var findKeywordInFirstParagraph = __webpack_require__(622);
-var pageTitleWidth = __webpack_require__(624);
-var wordComplexity = __webpack_require__(625);
-var getParagraphLength = __webpack_require__(626);
-var countSentencesFromText = __webpack_require__(627);
-var countSentencesFromDescription = __webpack_require__(628);
-var getSubheadingTextLengths = __webpack_require__(629);
-var findTransitionWords = __webpack_require__(631);
-var passiveVoice = __webpack_require__(645);
-var getSentenceBeginnings = __webpack_require__(678);
-var relevantWords = __webpack_require__(686);
-var readingTime = __webpack_require__(695);
+var wordCountInText = __webpack_require__(396);
+var getLinkStatistics = __webpack_require__(566);
+var linkCount = __webpack_require__(603);
+var getLinks = __webpack_require__(409);
+var urlLength = __webpack_require__(604);
+var findKeywordInPageTitle = __webpack_require__(605);
+var matchKeywordInSubheadings = __webpack_require__(606);
+var getKeywordDensity = __webpack_require__(611);
+var keywordCount = __webpack_require__(612);
+var stopWordsInKeyword = __webpack_require__(613);
+var stopWordsInUrl = __webpack_require__(615);
+var calculateFleschReading = __webpack_require__(616);
+var metaDescriptionLength = __webpack_require__(633);
+var imageCount = __webpack_require__(414);
+var altTagCount = __webpack_require__(635);
+var keyphraseLength = __webpack_require__(637);
+var metaDescriptionKeyword = __webpack_require__(638);
+var keywordCountInUrl = __webpack_require__(639);
+var findKeywordInFirstParagraph = __webpack_require__(640);
+var pageTitleWidth = __webpack_require__(642);
+var wordComplexity = __webpack_require__(643);
+var getParagraphLength = __webpack_require__(644);
+var countSentencesFromText = __webpack_require__(645);
+var countSentencesFromDescription = __webpack_require__(646);
+var getSubheadingTextLengths = __webpack_require__(647);
+var findTransitionWords = __webpack_require__(649);
+var passiveVoice = __webpack_require__(661);
+var getSentenceBeginnings = __webpack_require__(694);
+var relevantWords = __webpack_require__(702);
+var readingTime = __webpack_require__(711);
 /**
  * This contains all possible, default researches.
  * @param {Paper} paper The Paper object that is needed within the researches.
@@ -14031,163 +14913,18 @@ module.exports = Researcher;
 //# sourceMappingURL=researcher.js.map
 
 /***/ }),
-/* 235 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var blockElements = ["address", "article", "aside", "blockquote", "canvas", "dd", "div", "dl", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main", "nav", "noscript", "ol", "output", "p", "pre", "section", "table", "tfoot", "ul", "video"];
-var inlineElements = ["b", "big", "i", "small", "tt", "abbr", "acronym", "cite", "code", "dfn", "em", "kbd", "strong", "samp", "time", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup", "button", "input", "label", "select", "textarea"];
-var blockElementsRegex = new RegExp("^(" + blockElements.join("|") + ")$", "i");
-var inlineElementsRegex = new RegExp("^(" + inlineElements.join("|") + ")$", "i");
-var blockElementStartRegex = new RegExp("^<(" + blockElements.join("|") + ")[^>]*?>$", "i");
-var blockElementEndRegex = new RegExp("^</(" + blockElements.join("|") + ")[^>]*?>$", "i");
-var inlineElementStartRegex = new RegExp("^<(" + inlineElements.join("|") + ")[^>]*>$", "i");
-var inlineElementEndRegex = new RegExp("^</(" + inlineElements.join("|") + ")[^>]*>$", "i");
-var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/;
-var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
-var contentRegex = /^[^<]+$/;
-var greaterThanContentRegex = /^<[^><]*$/;
-var commentRegex = /<!--(.|[\r\n])*?-->/g;
-var core = __webpack_require__(357);
-var forEach = __webpack_require__(2);
-var memoize = __webpack_require__(32);
-var tokens = [];
-var htmlBlockTokenizer;
-/**
- * Creates a tokenizer to tokenize HTML into blocks.
- *
- * @returns {void}
- */
-function createTokenizer() {
-    tokens = [];
-    htmlBlockTokenizer = core(function (token) {
-        tokens.push(token);
-    });
-    htmlBlockTokenizer.addRule(contentRegex, "content");
-    htmlBlockTokenizer.addRule(greaterThanContentRegex, "greater-than-sign-content");
-    htmlBlockTokenizer.addRule(blockElementStartRegex, "block-start");
-    htmlBlockTokenizer.addRule(blockElementEndRegex, "block-end");
-    htmlBlockTokenizer.addRule(inlineElementStartRegex, "inline-start");
-    htmlBlockTokenizer.addRule(inlineElementEndRegex, "inline-end");
-    htmlBlockTokenizer.addRule(otherElementStartRegex, "other-element-start");
-    htmlBlockTokenizer.addRule(otherElementEndRegex, "other-element-end");
-}
-/**
- * Returns whether or not the given element name is a block element.
- *
- * @param {string} htmlElementName The name of the HTML element.
- * @returns {boolean} Whether or not it is a block element.
- */
-function isBlockElement(htmlElementName) {
-    return blockElementsRegex.test(htmlElementName);
-}
-/**
- * Returns whether or not the given element name is an inline element.
- *
- * @param {string} htmlElementName The name of the HTML element.
- * @returns {boolean} Whether or not it is an inline element.
- */
-function isInlineElement(htmlElementName) {
-    return inlineElementsRegex.test(htmlElementName);
-}
-/**
- * Splits a text into blocks based on HTML block elements.
- *
- * @param {string} text The text to split.
- * @returns {Array} A list of blocks based on HTML block elements.
- */
-function getBlocks(text) {
-    var blocks = [],
-        depth = 0,
-        blockStartTag = "",
-        currentBlock = "",
-        blockEndTag = "";
-    // Remove all comments because it is very hard to tokenize them.
-    text = text.replace(commentRegex, "");
-    createTokenizer();
-    htmlBlockTokenizer.onText(text);
-    htmlBlockTokenizer.end();
-    forEach(tokens, function (token, i) {
-        var nextToken = tokens[i + 1];
-        switch (token.type) {
-            case "content":
-            case "greater-than-sign-content":
-            case "inline-start":
-            case "inline-end":
-            case "other-tag":
-            case "other-element-start":
-            case "other-element-end":
-            case "greater than sign":
-                if (!nextToken || depth === 0 && (nextToken.type === "block-start" || nextToken.type === "block-end")) {
-                    currentBlock += token.src;
-                    blocks.push(currentBlock);
-                    blockStartTag = "";
-                    currentBlock = "";
-                    blockEndTag = "";
-                } else {
-                    currentBlock += token.src;
-                }
-                break;
-            case "block-start":
-                if (depth !== 0) {
-                    if (currentBlock.trim() !== "") {
-                        blocks.push(currentBlock);
-                    }
-                    currentBlock = "";
-                    blockEndTag = "";
-                }
-                depth++;
-                blockStartTag = token.src;
-                break;
-            case "block-end":
-                depth--;
-                blockEndTag = token.src;
-                /*
-                 * We try to match the most deep blocks so discard any other blocks that have been started but not
-                 * finished.
-                 */
-                if ("" !== blockStartTag && "" !== blockEndTag) {
-                    blocks.push(blockStartTag + currentBlock + blockEndTag);
-                } else if ("" !== currentBlock.trim()) {
-                    blocks.push(currentBlock);
-                }
-                blockStartTag = "";
-                currentBlock = "";
-                blockEndTag = "";
-                break;
-        }
-        // Handles HTML with too many closing tags.
-        if (depth < 0) {
-            depth = 0;
-        }
-    });
-    return blocks;
-}
-module.exports = {
-    blockElements: blockElements,
-    inlineElements: inlineElements,
-    isBlockElement: isBlockElement,
-    isInlineElement: isInlineElement,
-    getBlocks: memoize(getBlocks)
-};
-//# sourceMappingURL=html.js.map
-//# sourceMappingURL=html.js.map
-
-/***/ }),
-/* 236 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Stack = __webpack_require__(91),
-    assignMergeValue = __webpack_require__(359),
-    baseFor = __webpack_require__(354),
-    baseMergeDeep = __webpack_require__(538),
-    isObject = __webpack_require__(7),
-    keysIn = __webpack_require__(68);
+var Stack = __webpack_require__(102),
+    assignMergeValue = __webpack_require__(394),
+    baseFor = __webpack_require__(252),
+    baseMergeDeep = __webpack_require__(563),
+    isObject = __webpack_require__(8),
+    keysIn = __webpack_require__(72);
 
 /**
  * The base implementation of `_.merge` without support for multiple sources.
@@ -14222,14 +14959,14 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
 module.exports = baseMerge;
 
 /***/ }),
-/* 237 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var isArrayLike = __webpack_require__(22),
-    isObjectLike = __webpack_require__(14);
+    isObjectLike = __webpack_require__(13);
 
 /**
  * This method is like `_.isArrayLike` except that it also checks if `value`
@@ -14263,16 +15000,16 @@ function isArrayLikeObject(value) {
 module.exports = isArrayLikeObject;
 
 /***/ }),
-/* 238 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var map = __webpack_require__(8);
-var addWordBoundary = __webpack_require__(107);
-var stripSpaces = __webpack_require__(21);
-var transliterate = __webpack_require__(363);
+var map = __webpack_require__(9);
+var addWordBoundary = __webpack_require__(83);
+var stripSpaces = __webpack_require__(19);
+var transliterate = __webpack_require__(247);
 /**
  * Creates a regex from the keyword with included wordboundaries.
  * @param {string} keyword The keyword to create a regex from.
@@ -14305,14 +15042,14 @@ module.exports = function (text, keyword, locale) {
 //# sourceMappingURL=matchTextWithTransliteration.js.map
 
 /***/ }),
-/* 239 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var urlFromAnchorRegex = /href=(["'])([^"']+)\1/i;
-var urlMethods = __webpack_require__(545);
+var urlMethods = __webpack_require__(378);
 /**
  * Removes a hash from a URL, assumes a well formed URL.
  *
@@ -14458,34 +15195,34 @@ module.exports = {
 //# sourceMappingURL=url.js.map
 
 /***/ }),
-/* 240 */
+/* 263 */
 /***/ (function(module, exports) {
 
 module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"∾","acd":"∿","acE":"∾̳","Acirc":"Â","acirc":"â","acute":"´","Acy":"А","acy":"а","AElig":"Æ","aelig":"æ","af":"⁡","Afr":"𝔄","afr":"𝔞","Agrave":"À","agrave":"à","alefsym":"ℵ","aleph":"ℵ","Alpha":"Α","alpha":"α","Amacr":"Ā","amacr":"ā","amalg":"⨿","amp":"&","AMP":"&","andand":"⩕","And":"⩓","and":"∧","andd":"⩜","andslope":"⩘","andv":"⩚","ang":"∠","ange":"⦤","angle":"∠","angmsdaa":"⦨","angmsdab":"⦩","angmsdac":"⦪","angmsdad":"⦫","angmsdae":"⦬","angmsdaf":"⦭","angmsdag":"⦮","angmsdah":"⦯","angmsd":"∡","angrt":"∟","angrtvb":"⊾","angrtvbd":"⦝","angsph":"∢","angst":"Å","angzarr":"⍼","Aogon":"Ą","aogon":"ą","Aopf":"𝔸","aopf":"𝕒","apacir":"⩯","ap":"≈","apE":"⩰","ape":"≊","apid":"≋","apos":"'","ApplyFunction":"⁡","approx":"≈","approxeq":"≊","Aring":"Å","aring":"å","Ascr":"𝒜","ascr":"𝒶","Assign":"≔","ast":"*","asymp":"≈","asympeq":"≍","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","awconint":"∳","awint":"⨑","backcong":"≌","backepsilon":"϶","backprime":"‵","backsim":"∽","backsimeq":"⋍","Backslash":"∖","Barv":"⫧","barvee":"⊽","barwed":"⌅","Barwed":"⌆","barwedge":"⌅","bbrk":"⎵","bbrktbrk":"⎶","bcong":"≌","Bcy":"Б","bcy":"б","bdquo":"„","becaus":"∵","because":"∵","Because":"∵","bemptyv":"⦰","bepsi":"϶","bernou":"ℬ","Bernoullis":"ℬ","Beta":"Β","beta":"β","beth":"ℶ","between":"≬","Bfr":"𝔅","bfr":"𝔟","bigcap":"⋂","bigcirc":"◯","bigcup":"⋃","bigodot":"⨀","bigoplus":"⨁","bigotimes":"⨂","bigsqcup":"⨆","bigstar":"★","bigtriangledown":"▽","bigtriangleup":"△","biguplus":"⨄","bigvee":"⋁","bigwedge":"⋀","bkarow":"⤍","blacklozenge":"⧫","blacksquare":"▪","blacktriangle":"▴","blacktriangledown":"▾","blacktriangleleft":"◂","blacktriangleright":"▸","blank":"␣","blk12":"▒","blk14":"░","blk34":"▓","block":"█","bne":"=⃥","bnequiv":"≡⃥","bNot":"⫭","bnot":"⌐","Bopf":"𝔹","bopf":"𝕓","bot":"⊥","bottom":"⊥","bowtie":"⋈","boxbox":"⧉","boxdl":"┐","boxdL":"╕","boxDl":"╖","boxDL":"╗","boxdr":"┌","boxdR":"╒","boxDr":"╓","boxDR":"╔","boxh":"─","boxH":"═","boxhd":"┬","boxHd":"╤","boxhD":"╥","boxHD":"╦","boxhu":"┴","boxHu":"╧","boxhU":"╨","boxHU":"╩","boxminus":"⊟","boxplus":"⊞","boxtimes":"⊠","boxul":"┘","boxuL":"╛","boxUl":"╜","boxUL":"╝","boxur":"└","boxuR":"╘","boxUr":"╙","boxUR":"╚","boxv":"│","boxV":"║","boxvh":"┼","boxvH":"╪","boxVh":"╫","boxVH":"╬","boxvl":"┤","boxvL":"╡","boxVl":"╢","boxVL":"╣","boxvr":"├","boxvR":"╞","boxVr":"╟","boxVR":"╠","bprime":"‵","breve":"˘","Breve":"˘","brvbar":"¦","bscr":"𝒷","Bscr":"ℬ","bsemi":"⁏","bsim":"∽","bsime":"⋍","bsolb":"⧅","bsol":"\\","bsolhsub":"⟈","bull":"•","bullet":"•","bump":"≎","bumpE":"⪮","bumpe":"≏","Bumpeq":"≎","bumpeq":"≏","Cacute":"Ć","cacute":"ć","capand":"⩄","capbrcup":"⩉","capcap":"⩋","cap":"∩","Cap":"⋒","capcup":"⩇","capdot":"⩀","CapitalDifferentialD":"ⅅ","caps":"∩︀","caret":"⁁","caron":"ˇ","Cayleys":"ℭ","ccaps":"⩍","Ccaron":"Č","ccaron":"č","Ccedil":"Ç","ccedil":"ç","Ccirc":"Ĉ","ccirc":"ĉ","Cconint":"∰","ccups":"⩌","ccupssm":"⩐","Cdot":"Ċ","cdot":"ċ","cedil":"¸","Cedilla":"¸","cemptyv":"⦲","cent":"¢","centerdot":"·","CenterDot":"·","cfr":"𝔠","Cfr":"ℭ","CHcy":"Ч","chcy":"ч","check":"✓","checkmark":"✓","Chi":"Χ","chi":"χ","circ":"ˆ","circeq":"≗","circlearrowleft":"↺","circlearrowright":"↻","circledast":"⊛","circledcirc":"⊚","circleddash":"⊝","CircleDot":"⊙","circledR":"®","circledS":"Ⓢ","CircleMinus":"⊖","CirclePlus":"⊕","CircleTimes":"⊗","cir":"○","cirE":"⧃","cire":"≗","cirfnint":"⨐","cirmid":"⫯","cirscir":"⧂","ClockwiseContourIntegral":"∲","CloseCurlyDoubleQuote":"”","CloseCurlyQuote":"’","clubs":"♣","clubsuit":"♣","colon":":","Colon":"∷","Colone":"⩴","colone":"≔","coloneq":"≔","comma":",","commat":"@","comp":"∁","compfn":"∘","complement":"∁","complexes":"ℂ","cong":"≅","congdot":"⩭","Congruent":"≡","conint":"∮","Conint":"∯","ContourIntegral":"∮","copf":"𝕔","Copf":"ℂ","coprod":"∐","Coproduct":"∐","copy":"©","COPY":"©","copysr":"℗","CounterClockwiseContourIntegral":"∳","crarr":"↵","cross":"✗","Cross":"⨯","Cscr":"𝒞","cscr":"𝒸","csub":"⫏","csube":"⫑","csup":"⫐","csupe":"⫒","ctdot":"⋯","cudarrl":"⤸","cudarrr":"⤵","cuepr":"⋞","cuesc":"⋟","cularr":"↶","cularrp":"⤽","cupbrcap":"⩈","cupcap":"⩆","CupCap":"≍","cup":"∪","Cup":"⋓","cupcup":"⩊","cupdot":"⊍","cupor":"⩅","cups":"∪︀","curarr":"↷","curarrm":"⤼","curlyeqprec":"⋞","curlyeqsucc":"⋟","curlyvee":"⋎","curlywedge":"⋏","curren":"¤","curvearrowleft":"↶","curvearrowright":"↷","cuvee":"⋎","cuwed":"⋏","cwconint":"∲","cwint":"∱","cylcty":"⌭","dagger":"†","Dagger":"‡","daleth":"ℸ","darr":"↓","Darr":"↡","dArr":"⇓","dash":"‐","Dashv":"⫤","dashv":"⊣","dbkarow":"⤏","dblac":"˝","Dcaron":"Ď","dcaron":"ď","Dcy":"Д","dcy":"д","ddagger":"‡","ddarr":"⇊","DD":"ⅅ","dd":"ⅆ","DDotrahd":"⤑","ddotseq":"⩷","deg":"°","Del":"∇","Delta":"Δ","delta":"δ","demptyv":"⦱","dfisht":"⥿","Dfr":"𝔇","dfr":"𝔡","dHar":"⥥","dharl":"⇃","dharr":"⇂","DiacriticalAcute":"´","DiacriticalDot":"˙","DiacriticalDoubleAcute":"˝","DiacriticalGrave":"`","DiacriticalTilde":"˜","diam":"⋄","diamond":"⋄","Diamond":"⋄","diamondsuit":"♦","diams":"♦","die":"¨","DifferentialD":"ⅆ","digamma":"ϝ","disin":"⋲","div":"÷","divide":"÷","divideontimes":"⋇","divonx":"⋇","DJcy":"Ђ","djcy":"ђ","dlcorn":"⌞","dlcrop":"⌍","dollar":"$","Dopf":"𝔻","dopf":"𝕕","Dot":"¨","dot":"˙","DotDot":"⃜","doteq":"≐","doteqdot":"≑","DotEqual":"≐","dotminus":"∸","dotplus":"∔","dotsquare":"⊡","doublebarwedge":"⌆","DoubleContourIntegral":"∯","DoubleDot":"¨","DoubleDownArrow":"⇓","DoubleLeftArrow":"⇐","DoubleLeftRightArrow":"⇔","DoubleLeftTee":"⫤","DoubleLongLeftArrow":"⟸","DoubleLongLeftRightArrow":"⟺","DoubleLongRightArrow":"⟹","DoubleRightArrow":"⇒","DoubleRightTee":"⊨","DoubleUpArrow":"⇑","DoubleUpDownArrow":"⇕","DoubleVerticalBar":"∥","DownArrowBar":"⤓","downarrow":"↓","DownArrow":"↓","Downarrow":"⇓","DownArrowUpArrow":"⇵","DownBreve":"̑","downdownarrows":"⇊","downharpoonleft":"⇃","downharpoonright":"⇂","DownLeftRightVector":"⥐","DownLeftTeeVector":"⥞","DownLeftVectorBar":"⥖","DownLeftVector":"↽","DownRightTeeVector":"⥟","DownRightVectorBar":"⥗","DownRightVector":"⇁","DownTeeArrow":"↧","DownTee":"⊤","drbkarow":"⤐","drcorn":"⌟","drcrop":"⌌","Dscr":"𝒟","dscr":"𝒹","DScy":"Ѕ","dscy":"ѕ","dsol":"⧶","Dstrok":"Đ","dstrok":"đ","dtdot":"⋱","dtri":"▿","dtrif":"▾","duarr":"⇵","duhar":"⥯","dwangle":"⦦","DZcy":"Џ","dzcy":"џ","dzigrarr":"⟿","Eacute":"É","eacute":"é","easter":"⩮","Ecaron":"Ě","ecaron":"ě","Ecirc":"Ê","ecirc":"ê","ecir":"≖","ecolon":"≕","Ecy":"Э","ecy":"э","eDDot":"⩷","Edot":"Ė","edot":"ė","eDot":"≑","ee":"ⅇ","efDot":"≒","Efr":"𝔈","efr":"𝔢","eg":"⪚","Egrave":"È","egrave":"è","egs":"⪖","egsdot":"⪘","el":"⪙","Element":"∈","elinters":"⏧","ell":"ℓ","els":"⪕","elsdot":"⪗","Emacr":"Ē","emacr":"ē","empty":"∅","emptyset":"∅","EmptySmallSquare":"◻","emptyv":"∅","EmptyVerySmallSquare":"▫","emsp13":" ","emsp14":" ","emsp":" ","ENG":"Ŋ","eng":"ŋ","ensp":" ","Eogon":"Ę","eogon":"ę","Eopf":"𝔼","eopf":"𝕖","epar":"⋕","eparsl":"⧣","eplus":"⩱","epsi":"ε","Epsilon":"Ε","epsilon":"ε","epsiv":"ϵ","eqcirc":"≖","eqcolon":"≕","eqsim":"≂","eqslantgtr":"⪖","eqslantless":"⪕","Equal":"⩵","equals":"=","EqualTilde":"≂","equest":"≟","Equilibrium":"⇌","equiv":"≡","equivDD":"⩸","eqvparsl":"⧥","erarr":"⥱","erDot":"≓","escr":"ℯ","Escr":"ℰ","esdot":"≐","Esim":"⩳","esim":"≂","Eta":"Η","eta":"η","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","euro":"€","excl":"!","exist":"∃","Exists":"∃","expectation":"ℰ","exponentiale":"ⅇ","ExponentialE":"ⅇ","fallingdotseq":"≒","Fcy":"Ф","fcy":"ф","female":"♀","ffilig":"ﬃ","fflig":"ﬀ","ffllig":"ﬄ","Ffr":"𝔉","ffr":"𝔣","filig":"ﬁ","FilledSmallSquare":"◼","FilledVerySmallSquare":"▪","fjlig":"fj","flat":"♭","fllig":"ﬂ","fltns":"▱","fnof":"ƒ","Fopf":"𝔽","fopf":"𝕗","forall":"∀","ForAll":"∀","fork":"⋔","forkv":"⫙","Fouriertrf":"ℱ","fpartint":"⨍","frac12":"½","frac13":"⅓","frac14":"¼","frac15":"⅕","frac16":"⅙","frac18":"⅛","frac23":"⅔","frac25":"⅖","frac34":"¾","frac35":"⅗","frac38":"⅜","frac45":"⅘","frac56":"⅚","frac58":"⅝","frac78":"⅞","frasl":"⁄","frown":"⌢","fscr":"𝒻","Fscr":"ℱ","gacute":"ǵ","Gamma":"Γ","gamma":"γ","Gammad":"Ϝ","gammad":"ϝ","gap":"⪆","Gbreve":"Ğ","gbreve":"ğ","Gcedil":"Ģ","Gcirc":"Ĝ","gcirc":"ĝ","Gcy":"Г","gcy":"г","Gdot":"Ġ","gdot":"ġ","ge":"≥","gE":"≧","gEl":"⪌","gel":"⋛","geq":"≥","geqq":"≧","geqslant":"⩾","gescc":"⪩","ges":"⩾","gesdot":"⪀","gesdoto":"⪂","gesdotol":"⪄","gesl":"⋛︀","gesles":"⪔","Gfr":"𝔊","gfr":"𝔤","gg":"≫","Gg":"⋙","ggg":"⋙","gimel":"ℷ","GJcy":"Ѓ","gjcy":"ѓ","gla":"⪥","gl":"≷","glE":"⪒","glj":"⪤","gnap":"⪊","gnapprox":"⪊","gne":"⪈","gnE":"≩","gneq":"⪈","gneqq":"≩","gnsim":"⋧","Gopf":"𝔾","gopf":"𝕘","grave":"`","GreaterEqual":"≥","GreaterEqualLess":"⋛","GreaterFullEqual":"≧","GreaterGreater":"⪢","GreaterLess":"≷","GreaterSlantEqual":"⩾","GreaterTilde":"≳","Gscr":"𝒢","gscr":"ℊ","gsim":"≳","gsime":"⪎","gsiml":"⪐","gtcc":"⪧","gtcir":"⩺","gt":">","GT":">","Gt":"≫","gtdot":"⋗","gtlPar":"⦕","gtquest":"⩼","gtrapprox":"⪆","gtrarr":"⥸","gtrdot":"⋗","gtreqless":"⋛","gtreqqless":"⪌","gtrless":"≷","gtrsim":"≳","gvertneqq":"≩︀","gvnE":"≩︀","Hacek":"ˇ","hairsp":" ","half":"½","hamilt":"ℋ","HARDcy":"Ъ","hardcy":"ъ","harrcir":"⥈","harr":"↔","hArr":"⇔","harrw":"↭","Hat":"^","hbar":"ℏ","Hcirc":"Ĥ","hcirc":"ĥ","hearts":"♥","heartsuit":"♥","hellip":"…","hercon":"⊹","hfr":"𝔥","Hfr":"ℌ","HilbertSpace":"ℋ","hksearow":"⤥","hkswarow":"⤦","hoarr":"⇿","homtht":"∻","hookleftarrow":"↩","hookrightarrow":"↪","hopf":"𝕙","Hopf":"ℍ","horbar":"―","HorizontalLine":"─","hscr":"𝒽","Hscr":"ℋ","hslash":"ℏ","Hstrok":"Ħ","hstrok":"ħ","HumpDownHump":"≎","HumpEqual":"≏","hybull":"⁃","hyphen":"‐","Iacute":"Í","iacute":"í","ic":"⁣","Icirc":"Î","icirc":"î","Icy":"И","icy":"и","Idot":"İ","IEcy":"Е","iecy":"е","iexcl":"¡","iff":"⇔","ifr":"𝔦","Ifr":"ℑ","Igrave":"Ì","igrave":"ì","ii":"ⅈ","iiiint":"⨌","iiint":"∭","iinfin":"⧜","iiota":"℩","IJlig":"Ĳ","ijlig":"ĳ","Imacr":"Ī","imacr":"ī","image":"ℑ","ImaginaryI":"ⅈ","imagline":"ℐ","imagpart":"ℑ","imath":"ı","Im":"ℑ","imof":"⊷","imped":"Ƶ","Implies":"⇒","incare":"℅","in":"∈","infin":"∞","infintie":"⧝","inodot":"ı","intcal":"⊺","int":"∫","Int":"∬","integers":"ℤ","Integral":"∫","intercal":"⊺","Intersection":"⋂","intlarhk":"⨗","intprod":"⨼","InvisibleComma":"⁣","InvisibleTimes":"⁢","IOcy":"Ё","iocy":"ё","Iogon":"Į","iogon":"į","Iopf":"𝕀","iopf":"𝕚","Iota":"Ι","iota":"ι","iprod":"⨼","iquest":"¿","iscr":"𝒾","Iscr":"ℐ","isin":"∈","isindot":"⋵","isinE":"⋹","isins":"⋴","isinsv":"⋳","isinv":"∈","it":"⁢","Itilde":"Ĩ","itilde":"ĩ","Iukcy":"І","iukcy":"і","Iuml":"Ï","iuml":"ï","Jcirc":"Ĵ","jcirc":"ĵ","Jcy":"Й","jcy":"й","Jfr":"𝔍","jfr":"𝔧","jmath":"ȷ","Jopf":"𝕁","jopf":"𝕛","Jscr":"𝒥","jscr":"𝒿","Jsercy":"Ј","jsercy":"ј","Jukcy":"Є","jukcy":"є","Kappa":"Κ","kappa":"κ","kappav":"ϰ","Kcedil":"Ķ","kcedil":"ķ","Kcy":"К","kcy":"к","Kfr":"𝔎","kfr":"𝔨","kgreen":"ĸ","KHcy":"Х","khcy":"х","KJcy":"Ќ","kjcy":"ќ","Kopf":"𝕂","kopf":"𝕜","Kscr":"𝒦","kscr":"𝓀","lAarr":"⇚","Lacute":"Ĺ","lacute":"ĺ","laemptyv":"⦴","lagran":"ℒ","Lambda":"Λ","lambda":"λ","lang":"⟨","Lang":"⟪","langd":"⦑","langle":"⟨","lap":"⪅","Laplacetrf":"ℒ","laquo":"«","larrb":"⇤","larrbfs":"⤟","larr":"←","Larr":"↞","lArr":"⇐","larrfs":"⤝","larrhk":"↩","larrlp":"↫","larrpl":"⤹","larrsim":"⥳","larrtl":"↢","latail":"⤙","lAtail":"⤛","lat":"⪫","late":"⪭","lates":"⪭︀","lbarr":"⤌","lBarr":"⤎","lbbrk":"❲","lbrace":"{","lbrack":"[","lbrke":"⦋","lbrksld":"⦏","lbrkslu":"⦍","Lcaron":"Ľ","lcaron":"ľ","Lcedil":"Ļ","lcedil":"ļ","lceil":"⌈","lcub":"{","Lcy":"Л","lcy":"л","ldca":"⤶","ldquo":"“","ldquor":"„","ldrdhar":"⥧","ldrushar":"⥋","ldsh":"↲","le":"≤","lE":"≦","LeftAngleBracket":"⟨","LeftArrowBar":"⇤","leftarrow":"←","LeftArrow":"←","Leftarrow":"⇐","LeftArrowRightArrow":"⇆","leftarrowtail":"↢","LeftCeiling":"⌈","LeftDoubleBracket":"⟦","LeftDownTeeVector":"⥡","LeftDownVectorBar":"⥙","LeftDownVector":"⇃","LeftFloor":"⌊","leftharpoondown":"↽","leftharpoonup":"↼","leftleftarrows":"⇇","leftrightarrow":"↔","LeftRightArrow":"↔","Leftrightarrow":"⇔","leftrightarrows":"⇆","leftrightharpoons":"⇋","leftrightsquigarrow":"↭","LeftRightVector":"⥎","LeftTeeArrow":"↤","LeftTee":"⊣","LeftTeeVector":"⥚","leftthreetimes":"⋋","LeftTriangleBar":"⧏","LeftTriangle":"⊲","LeftTriangleEqual":"⊴","LeftUpDownVector":"⥑","LeftUpTeeVector":"⥠","LeftUpVectorBar":"⥘","LeftUpVector":"↿","LeftVectorBar":"⥒","LeftVector":"↼","lEg":"⪋","leg":"⋚","leq":"≤","leqq":"≦","leqslant":"⩽","lescc":"⪨","les":"⩽","lesdot":"⩿","lesdoto":"⪁","lesdotor":"⪃","lesg":"⋚︀","lesges":"⪓","lessapprox":"⪅","lessdot":"⋖","lesseqgtr":"⋚","lesseqqgtr":"⪋","LessEqualGreater":"⋚","LessFullEqual":"≦","LessGreater":"≶","lessgtr":"≶","LessLess":"⪡","lesssim":"≲","LessSlantEqual":"⩽","LessTilde":"≲","lfisht":"⥼","lfloor":"⌊","Lfr":"𝔏","lfr":"𝔩","lg":"≶","lgE":"⪑","lHar":"⥢","lhard":"↽","lharu":"↼","lharul":"⥪","lhblk":"▄","LJcy":"Љ","ljcy":"љ","llarr":"⇇","ll":"≪","Ll":"⋘","llcorner":"⌞","Lleftarrow":"⇚","llhard":"⥫","lltri":"◺","Lmidot":"Ŀ","lmidot":"ŀ","lmoustache":"⎰","lmoust":"⎰","lnap":"⪉","lnapprox":"⪉","lne":"⪇","lnE":"≨","lneq":"⪇","lneqq":"≨","lnsim":"⋦","loang":"⟬","loarr":"⇽","lobrk":"⟦","longleftarrow":"⟵","LongLeftArrow":"⟵","Longleftarrow":"⟸","longleftrightarrow":"⟷","LongLeftRightArrow":"⟷","Longleftrightarrow":"⟺","longmapsto":"⟼","longrightarrow":"⟶","LongRightArrow":"⟶","Longrightarrow":"⟹","looparrowleft":"↫","looparrowright":"↬","lopar":"⦅","Lopf":"𝕃","lopf":"𝕝","loplus":"⨭","lotimes":"⨴","lowast":"∗","lowbar":"_","LowerLeftArrow":"↙","LowerRightArrow":"↘","loz":"◊","lozenge":"◊","lozf":"⧫","lpar":"(","lparlt":"⦓","lrarr":"⇆","lrcorner":"⌟","lrhar":"⇋","lrhard":"⥭","lrm":"‎","lrtri":"⊿","lsaquo":"‹","lscr":"𝓁","Lscr":"ℒ","lsh":"↰","Lsh":"↰","lsim":"≲","lsime":"⪍","lsimg":"⪏","lsqb":"[","lsquo":"‘","lsquor":"‚","Lstrok":"Ł","lstrok":"ł","ltcc":"⪦","ltcir":"⩹","lt":"<","LT":"<","Lt":"≪","ltdot":"⋖","lthree":"⋋","ltimes":"⋉","ltlarr":"⥶","ltquest":"⩻","ltri":"◃","ltrie":"⊴","ltrif":"◂","ltrPar":"⦖","lurdshar":"⥊","luruhar":"⥦","lvertneqq":"≨︀","lvnE":"≨︀","macr":"¯","male":"♂","malt":"✠","maltese":"✠","Map":"⤅","map":"↦","mapsto":"↦","mapstodown":"↧","mapstoleft":"↤","mapstoup":"↥","marker":"▮","mcomma":"⨩","Mcy":"М","mcy":"м","mdash":"—","mDDot":"∺","measuredangle":"∡","MediumSpace":" ","Mellintrf":"ℳ","Mfr":"𝔐","mfr":"𝔪","mho":"℧","micro":"µ","midast":"*","midcir":"⫰","mid":"∣","middot":"·","minusb":"⊟","minus":"−","minusd":"∸","minusdu":"⨪","MinusPlus":"∓","mlcp":"⫛","mldr":"…","mnplus":"∓","models":"⊧","Mopf":"𝕄","mopf":"𝕞","mp":"∓","mscr":"𝓂","Mscr":"ℳ","mstpos":"∾","Mu":"Μ","mu":"μ","multimap":"⊸","mumap":"⊸","nabla":"∇","Nacute":"Ń","nacute":"ń","nang":"∠⃒","nap":"≉","napE":"⩰̸","napid":"≋̸","napos":"ŉ","napprox":"≉","natural":"♮","naturals":"ℕ","natur":"♮","nbsp":" ","nbump":"≎̸","nbumpe":"≏̸","ncap":"⩃","Ncaron":"Ň","ncaron":"ň","Ncedil":"Ņ","ncedil":"ņ","ncong":"≇","ncongdot":"⩭̸","ncup":"⩂","Ncy":"Н","ncy":"н","ndash":"–","nearhk":"⤤","nearr":"↗","neArr":"⇗","nearrow":"↗","ne":"≠","nedot":"≐̸","NegativeMediumSpace":"​","NegativeThickSpace":"​","NegativeThinSpace":"​","NegativeVeryThinSpace":"​","nequiv":"≢","nesear":"⤨","nesim":"≂̸","NestedGreaterGreater":"≫","NestedLessLess":"≪","NewLine":"\n","nexist":"∄","nexists":"∄","Nfr":"𝔑","nfr":"𝔫","ngE":"≧̸","nge":"≱","ngeq":"≱","ngeqq":"≧̸","ngeqslant":"⩾̸","nges":"⩾̸","nGg":"⋙̸","ngsim":"≵","nGt":"≫⃒","ngt":"≯","ngtr":"≯","nGtv":"≫̸","nharr":"↮","nhArr":"⇎","nhpar":"⫲","ni":"∋","nis":"⋼","nisd":"⋺","niv":"∋","NJcy":"Њ","njcy":"њ","nlarr":"↚","nlArr":"⇍","nldr":"‥","nlE":"≦̸","nle":"≰","nleftarrow":"↚","nLeftarrow":"⇍","nleftrightarrow":"↮","nLeftrightarrow":"⇎","nleq":"≰","nleqq":"≦̸","nleqslant":"⩽̸","nles":"⩽̸","nless":"≮","nLl":"⋘̸","nlsim":"≴","nLt":"≪⃒","nlt":"≮","nltri":"⋪","nltrie":"⋬","nLtv":"≪̸","nmid":"∤","NoBreak":"⁠","NonBreakingSpace":" ","nopf":"𝕟","Nopf":"ℕ","Not":"⫬","not":"¬","NotCongruent":"≢","NotCupCap":"≭","NotDoubleVerticalBar":"∦","NotElement":"∉","NotEqual":"≠","NotEqualTilde":"≂̸","NotExists":"∄","NotGreater":"≯","NotGreaterEqual":"≱","NotGreaterFullEqual":"≧̸","NotGreaterGreater":"≫̸","NotGreaterLess":"≹","NotGreaterSlantEqual":"⩾̸","NotGreaterTilde":"≵","NotHumpDownHump":"≎̸","NotHumpEqual":"≏̸","notin":"∉","notindot":"⋵̸","notinE":"⋹̸","notinva":"∉","notinvb":"⋷","notinvc":"⋶","NotLeftTriangleBar":"⧏̸","NotLeftTriangle":"⋪","NotLeftTriangleEqual":"⋬","NotLess":"≮","NotLessEqual":"≰","NotLessGreater":"≸","NotLessLess":"≪̸","NotLessSlantEqual":"⩽̸","NotLessTilde":"≴","NotNestedGreaterGreater":"⪢̸","NotNestedLessLess":"⪡̸","notni":"∌","notniva":"∌","notnivb":"⋾","notnivc":"⋽","NotPrecedes":"⊀","NotPrecedesEqual":"⪯̸","NotPrecedesSlantEqual":"⋠","NotReverseElement":"∌","NotRightTriangleBar":"⧐̸","NotRightTriangle":"⋫","NotRightTriangleEqual":"⋭","NotSquareSubset":"⊏̸","NotSquareSubsetEqual":"⋢","NotSquareSuperset":"⊐̸","NotSquareSupersetEqual":"⋣","NotSubset":"⊂⃒","NotSubsetEqual":"⊈","NotSucceeds":"⊁","NotSucceedsEqual":"⪰̸","NotSucceedsSlantEqual":"⋡","NotSucceedsTilde":"≿̸","NotSuperset":"⊃⃒","NotSupersetEqual":"⊉","NotTilde":"≁","NotTildeEqual":"≄","NotTildeFullEqual":"≇","NotTildeTilde":"≉","NotVerticalBar":"∤","nparallel":"∦","npar":"∦","nparsl":"⫽⃥","npart":"∂̸","npolint":"⨔","npr":"⊀","nprcue":"⋠","nprec":"⊀","npreceq":"⪯̸","npre":"⪯̸","nrarrc":"⤳̸","nrarr":"↛","nrArr":"⇏","nrarrw":"↝̸","nrightarrow":"↛","nRightarrow":"⇏","nrtri":"⋫","nrtrie":"⋭","nsc":"⊁","nsccue":"⋡","nsce":"⪰̸","Nscr":"𝒩","nscr":"𝓃","nshortmid":"∤","nshortparallel":"∦","nsim":"≁","nsime":"≄","nsimeq":"≄","nsmid":"∤","nspar":"∦","nsqsube":"⋢","nsqsupe":"⋣","nsub":"⊄","nsubE":"⫅̸","nsube":"⊈","nsubset":"⊂⃒","nsubseteq":"⊈","nsubseteqq":"⫅̸","nsucc":"⊁","nsucceq":"⪰̸","nsup":"⊅","nsupE":"⫆̸","nsupe":"⊉","nsupset":"⊃⃒","nsupseteq":"⊉","nsupseteqq":"⫆̸","ntgl":"≹","Ntilde":"Ñ","ntilde":"ñ","ntlg":"≸","ntriangleleft":"⋪","ntrianglelefteq":"⋬","ntriangleright":"⋫","ntrianglerighteq":"⋭","Nu":"Ν","nu":"ν","num":"#","numero":"№","numsp":" ","nvap":"≍⃒","nvdash":"⊬","nvDash":"⊭","nVdash":"⊮","nVDash":"⊯","nvge":"≥⃒","nvgt":">⃒","nvHarr":"⤄","nvinfin":"⧞","nvlArr":"⤂","nvle":"≤⃒","nvlt":"<⃒","nvltrie":"⊴⃒","nvrArr":"⤃","nvrtrie":"⊵⃒","nvsim":"∼⃒","nwarhk":"⤣","nwarr":"↖","nwArr":"⇖","nwarrow":"↖","nwnear":"⤧","Oacute":"Ó","oacute":"ó","oast":"⊛","Ocirc":"Ô","ocirc":"ô","ocir":"⊚","Ocy":"О","ocy":"о","odash":"⊝","Odblac":"Ő","odblac":"ő","odiv":"⨸","odot":"⊙","odsold":"⦼","OElig":"Œ","oelig":"œ","ofcir":"⦿","Ofr":"𝔒","ofr":"𝔬","ogon":"˛","Ograve":"Ò","ograve":"ò","ogt":"⧁","ohbar":"⦵","ohm":"Ω","oint":"∮","olarr":"↺","olcir":"⦾","olcross":"⦻","oline":"‾","olt":"⧀","Omacr":"Ō","omacr":"ō","Omega":"Ω","omega":"ω","Omicron":"Ο","omicron":"ο","omid":"⦶","ominus":"⊖","Oopf":"𝕆","oopf":"𝕠","opar":"⦷","OpenCurlyDoubleQuote":"“","OpenCurlyQuote":"‘","operp":"⦹","oplus":"⊕","orarr":"↻","Or":"⩔","or":"∨","ord":"⩝","order":"ℴ","orderof":"ℴ","ordf":"ª","ordm":"º","origof":"⊶","oror":"⩖","orslope":"⩗","orv":"⩛","oS":"Ⓢ","Oscr":"𝒪","oscr":"ℴ","Oslash":"Ø","oslash":"ø","osol":"⊘","Otilde":"Õ","otilde":"õ","otimesas":"⨶","Otimes":"⨷","otimes":"⊗","Ouml":"Ö","ouml":"ö","ovbar":"⌽","OverBar":"‾","OverBrace":"⏞","OverBracket":"⎴","OverParenthesis":"⏜","para":"¶","parallel":"∥","par":"∥","parsim":"⫳","parsl":"⫽","part":"∂","PartialD":"∂","Pcy":"П","pcy":"п","percnt":"%","period":".","permil":"‰","perp":"⊥","pertenk":"‱","Pfr":"𝔓","pfr":"𝔭","Phi":"Φ","phi":"φ","phiv":"ϕ","phmmat":"ℳ","phone":"☎","Pi":"Π","pi":"π","pitchfork":"⋔","piv":"ϖ","planck":"ℏ","planckh":"ℎ","plankv":"ℏ","plusacir":"⨣","plusb":"⊞","pluscir":"⨢","plus":"+","plusdo":"∔","plusdu":"⨥","pluse":"⩲","PlusMinus":"±","plusmn":"±","plussim":"⨦","plustwo":"⨧","pm":"±","Poincareplane":"ℌ","pointint":"⨕","popf":"𝕡","Popf":"ℙ","pound":"£","prap":"⪷","Pr":"⪻","pr":"≺","prcue":"≼","precapprox":"⪷","prec":"≺","preccurlyeq":"≼","Precedes":"≺","PrecedesEqual":"⪯","PrecedesSlantEqual":"≼","PrecedesTilde":"≾","preceq":"⪯","precnapprox":"⪹","precneqq":"⪵","precnsim":"⋨","pre":"⪯","prE":"⪳","precsim":"≾","prime":"′","Prime":"″","primes":"ℙ","prnap":"⪹","prnE":"⪵","prnsim":"⋨","prod":"∏","Product":"∏","profalar":"⌮","profline":"⌒","profsurf":"⌓","prop":"∝","Proportional":"∝","Proportion":"∷","propto":"∝","prsim":"≾","prurel":"⊰","Pscr":"𝒫","pscr":"𝓅","Psi":"Ψ","psi":"ψ","puncsp":" ","Qfr":"𝔔","qfr":"𝔮","qint":"⨌","qopf":"𝕢","Qopf":"ℚ","qprime":"⁗","Qscr":"𝒬","qscr":"𝓆","quaternions":"ℍ","quatint":"⨖","quest":"?","questeq":"≟","quot":"\"","QUOT":"\"","rAarr":"⇛","race":"∽̱","Racute":"Ŕ","racute":"ŕ","radic":"√","raemptyv":"⦳","rang":"⟩","Rang":"⟫","rangd":"⦒","range":"⦥","rangle":"⟩","raquo":"»","rarrap":"⥵","rarrb":"⇥","rarrbfs":"⤠","rarrc":"⤳","rarr":"→","Rarr":"↠","rArr":"⇒","rarrfs":"⤞","rarrhk":"↪","rarrlp":"↬","rarrpl":"⥅","rarrsim":"⥴","Rarrtl":"⤖","rarrtl":"↣","rarrw":"↝","ratail":"⤚","rAtail":"⤜","ratio":"∶","rationals":"ℚ","rbarr":"⤍","rBarr":"⤏","RBarr":"⤐","rbbrk":"❳","rbrace":"}","rbrack":"]","rbrke":"⦌","rbrksld":"⦎","rbrkslu":"⦐","Rcaron":"Ř","rcaron":"ř","Rcedil":"Ŗ","rcedil":"ŗ","rceil":"⌉","rcub":"}","Rcy":"Р","rcy":"р","rdca":"⤷","rdldhar":"⥩","rdquo":"”","rdquor":"”","rdsh":"↳","real":"ℜ","realine":"ℛ","realpart":"ℜ","reals":"ℝ","Re":"ℜ","rect":"▭","reg":"®","REG":"®","ReverseElement":"∋","ReverseEquilibrium":"⇋","ReverseUpEquilibrium":"⥯","rfisht":"⥽","rfloor":"⌋","rfr":"𝔯","Rfr":"ℜ","rHar":"⥤","rhard":"⇁","rharu":"⇀","rharul":"⥬","Rho":"Ρ","rho":"ρ","rhov":"ϱ","RightAngleBracket":"⟩","RightArrowBar":"⇥","rightarrow":"→","RightArrow":"→","Rightarrow":"⇒","RightArrowLeftArrow":"⇄","rightarrowtail":"↣","RightCeiling":"⌉","RightDoubleBracket":"⟧","RightDownTeeVector":"⥝","RightDownVectorBar":"⥕","RightDownVector":"⇂","RightFloor":"⌋","rightharpoondown":"⇁","rightharpoonup":"⇀","rightleftarrows":"⇄","rightleftharpoons":"⇌","rightrightarrows":"⇉","rightsquigarrow":"↝","RightTeeArrow":"↦","RightTee":"⊢","RightTeeVector":"⥛","rightthreetimes":"⋌","RightTriangleBar":"⧐","RightTriangle":"⊳","RightTriangleEqual":"⊵","RightUpDownVector":"⥏","RightUpTeeVector":"⥜","RightUpVectorBar":"⥔","RightUpVector":"↾","RightVectorBar":"⥓","RightVector":"⇀","ring":"˚","risingdotseq":"≓","rlarr":"⇄","rlhar":"⇌","rlm":"‏","rmoustache":"⎱","rmoust":"⎱","rnmid":"⫮","roang":"⟭","roarr":"⇾","robrk":"⟧","ropar":"⦆","ropf":"𝕣","Ropf":"ℝ","roplus":"⨮","rotimes":"⨵","RoundImplies":"⥰","rpar":")","rpargt":"⦔","rppolint":"⨒","rrarr":"⇉","Rrightarrow":"⇛","rsaquo":"›","rscr":"𝓇","Rscr":"ℛ","rsh":"↱","Rsh":"↱","rsqb":"]","rsquo":"’","rsquor":"’","rthree":"⋌","rtimes":"⋊","rtri":"▹","rtrie":"⊵","rtrif":"▸","rtriltri":"⧎","RuleDelayed":"⧴","ruluhar":"⥨","rx":"℞","Sacute":"Ś","sacute":"ś","sbquo":"‚","scap":"⪸","Scaron":"Š","scaron":"š","Sc":"⪼","sc":"≻","sccue":"≽","sce":"⪰","scE":"⪴","Scedil":"Ş","scedil":"ş","Scirc":"Ŝ","scirc":"ŝ","scnap":"⪺","scnE":"⪶","scnsim":"⋩","scpolint":"⨓","scsim":"≿","Scy":"С","scy":"с","sdotb":"⊡","sdot":"⋅","sdote":"⩦","searhk":"⤥","searr":"↘","seArr":"⇘","searrow":"↘","sect":"§","semi":";","seswar":"⤩","setminus":"∖","setmn":"∖","sext":"✶","Sfr":"𝔖","sfr":"𝔰","sfrown":"⌢","sharp":"♯","SHCHcy":"Щ","shchcy":"щ","SHcy":"Ш","shcy":"ш","ShortDownArrow":"↓","ShortLeftArrow":"←","shortmid":"∣","shortparallel":"∥","ShortRightArrow":"→","ShortUpArrow":"↑","shy":"­","Sigma":"Σ","sigma":"σ","sigmaf":"ς","sigmav":"ς","sim":"∼","simdot":"⩪","sime":"≃","simeq":"≃","simg":"⪞","simgE":"⪠","siml":"⪝","simlE":"⪟","simne":"≆","simplus":"⨤","simrarr":"⥲","slarr":"←","SmallCircle":"∘","smallsetminus":"∖","smashp":"⨳","smeparsl":"⧤","smid":"∣","smile":"⌣","smt":"⪪","smte":"⪬","smtes":"⪬︀","SOFTcy":"Ь","softcy":"ь","solbar":"⌿","solb":"⧄","sol":"/","Sopf":"𝕊","sopf":"𝕤","spades":"♠","spadesuit":"♠","spar":"∥","sqcap":"⊓","sqcaps":"⊓︀","sqcup":"⊔","sqcups":"⊔︀","Sqrt":"√","sqsub":"⊏","sqsube":"⊑","sqsubset":"⊏","sqsubseteq":"⊑","sqsup":"⊐","sqsupe":"⊒","sqsupset":"⊐","sqsupseteq":"⊒","square":"□","Square":"□","SquareIntersection":"⊓","SquareSubset":"⊏","SquareSubsetEqual":"⊑","SquareSuperset":"⊐","SquareSupersetEqual":"⊒","SquareUnion":"⊔","squarf":"▪","squ":"□","squf":"▪","srarr":"→","Sscr":"𝒮","sscr":"𝓈","ssetmn":"∖","ssmile":"⌣","sstarf":"⋆","Star":"⋆","star":"☆","starf":"★","straightepsilon":"ϵ","straightphi":"ϕ","strns":"¯","sub":"⊂","Sub":"⋐","subdot":"⪽","subE":"⫅","sube":"⊆","subedot":"⫃","submult":"⫁","subnE":"⫋","subne":"⊊","subplus":"⪿","subrarr":"⥹","subset":"⊂","Subset":"⋐","subseteq":"⊆","subseteqq":"⫅","SubsetEqual":"⊆","subsetneq":"⊊","subsetneqq":"⫋","subsim":"⫇","subsub":"⫕","subsup":"⫓","succapprox":"⪸","succ":"≻","succcurlyeq":"≽","Succeeds":"≻","SucceedsEqual":"⪰","SucceedsSlantEqual":"≽","SucceedsTilde":"≿","succeq":"⪰","succnapprox":"⪺","succneqq":"⪶","succnsim":"⋩","succsim":"≿","SuchThat":"∋","sum":"∑","Sum":"∑","sung":"♪","sup1":"¹","sup2":"²","sup3":"³","sup":"⊃","Sup":"⋑","supdot":"⪾","supdsub":"⫘","supE":"⫆","supe":"⊇","supedot":"⫄","Superset":"⊃","SupersetEqual":"⊇","suphsol":"⟉","suphsub":"⫗","suplarr":"⥻","supmult":"⫂","supnE":"⫌","supne":"⊋","supplus":"⫀","supset":"⊃","Supset":"⋑","supseteq":"⊇","supseteqq":"⫆","supsetneq":"⊋","supsetneqq":"⫌","supsim":"⫈","supsub":"⫔","supsup":"⫖","swarhk":"⤦","swarr":"↙","swArr":"⇙","swarrow":"↙","swnwar":"⤪","szlig":"ß","Tab":"\t","target":"⌖","Tau":"Τ","tau":"τ","tbrk":"⎴","Tcaron":"Ť","tcaron":"ť","Tcedil":"Ţ","tcedil":"ţ","Tcy":"Т","tcy":"т","tdot":"⃛","telrec":"⌕","Tfr":"𝔗","tfr":"𝔱","there4":"∴","therefore":"∴","Therefore":"∴","Theta":"Θ","theta":"θ","thetasym":"ϑ","thetav":"ϑ","thickapprox":"≈","thicksim":"∼","ThickSpace":"  ","ThinSpace":" ","thinsp":" ","thkap":"≈","thksim":"∼","THORN":"Þ","thorn":"þ","tilde":"˜","Tilde":"∼","TildeEqual":"≃","TildeFullEqual":"≅","TildeTilde":"≈","timesbar":"⨱","timesb":"⊠","times":"×","timesd":"⨰","tint":"∭","toea":"⤨","topbot":"⌶","topcir":"⫱","top":"⊤","Topf":"𝕋","topf":"𝕥","topfork":"⫚","tosa":"⤩","tprime":"‴","trade":"™","TRADE":"™","triangle":"▵","triangledown":"▿","triangleleft":"◃","trianglelefteq":"⊴","triangleq":"≜","triangleright":"▹","trianglerighteq":"⊵","tridot":"◬","trie":"≜","triminus":"⨺","TripleDot":"⃛","triplus":"⨹","trisb":"⧍","tritime":"⨻","trpezium":"⏢","Tscr":"𝒯","tscr":"𝓉","TScy":"Ц","tscy":"ц","TSHcy":"Ћ","tshcy":"ћ","Tstrok":"Ŧ","tstrok":"ŧ","twixt":"≬","twoheadleftarrow":"↞","twoheadrightarrow":"↠","Uacute":"Ú","uacute":"ú","uarr":"↑","Uarr":"↟","uArr":"⇑","Uarrocir":"⥉","Ubrcy":"Ў","ubrcy":"ў","Ubreve":"Ŭ","ubreve":"ŭ","Ucirc":"Û","ucirc":"û","Ucy":"У","ucy":"у","udarr":"⇅","Udblac":"Ű","udblac":"ű","udhar":"⥮","ufisht":"⥾","Ufr":"𝔘","ufr":"𝔲","Ugrave":"Ù","ugrave":"ù","uHar":"⥣","uharl":"↿","uharr":"↾","uhblk":"▀","ulcorn":"⌜","ulcorner":"⌜","ulcrop":"⌏","ultri":"◸","Umacr":"Ū","umacr":"ū","uml":"¨","UnderBar":"_","UnderBrace":"⏟","UnderBracket":"⎵","UnderParenthesis":"⏝","Union":"⋃","UnionPlus":"⊎","Uogon":"Ų","uogon":"ų","Uopf":"𝕌","uopf":"𝕦","UpArrowBar":"⤒","uparrow":"↑","UpArrow":"↑","Uparrow":"⇑","UpArrowDownArrow":"⇅","updownarrow":"↕","UpDownArrow":"↕","Updownarrow":"⇕","UpEquilibrium":"⥮","upharpoonleft":"↿","upharpoonright":"↾","uplus":"⊎","UpperLeftArrow":"↖","UpperRightArrow":"↗","upsi":"υ","Upsi":"ϒ","upsih":"ϒ","Upsilon":"Υ","upsilon":"υ","UpTeeArrow":"↥","UpTee":"⊥","upuparrows":"⇈","urcorn":"⌝","urcorner":"⌝","urcrop":"⌎","Uring":"Ů","uring":"ů","urtri":"◹","Uscr":"𝒰","uscr":"𝓊","utdot":"⋰","Utilde":"Ũ","utilde":"ũ","utri":"▵","utrif":"▴","uuarr":"⇈","Uuml":"Ü","uuml":"ü","uwangle":"⦧","vangrt":"⦜","varepsilon":"ϵ","varkappa":"ϰ","varnothing":"∅","varphi":"ϕ","varpi":"ϖ","varpropto":"∝","varr":"↕","vArr":"⇕","varrho":"ϱ","varsigma":"ς","varsubsetneq":"⊊︀","varsubsetneqq":"⫋︀","varsupsetneq":"⊋︀","varsupsetneqq":"⫌︀","vartheta":"ϑ","vartriangleleft":"⊲","vartriangleright":"⊳","vBar":"⫨","Vbar":"⫫","vBarv":"⫩","Vcy":"В","vcy":"в","vdash":"⊢","vDash":"⊨","Vdash":"⊩","VDash":"⊫","Vdashl":"⫦","veebar":"⊻","vee":"∨","Vee":"⋁","veeeq":"≚","vellip":"⋮","verbar":"|","Verbar":"‖","vert":"|","Vert":"‖","VerticalBar":"∣","VerticalLine":"|","VerticalSeparator":"❘","VerticalTilde":"≀","VeryThinSpace":" ","Vfr":"𝔙","vfr":"𝔳","vltri":"⊲","vnsub":"⊂⃒","vnsup":"⊃⃒","Vopf":"𝕍","vopf":"𝕧","vprop":"∝","vrtri":"⊳","Vscr":"𝒱","vscr":"𝓋","vsubnE":"⫋︀","vsubne":"⊊︀","vsupnE":"⫌︀","vsupne":"⊋︀","Vvdash":"⊪","vzigzag":"⦚","Wcirc":"Ŵ","wcirc":"ŵ","wedbar":"⩟","wedge":"∧","Wedge":"⋀","wedgeq":"≙","weierp":"℘","Wfr":"𝔚","wfr":"𝔴","Wopf":"𝕎","wopf":"𝕨","wp":"℘","wr":"≀","wreath":"≀","Wscr":"𝒲","wscr":"𝓌","xcap":"⋂","xcirc":"◯","xcup":"⋃","xdtri":"▽","Xfr":"𝔛","xfr":"𝔵","xharr":"⟷","xhArr":"⟺","Xi":"Ξ","xi":"ξ","xlarr":"⟵","xlArr":"⟸","xmap":"⟼","xnis":"⋻","xodot":"⨀","Xopf":"𝕏","xopf":"𝕩","xoplus":"⨁","xotime":"⨂","xrarr":"⟶","xrArr":"⟹","Xscr":"𝒳","xscr":"𝓍","xsqcup":"⨆","xuplus":"⨄","xutri":"△","xvee":"⋁","xwedge":"⋀","Yacute":"Ý","yacute":"ý","YAcy":"Я","yacy":"я","Ycirc":"Ŷ","ycirc":"ŷ","Ycy":"Ы","ycy":"ы","yen":"¥","Yfr":"𝔜","yfr":"𝔶","YIcy":"Ї","yicy":"ї","Yopf":"𝕐","yopf":"𝕪","Yscr":"𝒴","yscr":"𝓎","YUcy":"Ю","yucy":"ю","yuml":"ÿ","Yuml":"Ÿ","Zacute":"Ź","zacute":"ź","Zcaron":"Ž","zcaron":"ž","Zcy":"З","zcy":"з","Zdot":"Ż","zdot":"ż","zeetrf":"ℨ","ZeroWidthSpace":"​","Zeta":"Ζ","zeta":"ζ","zfr":"𝔷","Zfr":"ℨ","ZHcy":"Ж","zhcy":"ж","zigrarr":"⇝","zopf":"𝕫","Zopf":"ℤ","Zscr":"𝒵","zscr":"𝓏","zwj":"‍","zwnj":"‌"}
 
 /***/ }),
-/* 241 */
+/* 264 */
 /***/ (function(module, exports) {
 
 module.exports = {"amp":"&","apos":"'","gt":">","lt":"<","quot":"\""}
 
 /***/ }),
-/* 242 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports = module.exports = __webpack_require__(370);
+exports = module.exports = __webpack_require__(404);
 exports.Stream = exports;
 exports.Readable = exports;
-exports.Writable = __webpack_require__(244);
-exports.Duplex = __webpack_require__(59);
-exports.Transform = __webpack_require__(374);
-exports.PassThrough = __webpack_require__(564);
+exports.Writable = __webpack_require__(267);
+exports.Duplex = __webpack_require__(62);
+exports.Transform = __webpack_require__(408);
+exports.PassThrough = __webpack_require__(583);
 
 /***/ }),
-/* 243 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14499,9 +15236,9 @@ exports.PassThrough = __webpack_require__(564);
 
 
 
-var base64 = __webpack_require__(557);
-var ieee754 = __webpack_require__(558);
-var isArray = __webpack_require__(371);
+var base64 = __webpack_require__(576);
+var ieee754 = __webpack_require__(577);
+var isArray = __webpack_require__(405);
 
 exports.Buffer = Buffer;
 exports.SlowBuffer = SlowBuffer;
@@ -16226,10 +16963,10 @@ function blitBuffer(src, dst, offset, length) {
 function isnan(val) {
   return val !== val; // eslint-disable-line no-self-compare
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 244 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16262,7 +16999,7 @@ function isnan(val) {
 
 /*<replacement>*/
 
-var processNextTick = __webpack_require__(138);
+var processNextTick = __webpack_require__(153);
 /*</replacement>*/
 
 module.exports = Writable;
@@ -16299,22 +17036,22 @@ var Duplex;
 Writable.WritableState = WritableState;
 
 /*<replacement>*/
-var util = __webpack_require__(109);
-util.inherits = __webpack_require__(12);
+var util = __webpack_require__(119);
+util.inherits = __webpack_require__(14);
 /*</replacement>*/
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __webpack_require__(563)
+  deprecate: __webpack_require__(582)
 };
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(372);
+var Stream = __webpack_require__(406);
 /*</replacement>*/
 
 /*<replacement>*/
-var Buffer = __webpack_require__(139).Buffer;
+var Buffer = __webpack_require__(154).Buffer;
 var OurUint8Array = global.Uint8Array || function () {};
 function _uint8ArrayToBuffer(chunk) {
   return Buffer.from(chunk);
@@ -16324,14 +17061,14 @@ function _isUint8Array(obj) {
 }
 /*</replacement>*/
 
-var destroyImpl = __webpack_require__(373);
+var destroyImpl = __webpack_require__(407);
 
 util.inherits(Writable, Stream);
 
 function nop() {}
 
 function WritableState(options, stream) {
-  Duplex = Duplex || __webpack_require__(59);
+  Duplex = Duplex || __webpack_require__(62);
 
   options = options || {};
 
@@ -16471,7 +17208,7 @@ if (typeof Symbol === 'function' && Symbol.hasInstance && typeof Function.protot
 }
 
 function Writable(options) {
-  Duplex = Duplex || __webpack_require__(59);
+  Duplex = Duplex || __webpack_require__(62);
 
   // Writable ctor is applied to Duplexes, too.
   // `realHasInstance` is necessary because using plain `instanceof`
@@ -16897,16 +17634,16 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(51), __webpack_require__(561).setImmediate, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(54), __webpack_require__(580).setImmediate, __webpack_require__(12)))
 
 /***/ }),
-/* 245 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Buffer = __webpack_require__(139).Buffer;
+var Buffer = __webpack_require__(154).Buffer;
 
 var isEncoding = Buffer.isEncoding || function (encoding) {
   encoding = '' + encoding;
@@ -17178,14 +17915,14 @@ function simpleEnd(buf) {
 }
 
 /***/ }),
-/* 246 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createFind = __webpack_require__(606),
-    findIndex = __webpack_require__(140);
+var createFind = __webpack_require__(624),
+    findIndex = __webpack_require__(155);
 
 /**
  * Iterates over elements of `collection`, returning the first element
@@ -17228,15 +17965,15 @@ var find = createFind(findIndex);
 module.exports = find;
 
 /***/ }),
-/* 247 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var wordBoundaries = __webpack_require__(641)();
-var includes = __webpack_require__(27);
-var addWordBoundary = __webpack_require__(107);
+var wordBoundaries = __webpack_require__(659)();
+var includes = __webpack_require__(29);
+var addWordBoundary = __webpack_require__(83);
 /**
  * Checks whether a character is present in the list of word boundaries.
  *
@@ -17286,41 +18023,15 @@ module.exports = {
 //# sourceMappingURL=matchWordInSentence.js.map
 
 /***/ }),
-/* 248 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseFindIndex = __webpack_require__(382),
-    baseIsNaN = __webpack_require__(642),
-    strictIndexOf = __webpack_require__(643);
-
-/**
- * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} value The value to search for.
- * @param {number} fromIndex The index to search from.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function baseIndexOf(array, value, fromIndex) {
-    return value === value ? strictIndexOf(array, value, fromIndex) : baseFindIndex(array, baseIsNaN, fromIndex);
-}
-
-module.exports = baseIndexOf;
-
-/***/ }),
-/* 249 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseGetTag = __webpack_require__(17),
-    isArray = __webpack_require__(5),
-    isObjectLike = __webpack_require__(14);
+var baseGetTag = __webpack_require__(18),
+    isArray = __webpack_require__(4),
+    isObjectLike = __webpack_require__(13);
 
 /** `Object#toString` result references. */
 var stringTag = '[object String]';
@@ -17349,7 +18060,7 @@ function isString(value) {
 module.exports = isString;
 
 /***/ }),
-/* 250 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17357,9 +18068,9 @@ module.exports = isString;
 
 var isUndefined = __webpack_require__(3);
 var forEach = __webpack_require__(2);
-var stripSpaces = __webpack_require__(21);
-var matchWordInSentence = __webpack_require__(247).isWordInSentence;
-var characterInBoundary = __webpack_require__(247).characterInBoundary;
+var stripSpaces = __webpack_require__(19);
+var matchWordInSentence = __webpack_require__(270).isWordInSentence;
+var characterInBoundary = __webpack_require__(270).characterInBoundary;
 /**
  * Returns the indices of a string in a text. If it is found multiple times, it will return multiple indices.
  *
@@ -17448,7 +18159,7 @@ module.exports = {
 //# sourceMappingURL=indices.js.map
 
 /***/ }),
-/* 251 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17478,7 +18189,7 @@ module.exports = function (sentencePart, regex) {
 //# sourceMappingURL=getIndicesWithRegex.js.map
 
 /***/ }),
-/* 252 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17513,16 +18224,16 @@ module.exports = function () {
 //# sourceMappingURL=irregulars.js.map
 
 /***/ }),
-/* 253 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var apply = __webpack_require__(120),
-    assignInWith = __webpack_require__(654),
-    baseRest = __webpack_require__(56),
-    customDefaultsAssignIn = __webpack_require__(655);
+var apply = __webpack_require__(100),
+    assignInWith = __webpack_require__(670),
+    baseRest = __webpack_require__(57),
+    customDefaultsAssignIn = __webpack_require__(671);
 
 /**
  * Assigns own and inherited enumerable string keyed properties of source
@@ -17553,13 +18264,13 @@ var defaults = baseRest(function (args) {
 module.exports = defaults;
 
 /***/ }),
-/* 254 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isEmpty = __webpack_require__(13);
+var isEmpty = __webpack_require__(15);
 /**
  * Sets sentence part passiveness to passive if no exception rules for the participle apply.
  *
@@ -17576,18 +18287,18 @@ module.exports = function () {
 //# sourceMappingURL=checkException.js.map
 
 /***/ }),
-/* 255 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWordIndices = __webpack_require__(251);
-var includesIndex = __webpack_require__(397);
-var arrayToRegex = __webpack_require__(79);
-var cannotDirectlyPrecedePassiveParticipleFrench = __webpack_require__(256)().cannotDirectlyPrecedePassiveParticiple;
-var cannotDirectlyPrecedePassiveParticipleEnglish = __webpack_require__(257)().cannotDirectlyPrecedePassiveParticiple;
-var cannotDirectlyPrecedePassiveParticipleSpanish = __webpack_require__(259)().cannotDirectlyPrecedePassiveParticiple;
+var getWordIndices = __webpack_require__(273);
+var includesIndex = __webpack_require__(426);
+var arrayToRegex = __webpack_require__(87);
+var cannotDirectlyPrecedePassiveParticipleFrench = __webpack_require__(278)().cannotDirectlyPrecedePassiveParticiple;
+var cannotDirectlyPrecedePassiveParticipleEnglish = __webpack_require__(279)().cannotDirectlyPrecedePassiveParticiple;
+var cannotDirectlyPrecedePassiveParticipleSpanish = __webpack_require__(281)().cannotDirectlyPrecedePassiveParticiple;
 /**
  * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
  * If this is the case, the sentence part is not passive.
@@ -17620,13 +18331,13 @@ module.exports = function (sentencePart, participleIndex, language) {
 //# sourceMappingURL=directPrecedenceException.js.map
 
 /***/ }),
-/* 256 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var transitionWords = __webpack_require__(391)().singleWords;
+var transitionWords = __webpack_require__(420)().singleWords;
 /**
  * Returns an object with exceptions for the prominent words researcher
  * @returns {Object} The object filled with exception arrays.
@@ -17730,15 +18441,15 @@ module.exports = function () {
 //# sourceMappingURL=functionWords.js.map
 
 /***/ }),
-/* 257 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var filteredPassiveAuxiliaries = __webpack_require__(258)().filteredAuxiliaries;
-var notFilteredPassiveAuxiliaries = __webpack_require__(258)().notFilteredAuxiliaries;
-var transitionWords = __webpack_require__(389)().singleWords;
+var filteredPassiveAuxiliaries = __webpack_require__(280)().filteredAuxiliaries;
+var notFilteredPassiveAuxiliaries = __webpack_require__(280)().notFilteredAuxiliaries;
+var transitionWords = __webpack_require__(418)().singleWords;
 /**
  * Returns an object with exceptions for the prominent words researcher
  * @returns {Object} The object filled with exception arrays.
@@ -17819,7 +18530,7 @@ module.exports = function () {
 //# sourceMappingURL=functionWords.js.map
 
 /***/ }),
-/* 258 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17840,13 +18551,13 @@ module.exports = function () {
 //# sourceMappingURL=auxiliaries.js.map
 
 /***/ }),
-/* 259 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var transitionWords = __webpack_require__(392)().singleWords;
+var transitionWords = __webpack_require__(421)().singleWords;
 /**
  * Returns an array with exceptions for the prominent words researcher
  * @returns {Array} The array filled with exceptions.
@@ -17928,18 +18639,18 @@ module.exports = function () {
 //# sourceMappingURL=functionWords.js.map
 
 /***/ }),
-/* 260 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWordIndices = __webpack_require__(251);
-var precedesIndex = __webpack_require__(657);
-var arrayToRegex = __webpack_require__(79);
-var cannotBeBetweenAuxiliaryAndParticipleFrench = __webpack_require__(256)().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-var cannotBeBetweenAuxiliaryAndParticipleEnglish = __webpack_require__(257)().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-var cannotBeBetweenAuxiliaryAndParticipleSpanish = __webpack_require__(259)().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+var getWordIndices = __webpack_require__(273);
+var precedesIndex = __webpack_require__(673);
+var arrayToRegex = __webpack_require__(87);
+var cannotBeBetweenAuxiliaryAndParticipleFrench = __webpack_require__(278)().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+var cannotBeBetweenAuxiliaryAndParticipleEnglish = __webpack_require__(279)().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+var cannotBeBetweenAuxiliaryAndParticipleSpanish = __webpack_require__(281)().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 /**
  * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
  * If this is the case, the sentence part is not passive.
@@ -17972,32 +18683,7 @@ module.exports = function (sentencePart, participleIndex, language) {
 //# sourceMappingURL=precedenceException.js.map
 
 /***/ }),
-/* 261 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseIndexOf = __webpack_require__(248);
-
-/**
- * A specialized version of `_.includes` for arrays without support for
- * specifying an index to search from.
- *
- * @private
- * @param {Array} [array] The array to inspect.
- * @param {*} target The value to search for.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */
-function arrayIncludes(array, value) {
-  var length = array == null ? 0 : array.length;
-  return !!length && baseIndexOf(array, value, 0) > -1;
-}
-
-module.exports = arrayIncludes;
-
-/***/ }),
-/* 262 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18027,14 +18713,14 @@ function arrayIncludesWith(array, value, comparator) {
 module.exports = arrayIncludesWith;
 
 /***/ }),
-/* 263 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseHas = __webpack_require__(689),
-    hasPath = __webpack_require__(352);
+var baseHas = __webpack_require__(705),
+    hasPath = __webpack_require__(389);
 
 /**
  * Checks if `path` is a direct property of `object`.
@@ -18070,30 +18756,30 @@ function has(object, path) {
 module.exports = has;
 
 /***/ }),
-/* 264 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Assessor = __webpack_require__(86);
-var introductionKeyword = __webpack_require__(282);
-var keyphraseLength = __webpack_require__(283);
-var keywordDensity = __webpack_require__(284);
-var keywordStopWords = __webpack_require__(285);
-var metaDescriptionKeyword = __webpack_require__(286);
-var MetaDescriptionLength = __webpack_require__(287);
-var SubheadingsKeyword = __webpack_require__(403);
-var textCompetingLinks = __webpack_require__(404);
-var TextImages = __webpack_require__(405);
-var TextLength = __webpack_require__(406);
-var OutboundLinks = __webpack_require__(407);
-var internalLinks = __webpack_require__(408);
-var titleKeyword = __webpack_require__(289);
-var TitleWidth = __webpack_require__(290);
-var UrlKeyword = __webpack_require__(291);
-var UrlLength = __webpack_require__(292);
-var urlStopWords = __webpack_require__(293);
+var Assessor = __webpack_require__(97);
+var introductionKeyword = __webpack_require__(303);
+var keyphraseLength = __webpack_require__(304);
+var keywordDensity = __webpack_require__(305);
+var keywordStopWords = __webpack_require__(306);
+var metaDescriptionKeyword = __webpack_require__(307);
+var MetaDescriptionLength = __webpack_require__(308);
+var SubheadingsKeyword = __webpack_require__(431);
+var textCompetingLinks = __webpack_require__(432);
+var TextImages = __webpack_require__(433);
+var TextLength = __webpack_require__(434);
+var OutboundLinks = __webpack_require__(435);
+var internalLinks = __webpack_require__(436);
+var titleKeyword = __webpack_require__(310);
+var TitleWidth = __webpack_require__(311);
+var UrlKeyword = __webpack_require__(312);
+var UrlLength = __webpack_require__(313);
+var urlStopWords = __webpack_require__(314);
 /**
  * Creates the Assessor
  *
@@ -18107,37 +18793,37 @@ var SEOAssessor = function SEOAssessor(i18n, options) {
   Assessor.call(this, i18n, options);
   this._assessments = [introductionKeyword, keyphraseLength, keywordDensity, keywordStopWords, metaDescriptionKeyword, new MetaDescriptionLength(), new SubheadingsKeyword(), textCompetingLinks, new TextImages(), new TextLength(), new OutboundLinks(), internalLinks, titleKeyword, new TitleWidth(), new UrlKeyword(), new UrlLength(), urlStopWords];
 };
-__webpack_require__(15).inherits(SEOAssessor, Assessor);
+__webpack_require__(16).inherits(SEOAssessor, Assessor);
 module.exports = SEOAssessor;
 //# sourceMappingURL=seoAssessor.js.map
 //# sourceMappingURL=seoAssessor.js.map
 
 /***/ }),
-/* 265 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Assessor = __webpack_require__(86);
-var fleschReadingEase = __webpack_require__(409);
-var paragraphTooLong = __webpack_require__(410);
-var SentenceLengthInText = __webpack_require__(411);
-var SubheadingDistributionTooLong = __webpack_require__(412);
-var transitionWords = __webpack_require__(413);
-var passiveVoice = __webpack_require__(414);
-var sentenceBeginnings = __webpack_require__(415);
-var textPresence = __webpack_require__(416);
-var contentConfiguration = __webpack_require__(417);
+var Assessor = __webpack_require__(97);
+var fleschReadingEase = __webpack_require__(437);
+var paragraphTooLong = __webpack_require__(438);
+var SentenceLengthInText = __webpack_require__(439);
+var SubheadingDistributionTooLong = __webpack_require__(440);
+var transitionWords = __webpack_require__(441);
+var passiveVoice = __webpack_require__(442);
+var sentenceBeginnings = __webpack_require__(443);
+var textPresence = __webpack_require__(444);
+var contentConfiguration = __webpack_require__(445);
 /*
     Temporarily disabled:
 
     var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
     var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
  */
-var scoreToRating = __webpack_require__(134);
-var map = __webpack_require__(8);
-var sum = __webpack_require__(384);
+var scoreToRating = __webpack_require__(149);
+var map = __webpack_require__(9);
+var sum = __webpack_require__(413);
 /**
  * Creates the Assessor
  *
@@ -18155,7 +18841,7 @@ var ContentAssessor = function ContentAssessor(i18n) {
     var locale = options.hasOwnProperty("locale") ? options.locale : "en_US";
     this._assessments = [fleschReadingEase, new SubheadingDistributionTooLong(), paragraphTooLong, new SentenceLengthInText(contentConfiguration(locale).sentenceLength), transitionWords, passiveVoice, textPresence, sentenceBeginnings];
 };
-__webpack_require__(15).inherits(ContentAssessor, Assessor);
+__webpack_require__(16).inherits(ContentAssessor, Assessor);
 /**
  * Calculates the weighted rating for languages that have all assessments based on a given rating.
  *
@@ -18272,7 +18958,7 @@ module.exports = ContentAssessor;
 //# sourceMappingURL=contentAssessor.js.map
 
 /***/ }),
-/* 266 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18292,7 +18978,7 @@ module.exports = function (recommendedValue, valueLength) {
 //# sourceMappingURL=isValueTooLong.js.map
 
 /***/ }),
-/* 267 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18303,27 +18989,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-var _createStore = __webpack_require__(424);
+var _createStore = __webpack_require__(452);
 
 var _createStore2 = _interopRequireDefault(_createStore);
 
-var _combineReducers = __webpack_require__(747);
+var _combineReducers = __webpack_require__(763);
 
 var _combineReducers2 = _interopRequireDefault(_combineReducers);
 
-var _bindActionCreators = __webpack_require__(748);
+var _bindActionCreators = __webpack_require__(764);
 
 var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 
-var _applyMiddleware = __webpack_require__(749);
+var _applyMiddleware = __webpack_require__(765);
 
 var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 
-var _compose = __webpack_require__(427);
+var _compose = __webpack_require__(455);
 
 var _compose2 = _interopRequireDefault(_compose);
 
-var _warning = __webpack_require__(426);
+var _warning = __webpack_require__(454);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -18346,7 +19032,7 @@ exports.applyMiddleware = _applyMiddleware2.default;
 exports.compose = _compose2.default;
 
 /***/ }),
-/* 268 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18356,15 +19042,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _baseGetTag = __webpack_require__(736);
+var _baseGetTag = __webpack_require__(752);
 
 var _baseGetTag2 = _interopRequireDefault(_baseGetTag);
 
-var _getPrototype = __webpack_require__(741);
+var _getPrototype = __webpack_require__(757);
 
 var _getPrototype2 = _interopRequireDefault(_getPrototype);
 
-var _isObjectLike = __webpack_require__(743);
+var _isObjectLike = __webpack_require__(759);
 
 var _isObjectLike2 = _interopRequireDefault(_isObjectLike);
 
@@ -18429,7 +19115,7 @@ function isPlainObject(value) {
 exports.default = isPlainObject;
 
 /***/ }),
-/* 269 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18440,15 +19126,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.connect = exports.connectAdvanced = exports.createProvider = exports.Provider = undefined;
 
-var _Provider = __webpack_require__(752);
+var _Provider = __webpack_require__(768);
 
 var _Provider2 = _interopRequireDefault(_Provider);
 
-var _connectAdvanced = __webpack_require__(429);
+var _connectAdvanced = __webpack_require__(457);
 
 var _connectAdvanced2 = _interopRequireDefault(_connectAdvanced);
 
-var _connect = __webpack_require__(755);
+var _connect = __webpack_require__(771);
 
 var _connect2 = _interopRequireDefault(_connect);
 
@@ -18460,7 +19146,7 @@ exports.connectAdvanced = _connectAdvanced2.default;
 exports.connect = _connect2.default;
 
 /***/ }),
-/* 270 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18493,91 +19179,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 271 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseCreate = __webpack_require__(124),
-    baseLodash = __webpack_require__(272);
-
-/**
- * The base constructor for creating `lodash` wrapper objects.
- *
- * @private
- * @param {*} value The value to wrap.
- * @param {boolean} [chainAll] Enable explicit method chain sequences.
- */
-function LodashWrapper(value, chainAll) {
-  this.__wrapped__ = value;
-  this.__actions__ = [];
-  this.__chain__ = !!chainAll;
-  this.__index__ = 0;
-  this.__values__ = undefined;
-}
-
-LodashWrapper.prototype = baseCreate(baseLodash.prototype);
-LodashWrapper.prototype.constructor = LodashWrapper;
-
-module.exports = LodashWrapper;
-
-/***/ }),
-/* 272 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * The function whose prototype chain sequence wrappers inherit from.
- *
- * @private
- */
-function baseLodash() {
-  // No operation performed.
-}
-
-module.exports = baseLodash;
-
-/***/ }),
-/* 273 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseCreate = __webpack_require__(124),
-    baseLodash = __webpack_require__(272);
-
-/** Used as references for the maximum length and index of an array. */
-var MAX_ARRAY_LENGTH = 4294967295;
-
-/**
- * Creates a lazy wrapper object which wraps `value` to enable lazy evaluation.
- *
- * @private
- * @constructor
- * @param {*} value The value to wrap.
- */
-function LazyWrapper(value) {
-  this.__wrapped__ = value;
-  this.__actions__ = [];
-  this.__dir__ = 1;
-  this.__filtered__ = false;
-  this.__iteratees__ = [];
-  this.__takeCount__ = MAX_ARRAY_LENGTH;
-  this.__views__ = [];
-}
-
-// Ensure `LazyWrapper` is an instance of `baseLodash`.
-LazyWrapper.prototype = baseCreate(baseLodash.prototype);
-LazyWrapper.prototype.constructor = LazyWrapper;
-
-module.exports = LazyWrapper;
-
-/***/ }),
-/* 274 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18716,7 +19318,7 @@ function updateReadabilityResult(result) {
 }
 
 /***/ }),
-/* 275 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18724,7 +19326,7 @@ function updateReadabilityResult(result) {
 
 /* global YoastSEO */
 
-var scoreToRating = __webpack_require__(132).helpers.scoreToRating;
+var scoreToRating = __webpack_require__(147).helpers.scoreToRating;
 var isUndefined = __webpack_require__(3);
 
 /**
@@ -18784,18 +19386,110 @@ function getIndicatorForScore(score) {
 module.exports = getIndicatorForScore;
 
 /***/ }),
-/* 276 */,
-/* 277 */,
-/* 278 */,
-/* 279 */,
-/* 280 */,
-/* 281 */
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGet = __webpack_require__(71);
+/** Used to detect hot functions by number of calls within a span of milliseconds. */
+var HOT_COUNT = 800,
+    HOT_SPAN = 16;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeNow = Date.now;
+
+/**
+ * Creates a function that'll short out and invoke `identity` instead
+ * of `func` when it's called `HOT_COUNT` or more times in `HOT_SPAN`
+ * milliseconds.
+ *
+ * @private
+ * @param {Function} func The function to restrict.
+ * @returns {Function} Returns the new shortable function.
+ */
+function shortOut(func) {
+  var count = 0,
+      lastCalled = 0;
+
+  return function () {
+    var stamp = nativeNow(),
+        remaining = HOT_SPAN - (stamp - lastCalled);
+
+    lastCalled = stamp;
+    if (remaining > 0) {
+      if (++count >= HOT_COUNT) {
+        return arguments[0];
+      }
+    } else {
+      count = 0;
+    }
+    return func.apply(undefined, arguments);
+  };
+}
+
+module.exports = shortOut;
+
+/***/ }),
+/* 299 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var freeGlobal = __webpack_require__(124);
+
+/** Detect free variable `exports`. */
+var freeExports = ( false ? 'undefined' : _typeof(exports)) == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && ( false ? 'undefined' : _typeof(module)) == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Detect free variable `process` from Node.js. */
+var freeProcess = moduleExports && freeGlobal.process;
+
+/** Used to access faster Node.js helpers. */
+var nodeUtil = function () {
+  try {
+    return freeProcess && freeProcess.binding && freeProcess.binding('util');
+  } catch (e) {}
+}();
+
+module.exports = nodeUtil;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(49)(module)))
+
+/***/ }),
+/* 300 */,
+/* 301 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var WeakMap = __webpack_require__(172);
+
+/** Used to store function metadata. */
+var metaMap = WeakMap && new WeakMap();
+
+module.exports = metaMap;
+
+/***/ }),
+/* 302 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseGet = __webpack_require__(78);
 
 /**
  * Gets the value at `path` of `object`. If the resolved value is
@@ -18830,13 +19524,13 @@ function get(object, path, defaultValue) {
 module.exports = get;
 
 /***/ }),
-/* 282 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 /**
  * Returns a score and text based on the firstParagraph object.
  *
@@ -18883,13 +19577,13 @@ module.exports = {
 //# sourceMappingURL=introductionKeywordAssessment.js.map
 
 /***/ }),
-/* 283 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 /**
  * Assesses the keyphrase presence and length
  *
@@ -18918,16 +19612,16 @@ module.exports = {
 //# sourceMappingURL=keyphraseLengthAssessment.js.map
 
 /***/ }),
-/* 284 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var countWords = __webpack_require__(53);
-var formatNumber = __webpack_require__(110);
-var inRange = __webpack_require__(60);
+var AssessmentResult = __webpack_require__(5);
+var countWords = __webpack_require__(56);
+var formatNumber = __webpack_require__(120);
+var inRange = __webpack_require__(63);
 var inRangeEndInclusive = inRange.inRangeEndInclusive;
 var inRangeStartInclusive = inRange.inRangeStartInclusive;
 var inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
@@ -19004,14 +19698,14 @@ module.exports = {
 //# sourceMappingURL=keywordDensityAssessment.js.map
 
 /***/ }),
-/* 285 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var getLanguageAvailability = __webpack_require__(80);
+var AssessmentResult = __webpack_require__(5);
+var getLanguageAvailability = __webpack_require__(88);
 var availableLanguages = ["en"];
 /**
  * Calculate the score based on the amount of stop words in the keyword.
@@ -19057,13 +19751,13 @@ module.exports = {
 //# sourceMappingURL=keywordStopWordsAssessment.js.map
 
 /***/ }),
-/* 286 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 /**
  * Returns the score and text for the description keyword match.
  * @param {number} keywordMatches The number of keyword matches in the description.
@@ -19112,7 +19806,7 @@ module.exports = {
 //# sourceMappingURL=metaDescriptionKeywordAssessment.js.map
 
 /***/ }),
-/* 287 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19148,9 +19842,9 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(33);
-var merge = __webpack_require__(25);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(36);
+var merge = __webpack_require__(28);
 /**
  * Assessment for calculating the length of the meta description.
  */
@@ -19265,15 +19959,15 @@ module.exports = MetaDescriptionLengthAssessment;
 //# sourceMappingURL=metaDescriptionLengthAssessment.js.map
 
 /***/ }),
-/* 288 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseInRange = __webpack_require__(702),
-    toFinite = __webpack_require__(383),
-    toNumber = __webpack_require__(103);
+var baseInRange = __webpack_require__(718),
+    toFinite = __webpack_require__(253),
+    toNumber = __webpack_require__(95);
 
 /**
  * Checks if `n` is between `start` and up to, but not including, `end`. If
@@ -19328,14 +20022,14 @@ function inRange(number, start, end) {
 module.exports = inRange;
 
 /***/ }),
-/* 289 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var escape = __webpack_require__(703);
+var AssessmentResult = __webpack_require__(5);
+var escape = __webpack_require__(719);
 /**
  * Executes the pagetitle keyword assessment and returns an assessment result.
  * @param {Paper} paper The Paper object to assess.
@@ -19374,7 +20068,7 @@ module.exports = {
 //# sourceMappingURL=titleKeywordAssessment.js.map
 
 /***/ }),
-/* 290 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19410,10 +20104,10 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(33);
-var inRange = __webpack_require__(60).inRangeEndInclusive;
-var merge = __webpack_require__(25);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(36);
+var inRange = __webpack_require__(63).inRangeEndInclusive;
+var merge = __webpack_require__(28);
 /**
  * Represents the assessmenth that will calculate if the width of the page title is correct.
  */
@@ -19523,7 +20217,7 @@ module.exports = PageTitleWidthAssesment;
 //# sourceMappingURL=pageTitleWidthAssessment.js.map
 
 /***/ }),
-/* 291 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19559,9 +20253,9 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(33);
-var merge = __webpack_require__(25);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(36);
+var merge = __webpack_require__(28);
 /**
  * Represents the URL keyword assessments. This assessments will check if the keyword is present in the url.
  */
@@ -19667,7 +20361,7 @@ module.exports = UrlKeywordAssessment;
 //# sourceMappingURL=urlKeywordAssessment.js.map
 
 /***/ }),
-/* 292 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19703,9 +20397,9 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(33);
-var merge = __webpack_require__(25);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(36);
+var merge = __webpack_require__(28);
 /**
  * Assessment that checks if the url is long enough.
  */
@@ -19811,14 +20505,14 @@ module.exports = UrlLengthAssessment;
 //# sourceMappingURL=urlLengthAssessment.js.map
 
 /***/ }),
-/* 293 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var getLanguageAvailability = __webpack_require__(80);
+var AssessmentResult = __webpack_require__(5);
+var getLanguageAvailability = __webpack_require__(88);
 var availableLanguages = ["en"];
 /**
  * Calculate the score based on the amount of stop words in the url.
@@ -19865,7 +20559,7 @@ module.exports = {
 //# sourceMappingURL=urlStopWordsAssessment.js.map
 
 /***/ }),
-/* 294 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19891,7 +20585,7 @@ var setMarkerStatus = exports.setMarkerStatus = function setMarkerStatus(marksBu
 };
 
 /***/ }),
-/* 295 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19899,7 +20593,7 @@ var setMarkerStatus = exports.setMarkerStatus = function setMarkerStatus(marksBu
 
 var _forEach = __webpack_require__(2);
 
-var removeMarks = __webpack_require__(448);
+var removeMarks = __webpack_require__(475);
 
 var MARK_TAG = "yoastmark";
 
@@ -20000,20 +20694,20 @@ module.exports = {
 };
 
 /***/ }),
-/* 296 */,
-/* 297 */,
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var constant = __webpack_require__(302),
-    defineProperty = __webpack_require__(150),
-    identity = __webpack_require__(54);
+var constant = __webpack_require__(323),
+    defineProperty = __webpack_require__(164),
+    identity = __webpack_require__(50);
 
 /**
  * The base implementation of `setToString` without support for hot loop shorting.
@@ -20035,7 +20729,7 @@ var baseSetToString = !defineProperty ? identity : function (func, string) {
 module.exports = baseSetToString;
 
 /***/ }),
-/* 302 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20069,52 +20763,7 @@ function constant(value) {
 module.exports = constant;
 
 /***/ }),
-/* 303 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/** Used to detect hot functions by number of calls within a span of milliseconds. */
-var HOT_COUNT = 800,
-    HOT_SPAN = 16;
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeNow = Date.now;
-
-/**
- * Creates a function that'll short out and invoke `identity` instead
- * of `func` when it's called `HOT_COUNT` or more times in `HOT_SPAN`
- * milliseconds.
- *
- * @private
- * @param {Function} func The function to restrict.
- * @returns {Function} Returns the new shortable function.
- */
-function shortOut(func) {
-  var count = 0,
-      lastCalled = 0;
-
-  return function () {
-    var stamp = nativeNow(),
-        remaining = HOT_SPAN - (stamp - lastCalled);
-
-    lastCalled = stamp;
-    if (remaining > 0) {
-      if (++count >= HOT_COUNT) {
-        return arguments[0];
-      }
-    } else {
-      count = 0;
-    }
-    return func.apply(undefined, arguments);
-  };
-}
-
-module.exports = shortOut;
-
-/***/ }),
-/* 304 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20142,14 +20791,14 @@ function baseTimes(n, iteratee) {
 module.exports = baseTimes;
 
 /***/ }),
-/* 305 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetTag = __webpack_require__(17),
-    isObjectLike = __webpack_require__(14);
+var baseGetTag = __webpack_require__(18),
+    isObjectLike = __webpack_require__(13);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]';
@@ -20168,7 +20817,7 @@ function baseIsArguments(value) {
 module.exports = baseIsArguments;
 
 /***/ }),
-/* 306 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20194,15 +20843,15 @@ function stubFalse() {
 module.exports = stubFalse;
 
 /***/ }),
-/* 307 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGetTag = __webpack_require__(17),
-    isLength = __webpack_require__(115),
-    isObjectLike = __webpack_require__(14);
+var baseGetTag = __webpack_require__(18),
+    isLength = __webpack_require__(126),
+    isObjectLike = __webpack_require__(13);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -20250,46 +20899,13 @@ function baseIsTypedArray(value) {
 module.exports = baseIsTypedArray;
 
 /***/ }),
-/* 308 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(module) {
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var freeGlobal = __webpack_require__(113);
-
-/** Detect free variable `exports`. */
-var freeExports = ( false ? 'undefined' : _typeof(exports)) == 'object' && exports && !exports.nodeType && exports;
-
-/** Detect free variable `module`. */
-var freeModule = freeExports && ( false ? 'undefined' : _typeof(module)) == 'object' && module && !module.nodeType && module;
-
-/** Detect the popular CommonJS extension `module.exports`. */
-var moduleExports = freeModule && freeModule.exports === freeExports;
-
-/** Detect free variable `process` from Node.js. */
-var freeProcess = moduleExports && freeGlobal.process;
-
-/** Used to access faster Node.js helpers. */
-var nodeUtil = function () {
-  try {
-    return freeProcess && freeProcess.binding && freeProcess.binding('util');
-  } catch (e) {}
-}();
-
-module.exports = nodeUtil;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48)(module)))
-
-/***/ }),
-/* 309 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var overArg = __webpack_require__(154);
+var overArg = __webpack_require__(167);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = overArg(Object.keys, Object);
@@ -20297,14 +20913,14 @@ var nativeKeys = overArg(Object.keys, Object);
 module.exports = nativeKeys;
 
 /***/ }),
-/* 310 */,
-/* 311 */
+/* 329 */,
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var ListCache = __webpack_require__(55);
+var ListCache = __webpack_require__(58);
 
 /**
  * Removes all key-value entries from the stack.
@@ -20321,7 +20937,7 @@ function stackClear() {
 module.exports = stackClear;
 
 /***/ }),
-/* 312 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20347,7 +20963,7 @@ function stackDelete(key) {
 module.exports = stackDelete;
 
 /***/ }),
-/* 313 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20369,7 +20985,7 @@ function stackGet(key) {
 module.exports = stackGet;
 
 /***/ }),
-/* 314 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20391,15 +21007,15 @@ function stackHas(key) {
 module.exports = stackHas;
 
 /***/ }),
-/* 315 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var ListCache = __webpack_require__(55),
-    Map = __webpack_require__(70),
-    MapCache = __webpack_require__(85);
+var ListCache = __webpack_require__(58),
+    Map = __webpack_require__(76),
+    MapCache = __webpack_require__(93);
 
 /** Used as the size to enable large array optimizations. */
 var LARGE_ARRAY_SIZE = 200;
@@ -20433,14 +21049,14 @@ function stackSet(key, value) {
 module.exports = stackSet;
 
 /***/ }),
-/* 316 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(28),
-    keys = __webpack_require__(39);
+var copyObject = __webpack_require__(30),
+    keys = __webpack_require__(33);
 
 /**
  * The base implementation of `_.assign` without support for multiple sources
@@ -20458,14 +21074,14 @@ function baseAssign(object, source) {
 module.exports = baseAssign;
 
 /***/ }),
-/* 317 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(28),
-    keysIn = __webpack_require__(68);
+var copyObject = __webpack_require__(30),
+    keysIn = __webpack_require__(72);
 
 /**
  * The base implementation of `_.assignIn` without support for multiple sources
@@ -20483,15 +21099,15 @@ function baseAssignIn(object, source) {
 module.exports = baseAssignIn;
 
 /***/ }),
-/* 318 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isObject = __webpack_require__(7),
-    isPrototype = __webpack_require__(65),
-    nativeKeysIn = __webpack_require__(319);
+var isObject = __webpack_require__(8),
+    isPrototype = __webpack_require__(69),
+    nativeKeysIn = __webpack_require__(338);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -20524,7 +21140,7 @@ function baseKeysIn(object) {
 module.exports = baseKeysIn;
 
 /***/ }),
-/* 319 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20552,14 +21168,14 @@ function nativeKeysIn(object) {
 module.exports = nativeKeysIn;
 
 /***/ }),
-/* 320 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(28),
-    getSymbols = __webpack_require__(92);
+var copyObject = __webpack_require__(30),
+    getSymbols = __webpack_require__(104);
 
 /**
  * Copies own symbols of `source` to `object`.
@@ -20576,14 +21192,14 @@ function copySymbols(source, object) {
 module.exports = copySymbols;
 
 /***/ }),
-/* 321 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(28),
-    getSymbolsIn = __webpack_require__(156);
+var copyObject = __webpack_require__(30),
+    getSymbolsIn = __webpack_require__(169);
 
 /**
  * Copies own and inherited symbols of `source` to `object`.
@@ -20600,13 +21216,13 @@ function copySymbolsIn(source, object) {
 module.exports = copySymbolsIn;
 
 /***/ }),
-/* 322 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getNative = __webpack_require__(18),
+var getNative = __webpack_require__(21),
     root = __webpack_require__(10);
 
 /* Built-in method references that are verified to be native. */
@@ -20615,13 +21231,13 @@ var DataView = getNative(root, 'DataView');
 module.exports = DataView;
 
 /***/ }),
-/* 323 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getNative = __webpack_require__(18),
+var getNative = __webpack_require__(21),
     root = __webpack_require__(10);
 
 /* Built-in method references that are verified to be native. */
@@ -20630,7 +21246,7 @@ var Promise = getNative(root, 'Promise');
 module.exports = Promise;
 
 /***/ }),
-/* 324 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20664,19 +21280,19 @@ function initCloneArray(array) {
 module.exports = initCloneArray;
 
 /***/ }),
-/* 325 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var cloneArrayBuffer = __webpack_require__(95),
-    cloneDataView = __webpack_require__(326),
-    cloneMap = __webpack_require__(327),
-    cloneRegExp = __webpack_require__(329),
-    cloneSet = __webpack_require__(330),
-    cloneSymbol = __webpack_require__(332),
-    cloneTypedArray = __webpack_require__(201);
+var cloneArrayBuffer = __webpack_require__(107),
+    cloneDataView = __webpack_require__(345),
+    cloneMap = __webpack_require__(346),
+    cloneRegExp = __webpack_require__(348),
+    cloneSet = __webpack_require__(349),
+    cloneSymbol = __webpack_require__(351),
+    cloneTypedArray = __webpack_require__(218);
 
 /** `Object#toString` result references. */
 var boolTag = '[object Boolean]',
@@ -20752,13 +21368,13 @@ function initCloneByTag(object, tag, cloneFunc, isDeep) {
 module.exports = initCloneByTag;
 
 /***/ }),
-/* 326 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var cloneArrayBuffer = __webpack_require__(95);
+var cloneArrayBuffer = __webpack_require__(107);
 
 /**
  * Creates a clone of `dataView`.
@@ -20776,15 +21392,15 @@ function cloneDataView(dataView, isDeep) {
 module.exports = cloneDataView;
 
 /***/ }),
-/* 327 */
+/* 346 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var addMapEntry = __webpack_require__(328),
-    arrayReduce = __webpack_require__(116),
-    mapToArray = __webpack_require__(200);
+var addMapEntry = __webpack_require__(347),
+    arrayReduce = __webpack_require__(127),
+    mapToArray = __webpack_require__(217);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1;
@@ -20806,7 +21422,7 @@ function cloneMap(map, isDeep, cloneFunc) {
 module.exports = cloneMap;
 
 /***/ }),
-/* 328 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20829,7 +21445,7 @@ function addMapEntry(map, pair) {
 module.exports = addMapEntry;
 
 /***/ }),
-/* 329 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20854,15 +21470,15 @@ function cloneRegExp(regexp) {
 module.exports = cloneRegExp;
 
 /***/ }),
-/* 330 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var addSetEntry = __webpack_require__(331),
-    arrayReduce = __webpack_require__(116),
-    setToArray = __webpack_require__(96);
+var addSetEntry = __webpack_require__(350),
+    arrayReduce = __webpack_require__(127),
+    setToArray = __webpack_require__(108);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1;
@@ -20884,7 +21500,7 @@ function cloneSet(set, isDeep, cloneFunc) {
 module.exports = cloneSet;
 
 /***/ }),
-/* 331 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20907,13 +21523,13 @@ function addSetEntry(set, value) {
 module.exports = addSetEntry;
 
 /***/ }),
-/* 332 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Symbol = __webpack_require__(23);
+var _Symbol = __webpack_require__(26);
 
 /** Used to convert symbols to primitives and strings. */
 var symbolProto = _Symbol ? _Symbol.prototype : undefined,
@@ -20933,16 +21549,16 @@ function cloneSymbol(symbol) {
 module.exports = cloneSymbol;
 
 /***/ }),
-/* 333 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var castPath = __webpack_require__(44),
-    last = __webpack_require__(334),
-    parent = __webpack_require__(335),
-    toKey = __webpack_require__(47);
+var castPath = __webpack_require__(46),
+    last = __webpack_require__(353),
+    parent = __webpack_require__(354),
+    toKey = __webpack_require__(51);
 
 /**
  * The base implementation of `_.unset`.
@@ -20961,7 +21577,7 @@ function baseUnset(object, path) {
 module.exports = baseUnset;
 
 /***/ }),
-/* 334 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20989,14 +21605,14 @@ function last(array) {
 module.exports = last;
 
 /***/ }),
-/* 335 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGet = __webpack_require__(71),
-    baseSlice = __webpack_require__(206);
+var baseGet = __webpack_require__(78),
+    baseSlice = __webpack_require__(174);
 
 /**
  * Gets the parent value at `path` of `object`.
@@ -21013,13 +21629,13 @@ function parent(object, path) {
 module.exports = parent;
 
 /***/ }),
-/* 336 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isPlainObject = __webpack_require__(125);
+var isPlainObject = __webpack_require__(138);
 
 /**
  * Used by `_.omit` to customize its `_.cloneDeep` use to only clone plain
@@ -21037,15 +21653,15 @@ function customOmitClone(value) {
 module.exports = customOmitClone;
 
 /***/ }),
-/* 337 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Symbol = __webpack_require__(23),
-    isArguments = __webpack_require__(66),
-    isArray = __webpack_require__(5);
+var _Symbol = __webpack_require__(26),
+    isArguments = __webpack_require__(70),
+    isArray = __webpack_require__(4);
 
 /** Built-in value references. */
 var spreadableSymbol = _Symbol ? _Symbol.isConcatSpreadable : undefined;
@@ -21064,15 +21680,2318 @@ function isFlattenable(value) {
 module.exports = isFlattenable;
 
 /***/ }),
-/* 338 */,
-/* 339 */,
-/* 340 */,
-/* 341 */,
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */,
-/* 346 */
+/* 357 */,
+/* 358 */,
+/* 359 */,
+/* 360 */,
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getLanguage = __webpack_require__(35);
+var isUndefined = __webpack_require__(3);
+var transliterations = {
+    // Language: Spanish.
+    // Source: https://en.wikipedia.org/wiki/Spanish_orthography
+    es: [{ letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }, { letter: /[\u00E1]/g, alternative: "a" }, { letter: /[\u00C1]/g, alternative: "A" }, { letter: /[\u00E9]/g, alternative: "e" }, { letter: /[\u00C9]/g, alternative: "E" }, { letter: /[\u00ED]/g, alternative: "i" }, { letter: /[\u00CD]/g, alternative: "I" }, { letter: /[\u00F3]/g, alternative: "o" }, { letter: /[\u00D3]/g, alternative: "O" }, { letter: /[\u00FA\u00FC]/g, alternative: "u" }, { letter: /[\u00DA\u00DC]/g, alternative: "U" }],
+    // Language: Polish.
+    // Source: https://en.wikipedia.org/wiki/Polish_orthography
+    pl: [{ letter: /[\u0105]/g, alternative: "a" }, { letter: /[\u0104]/g, alternative: "A" }, { letter: /[\u0107]/g, alternative: "c" }, { letter: /[\u0106]/g, alternative: "C" }, { letter: /[\u0119]/g, alternative: "e" }, { letter: /[\u0118]/g, alternative: "E" }, { letter: /[\u0142]/g, alternative: "l" }, { letter: /[\u0141]/g, alternative: "L" }, { letter: /[\u0144]/g, alternative: "n" }, { letter: /[\u0143]/g, alternative: "N" }, { letter: /[\u00F3]/g, alternative: "o" }, { letter: /[\u00D3]/g, alternative: "O" }, { letter: /[\u015B]/g, alternative: "s" }, { letter: /[\u015A]/g, alternative: "S" }, { letter: /[\u017A\u017C]/g, alternative: "z" }, { letter: /[\u0179\u017B]/g, alternative: "Z" }],
+    // Language: German.
+    // Source: https://en.wikipedia.org/wiki/German_orthography#Special_characters
+    de: [{ letter: /[\u00E4]/g, alternative: "ae" }, { letter: /[\u00C4]/g, alternative: "Ae" }, { letter: /[\u00FC]/g, alternative: "ue" }, { letter: /[\u00DC]/g, alternative: "Ue" }, { letter: /[\u00F6]/g, alternative: "oe" }, { letter: /[\u00D6]/g, alternative: "Oe" }, { letter: /[\u00DF]/g, alternative: "ss" }, { letter: /[\u1E9E]/g, alternative: "SS" }],
+    // Language Bokmål
+    // Source: http://www.dagbladet.no/2011/12/30/tema/reise/reiseeksperter/forbrukerrettigheter/19494227/
+    // Language Nynorks
+    // Source: http://www.dagbladet.no/2011/12/30/tema/reise/reiseeksperter/forbrukerrettigheter/19494227/
+    // Bokmål and Nynorks use the same transliterations
+    nbnn: [{ letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }, { letter: /[\u00E5]/g, alternative: "aa" }, { letter: /[\u00C5]/g, alternative: "Aa" }, { letter: /[\u00F8]/g, alternative: "oe" }, { letter: /[\u00D8]/g, alternative: "Oe" }, { letter: /[\u00E9\u00E8\u00EA]/g, alternative: "e" }, { letter: /[\u00C9\u00C8\u00CA]/g, alternative: "E" }, { letter: /[\u00F3\u00F2\u00F4]/g, alternative: "o" }, { letter: /[\u00D3\u00D2\u00D4]/g, alternative: "O" }],
+    // Language: Swedish.
+    // Sources: https://sv.wikipedia.org/wiki/%C3%85#Historia
+    // http://forum.wordreference.com/threads/swedish-%C3%A4-ae-%C3%B6-oe-acceptable.1451839/
+    sv: [{ letter: /[\u00E5]/g, alternative: "aa" }, { letter: /[\u00C5]/g, alternative: "Aa" }, { letter: /[\u00E4]/g, alternative: "ae" }, { letter: /[\u00C4]/g, alternative: "Ae" }, { letter: /[\u00F6]/g, alternative: "oe" }, { letter: /[\u00D6]/g, alternative: "Oe" }, { letter: /[\u00E9]/g, alternative: "e" }, { letter: /[\u00C9]/g, alternative: "E" }, { letter: /[\u00E0]/g, alternative: "a" }, { letter: /[\u00C0]/g, alternative: "A" }],
+    // Language: Finnish.
+    // Sources: https://www.cs.tut.fi/~jkorpela/lang/finnish-letters.html
+    // https://en.wikipedia.org/wiki/Finnish_orthography
+    fi: [{ letter: /[\u00E5]/g, alternative: "aa" }, { letter: /[\u00C5]/g, alternative: "Aa" }, { letter: /[\u00E4]/g, alternative: "a" }, { letter: /[\u00C4]/g, alternative: "A" }, { letter: /[\u00F6]/g, alternative: "o" }, { letter: /[\u00D6]/g, alternative: "O" }, { letter: /[\u017E]/g, alternative: "zh" }, { letter: /[\u017D]/g, alternative: "Zh" }, { letter: /[\u0161]/g, alternative: "sh" }, { letter: /[\u0160]/g, alternative: "Sh" }],
+    // Language: Danish.
+    // Sources: https://sv.wikipedia.org/wiki/%C3%85#Historia
+    // https://en.wikipedia.org/wiki/Danish_orthography
+    da: [{ letter: /[\u00E5]/g, alternative: "aa" }, { letter: /[\u00C5]/g, alternative: "Aa" }, { letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }, { letter: /[\u00C4]/g, alternative: "Ae" }, { letter: /[\u00F8]/g, alternative: "oe" }, { letter: /[\u00D8]/g, alternative: "Oe" }, { letter: /[\u00E9]/g, alternative: "e" }, { letter: /[\u00C9]/g, alternative: "E" }],
+    // Language: Turkish.
+    // Source: https://en.wikipedia.org/wiki/Turkish_alphabet
+    // ‘İ’ is the capital dotted ‘i’. Its lowercase counterpart is the ‘regular’ ‘i’.
+    tr: [{ letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u011F]/g, alternative: "g" }, { letter: /[\u011E]/g, alternative: "G" }, { letter: /[\u00F6]/g, alternative: "o" }, { letter: /[\u00D6]/g, alternative: "O" }, { letter: /[\u015F]/g, alternative: "s" }, { letter: /[\u015E]/g, alternative: "S" }, { letter: /[\u00E2]/g, alternative: "a" }, { letter: /[\u00C2]/g, alternative: "A" }, { letter: /[\u0131\u00EE]/g, alternative: "i" }, { letter: /[\u0130\u00CE]/g, alternative: "I" }, { letter: /[\u00FC\u00FB]/g, alternative: "u" }, { letter: /[\u00DC\u00DB]/g, alternative: "U" }],
+    // Language: Latvian.
+    // Source: https://en.wikipedia.org/wiki/Latvian_orthography
+    lv: [{ letter: /[\u0101]/g, alternative: "a" }, { letter: /[\u0100]/g, alternative: "A" }, { letter: /[\u010D]/g, alternative: "c" }, { letter: /[\u010C]/g, alternative: "C" }, { letter: /[\u0113]/g, alternative: "e" }, { letter: /[\u0112]/g, alternative: "E" }, { letter: /[\u0123]/g, alternative: "g" }, { letter: /[\u0122]/g, alternative: "G" }, { letter: /[\u012B]/g, alternative: "i" }, { letter: /[\u012A]/g, alternative: "I" }, { letter: /[\u0137]/g, alternative: "k" }, { letter: /[\u0136]/g, alternative: "K" }, { letter: /[\u013C]/g, alternative: "l" }, { letter: /[\u013B]/g, alternative: "L" }, { letter: /[\u0146]/g, alternative: "n" }, { letter: /[\u0145]/g, alternative: "N" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u016B]/g, alternative: "u" }, { letter: /[\u016A]/g, alternative: "U" }, { letter: /[\u017E]/g, alternative: "z" }, { letter: /[\u017D]/g, alternative: "Z" }],
+    // Language: Icelandic.
+    // Sources: https://en.wikipedia.org/wiki/Thorn_(letter),
+    // https://en.wikipedia.org/wiki/Eth,  https://en.wikipedia.org/wiki/Icelandic_orthography
+    is: [{ letter: /[\u00E1]/g, alternative: "a" }, { letter: /[\u00C1]/g, alternative: "A" }, { letter: /[\u00F0]/g, alternative: "d" }, { letter: /[\u00D0]/g, alternative: "D" }, { letter: /[\u00E9]/g, alternative: "e" }, { letter: /[\u00C9]/g, alternative: "E" }, { letter: /[\u00ED]/g, alternative: "i" }, { letter: /[\u00CD]/g, alternative: "I" }, { letter: /[\u00F3\u00F6]/g, alternative: "o" }, { letter: /[\u00D3\u00D6]/g, alternative: "O" }, { letter: /[\u00FA]/g, alternative: "u" }, { letter: /[\u00DA]/g, alternative: "U" }, { letter: /[\u00FD]/g, alternative: "y" }, { letter: /[\u00DD]/g, alternative: "Y" }, { letter: /[\u00FE]/g, alternative: "th" }, { letter: /[\u00DE]/g, alternative: "Th" }, { letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }],
+    // Language: Faroese.
+    // Source: https://www.facebook.com/groups/1557965757758234/permalink/1749847165236758/ (conversation in private Facebook Group ‘Faroese Language Learning Enthusiasts’)
+    // depending on the word, ð can be d, g, j, v, ng or nothing. However, ‘d’ is most frequent.
+    // when writing text messages or using a foreign keyboard, í is sometimes written as ij, ý as yj, ú as uv, ó as ov, ø as oe, and á as aa or oa.
+    // However, in website URLs the alternatives mentioned below are by far the most common.
+    fa: [{ letter: /[\u00E1]/g, alternative: "a" }, { letter: /[\u00C1]/g, alternative: "A" }, { letter: /[\u00F0]/g, alternative: "d" }, { letter: /[\u00D0]/g, alternative: "D" }, { letter: /[\u00ED]/g, alternative: "i" }, { letter: /[\u00CD]/g, alternative: "I" }, { letter: /[\u00FD]/g, alternative: "y" }, { letter: /[\u00DD]/g, alternative: "Y" }, { letter: /[\u00FA]/g, alternative: "u" }, { letter: /[\u00DA]/g, alternative: "U" }, { letter: /[\u00F3\u00F8]/g, alternative: "o" }, { letter: /[\u00D3\u00D8]/g, alternative: "O" }, { letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }],
+    // Language: Czech.
+    // Source: https://en.wikipedia.org/wiki/Czech_orthography
+    cs: [{ letter: /[\u00E1]/g, alternative: "a" }, { letter: /[\u00C1]/g, alternative: "A" }, { letter: /[\u010D]/g, alternative: "c" }, { letter: /[\u010C]/g, alternative: "C" }, { letter: /[\u010F]/g, alternative: "d" }, { letter: /[\u010E]/g, alternative: "D" }, { letter: /[\u00ED]/g, alternative: "i" }, { letter: /[\u00CD]/g, alternative: "I" }, { letter: /[\u0148]/g, alternative: "n" }, { letter: /[\u0147]/g, alternative: "N" }, { letter: /[\u00F3]/g, alternative: "o" }, { letter: /[\u00D3]/g, alternative: "O" }, { letter: /[\u0159]/g, alternative: "r" }, { letter: /[\u0158]/g, alternative: "R" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u0165]/g, alternative: "t" }, { letter: /[\u0164]/g, alternative: "T" }, { letter: /[\u00FD]/g, alternative: "y" }, { letter: /[\u00DD]/g, alternative: "Y" }, { letter: /[\u017E]/g, alternative: "z" }, { letter: /[\u017D]/g, alternative: "Z" }, { letter: /[\u00E9\u011B]/g, alternative: "e" }, { letter: /[\u00C9\u011A]/g, alternative: "E" }, { letter: /[\u00FA\u016F]/g, alternative: "u" }, { letter: /[\u00DA\u016E]/g, alternative: "U" }],
+    // Language: Russian.
+    // Source:  Machine Readable Travel Documents, Doc 9303, Part 1, Volume 1 (PDF) (Sixth ed.).
+    // ICAO. 2006. p. IV-50—IV-52. http://www.icao.int/publications/Documents/9303_p3_cons_en.pdf
+    // ‘ь’ is the so-called soft sign, indicating a sound change (palatalization) of the preceding consonant.
+    // In text it is transliterated to a character similar to an apostroph: ′.
+    // I recommend omittance in slugs. (https://en.wikipedia.org/wiki/Romanization_of_Russian)
+    ru: [{ letter: /[\u0430]/g, alternative: "a" }, { letter: /[\u0410]/g, alternative: "A" }, { letter: /[\u0431]/g, alternative: "b" }, { letter: /[\u0411]/g, alternative: "B" }, { letter: /[\u0432]/g, alternative: "v" }, { letter: /[\u0412]/g, alternative: "V" }, { letter: /[\u0433]/g, alternative: "g" }, { letter: /[\u0413]/g, alternative: "G" }, { letter: /[\u0434]/g, alternative: "d" }, { letter: /[\u0414]/g, alternative: "D" }, { letter: /[\u0435]/g, alternative: "e" }, { letter: /[\u0415]/g, alternative: "E" }, { letter: /[\u0436]/g, alternative: "zh" }, { letter: /[\u0416]/g, alternative: "Zh" }, { letter: /[\u0437]/g, alternative: "z" }, { letter: /[\u0417]/g, alternative: "Z" }, { letter: /[\u0456\u0438\u0439]/g, alternative: "i" }, { letter: /[\u0406\u0418\u0419]/g, alternative: "I" }, { letter: /[\u043A]/g, alternative: "k" }, { letter: /[\u041A]/g, alternative: "K" }, { letter: /[\u043B]/g, alternative: "l" }, { letter: /[\u041B]/g, alternative: "L" }, { letter: /[\u043C]/g, alternative: "m" }, { letter: /[\u041C]/g, alternative: "M" }, { letter: /[\u043D]/g, alternative: "n" }, { letter: /[\u041D]/g, alternative: "N" }, { letter: /[\u0440]/g, alternative: "r" }, { letter: /[\u0420]/g, alternative: "R" }, { letter: /[\u043E]/g, alternative: "o" }, { letter: /[\u041E]/g, alternative: "O" }, { letter: /[\u043F]/g, alternative: "p" }, { letter: /[\u041F]/g, alternative: "P" }, { letter: /[\u0441]/g, alternative: "s" }, { letter: /[\u0421]/g, alternative: "S" }, { letter: /[\u0442]/g, alternative: "t" }, { letter: /[\u0422]/g, alternative: "T" }, { letter: /[\u0443]/g, alternative: "u" }, { letter: /[\u0423]/g, alternative: "U" }, { letter: /[\u0444]/g, alternative: "f" }, { letter: /[\u0424]/g, alternative: "F" }, { letter: /[\u0445]/g, alternative: "kh" }, { letter: /[\u0425]/g, alternative: "Kh" }, { letter: /[\u0446]/g, alternative: "ts" }, { letter: /[\u0426]/g, alternative: "Ts" }, { letter: /[\u0447]/g, alternative: "ch" }, { letter: /[\u0427]/g, alternative: "Ch" }, { letter: /[\u0448]/g, alternative: "sh" }, { letter: /[\u0428]/g, alternative: "Sh" }, { letter: /[\u0449]/g, alternative: "shch" }, { letter: /[\u0429]/g, alternative: "Shch" }, { letter: /[\u044A]/g, alternative: "ie" }, { letter: /[\u042A]/g, alternative: "Ie" }, { letter: /[\u044B]/g, alternative: "y" }, { letter: /[\u042B]/g, alternative: "Y" }, { letter: /[\u044C]/g, alternative: "" }, { letter: /[\u042C]/g, alternative: "" }, { letter: /[\u0451\u044D]/g, alternative: "e" }, { letter: /[\u0401\u042D]/g, alternative: "E" }, { letter: /[\u044E]/g, alternative: "iu" }, { letter: /[\u042E]/g, alternative: "Iu" }, { letter: /[\u044F]/g, alternative: "ia" }, { letter: /[\u042F]/g, alternative: "Ia" }],
+    // Language: Esperanto.
+    // Source: https://en.wikipedia.org/wiki/Esperanto#Writing_diacritics
+    eo: [{ letter: /[\u0109]/g, alternative: "ch" }, { letter: /[\u0108]/g, alternative: "Ch" }, { letter: /[\u011d]/g, alternative: "gh" }, { letter: /[\u011c]/g, alternative: "Gh" }, { letter: /[\u0125]/g, alternative: "hx" }, { letter: /[\u0124]/g, alternative: "Hx" }, { letter: /[\u0135]/g, alternative: "jx" }, { letter: /[\u0134]/g, alternative: "Jx" }, { letter: /[\u015d]/g, alternative: "sx" }, { letter: /[\u015c]/g, alternative: "Sx" }, { letter: /[\u016d]/g, alternative: "ux" }, { letter: /[\u016c]/g, alternative: "Ux" }],
+    // Language: Afrikaans.
+    // Source: https://en.wikipedia.org/wiki/Afrikaans#Orthography
+    af: [{ letter: /[\u00E8\u00EA\u00EB]/g, alternative: "e" }, { letter: /[\u00CB\u00C8\u00CA]/g, alternative: "E" }, { letter: /[\u00EE\u00EF]/g, alternative: "i" }, { letter: /[\u00CE\u00CF]/g, alternative: "I" }, { letter: /[\u00F4\u00F6]/g, alternative: "o" }, { letter: /[\u00D4\u00D6]/g, alternative: "O" }, { letter: /[\u00FB\u00FC]/g, alternative: "u" }, { letter: /[\u00DB\u00DC]/g, alternative: "U" }],
+    // Language: Catalan.
+    // Source: https://en.wikipedia.org/wiki/Catalan_orthography
+    ca: [{ letter: /[\u00E0]/g, alternative: "a" }, { letter: /[\u00C0]/g, alternative: "A" }, { letter: /[\u00E9|\u00E8]/g, alternative: "e" }, { letter: /[\u00C9|\u00C8]/g, alternative: "E" }, { letter: /[\u00ED|\u00EF]/g, alternative: "i" }, { letter: /[\u00CD|\u00CF]/g, alternative: "I" }, { letter: /[\u00F3|\u00F2]/g, alternative: "o" }, { letter: /[\u00D3|\u00D2]/g, alternative: "O" }, { letter: /[\u00FA|\u00FC]/g, alternative: "u" }, { letter: /[\u00DA|\u00DC]/g, alternative: "U" }, { letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }],
+    // Language: Asturian.
+    // Source: http://www.orbilat.com/Languages/Asturian/Grammar/Asturian-Alphabet.html
+    ast: [{ letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }],
+    // Language: Aragonese.
+    // Source: https://en.wikipedia.org/wiki/Aragonese_language#Orthography
+    an: [{ letter: /[\u00FC]/g, alternative: "u" }, { letter: /[\u00F1]/g, alternative: "ny" }, { letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00ED]/g, alternative: "i" }, { letter: /[\u00F3]/g, alternative: "o" }, { letter: /[\u00E1]/g, alternative: "a" }, { letter: /[\u00DC]/g, alternative: "U" }, { letter: /[\u00D1]/g, alternative: "Ny" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u00CD]/g, alternative: "I" }, { letter: /[\u00D3]/g, alternative: "O" }, { letter: /[\u00C1]/g, alternative: "A" }],
+    // Language: Aymara.
+    // Source: http://www.omniglot.com/writing/aymara.htm
+    ay: [{ letter: /(([\u00EF])|([\u00ED]))/g, alternative: "i" }, { letter: /(([\u00CF])|([\u00CD]))/g, alternative: "I" }, { letter: /[\u00E4]/g, alternative: "a" }, { letter: /[\u00C4]/g, alternative: "A" }, { letter: /[\u00FC]/g, alternative: "u" }, { letter: /[\u00DC]/g, alternative: "U" }, { letter: /[\u0027]/g, alternative: "" }, { letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }],
+    // Language: English.
+    // Sources: https://en.wikipedia.org/wiki/English_terms_with_diacritical_marks https://en.wikipedia.org/wiki/English_orthography
+    en: [{ letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }, { letter: /[\u0153]/g, alternative: "oe" }, { letter: /[\u0152]/g, alternative: "Oe" }, { letter: /[\u00EB\u00E9]/g, alternative: "e" }, { letter: /[\u00C9\u00CB]/g, alternative: "E" }, { letter: /[\u00F4\u00F6]/g, alternative: "o" }, { letter: /[\u00D4\u00D6]/g, alternative: "O" }, { letter: /[\u00EF]/g, alternative: "i" }, { letter: /[\u00CF]/g, alternative: "I" }, { letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }, { letter: /[\u00FC]/g, alternative: "u" }, { letter: /[\u00DC]/g, alternative: "U" }, { letter: /[\u00E4]/g, alternative: "a" }, { letter: /[\u00C4]/g, alternative: "A" }],
+    // Language: French.
+    // Sources: https://en.wikipedia.org/wiki/French_orthography#Ligatures https://en.wikipedia.org/wiki/French_orthography#Diacritics
+    fr: [{ letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }, { letter: /[\u0153]/g, alternative: "oe" }, { letter: /[\u0152]/g, alternative: "Oe" }, { letter: /[\u00E9\u00E8\u00EB\u00EA]/g, alternative: "e" }, { letter: /[\u00C9\u00C8\u00CB\u00CA]/g, alternative: "E" }, { letter: /[\u00E0\u00E2]/g, alternative: "a" }, { letter: /[\u00C0\u00C2]/g, alternative: "A" }, { letter: /[\u00EF\u00EE]/g, alternative: "i" }, { letter: /[\u00CF\u00CE]/g, alternative: "I" }, { letter: /[\u00F9\u00FB\u00FC]/g, alternative: "u" }, { letter: /[\u00D9\u00DB\u00DC]/g, alternative: "U" }, { letter: /[\u00F4]/g, alternative: "o" }, { letter: /[\u00D4]/g, alternative: "O" }, { letter: /[\u00FF]/g, alternative: "y" }, { letter: /[\u0178]/g, alternative: "Y" }, { letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }],
+    // Language: Italian.
+    // Source: https://en.wikipedia.org/wiki/Italian_orthography
+    it: [{ letter: /[\u00E0]/g, alternative: "a" }, { letter: /[\u00C0]/g, alternative: "A" }, { letter: /[\u00E9\u00E8]/g, alternative: "e" }, { letter: /[\u00C9\u00C8]/g, alternative: "E" }, { letter: /[\u00EC\u00ED\u00EE]/g, alternative: "i" }, { letter: /[\u00CC\u00CD\u00CE]/g, alternative: "I" }, { letter: /[\u00F3\u00F2]/g, alternative: "o" }, { letter: /[\u00D3\u00D2]/g, alternative: "O" }, { letter: /[\u00F9\u00FA]/g, alternative: "u" }, { letter: /[\u00D9\u00DA]/g, alternative: "U" }],
+    // Language: Dutch.
+    // Sources: https://en.wikipedia.org/wiki/Dutch_orthography https://nl.wikipedia.org/wiki/Trema_in_de_Nederlandse_spelling
+    nl: [{ letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }, { letter: /[\u00E9\u00E8\u00EA\u00EB]/g, alternative: "e" }, { letter: /[\u00C9\u00C8\u00CA\u00CB]/g, alternative: "E" }, { letter: /[\u00F4\u00F6]/g, alternative: "o" }, { letter: /[\u00D4\u00D6]/g, alternative: "O" }, { letter: /[\u00EF]/g, alternative: "i" }, { letter: /[\u00CF]/g, alternative: "I" }, { letter: /[\u00FC]/g, alternative: "u" }, { letter: /[\u00DC]/g, alternative: "U" }, { letter: /[\u00E4]/g, alternative: "a" }, { letter: /[\u00C4]/g, alternative: "A" }],
+    // Language: Bambara.
+    // Sources: http://www.omniglot.com/writing/bambara.htm https://en.wikipedia.org/wiki/Bambara_language
+    bm: [{ letter: /[\u025B]/g, alternative: "e" }, { letter: /[\u0190]/g, alternative: "E" }, { letter: /[\u0272]/g, alternative: "ny" }, { letter: /[\u019D]/g, alternative: "Ny" }, { letter: /[\u014B]/g, alternative: "ng" }, { letter: /[\u014A]/g, alternative: "Ng" }, { letter: /[\u0254]/g, alternative: "o" }, { letter: /[\u0186]/g, alternative: "O" }],
+    // Language: Ukrainian.
+    // Source: Resolution no. 55 of the Cabinet of Ministers of Ukraine, January 27, 2010 http://zakon2.rada.gov.ua/laws/show/55-2010-%D0%BF
+    // ‘ь’ is the so-called soft sign, indicating a sound change (palatalization) of the preceding consonant. In text it is sometimes transliterated
+    // to a character similar to an apostroph: ′. Omittance is recommended in slugs (https://en.wikipedia.org/wiki/Romanization_of_Ukrainian).
+    uk: [{ letter: /[\u0431]/g, alternative: "b" }, { letter: /[\u0411]/g, alternative: "B" }, { letter: /[\u0432]/g, alternative: "v" }, { letter: /[\u0412]/g, alternative: "V" }, { letter: /[\u0433]/g, alternative: "h" }, { letter: /[\u0413]/g, alternative: "H" }, { letter: /[\u0491]/g, alternative: "g" }, { letter: /[\u0490]/g, alternative: "G" }, { letter: /[\u0434]/g, alternative: "d" }, { letter: /[\u0414]/g, alternative: "D" }, { letter: /[\u043A]/g, alternative: "k" }, { letter: /[\u041A]/g, alternative: "K" }, { letter: /[\u043B]/g, alternative: "l" }, { letter: /[\u041B]/g, alternative: "L" }, { letter: /[\u043C]/g, alternative: "m" }, { letter: /[\u041C]/g, alternative: "M" }, { letter: /[\u0070]/g, alternative: "r" }, { letter: /[\u0050]/g, alternative: "R" }, { letter: /[\u043F]/g, alternative: "p" }, { letter: /[\u041F]/g, alternative: "P" }, { letter: /[\u0441]/g, alternative: "s" }, { letter: /[\u0421]/g, alternative: "S" }, { letter: /[\u0442]/g, alternative: "t" }, { letter: /[\u0422]/g, alternative: "T" }, { letter: /[\u0443]/g, alternative: "u" }, { letter: /[\u0423]/g, alternative: "U" }, { letter: /[\u0444]/g, alternative: "f" }, { letter: /[\u0424]/g, alternative: "F" }, { letter: /[\u0445]/g, alternative: "kh" }, { letter: /[\u0425]/g, alternative: "Kh" }, { letter: /[\u0446]/g, alternative: "ts" }, { letter: /[\u0426]/g, alternative: "Ts" }, { letter: /[\u0447]/g, alternative: "ch" }, { letter: /[\u0427]/g, alternative: "Ch" }, { letter: /[\u0448]/g, alternative: "sh" }, { letter: /[\u0428]/g, alternative: "Sh" }, { letter: /[\u0449]/g, alternative: "shch" }, { letter: /[\u0429]/g, alternative: "Shch" }, { letter: /[\u044C\u042C]/g, alternative: "" }, { letter: /[\u0436]/g, alternative: "zh" }, { letter: /[\u0416]/g, alternative: "Zh" }, { letter: /[\u0437]/g, alternative: "z" }, { letter: /[\u0417]/g, alternative: "Z" }, { letter: /[\u0438]/g, alternative: "y" }, { letter: /[\u0418]/g, alternative: "Y" }, { letter: /^[\u0454]/g, alternative: "ye" }, { letter: /[\s][\u0454]/g, alternative: " ye" }, { letter: /[\u0454]/g, alternative: "ie" }, { letter: /^[\u0404]/g, alternative: "Ye" }, { letter: /[\s][\u0404]/g, alternative: " Ye" }, { letter: /[\u0404]/g, alternative: "IE" }, { letter: /^[\u0457]/g, alternative: "yi" }, { letter: /[\s][\u0457]/g, alternative: " yi" }, { letter: /[\u0457]/g, alternative: "i" }, { letter: /^[\u0407]/g, alternative: "Yi" }, { letter: /[\s][\u0407]/g, alternative: " Yi" }, { letter: /[\u0407]/g, alternative: "I" }, { letter: /^[\u0439]/g, alternative: "y" }, { letter: /[\s][\u0439]/g, alternative: " y" }, { letter: /[\u0439]/g, alternative: "i" }, { letter: /^[\u0419]/g, alternative: "Y" }, { letter: /[\s][\u0419]/g, alternative: " Y" }, { letter: /[\u0419]/g, alternative: "I" }, { letter: /^[\u044E]/g, alternative: "yu" }, { letter: /[\s][\u044E]/g, alternative: " yu" }, { letter: /[\u044E]/g, alternative: "iu" }, { letter: /^[\u042E]/g, alternative: "Yu" }, { letter: /[\s][\u042E]/g, alternative: " Yu" }, { letter: /[\u042E]/g, alternative: "IU" }, { letter: /^[\u044F]/g, alternative: "ya" }, { letter: /[\s][\u044F]/g, alternative: " ya" }, { letter: /[\u044F]/g, alternative: "ia" }, { letter: /^[\u042F]/g, alternative: "Ya" }, { letter: /[\s][\u042F]/g, alternative: " Ya" }, { letter: /[\u042F]/g, alternative: "IA" }],
+    // Language: Breton
+    // Source: http://www.omniglot.com/writing/breton.htm
+    br: [{ letter: /\u0063\u0027\u0068/g, alternative: "ch" }, { letter: /\u0043\u0027\u0048/g, alternative: "CH" }, { letter: /[\u00e2]/g, alternative: "a" }, { letter: /[\u00c2]/g, alternative: "A" }, { letter: /[\u00ea]/g, alternative: "e" }, { letter: /[\u00ca]/g, alternative: "E" }, { letter: /[\u00ee]/g, alternative: "i" }, { letter: /[\u00ce]/g, alternative: "I" }, { letter: /[\u00f4]/g, alternative: "o" }, { letter: /[\u00d4]/g, alternative: "O" }, { letter: /[\u00fb\u00f9\u00fc]/g, alternative: "u" }, { letter: /[\u00db\u00d9\u00dc]/g, alternative: "U" }, { letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }],
+    // Language: Chamorro
+    // Source: http://www.omniglot.com/writing/chamorro.htm
+    ch: [{ letter: /[\u0027]/g, alternative: "" }, { letter: /[\u00e5]/g, alternative: "a" }, { letter: /[\u00c5]/g, alternative: "A" }, { letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }],
+    // Language: Corsican
+    // Sources: http://www.omniglot.com/writing/corsican.htm https://en.wikipedia.org/wiki/Corsican_alphabet
+    co: [{ letter: /[\u00e2\u00e0]/g, alternative: "a" }, { letter: /[\u00c2\u00c0]/g, alternative: "A" }, { letter: /[\u00e6\u04d5]/g, alternative: "ae" }, { letter: /[\u00c6\u04d4]/g, alternative: "Ae" }, { letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00e9\u00ea\u00e8\u00eb]/g, alternative: "e" }, { letter: /[\u00c9\u00ca\u00c8\u00cb]/g, alternative: "E" }, { letter: /[\u00ec\u00ee\u00ef]/g, alternative: "i" }, { letter: /[\u00cc\u00ce\u00cf]/g, alternative: "I" }, { letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }, { letter: /[\u00f4\u00f2]/g, alternative: "o" }, { letter: /[\u00d4\u00d2]/g, alternative: "O" }, { letter: /[\u0153]/g, alternative: "oe" }, { letter: /[\u0152]]/g, alternative: "Oe" }, { letter: /[\u00f9\u00fc]/g, alternative: "u" }, { letter: /[\u00d9\u00dc]/g, alternative: "U" }, { letter: /[\u00ff]/g, alternative: "y" }, { letter: /[\u0178]/g, alternative: "Y" }],
+    // Language: Kashubian
+    // Sources: http://www.omniglot.com/writing/kashubian.htm https://en.wikipedia.org/wiki/Kashubian_language
+    csb: [{ letter: /[\u0105\u00e3]/g, alternative: "a" }, { letter: /[\u0104\u00c3]/g, alternative: "A" }, { letter: /[\u00e9\u00eb]/g, alternative: "e" }, { letter: /[\u00c9\u00cb]/g, alternative: "E" }, { letter: /[\u0142]/g, alternative: "l" }, { letter: /[\u0141]/g, alternative: "L" }, { letter: /[\u0144]/g, alternative: "n" }, { letter: /[\u0143]/g, alternative: "N" }, { letter: /[\u00f2\u00f3\u00f4]/g, alternative: "o" }, { letter: /[\u00d2\u00d3\u00d4]/g, alternative: "O" }, { letter: /[\u00f9]/g, alternative: "u" }, { letter: /[\u00d9]/g, alternative: "U" }, { letter: /[\u017c]/g, alternative: "z" }, { letter: /[\u017b]/g, alternative: "Z" }],
+    // Language: Welsh
+    // Sources: http://www.omniglot.com/writing/welsh.htm https://en.wikipedia.org/wiki/Welsh_orthography#Diacritics
+    cy: [{ letter: /[\u00e2]/g, alternative: "a" }, { letter: /[\u00c2]/g, alternative: "A" }, { letter: /[\u00ea]/g, alternative: "e" }, { letter: /[\u00ca]/g, alternative: "E" }, { letter: /[\u00ee]/g, alternative: "i" }, { letter: /[\u00ce]/g, alternative: "I" }, { letter: /[\u00f4]/g, alternative: "o" }, { letter: /[\u00d4]/g, alternative: "O" }, { letter: /[\u00fb]/g, alternative: "u" }, { letter: /[\u00db]/g, alternative: "U" }, { letter: /[\u0175]/g, alternative: "w" }, { letter: /[\u0174]/g, alternative: "W" }, { letter: /[\u0177]/g, alternative: "y" }, { letter: /[\u0176]/g, alternative: "Y" }],
+    // Language: Ewe
+    // Sources: http://www.omniglot.com/writing/ewe.htm https://en.wikipedia.org/wiki/Ewe_language#Writing_system
+    ee: [{ letter: /[\u0256]/g, alternative: "d" }, { letter: /[\u0189]/g, alternative: "D" }, { letter: /[\u025b]/g, alternative: "e" }, { letter: /[\u0190]/g, alternative: "E" }, { letter: /[\u0192]/g, alternative: "f" }, { letter: /[\u0191]/g, alternative: "F" }, { letter: /[\u0263]/g, alternative: "g" }, { letter: /[\u0194]/g, alternative: "G" }, { letter: /[\u014b]/g, alternative: "ng" }, { letter: /[\u014a]/g, alternative: "Ng" }, { letter: /[\u0254]/g, alternative: "o" }, { letter: /[\u0186]/g, alternative: "O" }, { letter: /[\u028b]/g, alternative: "w" }, { letter: /[\u01b2]/g, alternative: "W" }, { letter: /\u0061\u0303/g, alternative: "a" }, { letter: /[\u00e1\u00e0\u01ce\u00e2\u00e3]/g, alternative: "a" }, { letter: /\u0041\u0303/g, alternative: "A" }, { letter: /[\u00c1\u00c0\u01cd\u00c2\u00c3]/g, alternative: "A" }, { letter: /[\u00e9\u00e8\u011b\u00ea]/g, alternative: "e" }, { letter: /[\u00c9\u00c8\u011a\u00ca]/g, alternative: "E" }, { letter: /[\u00f3\u00f2\u01d2\u00f4]/g, alternative: "o" }, { letter: /[\u00d3\u00d2\u01d1\u00d4]/g, alternative: "O" }, { letter: /[\u00fa\u00f9\u01d4\u00fb]/g, alternative: "u" }, { letter: /[\u00da\u00d9\u01d3\u00db]/g, alternative: "U" }, { letter: /[\u00ed\u00ec\u01d0\u00ee]/g, alternative: "i" }, { letter: /[\u00cd\u00cc\u01cf\u00ce]/g, alternative: "I" }],
+    // Language: Estonian
+    // Sources: http://www.omniglot.com/writing/estonian.htm https://en.wikipedia.org/wiki/Estonian_orthography https://en.wikipedia.org/wiki/%C5%BD https://en.wikipedia.org/wiki/%C5%A0
+    et: [{ letter: /[\u0161]/g, alternative: "sh" }, { letter: /[\u0160]/g, alternative: "Sh" }, { letter: /[\u017e]/g, alternative: "zh" }, { letter: /[\u017d]/g, alternative: "Zh" }, { letter: /[\u00f5\u00f6]/g, alternative: "o" }, { letter: /[\u00d6\u00d5]/g, alternative: "O" }, { letter: /[\u00e4]/g, alternative: "a" }, { letter: /[\u00c4]/g, alternative: "A" }, { letter: /[\u00fc]/g, alternative: "u" }, { letter: /[\u00dc]/g, alternative: "U" }],
+    // Language: Basque
+    // Sources: http://www.omniglot.com/writing/basque.htm https://en.wikipedia.org/wiki/Basque_language#Writing_system https://en	.wikipedia.org/wiki/Basque_alphabet
+    eu: [{ letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }, { letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00fc]/g, alternative: "u" }, { letter: /[\u00dc]/g, alternative: "U" }],
+    // Language: Fulah
+    // Sources: http://www.omniglot.com/writing/fula.htm https://en.wikipedia.org/wiki/Fula_language#Writing_systems
+    fuc: [{ letter: /[\u0253]/g, alternative: "b" }, { letter: /[\u0181]/g, alternative: "B" }, { letter: /[\u0257]/g, alternative: "d" }, { letter: /[\u018a]/g, alternative: "D" }, { letter: /[\u014b]/g, alternative: "ng" }, { letter: /[\u014a]/g, alternative: "Ng" }, { letter: /[\u0272\u00f1]/g, alternative: "ny" }, { letter: /[\u019d\u00d1]/g, alternative: "Ny" }, { letter: /[\u01b4]/g, alternative: "y" }, { letter: /[\u01b3]/g, alternative: "Y" }, { letter: /[\u0260]/g, alternative: "g" }, { letter: /[\u0193]/g, alternative: "G" }],
+    // Language: Fijian
+    // Source: http://www.omniglot.com/writing/fijian.htm
+    fj: [{ letter: /[\u0101]/g, alternative: "a" }, { letter: /[\u0100]/g, alternative: "A" }, { letter: /[\u0113]/g, alternative: "e" }, { letter: /[\u0112]/g, alternative: "E" }, { letter: /[\u012b]/g, alternative: "i" }, { letter: /[\u012a]/g, alternative: "I" }, { letter: /[\u016b]/g, alternative: "u" }, { letter: /[\u016a]/g, alternative: "U" }, { letter: /[\u014d]/g, alternative: "o" }, { letter: /[\u014c]/g, alternative: "O" }],
+    // Language: Arpitan (Franco-Provençal language)
+    // Source: http://www.omniglot.com/writing/francoprovencal.htm
+    frp: [{ letter: /[\u00e2]/g, alternative: "a" }, { letter: /[\u00c2]/g, alternative: "A" }, { letter: /[\u00ea\u00e8\u00e9]/g, alternative: "e" }, { letter: /[\u00ca\u00c8\u00c9]/g, alternative: "E" }, { letter: /[\u00ee]/g, alternative: "i" }, { letter: /[\u00ce]/g, alternative: "I" }, { letter: /[\u00fb\u00fc]/g, alternative: "u" }, { letter: /[\u00db\u00dc]/g, alternative: "U" }, { letter: /[\u00f4]/g, alternative: "o" }, { letter: /[\u00d4]/g, alternative: "O" }],
+    // Language: Friulian
+    // Sources: https://en.wikipedia.org/wiki/Friulian_language https://en.wikipedia.org/wiki/Faggin-Nazzi_alphabet
+    // http://www.omniglot.com/writing/friulian.htm
+    fur: [{ letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u00e0\u00e2]/g, alternative: "a" }, { letter: /[\u00c0\u00c2]/g, alternative: "A" }, { letter: /[\u00e8\u00ea]/g, alternative: "e" }, { letter: /[\u00c8\u00ca]/g, alternative: "E" }, { letter: /[\u00ec\u00ee]/g, alternative: "i" }, { letter: /[\u00cc\u00ce]/g, alternative: "I" }, { letter: /[\u00f2\u00f4]/g, alternative: "o" }, { letter: /[\u00d2\u00d4]/g, alternative: "O" }, { letter: /[\u00f9\u00fb]/g, alternative: "u" }, { letter: /[\u00d9\u00db]/g, alternative: "U" }, { letter: /[\u010d]/g, alternative: "c" }, { letter: /[\u010c]/g, alternative: "C" }, { letter: /[\u011f]/g, alternative: "g" }, { letter: /[\u011e]/g, alternative: "G" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }],
+    // Language: Frisian
+    // Sources: https://en.wikipedia.org/wiki/West_Frisian_alphabet http://www.omniglot.com/writing/frisian.htm
+    fy: [{ letter: /[\u00e2\u0101\u00e4\u00e5]/g, alternative: "a" }, { letter: /[\u00c2\u0100\u00c4\u00c5]/g, alternative: "A" }, { letter: /[\u00ea\u00e9\u0113]/g, alternative: "e" }, { letter: /[\u00ca\u00c9\u0112]/g, alternative: "E" }, { letter: /[\u00f4\u00f6]/g, alternative: "o" }, { letter: /[\u00d4\u00d6]/g, alternative: "O" }, { letter: /[\u00fa\u00fb\u00fc]/g, alternative: "u" }, { letter: /[\u00da\u00db\u00dc]/g, alternative: "U" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }, { letter: /[\u0111\u00f0]/g, alternative: "d" }, { letter: /[\u0110\u00d0]/g, alternative: "D" }],
+    // Language: Irish
+    // Source: https://en.wikipedia.org/wiki/Irish_orthography
+    ga: [{ letter: /[\u00e1]/g, alternative: "a" }, { letter: /[\u00c1]/g, alternative: "A" }, { letter: /[\u00e9]/g, alternative: "e" }, { letter: /[\u00c9]/g, alternative: "E" }, { letter: /[\u00f3]/g, alternative: "o" }, { letter: /[\u00d3]/g, alternative: "O" }, { letter: /[\u00fa]/g, alternative: "u" }, { letter: /[\u00da]/g, alternative: "U" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }],
+    // Language: Scottish Gaelic
+    // Sources: https://en.wikipedia.org/wiki/Scottish_Gaelic_orthography http://www.omniglot.com/writing/gaelic.htm
+    gd: [{ letter: /[\u00e0]/g, alternative: "a" }, { letter: /[\u00c0]/g, alternative: "A" }, { letter: /[\u00e8]/g, alternative: "e" }, { letter: /[\u00c8]/g, alternative: "E" }, { letter: /[\u00f2]/g, alternative: "o" }, { letter: /[\u00d2]/g, alternative: "O" }, { letter: /[\u00f9]/g, alternative: "u" }, { letter: /[\u00d9]/g, alternative: "U" }, { letter: /[\u00ec]/g, alternative: "i" }, { letter: /[\u00cc]/g, alternative: "I" }],
+    // Language: Galician
+    // Sources: https://en.wikipedia.org/wiki/Diacritic https://en.wikipedia.org/wiki/Galician_Alphabet
+    gl: [{ letter: /[\u00e1\u00e0]/g, alternative: "a" }, { letter: /[\u00c1\u00c0]/g, alternative: "A" }, { letter: /[\u00e9\u00ea]/g, alternative: "e" }, { letter: /[\u00c9\u00ca]/g, alternative: "E" }, { letter: /[\u00ed\u00ef]/g, alternative: "i" }, { letter: /[\u00cd\u00cf]/g, alternative: "I" }, { letter: /[\u00f3]/g, alternative: "o" }, { letter: /[\u00d3]/g, alternative: "O" }, { letter: /[\u00fa\u00fc]/g, alternative: "u" }, { letter: /[\u00da\u00dc]/g, alternative: "U" }, { letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }],
+    // Language: Guarani
+    // Sources: https://en.wikipedia.org/wiki/Guarani_alphabet http://www.omniglot.com/writing/guarani.htm
+    gn: [{ letter: /[\u2019]/g, alternative: "" }, { letter: /\u0067\u0303/g, alternative: "g" }, { letter: /\u0047\u0303/g, alternative: "G" }, { letter: /[\u00e3]/g, alternative: "a" }, { letter: /[\u00c3]/g, alternative: "A" }, { letter: /[\u1ebd]/g, alternative: "e" }, { letter: /[\u1ebc]/g, alternative: "E" }, { letter: /[\u0129]/g, alternative: "i" }, { letter: /[\u0128]/g, alternative: "I" }, { letter: /[\u00f5]/g, alternative: "o" }, { letter: /[\u00d5]/g, alternative: "O" }, { letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }, { letter: /[\u0169]/g, alternative: "u" }, { letter: /[\u0168]/g, alternative: "U" }, { letter: /[\u1ef9]/g, alternative: "y" }, { letter: /[\u1ef8]/g, alternative: "Y" }],
+    // Language: Swiss German
+    // Source: http://www.omniglot.com/writing/swissgerman.htm
+    gsw: [{ letter: /[\u00e4]/g, alternative: "a" }, { letter: /[\u00c4]/g, alternative: "A" }, { letter: /[\u00f6]/g, alternative: "o" }, { letter: /[\u00d6]/g, alternative: "O" }, { letter: /[\u00fc]/g, alternative: "u" }, { letter: /[\u00dc]/g, alternative: "U" }],
+    // Language: Haitian Creole
+    // Sources: https://en.wikipedia.org/wiki/Haitian_Creole http://www.omniglot.com/writing/haitiancreole.htm
+    hat: [{ letter: /[\u00e8]/g, alternative: "e" }, { letter: /[\u00c8]/g, alternative: "E" }, { letter: /[\u00f2]/g, alternative: "o" }, { letter: /[\u00d2]/g, alternative: "O" }],
+    // Language: Hawaiian
+    // Sources: https://en.wikipedia.org/wiki/Hawaiian_language#Macron http://www.omniglot.com/writing/hawaiian.htm
+    haw: [{ letter: /[\u02bb\u0027\u2019]/g, alternative: "" }, { letter: /[\u0101]/g, alternative: "a" }, { letter: /[\u0113]/g, alternative: "e" }, { letter: /[\u012b]/g, alternative: "i" }, { letter: /[\u014d]/g, alternative: "o" }, { letter: /[\u016b]/g, alternative: "u" }, { letter: /[\u0100]/g, alternative: "A" }, { letter: /[\u0112]/g, alternative: "E" }, { letter: /[\u012a]/g, alternative: "I" }, { letter: /[\u014c]/g, alternative: "O" }, { letter: /[\u016a]/g, alternative: "U" }],
+    // Language: Croatian
+    // Sources: https://en.wikipedia.org/wiki/Gaj%27s_Latin_alphabet https://en.wikipedia.org/wiki/D_with_stroke
+    // http://www.omniglot.com/writing/croatian.htm
+    hr: [{ letter: /[\u010d\u0107]/g, alternative: "c" }, { letter: /[\u010c\u0106]/g, alternative: "C" }, { letter: /[\u0111]/g, alternative: "dj" }, { letter: /[\u0110]/g, alternative: "Dj" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u017e]/g, alternative: "z" }, { letter: /[\u017d]/g, alternative: "Z" }, { letter: /[\u01c4]/g, alternative: "DZ" }, { letter: /[\u01c5]/g, alternative: "Dz" }, { letter: /[\u01c6]/g, alternative: "dz" }],
+    // Language: Georgian
+    // The Georgian language does not use capital letters.
+    // Sources: https://en.wikipedia.org/wiki/Romanization_of_Georgian (national system)
+    ka: [{ letter: /[\u10d0]/g, alternative: "a" }, { letter: /[\u10d1]/g, alternative: "b" }, { letter: /[\u10d2]/g, alternative: "g" }, { letter: /[\u10d3]/g, alternative: "d" }, { letter: /[\u10d4]/g, alternative: "e" }, { letter: /[\u10d5]/g, alternative: "v" }, { letter: /[\u10d6]/g, alternative: "z" }, { letter: /[\u10d7]/g, alternative: "t" }, { letter: /[\u10d8]/g, alternative: "i" }, { letter: /[\u10d9]/g, alternative: "k" }, { letter: /[\u10da]/g, alternative: "l" }, { letter: /[\u10db]/g, alternative: "m" }, { letter: /[\u10dc]/g, alternative: "n" }, { letter: /[\u10dd]/g, alternative: "o" }, { letter: /[\u10de]/g, alternative: "p" }, { letter: /[\u10df]/g, alternative: "zh" }, { letter: /[\u10e0]/g, alternative: "r" }, { letter: /[\u10e1]/g, alternative: "s" }, { letter: /[\u10e2]/g, alternative: "t" }, { letter: /[\u10e3]/g, alternative: "u" }, { letter: /[\u10e4]/g, alternative: "p" }, { letter: /[\u10e5]/g, alternative: "k" }, { letter: /[\u10e6]/g, alternative: "gh" }, { letter: /[\u10e7]/g, alternative: "q" }, { letter: /[\u10e8]/g, alternative: "sh" }, { letter: /[\u10e9]/g, alternative: "ch" }, { letter: /[\u10ea]/g, alternative: "ts" }, { letter: /[\u10eb]/g, alternative: "dz" }, { letter: /[\u10ec]/g, alternative: "ts" }, { letter: /[\u10ed]/g, alternative: "ch" }, { letter: /[\u10ee]/g, alternative: "kh" }, { letter: /[\u10ef]/g, alternative: "j" }, { letter: /[\u10f0]/g, alternative: "h" }],
+    // Language: Greenlandic.
+    // Source: https://en.wikipedia.org/wiki/Greenlandic_language#Orthography
+    kal: [{ letter: /[\u00E5]/g, alternative: "aa" }, { letter: /[\u00C5]/g, alternative: "Aa" }, { letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }, { letter: /[\u00C4]/g, alternative: "Ae" }, { letter: /[\u00F8]/g, alternative: "oe" }, { letter: /[\u00D8]/g, alternative: "Oe" }],
+    // Language: Kinyarwanda.
+    // Source: https://en.wikipedia.org/wiki/Kinyarwanda
+    kin: [{ letter: /[\u2019\u0027]/g, alternative: "" }],
+    // Language: Luxembourgish.
+    // Source: http://www.omniglot.com/writing/luxembourgish.htm
+    lb: [{ letter: /[\u00e4]/g, alternative: "a" }, { letter: /[\u00c4]/g, alternative: "A" }, { letter: /[\u00eb\u00e9]/g, alternative: "e" }, { letter: /[\u00cb\u00c9]/g, alternative: "E" }],
+    // Language: Limburgish.
+    // Source: http://www.omniglot.com/writing/limburgish.htm
+    li: [{ letter: /[\u00e1\u00e2\u00e0\u00e4]/g, alternative: "a" }, { letter: /[\u00c1\u00c2\u00c0\u00c4]/g, alternative: "A" }, { letter: /[\u00eb\u00e8\u00ea]/g, alternative: "e" }, { letter: /[\u00cb\u00c8\u00ca]/g, alternative: "E" }, { letter: /[\u00f6\u00f3]/g, alternative: "o" }, { letter: /[\u00d6\u00d3]/g, alternative: "O" }],
+    // Language: Lingala.
+    // Sources: https://en.wikipedia.org/wiki/Lingala#Writing_system http://www.omniglot.com/writing/lingala.htm
+    lin: [{ letter: /[\u00e1\u00e2\u01ce]/g, alternative: "a" }, { letter: /[\u00c1\u00c2\u01cd]/g, alternative: "A" }, { letter: /\u025b\u0301/g, alternative: "e" }, { letter: /\u025b\u0302/g, alternative: "e" }, { letter: /\u025b\u030c/g, alternative: "e" }, { letter: /[\u00e9\u00ea\u011b\u025b]/g, alternative: "e" }, { letter: /\u0190\u0301/g, alternative: "E" }, { letter: /\u0190\u0302/g, alternative: "E" }, { letter: /\u0190\u030c/g, alternative: "E" }, { letter: /[\u00c9\u00ca\u011a\u0190]/g, alternative: "E" }, { letter: /[\u00ed\u00ee\u01d0]/g, alternative: "i" }, { letter: /[\u00cd\u00ce\u01cf]/g, alternative: "I" }, { letter: /\u0254\u0301/g, alternative: "o" }, { letter: /\u0254\u0302/g, alternative: "o" }, { letter: /\u0254\u030c/g, alternative: "o" }, { letter: /[\u00f3\u00f4\u01d2\u0254]/g, alternative: "o" }, { letter: /\u0186\u0301/g, alternative: "O" }, { letter: /\u0186\u0302/g, alternative: "O" }, { letter: /\u0186\u030c/g, alternative: "O" }, { letter: /[\u00d3\u00d4\u01d1\u0186]/g, alternative: "O" }, { letter: /[\u00fa]/g, alternative: "u" }, { letter: /[\u00da]/g, alternative: "U" }],
+    // Language: Lithuanian.
+    // Sources: https://en.wikipedia.org/wiki/Lithuanian_orthography http://www.omniglot.com/writing/lithuanian.htm
+    lt: [{ letter: /[\u0105]/g, alternative: "a" }, { letter: /[\u0104]/g, alternative: "A" }, { letter: /[\u010d]/g, alternative: "c" }, { letter: /[\u010c]/g, alternative: "C" }, { letter: /[\u0119\u0117]/g, alternative: "e" }, { letter: /[\u0118\u0116]/g, alternative: "E" }, { letter: /[\u012f]/g, alternative: "i" }, { letter: /[\u012e]/g, alternative: "I" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u0173\u016b]/g, alternative: "u" }, { letter: /[\u0172\u016a]/g, alternative: "U" }, { letter: /[\u017e]/g, alternative: "z" }, { letter: /[\u017d]/g, alternative: "Z" }],
+    // Language: Malagasy.
+    // Source: http://www.omniglot.com/writing/malagasy.htm
+    mg: [{ letter: /[\u00f4]/g, alternative: "ao" }, { letter: /[\u00d4]/g, alternative: "Ao" }],
+    // Language: Macedonian.
+    // Source: http://www.omniglot.com/writing/macedonian.htm
+    mk: [{ letter: /[\u0430]/g, alternative: "a" }, { letter: /[\u0410]/g, alternative: "A" }, { letter: /[\u0431]/g, alternative: "b" }, { letter: /[\u0411]/g, alternative: "B" }, { letter: /[\u0432]/g, alternative: "v" }, { letter: /[\u0412]/g, alternative: "V" }, { letter: /[\u0433]/g, alternative: "g" }, { letter: /[\u0413]/g, alternative: "G" }, { letter: /[\u0434]/g, alternative: "d" }, { letter: /[\u0414]/g, alternative: "D" }, { letter: /[\u0453]/g, alternative: "gj" }, { letter: /[\u0403]/g, alternative: "Gj" }, { letter: /[\u0435]/g, alternative: "e" }, { letter: /[\u0415]/g, alternative: "E" }, { letter: /[\u0436]/g, alternative: "zh" }, { letter: /[\u0416]/g, alternative: "Zh" }, { letter: /[\u0437]/g, alternative: "z" }, { letter: /[\u0417]/g, alternative: "Z" }, { letter: /[\u0455]/g, alternative: "dz" }, { letter: /[\u0405]/g, alternative: "Dz" }, { letter: /[\u0438]/g, alternative: "i" }, { letter: /[\u0418]/g, alternative: "I" }, { letter: /[\u0458]/g, alternative: "j" }, { letter: /[\u0408]/g, alternative: "J" }, { letter: /[\u043A]/g, alternative: "k" }, { letter: /[\u041A]/g, alternative: "K" }, { letter: /[\u043B]/g, alternative: "l" }, { letter: /[\u041B]/g, alternative: "L" }, { letter: /[\u0459]/g, alternative: "lj" }, { letter: /[\u0409]/g, alternative: "Lj" }, { letter: /[\u043C]/g, alternative: "m" }, { letter: /[\u041C]/g, alternative: "M" }, { letter: /[\u043D]/g, alternative: "n" }, { letter: /[\u041D]/g, alternative: "N" }, { letter: /[\u045A]/g, alternative: "nj" }, { letter: /[\u040A]/g, alternative: "Nj" }, { letter: /[\u043E]/g, alternative: "o" }, { letter: /[\u041E]/g, alternative: "O" }, { letter: /[\u0440]/g, alternative: "r" }, { letter: /[\u0420]/g, alternative: "R" }, { letter: /[\u043F]/g, alternative: "p" }, { letter: /[\u041F]/g, alternative: "P" }, { letter: /[\u0441]/g, alternative: "s" }, { letter: /[\u0421]/g, alternative: "S" }, { letter: /[\u0442]/g, alternative: "t" }, { letter: /[\u0422]/g, alternative: "T" }, { letter: /[\u045C]/g, alternative: "kj" }, { letter: /[\u040C]/g, alternative: "Kj" }, { letter: /[\u0443]/g, alternative: "u" }, { letter: /[\u0423]/g, alternative: "U" }, { letter: /[\u0444]/g, alternative: "f" }, { letter: /[\u0424]/g, alternative: "F" }, { letter: /[\u0445]/g, alternative: "h" }, { letter: /[\u0425]/g, alternative: "H" }, { letter: /[\u0446]/g, alternative: "c" }, { letter: /[\u0426]/g, alternative: "C" }, { letter: /[\u0447]/g, alternative: "ch" }, { letter: /[\u0427]/g, alternative: "Ch" }, { letter: /[\u045F]/g, alternative: "dj" }, { letter: /[\u040F]/g, alternative: "Dj" }, { letter: /[\u0448]/g, alternative: "sh" }, { letter: /[\u0428]/g, alternative: "Sh" }],
+    // Language: Maori.
+    // Source: http://www.omniglot.com/writing/maori.htm
+    mri: [{ letter: /[\u0101]/g, alternative: "aa" }, { letter: /[\u0100]/g, alternative: "Aa" }, { letter: /[\u0113]/g, alternative: "ee" }, { letter: /[\u0112]/g, alternative: "Ee" }, { letter: /[\u012b]/g, alternative: "ii" }, { letter: /[\u012a]/g, alternative: "Ii" }, { letter: /[\u014d]/g, alternative: "oo" }, { letter: /[\u014c]/g, alternative: "Oo" }, { letter: /[\u016b]/g, alternative: "uu" }, { letter: /[\u016a]/g, alternative: "Uu" }],
+    // Language: Mirandese.
+    // Source: http://www.omniglot.com/writing/mirandese.htm
+    mwl: [{ letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00e1]/g, alternative: "a" }, { letter: /[\u00c1]/g, alternative: "A" }, { letter: /[\u00e9\u00ea]/g, alternative: "e" }, { letter: /[\u00c9\u00ca]/g, alternative: "E" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }, { letter: /[\u00f3\u00f4]/g, alternative: "o" }, { letter: /[\u00d3\u00d4]/g, alternative: "O" }, { letter: /[\u00fa\u0169]/g, alternative: "u" }, { letter: /[\u00da\u0168]/g, alternative: "U" }],
+    // Language: Occitan.
+    // Sources: http://www.omniglot.com/writing/oromo.htm https://en.wikipedia.org/wiki/Occitan_alphabet
+    oci: [{ letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00e0\u00e1]/g, alternative: "a" }, { letter: /[\u00c0\u00c1]/g, alternative: "A" }, { letter: /[\u00e8\u00e9]/g, alternative: "e" }, { letter: /[\u00c8\u00c9]/g, alternative: "E" }, { letter: /[\u00ed\u00ef]/g, alternative: "i" }, { letter: /[\u00cd\u00cf]/g, alternative: "I" }, { letter: /[\u00f2\u00f3]/g, alternative: "o" }, { letter: /[\u00d2\u00d3]/g, alternative: "O" }, { letter: /[\u00fa\u00fc]/g, alternative: "u" }, { letter: /[\u00da\u00dc]/g, alternative: "U" }, { letter: /[\u00b7]/g, alternative: "" }],
+    // Language: Oromo.
+    // Source: http://www.omniglot.com/writing/occitan.htm
+    orm: [{ letter: /[\u0027]/g, alternative: "" }],
+    // Language: Portuguese.
+    // Source: https://en.wikipedia.org/wiki/Portuguese_orthography http://www.omniglot.com/writing/portuguese.htm
+    pt: [{ letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00e1\u00e2\u00e3\u00e0]/g, alternative: "a" }, { letter: /[\u00c1\u00c2\u00c3\u00c0]/g, alternative: "A" }, { letter: /[\u00e9\u00ea]/g, alternative: "e" }, { letter: /[\u00c9\u00ca]/g, alternative: "E" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }, { letter: /[\u00f3\u00f4\u00f5]/g, alternative: "o" }, { letter: /[\u00d3\u00d4\u00d5]/g, alternative: "O" }, { letter: /[\u00fa]/g, alternative: "u" }, { letter: /[\u00da]/g, alternative: "U" }],
+    // Language: Romansh Vallader.
+    // Source: https://en.wikipedia.org/wiki/Romansh_language#Orthography http://www.omniglot.com/writing/romansh.htm
+    roh: [{ letter: /[\u00e9\u00e8\u00ea]/g, alternative: "e" }, { letter: /[\u00c9\u00c8\u00ca]/g, alternative: "E" }, { letter: /[\u00ef]/g, alternative: "i" }, { letter: /[\u00cf]/g, alternative: "I" }, { letter: /[\u00f6]/g, alternative: "oe" }, { letter: /[\u00d6]/g, alternative: "Oe" }, { letter: /[\u00fc]/g, alternative: "ue" }, { letter: /[\u00dc]/g, alternative: "Ue" }, { letter: /[\u00e4]/g, alternative: "ae" }, { letter: /[\u00c4]/g, alternative: "Ae" }],
+    // Language: Aromanian.
+    // Sources: https://en.wikipedia.org/wiki/Aromanian_alphabet http://www.omniglot.com/writing/aromanian.htm
+    rup: [{ letter: /[\u00e3]/g, alternative: "a" }, { letter: /[\u00c3]/g, alternative: "A" }],
+    // Language: Romanian.
+    // Sources: http://forum.wordreference.com/threads/romanian-transliteration.3193544/#post-16161251
+    // https://en.wikipedia.org/wiki/Romanian_alphabet http://www.omniglot.com/writing/romanian.htm
+    ro: [{ letter: /[\u0103\u00e2]/g, alternative: "a" }, { letter: /[\u0102\u00c2]/g, alternative: "A" }, { letter: /[\u00ee]/g, alternative: "i" }, { letter: /[\u00ce]/g, alternative: "I" }, { letter: /[\u0219\u015f]/g, alternative: "s" }, { letter: /[\u0218\u015e]/g, alternative: "S" }, { letter: /[\u021b\u0163]/g, alternative: "t" }, { letter: /[\u021a\u0162]/g, alternative: "T" }],
+    // Language: Klingon.
+    // Sources: http://www.omniglot.com/conscripts/klingon.htm https://en.wikipedia.org/wiki/Klingon_language#Writing_systems
+    // This translation module only works for Klingon written in Latin characters. KLI PlqaD script is not supported yet.
+    tlh: [{ letter: /[\u2019\u0027]/g, alternative: "" }],
+    // Language: Slovak.
+    // Sources: https://en.wikipedia.org/wiki/Dz_(digraph) https://en.wikipedia.org/wiki/Slovak_orthography
+    // http://www.omniglot.com/writing/slovak.htm
+    sk: [{ letter: /[\u01c4]/g, alternative: "DZ" }, { letter: /[\u01c5]/g, alternative: "Dz" }, { letter: /[\u01c6]/g, alternative: "dz" }, { letter: /[\u00e1\u00e4]/g, alternative: "a" }, { letter: /[\u00c1\u00c4]/g, alternative: "A" }, { letter: /[\u010d]/g, alternative: "c" }, { letter: /[\u010c]/g, alternative: "C" }, { letter: /[\u010f]/g, alternative: "d" }, { letter: /[\u010e]/g, alternative: "D" }, { letter: /[\u00e9]/g, alternative: "e" }, { letter: /[\u00c9]/g, alternative: "E" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }, { letter: /[\u013e\u013a]/g, alternative: "l" }, { letter: /[\u013d\u0139]/g, alternative: "L" }, { letter: /[\u0148]/g, alternative: "n" }, { letter: /[\u0147]/g, alternative: "N" }, { letter: /[\u00f3\u00f4]/g, alternative: "o" }, { letter: /[\u00d3\u00d4]/g, alternative: "O" }, { letter: /[\u0155]/g, alternative: "r" }, { letter: /[\u0154]/g, alternative: "R" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u0165]/g, alternative: "t" }, { letter: /[\u0164]/g, alternative: "T" }, { letter: /[\u00fa]/g, alternative: "u" }, { letter: /[\u00da]/g, alternative: "U" }, { letter: /[\u00fd]/g, alternative: "y" }, { letter: /[\u00dd]/g, alternative: "Y" }, { letter: /[\u017e]/g, alternative: "z" }, { letter: /[\u017d]/g, alternative: "Z" }],
+    // Language: Slovenian.
+    // Sources: https://en.wikipedia.org/wiki/Slovene_alphabet http://www.omniglot.com/writing/slovene.htm
+    sl: [{ letter: /[\u010d\u0107]/g, alternative: "c" }, { letter: /[\u010c\u0106]/g, alternative: "C" }, { letter: /[\u0111]/g, alternative: "d" }, { letter: /[\u0110]/g, alternative: "D" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u017e]/g, alternative: "z" }, { letter: /[\u017d]/g, alternative: "Z" }, { letter: /[\u00e0\u00e1\u0203\u0201]/g, alternative: "a" }, { letter: /[\u00c0\u00c1\u0202\u0200]/g, alternative: "A" }, { letter: /[\u00e8\u00e9\u0207\u0205]/g, alternative: "e" }, { letter: /\u01dd\u0300/g, alternative: "e" }, { letter: /\u01dd\u030f/g, alternative: "e" }, { letter: /\u1eb9\u0301/g, alternative: "e" }, { letter: /\u1eb9\u0311/g, alternative: "e" }, { letter: /[\u00c8\u00c9\u0206\u0204]/g, alternative: "E" }, { letter: /\u018e\u030f/g, alternative: "E" }, { letter: /\u018e\u0300/g, alternative: "E" }, { letter: /\u1eb8\u0311/g, alternative: "E" }, { letter: /\u1eb8\u0301/g, alternative: "E" }, { letter: /[\u00ec\u00ed\u020b\u0209]/g, alternative: "i" }, { letter: /[\u00cc\u00cd\u020a\u0208]/g, alternative: "I" }, { letter: /[\u00f2\u00f3\u020f\u020d]/g, alternative: "o" }, { letter: /\u1ecd\u0311/g, alternative: "o" }, { letter: /\u1ecd\u0301/g, alternative: "o" }, { letter: /\u1ecc\u0311/g, alternative: "O" }, { letter: /\u1ecc\u0301/g, alternative: "O" }, { letter: /[\u00d2\u00d3\u020e\u020c]/g, alternative: "O" }, { letter: /[\u00f9\u00fa\u0217\u0215]/g, alternative: "u" }, { letter: /[\u00d9\u00da\u0216\u0214]/g, alternative: "U" }, { letter: /[\u0155\u0213]/g, alternative: "r" }, { letter: /[\u0154\u0212]/g, alternative: "R" }],
+    // Language: Albanian.
+    // Sources: https://en.wikipedia.org/wiki/Albanian_alphabet http://www.omniglot.com/writing/albanian.htm
+    sq: [{ letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00eb]/g, alternative: "e" }, { letter: /[\u00cb]/g, alternative: "E" }],
+    // Language: Hungarian.
+    // Sources: http://forum.wordreference.com/threads/hungarian-transliteration.3193022/#post-16166901
+    // http://www.omniglot.com/writing/hungarian.htm
+    hu: [{ letter: /[\u00e1]/g, alternative: "a" }, { letter: /[\u00c1]/g, alternative: "A" }, { letter: /[\u00e9]/g, alternative: "e" }, { letter: /[\u00c9]/g, alternative: "E" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }, { letter: /[\u00f3\u00f6\u0151]/g, alternative: "o" }, { letter: /[\u00d3\u00d6\u0150]/g, alternative: "O" }, { letter: /[\u00fa\u00fc\u0171]/g, alternative: "u" }, { letter: /[\u00da\u00dc\u0170]/g, alternative: "U" }],
+    // Language: Sardinian.
+    // Sources: http://www.omniglot.com/writing/sardinian.htm https://en.wikipedia.org/wiki/Sardinian_language
+    srd: [{ letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00e0\u00e1]/g, alternative: "a" }, { letter: /[\u00c0\u00c1]/g, alternative: "A" }, { letter: /[\u00e8\u00e9]/g, alternative: "e" }, { letter: /[\u00c8\u00c9]/g, alternative: "E" }, { letter: /[\u00ed\u00ef]/g, alternative: "i" }, { letter: /[\u00cd\u00cf]/g, alternative: "I" }, { letter: /[\u00f2\u00f3]/g, alternative: "o" }, { letter: /[\u00d2\u00d3]/g, alternative: "O" }, { letter: /[\u00fa\u00f9]/g, alternative: "u" }, { letter: /[\u00da\u00d9]/g, alternative: "U" }],
+    // Language: Silesian.
+    // Source: https://en.wikipedia.org/wiki/Silesian_language#Writing_system
+    szl: [{ letter: /[\u0107]/g, alternative: "c" }, { letter: /[\u0106]/g, alternative: "C" }, { letter: /[\u00e3]/g, alternative: "a" }, { letter: /[\u00c3]/g, alternative: "A" }, { letter: /[\u0142]/g, alternative: "u" }, { letter: /[\u0141]/g, alternative: "U" }, { letter: /[\u006e]/g, alternative: "n" }, { letter: /[\u004e]/g, alternative: "N" }, { letter: /[\u014f\u014d\u00f4\u00f5]/g, alternative: "o" }, { letter: /[\u014e\u014c\u00d4\u00d5]/g, alternative: "O" }, { letter: /[\u015b]/g, alternative: "s" }, { letter: /[\u015a]/g, alternative: "S" }, { letter: /[\u017a\u017c\u017e]/g, alternative: "z" }, { letter: /[\u0179\u017b\u017d]/g, alternative: "Z" }, { letter: /[\u016f]/g, alternative: "u" }, { letter: /[\u016e]/g, alternative: "U" }, { letter: /[\u010d]/g, alternative: "cz" }, { letter: /[\u010c]/g, alternative: "Cz" }, { letter: /[\u0159]/g, alternative: "rz" }, { letter: /[\u0158]/g, alternative: "Rz" }, { letter: /[\u0161]/g, alternative: "sz" }, { letter: /[\u0160]/g, alternative: "Sz" }],
+    // Language: Tahitian.
+    // Sources: https://en.wikipedia.org/wiki/Tahitian_language#Phonology http://www.omniglot.com/writing/tahitian.htm
+    tah: [{ letter: /[\u0101\u00e2\u00e0]/g, alternative: "a" }, { letter: /[\u0100\u00c2\u00c0]/g, alternative: "A" }, { letter: /[\u00ef\u00ee\u00ec]/g, alternative: "i" }, { letter: /[\u00cf\u00ce\u00cc]/g, alternative: "I" }, { letter: /[\u0113\u00ea\u00e9]/g, alternative: "e" }, { letter: /[\u0112\u00ca\u00c9]/g, alternative: "E" }, { letter: /[\u016b\u00fb\u00fa]/g, alternative: "u" }, { letter: /[\u016a\u00db\u00da]/g, alternative: "U" }, { letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00f2\u00f4\u014d]/g, alternative: "o" }, { letter: /[\u00d2\u00d4\u014c]/g, alternative: "O" }, { letter: /[\u2019\u0027\u2018]/g, alternative: "" }],
+    // Language: Venetian.
+    // Sources: http://www.omniglot.com/writing/venetian.htm https://en.wikipedia.org/wiki/Venetian_language#Spelling_systems
+    // http://www.venipedia.org/wiki/index.php?title=Venetian_Language
+    vec: [{ letter: /\u0073\u002d\u0063/g, alternative: "sc" }, { letter: /\u0053\u002d\u0043/g, alternative: "SC" }, { letter: /\u0073\u0027\u0063/g, alternative: "sc" }, { letter: /\u0053\u0027\u0043/g, alternative: "SC" }, { letter: /\u0073\u2019\u0063/g, alternative: "sc" }, { letter: /\u0053\u2019\u0043/g, alternative: "SC" }, { letter: /\u0073\u2018\u0063/g, alternative: "sc" }, { letter: /\u0053\u2018\u0043/g, alternative: "SC" }, { letter: /\u0053\u002d\u0063/g, alternative: "Sc" }, { letter: /\u0053\u0027\u0063/g, alternative: "Sc" }, { letter: /\u0053\u2019\u0063/g, alternative: "Sc" }, { letter: /\u0053\u2018\u0063/g, alternative: "Sc" }, { letter: /\u0063\u2019/g, alternative: "c" }, { letter: /\u0043\u2019/g, alternative: "C" }, { letter: /\u0063\u2018/g, alternative: "c" }, { letter: /\u0043\u2018/g, alternative: "C" }, { letter: /\u0063\u0027/g, alternative: "c" }, { letter: /\u0043\u0027/g, alternative: "C" }, { letter: /[\u00e0\u00e1\u00e2]/g, alternative: "a" }, { letter: /[\u00c0\u00c1\u00c2]/g, alternative: "A" }, { letter: /[\u00e8\u00e9]/g, alternative: "e" }, { letter: /[\u00c8\u00c9]/g, alternative: "E" }, { letter: /[\u00f2\u00f3]/g, alternative: "o" }, { letter: /[\u00d2\u00d3]/g, alternative: "O" }, { letter: /[\u00f9\u00fa]/g, alternative: "u" }, { letter: /[\u00d9\u00da]/g, alternative: "U" }, { letter: /[\u00e7\u010d\u010b]/g, alternative: "c" }, { letter: /[\u00c7\u010c\u010a]/g, alternative: "C" }, { letter: /[\u0142]/g, alternative: "l" }, { letter: /[\u00a3\u0141]/g, alternative: "L" }, { letter: /\ud835\udeff/g, alternative: "dh" }, { letter: /[\u0111\u03b4]/g, alternative: "dh" }, { letter: /[\u0110\u0394]/g, alternative: "Dh" }],
+    // Language: Walloon.
+    // Sources: http://www.omniglot.com/writing/walloon.htm https://en.wikipedia.org/wiki/Walloon_alphabet
+    wa: [{ letter: /[\u00e2\u00e5]/g, alternative: "a" }, { letter: /[\u00c2\u00c5]/g, alternative: "A" }, { letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /\u0065\u030a/g, alternative: "e" }, { letter: /\u0045\u030a/g, alternative: "E" }, { letter: /[\u00eb\u00ea\u00e8\u00e9]/g, alternative: "e" }, { letter: /[\u00c9\u00c8\u00ca\u00cb]/g, alternative: "E" }, { letter: /[\u00ee]/g, alternative: "i" }, { letter: /[\u00ce]/g, alternative: "I" }, { letter: /[\u00f4\u00f6]/g, alternative: "o" }, { letter: /[\u00d6\u00d4]/g, alternative: "O" }, { letter: /[\u00fb]/g, alternative: "u" }, { letter: /[\u00db]/g, alternative: "U" }],
+    // Language: Yoruba.
+    // Sources: http://www.omniglot.com/writing/yoruba.htm https://en.wikipedia.org/wiki/Yoruba_language
+    yor: [{ letter: /[\u00e1\u00e0]/g, alternative: "a" }, { letter: /[\u00c1\u00c0]/g, alternative: "A" }, { letter: /[\u00ec\u00ed]/g, alternative: "i" }, { letter: /[\u00cc\u00cd]/g, alternative: "I" }, { letter: /\u1ecd\u0301/g, alternative: "o" }, { letter: /\u1ecc\u0301/g, alternative: "O" }, { letter: /\u1ecd\u0300/g, alternative: "o" }, { letter: /\u1ecc\u0300/g, alternative: "O" }, { letter: /[\u00f3\u00f2\u1ecd]/g, alternative: "o" }, { letter: /[\u00d3\u00d2\u1ecc]/g, alternative: "O" }, { letter: /[\u00fa\u00f9]/g, alternative: "u" }, { letter: /[\u00da\u00d9]/g, alternative: "U" }, { letter: /\u1eb9\u0301/g, alternative: "e" }, { letter: /\u1eb8\u0301/g, alternative: "E" }, { letter: /\u1eb9\u0300/g, alternative: "e" }, { letter: /\u1eb8\u0300/g, alternative: "E" }, { letter: /[\u00e9\u00e8\u1eb9]/g, alternative: "e" }, { letter: /[\u00c9\u00c8\u1eb8]/g, alternative: "E" }, { letter: /[\u1e63]/g, alternative: "s" }, { letter: /[\u1e62]/g, alternative: "S" }]
+};
+/**
+ * The function returning an array containing transliteration objects, based on the given locale.
+ *
+ * @param {string} locale The locale.
+ * @returns {Array} An array containing transliteration objects.
+ */
+module.exports = function (locale) {
+    if (isUndefined(locale)) {
+        return [];
+    }
+    switch (getLanguage(locale)) {
+        case "es":
+            return transliterations.es;
+        case "pl":
+            return transliterations.pl;
+        case "de":
+            return transliterations.de;
+        case "nb":
+        case "nn":
+            return transliterations.nbnn;
+        case "sv":
+            return transliterations.sv;
+        case "fi":
+            return transliterations.fi;
+        case "da":
+            return transliterations.da;
+        case "tr":
+            return transliterations.tr;
+        case "lv":
+            return transliterations.lv;
+        case "is":
+            return transliterations.is;
+        case "fa":
+            return transliterations.fa;
+        case "cs":
+            return transliterations.cs;
+        case "ru":
+            return transliterations.ru;
+        case "eo":
+            return transliterations.eo;
+        case "af":
+            return transliterations.af;
+        case "bal":
+        case "ca":
+            return transliterations.ca;
+        case "ast":
+            return transliterations.ast;
+        case "an":
+            return transliterations.an;
+        case "ay":
+            return transliterations.ay;
+        case "en":
+            return transliterations.en;
+        case "fr":
+            return transliterations.fr;
+        case "it":
+            return transliterations.it;
+        case "nl":
+            return transliterations.nl;
+        case "bm":
+            return transliterations.bm;
+        case "uk":
+            return transliterations.uk;
+        case "br":
+            return transliterations.br;
+        case "ch":
+            return transliterations.ch;
+        case "csb":
+            return transliterations.csb;
+        case "cy":
+            return transliterations.cy;
+        case "ee":
+            return transliterations.ee;
+        case "et":
+            return transliterations.et;
+        case "eu":
+            return transliterations.eu;
+        case "fuc":
+            return transliterations.fuc;
+        case "fj":
+            return transliterations.fj;
+        case "frp":
+            return transliterations.frp;
+        case "fur":
+            return transliterations.fur;
+        case "fy":
+            return transliterations.fy;
+        case "ga":
+            return transliterations.ga;
+        case "gd":
+            return transliterations.gd;
+        case "gl":
+            return transliterations.gl;
+        case "gn":
+            return transliterations.gn;
+        case "gsw":
+            return transliterations.gsw;
+        case "hat":
+            return transliterations.hat;
+        case "haw":
+            return transliterations.haw;
+        case "hr":
+            return transliterations.hr;
+        case "ka":
+            return transliterations.ka;
+        case "kal":
+            return transliterations.kal;
+        case "kin":
+            return transliterations.kin;
+        case "lb":
+            return transliterations.lb;
+        case "li":
+            return transliterations.li;
+        case "lin":
+            return transliterations.lin;
+        case "lt":
+            return transliterations.lt;
+        case "mg":
+            return transliterations.mg;
+        case "mk":
+            return transliterations.mk;
+        case "mri":
+            return transliterations.mri;
+        case "mwl":
+            return transliterations.mwl;
+        case "oci":
+            return transliterations.oci;
+        case "orm":
+            return transliterations.orm;
+        case "pt":
+            return transliterations.pt;
+        case "roh":
+            return transliterations.roh;
+        case "rup":
+            return transliterations.rup;
+        case "ro":
+            return transliterations.ro;
+        case "tlh":
+            return transliterations.tlh;
+        case "sk":
+            return transliterations.sk;
+        case "sl":
+            return transliterations.sl;
+        case "sq":
+            return transliterations.sq;
+        case "hu":
+            return transliterations.hu;
+        case "srd":
+            return transliterations.srd;
+        case "szl":
+            return transliterations.szl;
+        case "tah":
+            return transliterations.tah;
+        case "vec":
+            return transliterations.vec;
+        case "wa":
+            return transliterations.wa;
+        case "yor":
+            return transliterations.yor;
+        default:
+            return [];
+    }
+};
+//# sourceMappingURL=transliterations.js.map
+//# sourceMappingURL=transliterations.js.map
+
+/***/ }),
+/* 366 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/** @module config/diacritics */
+/**
+ * Returns the diacritics map
+ *
+ * @returns {array} diacritics map
+ */
+
+module.exports = function () {
+    return [{
+        base: "a",
+        letters: /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
+    }, { base: "aa", letters: /[\uA733]/g }, { base: "ae", letters: /[\u00E6\u01FD\u01E3]/g }, { base: "ao", letters: /[\uA735]/g }, { base: "au", letters: /[\uA737]/g }, { base: "av", letters: /[\uA739\uA73B]/g }, { base: "ay", letters: /[\uA73D]/g }, { base: "b", letters: /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g }, {
+        base: "c",
+        letters: /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g
+    }, {
+        base: "d",
+        letters: /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g
+    }, { base: "dz", letters: /[\u01F3\u01C6]/g }, {
+        base: "e",
+        letters: /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g
+    }, { base: "f", letters: /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g }, {
+        base: "g",
+        letters: /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g
+    }, {
+        base: "h",
+        letters: /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g
+    }, { base: "hv", letters: /[\u0195]/g }, {
+        base: "i",
+        letters: /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g
+    }, { base: "j", letters: /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g }, {
+        base: "k",
+        letters: /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g
+    }, {
+        base: "l",
+        letters: /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g
+    }, { base: "lj", letters: /[\u01C9]/g }, { base: "m", letters: /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g }, {
+        base: "n",
+        letters: /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g
+    }, { base: "nj", letters: /[\u01CC]/g }, {
+        base: "o",
+        letters: /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g
+    }, { base: "oi", letters: /[\u01A3]/g }, { base: "ou", letters: /[\u0223]/g }, { base: "oo", letters: /[\uA74F]/g }, { base: "p", letters: /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g }, { base: "q", letters: /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g }, {
+        base: "r",
+        letters: /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g
+    }, {
+        base: "s",
+        letters: /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g
+    }, {
+        base: "t",
+        letters: /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g
+    }, { base: "tz", letters: /[\uA729]/g }, {
+        base: "u",
+        letters: /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g
+    }, { base: "v", letters: /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g }, { base: "vy", letters: /[\uA761]/g }, {
+        base: "w",
+        letters: /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g
+    }, { base: "x", letters: /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g }, {
+        base: "y",
+        letters: /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g
+    }, {
+        base: "z",
+        letters: /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
+    }];
+};
+//# sourceMappingURL=diacritics.js.map
+//# sourceMappingURL=diacritics.js.map
+
+/***/ }),
+/* 367 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var baseFor = __webpack_require__(252),
+    keys = __webpack_require__(33);
+
+/**
+ * The base implementation of `_.forOwn` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForOwn(object, iteratee) {
+  return object && baseFor(object, iteratee, keys);
+}
+
+module.exports = baseForOwn;
+
+/***/ }),
+/* 368 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a base function for methods like `_.forIn` and `_.forOwn`.
+ *
+ * @private
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseFor(fromRight) {
+  return function (object, iteratee, keysFunc) {
+    var index = -1,
+        iterable = Object(object),
+        props = keysFunc(object),
+        length = props.length;
+
+    while (length--) {
+      var key = props[fromRight ? length : ++index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+
+module.exports = createBaseFor;
+
+/***/ }),
+/* 369 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isArrayLike = __webpack_require__(22);
+
+/**
+ * Creates a `baseEach` or `baseEachRight` function.
+ *
+ * @private
+ * @param {Function} eachFunc The function to iterate over a collection.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseEach(eachFunc, fromRight) {
+  return function (collection, iteratee) {
+    if (collection == null) {
+      return collection;
+    }
+    if (!isArrayLike(collection)) {
+      return eachFunc(collection, iteratee);
+    }
+    var length = collection.length,
+        index = fromRight ? length : -1,
+        iterable = Object(collection);
+
+    while (fromRight ? index-- : ++index < length) {
+      if (iteratee(iterable[index], index, iterable) === false) {
+        break;
+      }
+    }
+    return collection;
+  };
+}
+
+module.exports = createBaseEach;
+
+/***/ }),
+/* 370 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var identity = __webpack_require__(50);
+
+/**
+ * Casts `value` to `identity` if it's not a function.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {Function} Returns cast function.
+ */
+function castFunction(value) {
+  return typeof value == 'function' ? value : identity;
+}
+
+module.exports = castFunction;
+
+/***/ }),
+/* 371 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new accessor function.
+ */
+function baseProperty(key) {
+  return function (object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+module.exports = baseProperty;
+
+/***/ }),
+/* 372 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var LazyWrapper = __webpack_require__(115),
+    getData = __webpack_require__(177),
+    getFuncName = __webpack_require__(255),
+    lodash = __webpack_require__(374);
+
+/**
+ * Checks if `func` has a lazy counterpart.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` has a lazy counterpart,
+ *  else `false`.
+ */
+function isLaziable(func) {
+  var funcName = getFuncName(func),
+      other = lodash[funcName];
+
+  if (typeof other != 'function' || !(funcName in LazyWrapper.prototype)) {
+    return false;
+  }
+  if (func === other) {
+    return true;
+  }
+  var data = getData(other);
+  return !!data && func === data[0];
+}
+
+module.exports = isLaziable;
+
+/***/ }),
+/* 373 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/** Used to lookup unminified function names. */
+var realNames = {};
+
+module.exports = realNames;
+
+/***/ }),
+/* 374 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var LazyWrapper = __webpack_require__(115),
+    LodashWrapper = __webpack_require__(130),
+    baseLodash = __webpack_require__(116),
+    isArray = __webpack_require__(4),
+    isObjectLike = __webpack_require__(13),
+    wrapperClone = __webpack_require__(375);
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Creates a `lodash` object which wraps `value` to enable implicit method
+ * chain sequences. Methods that operate on and return arrays, collections,
+ * and functions can be chained together. Methods that retrieve a single value
+ * or may return a primitive value will automatically end the chain sequence
+ * and return the unwrapped value. Otherwise, the value must be unwrapped
+ * with `_#value`.
+ *
+ * Explicit chain sequences, which must be unwrapped with `_#value`, may be
+ * enabled using `_.chain`.
+ *
+ * The execution of chained methods is lazy, that is, it's deferred until
+ * `_#value` is implicitly or explicitly called.
+ *
+ * Lazy evaluation allows several methods to support shortcut fusion.
+ * Shortcut fusion is an optimization to merge iteratee calls; this avoids
+ * the creation of intermediate arrays and can greatly reduce the number of
+ * iteratee executions. Sections of a chain sequence qualify for shortcut
+ * fusion if the section is applied to an array and iteratees accept only
+ * one argument. The heuristic for whether a section qualifies for shortcut
+ * fusion is subject to change.
+ *
+ * Chaining is supported in custom builds as long as the `_#value` method is
+ * directly or indirectly included in the build.
+ *
+ * In addition to lodash methods, wrappers have `Array` and `String` methods.
+ *
+ * The wrapper `Array` methods are:
+ * `concat`, `join`, `pop`, `push`, `shift`, `sort`, `splice`, and `unshift`
+ *
+ * The wrapper `String` methods are:
+ * `replace` and `split`
+ *
+ * The wrapper methods that support shortcut fusion are:
+ * `at`, `compact`, `drop`, `dropRight`, `dropWhile`, `filter`, `find`,
+ * `findLast`, `head`, `initial`, `last`, `map`, `reject`, `reverse`, `slice`,
+ * `tail`, `take`, `takeRight`, `takeRightWhile`, `takeWhile`, and `toArray`
+ *
+ * The chainable wrapper methods are:
+ * `after`, `ary`, `assign`, `assignIn`, `assignInWith`, `assignWith`, `at`,
+ * `before`, `bind`, `bindAll`, `bindKey`, `castArray`, `chain`, `chunk`,
+ * `commit`, `compact`, `concat`, `conforms`, `constant`, `countBy`, `create`,
+ * `curry`, `debounce`, `defaults`, `defaultsDeep`, `defer`, `delay`,
+ * `difference`, `differenceBy`, `differenceWith`, `drop`, `dropRight`,
+ * `dropRightWhile`, `dropWhile`, `extend`, `extendWith`, `fill`, `filter`,
+ * `flatMap`, `flatMapDeep`, `flatMapDepth`, `flatten`, `flattenDeep`,
+ * `flattenDepth`, `flip`, `flow`, `flowRight`, `fromPairs`, `functions`,
+ * `functionsIn`, `groupBy`, `initial`, `intersection`, `intersectionBy`,
+ * `intersectionWith`, `invert`, `invertBy`, `invokeMap`, `iteratee`, `keyBy`,
+ * `keys`, `keysIn`, `map`, `mapKeys`, `mapValues`, `matches`, `matchesProperty`,
+ * `memoize`, `merge`, `mergeWith`, `method`, `methodOf`, `mixin`, `negate`,
+ * `nthArg`, `omit`, `omitBy`, `once`, `orderBy`, `over`, `overArgs`,
+ * `overEvery`, `overSome`, `partial`, `partialRight`, `partition`, `pick`,
+ * `pickBy`, `plant`, `property`, `propertyOf`, `pull`, `pullAll`, `pullAllBy`,
+ * `pullAllWith`, `pullAt`, `push`, `range`, `rangeRight`, `rearg`, `reject`,
+ * `remove`, `rest`, `reverse`, `sampleSize`, `set`, `setWith`, `shuffle`,
+ * `slice`, `sort`, `sortBy`, `splice`, `spread`, `tail`, `take`, `takeRight`,
+ * `takeRightWhile`, `takeWhile`, `tap`, `throttle`, `thru`, `toArray`,
+ * `toPairs`, `toPairsIn`, `toPath`, `toPlainObject`, `transform`, `unary`,
+ * `union`, `unionBy`, `unionWith`, `uniq`, `uniqBy`, `uniqWith`, `unset`,
+ * `unshift`, `unzip`, `unzipWith`, `update`, `updateWith`, `values`,
+ * `valuesIn`, `without`, `wrap`, `xor`, `xorBy`, `xorWith`, `zip`,
+ * `zipObject`, `zipObjectDeep`, and `zipWith`
+ *
+ * The wrapper methods that are **not** chainable by default are:
+ * `add`, `attempt`, `camelCase`, `capitalize`, `ceil`, `clamp`, `clone`,
+ * `cloneDeep`, `cloneDeepWith`, `cloneWith`, `conformsTo`, `deburr`,
+ * `defaultTo`, `divide`, `each`, `eachRight`, `endsWith`, `eq`, `escape`,
+ * `escapeRegExp`, `every`, `find`, `findIndex`, `findKey`, `findLast`,
+ * `findLastIndex`, `findLastKey`, `first`, `floor`, `forEach`, `forEachRight`,
+ * `forIn`, `forInRight`, `forOwn`, `forOwnRight`, `get`, `gt`, `gte`, `has`,
+ * `hasIn`, `head`, `identity`, `includes`, `indexOf`, `inRange`, `invoke`,
+ * `isArguments`, `isArray`, `isArrayBuffer`, `isArrayLike`, `isArrayLikeObject`,
+ * `isBoolean`, `isBuffer`, `isDate`, `isElement`, `isEmpty`, `isEqual`,
+ * `isEqualWith`, `isError`, `isFinite`, `isFunction`, `isInteger`, `isLength`,
+ * `isMap`, `isMatch`, `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`,
+ * `isNumber`, `isObject`, `isObjectLike`, `isPlainObject`, `isRegExp`,
+ * `isSafeInteger`, `isSet`, `isString`, `isUndefined`, `isTypedArray`,
+ * `isWeakMap`, `isWeakSet`, `join`, `kebabCase`, `last`, `lastIndexOf`,
+ * `lowerCase`, `lowerFirst`, `lt`, `lte`, `max`, `maxBy`, `mean`, `meanBy`,
+ * `min`, `minBy`, `multiply`, `noConflict`, `noop`, `now`, `nth`, `pad`,
+ * `padEnd`, `padStart`, `parseInt`, `pop`, `random`, `reduce`, `reduceRight`,
+ * `repeat`, `result`, `round`, `runInContext`, `sample`, `shift`, `size`,
+ * `snakeCase`, `some`, `sortedIndex`, `sortedIndexBy`, `sortedLastIndex`,
+ * `sortedLastIndexBy`, `startCase`, `startsWith`, `stubArray`, `stubFalse`,
+ * `stubObject`, `stubString`, `stubTrue`, `subtract`, `sum`, `sumBy`,
+ * `template`, `times`, `toFinite`, `toInteger`, `toJSON`, `toLength`,
+ * `toLower`, `toNumber`, `toSafeInteger`, `toString`, `toUpper`, `trim`,
+ * `trimEnd`, `trimStart`, `truncate`, `unescape`, `uniqueId`, `upperCase`,
+ * `upperFirst`, `value`, and `words`
+ *
+ * @name _
+ * @constructor
+ * @category Seq
+ * @param {*} value The value to wrap in a `lodash` instance.
+ * @returns {Object} Returns the new `lodash` wrapper instance.
+ * @example
+ *
+ * function square(n) {
+ *   return n * n;
+ * }
+ *
+ * var wrapped = _([1, 2, 3]);
+ *
+ * // Returns an unwrapped value.
+ * wrapped.reduce(_.add);
+ * // => 6
+ *
+ * // Returns a wrapped value.
+ * var squares = wrapped.map(square);
+ *
+ * _.isArray(squares);
+ * // => false
+ *
+ * _.isArray(squares.value());
+ * // => true
+ */
+function lodash(value) {
+  if (isObjectLike(value) && !isArray(value) && !(value instanceof LazyWrapper)) {
+    if (value instanceof LodashWrapper) {
+      return value;
+    }
+    if (hasOwnProperty.call(value, '__wrapped__')) {
+      return wrapperClone(value);
+    }
+  }
+  return new LodashWrapper(value);
+}
+
+// Ensure wrappers are instances of `baseLodash`.
+lodash.prototype = baseLodash.prototype;
+lodash.prototype.constructor = lodash;
+
+module.exports = lodash;
+
+/***/ }),
+/* 375 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var LazyWrapper = __webpack_require__(115),
+    LodashWrapper = __webpack_require__(130),
+    copyArray = __webpack_require__(103);
+
+/**
+ * Creates a clone of `wrapper`.
+ *
+ * @private
+ * @param {Object} wrapper The wrapper to clone.
+ * @returns {Object} Returns the cloned wrapper.
+ */
+function wrapperClone(wrapper) {
+  if (wrapper instanceof LazyWrapper) {
+    return wrapper.clone();
+  }
+  var result = new LodashWrapper(wrapper.__wrapped__, wrapper.__chain__);
+  result.__actions__ = copyArray(wrapper.__actions__);
+  result.__index__ = wrapper.__index__;
+  result.__values__ = wrapper.__values__;
+  return result;
+}
+
+module.exports = wrapperClone;
+
+/***/ }),
+/* 376 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * The base implementation of `_.isNaN` without support for number objects.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+ */
+function baseIsNaN(value) {
+  return value !== value;
+}
+
+module.exports = baseIsNaN;
+
+/***/ }),
+/* 377 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A specialized version of `_.indexOf` which performs strict equality
+ * comparisons of values, i.e. `===`.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function strictIndexOf(array, value, fromIndex) {
+  var index = fromIndex - 1,
+      length = array.length;
+
+  while (++index < length) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = strictIndexOf;
+
+/***/ }),
+/* 378 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var punycode = __webpack_require__(379);
+var util = __webpack_require__(380);
+
+exports.parse = urlParse;
+exports.resolve = urlResolve;
+exports.resolveObject = urlResolveObject;
+exports.format = urlFormat;
+
+exports.Url = Url;
+
+function Url() {
+  this.protocol = null;
+  this.slashes = null;
+  this.auth = null;
+  this.host = null;
+  this.port = null;
+  this.hostname = null;
+  this.hash = null;
+  this.search = null;
+  this.query = null;
+  this.pathname = null;
+  this.path = null;
+  this.href = null;
+}
+
+// Reference: RFC 3986, RFC 1808, RFC 2396
+
+// define these here so at least they only have to be
+// compiled once on the first module load.
+var protocolPattern = /^([a-z0-9.+-]+:)/i,
+    portPattern = /:[0-9]*$/,
+
+
+// Special case for a simple path URL
+simplePathPattern = /^(\/\/?(?!\/)[^\?\s]*)(\?[^\s]*)?$/,
+
+
+// RFC 2396: characters reserved for delimiting URLs.
+// We actually just auto-escape these.
+delims = ['<', '>', '"', '`', ' ', '\r', '\n', '\t'],
+
+
+// RFC 2396: characters not allowed for various reasons.
+unwise = ['{', '}', '|', '\\', '^', '`'].concat(delims),
+
+
+// Allowed by RFCs, but cause of XSS attacks.  Always escape these.
+autoEscape = ['\''].concat(unwise),
+
+// Characters that are never ever allowed in a hostname.
+// Note that any invalid chars are also handled, but these
+// are the ones that are *expected* to be seen, so we fast-path
+// them.
+nonHostChars = ['%', '/', '?', ';', '#'].concat(autoEscape),
+    hostEndingChars = ['/', '?', '#'],
+    hostnameMaxLen = 255,
+    hostnamePartPattern = /^[+a-z0-9A-Z_-]{0,63}$/,
+    hostnamePartStart = /^([+a-z0-9A-Z_-]{0,63})(.*)$/,
+
+// protocols that can allow "unsafe" and "unwise" chars.
+unsafeProtocol = {
+  'javascript': true,
+  'javascript:': true
+},
+
+// protocols that never have a hostname.
+hostlessProtocol = {
+  'javascript': true,
+  'javascript:': true
+},
+
+// protocols that always contain a // bit.
+slashedProtocol = {
+  'http': true,
+  'https': true,
+  'ftp': true,
+  'gopher': true,
+  'file': true,
+  'http:': true,
+  'https:': true,
+  'ftp:': true,
+  'gopher:': true,
+  'file:': true
+},
+    querystring = __webpack_require__(381);
+
+function urlParse(url, parseQueryString, slashesDenoteHost) {
+  if (url && util.isObject(url) && url instanceof Url) return url;
+
+  var u = new Url();
+  u.parse(url, parseQueryString, slashesDenoteHost);
+  return u;
+}
+
+Url.prototype.parse = function (url, parseQueryString, slashesDenoteHost) {
+  if (!util.isString(url)) {
+    throw new TypeError("Parameter 'url' must be a string, not " + (typeof url === 'undefined' ? 'undefined' : _typeof(url)));
+  }
+
+  // Copy chrome, IE, opera backslash-handling behavior.
+  // Back slashes before the query string get converted to forward slashes
+  // See: https://code.google.com/p/chromium/issues/detail?id=25916
+  var queryIndex = url.indexOf('?'),
+      splitter = queryIndex !== -1 && queryIndex < url.indexOf('#') ? '?' : '#',
+      uSplit = url.split(splitter),
+      slashRegex = /\\/g;
+  uSplit[0] = uSplit[0].replace(slashRegex, '/');
+  url = uSplit.join(splitter);
+
+  var rest = url;
+
+  // trim before proceeding.
+  // This is to support parse stuff like "  http://foo.com  \n"
+  rest = rest.trim();
+
+  if (!slashesDenoteHost && url.split('#').length === 1) {
+    // Try fast path regexp
+    var simplePath = simplePathPattern.exec(rest);
+    if (simplePath) {
+      this.path = rest;
+      this.href = rest;
+      this.pathname = simplePath[1];
+      if (simplePath[2]) {
+        this.search = simplePath[2];
+        if (parseQueryString) {
+          this.query = querystring.parse(this.search.substr(1));
+        } else {
+          this.query = this.search.substr(1);
+        }
+      } else if (parseQueryString) {
+        this.search = '';
+        this.query = {};
+      }
+      return this;
+    }
+  }
+
+  var proto = protocolPattern.exec(rest);
+  if (proto) {
+    proto = proto[0];
+    var lowerProto = proto.toLowerCase();
+    this.protocol = lowerProto;
+    rest = rest.substr(proto.length);
+  }
+
+  // figure out if it's got a host
+  // user@server is *always* interpreted as a hostname, and url
+  // resolution will treat //foo/bar as host=foo,path=bar because that's
+  // how the browser resolves relative URLs.
+  if (slashesDenoteHost || proto || rest.match(/^\/\/[^@\/]+@[^@\/]+/)) {
+    var slashes = rest.substr(0, 2) === '//';
+    if (slashes && !(proto && hostlessProtocol[proto])) {
+      rest = rest.substr(2);
+      this.slashes = true;
+    }
+  }
+
+  if (!hostlessProtocol[proto] && (slashes || proto && !slashedProtocol[proto])) {
+
+    // there's a hostname.
+    // the first instance of /, ?, ;, or # ends the host.
+    //
+    // If there is an @ in the hostname, then non-host chars *are* allowed
+    // to the left of the last @ sign, unless some host-ending character
+    // comes *before* the @-sign.
+    // URLs are obnoxious.
+    //
+    // ex:
+    // http://a@b@c/ => user:a@b host:c
+    // http://a@b?@c => user:a host:c path:/?@c
+
+    // v0.12 TODO(isaacs): This is not quite how Chrome does things.
+    // Review our test case against browsers more comprehensively.
+
+    // find the first instance of any hostEndingChars
+    var hostEnd = -1;
+    for (var i = 0; i < hostEndingChars.length; i++) {
+      var hec = rest.indexOf(hostEndingChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd)) hostEnd = hec;
+    }
+
+    // at this point, either we have an explicit point where the
+    // auth portion cannot go past, or the last @ char is the decider.
+    var auth, atSign;
+    if (hostEnd === -1) {
+      // atSign can be anywhere.
+      atSign = rest.lastIndexOf('@');
+    } else {
+      // atSign must be in auth portion.
+      // http://a@b/c@d => host:b auth:a path:/c@d
+      atSign = rest.lastIndexOf('@', hostEnd);
+    }
+
+    // Now we have a portion which is definitely the auth.
+    // Pull that off.
+    if (atSign !== -1) {
+      auth = rest.slice(0, atSign);
+      rest = rest.slice(atSign + 1);
+      this.auth = decodeURIComponent(auth);
+    }
+
+    // the host is the remaining to the left of the first non-host char
+    hostEnd = -1;
+    for (var i = 0; i < nonHostChars.length; i++) {
+      var hec = rest.indexOf(nonHostChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd)) hostEnd = hec;
+    }
+    // if we still have not hit it, then the entire thing is a host.
+    if (hostEnd === -1) hostEnd = rest.length;
+
+    this.host = rest.slice(0, hostEnd);
+    rest = rest.slice(hostEnd);
+
+    // pull out port.
+    this.parseHost();
+
+    // we've indicated that there is a hostname,
+    // so even if it's empty, it has to be present.
+    this.hostname = this.hostname || '';
+
+    // if hostname begins with [ and ends with ]
+    // assume that it's an IPv6 address.
+    var ipv6Hostname = this.hostname[0] === '[' && this.hostname[this.hostname.length - 1] === ']';
+
+    // validate a little.
+    if (!ipv6Hostname) {
+      var hostparts = this.hostname.split(/\./);
+      for (var i = 0, l = hostparts.length; i < l; i++) {
+        var part = hostparts[i];
+        if (!part) continue;
+        if (!part.match(hostnamePartPattern)) {
+          var newpart = '';
+          for (var j = 0, k = part.length; j < k; j++) {
+            if (part.charCodeAt(j) > 127) {
+              // we replace non-ASCII char with a temporary placeholder
+              // we need this to make sure size of hostname is not
+              // broken by replacing non-ASCII by nothing
+              newpart += 'x';
+            } else {
+              newpart += part[j];
+            }
+          }
+          // we test again with ASCII char only
+          if (!newpart.match(hostnamePartPattern)) {
+            var validParts = hostparts.slice(0, i);
+            var notHost = hostparts.slice(i + 1);
+            var bit = part.match(hostnamePartStart);
+            if (bit) {
+              validParts.push(bit[1]);
+              notHost.unshift(bit[2]);
+            }
+            if (notHost.length) {
+              rest = '/' + notHost.join('.') + rest;
+            }
+            this.hostname = validParts.join('.');
+            break;
+          }
+        }
+      }
+    }
+
+    if (this.hostname.length > hostnameMaxLen) {
+      this.hostname = '';
+    } else {
+      // hostnames are always lower case.
+      this.hostname = this.hostname.toLowerCase();
+    }
+
+    if (!ipv6Hostname) {
+      // IDNA Support: Returns a punycoded representation of "domain".
+      // It only converts parts of the domain name that
+      // have non-ASCII characters, i.e. it doesn't matter if
+      // you call it with a domain that already is ASCII-only.
+      this.hostname = punycode.toASCII(this.hostname);
+    }
+
+    var p = this.port ? ':' + this.port : '';
+    var h = this.hostname || '';
+    this.host = h + p;
+    this.href += this.host;
+
+    // strip [ and ] from the hostname
+    // the host field still retains them, though
+    if (ipv6Hostname) {
+      this.hostname = this.hostname.substr(1, this.hostname.length - 2);
+      if (rest[0] !== '/') {
+        rest = '/' + rest;
+      }
+    }
+  }
+
+  // now rest is set to the post-host stuff.
+  // chop off any delim chars.
+  if (!unsafeProtocol[lowerProto]) {
+
+    // First, make 100% sure that any "autoEscape" chars get
+    // escaped, even if encodeURIComponent doesn't think they
+    // need to be.
+    for (var i = 0, l = autoEscape.length; i < l; i++) {
+      var ae = autoEscape[i];
+      if (rest.indexOf(ae) === -1) continue;
+      var esc = encodeURIComponent(ae);
+      if (esc === ae) {
+        esc = escape(ae);
+      }
+      rest = rest.split(ae).join(esc);
+    }
+  }
+
+  // chop off from the tail first.
+  var hash = rest.indexOf('#');
+  if (hash !== -1) {
+    // got a fragment string.
+    this.hash = rest.substr(hash);
+    rest = rest.slice(0, hash);
+  }
+  var qm = rest.indexOf('?');
+  if (qm !== -1) {
+    this.search = rest.substr(qm);
+    this.query = rest.substr(qm + 1);
+    if (parseQueryString) {
+      this.query = querystring.parse(this.query);
+    }
+    rest = rest.slice(0, qm);
+  } else if (parseQueryString) {
+    // no query string, but parseQueryString still requested
+    this.search = '';
+    this.query = {};
+  }
+  if (rest) this.pathname = rest;
+  if (slashedProtocol[lowerProto] && this.hostname && !this.pathname) {
+    this.pathname = '/';
+  }
+
+  //to support http.request
+  if (this.pathname || this.search) {
+    var p = this.pathname || '';
+    var s = this.search || '';
+    this.path = p + s;
+  }
+
+  // finally, reconstruct the href based on what has been validated.
+  this.href = this.format();
+  return this;
+};
+
+// format a parsed object into a url string
+function urlFormat(obj) {
+  // ensure it's an object, and not a string url.
+  // If it's an obj, this is a no-op.
+  // this way, you can call url_format() on strings
+  // to clean up potentially wonky urls.
+  if (util.isString(obj)) obj = urlParse(obj);
+  if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
+  return obj.format();
+}
+
+Url.prototype.format = function () {
+  var auth = this.auth || '';
+  if (auth) {
+    auth = encodeURIComponent(auth);
+    auth = auth.replace(/%3A/i, ':');
+    auth += '@';
+  }
+
+  var protocol = this.protocol || '',
+      pathname = this.pathname || '',
+      hash = this.hash || '',
+      host = false,
+      query = '';
+
+  if (this.host) {
+    host = auth + this.host;
+  } else if (this.hostname) {
+    host = auth + (this.hostname.indexOf(':') === -1 ? this.hostname : '[' + this.hostname + ']');
+    if (this.port) {
+      host += ':' + this.port;
+    }
+  }
+
+  if (this.query && util.isObject(this.query) && Object.keys(this.query).length) {
+    query = querystring.stringify(this.query);
+  }
+
+  var search = this.search || query && '?' + query || '';
+
+  if (protocol && protocol.substr(-1) !== ':') protocol += ':';
+
+  // only the slashedProtocols get the //.  Not mailto:, xmpp:, etc.
+  // unless they had them to begin with.
+  if (this.slashes || (!protocol || slashedProtocol[protocol]) && host !== false) {
+    host = '//' + (host || '');
+    if (pathname && pathname.charAt(0) !== '/') pathname = '/' + pathname;
+  } else if (!host) {
+    host = '';
+  }
+
+  if (hash && hash.charAt(0) !== '#') hash = '#' + hash;
+  if (search && search.charAt(0) !== '?') search = '?' + search;
+
+  pathname = pathname.replace(/[?#]/g, function (match) {
+    return encodeURIComponent(match);
+  });
+  search = search.replace('#', '%23');
+
+  return protocol + host + pathname + search + hash;
+};
+
+function urlResolve(source, relative) {
+  return urlParse(source, false, true).resolve(relative);
+}
+
+Url.prototype.resolve = function (relative) {
+  return this.resolveObject(urlParse(relative, false, true)).format();
+};
+
+function urlResolveObject(source, relative) {
+  if (!source) return relative;
+  return urlParse(source, false, true).resolveObject(relative);
+}
+
+Url.prototype.resolveObject = function (relative) {
+  if (util.isString(relative)) {
+    var rel = new Url();
+    rel.parse(relative, false, true);
+    relative = rel;
+  }
+
+  var result = new Url();
+  var tkeys = Object.keys(this);
+  for (var tk = 0; tk < tkeys.length; tk++) {
+    var tkey = tkeys[tk];
+    result[tkey] = this[tkey];
+  }
+
+  // hash is always overridden, no matter what.
+  // even href="" will remove it.
+  result.hash = relative.hash;
+
+  // if the relative url is empty, then there's nothing left to do here.
+  if (relative.href === '') {
+    result.href = result.format();
+    return result;
+  }
+
+  // hrefs like //foo/bar always cut to the protocol.
+  if (relative.slashes && !relative.protocol) {
+    // take everything except the protocol from relative
+    var rkeys = Object.keys(relative);
+    for (var rk = 0; rk < rkeys.length; rk++) {
+      var rkey = rkeys[rk];
+      if (rkey !== 'protocol') result[rkey] = relative[rkey];
+    }
+
+    //urlParse appends trailing / to urls like http://www.example.com
+    if (slashedProtocol[result.protocol] && result.hostname && !result.pathname) {
+      result.path = result.pathname = '/';
+    }
+
+    result.href = result.format();
+    return result;
+  }
+
+  if (relative.protocol && relative.protocol !== result.protocol) {
+    // if it's a known url protocol, then changing
+    // the protocol does weird things
+    // first, if it's not file:, then we MUST have a host,
+    // and if there was a path
+    // to begin with, then we MUST have a path.
+    // if it is file:, then the host is dropped,
+    // because that's known to be hostless.
+    // anything else is assumed to be absolute.
+    if (!slashedProtocol[relative.protocol]) {
+      var keys = Object.keys(relative);
+      for (var v = 0; v < keys.length; v++) {
+        var k = keys[v];
+        result[k] = relative[k];
+      }
+      result.href = result.format();
+      return result;
+    }
+
+    result.protocol = relative.protocol;
+    if (!relative.host && !hostlessProtocol[relative.protocol]) {
+      var relPath = (relative.pathname || '').split('/');
+      while (relPath.length && !(relative.host = relPath.shift())) {}
+      if (!relative.host) relative.host = '';
+      if (!relative.hostname) relative.hostname = '';
+      if (relPath[0] !== '') relPath.unshift('');
+      if (relPath.length < 2) relPath.unshift('');
+      result.pathname = relPath.join('/');
+    } else {
+      result.pathname = relative.pathname;
+    }
+    result.search = relative.search;
+    result.query = relative.query;
+    result.host = relative.host || '';
+    result.auth = relative.auth;
+    result.hostname = relative.hostname || relative.host;
+    result.port = relative.port;
+    // to support http.request
+    if (result.pathname || result.search) {
+      var p = result.pathname || '';
+      var s = result.search || '';
+      result.path = p + s;
+    }
+    result.slashes = result.slashes || relative.slashes;
+    result.href = result.format();
+    return result;
+  }
+
+  var isSourceAbs = result.pathname && result.pathname.charAt(0) === '/',
+      isRelAbs = relative.host || relative.pathname && relative.pathname.charAt(0) === '/',
+      mustEndAbs = isRelAbs || isSourceAbs || result.host && relative.pathname,
+      removeAllDots = mustEndAbs,
+      srcPath = result.pathname && result.pathname.split('/') || [],
+      relPath = relative.pathname && relative.pathname.split('/') || [],
+      psychotic = result.protocol && !slashedProtocol[result.protocol];
+
+  // if the url is a non-slashed url, then relative
+  // links like ../.. should be able
+  // to crawl up to the hostname, as well.  This is strange.
+  // result.protocol has already been set by now.
+  // Later on, put the first path part into the host field.
+  if (psychotic) {
+    result.hostname = '';
+    result.port = null;
+    if (result.host) {
+      if (srcPath[0] === '') srcPath[0] = result.host;else srcPath.unshift(result.host);
+    }
+    result.host = '';
+    if (relative.protocol) {
+      relative.hostname = null;
+      relative.port = null;
+      if (relative.host) {
+        if (relPath[0] === '') relPath[0] = relative.host;else relPath.unshift(relative.host);
+      }
+      relative.host = null;
+    }
+    mustEndAbs = mustEndAbs && (relPath[0] === '' || srcPath[0] === '');
+  }
+
+  if (isRelAbs) {
+    // it's absolute.
+    result.host = relative.host || relative.host === '' ? relative.host : result.host;
+    result.hostname = relative.hostname || relative.hostname === '' ? relative.hostname : result.hostname;
+    result.search = relative.search;
+    result.query = relative.query;
+    srcPath = relPath;
+    // fall through to the dot-handling below.
+  } else if (relPath.length) {
+    // it's relative
+    // throw away the existing file, and take the new path instead.
+    if (!srcPath) srcPath = [];
+    srcPath.pop();
+    srcPath = srcPath.concat(relPath);
+    result.search = relative.search;
+    result.query = relative.query;
+  } else if (!util.isNullOrUndefined(relative.search)) {
+    // just pull out the search.
+    // like href='?foo'.
+    // Put this after the other two cases because it simplifies the booleans
+    if (psychotic) {
+      result.hostname = result.host = srcPath.shift();
+      //occationaly the auth can get stuck only in host
+      //this especially happens in cases like
+      //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+      var authInHost = result.host && result.host.indexOf('@') > 0 ? result.host.split('@') : false;
+      if (authInHost) {
+        result.auth = authInHost.shift();
+        result.host = result.hostname = authInHost.shift();
+      }
+    }
+    result.search = relative.search;
+    result.query = relative.query;
+    //to support http.request
+    if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+      result.path = (result.pathname ? result.pathname : '') + (result.search ? result.search : '');
+    }
+    result.href = result.format();
+    return result;
+  }
+
+  if (!srcPath.length) {
+    // no path at all.  easy.
+    // we've already handled the other stuff above.
+    result.pathname = null;
+    //to support http.request
+    if (result.search) {
+      result.path = '/' + result.search;
+    } else {
+      result.path = null;
+    }
+    result.href = result.format();
+    return result;
+  }
+
+  // if a url ENDs in . or .., then it must get a trailing slash.
+  // however, if it ends in anything else non-slashy,
+  // then it must NOT get a trailing slash.
+  var last = srcPath.slice(-1)[0];
+  var hasTrailingSlash = (result.host || relative.host || srcPath.length > 1) && (last === '.' || last === '..') || last === '';
+
+  // strip single dots, resolve double dots to parent dir
+  // if the path tries to go above the root, `up` ends up > 0
+  var up = 0;
+  for (var i = srcPath.length; i >= 0; i--) {
+    last = srcPath[i];
+    if (last === '.') {
+      srcPath.splice(i, 1);
+    } else if (last === '..') {
+      srcPath.splice(i, 1);
+      up++;
+    } else if (up) {
+      srcPath.splice(i, 1);
+      up--;
+    }
+  }
+
+  // if the path is allowed to go above the root, restore leading ..s
+  if (!mustEndAbs && !removeAllDots) {
+    for (; up--; up) {
+      srcPath.unshift('..');
+    }
+  }
+
+  if (mustEndAbs && srcPath[0] !== '' && (!srcPath[0] || srcPath[0].charAt(0) !== '/')) {
+    srcPath.unshift('');
+  }
+
+  if (hasTrailingSlash && srcPath.join('/').substr(-1) !== '/') {
+    srcPath.push('');
+  }
+
+  var isAbsolute = srcPath[0] === '' || srcPath[0] && srcPath[0].charAt(0) === '/';
+
+  // put the host back
+  if (psychotic) {
+    result.hostname = result.host = isAbsolute ? '' : srcPath.length ? srcPath.shift() : '';
+    //occationaly the auth can get stuck only in host
+    //this especially happens in cases like
+    //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+    var authInHost = result.host && result.host.indexOf('@') > 0 ? result.host.split('@') : false;
+    if (authInHost) {
+      result.auth = authInHost.shift();
+      result.host = result.hostname = authInHost.shift();
+    }
+  }
+
+  mustEndAbs = mustEndAbs || result.host && srcPath.length;
+
+  if (mustEndAbs && !isAbsolute) {
+    srcPath.unshift('');
+  }
+
+  if (!srcPath.length) {
+    result.pathname = null;
+    result.path = null;
+  } else {
+    result.pathname = srcPath.join('/');
+  }
+
+  //to support request.http
+  if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+    result.path = (result.pathname ? result.pathname : '') + (result.search ? result.search : '');
+  }
+  result.auth = relative.auth || result.auth;
+  result.slashes = result.slashes || relative.slashes;
+  result.href = result.format();
+  return result;
+};
+
+Url.prototype.parseHost = function () {
+  var host = this.host;
+  var port = portPattern.exec(host);
+  if (port) {
+    port = port[0];
+    if (port !== ':') {
+      this.port = port.substr(1);
+    }
+    host = host.substr(0, host.length - port.length);
+  }
+  if (host) this.hostname = host;
+};
+
+/***/ }),
+/* 379 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/*! https://mths.be/punycode v1.4.1 by @mathias */
+;(function (root) {
+
+	/** Detect free variables */
+	var freeExports = ( false ? 'undefined' : _typeof(exports)) == 'object' && exports && !exports.nodeType && exports;
+	var freeModule = ( false ? 'undefined' : _typeof(module)) == 'object' && module && !module.nodeType && module;
+	var freeGlobal = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) == 'object' && global;
+	if (freeGlobal.global === freeGlobal || freeGlobal.window === freeGlobal || freeGlobal.self === freeGlobal) {
+		root = freeGlobal;
+	}
+
+	/**
+  * The `punycode` object.
+  * @name punycode
+  * @type Object
+  */
+	var punycode,
+
+
+	/** Highest positive signed 32-bit float value */
+	maxInt = 2147483647,
+	    // aka. 0x7FFFFFFF or 2^31-1
+
+	/** Bootstring parameters */
+	base = 36,
+	    tMin = 1,
+	    tMax = 26,
+	    skew = 38,
+	    damp = 700,
+	    initialBias = 72,
+	    initialN = 128,
+	    // 0x80
+	delimiter = '-',
+	    // '\x2D'
+
+	/** Regular expressions */
+	regexPunycode = /^xn--/,
+	    regexNonASCII = /[^\x20-\x7E]/,
+	    // unprintable ASCII chars + non-ASCII chars
+	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g,
+	    // RFC 3490 separators
+
+	/** Error messages */
+	errors = {
+		'overflow': 'Overflow: input needs wider integers to process',
+		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+		'invalid-input': 'Invalid input'
+	},
+
+
+	/** Convenience shortcuts */
+	baseMinusTMin = base - tMin,
+	    floor = Math.floor,
+	    stringFromCharCode = String.fromCharCode,
+
+
+	/** Temporary variable */
+	key;
+
+	/*--------------------------------------------------------------------------*/
+
+	/**
+  * A generic error utility function.
+  * @private
+  * @param {String} type The error type.
+  * @returns {Error} Throws a `RangeError` with the applicable error message.
+  */
+	function error(type) {
+		throw new RangeError(errors[type]);
+	}
+
+	/**
+  * A generic `Array#map` utility function.
+  * @private
+  * @param {Array} array The array to iterate over.
+  * @param {Function} callback The function that gets called for every array
+  * item.
+  * @returns {Array} A new array of values returned by the callback function.
+  */
+	function map(array, fn) {
+		var length = array.length;
+		var result = [];
+		while (length--) {
+			result[length] = fn(array[length]);
+		}
+		return result;
+	}
+
+	/**
+  * A simple `Array#map`-like wrapper to work with domain name strings or email
+  * addresses.
+  * @private
+  * @param {String} domain The domain name or email address.
+  * @param {Function} callback The function that gets called for every
+  * character.
+  * @returns {Array} A new string of characters returned by the callback
+  * function.
+  */
+	function mapDomain(string, fn) {
+		var parts = string.split('@');
+		var result = '';
+		if (parts.length > 1) {
+			// In email addresses, only the domain name should be punycoded. Leave
+			// the local part (i.e. everything up to `@`) intact.
+			result = parts[0] + '@';
+			string = parts[1];
+		}
+		// Avoid `split(regex)` for IE8 compatibility. See #17.
+		string = string.replace(regexSeparators, '\x2E');
+		var labels = string.split('.');
+		var encoded = map(labels, fn).join('.');
+		return result + encoded;
+	}
+
+	/**
+  * Creates an array containing the numeric code points of each Unicode
+  * character in the string. While JavaScript uses UCS-2 internally,
+  * this function will convert a pair of surrogate halves (each of which
+  * UCS-2 exposes as separate characters) into a single code point,
+  * matching UTF-16.
+  * @see `punycode.ucs2.encode`
+  * @see <https://mathiasbynens.be/notes/javascript-encoding>
+  * @memberOf punycode.ucs2
+  * @name decode
+  * @param {String} string The Unicode input string (UCS-2).
+  * @returns {Array} The new array of code points.
+  */
+	function ucs2decode(string) {
+		var output = [],
+		    counter = 0,
+		    length = string.length,
+		    value,
+		    extra;
+		while (counter < length) {
+			value = string.charCodeAt(counter++);
+			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+				// high surrogate, and there is a next character
+				extra = string.charCodeAt(counter++);
+				if ((extra & 0xFC00) == 0xDC00) {
+					// low surrogate
+					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+				} else {
+					// unmatched surrogate; only append this code unit, in case the next
+					// code unit is the high surrogate of a surrogate pair
+					output.push(value);
+					counter--;
+				}
+			} else {
+				output.push(value);
+			}
+		}
+		return output;
+	}
+
+	/**
+  * Creates a string based on an array of numeric code points.
+  * @see `punycode.ucs2.decode`
+  * @memberOf punycode.ucs2
+  * @name encode
+  * @param {Array} codePoints The array of numeric code points.
+  * @returns {String} The new Unicode string (UCS-2).
+  */
+	function ucs2encode(array) {
+		return map(array, function (value) {
+			var output = '';
+			if (value > 0xFFFF) {
+				value -= 0x10000;
+				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+				value = 0xDC00 | value & 0x3FF;
+			}
+			output += stringFromCharCode(value);
+			return output;
+		}).join('');
+	}
+
+	/**
+  * Converts a basic code point into a digit/integer.
+  * @see `digitToBasic()`
+  * @private
+  * @param {Number} codePoint The basic numeric code point value.
+  * @returns {Number} The numeric value of a basic code point (for use in
+  * representing integers) in the range `0` to `base - 1`, or `base` if
+  * the code point does not represent a value.
+  */
+	function basicToDigit(codePoint) {
+		if (codePoint - 48 < 10) {
+			return codePoint - 22;
+		}
+		if (codePoint - 65 < 26) {
+			return codePoint - 65;
+		}
+		if (codePoint - 97 < 26) {
+			return codePoint - 97;
+		}
+		return base;
+	}
+
+	/**
+  * Converts a digit/integer into a basic code point.
+  * @see `basicToDigit()`
+  * @private
+  * @param {Number} digit The numeric value of a basic code point.
+  * @returns {Number} The basic code point whose value (when used for
+  * representing integers) is `digit`, which needs to be in the range
+  * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
+  * used; else, the lowercase form is used. The behavior is undefined
+  * if `flag` is non-zero and `digit` has no uppercase form.
+  */
+	function digitToBasic(digit, flag) {
+		//  0..25 map to ASCII a..z or A..Z
+		// 26..35 map to ASCII 0..9
+		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+	}
+
+	/**
+  * Bias adaptation function as per section 3.4 of RFC 3492.
+  * https://tools.ietf.org/html/rfc3492#section-3.4
+  * @private
+  */
+	function adapt(delta, numPoints, firstTime) {
+		var k = 0;
+		delta = firstTime ? floor(delta / damp) : delta >> 1;
+		delta += floor(delta / numPoints);
+		for (; /* no initialization */delta > baseMinusTMin * tMax >> 1; k += base) {
+			delta = floor(delta / baseMinusTMin);
+		}
+		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+	}
+
+	/**
+  * Converts a Punycode string of ASCII-only symbols to a string of Unicode
+  * symbols.
+  * @memberOf punycode
+  * @param {String} input The Punycode string of ASCII-only symbols.
+  * @returns {String} The resulting string of Unicode symbols.
+  */
+	function decode(input) {
+		// Don't use UCS-2
+		var output = [],
+		    inputLength = input.length,
+		    out,
+		    i = 0,
+		    n = initialN,
+		    bias = initialBias,
+		    basic,
+		    j,
+		    index,
+		    oldi,
+		    w,
+		    k,
+		    digit,
+		    t,
+
+		/** Cached calculation results */
+		baseMinusT;
+
+		// Handle the basic code points: let `basic` be the number of input code
+		// points before the last delimiter, or `0` if there is none, then copy
+		// the first basic code points to the output.
+
+		basic = input.lastIndexOf(delimiter);
+		if (basic < 0) {
+			basic = 0;
+		}
+
+		for (j = 0; j < basic; ++j) {
+			// if it's not a basic code point
+			if (input.charCodeAt(j) >= 0x80) {
+				error('not-basic');
+			}
+			output.push(input.charCodeAt(j));
+		}
+
+		// Main decoding loop: start just after the last delimiter if any basic code
+		// points were copied; start at the beginning otherwise.
+
+		for (index = basic > 0 ? basic + 1 : 0; index < inputLength;) /* no final expression */{
+
+			// `index` is the index of the next character to be consumed.
+			// Decode a generalized variable-length integer into `delta`,
+			// which gets added to `i`. The overflow checking is easier
+			// if we increase `i` as we go, then subtract off its starting
+			// value at the end to obtain `delta`.
+			for (oldi = i, w = 1, k = base;; /* no condition */k += base) {
+
+				if (index >= inputLength) {
+					error('invalid-input');
+				}
+
+				digit = basicToDigit(input.charCodeAt(index++));
+
+				if (digit >= base || digit > floor((maxInt - i) / w)) {
+					error('overflow');
+				}
+
+				i += digit * w;
+				t = k <= bias ? tMin : k >= bias + tMax ? tMax : k - bias;
+
+				if (digit < t) {
+					break;
+				}
+
+				baseMinusT = base - t;
+				if (w > floor(maxInt / baseMinusT)) {
+					error('overflow');
+				}
+
+				w *= baseMinusT;
+			}
+
+			out = output.length + 1;
+			bias = adapt(i - oldi, out, oldi == 0);
+
+			// `i` was supposed to wrap around from `out` to `0`,
+			// incrementing `n` each time, so we'll fix that now:
+			if (floor(i / out) > maxInt - n) {
+				error('overflow');
+			}
+
+			n += floor(i / out);
+			i %= out;
+
+			// Insert `n` at position `i` of the output
+			output.splice(i++, 0, n);
+		}
+
+		return ucs2encode(output);
+	}
+
+	/**
+  * Converts a string of Unicode symbols (e.g. a domain name label) to a
+  * Punycode string of ASCII-only symbols.
+  * @memberOf punycode
+  * @param {String} input The string of Unicode symbols.
+  * @returns {String} The resulting Punycode string of ASCII-only symbols.
+  */
+	function encode(input) {
+		var n,
+		    delta,
+		    handledCPCount,
+		    basicLength,
+		    bias,
+		    j,
+		    m,
+		    q,
+		    k,
+		    t,
+		    currentValue,
+		    output = [],
+
+		/** `inputLength` will hold the number of code points in `input`. */
+		inputLength,
+
+		/** Cached calculation results */
+		handledCPCountPlusOne,
+		    baseMinusT,
+		    qMinusT;
+
+		// Convert the input in UCS-2 to Unicode
+		input = ucs2decode(input);
+
+		// Cache the length
+		inputLength = input.length;
+
+		// Initialize the state
+		n = initialN;
+		delta = 0;
+		bias = initialBias;
+
+		// Handle the basic code points
+		for (j = 0; j < inputLength; ++j) {
+			currentValue = input[j];
+			if (currentValue < 0x80) {
+				output.push(stringFromCharCode(currentValue));
+			}
+		}
+
+		handledCPCount = basicLength = output.length;
+
+		// `handledCPCount` is the number of code points that have been handled;
+		// `basicLength` is the number of basic code points.
+
+		// Finish the basic string - if it is not empty - with a delimiter
+		if (basicLength) {
+			output.push(delimiter);
+		}
+
+		// Main encoding loop:
+		while (handledCPCount < inputLength) {
+
+			// All non-basic code points < n have been handled already. Find the next
+			// larger one:
+			for (m = maxInt, j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+				if (currentValue >= n && currentValue < m) {
+					m = currentValue;
+				}
+			}
+
+			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
+			// but guard against overflow
+			handledCPCountPlusOne = handledCPCount + 1;
+			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+				error('overflow');
+			}
+
+			delta += (m - n) * handledCPCountPlusOne;
+			n = m;
+
+			for (j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+
+				if (currentValue < n && ++delta > maxInt) {
+					error('overflow');
+				}
+
+				if (currentValue == n) {
+					// Represent delta as a generalized variable-length integer
+					for (q = delta, k = base;; /* no condition */k += base) {
+						t = k <= bias ? tMin : k >= bias + tMax ? tMax : k - bias;
+						if (q < t) {
+							break;
+						}
+						qMinusT = q - t;
+						baseMinusT = base - t;
+						output.push(stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0)));
+						q = floor(qMinusT / baseMinusT);
+					}
+
+					output.push(stringFromCharCode(digitToBasic(q, 0)));
+					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+					delta = 0;
+					++handledCPCount;
+				}
+			}
+
+			++delta;
+			++n;
+		}
+		return output.join('');
+	}
+
+	/**
+  * Converts a Punycode string representing a domain name or an email address
+  * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
+  * it doesn't matter if you call it on a string that has already been
+  * converted to Unicode.
+  * @memberOf punycode
+  * @param {String} input The Punycoded domain name or email address to
+  * convert to Unicode.
+  * @returns {String} The Unicode representation of the given Punycode
+  * string.
+  */
+	function toUnicode(input) {
+		return mapDomain(input, function (string) {
+			return regexPunycode.test(string) ? decode(string.slice(4).toLowerCase()) : string;
+		});
+	}
+
+	/**
+  * Converts a Unicode string representing a domain name or an email address to
+  * Punycode. Only the non-ASCII parts of the domain name will be converted,
+  * i.e. it doesn't matter if you call it with a domain that's already in
+  * ASCII.
+  * @memberOf punycode
+  * @param {String} input The domain name or email address to convert, as a
+  * Unicode string.
+  * @returns {String} The Punycode representation of the given domain name or
+  * email address.
+  */
+	function toASCII(input) {
+		return mapDomain(input, function (string) {
+			return regexNonASCII.test(string) ? 'xn--' + encode(string) : string;
+		});
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	/** Define the public API */
+	punycode = {
+		/**
+   * A string representing the current Punycode.js version number.
+   * @memberOf punycode
+   * @type String
+   */
+		'version': '1.4.1',
+		/**
+   * An object of methods to convert from JavaScript's internal character
+   * representation (UCS-2) to Unicode code points, and back.
+   * @see <https://mathiasbynens.be/notes/javascript-encoding>
+   * @memberOf punycode
+   * @type Object
+   */
+		'ucs2': {
+			'decode': ucs2decode,
+			'encode': ucs2encode
+		},
+		'decode': decode,
+		'encode': encode,
+		'toASCII': toASCII,
+		'toUnicode': toUnicode
+	};
+
+	/** Expose `punycode` */
+	// Some AMD build optimizers, like r.js, check for specific condition patterns
+	// like the following:
+	if ("function" == 'function' && _typeof(__webpack_require__(82)) == 'object' && __webpack_require__(82)) {
+		!(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return punycode;
+		}).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (freeExports && freeModule) {
+		if (module.exports == freeExports) {
+			// in Node.js, io.js, or RingoJS v0.8.0+
+			freeModule.exports = punycode;
+		} else {
+			// in Narwhal or RingoJS v0.7.0-
+			for (key in punycode) {
+				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
+			}
+		}
+	} else {
+		// in Rhino or a web browser
+		root.punycode = punycode;
+	}
+})(undefined);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(49)(module), __webpack_require__(12)))
+
+/***/ }),
+/* 380 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = {
+  isString: function isString(arg) {
+    return typeof arg === 'string';
+  },
+  isObject: function isObject(arg) {
+    return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && arg !== null;
+  },
+  isNull: function isNull(arg) {
+    return arg === null;
+  },
+  isNullOrUndefined: function isNullOrUndefined(arg) {
+    return arg == null;
+  }
+};
+
+/***/ }),
+/* 381 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.decode = exports.parse = __webpack_require__(382);
+exports.encode = exports.stringify = __webpack_require__(175);
+
+/***/ }),
+/* 382 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+// If obj.hasOwnProperty has been overridden, then calling
+// obj.hasOwnProperty(prop) will break.
+// See: https://github.com/joyent/node/issues/1707
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+module.exports = function (qs, sep, eq, options) {
+  sep = sep || '&';
+  eq = eq || '=';
+  var obj = {};
+
+  if (typeof qs !== 'string' || qs.length === 0) {
+    return obj;
+  }
+
+  var regexp = /\+/g;
+  qs = qs.split(sep);
+
+  var maxKeys = 1000;
+  if (options && typeof options.maxKeys === 'number') {
+    maxKeys = options.maxKeys;
+  }
+
+  var len = qs.length;
+  // maxKeys <= 0 means that we should not limit keys count
+  if (maxKeys > 0 && len > maxKeys) {
+    len = maxKeys;
+  }
+
+  for (var i = 0; i < len; ++i) {
+    var x = qs[i].replace(regexp, '%20'),
+        idx = x.indexOf(eq),
+        kstr,
+        vstr,
+        k,
+        v;
+
+    if (idx >= 0) {
+      kstr = x.substr(0, idx);
+      vstr = x.substr(idx + 1);
+    } else {
+      kstr = x;
+      vstr = '';
+    }
+
+    k = decodeURIComponent(kstr);
+    v = decodeURIComponent(vstr);
+
+    if (!hasOwnProperty(obj, k)) {
+      obj[k] = v;
+    } else if (isArray(obj[k])) {
+      obj[k].push(v);
+    } else {
+      obj[k] = [obj[k], v];
+    }
+  }
+
+  return obj;
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+/***/ }),
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21088,11 +24007,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(1);
+var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactIntl = __webpack_require__(24);
+var _reactIntl = __webpack_require__(25);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21141,14 +24060,14 @@ IntlProvider.propTypes = {
 exports.default = IntlProvider;
 
 /***/ }),
-/* 347 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIsEqualDeep = __webpack_require__(521),
-    isObjectLike = __webpack_require__(14);
+var baseIsEqualDeep = __webpack_require__(551),
+    isObjectLike = __webpack_require__(13);
 
 /**
  * The base implementation of `_.isEqual` which supports partial comparisons
@@ -21177,15 +24096,15 @@ function baseIsEqual(value, other, bitmask, customizer, stack) {
 module.exports = baseIsEqual;
 
 /***/ }),
-/* 348 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SetCache = __webpack_require__(135),
-    arraySome = __webpack_require__(524),
-    cacheHas = __webpack_require__(136);
+var SetCache = __webpack_require__(150),
+    arraySome = __webpack_require__(554),
+    cacheHas = __webpack_require__(151);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -21262,13 +24181,13 @@ function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
 module.exports = equalArrays;
 
 /***/ }),
-/* 349 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isObject = __webpack_require__(7);
+var isObject = __webpack_require__(8);
 
 /**
  * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
@@ -21285,7 +24204,7 @@ function isStrictComparable(value) {
 module.exports = isStrictComparable;
 
 /***/ }),
-/* 350 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21312,14 +24231,14 @@ function matchesStrictComparable(key, srcValue) {
 module.exports = matchesStrictComparable;
 
 /***/ }),
-/* 351 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseHasIn = __webpack_require__(529),
-    hasPath = __webpack_require__(352);
+var baseHasIn = __webpack_require__(559),
+    hasPath = __webpack_require__(389);
 
 /**
  * Checks if `path` is a direct or inherited property of `object`.
@@ -21354,18 +24273,18 @@ function hasIn(object, path) {
 module.exports = hasIn;
 
 /***/ }),
-/* 352 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var castPath = __webpack_require__(44),
-    isArguments = __webpack_require__(66),
-    isArray = __webpack_require__(5),
-    isIndex = __webpack_require__(84),
-    isLength = __webpack_require__(115),
-    toKey = __webpack_require__(47);
+var castPath = __webpack_require__(46),
+    isArguments = __webpack_require__(70),
+    isArray = __webpack_require__(4),
+    isIndex = __webpack_require__(75),
+    isLength = __webpack_require__(126),
+    toKey = __webpack_require__(51);
 
 /**
  * Checks if `path` exists on `object`.
@@ -21400,13 +24319,13 @@ function hasPath(object, path, hasFunc) {
 module.exports = hasPath;
 
 /***/ }),
-/* 353 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseEach = __webpack_require__(105),
+var baseEach = __webpack_require__(84),
     isArrayLike = __webpack_require__(22);
 
 /**
@@ -21430,37 +24349,13 @@ function baseMap(collection, iteratee) {
 module.exports = baseMap;
 
 /***/ }),
-/* 354 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createBaseFor = __webpack_require__(534);
-
-/**
- * The base implementation of `baseForOwn` which iterates over `object`
- * properties returned by `keysFunc` and invokes `iteratee` for each property.
- * Iteratee functions may exit iteration early by explicitly returning `false`.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {Function} keysFunc The function to get the keys of `object`.
- * @returns {Object} Returns `object`.
- */
-var baseFor = createBaseFor();
-
-module.exports = baseFor;
-
-/***/ }),
-/* 355 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseEach = __webpack_require__(105);
+var baseEach = __webpack_require__(84);
 
 /**
  * The base implementation of `_.filter` without support for iteratee shorthands.
@@ -21483,7 +24378,7 @@ function baseFilter(collection, predicate) {
 module.exports = baseFilter;
 
 /***/ }),
-/* 356 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21535,83 +24430,7 @@ function negate(predicate) {
 module.exports = negate;
 
 /***/ }),
-/* 357 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var findMatchingRule = function findMatchingRule(rules, text) {
-  var i;
-  for (i = 0; i < rules.length; i++) {
-    if (rules[i].regex.test(text)) return rules[i];
-  }return undefined;
-};
-
-var findMaxIndexAndRule = function findMaxIndexAndRule(rules, text) {
-  var i, rule, last_matching_rule;
-  for (i = 0; i < text.length; i++) {
-    rule = findMatchingRule(rules, text.substring(0, i + 1));
-    if (rule) last_matching_rule = rule;else if (last_matching_rule) return { max_index: i, rule: last_matching_rule };
-  }
-  return last_matching_rule ? { max_index: text.length, rule: last_matching_rule } : undefined;
-};
-
-module.exports = function (onToken_orig) {
-  var buffer = "";
-  var rules = [];
-  var line = 1;
-  var col = 1;
-
-  var onToken = function onToken(src, type) {
-    onToken_orig({
-      type: type,
-      src: src,
-      line: line,
-      col: col
-    });
-    var lines = src.split("\n");
-    line += lines.length - 1;
-    col = (lines.length > 1 ? 1 : col) + lines[lines.length - 1].length;
-  };
-
-  return {
-    addRule: function addRule(regex, type) {
-      rules.push({ regex: regex, type: type });
-    },
-    onText: function onText(text) {
-      var str = buffer + text;
-      var m = findMaxIndexAndRule(rules, str);
-      while (m && m.max_index !== str.length) {
-        onToken(str.substring(0, m.max_index), m.rule.type);
-
-        //now find the next token
-        str = str.substring(m.max_index);
-        m = findMaxIndexAndRule(rules, str);
-      }
-      buffer = str;
-    },
-    end: function end() {
-      if (buffer.length === 0) return;
-
-      var rule = findMatchingRule(rules, buffer);
-      if (!rule) {
-        var err = new Error("unable to tokenize");
-        err.tokenizer2 = {
-          buffer: buffer,
-          line: line,
-          col: col
-        };
-        throw err;
-      }
-
-      onToken(buffer, rule.type);
-    }
-  };
-};
-
-/***/ }),
-/* 358 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21653,14 +24472,14 @@ module.exports = {
 //# sourceMappingURL=unifyWhitespace.js.map
 
 /***/ }),
-/* 359 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseAssignValue = __webpack_require__(112),
-    eq = __webpack_require__(40);
+var baseAssignValue = __webpack_require__(123),
+    eq = __webpack_require__(42);
 
 /**
  * This function is like `assignValue` except that it doesn't assign
@@ -21680,7 +24499,7 @@ function assignMergeValue(object, key, value) {
 module.exports = assignMergeValue;
 
 /***/ }),
-/* 360 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21696,18 +24515,18 @@ module.exports = function InvalidTypeError(message) {
   this.name = this.constructor.name;
   this.message = message;
 };
-__webpack_require__(15).inherits(module.exports, Error);
+__webpack_require__(16).inherits(module.exports, Error);
 //# sourceMappingURL=invalidType.js.map
 //# sourceMappingURL=invalidType.js.map
 
 /***/ }),
-/* 361 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var wordCount = __webpack_require__(53);
+var wordCount = __webpack_require__(56);
 /**
  * Count the words in the text
  * @param {Paper} paper The Paper object who's
@@ -21720,7 +24539,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=wordCountInText.js.map
 
 /***/ }),
-/* 362 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21746,39 +24565,13 @@ module.exports = function (text) {
 //# sourceMappingURL=getAnchorsFromText.js.map
 
 /***/ }),
-/* 363 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/** @module stringProcessing/replaceDiacritics */
-
-var transliterationsMap = __webpack_require__(543);
-/**
- * Replaces all special characters from the text based on the transliterations map.
- *
- * @param {string} text The text to remove special characters from.
- * @param {string} locale The locale.
- * @returns {string} The text with all special characters replaced.
- */
-module.exports = function (text, locale) {
-    var map = transliterationsMap(locale);
-    for (var i = 0; i < map.length; i++) {
-        text = text.replace(map[i].letter, map[i].alternative);
-    }
-    return text;
-};
-//# sourceMappingURL=transliterate.js.map
-//# sourceMappingURL=transliterate.js.map
-
-/***/ }),
-/* 364 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Tokenizer = __webpack_require__(365);
+var Tokenizer = __webpack_require__(399);
 
 /*
 	Options:
@@ -21896,7 +24689,7 @@ function Parser(cbs, options) {
 	if (this._cbs.onparserinit) this._cbs.onparserinit(this);
 }
 
-__webpack_require__(12)(Parser, __webpack_require__(74).EventEmitter);
+__webpack_require__(14)(Parser, __webpack_require__(81).EventEmitter);
 
 Parser.prototype._updatePosition = function (initialOffset) {
 	if (this.endIndex === null) {
@@ -22117,7 +24910,7 @@ Parser.prototype.done = Parser.prototype.end;
 module.exports = Parser;
 
 /***/ }),
-/* 365 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22125,10 +24918,10 @@ module.exports = Parser;
 
 module.exports = Tokenizer;
 
-var decodeCodePoint = __webpack_require__(366),
-    entityMap = __webpack_require__(240),
-    legacyMap = __webpack_require__(367),
-    xmlMap = __webpack_require__(241),
+var decodeCodePoint = __webpack_require__(400),
+    entityMap = __webpack_require__(263),
+    legacyMap = __webpack_require__(401),
+    xmlMap = __webpack_require__(264),
     i = 0,
     TEXT = i++,
     BEFORE_TAG_NAME = i++,
@@ -23044,13 +25837,13 @@ Tokenizer.prototype._emitPartial = function (value) {
 };
 
 /***/ }),
-/* 366 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var decodeMap = __webpack_require__(551);
+var decodeMap = __webpack_require__(570);
 
 module.exports = decodeCodePoint;
 
@@ -23078,13 +25871,13 @@ function decodeCodePoint(codePoint) {
 }
 
 /***/ }),
-/* 367 */
+/* 401 */
 /***/ (function(module, exports) {
 
 module.exports = {"Aacute":"Á","aacute":"á","Acirc":"Â","acirc":"â","acute":"´","AElig":"Æ","aelig":"æ","Agrave":"À","agrave":"à","amp":"&","AMP":"&","Aring":"Å","aring":"å","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","brvbar":"¦","Ccedil":"Ç","ccedil":"ç","cedil":"¸","cent":"¢","copy":"©","COPY":"©","curren":"¤","deg":"°","divide":"÷","Eacute":"É","eacute":"é","Ecirc":"Ê","ecirc":"ê","Egrave":"È","egrave":"è","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","frac12":"½","frac14":"¼","frac34":"¾","gt":">","GT":">","Iacute":"Í","iacute":"í","Icirc":"Î","icirc":"î","iexcl":"¡","Igrave":"Ì","igrave":"ì","iquest":"¿","Iuml":"Ï","iuml":"ï","laquo":"«","lt":"<","LT":"<","macr":"¯","micro":"µ","middot":"·","nbsp":" ","not":"¬","Ntilde":"Ñ","ntilde":"ñ","Oacute":"Ó","oacute":"ó","Ocirc":"Ô","ocirc":"ô","Ograve":"Ò","ograve":"ò","ordf":"ª","ordm":"º","Oslash":"Ø","oslash":"ø","Otilde":"Õ","otilde":"õ","Ouml":"Ö","ouml":"ö","para":"¶","plusmn":"±","pound":"£","quot":"\"","QUOT":"\"","raquo":"»","reg":"®","REG":"®","sect":"§","shy":"­","sup1":"¹","sup2":"²","sup3":"³","szlig":"ß","THORN":"Þ","thorn":"þ","times":"×","Uacute":"Ú","uacute":"ú","Ucirc":"Û","ucirc":"û","Ugrave":"Ù","ugrave":"ù","uml":"¨","Uuml":"Ü","uuml":"ü","Yacute":"Ý","yacute":"ý","yen":"¥","yuml":"ÿ"}
 
 /***/ }),
-/* 368 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23136,7 +25929,7 @@ Object.keys(domLvl1).forEach(function (key) {
 });
 
 /***/ }),
-/* 369 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23144,10 +25937,10 @@ Object.keys(domLvl1).forEach(function (key) {
 
 module.exports = Stream;
 
-var Parser = __webpack_require__(364),
-    WritableStream = __webpack_require__(556).Writable || __webpack_require__(569).Writable,
-    StringDecoder = __webpack_require__(245).StringDecoder,
-    Buffer = __webpack_require__(243).Buffer;
+var Parser = __webpack_require__(398),
+    WritableStream = __webpack_require__(575).Writable || __webpack_require__(588).Writable,
+    StringDecoder = __webpack_require__(268).StringDecoder,
+    Buffer = __webpack_require__(266).Buffer;
 
 function Stream(cbs, options) {
 	var parser = this._parser = new Parser(cbs, options);
@@ -23160,7 +25953,7 @@ function Stream(cbs, options) {
 	});
 }
 
-__webpack_require__(12)(Stream, WritableStream);
+__webpack_require__(14)(Stream, WritableStream);
 
 WritableStream.prototype._write = function (chunk, encoding, cb) {
 	if (chunk instanceof Buffer) chunk = this._decoder.write(chunk);
@@ -23169,7 +25962,7 @@ WritableStream.prototype._write = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 370 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23198,13 +25991,13 @@ WritableStream.prototype._write = function (chunk, encoding, cb) {
 
 /*<replacement>*/
 
-var processNextTick = __webpack_require__(138);
+var processNextTick = __webpack_require__(153);
 /*</replacement>*/
 
 module.exports = Readable;
 
 /*<replacement>*/
-var isArray = __webpack_require__(371);
+var isArray = __webpack_require__(405);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -23214,7 +26007,7 @@ var Duplex;
 Readable.ReadableState = ReadableState;
 
 /*<replacement>*/
-var EE = __webpack_require__(74).EventEmitter;
+var EE = __webpack_require__(81).EventEmitter;
 
 var EElistenerCount = function EElistenerCount(emitter, type) {
   return emitter.listeners(type).length;
@@ -23222,13 +26015,13 @@ var EElistenerCount = function EElistenerCount(emitter, type) {
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(372);
+var Stream = __webpack_require__(406);
 /*</replacement>*/
 
 // TODO(bmeurer): Change this back to const once hole checks are
 // properly optimized away early in Ignition+TurboFan.
 /*<replacement>*/
-var Buffer = __webpack_require__(139).Buffer;
+var Buffer = __webpack_require__(154).Buffer;
 var OurUint8Array = global.Uint8Array || function () {};
 function _uint8ArrayToBuffer(chunk) {
   return Buffer.from(chunk);
@@ -23239,12 +26032,12 @@ function _isUint8Array(obj) {
 /*</replacement>*/
 
 /*<replacement>*/
-var util = __webpack_require__(109);
-util.inherits = __webpack_require__(12);
+var util = __webpack_require__(119);
+util.inherits = __webpack_require__(14);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(559);
+var debugUtil = __webpack_require__(578);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -23253,8 +26046,8 @@ if (debugUtil && debugUtil.debuglog) {
 }
 /*</replacement>*/
 
-var BufferList = __webpack_require__(560);
-var destroyImpl = __webpack_require__(373);
+var BufferList = __webpack_require__(579);
+var destroyImpl = __webpack_require__(407);
 var StringDecoder;
 
 util.inherits(Readable, Stream);
@@ -23276,7 +26069,7 @@ function prependListener(emitter, event, fn) {
 }
 
 function ReadableState(options, stream) {
-  Duplex = Duplex || __webpack_require__(59);
+  Duplex = Duplex || __webpack_require__(62);
 
   options = options || {};
 
@@ -23337,14 +26130,14 @@ function ReadableState(options, stream) {
   this.decoder = null;
   this.encoding = null;
   if (options.encoding) {
-    if (!StringDecoder) StringDecoder = __webpack_require__(245).StringDecoder;
+    if (!StringDecoder) StringDecoder = __webpack_require__(268).StringDecoder;
     this.decoder = new StringDecoder(options.encoding);
     this.encoding = options.encoding;
   }
 }
 
 function Readable(options) {
-  Duplex = Duplex || __webpack_require__(59);
+  Duplex = Duplex || __webpack_require__(62);
 
   if (!(this instanceof Readable)) return new Readable(options);
 
@@ -23493,7 +26286,7 @@ Readable.prototype.isPaused = function () {
 
 // backwards compatibility.
 Readable.prototype.setEncoding = function (enc) {
-  if (!StringDecoder) StringDecoder = __webpack_require__(245).StringDecoder;
+  if (!StringDecoder) StringDecoder = __webpack_require__(268).StringDecoder;
   this._readableState.decoder = new StringDecoder(enc);
   this._readableState.encoding = enc;
   return this;
@@ -24180,10 +26973,10 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(51)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(54)))
 
 /***/ }),
-/* 371 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24196,16 +26989,16 @@ module.exports = Array.isArray || function (arr) {
 };
 
 /***/ }),
-/* 372 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(74).EventEmitter;
+module.exports = __webpack_require__(81).EventEmitter;
 
 /***/ }),
-/* 373 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24213,7 +27006,7 @@ module.exports = __webpack_require__(74).EventEmitter;
 
 /*<replacement>*/
 
-var processNextTick = __webpack_require__(138);
+var processNextTick = __webpack_require__(153);
 /*</replacement>*/
 
 // undocumented cb() API, needed for core, not for public API
@@ -24283,7 +27076,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 374 */
+/* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24354,11 +27147,11 @@ module.exports = {
 
 module.exports = Transform;
 
-var Duplex = __webpack_require__(59);
+var Duplex = __webpack_require__(62);
 
 /*<replacement>*/
-var util = __webpack_require__(109);
-util.inherits = __webpack_require__(12);
+var util = __webpack_require__(119);
+util.inherits = __webpack_require__(14);
 /*</replacement>*/
 
 util.inherits(Transform, Duplex);
@@ -24503,16 +27296,16 @@ function done(stream, er, data) {
 }
 
 /***/ }),
-/* 375 */
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/getLinkStatistics */
 
-var getAnchors = __webpack_require__(362);
-var map = __webpack_require__(8);
-var url = __webpack_require__(239);
+var getAnchors = __webpack_require__(397);
+var map = __webpack_require__(9);
+var url = __webpack_require__(262);
 /**
  * Checks a text for anchors and returns the number found.
  *
@@ -24527,14 +27320,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=getLinks.js.map
 
 /***/ }),
-/* 376 */
+/* 410 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/stripNonTextTags */
 
-var stripSpaces = __webpack_require__(21);
+var stripSpaces = __webpack_require__(19);
 /**
  * Strips all tags from the text, except li, p, dd and h1-h6 tags from the text that contain content to check.
  *
@@ -24550,14 +27343,14 @@ module.exports = function (text) {
 //# sourceMappingURL=stripNonTextTags.js.map
 
 /***/ }),
-/* 377 */
+/* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stopwords = __webpack_require__(595)();
-var toRegex = __webpack_require__(378);
+var stopwords = __webpack_require__(614)();
+var toRegex = __webpack_require__(248);
 /**
  * Checks a text to see if there are any stopwords, that are defined in the stopwords config.
  *
@@ -24578,111 +27371,25 @@ module.exports = function (text) {
 //# sourceMappingURL=stopWordsInText.js.map
 
 /***/ }),
-/* 378 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/** @module stringProcessing/stringToRegex */
-
-var isUndefined = __webpack_require__(3);
-var replaceDiacritics = __webpack_require__(379);
-var addWordBoundary = __webpack_require__(107);
-var sanitizeString = __webpack_require__(380);
-var escapeRegExp = __webpack_require__(26);
-var memoize = __webpack_require__(32);
-/**
- * Creates a regex from a string so it can be matched everywhere in the same way.
- *
- * @param {string} string The string to make a regex from.
- * @param {string} [extraBoundary=""] A string that is used as extra boundary for the regex.
- * @param {boolean} [doReplaceDiacritics=true] If set to false, it doesn't replace diacritics. Defaults to true.
- * @returns {RegExp} regex The regex made from the keyword
- */
-module.exports = memoize(function (string, extraBoundary, doReplaceDiacritics) {
-    if (isUndefined(extraBoundary)) {
-        extraBoundary = "";
-    }
-    if (isUndefined(doReplaceDiacritics) || doReplaceDiacritics === true) {
-        string = replaceDiacritics(string);
-    }
-    string = sanitizeString(string);
-    string = escapeRegExp(string);
-    string = addWordBoundary(string, false, extraBoundary);
-    return new RegExp(string, "ig");
-});
-//# sourceMappingURL=createWordRegex.js.map
-//# sourceMappingURL=createWordRegex.js.map
-
-/***/ }),
-/* 379 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/** @module stringProcessing/replaceDiacritics */
-
-var diacriticsRemovalMap = __webpack_require__(596);
-/**
- * Replaces all diacritics from the text based on the diacritics removal map.
- *
- * @param {string} text The text to remove diacritics from.
- * @returns {string} The text with all diacritics replaced.
- */
-module.exports = function (text) {
-    var map = diacriticsRemovalMap();
-    for (var i = 0; i < map.length; i++) {
-        text = text.replace(map[i].letters, map[i].base);
-    }
-    return text;
-};
-//# sourceMappingURL=replaceDiacritics.js.map
-//# sourceMappingURL=replaceDiacritics.js.map
-
-/***/ }),
-/* 380 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/** @module stringProcessing/sanitizeString */
-
-var stripTags = __webpack_require__(20).stripFullTags;
-var stripSpaces = __webpack_require__(21);
-/**
- * Strip HTMLtags characters from string that break regex
- *
- * @param {String} text The text to strip the characters from.
- * @returns {String} The text without characters.
- */
-module.exports = function (text) {
-  text = stripTags(text);
-  text = stripSpaces(text);
-  return text;
-};
-//# sourceMappingURL=sanitizeString.js.map
-//# sourceMappingURL=sanitizeString.js.map
-
-/***/ }),
-/* 381 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/countSyllables */
 
-var syllableMatchers = __webpack_require__(601);
-var getWords = __webpack_require__(58);
+var syllableMatchers = __webpack_require__(619);
+var getWords = __webpack_require__(61);
 var forEach = __webpack_require__(2);
-var filter = __webpack_require__(16);
-var find = __webpack_require__(246);
+var filter = __webpack_require__(17);
+var find = __webpack_require__(269);
 var isUndefined = __webpack_require__(3);
-var map = __webpack_require__(8);
-var sum = __webpack_require__(384);
-var memoize = __webpack_require__(32);
-var flatMap = __webpack_require__(137);
-var SyllableCountIterator = __webpack_require__(608);
-var DeviationFragment = __webpack_require__(610);
+var map = __webpack_require__(9);
+var sum = __webpack_require__(413);
+var memoize = __webpack_require__(27);
+var flatMap = __webpack_require__(152);
+var SyllableCountIterator = __webpack_require__(626);
+var DeviationFragment = __webpack_require__(628);
 /**
  * Counts vowel groups inside a word.
  *
@@ -24822,96 +27529,14 @@ module.exports = countSyllablesInText;
 //# sourceMappingURL=count.js.map
 
 /***/ }),
-/* 382 */
+/* 413 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-/**
- * The base implementation of `_.findIndex` and `_.findLastIndex` without
- * support for iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Function} predicate The function invoked per iteration.
- * @param {number} fromIndex The index to search from.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function baseFindIndex(array, predicate, fromIndex, fromRight) {
-  var length = array.length,
-      index = fromIndex + (fromRight ? 1 : -1);
-
-  while (fromRight ? index-- : ++index < length) {
-    if (predicate(array[index], index, array)) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-module.exports = baseFindIndex;
-
-/***/ }),
-/* 383 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var toNumber = __webpack_require__(103);
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0,
-    MAX_INTEGER = 1.7976931348623157e+308;
-
-/**
- * Converts `value` to a finite number.
- *
- * @static
- * @memberOf _
- * @since 4.12.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {number} Returns the converted number.
- * @example
- *
- * _.toFinite(3.2);
- * // => 3.2
- *
- * _.toFinite(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toFinite(Infinity);
- * // => 1.7976931348623157e+308
- *
- * _.toFinite('3.2');
- * // => 3.2
- */
-function toFinite(value) {
-  if (!value) {
-    return value === 0 ? value : 0;
-  }
-  value = toNumber(value);
-  if (value === INFINITY || value === -INFINITY) {
-    var sign = value < 0 ? -1 : 1;
-    return sign * MAX_INTEGER;
-  }
-  return value === value ? value : 0;
-}
-
-module.exports = toFinite;
-
-/***/ }),
-/* 384 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseSum = __webpack_require__(607),
-    identity = __webpack_require__(54);
+var baseSum = __webpack_require__(625),
+    identity = __webpack_require__(50);
 
 /**
  * Computes the sum of the values in `array`.
@@ -24934,14 +27559,14 @@ function sum(array) {
 module.exports = sum;
 
 /***/ }),
-/* 385 */
+/* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module researches/imageInText */
 
-var imageInText = __webpack_require__(386);
+var imageInText = __webpack_require__(415);
 /**
  * Checks the amount of images in the text.
  *
@@ -24955,14 +27580,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=imageCountInText.js.map
 
 /***/ }),
-/* 386 */
+/* 415 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/imageInText */
 
-var matchStringWithRegex = __webpack_require__(616);
+var matchStringWithRegex = __webpack_require__(634);
 /**
  * Checks the text for images.
  *
@@ -24976,16 +27601,16 @@ module.exports = function (text) {
 //# sourceMappingURL=imageInText.js.map
 
 /***/ }),
-/* 387 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var map = __webpack_require__(8);
-var flatMap = __webpack_require__(137);
-var filter = __webpack_require__(16);
-var getBlocks = __webpack_require__(235).getBlocks;
+var map = __webpack_require__(9);
+var flatMap = __webpack_require__(152);
+var filter = __webpack_require__(17);
+var getBlocks = __webpack_require__(144).getBlocks;
 /**
  * Matches the paragraphs in <p>-tags and returns the text in them.
  * @param {string} text The text to match paragraph in.
@@ -25033,13 +27658,13 @@ module.exports = function (text) {
 //# sourceMappingURL=matchParagraphs.js.map
 
 /***/ }),
-/* 388 */
+/* 417 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var wordCount = __webpack_require__(53);
+var wordCount = __webpack_require__(56);
 var forEach = __webpack_require__(2);
 var stripHTMLTags = __webpack_require__(20).stripFullTags;
 /**
@@ -25067,7 +27692,7 @@ module.exports = function (sentences) {
 //# sourceMappingURL=sentencesLength.js.map
 
 /***/ }),
-/* 389 */
+/* 418 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25091,7 +27716,7 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 390 */
+/* 419 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25115,7 +27740,7 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 391 */
+/* 420 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25139,7 +27764,7 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 392 */
+/* 421 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25163,7 +27788,7 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 393 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25186,7 +27811,7 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 394 */
+/* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25210,7 +27835,7 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 395 */
+/* 424 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25233,14 +27858,14 @@ module.exports = function () {
 //# sourceMappingURL=transitionWords.js.map
 
 /***/ }),
-/* 396 */
+/* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseValues = __webpack_require__(644),
-    keys = __webpack_require__(39);
+var baseValues = __webpack_require__(660),
+    keys = __webpack_require__(33);
 
 /**
  * Creates an array of the own enumerable string keyed property values of `object`.
@@ -25275,15 +27900,15 @@ function values(object) {
 module.exports = values;
 
 /***/ }),
-/* 397 */
+/* 426 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isEmpty = __webpack_require__(13);
+var isEmpty = __webpack_require__(15);
 var forEach = __webpack_require__(2);
-var includes = __webpack_require__(27);
+var includes = __webpack_require__(29);
 /**
  * Checks whether a given word is directly preceded by a word from a list of words.
  *
@@ -25316,7 +27941,7 @@ module.exports = function (precedingWords, matchIndex) {
 //# sourceMappingURL=includesIndex.js.map
 
 /***/ }),
-/* 398 */
+/* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25361,16 +27986,16 @@ module.exports = {
 //# sourceMappingURL=types.js.map
 
 /***/ }),
-/* 399 */
+/* 428 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayMap = __webpack_require__(29),
-    baseIntersection = __webpack_require__(658),
-    baseRest = __webpack_require__(56),
-    castArrayLikeObject = __webpack_require__(659);
+var arrayMap = __webpack_require__(31),
+    baseIntersection = __webpack_require__(674),
+    baseRest = __webpack_require__(57),
+    castArrayLikeObject = __webpack_require__(675);
 
 /**
  * Creates an array of unique values that are included in all given arrays
@@ -25397,7 +28022,7 @@ var intersection = baseRest(function (arrays) {
 module.exports = intersection;
 
 /***/ }),
-/* 400 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25424,23 +28049,23 @@ module.exports = function (participles) {
 //# sourceMappingURL=determineSentencePartIsPassive.js.map
 
 /***/ }),
-/* 401 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWords = __webpack_require__(58);
-var regexFunction = __webpack_require__(673)();
+var getWords = __webpack_require__(61);
+var regexFunction = __webpack_require__(689)();
 var verbsBeginningWithErVerEntBeZerHerUber = regexFunction.verbsBeginningWithErVerEntBeZerHerUber;
 var verbsBeginningWithGe = regexFunction.verbsBeginningWithGe;
 var verbsWithGeInMiddle = regexFunction.verbsWithGeInMiddle;
 var verbsWithErVerEntBeZerHerUberInMiddle = regexFunction.verbsWithErVerEntBeZerHerUberInMiddle;
 var verbsEndingWithIert = regexFunction.verbsEndingWithIert;
-var irregularParticiples = __webpack_require__(674)();
-var GermanParticiple = __webpack_require__(675);
+var irregularParticiples = __webpack_require__(690)();
+var GermanParticiple = __webpack_require__(691);
 var forEach = __webpack_require__(2);
-var includes = __webpack_require__(27);
+var includes = __webpack_require__(29);
 /**
  * Creates GermanParticiple Objects for the participles found in a sentence.
  *
@@ -25483,32 +28108,7 @@ module.exports = function (sentencePartText, auxiliaries, language) {
 //# sourceMappingURL=getParticiples.js.map
 
 /***/ }),
-/* 402 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * This method returns `undefined`.
- *
- * @static
- * @memberOf _
- * @since 2.3.0
- * @category Util
- * @example
- *
- * _.times(2, _.noop);
- * // => [undefined, undefined]
- */
-function noop() {
-  // No operation performed.
-}
-
-module.exports = noop;
-
-/***/ }),
-/* 403 */
+/* 431 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25544,9 +28144,9 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(33);
-var merge = __webpack_require__(25);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(36);
+var merge = __webpack_require__(28);
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
  */
@@ -25665,16 +28265,16 @@ module.exports = SubHeadingsKeywordAssessment;
 //# sourceMappingURL=subheadingsKeywordAssessment.js.map
 
 /***/ }),
-/* 404 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var Mark = __webpack_require__(61);
-var addMark = __webpack_require__(62);
-var map = __webpack_require__(8);
+var AssessmentResult = __webpack_require__(5);
+var Mark = __webpack_require__(64);
+var addMark = __webpack_require__(65);
+var map = __webpack_require__(9);
 /**
  * Returns a score and text based on the number of links.
  *
@@ -25737,7 +28337,7 @@ module.exports = {
 //# sourceMappingURL=textCompetingLinksAssessment.js.map
 
 /***/ }),
-/* 405 */
+/* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25773,9 +28373,9 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(33);
-var merge = __webpack_require__(25);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(36);
+var merge = __webpack_require__(28);
 /**
  * Represents the assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
  */
@@ -25920,7 +28520,7 @@ module.exports = TextImagesAssessment;
 //# sourceMappingURL=textImagesAssessment.js.map
 
 /***/ }),
-/* 406 */
+/* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25956,10 +28556,10 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(33);
-var inRange = __webpack_require__(288);
-var merge = __webpack_require__(25);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(36);
+var inRange = __webpack_require__(309);
+var merge = __webpack_require__(28);
 /**
  * Assessment that will test if the text is long enough.
  */
@@ -26097,7 +28697,7 @@ module.exports = TextLengthAssessment;
 //# sourceMappingURL=textLengthAssessment.js.map
 
 /***/ }),
-/* 407 */
+/* 435 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26133,10 +28733,10 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(33);
-var isEmpty = __webpack_require__(13);
-var merge = __webpack_require__(25);
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(36);
+var isEmpty = __webpack_require__(15);
+var merge = __webpack_require__(28);
 /**
  * Assessment for calculating the outbound links in the text.
  */
@@ -26268,14 +28868,14 @@ module.exports = OutboundLinksAssessment;
 //# sourceMappingURL=outboundLinksAssessment.js.map
 
 /***/ }),
-/* 408 */
+/* 436 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var isEmpty = __webpack_require__(13);
+var AssessmentResult = __webpack_require__(5);
+var isEmpty = __webpack_require__(15);
 /**
  * Returns a score and text based on the linkStatistics object.
  *
@@ -26342,15 +28942,15 @@ module.exports = {
 //# sourceMappingURL=internalLinksAssessment.js.map
 
 /***/ }),
-/* 409 */
+/* 437 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var inRange = __webpack_require__(288);
-var getLanguageAvailability = __webpack_require__(80);
+var AssessmentResult = __webpack_require__(5);
+var inRange = __webpack_require__(309);
+var getLanguageAvailability = __webpack_require__(88);
 var availableLanguages = ["en", "nl", "de", "it"];
 /**
  * Calculates the assessment result based on the fleschReadingScore
@@ -26449,20 +29049,20 @@ module.exports = {
 //# sourceMappingURL=fleschReadingEaseAssessment.js.map
 
 /***/ }),
-/* 410 */
+/* 438 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 var stripHTMLTags = __webpack_require__(20).stripBlockTagsAtStartEnd;
-var isParagraphTooLong = __webpack_require__(266);
-var Mark = __webpack_require__(61);
-var marker = __webpack_require__(62);
-var inRange = __webpack_require__(60).inRangeEndInclusive;
-var filter = __webpack_require__(16);
-var map = __webpack_require__(8);
+var isParagraphTooLong = __webpack_require__(287);
+var Mark = __webpack_require__(64);
+var marker = __webpack_require__(65);
+var inRange = __webpack_require__(63).inRangeEndInclusive;
+var filter = __webpack_require__(17);
+var map = __webpack_require__(9);
 // 150 is the recommendedValue for the maximum paragraph length.
 var recommendedValue = 150;
 /**
@@ -26574,7 +29174,7 @@ module.exports = {
 //# sourceMappingURL=paragraphTooLongAssessment.js.map
 
 /***/ }),
-/* 411 */
+/* 439 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26610,16 +29210,16 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(33);
-var countTooLongSentences = __webpack_require__(706);
-var formatNumber = __webpack_require__(110);
-var inRange = __webpack_require__(60).inRangeEndInclusive;
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(36);
+var countTooLongSentences = __webpack_require__(722);
+var formatNumber = __webpack_require__(120);
+var inRange = __webpack_require__(63).inRangeEndInclusive;
 var stripTags = __webpack_require__(20).stripIncompleteTags;
-var Mark = __webpack_require__(61);
-var addMark = __webpack_require__(62);
-var map = __webpack_require__(8);
-var merge = __webpack_require__(25);
+var Mark = __webpack_require__(64);
+var addMark = __webpack_require__(65);
+var map = __webpack_require__(9);
+var merge = __webpack_require__(28);
 /**
  * Represents the assessment that will calculate the length of sentences in the text.
  */
@@ -26808,7 +29408,7 @@ module.exports = SentenceLengthInTextAssessment;
 //# sourceMappingURL=sentenceLengthInTextAssessment.js.map
 
 /***/ }),
-/* 412 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26844,15 +29444,15 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var AssessmentResult = __webpack_require__(4);
-var Assessment = __webpack_require__(33);
-var isTextTooLong = __webpack_require__(266);
-var filter = __webpack_require__(16);
-var map = __webpack_require__(8);
-var merge = __webpack_require__(25);
-var Mark = __webpack_require__(61);
-var marker = __webpack_require__(62);
-var inRange = __webpack_require__(60).inRangeEndInclusive;
+var AssessmentResult = __webpack_require__(5);
+var Assessment = __webpack_require__(36);
+var isTextTooLong = __webpack_require__(287);
+var filter = __webpack_require__(17);
+var map = __webpack_require__(9);
+var merge = __webpack_require__(28);
+var Mark = __webpack_require__(64);
+var marker = __webpack_require__(65);
+var inRange = __webpack_require__(63).inRangeEndInclusive;
 /**
  * Represents the assessment for calculating the text after each subheading.
  */
@@ -27018,20 +29618,20 @@ module.exports = SubheadingsDistributionTooLong;
 //# sourceMappingURL=subheadingDistributionTooLongAssessment.js.map
 
 /***/ }),
-/* 413 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var formatNumber = __webpack_require__(110);
-var map = __webpack_require__(8);
-var inRange = __webpack_require__(60).inRangeStartInclusive;
+var AssessmentResult = __webpack_require__(5);
+var formatNumber = __webpack_require__(120);
+var map = __webpack_require__(9);
+var inRange = __webpack_require__(63).inRangeStartInclusive;
 var stripTags = __webpack_require__(20).stripIncompleteTags;
-var Mark = __webpack_require__(61);
-var marker = __webpack_require__(62);
-var getLanguageAvailability = __webpack_require__(80);
+var Mark = __webpack_require__(64);
+var marker = __webpack_require__(65);
+var getLanguageAvailability = __webpack_require__(88);
 var availableLanguages = ["en", "de", "es", "fr", "nl", "it", "pt"];
 /**
  * Calculates the actual percentage of transition words in the sentences.
@@ -27136,20 +29736,20 @@ module.exports = {
 //# sourceMappingURL=transitionWordsAssessment.js.map
 
 /***/ }),
-/* 414 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
-var formatNumber = __webpack_require__(110);
-var inRange = __webpack_require__(60).inRangeEndInclusive;
+var AssessmentResult = __webpack_require__(5);
+var formatNumber = __webpack_require__(120);
+var inRange = __webpack_require__(63).inRangeEndInclusive;
 var stripTags = __webpack_require__(20).stripIncompleteTags;
-var Mark = __webpack_require__(61);
-var marker = __webpack_require__(62);
-var map = __webpack_require__(8);
-var getLanguageAvailability = __webpack_require__(80);
+var Mark = __webpack_require__(64);
+var marker = __webpack_require__(65);
+var map = __webpack_require__(9);
+var getLanguageAvailability = __webpack_require__(88);
 var availableLanguages = ["en", "de", "fr", "es"];
 /**
  * Calculates the result based on the number of sentences and passives.
@@ -27246,23 +29846,23 @@ module.exports = {
 //# sourceMappingURL=passiveVoiceAssessment.js.map
 
 /***/ }),
-/* 415 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 var stripTags = __webpack_require__(20).stripIncompleteTags;
-var partition = __webpack_require__(707);
-var sortBy = __webpack_require__(711);
-var map = __webpack_require__(8);
-var filter = __webpack_require__(16);
-var flatten = __webpack_require__(207);
-var Mark = __webpack_require__(61);
-var marker = __webpack_require__(62);
+var partition = __webpack_require__(723);
+var sortBy = __webpack_require__(727);
+var map = __webpack_require__(9);
+var filter = __webpack_require__(17);
+var flatten = __webpack_require__(222);
+var Mark = __webpack_require__(64);
+var marker = __webpack_require__(65);
 var maximumConsecutiveDuplicates = 2;
-var getLanguageAvailability = __webpack_require__(80);
+var getLanguageAvailability = __webpack_require__(88);
 var availableLanguages = ["en", "de", "es", "fr", "nl", "it"];
 /**
  * Counts and groups the number too often used sentence beginnings and determines the lowest count within that group.
@@ -27353,14 +29953,14 @@ module.exports = {
 //# sourceMappingURL=sentenceBeginningsAssessment.js.map
 
 /***/ }),
-/* 416 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var stripHTMLTags = __webpack_require__(20).stripFullTags;
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 /**
  * Assesses that the paper has at least a little bit of content.
  *
@@ -27387,16 +29987,16 @@ module.exports = {
 //# sourceMappingURL=textPresenceAssessment.js.map
 
 /***/ }),
-/* 417 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaultsDeep = __webpack_require__(81);
-var getLanguage = __webpack_require__(46);
-var defaultConfig = __webpack_require__(718);
-var it = __webpack_require__(719);
+var defaultsDeep = __webpack_require__(89);
+var getLanguage = __webpack_require__(35);
+var defaultConfig = __webpack_require__(734);
+var it = __webpack_require__(735);
 var configurations = {
     it: it
 };
@@ -27411,29 +30011,29 @@ module.exports = function (locale) {
 //# sourceMappingURL=combinedConfig.js.map
 
 /***/ }),
-/* 418 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isEmpty = __webpack_require__(13);
-var isElement = __webpack_require__(722);
+var isEmpty = __webpack_require__(15);
+var isElement = __webpack_require__(738);
 var isUndefined = __webpack_require__(3);
-var clone = __webpack_require__(723);
-var defaultsDeep = __webpack_require__(81);
+var clone = __webpack_require__(739);
+var defaultsDeep = __webpack_require__(89);
 var forEach = __webpack_require__(2);
-var debounce = __webpack_require__(75);
-var createWordRegex = __webpack_require__(378);
+var debounce = __webpack_require__(73);
+var createWordRegex = __webpack_require__(248);
 var stripHTMLTags = __webpack_require__(20).stripFullTags;
-var stripSpaces = __webpack_require__(21);
-var replaceDiacritics = __webpack_require__(379);
-var transliterate = __webpack_require__(363);
-var templates = __webpack_require__(419);
+var stripSpaces = __webpack_require__(19);
+var replaceDiacritics = __webpack_require__(249);
+var transliterate = __webpack_require__(247);
+var templates = __webpack_require__(447);
 var snippetEditorTemplate = templates.snippetEditor;
 var hiddenElement = templates.hiddenSpan;
-var SnippetPreviewToggler = __webpack_require__(724);
-var domManipulation = __webpack_require__(420);
+var SnippetPreviewToggler = __webpack_require__(740);
+var domManipulation = __webpack_require__(448);
 var defaults = {
     data: {
         title: "",
@@ -28550,7 +31150,7 @@ module.exports = SnippetPreview;
 //# sourceMappingURL=snippetPreview.js.map
 
 /***/ }),
-/* 419 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29039,10 +31639,10 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
   }
 }).call(undefined);
 //# sourceMappingURL=templates.js.map
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(48)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(49)(module)))
 
 /***/ }),
-/* 420 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29108,7 +31708,7 @@ module.exports = {
 //# sourceMappingURL=domManipulation.js.map
 
 /***/ }),
-/* 421 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29124,10 +31724,10 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 
 var isUndefined = __webpack_require__(3);
 var forEach = __webpack_require__(2);
-var reduce = __webpack_require__(732);
-var isString = __webpack_require__(249);
-var isObject = __webpack_require__(7);
-var InvalidTypeError = __webpack_require__(360);
+var reduce = __webpack_require__(748);
+var isString = __webpack_require__(271);
+var isObject = __webpack_require__(8);
+var InvalidTypeError = __webpack_require__(395);
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
  *
@@ -29458,13 +32058,13 @@ module.exports = Pluggable;
 //# sourceMappingURL=pluggable.js.map
 
 /***/ }),
-/* 422 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(253);
+var defaults = __webpack_require__(275);
 /**
  * Default attributes to be used by the Paper if they are left undefined.
  * @type {{keyword: string, description: string, title: string, url: string}}
@@ -29610,20 +32210,20 @@ module.exports = Paper;
 //# sourceMappingURL=Paper.js.map
 
 /***/ }),
-/* 423 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _markerButtons = __webpack_require__(294);
+var _markerButtons = __webpack_require__(315);
 
 /* global tinyMCE, require, YoastSEO */
 
 var forEach = __webpack_require__(2);
 var isUndefined = __webpack_require__(3);
-var editorHasMarks = __webpack_require__(295).editorHasMarks;
-var editorRemoveMarks = __webpack_require__(295).editorRemoveMarks;
+var editorHasMarks = __webpack_require__(316).editorHasMarks;
+var editorRemoveMarks = __webpack_require__(316).editorRemoveMarks;
 
 var store = void 0;
 
@@ -29841,7 +32441,7 @@ var termsTmceId = "description";
 })(jQuery);
 
 /***/ }),
-/* 424 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29856,11 +32456,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.default = createStore;
 
-var _isPlainObject = __webpack_require__(268);
+var _isPlainObject = __webpack_require__(289);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _symbolObservable = __webpack_require__(744);
+var _symbolObservable = __webpack_require__(760);
 
 var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
 
@@ -30113,7 +32713,7 @@ var ActionTypes = exports.ActionTypes = {
 }
 
 /***/ }),
-/* 425 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30123,7 +32723,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _root = __webpack_require__(737);
+var _root = __webpack_require__(753);
 
 var _root2 = _interopRequireDefault(_root);
 
@@ -30135,7 +32735,7 @@ var _Symbol = _root2.default.Symbol;
 exports.default = _Symbol;
 
 /***/ }),
-/* 426 */
+/* 454 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30168,7 +32768,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 427 */
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30212,7 +32812,7 @@ function compose() {
 }
 
 /***/ }),
-/* 428 */
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30223,7 +32823,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.storeShape = exports.subscriptionShape = undefined;
 
-var _propTypes = __webpack_require__(1);
+var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -30243,7 +32843,7 @@ var storeShape = exports.storeShape = _propTypes2.default.shape({
 });
 
 /***/ }),
-/* 429 */
+/* 457 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30257,21 +32857,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.default = connectAdvanced;
 
-var _hoistNonReactStatics = __webpack_require__(753);
+var _hoistNonReactStatics = __webpack_require__(769);
 
 var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
-var _invariant = __webpack_require__(128);
+var _invariant = __webpack_require__(141);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
 var _react = __webpack_require__(0);
 
-var _Subscription = __webpack_require__(754);
+var _Subscription = __webpack_require__(770);
 
 var _Subscription2 = _interopRequireDefault(_Subscription);
 
-var _PropTypes = __webpack_require__(428);
+var _PropTypes = __webpack_require__(456);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30583,7 +33183,7 @@ selectorFactory) {
 }
 
 /***/ }),
-/* 430 */
+/* 458 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30596,7 +33196,7 @@ exports.wrapMapToPropsConstant = wrapMapToPropsConstant;
 exports.getDependsOnOwnProps = getDependsOnOwnProps;
 exports.wrapMapToPropsFunc = wrapMapToPropsFunc;
 
-var _verifyPlainObject = __webpack_require__(431);
+var _verifyPlainObject = __webpack_require__(459);
 
 var _verifyPlainObject2 = _interopRequireDefault(_verifyPlainObject);
 
@@ -30669,7 +33269,7 @@ function wrapMapToPropsFunc(mapToProps, methodName) {
 }
 
 /***/ }),
-/* 431 */
+/* 459 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30680,11 +33280,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = verifyPlainObject;
 
-var _isPlainObject = __webpack_require__(268);
+var _isPlainObject = __webpack_require__(289);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _warning = __webpack_require__(270);
+var _warning = __webpack_require__(291);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -30697,18 +33297,18 @@ function verifyPlainObject(value, displayName, methodName) {
 }
 
 /***/ }),
-/* 432 */
+/* 460 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var LodashWrapper = __webpack_require__(271),
-    flatRest = __webpack_require__(126),
-    getData = __webpack_require__(433),
-    getFuncName = __webpack_require__(434),
-    isArray = __webpack_require__(5),
-    isLaziable = __webpack_require__(765);
+var LodashWrapper = __webpack_require__(130),
+    flatRest = __webpack_require__(139),
+    getData = __webpack_require__(177),
+    getFuncName = __webpack_require__(255),
+    isArray = __webpack_require__(4),
+    isLaziable = __webpack_require__(372);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -30778,69 +33378,7 @@ function createFlow(fromRight) {
 module.exports = createFlow;
 
 /***/ }),
-/* 433 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var metaMap = __webpack_require__(763),
-    noop = __webpack_require__(402);
-
-/**
- * Gets metadata for `func`.
- *
- * @private
- * @param {Function} func The function to query.
- * @returns {*} Returns the metadata for `func`.
- */
-var getData = !metaMap ? noop : function (func) {
-  return metaMap.get(func);
-};
-
-module.exports = getData;
-
-/***/ }),
-/* 434 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var realNames = __webpack_require__(764);
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Gets the name of `func`.
- *
- * @private
- * @param {Function} func The function to query.
- * @returns {string} Returns the function name.
- */
-function getFuncName(func) {
-  var result = func.name + '',
-      array = realNames[result],
-      length = hasOwnProperty.call(realNames, result) ? array.length : 0;
-
-  while (length--) {
-    var data = array[length],
-        otherFunc = data.func;
-    if (otherFunc == null || otherFunc == func) {
-      return data.name;
-    }
-  }
-  return result;
-}
-
-module.exports = getFuncName;
-
-/***/ }),
-/* 435 */
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30868,7 +33406,7 @@ var setActiveKeyword = exports.setActiveKeyword = function setActiveKeyword(keyw
 };
 
 /***/ }),
-/* 436 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30884,15 +33422,15 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(1);
+var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _mapResults = __webpack_require__(774);
+var _mapResults = __webpack_require__(785);
 
 var _mapResults2 = _interopRequireDefault(_mapResults);
 
-var _ContentAnalysis = __webpack_require__(775);
+var _ContentAnalysis = __webpack_require__(786);
 
 var _ContentAnalysis2 = _interopRequireDefault(_ContentAnalysis);
 
@@ -31005,7 +33543,7 @@ Results.defaultProps = {
 exports.default = Results;
 
 /***/ }),
-/* 437 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31041,7 +33579,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 438 */
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31063,13 +33601,13 @@ module.exports = {
 };
 
 /***/ }),
-/* 439 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getL10nObject = __webpack_require__(82);
+var getL10nObject = __webpack_require__(90);
 
 var isUndefined = __webpack_require__(3);
 
@@ -31087,7 +33625,7 @@ function isKeywordAnalysisActive() {
 module.exports = isKeywordAnalysisActive;
 
 /***/ }),
-/* 440 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31095,8 +33633,8 @@ module.exports = isKeywordAnalysisActive;
 
 /* global wp, jQuery */
 
-var defaultsDeep = __webpack_require__(81);
-var getIndicatorForScore = __webpack_require__(275);
+var defaultsDeep = __webpack_require__(89);
+var getIndicatorForScore = __webpack_require__(293);
 
 var $ = jQuery;
 
@@ -31299,13 +33837,13 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 441 */
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getL10nObject = __webpack_require__(82);
+var getL10nObject = __webpack_require__(90);
 
 var isUndefined = __webpack_require__(3);
 
@@ -31330,13 +33868,14 @@ function getTranslations() {
 module.exports = getTranslations;
 
 /***/ }),
-/* 442 */,
-/* 443 */,
-/* 444 */,
-/* 445 */,
-/* 446 */,
-/* 447 */,
-/* 448 */
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31355,33 +33894,6 @@ module.exports = function (text) {
 //# sourceMappingURL=removeMarks.js.map
 
 /***/ }),
-/* 449 */,
-/* 450 */,
-/* 451 */,
-/* 452 */,
-/* 453 */,
-/* 454 */,
-/* 455 */,
-/* 456 */,
-/* 457 */,
-/* 458 */,
-/* 459 */,
-/* 460 */,
-/* 461 */,
-/* 462 */,
-/* 463 */,
-/* 464 */,
-/* 465 */,
-/* 466 */,
-/* 467 */,
-/* 468 */,
-/* 469 */,
-/* 470 */,
-/* 471 */,
-/* 472 */,
-/* 473 */,
-/* 474 */,
-/* 475 */,
 /* 476 */,
 /* 477 */,
 /* 478 */,
@@ -31421,15 +33933,45 @@ module.exports = function (text) {
 /* 512 */,
 /* 513 */,
 /* 514 */,
-/* 515 */
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */,
+/* 528 */,
+/* 529 */,
+/* 530 */,
+/* 531 */,
+/* 532 */,
+/* 533 */,
+/* 534 */,
+/* 535 */,
+/* 536 */,
+/* 537 */,
+/* 538 */,
+/* 539 */,
+/* 540 */,
+/* 541 */,
+/* 542 */,
+/* 543 */,
+/* 544 */,
+/* 545 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var AssessmentResult = __webpack_require__(4);
+var AssessmentResult = __webpack_require__(5);
 var isUndefined = __webpack_require__(3);
-var MissingArgument = __webpack_require__(133);
+var MissingArgument = __webpack_require__(148);
 /**
  * @param {object} app The app
  * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
@@ -31553,7 +34095,7 @@ module.exports = PreviouslyUsedKeyword;
 //# sourceMappingURL=previouslyUsedKeywords.js.map
 
 /***/ }),
-/* 516 */
+/* 546 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31566,7 +34108,7 @@ module.exports = function isBuffer(arg) {
 };
 
 /***/ }),
-/* 517 */
+/* 547 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31597,14 +34139,14 @@ if (typeof Object.create === 'function') {
 }
 
 /***/ }),
-/* 518 */
+/* 548 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var getSentences = __webpack_require__(52);
+var getSentences = __webpack_require__(55);
 /**
  * @param {Paper} paper The paper to analyze.
  */
@@ -31616,15 +34158,15 @@ exports.default = default_1;
 //# sourceMappingURL=sentences.js.map
 
 /***/ }),
-/* 519 */
+/* 549 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIsMatch = __webpack_require__(520),
-    getMatchData = __webpack_require__(527),
-    matchesStrictComparable = __webpack_require__(350);
+var baseIsMatch = __webpack_require__(550),
+    getMatchData = __webpack_require__(557),
+    matchesStrictComparable = __webpack_require__(387);
 
 /**
  * The base implementation of `_.matches` which doesn't clone `source`.
@@ -31646,14 +34188,14 @@ function baseMatches(source) {
 module.exports = baseMatches;
 
 /***/ }),
-/* 520 */
+/* 550 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Stack = __webpack_require__(91),
-    baseIsEqual = __webpack_require__(347);
+var Stack = __webpack_require__(102),
+    baseIsEqual = __webpack_require__(384);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -31710,20 +34252,20 @@ function baseIsMatch(object, source, matchData, customizer) {
 module.exports = baseIsMatch;
 
 /***/ }),
-/* 521 */
+/* 551 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Stack = __webpack_require__(91),
-    equalArrays = __webpack_require__(348),
-    equalByTag = __webpack_require__(525),
-    equalObjects = __webpack_require__(526),
-    getTag = __webpack_require__(123),
-    isArray = __webpack_require__(5),
-    isBuffer = __webpack_require__(67),
-    isTypedArray = __webpack_require__(89);
+var Stack = __webpack_require__(102),
+    equalArrays = __webpack_require__(385),
+    equalByTag = __webpack_require__(555),
+    equalObjects = __webpack_require__(556),
+    getTag = __webpack_require__(137),
+    isArray = __webpack_require__(4),
+    isBuffer = __webpack_require__(71),
+    isTypedArray = __webpack_require__(101);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1;
@@ -31799,7 +34341,7 @@ function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
 module.exports = baseIsEqualDeep;
 
 /***/ }),
-/* 522 */
+/* 552 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31826,7 +34368,7 @@ function setCacheAdd(value) {
 module.exports = setCacheAdd;
 
 /***/ }),
-/* 523 */
+/* 553 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31848,7 +34390,7 @@ function setCacheHas(value) {
 module.exports = setCacheHas;
 
 /***/ }),
-/* 524 */
+/* 554 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31879,18 +34421,18 @@ function arraySome(array, predicate) {
 module.exports = arraySome;
 
 /***/ }),
-/* 525 */
+/* 555 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Symbol = __webpack_require__(23),
-    Uint8Array = __webpack_require__(199),
-    eq = __webpack_require__(40),
-    equalArrays = __webpack_require__(348),
-    mapToArray = __webpack_require__(200),
-    setToArray = __webpack_require__(96);
+var _Symbol = __webpack_require__(26),
+    Uint8Array = __webpack_require__(216),
+    eq = __webpack_require__(42),
+    equalArrays = __webpack_require__(385),
+    mapToArray = __webpack_require__(217),
+    setToArray = __webpack_require__(108);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -31997,13 +34539,13 @@ function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
 module.exports = equalByTag;
 
 /***/ }),
-/* 526 */
+/* 556 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getAllKeys = __webpack_require__(196);
+var getAllKeys = __webpack_require__(214);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1;
@@ -32086,14 +34628,14 @@ function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
 module.exports = equalObjects;
 
 /***/ }),
-/* 527 */
+/* 557 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isStrictComparable = __webpack_require__(349),
-    keys = __webpack_require__(39);
+var isStrictComparable = __webpack_require__(386),
+    keys = __webpack_require__(33);
 
 /**
  * Gets the property names, values, and compare flags of `object`.
@@ -32118,19 +34660,19 @@ function getMatchData(object) {
 module.exports = getMatchData;
 
 /***/ }),
-/* 528 */
+/* 558 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIsEqual = __webpack_require__(347),
-    get = __webpack_require__(281),
-    hasIn = __webpack_require__(351),
-    isKey = __webpack_require__(97),
-    isStrictComparable = __webpack_require__(349),
-    matchesStrictComparable = __webpack_require__(350),
-    toKey = __webpack_require__(47);
+var baseIsEqual = __webpack_require__(384),
+    get = __webpack_require__(302),
+    hasIn = __webpack_require__(388),
+    isKey = __webpack_require__(109),
+    isStrictComparable = __webpack_require__(386),
+    matchesStrictComparable = __webpack_require__(387),
+    toKey = __webpack_require__(51);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -32157,7 +34699,7 @@ function baseMatchesProperty(path, srcValue) {
 module.exports = baseMatchesProperty;
 
 /***/ }),
-/* 529 */
+/* 559 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32178,16 +34720,16 @@ function baseHasIn(object, key) {
 module.exports = baseHasIn;
 
 /***/ }),
-/* 530 */
+/* 560 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseProperty = __webpack_require__(531),
-    basePropertyDeep = __webpack_require__(532),
-    isKey = __webpack_require__(97),
-    toKey = __webpack_require__(47);
+var baseProperty = __webpack_require__(371),
+    basePropertyDeep = __webpack_require__(561),
+    isKey = __webpack_require__(109),
+    toKey = __webpack_require__(51);
 
 /**
  * Creates a function that returns the value at `path` of a given object.
@@ -32218,35 +34760,13 @@ function property(path) {
 module.exports = property;
 
 /***/ }),
-/* 531 */
+/* 561 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-/**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new accessor function.
- */
-function baseProperty(key) {
-  return function (object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-module.exports = baseProperty;
-
-/***/ }),
-/* 532 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var baseGet = __webpack_require__(71);
+var baseGet = __webpack_require__(78);
 
 /**
  * A specialized version of `baseProperty` which supports deep paths.
@@ -32264,132 +34784,13 @@ function basePropertyDeep(path) {
 module.exports = basePropertyDeep;
 
 /***/ }),
-/* 533 */
+/* 562 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseFor = __webpack_require__(354),
-    keys = __webpack_require__(39);
-
-/**
- * The base implementation of `_.forOwn` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Object} Returns `object`.
- */
-function baseForOwn(object, iteratee) {
-  return object && baseFor(object, iteratee, keys);
-}
-
-module.exports = baseForOwn;
-
-/***/ }),
-/* 534 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Creates a base function for methods like `_.forIn` and `_.forOwn`.
- *
- * @private
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseFor(fromRight) {
-  return function (object, iteratee, keysFunc) {
-    var index = -1,
-        iterable = Object(object),
-        props = keysFunc(object),
-        length = props.length;
-
-    while (length--) {
-      var key = props[fromRight ? length : ++index];
-      if (iteratee(iterable[key], key, iterable) === false) {
-        break;
-      }
-    }
-    return object;
-  };
-}
-
-module.exports = createBaseFor;
-
-/***/ }),
-/* 535 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var isArrayLike = __webpack_require__(22);
-
-/**
- * Creates a `baseEach` or `baseEachRight` function.
- *
- * @private
- * @param {Function} eachFunc The function to iterate over a collection.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseEach(eachFunc, fromRight) {
-  return function (collection, iteratee) {
-    if (collection == null) {
-      return collection;
-    }
-    if (!isArrayLike(collection)) {
-      return eachFunc(collection, iteratee);
-    }
-    var length = collection.length,
-        index = fromRight ? length : -1,
-        iterable = Object(collection);
-
-    while (fromRight ? index-- : ++index < length) {
-      if (iteratee(iterable[index], index, iterable) === false) {
-        break;
-      }
-    }
-    return collection;
-  };
-}
-
-module.exports = createBaseEach;
-
-/***/ }),
-/* 536 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var identity = __webpack_require__(54);
-
-/**
- * Casts `value` to `identity` if it's not a function.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {Function} Returns cast function.
- */
-function castFunction(value) {
-  return typeof value == 'function' ? value : identity;
-}
-
-module.exports = castFunction;
-
-/***/ }),
-/* 537 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var isNumber = __webpack_require__(233);
+var isNumber = __webpack_require__(257);
 
 /**
  * Checks if `value` is `NaN`.
@@ -32429,26 +34830,26 @@ function isNaN(value) {
 module.exports = isNaN;
 
 /***/ }),
-/* 538 */
+/* 563 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assignMergeValue = __webpack_require__(359),
-    cloneBuffer = __webpack_require__(195),
-    cloneTypedArray = __webpack_require__(201),
-    copyArray = __webpack_require__(121),
-    initCloneObject = __webpack_require__(202),
-    isArguments = __webpack_require__(66),
-    isArray = __webpack_require__(5),
-    isArrayLikeObject = __webpack_require__(237),
-    isBuffer = __webpack_require__(67),
-    isFunction = __webpack_require__(64),
-    isObject = __webpack_require__(7),
-    isPlainObject = __webpack_require__(125),
-    isTypedArray = __webpack_require__(89),
-    toPlainObject = __webpack_require__(539);
+var assignMergeValue = __webpack_require__(394),
+    cloneBuffer = __webpack_require__(213),
+    cloneTypedArray = __webpack_require__(218),
+    copyArray = __webpack_require__(103),
+    initCloneObject = __webpack_require__(219),
+    isArguments = __webpack_require__(70),
+    isArray = __webpack_require__(4),
+    isArrayLikeObject = __webpack_require__(260),
+    isBuffer = __webpack_require__(71),
+    isFunction = __webpack_require__(68),
+    isObject = __webpack_require__(8),
+    isPlainObject = __webpack_require__(138),
+    isTypedArray = __webpack_require__(101),
+    toPlainObject = __webpack_require__(564);
 
 /**
  * A specialized version of `baseMerge` for arrays and objects which performs
@@ -32521,14 +34922,14 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
 module.exports = baseMergeDeep;
 
 /***/ }),
-/* 539 */
+/* 564 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(28),
-    keysIn = __webpack_require__(68);
+var copyObject = __webpack_require__(30),
+    keysIn = __webpack_require__(72);
 
 /**
  * Converts `value` to a plain object flattening inherited enumerable string
@@ -32561,7 +34962,7 @@ function toPlainObject(value) {
 module.exports = toPlainObject;
 
 /***/ }),
-/* 540 */
+/* 565 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32587,19 +34988,19 @@ module.exports = function (text) {
 //# sourceMappingURL=removePunctuation.js.map
 
 /***/ }),
-/* 541 */
+/* 566 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/getLinkStatistics */
 
-var getAnchors = __webpack_require__(362);
-var findKeywordInUrl = __webpack_require__(542);
-var getLinkType = __webpack_require__(544);
-var checkNofollow = __webpack_require__(550);
-var urlHelper = __webpack_require__(239);
-var escapeRegExp = __webpack_require__(26);
+var getAnchors = __webpack_require__(397);
+var findKeywordInUrl = __webpack_require__(567);
+var getLinkType = __webpack_require__(568);
+var checkNofollow = __webpack_require__(569);
+var urlHelper = __webpack_require__(262);
+var escapeRegExp = __webpack_require__(24);
 /**
  * Checks whether or not an anchor contains the passed keyword.
  * @param {string} keyword The keyword to look for.
@@ -32683,15 +35084,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=getLinkStatistics.js.map
 
 /***/ }),
-/* 542 */
+/* 567 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/findKeywordInUrl */
 
-var matchTextWithTransliteration = __webpack_require__(238);
-var escapeRegExp = __webpack_require__(26);
+var matchTextWithTransliteration = __webpack_require__(261);
+var escapeRegExp = __webpack_require__(24);
 /**
  * Matches the keyword in the URL.
  *
@@ -32713,438 +35114,14 @@ module.exports = function (url, keyword, locale) {
 //# sourceMappingURL=findKeywordInUrl.js.map
 
 /***/ }),
-/* 543 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var getLanguage = __webpack_require__(46);
-var isUndefined = __webpack_require__(3);
-var transliterations = {
-    // Language: Spanish.
-    // Source: https://en.wikipedia.org/wiki/Spanish_orthography
-    es: [{ letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }, { letter: /[\u00E1]/g, alternative: "a" }, { letter: /[\u00C1]/g, alternative: "A" }, { letter: /[\u00E9]/g, alternative: "e" }, { letter: /[\u00C9]/g, alternative: "E" }, { letter: /[\u00ED]/g, alternative: "i" }, { letter: /[\u00CD]/g, alternative: "I" }, { letter: /[\u00F3]/g, alternative: "o" }, { letter: /[\u00D3]/g, alternative: "O" }, { letter: /[\u00FA\u00FC]/g, alternative: "u" }, { letter: /[\u00DA\u00DC]/g, alternative: "U" }],
-    // Language: Polish.
-    // Source: https://en.wikipedia.org/wiki/Polish_orthography
-    pl: [{ letter: /[\u0105]/g, alternative: "a" }, { letter: /[\u0104]/g, alternative: "A" }, { letter: /[\u0107]/g, alternative: "c" }, { letter: /[\u0106]/g, alternative: "C" }, { letter: /[\u0119]/g, alternative: "e" }, { letter: /[\u0118]/g, alternative: "E" }, { letter: /[\u0142]/g, alternative: "l" }, { letter: /[\u0141]/g, alternative: "L" }, { letter: /[\u0144]/g, alternative: "n" }, { letter: /[\u0143]/g, alternative: "N" }, { letter: /[\u00F3]/g, alternative: "o" }, { letter: /[\u00D3]/g, alternative: "O" }, { letter: /[\u015B]/g, alternative: "s" }, { letter: /[\u015A]/g, alternative: "S" }, { letter: /[\u017A\u017C]/g, alternative: "z" }, { letter: /[\u0179\u017B]/g, alternative: "Z" }],
-    // Language: German.
-    // Source: https://en.wikipedia.org/wiki/German_orthography#Special_characters
-    de: [{ letter: /[\u00E4]/g, alternative: "ae" }, { letter: /[\u00C4]/g, alternative: "Ae" }, { letter: /[\u00FC]/g, alternative: "ue" }, { letter: /[\u00DC]/g, alternative: "Ue" }, { letter: /[\u00F6]/g, alternative: "oe" }, { letter: /[\u00D6]/g, alternative: "Oe" }, { letter: /[\u00DF]/g, alternative: "ss" }, { letter: /[\u1E9E]/g, alternative: "SS" }],
-    // Language Bokmål
-    // Source: http://www.dagbladet.no/2011/12/30/tema/reise/reiseeksperter/forbrukerrettigheter/19494227/
-    // Language Nynorks
-    // Source: http://www.dagbladet.no/2011/12/30/tema/reise/reiseeksperter/forbrukerrettigheter/19494227/
-    // Bokmål and Nynorks use the same transliterations
-    nbnn: [{ letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }, { letter: /[\u00E5]/g, alternative: "aa" }, { letter: /[\u00C5]/g, alternative: "Aa" }, { letter: /[\u00F8]/g, alternative: "oe" }, { letter: /[\u00D8]/g, alternative: "Oe" }, { letter: /[\u00E9\u00E8\u00EA]/g, alternative: "e" }, { letter: /[\u00C9\u00C8\u00CA]/g, alternative: "E" }, { letter: /[\u00F3\u00F2\u00F4]/g, alternative: "o" }, { letter: /[\u00D3\u00D2\u00D4]/g, alternative: "O" }],
-    // Language: Swedish.
-    // Sources: https://sv.wikipedia.org/wiki/%C3%85#Historia
-    // http://forum.wordreference.com/threads/swedish-%C3%A4-ae-%C3%B6-oe-acceptable.1451839/
-    sv: [{ letter: /[\u00E5]/g, alternative: "aa" }, { letter: /[\u00C5]/g, alternative: "Aa" }, { letter: /[\u00E4]/g, alternative: "ae" }, { letter: /[\u00C4]/g, alternative: "Ae" }, { letter: /[\u00F6]/g, alternative: "oe" }, { letter: /[\u00D6]/g, alternative: "Oe" }, { letter: /[\u00E9]/g, alternative: "e" }, { letter: /[\u00C9]/g, alternative: "E" }, { letter: /[\u00E0]/g, alternative: "a" }, { letter: /[\u00C0]/g, alternative: "A" }],
-    // Language: Finnish.
-    // Sources: https://www.cs.tut.fi/~jkorpela/lang/finnish-letters.html
-    // https://en.wikipedia.org/wiki/Finnish_orthography
-    fi: [{ letter: /[\u00E5]/g, alternative: "aa" }, { letter: /[\u00C5]/g, alternative: "Aa" }, { letter: /[\u00E4]/g, alternative: "a" }, { letter: /[\u00C4]/g, alternative: "A" }, { letter: /[\u00F6]/g, alternative: "o" }, { letter: /[\u00D6]/g, alternative: "O" }, { letter: /[\u017E]/g, alternative: "zh" }, { letter: /[\u017D]/g, alternative: "Zh" }, { letter: /[\u0161]/g, alternative: "sh" }, { letter: /[\u0160]/g, alternative: "Sh" }],
-    // Language: Danish.
-    // Sources: https://sv.wikipedia.org/wiki/%C3%85#Historia
-    // https://en.wikipedia.org/wiki/Danish_orthography
-    da: [{ letter: /[\u00E5]/g, alternative: "aa" }, { letter: /[\u00C5]/g, alternative: "Aa" }, { letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }, { letter: /[\u00C4]/g, alternative: "Ae" }, { letter: /[\u00F8]/g, alternative: "oe" }, { letter: /[\u00D8]/g, alternative: "Oe" }, { letter: /[\u00E9]/g, alternative: "e" }, { letter: /[\u00C9]/g, alternative: "E" }],
-    // Language: Turkish.
-    // Source: https://en.wikipedia.org/wiki/Turkish_alphabet
-    // ‘İ’ is the capital dotted ‘i’. Its lowercase counterpart is the ‘regular’ ‘i’.
-    tr: [{ letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u011F]/g, alternative: "g" }, { letter: /[\u011E]/g, alternative: "G" }, { letter: /[\u00F6]/g, alternative: "o" }, { letter: /[\u00D6]/g, alternative: "O" }, { letter: /[\u015F]/g, alternative: "s" }, { letter: /[\u015E]/g, alternative: "S" }, { letter: /[\u00E2]/g, alternative: "a" }, { letter: /[\u00C2]/g, alternative: "A" }, { letter: /[\u0131\u00EE]/g, alternative: "i" }, { letter: /[\u0130\u00CE]/g, alternative: "I" }, { letter: /[\u00FC\u00FB]/g, alternative: "u" }, { letter: /[\u00DC\u00DB]/g, alternative: "U" }],
-    // Language: Latvian.
-    // Source: https://en.wikipedia.org/wiki/Latvian_orthography
-    lv: [{ letter: /[\u0101]/g, alternative: "a" }, { letter: /[\u0100]/g, alternative: "A" }, { letter: /[\u010D]/g, alternative: "c" }, { letter: /[\u010C]/g, alternative: "C" }, { letter: /[\u0113]/g, alternative: "e" }, { letter: /[\u0112]/g, alternative: "E" }, { letter: /[\u0123]/g, alternative: "g" }, { letter: /[\u0122]/g, alternative: "G" }, { letter: /[\u012B]/g, alternative: "i" }, { letter: /[\u012A]/g, alternative: "I" }, { letter: /[\u0137]/g, alternative: "k" }, { letter: /[\u0136]/g, alternative: "K" }, { letter: /[\u013C]/g, alternative: "l" }, { letter: /[\u013B]/g, alternative: "L" }, { letter: /[\u0146]/g, alternative: "n" }, { letter: /[\u0145]/g, alternative: "N" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u016B]/g, alternative: "u" }, { letter: /[\u016A]/g, alternative: "U" }, { letter: /[\u017E]/g, alternative: "z" }, { letter: /[\u017D]/g, alternative: "Z" }],
-    // Language: Icelandic.
-    // Sources: https://en.wikipedia.org/wiki/Thorn_(letter),
-    // https://en.wikipedia.org/wiki/Eth,  https://en.wikipedia.org/wiki/Icelandic_orthography
-    is: [{ letter: /[\u00E1]/g, alternative: "a" }, { letter: /[\u00C1]/g, alternative: "A" }, { letter: /[\u00F0]/g, alternative: "d" }, { letter: /[\u00D0]/g, alternative: "D" }, { letter: /[\u00E9]/g, alternative: "e" }, { letter: /[\u00C9]/g, alternative: "E" }, { letter: /[\u00ED]/g, alternative: "i" }, { letter: /[\u00CD]/g, alternative: "I" }, { letter: /[\u00F3\u00F6]/g, alternative: "o" }, { letter: /[\u00D3\u00D6]/g, alternative: "O" }, { letter: /[\u00FA]/g, alternative: "u" }, { letter: /[\u00DA]/g, alternative: "U" }, { letter: /[\u00FD]/g, alternative: "y" }, { letter: /[\u00DD]/g, alternative: "Y" }, { letter: /[\u00FE]/g, alternative: "th" }, { letter: /[\u00DE]/g, alternative: "Th" }, { letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }],
-    // Language: Faroese.
-    // Source: https://www.facebook.com/groups/1557965757758234/permalink/1749847165236758/ (conversation in private Facebook Group ‘Faroese Language Learning Enthusiasts’)
-    // depending on the word, ð can be d, g, j, v, ng or nothing. However, ‘d’ is most frequent.
-    // when writing text messages or using a foreign keyboard, í is sometimes written as ij, ý as yj, ú as uv, ó as ov, ø as oe, and á as aa or oa.
-    // However, in website URLs the alternatives mentioned below are by far the most common.
-    fa: [{ letter: /[\u00E1]/g, alternative: "a" }, { letter: /[\u00C1]/g, alternative: "A" }, { letter: /[\u00F0]/g, alternative: "d" }, { letter: /[\u00D0]/g, alternative: "D" }, { letter: /[\u00ED]/g, alternative: "i" }, { letter: /[\u00CD]/g, alternative: "I" }, { letter: /[\u00FD]/g, alternative: "y" }, { letter: /[\u00DD]/g, alternative: "Y" }, { letter: /[\u00FA]/g, alternative: "u" }, { letter: /[\u00DA]/g, alternative: "U" }, { letter: /[\u00F3\u00F8]/g, alternative: "o" }, { letter: /[\u00D3\u00D8]/g, alternative: "O" }, { letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }],
-    // Language: Czech.
-    // Source: https://en.wikipedia.org/wiki/Czech_orthography
-    cs: [{ letter: /[\u00E1]/g, alternative: "a" }, { letter: /[\u00C1]/g, alternative: "A" }, { letter: /[\u010D]/g, alternative: "c" }, { letter: /[\u010C]/g, alternative: "C" }, { letter: /[\u010F]/g, alternative: "d" }, { letter: /[\u010E]/g, alternative: "D" }, { letter: /[\u00ED]/g, alternative: "i" }, { letter: /[\u00CD]/g, alternative: "I" }, { letter: /[\u0148]/g, alternative: "n" }, { letter: /[\u0147]/g, alternative: "N" }, { letter: /[\u00F3]/g, alternative: "o" }, { letter: /[\u00D3]/g, alternative: "O" }, { letter: /[\u0159]/g, alternative: "r" }, { letter: /[\u0158]/g, alternative: "R" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u0165]/g, alternative: "t" }, { letter: /[\u0164]/g, alternative: "T" }, { letter: /[\u00FD]/g, alternative: "y" }, { letter: /[\u00DD]/g, alternative: "Y" }, { letter: /[\u017E]/g, alternative: "z" }, { letter: /[\u017D]/g, alternative: "Z" }, { letter: /[\u00E9\u011B]/g, alternative: "e" }, { letter: /[\u00C9\u011A]/g, alternative: "E" }, { letter: /[\u00FA\u016F]/g, alternative: "u" }, { letter: /[\u00DA\u016E]/g, alternative: "U" }],
-    // Language: Russian.
-    // Source:  Machine Readable Travel Documents, Doc 9303, Part 1, Volume 1 (PDF) (Sixth ed.).
-    // ICAO. 2006. p. IV-50—IV-52. http://www.icao.int/publications/Documents/9303_p3_cons_en.pdf
-    // ‘ь’ is the so-called soft sign, indicating a sound change (palatalization) of the preceding consonant.
-    // In text it is transliterated to a character similar to an apostroph: ′.
-    // I recommend omittance in slugs. (https://en.wikipedia.org/wiki/Romanization_of_Russian)
-    ru: [{ letter: /[\u0430]/g, alternative: "a" }, { letter: /[\u0410]/g, alternative: "A" }, { letter: /[\u0431]/g, alternative: "b" }, { letter: /[\u0411]/g, alternative: "B" }, { letter: /[\u0432]/g, alternative: "v" }, { letter: /[\u0412]/g, alternative: "V" }, { letter: /[\u0433]/g, alternative: "g" }, { letter: /[\u0413]/g, alternative: "G" }, { letter: /[\u0434]/g, alternative: "d" }, { letter: /[\u0414]/g, alternative: "D" }, { letter: /[\u0435]/g, alternative: "e" }, { letter: /[\u0415]/g, alternative: "E" }, { letter: /[\u0436]/g, alternative: "zh" }, { letter: /[\u0416]/g, alternative: "Zh" }, { letter: /[\u0437]/g, alternative: "z" }, { letter: /[\u0417]/g, alternative: "Z" }, { letter: /[\u0456\u0438\u0439]/g, alternative: "i" }, { letter: /[\u0406\u0418\u0419]/g, alternative: "I" }, { letter: /[\u043A]/g, alternative: "k" }, { letter: /[\u041A]/g, alternative: "K" }, { letter: /[\u043B]/g, alternative: "l" }, { letter: /[\u041B]/g, alternative: "L" }, { letter: /[\u043C]/g, alternative: "m" }, { letter: /[\u041C]/g, alternative: "M" }, { letter: /[\u043D]/g, alternative: "n" }, { letter: /[\u041D]/g, alternative: "N" }, { letter: /[\u0440]/g, alternative: "r" }, { letter: /[\u0420]/g, alternative: "R" }, { letter: /[\u043E]/g, alternative: "o" }, { letter: /[\u041E]/g, alternative: "O" }, { letter: /[\u043F]/g, alternative: "p" }, { letter: /[\u041F]/g, alternative: "P" }, { letter: /[\u0441]/g, alternative: "s" }, { letter: /[\u0421]/g, alternative: "S" }, { letter: /[\u0442]/g, alternative: "t" }, { letter: /[\u0422]/g, alternative: "T" }, { letter: /[\u0443]/g, alternative: "u" }, { letter: /[\u0423]/g, alternative: "U" }, { letter: /[\u0444]/g, alternative: "f" }, { letter: /[\u0424]/g, alternative: "F" }, { letter: /[\u0445]/g, alternative: "kh" }, { letter: /[\u0425]/g, alternative: "Kh" }, { letter: /[\u0446]/g, alternative: "ts" }, { letter: /[\u0426]/g, alternative: "Ts" }, { letter: /[\u0447]/g, alternative: "ch" }, { letter: /[\u0427]/g, alternative: "Ch" }, { letter: /[\u0448]/g, alternative: "sh" }, { letter: /[\u0428]/g, alternative: "Sh" }, { letter: /[\u0449]/g, alternative: "shch" }, { letter: /[\u0429]/g, alternative: "Shch" }, { letter: /[\u044A]/g, alternative: "ie" }, { letter: /[\u042A]/g, alternative: "Ie" }, { letter: /[\u044B]/g, alternative: "y" }, { letter: /[\u042B]/g, alternative: "Y" }, { letter: /[\u044C]/g, alternative: "" }, { letter: /[\u042C]/g, alternative: "" }, { letter: /[\u0451\u044D]/g, alternative: "e" }, { letter: /[\u0401\u042D]/g, alternative: "E" }, { letter: /[\u044E]/g, alternative: "iu" }, { letter: /[\u042E]/g, alternative: "Iu" }, { letter: /[\u044F]/g, alternative: "ia" }, { letter: /[\u042F]/g, alternative: "Ia" }],
-    // Language: Esperanto.
-    // Source: https://en.wikipedia.org/wiki/Esperanto#Writing_diacritics
-    eo: [{ letter: /[\u0109]/g, alternative: "ch" }, { letter: /[\u0108]/g, alternative: "Ch" }, { letter: /[\u011d]/g, alternative: "gh" }, { letter: /[\u011c]/g, alternative: "Gh" }, { letter: /[\u0125]/g, alternative: "hx" }, { letter: /[\u0124]/g, alternative: "Hx" }, { letter: /[\u0135]/g, alternative: "jx" }, { letter: /[\u0134]/g, alternative: "Jx" }, { letter: /[\u015d]/g, alternative: "sx" }, { letter: /[\u015c]/g, alternative: "Sx" }, { letter: /[\u016d]/g, alternative: "ux" }, { letter: /[\u016c]/g, alternative: "Ux" }],
-    // Language: Afrikaans.
-    // Source: https://en.wikipedia.org/wiki/Afrikaans#Orthography
-    af: [{ letter: /[\u00E8\u00EA\u00EB]/g, alternative: "e" }, { letter: /[\u00CB\u00C8\u00CA]/g, alternative: "E" }, { letter: /[\u00EE\u00EF]/g, alternative: "i" }, { letter: /[\u00CE\u00CF]/g, alternative: "I" }, { letter: /[\u00F4\u00F6]/g, alternative: "o" }, { letter: /[\u00D4\u00D6]/g, alternative: "O" }, { letter: /[\u00FB\u00FC]/g, alternative: "u" }, { letter: /[\u00DB\u00DC]/g, alternative: "U" }],
-    // Language: Catalan.
-    // Source: https://en.wikipedia.org/wiki/Catalan_orthography
-    ca: [{ letter: /[\u00E0]/g, alternative: "a" }, { letter: /[\u00C0]/g, alternative: "A" }, { letter: /[\u00E9|\u00E8]/g, alternative: "e" }, { letter: /[\u00C9|\u00C8]/g, alternative: "E" }, { letter: /[\u00ED|\u00EF]/g, alternative: "i" }, { letter: /[\u00CD|\u00CF]/g, alternative: "I" }, { letter: /[\u00F3|\u00F2]/g, alternative: "o" }, { letter: /[\u00D3|\u00D2]/g, alternative: "O" }, { letter: /[\u00FA|\u00FC]/g, alternative: "u" }, { letter: /[\u00DA|\u00DC]/g, alternative: "U" }, { letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }],
-    // Language: Asturian.
-    // Source: http://www.orbilat.com/Languages/Asturian/Grammar/Asturian-Alphabet.html
-    ast: [{ letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }],
-    // Language: Aragonese.
-    // Source: https://en.wikipedia.org/wiki/Aragonese_language#Orthography
-    an: [{ letter: /[\u00FC]/g, alternative: "u" }, { letter: /[\u00F1]/g, alternative: "ny" }, { letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00ED]/g, alternative: "i" }, { letter: /[\u00F3]/g, alternative: "o" }, { letter: /[\u00E1]/g, alternative: "a" }, { letter: /[\u00DC]/g, alternative: "U" }, { letter: /[\u00D1]/g, alternative: "Ny" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u00CD]/g, alternative: "I" }, { letter: /[\u00D3]/g, alternative: "O" }, { letter: /[\u00C1]/g, alternative: "A" }],
-    // Language: Aymara.
-    // Source: http://www.omniglot.com/writing/aymara.htm
-    ay: [{ letter: /(([\u00EF])|([\u00ED]))/g, alternative: "i" }, { letter: /(([\u00CF])|([\u00CD]))/g, alternative: "I" }, { letter: /[\u00E4]/g, alternative: "a" }, { letter: /[\u00C4]/g, alternative: "A" }, { letter: /[\u00FC]/g, alternative: "u" }, { letter: /[\u00DC]/g, alternative: "U" }, { letter: /[\u0027]/g, alternative: "" }, { letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }],
-    // Language: English.
-    // Sources: https://en.wikipedia.org/wiki/English_terms_with_diacritical_marks https://en.wikipedia.org/wiki/English_orthography
-    en: [{ letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }, { letter: /[\u0153]/g, alternative: "oe" }, { letter: /[\u0152]/g, alternative: "Oe" }, { letter: /[\u00EB\u00E9]/g, alternative: "e" }, { letter: /[\u00C9\u00CB]/g, alternative: "E" }, { letter: /[\u00F4\u00F6]/g, alternative: "o" }, { letter: /[\u00D4\u00D6]/g, alternative: "O" }, { letter: /[\u00EF]/g, alternative: "i" }, { letter: /[\u00CF]/g, alternative: "I" }, { letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }, { letter: /[\u00FC]/g, alternative: "u" }, { letter: /[\u00DC]/g, alternative: "U" }, { letter: /[\u00E4]/g, alternative: "a" }, { letter: /[\u00C4]/g, alternative: "A" }],
-    // Language: French.
-    // Sources: https://en.wikipedia.org/wiki/French_orthography#Ligatures https://en.wikipedia.org/wiki/French_orthography#Diacritics
-    fr: [{ letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }, { letter: /[\u0153]/g, alternative: "oe" }, { letter: /[\u0152]/g, alternative: "Oe" }, { letter: /[\u00E9\u00E8\u00EB\u00EA]/g, alternative: "e" }, { letter: /[\u00C9\u00C8\u00CB\u00CA]/g, alternative: "E" }, { letter: /[\u00E0\u00E2]/g, alternative: "a" }, { letter: /[\u00C0\u00C2]/g, alternative: "A" }, { letter: /[\u00EF\u00EE]/g, alternative: "i" }, { letter: /[\u00CF\u00CE]/g, alternative: "I" }, { letter: /[\u00F9\u00FB\u00FC]/g, alternative: "u" }, { letter: /[\u00D9\u00DB\u00DC]/g, alternative: "U" }, { letter: /[\u00F4]/g, alternative: "o" }, { letter: /[\u00D4]/g, alternative: "O" }, { letter: /[\u00FF]/g, alternative: "y" }, { letter: /[\u0178]/g, alternative: "Y" }, { letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }],
-    // Language: Italian.
-    // Source: https://en.wikipedia.org/wiki/Italian_orthography
-    it: [{ letter: /[\u00E0]/g, alternative: "a" }, { letter: /[\u00C0]/g, alternative: "A" }, { letter: /[\u00E9\u00E8]/g, alternative: "e" }, { letter: /[\u00C9\u00C8]/g, alternative: "E" }, { letter: /[\u00EC\u00ED\u00EE]/g, alternative: "i" }, { letter: /[\u00CC\u00CD\u00CE]/g, alternative: "I" }, { letter: /[\u00F3\u00F2]/g, alternative: "o" }, { letter: /[\u00D3\u00D2]/g, alternative: "O" }, { letter: /[\u00F9\u00FA]/g, alternative: "u" }, { letter: /[\u00D9\u00DA]/g, alternative: "U" }],
-    // Language: Dutch.
-    // Sources: https://en.wikipedia.org/wiki/Dutch_orthography https://nl.wikipedia.org/wiki/Trema_in_de_Nederlandse_spelling
-    nl: [{ letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u00F1]/g, alternative: "n" }, { letter: /[\u00D1]/g, alternative: "N" }, { letter: /[\u00E9\u00E8\u00EA\u00EB]/g, alternative: "e" }, { letter: /[\u00C9\u00C8\u00CA\u00CB]/g, alternative: "E" }, { letter: /[\u00F4\u00F6]/g, alternative: "o" }, { letter: /[\u00D4\u00D6]/g, alternative: "O" }, { letter: /[\u00EF]/g, alternative: "i" }, { letter: /[\u00CF]/g, alternative: "I" }, { letter: /[\u00FC]/g, alternative: "u" }, { letter: /[\u00DC]/g, alternative: "U" }, { letter: /[\u00E4]/g, alternative: "a" }, { letter: /[\u00C4]/g, alternative: "A" }],
-    // Language: Bambara.
-    // Sources: http://www.omniglot.com/writing/bambara.htm https://en.wikipedia.org/wiki/Bambara_language
-    bm: [{ letter: /[\u025B]/g, alternative: "e" }, { letter: /[\u0190]/g, alternative: "E" }, { letter: /[\u0272]/g, alternative: "ny" }, { letter: /[\u019D]/g, alternative: "Ny" }, { letter: /[\u014B]/g, alternative: "ng" }, { letter: /[\u014A]/g, alternative: "Ng" }, { letter: /[\u0254]/g, alternative: "o" }, { letter: /[\u0186]/g, alternative: "O" }],
-    // Language: Ukrainian.
-    // Source: Resolution no. 55 of the Cabinet of Ministers of Ukraine, January 27, 2010 http://zakon2.rada.gov.ua/laws/show/55-2010-%D0%BF
-    // ‘ь’ is the so-called soft sign, indicating a sound change (palatalization) of the preceding consonant. In text it is sometimes transliterated
-    // to a character similar to an apostroph: ′. Omittance is recommended in slugs (https://en.wikipedia.org/wiki/Romanization_of_Ukrainian).
-    uk: [{ letter: /[\u0431]/g, alternative: "b" }, { letter: /[\u0411]/g, alternative: "B" }, { letter: /[\u0432]/g, alternative: "v" }, { letter: /[\u0412]/g, alternative: "V" }, { letter: /[\u0433]/g, alternative: "h" }, { letter: /[\u0413]/g, alternative: "H" }, { letter: /[\u0491]/g, alternative: "g" }, { letter: /[\u0490]/g, alternative: "G" }, { letter: /[\u0434]/g, alternative: "d" }, { letter: /[\u0414]/g, alternative: "D" }, { letter: /[\u043A]/g, alternative: "k" }, { letter: /[\u041A]/g, alternative: "K" }, { letter: /[\u043B]/g, alternative: "l" }, { letter: /[\u041B]/g, alternative: "L" }, { letter: /[\u043C]/g, alternative: "m" }, { letter: /[\u041C]/g, alternative: "M" }, { letter: /[\u0070]/g, alternative: "r" }, { letter: /[\u0050]/g, alternative: "R" }, { letter: /[\u043F]/g, alternative: "p" }, { letter: /[\u041F]/g, alternative: "P" }, { letter: /[\u0441]/g, alternative: "s" }, { letter: /[\u0421]/g, alternative: "S" }, { letter: /[\u0442]/g, alternative: "t" }, { letter: /[\u0422]/g, alternative: "T" }, { letter: /[\u0443]/g, alternative: "u" }, { letter: /[\u0423]/g, alternative: "U" }, { letter: /[\u0444]/g, alternative: "f" }, { letter: /[\u0424]/g, alternative: "F" }, { letter: /[\u0445]/g, alternative: "kh" }, { letter: /[\u0425]/g, alternative: "Kh" }, { letter: /[\u0446]/g, alternative: "ts" }, { letter: /[\u0426]/g, alternative: "Ts" }, { letter: /[\u0447]/g, alternative: "ch" }, { letter: /[\u0427]/g, alternative: "Ch" }, { letter: /[\u0448]/g, alternative: "sh" }, { letter: /[\u0428]/g, alternative: "Sh" }, { letter: /[\u0449]/g, alternative: "shch" }, { letter: /[\u0429]/g, alternative: "Shch" }, { letter: /[\u044C\u042C]/g, alternative: "" }, { letter: /[\u0436]/g, alternative: "zh" }, { letter: /[\u0416]/g, alternative: "Zh" }, { letter: /[\u0437]/g, alternative: "z" }, { letter: /[\u0417]/g, alternative: "Z" }, { letter: /[\u0438]/g, alternative: "y" }, { letter: /[\u0418]/g, alternative: "Y" }, { letter: /^[\u0454]/g, alternative: "ye" }, { letter: /[\s][\u0454]/g, alternative: " ye" }, { letter: /[\u0454]/g, alternative: "ie" }, { letter: /^[\u0404]/g, alternative: "Ye" }, { letter: /[\s][\u0404]/g, alternative: " Ye" }, { letter: /[\u0404]/g, alternative: "IE" }, { letter: /^[\u0457]/g, alternative: "yi" }, { letter: /[\s][\u0457]/g, alternative: " yi" }, { letter: /[\u0457]/g, alternative: "i" }, { letter: /^[\u0407]/g, alternative: "Yi" }, { letter: /[\s][\u0407]/g, alternative: " Yi" }, { letter: /[\u0407]/g, alternative: "I" }, { letter: /^[\u0439]/g, alternative: "y" }, { letter: /[\s][\u0439]/g, alternative: " y" }, { letter: /[\u0439]/g, alternative: "i" }, { letter: /^[\u0419]/g, alternative: "Y" }, { letter: /[\s][\u0419]/g, alternative: " Y" }, { letter: /[\u0419]/g, alternative: "I" }, { letter: /^[\u044E]/g, alternative: "yu" }, { letter: /[\s][\u044E]/g, alternative: " yu" }, { letter: /[\u044E]/g, alternative: "iu" }, { letter: /^[\u042E]/g, alternative: "Yu" }, { letter: /[\s][\u042E]/g, alternative: " Yu" }, { letter: /[\u042E]/g, alternative: "IU" }, { letter: /^[\u044F]/g, alternative: "ya" }, { letter: /[\s][\u044F]/g, alternative: " ya" }, { letter: /[\u044F]/g, alternative: "ia" }, { letter: /^[\u042F]/g, alternative: "Ya" }, { letter: /[\s][\u042F]/g, alternative: " Ya" }, { letter: /[\u042F]/g, alternative: "IA" }],
-    // Language: Breton
-    // Source: http://www.omniglot.com/writing/breton.htm
-    br: [{ letter: /\u0063\u0027\u0068/g, alternative: "ch" }, { letter: /\u0043\u0027\u0048/g, alternative: "CH" }, { letter: /[\u00e2]/g, alternative: "a" }, { letter: /[\u00c2]/g, alternative: "A" }, { letter: /[\u00ea]/g, alternative: "e" }, { letter: /[\u00ca]/g, alternative: "E" }, { letter: /[\u00ee]/g, alternative: "i" }, { letter: /[\u00ce]/g, alternative: "I" }, { letter: /[\u00f4]/g, alternative: "o" }, { letter: /[\u00d4]/g, alternative: "O" }, { letter: /[\u00fb\u00f9\u00fc]/g, alternative: "u" }, { letter: /[\u00db\u00d9\u00dc]/g, alternative: "U" }, { letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }],
-    // Language: Chamorro
-    // Source: http://www.omniglot.com/writing/chamorro.htm
-    ch: [{ letter: /[\u0027]/g, alternative: "" }, { letter: /[\u00e5]/g, alternative: "a" }, { letter: /[\u00c5]/g, alternative: "A" }, { letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }],
-    // Language: Corsican
-    // Sources: http://www.omniglot.com/writing/corsican.htm https://en.wikipedia.org/wiki/Corsican_alphabet
-    co: [{ letter: /[\u00e2\u00e0]/g, alternative: "a" }, { letter: /[\u00c2\u00c0]/g, alternative: "A" }, { letter: /[\u00e6\u04d5]/g, alternative: "ae" }, { letter: /[\u00c6\u04d4]/g, alternative: "Ae" }, { letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00e9\u00ea\u00e8\u00eb]/g, alternative: "e" }, { letter: /[\u00c9\u00ca\u00c8\u00cb]/g, alternative: "E" }, { letter: /[\u00ec\u00ee\u00ef]/g, alternative: "i" }, { letter: /[\u00cc\u00ce\u00cf]/g, alternative: "I" }, { letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }, { letter: /[\u00f4\u00f2]/g, alternative: "o" }, { letter: /[\u00d4\u00d2]/g, alternative: "O" }, { letter: /[\u0153]/g, alternative: "oe" }, { letter: /[\u0152]]/g, alternative: "Oe" }, { letter: /[\u00f9\u00fc]/g, alternative: "u" }, { letter: /[\u00d9\u00dc]/g, alternative: "U" }, { letter: /[\u00ff]/g, alternative: "y" }, { letter: /[\u0178]/g, alternative: "Y" }],
-    // Language: Kashubian
-    // Sources: http://www.omniglot.com/writing/kashubian.htm https://en.wikipedia.org/wiki/Kashubian_language
-    csb: [{ letter: /[\u0105\u00e3]/g, alternative: "a" }, { letter: /[\u0104\u00c3]/g, alternative: "A" }, { letter: /[\u00e9\u00eb]/g, alternative: "e" }, { letter: /[\u00c9\u00cb]/g, alternative: "E" }, { letter: /[\u0142]/g, alternative: "l" }, { letter: /[\u0141]/g, alternative: "L" }, { letter: /[\u0144]/g, alternative: "n" }, { letter: /[\u0143]/g, alternative: "N" }, { letter: /[\u00f2\u00f3\u00f4]/g, alternative: "o" }, { letter: /[\u00d2\u00d3\u00d4]/g, alternative: "O" }, { letter: /[\u00f9]/g, alternative: "u" }, { letter: /[\u00d9]/g, alternative: "U" }, { letter: /[\u017c]/g, alternative: "z" }, { letter: /[\u017b]/g, alternative: "Z" }],
-    // Language: Welsh
-    // Sources: http://www.omniglot.com/writing/welsh.htm https://en.wikipedia.org/wiki/Welsh_orthography#Diacritics
-    cy: [{ letter: /[\u00e2]/g, alternative: "a" }, { letter: /[\u00c2]/g, alternative: "A" }, { letter: /[\u00ea]/g, alternative: "e" }, { letter: /[\u00ca]/g, alternative: "E" }, { letter: /[\u00ee]/g, alternative: "i" }, { letter: /[\u00ce]/g, alternative: "I" }, { letter: /[\u00f4]/g, alternative: "o" }, { letter: /[\u00d4]/g, alternative: "O" }, { letter: /[\u00fb]/g, alternative: "u" }, { letter: /[\u00db]/g, alternative: "U" }, { letter: /[\u0175]/g, alternative: "w" }, { letter: /[\u0174]/g, alternative: "W" }, { letter: /[\u0177]/g, alternative: "y" }, { letter: /[\u0176]/g, alternative: "Y" }],
-    // Language: Ewe
-    // Sources: http://www.omniglot.com/writing/ewe.htm https://en.wikipedia.org/wiki/Ewe_language#Writing_system
-    ee: [{ letter: /[\u0256]/g, alternative: "d" }, { letter: /[\u0189]/g, alternative: "D" }, { letter: /[\u025b]/g, alternative: "e" }, { letter: /[\u0190]/g, alternative: "E" }, { letter: /[\u0192]/g, alternative: "f" }, { letter: /[\u0191]/g, alternative: "F" }, { letter: /[\u0263]/g, alternative: "g" }, { letter: /[\u0194]/g, alternative: "G" }, { letter: /[\u014b]/g, alternative: "ng" }, { letter: /[\u014a]/g, alternative: "Ng" }, { letter: /[\u0254]/g, alternative: "o" }, { letter: /[\u0186]/g, alternative: "O" }, { letter: /[\u028b]/g, alternative: "w" }, { letter: /[\u01b2]/g, alternative: "W" }, { letter: /\u0061\u0303/g, alternative: "a" }, { letter: /[\u00e1\u00e0\u01ce\u00e2\u00e3]/g, alternative: "a" }, { letter: /\u0041\u0303/g, alternative: "A" }, { letter: /[\u00c1\u00c0\u01cd\u00c2\u00c3]/g, alternative: "A" }, { letter: /[\u00e9\u00e8\u011b\u00ea]/g, alternative: "e" }, { letter: /[\u00c9\u00c8\u011a\u00ca]/g, alternative: "E" }, { letter: /[\u00f3\u00f2\u01d2\u00f4]/g, alternative: "o" }, { letter: /[\u00d3\u00d2\u01d1\u00d4]/g, alternative: "O" }, { letter: /[\u00fa\u00f9\u01d4\u00fb]/g, alternative: "u" }, { letter: /[\u00da\u00d9\u01d3\u00db]/g, alternative: "U" }, { letter: /[\u00ed\u00ec\u01d0\u00ee]/g, alternative: "i" }, { letter: /[\u00cd\u00cc\u01cf\u00ce]/g, alternative: "I" }],
-    // Language: Estonian
-    // Sources: http://www.omniglot.com/writing/estonian.htm https://en.wikipedia.org/wiki/Estonian_orthography https://en.wikipedia.org/wiki/%C5%BD https://en.wikipedia.org/wiki/%C5%A0
-    et: [{ letter: /[\u0161]/g, alternative: "sh" }, { letter: /[\u0160]/g, alternative: "Sh" }, { letter: /[\u017e]/g, alternative: "zh" }, { letter: /[\u017d]/g, alternative: "Zh" }, { letter: /[\u00f5\u00f6]/g, alternative: "o" }, { letter: /[\u00d6\u00d5]/g, alternative: "O" }, { letter: /[\u00e4]/g, alternative: "a" }, { letter: /[\u00c4]/g, alternative: "A" }, { letter: /[\u00fc]/g, alternative: "u" }, { letter: /[\u00dc]/g, alternative: "U" }],
-    // Language: Basque
-    // Sources: http://www.omniglot.com/writing/basque.htm https://en.wikipedia.org/wiki/Basque_language#Writing_system https://en	.wikipedia.org/wiki/Basque_alphabet
-    eu: [{ letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }, { letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00fc]/g, alternative: "u" }, { letter: /[\u00dc]/g, alternative: "U" }],
-    // Language: Fulah
-    // Sources: http://www.omniglot.com/writing/fula.htm https://en.wikipedia.org/wiki/Fula_language#Writing_systems
-    fuc: [{ letter: /[\u0253]/g, alternative: "b" }, { letter: /[\u0181]/g, alternative: "B" }, { letter: /[\u0257]/g, alternative: "d" }, { letter: /[\u018a]/g, alternative: "D" }, { letter: /[\u014b]/g, alternative: "ng" }, { letter: /[\u014a]/g, alternative: "Ng" }, { letter: /[\u0272\u00f1]/g, alternative: "ny" }, { letter: /[\u019d\u00d1]/g, alternative: "Ny" }, { letter: /[\u01b4]/g, alternative: "y" }, { letter: /[\u01b3]/g, alternative: "Y" }, { letter: /[\u0260]/g, alternative: "g" }, { letter: /[\u0193]/g, alternative: "G" }],
-    // Language: Fijian
-    // Source: http://www.omniglot.com/writing/fijian.htm
-    fj: [{ letter: /[\u0101]/g, alternative: "a" }, { letter: /[\u0100]/g, alternative: "A" }, { letter: /[\u0113]/g, alternative: "e" }, { letter: /[\u0112]/g, alternative: "E" }, { letter: /[\u012b]/g, alternative: "i" }, { letter: /[\u012a]/g, alternative: "I" }, { letter: /[\u016b]/g, alternative: "u" }, { letter: /[\u016a]/g, alternative: "U" }, { letter: /[\u014d]/g, alternative: "o" }, { letter: /[\u014c]/g, alternative: "O" }],
-    // Language: Arpitan (Franco-Provençal language)
-    // Source: http://www.omniglot.com/writing/francoprovencal.htm
-    frp: [{ letter: /[\u00e2]/g, alternative: "a" }, { letter: /[\u00c2]/g, alternative: "A" }, { letter: /[\u00ea\u00e8\u00e9]/g, alternative: "e" }, { letter: /[\u00ca\u00c8\u00c9]/g, alternative: "E" }, { letter: /[\u00ee]/g, alternative: "i" }, { letter: /[\u00ce]/g, alternative: "I" }, { letter: /[\u00fb\u00fc]/g, alternative: "u" }, { letter: /[\u00db\u00dc]/g, alternative: "U" }, { letter: /[\u00f4]/g, alternative: "o" }, { letter: /[\u00d4]/g, alternative: "O" }],
-    // Language: Friulian
-    // Sources: https://en.wikipedia.org/wiki/Friulian_language https://en.wikipedia.org/wiki/Faggin-Nazzi_alphabet
-    // http://www.omniglot.com/writing/friulian.htm
-    fur: [{ letter: /[\u00E7]/g, alternative: "c" }, { letter: /[\u00C7]/g, alternative: "C" }, { letter: /[\u00e0\u00e2]/g, alternative: "a" }, { letter: /[\u00c0\u00c2]/g, alternative: "A" }, { letter: /[\u00e8\u00ea]/g, alternative: "e" }, { letter: /[\u00c8\u00ca]/g, alternative: "E" }, { letter: /[\u00ec\u00ee]/g, alternative: "i" }, { letter: /[\u00cc\u00ce]/g, alternative: "I" }, { letter: /[\u00f2\u00f4]/g, alternative: "o" }, { letter: /[\u00d2\u00d4]/g, alternative: "O" }, { letter: /[\u00f9\u00fb]/g, alternative: "u" }, { letter: /[\u00d9\u00db]/g, alternative: "U" }, { letter: /[\u010d]/g, alternative: "c" }, { letter: /[\u010c]/g, alternative: "C" }, { letter: /[\u011f]/g, alternative: "g" }, { letter: /[\u011e]/g, alternative: "G" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }],
-    // Language: Frisian
-    // Sources: https://en.wikipedia.org/wiki/West_Frisian_alphabet http://www.omniglot.com/writing/frisian.htm
-    fy: [{ letter: /[\u00e2\u0101\u00e4\u00e5]/g, alternative: "a" }, { letter: /[\u00c2\u0100\u00c4\u00c5]/g, alternative: "A" }, { letter: /[\u00ea\u00e9\u0113]/g, alternative: "e" }, { letter: /[\u00ca\u00c9\u0112]/g, alternative: "E" }, { letter: /[\u00f4\u00f6]/g, alternative: "o" }, { letter: /[\u00d4\u00d6]/g, alternative: "O" }, { letter: /[\u00fa\u00fb\u00fc]/g, alternative: "u" }, { letter: /[\u00da\u00db\u00dc]/g, alternative: "U" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }, { letter: /[\u0111\u00f0]/g, alternative: "d" }, { letter: /[\u0110\u00d0]/g, alternative: "D" }],
-    // Language: Irish
-    // Source: https://en.wikipedia.org/wiki/Irish_orthography
-    ga: [{ letter: /[\u00e1]/g, alternative: "a" }, { letter: /[\u00c1]/g, alternative: "A" }, { letter: /[\u00e9]/g, alternative: "e" }, { letter: /[\u00c9]/g, alternative: "E" }, { letter: /[\u00f3]/g, alternative: "o" }, { letter: /[\u00d3]/g, alternative: "O" }, { letter: /[\u00fa]/g, alternative: "u" }, { letter: /[\u00da]/g, alternative: "U" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }],
-    // Language: Scottish Gaelic
-    // Sources: https://en.wikipedia.org/wiki/Scottish_Gaelic_orthography http://www.omniglot.com/writing/gaelic.htm
-    gd: [{ letter: /[\u00e0]/g, alternative: "a" }, { letter: /[\u00c0]/g, alternative: "A" }, { letter: /[\u00e8]/g, alternative: "e" }, { letter: /[\u00c8]/g, alternative: "E" }, { letter: /[\u00f2]/g, alternative: "o" }, { letter: /[\u00d2]/g, alternative: "O" }, { letter: /[\u00f9]/g, alternative: "u" }, { letter: /[\u00d9]/g, alternative: "U" }, { letter: /[\u00ec]/g, alternative: "i" }, { letter: /[\u00cc]/g, alternative: "I" }],
-    // Language: Galician
-    // Sources: https://en.wikipedia.org/wiki/Diacritic https://en.wikipedia.org/wiki/Galician_Alphabet
-    gl: [{ letter: /[\u00e1\u00e0]/g, alternative: "a" }, { letter: /[\u00c1\u00c0]/g, alternative: "A" }, { letter: /[\u00e9\u00ea]/g, alternative: "e" }, { letter: /[\u00c9\u00ca]/g, alternative: "E" }, { letter: /[\u00ed\u00ef]/g, alternative: "i" }, { letter: /[\u00cd\u00cf]/g, alternative: "I" }, { letter: /[\u00f3]/g, alternative: "o" }, { letter: /[\u00d3]/g, alternative: "O" }, { letter: /[\u00fa\u00fc]/g, alternative: "u" }, { letter: /[\u00da\u00dc]/g, alternative: "U" }, { letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }],
-    // Language: Guarani
-    // Sources: https://en.wikipedia.org/wiki/Guarani_alphabet http://www.omniglot.com/writing/guarani.htm
-    gn: [{ letter: /[\u2019]/g, alternative: "" }, { letter: /\u0067\u0303/g, alternative: "g" }, { letter: /\u0047\u0303/g, alternative: "G" }, { letter: /[\u00e3]/g, alternative: "a" }, { letter: /[\u00c3]/g, alternative: "A" }, { letter: /[\u1ebd]/g, alternative: "e" }, { letter: /[\u1ebc]/g, alternative: "E" }, { letter: /[\u0129]/g, alternative: "i" }, { letter: /[\u0128]/g, alternative: "I" }, { letter: /[\u00f5]/g, alternative: "o" }, { letter: /[\u00d5]/g, alternative: "O" }, { letter: /[\u00f1]/g, alternative: "n" }, { letter: /[\u00d1]/g, alternative: "N" }, { letter: /[\u0169]/g, alternative: "u" }, { letter: /[\u0168]/g, alternative: "U" }, { letter: /[\u1ef9]/g, alternative: "y" }, { letter: /[\u1ef8]/g, alternative: "Y" }],
-    // Language: Swiss German
-    // Source: http://www.omniglot.com/writing/swissgerman.htm
-    gsw: [{ letter: /[\u00e4]/g, alternative: "a" }, { letter: /[\u00c4]/g, alternative: "A" }, { letter: /[\u00f6]/g, alternative: "o" }, { letter: /[\u00d6]/g, alternative: "O" }, { letter: /[\u00fc]/g, alternative: "u" }, { letter: /[\u00dc]/g, alternative: "U" }],
-    // Language: Haitian Creole
-    // Sources: https://en.wikipedia.org/wiki/Haitian_Creole http://www.omniglot.com/writing/haitiancreole.htm
-    hat: [{ letter: /[\u00e8]/g, alternative: "e" }, { letter: /[\u00c8]/g, alternative: "E" }, { letter: /[\u00f2]/g, alternative: "o" }, { letter: /[\u00d2]/g, alternative: "O" }],
-    // Language: Hawaiian
-    // Sources: https://en.wikipedia.org/wiki/Hawaiian_language#Macron http://www.omniglot.com/writing/hawaiian.htm
-    haw: [{ letter: /[\u02bb\u0027\u2019]/g, alternative: "" }, { letter: /[\u0101]/g, alternative: "a" }, { letter: /[\u0113]/g, alternative: "e" }, { letter: /[\u012b]/g, alternative: "i" }, { letter: /[\u014d]/g, alternative: "o" }, { letter: /[\u016b]/g, alternative: "u" }, { letter: /[\u0100]/g, alternative: "A" }, { letter: /[\u0112]/g, alternative: "E" }, { letter: /[\u012a]/g, alternative: "I" }, { letter: /[\u014c]/g, alternative: "O" }, { letter: /[\u016a]/g, alternative: "U" }],
-    // Language: Croatian
-    // Sources: https://en.wikipedia.org/wiki/Gaj%27s_Latin_alphabet https://en.wikipedia.org/wiki/D_with_stroke
-    // http://www.omniglot.com/writing/croatian.htm
-    hr: [{ letter: /[\u010d\u0107]/g, alternative: "c" }, { letter: /[\u010c\u0106]/g, alternative: "C" }, { letter: /[\u0111]/g, alternative: "dj" }, { letter: /[\u0110]/g, alternative: "Dj" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u017e]/g, alternative: "z" }, { letter: /[\u017d]/g, alternative: "Z" }, { letter: /[\u01c4]/g, alternative: "DZ" }, { letter: /[\u01c5]/g, alternative: "Dz" }, { letter: /[\u01c6]/g, alternative: "dz" }],
-    // Language: Georgian
-    // The Georgian language does not use capital letters.
-    // Sources: https://en.wikipedia.org/wiki/Romanization_of_Georgian (national system)
-    ka: [{ letter: /[\u10d0]/g, alternative: "a" }, { letter: /[\u10d1]/g, alternative: "b" }, { letter: /[\u10d2]/g, alternative: "g" }, { letter: /[\u10d3]/g, alternative: "d" }, { letter: /[\u10d4]/g, alternative: "e" }, { letter: /[\u10d5]/g, alternative: "v" }, { letter: /[\u10d6]/g, alternative: "z" }, { letter: /[\u10d7]/g, alternative: "t" }, { letter: /[\u10d8]/g, alternative: "i" }, { letter: /[\u10d9]/g, alternative: "k" }, { letter: /[\u10da]/g, alternative: "l" }, { letter: /[\u10db]/g, alternative: "m" }, { letter: /[\u10dc]/g, alternative: "n" }, { letter: /[\u10dd]/g, alternative: "o" }, { letter: /[\u10de]/g, alternative: "p" }, { letter: /[\u10df]/g, alternative: "zh" }, { letter: /[\u10e0]/g, alternative: "r" }, { letter: /[\u10e1]/g, alternative: "s" }, { letter: /[\u10e2]/g, alternative: "t" }, { letter: /[\u10e3]/g, alternative: "u" }, { letter: /[\u10e4]/g, alternative: "p" }, { letter: /[\u10e5]/g, alternative: "k" }, { letter: /[\u10e6]/g, alternative: "gh" }, { letter: /[\u10e7]/g, alternative: "q" }, { letter: /[\u10e8]/g, alternative: "sh" }, { letter: /[\u10e9]/g, alternative: "ch" }, { letter: /[\u10ea]/g, alternative: "ts" }, { letter: /[\u10eb]/g, alternative: "dz" }, { letter: /[\u10ec]/g, alternative: "ts" }, { letter: /[\u10ed]/g, alternative: "ch" }, { letter: /[\u10ee]/g, alternative: "kh" }, { letter: /[\u10ef]/g, alternative: "j" }, { letter: /[\u10f0]/g, alternative: "h" }],
-    // Language: Greenlandic.
-    // Source: https://en.wikipedia.org/wiki/Greenlandic_language#Orthography
-    kal: [{ letter: /[\u00E5]/g, alternative: "aa" }, { letter: /[\u00C5]/g, alternative: "Aa" }, { letter: /[\u00E6\u04D5]/g, alternative: "ae" }, { letter: /[\u00C6\u04D4]/g, alternative: "Ae" }, { letter: /[\u00C4]/g, alternative: "Ae" }, { letter: /[\u00F8]/g, alternative: "oe" }, { letter: /[\u00D8]/g, alternative: "Oe" }],
-    // Language: Kinyarwanda.
-    // Source: https://en.wikipedia.org/wiki/Kinyarwanda
-    kin: [{ letter: /[\u2019\u0027]/g, alternative: "" }],
-    // Language: Luxembourgish.
-    // Source: http://www.omniglot.com/writing/luxembourgish.htm
-    lb: [{ letter: /[\u00e4]/g, alternative: "a" }, { letter: /[\u00c4]/g, alternative: "A" }, { letter: /[\u00eb\u00e9]/g, alternative: "e" }, { letter: /[\u00cb\u00c9]/g, alternative: "E" }],
-    // Language: Limburgish.
-    // Source: http://www.omniglot.com/writing/limburgish.htm
-    li: [{ letter: /[\u00e1\u00e2\u00e0\u00e4]/g, alternative: "a" }, { letter: /[\u00c1\u00c2\u00c0\u00c4]/g, alternative: "A" }, { letter: /[\u00eb\u00e8\u00ea]/g, alternative: "e" }, { letter: /[\u00cb\u00c8\u00ca]/g, alternative: "E" }, { letter: /[\u00f6\u00f3]/g, alternative: "o" }, { letter: /[\u00d6\u00d3]/g, alternative: "O" }],
-    // Language: Lingala.
-    // Sources: https://en.wikipedia.org/wiki/Lingala#Writing_system http://www.omniglot.com/writing/lingala.htm
-    lin: [{ letter: /[\u00e1\u00e2\u01ce]/g, alternative: "a" }, { letter: /[\u00c1\u00c2\u01cd]/g, alternative: "A" }, { letter: /\u025b\u0301/g, alternative: "e" }, { letter: /\u025b\u0302/g, alternative: "e" }, { letter: /\u025b\u030c/g, alternative: "e" }, { letter: /[\u00e9\u00ea\u011b\u025b]/g, alternative: "e" }, { letter: /\u0190\u0301/g, alternative: "E" }, { letter: /\u0190\u0302/g, alternative: "E" }, { letter: /\u0190\u030c/g, alternative: "E" }, { letter: /[\u00c9\u00ca\u011a\u0190]/g, alternative: "E" }, { letter: /[\u00ed\u00ee\u01d0]/g, alternative: "i" }, { letter: /[\u00cd\u00ce\u01cf]/g, alternative: "I" }, { letter: /\u0254\u0301/g, alternative: "o" }, { letter: /\u0254\u0302/g, alternative: "o" }, { letter: /\u0254\u030c/g, alternative: "o" }, { letter: /[\u00f3\u00f4\u01d2\u0254]/g, alternative: "o" }, { letter: /\u0186\u0301/g, alternative: "O" }, { letter: /\u0186\u0302/g, alternative: "O" }, { letter: /\u0186\u030c/g, alternative: "O" }, { letter: /[\u00d3\u00d4\u01d1\u0186]/g, alternative: "O" }, { letter: /[\u00fa]/g, alternative: "u" }, { letter: /[\u00da]/g, alternative: "U" }],
-    // Language: Lithuanian.
-    // Sources: https://en.wikipedia.org/wiki/Lithuanian_orthography http://www.omniglot.com/writing/lithuanian.htm
-    lt: [{ letter: /[\u0105]/g, alternative: "a" }, { letter: /[\u0104]/g, alternative: "A" }, { letter: /[\u010d]/g, alternative: "c" }, { letter: /[\u010c]/g, alternative: "C" }, { letter: /[\u0119\u0117]/g, alternative: "e" }, { letter: /[\u0118\u0116]/g, alternative: "E" }, { letter: /[\u012f]/g, alternative: "i" }, { letter: /[\u012e]/g, alternative: "I" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u0173\u016b]/g, alternative: "u" }, { letter: /[\u0172\u016a]/g, alternative: "U" }, { letter: /[\u017e]/g, alternative: "z" }, { letter: /[\u017d]/g, alternative: "Z" }],
-    // Language: Malagasy.
-    // Source: http://www.omniglot.com/writing/malagasy.htm
-    mg: [{ letter: /[\u00f4]/g, alternative: "ao" }, { letter: /[\u00d4]/g, alternative: "Ao" }],
-    // Language: Macedonian.
-    // Source: http://www.omniglot.com/writing/macedonian.htm
-    mk: [{ letter: /[\u0430]/g, alternative: "a" }, { letter: /[\u0410]/g, alternative: "A" }, { letter: /[\u0431]/g, alternative: "b" }, { letter: /[\u0411]/g, alternative: "B" }, { letter: /[\u0432]/g, alternative: "v" }, { letter: /[\u0412]/g, alternative: "V" }, { letter: /[\u0433]/g, alternative: "g" }, { letter: /[\u0413]/g, alternative: "G" }, { letter: /[\u0434]/g, alternative: "d" }, { letter: /[\u0414]/g, alternative: "D" }, { letter: /[\u0453]/g, alternative: "gj" }, { letter: /[\u0403]/g, alternative: "Gj" }, { letter: /[\u0435]/g, alternative: "e" }, { letter: /[\u0415]/g, alternative: "E" }, { letter: /[\u0436]/g, alternative: "zh" }, { letter: /[\u0416]/g, alternative: "Zh" }, { letter: /[\u0437]/g, alternative: "z" }, { letter: /[\u0417]/g, alternative: "Z" }, { letter: /[\u0455]/g, alternative: "dz" }, { letter: /[\u0405]/g, alternative: "Dz" }, { letter: /[\u0438]/g, alternative: "i" }, { letter: /[\u0418]/g, alternative: "I" }, { letter: /[\u0458]/g, alternative: "j" }, { letter: /[\u0408]/g, alternative: "J" }, { letter: /[\u043A]/g, alternative: "k" }, { letter: /[\u041A]/g, alternative: "K" }, { letter: /[\u043B]/g, alternative: "l" }, { letter: /[\u041B]/g, alternative: "L" }, { letter: /[\u0459]/g, alternative: "lj" }, { letter: /[\u0409]/g, alternative: "Lj" }, { letter: /[\u043C]/g, alternative: "m" }, { letter: /[\u041C]/g, alternative: "M" }, { letter: /[\u043D]/g, alternative: "n" }, { letter: /[\u041D]/g, alternative: "N" }, { letter: /[\u045A]/g, alternative: "nj" }, { letter: /[\u040A]/g, alternative: "Nj" }, { letter: /[\u043E]/g, alternative: "o" }, { letter: /[\u041E]/g, alternative: "O" }, { letter: /[\u0440]/g, alternative: "r" }, { letter: /[\u0420]/g, alternative: "R" }, { letter: /[\u043F]/g, alternative: "p" }, { letter: /[\u041F]/g, alternative: "P" }, { letter: /[\u0441]/g, alternative: "s" }, { letter: /[\u0421]/g, alternative: "S" }, { letter: /[\u0442]/g, alternative: "t" }, { letter: /[\u0422]/g, alternative: "T" }, { letter: /[\u045C]/g, alternative: "kj" }, { letter: /[\u040C]/g, alternative: "Kj" }, { letter: /[\u0443]/g, alternative: "u" }, { letter: /[\u0423]/g, alternative: "U" }, { letter: /[\u0444]/g, alternative: "f" }, { letter: /[\u0424]/g, alternative: "F" }, { letter: /[\u0445]/g, alternative: "h" }, { letter: /[\u0425]/g, alternative: "H" }, { letter: /[\u0446]/g, alternative: "c" }, { letter: /[\u0426]/g, alternative: "C" }, { letter: /[\u0447]/g, alternative: "ch" }, { letter: /[\u0427]/g, alternative: "Ch" }, { letter: /[\u045F]/g, alternative: "dj" }, { letter: /[\u040F]/g, alternative: "Dj" }, { letter: /[\u0448]/g, alternative: "sh" }, { letter: /[\u0428]/g, alternative: "Sh" }],
-    // Language: Maori.
-    // Source: http://www.omniglot.com/writing/maori.htm
-    mri: [{ letter: /[\u0101]/g, alternative: "aa" }, { letter: /[\u0100]/g, alternative: "Aa" }, { letter: /[\u0113]/g, alternative: "ee" }, { letter: /[\u0112]/g, alternative: "Ee" }, { letter: /[\u012b]/g, alternative: "ii" }, { letter: /[\u012a]/g, alternative: "Ii" }, { letter: /[\u014d]/g, alternative: "oo" }, { letter: /[\u014c]/g, alternative: "Oo" }, { letter: /[\u016b]/g, alternative: "uu" }, { letter: /[\u016a]/g, alternative: "Uu" }],
-    // Language: Mirandese.
-    // Source: http://www.omniglot.com/writing/mirandese.htm
-    mwl: [{ letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00e1]/g, alternative: "a" }, { letter: /[\u00c1]/g, alternative: "A" }, { letter: /[\u00e9\u00ea]/g, alternative: "e" }, { letter: /[\u00c9\u00ca]/g, alternative: "E" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }, { letter: /[\u00f3\u00f4]/g, alternative: "o" }, { letter: /[\u00d3\u00d4]/g, alternative: "O" }, { letter: /[\u00fa\u0169]/g, alternative: "u" }, { letter: /[\u00da\u0168]/g, alternative: "U" }],
-    // Language: Occitan.
-    // Sources: http://www.omniglot.com/writing/oromo.htm https://en.wikipedia.org/wiki/Occitan_alphabet
-    oci: [{ letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00e0\u00e1]/g, alternative: "a" }, { letter: /[\u00c0\u00c1]/g, alternative: "A" }, { letter: /[\u00e8\u00e9]/g, alternative: "e" }, { letter: /[\u00c8\u00c9]/g, alternative: "E" }, { letter: /[\u00ed\u00ef]/g, alternative: "i" }, { letter: /[\u00cd\u00cf]/g, alternative: "I" }, { letter: /[\u00f2\u00f3]/g, alternative: "o" }, { letter: /[\u00d2\u00d3]/g, alternative: "O" }, { letter: /[\u00fa\u00fc]/g, alternative: "u" }, { letter: /[\u00da\u00dc]/g, alternative: "U" }, { letter: /[\u00b7]/g, alternative: "" }],
-    // Language: Oromo.
-    // Source: http://www.omniglot.com/writing/occitan.htm
-    orm: [{ letter: /[\u0027]/g, alternative: "" }],
-    // Language: Portuguese.
-    // Source: https://en.wikipedia.org/wiki/Portuguese_orthography http://www.omniglot.com/writing/portuguese.htm
-    pt: [{ letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00e1\u00e2\u00e3\u00e0]/g, alternative: "a" }, { letter: /[\u00c1\u00c2\u00c3\u00c0]/g, alternative: "A" }, { letter: /[\u00e9\u00ea]/g, alternative: "e" }, { letter: /[\u00c9\u00ca]/g, alternative: "E" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }, { letter: /[\u00f3\u00f4\u00f5]/g, alternative: "o" }, { letter: /[\u00d3\u00d4\u00d5]/g, alternative: "O" }, { letter: /[\u00fa]/g, alternative: "u" }, { letter: /[\u00da]/g, alternative: "U" }],
-    // Language: Romansh Vallader.
-    // Source: https://en.wikipedia.org/wiki/Romansh_language#Orthography http://www.omniglot.com/writing/romansh.htm
-    roh: [{ letter: /[\u00e9\u00e8\u00ea]/g, alternative: "e" }, { letter: /[\u00c9\u00c8\u00ca]/g, alternative: "E" }, { letter: /[\u00ef]/g, alternative: "i" }, { letter: /[\u00cf]/g, alternative: "I" }, { letter: /[\u00f6]/g, alternative: "oe" }, { letter: /[\u00d6]/g, alternative: "Oe" }, { letter: /[\u00fc]/g, alternative: "ue" }, { letter: /[\u00dc]/g, alternative: "Ue" }, { letter: /[\u00e4]/g, alternative: "ae" }, { letter: /[\u00c4]/g, alternative: "Ae" }],
-    // Language: Aromanian.
-    // Sources: https://en.wikipedia.org/wiki/Aromanian_alphabet http://www.omniglot.com/writing/aromanian.htm
-    rup: [{ letter: /[\u00e3]/g, alternative: "a" }, { letter: /[\u00c3]/g, alternative: "A" }],
-    // Language: Romanian.
-    // Sources: http://forum.wordreference.com/threads/romanian-transliteration.3193544/#post-16161251
-    // https://en.wikipedia.org/wiki/Romanian_alphabet http://www.omniglot.com/writing/romanian.htm
-    ro: [{ letter: /[\u0103\u00e2]/g, alternative: "a" }, { letter: /[\u0102\u00c2]/g, alternative: "A" }, { letter: /[\u00ee]/g, alternative: "i" }, { letter: /[\u00ce]/g, alternative: "I" }, { letter: /[\u0219\u015f]/g, alternative: "s" }, { letter: /[\u0218\u015e]/g, alternative: "S" }, { letter: /[\u021b\u0163]/g, alternative: "t" }, { letter: /[\u021a\u0162]/g, alternative: "T" }],
-    // Language: Klingon.
-    // Sources: http://www.omniglot.com/conscripts/klingon.htm https://en.wikipedia.org/wiki/Klingon_language#Writing_systems
-    // This translation module only works for Klingon written in Latin characters. KLI PlqaD script is not supported yet.
-    tlh: [{ letter: /[\u2019\u0027]/g, alternative: "" }],
-    // Language: Slovak.
-    // Sources: https://en.wikipedia.org/wiki/Dz_(digraph) https://en.wikipedia.org/wiki/Slovak_orthography
-    // http://www.omniglot.com/writing/slovak.htm
-    sk: [{ letter: /[\u01c4]/g, alternative: "DZ" }, { letter: /[\u01c5]/g, alternative: "Dz" }, { letter: /[\u01c6]/g, alternative: "dz" }, { letter: /[\u00e1\u00e4]/g, alternative: "a" }, { letter: /[\u00c1\u00c4]/g, alternative: "A" }, { letter: /[\u010d]/g, alternative: "c" }, { letter: /[\u010c]/g, alternative: "C" }, { letter: /[\u010f]/g, alternative: "d" }, { letter: /[\u010e]/g, alternative: "D" }, { letter: /[\u00e9]/g, alternative: "e" }, { letter: /[\u00c9]/g, alternative: "E" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }, { letter: /[\u013e\u013a]/g, alternative: "l" }, { letter: /[\u013d\u0139]/g, alternative: "L" }, { letter: /[\u0148]/g, alternative: "n" }, { letter: /[\u0147]/g, alternative: "N" }, { letter: /[\u00f3\u00f4]/g, alternative: "o" }, { letter: /[\u00d3\u00d4]/g, alternative: "O" }, { letter: /[\u0155]/g, alternative: "r" }, { letter: /[\u0154]/g, alternative: "R" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u0165]/g, alternative: "t" }, { letter: /[\u0164]/g, alternative: "T" }, { letter: /[\u00fa]/g, alternative: "u" }, { letter: /[\u00da]/g, alternative: "U" }, { letter: /[\u00fd]/g, alternative: "y" }, { letter: /[\u00dd]/g, alternative: "Y" }, { letter: /[\u017e]/g, alternative: "z" }, { letter: /[\u017d]/g, alternative: "Z" }],
-    // Language: Slovenian.
-    // Sources: https://en.wikipedia.org/wiki/Slovene_alphabet http://www.omniglot.com/writing/slovene.htm
-    sl: [{ letter: /[\u010d\u0107]/g, alternative: "c" }, { letter: /[\u010c\u0106]/g, alternative: "C" }, { letter: /[\u0111]/g, alternative: "d" }, { letter: /[\u0110]/g, alternative: "D" }, { letter: /[\u0161]/g, alternative: "s" }, { letter: /[\u0160]/g, alternative: "S" }, { letter: /[\u017e]/g, alternative: "z" }, { letter: /[\u017d]/g, alternative: "Z" }, { letter: /[\u00e0\u00e1\u0203\u0201]/g, alternative: "a" }, { letter: /[\u00c0\u00c1\u0202\u0200]/g, alternative: "A" }, { letter: /[\u00e8\u00e9\u0207\u0205]/g, alternative: "e" }, { letter: /\u01dd\u0300/g, alternative: "e" }, { letter: /\u01dd\u030f/g, alternative: "e" }, { letter: /\u1eb9\u0301/g, alternative: "e" }, { letter: /\u1eb9\u0311/g, alternative: "e" }, { letter: /[\u00c8\u00c9\u0206\u0204]/g, alternative: "E" }, { letter: /\u018e\u030f/g, alternative: "E" }, { letter: /\u018e\u0300/g, alternative: "E" }, { letter: /\u1eb8\u0311/g, alternative: "E" }, { letter: /\u1eb8\u0301/g, alternative: "E" }, { letter: /[\u00ec\u00ed\u020b\u0209]/g, alternative: "i" }, { letter: /[\u00cc\u00cd\u020a\u0208]/g, alternative: "I" }, { letter: /[\u00f2\u00f3\u020f\u020d]/g, alternative: "o" }, { letter: /\u1ecd\u0311/g, alternative: "o" }, { letter: /\u1ecd\u0301/g, alternative: "o" }, { letter: /\u1ecc\u0311/g, alternative: "O" }, { letter: /\u1ecc\u0301/g, alternative: "O" }, { letter: /[\u00d2\u00d3\u020e\u020c]/g, alternative: "O" }, { letter: /[\u00f9\u00fa\u0217\u0215]/g, alternative: "u" }, { letter: /[\u00d9\u00da\u0216\u0214]/g, alternative: "U" }, { letter: /[\u0155\u0213]/g, alternative: "r" }, { letter: /[\u0154\u0212]/g, alternative: "R" }],
-    // Language: Albanian.
-    // Sources: https://en.wikipedia.org/wiki/Albanian_alphabet http://www.omniglot.com/writing/albanian.htm
-    sq: [{ letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00eb]/g, alternative: "e" }, { letter: /[\u00cb]/g, alternative: "E" }],
-    // Language: Hungarian.
-    // Sources: http://forum.wordreference.com/threads/hungarian-transliteration.3193022/#post-16166901
-    // http://www.omniglot.com/writing/hungarian.htm
-    hu: [{ letter: /[\u00e1]/g, alternative: "a" }, { letter: /[\u00c1]/g, alternative: "A" }, { letter: /[\u00e9]/g, alternative: "e" }, { letter: /[\u00c9]/g, alternative: "E" }, { letter: /[\u00ed]/g, alternative: "i" }, { letter: /[\u00cd]/g, alternative: "I" }, { letter: /[\u00f3\u00f6\u0151]/g, alternative: "o" }, { letter: /[\u00d3\u00d6\u0150]/g, alternative: "O" }, { letter: /[\u00fa\u00fc\u0171]/g, alternative: "u" }, { letter: /[\u00da\u00dc\u0170]/g, alternative: "U" }],
-    // Language: Sardinian.
-    // Sources: http://www.omniglot.com/writing/sardinian.htm https://en.wikipedia.org/wiki/Sardinian_language
-    srd: [{ letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00e0\u00e1]/g, alternative: "a" }, { letter: /[\u00c0\u00c1]/g, alternative: "A" }, { letter: /[\u00e8\u00e9]/g, alternative: "e" }, { letter: /[\u00c8\u00c9]/g, alternative: "E" }, { letter: /[\u00ed\u00ef]/g, alternative: "i" }, { letter: /[\u00cd\u00cf]/g, alternative: "I" }, { letter: /[\u00f2\u00f3]/g, alternative: "o" }, { letter: /[\u00d2\u00d3]/g, alternative: "O" }, { letter: /[\u00fa\u00f9]/g, alternative: "u" }, { letter: /[\u00da\u00d9]/g, alternative: "U" }],
-    // Language: Silesian.
-    // Source: https://en.wikipedia.org/wiki/Silesian_language#Writing_system
-    szl: [{ letter: /[\u0107]/g, alternative: "c" }, { letter: /[\u0106]/g, alternative: "C" }, { letter: /[\u00e3]/g, alternative: "a" }, { letter: /[\u00c3]/g, alternative: "A" }, { letter: /[\u0142]/g, alternative: "u" }, { letter: /[\u0141]/g, alternative: "U" }, { letter: /[\u006e]/g, alternative: "n" }, { letter: /[\u004e]/g, alternative: "N" }, { letter: /[\u014f\u014d\u00f4\u00f5]/g, alternative: "o" }, { letter: /[\u014e\u014c\u00d4\u00d5]/g, alternative: "O" }, { letter: /[\u015b]/g, alternative: "s" }, { letter: /[\u015a]/g, alternative: "S" }, { letter: /[\u017a\u017c\u017e]/g, alternative: "z" }, { letter: /[\u0179\u017b\u017d]/g, alternative: "Z" }, { letter: /[\u016f]/g, alternative: "u" }, { letter: /[\u016e]/g, alternative: "U" }, { letter: /[\u010d]/g, alternative: "cz" }, { letter: /[\u010c]/g, alternative: "Cz" }, { letter: /[\u0159]/g, alternative: "rz" }, { letter: /[\u0158]/g, alternative: "Rz" }, { letter: /[\u0161]/g, alternative: "sz" }, { letter: /[\u0160]/g, alternative: "Sz" }],
-    // Language: Tahitian.
-    // Sources: https://en.wikipedia.org/wiki/Tahitian_language#Phonology http://www.omniglot.com/writing/tahitian.htm
-    tah: [{ letter: /[\u0101\u00e2\u00e0]/g, alternative: "a" }, { letter: /[\u0100\u00c2\u00c0]/g, alternative: "A" }, { letter: /[\u00ef\u00ee\u00ec]/g, alternative: "i" }, { letter: /[\u00cf\u00ce\u00cc]/g, alternative: "I" }, { letter: /[\u0113\u00ea\u00e9]/g, alternative: "e" }, { letter: /[\u0112\u00ca\u00c9]/g, alternative: "E" }, { letter: /[\u016b\u00fb\u00fa]/g, alternative: "u" }, { letter: /[\u016a\u00db\u00da]/g, alternative: "U" }, { letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /[\u00f2\u00f4\u014d]/g, alternative: "o" }, { letter: /[\u00d2\u00d4\u014c]/g, alternative: "O" }, { letter: /[\u2019\u0027\u2018]/g, alternative: "" }],
-    // Language: Venetian.
-    // Sources: http://www.omniglot.com/writing/venetian.htm https://en.wikipedia.org/wiki/Venetian_language#Spelling_systems
-    // http://www.venipedia.org/wiki/index.php?title=Venetian_Language
-    vec: [{ letter: /\u0073\u002d\u0063/g, alternative: "sc" }, { letter: /\u0053\u002d\u0043/g, alternative: "SC" }, { letter: /\u0073\u0027\u0063/g, alternative: "sc" }, { letter: /\u0053\u0027\u0043/g, alternative: "SC" }, { letter: /\u0073\u2019\u0063/g, alternative: "sc" }, { letter: /\u0053\u2019\u0043/g, alternative: "SC" }, { letter: /\u0073\u2018\u0063/g, alternative: "sc" }, { letter: /\u0053\u2018\u0043/g, alternative: "SC" }, { letter: /\u0053\u002d\u0063/g, alternative: "Sc" }, { letter: /\u0053\u0027\u0063/g, alternative: "Sc" }, { letter: /\u0053\u2019\u0063/g, alternative: "Sc" }, { letter: /\u0053\u2018\u0063/g, alternative: "Sc" }, { letter: /\u0063\u2019/g, alternative: "c" }, { letter: /\u0043\u2019/g, alternative: "C" }, { letter: /\u0063\u2018/g, alternative: "c" }, { letter: /\u0043\u2018/g, alternative: "C" }, { letter: /\u0063\u0027/g, alternative: "c" }, { letter: /\u0043\u0027/g, alternative: "C" }, { letter: /[\u00e0\u00e1\u00e2]/g, alternative: "a" }, { letter: /[\u00c0\u00c1\u00c2]/g, alternative: "A" }, { letter: /[\u00e8\u00e9]/g, alternative: "e" }, { letter: /[\u00c8\u00c9]/g, alternative: "E" }, { letter: /[\u00f2\u00f3]/g, alternative: "o" }, { letter: /[\u00d2\u00d3]/g, alternative: "O" }, { letter: /[\u00f9\u00fa]/g, alternative: "u" }, { letter: /[\u00d9\u00da]/g, alternative: "U" }, { letter: /[\u00e7\u010d\u010b]/g, alternative: "c" }, { letter: /[\u00c7\u010c\u010a]/g, alternative: "C" }, { letter: /[\u0142]/g, alternative: "l" }, { letter: /[\u00a3\u0141]/g, alternative: "L" }, { letter: /\ud835\udeff/g, alternative: "dh" }, { letter: /[\u0111\u03b4]/g, alternative: "dh" }, { letter: /[\u0110\u0394]/g, alternative: "Dh" }],
-    // Language: Walloon.
-    // Sources: http://www.omniglot.com/writing/walloon.htm https://en.wikipedia.org/wiki/Walloon_alphabet
-    wa: [{ letter: /[\u00e2\u00e5]/g, alternative: "a" }, { letter: /[\u00c2\u00c5]/g, alternative: "A" }, { letter: /[\u00e7]/g, alternative: "c" }, { letter: /[\u00c7]/g, alternative: "C" }, { letter: /\u0065\u030a/g, alternative: "e" }, { letter: /\u0045\u030a/g, alternative: "E" }, { letter: /[\u00eb\u00ea\u00e8\u00e9]/g, alternative: "e" }, { letter: /[\u00c9\u00c8\u00ca\u00cb]/g, alternative: "E" }, { letter: /[\u00ee]/g, alternative: "i" }, { letter: /[\u00ce]/g, alternative: "I" }, { letter: /[\u00f4\u00f6]/g, alternative: "o" }, { letter: /[\u00d6\u00d4]/g, alternative: "O" }, { letter: /[\u00fb]/g, alternative: "u" }, { letter: /[\u00db]/g, alternative: "U" }],
-    // Language: Yoruba.
-    // Sources: http://www.omniglot.com/writing/yoruba.htm https://en.wikipedia.org/wiki/Yoruba_language
-    yor: [{ letter: /[\u00e1\u00e0]/g, alternative: "a" }, { letter: /[\u00c1\u00c0]/g, alternative: "A" }, { letter: /[\u00ec\u00ed]/g, alternative: "i" }, { letter: /[\u00cc\u00cd]/g, alternative: "I" }, { letter: /\u1ecd\u0301/g, alternative: "o" }, { letter: /\u1ecc\u0301/g, alternative: "O" }, { letter: /\u1ecd\u0300/g, alternative: "o" }, { letter: /\u1ecc\u0300/g, alternative: "O" }, { letter: /[\u00f3\u00f2\u1ecd]/g, alternative: "o" }, { letter: /[\u00d3\u00d2\u1ecc]/g, alternative: "O" }, { letter: /[\u00fa\u00f9]/g, alternative: "u" }, { letter: /[\u00da\u00d9]/g, alternative: "U" }, { letter: /\u1eb9\u0301/g, alternative: "e" }, { letter: /\u1eb8\u0301/g, alternative: "E" }, { letter: /\u1eb9\u0300/g, alternative: "e" }, { letter: /\u1eb8\u0300/g, alternative: "E" }, { letter: /[\u00e9\u00e8\u1eb9]/g, alternative: "e" }, { letter: /[\u00c9\u00c8\u1eb8]/g, alternative: "E" }, { letter: /[\u1e63]/g, alternative: "s" }, { letter: /[\u1e62]/g, alternative: "S" }]
-};
-/**
- * The function returning an array containing transliteration objects, based on the given locale.
- *
- * @param {string} locale The locale.
- * @returns {Array} An array containing transliteration objects.
- */
-module.exports = function (locale) {
-    if (isUndefined(locale)) {
-        return [];
-    }
-    switch (getLanguage(locale)) {
-        case "es":
-            return transliterations.es;
-        case "pl":
-            return transliterations.pl;
-        case "de":
-            return transliterations.de;
-        case "nb":
-        case "nn":
-            return transliterations.nbnn;
-        case "sv":
-            return transliterations.sv;
-        case "fi":
-            return transliterations.fi;
-        case "da":
-            return transliterations.da;
-        case "tr":
-            return transliterations.tr;
-        case "lv":
-            return transliterations.lv;
-        case "is":
-            return transliterations.is;
-        case "fa":
-            return transliterations.fa;
-        case "cs":
-            return transliterations.cs;
-        case "ru":
-            return transliterations.ru;
-        case "eo":
-            return transliterations.eo;
-        case "af":
-            return transliterations.af;
-        case "bal":
-        case "ca":
-            return transliterations.ca;
-        case "ast":
-            return transliterations.ast;
-        case "an":
-            return transliterations.an;
-        case "ay":
-            return transliterations.ay;
-        case "en":
-            return transliterations.en;
-        case "fr":
-            return transliterations.fr;
-        case "it":
-            return transliterations.it;
-        case "nl":
-            return transliterations.nl;
-        case "bm":
-            return transliterations.bm;
-        case "uk":
-            return transliterations.uk;
-        case "br":
-            return transliterations.br;
-        case "ch":
-            return transliterations.ch;
-        case "csb":
-            return transliterations.csb;
-        case "cy":
-            return transliterations.cy;
-        case "ee":
-            return transliterations.ee;
-        case "et":
-            return transliterations.et;
-        case "eu":
-            return transliterations.eu;
-        case "fuc":
-            return transliterations.fuc;
-        case "fj":
-            return transliterations.fj;
-        case "frp":
-            return transliterations.frp;
-        case "fur":
-            return transliterations.fur;
-        case "fy":
-            return transliterations.fy;
-        case "ga":
-            return transliterations.ga;
-        case "gd":
-            return transliterations.gd;
-        case "gl":
-            return transliterations.gl;
-        case "gn":
-            return transliterations.gn;
-        case "gsw":
-            return transliterations.gsw;
-        case "hat":
-            return transliterations.hat;
-        case "haw":
-            return transliterations.haw;
-        case "hr":
-            return transliterations.hr;
-        case "ka":
-            return transliterations.ka;
-        case "kal":
-            return transliterations.kal;
-        case "kin":
-            return transliterations.kin;
-        case "lb":
-            return transliterations.lb;
-        case "li":
-            return transliterations.li;
-        case "lin":
-            return transliterations.lin;
-        case "lt":
-            return transliterations.lt;
-        case "mg":
-            return transliterations.mg;
-        case "mk":
-            return transliterations.mk;
-        case "mri":
-            return transliterations.mri;
-        case "mwl":
-            return transliterations.mwl;
-        case "oci":
-            return transliterations.oci;
-        case "orm":
-            return transliterations.orm;
-        case "pt":
-            return transliterations.pt;
-        case "roh":
-            return transliterations.roh;
-        case "rup":
-            return transliterations.rup;
-        case "ro":
-            return transliterations.ro;
-        case "tlh":
-            return transliterations.tlh;
-        case "sk":
-            return transliterations.sk;
-        case "sl":
-            return transliterations.sl;
-        case "sq":
-            return transliterations.sq;
-        case "hu":
-            return transliterations.hu;
-        case "srd":
-            return transliterations.srd;
-        case "szl":
-            return transliterations.szl;
-        case "tah":
-            return transliterations.tah;
-        case "vec":
-            return transliterations.vec;
-        case "wa":
-            return transliterations.wa;
-        case "yor":
-            return transliterations.yor;
-        default:
-            return [];
-    }
-};
-//# sourceMappingURL=transliterations.js.map
-//# sourceMappingURL=transliterations.js.map
-
-/***/ }),
-/* 544 */
+/* 568 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcess/getLinkType */
 
-var urlHelper = __webpack_require__(239);
+var urlHelper = __webpack_require__(262);
 /**
  * Determines the type of link.
  *
@@ -33172,1387 +35149,7 @@ module.exports = function (text, url) {
 //# sourceMappingURL=getLinkType.js.map
 
 /***/ }),
-/* 545 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var punycode = __webpack_require__(546);
-var util = __webpack_require__(547);
-
-exports.parse = urlParse;
-exports.resolve = urlResolve;
-exports.resolveObject = urlResolveObject;
-exports.format = urlFormat;
-
-exports.Url = Url;
-
-function Url() {
-  this.protocol = null;
-  this.slashes = null;
-  this.auth = null;
-  this.host = null;
-  this.port = null;
-  this.hostname = null;
-  this.hash = null;
-  this.search = null;
-  this.query = null;
-  this.pathname = null;
-  this.path = null;
-  this.href = null;
-}
-
-// Reference: RFC 3986, RFC 1808, RFC 2396
-
-// define these here so at least they only have to be
-// compiled once on the first module load.
-var protocolPattern = /^([a-z0-9.+-]+:)/i,
-    portPattern = /:[0-9]*$/,
-
-
-// Special case for a simple path URL
-simplePathPattern = /^(\/\/?(?!\/)[^\?\s]*)(\?[^\s]*)?$/,
-
-
-// RFC 2396: characters reserved for delimiting URLs.
-// We actually just auto-escape these.
-delims = ['<', '>', '"', '`', ' ', '\r', '\n', '\t'],
-
-
-// RFC 2396: characters not allowed for various reasons.
-unwise = ['{', '}', '|', '\\', '^', '`'].concat(delims),
-
-
-// Allowed by RFCs, but cause of XSS attacks.  Always escape these.
-autoEscape = ['\''].concat(unwise),
-
-// Characters that are never ever allowed in a hostname.
-// Note that any invalid chars are also handled, but these
-// are the ones that are *expected* to be seen, so we fast-path
-// them.
-nonHostChars = ['%', '/', '?', ';', '#'].concat(autoEscape),
-    hostEndingChars = ['/', '?', '#'],
-    hostnameMaxLen = 255,
-    hostnamePartPattern = /^[+a-z0-9A-Z_-]{0,63}$/,
-    hostnamePartStart = /^([+a-z0-9A-Z_-]{0,63})(.*)$/,
-
-// protocols that can allow "unsafe" and "unwise" chars.
-unsafeProtocol = {
-  'javascript': true,
-  'javascript:': true
-},
-
-// protocols that never have a hostname.
-hostlessProtocol = {
-  'javascript': true,
-  'javascript:': true
-},
-
-// protocols that always contain a // bit.
-slashedProtocol = {
-  'http': true,
-  'https': true,
-  'ftp': true,
-  'gopher': true,
-  'file': true,
-  'http:': true,
-  'https:': true,
-  'ftp:': true,
-  'gopher:': true,
-  'file:': true
-},
-    querystring = __webpack_require__(548);
-
-function urlParse(url, parseQueryString, slashesDenoteHost) {
-  if (url && util.isObject(url) && url instanceof Url) return url;
-
-  var u = new Url();
-  u.parse(url, parseQueryString, slashesDenoteHost);
-  return u;
-}
-
-Url.prototype.parse = function (url, parseQueryString, slashesDenoteHost) {
-  if (!util.isString(url)) {
-    throw new TypeError("Parameter 'url' must be a string, not " + (typeof url === 'undefined' ? 'undefined' : _typeof(url)));
-  }
-
-  // Copy chrome, IE, opera backslash-handling behavior.
-  // Back slashes before the query string get converted to forward slashes
-  // See: https://code.google.com/p/chromium/issues/detail?id=25916
-  var queryIndex = url.indexOf('?'),
-      splitter = queryIndex !== -1 && queryIndex < url.indexOf('#') ? '?' : '#',
-      uSplit = url.split(splitter),
-      slashRegex = /\\/g;
-  uSplit[0] = uSplit[0].replace(slashRegex, '/');
-  url = uSplit.join(splitter);
-
-  var rest = url;
-
-  // trim before proceeding.
-  // This is to support parse stuff like "  http://foo.com  \n"
-  rest = rest.trim();
-
-  if (!slashesDenoteHost && url.split('#').length === 1) {
-    // Try fast path regexp
-    var simplePath = simplePathPattern.exec(rest);
-    if (simplePath) {
-      this.path = rest;
-      this.href = rest;
-      this.pathname = simplePath[1];
-      if (simplePath[2]) {
-        this.search = simplePath[2];
-        if (parseQueryString) {
-          this.query = querystring.parse(this.search.substr(1));
-        } else {
-          this.query = this.search.substr(1);
-        }
-      } else if (parseQueryString) {
-        this.search = '';
-        this.query = {};
-      }
-      return this;
-    }
-  }
-
-  var proto = protocolPattern.exec(rest);
-  if (proto) {
-    proto = proto[0];
-    var lowerProto = proto.toLowerCase();
-    this.protocol = lowerProto;
-    rest = rest.substr(proto.length);
-  }
-
-  // figure out if it's got a host
-  // user@server is *always* interpreted as a hostname, and url
-  // resolution will treat //foo/bar as host=foo,path=bar because that's
-  // how the browser resolves relative URLs.
-  if (slashesDenoteHost || proto || rest.match(/^\/\/[^@\/]+@[^@\/]+/)) {
-    var slashes = rest.substr(0, 2) === '//';
-    if (slashes && !(proto && hostlessProtocol[proto])) {
-      rest = rest.substr(2);
-      this.slashes = true;
-    }
-  }
-
-  if (!hostlessProtocol[proto] && (slashes || proto && !slashedProtocol[proto])) {
-
-    // there's a hostname.
-    // the first instance of /, ?, ;, or # ends the host.
-    //
-    // If there is an @ in the hostname, then non-host chars *are* allowed
-    // to the left of the last @ sign, unless some host-ending character
-    // comes *before* the @-sign.
-    // URLs are obnoxious.
-    //
-    // ex:
-    // http://a@b@c/ => user:a@b host:c
-    // http://a@b?@c => user:a host:c path:/?@c
-
-    // v0.12 TODO(isaacs): This is not quite how Chrome does things.
-    // Review our test case against browsers more comprehensively.
-
-    // find the first instance of any hostEndingChars
-    var hostEnd = -1;
-    for (var i = 0; i < hostEndingChars.length; i++) {
-      var hec = rest.indexOf(hostEndingChars[i]);
-      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd)) hostEnd = hec;
-    }
-
-    // at this point, either we have an explicit point where the
-    // auth portion cannot go past, or the last @ char is the decider.
-    var auth, atSign;
-    if (hostEnd === -1) {
-      // atSign can be anywhere.
-      atSign = rest.lastIndexOf('@');
-    } else {
-      // atSign must be in auth portion.
-      // http://a@b/c@d => host:b auth:a path:/c@d
-      atSign = rest.lastIndexOf('@', hostEnd);
-    }
-
-    // Now we have a portion which is definitely the auth.
-    // Pull that off.
-    if (atSign !== -1) {
-      auth = rest.slice(0, atSign);
-      rest = rest.slice(atSign + 1);
-      this.auth = decodeURIComponent(auth);
-    }
-
-    // the host is the remaining to the left of the first non-host char
-    hostEnd = -1;
-    for (var i = 0; i < nonHostChars.length; i++) {
-      var hec = rest.indexOf(nonHostChars[i]);
-      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd)) hostEnd = hec;
-    }
-    // if we still have not hit it, then the entire thing is a host.
-    if (hostEnd === -1) hostEnd = rest.length;
-
-    this.host = rest.slice(0, hostEnd);
-    rest = rest.slice(hostEnd);
-
-    // pull out port.
-    this.parseHost();
-
-    // we've indicated that there is a hostname,
-    // so even if it's empty, it has to be present.
-    this.hostname = this.hostname || '';
-
-    // if hostname begins with [ and ends with ]
-    // assume that it's an IPv6 address.
-    var ipv6Hostname = this.hostname[0] === '[' && this.hostname[this.hostname.length - 1] === ']';
-
-    // validate a little.
-    if (!ipv6Hostname) {
-      var hostparts = this.hostname.split(/\./);
-      for (var i = 0, l = hostparts.length; i < l; i++) {
-        var part = hostparts[i];
-        if (!part) continue;
-        if (!part.match(hostnamePartPattern)) {
-          var newpart = '';
-          for (var j = 0, k = part.length; j < k; j++) {
-            if (part.charCodeAt(j) > 127) {
-              // we replace non-ASCII char with a temporary placeholder
-              // we need this to make sure size of hostname is not
-              // broken by replacing non-ASCII by nothing
-              newpart += 'x';
-            } else {
-              newpart += part[j];
-            }
-          }
-          // we test again with ASCII char only
-          if (!newpart.match(hostnamePartPattern)) {
-            var validParts = hostparts.slice(0, i);
-            var notHost = hostparts.slice(i + 1);
-            var bit = part.match(hostnamePartStart);
-            if (bit) {
-              validParts.push(bit[1]);
-              notHost.unshift(bit[2]);
-            }
-            if (notHost.length) {
-              rest = '/' + notHost.join('.') + rest;
-            }
-            this.hostname = validParts.join('.');
-            break;
-          }
-        }
-      }
-    }
-
-    if (this.hostname.length > hostnameMaxLen) {
-      this.hostname = '';
-    } else {
-      // hostnames are always lower case.
-      this.hostname = this.hostname.toLowerCase();
-    }
-
-    if (!ipv6Hostname) {
-      // IDNA Support: Returns a punycoded representation of "domain".
-      // It only converts parts of the domain name that
-      // have non-ASCII characters, i.e. it doesn't matter if
-      // you call it with a domain that already is ASCII-only.
-      this.hostname = punycode.toASCII(this.hostname);
-    }
-
-    var p = this.port ? ':' + this.port : '';
-    var h = this.hostname || '';
-    this.host = h + p;
-    this.href += this.host;
-
-    // strip [ and ] from the hostname
-    // the host field still retains them, though
-    if (ipv6Hostname) {
-      this.hostname = this.hostname.substr(1, this.hostname.length - 2);
-      if (rest[0] !== '/') {
-        rest = '/' + rest;
-      }
-    }
-  }
-
-  // now rest is set to the post-host stuff.
-  // chop off any delim chars.
-  if (!unsafeProtocol[lowerProto]) {
-
-    // First, make 100% sure that any "autoEscape" chars get
-    // escaped, even if encodeURIComponent doesn't think they
-    // need to be.
-    for (var i = 0, l = autoEscape.length; i < l; i++) {
-      var ae = autoEscape[i];
-      if (rest.indexOf(ae) === -1) continue;
-      var esc = encodeURIComponent(ae);
-      if (esc === ae) {
-        esc = escape(ae);
-      }
-      rest = rest.split(ae).join(esc);
-    }
-  }
-
-  // chop off from the tail first.
-  var hash = rest.indexOf('#');
-  if (hash !== -1) {
-    // got a fragment string.
-    this.hash = rest.substr(hash);
-    rest = rest.slice(0, hash);
-  }
-  var qm = rest.indexOf('?');
-  if (qm !== -1) {
-    this.search = rest.substr(qm);
-    this.query = rest.substr(qm + 1);
-    if (parseQueryString) {
-      this.query = querystring.parse(this.query);
-    }
-    rest = rest.slice(0, qm);
-  } else if (parseQueryString) {
-    // no query string, but parseQueryString still requested
-    this.search = '';
-    this.query = {};
-  }
-  if (rest) this.pathname = rest;
-  if (slashedProtocol[lowerProto] && this.hostname && !this.pathname) {
-    this.pathname = '/';
-  }
-
-  //to support http.request
-  if (this.pathname || this.search) {
-    var p = this.pathname || '';
-    var s = this.search || '';
-    this.path = p + s;
-  }
-
-  // finally, reconstruct the href based on what has been validated.
-  this.href = this.format();
-  return this;
-};
-
-// format a parsed object into a url string
-function urlFormat(obj) {
-  // ensure it's an object, and not a string url.
-  // If it's an obj, this is a no-op.
-  // this way, you can call url_format() on strings
-  // to clean up potentially wonky urls.
-  if (util.isString(obj)) obj = urlParse(obj);
-  if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
-  return obj.format();
-}
-
-Url.prototype.format = function () {
-  var auth = this.auth || '';
-  if (auth) {
-    auth = encodeURIComponent(auth);
-    auth = auth.replace(/%3A/i, ':');
-    auth += '@';
-  }
-
-  var protocol = this.protocol || '',
-      pathname = this.pathname || '',
-      hash = this.hash || '',
-      host = false,
-      query = '';
-
-  if (this.host) {
-    host = auth + this.host;
-  } else if (this.hostname) {
-    host = auth + (this.hostname.indexOf(':') === -1 ? this.hostname : '[' + this.hostname + ']');
-    if (this.port) {
-      host += ':' + this.port;
-    }
-  }
-
-  if (this.query && util.isObject(this.query) && Object.keys(this.query).length) {
-    query = querystring.stringify(this.query);
-  }
-
-  var search = this.search || query && '?' + query || '';
-
-  if (protocol && protocol.substr(-1) !== ':') protocol += ':';
-
-  // only the slashedProtocols get the //.  Not mailto:, xmpp:, etc.
-  // unless they had them to begin with.
-  if (this.slashes || (!protocol || slashedProtocol[protocol]) && host !== false) {
-    host = '//' + (host || '');
-    if (pathname && pathname.charAt(0) !== '/') pathname = '/' + pathname;
-  } else if (!host) {
-    host = '';
-  }
-
-  if (hash && hash.charAt(0) !== '#') hash = '#' + hash;
-  if (search && search.charAt(0) !== '?') search = '?' + search;
-
-  pathname = pathname.replace(/[?#]/g, function (match) {
-    return encodeURIComponent(match);
-  });
-  search = search.replace('#', '%23');
-
-  return protocol + host + pathname + search + hash;
-};
-
-function urlResolve(source, relative) {
-  return urlParse(source, false, true).resolve(relative);
-}
-
-Url.prototype.resolve = function (relative) {
-  return this.resolveObject(urlParse(relative, false, true)).format();
-};
-
-function urlResolveObject(source, relative) {
-  if (!source) return relative;
-  return urlParse(source, false, true).resolveObject(relative);
-}
-
-Url.prototype.resolveObject = function (relative) {
-  if (util.isString(relative)) {
-    var rel = new Url();
-    rel.parse(relative, false, true);
-    relative = rel;
-  }
-
-  var result = new Url();
-  var tkeys = Object.keys(this);
-  for (var tk = 0; tk < tkeys.length; tk++) {
-    var tkey = tkeys[tk];
-    result[tkey] = this[tkey];
-  }
-
-  // hash is always overridden, no matter what.
-  // even href="" will remove it.
-  result.hash = relative.hash;
-
-  // if the relative url is empty, then there's nothing left to do here.
-  if (relative.href === '') {
-    result.href = result.format();
-    return result;
-  }
-
-  // hrefs like //foo/bar always cut to the protocol.
-  if (relative.slashes && !relative.protocol) {
-    // take everything except the protocol from relative
-    var rkeys = Object.keys(relative);
-    for (var rk = 0; rk < rkeys.length; rk++) {
-      var rkey = rkeys[rk];
-      if (rkey !== 'protocol') result[rkey] = relative[rkey];
-    }
-
-    //urlParse appends trailing / to urls like http://www.example.com
-    if (slashedProtocol[result.protocol] && result.hostname && !result.pathname) {
-      result.path = result.pathname = '/';
-    }
-
-    result.href = result.format();
-    return result;
-  }
-
-  if (relative.protocol && relative.protocol !== result.protocol) {
-    // if it's a known url protocol, then changing
-    // the protocol does weird things
-    // first, if it's not file:, then we MUST have a host,
-    // and if there was a path
-    // to begin with, then we MUST have a path.
-    // if it is file:, then the host is dropped,
-    // because that's known to be hostless.
-    // anything else is assumed to be absolute.
-    if (!slashedProtocol[relative.protocol]) {
-      var keys = Object.keys(relative);
-      for (var v = 0; v < keys.length; v++) {
-        var k = keys[v];
-        result[k] = relative[k];
-      }
-      result.href = result.format();
-      return result;
-    }
-
-    result.protocol = relative.protocol;
-    if (!relative.host && !hostlessProtocol[relative.protocol]) {
-      var relPath = (relative.pathname || '').split('/');
-      while (relPath.length && !(relative.host = relPath.shift())) {}
-      if (!relative.host) relative.host = '';
-      if (!relative.hostname) relative.hostname = '';
-      if (relPath[0] !== '') relPath.unshift('');
-      if (relPath.length < 2) relPath.unshift('');
-      result.pathname = relPath.join('/');
-    } else {
-      result.pathname = relative.pathname;
-    }
-    result.search = relative.search;
-    result.query = relative.query;
-    result.host = relative.host || '';
-    result.auth = relative.auth;
-    result.hostname = relative.hostname || relative.host;
-    result.port = relative.port;
-    // to support http.request
-    if (result.pathname || result.search) {
-      var p = result.pathname || '';
-      var s = result.search || '';
-      result.path = p + s;
-    }
-    result.slashes = result.slashes || relative.slashes;
-    result.href = result.format();
-    return result;
-  }
-
-  var isSourceAbs = result.pathname && result.pathname.charAt(0) === '/',
-      isRelAbs = relative.host || relative.pathname && relative.pathname.charAt(0) === '/',
-      mustEndAbs = isRelAbs || isSourceAbs || result.host && relative.pathname,
-      removeAllDots = mustEndAbs,
-      srcPath = result.pathname && result.pathname.split('/') || [],
-      relPath = relative.pathname && relative.pathname.split('/') || [],
-      psychotic = result.protocol && !slashedProtocol[result.protocol];
-
-  // if the url is a non-slashed url, then relative
-  // links like ../.. should be able
-  // to crawl up to the hostname, as well.  This is strange.
-  // result.protocol has already been set by now.
-  // Later on, put the first path part into the host field.
-  if (psychotic) {
-    result.hostname = '';
-    result.port = null;
-    if (result.host) {
-      if (srcPath[0] === '') srcPath[0] = result.host;else srcPath.unshift(result.host);
-    }
-    result.host = '';
-    if (relative.protocol) {
-      relative.hostname = null;
-      relative.port = null;
-      if (relative.host) {
-        if (relPath[0] === '') relPath[0] = relative.host;else relPath.unshift(relative.host);
-      }
-      relative.host = null;
-    }
-    mustEndAbs = mustEndAbs && (relPath[0] === '' || srcPath[0] === '');
-  }
-
-  if (isRelAbs) {
-    // it's absolute.
-    result.host = relative.host || relative.host === '' ? relative.host : result.host;
-    result.hostname = relative.hostname || relative.hostname === '' ? relative.hostname : result.hostname;
-    result.search = relative.search;
-    result.query = relative.query;
-    srcPath = relPath;
-    // fall through to the dot-handling below.
-  } else if (relPath.length) {
-    // it's relative
-    // throw away the existing file, and take the new path instead.
-    if (!srcPath) srcPath = [];
-    srcPath.pop();
-    srcPath = srcPath.concat(relPath);
-    result.search = relative.search;
-    result.query = relative.query;
-  } else if (!util.isNullOrUndefined(relative.search)) {
-    // just pull out the search.
-    // like href='?foo'.
-    // Put this after the other two cases because it simplifies the booleans
-    if (psychotic) {
-      result.hostname = result.host = srcPath.shift();
-      //occationaly the auth can get stuck only in host
-      //this especially happens in cases like
-      //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
-      var authInHost = result.host && result.host.indexOf('@') > 0 ? result.host.split('@') : false;
-      if (authInHost) {
-        result.auth = authInHost.shift();
-        result.host = result.hostname = authInHost.shift();
-      }
-    }
-    result.search = relative.search;
-    result.query = relative.query;
-    //to support http.request
-    if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
-      result.path = (result.pathname ? result.pathname : '') + (result.search ? result.search : '');
-    }
-    result.href = result.format();
-    return result;
-  }
-
-  if (!srcPath.length) {
-    // no path at all.  easy.
-    // we've already handled the other stuff above.
-    result.pathname = null;
-    //to support http.request
-    if (result.search) {
-      result.path = '/' + result.search;
-    } else {
-      result.path = null;
-    }
-    result.href = result.format();
-    return result;
-  }
-
-  // if a url ENDs in . or .., then it must get a trailing slash.
-  // however, if it ends in anything else non-slashy,
-  // then it must NOT get a trailing slash.
-  var last = srcPath.slice(-1)[0];
-  var hasTrailingSlash = (result.host || relative.host || srcPath.length > 1) && (last === '.' || last === '..') || last === '';
-
-  // strip single dots, resolve double dots to parent dir
-  // if the path tries to go above the root, `up` ends up > 0
-  var up = 0;
-  for (var i = srcPath.length; i >= 0; i--) {
-    last = srcPath[i];
-    if (last === '.') {
-      srcPath.splice(i, 1);
-    } else if (last === '..') {
-      srcPath.splice(i, 1);
-      up++;
-    } else if (up) {
-      srcPath.splice(i, 1);
-      up--;
-    }
-  }
-
-  // if the path is allowed to go above the root, restore leading ..s
-  if (!mustEndAbs && !removeAllDots) {
-    for (; up--; up) {
-      srcPath.unshift('..');
-    }
-  }
-
-  if (mustEndAbs && srcPath[0] !== '' && (!srcPath[0] || srcPath[0].charAt(0) !== '/')) {
-    srcPath.unshift('');
-  }
-
-  if (hasTrailingSlash && srcPath.join('/').substr(-1) !== '/') {
-    srcPath.push('');
-  }
-
-  var isAbsolute = srcPath[0] === '' || srcPath[0] && srcPath[0].charAt(0) === '/';
-
-  // put the host back
-  if (psychotic) {
-    result.hostname = result.host = isAbsolute ? '' : srcPath.length ? srcPath.shift() : '';
-    //occationaly the auth can get stuck only in host
-    //this especially happens in cases like
-    //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
-    var authInHost = result.host && result.host.indexOf('@') > 0 ? result.host.split('@') : false;
-    if (authInHost) {
-      result.auth = authInHost.shift();
-      result.host = result.hostname = authInHost.shift();
-    }
-  }
-
-  mustEndAbs = mustEndAbs || result.host && srcPath.length;
-
-  if (mustEndAbs && !isAbsolute) {
-    srcPath.unshift('');
-  }
-
-  if (!srcPath.length) {
-    result.pathname = null;
-    result.path = null;
-  } else {
-    result.pathname = srcPath.join('/');
-  }
-
-  //to support request.http
-  if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
-    result.path = (result.pathname ? result.pathname : '') + (result.search ? result.search : '');
-  }
-  result.auth = relative.auth || result.auth;
-  result.slashes = result.slashes || relative.slashes;
-  result.href = result.format();
-  return result;
-};
-
-Url.prototype.parseHost = function () {
-  var host = this.host;
-  var port = portPattern.exec(host);
-  if (port) {
-    port = port[0];
-    if (port !== ':') {
-      this.port = port.substr(1);
-    }
-    host = host.substr(0, host.length - port.length);
-  }
-  if (host) this.hostname = host;
-};
-
-/***/ }),
-/* 546 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/*! https://mths.be/punycode v1.4.1 by @mathias */
-;(function (root) {
-
-	/** Detect free variables */
-	var freeExports = ( false ? 'undefined' : _typeof(exports)) == 'object' && exports && !exports.nodeType && exports;
-	var freeModule = ( false ? 'undefined' : _typeof(module)) == 'object' && module && !module.nodeType && module;
-	var freeGlobal = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) == 'object' && global;
-	if (freeGlobal.global === freeGlobal || freeGlobal.window === freeGlobal || freeGlobal.self === freeGlobal) {
-		root = freeGlobal;
-	}
-
-	/**
-  * The `punycode` object.
-  * @name punycode
-  * @type Object
-  */
-	var punycode,
-
-
-	/** Highest positive signed 32-bit float value */
-	maxInt = 2147483647,
-	    // aka. 0x7FFFFFFF or 2^31-1
-
-	/** Bootstring parameters */
-	base = 36,
-	    tMin = 1,
-	    tMax = 26,
-	    skew = 38,
-	    damp = 700,
-	    initialBias = 72,
-	    initialN = 128,
-	    // 0x80
-	delimiter = '-',
-	    // '\x2D'
-
-	/** Regular expressions */
-	regexPunycode = /^xn--/,
-	    regexNonASCII = /[^\x20-\x7E]/,
-	    // unprintable ASCII chars + non-ASCII chars
-	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g,
-	    // RFC 3490 separators
-
-	/** Error messages */
-	errors = {
-		'overflow': 'Overflow: input needs wider integers to process',
-		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
-		'invalid-input': 'Invalid input'
-	},
-
-
-	/** Convenience shortcuts */
-	baseMinusTMin = base - tMin,
-	    floor = Math.floor,
-	    stringFromCharCode = String.fromCharCode,
-
-
-	/** Temporary variable */
-	key;
-
-	/*--------------------------------------------------------------------------*/
-
-	/**
-  * A generic error utility function.
-  * @private
-  * @param {String} type The error type.
-  * @returns {Error} Throws a `RangeError` with the applicable error message.
-  */
-	function error(type) {
-		throw new RangeError(errors[type]);
-	}
-
-	/**
-  * A generic `Array#map` utility function.
-  * @private
-  * @param {Array} array The array to iterate over.
-  * @param {Function} callback The function that gets called for every array
-  * item.
-  * @returns {Array} A new array of values returned by the callback function.
-  */
-	function map(array, fn) {
-		var length = array.length;
-		var result = [];
-		while (length--) {
-			result[length] = fn(array[length]);
-		}
-		return result;
-	}
-
-	/**
-  * A simple `Array#map`-like wrapper to work with domain name strings or email
-  * addresses.
-  * @private
-  * @param {String} domain The domain name or email address.
-  * @param {Function} callback The function that gets called for every
-  * character.
-  * @returns {Array} A new string of characters returned by the callback
-  * function.
-  */
-	function mapDomain(string, fn) {
-		var parts = string.split('@');
-		var result = '';
-		if (parts.length > 1) {
-			// In email addresses, only the domain name should be punycoded. Leave
-			// the local part (i.e. everything up to `@`) intact.
-			result = parts[0] + '@';
-			string = parts[1];
-		}
-		// Avoid `split(regex)` for IE8 compatibility. See #17.
-		string = string.replace(regexSeparators, '\x2E');
-		var labels = string.split('.');
-		var encoded = map(labels, fn).join('.');
-		return result + encoded;
-	}
-
-	/**
-  * Creates an array containing the numeric code points of each Unicode
-  * character in the string. While JavaScript uses UCS-2 internally,
-  * this function will convert a pair of surrogate halves (each of which
-  * UCS-2 exposes as separate characters) into a single code point,
-  * matching UTF-16.
-  * @see `punycode.ucs2.encode`
-  * @see <https://mathiasbynens.be/notes/javascript-encoding>
-  * @memberOf punycode.ucs2
-  * @name decode
-  * @param {String} string The Unicode input string (UCS-2).
-  * @returns {Array} The new array of code points.
-  */
-	function ucs2decode(string) {
-		var output = [],
-		    counter = 0,
-		    length = string.length,
-		    value,
-		    extra;
-		while (counter < length) {
-			value = string.charCodeAt(counter++);
-			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-				// high surrogate, and there is a next character
-				extra = string.charCodeAt(counter++);
-				if ((extra & 0xFC00) == 0xDC00) {
-					// low surrogate
-					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-				} else {
-					// unmatched surrogate; only append this code unit, in case the next
-					// code unit is the high surrogate of a surrogate pair
-					output.push(value);
-					counter--;
-				}
-			} else {
-				output.push(value);
-			}
-		}
-		return output;
-	}
-
-	/**
-  * Creates a string based on an array of numeric code points.
-  * @see `punycode.ucs2.decode`
-  * @memberOf punycode.ucs2
-  * @name encode
-  * @param {Array} codePoints The array of numeric code points.
-  * @returns {String} The new Unicode string (UCS-2).
-  */
-	function ucs2encode(array) {
-		return map(array, function (value) {
-			var output = '';
-			if (value > 0xFFFF) {
-				value -= 0x10000;
-				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
-				value = 0xDC00 | value & 0x3FF;
-			}
-			output += stringFromCharCode(value);
-			return output;
-		}).join('');
-	}
-
-	/**
-  * Converts a basic code point into a digit/integer.
-  * @see `digitToBasic()`
-  * @private
-  * @param {Number} codePoint The basic numeric code point value.
-  * @returns {Number} The numeric value of a basic code point (for use in
-  * representing integers) in the range `0` to `base - 1`, or `base` if
-  * the code point does not represent a value.
-  */
-	function basicToDigit(codePoint) {
-		if (codePoint - 48 < 10) {
-			return codePoint - 22;
-		}
-		if (codePoint - 65 < 26) {
-			return codePoint - 65;
-		}
-		if (codePoint - 97 < 26) {
-			return codePoint - 97;
-		}
-		return base;
-	}
-
-	/**
-  * Converts a digit/integer into a basic code point.
-  * @see `basicToDigit()`
-  * @private
-  * @param {Number} digit The numeric value of a basic code point.
-  * @returns {Number} The basic code point whose value (when used for
-  * representing integers) is `digit`, which needs to be in the range
-  * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
-  * used; else, the lowercase form is used. The behavior is undefined
-  * if `flag` is non-zero and `digit` has no uppercase form.
-  */
-	function digitToBasic(digit, flag) {
-		//  0..25 map to ASCII a..z or A..Z
-		// 26..35 map to ASCII 0..9
-		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
-	}
-
-	/**
-  * Bias adaptation function as per section 3.4 of RFC 3492.
-  * https://tools.ietf.org/html/rfc3492#section-3.4
-  * @private
-  */
-	function adapt(delta, numPoints, firstTime) {
-		var k = 0;
-		delta = firstTime ? floor(delta / damp) : delta >> 1;
-		delta += floor(delta / numPoints);
-		for (; /* no initialization */delta > baseMinusTMin * tMax >> 1; k += base) {
-			delta = floor(delta / baseMinusTMin);
-		}
-		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
-	}
-
-	/**
-  * Converts a Punycode string of ASCII-only symbols to a string of Unicode
-  * symbols.
-  * @memberOf punycode
-  * @param {String} input The Punycode string of ASCII-only symbols.
-  * @returns {String} The resulting string of Unicode symbols.
-  */
-	function decode(input) {
-		// Don't use UCS-2
-		var output = [],
-		    inputLength = input.length,
-		    out,
-		    i = 0,
-		    n = initialN,
-		    bias = initialBias,
-		    basic,
-		    j,
-		    index,
-		    oldi,
-		    w,
-		    k,
-		    digit,
-		    t,
-
-		/** Cached calculation results */
-		baseMinusT;
-
-		// Handle the basic code points: let `basic` be the number of input code
-		// points before the last delimiter, or `0` if there is none, then copy
-		// the first basic code points to the output.
-
-		basic = input.lastIndexOf(delimiter);
-		if (basic < 0) {
-			basic = 0;
-		}
-
-		for (j = 0; j < basic; ++j) {
-			// if it's not a basic code point
-			if (input.charCodeAt(j) >= 0x80) {
-				error('not-basic');
-			}
-			output.push(input.charCodeAt(j));
-		}
-
-		// Main decoding loop: start just after the last delimiter if any basic code
-		// points were copied; start at the beginning otherwise.
-
-		for (index = basic > 0 ? basic + 1 : 0; index < inputLength;) /* no final expression */{
-
-			// `index` is the index of the next character to be consumed.
-			// Decode a generalized variable-length integer into `delta`,
-			// which gets added to `i`. The overflow checking is easier
-			// if we increase `i` as we go, then subtract off its starting
-			// value at the end to obtain `delta`.
-			for (oldi = i, w = 1, k = base;; /* no condition */k += base) {
-
-				if (index >= inputLength) {
-					error('invalid-input');
-				}
-
-				digit = basicToDigit(input.charCodeAt(index++));
-
-				if (digit >= base || digit > floor((maxInt - i) / w)) {
-					error('overflow');
-				}
-
-				i += digit * w;
-				t = k <= bias ? tMin : k >= bias + tMax ? tMax : k - bias;
-
-				if (digit < t) {
-					break;
-				}
-
-				baseMinusT = base - t;
-				if (w > floor(maxInt / baseMinusT)) {
-					error('overflow');
-				}
-
-				w *= baseMinusT;
-			}
-
-			out = output.length + 1;
-			bias = adapt(i - oldi, out, oldi == 0);
-
-			// `i` was supposed to wrap around from `out` to `0`,
-			// incrementing `n` each time, so we'll fix that now:
-			if (floor(i / out) > maxInt - n) {
-				error('overflow');
-			}
-
-			n += floor(i / out);
-			i %= out;
-
-			// Insert `n` at position `i` of the output
-			output.splice(i++, 0, n);
-		}
-
-		return ucs2encode(output);
-	}
-
-	/**
-  * Converts a string of Unicode symbols (e.g. a domain name label) to a
-  * Punycode string of ASCII-only symbols.
-  * @memberOf punycode
-  * @param {String} input The string of Unicode symbols.
-  * @returns {String} The resulting Punycode string of ASCII-only symbols.
-  */
-	function encode(input) {
-		var n,
-		    delta,
-		    handledCPCount,
-		    basicLength,
-		    bias,
-		    j,
-		    m,
-		    q,
-		    k,
-		    t,
-		    currentValue,
-		    output = [],
-
-		/** `inputLength` will hold the number of code points in `input`. */
-		inputLength,
-
-		/** Cached calculation results */
-		handledCPCountPlusOne,
-		    baseMinusT,
-		    qMinusT;
-
-		// Convert the input in UCS-2 to Unicode
-		input = ucs2decode(input);
-
-		// Cache the length
-		inputLength = input.length;
-
-		// Initialize the state
-		n = initialN;
-		delta = 0;
-		bias = initialBias;
-
-		// Handle the basic code points
-		for (j = 0; j < inputLength; ++j) {
-			currentValue = input[j];
-			if (currentValue < 0x80) {
-				output.push(stringFromCharCode(currentValue));
-			}
-		}
-
-		handledCPCount = basicLength = output.length;
-
-		// `handledCPCount` is the number of code points that have been handled;
-		// `basicLength` is the number of basic code points.
-
-		// Finish the basic string - if it is not empty - with a delimiter
-		if (basicLength) {
-			output.push(delimiter);
-		}
-
-		// Main encoding loop:
-		while (handledCPCount < inputLength) {
-
-			// All non-basic code points < n have been handled already. Find the next
-			// larger one:
-			for (m = maxInt, j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-				if (currentValue >= n && currentValue < m) {
-					m = currentValue;
-				}
-			}
-
-			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
-			// but guard against overflow
-			handledCPCountPlusOne = handledCPCount + 1;
-			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
-				error('overflow');
-			}
-
-			delta += (m - n) * handledCPCountPlusOne;
-			n = m;
-
-			for (j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-
-				if (currentValue < n && ++delta > maxInt) {
-					error('overflow');
-				}
-
-				if (currentValue == n) {
-					// Represent delta as a generalized variable-length integer
-					for (q = delta, k = base;; /* no condition */k += base) {
-						t = k <= bias ? tMin : k >= bias + tMax ? tMax : k - bias;
-						if (q < t) {
-							break;
-						}
-						qMinusT = q - t;
-						baseMinusT = base - t;
-						output.push(stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0)));
-						q = floor(qMinusT / baseMinusT);
-					}
-
-					output.push(stringFromCharCode(digitToBasic(q, 0)));
-					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
-					delta = 0;
-					++handledCPCount;
-				}
-			}
-
-			++delta;
-			++n;
-		}
-		return output.join('');
-	}
-
-	/**
-  * Converts a Punycode string representing a domain name or an email address
-  * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
-  * it doesn't matter if you call it on a string that has already been
-  * converted to Unicode.
-  * @memberOf punycode
-  * @param {String} input The Punycoded domain name or email address to
-  * convert to Unicode.
-  * @returns {String} The Unicode representation of the given Punycode
-  * string.
-  */
-	function toUnicode(input) {
-		return mapDomain(input, function (string) {
-			return regexPunycode.test(string) ? decode(string.slice(4).toLowerCase()) : string;
-		});
-	}
-
-	/**
-  * Converts a Unicode string representing a domain name or an email address to
-  * Punycode. Only the non-ASCII parts of the domain name will be converted,
-  * i.e. it doesn't matter if you call it with a domain that's already in
-  * ASCII.
-  * @memberOf punycode
-  * @param {String} input The domain name or email address to convert, as a
-  * Unicode string.
-  * @returns {String} The Punycode representation of the given domain name or
-  * email address.
-  */
-	function toASCII(input) {
-		return mapDomain(input, function (string) {
-			return regexNonASCII.test(string) ? 'xn--' + encode(string) : string;
-		});
-	}
-
-	/*--------------------------------------------------------------------------*/
-
-	/** Define the public API */
-	punycode = {
-		/**
-   * A string representing the current Punycode.js version number.
-   * @memberOf punycode
-   * @type String
-   */
-		'version': '1.4.1',
-		/**
-   * An object of methods to convert from JavaScript's internal character
-   * representation (UCS-2) to Unicode code points, and back.
-   * @see <https://mathiasbynens.be/notes/javascript-encoding>
-   * @memberOf punycode
-   * @type Object
-   */
-		'ucs2': {
-			'decode': ucs2decode,
-			'encode': ucs2encode
-		},
-		'decode': decode,
-		'encode': encode,
-		'toASCII': toASCII,
-		'toUnicode': toUnicode
-	};
-
-	/** Expose `punycode` */
-	// Some AMD build optimizers, like r.js, check for specific condition patterns
-	// like the following:
-	if ("function" == 'function' && _typeof(__webpack_require__(104)) == 'object' && __webpack_require__(104)) {
-		!(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {
-			return punycode;
-		}).call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else if (freeExports && freeModule) {
-		if (module.exports == freeExports) {
-			// in Node.js, io.js, or RingoJS v0.8.0+
-			freeModule.exports = punycode;
-		} else {
-			// in Narwhal or RingoJS v0.7.0-
-			for (key in punycode) {
-				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
-			}
-		}
-	} else {
-		// in Rhino or a web browser
-		root.punycode = punycode;
-	}
-})(undefined);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48)(module), __webpack_require__(11)))
-
-/***/ }),
-/* 547 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-module.exports = {
-  isString: function isString(arg) {
-    return typeof arg === 'string';
-  },
-  isObject: function isObject(arg) {
-    return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && arg !== null;
-  },
-  isNull: function isNull(arg) {
-    return arg === null;
-  },
-  isNullOrUndefined: function isNullOrUndefined(arg) {
-    return arg == null;
-  }
-};
-
-/***/ }),
-/* 548 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.decode = exports.parse = __webpack_require__(549);
-exports.encode = exports.stringify = __webpack_require__(210);
-
-/***/ }),
-/* 549 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-
-// If obj.hasOwnProperty has been overridden, then calling
-// obj.hasOwnProperty(prop) will break.
-// See: https://github.com/joyent/node/issues/1707
-
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-module.exports = function (qs, sep, eq, options) {
-  sep = sep || '&';
-  eq = eq || '=';
-  var obj = {};
-
-  if (typeof qs !== 'string' || qs.length === 0) {
-    return obj;
-  }
-
-  var regexp = /\+/g;
-  qs = qs.split(sep);
-
-  var maxKeys = 1000;
-  if (options && typeof options.maxKeys === 'number') {
-    maxKeys = options.maxKeys;
-  }
-
-  var len = qs.length;
-  // maxKeys <= 0 means that we should not limit keys count
-  if (maxKeys > 0 && len > maxKeys) {
-    len = maxKeys;
-  }
-
-  for (var i = 0; i < len; ++i) {
-    var x = qs[i].replace(regexp, '%20'),
-        idx = x.indexOf(eq),
-        kstr,
-        vstr,
-        k,
-        v;
-
-    if (idx >= 0) {
-      kstr = x.substr(0, idx);
-      vstr = x.substr(idx + 1);
-    } else {
-      kstr = x;
-      vstr = '';
-    }
-
-    k = decodeURIComponent(kstr);
-    v = decodeURIComponent(vstr);
-
-    if (!hasOwnProperty(obj, k)) {
-      obj[k] = v;
-    } else if (isArray(obj[k])) {
-      obj[k].push(v);
-    } else {
-      obj[k] = [obj[k], v];
-    }
-  }
-
-  return obj;
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-/***/ }),
-/* 550 */
+/* 569 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34560,7 +35157,7 @@ var isArray = Array.isArray || function (xs) {
 /** @module stringProcessing/checkNofollow */
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
 
-var htmlparser = __webpack_require__(77);
+var htmlparser = __webpack_require__(85);
 /**
  * Checks if a link has a `rel` attribute with a `nofollow` value. If it has, returns Nofollow, otherwise Dofollow.
  *
@@ -34594,13 +35191,13 @@ module.exports = function (anchorHTML) {
 //# sourceMappingURL=checkNofollow.js.map
 
 /***/ }),
-/* 551 */
+/* 570 */
 /***/ (function(module, exports) {
 
 module.exports = {"0":65533,"128":8364,"130":8218,"131":402,"132":8222,"133":8230,"134":8224,"135":8225,"136":710,"137":8240,"138":352,"139":8249,"140":338,"142":381,"145":8216,"146":8217,"147":8220,"148":8221,"149":8226,"150":8211,"151":8212,"152":732,"153":8482,"154":353,"155":8250,"156":339,"158":382,"159":376}
 
 /***/ }),
-/* 552 */
+/* 571 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34608,11 +35205,11 @@ module.exports = {"0":65533,"128":8364,"130":8218,"131":402,"132":8222,"133":823
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var ElementType = __webpack_require__(108);
+var ElementType = __webpack_require__(118);
 
 var re_whitespace = /\s+/g;
-var NodePrototype = __webpack_require__(368);
-var ElementPrototype = __webpack_require__(553);
+var NodePrototype = __webpack_require__(402);
+var ElementPrototype = __webpack_require__(572);
 
 function DomHandler(callback, options, elementCB) {
 	if ((typeof callback === "undefined" ? "undefined" : _typeof(callback)) === "object") {
@@ -34821,14 +35418,14 @@ DomHandler.prototype.onprocessinginstruction = function (name, data) {
 module.exports = DomHandler;
 
 /***/ }),
-/* 553 */
+/* 572 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 // DOM-Level-1-compliant structure
-var NodePrototype = __webpack_require__(368);
+var NodePrototype = __webpack_require__(402);
 var ElementPrototype = module.exports = Object.create(NodePrototype);
 
 var domLvl1 = {
@@ -34849,13 +35446,13 @@ Object.keys(domLvl1).forEach(function (key) {
 });
 
 /***/ }),
-/* 554 */
+/* 573 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var index = __webpack_require__(77),
+var index = __webpack_require__(85),
     DomHandler = index.DomHandler,
     DomUtils = index.DomUtils;
 
@@ -34864,7 +35461,7 @@ function FeedHandler(callback, options) {
 	this.init(callback, options);
 }
 
-__webpack_require__(12)(FeedHandler, DomHandler);
+__webpack_require__(14)(FeedHandler, DomHandler);
 
 FeedHandler.prototype.init = DomHandler;
 
@@ -34951,7 +35548,7 @@ FeedHandler.prototype.onend = function () {
 module.exports = FeedHandler;
 
 /***/ }),
-/* 555 */
+/* 574 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34959,13 +35556,13 @@ module.exports = FeedHandler;
 
 module.exports = Stream;
 
-var Parser = __webpack_require__(369);
+var Parser = __webpack_require__(403);
 
 function Stream(options) {
 	Parser.call(this, new Cbs(this), options);
 }
 
-__webpack_require__(12)(Stream, Parser);
+__webpack_require__(14)(Stream, Parser);
 
 Stream.prototype.readable = true;
 
@@ -34973,7 +35570,7 @@ function Cbs(scope) {
 	this.scope = scope;
 }
 
-var EVENTS = __webpack_require__(77).EVENTS;
+var EVENTS = __webpack_require__(85).EVENTS;
 
 Object.keys(EVENTS).forEach(function (name) {
 	if (EVENTS[name] === 0) {
@@ -34994,7 +35591,7 @@ Object.keys(EVENTS).forEach(function (name) {
 });
 
 /***/ }),
-/* 556 */
+/* 575 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35023,15 +35620,15 @@ Object.keys(EVENTS).forEach(function (name) {
 
 module.exports = Stream;
 
-var EE = __webpack_require__(74).EventEmitter;
-var inherits = __webpack_require__(12);
+var EE = __webpack_require__(81).EventEmitter;
+var inherits = __webpack_require__(14);
 
 inherits(Stream, EE);
-Stream.Readable = __webpack_require__(242);
-Stream.Writable = __webpack_require__(565);
-Stream.Duplex = __webpack_require__(566);
-Stream.Transform = __webpack_require__(567);
-Stream.PassThrough = __webpack_require__(568);
+Stream.Readable = __webpack_require__(265);
+Stream.Writable = __webpack_require__(584);
+Stream.Duplex = __webpack_require__(585);
+Stream.Transform = __webpack_require__(586);
+Stream.PassThrough = __webpack_require__(587);
 
 // Backwards-compat with node 0.4.x
 Stream.Stream = Stream;
@@ -35126,7 +35723,7 @@ Stream.prototype.pipe = function (dest, options) {
 };
 
 /***/ }),
-/* 557 */
+/* 576 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35146,6 +35743,8 @@ for (var i = 0, len = code.length; i < len; ++i) {
   revLookup[code.charCodeAt(i)] = i;
 }
 
+// Support decoding URL-safe base64 strings, as Node.js does.
+// See: https://en.wikipedia.org/wiki/Base64#URL_applications
 revLookup['-'.charCodeAt(0)] = 62;
 revLookup['_'.charCodeAt(0)] = 63;
 
@@ -35207,7 +35806,7 @@ function encodeChunk(uint8, start, end) {
   var tmp;
   var output = [];
   for (var i = start; i < end; i += 3) {
-    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + uint8[i + 2];
+    tmp = (uint8[i] << 16 & 0xFF0000) + (uint8[i + 1] << 8 & 0xFF00) + (uint8[i + 2] & 0xFF);
     output.push(tripletToBase64(tmp));
   }
   return output.join('');
@@ -35246,7 +35845,7 @@ function fromByteArray(uint8) {
 }
 
 /***/ }),
-/* 558 */
+/* 577 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35338,13 +35937,13 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 };
 
 /***/ }),
-/* 559 */
+/* 578 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 560 */
+/* 579 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35358,7 +35957,7 @@ function _classCallCheck(instance, Constructor) {
   }
 }
 
-var Buffer = __webpack_require__(139).Buffer;
+var Buffer = __webpack_require__(154).Buffer;
 /*</replacement>*/
 
 function copyBuffer(src, target, offset) {
@@ -35428,7 +36027,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 561 */
+/* 580 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35482,12 +36081,12 @@ exports._unrefActive = exports.active = function (item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(562);
+__webpack_require__(581);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 /***/ }),
-/* 562 */
+/* 581 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35675,10 +36274,10 @@ exports.clearImmediate = clearImmediate;
     attachTo.setImmediate = setImmediate;
     attachTo.clearImmediate = clearImmediate;
 })(typeof self === "undefined" ? typeof global === "undefined" ? undefined : global : self);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(51)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(54)))
 
 /***/ }),
-/* 563 */
+/* 582 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35750,10 +36349,10 @@ function config(name) {
   if (null == val) return false;
   return String(val).toLowerCase() === 'true';
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 564 */
+/* 583 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35786,11 +36385,11 @@ function config(name) {
 
 module.exports = PassThrough;
 
-var Transform = __webpack_require__(374);
+var Transform = __webpack_require__(408);
 
 /*<replacement>*/
-var util = __webpack_require__(109);
-util.inherits = __webpack_require__(12);
+var util = __webpack_require__(119);
+util.inherits = __webpack_require__(14);
 /*</replacement>*/
 
 util.inherits(PassThrough, Transform);
@@ -35806,49 +36405,49 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 565 */
+/* 584 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(244);
+module.exports = __webpack_require__(267);
 
 /***/ }),
-/* 566 */
+/* 585 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(59);
+module.exports = __webpack_require__(62);
 
 /***/ }),
-/* 567 */
+/* 586 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(242).Transform;
+module.exports = __webpack_require__(265).Transform;
 
 /***/ }),
-/* 568 */
+/* 587 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(242).PassThrough;
+module.exports = __webpack_require__(265).PassThrough;
 
 /***/ }),
-/* 569 */
+/* 588 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 570 */
+/* 589 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35860,7 +36459,7 @@ function ProxyHandler(cbs) {
 	this._cbs = cbs || {};
 }
 
-var EVENTS = __webpack_require__(77).EVENTS;
+var EVENTS = __webpack_require__(85).EVENTS;
 Object.keys(EVENTS).forEach(function (name) {
 	if (EVENTS[name] === 0) {
 		name = "on" + name;
@@ -35883,7 +36482,7 @@ Object.keys(EVENTS).forEach(function (name) {
 });
 
 /***/ }),
-/* 571 */
+/* 590 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35891,21 +36490,21 @@ Object.keys(EVENTS).forEach(function (name) {
 
 var DomUtils = module.exports;
 
-[__webpack_require__(572), __webpack_require__(578), __webpack_require__(579), __webpack_require__(580), __webpack_require__(581), __webpack_require__(582)].forEach(function (ext) {
+[__webpack_require__(591), __webpack_require__(597), __webpack_require__(598), __webpack_require__(599), __webpack_require__(600), __webpack_require__(601)].forEach(function (ext) {
 	Object.keys(ext).forEach(function (key) {
 		DomUtils[key] = ext[key].bind(DomUtils);
 	});
 });
 
 /***/ }),
-/* 572 */
+/* 591 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var ElementType = __webpack_require__(108),
-    getOuterHTML = __webpack_require__(573),
+var ElementType = __webpack_require__(118),
+    getOuterHTML = __webpack_require__(592),
     isTag = ElementType.isTag;
 
 module.exports = {
@@ -35929,7 +36528,7 @@ function getText(elem) {
 }
 
 /***/ }),
-/* 573 */
+/* 592 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35938,8 +36537,8 @@ function getText(elem) {
 /*
   Module dependencies
 */
-var ElementType = __webpack_require__(574);
-var entities = __webpack_require__(575);
+var ElementType = __webpack_require__(593);
+var entities = __webpack_require__(594);
 
 /*
   Boolean Attributes
@@ -36100,7 +36699,7 @@ function renderComment(elem) {
 }
 
 /***/ }),
-/* 574 */
+/* 593 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36122,14 +36721,14 @@ module.exports = {
 };
 
 /***/ }),
-/* 575 */
+/* 594 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var encode = __webpack_require__(576),
-    decode = __webpack_require__(577);
+var encode = __webpack_require__(595),
+    decode = __webpack_require__(596);
 
 exports.decode = function (data, level) {
 	return (!level || level <= 0 ? decode.XML : decode.HTML)(data);
@@ -36156,18 +36755,18 @@ exports.decodeHTML4Strict = exports.decodeHTML5Strict = exports.decodeHTMLStrict
 exports.escape = encode.escape;
 
 /***/ }),
-/* 576 */
+/* 595 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var inverseXML = getInverseObj(__webpack_require__(241)),
+var inverseXML = getInverseObj(__webpack_require__(264)),
     xmlReplacer = getInverseReplacer(inverseXML);
 
 exports.XML = getInverse(inverseXML, xmlReplacer);
 
-var inverseHTML = getInverseObj(__webpack_require__(240)),
+var inverseHTML = getInverseObj(__webpack_require__(263)),
     htmlReplacer = getInverseReplacer(inverseHTML);
 
 exports.HTML = getInverse(inverseHTML, htmlReplacer);
@@ -36231,16 +36830,16 @@ function escapeXML(data) {
 exports.escape = escapeXML;
 
 /***/ }),
-/* 577 */
+/* 596 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var entityMap = __webpack_require__(240),
-    legacyMap = __webpack_require__(367),
-    xmlMap = __webpack_require__(241),
-    decodeCodePoint = __webpack_require__(366);
+var entityMap = __webpack_require__(263),
+    legacyMap = __webpack_require__(401),
+    xmlMap = __webpack_require__(264),
+    decodeCodePoint = __webpack_require__(400);
 
 var decodeXMLStrict = getStrictDecoder(xmlMap),
     decodeHTMLStrict = getStrictDecoder(entityMap);
@@ -36309,7 +36908,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 578 */
+/* 597 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36341,7 +36940,7 @@ exports.getName = function (elem) {
 };
 
 /***/ }),
-/* 579 */
+/* 598 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36424,13 +37023,13 @@ exports.prepend = function (elem, prev) {
 };
 
 /***/ }),
-/* 580 */
+/* 599 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isTag = __webpack_require__(108).isTag;
+var isTag = __webpack_require__(118).isTag;
 
 module.exports = {
 	filter: filter,
@@ -36525,13 +37124,13 @@ function findAll(test, rootElems) {
 }
 
 /***/ }),
-/* 581 */
+/* 600 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var ElementType = __webpack_require__(108);
+var ElementType = __webpack_require__(118);
 var isTag = exports.isTag = ElementType.isTag;
 
 exports.testElement = function (options, element) {
@@ -36632,7 +37231,7 @@ exports.getElementsByTagType = function (type, element, recurse, limit) {
 };
 
 /***/ }),
-/* 582 */
+/* 601 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36786,7 +37385,7 @@ exports.uniqueSort = function (nodes) {
 };
 
 /***/ }),
-/* 583 */
+/* 602 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36799,7 +37398,7 @@ function CollectingHandler(cbs) {
 	this.events = [];
 }
 
-var EVENTS = __webpack_require__(77).EVENTS;
+var EVENTS = __webpack_require__(85).EVENTS;
 Object.keys(EVENTS).forEach(function (name) {
 	if (EVENTS[name] === 0) {
 		name = "on" + name;
@@ -36849,14 +37448,14 @@ CollectingHandler.prototype.restart = function () {
 };
 
 /***/ }),
-/* 584 */
+/* 603 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/getLinkStatistics */
 
-var getLinks = __webpack_require__(375);
+var getLinks = __webpack_require__(409);
 /**
  * Checks a text for anchors and returns the number found.
  *
@@ -36871,7 +37470,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=countLinks.js.map
 
 /***/ }),
-/* 585 */
+/* 604 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36898,15 +37497,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=urlIsTooLong.js.map
 
 /***/ }),
-/* 586 */
+/* 605 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/findKeywordInPageTitle */
 
-var wordMatch = __webpack_require__(78);
-var escapeRegExp = __webpack_require__(26);
+var wordMatch = __webpack_require__(86);
+var escapeRegExp = __webpack_require__(24);
 /**
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
  * and the position of the keyword.
@@ -36927,17 +37526,17 @@ module.exports = function (paper) {
 //# sourceMappingURL=findKeywordInPageTitle.js.map
 
 /***/ }),
-/* 587 */
+/* 606 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /* @module analyses/matchKeywordInSubheadings */
 
-var stripSomeTags = __webpack_require__(376);
-var subheadingMatch = __webpack_require__(588);
-var getSubheadingContents = __webpack_require__(591).getSubheadingContents;
-var escapeRegExp = __webpack_require__(26);
+var stripSomeTags = __webpack_require__(410);
+var subheadingMatch = __webpack_require__(607);
+var getSubheadingContents = __webpack_require__(610).getSubheadingContents;
+var escapeRegExp = __webpack_require__(24);
 /**
  * Checks if there are any subheadings like h2 in the text
  * and if they have the keyword in them.
@@ -36962,15 +37561,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=matchKeywordInSubheadings.js.map
 
 /***/ }),
-/* 588 */
+/* 607 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var replaceString = __webpack_require__(589);
-var removalWords = __webpack_require__(590)();
-var matchTextWithTransliteration = __webpack_require__(238);
+var replaceString = __webpack_require__(608);
+var removalWords = __webpack_require__(609)();
+var matchTextWithTransliteration = __webpack_require__(261);
 /**
  * Matches the keyword in an array of strings
  *
@@ -36999,7 +37598,7 @@ module.exports = function (matches, keyword, locale) {
 //# sourceMappingURL=subheadingsMatch.js.map
 
 /***/ }),
-/* 589 */
+/* 608 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37022,7 +37621,7 @@ module.exports = function (text, stringToReplace, replacement) {
 //# sourceMappingURL=replaceString.js.map
 
 /***/ }),
-/* 590 */
+/* 609 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37041,13 +37640,13 @@ module.exports = function () {
 //# sourceMappingURL=removalWords.js.map
 
 /***/ }),
-/* 591 */
+/* 610 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var map = __webpack_require__(8);
+var map = __webpack_require__(9);
 /**
  * Gets all subheadings from the text and returns these in an array.
  *
@@ -37085,14 +37684,14 @@ module.exports = {
 //# sourceMappingURL=getSubheadings.js.map
 
 /***/ }),
-/* 592 */
+/* 611 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/getKeywordDensity */
 
-var countWords = __webpack_require__(53);
+var countWords = __webpack_require__(56);
 /**
  * Calculates the keyword density .
  *
@@ -37112,16 +37711,16 @@ module.exports = function (paper, researcher) {
 //# sourceMappingURL=getKeywordDensity.js.map
 
 /***/ }),
-/* 593 */
+/* 612 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/getKeywordCount */
 
-var matchWords = __webpack_require__(78);
-var normalizeQuotes = __webpack_require__(106).normalize;
-var escapeRegExp = __webpack_require__(26);
+var matchWords = __webpack_require__(86);
+var normalizeQuotes = __webpack_require__(117).normalize;
+var escapeRegExp = __webpack_require__(24);
 /**
  * Calculates the keyword count.
  *
@@ -37138,15 +37737,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=keywordCount.js.map
 
 /***/ }),
-/* 594 */
+/* 613 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module researches/stopWordsInKeyword */
 
-var stopWordsInText = __webpack_require__(377);
-var escapeRegExp = __webpack_require__(26);
+var stopWordsInText = __webpack_require__(411);
+var escapeRegExp = __webpack_require__(24);
 /**
  * Checks for the amount of stop words in the keyword.
  * @param {Paper} paper The Paper object to be checked against.
@@ -37160,7 +37759,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=stopWordsInKeyword.js.map
 
 /***/ }),
-/* 595 */
+/* 614 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37179,87 +37778,14 @@ module.exports = function () {
 //# sourceMappingURL=stopwords.js.map
 
 /***/ }),
-/* 596 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/** @module config/diacritics */
-/**
- * Returns the diacritics map
- *
- * @returns {array} diacritics map
- */
-
-module.exports = function () {
-    return [{
-        base: "a",
-        letters: /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
-    }, { base: "aa", letters: /[\uA733]/g }, { base: "ae", letters: /[\u00E6\u01FD\u01E3]/g }, { base: "ao", letters: /[\uA735]/g }, { base: "au", letters: /[\uA737]/g }, { base: "av", letters: /[\uA739\uA73B]/g }, { base: "ay", letters: /[\uA73D]/g }, { base: "b", letters: /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g }, {
-        base: "c",
-        letters: /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g
-    }, {
-        base: "d",
-        letters: /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g
-    }, { base: "dz", letters: /[\u01F3\u01C6]/g }, {
-        base: "e",
-        letters: /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g
-    }, { base: "f", letters: /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g }, {
-        base: "g",
-        letters: /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g
-    }, {
-        base: "h",
-        letters: /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g
-    }, { base: "hv", letters: /[\u0195]/g }, {
-        base: "i",
-        letters: /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g
-    }, { base: "j", letters: /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g }, {
-        base: "k",
-        letters: /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g
-    }, {
-        base: "l",
-        letters: /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g
-    }, { base: "lj", letters: /[\u01C9]/g }, { base: "m", letters: /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g }, {
-        base: "n",
-        letters: /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g
-    }, { base: "nj", letters: /[\u01CC]/g }, {
-        base: "o",
-        letters: /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g
-    }, { base: "oi", letters: /[\u01A3]/g }, { base: "ou", letters: /[\u0223]/g }, { base: "oo", letters: /[\uA74F]/g }, { base: "p", letters: /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g }, { base: "q", letters: /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g }, {
-        base: "r",
-        letters: /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g
-    }, {
-        base: "s",
-        letters: /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g
-    }, {
-        base: "t",
-        letters: /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g
-    }, { base: "tz", letters: /[\uA729]/g }, {
-        base: "u",
-        letters: /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g
-    }, { base: "v", letters: /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g }, { base: "vy", letters: /[\uA761]/g }, {
-        base: "w",
-        letters: /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g
-    }, { base: "x", letters: /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g }, {
-        base: "y",
-        letters: /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g
-    }, {
-        base: "z",
-        letters: /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
-    }];
-};
-//# sourceMappingURL=diacritics.js.map
-//# sourceMappingURL=diacritics.js.map
-
-/***/ }),
-/* 597 */
+/* 615 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module researches/stopWordsInUrl */
 
-var stopWordsInText = __webpack_require__(377);
+var stopWordsInText = __webpack_require__(411);
 /**
  * Matches stopwords in the URL. Replaces - and _ with whitespace.
  * @param {Paper} paper The Paper object to get the url from.
@@ -37272,19 +37798,19 @@ module.exports = function (paper) {
 //# sourceMappingURL=stopWordsInUrl.js.map
 
 /***/ }),
-/* 598 */
+/* 616 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/calculateFleschReading */
 
-var stripNumbers = __webpack_require__(599);
-var countSentences = __webpack_require__(600);
-var countWords = __webpack_require__(53);
-var countSyllables = __webpack_require__(381);
-var formatNumber = __webpack_require__(110);
-var getLanguage = __webpack_require__(46);
+var stripNumbers = __webpack_require__(617);
+var countSentences = __webpack_require__(618);
+var countWords = __webpack_require__(56);
+var countSyllables = __webpack_require__(412);
+var formatNumber = __webpack_require__(120);
+var getLanguage = __webpack_require__(35);
 /**
  * Calculates an average from a total and an amount
  *
@@ -37340,14 +37866,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=calculateFleschReading.js.map
 
 /***/ }),
-/* 599 */
+/* 617 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/stripNumbers */
 
-var stripSpaces = __webpack_require__(21);
+var stripSpaces = __webpack_require__(19);
 /**
  * Removes all words comprised only of numbers.
  *
@@ -37367,14 +37893,14 @@ module.exports = function (text) {
 //# sourceMappingURL=stripNumbers.js.map
 
 /***/ }),
-/* 600 */
+/* 618 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/countSentences */
 
-var getSentences = __webpack_require__(52);
+var getSentences = __webpack_require__(55);
 /**
  * Counts the number of sentences in a given string.
  *
@@ -37393,19 +37919,19 @@ module.exports = function (text) {
 //# sourceMappingURL=countSentences.js.map
 
 /***/ }),
-/* 601 */
+/* 619 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module config/syllables */
 
-var getLanguage = __webpack_require__(46);
+var getLanguage = __webpack_require__(35);
 var isUndefined = __webpack_require__(3);
-var de = __webpack_require__(602);
-var en = __webpack_require__(603);
-var nl = __webpack_require__(604);
-var it = __webpack_require__(605);
+var de = __webpack_require__(620);
+var en = __webpack_require__(621);
+var nl = __webpack_require__(622);
+var it = __webpack_require__(623);
 var languages = { de: de, nl: nl, en: en, it: it };
 module.exports = function () {
     var locale = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "en_US";
@@ -37421,39 +37947,39 @@ module.exports = function () {
 //# sourceMappingURL=syllables.js.map
 
 /***/ }),
-/* 602 */
+/* 620 */
 /***/ (function(module, exports) {
 
 module.exports = {"vowels":"aeiouyäöüáéâàèîêâûôœ","deviations":{"vowels":[{"fragments":["ouil","deaux","deau$","oard","äthiop","euil","veau","eau$","ueue","lienisch","ance$","ence$","time$","once$","ziat","guette","ête","ôte$","[hp]omme$","[qdscn]ue$","aire$","ture$","êpe$","[^q]ui$","tiche$","vice$","oile$","zial","cruis","leas","coa[ct]","[^i]deal","[fw]eat","[lsx]ed$"],"countModifier":-1},{"fragments":["aau","a[äöüo]","äue","äeu","aei","aue","aeu","ael","ai[aeo]","saik","aismus","ä[aeoi]","auä","éa","e[äaoö]","ei[eo]","ee[aeiou]","eu[aäe]","eum$","eü","o[aäöü]","poet","oo[eo]","oie","oei[^l]","oeu[^f]","öa","[fgrz]ieu","mieun","tieur","ieum","i[aiuü]","[^l]iä","[^s]chien","io[bcdfhjkmpqtuvwx]","[bdhmprv]ion","[lr]ior","[^g]io[gs]","[dr]ioz","elioz","zioni","bio[lnorz]","iö[^s]","ie[ei]","rier$","öi[eg]","[^r]öisch","[^gqv]u[aeéioöuü]","quie$","quie[^s]","uäu","^us-","^it-","üe","naiv","aisch$","aische$","aische[nrs]$","[lst]ien","dien$","gois","[^g]rient","[aeiou]y[aeiou]","byi","yä","[a-z]y[ao]","yau","koor","scient","eriel","[dg]oing"],"countModifier":1},{"fragments":["eauü","ioi","ioo","ioa","iii","oai","eueu"],"countModifier":1}],"words":{"full":[{"word":"beach","syllables":1},{"word":"beat","syllables":1},{"word":"beau","syllables":1},{"word":"beaune","syllables":1},{"word":"belle","syllables":1},{"word":"bouche","syllables":1},{"word":"brake","syllables":1},{"word":"cache","syllables":1},{"word":"chaiselongue","syllables":2},{"word":"choke","syllables":1},{"word":"cordiale","syllables":3},{"word":"core","syllables":1},{"word":"dope","syllables":1},{"word":"eat","syllables":1},{"word":"eye","syllables":1},{"word":"fake","syllables":1},{"word":"fame","syllables":1},{"word":"fatigue","syllables":2},{"word":"femme","syllables":1},{"word":"force","syllables":1},{"word":"game","syllables":1},{"word":"games","syllables":1},{"word":"gate","syllables":1},{"word":"grande","syllables":1},{"word":"ice","syllables":1},{"word":"ion","syllables":2},{"word":"joke","syllables":1},{"word":"jupe","syllables":1},{"word":"maisch","syllables":1},{"word":"maische","syllables":2},{"word":"move","syllables":1},{"word":"native","syllables":2},{"word":"nice","syllables":1},{"word":"one","syllables":1},{"word":"pipe","syllables":1},{"word":"prime","syllables":1},{"word":"rate","syllables":1},{"word":"rhythm","syllables":2},{"word":"ride","syllables":1},{"word":"rides","syllables":1},{"word":"rien","syllables":2},{"word":"save","syllables":1},{"word":"science","syllables":2},{"word":"siècle","syllables":1},{"word":"site","syllables":1},{"word":"suite","syllables":1},{"word":"take","syllables":1},{"word":"taupe","syllables":1},{"word":"universe","syllables":3},{"word":"vogue","syllables":1},{"word":"wave","syllables":1},{"word":"zion","syllables":2}],"fragments":{"global":[{"word":"abreaktion","syllables":4},{"word":"adware","syllables":2},{"word":"affaire","syllables":3},{"word":"aiguière","syllables":2},{"word":"anisette","syllables":3},{"word":"appeal","syllables":2},{"word":"backstage","syllables":2},{"word":"bankrate","syllables":2},{"word":"baseball","syllables":2},{"word":"basejump","syllables":2},{"word":"beachcomber","syllables":3},{"word":"beachvolleyball","syllables":4},{"word":"beagle","syllables":2},{"word":"beamer","syllables":2},{"word":"beamer","syllables":2},{"word":"béarnaise","syllables":3},{"word":"beaufort","syllables":2},{"word":"beaujolais","syllables":3},{"word":"beauté","syllables":2},{"word":"beauty","syllables":2},{"word":"belgier","syllables":3},{"word":"bestien","syllables":2},{"word":"biskuit","syllables":2},{"word":"bleach","syllables":1},{"word":"blue","syllables":1},{"word":"board","syllables":1},{"word":"boat","syllables":1},{"word":"bodysuit","syllables":3},{"word":"bordelaise","syllables":3},{"word":"break","syllables":1},{"word":"build","syllables":1},{"word":"bureau","syllables":2},{"word":"business","syllables":2},{"word":"cabrio","syllables":3},{"word":"cabriolet","syllables":4},{"word":"cachesexe","syllables":2},{"word":"camaieu","syllables":3},{"word":"canyon","syllables":2},{"word":"case","syllables":1},{"word":"catsuit","syllables":2},{"word":"centime","syllables":3},{"word":"chaise","syllables":2},{"word":"champion","syllables":2},{"word":"championat","syllables":3},{"word":"chapiteau","syllables":3},{"word":"chateau","syllables":2},{"word":"château","syllables":2},{"word":"cheat","syllables":1},{"word":"cheese","syllables":1},{"word":"chihuahua","syllables":3},{"word":"choice","syllables":1},{"word":"circonflexe","syllables":3},{"word":"clean","syllables":1},{"word":"cloche","syllables":1},{"word":"close","syllables":1},{"word":"clothes","syllables":1},{"word":"commerce","syllables":2},{"word":"crime","syllables":1},{"word":"crossrate","syllables":2},{"word":"cuisine","syllables":2},{"word":"culotte","syllables":2},{"word":"death","syllables":1},{"word":"defense","syllables":2},{"word":"détente","syllables":2},{"word":"dread","syllables":1},{"word":"dream","syllables":1},{"word":"dresscode","syllables":2},{"word":"dungeon","syllables":2},{"word":"easy","syllables":2},{"word":"engagement","syllables":3},{"word":"entente","syllables":2},{"word":"eye-catcher","syllables":3},{"word":"eyecatcher","syllables":3},{"word":"eyeliner","syllables":3},{"word":"eyeword","syllables":2},{"word":"fashion","syllables":2},{"word":"feature","syllables":2},{"word":"ferien","syllables":3},{"word":"fineliner","syllables":3},{"word":"fisheye","syllables":2},{"word":"flake","syllables":1},{"word":"flambeau","syllables":2},{"word":"flatrate","syllables":2},{"word":"fleece","syllables":1},{"word":"fraîche","syllables":1},{"word":"freak","syllables":1},{"word":"frites","syllables":1},{"word":"future","syllables":2},{"word":"gaelic","syllables":2},{"word":"game-show","syllables":2},{"word":"gameboy","syllables":2},{"word":"gamepad","syllables":2},{"word":"gameplay","syllables":2},{"word":"gameport","syllables":2},{"word":"gameshow","syllables":2},{"word":"garigue","syllables":2},{"word":"garrigue","syllables":2},{"word":"gatefold","syllables":2},{"word":"gateway","syllables":2},{"word":"geflashed","syllables":2},{"word":"georgier","syllables":4},{"word":"goal","syllables":1},{"word":"grapefruit","syllables":2},{"word":"great","syllables":1},{"word":"groupware","syllables":2},{"word":"gueule","syllables":1},{"word":"guide","syllables":1},{"word":"guilloche","syllables":2},{"word":"gynäzeen","syllables":4},{"word":"gynözeen","syllables":4},{"word":"haircare","syllables":2},{"word":"hardcore","syllables":2},{"word":"hardware","syllables":2},{"word":"head","syllables":1},{"word":"hearing","syllables":2},{"word":"heart","syllables":1},{"word":"heavy","syllables":2},{"word":"hedge","syllables":1},{"word":"heroin","syllables":3},{"word":"inclusive","syllables":3},{"word":"initiative","syllables":4},{"word":"inside","syllables":2},{"word":"jaguar","syllables":3},{"word":"jalousette","syllables":3},{"word":"jeans","syllables":1},{"word":"jeunesse","syllables":2},{"word":"juice","syllables":1},{"word":"jukebox","syllables":2},{"word":"jumpsuit","syllables":2},{"word":"kanarien","syllables":4},{"word":"kapriole","syllables":4},{"word":"karosserielinie","syllables":6},{"word":"konopeen","syllables":4},{"word":"lacrosse","syllables":2},{"word":"laplace","syllables":2},{"word":"late-","syllables":1},{"word":"lead","syllables":1},{"word":"league","syllables":1},{"word":"learn","syllables":1},{"word":"légière","syllables":2},{"word":"lizenziat","syllables":4},{"word":"load","syllables":1},{"word":"lotterielos","syllables":4},{"word":"lounge","syllables":1},{"word":"lyzeen","syllables":3},{"word":"madame","syllables":2},{"word":"mademoiselle","syllables":3},{"word":"magier","syllables":3},{"word":"make-up","syllables":2},{"word":"malware","syllables":2},{"word":"management","syllables":3},{"word":"manteau","syllables":2},{"word":"mausoleen","syllables":4},{"word":"mauve","syllables":1},{"word":"medien","syllables":3},{"word":"mesdames","syllables":2},{"word":"mesopotamien","syllables":6},{"word":"milliarde","syllables":3},{"word":"missile","syllables":2},{"word":"miszellaneen","syllables":5},{"word":"mousse","syllables":1},{"word":"mousseline","syllables":3},{"word":"museen","syllables":3},{"word":"musette","syllables":2},{"word":"nahuatl","syllables":2},{"word":"noisette","syllables":2},{"word":"notebook","syllables":2},{"word":"nuance","syllables":3},{"word":"nuklease","syllables":4},{"word":"odeen","syllables":3},{"word":"offline","syllables":2},{"word":"offside","syllables":2},{"word":"oleaster","syllables":4},{"word":"on-stage","syllables":2},{"word":"online","syllables":2},{"word":"orpheen","syllables":3},{"word":"parforceritt","syllables":3},{"word":"patiens","syllables":2},{"word":"patient","syllables":2},{"word":"peace","syllables":1},{"word":"peace","syllables":1},{"word":"peanuts","syllables":2},{"word":"people","syllables":2},{"word":"perineen","syllables":4},{"word":"peritoneen","syllables":5},{"word":"picture","syllables":2},{"word":"piece","syllables":1},{"word":"pipeline","syllables":2},{"word":"plateau","syllables":2},{"word":"poesie","syllables":3},{"word":"poleposition","syllables":4},{"word":"portemanteau","syllables":3},{"word":"portemonnaie","syllables":3},{"word":"primerate","syllables":2},{"word":"primerate","syllables":2},{"word":"primetime","syllables":2},{"word":"protease","syllables":4},{"word":"protein","syllables":3},{"word":"prytaneen","syllables":4},{"word":"quotient","syllables":2},{"word":"radio","syllables":3},{"word":"reader","syllables":2},{"word":"ready","syllables":2},{"word":"reallife","syllables":2},{"word":"repeat","syllables":2},{"word":"retake","syllables":2},{"word":"rigole","syllables":2},{"word":"risolle","syllables":2},{"word":"road","syllables":1},{"word":"roaming","syllables":2},{"word":"roquefort","syllables":2},{"word":"safe","syllables":1},{"word":"savonette","syllables":3},{"word":"sciencefiction","syllables":3},{"word":"search","syllables":1},{"word":"selfmade","syllables":2},{"word":"septime","syllables":3},{"word":"serapeen","syllables":4},{"word":"service","syllables":2},{"word":"serviette","syllables":2},{"word":"share","syllables":1},{"word":"shave","syllables":1},{"word":"shore","syllables":1},{"word":"sidebar","syllables":2},{"word":"sideboard","syllables":2},{"word":"sidekick","syllables":2},{"word":"silhouette","syllables":3},{"word":"sitemap","syllables":2},{"word":"slide","syllables":1},{"word":"sneak","syllables":1},{"word":"soap","syllables":1},{"word":"softcore","syllables":2},{"word":"software","syllables":2},{"word":"soutanelle","syllables":3},{"word":"speak","syllables":1},{"word":"special","syllables":2},{"word":"spracheinstellung","syllables":5},{"word":"spyware","syllables":2},{"word":"square","syllables":1},{"word":"stagediving","syllables":3},{"word":"stakeholder","syllables":3},{"word":"statement","syllables":2},{"word":"steady","syllables":2},{"word":"steak","syllables":1},{"word":"stealth","syllables":1},{"word":"steam","syllables":1},{"word":"stoned","syllables":1},{"word":"stracciatella","syllables":4},{"word":"stream","syllables":1},{"word":"stride","syllables":1},{"word":"strike","syllables":1},{"word":"suitcase","syllables":2},{"word":"sweepstake","syllables":2},{"word":"t-bone","syllables":2},{"word":"t-shirt","syllables":1},{"word":"tailgate","syllables":2},{"word":"take-off","syllables":2},{"word":"take-over","syllables":3},{"word":"takeaway","syllables":3},{"word":"takeoff","syllables":2},{"word":"takeover","syllables":3},{"word":"throat","syllables":1},{"word":"time-out","syllables":2},{"word":"timelag","syllables":2},{"word":"timeline","syllables":2},{"word":"timesharing","syllables":3},{"word":"toast","syllables":1},{"word":"traubenmaische","syllables":4},{"word":"tristesse","syllables":2},{"word":"usenet","syllables":2},{"word":"varietät","syllables":4},{"word":"varieté","syllables":4},{"word":"vinaigrette","syllables":3},{"word":"vintage","syllables":2},{"word":"violett","syllables":3},{"word":"voice","syllables":1},{"word":"wakeboard","syllables":2},{"word":"washed","syllables":1},{"word":"waveboard","syllables":2},{"word":"wear","syllables":1},{"word":"wear","syllables":1},{"word":"website","syllables":2},{"word":"white","syllables":1},{"word":"widescreen","syllables":2},{"word":"wire","syllables":1},{"word":"yacht","syllables":1},{"word":"yorkshire","syllables":2},{"word":"éprouvette","syllables":3,"notFollowedBy":["n"]},{"word":"galette","syllables":2,"notFollowedBy":["n"]},{"word":"gigue","syllables":1,"notFollowedBy":["n"]},{"word":"groove","syllables":1,"notFollowedBy":["n"]},{"word":"morgue","syllables":1,"notFollowedBy":["n"]},{"word":"paillette","syllables":2,"notFollowedBy":["n"]},{"word":"raclette","syllables":2,"notFollowedBy":["n"]},{"word":"roulette","syllables":2,"notFollowedBy":["n"]},{"word":"spike","syllables":1,"notFollowedBy":["n"]},{"word":"style","syllables":1,"notFollowedBy":["n"]},{"word":"tablette","syllables":2,"notFollowedBy":["n"]},{"word":"grunge","syllables":1,"notFollowedBy":["r"]},{"word":"size","syllables":1,"notFollowedBy":["r"]},{"word":"value","syllables":1,"notFollowedBy":["r"]},{"word":"quiche","syllables":1,"notFollowedBy":["s"]},{"word":"house","syllables":1,"notFollowedBy":["n","s"]},{"word":"sauce","syllables":1,"notFollowedBy":["n","s"]},{"word":"space","syllables":1,"notFollowedBy":["n","s"]},{"word":"airline","syllables":2,"notFollowedBy":["n","r"]},{"word":"autosave","syllables":3,"notFollowedBy":["n","r"]},{"word":"bagpipe","syllables":2,"notFollowedBy":["n","r"]},{"word":"bike","syllables":1,"notFollowedBy":["n","r"]},{"word":"dance","syllables":1,"notFollowedBy":["n","r"]},{"word":"deadline","syllables":2,"notFollowedBy":["n","r"]},{"word":"halfpipe","syllables":2,"notFollowedBy":["n","r"]},{"word":"headline","syllables":2,"notFollowedBy":["n","r"]},{"word":"home","syllables":1,"notFollowedBy":["n","r"]},{"word":"hornpipe","syllables":2,"notFollowedBy":["n","r"]},{"word":"hotline","syllables":2,"notFollowedBy":["n","r"]},{"word":"infoline","syllables":3,"notFollowedBy":["n","r"]},{"word":"inline","syllables":2,"notFollowedBy":["n","r"]},{"word":"kite","syllables":1,"notFollowedBy":["n","r"]},{"word":"rollerblade","syllables":1,"notFollowedBy":["n","r"]},{"word":"score","syllables":1,"notFollowedBy":["n","r"]},{"word":"skyline","syllables":2,"notFollowedBy":["n","r"]},{"word":"slackline","syllables":2,"notFollowedBy":["n","r"]},{"word":"slice","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"snooze","syllables":1,"notFollowedBy":["n","r"]},{"word":"storyline","syllables":3,"notFollowedBy":["n","r"]},{"word":"office","syllables":2,"notFollowedBy":["s","r"]},{"word":"space","syllables":1,"notFollowedBy":["n","s","r"]},{"word":"tease","syllables":1,"notFollowedBy":["n","s","r"]},{"word":"cache","syllables":1,"notFollowedBy":["t"]}],"atBeginningOrEnd":[{"word":"case","syllables":1},{"word":"life","syllables":1},{"word":"teak","syllables":1},{"word":"team","syllables":1},{"word":"creme","syllables":1,"notFollowedBy":["n","r"]},{"word":"crème","syllables":1,"notFollowedBy":["n","r"]},{"word":"drive","syllables":1,"notFollowedBy":["n","r"]},{"word":"skate","syllables":1,"notFollowedBy":["n","r"]},{"word":"update","syllables":2,"notFollowedBy":["n","r"]},{"word":"upgrade","syllables":2,"notFollowedBy":["n","r"]}],"atBeginning":[{"word":"anion","syllables":3},{"word":"facelift","syllables":2},{"word":"jiu","syllables":1},{"word":"pace","syllables":1},{"word":"shake","syllables":1},{"word":"tea","syllables":1},{"word":"trade","syllables":1},{"word":"deal","syllables":1}],"atEnd":[{"word":"face","syllables":1},{"word":"file","syllables":1},{"word":"mousse","syllables":1},{"word":"plate","syllables":1},{"word":"tape","syllables":1},{"word":"byte","syllables":1,"alsoFollowedBy":["s"]},{"word":"cape","syllables":1,"alsoFollowedBy":["s"]},{"word":"five","syllables":1,"alsoFollowedBy":["s"]},{"word":"hype","syllables":1,"alsoFollowedBy":["s"]},{"word":"leak","syllables":1,"alsoFollowedBy":["s"]},{"word":"like","syllables":1,"alsoFollowedBy":["s"]},{"word":"make","syllables":1,"alsoFollowedBy":["s"]},{"word":"phone","syllables":1,"alsoFollowedBy":["s"]},{"word":"rave","syllables":1,"alsoFollowedBy":["s"]},{"word":"regime","syllables":2,"alsoFollowedBy":["s"]},{"word":"statue","syllables":2,"alsoFollowedBy":["s"]},{"word":"store","syllables":1,"alsoFollowedBy":["s"]},{"word":"wave","syllables":1,"alsoFollowedBy":["s"]},{"word":"date","syllables":1,"notFollowedBy":["n"]},{"word":"image","syllables":2,"notFollowedBy":["s"]}]}}}}
 
 /***/ }),
-/* 603 */
+/* 621 */
 /***/ (function(module, exports) {
 
 module.exports = {"vowels":"aeiouy","deviations":{"vowels":[{"fragments":["cial","tia","cius","giu","ion","[^bdnprv]iou","sia$","[^aeiuot]{2,}ed$","[aeiouy][^aeiuoyts]{1,}e$","[a-z]ely$","[cgy]ed$","rved$","[aeiouy][dt]es?$","eau","ieu","oeu","[aeiouy][^aeiouydt]e[sd]?$","[aeouy]rse$","^eye"],"countModifier":-1},{"fragments":["ia","iu","ii","io","[aeio][aeiou]{2}","[aeiou]ing","[^aeiou]ying","ui[aeou]"],"countModifier":1},{"fragments":["^ree[jmnpqrsx]","^reele","^reeva","riet","dien","[aeiouym][bdp]le$","uei","uou","^mc","ism$","[^l]lien","^coa[dglx].","[^gqauieo]ua[^auieo]","dn't$","uity$","ie(r|st)","[aeiouw]y[aeiou]","[^ao]ire[ds]","[^ao]ire$"],"countModifier":1},{"fragments":["eoa","eoo","ioa","ioe","ioo"],"countModifier":1}],"words":{"full":[{"word":"business","syllables":2},{"word":"coheiress","syllables":3},{"word":"colonel","syllables":2},{"word":"heiress","syllables":2},{"word":"i.e","syllables":2},{"word":"shoreline","syllables":2},{"word":"simile","syllables":3},{"word":"unheired","syllables":2},{"word":"wednesday","syllables":2}],"fragments":{"global":[{"word":"coyote","syllables":3},{"word":"graveyard","syllables":2},{"word":"lawyer","syllables":2}]}}}}
 
 /***/ }),
-/* 604 */
+/* 622 */
 /***/ (function(module, exports) {
 
 module.exports = {"vowels":"aáäâeéëêiíïîoóöôuúüûy","deviations":{"vowels":[{"fragments":["ue$","dge$","[tcp]iënt","ace$","[br]each","[ainpr]tiaal","[io]tiaan","gua[yc]","[^i]deal","tive$","load","[^e]coke","[^s]core$"],"countModifier":-1},{"fragments":["aä","aeu","aie","ao","ë","eo","eú","ieau","ea$","ea[^u]","ei[ej]","eu[iu]","ï","iei","ienne","[^l]ieu[^w]","[^l]ieu$","i[auiy]","stion","[^cstx]io","^sion","riè","oö","oa","oeing","oie","[eu]ü","[^q]u[aeèo]","uie","[bhnpr]ieel","[bhnpr]iël"],"countModifier":1},{"fragments":["[aeolu]y[aeéèoóu]"],"countModifier":1}],"words":{"full":[{"word":"bye","syllables":1},{"word":"core","syllables":1},{"word":"cure","syllables":1},{"word":"dei","syllables":2},{"word":"dope","syllables":1},{"word":"dude","syllables":1},{"word":"fake","syllables":1},{"word":"fame","syllables":1},{"word":"five","syllables":1},{"word":"hole","syllables":1},{"word":"least","syllables":1},{"word":"lone","syllables":1},{"word":"minute","syllables":2},{"word":"move","syllables":1},{"word":"nice","syllables":1},{"word":"one","syllables":1},{"word":"state","syllables":1},{"word":"surplace","syllables":2},{"word":"take","syllables":1},{"word":"trade","syllables":1},{"word":"wide","syllables":1}],"fragments":{"global":[{"word":"adieu","syllables":2},{"word":"airline","syllables":2},{"word":"airmiles","syllables":2},{"word":"alien","syllables":3},{"word":"ambient","syllables":3},{"word":"announcement","syllables":3},{"word":"appearance","syllables":3},{"word":"appeasement","syllables":3},{"word":"atheneum","syllables":4},{"word":"awesome","syllables":2},{"word":"baccalaurei","syllables":5},{"word":"baccalaureus","syllables":5},{"word":"baseball","syllables":3},{"word":"basejump","syllables":2},{"word":"banlieue","syllables":3},{"word":"bapao","syllables":2},{"word":"barbecue","syllables":3},{"word":"beamer","syllables":2},{"word":"beanie","syllables":2},{"word":"beat","syllables":1},{"word":"belle","syllables":2},{"word":"bête","syllables":1},{"word":"bingewatch","syllables":2},{"word":"blocnote","syllables":2},{"word":"blue","syllables":1},{"word":"board","syllables":1},{"word":"break","syllables":1},{"word":"broad","syllables":1},{"word":"bulls-eye","syllables":2},{"word":"business","syllables":2},{"word":"byebye","syllables":2},{"word":"cacao","syllables":2},{"word":"caesar","syllables":2},{"word":"camaieu","syllables":3},{"word":"caoutchouc","syllables":2},{"word":"carbolineum","syllables":5},{"word":"catchphrase","syllables":1},{"word":"carrier","syllables":3},{"word":"cheat","syllables":1},{"word":"cheese","syllables":1},{"word":"circonflexe","syllables":3},{"word":"clean","syllables":1},{"word":"cloak","syllables":1},{"word":"cobuying","syllables":3},{"word":"comeback","syllables":2},{"word":"comfortzone","syllables":3},{"word":"communiqué","syllables":4},{"word":"conopeum","syllables":4},{"word":"console","syllables":2},{"word":"corporate","syllables":3},{"word":"coûte","syllables":1},{"word":"creamer","syllables":2},{"word":"crime","syllables":1},{"word":"cruesli","syllables":2},{"word":"deadline","syllables":2},{"word":"deautoriseren","syllables":6},{"word":"deuce","syllables":1},{"word":"deum","syllables":2},{"word":"dirndl","syllables":2},{"word":"dread","syllables":2},{"word":"dreamteam","syllables":2},{"word":"drone","syllables":1},{"word":"enquête","syllables":3},{"word":"escape","syllables":2},{"word":"exposure","syllables":3},{"word":"extranei","syllables":4},{"word":"extraneus","syllables":4},{"word":"eyecatcher","syllables":3},{"word":"eyeliner","syllables":3},{"word":"eyeopener","syllables":4},{"word":"eyetracker","syllables":3},{"word":"eyetracking","syllables":3},{"word":"fairtrade","syllables":2},{"word":"fauteuil","syllables":2},{"word":"feature","syllables":2},{"word":"feuilletee","syllables":3},{"word":"feuilleton","syllables":3},{"word":"fisheye","syllables":2},{"word":"fineliner","syllables":3},{"word":"finetunen","syllables":3},{"word":"forehand","syllables":2},{"word":"freak","syllables":1},{"word":"fusioneren","syllables":4},{"word":"gayparade","syllables":3},{"word":"gaypride","syllables":2},{"word":"goal","syllables":1},{"word":"grapefruit","syllables":2},{"word":"gruyère","syllables":3},{"word":"guele","syllables":1},{"word":"guerrilla","syllables":3},{"word":"guest","syllables":1},{"word":"hardware","syllables":2},{"word":"haute","syllables":1},{"word":"healing","syllables":2},{"word":"heater","syllables":2},{"word":"heavy","syllables":2},{"word":"hoax","syllables":1},{"word":"hotline","syllables":2},{"word":"idee-fixe","syllables":3},{"word":"inclusive","syllables":3},{"word":"inline","syllables":2},{"word":"intake","syllables":2},{"word":"intensive","syllables":3},{"word":"jeans","syllables":1},{"word":"Jones","syllables":1},{"word":"jubileum","syllables":4},{"word":"kalfsribeye","syllables":3},{"word":"kraaiennest","syllables":3},{"word":"lastminute","syllables":3},{"word":"learning","syllables":2},{"word":"league","syllables":1},{"word":"line-up","syllables":2},{"word":"linoleum","syllables":4},{"word":"load","syllables":1},{"word":"loafer","syllables":2},{"word":"longread","syllables":2},{"word":"lookalike","syllables":3},{"word":"louis","syllables":3},{"word":"lyceum","syllables":3},{"word":"magazine","syllables":3},{"word":"mainstream","syllables":2},{"word":"make-over","syllables":3},{"word":"make-up","syllables":2},{"word":"malware","syllables":2},{"word":"marmoleum","syllables":4},{"word":"mausoleum","syllables":4},{"word":"medeauteur","syllables":4},{"word":"midlifecrisis","syllables":4},{"word":"migraineaura","syllables":5},{"word":"milkshake","syllables":2},{"word":"millefeuille","syllables":4},{"word":"mixed","syllables":1},{"word":"muesli","syllables":2},{"word":"museum","syllables":3},{"word":"must-have","syllables":2},{"word":"must-read","syllables":2},{"word":"notebook","syllables":2},{"word":"nonsense","syllables":2},{"word":"nowhere","syllables":2},{"word":"nurture","syllables":2},{"word":"offline","syllables":2},{"word":"oneliner","syllables":3},{"word":"onesie","syllables":2},{"word":"online","syllables":2},{"word":"opinion","syllables":3},{"word":"paella","syllables":3},{"word":"pacemaker","syllables":3},{"word":"panache","syllables":2},{"word":"papegaaienneus","syllables":5},{"word":"passe-partout","syllables":3},{"word":"peanuts","syllables":2},{"word":"perigeum","syllables":4},{"word":"perineum","syllables":4},{"word":"perpetuum","syllables":4},{"word":"petroleum","syllables":4},{"word":"phone","syllables":3},{"word":"picture","syllables":2},{"word":"placemat","syllables":2},{"word":"porte-manteau","syllables":3},{"word":"portefeuille","syllables":4},{"word":"presse-papier","syllables":3},{"word":"primetime","syllables":2},{"word":"queen","syllables":1},{"word":"questionnaire","syllables":3},{"word":"queue","syllables":1},{"word":"reader","syllables":2},{"word":"reality","syllables":3},{"word":"reallife","syllables":2},{"word":"remake","syllables":2},{"word":"repeat","syllables":2},{"word":"repertoire","syllables":3},{"word":"research","syllables":2},{"word":"reverence","syllables":3},{"word":"ribeye","syllables":2},{"word":"ringtone","syllables":3},{"word":"road","syllables":1},{"word":"roaming","syllables":2},{"word":"sciencefiction","syllables":4},{"word":"selfmade","syllables":2},{"word":"sidekick","syllables":2},{"word":"sightseeing","syllables":3},{"word":"skyline","syllables":2},{"word":"smile","syllables":1},{"word":"sneaky","syllables":2},{"word":"software","syllables":2},{"word":"sparerib","syllables":2},{"word":"speaker","syllables":2},{"word":"spread","syllables":1},{"word":"statement","syllables":2},{"word":"steak","syllables":1},{"word":"steeplechase","syllables":3},{"word":"stonewash","syllables":2},{"word":"store","syllables":1},{"word":"streaken","syllables":2},{"word":"stream","syllables":1},{"word":"streetware","syllables":1},{"word":"supersoaker","syllables":4},{"word":"surprise-party","syllables":4},{"word":"sweater","syllables":2},{"word":"teaser","syllables":2},{"word":"tenue","syllables":2},{"word":"template","syllables":2},{"word":"timeline","syllables":2},{"word":"tissue","syllables":2},{"word":"toast","syllables":1},{"word":"tête-à-tête","syllables":3},{"word":"typecast","syllables":2},{"word":"unique","syllables":2},{"word":"ureum","syllables":3},{"word":"vibe","syllables":1},{"word":"vieux","syllables":1},{"word":"ville","syllables":1},{"word":"vintage","syllables":2},{"word":"wandelyup","syllables":3},{"word":"wiseguy","syllables":2},{"word":"wake-up-call","syllables":3},{"word":"webcare","syllables":2},{"word":"winegum","syllables":2},{"word":"base","syllables":1,"notFollowedBy":["e","n","r"]},{"word":"game","syllables":1,"notFollowedBy":["n","l","r"]},{"word":"style","syllables":1,"notFollowedBy":["n","s"]},{"word":"douche","syllables":1,"notFollowedBy":["n","s"]},{"word":"space","syllables":1,"notFollowedBy":["n","s"]},{"word":"striptease","syllables":2,"notFollowedBy":["n","s"]},{"word":"jive","syllables":1,"notFollowedBy":["n","r"]},{"word":"keynote","syllables":2,"notFollowedBy":["n","r"]},{"word":"mountainbike","syllables":3,"notFollowedBy":["n","r"]},{"word":"face","syllables":1,"notFollowedBy":["n","t"]},{"word":"challenge","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"cruise","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"house","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"dance","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"franchise","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"freelance","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"lease","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"linedance","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"lounge","syllables":1,"notFollowedBy":["n","r","s"]},{"word":"merchandise","syllables":3,"notFollowedBy":["n","r","s"]},{"word":"performance","syllables":3,"notFollowedBy":["n","r","s"]},{"word":"release","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"resource","syllables":2,"notFollowedBy":["n","r","s"]},{"word":"cache","syllables":1,"notFollowedBy":["c","l","n","t","x"]},{"word":"office","syllables":2,"notFollowedBy":["r","s"]},{"word":"close","syllables":1,"notFollowedBy":["r","t"]}],"atBeginningOrEnd":[{"word":"byte","syllables":1},{"word":"cake","syllables":1},{"word":"care","syllables":1},{"word":"coach","syllables":1},{"word":"coat","syllables":1},{"word":"earl","syllables":1},{"word":"foam","syllables":1},{"word":"gate","syllables":1},{"word":"head","syllables":1},{"word":"home","syllables":1},{"word":"live","syllables":1},{"word":"safe","syllables":1},{"word":"site","syllables":1},{"word":"soap","syllables":1},{"word":"teak","syllables":1},{"word":"team","syllables":1},{"word":"wave","syllables":1},{"word":"brace","syllables":1,"notFollowedBy":["s"]},{"word":"case","syllables":1,"notFollowedBy":["s"]},{"word":"fleece","syllables":1,"notFollowedBy":["s"]},{"word":"service","syllables":2,"notFollowedBy":["s"]},{"word":"voice","syllables":1,"notFollowedBy":["s"]},{"word":"kite","syllables":1,"notFollowedBy":["n","r"]},{"word":"skate","syllables":1,"notFollowedBy":["n","r"]},{"word":"race","syllables":1,"notFollowedBy":["n","r","s"]}],"atBeginning":[{"word":"coke","syllables":1},{"word":"deal","syllables":1},{"word":"image","syllables":2,"notFollowedBy":["s"]}],"atEnd":[{"word":"force","syllables":1},{"word":"tea","syllables":1},{"word":"time","syllables":1},{"word":"date","syllables":1,"alsoFollowedBy":["s"]},{"word":"hype","syllables":1,"alsoFollowedBy":["s"]},{"word":"quote","syllables":1,"alsoFollowedBy":["s"]},{"word":"tape","syllables":1,"alsoFollowedBy":["s"]},{"word":"upgrade","syllables":2,"alsoFollowedBy":["s"]}]}}}}
 
 /***/ }),
-/* 605 */
+/* 623 */
 /***/ (function(module, exports) {
 
 module.exports = {"vowels":"aeiouyàèéìîïòù","deviations":{"vowels":[{"fragments":["a[íúeo]","e[íúao]","o[íúaeè]","í[aeo]","ú[aeo]","ai[aeou]","àii","aiì","au[eé]","ei[aàeèé]","èia","ia[èiì]","iài","oi[aàeèo]","òia","óio","uí","ui[aàó]","ùio","ouï","coo[cmnpr]","lcool","coòf","[aeuioìùèéàò]y[aeuioíìùèàó]","ìa$","èa$"],"countModifier":1},{"fragments":["aoi","aoì","ioe","riae","ïa$"],"countModifier":1}],"words":{"full":[{"word":"via","syllables":2},{"word":"guaime","syllables":3},{"word":"guaina","syllables":3},{"word":"coke","syllables":1},{"word":"frame","syllables":1},{"word":"goal","syllables":1},{"word":"live","syllables":1},{"word":"mouse","syllables":1},{"word":"coon","syllables":1}],"fragments":{"global":[{"word":"mayoyào","syllables":4},{"word":"eye-liner","syllables":3},{"word":"scooner","syllables":2},{"word":"cocoon","syllables":2},{"word":"silhouette","syllables":4},{"word":"circuíto","syllables":4},{"word":"cruento","syllables":3},{"word":"cruènto","syllables":3},{"word":"rituale","syllables":4},{"word":"duello","syllables":3},{"word":"fuorviante","syllables":4},{"word":"league","syllables":1},{"word":"leader","syllables":2},{"word":"appeal","syllables":2},{"word":"backstage","syllables":2},{"word":"badge","syllables":1},{"word":"baseball","syllables":2},{"word":"beauty","syllables":2},{"word":"bondage","syllables":2,"notFollowedBy":["s"]},{"word":"break","syllables":1},{"word":"brokerage","syllables":3},{"word":"business","syllables":2},{"word":"cache","syllables":2,"notFollowedBy":["s","r"]},{"word":"cashmere","syllables":2},{"word":"challenge","syllables":2,"notFollowedBy":["s","r"]},{"word":"charleston","syllables":2},{"word":"cheap","syllables":1},{"word":"cottage","syllables":2,"notFollowedBy":["s"]},{"word":"cruise","syllables":1,"notFollowedBy":["s","r"]},{"word":"device","syllables":2,"notFollowedBy":["s"]},{"word":"downgrade","syllables":2,"notFollowedBy":["d"]},{"word":"download","syllables":2},{"word":"drive","syllables":1,"notFollowedBy":["r"]},{"word":"endorsement","syllables":3},{"word":"drive","syllables":1,"notFollowedBy":["r"]},{"word":"executive","syllables":4},{"word":"firmware","syllables":2},{"word":"fobia","syllables":3},{"word":"float","syllables":1},{"word":"freak","syllables":1},{"word":"game","syllables":1,"notFollowedBy":["r"]},{"word":"guideline","syllables":2},{"word":"hardware","syllables":2},{"word":"homeless","syllables":2},{"word":"hardware","syllables":1,"notFollowedBy":["r"]},{"word":"hardware","syllables":1,"notFollowedBy":["r"]},{"word":"hardware","syllables":1,"notFollowedBy":["r"]},{"word":"hospice","syllables":2,"notFollowedBy":["s"]},{"word":"impeachment","syllables":3},{"word":"jeans","syllables":1},{"word":"jukebox","syllables":2},{"word":"leasing","syllables":2},{"word":"lease","syllables":1,"notFollowedBy":["s"]},{"word":"lounge","syllables":1,"notFollowedBy":["r","s"]},{"word":"magazine","syllables":3},{"word":"notebook","syllables":2},{"word":"office","syllables":2,"notFollowedBy":["r","s"]},{"word":"online","syllables":2},{"word":"offline","syllables":2},{"word":"overcoat","syllables":3},{"word":"offside","syllables":2,"notFollowedBy":["r"]},{"word":"overdrive","syllables":3},{"word":"oversize","syllables":3},{"word":"pacemaker","syllables":3},{"word":"package","syllables":2,"notFollowedBy":["r","s"]},{"word":"pancake","syllables":2},{"word":"performance","syllables":3},{"word":"premium","syllables":3},{"word":"ragtime","syllables":2},{"word":"reading","syllables":2},{"word":"residence","syllables":3,"notFollowedBy":["s"]},{"word":"roaming","syllables":2},{"word":"rollerblade","syllables":3,"notFollowedBy":["r"]},{"word":"royalty","syllables":3},{"word":"shake","syllables":1,"notFollowedBy":["r"]},{"word":"shale","syllables":1},{"word":"shampooing","syllables":3},{"word":"shareware","syllables":2},{"word":"shearling","syllables":2},{"word":"sidecar","syllables":2},{"word":"hardware","syllables":1,"notFollowedBy":["r"]},{"word":"skate","syllables":1,"notFollowedBy":["n","r"]},{"word":"trial","syllables":2},{"word":"toast","syllables":1},{"word":"texture","syllables":2},{"word":"testimonial","syllables":5},{"word":"teaser","syllables":2},{"word":"sweater","syllables":2},{"word":"suspense","syllables":2,"notFollowedBy":["r"]},{"word":"subroutine","syllables":3},{"word":"steadicam","syllables":3},{"word":"spread","syllables":1},{"word":"speaker","syllables":2},{"word":"board","syllables":1},{"word":"sneaker","syllables":2},{"word":"smartphone","syllables":2},{"word":"slide","syllables":1,"notFollowedBy":["r"]},{"word":"skyline","syllables":2},{"word":"skinhead","syllables":2},{"word":"update","syllables":2,"notFollowedBy":["r"]},{"word":"upgrade","syllables":2,"notFollowedBy":["r"]},{"word":"upload","syllables":2},{"word":"vintage","syllables":2},{"word":"wakeboard","syllables":2},{"word":"website","syllables":2},{"word":"welfare","syllables":2},{"word":"yeah","syllables":1},{"word":"yearling","syllables":2}],"atEnd":[{"word":"byte","syllables":1,"alsoFollowedBy":["s"]},{"word":"bite","syllables":1,"alsoFollowedBy":["s"]},{"word":"beat","syllables":1,"alsoFollowedBy":["s"]},{"word":"coach","syllables":1},{"word":"line","syllables":1,"alsoFollowedBy":["s"]}],"atBeginning":[{"word":"cheese","syllables":1},{"word":"head","syllables":1},{"word":"streak","syllables":1}],"atBeginningOrEnd":[{"word":"team","syllables":1},{"word":"stream","syllables":1}]}}}}
 
 /***/ }),
-/* 606 */
+/* 624 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIteratee = __webpack_require__(45),
+var baseIteratee = __webpack_require__(47),
     isArrayLike = __webpack_require__(22),
-    keys = __webpack_require__(39);
+    keys = __webpack_require__(33);
 
 /**
  * Creates a `_.find` or `_.findLast` function.
@@ -37480,7 +38006,7 @@ function createFind(findIndexFunc) {
 module.exports = createFind;
 
 /***/ }),
-/* 607 */
+/* 625 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37512,13 +38038,13 @@ function baseSum(array, iteratee) {
 module.exports = baseSum;
 
 /***/ }),
-/* 608 */
+/* 626 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SyllableCountStep = __webpack_require__(609);
+var SyllableCountStep = __webpack_require__(627);
 var isUndefined = __webpack_require__(3);
 var forEach = __webpack_require__(2);
 /**
@@ -37570,14 +38096,14 @@ module.exports = SyllableCountIterator;
 //# sourceMappingURL=syllableCountIterator.js.map
 
 /***/ }),
-/* 609 */
+/* 627 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var isUndefined = __webpack_require__(3);
-var arrayToRegex = __webpack_require__(79);
+var arrayToRegex = __webpack_require__(87);
 /**
  * Constructs a language syllable regex that contains a regex for matching syllable exclusion.
  *
@@ -37638,14 +38164,14 @@ module.exports = SyllableCountStep;
 //# sourceMappingURL=syllableCountStep.js.map
 
 /***/ }),
-/* 610 */
+/* 628 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var isUndefined = __webpack_require__(3);
-var pick = __webpack_require__(611);
+var pick = __webpack_require__(629);
 /**
  * Represents a partial deviation when counting syllables
  *
@@ -37740,14 +38266,14 @@ module.exports = DeviationFragment;
 //# sourceMappingURL=DeviationFragment.js.map
 
 /***/ }),
-/* 611 */
+/* 629 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var basePick = __webpack_require__(612),
-    flatRest = __webpack_require__(126);
+var basePick = __webpack_require__(630),
+    flatRest = __webpack_require__(139);
 
 /**
  * Creates an object composed of the picked `object` properties.
@@ -37773,14 +38299,14 @@ var pick = flatRest(function (object, paths) {
 module.exports = pick;
 
 /***/ }),
-/* 612 */
+/* 630 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var basePickBy = __webpack_require__(613),
-    hasIn = __webpack_require__(351);
+var basePickBy = __webpack_require__(631),
+    hasIn = __webpack_require__(388);
 
 /**
  * The base implementation of `_.pick` without support for individual
@@ -37800,15 +38326,15 @@ function basePick(object, paths) {
 module.exports = basePick;
 
 /***/ }),
-/* 613 */
+/* 631 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseGet = __webpack_require__(71),
-    baseSet = __webpack_require__(614),
-    castPath = __webpack_require__(44);
+var baseGet = __webpack_require__(78),
+    baseSet = __webpack_require__(632),
+    castPath = __webpack_require__(46);
 
 /**
  * The base implementation of  `_.pickBy` without support for iteratee shorthands.
@@ -37838,17 +38364,17 @@ function basePickBy(object, paths, predicate) {
 module.exports = basePickBy;
 
 /***/ }),
-/* 614 */
+/* 632 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assignValue = __webpack_require__(88),
-    castPath = __webpack_require__(44),
-    isIndex = __webpack_require__(84),
-    isObject = __webpack_require__(7),
-    toKey = __webpack_require__(47);
+var assignValue = __webpack_require__(99),
+    castPath = __webpack_require__(46),
+    isIndex = __webpack_require__(75),
+    isObject = __webpack_require__(8),
+    toKey = __webpack_require__(51);
 
 /**
  * The base implementation of `_.set`.
@@ -37891,7 +38417,7 @@ function baseSet(object, path, value, customizer) {
 module.exports = baseSet;
 
 /***/ }),
-/* 615 */
+/* 633 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37909,7 +38435,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=metaDescriptionLength.js.map
 
 /***/ }),
-/* 616 */
+/* 634 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37935,17 +38461,17 @@ module.exports = function (text, regexString) {
 //# sourceMappingURL=matchStringWithRegex.js.map
 
 /***/ }),
-/* 617 */
+/* 635 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module researches/imageAltTags */
 
-var imageInText = __webpack_require__(386);
-var imageAlttag = __webpack_require__(618);
-var wordMatch = __webpack_require__(78);
-var escapeRegExp = __webpack_require__(26);
+var imageInText = __webpack_require__(415);
+var imageAlttag = __webpack_require__(636);
+var wordMatch = __webpack_require__(86);
+var escapeRegExp = __webpack_require__(24);
 /**
  * Matches the alt-tags in the images found in the text.
  * Returns an object with the totals and different alt-tags.
@@ -38000,14 +38526,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=imageAltTags.js.map
 
 /***/ }),
-/* 618 */
+/* 636 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/getAlttagContent */
 
-var stripSpaces = __webpack_require__(21);
+var stripSpaces = __webpack_require__(19);
 var regexAltTag = /alt=(['"])(.*?)\1/i;
 /**
  * Checks for an alttag in the image and returns its content
@@ -38029,14 +38555,14 @@ module.exports = function (text) {
 //# sourceMappingURL=getAlttagContent.js.map
 
 /***/ }),
-/* 619 */
+/* 637 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var countWords = __webpack_require__(53);
-var sanitizeString = __webpack_require__(380);
+var countWords = __webpack_require__(56);
+var sanitizeString = __webpack_require__(250);
 /**
  * Determines the length in words of a the keyphrase, the keyword is a keyphrase if it is more than one word.
  *
@@ -38052,14 +38578,14 @@ module.exports = keyphraseLengthResearch;
 //# sourceMappingURL=keyphraseLength.js.map
 
 /***/ }),
-/* 620 */
+/* 638 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var matchTextWithWord = __webpack_require__(78);
-var escapeRegExp = __webpack_require__(26);
+var matchTextWithWord = __webpack_require__(86);
+var escapeRegExp = __webpack_require__(24);
 /**
  * Matches the keyword in the description if a description and keyword are available.
  * default is -1 if no description and/or keyword is specified
@@ -38078,15 +38604,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=metaDescriptionKeyword.js.map
 
 /***/ }),
-/* 621 */
+/* 639 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module researches/countKeywordInUrl */
 
-var wordMatch = __webpack_require__(78);
-var escapeRegExp = __webpack_require__(26);
+var wordMatch = __webpack_require__(86);
+var escapeRegExp = __webpack_require__(24);
 /**
  * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
  *
@@ -38102,18 +38628,18 @@ module.exports = function (paper) {
 //# sourceMappingURL=keywordCountInUrl.js.map
 
 /***/ }),
-/* 622 */
+/* 640 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module analyses/findKeywordInFirstParagraph */
 
-var matchParagraphs = __webpack_require__(387);
-var wordMatch = __webpack_require__(78);
-var escapeRegExp = __webpack_require__(26);
-var reject = __webpack_require__(623);
-var isEmpty = __webpack_require__(13);
+var matchParagraphs = __webpack_require__(416);
+var wordMatch = __webpack_require__(86);
+var escapeRegExp = __webpack_require__(24);
+var reject = __webpack_require__(641);
+var isEmpty = __webpack_require__(15);
 /**
  * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
  * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
@@ -38132,17 +38658,17 @@ module.exports = function (paper) {
 //# sourceMappingURL=findKeywordInFirstParagraph.js.map
 
 /***/ }),
-/* 623 */
+/* 641 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayFilter = __webpack_require__(122),
-    baseFilter = __webpack_require__(355),
-    baseIteratee = __webpack_require__(45),
-    isArray = __webpack_require__(5),
-    negate = __webpack_require__(356);
+var arrayFilter = __webpack_require__(136),
+    baseFilter = __webpack_require__(391),
+    baseIteratee = __webpack_require__(47),
+    isArray = __webpack_require__(4),
+    negate = __webpack_require__(392);
 
 /**
  * The opposite of `_.filter`; this method returns the elements of `collection`
@@ -38186,7 +38712,7 @@ function reject(collection, predicate) {
 module.exports = reject;
 
 /***/ }),
-/* 624 */
+/* 642 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38207,16 +38733,16 @@ module.exports = function (paper) {
 //# sourceMappingURL=pageTitleWidth.js.map
 
 /***/ }),
-/* 625 */
+/* 643 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWords = __webpack_require__(58);
-var countSyllables = __webpack_require__(381);
-var getSentences = __webpack_require__(52);
-var map = __webpack_require__(8);
+var getWords = __webpack_require__(61);
+var countSyllables = __webpack_require__(412);
+var getSentences = __webpack_require__(55);
+var map = __webpack_require__(9);
 var forEach = __webpack_require__(2);
 /**
  * Gets the complexity per word, along with the index for the sentence.
@@ -38253,15 +38779,15 @@ module.exports = function (paper) {
 //# sourceMappingURL=getWordComplexity.js.map
 
 /***/ }),
-/* 626 */
+/* 644 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var countWords = __webpack_require__(53);
-var matchParagraphs = __webpack_require__(387);
-var filter = __webpack_require__(16);
+var countWords = __webpack_require__(56);
+var matchParagraphs = __webpack_require__(416);
+var filter = __webpack_require__(17);
 /**
  * Gets all paragraphs and their word counts from the text.
  *
@@ -38286,14 +38812,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=getParagraphLength.js.map
 
 /***/ }),
-/* 627 */
+/* 645 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getSentences = __webpack_require__(52);
-var sentencesLength = __webpack_require__(388);
+var getSentences = __webpack_require__(55);
+var sentencesLength = __webpack_require__(417);
 /**
  * Count sentences in the text.
  * @param {Paper} paper The Paper object to get text from.
@@ -38307,14 +38833,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=countSentencesFromText.js.map
 
 /***/ }),
-/* 628 */
+/* 646 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getSentences = __webpack_require__(52);
-var sentencesLength = __webpack_require__(388);
+var getSentences = __webpack_require__(55);
+var sentencesLength = __webpack_require__(417);
 /**
  * Counts sentences in the description..
  * @param {Paper} paper The Paper object to get description from.
@@ -38328,14 +38854,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=countSentencesFromDescription.js.map
 
 /***/ }),
-/* 629 */
+/* 647 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getSubheadingTexts = __webpack_require__(630);
-var countWords = __webpack_require__(53);
+var getSubheadingTexts = __webpack_require__(648);
+var countWords = __webpack_require__(56);
 var forEach = __webpack_require__(2);
 /**
  * Gets the subheadings from the text and returns the length of these subheading in an array.
@@ -38358,7 +38884,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=getSubheadingTextLengths.js.map
 
 /***/ }),
-/* 630 */
+/* 648 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38391,20 +38917,20 @@ module.exports = function (text) {
 //# sourceMappingURL=getSubheadingTexts.js.map
 
 /***/ }),
-/* 631 */
+/* 649 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createRegexFromDoubleArray = __webpack_require__(632);
-var getSentences = __webpack_require__(52);
-var normalizeSingleQuotes = __webpack_require__(106).normalizeSingle;
-var getTransitionWords = __webpack_require__(633);
-var matchWordInSentence = __webpack_require__(247).isWordInSentence;
+var createRegexFromDoubleArray = __webpack_require__(650);
+var getSentences = __webpack_require__(55);
+var normalizeSingleQuotes = __webpack_require__(117).normalizeSingle;
+var getTransitionWords = __webpack_require__(651);
+var matchWordInSentence = __webpack_require__(270).isWordInSentence;
 var forEach = __webpack_require__(2);
-var filter = __webpack_require__(16);
-var memoize = __webpack_require__(32);
+var filter = __webpack_require__(17);
+var memoize = __webpack_require__(27);
 var createRegexFromDoubleArrayCached = memoize(createRegexFromDoubleArray);
 /**
  * Matches the sentence against two part transition words.
@@ -38484,14 +39010,14 @@ module.exports = function (paper) {
 //# sourceMappingURL=findTransitionWords.js.map
 
 /***/ }),
-/* 632 */
+/* 650 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 /** @module stringProcessing/createRegexFromDoubleArray */
 
-var addWordBoundary = __webpack_require__(107);
+var addWordBoundary = __webpack_require__(83);
 /**
  * Creates a regex string of combined strings from the input array.
  * @param {array} array The array containing the various parts of a transition word combination.
@@ -38519,27 +39045,27 @@ module.exports = function (array) {
 //# sourceMappingURL=createRegexFromDoubleArray.js.map
 
 /***/ }),
-/* 633 */
+/* 651 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var transitionWordsEnglish = __webpack_require__(389)().allWords;
-var twoPartTransitionWordsEnglish = __webpack_require__(634);
-var transitionWordsGerman = __webpack_require__(390)().allWords;
-var twoPartTransitionWordsGerman = __webpack_require__(635);
-var transitionWordsFrench = __webpack_require__(391)().allWords;
-var twoPartTransitionWordsFrench = __webpack_require__(636);
-var transitionWordsSpanish = __webpack_require__(392)().allWords;
-var twoPartTransitionWordsSpanish = __webpack_require__(637);
-var transitionWordsDutch = __webpack_require__(393)().allWords;
-var twoPartTransitionWordsDutch = __webpack_require__(638);
-var transitionWordsItalian = __webpack_require__(394)().allWords;
-var twoPartTransitionWordsItalian = __webpack_require__(639);
-var transitionWordsPortuguese = __webpack_require__(395)().allWords;
-var twoPartTransitionWordsPortuguese = __webpack_require__(640);
-var getLanguage = __webpack_require__(46);
+var transitionWordsEnglish = __webpack_require__(418)().allWords;
+var twoPartTransitionWordsEnglish = __webpack_require__(652);
+var transitionWordsGerman = __webpack_require__(419)().allWords;
+var twoPartTransitionWordsGerman = __webpack_require__(653);
+var transitionWordsFrench = __webpack_require__(420)().allWords;
+var twoPartTransitionWordsFrench = __webpack_require__(654);
+var transitionWordsSpanish = __webpack_require__(421)().allWords;
+var twoPartTransitionWordsSpanish = __webpack_require__(655);
+var transitionWordsDutch = __webpack_require__(422)().allWords;
+var twoPartTransitionWordsDutch = __webpack_require__(656);
+var transitionWordsItalian = __webpack_require__(423)().allWords;
+var twoPartTransitionWordsItalian = __webpack_require__(657);
+var transitionWordsPortuguese = __webpack_require__(424)().allWords;
+var twoPartTransitionWordsPortuguese = __webpack_require__(658);
+var getLanguage = __webpack_require__(35);
 module.exports = function (locale) {
     switch (getLanguage(locale)) {
         case "de":
@@ -38584,7 +39110,7 @@ module.exports = function (locale) {
 //# sourceMappingURL=getTransitionWords.js.map
 
 /***/ }),
-/* 634 */
+/* 652 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38602,7 +39128,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 635 */
+/* 653 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38620,7 +39146,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 636 */
+/* 654 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38638,7 +39164,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 637 */
+/* 655 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38656,7 +39182,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 638 */
+/* 656 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38673,7 +39199,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 639 */
+/* 657 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38690,7 +39216,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 640 */
+/* 658 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38707,7 +39233,7 @@ module.exports = function () {
 //# sourceMappingURL=twoPartTransitionWords.js.map
 
 /***/ }),
-/* 641 */
+/* 659 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38724,64 +39250,13 @@ module.exports = function () {
 //# sourceMappingURL=wordBoundaries.js.map
 
 /***/ }),
-/* 642 */
+/* 660 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-/**
- * The base implementation of `_.isNaN` without support for number objects.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
- */
-function baseIsNaN(value) {
-  return value !== value;
-}
-
-module.exports = baseIsNaN;
-
-/***/ }),
-/* 643 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A specialized version of `_.indexOf` which performs strict equality
- * comparisons of values, i.e. `===`.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} value The value to search for.
- * @param {number} fromIndex The index to search from.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function strictIndexOf(array, value, fromIndex) {
-  var index = fromIndex - 1,
-      length = array.length;
-
-  while (++index < length) {
-    if (array[index] === value) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-module.exports = strictIndexOf;
-
-/***/ }),
-/* 644 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var arrayMap = __webpack_require__(29);
+var arrayMap = __webpack_require__(31);
 
 /**
  * The base implementation of `_.values` and `_.valuesIn` which creates an
@@ -38802,22 +39277,22 @@ function baseValues(object, props) {
 module.exports = baseValues;
 
 /***/ }),
-/* 645 */
+/* 661 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getSentences = __webpack_require__(52);
+var getSentences = __webpack_require__(55);
 var stripHTMLTags = __webpack_require__(20).stripFullTags;
-var getLanguage = __webpack_require__(46);
-var Sentence = __webpack_require__(646);
+var getLanguage = __webpack_require__(35);
+var Sentence = __webpack_require__(662);
 // Imports used for English, French and Spanish.
-var getSentencePartsDefault = __webpack_require__(647);
-var determinePassivesDefault = __webpack_require__(669);
+var getSentencePartsDefault = __webpack_require__(663);
+var determinePassivesDefault = __webpack_require__(685);
 // Imports used for German.
-var getSentencePartsGerman = __webpack_require__(670);
-var determinePassivesGerman = __webpack_require__(677);
+var getSentencePartsGerman = __webpack_require__(686);
+var determinePassivesGerman = __webpack_require__(693);
 var forEach = __webpack_require__(2);
 /**
  * Gets the sentence parts from a sentence by determining sentence breakers.
@@ -38907,7 +39382,7 @@ module.exports = function (paper) {
 //# sourceMappingURL=getPassiveVoice.js.map
 
 /***/ }),
-/* 646 */
+/* 662 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38951,38 +39426,38 @@ module.exports = Sentence;
 //# sourceMappingURL=Sentence.js.map
 
 /***/ }),
-/* 647 */
+/* 663 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var indices = __webpack_require__(250);
+var indices = __webpack_require__(272);
 var getIndicesOfList = indices.getIndicesByWordList;
 var filterIndices = indices.filterIndices;
 var sortIndices = indices.sortIndices;
-var stripSpaces = __webpack_require__(21);
-var normalizeSingleQuotes = __webpack_require__(106).normalizeSingle;
-var arrayToRegex = __webpack_require__(79);
-var getWordIndices = __webpack_require__(251);
-var includesIndex = __webpack_require__(397);
-var followsIndex = __webpack_require__(648);
-var filter = __webpack_require__(16);
+var stripSpaces = __webpack_require__(19);
+var normalizeSingleQuotes = __webpack_require__(117).normalizeSingle;
+var arrayToRegex = __webpack_require__(87);
+var getWordIndices = __webpack_require__(273);
+var includesIndex = __webpack_require__(426);
+var followsIndex = __webpack_require__(664);
+var filter = __webpack_require__(17);
 var isUndefined = __webpack_require__(3);
-var includes = __webpack_require__(27);
-var map = __webpack_require__(8);
+var includes = __webpack_require__(29);
+var map = __webpack_require__(9);
 var forEach = __webpack_require__(2);
 // English-specific variables and imports.
-var SentencePartEnglish = __webpack_require__(649);
-var auxiliariesEnglish = __webpack_require__(258)().all;
-var stopwordsEnglish = __webpack_require__(662)();
+var SentencePartEnglish = __webpack_require__(665);
+var auxiliariesEnglish = __webpack_require__(280)().all;
+var stopwordsEnglish = __webpack_require__(678)();
 var stopCharacterRegexEnglish = /([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
 var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var ingExclusionArray = ["king", "cling", "ring", "being", "thing", "something", "anything"];
 // French-specific variables and imports.
-var SentencePartFrench = __webpack_require__(663);
-var auxiliariesFrench = __webpack_require__(664)();
-var stopwordsFrench = __webpack_require__(665)();
+var SentencePartFrench = __webpack_require__(679);
+var auxiliariesFrench = __webpack_require__(680)();
+var stopwordsFrench = __webpack_require__(681)();
 var stopCharacterRegexFrench = /(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
 var followingAuxiliaryExceptionWordsFrench = ["le", "la", "les", "une", "l'un", "l'une"];
 var reflexivePronounsFrench = ["se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous"];
@@ -38990,9 +39465,9 @@ var directPrecedenceExceptionRegex = arrayToRegex(reflexivePronounsFrench);
 var elisionAuxiliaryExceptionWords = ["c'", "s'", "peut-"];
 var elisionAuxiliaryExceptionRegex = arrayToRegex(elisionAuxiliaryExceptionWords, true);
 // Spanish-specific variables and imports.
-var SentencePartSpanish = __webpack_require__(666);
-var auxiliariesSpanish = __webpack_require__(667)();
-var stopwordsSpanish = __webpack_require__(668)();
+var SentencePartSpanish = __webpack_require__(682);
+var auxiliariesSpanish = __webpack_require__(683)();
+var stopwordsSpanish = __webpack_require__(684)();
 var stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
 var followingAuxiliaryExceptionWordsSpanish = ["el", "la", "los", "las", "una"];
 // The language-specific variables used to split sentences into sentence parts.
@@ -39234,15 +39709,15 @@ module.exports = function (sentence, language) {
 //# sourceMappingURL=getSentenceParts.js.map
 
 /***/ }),
-/* 648 */
+/* 664 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isEmpty = __webpack_require__(13);
+var isEmpty = __webpack_require__(15);
 var forEach = __webpack_require__(2);
-var includes = __webpack_require__(27);
+var includes = __webpack_require__(29);
 /**
  * Checks whether a given word is followed by any word from a given list.
  *
@@ -39267,14 +39742,14 @@ module.exports = function (followingWords, match) {
 //# sourceMappingURL=followsIndex.js.map
 
 /***/ }),
-/* 649 */
+/* 665 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SentencePart = __webpack_require__(142);
-var getParticiples = __webpack_require__(143);
+var SentencePart = __webpack_require__(156);
+var getParticiples = __webpack_require__(157);
 /**
  * Creates a English specific sentence part.
  *
@@ -39286,7 +39761,7 @@ var getParticiples = __webpack_require__(143);
 var EnglishSentencePart = function EnglishSentencePart(sentencePartText, auxiliaries, locale) {
   SentencePart.call(this, sentencePartText, auxiliaries, locale);
 };
-__webpack_require__(15).inherits(EnglishSentencePart, SentencePart);
+__webpack_require__(16).inherits(EnglishSentencePart, SentencePart);
 /**
  * Returns the participle objects for the participles found in the sentence part.
  * @returns {Array} The list of participle objects.
@@ -39299,21 +39774,21 @@ module.exports = EnglishSentencePart;
 //# sourceMappingURL=SentencePart.js.map
 
 /***/ }),
-/* 650 */
+/* 666 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var find = __webpack_require__(246);
+var find = __webpack_require__(269);
 var forEach = __webpack_require__(2);
-var memoize = __webpack_require__(32);
-var includes = __webpack_require__(27);
-var irregularsEnglish = __webpack_require__(651)();
-var irregularsRegularFrench = __webpack_require__(252)().irregularsRegular;
-var irregularsIrregularFrench = __webpack_require__(252)().irregularsIrregular;
-var irregularsEndingInSFrench = __webpack_require__(252)().irregularsEndingInS;
-var spanishParticiples = __webpack_require__(652)();
+var memoize = __webpack_require__(27);
+var includes = __webpack_require__(29);
+var irregularsEnglish = __webpack_require__(667)();
+var irregularsRegularFrench = __webpack_require__(274)().irregularsRegular;
+var irregularsIrregularFrench = __webpack_require__(274)().irregularsIrregular;
+var irregularsEndingInSFrench = __webpack_require__(274)().irregularsEndingInS;
+var spanishParticiples = __webpack_require__(668)();
 // The language-specific participle regexes.
 var languageVariables = {
     en: {
@@ -39409,7 +39884,7 @@ module.exports = function () {
 //# sourceMappingURL=matchParticiples.js.map
 
 /***/ }),
-/* 651 */
+/* 667 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39424,7 +39899,7 @@ module.exports = function () {
 //# sourceMappingURL=irregulars.js.map
 
 /***/ }),
-/* 652 */
+/* 668 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39442,20 +39917,20 @@ module.exports = function () {
 //# sourceMappingURL=participles.js.map
 
 /***/ }),
-/* 653 */
+/* 669 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Participle = __webpack_require__(144);
-var checkException = __webpack_require__(254);
-var nonVerbsEndingEd = __webpack_require__(656)();
-var directPrecedenceException = __webpack_require__(255);
-var precedenceException = __webpack_require__(260);
-var includes = __webpack_require__(27);
-var isEmpty = __webpack_require__(13);
-var intersection = __webpack_require__(399);
+var Participle = __webpack_require__(158);
+var checkException = __webpack_require__(276);
+var nonVerbsEndingEd = __webpack_require__(672)();
+var directPrecedenceException = __webpack_require__(277);
+var precedenceException = __webpack_require__(282);
+var includes = __webpack_require__(29);
+var isEmpty = __webpack_require__(15);
+var intersection = __webpack_require__(428);
 var irregularExclusionArray = ["get", "gets", "getting", "got", "gotten"];
 /**
  * Creates an Participle object for the English language.
@@ -39470,7 +39945,7 @@ var EnglishParticiple = function EnglishParticiple(participle, sentencePart, att
     Participle.call(this, participle, sentencePart, attributes);
     checkException.call(this);
 };
-__webpack_require__(15).inherits(EnglishParticiple, Participle);
+__webpack_require__(16).inherits(EnglishParticiple, Participle);
 /**
  * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
  * If no exceptions are found, the sentence part is passive.
@@ -39517,15 +39992,15 @@ module.exports = EnglishParticiple;
 //# sourceMappingURL=EnglishParticiple.js.map
 
 /***/ }),
-/* 654 */
+/* 670 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var copyObject = __webpack_require__(28),
-    createAssigner = __webpack_require__(119),
-    keysIn = __webpack_require__(68);
+var copyObject = __webpack_require__(30),
+    createAssigner = __webpack_require__(133),
+    keysIn = __webpack_require__(72);
 
 /**
  * This method is like `_.assignIn` except that it accepts `customizer`
@@ -39563,13 +40038,13 @@ var assignInWith = createAssigner(function (object, source, srcIndex, customizer
 module.exports = assignInWith;
 
 /***/ }),
-/* 655 */
+/* 671 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var eq = __webpack_require__(40);
+var eq = __webpack_require__(42);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -39599,7 +40074,7 @@ function customDefaultsAssignIn(objValue, srcValue, key, object) {
 module.exports = customDefaultsAssignIn;
 
 /***/ }),
-/* 656 */
+/* 672 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39612,13 +40087,13 @@ module.exports = function () {
 //# sourceMappingURL=non-verb-ending-ed.js.map
 
 /***/ }),
-/* 657 */
+/* 673 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isEmpty = __webpack_require__(13);
+var isEmpty = __webpack_require__(15);
 var forEach = __webpack_require__(2);
 /**
  * Checks whether a given word precedes a participle directly or indirectly.
@@ -39653,18 +40128,18 @@ module.exports = function (precedingWords, participleIndex) {
 //# sourceMappingURL=precedesIndex.js.map
 
 /***/ }),
-/* 658 */
+/* 674 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SetCache = __webpack_require__(135),
-    arrayIncludes = __webpack_require__(261),
-    arrayIncludesWith = __webpack_require__(262),
-    arrayMap = __webpack_require__(29),
-    baseUnary = __webpack_require__(90),
-    cacheHas = __webpack_require__(136);
+var SetCache = __webpack_require__(150),
+    arrayIncludes = __webpack_require__(145),
+    arrayIncludesWith = __webpack_require__(283),
+    arrayMap = __webpack_require__(31),
+    baseUnary = __webpack_require__(92),
+    cacheHas = __webpack_require__(151);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMin = Math.min;
@@ -39726,13 +40201,13 @@ function baseIntersection(arrays, iteratee, comparator) {
 module.exports = baseIntersection;
 
 /***/ }),
-/* 659 */
+/* 675 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isArrayLikeObject = __webpack_require__(237);
+var isArrayLikeObject = __webpack_require__(260);
 
 /**
  * Casts `value` to an empty array if it's not an array like object.
@@ -39748,23 +40223,23 @@ function castArrayLikeObject(value) {
 module.exports = castArrayLikeObject;
 
 /***/ }),
-/* 660 */
+/* 676 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Participle = __webpack_require__(144);
-var checkException = __webpack_require__(254);
-var directPrecedenceException = __webpack_require__(255);
-var precedenceException = __webpack_require__(260);
-var exceptionsParticiplesAdjectivesVerbs = __webpack_require__(145)().adjectivesVerbs;
-var exceptionsParticiplesNounsVowel = __webpack_require__(145)().nounsStartingWithVowel;
-var exceptionsParticiplesNounsConsonant = __webpack_require__(145)().nounsStartingWithConsonant;
-var exceptionsParticiplesOthers = __webpack_require__(145)().others;
-var includes = __webpack_require__(27);
+var Participle = __webpack_require__(158);
+var checkException = __webpack_require__(276);
+var directPrecedenceException = __webpack_require__(277);
+var precedenceException = __webpack_require__(282);
+var exceptionsParticiplesAdjectivesVerbs = __webpack_require__(159)().adjectivesVerbs;
+var exceptionsParticiplesNounsVowel = __webpack_require__(159)().nounsStartingWithVowel;
+var exceptionsParticiplesNounsConsonant = __webpack_require__(159)().nounsStartingWithConsonant;
+var exceptionsParticiplesOthers = __webpack_require__(159)().others;
+var includes = __webpack_require__(29);
 var forEach = __webpack_require__(2);
-var memoize = __webpack_require__(32);
+var memoize = __webpack_require__(27);
 /**
  * Creates an Participle object for the French language.
  *
@@ -39778,7 +40253,7 @@ var FrenchParticiple = function FrenchParticiple(participle, sentencePart, attri
     Participle.call(this, participle, sentencePart, attributes);
     checkException.call(this);
 };
-__webpack_require__(15).inherits(FrenchParticiple, Participle);
+__webpack_require__(16).inherits(FrenchParticiple, Participle);
 /**
  * Checks whether the participle is irregular.
  *
@@ -39894,16 +40369,16 @@ module.exports = FrenchParticiple;
 //# sourceMappingURL=FrenchParticiple.js.map
 
 /***/ }),
-/* 661 */
+/* 677 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Participle = __webpack_require__(144);
-var checkException = __webpack_require__(254);
-var directPrecedenceException = __webpack_require__(255);
-var precedenceException = __webpack_require__(260);
+var Participle = __webpack_require__(158);
+var checkException = __webpack_require__(276);
+var directPrecedenceException = __webpack_require__(277);
+var precedenceException = __webpack_require__(282);
 /**
  * Creates an Participle object for the Spanish language.
  *
@@ -39917,7 +40392,7 @@ var SpanishParticiple = function SpanishParticiple(participle, sentencePart, att
   Participle.call(this, participle, sentencePart, attributes);
   checkException.call(this);
 };
-__webpack_require__(15).inherits(SpanishParticiple, Participle);
+__webpack_require__(16).inherits(SpanishParticiple, Participle);
 /**
  * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
  * If no exceptions are found, the sentence part is passive.
@@ -39937,7 +40412,7 @@ module.exports = SpanishParticiple;
 //# sourceMappingURL=SpanishParticiple.js.map
 
 /***/ }),
-/* 662 */
+/* 678 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39954,14 +40429,14 @@ module.exports = function () {
 //# sourceMappingURL=stopwords.js.map
 
 /***/ }),
-/* 663 */
+/* 679 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SentencePart = __webpack_require__(142);
-var getParticiples = __webpack_require__(143);
+var SentencePart = __webpack_require__(156);
+var getParticiples = __webpack_require__(157);
 /**
  * Creates a French-specific sentence part.
  *
@@ -39972,7 +40447,7 @@ var getParticiples = __webpack_require__(143);
 var FrenchSentencePart = function FrenchSentencePart(sentencePartText, auxiliaries) {
   SentencePart.call(this, sentencePartText, auxiliaries, "fr_FR");
 };
-__webpack_require__(15).inherits(FrenchSentencePart, SentencePart);
+__webpack_require__(16).inherits(FrenchSentencePart, SentencePart);
 /**
  * Returns the participles found in the sentence part.
  *
@@ -39986,7 +40461,7 @@ module.exports = FrenchSentencePart;
 //# sourceMappingURL=SentencePart.js.map
 
 /***/ }),
-/* 664 */
+/* 680 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40003,7 +40478,7 @@ module.exports = function () {
 //# sourceMappingURL=auxiliaries.js.map
 
 /***/ }),
-/* 665 */
+/* 681 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40020,14 +40495,14 @@ module.exports = function () {
 //# sourceMappingURL=stopwords.js.map
 
 /***/ }),
-/* 666 */
+/* 682 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SentencePart = __webpack_require__(142);
-var getParticiples = __webpack_require__(143);
+var SentencePart = __webpack_require__(156);
+var getParticiples = __webpack_require__(157);
 /**
  * Creates a Spanish-specific sentence part.
  *
@@ -40038,7 +40513,7 @@ var getParticiples = __webpack_require__(143);
 var SpanishSentencePart = function SpanishSentencePart(sentencePartText, auxiliaries) {
   SentencePart.call(this, sentencePartText, auxiliaries, "es_ES");
 };
-__webpack_require__(15).inherits(SpanishSentencePart, SentencePart);
+__webpack_require__(16).inherits(SpanishSentencePart, SentencePart);
 /**
  * Returns the participles found in the sentence part.
  *
@@ -40052,7 +40527,7 @@ module.exports = SpanishSentencePart;
 //# sourceMappingURL=SentencePart.js.map
 
 /***/ }),
-/* 667 */
+/* 683 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40069,7 +40544,7 @@ module.exports = function () {
 //# sourceMappingURL=auxiliaries.js.map
 
 /***/ }),
-/* 668 */
+/* 684 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40086,14 +40561,14 @@ module.exports = function () {
 //# sourceMappingURL=stopwords.js.map
 
 /***/ }),
-/* 669 */
+/* 685 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getParticiples = __webpack_require__(143);
-var determineSentencePartIsPassive = __webpack_require__(400);
+var getParticiples = __webpack_require__(157);
+var determineSentencePartIsPassive = __webpack_require__(429);
 /**
  * Determines whether a sentence part is passive.
  *
@@ -40110,20 +40585,20 @@ module.exports = function (sentencePart, auxiliaries, language) {
 //# sourceMappingURL=determinePassives.js.map
 
 /***/ }),
-/* 670 */
+/* 686 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stopwords = __webpack_require__(671)();
-var arrayToRegex = __webpack_require__(79);
-var stripSpaces = __webpack_require__(21);
-var SentencePart = __webpack_require__(672);
-var auxiliaries = __webpack_require__(111)().allAuxiliaries;
+var stopwords = __webpack_require__(687)();
+var arrayToRegex = __webpack_require__(87);
+var stripSpaces = __webpack_require__(19);
+var SentencePart = __webpack_require__(688);
+var auxiliaries = __webpack_require__(121)().allAuxiliaries;
 var forEach = __webpack_require__(2);
-var isEmpty = __webpack_require__(13);
-var map = __webpack_require__(8);
+var isEmpty = __webpack_require__(15);
+var map = __webpack_require__(9);
 var stopwordRegex = arrayToRegex(stopwords);
 var auxiliaryRegex = arrayToRegex(auxiliaries);
 /**
@@ -40198,7 +40673,7 @@ module.exports = function (sentence) {
 //# sourceMappingURL=getSentenceParts.js.map
 
 /***/ }),
-/* 671 */
+/* 687 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40215,14 +40690,14 @@ module.exports = function () {
 //# sourceMappingURL=stopwords.js.map
 
 /***/ }),
-/* 672 */
+/* 688 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SentencePart = __webpack_require__(142);
-var getParticiples = __webpack_require__(401);
+var SentencePart = __webpack_require__(156);
+var getParticiples = __webpack_require__(430);
 /**
  * Creates a German-specific sentence part.
  *
@@ -40233,7 +40708,7 @@ var getParticiples = __webpack_require__(401);
 var GermanSentencePart = function GermanSentencePart(sentencePartText, auxiliaries) {
   SentencePart.call(this, sentencePartText, auxiliaries, "de_DE");
 };
-__webpack_require__(15).inherits(GermanSentencePart, SentencePart);
+__webpack_require__(16).inherits(GermanSentencePart, SentencePart);
 /**
  * Returns the participles found in the sentence part.
  *
@@ -40247,7 +40722,7 @@ module.exports = GermanSentencePart;
 //# sourceMappingURL=SentencePart.js.map
 
 /***/ }),
-/* 673 */
+/* 689 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40328,7 +40803,7 @@ module.exports = function () {
 //# sourceMappingURL=regex.js.map
 
 /***/ }),
-/* 674 */
+/* 690 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40344,20 +40819,20 @@ module.exports = function () {
 //# sourceMappingURL=irregulars.js.map
 
 /***/ }),
-/* 675 */
+/* 691 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Participle = __webpack_require__(144);
-var getIndices = __webpack_require__(250).getIndicesByWord;
-var getIndicesOfList = __webpack_require__(250).getIndicesByWordList;
-var exceptionsParticiplesActive = __webpack_require__(676)();
-var auxiliaries = __webpack_require__(111)().participleLike;
+var Participle = __webpack_require__(158);
+var getIndices = __webpack_require__(272).getIndicesByWord;
+var getIndicesOfList = __webpack_require__(272).getIndicesByWordList;
+var exceptionsParticiplesActive = __webpack_require__(692)();
+var auxiliaries = __webpack_require__(121)().participleLike;
 var exceptionsRegex = /\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-var includes = __webpack_require__(27);
-var map = __webpack_require__(8);
+var includes = __webpack_require__(29);
+var map = __webpack_require__(9);
 /**
  * Creates an Participle object for the German language.
  *
@@ -40371,7 +40846,7 @@ var GermanParticiple = function GermanParticiple(participle, sentencePart, attri
     Participle.call(this, participle, sentencePart, attributes);
     this.setSentencePartPassiveness(this.isPassive());
 };
-__webpack_require__(15).inherits(GermanParticiple, Participle);
+__webpack_require__(16).inherits(GermanParticiple, Participle);
 /**
  * Checks if the text is passive based on the participle exceptions.
  *
@@ -40428,7 +40903,7 @@ module.exports = GermanParticiple;
 //# sourceMappingURL=GermanParticiple.js.map
 
 /***/ }),
-/* 676 */
+/* 692 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40442,16 +40917,16 @@ module.exports = function () {
 //# sourceMappingURL=exceptionsParticiplesActive.js.map
 
 /***/ }),
-/* 677 */
+/* 693 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayToRegex = __webpack_require__(79);
-var auxiliaries = __webpack_require__(111)().allAuxiliaries;
-var getParticiples = __webpack_require__(401);
-var determineSentencePartIsPassive = __webpack_require__(400);
+var arrayToRegex = __webpack_require__(87);
+var auxiliaries = __webpack_require__(121)().allAuxiliaries;
+var getParticiples = __webpack_require__(430);
+var determineSentencePartIsPassive = __webpack_require__(429);
 var auxiliaryRegex = arrayToRegex(auxiliaries);
 /**
  * Determines whether a sentence part is passive.
@@ -40475,19 +40950,19 @@ module.exports = function (sentencePartText, auxiliaries, language) {
 //# sourceMappingURL=determinePassives.js.map
 
 /***/ }),
-/* 678 */
+/* 694 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWords = __webpack_require__(58);
-var stripSpaces = __webpack_require__(21);
+var getWords = __webpack_require__(61);
+var stripSpaces = __webpack_require__(19);
 var stripTags = __webpack_require__(20).stripFullTags;
-var getFirstWordExceptions = __webpack_require__(679);
-var isEmpty = __webpack_require__(13);
+var getFirstWordExceptions = __webpack_require__(695);
+var isEmpty = __webpack_require__(15);
 var forEach = __webpack_require__(2);
-var filter = __webpack_require__(16);
+var filter = __webpack_require__(17);
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
  *
@@ -40579,19 +41054,19 @@ module.exports = function (paper, researcher) {
 //# sourceMappingURL=getSentenceBeginnings.js.map
 
 /***/ }),
-/* 679 */
+/* 695 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var firstWordExceptionsEnglish = __webpack_require__(680);
-var firstWordExceptionsGerman = __webpack_require__(681);
-var firstWordExceptionsSpanish = __webpack_require__(682);
-var firstWordExceptionsFrench = __webpack_require__(683);
-var firstWordExceptionsDutch = __webpack_require__(684);
-var firstWordExceptionsItalian = __webpack_require__(685);
-var getLanguage = __webpack_require__(46);
+var firstWordExceptionsEnglish = __webpack_require__(696);
+var firstWordExceptionsGerman = __webpack_require__(697);
+var firstWordExceptionsSpanish = __webpack_require__(698);
+var firstWordExceptionsFrench = __webpack_require__(699);
+var firstWordExceptionsDutch = __webpack_require__(700);
+var firstWordExceptionsItalian = __webpack_require__(701);
+var getLanguage = __webpack_require__(35);
 module.exports = function (locale) {
     switch (getLanguage(locale)) {
         case "de":
@@ -40613,7 +41088,7 @@ module.exports = function (locale) {
 //# sourceMappingURL=getFirstWordExceptions.js.map
 
 /***/ }),
-/* 680 */
+/* 696 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40638,7 +41113,7 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 681 */
+/* 697 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40663,7 +41138,7 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 682 */
+/* 698 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40688,7 +41163,7 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 683 */
+/* 699 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40713,7 +41188,7 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 684 */
+/* 700 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40738,7 +41213,7 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 685 */
+/* 701 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40763,13 +41238,13 @@ module.exports = function () {
 //# sourceMappingURL=firstWordExceptions.js.map
 
 /***/ }),
-/* 686 */
+/* 702 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getRelevantWords = __webpack_require__(687).getRelevantWords;
+var getRelevantWords = __webpack_require__(703).getRelevantWords;
 /**
  * Retrieves the relevant words from the given paper.
  *
@@ -40784,34 +41259,34 @@ module.exports = relevantWords;
 //# sourceMappingURL=relevantWords.js.map
 
 /***/ }),
-/* 687 */
+/* 703 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getWords = __webpack_require__(58);
-var getSentences = __webpack_require__(52);
-var WordCombination = __webpack_require__(688);
-var normalizeQuotes = __webpack_require__(106).normalize;
-var germanFunctionWords = __webpack_require__(690);
-var englishFunctionWords = __webpack_require__(257);
-var dutchFunctionWords = __webpack_require__(691);
-var spanishFunctionWords = __webpack_require__(259);
-var italianFunctionWords = __webpack_require__(692);
-var frenchFunctionWords = __webpack_require__(256);
-var portugueseFunctionWords = __webpack_require__(693);
-var getLanguage = __webpack_require__(46);
-var filter = __webpack_require__(16);
-var map = __webpack_require__(8);
+var getWords = __webpack_require__(61);
+var getSentences = __webpack_require__(55);
+var WordCombination = __webpack_require__(704);
+var normalizeQuotes = __webpack_require__(117).normalize;
+var germanFunctionWords = __webpack_require__(706);
+var englishFunctionWords = __webpack_require__(279);
+var dutchFunctionWords = __webpack_require__(707);
+var spanishFunctionWords = __webpack_require__(281);
+var italianFunctionWords = __webpack_require__(708);
+var frenchFunctionWords = __webpack_require__(278);
+var portugueseFunctionWords = __webpack_require__(709);
+var getLanguage = __webpack_require__(35);
+var filter = __webpack_require__(17);
+var map = __webpack_require__(9);
 var forEach = __webpack_require__(2);
-var has = __webpack_require__(263);
-var flatMap = __webpack_require__(137);
-var values = __webpack_require__(396);
-var take = __webpack_require__(694);
-var includes = __webpack_require__(27);
-var intersection = __webpack_require__(399);
-var isEmpty = __webpack_require__(13);
+var has = __webpack_require__(284);
+var flatMap = __webpack_require__(152);
+var values = __webpack_require__(425);
+var take = __webpack_require__(710);
+var includes = __webpack_require__(29);
+var intersection = __webpack_require__(428);
+var isEmpty = __webpack_require__(15);
 var densityLowerLimit = 0;
 var densityUpperLimit = 0.03;
 var relevantWordLimit = 100;
@@ -41070,14 +41545,14 @@ module.exports = {
 //# sourceMappingURL=relevantWords.js.map
 
 /***/ }),
-/* 688 */
+/* 704 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var forEach = __webpack_require__(2);
-var has = __webpack_require__(263);
+var has = __webpack_require__(284);
 /**
  * Returns whether or not the given word is a function word.
  *
@@ -41236,7 +41711,7 @@ module.exports = WordCombination;
 //# sourceMappingURL=WordCombination.js.map
 
 /***/ }),
-/* 689 */
+/* 705 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41263,15 +41738,15 @@ function baseHas(object, key) {
 module.exports = baseHas;
 
 /***/ }),
-/* 690 */
+/* 706 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var filteredPassiveAuxiliaries = __webpack_require__(111)().filteredAuxiliaries;
-var passiveAuxiliariesInfinitive = __webpack_require__(111)().infinitiveAuxiliaries;
-var transitionWords = __webpack_require__(390)().singleWords;
+var filteredPassiveAuxiliaries = __webpack_require__(121)().filteredAuxiliaries;
+var passiveAuxiliariesInfinitive = __webpack_require__(121)().infinitiveAuxiliaries;
+var transitionWords = __webpack_require__(419)().singleWords;
 /**
  * Returns an object with exceptions for the prominent words researcher
  * @returns {Object} The object filled with exception arrays.
@@ -41346,13 +41821,13 @@ module.exports = function () {
 //# sourceMappingURL=functionWords.js.map
 
 /***/ }),
-/* 691 */
+/* 707 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var transitionWords = __webpack_require__(393)().singleWords;
+var transitionWords = __webpack_require__(422)().singleWords;
 /**
  * Returns an array with exceptions for the prominent words researcher.
  * @returns {Array} The array filled with exceptions.
@@ -41432,13 +41907,13 @@ module.exports = function () {
 //# sourceMappingURL=functionWords.js.map
 
 /***/ }),
-/* 692 */
+/* 708 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var transitionWords = __webpack_require__(394)().singleWords;
+var transitionWords = __webpack_require__(423)().singleWords;
 /**
  * Returns an object with exceptions for the prominent words researcher.
  * @returns {Object} The object filled with exception arrays.
@@ -41546,13 +42021,13 @@ module.exports = function () {
 //# sourceMappingURL=functionWords.js.map
 
 /***/ }),
-/* 693 */
+/* 709 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var transitionWords = __webpack_require__(395)().singleWords;
+var transitionWords = __webpack_require__(424)().singleWords;
 /**
  * Returns an array with exceptions for the prominent words researcher.
  *
@@ -41623,14 +42098,14 @@ module.exports = function () {
 //# sourceMappingURL=functionWords.js.map
 
 /***/ }),
-/* 694 */
+/* 710 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseSlice = __webpack_require__(206),
-    toInteger = __webpack_require__(141);
+var baseSlice = __webpack_require__(174),
+    toInteger = __webpack_require__(96);
 
 /**
  * Creates a slice of `array` with `n` elements taken from the beginning.
@@ -41668,14 +42143,14 @@ function take(array, n, guard) {
 module.exports = take;
 
 /***/ }),
-/* 695 */
+/* 711 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var wordCountInText = __webpack_require__(361);
-var imageCount = __webpack_require__(385);
+var wordCountInText = __webpack_require__(396);
+var imageCount = __webpack_require__(414);
 /**
  * Calculates the expected reading time of a text.
  *
@@ -41699,13 +42174,13 @@ module.exports = function (paper) {
 //# sourceMappingURL=readingTime.js.map
 
 /***/ }),
-/* 696 */
+/* 712 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var uniqBy = __webpack_require__(697);
+var uniqBy = __webpack_require__(713);
 /**
  * Removes duplicate marks from an array
  *
@@ -41722,14 +42197,14 @@ module.exports = removeDuplicateMarks;
 //# sourceMappingURL=removeDuplicateMarks.js.map
 
 /***/ }),
-/* 697 */
+/* 713 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIteratee = __webpack_require__(45),
-    baseUniq = __webpack_require__(698);
+var baseIteratee = __webpack_require__(47),
+    baseUniq = __webpack_require__(714);
 
 /**
  * This method is like `_.uniq` except that it accepts `iteratee` which is
@@ -41761,18 +42236,18 @@ function uniqBy(array, iteratee) {
 module.exports = uniqBy;
 
 /***/ }),
-/* 698 */
+/* 714 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SetCache = __webpack_require__(135),
-    arrayIncludes = __webpack_require__(261),
-    arrayIncludesWith = __webpack_require__(262),
-    cacheHas = __webpack_require__(136),
-    createSet = __webpack_require__(699),
-    setToArray = __webpack_require__(96);
+var SetCache = __webpack_require__(150),
+    arrayIncludes = __webpack_require__(145),
+    arrayIncludesWith = __webpack_require__(283),
+    cacheHas = __webpack_require__(151),
+    createSet = __webpack_require__(715),
+    setToArray = __webpack_require__(108);
 
 /** Used as the size to enable large array optimizations. */
 var LARGE_ARRAY_SIZE = 200;
@@ -41837,15 +42312,15 @@ function baseUniq(array, iteratee, comparator) {
 module.exports = baseUniq;
 
 /***/ }),
-/* 699 */
+/* 715 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Set = __webpack_require__(197),
-    noop = __webpack_require__(402),
-    setToArray = __webpack_require__(96);
+var Set = __webpack_require__(215),
+    noop = __webpack_require__(254),
+    setToArray = __webpack_require__(108);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -41864,7 +42339,7 @@ var createSet = !(Set && 1 / setToArray(new Set([, -0]))[1] == INFINITY) ? noop 
 module.exports = createSet;
 
 /***/ }),
-/* 700 */
+/* 716 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41892,14 +42367,14 @@ module.exports = {
 //# sourceMappingURL=errors.js.map
 
 /***/ }),
-/* 701 */
+/* 717 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseIndexOf = __webpack_require__(248),
-    toInteger = __webpack_require__(141);
+var baseIndexOf = __webpack_require__(146),
+    toInteger = __webpack_require__(96);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max;
@@ -41942,7 +42417,7 @@ function indexOf(array, value, fromIndex) {
 module.exports = indexOf;
 
 /***/ }),
-/* 702 */
+/* 718 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41968,14 +42443,14 @@ function baseInRange(number, start, end) {
 module.exports = baseInRange;
 
 /***/ }),
-/* 703 */
+/* 719 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var escapeHtmlChar = __webpack_require__(704),
-    toString = __webpack_require__(98);
+var escapeHtmlChar = __webpack_require__(720),
+    toString = __webpack_require__(77);
 
 /** Used to match HTML entities and HTML characters. */
 var reUnescapedHtml = /[&<>"']/g,
@@ -42017,13 +42492,13 @@ function escape(string) {
 module.exports = escape;
 
 /***/ }),
-/* 704 */
+/* 720 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var basePropertyOf = __webpack_require__(705);
+var basePropertyOf = __webpack_require__(721);
 
 /** Used to map characters to HTML entities. */
 var htmlEscapes = {
@@ -42046,7 +42521,7 @@ var escapeHtmlChar = basePropertyOf(htmlEscapes);
 module.exports = escapeHtmlChar;
 
 /***/ }),
-/* 705 */
+/* 721 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42068,14 +42543,14 @@ function basePropertyOf(object) {
 module.exports = basePropertyOf;
 
 /***/ }),
-/* 706 */
+/* 722 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var filter = __webpack_require__(16);
-var isSentenceTooLong = __webpack_require__(266);
+var filter = __webpack_require__(17);
+var isSentenceTooLong = __webpack_require__(287);
 /**
  * Checks for too long sentences.
  * @param {array} sentences The array with objects containing sentences and their lengths.
@@ -42092,13 +42567,13 @@ module.exports = function (sentences, recommendedValue) {
 //# sourceMappingURL=checkForTooLongSentences.js.map
 
 /***/ }),
-/* 707 */
+/* 723 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createAggregator = __webpack_require__(708);
+var createAggregator = __webpack_require__(724);
 
 /**
  * Creates an array of elements split into two groups, the first of which
@@ -42145,16 +42620,16 @@ var partition = createAggregator(function (result, value, key) {
 module.exports = partition;
 
 /***/ }),
-/* 708 */
+/* 724 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayAggregator = __webpack_require__(709),
-    baseAggregator = __webpack_require__(710),
-    baseIteratee = __webpack_require__(45),
-    isArray = __webpack_require__(5);
+var arrayAggregator = __webpack_require__(725),
+    baseAggregator = __webpack_require__(726),
+    baseIteratee = __webpack_require__(47),
+    isArray = __webpack_require__(4);
 
 /**
  * Creates a function like `_.groupBy`.
@@ -42176,7 +42651,7 @@ function createAggregator(setter, initializer) {
 module.exports = createAggregator;
 
 /***/ }),
-/* 709 */
+/* 725 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42206,13 +42681,13 @@ function arrayAggregator(array, setter, iteratee, accumulator) {
 module.exports = arrayAggregator;
 
 /***/ }),
-/* 710 */
+/* 726 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseEach = __webpack_require__(105);
+var baseEach = __webpack_require__(84);
 
 /**
  * Aggregates elements of `collection` on `accumulator` with keys transformed
@@ -42235,16 +42710,16 @@ function baseAggregator(collection, setter, iteratee, accumulator) {
 module.exports = baseAggregator;
 
 /***/ }),
-/* 711 */
+/* 727 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseFlatten = __webpack_require__(99),
-    baseOrderBy = __webpack_require__(712),
-    baseRest = __webpack_require__(56),
-    isIterateeCall = __webpack_require__(173);
+var baseFlatten = __webpack_require__(110),
+    baseOrderBy = __webpack_require__(728),
+    baseRest = __webpack_require__(57),
+    isIterateeCall = __webpack_require__(192);
 
 /**
  * Creates an array of elements, sorted in ascending order by the results of
@@ -42291,19 +42766,19 @@ var sortBy = baseRest(function (collection, iteratees) {
 module.exports = sortBy;
 
 /***/ }),
-/* 712 */
+/* 728 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayMap = __webpack_require__(29),
-    baseIteratee = __webpack_require__(45),
-    baseMap = __webpack_require__(353),
-    baseSortBy = __webpack_require__(713),
-    baseUnary = __webpack_require__(90),
-    compareMultiple = __webpack_require__(714),
-    identity = __webpack_require__(54);
+var arrayMap = __webpack_require__(31),
+    baseIteratee = __webpack_require__(47),
+    baseMap = __webpack_require__(390),
+    baseSortBy = __webpack_require__(729),
+    baseUnary = __webpack_require__(92),
+    compareMultiple = __webpack_require__(730),
+    identity = __webpack_require__(50);
 
 /**
  * The base implementation of `_.orderBy` without param guards.
@@ -42333,7 +42808,7 @@ function baseOrderBy(collection, iteratees, orders) {
 module.exports = baseOrderBy;
 
 /***/ }),
-/* 713 */
+/* 729 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42362,13 +42837,13 @@ function baseSortBy(array, comparer) {
 module.exports = baseSortBy;
 
 /***/ }),
-/* 714 */
+/* 730 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var compareAscending = __webpack_require__(715);
+var compareAscending = __webpack_require__(731);
 
 /**
  * Used by `_.orderBy` to compare multiple properties of a value to another
@@ -42414,13 +42889,13 @@ function compareMultiple(object, other, orders) {
 module.exports = compareMultiple;
 
 /***/ }),
-/* 715 */
+/* 731 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isSymbol = __webpack_require__(31);
+var isSymbol = __webpack_require__(34);
 
 /**
  * Compares values to sort them in ascending order.
@@ -42455,14 +42930,14 @@ function compareAscending(value, other) {
 module.exports = compareAscending;
 
 /***/ }),
-/* 716 */
+/* 732 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseMerge = __webpack_require__(236),
-    isObject = __webpack_require__(7);
+var baseMerge = __webpack_require__(259),
+    isObject = __webpack_require__(8);
 
 /**
  * Used by `_.defaultsDeep` to customize its `_.merge` use to merge source
@@ -42491,14 +42966,14 @@ function customDefaultsMerge(objValue, srcValue, key, object, source, stack) {
 module.exports = customDefaultsMerge;
 
 /***/ }),
-/* 717 */
+/* 733 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseMerge = __webpack_require__(236),
-    createAssigner = __webpack_require__(119);
+var baseMerge = __webpack_require__(259),
+    createAssigner = __webpack_require__(133);
 
 /**
  * This method is like `_.merge` except that it accepts `customizer` which
@@ -42538,7 +43013,7 @@ var mergeWith = createAssigner(function (object, source, srcIndex, customizer) {
 module.exports = mergeWith;
 
 /***/ }),
-/* 718 */
+/* 734 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42555,7 +43030,7 @@ module.exports = {
 //# sourceMappingURL=default.js.map
 
 /***/ }),
-/* 719 */
+/* 735 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42570,33 +43045,33 @@ module.exports = {
 //# sourceMappingURL=it.js.map
 
 /***/ }),
-/* 720 */
+/* 736 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(721);
-var SnippetPreview = __webpack_require__(418);
-var defaultsDeep = __webpack_require__(81);
-var isObject = __webpack_require__(7);
-var isString = __webpack_require__(249);
-var MissingArgument = __webpack_require__(133);
+__webpack_require__(737);
+var SnippetPreview = __webpack_require__(446);
+var defaultsDeep = __webpack_require__(89);
+var isObject = __webpack_require__(8);
+var isString = __webpack_require__(271);
+var MissingArgument = __webpack_require__(148);
 var isUndefined = __webpack_require__(3);
-var isEmpty = __webpack_require__(13);
+var isEmpty = __webpack_require__(15);
 var forEach = __webpack_require__(2);
-var debounce = __webpack_require__(75);
-var throttle = __webpack_require__(725);
-var Jed = __webpack_require__(166);
-var SEOAssessor = __webpack_require__(264);
-var ContentAssessor = __webpack_require__(265);
-var CornerstoneSEOAssessor = __webpack_require__(726);
-var CornerstoneContentAssessor = __webpack_require__(727);
-var Researcher = __webpack_require__(234);
-var AssessorPresenter = __webpack_require__(728);
-var Pluggable = __webpack_require__(421);
-var Paper = __webpack_require__(422);
-var removeHtmlBlocks = __webpack_require__(734);
+var debounce = __webpack_require__(73);
+var throttle = __webpack_require__(741);
+var Jed = __webpack_require__(185);
+var SEOAssessor = __webpack_require__(285);
+var ContentAssessor = __webpack_require__(286);
+var CornerstoneSEOAssessor = __webpack_require__(742);
+var CornerstoneContentAssessor = __webpack_require__(743);
+var Researcher = __webpack_require__(258);
+var AssessorPresenter = __webpack_require__(744);
+var Pluggable = __webpack_require__(449);
+var Paper = __webpack_require__(450);
+var removeHtmlBlocks = __webpack_require__(750);
 var inputDebounceDelay = 400;
 /**
  * Default config for YoastSEO.js
@@ -43367,7 +43842,7 @@ module.exports = App;
 //# sourceMappingURL=app.js.map
 
 /***/ }),
-/* 721 */
+/* 737 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43386,14 +43861,14 @@ module.exports = analyzerConfig;
 //# sourceMappingURL=config.js.map
 
 /***/ }),
-/* 722 */
+/* 738 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isObjectLike = __webpack_require__(14),
-    isPlainObject = __webpack_require__(125);
+var isObjectLike = __webpack_require__(13),
+    isPlainObject = __webpack_require__(138);
 
 /**
  * Checks if `value` is likely a DOM element.
@@ -43419,13 +43894,13 @@ function isElement(value) {
 module.exports = isElement;
 
 /***/ }),
-/* 723 */
+/* 739 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseClone = __webpack_require__(176);
+var baseClone = __webpack_require__(195);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_SYMBOLS_FLAG = 4;
@@ -43463,14 +43938,14 @@ function clone(value) {
 module.exports = clone;
 
 /***/ }),
-/* 724 */
+/* 740 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var forEach = __webpack_require__(2);
-var domManipulation = __webpack_require__(420);
+var domManipulation = __webpack_require__(448);
 var previewModes = {
     desktop: "snippet-editor__view--desktop",
     mobile: "snippet-editor__view--mobile"
@@ -43689,14 +44164,14 @@ module.exports = SnippetPreviewToggler;
 //# sourceMappingURL=snippetPreviewToggler.js.map
 
 /***/ }),
-/* 725 */
+/* 741 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var debounce = __webpack_require__(75),
-    isObject = __webpack_require__(7);
+var debounce = __webpack_require__(73),
+    isObject = __webpack_require__(8);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -43766,31 +44241,31 @@ function throttle(func, wait, options) {
 module.exports = throttle;
 
 /***/ }),
-/* 726 */
+/* 742 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Assessor = __webpack_require__(86);
-var SEOAssessor = __webpack_require__(264);
-var introductionKeyword = __webpack_require__(282);
-var keyphraseLength = __webpack_require__(283);
-var keywordDensity = __webpack_require__(284);
-var keywordStopWords = __webpack_require__(285);
-var metaDescriptionKeyword = __webpack_require__(286);
-var MetaDescriptionLength = __webpack_require__(287);
-var SubheadingsKeyword = __webpack_require__(403);
-var textCompetingLinks = __webpack_require__(404);
-var TextImages = __webpack_require__(405);
-var TextLength = __webpack_require__(406);
-var OutboundLinks = __webpack_require__(407);
-var internalLinks = __webpack_require__(408);
-var titleKeyword = __webpack_require__(289);
-var TitleWidth = __webpack_require__(290);
-var UrlKeyword = __webpack_require__(291);
-var UrlLength = __webpack_require__(292);
-var urlStopWords = __webpack_require__(293);
+var Assessor = __webpack_require__(97);
+var SEOAssessor = __webpack_require__(285);
+var introductionKeyword = __webpack_require__(303);
+var keyphraseLength = __webpack_require__(304);
+var keywordDensity = __webpack_require__(305);
+var keywordStopWords = __webpack_require__(306);
+var metaDescriptionKeyword = __webpack_require__(307);
+var MetaDescriptionLength = __webpack_require__(308);
+var SubheadingsKeyword = __webpack_require__(431);
+var textCompetingLinks = __webpack_require__(432);
+var TextImages = __webpack_require__(433);
+var TextLength = __webpack_require__(434);
+var OutboundLinks = __webpack_require__(435);
+var internalLinks = __webpack_require__(436);
+var titleKeyword = __webpack_require__(310);
+var TitleWidth = __webpack_require__(311);
+var UrlKeyword = __webpack_require__(312);
+var UrlLength = __webpack_require__(313);
+var urlStopWords = __webpack_require__(314);
 /**
  * Creates the Assessor
  *
@@ -43848,29 +44323,29 @@ var CornerstoneSEOAssessor = function CornerstoneSEOAssessor(i18n, options) {
         }
     }), urlStopWords];
 };
-__webpack_require__(15).inherits(CornerstoneSEOAssessor, SEOAssessor);
+__webpack_require__(16).inherits(CornerstoneSEOAssessor, SEOAssessor);
 module.exports = CornerstoneSEOAssessor;
 //# sourceMappingURL=seoAssessor.js.map
 //# sourceMappingURL=seoAssessor.js.map
 
 /***/ }),
-/* 727 */
+/* 743 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Assessor = __webpack_require__(86);
-var ContentAssessor = __webpack_require__(265);
-var fleschReadingEase = __webpack_require__(409);
-var paragraphTooLong = __webpack_require__(410);
-var SentenceLengthInText = __webpack_require__(411);
-var SubheadingDistributionTooLong = __webpack_require__(412);
-var transitionWords = __webpack_require__(413);
-var passiveVoice = __webpack_require__(414);
-var sentenceBeginnings = __webpack_require__(415);
-var textPresence = __webpack_require__(416);
-var contentConfiguration = __webpack_require__(417);
+var Assessor = __webpack_require__(97);
+var ContentAssessor = __webpack_require__(286);
+var fleschReadingEase = __webpack_require__(437);
+var paragraphTooLong = __webpack_require__(438);
+var SentenceLengthInText = __webpack_require__(439);
+var SubheadingDistributionTooLong = __webpack_require__(440);
+var transitionWords = __webpack_require__(441);
+var passiveVoice = __webpack_require__(442);
+var sentenceBeginnings = __webpack_require__(443);
+var textPresence = __webpack_require__(444);
+var contentConfiguration = __webpack_require__(445);
 /*
  Temporarily disabled:
 
@@ -43902,26 +44377,26 @@ var CornerStoneContentAssessor = function CornerStoneContentAssessor(i18n) {
         farTooMany: 25
     }), transitionWords, passiveVoice, textPresence, sentenceBeginnings];
 };
-__webpack_require__(15).inherits(CornerStoneContentAssessor, ContentAssessor);
+__webpack_require__(16).inherits(CornerStoneContentAssessor, ContentAssessor);
 module.exports = CornerStoneContentAssessor;
 //# sourceMappingURL=contentAssessor.js.map
 //# sourceMappingURL=contentAssessor.js.map
 
 /***/ }),
-/* 728 */
+/* 744 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var forEach = __webpack_require__(2);
-var isNumber = __webpack_require__(233);
-var isObject = __webpack_require__(7);
+var isNumber = __webpack_require__(257);
+var isObject = __webpack_require__(8);
 var isUndefined = __webpack_require__(3);
-var difference = __webpack_require__(729);
-var template = __webpack_require__(419).assessmentPresenterResult;
-var scoreToRating = __webpack_require__(134);
-var createConfig = __webpack_require__(731);
+var difference = __webpack_require__(745);
+var template = __webpack_require__(447).assessmentPresenterResult;
+var scoreToRating = __webpack_require__(149);
+var createConfig = __webpack_require__(747);
 /**
  * Constructs the AssessorPresenter.
  *
@@ -44245,16 +44720,16 @@ module.exports = AssessorPresenter;
 //# sourceMappingURL=AssessorPresenter.js.map
 
 /***/ }),
-/* 729 */
+/* 745 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var baseDifference = __webpack_require__(730),
-    baseFlatten = __webpack_require__(99),
-    baseRest = __webpack_require__(56),
-    isArrayLikeObject = __webpack_require__(237);
+var baseDifference = __webpack_require__(746),
+    baseFlatten = __webpack_require__(110),
+    baseRest = __webpack_require__(57),
+    isArrayLikeObject = __webpack_require__(260);
 
 /**
  * Creates an array of `array` values not included in the other given arrays
@@ -44284,18 +44759,18 @@ var difference = baseRest(function (array, values) {
 module.exports = difference;
 
 /***/ }),
-/* 730 */
+/* 746 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SetCache = __webpack_require__(135),
-    arrayIncludes = __webpack_require__(261),
-    arrayIncludesWith = __webpack_require__(262),
-    arrayMap = __webpack_require__(29),
-    baseUnary = __webpack_require__(90),
-    cacheHas = __webpack_require__(136);
+var SetCache = __webpack_require__(150),
+    arrayIncludes = __webpack_require__(145),
+    arrayIncludesWith = __webpack_require__(283),
+    arrayMap = __webpack_require__(31),
+    baseUnary = __webpack_require__(92),
+    cacheHas = __webpack_require__(151);
 
 /** Used as the size to enable large array optimizations. */
 var LARGE_ARRAY_SIZE = 200;
@@ -44356,7 +44831,7 @@ function baseDifference(array, values, iteratee, comparator) {
 module.exports = baseDifference;
 
 /***/ }),
-/* 731 */
+/* 747 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44399,17 +44874,17 @@ module.exports = function (i18n) {
 //# sourceMappingURL=presenter.js.map
 
 /***/ }),
-/* 732 */
+/* 748 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var arrayReduce = __webpack_require__(116),
-    baseEach = __webpack_require__(105),
-    baseIteratee = __webpack_require__(45),
-    baseReduce = __webpack_require__(733),
-    isArray = __webpack_require__(5);
+var arrayReduce = __webpack_require__(127),
+    baseEach = __webpack_require__(84),
+    baseIteratee = __webpack_require__(47),
+    baseReduce = __webpack_require__(749),
+    isArray = __webpack_require__(4);
 
 /**
  * Reduces `collection` to a value which is the accumulated result of running
@@ -44458,7 +44933,7 @@ function reduce(collection, iteratee, accumulator) {
 module.exports = reduce;
 
 /***/ }),
-/* 733 */
+/* 749 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44487,15 +44962,15 @@ function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
 module.exports = baseReduce;
 
 /***/ }),
-/* 734 */
+/* 750 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // We use an external library, which can be found here: https://github.com/fb55/htmlparser2.
 
-var htmlparser = __webpack_require__(77);
-var includes = __webpack_require__(27);
+var htmlparser = __webpack_require__(85);
+var includes = __webpack_require__(29);
 // The array containing the text parts without the blocks defined in inlineTags.
 var textArray = void 0;
 // False when we are not in a block defined in inlineTags. True if we are.
@@ -44570,7 +45045,7 @@ module.exports = function (text) {
 //# sourceMappingURL=htmlParser.js.map
 
 /***/ }),
-/* 735 */
+/* 751 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44581,13 +45056,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.initialize = initialize;
 
-var _redux = __webpack_require__(267);
+var _redux = __webpack_require__(288);
 
-var _reduxThunk = __webpack_require__(750);
+var _reduxThunk = __webpack_require__(766);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _reduxLogger = __webpack_require__(751);
+var _reduxLogger = __webpack_require__(767);
 
 var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
@@ -44595,37 +45070,37 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(69);
+var _reactDom = __webpack_require__(74);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRedux = __webpack_require__(269);
+var _reactRedux = __webpack_require__(290);
 
-var _flowRight = __webpack_require__(762);
+var _flowRight = __webpack_require__(778);
 
 var _flowRight2 = _interopRequireDefault(_flowRight);
 
-var _IntlProvider = __webpack_require__(346);
+var _IntlProvider = __webpack_require__(383);
 
 var _IntlProvider2 = _interopRequireDefault(_IntlProvider);
 
-var _markerButtons = __webpack_require__(768);
+var _markerButtons = __webpack_require__(779);
 
 var _markerButtons2 = _interopRequireDefault(_markerButtons);
 
-var _contentAnalysisReducer = __webpack_require__(769);
+var _contentAnalysisReducer = __webpack_require__(780);
 
 var _contentAnalysisReducer2 = _interopRequireDefault(_contentAnalysisReducer);
 
-var _activeKeyword = __webpack_require__(772);
+var _activeKeyword = __webpack_require__(783);
 
 var _activeKeyword2 = _interopRequireDefault(_activeKeyword);
 
-var _ReadabilityAnalysis = __webpack_require__(773);
+var _ReadabilityAnalysis = __webpack_require__(784);
 
 var _ReadabilityAnalysis2 = _interopRequireDefault(_ReadabilityAnalysis);
 
-var _SeoAnalysis = __webpack_require__(782);
+var _SeoAnalysis = __webpack_require__(793);
 
 var _SeoAnalysis2 = _interopRequireDefault(_SeoAnalysis);
 
@@ -44741,7 +45216,7 @@ function initialize(args) {
 exports.default = initialize;
 
 /***/ }),
-/* 736 */
+/* 752 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44751,15 +45226,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(425);
+var _Symbol2 = __webpack_require__(453);
 
 var _Symbol3 = _interopRequireDefault(_Symbol2);
 
-var _getRawTag = __webpack_require__(739);
+var _getRawTag = __webpack_require__(755);
 
 var _getRawTag2 = _interopRequireDefault(_getRawTag);
 
-var _objectToString = __webpack_require__(740);
+var _objectToString = __webpack_require__(756);
 
 var _objectToString2 = _interopRequireDefault(_objectToString);
 
@@ -44789,7 +45264,7 @@ function baseGetTag(value) {
 exports.default = baseGetTag;
 
 /***/ }),
-/* 737 */
+/* 753 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44801,7 +45276,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _freeGlobal = __webpack_require__(738);
+var _freeGlobal = __webpack_require__(754);
 
 var _freeGlobal2 = _interopRequireDefault(_freeGlobal);
 
@@ -44816,7 +45291,7 @@ var root = _freeGlobal2.default || freeSelf || Function('return this')();
 exports.default = root;
 
 /***/ }),
-/* 738 */
+/* 754 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44832,10 +45307,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var freeGlobal = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) == 'object' && global && global.Object === Object && global;
 
 exports.default = freeGlobal;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 739 */
+/* 755 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44845,7 +45320,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(425);
+var _Symbol2 = __webpack_require__(453);
 
 var _Symbol3 = _interopRequireDefault(_Symbol2);
 
@@ -44897,7 +45372,7 @@ function getRawTag(value) {
 exports.default = getRawTag;
 
 /***/ }),
-/* 740 */
+/* 756 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44930,7 +45405,7 @@ function objectToString(value) {
 exports.default = objectToString;
 
 /***/ }),
-/* 741 */
+/* 757 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44940,7 +45415,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _overArg = __webpack_require__(742);
+var _overArg = __webpack_require__(758);
 
 var _overArg2 = _interopRequireDefault(_overArg);
 
@@ -44952,7 +45427,7 @@ var getPrototype = (0, _overArg2.default)(Object.getPrototypeOf, Object);
 exports.default = getPrototype;
 
 /***/ }),
-/* 742 */
+/* 758 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44978,7 +45453,7 @@ function overArg(func, transform) {
 exports.default = overArg;
 
 /***/ }),
-/* 743 */
+/* 759 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45021,16 +45496,16 @@ function isObjectLike(value) {
 exports.default = isObjectLike;
 
 /***/ }),
-/* 744 */
+/* 760 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(745);
+module.exports = __webpack_require__(761);
 
 /***/ }),
-/* 745 */
+/* 761 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45040,7 +45515,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ponyfill = __webpack_require__(746);
+var _ponyfill = __webpack_require__(762);
 
 var _ponyfill2 = _interopRequireDefault(_ponyfill);
 
@@ -45064,10 +45539,10 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(48)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(49)(module)))
 
 /***/ }),
-/* 746 */
+/* 762 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45096,7 +45571,7 @@ function symbolObservablePonyfill(root) {
 };
 
 /***/ }),
-/* 747 */
+/* 763 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45107,13 +45582,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = combineReducers;
 
-var _createStore = __webpack_require__(424);
+var _createStore = __webpack_require__(452);
 
-var _isPlainObject = __webpack_require__(268);
+var _isPlainObject = __webpack_require__(289);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _warning = __webpack_require__(426);
+var _warning = __webpack_require__(454);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -45247,7 +45722,7 @@ function combineReducers(reducers) {
 }
 
 /***/ }),
-/* 748 */
+/* 764 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45309,7 +45784,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 /***/ }),
-/* 749 */
+/* 765 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45320,7 +45795,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = applyMiddleware;
 
-var _compose = __webpack_require__(427);
+var _compose = __webpack_require__(455);
 
 var _compose2 = _interopRequireDefault(_compose);
 
@@ -45382,7 +45857,7 @@ function applyMiddleware() {
 }
 
 /***/ }),
-/* 750 */
+/* 766 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45411,7 +45886,7 @@ thunk.withExtraArgument = createThunkMiddleware;
 exports['default'] = thunk;
 
 /***/ }),
-/* 751 */
+/* 767 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45703,10 +46178,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         r = e.getState;return "function" == typeof t || "function" == typeof r ? S()({ dispatch: t, getState: r }) : void console.error("\n[redux-logger v3] BREAKING CHANGE\n[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.\n[redux-logger v3] Change\n[redux-logger v3] import createLogger from 'redux-logger'\n[redux-logger v3] to\n[redux-logger v3] import { createLogger } from 'redux-logger'\n");
   };e.defaults = L, e.createLogger = S, e.logger = T, e.default = T, Object.defineProperty(e, "__esModule", { value: !0 });
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 752 */
+/* 768 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45722,13 +46197,13 @@ exports.createProvider = createProvider;
 
 var _react = __webpack_require__(0);
 
-var _propTypes = __webpack_require__(1);
+var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _PropTypes = __webpack_require__(428);
+var _PropTypes = __webpack_require__(456);
 
-var _warning = __webpack_require__(270);
+var _warning = __webpack_require__(291);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -45815,7 +46290,7 @@ function createProvider() {
 exports.default = createProvider();
 
 /***/ }),
-/* 753 */
+/* 769 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45888,7 +46363,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 };
 
 /***/ }),
-/* 754 */
+/* 770 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45995,7 +46470,7 @@ var Subscription = function () {
 exports.default = Subscription;
 
 /***/ }),
-/* 755 */
+/* 771 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46009,27 +46484,27 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.createConnect = createConnect;
 
-var _connectAdvanced = __webpack_require__(429);
+var _connectAdvanced = __webpack_require__(457);
 
 var _connectAdvanced2 = _interopRequireDefault(_connectAdvanced);
 
-var _shallowEqual = __webpack_require__(756);
+var _shallowEqual = __webpack_require__(772);
 
 var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 
-var _mapDispatchToProps = __webpack_require__(757);
+var _mapDispatchToProps = __webpack_require__(773);
 
 var _mapDispatchToProps2 = _interopRequireDefault(_mapDispatchToProps);
 
-var _mapStateToProps = __webpack_require__(758);
+var _mapStateToProps = __webpack_require__(774);
 
 var _mapStateToProps2 = _interopRequireDefault(_mapStateToProps);
 
-var _mergeProps = __webpack_require__(759);
+var _mergeProps = __webpack_require__(775);
 
 var _mergeProps2 = _interopRequireDefault(_mergeProps);
 
-var _selectorFactory = __webpack_require__(760);
+var _selectorFactory = __webpack_require__(776);
 
 var _selectorFactory2 = _interopRequireDefault(_selectorFactory);
 
@@ -46145,7 +46620,7 @@ function createConnect() {
 exports.default = createConnect();
 
 /***/ }),
-/* 756 */
+/* 772 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46190,7 +46665,7 @@ function shallowEqual(objA, objB) {
 }
 
 /***/ }),
-/* 757 */
+/* 773 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46206,9 +46681,9 @@ exports.whenMapDispatchToPropsIsFunction = whenMapDispatchToPropsIsFunction;
 exports.whenMapDispatchToPropsIsMissing = whenMapDispatchToPropsIsMissing;
 exports.whenMapDispatchToPropsIsObject = whenMapDispatchToPropsIsObject;
 
-var _redux = __webpack_require__(267);
+var _redux = __webpack_require__(288);
 
-var _wrapMapToProps = __webpack_require__(430);
+var _wrapMapToProps = __webpack_require__(458);
 
 function whenMapDispatchToPropsIsFunction(mapDispatchToProps) {
   return typeof mapDispatchToProps === 'function' ? (0, _wrapMapToProps.wrapMapToPropsFunc)(mapDispatchToProps, 'mapDispatchToProps') : undefined;
@@ -46229,7 +46704,7 @@ function whenMapDispatchToPropsIsObject(mapDispatchToProps) {
 exports.default = [whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject];
 
 /***/ }),
-/* 758 */
+/* 774 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46241,7 +46716,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.whenMapStateToPropsIsFunction = whenMapStateToPropsIsFunction;
 exports.whenMapStateToPropsIsMissing = whenMapStateToPropsIsMissing;
 
-var _wrapMapToProps = __webpack_require__(430);
+var _wrapMapToProps = __webpack_require__(458);
 
 function whenMapStateToPropsIsFunction(mapStateToProps) {
   return typeof mapStateToProps === 'function' ? (0, _wrapMapToProps.wrapMapToPropsFunc)(mapStateToProps, 'mapStateToProps') : undefined;
@@ -46256,7 +46731,7 @@ function whenMapStateToPropsIsMissing(mapStateToProps) {
 exports.default = [whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing];
 
 /***/ }),
-/* 759 */
+/* 775 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46270,7 +46745,7 @@ exports.wrapMergePropsFunc = wrapMergePropsFunc;
 exports.whenMergePropsIsFunction = whenMergePropsIsFunction;
 exports.whenMergePropsIsOmitted = whenMergePropsIsOmitted;
 
-var _verifyPlainObject = __webpack_require__(431);
+var _verifyPlainObject = __webpack_require__(459);
 
 var _verifyPlainObject2 = _interopRequireDefault(_verifyPlainObject);
 
@@ -46329,7 +46804,7 @@ function whenMergePropsIsOmitted(mergeProps) {
 exports.default = [whenMergePropsIsFunction, whenMergePropsIsOmitted];
 
 /***/ }),
-/* 760 */
+/* 776 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46342,7 +46817,7 @@ exports.impureFinalPropsSelectorFactory = impureFinalPropsSelectorFactory;
 exports.pureFinalPropsSelectorFactory = pureFinalPropsSelectorFactory;
 exports.default = finalPropsSelectorFactory;
 
-var _verifySubselectors = __webpack_require__(761);
+var _verifySubselectors = __webpack_require__(777);
 
 var _verifySubselectors2 = _interopRequireDefault(_verifySubselectors);
 
@@ -46454,7 +46929,7 @@ function finalPropsSelectorFactory(dispatch, _ref2) {
 }
 
 /***/ }),
-/* 761 */
+/* 777 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46465,7 +46940,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = verifySubselectors;
 
-var _warning = __webpack_require__(270);
+var _warning = __webpack_require__(291);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -46488,13 +46963,13 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 }
 
 /***/ }),
-/* 762 */
+/* 778 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createFlow = __webpack_require__(432);
+var createFlow = __webpack_require__(460);
 
 /**
  * This method is like `_.flow` except that it creates a function that
@@ -46522,255 +46997,7 @@ var flowRight = createFlow(true);
 module.exports = flowRight;
 
 /***/ }),
-/* 763 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var WeakMap = __webpack_require__(198);
-
-/** Used to store function metadata. */
-var metaMap = WeakMap && new WeakMap();
-
-module.exports = metaMap;
-
-/***/ }),
-/* 764 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/** Used to lookup unminified function names. */
-var realNames = {};
-
-module.exports = realNames;
-
-/***/ }),
-/* 765 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var LazyWrapper = __webpack_require__(273),
-    getData = __webpack_require__(433),
-    getFuncName = __webpack_require__(434),
-    lodash = __webpack_require__(766);
-
-/**
- * Checks if `func` has a lazy counterpart.
- *
- * @private
- * @param {Function} func The function to check.
- * @returns {boolean} Returns `true` if `func` has a lazy counterpart,
- *  else `false`.
- */
-function isLaziable(func) {
-  var funcName = getFuncName(func),
-      other = lodash[funcName];
-
-  if (typeof other != 'function' || !(funcName in LazyWrapper.prototype)) {
-    return false;
-  }
-  if (func === other) {
-    return true;
-  }
-  var data = getData(other);
-  return !!data && func === data[0];
-}
-
-module.exports = isLaziable;
-
-/***/ }),
-/* 766 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var LazyWrapper = __webpack_require__(273),
-    LodashWrapper = __webpack_require__(271),
-    baseLodash = __webpack_require__(272),
-    isArray = __webpack_require__(5),
-    isObjectLike = __webpack_require__(14),
-    wrapperClone = __webpack_require__(767);
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Creates a `lodash` object which wraps `value` to enable implicit method
- * chain sequences. Methods that operate on and return arrays, collections,
- * and functions can be chained together. Methods that retrieve a single value
- * or may return a primitive value will automatically end the chain sequence
- * and return the unwrapped value. Otherwise, the value must be unwrapped
- * with `_#value`.
- *
- * Explicit chain sequences, which must be unwrapped with `_#value`, may be
- * enabled using `_.chain`.
- *
- * The execution of chained methods is lazy, that is, it's deferred until
- * `_#value` is implicitly or explicitly called.
- *
- * Lazy evaluation allows several methods to support shortcut fusion.
- * Shortcut fusion is an optimization to merge iteratee calls; this avoids
- * the creation of intermediate arrays and can greatly reduce the number of
- * iteratee executions. Sections of a chain sequence qualify for shortcut
- * fusion if the section is applied to an array and iteratees accept only
- * one argument. The heuristic for whether a section qualifies for shortcut
- * fusion is subject to change.
- *
- * Chaining is supported in custom builds as long as the `_#value` method is
- * directly or indirectly included in the build.
- *
- * In addition to lodash methods, wrappers have `Array` and `String` methods.
- *
- * The wrapper `Array` methods are:
- * `concat`, `join`, `pop`, `push`, `shift`, `sort`, `splice`, and `unshift`
- *
- * The wrapper `String` methods are:
- * `replace` and `split`
- *
- * The wrapper methods that support shortcut fusion are:
- * `at`, `compact`, `drop`, `dropRight`, `dropWhile`, `filter`, `find`,
- * `findLast`, `head`, `initial`, `last`, `map`, `reject`, `reverse`, `slice`,
- * `tail`, `take`, `takeRight`, `takeRightWhile`, `takeWhile`, and `toArray`
- *
- * The chainable wrapper methods are:
- * `after`, `ary`, `assign`, `assignIn`, `assignInWith`, `assignWith`, `at`,
- * `before`, `bind`, `bindAll`, `bindKey`, `castArray`, `chain`, `chunk`,
- * `commit`, `compact`, `concat`, `conforms`, `constant`, `countBy`, `create`,
- * `curry`, `debounce`, `defaults`, `defaultsDeep`, `defer`, `delay`,
- * `difference`, `differenceBy`, `differenceWith`, `drop`, `dropRight`,
- * `dropRightWhile`, `dropWhile`, `extend`, `extendWith`, `fill`, `filter`,
- * `flatMap`, `flatMapDeep`, `flatMapDepth`, `flatten`, `flattenDeep`,
- * `flattenDepth`, `flip`, `flow`, `flowRight`, `fromPairs`, `functions`,
- * `functionsIn`, `groupBy`, `initial`, `intersection`, `intersectionBy`,
- * `intersectionWith`, `invert`, `invertBy`, `invokeMap`, `iteratee`, `keyBy`,
- * `keys`, `keysIn`, `map`, `mapKeys`, `mapValues`, `matches`, `matchesProperty`,
- * `memoize`, `merge`, `mergeWith`, `method`, `methodOf`, `mixin`, `negate`,
- * `nthArg`, `omit`, `omitBy`, `once`, `orderBy`, `over`, `overArgs`,
- * `overEvery`, `overSome`, `partial`, `partialRight`, `partition`, `pick`,
- * `pickBy`, `plant`, `property`, `propertyOf`, `pull`, `pullAll`, `pullAllBy`,
- * `pullAllWith`, `pullAt`, `push`, `range`, `rangeRight`, `rearg`, `reject`,
- * `remove`, `rest`, `reverse`, `sampleSize`, `set`, `setWith`, `shuffle`,
- * `slice`, `sort`, `sortBy`, `splice`, `spread`, `tail`, `take`, `takeRight`,
- * `takeRightWhile`, `takeWhile`, `tap`, `throttle`, `thru`, `toArray`,
- * `toPairs`, `toPairsIn`, `toPath`, `toPlainObject`, `transform`, `unary`,
- * `union`, `unionBy`, `unionWith`, `uniq`, `uniqBy`, `uniqWith`, `unset`,
- * `unshift`, `unzip`, `unzipWith`, `update`, `updateWith`, `values`,
- * `valuesIn`, `without`, `wrap`, `xor`, `xorBy`, `xorWith`, `zip`,
- * `zipObject`, `zipObjectDeep`, and `zipWith`
- *
- * The wrapper methods that are **not** chainable by default are:
- * `add`, `attempt`, `camelCase`, `capitalize`, `ceil`, `clamp`, `clone`,
- * `cloneDeep`, `cloneDeepWith`, `cloneWith`, `conformsTo`, `deburr`,
- * `defaultTo`, `divide`, `each`, `eachRight`, `endsWith`, `eq`, `escape`,
- * `escapeRegExp`, `every`, `find`, `findIndex`, `findKey`, `findLast`,
- * `findLastIndex`, `findLastKey`, `first`, `floor`, `forEach`, `forEachRight`,
- * `forIn`, `forInRight`, `forOwn`, `forOwnRight`, `get`, `gt`, `gte`, `has`,
- * `hasIn`, `head`, `identity`, `includes`, `indexOf`, `inRange`, `invoke`,
- * `isArguments`, `isArray`, `isArrayBuffer`, `isArrayLike`, `isArrayLikeObject`,
- * `isBoolean`, `isBuffer`, `isDate`, `isElement`, `isEmpty`, `isEqual`,
- * `isEqualWith`, `isError`, `isFinite`, `isFunction`, `isInteger`, `isLength`,
- * `isMap`, `isMatch`, `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`,
- * `isNumber`, `isObject`, `isObjectLike`, `isPlainObject`, `isRegExp`,
- * `isSafeInteger`, `isSet`, `isString`, `isUndefined`, `isTypedArray`,
- * `isWeakMap`, `isWeakSet`, `join`, `kebabCase`, `last`, `lastIndexOf`,
- * `lowerCase`, `lowerFirst`, `lt`, `lte`, `max`, `maxBy`, `mean`, `meanBy`,
- * `min`, `minBy`, `multiply`, `noConflict`, `noop`, `now`, `nth`, `pad`,
- * `padEnd`, `padStart`, `parseInt`, `pop`, `random`, `reduce`, `reduceRight`,
- * `repeat`, `result`, `round`, `runInContext`, `sample`, `shift`, `size`,
- * `snakeCase`, `some`, `sortedIndex`, `sortedIndexBy`, `sortedLastIndex`,
- * `sortedLastIndexBy`, `startCase`, `startsWith`, `stubArray`, `stubFalse`,
- * `stubObject`, `stubString`, `stubTrue`, `subtract`, `sum`, `sumBy`,
- * `template`, `times`, `toFinite`, `toInteger`, `toJSON`, `toLength`,
- * `toLower`, `toNumber`, `toSafeInteger`, `toString`, `toUpper`, `trim`,
- * `trimEnd`, `trimStart`, `truncate`, `unescape`, `uniqueId`, `upperCase`,
- * `upperFirst`, `value`, and `words`
- *
- * @name _
- * @constructor
- * @category Seq
- * @param {*} value The value to wrap in a `lodash` instance.
- * @returns {Object} Returns the new `lodash` wrapper instance.
- * @example
- *
- * function square(n) {
- *   return n * n;
- * }
- *
- * var wrapped = _([1, 2, 3]);
- *
- * // Returns an unwrapped value.
- * wrapped.reduce(_.add);
- * // => 6
- *
- * // Returns a wrapped value.
- * var squares = wrapped.map(square);
- *
- * _.isArray(squares);
- * // => false
- *
- * _.isArray(squares.value());
- * // => true
- */
-function lodash(value) {
-  if (isObjectLike(value) && !isArray(value) && !(value instanceof LazyWrapper)) {
-    if (value instanceof LodashWrapper) {
-      return value;
-    }
-    if (hasOwnProperty.call(value, '__wrapped__')) {
-      return wrapperClone(value);
-    }
-  }
-  return new LodashWrapper(value);
-}
-
-// Ensure wrappers are instances of `baseLodash`.
-lodash.prototype = baseLodash.prototype;
-lodash.prototype.constructor = lodash;
-
-module.exports = lodash;
-
-/***/ }),
-/* 767 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var LazyWrapper = __webpack_require__(273),
-    LodashWrapper = __webpack_require__(271),
-    copyArray = __webpack_require__(121);
-
-/**
- * Creates a clone of `wrapper`.
- *
- * @private
- * @param {Object} wrapper The wrapper to clone.
- * @returns {Object} Returns the cloned wrapper.
- */
-function wrapperClone(wrapper) {
-  if (wrapper instanceof LazyWrapper) {
-    return wrapper.clone();
-  }
-  var result = new LodashWrapper(wrapper.__wrapped__, wrapper.__chain__);
-  result.__actions__ = copyArray(wrapper.__actions__);
-  result.__index__ = wrapper.__index__;
-  result.__values__ = wrapper.__values__;
-  return result;
-}
-
-module.exports = wrapperClone;
-
-/***/ }),
-/* 768 */
+/* 779 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46780,7 +47007,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _markerButtons = __webpack_require__(294);
+var _markerButtons = __webpack_require__(315);
 
 var INITIAL_STATE = null;
 
@@ -46819,7 +47046,7 @@ function markerStatusReducer() {
 exports.default = markerStatusReducer;
 
 /***/ }),
-/* 769 */
+/* 780 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46829,11 +47056,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _readabilityResultsReducer = __webpack_require__(770);
+var _readabilityResultsReducer = __webpack_require__(781);
 
-var _keywordResultsReducer = __webpack_require__(771);
+var _keywordResultsReducer = __webpack_require__(782);
 
-var _redux = __webpack_require__(267);
+var _redux = __webpack_require__(288);
 
 exports.default = (0, _redux.combineReducers)({
 	seo: _keywordResultsReducer.keywordResultsReducer,
@@ -46841,7 +47068,7 @@ exports.default = (0, _redux.combineReducers)({
 });
 
 /***/ }),
-/* 770 */
+/* 781 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46852,9 +47079,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.readabilityResultsReducer = readabilityResultsReducer;
 
-var _contentAnalysis = __webpack_require__(274);
+var _contentAnalysis = __webpack_require__(292);
 
-var _findIndex = __webpack_require__(140);
+var _findIndex = __webpack_require__(155);
 
 var _findIndex2 = _interopRequireDefault(_findIndex);
 
@@ -46916,7 +47143,7 @@ function readabilityResultsReducer() {
 }
 
 /***/ }),
-/* 771 */
+/* 782 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46927,13 +47154,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.keywordResultsReducer = keywordResultsReducer;
 
-var _contentAnalysis = __webpack_require__(274);
+var _contentAnalysis = __webpack_require__(292);
 
-var _findIndex = __webpack_require__(140);
+var _findIndex = __webpack_require__(155);
 
 var _findIndex2 = _interopRequireDefault(_findIndex);
 
-var _omit = __webpack_require__(175);
+var _omit = __webpack_require__(194);
 
 var _omit2 = _interopRequireDefault(_omit);
 
@@ -47064,7 +47291,7 @@ function keywordResultsReducer() {
 }
 
 /***/ }),
-/* 772 */
+/* 783 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47074,7 +47301,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _activeKeyword = __webpack_require__(435);
+var _activeKeyword = __webpack_require__(461);
 
 var INITIAL_STATE = null;
 
@@ -47101,7 +47328,7 @@ function activeKeywordReducer() {
 exports.default = activeKeywordReducer;
 
 /***/ }),
-/* 773 */
+/* 784 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47117,13 +47344,13 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(1);
+var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(269);
+var _reactRedux = __webpack_require__(290);
 
-var _Results = __webpack_require__(436);
+var _Results = __webpack_require__(462);
 
 var _Results2 = _interopRequireDefault(_Results);
 
@@ -47199,7 +47426,7 @@ function mapStateToProps(state, ownProps) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(ReadabilityAnalysis);
 
 /***/ }),
-/* 774 */
+/* 785 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47210,7 +47437,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = mapResults;
 
-var _scoreToRating = __webpack_require__(134);
+var _scoreToRating = __webpack_require__(149);
 
 var _scoreToRating2 = _interopRequireDefault(_scoreToRating);
 
@@ -47324,7 +47551,7 @@ function mapResults(results) {
 }
 
 /***/ }),
-/* 775 */
+/* 786 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47349,7 +47576,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _colors = __webpack_require__(9);
+var _colors = __webpack_require__(11);
 
 var _colors2 = _interopRequireDefault(_colors);
 
@@ -47357,15 +47584,15 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactIntl = __webpack_require__(24);
+var _reactIntl = __webpack_require__(25);
 
-var _makeOutboundLink = __webpack_require__(159);
+var _makeOutboundLink = __webpack_require__(176);
 
-var _AnalysisResult = __webpack_require__(776);
+var _AnalysisResult = __webpack_require__(787);
 
 var _AnalysisResult2 = _interopRequireDefault(_AnalysisResult);
 
-var _AnalysisCollapsible = __webpack_require__(778);
+var _AnalysisCollapsible = __webpack_require__(789);
 
 var _AnalysisCollapsible2 = _interopRequireDefault(_AnalysisCollapsible);
 
@@ -47702,7 +47929,7 @@ ContentAnalysis.defaultProps = {
 exports.default = (0, _reactIntl.injectIntl)(ContentAnalysis);
 
 /***/ }),
-/* 776 */
+/* 787 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47729,11 +47956,11 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _SvgIcon = __webpack_require__(76);
+var _SvgIcon = __webpack_require__(66);
 
 var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
 
-var _IconButtonToggle = __webpack_require__(777);
+var _IconButtonToggle = __webpack_require__(788);
 
 var _IconButtonToggle2 = _interopRequireDefault(_IconButtonToggle);
 
@@ -47805,7 +48032,7 @@ AnalysisResult.defaultProps = {
 exports.default = AnalysisResult;
 
 /***/ }),
-/* 777 */
+/* 788 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47829,15 +48056,15 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _colors = __webpack_require__(9);
+var _colors = __webpack_require__(11);
 
 var _colors2 = _interopRequireDefault(_colors);
 
-var _SvgIcon = __webpack_require__(76);
+var _SvgIcon = __webpack_require__(66);
 
 var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
 
-var _helpers = __webpack_require__(129);
+var _helpers = __webpack_require__(122);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47941,7 +48168,7 @@ ChangingIconButton.defaultProps = {
 exports.default = ChangingIconButton;
 
 /***/ }),
-/* 778 */
+/* 789 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47972,13 +48199,13 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _reactUtils = __webpack_require__(779);
+var _reactUtils = __webpack_require__(790);
 
-var _colors = __webpack_require__(9);
+var _colors = __webpack_require__(11);
 
 var _colors2 = _interopRequireDefault(_colors);
 
-var _Button = __webpack_require__(780);
+var _Button = __webpack_require__(791);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48176,7 +48403,7 @@ AnalysisCollapsible.defaultProps = {
 exports.default = AnalysisCollapsible;
 
 /***/ }),
-/* 779 */
+/* 790 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48206,7 +48433,7 @@ function getChildrenCount(children) {
 }
 
 /***/ }),
-/* 780 */
+/* 791 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48239,11 +48466,11 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _flow = __webpack_require__(781);
+var _flow = __webpack_require__(792);
 
 var _flow2 = _interopRequireDefault(_flow);
 
-var _omit = __webpack_require__(175);
+var _omit = __webpack_require__(194);
 
 var _omit2 = _interopRequireDefault(_omit);
 
@@ -48251,15 +48478,15 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _colors = __webpack_require__(9);
+var _colors = __webpack_require__(11);
 
 var _colors2 = _interopRequireDefault(_colors);
 
-var _SvgIcon = __webpack_require__(76);
+var _SvgIcon = __webpack_require__(66);
 
 var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
 
-var _helpers = __webpack_require__(129);
+var _helpers = __webpack_require__(122);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48466,13 +48693,13 @@ IconButton.defaultProps = {
 };
 
 /***/ }),
-/* 781 */
+/* 792 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createFlow = __webpack_require__(432);
+var createFlow = __webpack_require__(460);
 
 /**
  * Creates a function that returns the result of invoking the given functions
@@ -48501,7 +48728,7 @@ var flow = createFlow();
 module.exports = flow;
 
 /***/ }),
-/* 782 */
+/* 793 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48517,13 +48744,13 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(1);
+var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(269);
+var _reactRedux = __webpack_require__(290);
 
-var _Results = __webpack_require__(436);
+var _Results = __webpack_require__(462);
 
 var _Results2 = _interopRequireDefault(_Results);
 
@@ -48587,7 +48814,7 @@ function mapStateToProps(state, ownProps) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(SeoAnalysis);
 
 /***/ }),
-/* 783 */
+/* 794 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48595,10 +48822,10 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps)(SeoAnalysis);
 
 /* global YoastSEO */
 
-var defaultsDeep = __webpack_require__(81);
+var defaultsDeep = __webpack_require__(89);
 
-var KeywordTab = __webpack_require__(784);
-var GenericTab = __webpack_require__(440);
+var KeywordTab = __webpack_require__(795);
+var GenericTab = __webpack_require__(466);
 
 var $ = jQuery;
 
@@ -48773,7 +49000,7 @@ TabManager.prototype.getContentTab = function () {
 module.exports = TabManager;
 
 /***/ }),
-/* 784 */
+/* 795 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48781,9 +49008,9 @@ module.exports = TabManager;
 
 /* global wp, jQuery */
 var isUndefined = __webpack_require__(3);
-var defaultsDeep = __webpack_require__(81);
+var defaultsDeep = __webpack_require__(89);
 
-var GenericTab = __webpack_require__(440);
+var GenericTab = __webpack_require__(466);
 
 var defaultArguments = {
 	keyword: "",
@@ -48917,13 +49144,13 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 785 */
+/* 796 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getL10nObject = __webpack_require__(82);
+var getL10nObject = __webpack_require__(90);
 
 var isUndefined = __webpack_require__(3);
 
@@ -48941,7 +49168,7 @@ function isContentAnalysisActive() {
 module.exports = isContentAnalysisActive;
 
 /***/ }),
-/* 786 */
+/* 797 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48949,12 +49176,12 @@ module.exports = isContentAnalysisActive;
 
 /* global jQuery */
 
-var getL10nObject = __webpack_require__(82);
-var getI18n = __webpack_require__(787);
-var getTitlePlaceholder = __webpack_require__(788);
-var getDescriptionPlaceholder = __webpack_require__(789);
+var getL10nObject = __webpack_require__(90);
+var getI18n = __webpack_require__(798);
+var getTitlePlaceholder = __webpack_require__(799);
+var getDescriptionPlaceholder = __webpack_require__(800);
 
-var SnippetPreview = __webpack_require__(132).SnippetPreview;
+var SnippetPreview = __webpack_require__(147).SnippetPreview;
 
 /**
  * Removes all analysis objects from the DOM except the snippet preview
@@ -49077,15 +49304,15 @@ module.exports = {
 };
 
 /***/ }),
-/* 787 */
+/* 798 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getTranslations = __webpack_require__(441);
-var isEmpty = __webpack_require__(13);
-var Jed = __webpack_require__(166);
+var getTranslations = __webpack_require__(467);
+var isEmpty = __webpack_require__(15);
+var Jed = __webpack_require__(185);
 
 /**
  * Returns a Jed object usable in YoastSEO.js
@@ -49113,13 +49340,13 @@ function getI18n() {
 module.exports = getI18n;
 
 /***/ }),
-/* 788 */
+/* 799 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getL10nObject = __webpack_require__(82);
+var getL10nObject = __webpack_require__(90);
 
 /**
  * Returns the title placeholder for use in the title forms.
@@ -49144,13 +49371,13 @@ function getTitlePlaceholder() {
 module.exports = getTitlePlaceholder;
 
 /***/ }),
-/* 789 */
+/* 800 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getL10nObject = __webpack_require__(82);
+var getL10nObject = __webpack_require__(90);
 
 /**
  * Returns the description placeholder for use in the description forms.
@@ -49171,7 +49398,7 @@ function getDescriptionPlaceholder() {
 module.exports = getDescriptionPlaceholder;
 
 /***/ }),
-/* 790 */
+/* 801 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49179,10 +49406,10 @@ module.exports = getDescriptionPlaceholder;
 
 /* global jQuery, ajaxurl */
 
-var UsedKeywordsPlugin = __webpack_require__(132).bundledPlugins.usedKeywords;
-var _has = __webpack_require__(263);
-var _debounce = __webpack_require__(75);
-var _isArray = __webpack_require__(5);
+var UsedKeywordsPlugin = __webpack_require__(147).bundledPlugins.usedKeywords;
+var _has = __webpack_require__(284);
+var _debounce = __webpack_require__(73);
+var _isArray = __webpack_require__(4);
 var $ = jQuery;
 
 /**
@@ -49275,17 +49502,6 @@ UsedKeywords.prototype.updateKeywordUsage = function (keyword, response) {
 module.exports = UsedKeywords;
 
 /***/ }),
-/* 791 */,
-/* 792 */,
-/* 793 */,
-/* 794 */,
-/* 795 */,
-/* 796 */,
-/* 797 */,
-/* 798 */,
-/* 799 */,
-/* 800 */,
-/* 801 */,
 /* 802 */,
 /* 803 */,
 /* 804 */,
@@ -49314,7 +49530,26 @@ module.exports = UsedKeywords;
 /* 827 */,
 /* 828 */,
 /* 829 */,
-/* 830 */
+/* 830 */,
+/* 831 */,
+/* 832 */,
+/* 833 */,
+/* 834 */,
+/* 835 */,
+/* 836 */,
+/* 837 */,
+/* 838 */,
+/* 839 */,
+/* 840 */,
+/* 841 */,
+/* 842 */,
+/* 843 */,
+/* 844 */,
+/* 845 */,
+/* 846 */,
+/* 847 */,
+/* 848 */,
+/* 849 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49416,25 +49651,6 @@ var imageScoreClass = "image yoast-logo svg";
 })(jQuery);
 
 /***/ }),
-/* 831 */,
-/* 832 */,
-/* 833 */,
-/* 834 */,
-/* 835 */,
-/* 836 */,
-/* 837 */,
-/* 838 */,
-/* 839 */,
-/* 840 */,
-/* 841 */,
-/* 842 */,
-/* 843 */,
-/* 844 */,
-/* 845 */,
-/* 846 */,
-/* 847 */,
-/* 848 */,
-/* 849 */,
 /* 850 */,
 /* 851 */,
 /* 852 */,
@@ -49603,77 +49819,120 @@ var imageScoreClass = "image yoast-logo svg";
 /* 1015 */,
 /* 1016 */,
 /* 1017 */,
-/* 1018 */
+/* 1018 */,
+/* 1019 */,
+/* 1020 */,
+/* 1021 */,
+/* 1022 */,
+/* 1023 */,
+/* 1024 */,
+/* 1025 */,
+/* 1026 */,
+/* 1027 */,
+/* 1028 */,
+/* 1029 */,
+/* 1030 */,
+/* 1031 */,
+/* 1032 */,
+/* 1033 */,
+/* 1034 */,
+/* 1035 */,
+/* 1036 */,
+/* 1037 */,
+/* 1038 */,
+/* 1039 */,
+/* 1040 */,
+/* 1041 */,
+/* 1042 */,
+/* 1043 */,
+/* 1044 */,
+/* 1045 */,
+/* 1046 */,
+/* 1047 */,
+/* 1048 */,
+/* 1049 */,
+/* 1050 */,
+/* 1051 */,
+/* 1052 */,
+/* 1053 */,
+/* 1054 */,
+/* 1055 */,
+/* 1056 */,
+/* 1057 */,
+/* 1058 */,
+/* 1059 */,
+/* 1060 */,
+/* 1061 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _yoastseo = __webpack_require__(132);
+var _yoastseo = __webpack_require__(147);
 
 var _isUndefined = __webpack_require__(3);
 
 var _isUndefined2 = _interopRequireDefault(_isUndefined);
 
-var _wpSeoTinymce = __webpack_require__(423);
+var _wpSeoTinymce = __webpack_require__(451);
 
 var _wpSeoTinymce2 = _interopRequireDefault(_wpSeoTinymce);
 
-var _wpSeoMarkdownPlugin = __webpack_require__(1019);
+var _wpSeoMarkdownPlugin = __webpack_require__(1062);
 
 var _wpSeoMarkdownPlugin2 = _interopRequireDefault(_wpSeoMarkdownPlugin);
 
-var _edit = __webpack_require__(735);
+var _edit = __webpack_require__(751);
 
 var _edit2 = _interopRequireDefault(_edit);
 
-var _activeKeyword = __webpack_require__(435);
+var _activeKeyword = __webpack_require__(461);
 
-var _contentAnalysis = __webpack_require__(274);
+var _contentAnalysis = __webpack_require__(292);
 
-var _tinyMCE = __webpack_require__(295);
+var _tinyMCE = __webpack_require__(316);
 
-var _publishBox = __webpack_require__(830);
+var _publishBox = __webpack_require__(849);
 
 var _publishBox2 = _interopRequireDefault(_publishBox);
 
-var _trafficLight = __webpack_require__(437);
+var _trafficLight = __webpack_require__(463);
 
-var _adminBar = __webpack_require__(438);
+var _adminBar = __webpack_require__(464);
 
-var _PostDataCollector = __webpack_require__(1021);
+var _PostDataCollector = __webpack_require__(1064);
 
 var _PostDataCollector2 = _interopRequireDefault(_PostDataCollector);
 
-var _getIndicatorForScore = __webpack_require__(275);
+var _getIndicatorForScore = __webpack_require__(293);
 
 var _getIndicatorForScore2 = _interopRequireDefault(_getIndicatorForScore);
 
-var _tabManager = __webpack_require__(783);
+var _tabManager = __webpack_require__(794);
 
 var _tabManager2 = _interopRequireDefault(_tabManager);
 
-var _getTranslations = __webpack_require__(441);
+var _getTranslations = __webpack_require__(467);
 
 var _getTranslations2 = _interopRequireDefault(_getTranslations);
 
-var _isKeywordAnalysisActive = __webpack_require__(439);
+var _isKeywordAnalysisActive = __webpack_require__(465);
 
 var _isKeywordAnalysisActive2 = _interopRequireDefault(_isKeywordAnalysisActive);
 
-var _isContentAnalysisActive = __webpack_require__(785);
+var _isContentAnalysisActive = __webpack_require__(796);
 
 var _isContentAnalysisActive2 = _interopRequireDefault(_isContentAnalysisActive);
 
-var _snippetPreview = __webpack_require__(786);
+var _snippetPreview = __webpack_require__(797);
 
 var _snippetPreview2 = _interopRequireDefault(_snippetPreview);
 
-var _usedKeywords = __webpack_require__(790);
+var _usedKeywords = __webpack_require__(801);
 
 var _usedKeywords2 = _interopRequireDefault(_usedKeywords);
 
-var _markerButtons = __webpack_require__(294);
+var _markerButtons = __webpack_require__(315);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50105,7 +50364,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 })(jQuery); /* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
 /***/ }),
-/* 1019 */
+/* 1062 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50117,7 +50376,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _marked = __webpack_require__(1020);
+var _marked = __webpack_require__(1063);
 
 var _marked2 = _interopRequireDefault(_marked);
 
@@ -50170,7 +50429,7 @@ var YoastMarkdownPlugin = function () {
 exports.default = YoastMarkdownPlugin;
 
 /***/ }),
-/* 1020 */
+/* 1063 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51359,10 +51618,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 }).call(function () {
   return this || (typeof window !== 'undefined' ? window : global);
 }());
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 1021 */
+/* 1064 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51374,31 +51633,31 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /* global jQuery, YoastSEO, wpseoPostScraperL10n */
 
-var _isKeywordAnalysisActive = __webpack_require__(439);
+var _isKeywordAnalysisActive = __webpack_require__(465);
 
 var _isKeywordAnalysisActive2 = _interopRequireDefault(_isKeywordAnalysisActive);
 
-var _removeMarks = __webpack_require__(448);
+var _removeMarks = __webpack_require__(475);
 
 var _removeMarks2 = _interopRequireDefault(_removeMarks);
 
-var _wpSeoTinymce = __webpack_require__(423);
+var _wpSeoTinymce = __webpack_require__(451);
 
 var _wpSeoTinymce2 = _interopRequireDefault(_wpSeoTinymce);
 
-var _getIndicatorForScore = __webpack_require__(275);
+var _getIndicatorForScore = __webpack_require__(293);
 
 var _getIndicatorForScore2 = _interopRequireDefault(_getIndicatorForScore);
 
-var _trafficLight = __webpack_require__(437);
+var _trafficLight = __webpack_require__(463);
 
-var _adminBar = __webpack_require__(438);
+var _adminBar = __webpack_require__(464);
 
-var _publishBox = __webpack_require__(830);
+var _publishBox = __webpack_require__(849);
 
 var _publishBox2 = _interopRequireDefault(_publishBox);
 
-var _get2 = __webpack_require__(281);
+var _get2 = __webpack_require__(302);
 
 var _get3 = _interopRequireDefault(_get2);
 
@@ -51820,4 +52079,4 @@ PostDataCollector.prototype.initKeywordTabTemplate = function () {
 exports.default = PostDataCollector;
 
 /***/ })
-],[1018]);
+],[1061]);
