@@ -4,6 +4,10 @@
 * Removes plugin suggestions from the dashboard.
 * Includes every change in Yoast SEO core 7.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 
+### 7.1.1: March 22nd, 2018
+Bugfix:
+* Fixes a fatal error on the Import/Export pages where a method on an import status property is called which is not always available.
+
 ### 7.1.0: March 20th, 2018
 Enhancement:
 * Adds Portuguese Insights and Linking suggestions. Props to [amesdigital](https://github.com/amesdigital).
