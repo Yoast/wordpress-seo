@@ -66,7 +66,7 @@ if ( $import ) {
 			$status = 'updated';
 		}
 
-		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
+		echo '<div id="message" class="message ', $status, '"><p>', esc_html( $msg ), '</p></div>';
 	}
 }
 

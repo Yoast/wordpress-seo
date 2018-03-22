@@ -6,8 +6,6 @@
  */
 
 /**
- * Class WPSEO_Import_Squirrly
- *
  * Class with functionality to import & clean Squirrly post metadata.
  */
 class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
@@ -83,7 +81,7 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 	/**
 	 * Retrieve the posts from the Squirrly Database.
 	 *
-	 * @return array
+	 * @return array Array of post IDs from the DB.
 	 */
 	protected function retrieve_posts() {
 		global $wpdb;
@@ -98,7 +96,7 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 	/**
 	 * Returns the query to return an identifier for the posts to import.
 	 *
-	 * @return string
+	 * @return string Query to get post ID's from the DB.
 	 */
 	protected function retrieve_posts_query() {
 		return "SELECT post_id AS identifier FROM {$this->table_name} WHERE blog_id = %d";

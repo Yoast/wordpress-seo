@@ -124,6 +124,8 @@ abstract class WPSEO_Plugin_Importer {
 
 	/**
 	 * Sets the status message for when a cleanup has gone bad.
+	 *
+	 * @return void
 	 */
 	protected function cleanup_error_msg() {
 		/* translators: %s is replaced with the plugin's name. */

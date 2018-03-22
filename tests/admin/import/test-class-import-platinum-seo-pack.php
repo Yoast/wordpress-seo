@@ -29,8 +29,6 @@ class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
 	 * Tests the plugin name function.
 	 *
 	 * @covers WPSEO_Import_Platinum_SEO::get_plugin_name
-	 *
-	 * @group test
 	 */
 	public function test_plugin_name() {
 		$this->assertEquals( 'Platinum SEO Pack', $this->class_instance->get_plugin_name() );
@@ -40,8 +38,6 @@ class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
 	 * Tests whether this importer has been registered.
 	 *
 	 * @covers WPSEO_Plugin_Importers::get
-	 *
-	 * @group test
 	 */
 	public function test_importer_registered() {
 		$this->assertContains( 'WPSEO_Import_Platinum_SEO', WPSEO_Plugin_Importers::get() );
@@ -52,8 +48,6 @@ class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Import_Platinum_SEO::run_detect
 	 * @covers WPSEO_Import_Platinum_SEO::detect
-	 *
-	 * @group test
 	 */
 	public function test_detect_no_data() {
 		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
@@ -65,8 +59,6 @@ class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_Platinum_SEO::__construct
 	 * @covers WPSEO_Import_Platinum_SEO::run_detect
 	 * @covers WPSEO_Import_Platinum_SEO::detect
-	 *
-	 * @group test
 	 */
 	public function test_detect() {
 		$this->setup_post();
@@ -77,8 +69,6 @@ class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
 	 * Tests whether we can return properly when there's nothing to import.
 	 *
 	 * @covers WPSEO_Import_Platinum_SEO::run_import
-	 *
-	 * @group test
 	 */
 	public function test_import_no_data() {
 		$this->assertEquals( $this->status( 'import', false ), $this->class_instance->run_import() );
@@ -94,8 +84,6 @@ class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_Platinum_SEO::import_robots_meta
 	 * @covers WPSEO_Import_Platinum_SEO::import_by_meta_robots
 	 * @covers WPSEO_Import_Platinum_SEO::find_posts_by_robots_meta
-	 *
-	 * @group test
 	 */
 	public function test_import() {
 		$post_id = $this->setup_post();
@@ -117,8 +105,6 @@ class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
 	 * Tests whether we can properly return an error when there is no data to clean.
 	 *
 	 * @covers WPSEO_Import_Platinum_SEO::run_cleanup
-	 *
-	 * @group test
 	 */
 	public function test_cleanup_no_data() {
 		$this->assertEquals( $this->status( 'cleanup', false ), $this->class_instance->run_cleanup() );
@@ -129,8 +115,6 @@ class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Import_Platinum_SEO::run_cleanup
 	 * @covers WPSEO_Import_Platinum_SEO::cleanup
-	 *
-	 * @group test
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_post();
@@ -151,8 +135,6 @@ class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
 	 * @param bool   $bool   The status.
 	 *
 	 * @return WPSEO_Import_Status Import status object.
-	 *
-	 * @group test
 	 */
 	private function status( $action, $bool ) {
 		return new WPSEO_Import_Status( $action, $bool );
@@ -162,8 +144,6 @@ class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
 	 * Sets up a test post.
 	 *
 	 * @return int $post_id ID for the post created.
-	 *
-	 * @group test
 	 */
 	private function setup_post() {
 		$post_id = $this->factory()->post->create();

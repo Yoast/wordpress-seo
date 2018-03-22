@@ -98,7 +98,6 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 		$robots_nofollow = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', true );
 		$opengraph_image = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'opengraph-image', true );
 		$opengraph_title = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'opengraph-title', true );
-		$twitter_desc    = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'twitter-description', true );
 		$twitter_title   = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'twitter-title', true );
 
 		$this->assertEquals( 'Test title', $seo_title );
@@ -107,7 +106,6 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 1, $robots_nofollow );
 		$this->assertEquals( 'http://local.wordpress.test/wp-content/uploads/2018/01/actionable-seo.png', $opengraph_image );
 		$this->assertEquals( 'smartcrawl test opengraph title', $opengraph_title );
-		$this->assertEquals( 'smartcrawl test twitter desc', $twitter_desc );
 		$this->assertEquals( 'smartcrawl test twitter title', $twitter_title );
 		$this->assertEquals( $this->status( 'import', true ), $result );
 	}
@@ -297,7 +295,7 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 		update_post_meta( $post_id, '_wds_meta-robots-noindex', 1 );
 		update_post_meta( $post_id, '_wds_meta-robots-nofollow', 1 );
 		update_post_meta( $post_id, '_wds_opengraph', 'a:4:{s:8:"disabled";b:0;s:5:"title";s:31:"smartcrawl test opengraph title";s:11:"description";s:30:"smartcrawl test opengraph desc";s:6:"images";a:1:{i:0;s:73:"http://local.wordpress.test/wp-content/uploads/2018/01/actionable-seo.png";}}' );
-		update_post_meta( $post_id, '_wds_twitter', 'a:4:{s:8:"disabled";b:0;s:6:"use_og";b:0;s:5:"title";s:29:"smartcrawl test twitter title";s:11:"description";s:28:"smartcrawl test twitter desc";}' );
+		update_post_meta( $post_id, '_wds_twitter', 'a:3:{s:8:"disabled";b:0;s:6:"use_og";b:0;s:5:"title";s:29:"smartcrawl test twitter title";}' );
 
 		if ( $pre_existing_yoast_data ) {
 			update_post_meta( $post_id, '_yoast_wpseo_metadesc', 'Existing Yoast SEO Test description' );

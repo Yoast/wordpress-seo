@@ -112,7 +112,7 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 	}
 
 	/**
-	 * Finds posts by a given meta robots value
+	 * Finds posts by a given meta robots value.
 	 *
 	 * @param string $meta_value Robots meta value.
 	 *

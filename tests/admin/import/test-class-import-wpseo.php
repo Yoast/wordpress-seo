@@ -83,8 +83,6 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_WPSEO::import_post_robot
 	 * @covers WPSEO_Import_WPSEO::import_post_robots
 	 * @covers WPSEO_Import_WPSEO::get_robot_value
-	 *
-	 * @group test
 	 */
 	public function test_import() {
 		$post_id = $this->setup_data();
