@@ -71,7 +71,7 @@ class WPSEO_Link_Table_Accessible {
 		global $wpdb;
 
 		$storage = new WPSEO_Link_Storage();
-		if ( $wpdb->get_var( 'SHOW TABLES LIKE "' . $storage->get_table_name() . '"' ) !== $storage->get_table_name() ) {
+		if ( $wpdb->get_var( 'SHOW TABLES LIKE \'' . $storage->get_table_name() . '\'' ) !== $storage->get_table_name() ) {
 			self::set_inaccessible();
 			return false;
 		}
