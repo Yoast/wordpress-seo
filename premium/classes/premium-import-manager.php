@@ -48,8 +48,10 @@ class WPSEO_Premium_Import_Manager {
 			$import = (object) array(
 				'msg'     => '',
 				'success' => false,
+				'status'  => null,
 			);
 		}
+
 		$this->import = $import;
 		$this->htaccess_import();
 		$this->do_plugin_imports();

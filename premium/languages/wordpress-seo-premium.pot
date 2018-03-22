@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2018-03-20 10:19:12+00:00\n"
+"POT-Creation-Date: 2018-03-22 08:19:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -96,45 +96,45 @@ msgid ""
 msgstr ""
 
 #. translators: %s: '.htaccess' file name
-#: classes/premium-import-manager.php:65 classes/views/import-redirects.php:31
+#: classes/premium-import-manager.php:67 classes/views/import-redirects.php:31
 msgid "Import redirects"
 msgstr ""
 
-#: classes/premium-import-manager.php:74
+#: classes/premium-import-manager.php:76
 msgid "Redirection"
 msgstr ""
 
-#: classes/premium-import-manager.php:75
+#: classes/premium-import-manager.php:77
 msgid "Safe Redirect Manager"
 msgstr ""
 
-#: classes/premium-import-manager.php:76
+#: classes/premium-import-manager.php:78
 msgid "Simple 301 Redirects"
 msgstr ""
 
-#: classes/premium-import-manager.php:87
+#: classes/premium-import-manager.php:89
 msgid "Redirects have been imported."
 msgstr ""
 
-#: classes/premium-import-manager.php:94
+#: classes/premium-import-manager.php:96
 msgid "Redirect import failed: Redirection plugin not installed or activated."
 msgstr ""
 
-#: classes/premium-import-manager.php:101
+#: classes/premium-import-manager.php:103
 msgid "Redirect import failed: No redirects found."
 msgstr ""
 
 #. translators: %s: '.htaccess' file name
-#: classes/premium-import-manager.php:109
+#: classes/premium-import-manager.php:111
 msgid "%s redirects have been imported."
 msgstr ""
 
 #. translators: %s: '.htaccess' file name
-#: classes/premium-import-manager.php:117
+#: classes/premium-import-manager.php:119
 msgid "%s import failed: No redirects found."
 msgstr ""
 
-#: classes/premium-import-manager.php:124
+#: classes/premium-import-manager.php:126
 msgid ""
 "CSV import failed: The provided file could not be parsed using a CSV parser."
 msgstr ""
