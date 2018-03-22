@@ -322,8 +322,8 @@ class WPSEO_Admin {
 		 * The Whip message shouldn't be shown from WordPress 4.9.5 and higher because
 		 * that version introduces Serve Happy which is almost similar to Whip.
 		 */
-		$minimal_required_wordpress_version = '4.9.5';
-		if ( version_compare( $GLOBALS['wp_version'], $minimal_required_wordpress_version, '>=' ) ) {
+		$minimal_wp_version = '4.9.5';
+		if ( version_compare( $GLOBALS['wp_version'], $minimal_wp_version, '>=' ) ) {
 			return;
 		}
 
