@@ -12,11 +12,13 @@ import IntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
+import keywordsReducer from "./redux/reducers/keywords";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 import Data from "./analysis/data.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
+import * as keywordActions from "./redux/actions/keywords";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -52,6 +54,7 @@ function configureStore() {
 		marksButtonStatus: markerStatusReducer,
 		analysis: analysis,
 		activeKeyword: activeKeyword,
+		keywords: keywordsReducer,
 	} );
 
 	return createStore( rootReducer, {}, flowRight( enhancers ) );
