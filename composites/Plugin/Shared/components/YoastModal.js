@@ -53,7 +53,7 @@ class BaseYoastModal extends React.Component {
 					this.props.closeIconButton &&
 						<StyledButton
 							onClick={ this.props.onClose }
-							className="yoast-modal__button-close-icon"
+							className={ `${ this.props.xCloseButtonClassName } yoast-modal__button-close-icon` }
 							aria-label={ this.props.closeIconButton }
 						>
 							<SvgIcon icon="times" color={ colors.$color_grey_text } />
@@ -89,6 +89,7 @@ BaseYoastModal.propTypes = {
 	heading: PropTypes.string,
 	closeIconButton: PropTypes.string,
 	closeButton: PropTypes.string,
+	xCloseButtonClassName: PropTypes.string,
 	closeButtonClassName: PropTypes.string,
 };
 
