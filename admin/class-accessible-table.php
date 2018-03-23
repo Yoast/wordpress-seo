@@ -85,7 +85,7 @@ abstract class WPSEO_Accessible_Table {
 		global $wpdb;
 
 		$storage = new self::$storage_class();
-		$query   = $wpdb->prepare( "SHOW TABLES LIKE %s", $storage->get_table_name() );
+		$query   = $wpdb->prepare( 'SHOW TABLES LIKE %s', $storage->get_table_name() );
 		if ( $wpdb->get_var( $query ) !== $storage->get_table_name() ) {
 			self::set_inaccessible();
 			return false;
