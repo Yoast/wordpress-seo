@@ -78,7 +78,7 @@ class WPSEO_Frontend_Cache {
 	 */
 	public function save_cache() {
 		$output = ob_get_flush();
-		wp_cache_set( $this->get_cache_key(), $output, $this->cache_group );
+		wp_cache_set( $this->get_cache_key(), $output, $this->cache_group, DAY_IN_SECONDS );
 	}
 
 	/**
