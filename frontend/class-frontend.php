@@ -789,7 +789,7 @@ class WPSEO_Frontend {
 		}
 
 		// If a page has a noindex, it should _not_ have a canonical, as these are opposing indexing directives.
-		if ( $robots['index'] === 'noindex' ) {
+		if ( strpos( $robotsstr, 'noindex' ) !== false ) {
 			remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		}
 
@@ -1186,16 +1186,24 @@ class WPSEO_Frontend {
 			$this->generate_metadesc();
 		}
 
-		if ( $echo !== false ) {
-			if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
-				echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
-			}
-			elseif ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
-				echo '<!-- ', esc_html__( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
-			}
-		}
-		else {
+		if ( $echo === false ) {
 			return $this->metadesc;
+		}
+
+		if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
+			echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
+			return '';
+		}
+
+		if ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
+			echo '<!-- ';
+			printf(
+				/* Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search Appearance submenu item. */
+				esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template.', 'wordpress-seo' ),
+				__( 'SEO', 'wordpress-seo' ),
+				__( 'Search Appearance', 'wordpress-seo' )
+			);
+			echo ' -->' . "\n";
 		}
 	}
 
@@ -1337,6 +1345,7 @@ class WPSEO_Frontend {
 	 * Outputs noindex values for the current page.
 	 */
 	public function noindex_page() {
+		remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		echo '<meta name="robots" content="noindex" />', "\n";
 	}
 

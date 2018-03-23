@@ -38,6 +38,7 @@
     "babel-jest": "^18.0.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-dynamic-import-webpack": "^1.0.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
@@ -104,10 +105,10 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^2.1.2",
-    "yoast-components": "^3.1.0",
-    "yoastseo": "^1.30"
+    "yoast-components": "^3.2.1",
+    "yoastseo": "^1.30.2"
   },
   "yoast": {
-    "pluginVersion": "7.0.3"
+    "pluginVersion": "7.1"
   }
 }

@@ -99,6 +99,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_71();
 		}
 
+		if ( version_compare( $version, '7.3-RC0', '<' ) ) {
+			$this->upgrade_73();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -116,7 +120,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
-	private function finish_up() {
+	protected function finish_up() {
 		WPSEO_Options::set( 'version', WPSEO_VERSION );
 
 		add_action( 'shutdown', 'flush_rewrite_rules' );                     // Just flush rewrites, always, to at least make them work after an upgrade.
@@ -509,9 +513,31 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Perform the 7.1 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_71() {
 		$this->cleanup_option_data( 'wpseo_social' );
+
+		// Move the breadcrumbs setting and invert it.
+		$title_options = $this->get_option_from_database( 'wpseo_titles' );
+
+		if ( array_key_exists( 'breadcrumbs-blog-remove', $title_options ) ) {
+			WPSEO_Options::set( 'breadcrumbs-display-blog-page', ! $title_options['breadcrumbs-blog-remove'] );
+
+			$this->cleanup_option_data( 'wpseo_titles' );
+		}
+	}
+
+	/**
+	 * Perform the 7.3 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_73() {
+		global $wpdb;
+		// We've moved the cornerstone checkbox to our proper namespace.
+		$wpdb->query( "UPDATE $wpdb->postmeta SET meta_key = '_yoast_wpseo_is_cornerstone' WHERE meta_key = '_yst_is_cornerstone'" );
 	}
 
 	/**
