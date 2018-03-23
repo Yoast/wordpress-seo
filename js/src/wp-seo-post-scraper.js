@@ -443,7 +443,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		}
 
 		// Switch between assessors when checkbox has been checked.
-		let cornerstoneCheckbox = jQuery( "#_yst_is_cornerstone" );
+		let cornerstoneCheckbox = jQuery( "#yoast_wpseo_is_cornerstone" );
 		app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
 		cornerstoneCheckbox.change( function() {
 			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
