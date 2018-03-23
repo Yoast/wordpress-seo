@@ -1190,13 +1190,21 @@ class WPSEO_Frontend {
 			return $this->metadesc;
 		}
 
-		if ( ! is_string( $this->metadesc ) || $this->metadesc === '' ) {
-			if ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
-				echo '<!-- ', esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the SEO -> Search Appearance menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
-			}
+		if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
+			echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
 			return '';
 		}
-		echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
+
+		if ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
+			echo '<!-- ';
+			printf(
+				/* Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search Appearance submenu item. */
+				esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template.', 'wordpress-seo' ),
+				__( 'SEO', 'wordpress-seo' ),
+				__( 'Search Appearance', 'wordpress-seo' )
+			);
+			echo ' -->' . "\n";
+		}
 	}
 
 	/**
