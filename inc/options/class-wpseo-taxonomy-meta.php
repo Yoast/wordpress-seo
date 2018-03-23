@@ -538,6 +538,12 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 		self::save_tax_meta( $tax_meta );
 
+		/**
+		 * Action: 'wpseo_save_tax_meta' - Allows for extra actions when we save SEO data.
+		 *
+		 * @param int    $term_id  The term ID we're saving things for.
+		 * @param string $taxonomy The taxonomy the term ID belongs to.
+		 */
 		do_action( 'wpseo_save_tax_meta', $term_id, $taxonomy );
 	}
 
