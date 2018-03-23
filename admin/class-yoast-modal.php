@@ -38,7 +38,7 @@ class Yoast_Modal {
 	/**
 	 * Adds a single modal configuration to the modals configuration.
 	 *
-	 * @param array $args The modal configuration argument.
+	 * @param array $args The modal configuration arguments.
 	 */
 	public static function add( $args ) {
 		$defaults = self::get_defaults();
@@ -55,21 +55,21 @@ class Yoast_Modal {
 	}
 
 	/**
-	 * Gets the default config for a modal.
+	 * Gets the default configuration for a modal.
 	 *
-	 * @return array The modal default config.
+	 * @return array The modal default configuration.
 	 */
 	public static function get_defaults() {
 		$config = array(
-			'hook'           => '',
+			'mountHook'      => '',
 			'appElement'     => '#wpwrap',
 			'openButtonIcon' => '',
 			'labels'         => array(
-				'open'    => __( 'Open', 'wordpress-seo' ),
-				'label'   => null,
-				'xLabel'  => null,
-				'heading' => null,
-				'close'   => null,
+				'open'           => __( 'Open', 'wordpress-seo' ),
+				'modalAriaLabel' => null,
+				'heading'        => null,
+				'xClose'         => __( 'Close', 'wordpress-seo' ),
+				'close'          => null,
 			),
 			'classes'        => array(
 				'closeButton' => '',

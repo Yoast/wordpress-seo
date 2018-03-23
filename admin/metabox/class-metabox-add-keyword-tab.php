@@ -18,19 +18,18 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 	public function link() {
 
 		$add_keyword_modal_config = array(
-			'hook'           => '.wpseo-tab-add-keyword',
+			'mountHook'      => '.wpseo-tab-add-keyword',
 			'openButtonIcon' => 'plus',
 			'labels'         => array(
-				'open'    => __( 'Add keyword', 'wordpress-seo' ),
-				'label'   => sprintf(
+				'open'           => __( 'Add keyword', 'wordpress-seo' ),
+				'modalAriaLabel' => sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
 					__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
 				),
-				'heading' => sprintf(
+				'heading'        => sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
 					__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
 				),
-				'xLabel'  => __( 'Close', 'wordpress-seo' ),
 			),
 			'classes'        => array(
 				'openButton' => 'wpseo-add-keyword button button-link',
@@ -66,13 +65,13 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		}
 
 		$more_modal_config = array(
-			'hook'       => '.inside .wpseo-metabox-buy-premium',
+			'mountHook'  => '.inside .wpseo-metabox-buy-premium',
 			'labels'     => array(
-				'open'    => __( 'Second modal', 'wordpress-seo' ),
-				'label'   => __( 'Second modal aria-label', 'wordpress-seo' ),
-				'heading' => __( 'Second modal heading', 'wordpress-seo' ),
-				'xLabel'  => __( 'Close me 2 aria-label', 'wordpress-seo' ),
-				'close'   => __( 'Close me 2', 'wordpress-seo' ),
+				'open'           => __( 'Second modal', 'wordpress-seo' ),
+				'modalAriaLabel' => __( 'Second modal aria-label', 'wordpress-seo' ),
+				'heading'        => __( 'Second modal heading', 'wordpress-seo' ),
+				'xClose'         => __( 'Close me 2 aria-label', 'wordpress-seo' ),
+				'close'          => __( 'Close me 2', 'wordpress-seo' ),
 			),
 			'classes'    => array(
 				'closeButton' => 'button button-primary',

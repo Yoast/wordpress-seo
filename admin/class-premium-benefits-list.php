@@ -9,7 +9,7 @@
 class WPSEO_Premium_Benefits_List {
 
 	/**
-	 * Pass tanslations to JS for the Add Keyword JS component Premium benefits list.
+	 * Returns the translations for the Premium benefits list.
 	 *
 	 * @return array Translated text strings for the Premium benefits list.
 	 */
@@ -34,7 +34,7 @@ class WPSEO_Premium_Benefits_List {
 	/**
 	 * Pass tanslations to JS for the Add Keyword JS component Premium benefits list.
 	 *
-	 * @return array Translated text strings for the Premium benefits list.
+	 * @return array Translated text strings for the Premium benefits list component.
 	 */
 	public function get_translations_for_js() {
 		$translations = $this->get_translations();
@@ -45,7 +45,7 @@ class WPSEO_Premium_Benefits_List {
 	}
 
 	/**
-	 * Prints the Premium benefits translations.
+	 * Prints the localized Premium benefits translations for JS.
 	 */
 	public function enqueue_translations() {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'yoastPremiumBenefitsL10n', $this->get_translations_for_js() );

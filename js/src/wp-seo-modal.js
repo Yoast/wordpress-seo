@@ -72,10 +72,10 @@ class Modal extends React.Component {
 				<YoastModal
 					isOpen={ this.state.modalIsOpen }
 					onClose={ this.closeModal }
-					modalAriaLabel={ this.props.labels.label }
+					modalAriaLabel={ this.props.labels.modalAriaLabel }
 					appElement={ this.appElement }
 					heading={ this.props.labels.heading }
-					closeIconButton={ this.props.labels.xLabel }
+					closeIconButton={ this.props.labels.xClose }
 					closeButton={ this.props.labels.close }
 					closeButtonClassName={ this.props.classes.closeButton }
 				>
@@ -101,17 +101,17 @@ const ModalIntl = injectIntl( Modal );
 
 yoastModalConfig.forEach(
 	( config ) => {
-		if ( ! config.hook || ! config.content ) {
+		if ( ! config.mountHook || ! config.content ) {
 			return;
 		}
 
-		const element = document.querySelector( config.hook );
+		const element = document.querySelector( config.mountHook );
 
 		if ( element ) {
 			ReactDOM.render(
 				<IntlProvider messages={ config.strings }>
 					<ModalIntl
-						hook={ config.hook }
+						mountHook={ config.mountHook }
 						appElement={ config.appElement }
 						openButtonIcon={ config.openButtonIcon }
 						labels={ config.labels }
