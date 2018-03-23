@@ -537,6 +537,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		$tax_meta['wpseo_already_validated'] = true;
 
 		self::save_tax_meta( $tax_meta );
+
+		do_action( 'wpseo_save_tax_meta', $term_id, $taxonomy );
 	}
 
 	/**

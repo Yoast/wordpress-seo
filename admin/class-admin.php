@@ -90,6 +90,7 @@ class WPSEO_Admin {
 		$this->initialize_cornerstone_content();
 
 		$integrations[] = new WPSEO_Yoast_Columns();
+		$integrations[] = new WPSEO_Frontend_Cache_Buster();
 		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();
 		$integrations[] = new WPSEO_Slug_Change_Watcher();

@@ -16,7 +16,7 @@ if ( ! function_exists( 'initialize_wpseo_front' ) ) {
 	 * Wraps frontend class.
 	 */
 	function initialize_wpseo_front() {
-		WPSEO_Frontend::get_instance();
+		new WPSEO_Frontend_Cache();
 	}
 }
 
