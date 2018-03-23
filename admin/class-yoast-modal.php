@@ -72,7 +72,9 @@ class Yoast_Modal {
 				'close'          => null,
 			),
 			'classes'        => array(
-				'closeButton' => '',
+				'openButton'   => '',
+				'xCloseButton' => '',
+				'closeButton'  => '',
 			),
 			'content'        => null,
 			'strings'        => array(

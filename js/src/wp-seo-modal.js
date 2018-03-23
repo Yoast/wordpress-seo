@@ -77,6 +77,7 @@ class Modal extends React.Component {
 					heading={ this.props.labels.heading }
 					closeIconButton={ this.props.labels.xClose }
 					closeButton={ this.props.labels.close }
+					xCloseButtonClassName={ this.props.classes.xCloseButton }
 					closeButtonClassName={ this.props.classes.closeButton }
 				>
 					<ModalContent translations={ this.props.translations } />
