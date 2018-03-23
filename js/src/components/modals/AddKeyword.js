@@ -26,6 +26,13 @@ const StyledContainer = styled.div`
 const StyledIcon = styled( Icon )`
 	float: right;
 	margin: 0 0 16px 16px;
+
+	&& {
+		@media screen and ( max-width: 680px ) {
+			width: 80px;
+			height: 80px;
+		}
+	}
 `;
 
 const AddKeyword = ( props ) => {
