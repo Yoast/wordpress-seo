@@ -28,7 +28,7 @@ build:
   - 'shell:makepot'
 # Check health of the project
 check:
-  - 'eslint:target'
+  - 'eslint'
 # Default task
 default:
   - check
