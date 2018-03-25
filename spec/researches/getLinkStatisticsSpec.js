@@ -116,12 +116,6 @@ describe( "Tests a string for anchors and its attributes", function() {
 	} );
 
 	it( "should detect nofollow suffixed with some other argument in the rel tag", function() {
-		var attributes = {
-			keyword: "link",
-			url: "http://yoast.com",
-			permalink: "http://yoast.com",
-		};
-
 		var mockPaper = new Paper( "string <a href='http://example.com' rel='nofollow noreferrer'>link</a>", paperAttributes );
 		foundLinks = linkCount( mockPaper );
 		expect( foundLinks.total ).toBe( 1 );

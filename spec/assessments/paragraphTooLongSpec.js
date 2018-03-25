@@ -53,7 +53,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 	} );
 	it( "returns true for isApplicable on a paper with text.", function() {
 		var paper = new Paper( "This is a very interesting paper.", { locale: "en_EN" } );
-		var assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 5, text: "This is a very interesting paper." } ] ), i18n );
+		paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 5, text: "This is a very interesting paper." } ] ), i18n );
 		expect( paragraphTooLongAssessment.isApplicable( paper ) ).toBe( true );
 	} );
 } );

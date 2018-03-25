@@ -1,5 +1,4 @@
 let matchWordInSentence = require( "../../js/stringProcessing/matchWordInSentence" );
-let wordBoundaries = require( "../../js/config/wordBoundaries.js" )();
 let characterInBoundary = matchWordInSentence.characterInBoundary;
 let isWordInSentence = matchWordInSentence.isWordInSentence;
 

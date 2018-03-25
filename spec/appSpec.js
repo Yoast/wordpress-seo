@@ -1,7 +1,6 @@
 var MissingArgument = require( "../js/errors/missingArgument.js" );
 var SnippetPreview = require( "../js/snippetPreview.js" );
 
-var clone = require( "lodash/clone" );
 var App = require( "../js/app.js" );
 
 // Mock these function to prevent us from needing an actual DOM in the tests.
@@ -71,7 +70,7 @@ describe( "Creating an App", function() {
 	} );
 
 	it( "accepts a Snippet Preview object", function() {
-		var app = new App( {
+		new App( {
 			targets: {
 				output: "outputID",
 			},
@@ -87,7 +86,7 @@ describe( "Creating an App", function() {
 	} );
 
 	it( "should work without an output ID", function() {
-		var app = new App( {
+		new App( {
 			targets: {
 				snippet: "snippetID",
 			},

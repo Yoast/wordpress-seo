@@ -1,6 +1,5 @@
 var Assessor = require( "../js/seoAssessor.js" );
 var Paper = require( "../js/values/Paper.js" );
-var AssessmentResult = require( "../js/values/AssessmentResult.js" );
 
 var factory = require( "./helpers/factory.js" );
 var i18n = factory.buildJed();

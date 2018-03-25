@@ -17,7 +17,6 @@ describe( "an assessor object", function() {
 		} );
 
 		it( "creates an assessor", function() {
-			var mockPaper = new Paper( "text" );
 			expect( new Assessor( i18n ) ).toBeDefined();
 			expect( Object.keys( new Assessor( i18n ).getAvailableAssessments() ) ).toEqual( [] );
 		} );
