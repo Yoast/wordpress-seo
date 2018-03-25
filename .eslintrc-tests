@@ -1,0 +1,7 @@
+extends: yoast
+
+env:
+  jest: true
+
+rules:
+  complexity: [1, 6]
