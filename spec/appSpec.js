@@ -11,14 +11,14 @@ App.prototype.removeLoadingDialog = function() {};
 App.prototype.initSnippetPreview = function() {};
 App.prototype.runAnalyzer = function() {};
 
+// Makes lodash think this is a valid HTML element
+var mockElement = [];
+mockElement.nodeType = 1;
+
 global.document = {};
 document.getElementById = function() {
 	return mockElement;
 };
-
-// Makes lodash think this is a valid HTML element
-var mockElement = [];
-mockElement.nodeType = 1;
 
 describe( "Creating an App", function() {
 	it( "throws an error when no args are given", function() {
