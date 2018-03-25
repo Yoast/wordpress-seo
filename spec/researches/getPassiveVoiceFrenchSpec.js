@@ -41,7 +41,7 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns passive voice (passé composé)", function() {
-	 	// Passive: a été mangée.
+		// Passive: a été mangée.
 		var paper = new Paper( "Une pomme a été mangée par moi.", { locale: "fr_FR" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );

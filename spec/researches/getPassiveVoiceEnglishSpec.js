@@ -268,8 +268,8 @@ describe( "detecting passive voice in sentences", function() {
 	 like "The model was fit by with the formula method" as well.
 	 */
 	xit( "returns active voice ( combination with fit )", function() {
-	 	var paper = new Paper( "It was the right fit" );
-	 	expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+		var paper = new Paper( "It was the right fit" );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 
 	it( "returns passive voice ( combination with fit )", function() {
