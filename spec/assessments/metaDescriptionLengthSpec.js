@@ -5,36 +5,36 @@ var i18n = Factory.buildJed();
 
 let descriptionLengthAssessment = new MetaDescriptionLengthAssessment();
 
-describe( "An descriptionLength assessment", function(){
-	it( "assesses an empty description", function(){
+describe( "An descriptionLength assessment", function() {
+	it( "assesses an empty description", function() {
 		var mockPaper = new Paper();
 		var assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual ( "No meta description has been specified. Search engines will display copy from the page instead." );
+		expect( assessment.getText() ).toEqual( "No meta description has been specified. Search engines will display copy from the page instead." );
 	} );
 
-	it( "assesses a short description", function(){
+	it( "assesses a short description", function() {
 		var mockPaper = new Paper();
 		var assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 20 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual ( "The meta description is under 120 characters long. However, up to 320 characters are available." );
+		expect( assessment.getText() ).toEqual( "The meta description is under 120 characters long. However, up to 320 characters are available." );
 	} );
 
-	it( "assesses a too long description", function(){
+	it( "assesses a too long description", function() {
 		var mockPaper = new Paper();
 		var assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 400 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual ( "The meta description is over 320 characters. Reducing the length will ensure the entire description will be visible." );
+		expect( assessment.getText() ).toEqual( "The meta description is over 320 characters. Reducing the length will ensure the entire description will be visible." );
 	} );
 
-	it( "assesses a good description", function(){
+	it( "assesses a good description", function() {
 		var mockPaper = new Paper();
 		var assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 140 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual ( "The meta description has a nice length." );
+		expect( assessment.getText() ).toEqual( "The meta description has a nice length." );
 	} );
 } );

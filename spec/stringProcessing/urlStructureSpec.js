@@ -7,8 +7,8 @@ describe( "UrlStructure", () => {
 
 		let urlStructure = new UrlStructure( input );
 
-		expect( urlStructure.getStructure() ).toBe( expected )
-	});
+		expect( urlStructure.getStructure() ).toBe( expected );
+	} );
 
 	describe( "parseUrl", () => {
 		it( "parses a URL and builds a data structure from it", () => {
@@ -73,7 +73,7 @@ describe( "UrlStructure", () => {
 			let urlStructure = UrlStructure.fromUrl( "" );
 
 			expect( urlStructure.buildUrl( input ) ).toBe( expected );
-		});
+		} );
 
 		it( "ignores special characters", () => {
 			let specialCharacters = ",./;'[]\-=<>?:\"{}|_+!@#$%^&*()`~";

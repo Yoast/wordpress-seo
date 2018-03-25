@@ -4,7 +4,7 @@ var Paper = require( "../../js/values/Paper.js" );
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();
 
-describe( "An assessment for the flesch reading", function(){
+describe( "An assessment for the flesch reading", function() {
 	it( "returns a 'very easy' score and the associated feedback text for a paper.", function() {
 		var paper = new Paper( "This is a very interesting paper" );
 		var result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 100.0 ), i18n );
@@ -21,7 +21,7 @@ describe( "An assessment for the flesch reading", function(){
 		expect( result.getText() ).toBe( "The copy scores 82 in the <a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a> test, which is considered easy to read. " );
 	} );
 
-	it( "returns a 'fairly easy' score and the associated feedback text for a paper.", function(){
+	it( "returns a 'fairly easy' score and the associated feedback text for a paper.", function() {
 		var paper = new Paper( "A piece of text to calculate scores." );
 		var result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 78.9 ), i18n );
 
@@ -29,7 +29,7 @@ describe( "An assessment for the flesch reading", function(){
 		expect( result.getText() ).toBe( "The copy scores 78.9 in the <a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a> test, which is considered fairly easy to read. " );
 	} );
 
-	it( "returns an 'ok' score and the associated feedback text for a paper.", function(){
+	it( "returns an 'ok' score and the associated feedback text for a paper.", function() {
 		var paper = new Paper( "One question we get quite often in our website reviews is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble" );
 		var result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 63.9 ), i18n );
 
@@ -86,22 +86,22 @@ describe( "An assessment for the flesch reading", function(){
 	} );
 
 	it( "returns true for isApplicable for an English paper with text.", function() {
-		var paper = new Paper( "This is a very interesting paper.", {locale: "en_EN"} );
-		expect( fleschReadingAssessment.isApplicable( paper )).toBe( true );
+		var paper = new Paper( "This is a very interesting paper.", { locale: "en_EN" } );
+		expect( fleschReadingAssessment.isApplicable( paper ) ).toBe( true );
 	} );
 
 	it( "returns false for isApplicable for an Afrikaans paper with text.", function() {
-		var paper = new Paper( "Hierdie is 'n interessante papier.", {locale: "af_ZA"} );
-		expect( fleschReadingAssessment.isApplicable( paper )).toBe( false );
+		var paper = new Paper( "Hierdie is 'n interessante papier.", { locale: "af_ZA" } );
+		expect( fleschReadingAssessment.isApplicable( paper ) ).toBe( false );
 	} );
 
 	it( "returns false for isApplicable for an English paper without text.", function() {
-		var paper = new Paper( "", {locale: "en_EN"} );
-		expect( fleschReadingAssessment.isApplicable( paper )).toBe( false );
+		var paper = new Paper( "", { locale: "en_EN" } );
+		expect( fleschReadingAssessment.isApplicable( paper ) ).toBe( false );
 	} );
 
 	it( "returns false for isApplicable for an Afrikaans paper without text.", function() {
-		var paper = new Paper( "", {locale: "af_ZA"} );
-		expect( fleschReadingAssessment.isApplicable( paper )).toBe( false );
+		var paper = new Paper( "", { locale: "af_ZA" } );
+		expect( fleschReadingAssessment.isApplicable( paper ) ).toBe( false );
 	} );
 } );
