@@ -1,6 +1,14 @@
 let countSyllableFunction = require( "../../../js/stringProcessing/syllables/count.js" );
 let forEach = require( "lodash/forEach" );
 
+/**
+ * Helper to tests syllable count.
+ *
+ * @param {array}  testCases List of cases to test.
+ * @param {string} locale    Locale to use.
+ *
+ * @returns {void}
+ */
 function testCountSyllables( testCases, locale ) {
 	forEach( testCases, function( expected, input ) {
 		let actual = countSyllableFunction( input, locale );
@@ -8,6 +16,7 @@ function testCountSyllables( testCases, locale ) {
 		expect( actual ).toBe( expected );
 	} );
 }
+
 describe( "a syllable counter for Dutch text strings", function() {
 	it( "returns the number of syllables of words containing the subtract syllable ue$", function() {
 		expect( countSyllableFunction( "cue", "nl_NL" ) ).toBe( 1 );

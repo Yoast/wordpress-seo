@@ -2,6 +2,13 @@ var getSentences = require( "../../js/stringProcessing/getSentences.js" );
 
 var forEach = require( "lodash/forEach" );
 
+/**
+ * Helper to test sentence detection.
+ *
+ * @param {array} testCases Cases to test.
+ *
+ * @returns {void}
+ */
 function testGetSentences( testCases ) {
 	forEach( testCases, function( testCase ) {
 		expect( getSentences( testCase.input ) ).toEqual( testCase.expected );
