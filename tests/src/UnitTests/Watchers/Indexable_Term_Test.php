@@ -115,18 +115,18 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Tests if the sitemap lookup method is returning the expected data
 	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::get_sitemap_include_value()
+	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Term::get_noindex_value()
 	 */
-	public function test_get_sitemap_include_value() {
+	public function test_get_noindex_value() {
 		$instance = new Indexable_Term_Double();
 
-		$this->assertFalse( $instance->get_sitemap_include_value( 'always' ) );
-		$this->assertTrue( $instance->get_sitemap_include_value( 'never' ) );
+		$this->assertFalse( $instance->get_noindex_value( 'index' ) );
+		$this->assertTrue( $instance->get_noindex_value( 'noindex' ) );
 
-		$this->assertNull( $instance->get_sitemap_include_value( 'other' ) );
-		$this->assertNull( $instance->get_sitemap_include_value( '1' ) );
-		$this->assertNull( $instance->get_sitemap_include_value( true ) );
-		$this->assertNull( $instance->get_sitemap_include_value( false ) );
+		$this->assertNull( $instance->get_noindex_value( 'other' ) );
+		$this->assertNull( $instance->get_noindex_value( '1' ) );
+		$this->assertNull( $instance->get_noindex_value( true ) );
+		$this->assertNull( $instance->get_noindex_value( false ) );
 	}
 
 	/**
@@ -159,7 +159,7 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 
 		$term_meta = array(
 			'a' => 'a',
-			'wpseo_sitemap_include' => 1,
+			'wpseo_noindex' => '',
 		);
 
 		$post_id = 1;

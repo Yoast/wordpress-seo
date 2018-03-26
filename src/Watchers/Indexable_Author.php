@@ -52,9 +52,9 @@ class Indexable_Author implements Integration {
 
 		$meta_data = $this->get_meta_data( $user_id );
 
-		$indexable->title              = $meta_data['wpseo_title'];
-		$indexable->description        = $meta_data['wpseo_metadesc'];
-		// @todo implement is_robots_noindex based on author without posts?
+		$indexable->title             = $meta_data['wpseo_title'];
+		$indexable->description       = $meta_data['wpseo_metadesc'];
+		$indexable->is_robots_noindex = $this->get_noindex_value( $meta_data['wpseo_noindex_author'] );
 
 		$indexable->save();
 	}
@@ -146,5 +146,16 @@ class Indexable_Author implements Integration {
 	 */
 	protected function get_author_meta( $user_id, $key ) {
 		return \get_the_author_meta( $key, $user_id );
+	}
+
+	/**
+	 * Retrieves the value for noindex.
+	 *
+	 * @param string $noindex Current noindex value.
+	 *
+	 * @return bool True if noindex is selected, false if not.
+	 */
+	protected function get_noindex_value( $noindex ) {
+		return $noindex === 'on';
 	}
 }

@@ -40,6 +40,10 @@ class Indexable_Term implements Integration {
 	/**
 	 * Update the taxonomy meta data on save.
 	 *
+	 * Note: This method is missing functionality to update internal links and incoming links.
+	 *       As this functionality is currently not available for terms, it has not been added in this
+	 *       class yet.
+	 *
 	 * @param int    $term_id          ID of the term to save data for.
 	 * @param int    $taxonomy_term_id The taxonomy_term_id for the term.
 	 * @param string $taxonomy         The taxonomy the term belongs to.
@@ -61,14 +65,11 @@ class Indexable_Term implements Integration {
 			$indexable->{$indexable_key} = $term_meta[ $meta_key ];
 		}
 
-		// @todo set robots noindex based on sitemap include.
-		// $indexable->include_in_sitemap = $this->get_sitemap_include_value( $term_meta['wpseo_sitemap_include'] );
+		$indexable->is_robots_noindex = $this->get_noindex_value( $term_meta['wpseo_noindex'] );
 
 		// Not implemented yet.
 		$indexable->is_cornerstone     = 0;
 		$indexable->is_robots_nofollow = 0;
-		// $model->link_count = null;
-		// $model->incoming_link_count = null;
 
 		$indexable->save();
 	}
@@ -131,26 +132,24 @@ class Indexable_Term implements Integration {
 			'wpseo_twitter-title'       => 'twitter_title',
 			'wpseo_twitter-description' => 'twitter_description',
 			'wpseo_twitter-image'       => 'twitter_image',
-
-			'wpseo_noindex' => 'robots_noindex',
 		);
 
 		return $meta_to_indexable;
 	}
 
 	/**
-	 * Converts the meta sitemap include value to the indexable value.
+	 * Converts the meta noindex value to the indexable value.
 	 *
 	 * @param string $meta_value Term meta to base the value on.
 	 *
 	 * @return bool|null
 	 */
-	protected function get_sitemap_include_value( $meta_value ) {
+	protected function get_noindex_value( $meta_value ) {
 		switch ( (string) $meta_value ) {
-			case 'always':
-				return false;
-			case 'never':
+			case 'noindex':
 				return true;
+			case 'index':
+				return false;
 		}
 
 		return null;

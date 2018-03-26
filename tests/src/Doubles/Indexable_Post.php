@@ -6,8 +6,8 @@ class Indexable_Post extends \Yoast\YoastSEO\Watchers\Indexable_Post {
 	/**
 	 * @inheritdoc
 	 */
-	public function get_meta_value( $post_meta, $source, $default = null ) {
-		return parent::get_meta_value( $post_meta, $source, $default );
+	public function get_meta_value( $meta_key, $post_id ) {
+		return parent::get_meta_value( $meta_key, $post_id );
 	}
 
 	/**

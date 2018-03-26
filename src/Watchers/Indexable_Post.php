@@ -7,8 +7,6 @@ use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
 
-// @todo Use \WPSEO_Meta::get_value()
-
 class Indexable_Post implements Integration {
 	/**
 	 * Registers all hooks to WordPress.
@@ -55,18 +53,14 @@ class Indexable_Post implements Integration {
 
 		$indexable->permalink = $this->get_permalink( $post_id );
 
-		// Implement filling of meta values.
-		$post_meta = $this->get_meta_data( $post_id );
-
 		foreach ( $this->get_meta_lookup() as $meta_key => $indexable_key ) {
-			$indexable->{$indexable_key} = $this->get_meta_value( $post_meta, $meta_key );
+			$indexable->{$indexable_key} = $this->get_meta_value( $meta_key, $post_id );
 		}
 
-		$noindex                      = isset( $post_meta['_yoast_wpseo_meta-robots-noindex'] ) ? $post_meta['_yoast_wpseo_meta-robots-noindex'][0] : '';
-		$indexable->is_robots_noindex = $this->get_robots_noindex( $noindex );
+		$indexable->is_robots_noindex = $this->get_robots_noindex( $this->get_meta_value( 'meta-robots-noindex', $post_id ) );
 
 		// Set additional meta-robots values.
-		$nonidex_advanced = isset( $post_meta['_yoast_wpseo_meta-robots-adv'] ) ? $post_meta['_yoast_wpseo_meta-robots-adv'][0] : '';
+		$nonidex_advanced = $this->get_meta_value( 'meta-robots-adv', $post_id );
 		$meta_robots      = explode( ',', $nonidex_advanced );
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
 			$indexable->{'is_robots_' . $meta_robots_option} = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
@@ -152,20 +146,15 @@ class Indexable_Post implements Integration {
 	}
 
 	/**
-	 * Determines the value to use for the indexable.
+	 * Retrieves the current value for the meta field.
 	 *
-	 * @param array  $post_meta Meta list.
-	 * @param string $source    Meta key from the list.
-	 * @param null   $default   Default value if not set in meta data.
+	 * @param string $meta_key Meta key to fetch.
+	 * @param int    $post_id  Post to fetch it from.
 	 *
 	 * @return mixed The value of the indexable entry to use.
 	 */
-	protected function get_meta_value( $post_meta, $source, $default = null ) {
-		if ( ! isset( $post_meta[ $source ] ) ) {
-			return $default;
-		}
-
-		return $post_meta[ $source ][0];
+	protected function get_meta_value( $meta_key, $post_id ) {
+		return \WPSEO_Meta::get_value( $meta_key, $post_id );
 	}
 
 	/**
@@ -234,25 +223,25 @@ class Indexable_Post implements Integration {
 	 */
 	protected function get_meta_lookup() {
 		return array(
-			'_yoast_wpseo_linkdex'       => 'primary_focus_keyword_score',
-			'_yoast_wpseo_focuskw'       => 'primary_focus_keyword',
-			'_yoast_wpseo_content_score' => 'readability_score',
+			'linkdex'       => 'primary_focus_keyword_score',
+			'focuskw'       => 'primary_focus_keyword',
+			'content_score' => 'readability_score',
 
-			'_yoast_wpseo_canonical'            => 'canonical',
-			'_yoast_wpseo_meta-robots-nofollow' => 'robots_nofollow',
-			'_yoast_wpseo_title'                => 'title',
-			'_yoast_wpseo_metadesc'             => 'description',
-			'_yoast_wpseo_bctitle'              => 'breadcrumb_title',
+			'canonical'            => 'canonical',
+			'meta-robots-nofollow' => 'is_robots_nofollow',
+			'title'                => 'title',
+			'metadesc'             => 'description',
+			'bctitle'              => 'breadcrumb_title',
 
-			'_yst_is_cornerstone' => 'cornerstone',
+			'is_cornerstone' => 'is_cornerstone',
 
-			'_yoast_wpseo_opengraph-title'       => 'og_title',
-			'_yoast_wpseo_opengraph-image'       => 'og_image',
-			'_yoast_wpseo_opengraph-description' => 'og_description',
+			'opengraph-title'       => 'og_title',
+			'opengraph-image'       => 'og_image',
+			'opengraph-description' => 'og_description',
 
-			'_yoast_wpseo_twitter-title'       => 'twitter_title',
-			'_yoast_wpseo_twitter-image'       => 'twitter_image',
-			'_yoast_wpseo_twitter-description' => 'twitter_description',
+			'twitter-title'       => 'twitter_title',
+			'twitter-image'       => 'twitter_image',
+			'twitter-description' => 'twitter_description',
 		);
 	}
 

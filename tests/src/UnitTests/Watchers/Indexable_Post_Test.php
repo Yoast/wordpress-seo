@@ -109,18 +109,9 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 	public function test_get_meta_value() {
 		$instance = new Indexable_Post_Double();
 
-		$this->assertEquals( 'b', $instance->get_meta_value( array( 'a' => array( 'b' ) ), 'a' ) );
-	}
+		\WPSEO_Meta::set_value( 'a', 'b', 1 );
 
-	/**
-	 * Tests retreiving a meta value falling back on the default
-	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Post::get_meta_value()
-	 */
-	public function test_get_meta_value_default() {
-		$instance = new Indexable_Post_Double();
-
-		$this->assertEquals( 'd', $instance->get_meta_value( array( 'a' => array( 'b' ) ), 'c', 'd' ) );
+		$this->assertEquals( 'b', $instance->get_meta_value( 'a', 1 ) );
 	}
 
 	/**
@@ -177,12 +168,6 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 
 		$robots = array( 'robots_1', 'robots_2', 'robots_3' );
 
-		$post_meta = array(
-			'a'                                => array( 'b' ),
-			'_yoast_wpseo_meta-robots-noindex' => array( 1 ),
-			'_yoast_wpseo_meta-robots-adv'     => array( 'robots_1,robots_2' ),
-		);
-
 		$post_id = 1;
 
 		$instance
@@ -202,19 +187,22 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 
 		$instance
 			->expects( $this->once() )
-			->method( 'get_meta_data' )
-			->will( $this->returnValue( $post_meta ) );
-
-		$instance
-			->expects( $this->once() )
 			->method( 'get_meta_lookup' )
 			->will( $this->returnValue( array( 'a' => 'a' ) ) );
 
 		$instance
-			->expects( $this->once() )
+			->expects( $this->exactly( 3 ) )
 			->method( 'get_meta_value' )
-			->with( $post_meta, 'a' )
-			->will( $this->returnValue( 'a' ) );
+			->withConsecutive(
+				array( $this->equalTo('a') ),
+				array( $this->equalTo('robots-noindex') ),
+				array( $this->equalTo('robots-adv') )
+			)
+			->will( $this->onConsecutiveCalls(
+				'a',
+				1,
+				'robots_1,robots_2'
+			) );
 
 		$instance
 			->expects( $this->once() )

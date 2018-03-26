@@ -13,8 +13,8 @@ class Indexable_Term extends \Yoast\YoastSEO\Watchers\Indexable_Term {
 	/**
 	 * @inheritdoc
 	 */
-	public function get_sitemap_include_value( $value ) {
-		return parent::get_sitemap_include_value( $value );
+	public function get_noindex_value( $value ) {
+		return parent::get_noindex_value( $value );
 	}
 
 	/**
