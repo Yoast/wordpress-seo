@@ -65,8 +65,8 @@ class Yoast_Modal {
 	 *     @type string $appElement     Element the modal will hide with `aria-hidden`. For better
 	 *                                  accessibility, set it to the most general wrapper and don't use body.
 	 *     @type string $openButtonIcon Optional. Icon for the open button.
-	 *     @type array  $labels         Labels for the modal main elements. If omitted, the related elements
-	 *                                  will not be used. Only exception is `modalAriaLabel` which is
+	 *     @type array  $intl           Locale and labels for the modal main elements. If omitted, the related
+	 *                                  elements will not be used. Only exception is `modalAriaLabel` which is
 	 *                                  required by the React modal component.
 	 *     @type array  $classes        Optional. CSS classes for the modal buttons.
 	 *     @type string $content        The name of the React component to use as the modal content.
@@ -77,7 +77,8 @@ class Yoast_Modal {
 			'mountHook'      => '',
 			'appElement'     => '#wpwrap',
 			'openButtonIcon' => '',
-			'labels'         => array(
+			'intl'           => array(
+				'locale'         => WPSEO_Utils::get_user_locale(),
 				'open'           => __( 'Open', 'wordpress-seo' ),
 				'modalAriaLabel' => null,
 				'heading'        => null,
@@ -90,9 +91,6 @@ class Yoast_Modal {
 				'closeButton'  => '',
 			),
 			'content'        => null,
-			'strings'        => array(
-				'locale' => WPSEO_Utils::get_user_locale(),
-			),
 		);
 
 		return $config;

@@ -20,7 +20,7 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 		$add_keyword_modal_config = array(
 			'mountHook'      => '.wpseo-tab-add-keyword',
 			'openButtonIcon' => 'plus',
-			'labels'         => array(
+			'intl'           => array(
 				'open'           => __( 'Add keyword', 'wordpress-seo' ),
 				'modalAriaLabel' => sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
@@ -47,7 +47,7 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 
 		$more_modal_config = array(
 			'mountHook'  => '.inside .wpseo-metabox-buy-premium',
-			'labels'     => array(
+			'intl'       => array(
 				'open'           => __( 'Second modal', 'wordpress-seo' ),
 				'modalAriaLabel' => __( 'Second modal aria-label', 'wordpress-seo' ),
 				'heading'        => __( 'Second modal heading', 'wordpress-seo' ),

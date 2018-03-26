@@ -94,7 +94,6 @@ Modal.propTypes = {
 	labels: PropTypes.object,
 	content: PropTypes.string.isRequired,
 	classes: PropTypes.object,
-	translations: PropTypes.object,
 	intl: intlShape.isRequired,
 };
 
@@ -111,15 +110,14 @@ if ( window.yoastModalConfig ) {
 
 			if ( element ) {
 				ReactDOM.render(
-					<IntlProvider messages={ config.strings }>
+					<IntlProvider messages={ config.intl }>
 						<ModalIntl
 							mountHook={ config.mountHook }
 							appElement={ config.appElement }
 							openButtonIcon={ config.openButtonIcon }
-							labels={ config.labels }
+							labels={ config.intl }
 							content={ config.content }
 							classes={ config.classes }
-							translations={ config.strings }
 						/>
 					</IntlProvider>,
 					element
