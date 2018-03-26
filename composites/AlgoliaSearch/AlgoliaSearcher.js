@@ -1,7 +1,7 @@
 import React from "react";
 import initAlgoliaSearch from "algoliasearch";
 import isUndefined from "lodash/isUndefined";
-import a11ySpeak from "a11y-speak";
+import { speak as a11ySpeak } from "@wordpress/a11y";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { injectIntl, intlShape, defineMessages } from "react-intl";

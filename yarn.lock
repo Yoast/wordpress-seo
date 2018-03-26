@@ -103,9 +103,15 @@
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.3.0.tgz#3a129cda7c4e5df2409702626892cb4b96546dd5"
 
-"a11y-speak@git+https://github.com/Yoast/a11y-speak.git#master":
-  version "0.0.1"
-  resolved "git+https://github.com/Yoast/a11y-speak.git#4e772809a2fed1a54ba29176ada175b15436e977"
+"@wordpress/a11y@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@wordpress/a11y/-/a11y-1.0.7.tgz#b4948178e090f1d1a7407655a8ec80b68c3b2e09"
+  dependencies:
+    "@wordpress/dom-ready" "^1.0.4"
+
+"@wordpress/dom-ready@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@wordpress/dom-ready/-/dom-ready-1.0.4.tgz#626648e83529de2243009ff04c12aeb9a949e333"
 
 abab@^1.0.4:
   version "1.0.4"
