@@ -49,7 +49,7 @@ const StyledTitle = styled.span`
  * @param {ReactElement} Component    The component to wrap.
  * @param {int}          headingLevel The heading level.
  *
- * @returns {ReactElement} The wrapped component.
+ * @returns {Function} A function that will return the wrapped component with given properties.
  */
 export function wrapInHeading( Component, headingLevel ) {
 	const Heading = `h${ headingLevel }`;
