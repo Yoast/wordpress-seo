@@ -153,7 +153,7 @@ script:
   if [[ "$PHPLINT" == "1" ]]; then
     travis_fold start "PHP.check" && travis_time_start
     if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
-      find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -path ./src -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+      find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -path ./src -prune -o -path ./tests/src -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     else
       find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     fi
