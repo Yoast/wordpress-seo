@@ -54,16 +54,16 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		), array( 'name' => 'object' ) );
 
 		$this->add_index( $table_name, array(
-			'content_score',
+			'primary_focus_keyword_score',
 			'object_type',
 			'object_sub_type',
-		), array( 'name' => 'content_score' ) );
+		), array( 'name' => 'primary_focus_keyword_score' ) );
 
 		$this->add_index( $table_name, array(
-			'cornerstone',
+			'is_cornerstone',
 			'object_type',
 			'object_sub_type',
-		), array( 'name' => 'cornerstone' ) );
+		), array( 'name' => 'is_cornerstone' ) );
 
 		$this->add_index( $table_name, array(
 			'incoming_link_count',
@@ -72,11 +72,11 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		), array( 'name' => 'orphaned_content' ) );
 
 		$this->add_index( $table_name, array(
-			'include_in_sitemap',
+			'is_robots_noindex',
 			'object_id',
 			'object_type',
 			'object_sub_type',
-		), array( 'name' => 'sitemap' ) );
+		), array( 'name' => 'robots_noindex' ) );
 
 		$this->add_timestamps( $table_name );
 	}
