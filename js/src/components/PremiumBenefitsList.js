@@ -5,7 +5,7 @@ import interpolateComponents from "interpolate-components";
 
 import IntlProvider from "./IntlProvider";
 
-let localizedData = {};
+let localizedData = null;
 if ( window.yoastPremiumBenefitsL10n ) {
 	localizedData = yoastPremiumBenefitsL10n;
 }
@@ -28,7 +28,7 @@ const StyledList = styled.ul`
 
 const PremiumBenefitsList = () => {
 	return (
-		<IntlProvider messages={ localizedData }>
+		localizedData && <IntlProvider messages={ localizedData }>
 			<StyledList role="list">
 				{ localizedData.intl.map( ( benefit, index ) => {
 					let formattedBenefit = benefit.replace( "<strong>", "{{strong}}" ).replace( "</strong>", "{{/strong}}" );

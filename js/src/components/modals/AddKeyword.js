@@ -1,5 +1,5 @@
+/* global yoastAddKeywordModalL10n */
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 
@@ -9,7 +9,10 @@ import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
 import { makeOutboundLink } from "yoast-components/utils/makeOutboundLink";
 import PremiumBenefitsList from "../PremiumBenefitsList";
 
-let localizedData = {};
+let localizedData = null;
+if ( window.yoastAddKeywordModalL10n ) {
+	localizedData = yoastAddKeywordModalL10n;
+}
 
 const YesYouCanLink = makeOutboundLink();
 const BuyButtonLink = makeOutboundLink();
@@ -35,32 +38,28 @@ const StyledIcon = styled( Icon )`
 	}
 `;
 
-const AddKeyword = ( props ) => {
+const AddKeyword = () => {
 	return (
-		<IntlProvider messages={ localizedData }>
+		localizedData && <IntlProvider messages={ localizedData }>
 			<StyledContainer>
 				<StyledIcon icon={ YoastSeoIcon } width="150px" height="150px" />
-				<h2>{ props.translations.title }</h2>
+				<h2>{ localizedData.intl.title }</h2>
 				<p>
 					{ interpolateComponents( {
-						mixedString: props.translations.intro,
-						components: { link: <YesYouCanLink href={ props.translations.link } /> }
+						mixedString: localizedData.intl.intro,
+						components: { link: <YesYouCanLink href={ localizedData.intl.link } /> }
 					} ) }
 				</p>
-				<p>{ props.translations.other }</p>
+				<p>{ localizedData.intl.other }</p>
 				<PremiumBenefitsList />
-				<BuyButtonLink href={ props.translations.buylink } className="button button-primary">
-					{ props.translations.buy }
+				<BuyButtonLink href={ localizedData.intl.buylink } className="button button-primary">
+					{ localizedData.intl.buy }
 				</BuyButtonLink>
 				<br/>
-				<small>{ props.translations.small }</small>
+				<small>{ localizedData.intl.small }</small>
 			</StyledContainer>
 		</IntlProvider>
 	);
-};
-
-AddKeyword.propTypes = {
-	translations: PropTypes.object,
 };
 
 export default AddKeyword;

@@ -100,29 +100,31 @@ Modal.propTypes = {
 
 const ModalIntl = injectIntl( Modal );
 
-yoastModalConfig.forEach(
-	( config ) => {
-		if ( ! config.mountHook || ! config.content ) {
-			return;
-		}
+if ( window.yoastModalConfig ) {
+	yoastModalConfig.forEach(
+		( config ) => {
+			if ( ! config.mountHook || ! config.content ) {
+				return;
+			}
 
-		const element = document.querySelector( config.mountHook );
+			const element = document.querySelector( config.mountHook );
 
-		if ( element ) {
-			ReactDOM.render(
-				<IntlProvider messages={ config.strings }>
-					<ModalIntl
-						mountHook={ config.mountHook }
-						appElement={ config.appElement }
-						openButtonIcon={ config.openButtonIcon }
-						labels={ config.labels }
-						content={ config.content }
-						classes={ config.classes }
-						translations={ config.strings }
-					/>
-				</IntlProvider>,
-				element
-			);
+			if ( element ) {
+				ReactDOM.render(
+					<IntlProvider messages={ config.strings }>
+						<ModalIntl
+							mountHook={ config.mountHook }
+							appElement={ config.appElement }
+							openButtonIcon={ config.openButtonIcon }
+							labels={ config.labels }
+							content={ config.content }
+							classes={ config.classes }
+							translations={ config.strings }
+						/>
+					</IntlProvider>,
+					element
+				);
+			}
 		}
-	}
-);
+	);
+}

@@ -35,30 +35,11 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 				'openButton' => 'wpseo-add-keyword button button-link',
 			),
 			'content'        => 'AddKeyword',
-			'strings'        => array(
-				'title'    => __( 'Want to add more than one keyword?', 'wordpress-seo' ),
-				'intro'    => sprintf(
-					/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-					__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
-					'{{link}}Yoast SEO Premium{{/link}}'
-				),
-				'link'     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
-				'buylink'  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
-				'buy'      => sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
-				),
-				'small'    => __( '1 year free updates and upgrades included!', 'wordpress-seo' ),
-				'other'    => sprintf(
-					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium'
-				),
-				'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-			),
-
 		);
 
 		if ( ! WPSEO_UTILS::is_yoast_seo_premium() ) {
+			$translations = new WPSEO_Add_Keyword_Modal;
+			$translations->enqueue_translations();
 			$benefits = new WPSEO_Premium_Benefits_List;
 			$benefits->enqueue_translations();
 			Yoast_Modal::add( $add_keyword_modal_config );
