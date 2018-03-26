@@ -29,7 +29,7 @@ class Dependency_Management {
 			return;
 		}
 
-		$base = substr( $class, strlen( YOAST_VENDOR_NS_PREFIX ) + 1 );
+		$base = substr( $class, ( strlen( YOAST_VENDOR_NS_PREFIX ) + 1 ) );
 		if ( ! $this->class_exists( $base ) ) {
 			return;
 		}

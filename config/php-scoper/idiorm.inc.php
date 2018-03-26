@@ -1,6 +1,6 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types = 1);
 
 use Isolated\Symfony\Component\Finder\Finder;
 
@@ -35,6 +35,6 @@ return array(
 		'ORM',
 		function( $className ) {
 			return 0 === strpos( $className, 'Idiorm' );
-		}
+		},
 	),
 );

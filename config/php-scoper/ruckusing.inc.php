@@ -90,53 +90,17 @@ return array(
 		},
 
 		/**
-		 * Prefix specific RUCKUSING_TASK_DIR only found in one specific file.
-		 */
-		function( $filePath, $prefix, $content ) {
-			if ( substr( $filePath, -26 ) !== 'Ruckusing/Task/Manager.php' ) {
-				return $content;
-			}
-
-			$prefix = str_replace( '\\', '_', $prefix );
-			$prefix = strtoupper( $prefix );
-			$prefix .= '__';
-
-			$replaced = str_replace(
-				'RUCKUSING_TASK_DIR',
-				$prefix . 'RUCKUSING_TASK_DIR',
-				$content
-			);
-
-			return $replaced;
-		},
-
-		/**
 		 * Prefix generally used defines.
 		 */
 		function( $filePath, $prefix, $content ) {
-			$prefix = str_replace( '\\', '_', $prefix );
-			$prefix = strtoupper( $prefix );
-			$prefix .= '__';
-
-			$content = str_replace(
+			return str_replace(
+				array( 'define(\'', 'defined(\'' ),
 				array(
-					'RUCKUSING_BASE',
-					'RUCKUSING_TS_SCHEMA_TBL_NAME',
-					'RUCKUSING_SCHEMA_TBL_NAME',
-					'RUCKUSING_VERSION',
-					'RUCKUSING_WORKING_BASE'
-				),
-				array(
-					$prefix . 'RUCKUSING_BASE',
-					$prefix . 'RUCKUSING_TS_SCHEMA_TBL_NAME',
-					$prefix . 'RUCKUSING_SCHEMA_TBL_NAME',
-					$prefix . 'RUCKUSING_VERSION',
-					$prefix . 'RUCKUSING_WORKING_BASE'
+					'define(__NAMESPACE__ . \'\\',
+					'defined(__NAMESPACE__ . \'\\'
 				),
 				$content
 			);
-
-			return $content;
 		},
 	),
 

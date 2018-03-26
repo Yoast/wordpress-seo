@@ -70,7 +70,7 @@ class Indexable_Author implements Integration {
 		$keys = array(
 			'wpseo_title',
 			'wpseo_metadesc',
-			'wpseo_excludeauthorsitemap'
+			'wpseo_excludeauthorsitemap',
 		);
 
 		$output = array();

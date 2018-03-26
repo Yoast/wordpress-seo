@@ -1,7 +1,15 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package Yoast\YoastSEO\WordPress;
+ */
 
 namespace Yoast\YoastSEO\WordPress;
 
+/**
+ * Manage integrations and registers hooks at the required moment.
+ */
 class Integration_Group implements Integration {
 	/** @var Integration[] List of integrations. */
 	protected $integrations = array();

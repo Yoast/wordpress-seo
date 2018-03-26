@@ -128,7 +128,7 @@ class Database_Migration {
 			$this->get_configuration(),
 			array(
 				'db:migrate',
-				'env=production'
+				'env=production',
 			),
 			new Migration_Null_Logger()
 		);
@@ -194,14 +194,14 @@ class Database_Migration {
 	protected function get_defines( $table_name ) {
 		if ( $this->dependency_management->prefixed_available() ) {
 			return array(
-				YOAST_VENDOR_DEFINE_PREFIX . 'RUCKUSING_BASE'               => WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing',
-				YOAST_VENDOR_DEFINE_PREFIX . 'RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name
+				YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE'               => WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing',
+				YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name,
 			);
 		}
 
 		return array(
 			'RUCKUSING_BASE'               => WPSEO_PATH . 'vendor/ruckusing/ruckusing-migrations',
-			'RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name
+			'RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name,
 		);
 	}
 
