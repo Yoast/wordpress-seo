@@ -81,15 +81,11 @@ before_install:
   fi
 
 install:
-- |
-  if [[ ${TRAVIS_PHP_VERSION:0:1} == "5" || $TRAVIS_PHP_VERSION == "7.0" ]]; then
-    phpenv local 7.1
-    composer remove humbug/php-scoper
-  fi
 - if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local 5.6.13; fi
 - if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then composer require phpunit/phpunit ^5.7; fi
-- composer install --no-interaction
-- composer config-yoastcs
+- composer install --no-interaction --no-dev
+- if [[ "$PHPCS" == "1" ]]; then composer config-yoastcs; fi
+- composer dump-autoload
 - if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local --unset; fi
 - |
   if [[ "$CHECKJS" == "1" ]]; then
