@@ -83,13 +83,9 @@ before_install:
 install:
 - if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local 5.6.13; fi
 - if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then composer require phpunit/phpunit ^5.7; fi
-- |
-  if [[ "$PHPCS" == "1" ]]; then
-    composer install --no-interaction
-    composer config-yoastcs
-  fi
-- if [[ "$PHPCS" != "1" ]]; then composer install --no-dev --no-interaction; fi
-
+- if [[ ${TRAVIS_PHP_VERSION:0:1} == "5" || $TRAVIS_PHP_VERSION == "7.0" ]]; then composer remove humbug/php-scoper; fi
+- composer install --no-interaction
+- composer config-yoastcs
 - if [[ $TRAVIS_PHP_VERSION == "5.2" || $TRAVIS_PHP_VERSION == "5.3" ]]; then phpenv local --unset; fi
 - |
   if [[ "$CHECKJS" == "1" ]]; then
@@ -156,7 +152,11 @@ script:
 - |
   if [[ "$PHPLINT" == "1" ]]; then
     travis_fold start "PHP.check" && travis_time_start
-    find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+    if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
+      find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -path ./src -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+    else
+      find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+    fi
     travis_time_finish && travis_fold end "PHP.check"
   fi
 # PHP CS
