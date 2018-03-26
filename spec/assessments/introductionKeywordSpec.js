@@ -25,4 +25,4 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "The focus keyword doesn\'t appear in the first paragraph of the copy. Make sure the topic is clear immediately." );
 	} );
-});
+} );

@@ -6,12 +6,11 @@ describe( "the metadescription length research", function() {
 		var paper = new Paper( "", { keyword: "word", description: "a description with a word" } );
 		var result = metaDescriptionLength( paper );
 		expect( result ).toBe( 25 );
-	});
+	} );
 
 	it( "returns the length (0) of the description", function() {
 		var paper = new Paper( "", { keyword: "word", description: "" } );
 		var result = metaDescriptionLength( paper );
 		expect( result ).toBe( 0 );
-	});
-
-});
+	} );
+} );

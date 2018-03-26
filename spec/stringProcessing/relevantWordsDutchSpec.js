@@ -28,9 +28,9 @@ describe( "gets Dutch word combinations", function() {
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );
-		});
+		} );
 
 		expect( words ).toEqual( expected );
-	});
-});
+	} );
+} );
 

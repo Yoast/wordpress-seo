@@ -9,7 +9,7 @@ describe( "A URL helper", function() {
 			var actual = url.removeHash( input );
 
 			expect( actual ).toEqual( expected );
-		});
+		} );
 
 		it( "should not touch URLs without hashes", function() {
 			var input = "http://example.org/";
@@ -18,8 +18,8 @@ describe( "A URL helper", function() {
 			var actual = url.removeHash( input );
 
 			expect( actual ).toEqual( expected );
-		});
-	});
+		} );
+	} );
 
 	describe( "removeQueryArgs", function() {
 		it( "should remove query arguments", function() {
@@ -29,7 +29,7 @@ describe( "A URL helper", function() {
 			var actual = url.removeQueryArgs( input );
 
 			expect( actual ).toEqual( expected );
-		});
+		} );
 
 		it( "should not touch URLs without query arguments", function() {
 			var input = "http://example.org/";
@@ -38,8 +38,8 @@ describe( "A URL helper", function() {
 			var actual = url.removeQueryArgs( input );
 
 			expect( actual ).toEqual( expected );
-		});
-	});
+		} );
+	} );
 
 	describe( "removeTrailingSlash", function() {
 		it( "should remove a trailing slash", function() {
@@ -49,7 +49,7 @@ describe( "A URL helper", function() {
 			var actual = url.removeTrailingSlash( input );
 
 			expect( actual ).toEqual( expected );
-		});
+		} );
 
 		it( "should not touch a URL without a trailing slash", function() {
 			var input = "http://example.org/path";
@@ -58,8 +58,8 @@ describe( "A URL helper", function() {
 			var actual = url.removeTrailingSlash( input );
 
 			expect( actual ).toEqual( expected );
-		});
-	});
+		} );
+	} );
 
 	describe( "addTrailingSlash", function() {
 		it( "should add a trailing slash", function() {
@@ -69,7 +69,7 @@ describe( "A URL helper", function() {
 			var actual = url.addTrailingSlash( input );
 
 			expect( actual ).toEqual( expected );
-		});
+		} );
 
 		it( "should not touch a URL with a trailing slash", function() {
 			var input = "http://example.org/path/";
@@ -78,8 +78,8 @@ describe( "A URL helper", function() {
 			var actual = url.addTrailingSlash( input );
 
 			expect( actual ).toEqual( expected );
-		});
-	});
+		} );
+	} );
 
 	describe( "getFromAnchorTag", function() {
 		it( "should get the link from an anchor", function() {
@@ -89,7 +89,7 @@ describe( "A URL helper", function() {
 			var actual = url.getFromAnchorTag( input );
 
 			expect( actual ).toEqual( expected );
-		});
+		} );
 
 		it( "should get the link from an anchor with double quotes", function() {
 			var input = "<a href=\"http://example.org\">Link text</a>";
@@ -98,7 +98,7 @@ describe( "A URL helper", function() {
 			var actual = url.getFromAnchorTag( input );
 
 			expect( actual ).toEqual( expected );
-		});
+		} );
 
 		it( "should return an empty string if there is no anchor tag", function() {
 			var input = "";
@@ -107,8 +107,8 @@ describe( "A URL helper", function() {
 			var actual = url.getFromAnchorTag( input );
 
 			expect( actual ).toEqual( expected );
-		});
-	});
+		} );
+	} );
 
 	describe( "areEqual", function() {
 		it( "should normalize URLs before comparing them", function() {
@@ -119,7 +119,7 @@ describe( "A URL helper", function() {
 			var actual = url.areEqual( urlA, urlB );
 
 			expect( actual ).toBe( expected );
-		});
+		} );
 
 		it( "should reject different URLs", function() {
 			var urlA = "http://example.org/first";
@@ -129,7 +129,7 @@ describe( "A URL helper", function() {
 			var actual = url.areEqual( urlA, urlB );
 
 			expect( actual ).toBe( expected );
-		});
+		} );
 
 		it( "should work with different trailing slashes", function() {
 			var urlA = "http://example.org/path";
@@ -139,8 +139,8 @@ describe( "A URL helper", function() {
 			var actual = url.areEqual( urlA, urlB );
 
 			expect( actual ).toBe( expected );
-		});
-	});
+		} );
+	} );
 
 	describe( "isInternalLink", function() {
 		it( "should identify an absolute internal link with host", function() {
@@ -260,4 +260,4 @@ describe( "A URL helper", function() {
 			expect( actual ).toBe( expected );
 		} );
 	} );
-});
+} );

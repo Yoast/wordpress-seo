@@ -16,7 +16,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-			{ sentence: "", sentenceLength: 1 }
+			{ sentence: "", sentenceLength: 1 },
 		] ), i18n );
 
 		expect( assessment.hasScore() ).toBe( true );
@@ -30,7 +30,7 @@ describe( "An assessment for sentence length", function() {
 		mockPaper = new Paper();
 		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 30 },
-			{ sentence: "", sentenceLength: 1 }
+			{ sentence: "", sentenceLength: 1 },
 		] ), i18n );
 
 		expect( assessment.hasScore() ).toBe( true );
@@ -43,7 +43,7 @@ describe( "An assessment for sentence length", function() {
 	it( "returns the score for 100% long sentences", function() {
 		mockPaper = new Paper();
 		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [
-			{ sentence: "", sentenceLength: 30 }
+			{ sentence: "", sentenceLength: 30 },
 		] ), i18n );
 
 		expect( assessment.hasScore() ).toBe( true );
@@ -59,10 +59,10 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 30 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-			{ sentence: "", sentenceLength: 1 }
+			{ sentence: "", sentenceLength: 1 },
 		] ), i18n );
 
-		expect( assessment.hasScore()).toBe( true );
+		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "25% of the sentences contain <a href='https://yoa.st/short-sentences' target='_blank'>more than 20 words</a>, " +
 			"which is less than or equal to the recommended maximum of 25%." );
@@ -81,7 +81,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-			{ sentence: "", sentenceLength: 1 }
+			{ sentence: "", sentenceLength: 1 },
 		] ), i18n );
 
 		expect( assessment.hasScore() ).toBe( true );
@@ -145,16 +145,16 @@ describe( "An assessment for sentence length", function() {
 } );
 
 describe( "A test for marking too long sentences", function() {
-	it ("returns markers for too long sentences", function() {
+	it( "returns markers for too long sentences", function() {
 		let paper = new Paper( "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?" );
 		let sentenceLengthInText = Factory.buildMockResearcher( [ { sentence: "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?", sentenceLength: 21 } ] );
 		let expected = [
-			new Mark( { original: "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?", marked: "<yoastmark class='yoast-text-mark'>This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?</yoastmark>" } )
+			new Mark( { original: "This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?", marked: "<yoastmark class='yoast-text-mark'>This is a too long sentence, because it has over twenty words, and that is hard too read, don't you think?</yoastmark>" } ),
 		];
 		expect( sentenceLengthInTextAssessment.getMarks( paper, sentenceLengthInText ) ).toEqual( expected );
 	} );
 
-	it ("returns no markers if no sentences are too long", function() {
+	it( "returns no markers if no sentences are too long", function() {
 		let paper = new Paper( "This is a short sentence." );
 		let sentenceLengthInText = Factory.buildMockResearcher( [ { sentence: "This is a short sentence.", sentenceLength: 5 } ] );
 		let expected = [];
