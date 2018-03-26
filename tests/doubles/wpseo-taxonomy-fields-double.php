@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Doubles
  */
 
@@ -14,7 +16,7 @@ class WPSEO_Taxonomy_Fields_Double extends WPSEO_Taxonomy_Fields {
 	 * @return array
 	 */
 	public function get() {
-		return $this->options;
+		return array( '1', '2', '3' );
 	}
 
 }

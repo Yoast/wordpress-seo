@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Formatter
  */
 
@@ -50,6 +52,10 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Metabox_Formatter::get_template
 	 */
 	public function test_post_with_empty_options() {
+		WPSEO_Options::set( 'keyword_usage', array( '' => array() ) );
+		WPSEO_Options::set( 'title-' . $this->post->post_type, '' );
+		WPSEO_Options::set( 'metadesc-' . $this->post->post_type, '' );
+
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, array(), '' );
 		$result   = $instance->get_values();
 
@@ -65,12 +71,10 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Metabox_Formatter::is_show_date_enabled
 	 */
 	public function test_post_with_options_and_showdate_enabled() {
-		$options  = array(
-			'title-post'    => 'This is the title',
-			'metadesc-post' => 'This is the metadescription',
-			'showdate-post' => true,
-		);
-		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, $options, '' );
+		WPSEO_Options::set( 'title-post', 'This is the title' );
+		WPSEO_Options::set( 'metadesc-post', 'This is the metadescription' );
+		WPSEO_Options::set( 'showdate-post', true );
+		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, array(), '' );
 		$result   = $instance->get_values();
 
 		$this->assertEquals( $result['metaDescriptionDate'], date_i18n( 'M j, Y', mysql2date( 'U', $this->post->post_date ) ) );
@@ -129,11 +133,10 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Metabox_Formatter::get_template
 	 */
 	public function test_with_missing_option() {
-		$options  = array(
-			'title-post'    => 'This is the title',
-			'showdate-post' => true,
-		);
-		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, $options, '' );
+		WPSEO_Options::set( 'title-post', 'This is the title' );
+		WPSEO_Options::set( 'showdate-post', true );
+
+		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, array(), '' );
 		$result   = $instance->get_values();
 
 		$this->assertEquals( $result['title_template'], 'This is the title' );

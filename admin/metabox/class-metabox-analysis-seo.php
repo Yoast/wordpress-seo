@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Metabox
  */
 
@@ -32,8 +34,6 @@ class WPSEO_Metabox_Analysis_SEO implements WPSEO_Metabox_Analysis {
 	 * @return bool Whether or not this analysis is enabled globally.
 	 */
 	public function is_globally_enabled() {
-		$options = WPSEO_Options::get_option( 'wpseo' );
-
-		return (bool) $options['keyword_analysis_active'];
+		return WPSEO_Options::get( 'keyword_analysis_active', true );
 	}
 }

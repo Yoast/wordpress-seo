@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
-Tested up to: 4.9.2
-Stable tag: 6.2
+Tested up to: 4.9.4
+Stable tag: 7.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -98,57 +98,111 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Screenshots ==
 
 1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
-2. The fully configurable XML sitemap for Yoast SEO.
-3. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
-4. Example of the SEO analysis functionality.
-5. Example of the readability analysis functionality.
-6. The advanced section of the Yoast SEO meta box.
+2. Example of the SEO analysis functionality.
+3. Example of the readability analysis functionality.
+4. Overview of site-wide SEO problems and possible improvements.
+5. Control over which features you want to use.
+6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
 
-= 6.2.0 =
-Release Date: January 23rd, 2018
+= 7.1.0 =
+Release Date: March 20th, 2018
 
 Enhancements:
-
-* Allows more strings to be translated.
-* Adds the passive voice assessment for French.
-* Adds the passive voice assessment for Spanish.
-* Simplifies the feedback message for the assessment that checks whether subheadings contain the keyword.
-
-Bugfixes:
-
-* Security hardening through stricter code checks.
-* Reduces the number of times the content analysis is refreshed on page load.
-* Fixes a bug where relative URLs were not counted as internal links in the internal link assessment.
-* Fixes a bug where Premium users would be shown ads when following a certain path through the SEO menu.
-* Fixes a bug where the method of setting the title and meta description templates for the WooCommerce shop page would not work anymore.
-
-= 6.1.1 =
-Release Date: January 10th, 2018
+* Adds a filter to mark Spanish sentences as non-passive when certain exception words occur between the auxiliary and the participle. The list of exception words includes all forms of the copula 'estar'.
+* Adds transition words assessment for Portuguese, props [amesdigital](https://github.com/amesdigital).
+* Increases the height of the meta description box so it matches the maximum amount of characters without needing a scrollbar.
+* Detects when you need to import old SEO plugin data and allows you to import it on the import plugins page. After importing you can check whether the import was completed successfully and then delete the data.
+* Changes the formatting of text in the dashboard widget to improve the reading experience.
+* Adds an extra argument to `wpseo_replacements` filter. This makes it possible to access post, taxonomy or term instances when applying the filter.
+* Adds support for a new template variable `%%archive_title%%`.
+* Remove all Facebook Insights functionality as it's no longer supported.
 
 Bugfixes:
+* Fixes a bug that broke a filter which marks Spanish and French sentences as non-passive when certain exception words occur between the auxiliary and the participle.
+* Fixes a bug where the `page` and `paged` values could cause errors if they weren't properly handled as integers.
+* Fixes a bug where division by zero errors in the passive voice assessment would cause `NaN%` to show up in the feedback.
+* Fixes a bug where multiple `rel` arguments prevented correct `nofollow` detection.
+* Fixes a bug where enabling the Show blog page in the breadcrumb settings had the inverse effect. Internally renamed `breadcrumbs-blog-remove` to `breadcrumbs-display-blog-page` to fix logic issues.
+* Fixes a bug where the rewrite rules weren't removed after stripping the category base. This resulted in an unaccessible page.
+* Fixes a bug where adding a `wpseo_sitemap_entries_per_page` was not being used when rendering the sitemaps.
+* Fixes a bug where the Yoast logo in the Configuration Wizard was showing the old version.
+* Removes the backfill hooks when calling `WPSEO_Options::get()` to improve performance.
 
-* Fixes a bug where sitemaps could not be generated when there one or more galleries in the content.
+= 7.0.3 =
+Release Date: March 12th, 2018
 
-= 6.1.0 =
-Release Date: January 9th, 2018
+Bugfixes:
+* Fixes a bug where the option settings that needs to be migrated are backfilled prematurely, resulting in settings not being migrated as expected.
+* Fixes a bug where adding a `wpseo_sitemap_entries_per_page` is not being applied as expected.
+
+= 7.0.2 =
+Release Date: March 8th, 2018
+
+Bugfixes:
+* Fixes a bug where a fatal error occurs on a taxonomy edit page when social graphs has been disabled for either Facebook or Twitter.
+* Fixes a bug where the breadcrumb path were missing parent entries.
+* Fixes a bug where RSS `before` and `after` content settings were being cleaned too aggressively.
+* Fixes the problem that other plugins are depending on the options we've removed. This patch adds those options as backfills to make them available again.
+
+= 7.0.1 =
+Release Date: March 6th, 2018
+
+Bugfixes:
+* Fixes a bug where the some settings are not properly migrated after upgrading to 7.0.
+
+= 7.0.0 =
+Release Date: March 6th, 2018
 
 Enhancements:
+* Interface:
+    * Introduces an overhaul of the Admin settings to simplify the plugin configuration.
+    * Introduces a new setting to redirect attachment URLs. Previously, we had an option to redirect attachment URLs to their post parent. This didn't work for attachments that weren't attached to anything. This new setting redirects *all* attachment URLs to the URL of the original image / media item. This is all explained on the new `Media` tab under `Search Appearance`. This setting is enabled by default for new installations.
+    * Moves the `Text link counter calculation` to the `Tools` submenu.
+    * Moves the RSS tab from `Advanced` to `Search Appearance`.
+    * Removes the option to remove the `replytocom` variable. We now disable this automatically with a filter (`wpseo_remove_reply_to_com`).
+    * Removes the option to exclude an author from the XML sitemap in favor of a broader option. Instead, we now have an option to set whether this author's archive should be visible in the search results. If you choose not to allow this archive in the search results, it's also excluded from the author sitemap.
+    * Removes the XML sitemaps settings page in favor of a feature toggle on the Features tab and a question in Titles & Meta's "Do you want to show X in search results?".
+    * Moves the setting to disable the Advanced Meta Box for authors to the Features Tab. The setting now also defaults to 'On'.
+    * Expands the content analysis headers by default.
 
-* Allows more strings to be translated.
-* Replaces any Yoast domain URLs with shortlink alternatives.
+* JSON+LD:
+    * Shows JSON+LD markup for website and search on the front page.
+    * Makes sure JSON+LD organization markup properly links to the frontpage.
+
+* Copy:
+    * Clarifies the copy on the Edit Post page to ask "Allow search engines to show this Post in search results?" instead of having a heading "Meta Robots", which was quite difficult to understand for non-SEO's. Similar changes have been made to the `follow` / `nofollow` setting.
+    * Introduces the question: "Allow search engines to show this `<taxonomy>` in search results?" and bases both the `noindex` and the inclusion in XML sitemaps on this decision.
+    * Changes the wording in the indexing dropdown menu in the Advanced Tab of the metabox from `Yes (Default for posts)` / `Yes` / `No` to `Default for Posts, currently: Yes` / `Yes` / `No`.
+    * Renames the Dashboard menu item to General.
+
+* Other:
+    * Removes the feature that automatically removed stop words from the slug.
+    * Removes `media` post type from the Configuration Wizard, which brings the question about indexing in line with the rest of the plugin.
+    * Removes `jQuery UI autocomplete` from the enqueued scripts.
+    * Adds a filter `wpseo_exclude_from_sitemap_by_post_ids` for controlling which posts are excluded from the sitemap.
+    * Improves the switch toggle settings for use with assistive technologies.
+    * Removes code to add a trailing slash in weird permutations of permalink settings. Canonical should solve this properly.
+    * Removes the functionality to automatically remove blocking XML sitemap files.
+    * Removes the clean permalinks feature, as it was created before canonical was introduced and is no longer needed.
+    * Fixes a reference to the `ACF Content Analysis for Yoast SEO` plugin.
+    * Removes all functions, methods and files that were deprecated since before version 4.0 and were showing a deprecation warning.
+    * Removes the plugin conflict check for the `Head, Footer and Post Injections`-plugin as it no longer manages OpenGraph tags.
+    * Migrates the `hideeditbox-<post type>` and `hideeditbox-tax-<taxonomy>` settings to a saner `display-metabox-pt-<post type>` and `display-metabox-tax-<taxonomy>` settings.
 
 Bugfixes:
 
-* Fixes a bug where the internal links aren't recognized when the `site_url` is not the same as the `home_url`.
-* Fixes a bug where the user locale is not used for the Help Center when it is different from the site locale.
-* Removes unsupported PHP 5.2 arguments in an `array_unique` call in the Term image sitemap.
-* Removes unsupported PHP 5.3 arguments in a `json_encode` call in the notification functionality.
-* Added support for locales without territory (examples: et, fi) - Props [Peeter Marvet](https://github.com/petskratt).
-* Added support support for 3-letter language codes (example: rhg) - Props [Peeter Marvet](https://github.com/petskratt).
-* Fixes a JavaScript compatibility issue by prefixing the webpack jsonP function with `yoast` - Props [Raitis Sevelis from Visual Composer](https://visualcomposer.io/).
+* Hides the "Save changes" button on option tabs where there is nothing to save.
+* Fixes a bug where you would not stay on the same option tab after using the save button in Safari.
+* When we set `noindex` on a page, we no longer add a canonical, to prevent confusing search engines.
+* Fixes an issue where the categories / tags overview pages were incorrectly showing elements marked as noindex when in reality they weren't set to noindex (and vice versa). This meant that blue bullets were being shown incorrectly.
+* Fixes an issue where setting posts and pages to noindex didn't change the overview.
+
+Security:
+
+* Fixes a security issue where importing of the values of ini files were being parsed for dynamic content.
 
 = Earlier versions =
 
-For the changelog of earlier versions, please refer to the separate changelog.txt file.
+For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog

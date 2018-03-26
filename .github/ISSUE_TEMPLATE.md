@@ -24,3 +24,5 @@
 * WordPress version:
 * Yoast SEO version:
 * Relevant plugins in case of a bug:
+<!-- Please make sure you can reproduce this bug with a default theme such as Twenty Seventeen. Sometimes issues may occur due to theme conflicts. -->
+* Tested with theme:

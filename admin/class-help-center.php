@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -245,7 +247,7 @@ class WPSEO_Help_Center {
 	/**
 	 * Outputs the help center.
 	 *
-	 * @deprecated
+	 * @deprecated 5.6
 	 */
 	public function output_help_center() {
 		_deprecated_function( 'WPSEO_Help_Center::output_help_center', 'WPSEO 5.6.0', 'WPSEO_Help_Center::mount()' );

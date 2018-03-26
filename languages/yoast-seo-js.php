@@ -41,12 +41,12 @@ $generated_i18n_strings = array(
 	/* Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value */
 	_n_noop( '%1$d of the paragraphs contains more than the recommended maximum of %2$d words. Are you sure all information is about the same topic, and therefore belongs in one single paragraph?', '%1$d of the paragraphs contain more than the recommended maximum of %2$d words. Are you sure all information within each of these paragraphs is about the same topic, and therefore belongs in a single paragraph?', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:44
+	// Reference: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:48
 	/* Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 	   %3$s expands to the anchor end tag, %4$s expands to the recommended value. */
 	__( '%1$s of the sentences contain %2$spassive voice%3$s, which is less than or equal to the recommended maximum of %4$s.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:53
+	// Reference: node_modules/yoastseo/js/assessments/readability/passiveVoiceAssessment.js:57
 	/* Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
 	   %3$s expands to the anchor end tag, %4$s expands to the recommended value. */
 	__( '%1$s of the sentences contain %2$spassive voice%3$s, which is more than the recommended maximum of %4$s. Try to use their active counterparts.', 'wordpress-seo' ),
@@ -141,21 +141,21 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/assessments/seo/keyphraseLengthAssessment.js:20
 	__( 'The keyphrase is over 10 words, a keyphrase should be shorter.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:27
+	// Reference: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:26
 	/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 	   %3$s expands to the maximum keyword density percentage. */
 	__( 'The keyword density is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d times.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:35
+	// Reference: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:34
 	/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 	   %3$s expands to the maximum keyword density percentage. */
 	__( 'The keyword density is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d times.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:42
+	// Reference: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:41
 	/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
 	__( 'The keyword density is %1$s, which is great; the focus keyword was found %2$d times.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:48
+	// Reference: node_modules/yoastseo/js/assessments/seo/keywordDensityAssessment.js:47
 	/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
 	__( 'The keyword density is %1$s, which is too low; the focus keyword was found %2$d times.', 'wordpress-seo' ),
 
@@ -355,49 +355,49 @@ $generated_i18n_strings = array(
 	// Reference: node_modules/yoastseo/js/renderers/AssessorPresenter.js:309
 	__( 'Remove marks in the text', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:323
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:329
 	__( 'Edit snippet', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:324
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:330
 	__( 'SEO title', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:325
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:331
 	__( 'Slug', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:326
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:332
 	__( 'Meta description', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:327
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:333
 	__( 'Close snippet editor', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:328
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:334
 	__( 'Snippet preview', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:329
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:335
 	__( 'SEO title preview:', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:330
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:336
 	__( 'Slug preview:', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:331
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:337
 	__( 'Meta description preview:', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:332
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:338
 	__( 'You can click on each element in the preview to jump to the Snippet Editor.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:333
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:339
 	__( 'Desktop preview', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:334
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:340
 	__( 'Mobile preview', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:335
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:341
 	__( 'Scroll to see the preview content.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:513
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:522
 	__( 'Please provide an SEO title by editing the snippet below.', 'wordpress-seo' ),
 
-	// Reference: node_modules/yoastseo/js/snippetPreview.js:572
+	// Reference: node_modules/yoastseo/js/snippetPreview.js:581
 	__( 'Please provide a meta description by editing the snippet below.', 'wordpress-seo' )
 );
 /* THIS IS THE END OF THE GENERATED FILE */

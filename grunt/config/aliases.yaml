@@ -57,11 +57,14 @@ check:
 'check:i18n':
   - 'checktextdomain'
 
-artifact:
+# Update all versions except the stable tag
+'update-version-trunk':
+  - 'update-version:pluginFile'
+  - 'update-version:initializer'
+
+'artifact':
   - 'shell:production-prefix-dependencies'
   - 'shell:production-composer-install'
-  # Update the version numbers in the relevant files
-  - 'update-version'
   # Build like we normally would
   - 'release'
   # Remove build folder
@@ -88,13 +91,15 @@ release:
   - 'webpack:buildProd'
 
 'deploy:trunk':
-  - artifact
-  - wp_deploy:trunk
+  - 'update-version-trunk'
+  - 'artifact'
+  - 'wp_deploy:trunk'
 
 'deploy:master':
-  - artifact
-  - wp_deploy:master
+  - 'update-version'
+  - 'artifact'
+  - 'wp_deploy:master'
 
 # Default task
 default:
-  - build
+  - 'build'

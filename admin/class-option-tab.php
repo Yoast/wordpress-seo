@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Options\Tabs
  */
 
@@ -15,7 +17,7 @@ class WPSEO_Option_Tab {
 	private $label;
 
 	/** @var array Optional arguments */
-	private $arguments = array();
+	private $arguments;
 
 	/**
 	 * WPSEO_Option_Tab constructor.
@@ -24,57 +26,66 @@ class WPSEO_Option_Tab {
 	 * @param string $label     Localized label of the tab.
 	 * @param array  $arguments Optional arguments.
 	 */
-	public function __construct( $name, $label, $arguments = array() ) {
+	public function __construct( $name, $label, array $arguments = array() ) {
 		$this->name      = sanitize_title( $name );
 		$this->label     = $label;
-		$this->arguments = (array) $arguments;
+		$this->arguments = $arguments;
 	}
 
 	/**
-	 * Get the name
+	 * Gets the name.
 	 *
-	 * @return string
+	 * @return string The name.
 	 */
 	public function get_name() {
 		return $this->name;
 	}
 
 	/**
-	 * Get the label
+	 * Gets the label.
 	 *
-	 * @return string
+	 * @return string The label.
 	 */
 	public function get_label() {
 		return $this->label;
 	}
 
 	/**
-	 * Get the video URL
+	 * Gets the video URL.
 	 *
-	 * @return string
+	 * @return string The video url.
 	 */
 	public function get_video_url() {
 		return $this->get_argument( 'video_url' );
 	}
 
 	/**
-	 * Get the option group
+	 * Retrieves whether the tab needs a save button.
 	 *
-	 * @return string
+	 * @return bool True whether the tabs needs a save button.
+	 */
+	public function has_save_button() {
+		return (bool) $this->get_argument( 'save_button', true );
+	}
+
+	/**
+	 * Gets the option group.
+	 *
+	 * @return string The option group.
 	 */
 	public function get_opt_group() {
 		return $this->get_argument( 'opt_group' );
 	}
 
 	/**
-	 * Get the variable from the supplied arguments
+	 * Retrieves the variable from the supplied arguments.
 	 *
-	 * @param string $variable Variable to retrieve.
-	 * @param string $default  Default to use when variable not found.
+	 * @param string       $variable Variable to retrieve.
+	 * @param string|mixed $default  Default to use when variable not found.
 	 *
-	 * @return mixed|string
+	 * @return mixed|string The retrieved variable.
 	 */
 	protected function get_argument( $variable, $default = '' ) {
-		return ! empty( $this->arguments[ $variable ] ) ? $this->arguments[ $variable ] : $default;
+		return array_key_exists( $variable, $this->arguments ) ? $this->arguments[ $variable ] : $default;
 	}
 }

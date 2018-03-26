@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests
  */
 
@@ -15,9 +17,6 @@ if ( false !== getenv( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', getenv( 'WP_PLUGIN_DIR' ) );
 }
 
-define( 'YOAST_ENVIRONMENT', 'production' );
-
-
 $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array( 'wordpress-seo/wp-seo.php' ),
 );
@@ -29,6 +28,10 @@ else {
 	require_once '../../../../tests/phpunit/includes/bootstrap.php';
 }
 
+if ( defined( 'WPSEO_TESTS_PATH' ) && WPSEO_TESTS_PATH !== dirname( __FILE__ ) . '/' ) {
+	echo 'WPSEO_TESTS_PATH is already defined and does not match expected path.';
+	exit( 1 ); // Exit with error code, to make the build fail.
+}
 define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
 
 // Load autoloader.

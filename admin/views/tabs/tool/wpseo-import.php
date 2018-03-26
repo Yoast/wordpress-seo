@@ -1,6 +1,12 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Views
+ */
+
+/**
+ * @var Yoast_Form $yform
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {

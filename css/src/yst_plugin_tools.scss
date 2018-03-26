@@ -90,7 +90,8 @@ p.desc {
 	padding: 0 0 8px 25px;
 }
 
-p.desc.label {
+p.desc.label,
+div.desc.label {
 	margin: 0 0 20px;
 	padding: 0 0 10px 200px;
 }
@@ -105,8 +106,9 @@ p.desc.label {
 	margin-left: 200px;
 }
 
-/* Styles for Yoast specific content. @todo: check this. */
+/* Styles for Yoast specific content. */
 .wpseo_content_wrapper h3 {
+	font-size: 1.15em;
 	margin: 1em 0 0.5em 0;
 }
 
@@ -265,12 +267,6 @@ table.yoast_help .yoast-variable-desc {
 	padding: 5px 8px;
 }
 
-/* Add Facebook admins buttons. @todo: remove this. */
-.fb-buttons .button-primary,
-.fb-buttons .button {
-	margin-right: 8px;
-}
-
 /* Tabs. */
 .wpseotab {
 	display: none;
@@ -282,6 +278,11 @@ table.yoast_help .yoast-variable-desc {
 
 .wpseotab p.expl {
 	margin-left: 6px;
+}
+
+.wpseotab .tab-block {
+	display: block;
+	margin: 30px 0;
 }
 
 .wpseotab p.expl strong {
@@ -320,7 +321,7 @@ textarea.wpseo-new-metadesc {
 	max-width: 100%;
 }
 
-/* Titles & Metas: title separator. */
+/* Search Appearance: title separator. */
 #separator {
 	margin: 1.5em 0 0.5em;
 }
@@ -422,11 +423,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .wpseo-progressbar .ui-progressbar-value {
 	height: 25px;
 	background: #006691;
-}
-
-/* Add Facebook admin popup: notification when submitting empty form. */
-.wpseo-add-fb-admin-form-wrap .notice span {
-	margin-left: 10px;
 }
 
 .archives-titles-metas-content {
@@ -566,7 +562,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 // make setting the `min-width` easier.
 
 // Variables table in the Advanced > RSS page.
-.page-wpseo_rss .yoast-variable-desc {
+.yoast-variable-desc {
 	min-width: 300px;
 }
 
@@ -691,9 +687,11 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	.select2-container {
 		display: block;
 		max-width: 100%;
+		margin: 0 0 5px 0;
 	}
 
-	p.desc.label {
+	p.desc.label,
+	div.desc.label {
 		padding-left: 0;
 	}
 

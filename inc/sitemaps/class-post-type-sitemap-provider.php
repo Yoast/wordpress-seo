@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\XML_Sitemaps
  */
 
@@ -10,9 +12,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 	/** @var string $home_url Holds the home_url() value. */
 	protected static $home_url;
-
-	/** @var array $options All of plugin options. */
-	protected static $options;
 
 	/** @var WPSEO_Sitemap_Image_Parser $image_parser Holds image parser instance. */
 	protected static $image_parser;
@@ -31,6 +30,15 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function __construct() {
 		add_filter( 'save_post', array( $this, 'save_post' ) );
+	}
+
+	/**
+	 * Get all the options
+	 *
+	 * @deprecated 7.0
+	 */
+	protected function get_options() {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0', 'WPSEO_Options::get' );
 	}
 
 	/**
@@ -102,19 +110,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get all the options
-	 *
-	 * @return array
-	 */
-	protected function get_options() {
-		if ( ! isset( self::$options ) ) {
-			self::$options = WPSEO_Options::get_all();
-		}
-
-		return self::$options;
-	}
-
-	/**
 	 * Check if provider supports given item type.
 	 *
 	 * @param string $type Type string to check for.
@@ -136,7 +131,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		global $wpdb;
 
 		// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
-		$post_types          = get_post_types( array( 'public' => true ) );
+		$post_types          = WPSEO_Post_Type::get_accessible_post_types();
 		$post_types          = array_filter( $post_types, array( $this, 'is_valid_post_type' ) );
 		$last_modified_times = WPSEO_Sitemaps::get_last_modified_gmt( $post_types, true );
 		$index               = array();
@@ -234,7 +229,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$options = $this->get_options();
+		$stacked_urls     = array();
 		$posts_to_exclude = $this->get_excluded_posts();
 
 		while ( $total > $offset ) {
@@ -310,15 +305,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return bool
 	 */
 	public function is_valid_post_type( $post_type ) {
-
-		$options = $this->get_options();
-
-		if ( ! empty( $options[ "post_types-{$post_type}-not_in_sitemap" ] ) ) {
-			return false;
-		}
-
-		// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
-		if ( ! in_array( $post_type, get_post_types( array( 'public' => true ), 'names' ), true ) ) {
+		if ( ! WPSEO_Post_Type::is_post_type_indexable( $post_type ) ) {
 			return false;
 		}
 
@@ -479,9 +466,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_post_type_archive_link( $post_type ) {
 
-		$options = $this->get_options();
-
-		if ( isset( $options[ 'noindex-ptarchive-' . $post_type ] ) && $options[ 'noindex-ptarchive-' . $post_type ] ) {
+		if ( WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ) {
 			return false;
 		}
 
@@ -647,11 +632,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 		unset( $canonical );
-
-		$options = $this->get_options();
-		if ( $options['trailingslash'] === true && $post->post_type !== 'post' ) {
-			$url['loc'] = trailingslashit( $url['loc'] );
-		}
 
 		$url['pri']    = 1; // Deprecated, kept for backwards data compat. R.
 		$url['images'] = $this->get_image_parser()->get_images( $post );

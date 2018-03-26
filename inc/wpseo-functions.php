@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Internals
  */
 
@@ -31,8 +33,7 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
 		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
 		if ( ! $breadcrumbs_enabled ) {
-			$options             = get_option( 'wpseo_internallinks' );
-			$breadcrumbs_enabled = ( $options['breadcrumbs-enable'] === true );
+			$breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
 		}
 
 		if ( $breadcrumbs_enabled ) {

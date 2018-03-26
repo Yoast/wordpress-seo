@@ -618,4 +618,25 @@ an absolute waiver of all civil liability in connection with the
 Program, unless a warranty or assumption of liability accompanies a
 copy of the Program in return for a fee.
 
-                     END OF TERMS AND CONDITIONS
+  18. Additional terms
+
+  In the light of Article 7 of the GPL license, the following additional 
+terms apply:
+
+  a) You are prohibited to make misrepresentations of the origin of that 
+material, or to require that modified versions of such material be marked 
+in reasonable ways as different from the original version;
+
+  b) You are limited in the use for publicity purposes of names of 
+licensors or authors of the material;
+
+  c) You are declined any grant of rights under trademark law for use of 
+the trade names, trademarks, or service marks of YOAST B.V.;
+
+  d) You are required to indemnify licensors and authors of that material 
+by anyone who conveys the material (or modified versions of it) with 
+contractual assumptions of liability to the recipient, for any liability 
+that these contractual assumptions directly impose on those licensors and 
+authors.
+
+END OF TERMS AND CONDITIONS
