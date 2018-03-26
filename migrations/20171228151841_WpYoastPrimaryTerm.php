@@ -1,9 +1,20 @@
 <?php
+/**
+ * Primary Term table migration.
+ *
+ * @package WPSEO\Migrations
+ */
 
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 use Yoast\YoastSEO\Yoast_Model;
 
+/**
+ * Migration for the Primary Term
+ */
 class WpYoastPrimaryTerm extends Ruckusing_Migration_Base {
+	/**
+	 * Migration up.
+	 */
 	public function up() {
 		$table_name = $this->get_table_name();
 
@@ -29,12 +40,17 @@ class WpYoastPrimaryTerm extends Ruckusing_Migration_Base {
 		$this->add_timestamps( $table_name );
 	}
 
+	/**
+	 * Migration down.
+	 */
 	public function down() {
 		$this->drop_table( $this->get_table_name() );
 	}
 
 	/**
-	 * @return string
+	 * Retrieves the table name to use.
+	 *
+	 * @return string Table name to use.
 	 */
 	protected function get_table_name() {
 		return Yoast_Model::get_table_name( 'Primary_Term' );

@@ -36,7 +36,8 @@ define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 	if ( PHP_VERSION_ID >= 50300 ) {
 		define( 'WPSEO_NAMESPACES', true );
-	} else {
+	}
+	else {
 		define( 'WPSEO_NAMESPACES', false );
 	}
 }
@@ -69,10 +70,9 @@ function wpseo_auto_load( $class ) {
 	}
 }
 
+$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload_52.php';
 if ( WPSEO_NAMESPACES ) {
 	$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload.php';
-} else {
-	$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload_52.php';
 }
 
 if ( is_readable( $yoast_autoload_file ) ) {

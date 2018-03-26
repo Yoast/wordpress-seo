@@ -18,13 +18,24 @@
     <rule ref="Yoast">
         <exclude name="WordPress.WP.PreparedSQL.NotPrepared"/><!-- TODO audit raw queries -->
         <exclude name="WordPress.Functions.DontExtract" /><!-- TODO audit usage & replace -->
+
     </rule>
 
-	<rule ref="WordPress.WP.I18n">
-		<properties>
-			<property name="text_domain" value="wordpress-seo" />
-		</properties>
-	</rule>
+    <!-- Exclude migrations folder from filename checks, as we do not have control over this format -->
+    <rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
+        <exclude-pattern>migrations/*</exclude-pattern>
+    </rule>
+
+    <rule ref="Generic.Files.LowercasedFilename.NotFound">
+        <exclude-pattern>migrations/*</exclude-pattern>
+    </rule>
+    <!-- /Exclude migrations folder -->
+
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" value="wordpress-seo"/>
+        </properties>
+    </rule>
 
     <rule ref="WordPress.NamingConventions.ValidVariableName">
         <properties>

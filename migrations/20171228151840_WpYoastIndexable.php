@@ -1,9 +1,20 @@
 <?php
+/**
+ * Class WpYoastIndexable
+ *
+ * @package WPSEO\Migrations
+ */
 
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 use Yoast\YoastSEO\Yoast_Model;
 
+/**
+ * Indexable migration.
+ */
 class WpYoastIndexable extends Ruckusing_Migration_Base {
+	/**
+	 * Migration up.
+	 */
 	public function up() {
 		$table_name = $this->get_table_name();
 
@@ -28,18 +39,18 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'twitter_description', 'text', array( 'null' => true ) );
 		$indexable_table->column( 'twitter_image', 'string', array( 'null' => true, 'limit' => 255 ) );
 
-		$indexable_table->column( 'is_robots_noindex', 'boolean', array( 'null' => true ) ); // @todo default: false
-		$indexable_table->column( 'is_robots_nofollow', 'boolean', array( 'null' => true ) ); // @todo default: false
-		$indexable_table->column( 'is_robots_noarchive', 'boolean', array( 'null' => true ) ); // @todo default: false
-		$indexable_table->column( 'is_robots_noimageindex', 'boolean', array( 'null' => true ) ); // @todo default: false
-		$indexable_table->column( 'is_robots_nosnippet', 'boolean', array( 'null' => true ) ); // @todo default: false
+		$indexable_table->column( 'is_robots_noindex', 'boolean', array( 'null' => true, 'default' => false ) );
+		$indexable_table->column( 'is_robots_nofollow', 'boolean', array( 'null' => true, 'default' => false ) );
+		$indexable_table->column( 'is_robots_noarchive', 'boolean', array( 'null' => true, 'default' => false ) );
+		$indexable_table->column( 'is_robots_noimageindex', 'boolean', array( 'null' => true, 'default' => false ) );
+		$indexable_table->column( 'is_robots_nosnippet', 'boolean', array( 'null' => true, 'default' => false ) );
 
 		$indexable_table->column( 'primary_focus_keyword', 'string', array( 'null' => true, 'limit' => 255 ) );
 		$indexable_table->column( 'primary_focus_keyword_score', 'integer', array( 'null' => true, 'limit' => 3 ) );
 
 		$indexable_table->column( 'readability_score', 'integer', array( 'null' => true, 'limit' => 3 ) );
 
-		$indexable_table->column( 'is_cornerstone', 'boolean' ); // @todo default: false
+		$indexable_table->column( 'is_cornerstone', 'boolean', array( 'default' => false ) );
 
 		$indexable_table->column( 'link_count', 'integer', array( 'null' => true, 'limit' => 11 ) );
 		$indexable_table->column( 'incoming_link_count', 'integer', array( 'null' => true, 'limit' => 11 ) );
@@ -81,12 +92,17 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$this->add_timestamps( $table_name );
 	}
 
+	/**
+	 * Migration down.
+	 */
 	public function down() {
 		$this->drop_table( $this->get_table_name() );
 	}
 
 	/**
-	 * @return string
+	 * Retrieves the table name to use.
+	 *
+	 * @return string The table name to use.
 	 */
 	protected function get_table_name() {
 		return Yoast_Model::get_table_name( 'Indexable' );
