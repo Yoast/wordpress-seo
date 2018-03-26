@@ -57,7 +57,20 @@ class Yoast_Modal {
 	/**
 	 * Gets the default configuration for a modal.
 	 *
-	 * @return array The modal default configuration.
+	 * @return array {
+	 *     The modal default configuration.
+	 *
+	 *     @type string $mountHook      Any CSS query selector to target an element that will be replaced
+	 *                                  by the modal open button.
+	 *     @type string $appElement     Element the modal will hide with `aria-hidden`. For better
+	 *                                  accessibility, set it to the most general wrapper and don't use body.
+	 *     @type string $openButtonIcon Optional. Icon for the open button.
+	 *     @type array  $labels         Labels for the modal main elements. If omitted, the related elements
+	 *                                  will not be used. Only exception is `modalAriaLabel` which is
+	 *                                  required by the React modal component.
+	 *     @type array  $classes        Optional. CSS classes for the modal buttons.
+	 *     @type string $content        The name of the React component to use as the modal content.
+	 * }
 	 */
 	public static function get_defaults() {
 		$config = array(
