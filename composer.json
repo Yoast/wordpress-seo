@@ -37,8 +37,7 @@
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "~0.4.3",
 		"roave/security-advisories": "dev-master",
-		"humbug/php-scoper": "^0.6.0",
-		"ocramius/package-versions": "~1.2.0"
+		"humbug/php-scoper": "^0.6.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
