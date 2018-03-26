@@ -6,8 +6,12 @@
  */
 
 /* translators: %1$s expands to Yoast SEO */
-$wpseo_up_settings_header = sprintf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
-
+$wpseo_up_settings_header    = sprintf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
+$wpseo_no_index_author_label = sprintf(
+	/* translators: %s expands to "this author's archives". */
+	__( 'Do not allow search engines to show %s in search results.', 'wordpress-seo' ),
+	__( 'this author\'s archives', 'wordpress-seo' )
+);
 ?>
 
 <div class="yoast yoast-settings">
@@ -27,7 +31,7 @@ $wpseo_up_settings_header = sprintf( __( '%1$s settings', 'wordpress-seo' ), 'Yo
 		name="wpseo_noindex_author"
 		value="on" <?php echo ( get_the_author_meta( 'wpseo_noindex_author', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
 	<label class="yoast-label-strong"
-		for="wpseo_noindex_author"><?php printf( esc_html__( 'Do not allow search engines to show %s in search results.', 'wordpress-seo' ), __( 'this author\'s archives', 'wordpress-seo' ) ); ?></label><br>
+		for="wpseo_noindex_author"><?php echo esc_html( $wpseo_no_index_author_label ); ?></label><br>
 
 	<?php if ( WPSEO_Options::get( 'keyword_analysis_active', false ) ) : ?>
 		<input class="yoast-settings__checkbox double" type="checkbox" id="wpseo_keyword_analysis_disable"
