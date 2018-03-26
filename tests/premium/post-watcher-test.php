@@ -145,7 +145,13 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$post = get_post( $post_id, ARRAY_A );
 
-		// Add the post watcher, to trigger on the post save.
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * Adds the post watcher, to trigger on the post save.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array( 'post_redirect_can_be_made' ) )
@@ -156,7 +162,6 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->method( 'post_redirect_can_be_made' )
 			->will( $this->returnValue( true ) );
 
-		/* Instance of \WPSEO_Post_Watcher_Double */
 		$instance->set_hooks();
 
 		// Save post with a new slug.
@@ -216,7 +221,11 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->expects( $this->never() )
 			->method( 'delete_redirects' );
 
-		/* Instance of \WPSEO_Post_Watcher_Double */
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
@@ -257,7 +266,11 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->expects( $this->once() )
 			->method( 'delete_redirects' );
 
-		/* Instance of \WPSEO_Post_Watcher_Double */
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
@@ -387,7 +400,11 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$post        = $this->factory->post->create();
 		$post_before = $this->factory->post->create();
 
-		/* Instance of \WPSEO_Post_Watcher_Double */
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
@@ -434,7 +451,11 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		/* Instance of \WPSEO_Post_Watcher_Double */
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
@@ -488,7 +509,11 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		/* Instance of \WPSEO_Post_Watcher_Double */
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
