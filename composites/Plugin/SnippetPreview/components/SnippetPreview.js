@@ -244,10 +244,24 @@ export default class SnippetPreview extends Component {
 		this.setDescriptionRef = this.setDescriptionRef.bind( this );
 	}
 
+	/**
+	 * Sets the title element reference for later use.
+	 *
+	 * @param {Object} titleElement The title element.
+	 *
+	 * @returns {void}
+	 */
 	setTitleRef( titleElement ) {
 		this._titleElement = titleElement;
 	}
 
+	/**
+	 * Sets the description element reference for later use.
+	 *
+	 * @param {Object} descriptionElement The description element.
+	 *
+	 * @returns {void}
+	 */
 	setDescriptionRef( descriptionElement ) {
 		this._descriptionElement = descriptionElement;
 	}

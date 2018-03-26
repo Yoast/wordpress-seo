@@ -370,6 +370,13 @@ class AlgoliaSearcher extends React.Component {
 		}
 	}
 
+	/**
+	 * Moves focus back to the clicked search results if this component updates.
+	 *
+	 * Prevents focus loss.
+	 *
+	 * @returns {void}
+	 */
 	componentDidUpdate() {
 		this.moveFocusBackToClickedSearchResult();
 	}

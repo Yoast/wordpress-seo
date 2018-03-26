@@ -22,6 +22,11 @@ export default class SvgIcon extends React.Component {
 	}
 
 	/* eslint-disable complexity */
+	/**
+	 * Renders an SVG icon.
+	 *
+	 * @returns {ReactElement} The rendered SVG icon.
+	 */
 	render() {
 		const { icon, className, color, size } = this.props;
 		let path;
