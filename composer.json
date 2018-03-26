@@ -35,7 +35,6 @@
 	},
 	"require-dev": {
 		"php": "^7.1",
-		"codeclimate/php-test-reporter": "dev-master",
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "~0.4.3",
 		"roave/security-advisories": "dev-master",
