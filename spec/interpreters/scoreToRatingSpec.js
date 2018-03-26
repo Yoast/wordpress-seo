@@ -1,6 +1,6 @@
 var scoreToRating = require( "../../js/interpreters/scoreToRating.js" );
 
-describe( "An interpreter that turns numeric scores into ratings", function(){
+describe( "An interpreter that turns numeric scores into ratings", function() {
 	it( "returns 'bad' for a score lower than or equal to 4", function() {
 		var score = 3;
 		scoreToRating( score );

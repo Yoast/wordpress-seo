@@ -1,20 +1,20 @@
-var matchParagraphs = require( "../../js/stringProcessing/matchParagraphs.js");
+var matchParagraphs = require( "../../js/stringProcessing/matchParagraphs.js" );
 
 describe( "Matches paragraphs in a text", function() {
-	it ( "returns an array of paragraphs in <p>tags", function() {
+	it( "returns an array of paragraphs in <p>tags", function() {
 		var text = "<p>This is a text in p-tags</p><p>This is more text in p-tags</p>";
 		expect( matchParagraphs( text ) ).toContain( "This is a text in p-tags" );
 	} );
 
-	it ( "returns an array of paragraphs from double linebreaks", function() {
+	it( "returns an array of paragraphs from double linebreaks", function() {
 		var text =  "This is a text\n\nwith double linebreaks";
 		expect( matchParagraphs( text ) ).toContain( "This is a text" );
 		expect( matchParagraphs( text ) ).toContain( "with double linebreaks" );
 	} );
 
-	it( "returns the complete text if no paragraphs or linebreaks are found", function () {
+	it( "returns the complete text if no paragraphs or linebreaks are found", function() {
 		var text = "This is a text without any paragraphs";
-		expect( matchParagraphs ( text ) ).toContain( "This is a text without any paragraphs" );
+		expect( matchParagraphs( text ) ).toContain( "This is a text without any paragraphs" );
 	} );
 
 	it( "splits on headings", function() {
@@ -24,7 +24,7 @@ describe( "Matches paragraphs in a text", function() {
 		var actual = matchParagraphs( text );
 
 		expect( actual ).toEqual( expected );
-	});
+	} );
 
 	it( "should see <div> tags as paragraphs", function() {
 		var text = "A piece of text<div>More piece of text</div>Another piece of text.";
@@ -33,5 +33,5 @@ describe( "Matches paragraphs in a text", function() {
 		var actual = matchParagraphs( text );
 
 		expect( actual ).toEqual( expected );
-	});
+	} );
 } );

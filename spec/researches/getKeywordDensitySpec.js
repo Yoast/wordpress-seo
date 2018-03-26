@@ -4,7 +4,7 @@ const Paper = require( "../../js/values/Paper.js" );
 const Researcher = require( "../../js/researcher" );
 
 describe( "Test for counting the keyword density in a text", function() {
-	it( "returns keyword density", function(){
+	it( "returns keyword density", function() {
 		let mockPaper = new Paper( "a string of text with the keyword in it, density should be 7.7%", { keyword: "keyword" } );
 		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
 		mockPaper = new Paper( "a string of text without the keyword in it, density should be 0%", { keyword: "empty" } );
@@ -27,7 +27,7 @@ describe( "Test for counting the keyword density in a text", function() {
 		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
 		mockPaper = new Paper( "<img src='http://image.com/image.png'>", { keyword: "key&word" } );
 		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 0 );
-		// consecutive keywords are skipped, so this will match 2 times.
+		// Consecutive keywords are skipped, so this will match 2 times.
 		mockPaper = new Paper( "This is a nice string with a keyword keyword keyword.", { keyword: "keyword" } );
 		expect( getKeywordDensity( mockPaper, new Researcher( mockPaper ) ) ).toBe( 20 );
 		mockPaper = new Paper( "a string of text with the $keyword in it, density should be 7.7%", { keyword: "$keyword" } );

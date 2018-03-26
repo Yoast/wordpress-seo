@@ -1,7 +1,7 @@
 var imageCountFunction = require( "../../js/researches/imageCountInText.js" );
 var Paper = require( "../../js/values/Paper" );
 
-describe( "Counts images in an text", function(){
+describe( "Counts images in an text", function() {
 	let imageCount;
 
 	it( "returns object with the imagecount", function() {
@@ -16,5 +16,5 @@ describe( "Counts images in an text", function(){
 		);
 
 		expect( imageCount ).toBe( 0 );
-	})
-});
+	} );
+} );

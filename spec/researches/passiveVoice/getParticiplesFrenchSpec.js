@@ -1,8 +1,8 @@
-var getParticiples = require("../../../js/researches/passiveVoice/getParticiples.js");
-var sentencePart = require ( "../../../js/values/SentencePart.js");
+var getParticiples = require( "../../../js/researches/passiveVoice/getParticiples.js" );
+var sentencePart = require( "../../../js/values/SentencePart.js" );
 
-describe("Test for matching French participles", function(){
-	it("returns matched regular participles.", function(){
+describe( "Test for matching French participles", function() {
+	it( "returns matched regular participles.", function() {
 		var mockSentence = new sentencePart( "fut remarquée par un agent de théâtre.", [ "fut" ], "fr" );
 		var sentencePartText = mockSentence.getSentencePartText();
 		var auxiliaries = mockSentence.getAuxiliaries();
@@ -13,9 +13,9 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "fut" ] );
 		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
-	});
+	} );
 
-	it("returns matched regular participles in question sentences with inverted auxiliaries.", function(){
+	it( "returns matched regular participles in question sentences with inverted auxiliaries.", function() {
 		var mockSentence = new sentencePart( "était-il informé de cela ?", [ "était-il" ], "fr" );
 		var sentencePartText = mockSentence.getSentencePartText();
 		var auxiliaries = mockSentence.getAuxiliaries();
@@ -26,9 +26,9 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "était-il" ] );
 		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
-	});
+	} );
 
-	it("returns matched regular participles and filtered exceptions; exceptions don't mark the sentence part as passive.", function(){
+	it( "returns matched regular participles and filtered exceptions; exceptions don't mark the sentence part as passive.", function() {
 		var mockSentence = new sentencePart( "été remarquée par un agent de théâtre.", [ "été" ], "fr" );
 		var sentencePartText = mockSentence.getSentencePartText();
 		var auxiliaries = mockSentence.getAuxiliaries();
@@ -43,9 +43,9 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 1 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( false );
 		expect( foundParticiples[ 1 ].determinesSentencePartIsPassive() ).toEqual( true );
-	});
+	} );
 
-	it("returns matched irregular participles.", function(){
+	it( "returns matched irregular participles.", function() {
 		var mockSentence = new sentencePart( "fut dit sans malice.", [ "fut" ], "fr" );
 		var sentencePartText = mockSentence.getSentencePartText();
 		var auxiliaries = mockSentence.getAuxiliaries();
@@ -56,9 +56,9 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "fut" ] );
 		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
-	});
+	} );
 
-	it("returns matched irregular participles with irregular conjugation pattern.", function(){
+	it( "returns matched irregular participles with irregular conjugation pattern.", function() {
 		var mockSentence = new sentencePart( "était mû par un désir puissant.", [ "était" ], "fr" );
 		var sentencePartText = mockSentence.getSentencePartText();
 		var auxiliaries = mockSentence.getAuxiliaries();
@@ -69,9 +69,9 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "était" ] );
 		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
-	});
+	} );
 
-	it("returns matched irregular participles ending in -s.", function(){
+	it( "returns matched irregular participles ending in -s.", function() {
 		var mockSentence = new sentencePart( "été promise à maintes reprises.", [ "été" ], "fr" );
 		var sentencePartText = mockSentence.getSentencePartText();
 		var auxiliaries = mockSentence.getAuxiliaries();
@@ -86,13 +86,13 @@ describe("Test for matching French participles", function(){
 		expect( foundParticiples[ 1 ].getLanguage() ).toEqual( "fr" );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( false );
 		expect( foundParticiples[ 1 ].determinesSentencePartIsPassive() ).toEqual( true );
-	});
+	} );
 
-	it("returns an empty array when there is no participle", function(){
+	it( "returns an empty array when there is no participle", function() {
 		var mockSentence = new sentencePart( "Je voulais vous demander pardon.", [], "fr" );
 		var sentencePartText = mockSentence.getSentencePartText();
 		var auxiliaries = mockSentence.getAuxiliaries();
 		var foundParticiples = getParticiples( sentencePartText, auxiliaries, "fr" );
 		expect( foundParticiples ).toEqual( [] );
-	});
-});
+	} );
+} );

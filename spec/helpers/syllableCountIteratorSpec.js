@@ -13,19 +13,18 @@ describe( "creating a language syllable regex master", function() {
 				vowels: [
 					{
 						fragments: [ "a" ],
-						countModifier: -1
+						countModifier: -1,
 					},
 					{
 						fragments: [ "b" ],
-						countModifier: +1
-					}
-				]
-			}
+						countModifier: +1,
+					},
+				],
+			},
 		};
 		var mockMaster = new syllableCountIterator( mockConfig );
 		expect( mockMaster.getAvailableSyllableCountSteps().length ).toBe( 2 );
-		expect( mockMaster.countSyllables( "a" ) ).toBe ( -1 );
-		expect( mockMaster.countSyllables( "bb" ) ).toBe ( 2 );
-	} )
-
+		expect( mockMaster.countSyllables( "a" ) ).toBe( -1 );
+		expect( mockMaster.countSyllables( "bb" ) ).toBe( 2 );
+	} );
 } );

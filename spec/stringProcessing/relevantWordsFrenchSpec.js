@@ -16,9 +16,9 @@ describe( "gets French word combinations", function() {
 			" l’entreprise, avait déjà évoquée. Elle est désormais effective, explique au Monde, par visioconférence," +
 			" Brian Fishman, chargé de la lutte contre le terrorisme à Facebook :";
 		let expected = [
-			new WordCombination( [ 'terrorisme' ], 3, frenchFunctionWords ),
-			new WordCombination( [ 'facebook' ], 3, frenchFunctionWords ),
-			new WordCombination( [ 'texte' ], 2, frenchFunctionWords ),
+			new WordCombination( [ "terrorisme" ], 3, frenchFunctionWords ),
+			new WordCombination( [ "facebook" ], 3, frenchFunctionWords ),
+			new WordCombination( [ "texte" ], 2, frenchFunctionWords ),
 		];
 
 		// Make sure our words aren't filtered by density.
@@ -28,8 +28,8 @@ describe( "gets French word combinations", function() {
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );
-		});
+		} );
 
 		expect( words ).toEqual( expected );
-	});
-});
+	} );
+} );

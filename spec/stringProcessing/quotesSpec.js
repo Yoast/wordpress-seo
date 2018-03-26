@@ -3,7 +3,6 @@ var normalizeDoubleQuotes = require( "../../js/stringProcessing/quotes" ).normal
 var normalize = require( "../../js/stringProcessing/quotes" ).normalize;
 
 describe( "a quote helper", function() {
-
 	describe( "normalizeSingle", function() {
 		it( "should normalize single quotes", function() {
 			expect( normalizeSingleQuotes( "'" ) ).toBe( "'" );
@@ -11,8 +10,8 @@ describe( "a quote helper", function() {
 			expect( normalizeSingleQuotes( "’" ) ).toBe( "'" );
 			expect( normalizeSingleQuotes( "‛" ) ).toBe( "'" );
 			expect( normalizeSingleQuotes( "`" ) ).toBe( "'" );
-		});
-	});
+		} );
+	} );
 
 	describe( "normalizeDouble", function() {
 		it( "should normalize double quotes", function() {
@@ -23,8 +22,8 @@ describe( "a quote helper", function() {
 			expect( normalizeDoubleQuotes( "〟" ) ).toBe( "\"" );
 			expect( normalizeDoubleQuotes( "‟" ) ).toBe( "\"" );
 			expect( normalizeDoubleQuotes( "„" ) ).toBe( "\"" );
-		});
-	});
+		} );
+	} );
 
 	describe( "normalize", function() {
 		it( "should normalize quotes", function() {
@@ -41,5 +40,5 @@ describe( "a quote helper", function() {
 			expect( normalize( "‟" ) ).toBe( "\"" );
 			expect( normalize( "„" ) ).toBe( "\"" );
 		} );
-	});
-});
+	} );
+} );
