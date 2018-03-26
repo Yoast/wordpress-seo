@@ -6,9 +6,11 @@
 
     <exclude-pattern>tests/*</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>vendor_prefixed/*</exclude-pattern>
     <exclude-pattern>node_modules/*</exclude-pattern>
     <exclude-pattern>deprecated/*</exclude-pattern>
     <exclude-pattern>languages/*</exclude-pattern>
+    <exclude-pattern>config/php-scoper/*</exclude-pattern>
 
     <arg name="extensions" value="php"/>
     <arg value="sp"/>
