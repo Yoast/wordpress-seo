@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import SnippetPreview from "./SnippetPreview";
 import styled from "styled-components";
+import SnippetEditorWrapper from "../../../../app/SnippetEditorWrapper";
 
 const Container = styled.div`
 	background-color: white;
@@ -154,6 +155,7 @@ export default class SnippetPreviewExample extends Component {
 
 			<div>
 				<SnippetPreview {...props} />
+				<SnippetEditorWrapper />,
 			</div>
 		</Container>;
 	}

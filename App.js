@@ -68,11 +68,6 @@ const components = [
 		id: "sidebar-collapsible",
 		name: "Sidebar Collapsible",
 		component: <SidebarCollapsibleWrapper />,
-	},
-	{
-		id: "snippet-editor",
-		name: "Snippet editor",
-		component: <SnippetEditorWrapper />,
 	}
 ];
 

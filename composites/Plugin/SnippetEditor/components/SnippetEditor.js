@@ -19,7 +19,7 @@ const messages = defineMessages( {
 	},
 } );
 
-const EditorContainer = styled.div`
+const InputContainer = styled.div`
 	padding: 5px;
 	border: 1px solid #ddd;
 	box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
@@ -29,7 +29,20 @@ const EditorContainer = styled.div`
 	transition: 50ms border-color ease-in-out;
 `;
 
+const FormSection = styled.div`
+	margin: 1em 0;
+`;
+
+const StyledEditor = styled.section`
+	padding: 0 20px;
+`;
+
 class SnippetEditor extends React.Component {
+	/**
+	 * Renders the snippet editor.
+	 *
+	 * @returns {ReactElement} The snippet editor element.
+	 */
 	render() {
 		const {
 			intl,
@@ -38,10 +51,10 @@ class SnippetEditor extends React.Component {
 		} = this.props;
 
 		return (
-			<div>
-				<div>
+			<StyledEditor>
+				<FormSection>
 					<label>{ intl.formatMessage( messages.seoTitle ) }</label>
-					<EditorContainer>
+					<InputContainer>
 						<ReplaceVarEditor
 							content="%%title%% %%post_type%% test123 fa"
 							onChange={ ( content ) => {
@@ -49,9 +62,11 @@ class SnippetEditor extends React.Component {
 							} }
 							replacementVariables={ replacementVariables }
 						/>
-					</EditorContainer>
+					</InputContainer>
+				</FormSection>
+				<FormSection>
 					<label>{ intl.formatMessage( messages.slug ) }</label>
-					<EditorContainer>
+					<InputContainer>
 						<ReplaceVarEditor
 							content="%%snippet%% test123 fa"
 							onChange={ ( content ) => {
@@ -59,9 +74,11 @@ class SnippetEditor extends React.Component {
 							} }
 							replacementVariables={ [] }
 						/>
-					</EditorContainer>
+					</InputContainer>
+				</FormSection>
+				<FormSection>
 					<label>{ intl.formatMessage( messages.metaDescription ) }</label>
-					<EditorContainer>
+					<InputContainer>
 						<ReplaceVarEditor
 							content="%%snippet%% test123 fa"
 							onChange={ ( content ) => {
@@ -69,9 +86,9 @@ class SnippetEditor extends React.Component {
 							} }
 							replacementVariables={ replacementVariables }
 						/>
-					</EditorContainer>
-				</div>
-			</div>
+					</InputContainer>
+				</FormSection>
+			</StyledEditor>
 		);
 	}
 }
