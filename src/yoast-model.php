@@ -1,11 +1,24 @@
 <?php
+/**
+ * Yoast extension of the Model class.
+ *
+ * @package Yoast\YoastSEO
+ */
 
 namespace Yoast\YoastSEO;
 
 use YoastSEO_Vendor\Model;
 use YoastSEO_Vendor\ORMWrapper;
 
+/**
+ * Make Model compatible with WordPress.
+ */
 class Yoast_Model extends Model {
+	/**
+	 * The table name for the implemented Model.
+	 *
+	 * @var string $_table
+	 */
 	public static $_table;
 
 	/**

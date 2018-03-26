@@ -1,4 +1,9 @@
 <?php
+/**
+ * Term/Taxonomy watcher to fill the related Indexable.
+ *
+ * @package Yoast\YoastSEO\Watchers
+ */
 
 namespace Yoast\YoastSEO\Watchers;
 
@@ -7,6 +12,9 @@ use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
 
+/**
+ * Watcher for terms to fill the related Indexable.
+ */
 class Indexable_Term implements Integration {
 
 	/**
@@ -34,6 +42,7 @@ class Indexable_Term implements Integration {
 			$indexable = $this->get_indexable( $term_id, $taxonomy, false );
 			$indexable->delete();
 		} catch ( No_Indexable_Found $exception ) {
+			return;
 		}
 	}
 
@@ -81,9 +90,9 @@ class Indexable_Term implements Integration {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return Indexable
+	 * @return Indexable The indexable found for the supplied term.
 	 *
-	 * @throws \Yoast\YoastSEO\Exceptions\No_Indexable_Found
+	 * @throws No_Indexable_Found Exception when no indexable could be found for the supplied term.
 	 */
 	protected function get_indexable( $term_id, $taxonomy, $auto_create = true ) {
 		$indexable = Yoast_Model::of_type( 'Indexable' )

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Author watcher to save the meta data to an Indexable.
+ *
+ * @package Yoast\YoastSEO\Watchers
+ */
 
 namespace Yoast\YoastSEO\Watchers;
 
@@ -7,6 +12,9 @@ use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
 
+/**
+ * Watches an Author to save the meta information when updated.
+ */
 class Indexable_Author implements Integration {
 
 	/**
@@ -31,6 +39,7 @@ class Indexable_Author implements Integration {
 			$indexable = $this->get_indexable( $user_id, false );
 			$indexable->delete();
 		} catch ( No_Indexable_Found $exception ) {
+			return;
 		}
 	}
 
@@ -87,9 +96,9 @@ class Indexable_Author implements Integration {
 	 * @param int  $user_id     The use to retrieve the indexable for.
 	 * @param bool $auto_create Optional. Create the indexable when it does not exist yet.
 	 *
-	 * @return Indexable
+	 * @return Indexable The indexable for the suppied user ID.
 	 *
-	 * @throws \Yoast\YoastSEO\Exceptions\No_Indexable_Found
+	 * @throws No_Indexable_Found Exception when no Indexable could be found for the supplied user.
 	 */
 	protected function get_indexable( $user_id, $auto_create = true ) {
 		$indexable = Yoast_Model::of_type( 'Indexable' )

@@ -1,9 +1,17 @@
 <?php
+/**
+ * Loads the integrations that are needed on the Frontend.
+ *
+ * @package Yoast\YoastSEO\Config
+ */
 
 namespace Yoast\YoastSEO\Config;
 
 use Yoast\YoastSEO\WordPress\Integration;
 
+/**
+ * Load Frontend integrations.
+ */
 class Frontend implements Integration {
 
 	/**

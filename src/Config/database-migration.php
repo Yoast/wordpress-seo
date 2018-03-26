@@ -1,4 +1,9 @@
 <?php
+/**
+ * Makes sure the database migrations are run.
+ *
+ * @package Yoast\YoastSEO\Config
+ */
 
 namespace Yoast\YoastSEO\Config;
 
@@ -6,6 +11,9 @@ use Yoast\YoastSEO\Migration_Null_Logger;
 use Yoast\YoastSEO\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 
+/**
+ * Triggers database migrations and handles results.
+ */
 class Database_Migration {
 	const MIGRATION_STATE_SUCCESS = 0;
 	const MIGRATION_STATE_ERROR = 1;
@@ -173,6 +181,9 @@ class Database_Migration {
 
 	/**
 	 * Registers a define or makes sure the existing value is the one we can use.
+	 *
+	 * @param string $define Constant to check.
+	 * @param string $value  Value to set when not defined yet.
 	 *
 	 * @return bool True if the define has the value we want it to be.
 	 */

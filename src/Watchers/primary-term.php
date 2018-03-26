@@ -1,4 +1,9 @@
 <?php
+/**
+ * Primary Term watcher.
+ *
+ * @package Yoast\YoastSEO\Watchers
+ */
 
 namespace Yoast\YoastSEO\Watchers;
 
@@ -6,6 +11,9 @@ use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 
+/**
+ * Watches Posts to save the primary term when set.
+ */
 class Primary_Term implements Integration {
 
 	/**
@@ -33,6 +41,7 @@ class Primary_Term implements Integration {
 				$indexable = $this->get_indexable( $post_id, $taxonomy->name, false );
 				$indexable->delete();
 			} catch ( No_Indexable_Found $exception ) {
+				continue;
 			}
 		}
 	}
@@ -156,7 +165,7 @@ class Primary_Term implements Integration {
 	 *
 	 * @return \Yoast\YoastSEO\Models\Primary_Term
 	 *
-	 * @throws \Yoast\YoastSEO\Exceptions\No_Indexable_Found
+	 * @throws No_Indexable_Found Exception when no indexable could be found for the supplied post.
 	 */
 	protected function get_indexable( $post_id, $taxonomy, $auto_create = true ) {
 		/** @var \Yoast\YoastSEO\Models\Primary_Term $indexable */

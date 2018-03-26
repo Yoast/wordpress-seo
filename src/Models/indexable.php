@@ -1,10 +1,17 @@
 <?php
+/**
+ * Model for the Indexable table.
+ *
+ * @package Yoast\YoastSEO\Models
+ */
 
 namespace Yoast\YoastSEO\Models;
 
 use Yoast\YoastSEO\Yoast_Model;
 
 /**
+ * Indexable table definition.
+ *
  * @property int     $id
  * @property int     $object_id
  * @property string  $object_type

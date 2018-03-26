@@ -1,4 +1,9 @@
 <?php
+/**
+ * The main plugin bootstrap.
+ *
+ * @package Yoast\YoastSEO\Config
+ */
 
 namespace Yoast\YoastSEO\Config;
 
@@ -7,17 +12,36 @@ use Yoast\YoastSEO\WordPress\Integration_Group;
 use YoastSEO_Vendor\Model;
 use YoastSEO_Vendor\ORM;
 
+/**
+ * Bootstraps the plugin.
+ */
 class Plugin implements Integration {
-	/** @var array List of integrations. */
+	/**
+	 * List of integrations.
+	 *
+	 * @var array $integrations
+	 */
 	protected $integrations = array();
 
-	/** @var bool Flag to allow booting or not. */
+	/**
+	 * Flag to allow booting or not.
+	 *
+	 * @var bool $initialize_success
+	 */
 	protected $initialize_success = false;
 
-	/** @var Dependency_Management */
+	/**
+	 * The dependency manager to use.
+	 *
+	 * @var Dependency_Management $dependency_management
+	 */
 	protected $dependency_management;
 
-	/** @var Database_Migration */
+	/**
+	 * The database migration to use.
+	 *
+	 * @var Database_Migration $database_migration
+	 */
 	protected $database_migration;
 
 	/**
@@ -149,9 +173,9 @@ class Plugin implements Integration {
 	/**
 	 * Retrieves an integration group.
 	 *
-	 * @param array $integrations
+	 * @param array $integrations Integrations to load into the group.
 	 *
-	 * @return Integration_Group
+	 * @return Integration_Group.
 	 */
 	protected function get_integration_group( array $integrations = array() ) {
 		return new Integration_Group( $integrations );

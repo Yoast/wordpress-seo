@@ -1,4 +1,9 @@
 <?php
+/**
+ * WordPress Post watcher.
+ *
+ * @package Yoast\YoastSEO\Watchers
+ */
 
 namespace Yoast\YoastSEO\Watchers;
 
@@ -7,6 +12,9 @@ use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
 
+/**
+ * Fills the Indexable according to Post data.
+ */
 class Indexable_Post implements Integration {
 	/**
 	 * Registers all hooks to WordPress.
@@ -30,6 +38,7 @@ class Indexable_Post implements Integration {
 			$indexable = $this->get_indexable( $post_id, false );
 			$indexable->delete();
 		} catch ( No_Indexable_Found $exception ) {
+			return;
 		}
 	}
 
@@ -76,7 +85,7 @@ class Indexable_Post implements Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param int $post_id Post ID to check
+	 * @param int $post_id Post ID to check.
 	 *
 	 * @return bool True if the post can be indexed.
 	 */
@@ -100,7 +109,7 @@ class Indexable_Post implements Integration {
 	 *
 	 * @return Indexable
 	 *
-	 * @throws \Yoast\YoastSEO\Exceptions\No_Indexable_Found
+	 * @throws No_Indexable_Found Exception when no Indexable entry could be found.
 	 */
 	protected function get_indexable( $post_id, $auto_create = true ) {
 		$post_type = $this->get_post_type( $post_id );
@@ -111,7 +120,11 @@ class Indexable_Post implements Integration {
 								->find_one();
 
 		if ( $auto_create && ! $indexable ) {
-			/** @var Indexable $indexable */
+			/**
+			 * Indexable instance for the post.
+			 *
+			 * @var Indexable $indexable
+			 */
 			$indexable                  = Yoast_Model::of_type( 'Indexable' )->create();
 			$indexable->object_id       = $post_id;
 			$indexable->object_type     = 'post';
@@ -142,6 +155,7 @@ class Indexable_Post implements Integration {
 				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
 			}
 		} catch ( \Exception $exception ) {
+			return;
 		}
 	}
 

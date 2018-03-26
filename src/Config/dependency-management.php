@@ -1,10 +1,18 @@
 <?php
+/**
+ * Makes sure the dependencies are loaded and the environment is prepared to use them.
+ *
+ * @package Yoast\YoastSEO\Config
+ */
 
 namespace Yoast\YoastSEO\Config;
 
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 
+/**
+ * Sets up class aliases and defines required constants.
+ */
 class Dependency_Management {
 	/**
 	 * Registers the autoloader to create class aliases when needed.
@@ -48,7 +56,6 @@ class Dependency_Management {
 		static $available = null;
 
 		if ( $available === null ) {
-			// @todo determine if this is the best way to check for existing prefixed dependencies.
 			$available = is_file( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/dependencies-prefixed.txt' );
 		}
 

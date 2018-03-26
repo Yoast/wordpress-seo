@@ -1,4 +1,9 @@
 <?php
+/**
+ * Integration interface definition.
+ *
+ * @package Yoast\YoastSEO\WordPress
+ */
 
 namespace Yoast\YoastSEO\WordPress;
 

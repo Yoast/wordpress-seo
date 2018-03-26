@@ -43,15 +43,13 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"autoload": {
-		"psr-4": {
-			"Yoast\\YoastSEO\\": "src/"
-		},
 		"classmap": [
 			"admin/",
 			"frontend/",
 			"inc/",
 			"deprecated/",
-			"vendor_prefixed/"
+			"vendor_prefixed/",
+			"src/"
 		]
 	},
 	"autoload-dev": {

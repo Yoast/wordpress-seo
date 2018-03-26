@@ -1,4 +1,9 @@
 <?php
+/**
+ * Loads the integrations needed by the WordPress Admin.
+ *
+ * @package Yoast\YoastSEO\Config
+ */
 
 namespace Yoast\YoastSEO\Config;
 
@@ -6,6 +11,9 @@ use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\WordPress\Integration_Group;
 use Yoast\YoastSEO\Watchers;
 
+/**
+ * Load Admin integrations.
+ */
 class Admin implements Integration {
 
 	/**
