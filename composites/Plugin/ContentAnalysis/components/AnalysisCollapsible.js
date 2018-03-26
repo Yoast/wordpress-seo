@@ -118,6 +118,13 @@ export class AnalysisCollapsible extends React.Component {
 		this.toggleOpen = this.toggleOpen.bind( this );
 	}
 
+	/**
+	 * Before receiving props makes sure the heading is set correctly.
+	 *
+	 * @param {Object} nextProps The props this component will receive.
+	 *
+	 * @returns {void}
+	 */
 	componentWillReceiveProps( nextProps ) {
 		const { headingLevel } = this.props;
 

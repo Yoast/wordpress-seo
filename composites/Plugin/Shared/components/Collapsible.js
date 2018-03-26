@@ -144,6 +144,13 @@ export class Collapsible extends React.Component {
 		this.toggleCollapse = this.toggleCollapse.bind( this );
 	}
 
+	/**
+	 * Makes sure the heading element is correctly set.
+	 *
+	 * @param {Object} nextProps The upcoming props.
+	 *
+	 * @returns {void}
+	 */
 	componentWillReceiveProps( nextProps ) {
 		const { headingLevel } = this.props;
 

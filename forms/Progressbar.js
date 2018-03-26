@@ -9,6 +9,13 @@ import PropTypes from "prop-types";
  * @constructor
  */
 class Progressbar extends React.Component {
+	/**
+	 * Constructs the progress bar.
+	 *
+	 * @param {Object} props The props for the progress bar.
+	 *
+	 * @returns {void}
+	 */
 	constructor( props ) {
 		super( props );
 	}

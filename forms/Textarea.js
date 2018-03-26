@@ -9,6 +9,11 @@ import PropTypes from "prop-types";
  * @constructor
  */
 class Textarea extends React.Component {
+	/**
+	 * Renders the textarea.
+	 *
+	 * @returns {ReactElement} The rendered element.
+	 */
 	render() {
 		return (
 			<textarea ref={this.setReference.bind( this )}
