@@ -48,7 +48,7 @@ tmp/
 temp/
 ._*
 .Trashes
-
+__gutenberg/
 .svn
 
 ############
