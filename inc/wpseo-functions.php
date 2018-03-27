@@ -255,5 +255,8 @@ add_action( 'split_shared_term', 'wpseo_split_shared_term', 10, 4 );
  */
 function wpseo_get_capabilities() {
 	$capability_manager = WPSEO_Capability_Manager_Factory::get();
+	if ( ! did_action( 'wpseo_register_capabilities' ) ) {
+		do_action( 'wpseo_register_capabilities' );
+	}
 	return $capability_manager->get_capabilities();
 }
