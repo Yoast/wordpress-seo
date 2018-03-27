@@ -42,11 +42,7 @@ class Database_Migration {
 	 *
 	 * @return bool True on success, false on failure.
 	 */
-	public function initialize() {
-		if ( $this->get_migration_state() === self::MIGRATION_STATE_ERROR ) {
-			return false;
-		}
-
+	public function run_migrations() {
 		// If the defines could not be set, we do not want to run.
 		if ( ! $this->set_defines( Yoast_Model::get_table_name( 'migrations' ) ) ) {
 			$this->set_failed_state( 'Defines could not be set.' );
@@ -68,6 +64,15 @@ class Database_Migration {
 		$this->set_success_state();
 
 		return true;
+	}
+
+	/**
+	 * Retrieves the state of the migrations.
+	 *
+	 * @return bool True if migrations have completed successfully.
+	 */
+	public function is_usable() {
+		return ( $this->get_migration_state() === self::MIGRATION_STATE_SUCCESS );
 	}
 
 	/**

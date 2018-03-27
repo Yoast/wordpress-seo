@@ -80,17 +80,20 @@ class Plugin implements Integration {
 	 * @return void
 	 */
 	public function initialize() {
-		$dependency_success = $this->dependency_management->initialize();
-
 		// ORM can only be configured after dependency management is loaded.
-		if ( ! $dependency_success ) {
+		if ( ! $this->dependency_management->initialize() ) {
 			return;
 		}
 
 		$this->configure_orm();
 
+		// When the database migrations are not applied correctly yet, try running them.
+		if ( ! $this->database_migration->is_usable() ) {
+			$this->database_migration->run_migrations();
+		}
+
 		// Everything is loaded, set initialize state.
-		$this->initialize_success = $this->database_migration->initialize();
+		$this->initialize_success = $this->database_migration->is_usable();
 	}
 
 	/**
@@ -102,6 +105,8 @@ class Plugin implements Integration {
 		if ( ! $this->initialize_success ) {
 			return;
 		}
+
+		$this->add_integration( new Upgrade( $this->database_migration ) );
 
 		if ( $this->is_admin() ) {
 			$this->add_admin_integrations();
