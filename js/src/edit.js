@@ -18,7 +18,7 @@ import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 import Data from "./analysis/data.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
-import cornerstoneReducer from "./redux/reducers/cornerstone";
+import cornerstoneContentReducer from "./redux/reducers/cornerstoneContent";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -55,7 +55,7 @@ function configureStore() {
 		keywords: keywordsReducer,
 		analysis: analysisReducer,
 		activeKeyword: activeKeywordReducer,
-		cornerstone: cornerstoneReducer,
+		cornerstone: cornerstoneContentReducer,
 	} );
 
 	return createStore( rootReducer, {}, flowRight( enhancers ) );
