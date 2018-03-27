@@ -31,13 +31,17 @@ elseif ( filter_input( INPUT_POST, 'import_external' ) ) {
 	check_admin_referer( 'wpseo-import-plugins' );
 
 	$class = filter_input( INPUT_POST, 'import_external_plugin' );
-	$import = new WPSEO_Import_Plugin( new $class, 'import' );
+	if ( class_exists( $class ) ) {
+		$import = new WPSEO_Import_Plugin( new $class(), 'import' );
+	}
 }
 elseif ( filter_input( INPUT_POST, 'clean_external' ) ) {
 	check_admin_referer( 'wpseo-clean-plugins' );
 
 	$class = filter_input( INPUT_POST, 'clean_external_plugin' );
-	$import = new WPSEO_Import_Plugin( new $class, 'cleanup' );
+	if ( class_exists( $class ) ) {
+		$import = new WPSEO_Import_Plugin( new $class(), 'cleanup' );
+	}
 }
 elseif ( isset( $_FILES['settings_import_file'] ) ) {
 	check_admin_referer( 'wpseo-import-file' );
