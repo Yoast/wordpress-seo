@@ -246,3 +246,14 @@ function wpseo_split_shared_term( $old_term_id, $new_term_id, $term_taxonomy_id,
 }
 
 add_action( 'split_shared_term', 'wpseo_split_shared_term', 10, 4 );
+
+/**
+ * Get all WPSEO related capabilities.
+ *
+ * @since 7.1.x
+ * @return array
+ */
+function wpseo_get_capabilities() {
+	$capability_manager = WPSEO_Capability_Manager_Factory::get();
+	return $capability_manager->get_capabilities();
+}
