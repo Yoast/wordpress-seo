@@ -18,7 +18,7 @@ class IntlProvider extends React.Component {
 		if ( typeof window.Intl === "undefined" ) {
 			return (
 				<div className="notice notice-error">
-					<p>Yoast SEO detected that you are using a browser that doesn't support all the features we require. Please try using another browser.</p>
+					<p>Yoast SEO detected that you are using a browser that doesn't support all the features we require. Please try using a different browser.</p>
 				</div>
 			);
 		}
