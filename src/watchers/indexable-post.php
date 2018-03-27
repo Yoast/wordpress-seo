@@ -75,7 +75,7 @@ class Indexable_Post implements Integration {
 			$indexable->{'is_robots_' . $meta_robots_option} = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
 
-		$this->set_link_count( $post_id, $indexable );
+		$indexable = $this->set_link_count( $post_id, $indexable );
 
 		$indexable->save();
 	}
@@ -143,6 +143,8 @@ class Indexable_Post implements Integration {
 	 *
 	 * @param int       $post_id   Post ID to use.
 	 * @param Indexable $indexable Indexable to store the values on.
+	 *
+	 * @return Indexable
 	 */
 	protected function set_link_count( $post_id, $indexable ) {
 		try {
@@ -155,8 +157,10 @@ class Indexable_Post implements Integration {
 				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
 			}
 		} catch ( \Exception $exception ) {
-			return;
+			return $indexable;
 		}
+
+		return $indexable;
 	}
 
 	/**

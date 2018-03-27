@@ -219,7 +219,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'set_link_count' )
-			->with( $post_id, $indexable_mock );
+			->with( $post_id, $indexable_mock )
+			->will( $this->returnValue( $indexable_mock ) );
 
 		$instance->save_meta( $post_id );
 
