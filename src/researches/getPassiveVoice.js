@@ -3,68 +3,71 @@ var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullT
 var getLanguage = require( "../helpers/getLanguage.js" );
 var Sentence = require( "../values/Sentence.js" );
 
-// Imports used for English, French and Spanish.
-var getSentencePartsDefault = require( "./passiveVoice/getSentenceParts.js" );
-var determinePassivesDefault = require( "./passiveVoice/determinePassives" );
+var forEach = require( "lodash/forEach" );
 
+ /*
+  * // Imports used for English, French and Spanish.
+  * var getSentencePartsDefault = require( "./passiveVoice/getSentenceParts.js" );
+  * var determinePassivesDefault = require( "./passiveVoice/determinePassives" );
+  */
 // Imports used for German.
 var getSentencePartsGerman = require( "./german/passiveVoice/getSentenceParts.js" );
 var determinePassivesGerman = require( "./german/passiveVoice/determinePassives.js" );
 
-var forEach = require( "lodash/forEach" );
+var morphologicalPassiveLanguages = [ "ru", "tr" ];
+var periphrasticPassiveLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn" ];
+var morphologicalAndPeriphrasticPassiveLanguages = [ "sv", "da", "nb" ];
 
-/**
- * Gets the sentence parts from a sentence by determining sentence breakers.
- *
- * @param {string} sentence The sentence to split up in sentence parts.
- * @param {string} language The language to use for determining how to get sentence parts.
- * @returns {Array} The array with all parts of a sentence that have an auxiliary.
- */
-var getSentenceParts = function( sentence, language ) {
-	var sentenceParts = [];
+var getPassivesMorphological = function( sentenceObjects, language ) {
+	var passiveSentencesByType = [];
 
-	switch( language ) {
-		case "de":
-			sentenceParts = getSentencePartsGerman( sentence );
-			break;
-		case "fr":
-			sentenceParts = getSentencePartsDefault( sentence, "fr" );
-			break;
-		case "es":
-			sentenceParts = getSentencePartsDefault( sentence, "es" );
-			break;
-		case "en":
-		default:
-			sentenceParts = getSentencePartsDefault( sentence, "en" );
-			break;
-	}
-	return sentenceParts;
+	console.log( language );
+	return {
+		passiveSentences: passiveSentencesByType,
+	};
 };
 
-/**
- * Checks the sentence part for any passive verb.
- *
- * @param {object} sentencePart The sentence part object to check for passives.
- * @param {string} language The language to use for finding passive verbs.
- * @returns {boolean} True if passive is found, false if no passive is found.
- */
-var determinePassives = function( sentencePart, language ) {
-	switch( language ) {
-		case "de":
-			sentencePart.setPassive( determinePassivesGerman( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries() ), "de" );
-			break;
-		case "fr":
-			sentencePart.setPassive( determinePassivesDefault( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "fr" ) );
-			break;
-		case "es":
-			sentencePart.setPassive( determinePassivesDefault( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "es" ) );
-			break;
-		case "en":
-		default:
-			sentencePart.setPassive( determinePassivesDefault( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), "en" ) );
-			break;
-	}
+var getPassivesPeriphrastic = function( sentenceObjects, language ) {
+	var passiveSentencesByType = [];
+
+	forEach( sentenceObjects, function( sentence ) {
+		var strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
+		// FIXME!
+		var sentenceParts = getSentencePartsGerman( strippedSentence );
+
+		var passive = false;
+		forEach( sentenceParts, function( sentencePart ) {
+			// FIXME!
+			passive = determinePassivesGerman( sentencePart._sentencePartText );
+			passive = passive || sentencePart.isPassive();
+		} );
+		if ( passive === true ) {
+			passiveSentencesByType.push( sentence.getSentenceText() );
+		}
+	} );
+	console.log( language );
+	return {
+		passiveSentencesByType,
+	};
 };
+
+var getPassives = function( sentenceObjects, language ) {
+	var passiveSentences = [];
+
+	if ( morphologicalPassiveLanguages.includes( language ) ) {
+		passiveSentences = getPassivesMorphological( sentenceObjects, language );
+	} else if ( periphrasticPassiveLanguages.includes( language ) ) {
+		passiveSentences = getPassivesPeriphrastic( sentenceObjects, language );
+	} else if ( morphologicalAndPeriphrasticPassiveLanguages.includes( language ) ) {
+		passiveSentences = getPassivesMorphological( sentenceObjects, language );
+		passiveSentences.push( getPassivesPeriphrastic( sentenceObjects, language ) );
+	}
+
+	return {
+		passiveSentences,
+	};
+};
+
 
 /**
  * Determines the number of passive sentences in the text.
@@ -84,27 +87,8 @@ module.exports = function( paper ) {
 		sentenceObjects.push( new Sentence( sentence, locale ) );
 	} );
 
-	var passiveSentences = [];
-
-	// Get sentence parts for each sentence.
-	forEach( sentenceObjects, function( sentence ) {
-		var strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
-
-		var sentenceParts = getSentenceParts( strippedSentence, language );
-
-		var passive = false;
-		forEach( sentenceParts, function( sentencePart ) {
-			determinePassives( sentencePart, language );
-			passive = passive || sentencePart.isPassive();
-		} );
-
-		if ( passive === true ) {
-			passiveSentences.push( sentence.getSentenceText() );
-		}
-	} );
-
 	return {
 		total: sentences.length,
-		passives: passiveSentences,
+		passives: getPassives( sentenceObjects, language ).passiveSentences.passiveSentencesByType,
 	};
 };
