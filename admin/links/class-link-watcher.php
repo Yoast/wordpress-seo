@@ -55,6 +55,11 @@ class WPSEO_Link_Watcher {
 			return;
 		}
 
+		// When trashing a post
+		if ( $post->post_status === 'trash' ) {
+			return ;
+		}
+
 		// When the post isn't processable, just remove the saved links.
 		if ( ! $this->is_processable( $post_id ) ) {
 			return;
