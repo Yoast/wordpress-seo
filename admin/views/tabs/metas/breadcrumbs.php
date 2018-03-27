@@ -56,6 +56,9 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			$values = array( 0 => __( 'None', 'wordpress-seo' ) );
 			foreach ( $taxonomies as $tax ) {
+				if ( ! $tax->public  ) {
+					continue;
+				}
 				$values[ $tax->name ] = $tax->labels->singular_name;
 			}
 			$label = $pt->labels->name . ' (<code>' . $pt->name . '</code>)';
