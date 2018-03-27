@@ -328,7 +328,7 @@ function wpseo_init() {
 		$wpseo_onpage->register_hooks();
 	}
 
-	if ( WPSEO_NAMESPACES ) {
+	if ( class_exists( '\Yoast\YoastSEO\Config\Plugin' ) ) {
 		$bootstrap = new \Yoast\YoastSEO\Config\Plugin();
 		$bootstrap->initialize();
 		$bootstrap->register_hooks();
