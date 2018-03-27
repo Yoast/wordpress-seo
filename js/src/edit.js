@@ -12,6 +12,7 @@ import IntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
+import keywordsReducer from "./redux/reducers/keywords";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 import Data from "./analysis/data.js";
@@ -52,6 +53,7 @@ function configureStore() {
 		marksButtonStatus: markerStatusReducer,
 		analysis: analysis,
 		activeKeyword: activeKeyword,
+		keywords: keywordsReducer,
 	} );
 
 	return createStore( rootReducer, {}, flowRight( enhancers ) );
