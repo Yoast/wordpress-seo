@@ -248,8 +248,8 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 
 		$defines = $instance->get_defines( 'table_name' );
 
-		$this->assertArrayHasKey( YOAST_VENDOR_DEFINE_PREFIX . 'RUCKUSING_BASE', $defines );
-		$this->assertArrayHasKey( YOAST_VENDOR_DEFINE_PREFIX . 'RUCKUSING_TS_SCHEMA_TBL_NAME', $defines );
+		$this->assertArrayHasKey( YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE', $defines );
+		$this->assertArrayHasKey( YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_TS_SCHEMA_TBL_NAME', $defines );
 
 		$this->assertContains( 'table_name', $defines );
 	}

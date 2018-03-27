@@ -195,8 +195,8 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'get_meta_value' )
 			->withConsecutive(
 				array( $this->equalTo('a') ),
-				array( $this->equalTo('robots-noindex') ),
-				array( $this->equalTo('robots-adv') )
+				array( $this->equalTo('meta-robots-noindex') ),
+				array( $this->equalTo('meta-robots-adv') )
 			)
 			->will( $this->onConsecutiveCalls(
 				'a',

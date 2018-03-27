@@ -164,9 +164,9 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$author_meta = array(
-			'wpseo_title'                => 'title',
-			'wpseo_metadesc'             => 'metadesc',
-			'wpseo_excludeauthorsitemap' => 'on',
+			'wpseo_title'          => 'title',
+			'wpseo_metadesc'       => 'metadesc',
+			'wpseo_noindex_author' => 'on',
 		);
 
 		$author_id = - 1;
@@ -209,6 +209,6 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'get_indexable' )
 			->will( $this->throwException( new No_Indexable_Found() ) );
 
-		$instance->save_meta( -1 );
+		$instance->save_meta( - 1 );
 	}
 }
