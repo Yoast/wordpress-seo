@@ -166,7 +166,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	} );
 
 	it( "returns an object with sentence beginnings and counts for two sentences in Russian starting with the same word.", function() {
-		changePaper( { text: "Здравствуй, мир! Здравствуй, человек!", locale: 'ru_RU' } );
+		changePaper( { text: "Здравствуй, мир! Здравствуй, человек!", locale: "ru_RU" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "здравствуй" );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
 	} );
@@ -174,14 +174,14 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	it( "returns an object with sentence beginnings and counts for three sentences in Russian all starting with one of the exception words.", function() {
 		changePaper( {
 			text: "Этот человек ее унизил. Этот человек ее уничтожил. Этот человек стал ее проклятием.",
-			locale: 'ru_RU'
+			locale: "ru_RU",
 		} );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "этот человек" );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
 
 	it( "returns an object with sentence beginnings and counts for two sentences in Russian starting with different words.", function() {
-		changePaper( { text: "Плюсы и минусы. Где в итоге лучше и почему?", locale: 'ru_RU' } );
+		changePaper( { text: "Плюсы и минусы. Где в итоге лучше и почему?", locale: "ru_RU" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "плюсы" );
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
 		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "где" );
