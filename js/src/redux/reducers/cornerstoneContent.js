@@ -5,10 +5,10 @@ const INITIAL_STATE = false;
 /**
  * A reducer for the active keyword.
  *
- * @param {Object} state The current state of the object.
+ * @param {boolean} state The current state of the object.
  * @param {Object} action The current action received.
  *
- * @returns {Object} The state.
+ * @returns {boolean} The state.
  */
 function cornerstoneContentReducer( state = INITIAL_STATE, action ) {
 	switch( action.type ) {
