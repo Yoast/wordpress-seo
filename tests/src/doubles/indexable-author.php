@@ -23,4 +23,11 @@ class Indexable_Author extends \Yoast\YoastSEO\Watchers\Indexable_Author {
 	public function get_indexable( $author_id, $auto_create = true ) {
 		return parent::get_indexable( $author_id, $auto_create );
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function get_noindex_value( $value ) {
+		return parent::get_noindex_value( $value );
+	}
 }

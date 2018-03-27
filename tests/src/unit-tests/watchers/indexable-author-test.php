@@ -212,4 +212,16 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 
 		$instance->save_meta( - 1 );
 	}
+
+	/**
+	 * Tests the noindex expected outcome.
+	 */
+	public function test_get_noindex_value() {
+		$instance = new Indexable_Author_Double();
+
+		$this->assertTrue( $instance->get_noindex_value( 'on' ) );
+		$this->assertFalse( $instance->get_noindex_value( '' ) );
+		$this->assertFalse( $instance->get_noindex_value( true ) );
+		$this->assertFalse( $instance->get_noindex_value( false ) );
+	}
 }
