@@ -119,11 +119,11 @@ window.yoastHideMarkers = true;
 		var targets = {};
 
 		if ( isKeywordAnalysisActive() ) {
-			targets.output = "wpseo_analysis";
+			targets.output = "does-not-really-exist-but-it-needs-something";
 		}
 
 		if ( isContentAnalysisActive() ) {
-			targets.contentOutput = "yoast-seo-content-analysis";
+			targets.contentOutput = "also-does-not-really-exist-but-it-needs-something";
 		}
 
 		return targets;
@@ -184,11 +184,8 @@ window.yoastHideMarkers = true;
 	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
-		$( "#wpseo_analysis" ).after( '<div id="yoast-seo-content-analysis"></div>' );
-
 		const editArgs = {
-			readabilityTarget: "yoast-seo-content-analysis",
-			seoTarget: "wpseo_analysis",
+			analysisSection: "pageanalysis",
 		};
 		store = initializeEdit( editArgs ).store;
 
