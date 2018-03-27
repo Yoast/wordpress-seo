@@ -24,7 +24,7 @@ describe( "keywords actions", () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "should pass along the index when using add keyword", () => {
+	it( "should pass along the index when using add keyword with an index", () => {
 		const expected = {
 			type: actions.ADD_KEYWORD,
 			keyword: "new keyword",
@@ -35,7 +35,7 @@ describe( "keywords actions", () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "should pass along the index when using remove keyword", () => {
+	it( "should pass along the to be removed keyword when using remove keyword", () => {
 		const expected = {
 			type: actions.REMOVE_KEYWORD,
 			keyword: "remove this",
