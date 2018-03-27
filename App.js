@@ -2,18 +2,17 @@ import React from "react";
 import { IntlProvider } from "react-intl";
 
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
-import SnippetPreviewExample from "./composites/Plugin/SnippetPreview/components/SnippetPreviewExample";
 import ContentAnalysis from "./app/ContentAnalysisWrapper";
 import Wizard from "./app/WizardWrapper";
 import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
 import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
-import SnippetEditorWrapper from "./app/SnippetEditorWrapper";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
 import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
+import SnippetEditorExample from "./composites/Plugin/SnippetEditor/components/SnippetEditorExample";
 
 const components = [
 	{
@@ -24,7 +23,7 @@ const components = [
 	{
 		id: "snippet-preview",
 		name: "Snippet preview",
-		component: <SnippetPreviewExample />,
+		component: <SnippetEditorExample />,
 	},
 	{
 		id: "wizard",
@@ -68,7 +67,7 @@ const components = [
 		id: "sidebar-collapsible",
 		name: "Sidebar Collapsible",
 		component: <SidebarCollapsibleWrapper />,
-	}
+	},
 ];
 
 class App extends React.Component {

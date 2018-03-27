@@ -3,21 +3,9 @@ import styled from "styled-components";
 import { injectIntl, intlShape, defineMessages } from "react-intl";
 import ReplaceVarEditor from "./ReplaceVarEditor";
 import PropTypes from "prop-types";
+import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
+import SnippetEditorFields from "./SnippetEditorFields";
 
-const messages = defineMessages( {
-	seoTitle: {
-		id: "snippetEditor.seoTitle",
-		defaultMessage: "SEO title",
-	},
-	slug: {
-		id: "snippetEditor.slug",
-		defaultMessage: "Slug",
-	},
-	metaDescription: {
-		id: "snippetEditor.metaDescription",
-		defaultMessage: "Meta description",
-	},
-} );
 
 const InputContainer = styled.div`
 	padding: 5px;
@@ -37,7 +25,41 @@ const StyledEditor = styled.section`
 	padding: 0 20px;
 `;
 
+const replaceVars = [
+	{
+		name: "title",
+		description: "The title of your post.",
+	},
+	{
+		name: "post_type",
+		description: "The post type of your post.",
+	},
+	{
+		name: "snippet",
+		description: "The snippet of your post.",
+	},
+	{
+		name: "snippet_manual",
+		description: "The manual snippet of your post.",
+	},
+];
+
 class SnippetEditor extends React.Component {
+
+	renderEditorFields() {
+		const { data, onChange, onCloseEditor, isEditorOpen } = this.props;
+
+		if ( ! isEditorOpen ) {
+			return null;
+		}
+
+		return <React.Fragment>
+			<SnippetEditorFields data={ data } onChange={ onChange }
+		                     replacementVariables={replaceVars}/>
+			{ onCloseEditor && <button type="button" onClick={ onCloseEditor }>Close snippet editor</button> }
+		</React.Fragment>;
+	}
+
 	/**
 	 * Renders the snippet editor.
 	 *
@@ -48,47 +70,30 @@ class SnippetEditor extends React.Component {
 			intl,
 			replacementVariables,
 			onChange,
+			onOpenEditor,
+			data,
 		} = this.props;
 
+		const onClick = () => {};
+
+		const props = {
+			onClick,
+			title: data.title,
+			description: data.description,
+			url: data.url,
+			mode: this.props.mode,
+		};
+
 		return (
-			<StyledEditor>
-				<FormSection>
-					<label>{ intl.formatMessage( messages.seoTitle ) }</label>
-					<InputContainer>
-						<ReplaceVarEditor
-							content="%%title%% %%post_type%% test123 fa"
-							onChange={ ( content ) => {
-								onChange( "title", content );
-							} }
-							replacementVariables={ replacementVariables }
-						/>
-					</InputContainer>
-				</FormSection>
-				<FormSection>
-					<label>{ intl.formatMessage( messages.slug ) }</label>
-					<InputContainer>
-						<ReplaceVarEditor
-							content="%%snippet%% test123 fa"
-							onChange={ ( content ) => {
-								onChange( "description", content );
-							} }
-							replacementVariables={ [] }
-						/>
-					</InputContainer>
-				</FormSection>
-				<FormSection>
-					<label>{ intl.formatMessage( messages.metaDescription ) }</label>
-					<InputContainer>
-						<ReplaceVarEditor
-							content="%%snippet%% test123 fa"
-							onChange={ ( content ) => {
-								onChange( "description", content );
-							} }
-							replacementVariables={ replacementVariables }
-						/>
-					</InputContainer>
-				</FormSection>
-			</StyledEditor>
+			<div>
+				<SnippetPreview { ...props } />
+
+				<button type="button" onClick={ () => { onChange( "mode", "mobile" ) } }>Mobile</button>
+				<button type="button" onClick={ () => { onChange( "mode", "desktop" ) } }>Desktop</button>
+				{ onOpenEditor && <button type="button" onClick={ onOpenEditor }>Edit snippet</button> }
+
+				{ this.renderEditorFields() }
+			</div>
 		);
 	}
 }
@@ -98,12 +103,23 @@ SnippetEditor.propTypes = {
 		name: PropTypes.string,
 		description: PropTypes.string,
 	} ) ),
+	data: PropTypes.shape( {
+		title: PropTypes.string.isRequired,
+		slug: PropTypes.string.isRequired,
+		description: PropTypes.string.isRequired,
+	} ),
+	mode: PropTypes.string,
+	isEditorOpen: PropTypes.bool,
 	onChange: PropTypes.func,
+	onOpenEditor: PropTypes.func,
+	onCloseEditor: PropTypes.func,
 	intl: intlShape.isRequired,
 };
 
 SnippetEditor.defaultProps = {
 	onChange: () => {},
+	isEditorOpen: false,
+	mode: "mobile",
 };
 
 export default injectIntl( SnippetEditor );

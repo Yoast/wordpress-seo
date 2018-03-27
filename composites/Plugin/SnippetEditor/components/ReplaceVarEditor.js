@@ -83,7 +83,7 @@ class ReplaceVarEditor extends React.Component {
 }
 
 ReplaceVarEditor.propTypes = {
-	content: PropTypes.string,
+	content: PropTypes.string.isRequired,
 	onChange: PropTypes.func,
 	className: PropTypes.string,
 	replacementVariables: PropTypes.array,

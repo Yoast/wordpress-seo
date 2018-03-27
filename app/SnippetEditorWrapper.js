@@ -1,5 +1,5 @@
 import React from "react";
-import SnippetEditor from "../composites/Plugin/SnippetEditor/components/SnippetEditor";
+import SnippetEditorFields from "../composites/Plugin/SnippetEditor/components/SnippetEditorFields";
 
 const replaceVars = [
 	{
@@ -20,6 +20,6 @@ const replaceVars = [
 	},
 ];
 
-const SnippetEditorWrapper = () => <SnippetEditor replacementVariables={ replaceVars } />;
+const SnippetEditorWrapper = () => <SnippetEditorFields replacementVariables={ replaceVars } />;
 
 export default SnippetEditorWrapper;
