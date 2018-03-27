@@ -7,7 +7,7 @@ use Yoast\YoastSEO\WordPress\Integration_Group;
 /**
  * Class Database_Migration_Test
  *
- * @group   yoastmeta
+ * @group integrations
  *
  * @package Yoast\Tests
  */

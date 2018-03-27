@@ -10,7 +10,7 @@ use Yoast\YoastSEO\WordPress\Integration_Group;
 /**
  * Class Plugin_Test
  *
- * @group   yoastmeta
+ * @group namespaced
  *
  * @package Yoast\Tests\Config
  */
@@ -74,9 +74,15 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( true ) );
 
 		$database_migration = $this->get_database_migration_mock();
+
+		$database_migration
+			->expects( $this->exactly( 2 ) )
+			->method( 'is_usable' )
+			->will( $this->returnValue( false ) );
+
 		$database_migration
 			->expects( $this->once() )
-			->method( 'initialize' );
+			->method( 'run_migrations' );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Config\Plugin' )
@@ -104,9 +110,14 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( false ) );
 
 		$database_migration = $this->get_database_migration_mock();
+
 		$database_migration
 			->expects( $this->never() )
-			->method( 'initialize' );
+			->method( 'run_migrations' );
+
+		$database_migration
+			->expects( $this->never() )
+			->method( 'is_usable' );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Config\Plugin' )
@@ -136,7 +147,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 		$database_migration = $this->get_database_migration_mock();
 		$database_migration
 			->expects( $this->once() )
-			->method( 'initialize' )
+			->method( 'run_migrations' )
 			->will( $this->returnValue( false ) );
 
 		$instance = $this
@@ -321,7 +332,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	protected function get_database_migration_mock() {
 		return $this
 			->getMockBuilder( '\Yoast\YoastSEO\Config\Database_Migration' )
-			->setMethods( array( 'initialize' ) )
+			->setMethods( array( 'run_migrations', 'is_usable' ) )
 			->setConstructorArgs( array( null, $this->get_dependecy_management_mock() ) )
 			->getMock();
 	}

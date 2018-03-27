@@ -9,36 +9,11 @@ use Yoast\YoastSEO\Config\Dependency_Management;
 /**
  * Class Database_Migration_Test
  *
- * @group   yoastmeta
+ * @group   db-migrations
  *
  * @package Yoast\Tests
  */
 class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
-	/**
-	 * Tests the initializing with the wrong migration state.
-	 */
-	public function test_initialize() {
-		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array(
-				null,
-				new Dependency_Management()
-			) )
-			->setMethods( array( 'get_migration_state', 'set_defines' ) )
-			->getMock();
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_migration_state' )
-			->will( $this->returnValue( Database_Migration::MIGRATION_STATE_ERROR ) );
-
-		$instance
-			->expects( $this->never() )
-			->method( 'set_defines' );
-
-		$this->assertFalse( $instance->initialize() );
-	}
-
 	/**
 	 * Tests the initializing with the defining of constants fails.
 	 */
@@ -47,45 +22,72 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array(
 				null,
-				new Dependency_Management()
+				new Dependency_Management(),
 			) )
-			->setMethods( array( 'get_migration_state', 'set_defines' ) )
+			->setMethods( array( 'set_defines' ) )
 			->getMock();
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_migration_state' )
-			->will( $this->returnValue( Database_Migration::MIGRATION_STATE_SUCCESS ) );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'set_defines' )
 			->will( $this->returnValue( false ) );
 
-		$this->assertFalse( $instance->initialize() );
+		$this->assertFalse( $instance->run_migrations() );
+	}
+
+	/**
+	 * Tests if the migrations are usable.
+	 */
+	public function test_is_usable() {
+		$instance = $this
+			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
+			->disableOriginalConstructor()
+			->setMethods( array(
+				'get_migration_state',
+			) )
+			->getMock();
+
+		$instance->expects( $this->once() )
+			->method( 'get_migration_state' )
+			->will( $this->returnValue( Database_Migration::MIGRATION_STATE_SUCCESS ) );
+
+		$this->assertTrue( $instance->is_usable() );
+	}
+
+	/**
+	 * Tests if the migrations are usable.
+	 */
+	public function test_is_not_usable() {
+		$instance = $this
+			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
+			->disableOriginalConstructor()
+			->setMethods( array(
+				'get_migration_state',
+			) )
+			->getMock();
+
+		$instance->expects( $this->once() )
+				 ->method( 'get_migration_state' )
+				 ->will( $this->returnValue( Database_Migration::MIGRATION_STATE_ERROR ) );
+
+		$this->assertFalse( $instance->is_usable() );
 	}
 
 	/**
 	 * Tests the initializing when everything goes as planned.
 	 */
-	public function test_initialize_success() {
+	public function test_migration_success() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array(
 				null,
-				new Dependency_Management()
+				new Dependency_Management(),
 			) )
 			->setMethods( array(
-				'get_migration_state',
 				'set_defines',
-				'get_framework_runner'
+				'get_framework_runner',
 			) )
 			->getMock();
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_migration_state' )
-			->will( $this->returnValue( Database_Migration::MIGRATION_STATE_SUCCESS ) );
 
 		$instance
 			->expects( $this->once() )
@@ -97,35 +99,29 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'get_framework_runner' )
 			->will( $this->returnValue( $this->get_framework_runner_mock() ) );
 
-		$this->assertTrue( $instance->initialize() );
+		$this->assertTrue( $instance->run_migrations() );
 	}
 
 	/**
 	 * Tests the initializing with an exception being thrown.
 	 *
-	 * @covers \Yoast\YoastSEO\Config\Database_Migration::initialize()
+	 * @covers \Yoast\YoastSEO\Config\Database_Migration::run_migrations()
 	 */
 	public function test_initialize_with_exception_thrown() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array(
 				null,
-				new Dependency_Management()
+				new Dependency_Management(),
 			) )
 			->setMethods(
 				array(
-					'get_migration_state',
 					'set_defines',
 					'get_framework_runner',
-					'set_failed_state'
+					'set_failed_state',
 				)
 			)
 			->getMock();
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_migration_state' )
-			->will( $this->returnValue( Database_Migration::MIGRATION_STATE_SUCCESS ) );
 
 		$instance
 			->expects( $this->once() )
@@ -141,7 +137,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->expects( $this->once() )
 			->method( 'set_failed_state' );
 
-		$this->assertFalse( $instance->initialize() );
+		$this->assertFalse( $instance->run_migrations() );
 	}
 
 	/**
@@ -151,7 +147,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_get_charset() {
 		$instance = new Database_Migration_Double(
-			( object ) array( 'charset' => 'foo' ), new Dependency_Management()
+			(object) array( 'charset' => 'foo' ), new Dependency_Management()
 		);
 
 		$this->assertEquals( 'foo', $instance->get_charset() );
@@ -178,7 +174,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array(
 				null,
-				new Dependency_Management()
+				new Dependency_Management(),
 			) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )
@@ -207,7 +203,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array(
 				null,
-				new Dependency_Management()
+				new Dependency_Management(),
 			) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )

@@ -9,7 +9,8 @@ use Yoast\Tests\Doubles\Indexable_Term as Indexable_Term_Double;
 /**
  * Class Indexable_Term_Test
  *
- * @group   yoastmeta
+ * @group indexables
+ * @group watchers
  *
  * @package Yoast\Tests\Watchers
  */

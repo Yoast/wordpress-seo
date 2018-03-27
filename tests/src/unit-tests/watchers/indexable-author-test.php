@@ -9,7 +9,8 @@ use Yoast\Tests\Doubles\Indexable_Author as Indexable_Author_Double;
 /**
  * Class Indexable_Author_Test
  *
- * @group   yoastmeta
+ * @group indexables
+ * @group watchers
  *
  * @package Yoast\Tests\Watchers
  */

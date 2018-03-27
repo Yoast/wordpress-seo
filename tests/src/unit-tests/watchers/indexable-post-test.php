@@ -9,7 +9,8 @@ use Yoast\YoastSEO\Watchers\Indexable_Post;
 /**
  * Class Indexable_Post_Test
  *
- * @group   yoastmeta
+ * @group indexables
+ * @group watchers
  *
  * @package Yoast\Tests\Watchers
  */

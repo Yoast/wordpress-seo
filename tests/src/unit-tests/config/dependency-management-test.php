@@ -7,7 +7,7 @@ use Yoast\YoastSEO\Config\Dependency_Management;
 /**
  * Class Dependency_Management_Test
  *
- * @group   yoastmeta
+ * @group dependency-management
  *
  * @package Yoast\Tests
  */

@@ -7,8 +7,6 @@ use Yoast\YoastSEO\Config\Admin;
 /**
  * Class Admin_Test
  *
- * @group   yoastmeta
- *
  * @package Yoast\Tests\Config
  */
 class Admin_Test extends \PHPUnit_Framework_TestCase {

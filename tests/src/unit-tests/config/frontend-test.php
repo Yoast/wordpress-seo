@@ -7,8 +7,6 @@ use Yoast\YoastSEO\Config\Frontend;
 /**
  * Class Frontend_Test
  *
- * @group   yoastmeta
- *
  * @package Yoast\Tests\Config
  */
 class Frontend_Test extends \PHPUnit_Framework_TestCase {
