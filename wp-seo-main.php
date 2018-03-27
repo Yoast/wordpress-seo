@@ -34,7 +34,7 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
-	if ( PHP_VERSION_ID >= 50300 ) {
+	if ( version_compare( phpversion(), '5.3', '>=' ) ) {
 		define( 'WPSEO_NAMESPACES', true );
 	}
 	else {
