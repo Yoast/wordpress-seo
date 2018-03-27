@@ -144,7 +144,7 @@ class Yoast_Form {
 		/**
 		 * Apply general admin_footer hooks
 		 */
-		do_action( 'wpseo_admin_footer' );
+		do_action( 'wpseo_admin_footer', $this );
 
 		/**
 		 * Run possibly set actions to add for example an i18n box
