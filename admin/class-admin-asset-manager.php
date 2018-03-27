@@ -85,17 +85,6 @@ class WPSEO_Admin_Asset_Manager {
 	 * Calls the functions that register scripts and styles with the scripts and styles to be registered as arguments.
 	 */
 	public function register_assets() {
-
-		$user_locale = WPSEO_Utils::get_user_locale();
-		$language    = WPSEO_Utils::get_language( $user_locale );
-
-		wp_register_script(
-			self::PREFIX . 'intl-polyfill',
-			sprintf( 'https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.%s', $language ),
-			array(),
-			WPSEO_VERSION
-		);
-
 		$this->register_scripts( $this->scripts_to_be_registered() );
 		$this->register_styles( $this->styles_to_be_registered() );
 	}
@@ -199,7 +188,6 @@ class WPSEO_Admin_Asset_Manager {
 				// Load webpack-commons for bundle support.
 				'src'  => 'commons-' . $flat_version,
 				'deps' => array(
-					self::PREFIX . 'intl-polyfill',
 					self::PREFIX . 'babel-polyfill',
 				),
 			),
