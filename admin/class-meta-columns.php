@@ -295,9 +295,9 @@ class WPSEO_Meta_Columns {
 	 */
 	protected function get_keyword_filter( $keyword_filter ) {
 		return array(
-			'post_type'  => get_query_var( 'post_type', 'post' ),
-			'meta_key'   => WPSEO_Meta::$meta_prefix . 'focuskw',
-			'meta_value' => sanitize_text_field( $keyword_filter ),
+			'post_type' => get_query_var( 'post_type', 'post' ),
+			'key'       => WPSEO_Meta::$meta_prefix . 'focuskw',
+			'value'     => sanitize_text_field( $keyword_filter ),
 		);
 	}
 
