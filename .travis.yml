@@ -63,7 +63,7 @@ jobs:
           all_branches: true
     # If the commit was tagged, create an artifact and push it to the distribution github
     - stage: 🚀 github distrubution deployment
-      if: $TRAVIS_TAG IS present
+      # if:$TRAVIS_TAG IS present
       before_script: skip
       script: echo "travis tag is: $TRAVIS_TAG" && grunt artifact
       before_install: skip
