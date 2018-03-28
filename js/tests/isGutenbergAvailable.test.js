@@ -17,3 +17,16 @@ describe( 'isGutenbergDataAvailable', () => {
 		expect( actual ).toBe( false );
 	} );
 } );
+
+describe( 'isGutenbergPostAvailable', () => {
+	it( 'returns true if _wpGutenbergPost is defined', () => {
+		window._wpGutenbergPost = { id: 1234 };
+		const actual = isGutenbergPostAvailable();
+		expect( actual ).toBe( true );
+	} );
+	it( 'returns false if _wpGutenbergPost is not defined', () => {
+		delete window._wpGutenbergPost;
+		const actual = isGutenbergPostAvailable();
+		expect( actual ).toEqual( false );
+	} );
+} );
