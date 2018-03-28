@@ -309,23 +309,25 @@ function wpseo_init() {
  */
 function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
-	if ( WPSEO_Utils::is_api_available() ) {
-		// Boot up REST API.
-		$configuration_service = new WPSEO_Configuration_Service();
-		$configuration_service->initialize();
+	if ( ! WPSEO_Utils::is_api_available() ) {
+		return;
+	}
 
-		$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
-		$link_reindex_endpoint->register();
+	// Boot up REST API.
+	$configuration_service = new WPSEO_Configuration_Service();
+	$configuration_service->initialize();
 
-		$statistics_service  = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
-		$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
-		$statistics_endpoint->register();
+	$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
+	$link_reindex_endpoint->register();
 
-		if ( WPSEO_OnPage::is_active() ) {
-			$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
-			$ryte_endpoint         = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
-			$ryte_endpoint->register();
-		}
+	$statistics_service  = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
+	$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
+	$statistics_endpoint->register();
+
+	if ( WPSEO_OnPage::is_active() ) {
+		$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
+		$ryte_endpoint         = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
+		$ryte_endpoint->register();
 	}
 }
 
