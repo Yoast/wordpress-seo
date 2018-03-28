@@ -124,8 +124,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_url() {
 		$instance = $this->getMockBuilder( 'WPSEO_Post_Type_Sitemap_Provider_Double' )
-			->setMethods( array( 'get_home_url' ) )
-			->getMock();
+						 ->setMethods( array( 'get_home_url' ) )
+						 ->getMock();
 
 		$instance
 			->expects( $this->once() )
@@ -150,5 +150,68 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 */
 	public function set_post_sitemap_url( $url ) {
 		return 'http://example.com';
+	}
+
+	/**
+	 * Tests that password protected posts are not included in the sitemap.
+	 */
+	public function test_password_protected_post() {
+		$this->factory->post->create();
+
+		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'post', 100, 0 ) );
+
+		// Create password protected post.
+		$this->factory->post->create(
+			array(
+				'post_password' => 'secret',
+			)
+		);
+
+		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'post', 100, 0 ) );
+	}
+
+	/**
+	 * Tests to make sure attachment is not added when parent is a protected post.
+	 *
+	 * Related: https://github.com/Yoast/wordpress-seo/issues/9194
+	 */
+	public function test_password_protected_post_parent_media() {
+		WPSEO_Options::set( 'disable-attachment', false );
+
+		// Create non-password-protected post.
+		$post_id = $this->factory->post->create(
+			array(
+				'post_password' => '',
+			)
+		);
+
+		$this->factory->post->create(
+			array(
+				'post_parent' => $post_id,
+				'post_type'   => 'attachment',
+				'post_status' => 'inherit',
+			)
+		);
+
+		// Expect the attchment to be in the list.
+		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
+
+		// Create password protected post.
+		$post_id = $this->factory->post->create(
+			array(
+				'post_password' => 'secret',
+			)
+		);
+
+		$this->factory->post->create(
+			array(
+				'post_parent' => $post_id,
+				'post_type'   => 'attachment',
+				'post_status' => 'inherit',
+			)
+		);
+
+		// Expect the attachment not to be added to the list.
+		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
 	}
 }
