@@ -121,6 +121,7 @@ Bugfixes:
 * Fixes a bug where setting a page to `noindex` through the `wpseo_robots` filter did not properly remove the `canonical` element.
 * Fixes a console error in the classic editor that states that data.setRefresh is not defined/not a function.
 * Fixes alignment of Go Premium notice.
+* Fixes a bug where attachments connected to password-protected parents are included in the sitemaps.
 
 = 7.1.0 =
 Release Date: March 20th, 2018
