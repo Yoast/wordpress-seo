@@ -300,10 +300,8 @@ function wpseo_init() {
 	$link_watcher->load();
 
 	// Loading Ryte integration.
-	if ( WPSEO_Options::get( 'onpage_indexability' ) ) {
-		$wpseo_onpage = new WPSEO_OnPage();
-		$wpseo_onpage->register_hooks();
-	}
+	$wpseo_onpage = new WPSEO_OnPage();
+	$wpseo_onpage->register_hooks();
 }
 
 /**
@@ -323,9 +321,11 @@ function wpseo_init_rest_api() {
 		$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
 		$statistics_endpoint->register();
 
-		$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
-		$ryte_endpoint         = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
-		$ryte_endpoint->register();
+		if ( WPSEO_OnPage::is_active() ) {
+			$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
+			$ryte_endpoint         = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
+			$ryte_endpoint->register();
+		}
 	}
 }
 

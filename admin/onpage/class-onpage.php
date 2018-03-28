@@ -33,15 +33,15 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		if ( ! $this->is_active() ) {
+		// Adds admin notice if necessary.
+		add_filter( 'admin_init', array( $this, 'show_notice' ) );
+
+		if ( ! self::is_active() ) {
 			return;
 		}
 
 		// Adds weekly schedule to the cron job schedules.
 		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
-
-		// Adds admin notice if necessary.
-		add_filter( 'admin_init', array( $this, 'show_notice' ) );
 
 		// Sets the action for the Ryte fetch.
 		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
@@ -70,8 +70,12 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 *
 	 * @return bool True if this functionality can be used.
 	 */
-	protected function is_active() {
+	public static function is_active() {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) {
+			return false;
+		}
+
+		if ( ! WPSEO_Options::get( 'onpage_indexability' ) ) {
 			return false;
 		}
 
@@ -231,7 +235,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 * Redo the fetch request for Ryte.
 	 */
 	private function catch_redo_listener() {
-		if ( ! $this->is_active() ) {
+		if ( ! self::is_active() ) {
 			return;
 		}
 
