@@ -326,6 +326,11 @@ function wpseo_init_rest_api() {
 		$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
 		$ryte_endpoint         = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
 		$ryte_endpoint->register();
+
+		$indexable_service = new WPSEO_Indexable_Service();
+		$indexable_endpoint = new WPSEO_Endpoint_Indexable( $indexable_service );
+		$indexable_endpoint->register();
+
 	}
 }
 
