@@ -63,10 +63,9 @@ jobs:
           all_branches: true
     # If the commit was tagged, create an artifact and push it to the distribution github
     - stage: 🚀 github distrubution deployment
-      script: echo travis tag is: $TRAVIS_TAG
       if: $TRAVIS_TAG
       before_script: skip
-      script: grunt artifact
+      script: echo "travis tag is: $TRAVIS_TAG" && grunt artifact
       before_install: skip
       install:
         - yarn global add grunt-cli
