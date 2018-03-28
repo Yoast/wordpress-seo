@@ -132,7 +132,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 			'@type'    => 'Organization',
 			'url'      => $home_url,
 			'sameAs'   => array( $facebook, $instagram ),
-			'@id'      => '#organization',
+			'@id'      => $home_url . '#organization',
 			'name'     => $name,
 			'logo'     => '',
 		) );

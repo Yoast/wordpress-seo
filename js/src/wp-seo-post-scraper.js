@@ -37,7 +37,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	let decorator = null;
 	let tabManager, postDataCollector;
 
-	let store;
+	let editStore;
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -108,8 +108,8 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
 		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
-			if ( ! isUndefined( store ) ) {
-				store.dispatch( setMarkerStatus( "hidden" ) );
+			if ( ! isUndefined( editStore ) ) {
+				editStore.dispatch( setMarkerStatus( "hidden" ) );
 			}
 			return false;
 		}
@@ -199,11 +199,11 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		const targets = {};
 
 		if ( isKeywordAnalysisActive() ) {
-			targets.output = "wpseo-pageanalysis";
+			targets.output = "does-not-really-exist-but-it-needs-something";
 		}
 
 		if ( isContentAnalysisActive() ) {
-			targets.contentOutput = "yoast-seo-content-analysis";
+			targets.contentOutput = "also-does-not-really-exist-but-it-needs-something";
 		}
 
 		return targets;
@@ -333,7 +333,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		window.YoastSEO.wp._tabManager = tabManager;
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
 
-		window.YoastSEO.store = store;
+		window.YoastSEO.store = editStore;
 	}
 
 	/**
@@ -383,12 +383,12 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	 */
 	function initializePostAnalysis() {
 		const editArgs = {
-			readabilityTarget: "yoast-seo-content-analysis",
-			seoTarget: "wpseo-pageanalysis",
+			analysisSection: "pageanalysis",
 			onRefreshRequest: () => {},
 			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
 		};
 		const { store, data } = initializeEdit( editArgs );
+		editStore = store;
 
 		snippetContainer = $( "#wpseosnippet" );
 
@@ -444,7 +444,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		}
 
 		// Switch between assessors when checkbox has been checked.
-		let cornerstoneCheckbox = jQuery( "#_yst_is_cornerstone" );
+		let cornerstoneCheckbox = jQuery( "#yoast_wpseo_is_cornerstone" );
 		app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
 		cornerstoneCheckbox.change( function() {
 			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
