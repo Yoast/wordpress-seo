@@ -213,6 +213,9 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * Related: https://github.com/Yoast/wordpress-seo/issues/9194
 	 */
 	public function test_password_protected_post_parent_attachment() {
+		// Enable attachments in the sitemap.
+		WPSEO_Options::set( 'disable-attachment', false );
+
 		// Create password protected post.
 		$post_id = $this->factory->post->create(
 			array(
