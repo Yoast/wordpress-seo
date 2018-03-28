@@ -42,6 +42,10 @@ class WPSEO_Import_Smartcrawl_SEO extends WPSEO_Plugin_Importer {
 			'new_key' => 'canonical',
 		),
 		array(
+			'old_key' => '_wds_focus-keywords',
+			'new_key' => 'focuskw',
+		),
+		array(
 			'old_key' => '_wds_meta-robots-noindex',
 			'new_key' => 'meta-robots-noindex',
 		),

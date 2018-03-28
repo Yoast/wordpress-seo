@@ -99,6 +99,7 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 		$opengraph_image = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'opengraph-image', true );
 		$opengraph_title = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'opengraph-title', true );
 		$twitter_title   = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'twitter-title', true );
+		$focuskw = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'focuskw', true );
 
 		$this->assertEquals( 'Test title', $seo_title );
 		$this->assertEquals( 'Test description', $seo_desc );
@@ -107,6 +108,7 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'http://local.wordpress.test/wp-content/uploads/2018/01/actionable-seo.png', $opengraph_image );
 		$this->assertEquals( 'smartcrawl test opengraph title', $opengraph_title );
 		$this->assertEquals( 'smartcrawl test twitter title', $twitter_title );
+		$this->assertEquals( 'smartcrawl focuskw', $focuskw );
 		$this->assertEquals( $this->status( 'import', true ), $result );
 	}
 
@@ -292,6 +294,7 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory()->post->create();
 		update_post_meta( $post_id, '_wds_title', 'Test title' );
 		update_post_meta( $post_id, '_wds_metadesc', 'Test description' );
+		update_post_meta( $post_id, '_wds_focus-keywords', 'smartcrawl focuskw' );
 		update_post_meta( $post_id, '_wds_meta-robots-noindex', 1 );
 		update_post_meta( $post_id, '_wds_meta-robots-nofollow', 1 );
 		update_post_meta( $post_id, '_wds_opengraph', 'a:4:{s:8:"disabled";b:0;s:5:"title";s:31:"smartcrawl test opengraph title";s:11:"description";s:30:"smartcrawl test opengraph desc";s:6:"images";a:1:{i:0;s:73:"http://local.wordpress.test/wp-content/uploads/2018/01/actionable-seo.png";}}' );
