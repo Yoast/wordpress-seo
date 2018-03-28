@@ -80,7 +80,7 @@ class Modal extends React.Component {
 					xCloseButtonClassName={ this.props.classes.xCloseButton }
 					closeButtonClassName={ this.props.classes.closeButton }
 				>
-					<ModalContent translations={ this.props.translations } />
+					<ModalContent />
 				</YoastModal>
 			</React.Fragment>
 		);

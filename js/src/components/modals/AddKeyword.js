@@ -40,14 +40,14 @@ const StyledIcon = styled( Icon )`
 
 const AddKeyword = () => {
 	return (
-		localizedData && <IntlProvider messages={ localizedData }>
+		localizedData && <IntlProvider messages={ localizedData.intl }>
 			<StyledContainer>
 				<StyledIcon icon={ YoastSeoIcon } width="150px" height="150px" />
 				<h2>{ localizedData.intl.title }</h2>
 				<p>
 					{ interpolateComponents( {
 						mixedString: localizedData.intl.intro,
-						components: { link: <YesYouCanLink href={ localizedData.intl.link } /> }
+						components: { link: <YesYouCanLink href={ localizedData.intl.link } /> },
 					} ) }
 				</p>
 				<p>{ localizedData.intl.other }</p>

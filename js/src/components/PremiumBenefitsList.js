@@ -3,8 +3,6 @@ import React from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 
-import IntlProvider from "./IntlProvider";
-
 let localizedData = null;
 if ( window.yoastPremiumBenefitsL10n ) {
 	localizedData = yoastPremiumBenefitsL10n;
@@ -28,7 +26,7 @@ const StyledList = styled.ul`
 
 const PremiumBenefitsList = () => {
 	return (
-		localizedData && <IntlProvider messages={ localizedData }>
+		localizedData &&
 			<StyledList role="list">
 				{ localizedData.intl.map( ( benefit, index ) => {
 					let formattedBenefit = benefit.replace( "<strong>", "{{strong}}" ).replace( "</strong>", "{{/strong}}" );
@@ -36,12 +34,11 @@ const PremiumBenefitsList = () => {
 						<span aria-hidden="true"></span>
 						{ interpolateComponents( {
 							mixedString: formattedBenefit,
-							components: { strong: <strong /> }
+							components: { strong: <strong /> },
 						} ) }
 					</li>;
 				} ) }
 			</StyledList>
-		</IntlProvider>
 	);
 };
 
