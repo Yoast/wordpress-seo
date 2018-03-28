@@ -161,4 +161,38 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( $instance->should_show_notice() );
 	}
+
+	/**
+	 * Tests whether OnPage is not indexable and enabled, the notice should be shown.
+	 *
+	 * @covers WPSEO_OnPage::__construct
+	 * @covers WPSEO_OnPage::should_show_notice
+	 */
+	public function test_should_not_show_notice() {
+		// Disable OnPage.
+		$option = new OnPage_Option_Mock( false, WPSEO_OnPage_Option::IS_NOT_INDEXABLE, true );
+
+		// Set blog to public.
+		update_option( 'blog_public', 1 );
+
+		$instance = $this->getMockBuilder( 'WPSEO_OnPage_Double' )
+						 ->setMethods( array( 'get_option' ) )
+						 ->getMock();
+
+		$instance->expects( $this->atLeastOnce() )
+				 ->method( 'get_option' )
+				 ->will( $this->returnValue( $option ) );
+
+		$this->assertFalse( $instance->should_show_notice(), 'The notice should not be shown when disabled.' );
+	}
+
+	/**
+	 * Tests if the notice constrol is hooked.
+	 */
+	public function test_notification_hooks_should_be_hooked() {
+		$onpage = new WPSEO_OnPage();
+		$onpage->register_hooks();
+
+		$this->assertNotFalse( has_action( 'admin_init', array( $onpage, 'show_notice' ) ) );
+	}
 }
