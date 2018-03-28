@@ -11,14 +11,13 @@ import flowRight from "lodash/flowRight";
 import IntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
-import openSectionsReducer from "./redux/reducers/openSections";
+import openSidebarSectionsReducer from "./redux/reducers/openSidebarSections";
 import keywordsReducer from "./redux/reducers/keywords";
 import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 import Data from "./analysis/data.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
-import * as actions from "./redux/actions/openSections";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -53,7 +52,7 @@ function configureStore() {
 	const rootReducer = combineReducers( {
 		marksButtonStatus: markerStatusReducer,
 		analysis: analysis,
-		openSections: openSectionsReducer,
+		openSidebarSections: openSidebarSectionsReducer,
 		keywords: keywordsReducer,
 	} );
 

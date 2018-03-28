@@ -1,8 +1,8 @@
 const PREFIX = "WPSEO_";
 
-export const OPEN_SECTION = `${ PREFIX }OPEN_SECTION`;
-export const CLOSE_SECTION = `${ PREFIX }CLOSE_SECTION`;
-export const CLOSE_ALL_SECTIONS = `${ PREFIX }CLOSE_ALL_SECTIONS`;
+export const OPEN_SIDEBAR_SECTION = `${ PREFIX }OPEN_SIDEBAR_SECTION`;
+export const CLOSE_SIDEBAR_SECTION = `${ PREFIX }CLOSE_SIDEBAR_SECTION`;
+export const CLOSE_ALL_SIDEBAR_SECTIONS = `${ PREFIX }CLOSE_ALL_SIDEBAR_SECTIONS`;
 
 /**
  * An action creator for the action that opens a section.
@@ -11,9 +11,9 @@ export const CLOSE_ALL_SECTIONS = `${ PREFIX }CLOSE_ALL_SECTIONS`;
  *
  * @returns {Object}         A (WPSEO_)OPEN_SECTION action.
  */
-export const openSection = function( sectionId ) {
+export const openSidebarSection = function( sectionId ) {
 	return {
-		type: OPEN_SECTION,
+		type: OPEN_SIDEBAR_SECTION,
 		sectionId,
 	};
 };
@@ -25,9 +25,9 @@ export const openSection = function( sectionId ) {
  *
  * @returns {Object}         A (WPSEO_)CLOSE_SECTION action.
  */
-export const closeSection = function( sectionId ) {
+export const closeSidebarSection = function( sectionId ) {
 	return {
-		type: CLOSE_SECTION,
+		type: CLOSE_SIDEBAR_SECTION,
 		sectionId,
 	};
 };
@@ -37,8 +37,8 @@ export const closeSection = function( sectionId ) {
  *
  * @returns {Object}         A (WPSEO_)CLOSE_ALL_SECTIONS action.
  */
-export const closeAllSections = function() {
+export const closeAllSidebarSections = function() {
 	return {
-		type: CLOSE_ALL_SECTIONS,
+		type: CLOSE_ALL_SIDEBAR_SECTIONS,
 	};
 };
