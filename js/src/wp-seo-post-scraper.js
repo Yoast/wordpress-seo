@@ -321,7 +321,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
 	 * @returns {void}
 	 */
-	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin, store ) {
+	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin ) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 

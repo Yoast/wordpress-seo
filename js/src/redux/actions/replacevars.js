@@ -11,4 +11,4 @@ export const addReplacevar = ( type, id, value ) => {
 			value,
 		},
 	};
-}
+};

@@ -13,8 +13,6 @@ import markerStatusReducer from "./redux/reducers/markerButtons";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
 import replacevars from "./redux/reducers/replacevars";
-import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
-import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
 import activeTab from "./redux/reducers/activeTab";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";

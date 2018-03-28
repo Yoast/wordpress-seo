@@ -29,7 +29,8 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 	/**
 	 * Variable replacement plugin for WordPress.
 	 *
-	 * @param {app} app The app object.
+	 * @param {app}   app   The app object.
+	 * @param {store} store The redux store.
 	 *
 	 * @returns {void }
 	 */
@@ -58,7 +59,7 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 			return new GutenbergDataCollector( this._app.refresh );
 		}
 		return new TinyMceDataCollector();
-	}
+	};
 
 	/**
 	 * Registers all the placeholders and their replacements.
