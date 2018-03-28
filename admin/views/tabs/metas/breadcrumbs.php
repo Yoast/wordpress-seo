@@ -59,6 +59,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 				if ( ! $tax->public ) {
 					continue;
 				}
+
 				$values[ $tax->name ] = $tax->labels->singular_name;
 			}
 			$label = $pt->labels->name . ' (<code>' . $pt->name . '</code>)';
