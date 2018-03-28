@@ -195,4 +195,22 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 		$this->assertNotFalse( has_action( 'admin_init', array( $onpage, 'show_notice' ) ) );
 	}
+
+	/**
+	 * Tests if not active is based on the option.
+	 */
+	public function test_is_not_active() {
+		WPSEO_Options::set( 'onpage_indexability', false );
+
+		$this->assertFalse( WPSEO_OnPage::is_active() );
+	}
+
+	/**
+	 * Tests if active is baed on the option.
+	 */
+	public function test_is_active() {
+		WPSEO_Options::set( 'onpage_indexability', true );
+
+		$this->assertTrue( WPSEO_OnPage::is_active() );
+	}
 }
