@@ -24,6 +24,7 @@ import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetPreviewHelpers from "./analysis/snippetPreview";
 import UsedKeywords from "./analysis/usedKeywords";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
+import { isGutenbergPostAvailable } from "./helpers/isGutenbergDataAvailable";
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
@@ -96,7 +97,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return wpseoPostScraperL10n.show_markers === "1";
+		return ! isGutenbergPostAvailable() && wpseoPostScraperL10n.show_markers === "1";
 	}
 
 	/**
