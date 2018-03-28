@@ -5,52 +5,81 @@ var Sentence = require( "../values/Sentence.js" );
 
 var forEach = require( "lodash/forEach" );
 
- /*
-  * // Imports used for English, French and Spanish.
-  * var getSentencePartsDefault = require( "./passiveVoice/getSentenceParts.js" );
-  * var determinePassivesDefault = require( "./passiveVoice/determinePassives" );
-  */
-// Imports used for German.
+var determinePassiveSentencePart = require( "./passiveVoice/periphrastic/determinePassiveSentencePart.js" );
+var determinePassiveSentence = require( "./passiveVoice/morphological/determinePassiveSentence.js" );
+
+var getSentencePartsDefault = require( "./passiveVoice/periphrastic/getSentenceParts.js" );
 var getSentencePartsGerman = require( "./german/passiveVoice/getSentenceParts.js" );
-var determinePassivesGerman = require( "./german/passiveVoice/determinePassives.js" );
 
 var morphologicalPassiveLanguages = [ "ru", "tr" ];
 var periphrasticPassiveLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn" ];
 var morphologicalAndPeriphrasticPassiveLanguages = [ "sv", "da", "nb" ];
 
+/**
+ * Looks for morphological passive voice.
+ *
+ * @param {Array} sentenceObjects Sentences extracted from the text.
+ * @param {string} language Language of the text.
+ * @returns {object} The number of passives found in the text and the passive sentences.
+ */
 var getPassivesMorphological = function( sentenceObjects, language ) {
-	var passiveSentencesByType = [];
-
-	console.log( language );
-	return {
-		passiveSentences: passiveSentencesByType,
-	};
-};
-
-var getPassivesPeriphrastic = function( sentenceObjects, language ) {
 	var passiveSentencesByType = [];
 
 	forEach( sentenceObjects, function( sentence ) {
 		var strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
-		// FIXME!
-		var sentenceParts = getSentencePartsGerman( strippedSentence );
+		var passive = false;
+
+		sentence.setPassive( determinePassiveSentence( strippedSentence, language ) );
+
+		if ( sentence.isPassive() === true ) {
+			passiveSentencesByType.push( sentence.getSentenceText() );
+		}
+	} );
+	return {
+		passiveSentencesByType,
+	};
+};
+
+/**
+ * Looks for periphrastic passive voice.
+ *
+ * @param {Array} sentenceObjects Sentences extracted from the text.
+ * @param {string} language Language of the text.
+ * @returns {object} The number of passives found in the text and the passive sentences.
+ */
+var getPassivesPeriphrastic = function( sentenceObjects, language ) {
+	var passiveSentencesByType = [];
+	forEach( sentenceObjects, function( sentence ) {
+		var strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
+		var sentenceParts = [];
+
+		if ( language === "de" ) {
+			sentenceParts = getSentencePartsGerman( strippedSentence );
+		} else {
+			sentenceParts = getSentencePartsDefault( strippedSentence, language );
+		}
 
 		var passive = false;
 		forEach( sentenceParts, function( sentencePart ) {
-			// FIXME!
-			passive = determinePassivesGerman( sentencePart._sentencePartText );
+			sentencePart.setPassive( determinePassiveSentencePart( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), language ) );
 			passive = passive || sentencePart.isPassive();
 		} );
 		if ( passive === true ) {
 			passiveSentencesByType.push( sentence.getSentenceText() );
 		}
 	} );
-	console.log( language );
 	return {
 		passiveSentencesByType,
 	};
 };
 
+/**
+ * Determines which passive voice marking should be executed for a text based on the language.
+ *
+ * @param {Array} sentenceObjects Sentences extracted from the text.
+ * @param {string} language Language of the text.
+ * @returns {object} The number of passives found in the text and the passive sentences.
+ */
 var getPassives = function( sentenceObjects, language ) {
 	var passiveSentences = [];
 

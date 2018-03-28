@@ -1,13 +1,13 @@
-var indices = require( "../../stringProcessing/indices" );
+var indices = require( "../../../stringProcessing/indices" );
 var getIndicesOfList = indices.getIndicesByWordList;
 var filterIndices = indices.filterIndices;
 var sortIndices = indices.sortIndices;
-var stripSpaces = require( "../../stringProcessing/stripSpaces.js" );
-var normalizeSingleQuotes = require( "../../stringProcessing/quotes.js" ).normalizeSingle;
-var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
-var getWordIndices = require( "./getIndicesWithRegex.js" );
-var includesIndex = require( "../../stringProcessing/includesIndex" );
-var followsIndex = require( "../../stringProcessing/followsIndex" );
+var stripSpaces = require( "../../../stringProcessing/stripSpaces.js" );
+var normalizeSingleQuotes = require( "../../../stringProcessing/quotes.js" ).normalizeSingle;
+var arrayToRegex = require( "../../../stringProcessing/createRegexFromArray.js" );
+var getWordIndices = require( "../getIndicesWithRegex.js" );
+var includesIndex = require( "../../../stringProcessing/includesIndex" );
+var followsIndex = require( "../../../stringProcessing/followsIndex" );
 
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -16,17 +16,17 @@ var map = require( "lodash/map" );
 var forEach = require( "lodash/forEach" );
 
 // English-specific variables and imports.
-var SentencePartEnglish = require( "../english/passiveVoice/SentencePart" );
-var auxiliariesEnglish = require( "../english/passiveVoice/auxiliaries.js" )().all;
-var stopwordsEnglish = require( "../english/passiveVoice/stopwords.js" )();
+var SentencePartEnglish = require( "../../english/passiveVoice/SentencePart" );
+var auxiliariesEnglish = require( "../../english/passiveVoice/auxiliaries.js" )().all;
+var stopwordsEnglish = require( "../../english/passiveVoice/stopwords.js" )();
 var stopCharacterRegexEnglish = /([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
 var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
 var ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
 
 // French-specific variables and imports.
-var SentencePartFrench = require( "../french/passiveVoice/SentencePart" );
-var auxiliariesFrench = require( "../french/passiveVoice/auxiliaries.js" )();
-var stopwordsFrench = require( "../french/passiveVoice/stopwords.js" )();
+var SentencePartFrench = require( "../../french/passiveVoice/SentencePart" );
+var auxiliariesFrench = require( "../../french/passiveVoice/auxiliaries.js" )();
+var stopwordsFrench = require( "../../french/passiveVoice/stopwords.js" )();
 var stopCharacterRegexFrench = /(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
 var followingAuxiliaryExceptionWordsFrench = [ "le", "la", "les", "une", "l'un", "l'une" ];
 var reflexivePronounsFrench = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];
@@ -35,9 +35,9 @@ var elisionAuxiliaryExceptionWords = [ "c'", "s'", "peut-" ];
 var elisionAuxiliaryExceptionRegex = arrayToRegex( elisionAuxiliaryExceptionWords, true );
 
 // Spanish-specific variables and imports.
-var SentencePartSpanish = require( "../spanish/passiveVoice/SentencePart" );
-var auxiliariesSpanish = require( "../spanish/passiveVoice/auxiliaries.js" )();
-var stopwordsSpanish = require( "../spanish/passiveVoice/stopwords.js" )();
+var SentencePartSpanish = require( "../../spanish/passiveVoice/SentencePart" );
+var auxiliariesSpanish = require( "../../spanish/passiveVoice/auxiliaries.js" )();
+var stopwordsSpanish = require( "../../spanish/passiveVoice/stopwords.js" )();
 var stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
 var followingAuxiliaryExceptionWordsSpanish = [ "el", "la", "los", "las", "una" ];
 

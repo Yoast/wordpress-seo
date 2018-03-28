@@ -2,7 +2,7 @@ var arrayToRegex = require( "../../../stringProcessing/createRegexFromArray.js" 
 var auxiliaries = require( "./auxiliaries.js" )().allAuxiliaries;
 var getParticiples = require( "./getParticiples.js" );
 
-var determineSentencePartIsPassive =  require( "../../passiveVoice/determineSentencePartIsPassive.js" );
+var determineSentencePartIsPassive =  require( "../../passiveVoice/periphrastic/determineSentencePartIsPassive.js" );
 
 var auxiliaryRegex = arrayToRegex( auxiliaries );
 

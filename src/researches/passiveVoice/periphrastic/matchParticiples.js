@@ -3,11 +3,11 @@ var forEach = require( "lodash/forEach" );
 var memoize = require( "lodash/memoize" );
 var includes = require( "lodash/includes" );
 
-var irregularsEnglish = require( "../english/passiveVoice/irregulars" )();
-var irregularsRegularFrench = require( "../french/passiveVoice/irregulars" )().irregularsRegular;
-var irregularsIrregularFrench = require( "../french/passiveVoice/irregulars" )().irregularsIrregular;
-var irregularsEndingInSFrench = require( "../french/passiveVoice/irregulars" )().irregularsEndingInS;
-var spanishParticiples = require( "../spanish/passiveVoice/participles" )();
+var irregularsEnglish = require( "../../english/passiveVoice/irregulars" )();
+var irregularsRegularFrench = require( "../../french/passiveVoice/irregulars" )().irregularsRegular;
+var irregularsIrregularFrench = require( "../../french/passiveVoice/irregulars" )().irregularsIrregular;
+var irregularsEndingInSFrench = require( "../../french/passiveVoice/irregulars" )().irregularsEndingInS;
+var spanishParticiples = require( "../../spanish/passiveVoice/participles" )();
 
 // The language-specific participle regexes.
 var languageVariables = {

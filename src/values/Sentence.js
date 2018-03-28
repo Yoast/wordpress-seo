@@ -35,4 +35,23 @@ Sentence.prototype.getLocale = function() {
 	return this._locale;
 };
 
+/**
+ * Returns the passiveness of a sentence.
+ *
+ * @returns {boolean} returns true if passive, otherwise returns false.
+ */
+Sentence.prototype.isPassive = function() {
+	return this._isPassive;
+};
+
+/**
+ * Sets the passiveness of the sentence.
+ *
+ * @param {boolean} passive Whether the sentence is passive or not.
+ * @returns {void}
+ */
+Sentence.prototype.setPassive = function( passive ) {
+	this._isPassive = passive;
+};
+
 module.exports = Sentence;

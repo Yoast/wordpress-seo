@@ -1,12 +1,12 @@
-var getWords = require( "../../stringProcessing/getWords.js" );
+var getWords = require( "../../../stringProcessing/getWords.js" );
 
 var matchParticiples = require( ".//matchParticiples" )();
 var regularParticipleRegex = matchParticiples.regularParticiples;
 var irregularParticipleRegex = matchParticiples.irregularParticiples;
 
-var EnglishParticiple = require( "../english/passiveVoice/EnglishParticiple.js" );
-var FrenchParticiple = require( "../french/passiveVoice/FrenchParticiple.js" );
-var SpanishParticiple = require( "../spanish/passiveVoice/SpanishParticiple.js" );
+var EnglishParticiple = require( "../../english/passiveVoice/EnglishParticiple.js" );
+var FrenchParticiple = require( "../../french/passiveVoice/FrenchParticiple.js" );
+var SpanishParticiple = require( "../../spanish/passiveVoice/SpanishParticiple.js" );
 
 var forEach = require( "lodash/forEach" );
 
