@@ -118,7 +118,8 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Creates a redirect and then creates a post with a slug that overlaps with the redirect, this should remove the redirect.
+	 * Creates a redirect and then creates a post with a slug that overlaps with the redirect,
+	 * this should remove the redirect.
 	 */
 	public function test_slug_changed_matching_redirect() {
 		$redirect = new WPSEO_Redirect( 'to', 'from', 301, 'plain' );
@@ -144,7 +145,13 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$post = get_post( $post_id, ARRAY_A );
 
-		// Add the post watcher, to trigger on the post save.
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * Adds the post watcher, to trigger on the post save.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array( 'post_redirect_can_be_made' ) )
@@ -155,7 +162,6 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->method( 'post_redirect_can_be_made' )
 			->will( $this->returnValue( true ) );
 
-		/** var WPSEO_Post_Watcher_Double $instance */
 		$instance->set_hooks();
 
 		// Save post with a new slug.
@@ -215,7 +221,11 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->expects( $this->never() )
 			->method( 'delete_redirects' );
 
-		/** @var WPSEO_Post_Watcher_Double $instance */
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
@@ -256,7 +266,11 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->expects( $this->once() )
 			->method( 'delete_redirects' );
 
-		/** @var WPSEO_Post_Watcher_Double $instance */
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
@@ -302,8 +316,8 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$post        = get_post( $post );
 		$post_before = get_post( $post_before );
 
-		$is_relevant = $instance->is_redirect_relevant($post, $post_before);
-		$this->assertFalse($is_relevant);
+		$is_relevant = $instance->is_redirect_relevant( $post, $post_before );
+		$this->assertFalse( $is_relevant );
 	}
 
 	/**
@@ -383,16 +397,20 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 		$this->set_permalink_structure( '/%postname%/' );
 
 		// Prepare two (empty) posts.
-		$post = $this->factory->post->create();
+		$post        = $this->factory->post->create();
 		$post_before = $this->factory->post->create();
 
-		/** @var WPSEO_Post_Watcher_Double $instance */
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
 				'get_post_old_post_url',
 			) )
-			->setConstructorArgs( array( ) )
+			->setConstructorArgs( array() )
 			->getMock();
 
 		$post        = get_post( $post );
@@ -403,9 +421,9 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->method( 'get_post_old_post_url' )
 			->will( $this->returnValue( '/test_url/' ) );
 
-		$get_old_url_function_call = $instance->get_old_url($post, $post_before);
+		$get_old_url_function_call = $instance->get_old_url( $post, $post_before );
 
-		$this->assertEquals('/test_url/', $get_old_url_function_call);
+		$this->assertEquals( '/test_url/', $get_old_url_function_call );
 	}
 
 	/**
@@ -433,14 +451,18 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		/** @var WPSEO_Post_Watcher_Double $instance */
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
 				'get_post_old_post_url',
 				'get_post_action',
 			) )
-			->setConstructorArgs( array( ) )
+			->setConstructorArgs( array() )
 			->getMock();
 
 		$post        = get_post( $post );
@@ -456,10 +478,10 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->method( 'get_post_action' )
 			->will( $this->returnValue( 'inline-save' ) );
 
-		$get_old_url_function_call = $instance->get_old_url($post, $post_before);
-		$target_url_from_post_before =  $instance->get_target_url($post_before);
+		$get_old_url_function_call   = $instance->get_old_url( $post, $post_before );
+		$target_url_from_post_before = $instance->get_target_url( $post_before );
 
-		$this->assertEquals($get_old_url_function_call, $target_url_from_post_before);
+		$this->assertEquals( $get_old_url_function_call, $target_url_from_post_before );
 	}
 
 	/**
@@ -487,14 +509,18 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		/** @var WPSEO_Post_Watcher_Double $instance */
+		/**
+		 * Testable instance of WPSEO_Post_Watcher.
+		 *
+		 * @var WPSEO_Post_Watcher_Double
+		 */
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Post_Watcher_Double' )
 			->setMethods( array(
 				'get_post_old_post_url',
 				'get_post_action',
 			) )
-			->setConstructorArgs( array( ) )
+			->setConstructorArgs( array() )
 			->getMock();
 
 		$post        = get_post( $post );
@@ -511,7 +537,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( 'not-a-save-action' ) );
 
 		// Call to get_old_url(), expect it to return false.
-		$get_old_url_function_call = $instance->get_old_url($post, $post_before);
-		$this->assertFalse($get_old_url_function_call);
+		$get_old_url_function_call = $instance->get_old_url( $post, $post_before );
+		$this->assertFalse( $get_old_url_function_call );
 	}
 }
