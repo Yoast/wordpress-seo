@@ -242,6 +242,11 @@ abstract class WPSEO_Option {
 				$service = '';
 
 				switch ( $key ) {
+					case 'baiduverify':
+						$regex   = '`^[A-Za-z0-9_-]+$`';
+						$service = 'Baidu Webmaster tools';
+						break;
+
 					case 'googleverify':
 						$regex   = '`^[A-Za-z0-9_-]+$`';
 						$service = 'Google Webmaster tools';
