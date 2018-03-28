@@ -16,5 +16,5 @@ interface WPSEO_Indexable_Service_Provider {
 	 *
 	 * @return bool Whether the obvj
 	 */
-	public function exists( $object_id );
+	public function is_indexable( $object_id );
 }

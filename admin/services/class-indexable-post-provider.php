@@ -11,38 +11,10 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 * @return array The retrieved data.
 	 */
 	public function get( $object_id ) {
+		$meta_robots_adv = explode( ',',  WPSEO_Meta::get_value( 'meta-robots-adv', $object_id ) );
 
-
-		/*
-* object_id: (int) ID of the requested post
-object_type: (string) The type of the requested object (post)
-object_subtype: (string) The post type of the requested postget_post_type
-permalink: (string) The URL the indexable is presented on, on the front-end of the site (get_post_permalink)
-canonical: (string) canonical
-title: (string) title
-description: (string)metadesc
-breadcrumb_title: (string) bctitle
-og_title: (string) opengraph-title
-og_description: (string) opengraph-description
-og_image: (string) opengraph-image
-twitter_title: (string) twitter-title
-twitter_description: (string) twitter-description
-twitter_image: (string) twitter-image
-is_robots_noindex: (boolean) robots-noindex === 1 -> true, === 2 -> return false, otherwise return null
-is_robots_nofollow: (boolean) robots-nofollow
-is_robots_noarchive: (boolean) robots-adv contains nofollow
-is_robots_noimageindex: (boolean) robots-adv contains noimageindex
-is_robots_nosnippet: (boolean) robots-adv contains nosnippet
-primary_focus_keyword: (string) focuskw
-primary_focus_keyword_score: (int) linkdex
-readability_score: (int) content_score
-is_cornerstone: (boolean) is_cornerstone (depends on #9289)
-link_count: Retrieve internal_link_count from the SEO_Meta table
-incoming_link_count: Retrieve incoming_link_count from the SEO_Meta table
-
-*
-*/
-
+		$link_count = new WPSEO_Link_Column_Count();
+		$link_count->set( array( $object_id ) );
 
 		return array(
 			'object_id'                   => $object_id,
@@ -59,28 +31,43 @@ incoming_link_count: Retrieve incoming_link_count from the SEO_Meta table
 			'twitter_title'               => WPSEO_Meta::get_value( 'twitter-title', $object_id ),
 			'twitter_description'         => WPSEO_Meta::get_value( 'twitter-description', $object_id ),
 			'twitter_image'               => WPSEO_Meta::get_value( 'twitter-image', $object_id ),
-			'is_robots_noindex'           => WPSEO_Meta::get_value( 'twitter-noindex', $object_id ),
-			'is_robots_nofollow'          => WPSEO_Meta::get_value( 'twitter-nofollow', $object_id ),
-			'is_robots_noarchive'         => '',
-			'is_robots_noimageindex'      => '',
-			'is_robots_nosnippet'         => '',
+			'is_robots_noindex'           => WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ),
+			'is_robots_nofollow'          => WPSEO_Meta::get_value( 'meta-robots-nofollow', $object_id ),
+			'is_robots_noarchive'         => in_array( 'noarchive', $meta_robots_adv, true ),
+			'is_robots_noimageindex'      => in_array( 'noimageindex', $meta_robots_adv, true ),
+			'is_robots_nosnippet'         => in_array( 'nosnippet', $meta_robots_adv, true ),
 			'primary_focus_keyword'       => WPSEO_Meta::get_value( 'focuskw', $object_id ),
 			'primary_focus_keyword_score' => WPSEO_Meta::get_value( 'linkdex', $object_id ),
 			'readability_score'           => WPSEO_Meta::get_value( 'linkdex', $object_id ),
 			'is_cornerstone'              => WPSEO_Meta::get_value( 'content_score', $object_id ) === '1',
-			'link_count'                  => '',
-			'incoming_link_count'         => '',
+			'link_count'                  => $link_count->get( $object_id, 'internal_link_count' ),
+			'incoming_link_count'         => $link_count->get( $object_id, 'incoming_link_count' ),
 			'created_at'                  => null,
 			'updated_at'                  => null,
 		);
 	}
 
 	/**
-	 * @param $object_id
+	 * Checks if the given object id is indexable.
 	 *
-	 * @return bool Whether the obvj
+	 * @param integer $object_id The target object id.
+	 *
+	 * @return bool Whether the object is indexable.
 	 */
-	public function exists( $object_id ) {
-		return get_post( $object_id ) !== null;
+	public function is_indexable( $object_id ) {
+		if ( get_post( $object_id ) === null ) {
+		 	return false;
+		}
+
+		if ( wp_is_post_revision( $object_id ) || wp_is_post_autosave( $object_id ) ) {
+			return false;
+		}
+
+		if ( get_post_status ( $object_id ) === 'private' ) {
+			return false;
+		}
+
+
+		return true;
 	}
 }

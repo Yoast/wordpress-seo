@@ -11,11 +11,16 @@ class WPSEO_Indexable_Service {
 		$type = $request->get_param( 'object_type' );
 		$provider = $this->get_provider( $type );
 
-		if( $provider === null || $provider->exists( $object_id ) ) {
+		if ( $provider === null ) {
 			return new WP_REST_Response( 'Unknown type '. $type, 404 );
 		}
 
 		$object_id = $request->get_param( 'object_id' );
+		if( ! $provider->is_indexable( $object_id ) ) {
+			return new WP_REST_Response( 'Object with id ' . $object_id . ' not found', 404 );
+
+		}
+
 		return new WP_REST_Response( $provider->get( $object_id ) );
 	}
 
