@@ -11,7 +11,7 @@ import flowRight from "lodash/flowRight";
 import IntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
-import activeKeyword from "./redux/reducers/activeKeyword";
+import openSidebarSectionsReducer from "./redux/reducers/openSidebarSections";
 import keywordsReducer from "./redux/reducers/keywords";
 import activeTab from "./redux/reducers/activeTab";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
@@ -52,7 +52,7 @@ function configureStore() {
 	const rootReducer = combineReducers( {
 		marksButtonStatus: markerStatusReducer,
 		analysis: analysis,
-		activeKeyword: activeKeyword,
+		openSidebarSections: openSidebarSectionsReducer,
 		keywords: keywordsReducer,
 		activeTab,
 	} );
