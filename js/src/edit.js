@@ -16,7 +16,7 @@ import keywordsReducer from "./redux/reducers/keywords";
 import activeTab from "./redux/reducers/activeTab";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
-import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.

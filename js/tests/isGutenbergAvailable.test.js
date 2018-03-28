@@ -1,4 +1,4 @@
-import isGutenbergDataAvailable from "../src/helpers/isGutenbergDataAvailable.js";
+import { isGutenbergDataAvailable, isGutenbergPostAvailable } from "../src/helpers/isGutenbergAvailable.js";
 
 describe( 'isGutenbergDataAvailable', () => {
 	it( 'returns true if both wp and wp.data are defined', () => {

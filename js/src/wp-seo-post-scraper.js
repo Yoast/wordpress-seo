@@ -24,7 +24,7 @@ import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetPreviewHelpers from "./analysis/snippetPreview";
 import UsedKeywords from "./analysis/usedKeywords";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
-import { isGutenbergPostAvailable } from "./helpers/isGutenbergDataAvailable";
+import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
