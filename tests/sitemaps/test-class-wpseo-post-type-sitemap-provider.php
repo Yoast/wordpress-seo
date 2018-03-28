@@ -123,9 +123,10 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_url
 	 */
 	public function test_get_url() {
-		$instance = $this->getMockBuilder( 'WPSEO_Post_Type_Sitemap_Provider_Double' )
-						 ->setMethods( array( 'get_home_url' ) )
-						 ->getMock();
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Post_Type_Sitemap_Provider_Double' )
+			->setMethods( array( 'get_home_url' ) )
+			->getMock();
 
 		$instance
 			->expects( $this->once() )
