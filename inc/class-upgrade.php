@@ -99,6 +99,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_71();
 		}
 
+		if ( version_compare( $version, '7.3-RC0', '<' ) ) {
+			$this->upgrade_73();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -509,6 +513,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Perform the 7.1 upgrade.
+	 *
+	 * @return void
 	 */
 	private function upgrade_71() {
 		$this->cleanup_option_data( 'wpseo_social' );
@@ -521,6 +527,17 @@ class WPSEO_Upgrade {
 
 			$this->cleanup_option_data( 'wpseo_titles' );
 		}
+	}
+
+	/**
+	 * Perform the 7.3 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_73() {
+		global $wpdb;
+		// We've moved the cornerstone checkbox to our proper namespace.
+		$wpdb->query( "UPDATE $wpdb->postmeta SET meta_key = '_yoast_wpseo_is_cornerstone' WHERE meta_key = '_yst_is_cornerstone'" );
 	}
 
 	/**
