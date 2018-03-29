@@ -92,13 +92,13 @@ class WPSEO_Help_Center {
 			array(
 				'title'       => __( 'Need some help?', 'wordpress-seo' ),
 				'description' => __( 'Go Premium and our experts will be there for you to answer any questions you might have about the setup and use of the plugin.', 'wordpress-seo' ),
-				'link'        => 'https://yoa.st/seo-premium-vt?utm_content=' . WPSEO_VERSION,
+				'link'        => WPSEO_Shortlinker::get( 'https://yoa.st/seo-premium-vt' ),
 				'linkText'    => __( 'Get Yoast SEO Premium now »', 'wordpress-seo' ),
 			),
 			array(
 				'title'       => __( 'Want to be a Yoast SEO Expert?', 'wordpress-seo' ),
 				'description' => __( 'Follow our Yoast SEO for WordPress training and become a certified Yoast SEO Expert!', 'wordpress-seo' ),
-				'link'        => 'https://yoa.st/wordpress-training-vt?utm_content=' . WPSEO_VERSION,
+				'link'        => WPSEO_Shortlinker::get( 'https://yoa.st/wordpress-training-vt' ),
 				'linkText'    => __( 'Enroll in the Yoast SEO for WordPress training »', 'wordpress-seo' ),
 			),
 		);
