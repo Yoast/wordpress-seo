@@ -88,6 +88,8 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	public function activate_hooks() {
 		if ( $this->get_option()->is_enabled() ) {
 			$this->schedule_cron();
+
+			return;
 		}
 
 		$this->unschedule_cron();
