@@ -86,7 +86,11 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 * Hooks to run on plugin activation.
 	 */
 	public function activate_hooks() {
-		$this->set_cron();
+		if ( $this->get_option()->is_enabled() ) {
+			$this->schedule_cron();
+		}
+
+		$this->unschedule_cron();
 	}
 
 	/**
@@ -223,12 +227,25 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Sets up the cronjob to get the new indexibility status.
+	 * Schedules the cronjob to get the new indexibility status.
 	 */
-	private function set_cron() {
-		if ( ! wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
-			wp_schedule_event( time(), 'weekly', 'wpseo_onpage_fetch' );
+	private function schedule_cron() {
+		if ( wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
+			return;
 		}
+
+		wp_schedule_event( time(), 'weekly', 'wpseo_onpage_fetch' );
+	}
+
+	/**
+	 * Unschedules the cronjob to get the new indexibility status.
+	 */
+	private function unschedule_cron() {
+		if ( ! wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
+			return;
+		}
+
+		wp_unschedule_event( time(), 'wpseo_onpage_fetch' );
 	}
 
 	/**
