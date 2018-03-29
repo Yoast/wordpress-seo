@@ -55,7 +55,7 @@ function configureStore() {
 		keywords: keywordsReducer,
 		analysis: analysisReducer,
 		activeKeyword: activeKeywordReducer,
-		cornerstone: cornerstoneContentReducer,
+		isCornerstone: cornerstoneContentReducer,
 		activeTab,
 	} );
 
