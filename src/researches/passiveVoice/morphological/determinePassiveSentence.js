@@ -1,5 +1,5 @@
 var filter = require( "lodash/filter" );
-var matchWordInSentence = require( "../../../stringProcessing/matchWordInSentence.js" ).isWordInSentence;
+var getWords = require( "../../../stringProcessing/getWords.js" );
 
 // Verb-form lists
 var getPassiveVerbsRussian = require( "../../russian/passiveVoice/participles.js" )().all;
@@ -13,10 +13,8 @@ var getPassiveVerbsRussian = require( "../../russian/passiveVoice/participles.js
  */
 var matchPassiveVerbs = function( sentence, passiveVerbs ) {
 	return filter( passiveVerbs, function( word ) {
-		if (matchWordInSentence( word, sentence )==true) {
-			console.log(word)
-		}
-		return matchWordInSentence( word, sentence );
+		var sentenceWords = getWords( sentence );
+		return sentenceWords.includes( word );
 	} );
 };
 

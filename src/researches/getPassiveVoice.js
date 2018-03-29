@@ -27,7 +27,6 @@ var getPassivesMorphological = function( sentenceObjects, language ) {
 
 	forEach( sentenceObjects, function( sentence ) {
 		var strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
-		var passive = false;
 
 		sentence.setPassive( determinePassiveSentence( strippedSentence, language ) );
 
