@@ -11,8 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform = Yoast_Form::get_instance();
-
+$yform  = Yoast_Form::get_instance();
 $import = false;
 
 /**
@@ -25,7 +24,7 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 	check_admin_referer( 'wpseo-import' );
 
 	$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-	$action = 'import';
+	$action     = 'import';
 }
 elseif ( filter_input( INPUT_POST, 'import_external' ) ) {
 	check_admin_referer( 'wpseo-import-plugins' );
