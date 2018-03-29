@@ -7,7 +7,7 @@ export const CLOSE_ALL_SIDEBAR_SECTIONS = `${ PREFIX }CLOSE_ALL_SIDEBAR_SECTIONS
 /**
  * An action creator for the action that opens a section.
  *
- * @param {string} section   The the to be opened section.
+ * @param {string} section   The to be opened section.
  *
  * @returns {Object}         A (WPSEO_)OPEN_SECTION action.
  */
