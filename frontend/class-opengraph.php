@@ -749,6 +749,21 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
+	 * Outputs the Facebook app_id.
+	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
+	 * @return void
+	 */
+	public function app_id() {
+		$app_id = WPSEO_Options::get( 'fbadminapp', '' );
+		if ( $app_id !== '' ) {
+			$this->og_tag( 'fb:app_id', $app_id );
+		}
+	}
+
+
+	/**
 	 * Outputs the site owner.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
