@@ -5,7 +5,7 @@ import cornerstoneContentReducer from "../../../src/redux/reducers/cornerstoneCo
 
 describe( "cornerstone reducers", () => {
 	describe( "cornerstoneContentReducer on receiving the TOGGLE_CORNERSTONE_CONTENT action", () => {
-		it( "should set cornerstoneContent's current value to true if it was false", () => {
+		it( "should set isCornerstoneContent's current value to true if it was false", () => {
 			const state = false;
 			const action = toggleCornerstoneContent();
 			const expected = true;
@@ -14,7 +14,7 @@ describe( "cornerstone reducers", () => {
 			expect( actual ).toEqual( expected );
 		} );
 
-		it( "should set cornerstoneContent's current value to false if it was true", () => {
+		it( "should set isCornerstoneContent's current value to false if it was true", () => {
 			const state = true;
 			const action = toggleCornerstoneContent();
 			const expected = false;
