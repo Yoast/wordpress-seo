@@ -29,11 +29,10 @@ const PremiumBenefitsList = () => {
 		localizedData &&
 			<StyledList role="list">
 				{ localizedData.intl.map( ( benefit, index ) => {
-					let formattedBenefit = benefit.replace( "<strong>", "{{strong}}" ).replace( "</strong>", "{{/strong}}" );
 					return <li key={ index }>
 						<span aria-hidden="true"></span>
 						{ interpolateComponents( {
-							mixedString: formattedBenefit,
+							mixedString: benefit.replace( "<strong>", "{{strong}}" ).replace( "</strong>", "{{/strong}}" ),
 							components: { strong: <strong /> },
 						} ) }
 					</li>;
