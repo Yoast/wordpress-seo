@@ -32,7 +32,7 @@
 	printf(
 		/* translators: 1: opens a link to a related knowledge base article. 2: closes the link. */
 		esc_html__( 'The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served. %1$sLearn more about redirect types%2$s.', 'wordpress-seo-premium' ),
-		'<a href="http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types" target="_blank">',
+		'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/2jb' ) . '" target="_blank">',
 		'</a>'
 	);
 	?>
