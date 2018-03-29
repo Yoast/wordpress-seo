@@ -60,7 +60,7 @@ class WPSEO_Shortlinker {
 	private function get_php_version() {
 		$version = explode( '.', PHP_VERSION );
 
-		return $version[0] . '.' . $version[1] . '.' . $version[2];
+		return (int) $version[0] . '.' . (int) $version[1] . '.' . (int) $version[2];
 	}
 
 	/**
