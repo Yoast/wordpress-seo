@@ -65,6 +65,7 @@ class WPSEO_Shortlinker {
 	 */
 	private function get_php_version() {
 		$version = explode( '.', PHP_VERSION );
+
 		return $version[0] . '.' . $version[1] . '.' . $version[2];
 	}
 
@@ -75,16 +76,13 @@ class WPSEO_Shortlinker {
 	 */
 	private function get_software() {
 		$software = 'free';
-		$features = new WPSEO_Features();
-		if ( $features->is_premium() ) {
-			if ( class_exists( 'WPSEO_Product_Premium' ) ) {
-				$software          = 'premium-inactive';
-				$product_premium   = new WPSEO_Product_Premium();
-				$extension_manager = new WPSEO_Extension_Manager();
+		if ( class_exists( 'WPSEO_Product_Premium' ) ) {
+			$software          = 'premium-inactive';
+			$product_premium   = new WPSEO_Product_Premium();
+			$extension_manager = new WPSEO_Extension_Manager();
 
-				if ( $extension_manager->is_activated( $product_premium->get_slug() ) ) {
-					$software = 'premium-activated';
-				}
+			if ( $extension_manager->is_activated( $product_premium->get_slug() ) ) {
+				$software = 'premium-activated';
 			}
 		}
 
