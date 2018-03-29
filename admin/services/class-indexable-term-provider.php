@@ -1,6 +1,13 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Services
+ */
 
-
+/**
+ * Represents the indexable term service.
+ */
 class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_Provider {
 
 	/**
@@ -45,9 +52,11 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * @param $object_id
+	 * Checks if the given object id belongs to an indexable.
 	 *
-	 * @return bool Whether the obvj
+	 * @param int $object_id The object id.
+	 *
+	 * @return bool Whether the object id is indexable.
 	 */
 	public function is_indexable( $object_id ) {
 		return true;

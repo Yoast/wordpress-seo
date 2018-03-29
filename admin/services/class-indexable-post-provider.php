@@ -1,6 +1,13 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Services
+ */
 
-
+/**
+ * Represents the indexable post service.
+ */
 class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_Provider {
 
 	/**
@@ -48,11 +55,11 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Checks if the given object id is indexable.
+	 * Checks if the given object id belongs to an indexable.
 	 *
-	 * @param integer $object_id The target object id.
+	 * @param int $object_id The object id.
 	 *
-	 * @return bool Whether the object is indexable.
+	 * @return bool Whether the object id is indexable.
 	 */
 	public function is_indexable( $object_id ) {
 		if ( get_post( $object_id ) === null ) {
@@ -63,7 +70,11 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 			return false;
 		}
 
-		if ( get_post_status ( $object_id ) === 'private' ) {
+		if ( get_post_status( $object_id ) === 'private' ) {
+			return false;
+		}
+
+		if ( ! WPSEO_Post_Type::is_post_type_indexable( get_post_type( $object_id ) ) ) {
 			return false;
 		}
 

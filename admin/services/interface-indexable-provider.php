@@ -1,5 +1,13 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Endpoints
+ */
 
+/**
+ * Dictates the required methods for an indexable service provider.
+ */
 interface WPSEO_Indexable_Service_Provider {
 
 	/**
@@ -12,9 +20,11 @@ interface WPSEO_Indexable_Service_Provider {
 	public function get( $object_id );
 
 	/**
-	 * @param $object_id
+	 * Checks if the given object id belongs to an indexable.
 	 *
-	 * @return bool Whether the obvj
+	 * @param int $object_id The object id.
+	 *
+	 * @return bool Whether the object id is indexable.
 	 */
 	public function is_indexable( $object_id );
 }

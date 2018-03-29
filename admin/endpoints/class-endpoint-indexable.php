@@ -1,6 +1,13 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Endpoints
+ */
 
-
+/**
+ * Represents an implementation of the WPSEO_Endpoint interface to register one or multiple endpoints.
+ */
 class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storable {
 
 	const REST_NAMESPACE = 'yoast/v1';
@@ -12,6 +19,11 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 	/** @var WPSEO_Indexable_Service */
 	private $service;
 
+	/**
+	 * Sets the service provider.
+	 *
+	 * @param WPSEO_Indexable_Service $service The service provider.
+	 */
 	public function __construct( WPSEO_Indexable_Service $service ) {
 		$this->service = $service;
 	}
@@ -43,7 +55,7 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 	 * @return bool Whether or not data can be retrieved.
 	 */
 	public function can_retrieve_data() {
-		return true;//current_user_can( self::CAPABILITY_RETRIEVE );
+		return current_user_can( self::CAPABILITY_RETRIEVE );
 	}
 
 	/**
