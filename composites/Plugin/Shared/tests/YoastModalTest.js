@@ -1,6 +1,5 @@
 import React from "react";
 import { mount } from "enzyme";
-import { findDOMNode } from "react-dom";
 
 import YoastModal from "../components/YoastModal";
 
@@ -23,7 +22,6 @@ describe( "YoastModal", () => {
 	} );
 
 	test( "the YoastModal with its own elements renders children when open", () => {
-
 		const hook = document.createElement( "div" );
 
 		const wrapper = mount(
