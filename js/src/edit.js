@@ -13,8 +13,8 @@ import markerStatusReducer from "./redux/reducers/markerButtons";
 import keywordsReducer from "./redux/reducers/keywords";
 import analysisReducer from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeywordReducer from "./redux/reducers/activeKeyword";
-import ContentAnalysis from "./components/contentAnalysis/ReadabilityAnalysis";
-import SeoAnalysis from "./components/contentAnalysis/SeoAnalysis";
+import activeTab from "./redux/reducers/activeTab";
+import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
@@ -56,6 +56,7 @@ function configureStore() {
 		analysis: analysisReducer,
 		activeKeyword: activeKeywordReducer,
 		cornerstone: cornerstoneContentReducer,
+		activeTab,
 	} );
 
 	return createStore( rootReducer, {}, flowRight( enhancers ) );
@@ -66,15 +67,16 @@ function configureStore() {
  *
  * @param {ReactElement} Component The component to be wrapped.
  * @param {Object} store Redux store.
+ * @param {Object} props React props to pass to the Component.
  *
  * @returns {ReactElement} The wrapped component.
  */
-function wrapInTopLevelComponents( Component, store ) {
+function wrapInTopLevelComponents( Component, store, props ) {
 	return (
 		<IntlProvider
 			messages={ localizedData.intl } >
 			<Provider store={ store } >
-				<Component hideMarksButtons={ localizedData.show_markers !== "1" } />
+				<Component { ...props } />
 			</Provider>
 		</IntlProvider>
 	);
@@ -91,9 +93,13 @@ function wrapInTopLevelComponents( Component, store ) {
  */
 function renderReactApp( target, component, store ) {
 	const targetElement = document.getElementById( target );
+	const props = {
+		title: localizedData.analysisHeadingTitle,
+		hideMarksButtons: localizedData.show_markers !== "1",
+	};
 	if( targetElement ) {
 		ReactDOM.render(
-			wrapInTopLevelComponents( component, store ),
+			wrapInTopLevelComponents( component, store, props ),
 			targetElement
 		);
 	}
@@ -131,8 +137,7 @@ function renderSnippetPreview( store ) {
  * @returns {void}
  */
 function renderReactApps( store, args ) {
-	renderReactApp( args.readabilityTarget, ContentAnalysis, store );
-	renderReactApp( args.seoTarget, SeoAnalysis, store );
+	renderReactApp( args.analysisSection, AnalysisSection, store );
 }
 
 /**
