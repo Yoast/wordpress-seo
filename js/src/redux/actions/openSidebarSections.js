@@ -7,28 +7,28 @@ export const CLOSE_ALL_SIDEBAR_SECTIONS = `${ PREFIX }CLOSE_ALL_SIDEBAR_SECTIONS
 /**
  * An action creator for the action that opens a section.
  *
- * @param {string} sectionId The id of the to be opened section.
+ * @param {string} section   The the to be opened section.
  *
  * @returns {Object}         A (WPSEO_)OPEN_SECTION action.
  */
-export const openSidebarSection = function( sectionId ) {
+export const openSidebarSection = function( section ) {
 	return {
 		type: OPEN_SIDEBAR_SECTION,
-		sectionId,
+		addSection: section,
 	};
 };
 
 /**
  * An action creator for the action that closes a section.
  *
- * @param {string} sectionId The id of the to be closed section.
+ * @param {string} section   The to be closed section.
  *
  * @returns {Object}         A (WPSEO_)CLOSE_SECTION action.
  */
-export const closeSidebarSection = function( sectionId ) {
+export const closeSidebarSection = function( section ) {
 	return {
 		type: CLOSE_SIDEBAR_SECTION,
-		sectionId,
+		removeSection: section,
 	};
 };
 
