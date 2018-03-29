@@ -31,7 +31,7 @@ class WPSEO_Cornerstone_Field {
 			checked( $this->get_meta_value( $post->ID ), '1', false )
 		);
 
-		$return .= sprintf( '<label for="%1$s">', WPSEO_Cornerstone::META_NAME );
+		$return .= sprintf( '<label for="%1$s">', WPSEO_Cornerstone::FIELD_NAME );
 
 		$return .= sprintf(
 			/* translators: 1: link open tag; 2: link close tag. */
