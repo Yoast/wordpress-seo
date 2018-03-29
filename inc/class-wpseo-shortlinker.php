@@ -17,20 +17,14 @@ class WPSEO_Shortlinker {
 	 * @return string The final URL.
 	 */
 	public function build_shortlink( $url ) {
-		$php_version      = $this->get_php_version();
-		$platform_version = $GLOBALS['wp_version'];
-		$software_version = WPSEO_VERSION;
-		$role             = $this->get_filtered_user_role();
-		$software         = $this->get_software();
-
 		return add_query_arg(
 			array(
-				'php_version'      => $php_version,
+				'php_version'      => $this->get_php_version(),
 				'platform'         => 'wordpress',
-				'platform_version' => $platform_version,
-				'software'         => $software,
-				'software_version' => $software_version,
-				'role'             => $role,
+				'platform_version' => $GLOBALS['wp_version'],
+				'software'         => $this->get_software(),
+				'software_version' => WPSEO_VERSION,
+				'role'             => $this->get_filtered_user_role(),
 			),
 			$url
 		);
@@ -75,8 +69,13 @@ class WPSEO_Shortlinker {
 	 * @return string The software name + activation state.
 	 */
 	private function get_software() {
-		$software = 'free';
-		if ( class_exists( 'WPSEO_Product_Premium' ) ) {
+		if ( ! class_exists( 'WPSEO_Product_Premium' ) ) {
+			return 'free';
+		}
+
+		static $software;
+
+		if ( $software === null ) {
 			$software          = 'premium-inactive';
 			$product_premium   = new WPSEO_Product_Premium();
 			$extension_manager = new WPSEO_Extension_Manager();
@@ -107,6 +106,10 @@ class WPSEO_Shortlinker {
 		);
 		$filtered_roles = array_intersect( $built_in_roles, $user->roles );
 
-		return current( $filtered_roles );
+		$role = current( $filtered_roles );
+		if ( ! $role ) {
+			$role = 'unknown';
+		}
+		return $role;
 	}
 }
