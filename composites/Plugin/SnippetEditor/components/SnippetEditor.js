@@ -60,6 +60,10 @@ const EditSnippetButton = Button.extend`
 	}
 `;
 
+const CloseEditorButton = Button.extend`
+	margin-left: 20px;
+`;
+
 class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
@@ -90,7 +94,7 @@ class SnippetEditor extends React.Component {
 	 *
 	 * @returns {ReactElement} The rendered react element.
 	 */
-	renderEditorFields() {
+	renderEditor() {
 		const {
 			data,
 			onChange,
@@ -115,12 +119,12 @@ class SnippetEditor extends React.Component {
 				titleLengthAssessment={ titleLengthAssessment }
 				descriptionLengthAssessment={ descriptionLengthAssessment }
 			/>
-			<Button onClick={ this.close }>
+			<CloseEditorButton onClick={ this.close }>
 				<FormattedMessage
 					id="snippet-editor.close-editor"
 					defaultMessage="Close snippet editor"
 				/>
-			</Button>
+			</CloseEditorButton>
 		</React.Fragment>;
 	}
 
@@ -329,7 +333,7 @@ class SnippetEditor extends React.Component {
 					/>
 				</EditSnippetButton>
 
-				{ this.renderEditorFields() }
+				{ this.renderEditor() }
 			</div>
 		);
 	}
