@@ -14,14 +14,15 @@ import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import FixedWidthContainer from "./fixedWidthContainer";
 import colors from "../../../../style-guide/colors";
 
+/*
+ * These colors should not be abstracted. They are chosen because Google renders
+ * the snippet like this.
+ */
 const colorTitle = "#1e0fbe";
 const colorUrl = "#006621";
 const colorDescription = "#545454";
 const colorGeneratedDescription = "#777";
 const colorDate = "#808080";
-
-const colorCaret = colors.$color_active;
-const colorCaretHover = "#bfbfbf";
 
 const MAX_WIDTH = 600;
 const WIDTH_PADDING = 20;
@@ -420,11 +421,11 @@ export default class SnippetPreview extends PureComponent {
 		} = this.props;
 
 		if ( activeField === fieldName ) {
-			return addCaretStyle( BaseComponent, colorCaret, mode );
+			return addCaretStyle( BaseComponent, colors.$color_snippet_active, mode );
 		}
 
 		if ( hoveredField === fieldName ) {
-			return addCaretStyle( BaseComponent, colorCaretHover, mode );
+			return addCaretStyle( BaseComponent, colors.$color_snippet_hover, mode );
 		}
 
 		return BaseComponent;
