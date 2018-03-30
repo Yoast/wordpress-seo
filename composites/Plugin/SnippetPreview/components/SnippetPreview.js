@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import partial from "lodash/partial";
 import { parse } from "url";
+import { FormattedMessage } from "react-intl";
 
 /* Internal dependencies */
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
@@ -562,7 +563,12 @@ export default class SnippetPreview extends PureComponent {
 				           width={ MAX_WIDTH + 2 * WIDTH_PADDING }
 				           padding={ WIDTH_PADDING }>
 					<PartContainer>
-						<ScreenReaderText>SEO title preview:</ScreenReaderText>
+						<ScreenReaderText>
+							<FormattedMessage
+								id="snippetPreview.seoTitlePreview"
+								defaultMessage="SEO title preview"
+							/>:
+						</ScreenReaderText>
 						<Title onClick={ onClick.bind( null, "title" ) }
 						       onMouseOver={ partial( onMouseOver, "title" ) }
 						       onMouseLeave={ partial( onMouseLeave, "title" ) }>
@@ -572,15 +578,24 @@ export default class SnippetPreview extends PureComponent {
 								</TitleUnbounded>
 							</TitleBounded>
 						</Title>
-						<ScreenReaderText>Slug preview:</ScreenReaderText>
+						<ScreenReaderText>
+							<FormattedMessage
+								id="snippetPreview.urlPreview"
+								defaultMessage="Url preview"
+							/>:
+						</ScreenReaderText>
 						{ amp }
 						{ this.renderUrl() }
 						{ downArrow }
 					</PartContainer>
 					{ separator }
 					<PartContainer>
-						<ScreenReaderText>Meta description
-							preview:</ScreenReaderText>
+						<ScreenReaderText>
+							<FormattedMessage
+								id="snippetPreview.metaDescriptionPreview"
+								defaultMessage="Meta description preview"
+							/>:
+						</ScreenReaderText>
 						<Description isDescriptionGenerated={ isDescriptionGenerated }
 						             onClick={ onClick.bind( null, "description" ) }
 						             onMouseOver={ partial( onMouseOver, "description" ) }
