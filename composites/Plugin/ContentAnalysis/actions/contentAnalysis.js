@@ -126,7 +126,7 @@ export function updateReadabilityResult( result ) {
 /**
  * An action creator for setting the overall score for a readability result.
  *
- * @param {Object} score The overall score.
+ * @param {Object} results The overall score.
  *
  * @returns {Object} A set overall score action.
  */
@@ -140,7 +140,7 @@ export function setOverallScoreReadability( results ) {
 /**
 * An action creator for setting the overall score result.
 *
-* @param {Object} score The overall score.
+* @param {Object} results The overall score.
 *
 * @returns {Object} A set overall score action.
 */
