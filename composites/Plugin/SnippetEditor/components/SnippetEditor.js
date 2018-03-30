@@ -52,7 +52,12 @@ const ModeSwitcher = styled.div`
 	vertical-align: top;
 `;
 
-const EditSnippetButton = Button.extend`
+const SnippetEditorButton = Button.extend`
+	border: 1px solid #dbdbdb;
+	box-shadow: none;
+`;
+
+const EditSnippetButton = SnippetEditorButton.extend`
 	margin: 10px 0 0 9px;
 	
 	& svg {
@@ -60,7 +65,7 @@ const EditSnippetButton = Button.extend`
 	}
 `;
 
-const CloseEditorButton = Button.extend`
+const CloseEditorButton = SnippetEditorButton.extend`
 	margin-left: 20px;
 `;
 
