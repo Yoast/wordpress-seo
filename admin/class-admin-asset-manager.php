@@ -184,6 +184,17 @@ class WPSEO_Admin_Asset_Manager {
 
 		return array(
 			array(
+				'name' => 'wp-element',
+				'src'  => 'gutenberg/element',
+			),
+			array(
+				'name' => 'wp-data',
+				'src'  => 'gutenberg/data',
+				'deps' => array(
+					self::PREFIX . 'wp-element',
+				),
+			),
+			array(
 				'name' => 'react-dependencies',
 				// Load webpack-commons for bundle support.
 				'src'  => 'commons-' . $flat_version,
@@ -268,6 +279,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
 					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-data',
 				),
 			),
 			array(
@@ -276,6 +288,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-data',
 				),
 			),
 			array(

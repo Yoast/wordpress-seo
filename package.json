@@ -18,7 +18,12 @@
   "scripts": {
     "test": "jest",
     "build": "webpack --config ./webpack/webpack.config.prod.js",
-    "start": "webpack-dev-server --config ./webpack/webpack.config.dev.js --progress"
+    "start": "webpack-dev-server --config ./webpack/webpack.config.dev.js --progress",
+    "gutenberg": "yarn clone-gutenberg && yarn build-gutenberg && yarn copy-gutenberg && yarn remove-gutenberg",
+    "clone-gutenberg": "git clone git@github.com:WordPress/gutenberg.git __gutenberg",
+    "build-gutenberg": "cd __gutenberg && npm i && npm run build",
+    "copy-gutenberg": "mkdir -p js/dist/gutenberg && cp __gutenberg/data/build/index.js js/dist/gutenberg/data.js && cp __gutenberg/element/build/index.js js/dist/gutenberg/element.js",
+    "remove-gutenberg": "rm -rf __gutenberg"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",

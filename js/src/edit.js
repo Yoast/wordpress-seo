@@ -15,7 +15,7 @@ import activeKeyword from "./redux/reducers/activeKeyword";
 import activeTab from "./redux/reducers/activeTab";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
-import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import { isGutenbergDataAvailable, isGutenbergEditorAvailable }  from "./helpers/isGutenbergAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
@@ -55,7 +55,10 @@ function configureStore() {
 		activeTab,
 	} );
 
-	return createStore( rootReducer, {}, flowRight( enhancers ) );
+//	return createStore( rootReducer, {}, flowRight( enhancers ) );
+	return wp.data.registerStore( 'YoastSEO', {
+		reducer: rootReducer,
+	} );
 }
 
 /**
@@ -156,7 +159,7 @@ export function initialize( args ) {
 	let data = {};
 
 	// Only use Gutenberg's data if Gutenberg is available.
-	if ( isGutenbergDataAvailable() ) {
+	if ( isGutenbergDataAvailable() && isGutenbergEditorAvailable() ) {
 		const gutenbergData = new Data( wp.data, args.onRefreshRequest );
 		gutenbergData.subscribeToGutenberg();
 		data = gutenbergData;
