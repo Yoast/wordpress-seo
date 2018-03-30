@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import SnippetEditor from "./SnippetEditor";
+import debounce from "lodash/debounce";
 
 const Container = styled.div`
 	background-color: white;
@@ -44,8 +45,6 @@ export default class SnippetPreviewExample extends Component {
 				// eslint-disable-next-line no-console
 				console.log( "clicked:", type );
 			},
-			hoveredField: "",
-			activeField: "description",
 			breadcrumbs: [ "hallo", "is", "it", "me", "you" ],
 			isAmp: true,
 			isEditorOpen: false,
@@ -53,9 +52,7 @@ export default class SnippetPreviewExample extends Component {
 
 		this.onMouseOver = this.onMouseOver.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
-		this.onChangedData = this.onChangedData.bind( this );
-		this.onOpenEditor = this.onOpenEditor.bind( this );
-		this.onClose = this.onClose.bind( this );
+		this.onChangedData = debounce( this.onChangedData.bind( this ), 150 );
 	}
 
 	/**
@@ -131,35 +128,24 @@ export default class SnippetPreviewExample extends Component {
 		} );
 	}
 
-	onChangedData( field, data ) {
+	/**
+	 * Handles a piece of changed data.
+	 *
+	 * @param {string} key The key for this data.
+	 * @param {*} data The data itself.
+	 *
+	 * @returns {void}
+	 */
+	onChangedData( key, data ) {
 		this.setState( {
-			[ field ]: data,
-		} );
-	}
-
-	onClose() {
-		this.setState( {
-			isEditorOpen: false,
-		} );
-	}
-
-	onOpenEditor() {
-		this.setState( {
-			isEditorOpen: true,
+			[ key ]: data,
 		} );
 	}
 
 	/**
-	 * Renders the SnippetPreview component.
+	 * Renders an example of how to use the snippet editor.
 	 *
-	 * @param {string} title                  The title tag.
-	 * @param {string} url                    The URL of the page for which to generate a snippet.
-	 * @param {string} description            The meta description.
-	 * @param {string} keyword                The keyword for the page.
-	 * @param {string} isDescriptionGenerated Whether the description was generated.
-	 * @param {string} locale                 The locale of the page.
-	 *
-	 * @returns {ReactElement} The SnippetPreview component.
+	 * @returns {ReactElement} The rendered snippet editor.
 	 */
 	render() {
 		const data = {
@@ -172,11 +158,6 @@ export default class SnippetPreviewExample extends Component {
 		let props = Object.assign( {}, this.state, {
 			data: data,
 			onChange: this.onChangedData,
-			onCloseEditor: this.onClose,
-			onOpenEditor: this.onOpenEditor,
-			isEditorOpen: this.state.isEditorOpen,
-			onMouseOver: this.onMouseOver,
-			onMouseLeave: this.onMouseLeave,
 		} );
 
 		return <Container>

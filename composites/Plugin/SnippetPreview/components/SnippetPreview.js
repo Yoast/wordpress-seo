@@ -1,5 +1,5 @@
 /* External dependencies */
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 import transliterate from "yoastseo/js/stringProcessing/transliterate";
@@ -12,6 +12,7 @@ import { parse } from "url";
 /* Internal dependencies */
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import FixedWidthContainer from "./fixedWidthContainer";
+import colors from "../../../../style-guide/colors";
 
 const colorTitle = "#1e0fbe";
 const colorUrl = "#006621";
@@ -19,7 +20,7 @@ const colorDescription = "#545454";
 const colorGeneratedDescription = "#777";
 const colorDate = "#808080";
 
-const colorCaret = "#555555";
+const colorCaret = colors.$color_active;
 const colorCaretHover = "#bfbfbf";
 
 const MAX_WIDTH = 600;
@@ -218,7 +219,7 @@ function highlightKeyword( locale, keyword, text ) {
 	} );
 }
 
-export default class SnippetPreview extends Component {
+export default class SnippetPreview extends PureComponent {
 	/**
 	 * Renders the SnippetPreview component.
 	 *
