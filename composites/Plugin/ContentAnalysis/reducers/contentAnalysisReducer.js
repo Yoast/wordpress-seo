@@ -1,6 +1,6 @@
 import { readabilityResultsReducer } from "../reducers/contentAnalysis/readabilityResultsReducer";
 import { keywordResultsReducer } from "../reducers/contentAnalysis/keywordResultsReducer";
-import { overallScoreReducer } from "./contentAnalysis/overallScoreReducer";
+import { overallScoreReducer } from "../reducers/contentAnalysis/overallScoreReducer";
 import { combineReducers } from "redux";
 
 export default combineReducers( {
