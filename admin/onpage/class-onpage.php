@@ -154,9 +154,9 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Builds the indexability notification
+	 * Builds the indexability notification.
 	 *
-	 * @return Yoast_Notification
+	 * @return Yoast_Notification The notification.
 	 */
 	private function get_indexability_notification() {
 		$notice = sprintf(
@@ -179,7 +179,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	/**
 	 * Sends a request to Ryte to get the indexability.
 	 *
-	 * @return int(0)|int(1)|false
+	 * @return int|bool The indexability value.
 	 */
 	protected function request_indexability() {
 		$parameters = array();
@@ -230,6 +230,8 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Schedules the cronjob to get the new indexibility status.
+	 *
+	 * @return void
 	 */
 	private function schedule_cron() {
 		if ( wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
@@ -241,6 +243,8 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Unschedules the cronjob to get the new indexibility status.
+	 *
+	 * @return void
 	 */
 	private function unschedule_cron() {
 		if ( ! wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
@@ -252,6 +256,8 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Redo the fetch request for Ryte.
+	 *
+	 * @return void
 	 */
 	private function catch_redo_listener() {
 		if ( ! self::is_active() ) {
@@ -268,7 +274,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	/**
 	 * Checks if WordFence protects the site against 'fake' Google crawlers.
 	 *
-	 * @return boolean
+	 * @return boolean True if WordFence protects the site.
 	 */
 	private function wordfence_protection_enabled() {
 		if ( ! class_exists( 'wfConfig' ) ) {
