@@ -273,19 +273,29 @@ class SnippetEditor extends React.Component {
 				<ModeSwitcher>
 					<MobileButton onClick={ () => onChange( "mode", MODE_MOBILE ) } isActive={ mode === MODE_MOBILE }>
 						<SvgIcon icon="mobile" size="22px" color="currentColor" />
-						<ScreenReaderText>Mobile preview</ScreenReaderText>
+						<ScreenReaderText>
+							<FormattedMessage
+								id="snippetEditor.desktopPreview"
+								defaultMessage="Mobile preview"
+							/>
+						</ScreenReaderText>
 					</MobileButton>
 
 					<DesktopButton onClick={ () => onChange( "mode", MODE_DESKTOP ) } isActive={ mode === MODE_DESKTOP }>
 						<SvgIcon icon="desktop" size="18px" color="currentColor" />
-						<ScreenReaderText>Desktop preview</ScreenReaderText>
+						<ScreenReaderText>
+							<FormattedMessage
+								id="snippetEditor.desktopPreview"
+								defaultMessage="Desktop preview"
+							/>
+						</ScreenReaderText>
 					</DesktopButton>
 				</ModeSwitcher>
 
 				<EditSnippetButton onClick={ isOpen ? this.close : this.open }>
 					<SvgIcon icon="edit" />
 					<FormattedMessage
-						id="snippet-editor.edit-snippet"
+						id="snippetEditor.editSnippet"
 						defaultMessage="Edit snippet"
 					/>
 				</EditSnippetButton>
@@ -316,4 +326,4 @@ SnippetEditor.defaultProps = {
 	mode: MODE_MOBILE,
 };
 
-export default injectIntl( SnippetEditor );
+export default SnippetEditor;
