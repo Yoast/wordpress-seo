@@ -27,8 +27,9 @@ const MAX_WIDTH = 600;
 const WIDTH_PADDING = 20;
 const DESCRIPTION_LIMIT = 280;
 
-export const DESKTOP = "desktop";
-export const MOBILE = "mobile";
+export const MODE_DESKTOP = "desktop";
+export const MODE_MOBILE = "mobile";
+export const MODES = [ MODE_DESKTOP, MODE_MOBILE ];
 
 export const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: white;
@@ -72,7 +73,7 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 			display: block;
 			position: absolute;
 			top: -3px;
-			left: ${ () => mode === DESKTOP ? "-22px" : "-40px" };
+			left: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
 			width: 24px;
 			height: 24px;
 			background-image: url( ${ () => angleRight( color ) });
@@ -378,11 +379,11 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {string} The description to render.
 	 */
 	getDescription() {
-		if ( this.props.mode === MOBILE && this.props.description !== this.state.description ) {
+		if ( this.props.mode === MODE_MOBILE && this.props.description !== this.state.description ) {
 			return this.state.description + " ...";
 		}
 
-		if ( this.props.mode === DESKTOP ) {
+		if ( this.props.mode === MODE_DESKTOP ) {
 			return truncate( this.props.description, {
 				length: DESCRIPTION_LIMIT,
 				omission: "",
@@ -462,7 +463,7 @@ export default class SnippetPreview extends PureComponent {
 
 		let urlContent;
 
-		if ( this.props.mode === MOBILE ) {
+		if ( this.props.mode === MODE_MOBILE ) {
 			urlContent = this.getBreadcrumbs();
 		} else {
 			urlContent = highlightKeyword( locale, keyword, url );
@@ -511,7 +512,7 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {void}
 	 */
 	componentDidUpdate() {
-		if ( this.props.mode === MOBILE ) {
+		if ( this.props.mode === MODE_MOBILE ) {
 			this.fitTitle();
 			this.fitDescription();
 		}
@@ -542,9 +543,9 @@ export default class SnippetPreview extends PureComponent {
 			Description,
 		} = this.getPreparedComponents( mode );
 
-		const separator = mode === DESKTOP ? null : <Separator/>;
-		const downArrow = mode === DESKTOP ? <UrlDownArrow/> : null;
-		const amp       = mode === DESKTOP || ! isAmp ? null : <Amp/>;
+		const separator = mode === MODE_DESKTOP ? null : <Separator/>;
+		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow/> : null;
+		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp/>;
 
 		const renderedDate = this.renderDate();
 
@@ -607,10 +608,10 @@ export default class SnippetPreview extends PureComponent {
 	 * }} The prepared components.
 	 */
 	getPreparedComponents( mode ) {
-		const BaseDescription = mode === DESKTOP ? DesktopDescription : MobileDescription;
-		const PartContainer = mode === DESKTOP ? DesktopPartContainer : MobilePartContainer;
-		const Container = mode === DESKTOP ? DesktopContainer : MobileContainer;
-		const TitleUnbounded = mode === DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
+		const BaseDescription = mode === MODE_DESKTOP ? DesktopDescription : MobileDescription;
+		const PartContainer = mode === MODE_DESKTOP ? DesktopPartContainer : MobilePartContainer;
+		const Container = mode === MODE_DESKTOP ? DesktopContainer : MobileContainer;
+		const TitleUnbounded = mode === MODE_DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
 
 		const Title = this.addCaretStyles( "title", BaseTitle );
 		const Description = this.addCaretStyles( "description", BaseDescription );
@@ -637,7 +638,7 @@ SnippetPreview.propTypes = {
 	keyword: PropTypes.string,
 	isDescriptionGenerated: PropTypes.bool,
 	locale: PropTypes.string,
-	mode: PropTypes.oneOf( [ DESKTOP, MOBILE ] ),
+	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
 
 	onClick: PropTypes.func.isRequired,
@@ -654,7 +655,7 @@ SnippetPreview.defaultProps = {
 	locale: "en_US",
 	hoveredField: "",
 	activeField: "",
-	mode: "desktop",
+	mode: MODE_DESKTOP,
 	isAmp: false,
 
 	onHover: () => {},

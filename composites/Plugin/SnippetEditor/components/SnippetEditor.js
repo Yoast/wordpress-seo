@@ -1,8 +1,11 @@
+/* External dependencies */
 import React from "react";
 import styled from "styled-components";
 import { injectIntl, FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
+
+/* Internal dependencies */
+import SnippetPreview, { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/components/SnippetPreview";
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
@@ -268,12 +271,12 @@ class SnippetEditor extends React.Component {
 				<SnippetPreview { ...props } />
 
 				<ModeSwitcher>
-					<MobileButton onClick={ () => onChange( "mode", "mobile" ) } isActive={ mode === "mobile" }>
+					<MobileButton onClick={ () => onChange( "mode", MODE_MOBILE ) } isActive={ mode === MODE_MOBILE }>
 						<SvgIcon icon="mobile" size="22px" color="currentColor" />
 						<ScreenReaderText>Mobile preview</ScreenReaderText>
 					</MobileButton>
 
-					<DesktopButton onClick={ () => onChange( "mode", "desktop" ) } isActive={ mode === "desktop" }>
+					<DesktopButton onClick={ () => onChange( "mode", MODE_DESKTOP ) } isActive={ mode === MODE_DESKTOP }>
 						<SvgIcon icon="desktop" size="18px" color="currentColor" />
 						<ScreenReaderText>Desktop preview</ScreenReaderText>
 					</DesktopButton>
@@ -303,14 +306,14 @@ SnippetEditor.propTypes = {
 		slug: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ),
-	mode: PropTypes.string,
+	mode: PropTypes.oneOf( MODES ),
 	onChange: PropTypes.func,
 };
 
 SnippetEditor.defaultProps = {
 	onChange: () => {},
 	isEditorOpen: false,
-	mode: "mobile",
+	mode: MODE_MOBILE,
 };
 
 export default injectIntl( SnippetEditor );

@@ -1,4 +1,4 @@
-import SnippetPreview, { DESKTOP, MOBILE } from "../components/SnippetPreview";
+import SnippetPreview, { MODE_DESKTOP, MODE_MOBILE } from "../components/SnippetPreview";
 import React from "react";
 import renderer from "react-test-renderer";
 
@@ -6,7 +6,7 @@ const defaultArgs = {
 	description: "Description",
 	title: "Title",
 	url: "https://example.org",
-	mode: DESKTOP,
+	mode: MODE_DESKTOP,
 	onClick: jest.fn(),
 };
 
@@ -62,11 +62,11 @@ describe( "SnippetPreview", () => {
 
 	describe( "mobile mode", () => {
 		it( "renders differently than desktop", () => {
-			renderSnapshotWithArgs( { mode: MOBILE } );
+			renderSnapshotWithArgs( { mode: MODE_MOBILE } );
 		} );
 
 		it( "renders an AMP logo when isAmp is true", () => {
-			renderSnapshotWithArgs( { mode: MOBILE, isAmp: true } );
+			renderSnapshotWithArgs( { mode: MODE_MOBILE, isAmp: true } );
 		} );
 	} );
 } );
