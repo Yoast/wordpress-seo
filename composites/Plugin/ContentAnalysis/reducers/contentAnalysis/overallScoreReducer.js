@@ -1,27 +1,4 @@
-import { SET_OVERALL_SCORE, UPDATE_OVERALL_SCORE } from "../../actions/contentAnalysis";
-import findIndex from "lodash/findIndex";
-
-/**
- * Updates the overall score.
- *
- * @param {Object} state The state.
- * @param {Object} action The action.
- *
- * @returns {Object} The updated overall score.
- */
-function updateOverallScore( state, action ) {
-	let scoreIndex = findIndex( state, { id: action.score.id } );
-
-	// Replace a score when there already is a score with the given id.
-	if( scoreIndex !== -1 ) {
-		let newScore = state.filter( function( result ) {
-			return result !== state[ scoreIndex ];
-		} );
-		return newScore.concat( action.score );
-	}
-	return state.concat( action.score );
-}
-
+import { SET_OVERALL_SCORE } from "../../actions/contentAnalysis";
 
 /**
  * A reducer for the score object.
@@ -34,8 +11,8 @@ function updateOverallScore( state, action ) {
 export function overallScoreReducer( state, action ) {
 	switch ( action.type ) {
 		case SET_OVERALL_SCORE:
-			return action.score;
-		case UPDATE_OVERALL_SCORE:
-			return updateOverallScore( state, action );
+			return action.results.overallScore;
+		default:
+			return state;
 	}
 }
