@@ -15,7 +15,7 @@ $yform  = Yoast_Form::get_instance();
 $import = false;
 
 /**
- * The import method is used to dermine if there should be something imported.
+ * The import method is used to determine if there should be something imported.
  *
  * In case of POST the user is on the Yoast SEO import page and in case of the GET the user sees a notice from
  * Yoast SEO that we can import stuff for that plugin.
