@@ -76,6 +76,15 @@ class Database_Migration {
 	}
 
 	/**
+	 * Retrieves the state of the migrations.
+	 *
+	 * @return bool True if migrations have completed successfully.
+	 */
+	public function has_migration_error() {
+		return ( $this->get_migration_state() === self::MIGRATION_STATE_ERROR );
+	}
+
+	/**
 	 * Retrieves the database charset.
 	 *
 	 * @return string Charset configured for the database.

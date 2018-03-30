@@ -93,7 +93,7 @@ class Plugin implements Integration {
 		}
 
 		// Everything is loaded, set initialize state.
-		$this->initialize_success = $this->database_migration->is_usable();
+		$this->initialize_success = ! $this->database_migration->has_migration_error();
 	}
 
 	/**
