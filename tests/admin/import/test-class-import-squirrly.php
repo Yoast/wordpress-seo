@@ -197,7 +197,9 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 		global $wpdb;
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}qss DROP COLUMN seo" );
 
+		$wpdb->suppress_errors( true );
 		$result = $this->class_instance->run_import();
+		$wpdb->suppress_errors( false );
 
 		$this->assertEquals( $this->status( 'import', false ), $result );
 	}
