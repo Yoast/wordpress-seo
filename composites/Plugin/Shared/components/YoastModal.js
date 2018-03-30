@@ -24,7 +24,11 @@ const StyledButton = styled.button`
 `;
 
 class BaseYoastModal extends React.Component {
-
+	/**
+	 * The constructor.
+	 *
+	 * @param {Object} props The props to use.
+	 */
 	constructor( props ) {
 		super( props );
 	}
