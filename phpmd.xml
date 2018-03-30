@@ -31,7 +31,7 @@
 		</properties>
 	</rule>
 
-	<rule ref="rulesets/naming.xml/LongVariable" />
+	<rule ref="rulesets/naming.xml/LongVariable" value="30" />
 	<rule ref="rulesets/naming.xml/ShortMethodName" />
 	<rule ref="rulesets/naming.xml/ConstructorWithNameAsEnclosingClass" />
 	<rule ref="rulesets/naming.xml/ConstantNamingConventions" />
