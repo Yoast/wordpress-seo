@@ -15,7 +15,7 @@ import {
 	SET_OVERALL_SCORE_READABILITY,
 	setOverallScoreReadability,
 	SET_OVERALL_SCORE_SEO,
-	setOverallScoreSeo
+	setOverallScoreSeo,
 } from "../contentAnalysis";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
