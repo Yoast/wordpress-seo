@@ -12,8 +12,10 @@ import {
 	removeKeyword,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
-	SET_OVERALL_SCORE,
-	setOverallScore,
+	SET_OVERALL_SCORE_READABILITY,
+	setOverallScoreReadability,
+	SET_OVERALL_SCORE_SEO,
+	setOverallScoreSeo
 } from "../contentAnalysis";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
@@ -139,31 +141,44 @@ describe( "setOverallScore readability function", function() {
 		];
 
 		const expected = {
-			type: SET_OVERALL_SCORE,
+			type: SET_OVERALL_SCORE_READABILITY,
 			results: results,
 		};
-		const actual = setOverallScore( results );
+		const actual = setOverallScoreReadability( results );
 		expect( actual ).toEqual( expected );
 	} );
 } );
 
 describe( "setOverallScore seo function", function() {
 	it( "creates the setOverallScore for seo results action", function() {
-		let keyword = "keyword";
-		let resultsPerKeyword = [ {
-			keyword: keyword,
+		let keyword1 = "keyword1";
+		let keyword2 = "keyword2";
+		let scorePerKeyword = [ {
+			keyword: keyword1,
 			results: [
 				{ id: "result", score: 3, description: "This is a bad score!", markingIsActive: false },
 				{ id: "result", score: 9, description: "This is a great score!", markingIsActive: true },
-				{ id: "overallScore", score: 3 },
 			],
+			overallScore: {
+				score: 3, description: "This is a bad score!",
+			},
+		},
+		{
+			keyword: keyword2,
+			results: [
+				{ id: "result", score: 9, description: "This is a great score!", markingIsActive: false },
+				{ id: "result", score: 8, description: "This is a great score!", markingIsActive: true },
+			],
+			overallScore: {
+				score: 8, description: "This is a great score!",
+			},
 		} ];
 
 		const expected = {
-			type: SET_OVERALL_SCORE,
-			resultsPerKeyword: resultsPerKeyword,
+			type: SET_OVERALL_SCORE_SEO,
+			results: scorePerKeyword,
 		};
-		const actual = setOverallScore( resultsPerKeyword );
+		const actual = setOverallScoreSeo( scorePerKeyword );
 		expect( actual ).toEqual( expected );
 	} );
 } );
