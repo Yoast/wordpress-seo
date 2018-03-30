@@ -4,6 +4,7 @@ const webpack = require( "webpack" );
 const PORT = 3333;
 
 module.exports = {
+	devtool: "cheap-module-eval-source-map",
 	entry: [
 		// Polyfill
 		"babel-polyfill",
@@ -71,6 +72,7 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
+		new webpack.NamedModulesPlugin(),
 	],
 	resolve: {
 		extensions: [ ".json", ".jsx", ".js" ],
