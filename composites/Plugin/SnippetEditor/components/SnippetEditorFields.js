@@ -22,9 +22,6 @@ const messages = defineMessages( {
 	},
 } );
 
-const colorCaret = "#5b9dd9";
-const colorCaretHover = "#bfbfbf";
-
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 	'<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">' +
 	'<path fill="' + color + '" d="M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z" />' +
@@ -40,10 +37,10 @@ const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 function getCaretColor( props ) {
 	switch ( true ) {
 		case props.isActive:
-			return colorCaret;
+			return colors.$color_snippet_focus;
 
 		case props.isHovered:
-			return colorCaretHover;
+			return colors.$color_snippet_hover;
 
 		default:
 			return "transparent";
