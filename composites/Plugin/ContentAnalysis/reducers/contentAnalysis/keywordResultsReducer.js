@@ -1,5 +1,4 @@
-import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD, SET_OVERALL_SCORE, UPDATE_OVERALL_SCORE } from "../../actions/contentAnalysis";
-import overallScoreReducer	from "./overallScoreReducer";
+import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD } from "../../actions/contentAnalysis";
 import findIndex from "lodash/findIndex";
 import omit from "lodash/omit";
 
@@ -123,10 +122,6 @@ export function keywordResultsReducer( state = initialState, action ) {
 			return omit( state, action.keyword );
 		case SET_SEO_RESULTS_FOR_KEYWORD:
 			return updateSeoResultsForKeyword( state, action );
-		case SET_OVERALL_SCORE:
-			return overallScoreReducer( state, action );
-		case UPDATE_OVERALL_SCORE:
-			return overallScoreReducer( state, action );
 		default:
 			return state;
 	}

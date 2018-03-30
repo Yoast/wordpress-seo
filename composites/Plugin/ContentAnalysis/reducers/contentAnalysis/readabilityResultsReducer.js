@@ -1,8 +1,4 @@
-import {
-	UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS, SET_OVERALL_SCORE,
-	UPDATE_OVERALL_SCORE
-} from "../../actions/contentAnalysis";
-import overallScoreReducer	from "./overallScoreReducer";
+import { UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS } from "../../actions/contentAnalysis";
 import findIndex from "lodash/findIndex";
 
 /**
@@ -52,10 +48,6 @@ export function readabilityResultsReducer( state = initialState, action ) {
 			return action.results;
 		case UPDATE_READABILITY_RESULT:
 			return updateReadabilityResult( state, action );
-		case SET_OVERALL_SCORE:
-			return overallScoreReducer( state, action );
-		case UPDATE_OVERALL_SCORE:
-			return overallScoreReducer( state, action );
 		default:
 			return state;
 	}

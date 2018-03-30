@@ -11,7 +11,7 @@ import {
 	setSeoResults,
 	removeKeyword,
 	setReadabilityResults,
-	setSeoResultsForKeyword,
+	setSeoResultsForKeyword, SET_OVERALL_SCORE, setOverallScore,
 } from "../contentAnalysis";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
@@ -125,6 +125,43 @@ describe( "removeKeyword function", function() {
 			keyword: keyword,
 		};
 		const actual = removeKeyword( keyword );
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "setOverallScore readability function", function() {
+	it( "creates the setOverallScore for readability results action", function() {
+		let results = [
+			{ id: "result", score: 3, description: "This is a bad score!", markingIsActive: false },
+			{ id: "overallScore", score: 3 },
+		];
+
+		const expected = {
+			type: SET_OVERALL_SCORE,
+			results: results,
+		};
+		const actual = setOverallScore( results );
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "setOverallScore seo function", function() {
+	it( "creates the setOverallScore for seo results action", function() {
+		let keyword = "keyword";
+		let resultsPerKeyword = [ {
+			keyword: keyword,
+			results: [
+				{ id: "result", score: 3, description: "This is a bad score!", markingIsActive: false },
+				{ id: "result", score: 9, description: "This is a great score!", markingIsActive: true },
+				{ id: "overallScore", score: 3 },
+			],
+		} ];
+
+		const expected = {
+			type: SET_OVERALL_SCORE,
+			resultsPerKeyword: resultsPerKeyword,
+		};
+		const actual = setOverallScore( resultsPerKeyword );
 		expect( actual ).toEqual( expected );
 	} );
 } );

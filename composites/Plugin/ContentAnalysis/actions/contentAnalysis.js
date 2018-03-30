@@ -136,17 +136,3 @@ export function setOverallScore( score ) {
 		score: score,
 	};
 }
-
-/**
- * An action creator for updating the overall score score.
- *
- * @param {Object}  score The overall score score.
- *
- * @returns {Object} An updated overall score action.
- */
-export function updateOverallScore( score ) {
-	return {
-		type: UPDATE_OVERALL_SCORE,
-		score: score,
-	};
-}
