@@ -110,12 +110,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: April 3rd, 2018
 
 Enhancements:
+* Updated all Help Center videos with new recordings.
 * Improves consistency of capitalisation in settings and tabs.
 * Changes the words 'post type' into 'content type' throughout the plugin.
 * Adds functionality to import noindex, nofollow and OpenGraph tags from All in One SEO Pack.
 * Improves the traffic light icon accessibility.
 
 Bugfixes:
+* Fixes a bug where the Facebook app-id could no longer be set in the Social settings.
 * Fixes a bug existing Yoast SEO data could be overwritten when importing data from All in One SEO Pack.
 * Fixes a bug where the Ryte notification is not removed when disabling the Ryte feature.
 * Fixes a bug where setting a page to `noindex` through the `wpseo_robots` filter did not properly remove the `canonical` element.
