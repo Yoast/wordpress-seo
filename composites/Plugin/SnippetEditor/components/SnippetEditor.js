@@ -11,7 +11,7 @@ import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import colors from "../../../../style-guide/colors.json";
-import { lengthAssessmentShape } from "../constants";
+import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
 
 const SwitcherButton = Button.extend`
 	border: none;
@@ -60,25 +60,6 @@ const EditSnippetButton = Button.extend`
 	}
 `;
 
-const replaceVars = [
-	{
-		name: "title",
-		description: "The title of your post.",
-	},
-	{
-		name: "post_type",
-		description: "The post type of your post.",
-	},
-	{
-		name: "snippet",
-		description: "The snippet of your post.",
-	},
-	{
-		name: "snippet_manual",
-		description: "The manual snippet of your post.",
-	},
-];
-
 class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
@@ -115,6 +96,7 @@ class SnippetEditor extends React.Component {
 			onChange,
 			titleLengthAssessment,
 			descriptionLengthAssessment,
+			replacementVariables,
 		} = this.props;
 		const { activeField, hoveredField, isOpen } = this.state;
 
@@ -129,7 +111,7 @@ class SnippetEditor extends React.Component {
 				hoveredField={ hoveredField === "url" ? "slug" : hoveredField }
 				onChange={ onChange }
 				onFocus={ this.setFieldFocus }
-				replacementVariables={ replaceVars }
+				replacementVariables={ replacementVariables }
 				titleLengthAssessment={ titleLengthAssessment }
 				descriptionLengthAssessment={ descriptionLengthAssessment }
 			/>
@@ -244,6 +226,46 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
+	 * Processes replacement variables in the content.
+	 *
+	 * @param {string} content The content to process.
+	 *
+	 * @returns {string} The processed content.
+	 */
+	processReplacementVariables( content ) {
+		const { replacementVariables } = this.props;
+
+		for ( const { name, value } of replacementVariables ) {
+			content = content.replace( new RegExp( "%%" + name + "%%", "g" ), value );
+		}
+
+		return content;
+	}
+
+	/**
+	 * Maps the data from to be suitable for the preview.
+	 *
+	 * @param {Object} originalData The data from the form.
+	 *
+	 * @returns {Object} The data for the preview.
+	 */
+	mapDataToPreview( originalData ) {
+		const { baseUrl, mapDataToPreview } = this.props;
+
+		const mappedData = {
+			title: this.processReplacementVariables( originalData.title ),
+			url: baseUrl + originalData.slug,
+			description: this.processReplacementVariables( originalData.description ),
+		};
+
+		if ( mapDataToPreview ) {
+			return mapDataToPreview( mappedData, originalData );
+		}
+
+		return mappedData;
+	}
+
+	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -261,16 +283,16 @@ class SnippetEditor extends React.Component {
 			isOpen,
 		} = this.state;
 
+		const mappedData = this.mapDataToPreview( data );
+
 		const props = {
-			title: data.title,
-			description: data.description,
-			url: data.url,
 			mode: this.props.mode,
 			activeField,
 			hoveredField,
 			onMouseOver: this.onMouseOver,
 			onMouseLeave: this.onMouseLeave,
 			onClick: this.onClick,
+			...mappedData,
 		};
 
 		return (
@@ -314,19 +336,18 @@ class SnippetEditor extends React.Component {
 }
 
 SnippetEditor.propTypes = {
-	replacementVariables: PropTypes.arrayOf( PropTypes.shape( {
-		name: PropTypes.string,
-		description: PropTypes.string,
-	} ) ),
+	replacementVariables: replacementVariablesShape,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ),
+	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	onChange: PropTypes.func,
 	titleLengthAssessment: lengthAssessmentShape,
 	descriptionLengthAssessment: lengthAssessmentShape,
+	mapDataToPreview: PropTypes.func,
 };
 
 SnippetEditor.defaultProps = {
@@ -343,6 +364,7 @@ SnippetEditor.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
+	mapDataToPreview: null,
 };
 
 export default SnippetEditor;

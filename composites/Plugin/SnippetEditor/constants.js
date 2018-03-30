@@ -5,3 +5,8 @@ export const lengthAssessmentShape = PropTypes.shape( {
 	actual: PropTypes.number,
 	score: PropTypes.number,
 } );
+
+export const replacementVariablesShape = PropTypes.arrayOf( PropTypes.shape( {
+	name: PropTypes.string,
+	value: PropTypes.string,
+} ) );

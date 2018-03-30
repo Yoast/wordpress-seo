@@ -5,6 +5,7 @@ import createMentionPlugin, { defaultSuggestionsFilter } from "draft-js-mention-
 import { serializeEditor, unserializeEditor } from "../serialization";
 import flow from "lodash/flow";
 import PropTypes from "prop-types";
+import { replacementVariablesShape } from "../constants";
 
 /**
  * Creates a DraftJS editor state from a string.
@@ -151,7 +152,7 @@ ReplaceVarEditor.propTypes = {
 	content: PropTypes.string.isRequired,
 	onChange: PropTypes.func,
 	className: PropTypes.string,
-	replacementVariables: PropTypes.array,
+	replacementVariables: replacementVariablesShape,
 
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,

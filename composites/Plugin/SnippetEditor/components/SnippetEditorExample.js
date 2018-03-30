@@ -9,6 +9,25 @@ const Container = styled.div`
 	margin: 5em auto 0; 
 `;
 
+const replacementVariables = [
+	{
+		name: "title",
+		value: "Title",
+	},
+	{
+		name: "post_type",
+		value: "Gallery",
+	},
+	{
+		name: "snippet",
+		value: "The snippet of your post.",
+	},
+	{
+		name: "snippet_manual",
+		value: "The manual snippet of your post.",
+	},
+];
+
 export default class SnippetEditorExample extends Component {
 	/**
 	 * Constructs a snippet preview example
@@ -160,6 +179,7 @@ export default class SnippetEditorExample extends Component {
 		let props = Object.assign( {}, this.state, {
 			data: data,
 			onChange: this.onChangedData,
+			replacementVariables,
 			titleLengthAssessment: {
 				max: 600,
 				actual: this.state.currentTitleLength,
@@ -178,8 +198,18 @@ export default class SnippetEditorExample extends Component {
 			/>
 
 			<h2>Test Sliders</h2>
-			<input type="range" min={ 0 } max={ 600 } onChange={ ( event ) => this.onChangedData( "currentTitleLength", parseInt( event.target.value, 10 ) ) } />
-			<input type="range" min={ 0 } max={ 320 } onChange={ ( event ) => this.onChangedData( "currentDescriptionLength", parseInt( event.target.value, 10 ) ) } />
+			<input
+				type="range"
+				min={ 0 }
+				max={ 600 }
+				onChange={ ( event ) => this.onChangedData( "currentTitleLength", parseInt( event.target.value, 10 ) ) }
+			/>
+			<input
+				type="range"
+				min={ 0 }
+				max={ 320 }
+				onChange={ ( event ) => this.onChangedData( "currentDescriptionLength", parseInt( event.target.value, 10 ) ) }
+			/>
 		</Container>;
 	}
 }

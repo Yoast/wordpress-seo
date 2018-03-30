@@ -4,7 +4,7 @@ import { injectIntl, intlShape, defineMessages } from "react-intl";
 import ReplaceVarEditor from "./ReplaceVarEditor";
 import PropTypes from "prop-types";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
-import { lengthAssessmentShape } from "../constants";
+import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
 import colors from "../../../../style-guide/colors";
 
 const messages = defineMessages( {
@@ -255,10 +255,7 @@ class SnippetEditorFields extends React.Component {
 }
 
 SnippetEditorFields.propTypes = {
-	replacementVariables: PropTypes.arrayOf( PropTypes.shape( {
-		name: PropTypes.string,
-		description: PropTypes.string,
-	} ) ),
+	replacementVariables: replacementVariablesShape,
 	onChange: PropTypes.func,
 	onFocus: PropTypes.func,
 	data: PropTypes.shape( {
