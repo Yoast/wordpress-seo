@@ -9,6 +9,18 @@ const pkg = require( "../package.json" );
 const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
 const outputFilename = "[name]-" + pluginVersionSlug + ".min.js";
 
+const wpDependencies = [
+	"element",
+	"data",
+];
+const externals = {};
+wpDependencies.forEach( wpDependency => {
+	externals[ "@wordpress/" + wpDependency ] = path.resolve(
+		__dirname,
+		"node_modules/gutenberg/" + wpDependency,
+	);
+} );
+
 const defaultWebpackConfig = {
 	devtool: "eval",
 	entry: paths.entry,
@@ -18,11 +30,19 @@ const defaultWebpackConfig = {
 		filename: outputFilename,
 		jsonpFunction: "yoastWebpackJsonp",
 	},
+	externals,
 	resolve: {
 		extensions: [ ".js", ".jsx" ],
 	},
 	module: {
 		rules: [
+			{
+				test: /.js$/,
+				include: wpDependencies
+					.map( dependency => path.resolve( __dirname, "node_modules/gutenberg", dependency ) )
+					.concat( [ path.resolve( __dirname, "src" ) ] ),
+				use: "babel-loader",
+			},
 			{
 				test: /.jsx?$/,
 				use: [

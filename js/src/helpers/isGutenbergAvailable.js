@@ -1,6 +1,4 @@
-/* global wp */
-
-import isUndefined from "lodash/isUndefined";
+import has from "lodash/has";
 
 /**
  * Checks if the data API from Gutenberg is available.
@@ -8,7 +6,7 @@ import isUndefined from "lodash/isUndefined";
  * @returns {boolean} True if the data API is available.
  */
 export const isGutenbergDataAvailable = () => {
-	return ( ! isUndefined( window.wp ) && ! isUndefined( wp.data ) );
+	return has( window, "wp.data" );
 };
 
 /**
@@ -21,5 +19,14 @@ export const isGutenbergDataAvailable = () => {
  * @returns {boolean} True if the Gutenberg editor is being used.
  */
 export const isGutenbergPostAvailable = () => {
-	return ! isUndefined( window._wpGutenbergPost );
+	return has( window, "_wpGutenbergPost" );
+};
+
+/**
+ * Checks if the data API from Gutenberg is available.
+ *
+ * @returns {boolean} True if the data API is available.
+ */
+export const isGutenbergEditorAvailable = () => {
+	return has( window, "wp.editor.Blocks" );
 };
