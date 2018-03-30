@@ -1,16 +1,15 @@
 # Todo
 
-- Class alias -> dynamisch via autoloader?
-  - Unittest die verifieerd dat class aliasses worden aangemaakt
+### ORM
+- Created at --- is not set on 
 
-Ensure Prefixed is used in code
+### Travis
 - Travis configuratie om Prefix classes te gebruiken
 
 ---- Tests -----
 
-## Tests
-Move all existing tests to `/tests/integrations/`.
-Create `/tests/unittests/` for unittests.
+### Tests
+Add more integration tests, remove @code-coverage-ignore on integration methods.
 
 ## Terms
 - internal link count [functionality] 2nd iteration
