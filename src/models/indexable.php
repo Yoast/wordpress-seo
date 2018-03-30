@@ -53,4 +53,33 @@ use Yoast\YoastSEO\Yoast_Model;
  * @property int     $incoming_link_count
  */
 class Indexable extends Yoast_Model {
+	/**
+	 * Enhances the save method.
+	 *
+	 * @return boolean True on succes.
+	 */
+	public function save() {
+		$saved = parent::save();
+
+		if ( $saved ) {
+			do_action( 'wpseo_indexable_saved', $this );
+		}
+
+		return $saved;
+	}
+
+	/**
+	 * Enchances the delete method.
+	 *
+	 * @return boolean True on success.
+	 */
+	public function delete() {
+		$deleted = parent::delete();
+
+		if ( $deleted ) {
+			do_action( 'wpseo_indexable_deleted', $this );
+		}
+
+		return $deleted;
+	}
 }
