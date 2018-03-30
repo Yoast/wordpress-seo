@@ -19,7 +19,7 @@ const ScreenReaderText = ( props ) => {
 };
 
 ScreenReaderText.propTypes = {
-	children: PropTypes.node.isRequired,
+	children: PropTypes.string.isRequired,
 };
 
 export default ScreenReaderText;

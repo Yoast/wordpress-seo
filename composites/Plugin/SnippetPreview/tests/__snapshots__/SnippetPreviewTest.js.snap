@@ -126,7 +126,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
             }
           }
         >
-          Slug preview:
+          Url preview:
         </span>
         <div
           className="c7"
@@ -302,7 +302,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
             }
           }
         >
-          Slug preview:
+          Url preview:
         </span>
         <div
           className="c7"
@@ -477,7 +477,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
             }
           }
         >
-          Slug preview:
+          Url preview:
         </span>
         <div
           className="c7"
@@ -666,7 +666,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
           }
         }
       >
-        Slug preview:
+        Url preview:
       </span>
       <div
         className="c6"
@@ -839,7 +839,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
           }
         }
       >
-        Slug preview:
+        Url preview:
       </span>
       <div
         className="c6"
@@ -1010,7 +1010,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
             }
           }
         >
-          Slug preview:
+          Url preview:
         </span>
         <div
           className="c7"
@@ -1139,7 +1139,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
   background-size: 25px;
   content: "";
 }
@@ -1198,7 +1198,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
             }
           }
         >
-          Slug preview:
+          Url preview:
         </span>
         <div
           className="c8"
@@ -1327,7 +1327,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
   background-size: 25px;
   content: "";
 }
@@ -1386,7 +1386,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
             }
           }
         >
-          Slug preview:
+          Url preview:
         </span>
         <div
           className="c7"
@@ -1515,7 +1515,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
   background-size: 25px;
   content: "";
 }
@@ -1574,7 +1574,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
             }
           }
         >
-          Slug preview:
+          Url preview:
         </span>
         <div
           className="c7 c8"
@@ -1703,7 +1703,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#bfbfbf%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
   background-size: 25px;
   content: "";
 }
@@ -1762,7 +1762,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
             }
           }
         >
-          Slug preview:
+          Url preview:
         </span>
         <div
           className="c8"
@@ -1891,7 +1891,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#bfbfbf%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
   background-size: 25px;
   content: "";
 }
@@ -1950,7 +1950,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
             }
           }
         >
-          Slug preview:
+          Url preview:
         </span>
         <div
           className="c7"
@@ -2079,7 +2079,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#bfbfbf%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
   background-size: 25px;
   content: "";
 }
@@ -2138,7 +2138,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
             }
           }
         >
-          Slug preview:
+          Url preview:
         </span>
         <div
           className="c7 c8"
@@ -2318,7 +2318,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
             }
           }
         >
-          Slug preview:
+          Url preview:
         </span>
         <div
           className="c7"

@@ -1,6 +1,7 @@
 import SnippetPreview, { MODE_DESKTOP, MODE_MOBILE } from "../components/SnippetPreview";
 import React from "react";
 import renderer from "react-test-renderer";
+import { createComponentWithIntl } from "../../../../utils/intlProvider";
 
 const defaultArgs = {
 	description: "Description",
@@ -12,8 +13,7 @@ const defaultArgs = {
 
 const renderSnapshotWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	const tree = renderer
-		.create( <SnippetPreview {...args} /> )
+	const tree = createComponentWithIntl( <SnippetPreview {...args} /> )
 		.toJSON();
 
 	expect( tree ).toMatchSnapshot();

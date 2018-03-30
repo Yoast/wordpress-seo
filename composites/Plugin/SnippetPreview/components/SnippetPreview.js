@@ -14,6 +14,7 @@ import { FormattedMessage } from "react-intl";
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import FixedWidthContainer from "./fixedWidthContainer";
 import colors from "../../../../style-guide/colors";
+import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -563,12 +564,11 @@ export default class SnippetPreview extends PureComponent {
 				           width={ MAX_WIDTH + 2 * WIDTH_PADDING }
 				           padding={ WIDTH_PADDING }>
 					<PartContainer>
-						<ScreenReaderText>
-							<FormattedMessage
-								id="snippetPreview.seoTitlePreview"
-								defaultMessage="SEO title preview"
-							/>:
-						</ScreenReaderText>
+						<FormattedScreenReaderMessage
+							id="snippetPreview.seoTitlePreview"
+							defaultMessage="SEO title preview"
+							after=":"
+						/>
 						<Title onClick={ onClick.bind( null, "title" ) }
 						       onMouseOver={ partial( onMouseOver, "title" ) }
 						       onMouseLeave={ partial( onMouseLeave, "title" ) }>
@@ -578,24 +578,22 @@ export default class SnippetPreview extends PureComponent {
 								</TitleUnbounded>
 							</TitleBounded>
 						</Title>
-						<ScreenReaderText>
-							<FormattedMessage
-								id="snippetPreview.urlPreview"
-								defaultMessage="Url preview"
-							/>:
-						</ScreenReaderText>
+						<FormattedScreenReaderMessage
+							id="snippetPreview.urlPreview"
+							defaultMessage="Url preview"
+							after=":"
+						/>
 						{ amp }
 						{ this.renderUrl() }
 						{ downArrow }
 					</PartContainer>
 					{ separator }
 					<PartContainer>
-						<ScreenReaderText>
-							<FormattedMessage
-								id="snippetPreview.metaDescriptionPreview"
-								defaultMessage="Meta description preview"
-							/>:
-						</ScreenReaderText>
+						<FormattedScreenReaderMessage
+							id="snippetPreview.metaDescriptionPreview"
+							defaultMessage="Meta description preview"
+							after=":"
+						/>
 						<Description isDescriptionGenerated={ isDescriptionGenerated }
 						             onClick={ onClick.bind( null, "description" ) }
 						             onMouseOver={ partial( onMouseOver, "description" ) }
