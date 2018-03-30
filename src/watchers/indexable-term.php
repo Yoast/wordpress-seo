@@ -74,6 +74,8 @@ class Indexable_Term implements Integration {
 			$indexable->{$indexable_key} = $term_meta[ $meta_key ];
 		}
 
+		$indexable->primary_focus_keyword_score = $this->get_keyword_score( $term_meta['wpseo_focuskw'], $term_meta['wpseo_linkdex'] );
+
 		$indexable->is_robots_noindex = $this->get_noindex_value( $term_meta['wpseo_noindex'] );
 
 		// Not implemented yet.
@@ -126,7 +128,6 @@ class Indexable_Term implements Integration {
 			'wpseo_canonical' => 'canonical',
 
 			'wpseo_focuskw' => 'primary_focus_keyword',
-			'wpseo_linkdex' => 'primary_focus_keyword_score',
 
 			'wpseo_title'         => 'title',
 			'wpseo_desc'          => 'description',
@@ -190,5 +191,21 @@ class Indexable_Term implements Integration {
 	 */
 	protected function get_permalink( $term_id, $taxonomy ) {
 		return \get_term_link( $term_id, $taxonomy );
+	}
+
+	/**
+	 * Determines the focus keyword score.
+	 *
+	 * @param string $keyword The focus keyword that is set.
+	 * @param int    $score   The score saved on the meta data.
+	 *
+	 * @return null|int Score to use.
+	 */
+	protected function get_keyword_score( $keyword, $score ) {
+		if ( empty( $keyword ) ) {
+			return null;
+		}
+
+		return $score;
 	}
 }
