@@ -125,10 +125,10 @@ class Database_Migration {
 	/**
 	 * Retrieves the current migration state.
 	 *
-	 * @return int Migration state.
+	 * @return int|null Migration state.
 	 */
 	protected function get_migration_state() {
-		return (int) \get_transient( $this->get_error_transient_key() );
+		return \get_transient( $this->get_error_transient_key() );
 	}
 
 	/**
