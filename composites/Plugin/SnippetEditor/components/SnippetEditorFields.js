@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { injectIntl, intlShape, defineMessages } from "react-intl";
 import ReplaceVarEditor from "./ReplaceVarEditor";
 import PropTypes from "prop-types";
+import ProgressBar from "../../SnippetPreview/components/ProgressBar";
+import { lengthAssessmentShape } from "../constants";
+import colors from "../../../../style-guide/colors";
 
 const messages = defineMessages( {
 	seoTitle: {
@@ -171,6 +174,8 @@ class SnippetEditorFields extends React.Component {
 			data,
 			activeField,
 			hoveredField,
+			titleLengthAssessment,
+			descriptionLengthAssessment,
 		} = this.props;
 
 		const { title, slug, description } = data;
@@ -188,6 +193,12 @@ class SnippetEditorFields extends React.Component {
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 						/>
 					</InputContainer>
+
+					<ProgressBar
+						max={ titleLengthAssessment.max }
+						value={ titleLengthAssessment.actual }
+						progressColor={ this.getProgressColor( titleLengthAssessment.score ) }
+					/>
 				</FormSection>
 				<FormSection>
 					<label>{ intl.formatMessage( messages.slug ) }</label>
@@ -212,9 +223,34 @@ class SnippetEditorFields extends React.Component {
 							ref={ ref => this.setRef( "description", ref ) }
 						/>
 					</InputContainer>
+
+					<ProgressBar
+						max={ descriptionLengthAssessment.max }
+						value={ descriptionLengthAssessment.actual }
+						progressColor={ this.getProgressColor( descriptionLengthAssessment.score ) }
+					/>
 				</FormSection>
 			</StyledEditor>
 		);
+	}
+
+	/**
+	 * Returns the progress color for a given score.
+	 *
+	 * @param {number} score The score to determine a color for.
+	 *
+	 * @returns {string} A hex color.
+	 */
+	getProgressColor( score ) {
+		if ( score >= 7 ) {
+			return colors.$color_good;
+		}
+
+		if ( score >= 5 ) {
+			return colors.$color_ok;
+		}
+
+		return colors.$color_bad;
 	}
 }
 
@@ -232,11 +268,23 @@ SnippetEditorFields.propTypes = {
 	} ),
 	activeField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
 	hoveredField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
+	titleLengthAssessment: lengthAssessmentShape,
+	descriptionLengthAssessment: lengthAssessmentShape,
 	intl: intlShape.isRequired,
 };
 
 SnippetEditorFields.defaultProps = {
 	onChange: () => {},
+	titleLengthAssessment: {
+		max: 600,
+		actual: 0,
+		score: 0,
+	},
+	descriptionLengthAssessment: {
+		max: 320,
+		actual: 0,
+		score: 0,
+	},
 };
 
 export default injectIntl( SnippetEditorFields );

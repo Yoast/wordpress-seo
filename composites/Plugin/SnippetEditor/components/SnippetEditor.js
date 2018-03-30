@@ -1,7 +1,7 @@
 /* External dependencies */
 import React from "react";
 import styled from "styled-components";
-import { injectIntl, FormattedMessage } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
@@ -11,6 +11,7 @@ import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import colors from "../../../../style-guide/colors.json";
+import { lengthAssessmentShape } from "../constants";
 
 const SwitcherButton = Button.extend`
 	border: none;
@@ -109,7 +110,12 @@ class SnippetEditor extends React.Component {
 	 * @returns {ReactElement} The rendered react element.
 	 */
 	renderEditorFields() {
-		const { data, onChange } = this.props;
+		const {
+			data,
+			onChange,
+			titleLengthAssessment,
+			descriptionLengthAssessment,
+		} = this.props;
 		const { activeField, hoveredField, isOpen } = this.state;
 
 		if ( ! isOpen ) {
@@ -123,8 +129,9 @@ class SnippetEditor extends React.Component {
 				hoveredField={ hoveredField === "url" ? "slug" : hoveredField }
 				onChange={ onChange }
 				onFocus={ this.setFieldFocus }
-				replacementVariables={replaceVars}
-				ref={ this.setEditorFieldsRef }
+				replacementVariables={ replaceVars }
+				titleLengthAssessment={ titleLengthAssessment }
+				descriptionLengthAssessment={ descriptionLengthAssessment }
 			/>
 			<Button onClick={ this.close }>
 				<FormattedMessage
@@ -318,12 +325,24 @@ SnippetEditor.propTypes = {
 	} ),
 	mode: PropTypes.oneOf( MODES ),
 	onChange: PropTypes.func,
+	titleLengthAssessment: lengthAssessmentShape,
+	descriptionLengthAssessment: lengthAssessmentShape,
 };
 
 SnippetEditor.defaultProps = {
 	onChange: () => {},
 	isEditorOpen: false,
 	mode: MODE_MOBILE,
+	titleLengthAssessment: {
+		max: 600,
+		actual: 0,
+		score: 0,
+	},
+	descriptionLengthAssessment: {
+		max: 320,
+		actual: 0,
+		score: 0,
+	},
 };
 
 export default SnippetEditor;

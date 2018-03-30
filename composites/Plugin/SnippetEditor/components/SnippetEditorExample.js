@@ -9,7 +9,7 @@ const Container = styled.div`
 	margin: 5em auto 0; 
 `;
 
-export default class SnippetPreviewExample extends Component {
+export default class SnippetEditorExample extends Component {
 	/**
 	 * Constructs a snippet preview example
 	 *
@@ -48,6 +48,8 @@ export default class SnippetPreviewExample extends Component {
 			breadcrumbs: [ "hallo", "is", "it", "me", "you" ],
 			isAmp: true,
 			isEditorOpen: false,
+			currentTitleLength: 0,
+			currentDescriptionLength: 0,
 		};
 
 		this.onMouseOver = this.onMouseOver.bind( this );
@@ -158,12 +160,26 @@ export default class SnippetPreviewExample extends Component {
 		let props = Object.assign( {}, this.state, {
 			data: data,
 			onChange: this.onChangedData,
+			titleLengthAssessment: {
+				max: 600,
+				actual: this.state.currentTitleLength,
+				score: this.state.currentTitleLength > 300 ? 9 : 6,
+			},
+			descriptionLengthAssessment: {
+				max: 320,
+				actual: this.state.currentDescriptionLength,
+				score: this.state.currentDescriptionLength > 160 ? 9 : 3,
+			},
 		} );
 
 		return <Container>
 			<SnippetEditor
 				{ ...props }
 			/>
+
+			<h2>Test Sliders</h2>
+			<input type="range" min={ 0 } max={ 600 } onChange={ ( event ) => this.onChangedData( "currentTitleLength", parseInt( event.target.value, 10 ) ) } />
+			<input type="range" min={ 0 } max={ 320 } onChange={ ( event ) => this.onChangedData( "currentDescriptionLength", parseInt( event.target.value, 10 ) ) } />
 		</Container>;
 	}
 }
