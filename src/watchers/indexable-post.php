@@ -66,6 +66,11 @@ class Indexable_Post implements Integration {
 			$indexable->{$indexable_key} = $this->get_meta_value( $meta_key, $post_id );
 		}
 
+		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
+			$this->get_meta_value( 'focuskw', $post_id ),
+			$this->get_meta_value( 'linkdex', $post_id )
+		);
+
 		$indexable->is_robots_noindex = $this->get_robots_noindex( $this->get_meta_value( 'meta-robots-noindex', $post_id ) );
 
 		// Set additional meta-robots values.
@@ -241,7 +246,6 @@ class Indexable_Post implements Integration {
 	 */
 	protected function get_meta_lookup() {
 		return array(
-			'linkdex'       => 'primary_focus_keyword_score',
 			'focuskw'       => 'primary_focus_keyword',
 			'content_score' => 'readability_score',
 
@@ -270,5 +274,21 @@ class Indexable_Post implements Integration {
 	 */
 	protected function get_robots_options() {
 		return array( 'noimageindex', 'noarchive', 'nosnippet' );
+	}
+
+	/**
+	 * Determines the focus keyword score.
+	 *
+	 * @param string $keyword The focus keyword that is set.
+	 * @param int    $score   The score saved on the meta data.
+	 *
+	 * @return null|int Score to use.
+	 */
+	protected function get_keyword_score( $keyword, $score ) {
+		if ( empty( $keyword ) ) {
+			return null;
+		}
+
+		return $score;
 	}
 }
