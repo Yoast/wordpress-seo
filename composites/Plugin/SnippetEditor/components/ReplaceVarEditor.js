@@ -137,6 +137,7 @@ class ReplaceVarEditor extends React.Component {
 					ref={ ( element ) => {
 						this.editor = element;
 					} }
+					stripPastedStyles={ true }
 				/>
 				<MentionSuggestions
 					onSearchChange={ this.onSearchChange }
