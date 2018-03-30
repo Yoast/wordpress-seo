@@ -178,6 +178,7 @@ export default class SnippetEditorExample extends Component {
 
 		let props = Object.assign( {}, this.state, {
 			data: data,
+			baseUrl: "https://local.wordpress.test/",
 			onChange: this.onChangedData,
 			replacementVariables,
 			titleLengthAssessment: {
