@@ -23,6 +23,12 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'object_id', 'integer', array( 'unsigned' => true, 'null' => true, 'limit' => 11 ) );
 		$indexable_table->column( 'object_type', 'string', array( 'limit' => 16 ) );
 		$indexable_table->column( 'object_sub_type', 'string', array( 'null' => true, 'limit' => 100 ) );
+		$indexable_table->column( 'number_of_pages', 'integer', array(
+			'unsigned' => true,
+			'null'     => true,
+			'default'  => null,
+			'limit'    => 11,
+		) );
 
 		$indexable_table->column( 'permalink', 'string', array( 'null' => true, 'limit' => 255 ) );
 		$indexable_table->column( 'canonical', 'string', array( 'null' => true, 'limit' => 255 ) );
@@ -59,10 +65,9 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->finish();
 
 		$this->add_index( $table_name, array(
-			'object_id',
 			'object_type',
 			'object_sub_type',
-		), array( 'name' => 'object' ) );
+		), array( 'name' => 'indexable' ) );
 
 		$this->add_index( $table_name, array(
 			'primary_focus_keyword_score',
@@ -74,7 +79,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 			'is_cornerstone',
 			'object_type',
 			'object_sub_type',
-		), array( 'name' => 'is_cornerstone' ) );
+		), array( 'name' => 'cornerstones' ) );
 
 		$this->add_index( $table_name, array(
 			'incoming_link_count',
