@@ -6,13 +6,13 @@
  */
 
 /**
- * Test importing meta data from Ultimate SEO.
+ * Test importing meta data from SEO Framework.
  */
-class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
+class WPSEO_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Holds the class instance.
 	 *
-	 * @var WPSEO_Import_Ultimate_SEO
+	 * @var WPSEO_Import_SEO_Framework
 	 */
 	private $class_instance;
 
@@ -22,16 +22,16 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->class_instance = new WPSEO_Import_Ultimate_SEO();
+		$this->class_instance = new WPSEO_Import_SEO_Framework();
 	}
 
 	/**
 	 * Tests the plugin name function.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::get_plugin_name
+	 * @covers WPSEO_Import_SEO_Framework::get_plugin_name
 	 */
 	public function test_plugin_name() {
-		$this->assertEquals( 'Ultimate SEO', $this->class_instance->get_plugin_name() );
+		$this->assertEquals( 'SEO Framework', $this->class_instance->get_plugin_name() );
 	}
 
 	/**
@@ -40,14 +40,14 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Plugin_Importers::get
 	 */
 	public function test_importer_registered() {
-		$this->assertContains( 'WPSEO_Import_Ultimate_SEO', WPSEO_Plugin_Importers::get() );
+		$this->assertContains( 'WPSEO_Import_SEO_Framework', WPSEO_Plugin_Importers::get() );
 	}
 
 	/**
 	 * Tests whether we can return false when there's no detectable data.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::run_detect
-	 * @covers WPSEO_Import_Ultimate_SEO::detect
+	 * @covers WPSEO_Import_SEO_Framework::run_detect
+	 * @covers WPSEO_Import_SEO_Framework::detect
 	 */
 	public function test_detect_no_data() {
 		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
@@ -56,9 +56,9 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can detect data.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::__construct
-	 * @covers WPSEO_Import_Ultimate_SEO::run_detect
-	 * @covers WPSEO_Import_Ultimate_SEO::detect
+	 * @covers WPSEO_Import_SEO_Framework::__construct
+	 * @covers WPSEO_Import_SEO_Framework::run_detect
+	 * @covers WPSEO_Import_SEO_Framework::detect
 	 */
 	public function test_detect() {
 		$this->setup_post();
@@ -68,7 +68,7 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can return properly when there's nothing to import.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::run_import
+	 * @covers WPSEO_Import_SEO_Framework::run_import
 	 */
 	public function test_import_no_data() {
 		$this->assertEquals( $this->status( 'import', false ), $this->class_instance->run_import() );
@@ -77,10 +77,10 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can properly import data.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::run_import
-	 * @covers WPSEO_Import_Ultimate_SEO::import
-	 * @covers WPSEO_Import_Ultimate_SEO::meta_key_clone
-	 * @covers WPSEO_Import_Ultimate_SEO::meta_keys_clone
+	 * @covers WPSEO_Import_SEO_Framework::run_import
+	 * @covers WPSEO_Import_SEO_Framework::import
+	 * @covers WPSEO_Import_SEO_Framework::meta_key_clone
+	 * @covers WPSEO_Import_SEO_Framework::meta_keys_clone
 	 */
 	public function test_import() {
 		$post_id = $this->setup_post();
@@ -90,18 +90,22 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 		$seo_desc        = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
 		$robots_noindex  = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', true );
 		$robots_nofollow = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', true );
+		$twitter_title   = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'twitter-title', true );
+		$twitter_desc    = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'twitter-description', true );
 
 		$this->assertEquals( 1, $robots_noindex );
 		$this->assertEquals( 1, $robots_nofollow );
 		$this->assertEquals( 'Test title', $seo_title );
 		$this->assertEquals( 'Test description', $seo_desc );
+		$this->assertEquals( 'Test Twitter title', $twitter_title );
+		$this->assertEquals( 'Test Twitter description', $twitter_desc );
 		$this->assertEquals( $this->status( 'import', true ), $result );
 	}
 
 	/**
 	 * Tests whether we can properly return an error when there is no data to clean.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::run_cleanup
+	 * @covers WPSEO_Import_SEO_Framework::run_cleanup
 	 */
 	public function test_cleanup_no_data() {
 		$this->assertEquals( $this->status( 'cleanup', false ), $this->class_instance->run_cleanup() );
@@ -110,8 +114,8 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can properly clean up.
 	 *
-	 * @covers WPSEO_Import_Ultimate_SEO::run_cleanup
-	 * @covers WPSEO_Import_Ultimate_SEO::cleanup
+	 * @covers WPSEO_Import_SEO_Framework::run_cleanup
+	 * @covers WPSEO_Import_SEO_Framework::cleanup
 	 */
 	public function test_cleanup() {
 		$post_id = $this->setup_post();
@@ -123,6 +127,7 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $seo_title, false );
 		$this->assertEquals( $seo_desc, false );
 		$this->assertEquals( $this->status( 'cleanup', true ), $result );
+		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
 	}
 
 	/**
@@ -144,10 +149,13 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	 */
 	private function setup_post() {
 		$post_id = $this->factory()->post->create();
-		update_post_meta( $post_id, '_su_title', 'Test title' );
-		update_post_meta( $post_id, '_su_description', 'Test description' );
-		update_post_meta( $post_id, '_su_meta_robots_noindex', 'on' );
-		update_post_meta( $post_id, '_su_meta_robots_nofollow', 'on' );
+		update_post_meta( $post_id, '_genesis_title', 'Test title' );
+		update_post_meta( $post_id, '_genesis_description', 'Test description' );
+		update_post_meta( $post_id, '_genesis_noindex', 1 );
+		update_post_meta( $post_id, '_genesis_nofollow', 1 );
+		update_post_meta( $post_id, '_twitter_title', 'Test Twitter title' );
+		update_post_meta( $post_id, '_twitter_description', 'Test Twitter description' );
+
 		return $post_id;
 	}
 }
