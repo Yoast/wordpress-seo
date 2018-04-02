@@ -5,7 +5,7 @@ module.exports = {
 	},
 	readme: {
 		options: {
-			regEx: /(Stable tag: )(\d+(\.\d+){0,3})([^\n^\.\d]?.*?)(\n)/,
+			regEx: /(Stable tag:\s+)(\d+(\.\d+){0,3})([^\n^\.\d]?.*?)(\n)/,
 			preVersionMatch: "$1",
 			postVersionMatch: "$5",
 		},
@@ -15,7 +15,7 @@ module.exports = {
 	// When changing or adding entries, make sure to update `aliases.yml` for "update-version-trunk".
 	pluginFile: {
 		options: {
-			regEx: /(\* Version: )(\d+(\.\d+){0,3})([^\n^\.\d]?.*?)(\n)/,
+			regEx: /(\* Version:\s+)(\d+(\.\d+){0,3})([^\n^\.\d]?.*?)(\n)/,
 			preVersionMatch: "$1",
 			postVersionMatch: "$5",
 		},
