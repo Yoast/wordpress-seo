@@ -27,7 +27,7 @@ class WPSEO_Import_Status_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether we can set a status message for the import action.
 	 *
- 	 * @covers WPSEO_Import_Status::get_msg
+	 * @covers WPSEO_Import_Status::get_msg
 	 * @covers WPSEO_Import_Status::get_action
 	 */
 	public function test_import_message() {

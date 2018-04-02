@@ -145,7 +145,7 @@ import a11ySpeak from "a11y-speak";
 		} );
 
 		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery( "#post_types-post-maintax" ).select2( {
+		jQuery( "#breadcrumbs select" ).select2( {
 			width: select2Width,
 			language: wpseoSelect2Locale,
 		} );

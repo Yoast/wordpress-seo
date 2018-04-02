@@ -56,9 +56,14 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			$values = array( 0 => __( 'None', 'wordpress-seo' ) );
 			foreach ( $taxonomies as $tax ) {
+				if ( ! $tax->public ) {
+					continue;
+				}
+
 				$values[ $tax->name ] = $tax->labels->singular_name;
 			}
-			$yform->select( 'post_types-' . $pt->name . '-maintax', $pt->labels->name, $values );
+			$label = $pt->labels->name . ' (<code>' . $pt->name . '</code>)';
+			$yform->select( 'post_types-' . $pt->name . '-maintax', $label, $values );
 			unset( $values, $tax );
 		}
 		unset( $taxonomies );
@@ -91,7 +96,8 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			}
 			unset( $pt );
 		}
-		$yform->select( 'taxonomy-' . $tax->name . '-ptparent', $tax->labels->singular_name, $values );
+		$label = $tax->labels->singular_name . ' (<code>' . $tax->name . '</code>)';
+		$yform->select( 'taxonomy-' . $tax->name . '-ptparent', $label, $values );
 		unset( $values, $tax );
 	}
 }

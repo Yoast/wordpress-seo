@@ -30,3 +30,7 @@ exclude_paths:
 - css/dist/*
 - premium/assets/js/dist/*
 - premium/assets/css/dist/*
+checks:
+  method-lines:
+    config:
+      threshold: 35
