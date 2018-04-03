@@ -93,7 +93,7 @@ describe( "detecting passive voice in sentences", function() {
 
 	it( "returns passive voice in Russian, when there are more than one passive verb form", function() {
 		let paper = new Paper( "Книга основана на реальных событиях и посвящена Ролану Быкову.", { locale: "ru_RU" } );
-		expect( passiveVoice( paper ). passives.length ).toBe( 1 );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
 	it( "returns passive voice in Russian, when the participle takes a ё-form", function() {

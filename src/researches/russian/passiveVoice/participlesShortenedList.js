@@ -2767,8 +2767,8 @@ const passiveVerbs = [
 	"эшелонирован", "эшелонирована", "эшелонировано", "эшелонированы",
 	"явлен", "явлена", "явлено", "явлены",
 ];
-// Participles that can take a "ё"-form. This and the following verb groups should be taken away as soon as
-// Ё-functionality is implemented
+// Participles that can take a "ё"-form. This and the following verb groups should be taken away as soon as Ё-functionality
+// Is implemented
 const orthographicFormsPassiveVerbs = [
 	"благословлён", "введён", "ввезён", "вдохновлён", "вживлён", "взбешён", "взбодрён", "взведён", "взвихрён",
 	"взгромозждён", "взращён", "взрыхлён", "видоизменён", "включён", "вколочён", "вкраплён", "вкушён", "вменён",
@@ -2900,7 +2900,7 @@ const alternativeVerbForms = [
 ];
 
 // These participles can also be adjectives, so we need to be careful. If they cause a lot of trouble, can be easily
-// removed from analysis, if not they can also be merged with the big list.
+// Removed from analysis, if not they can also be merged with the big list.
 const adjectiveParticiples = [ "взбудоражен", "взволнован", "возбужден", "возмущен", "воспитан", "востребован",
 	"выдрессирован", "газирован", "доношен", "заболочен", "заинтересован", "заинтригован", "закален", "зачарован",
 	"зашифрован", "изогнут", "изогнута", "изогнуто", "изогнуты", "коррумпирован", "мотивирован", "помят", "помята",
