@@ -359,7 +359,7 @@ SnippetEditor.propTypes = {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
-	} ),
+	} ).isRequired,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	onChange: PropTypes.func,
@@ -370,8 +370,8 @@ SnippetEditor.propTypes = {
 
 SnippetEditor.defaultProps = {
 	onChange: () => {},
-	isEditorOpen: false,
 	mode: MODE_MOBILE,
+	replacementVariables: [],
 	titleLengthAssessment: {
 		max: 600,
 		actual: 0,
