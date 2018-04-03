@@ -12,6 +12,7 @@ import SvgIcon from "../../Shared/components/SvgIcon";
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import colors from "../../../../style-guide/colors.json";
 import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
+import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
 
 const SwitcherButton = Button.extend`
 	border: none;
@@ -325,22 +326,18 @@ class SnippetEditor extends React.Component {
 				<ModeSwitcher>
 					<MobileButton onClick={ () => onChange( "mode", MODE_MOBILE ) } isActive={ mode === MODE_MOBILE }>
 						<SvgIcon icon="mobile" size="22px" color="currentColor" />
-						<ScreenReaderText>
-							<FormattedMessage
-								id="snippetEditor.desktopPreview"
-								defaultMessage="Mobile preview"
-							/>
-						</ScreenReaderText>
+						<FormattedScreenReaderMessage
+							id="snippetEditor.desktopPreview"
+							defaultMessage="Mobile preview"
+						/>
 					</MobileButton>
 
 					<DesktopButton onClick={ () => onChange( "mode", MODE_DESKTOP ) } isActive={ mode === MODE_DESKTOP }>
 						<SvgIcon icon="desktop" size="18px" color="currentColor" />
-						<ScreenReaderText>
-							<FormattedMessage
-								id="snippetEditor.desktopPreview"
-								defaultMessage="Desktop preview"
-							/>
-						</ScreenReaderText>
+						<FormattedScreenReaderMessage
+							id="snippetEditor.desktopPreview"
+							defaultMessage="Desktop preview"
+						/>
 					</DesktopButton>
 				</ModeSwitcher>
 
