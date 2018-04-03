@@ -1,6 +1,6 @@
 yoastWebpackJsonp([5],{
 
-/***/ 1063:
+/***/ 1058:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -164,7 +164,7 @@ yoastWebpackJsonp([5],{
 	function moveHelpElements() {
 		jQuery("#wpseo-focuskeyword-section").find("h3").after(jQuery("#help-yoast-focuskeyword").detach().removeClass("wpseo_hidden"));
 
-		jQuery("#wpseo-pageanalysis-section").find("h3").after(jQuery("#help-yoast-pageanalysis").detach().removeClass("wpseo_hidden"));
+		jQuery("#pageanalysis > section.yoast-section").find("h3").after(jQuery("#help-yoast-pageanalysis").detach().removeClass("wpseo_hidden"));
 
 		var snippetHelp = jQuery("#help-yoast-snippetpreview").detach().removeClass("wpseo_hidden");
 		// Post/taxonomy/media meta box.
@@ -404,4 +404,4 @@ window.ystEscapeFocusKw = ystEscapeFocusKw;
 
 /***/ })
 
-},[1063]);
+},[1058]);

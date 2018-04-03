@@ -141,7 +141,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 		});
 
 		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery("#post_types-post-maintax").select2({
+		jQuery("#breadcrumbs select").select2({
 			width: select2Width,
 			language: wpseoSelect2Locale
 		});
