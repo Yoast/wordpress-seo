@@ -1,12 +1,15 @@
 {
-  "presets": [ [ "env", {
-    "targets": {
-      "browsers": [
-        "last 2 versions",
-        "ie >= 9"
-      ]
-    }
-  } ] ],
+  "presets": [
+    "@wordpress/babel-preset-default",
+    [ "env", {
+      "targets": {
+        "browsers": [
+          "last 2 versions",
+          "ie >= 9"
+        ]
+      }
+    } ]
+  ],
   "plugins": [ "transform-react-jsx", "dynamic-import-webpack" ],
   "comments": true
 }

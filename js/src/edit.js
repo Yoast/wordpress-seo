@@ -7,6 +7,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import flowRight from "lodash/flowRight";
+import { registerStore } from "@wordpress/data";
 
 import IntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
@@ -16,7 +17,7 @@ import activeKeywordReducer from "./redux/reducers/activeKeyword";
 import activeTab from "./redux/reducers/activeTab";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
-import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
+import { isGutenbergDataAvailable, isGutenbergEditorAvailable } from "./helpers/isGutenbergAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
 import openSidebarSectionsReducer from "./redux/reducers/openSidebarSections";
 import cornerstoneContentReducer from "./redux/reducers/cornerstoneContent";
@@ -62,6 +63,9 @@ function configureStore() {
 	} );
 
 	return createStore( rootReducer, {}, flowRight( enhancers ) );
+//	return registerStore( "YoastSEO", {
+//		reducer: rootReducer,
+//	} );
 }
 
 /**
@@ -162,7 +166,7 @@ export function initialize( args ) {
 	let data = {};
 
 	// Only use Gutenberg's data if Gutenberg is available.
-	if ( isGutenbergDataAvailable() ) {
+	if ( isGutenbergDataAvailable() && isGutenbergEditorAvailable() ) {
 		const gutenbergData = new Data( wp.data, args.onRefreshRequest );
 		gutenbergData.subscribeToGutenberg();
 		data = gutenbergData;

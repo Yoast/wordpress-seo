@@ -10,7 +10,7 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar }from "../ui/adminBar";
 
 import publishBox from "../ui/publishBox";
-import { isGutenbergDataAvailable } from "../helpers/isGutenbergAvailable";
+import { isGutenbergDataAvailable, isGutenbergEditorAvailable } from "../helpers/isGutenbergAvailable";
 
 let $ = jQuery;
 let currentKeyword = "";
@@ -43,7 +43,7 @@ PostDataCollector.prototype.getData = function() {
 	let gutenbergData;
 
 	// Only use data from Gutenberg if Gutenberg is available.
-	if ( isGutenbergDataAvailable() ) {
+	if ( isGutenbergDataAvailable() && isGutenbergEditorAvailable() ) {
 		gutenbergData = this._data.getData();
 	}
 
