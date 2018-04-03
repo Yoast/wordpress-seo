@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -7,16 +9,32 @@
  * Class WPSEO_Help_Center
  */
 class WPSEO_Help_Center {
-	/** @var WPSEO_Option_Tab[] $tab */
+	/**
+	 * The tabs in the help center.
+	 *
+	 * @var WPSEO_Option_Tab[] $tab
+	 */
 	private $tabs;
 
-	/** @var string Mount point in the HTML */
+	/**
+	 * Mount point in the HTML.
+	 *
+	 * @var string
+	 */
 	private $identifier = 'yoast-help-center-container';
 
-	/** @var array Additional help center items */
+	/**
+	 * Additional help center items.
+	 *
+	 * @var array
+	 */
 	protected $help_center_items = array();
 
-	/** @var bool Show premium support tab */
+	/**
+	 * Show premium support tab.
+	 *
+	 * @var bool
+	 */
 	protected $premium_support;
 
 	/**
@@ -90,13 +108,13 @@ class WPSEO_Help_Center {
 			array(
 				'title'       => __( 'Need some help?', 'wordpress-seo' ),
 				'description' => __( 'Go Premium and our experts will be there for you to answer any questions you might have about the setup and use of the plugin.', 'wordpress-seo' ),
-				'link'        => 'https://yoa.st/seo-premium-vt?utm_content=' . WPSEO_VERSION,
+				'link'        => WPSEO_Shortlinker::get( 'https://yoa.st/seo-premium-vt' ),
 				'linkText'    => __( 'Get Yoast SEO Premium now »', 'wordpress-seo' ),
 			),
 			array(
 				'title'       => __( 'Want to be a Yoast SEO Expert?', 'wordpress-seo' ),
 				'description' => __( 'Follow our Yoast SEO for WordPress training and become a certified Yoast SEO Expert!', 'wordpress-seo' ),
-				'link'        => 'https://yoa.st/wordpress-training-vt?utm_content=' . WPSEO_VERSION,
+				'link'        => WPSEO_Shortlinker::get( 'https://yoa.st/wordpress-training-vt' ),
 				'linkText'    => __( 'Enroll in the Yoast SEO for WordPress training »', 'wordpress-seo' ),
 			),
 		);
@@ -182,13 +200,13 @@ class WPSEO_Help_Center {
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 				__( '%1$sNo more dead links%2$s: easy redirect manager', 'wordpress-seo' ), '', ''
-			) . '</li>';
+		) . '</li>';
 		$popup_content .= '<li>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '<li>' . sprintf(
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 				__( '%1$sSocial media preview%2$s: Facebook &amp; Twitter', 'wordpress-seo' ), '', ''
-			) . '</li>';
+		) . '</li>';
 		$popup_content .= '<li>' . __( '24/7 support', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '</ul>';

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Views
  */
 
@@ -51,7 +53,7 @@ $feature_toggles = array(
 		'order'           => 40,
 	),
 	(object) array(
-		'name'            => __( 'XML Sitemaps', 'wordpress-seo' ),
+		'name'            => __( 'XML sitemaps', 'wordpress-seo' ),
 		'setting'         => 'enable_xml_sitemap',
 		/* translators: %s expands to Yoast SEO */
 		'label'           => sprintf( __( 'Enable the XML sitemaps that %s generates.', 'wordpress-seo' ), 'Yoast SEO' ),

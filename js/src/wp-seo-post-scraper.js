@@ -37,7 +37,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	let decorator = null;
 	let tabManager, postDataCollector;
 
-	let store;
+	let editStore;
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
@@ -108,8 +108,8 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
 		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
-			if ( ! isUndefined( store ) ) {
-				store.dispatch( setMarkerStatus( "hidden" ) );
+			if ( ! isUndefined( editStore ) ) {
+				editStore.dispatch( setMarkerStatus( "hidden" ) );
 			}
 			return false;
 		}
@@ -237,11 +237,14 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	/**
 	 * Initializes post data collector.
 	 *
+	 * @param {Object} data The data.
+	 *
 	 * @returns {PostDataCollector} The initialized post data collector.
 	 */
-	function initializePostDataCollector() {
+	function initializePostDataCollector( data ) {
 		let postDataCollector = new PostDataCollector( {
 			tabManager,
+			data,
 		} );
 		postDataCollector.leavePostNameUntouched = false;
 
@@ -251,9 +254,11 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	/**
 	 * Returns the arguments necessary to initialize the app.
 	 *
+	 * @param {Object} store The store.
+	 *
 	 * @returns {Object} The arguments to initialize the app
 	 */
-	function getAppArgs() {
+	function getAppArgs( store ) {
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
@@ -328,7 +333,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		window.YoastSEO.wp._tabManager = tabManager;
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
 
-		window.YoastSEO.store = store;
+		window.YoastSEO.store = editStore;
 	}
 
 	/**
@@ -380,8 +385,11 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		const editArgs = {
 			readabilityTarget: "yoast-seo-content-analysis",
 			seoTarget: "wpseo-pageanalysis",
+			onRefreshRequest: () => {},
+			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
 		};
-		store = initializeEdit( editArgs ).store;
+		const { store, data } = initializeEdit( editArgs );
+		editStore = store;
 
 		snippetContainer = $( "#wpseosnippet" );
 
@@ -391,11 +399,11 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		}
 
 		tabManager = initializeTabManager();
-		postDataCollector = initializePostDataCollector();
+		postDataCollector = initializePostDataCollector( data );
 		publishBox.initalise();
 		snippetPreview = initSnippetPreview( postDataCollector );
 
-		let appArgs = getAppArgs();
+		let appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
 		postDataCollector.app = app;
@@ -453,6 +461,11 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 		// Set initial keyword.
 		store.dispatch( setActiveKeyword( tabManager.getKeywordTab().getKeyWord() ) );
+
+		// Set refresh function. data.setRefresh is only defined when Gutenberg is available.
+		if ( data.setRefresh ) {
+			data.setRefresh( app.refresh );
+		}
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

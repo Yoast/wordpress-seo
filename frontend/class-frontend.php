@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Frontend
  */
 
@@ -787,7 +789,7 @@ class WPSEO_Frontend {
 		}
 
 		// If a page has a noindex, it should _not_ have a canonical, as these are opposing indexing directives.
-		if ( $robots['index'] === 'noindex' ) {
+		if ( strpos( $robotsstr, 'noindex' ) !== false ) {
 			remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		}
 
@@ -1335,6 +1337,7 @@ class WPSEO_Frontend {
 	 * Outputs noindex values for the current page.
 	 */
 	public function noindex_page() {
+		remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		echo '<meta name="robots" content="noindex" />', "\n";
 	}
 

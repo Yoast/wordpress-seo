@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Frontend
  */
 
@@ -24,6 +26,7 @@ class WPSEO_OpenGraph {
 			add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
 			add_action( 'wpseo_opengraph', array( $this, 'type' ), 5 );
 			add_action( 'wpseo_opengraph', array( $this, 'og_title' ), 10 );
+			add_action( 'wpseo_opengraph', array( $this, 'app_id' ), 20 );
 			add_action( 'wpseo_opengraph', array( $this, 'description' ), 11 );
 			add_action( 'wpseo_opengraph', array( $this, 'url' ), 12 );
 			add_action( 'wpseo_opengraph', array( $this, 'site_name' ), 13 );
@@ -744,6 +747,21 @@ class WPSEO_OpenGraph {
 
 		return true;
 	}
+
+	/**
+	 * Outputs the Facebook app_id.
+	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
+	 * @return void
+	 */
+	public function app_id() {
+		$app_id = WPSEO_Options::get( 'fbadminapp', '' );
+		if ( $app_id !== '' ) {
+			$this->og_tag( 'fb:app_id', $app_id );
+		}
+	}
+
 
 	/**
 	 * Outputs the site owner.

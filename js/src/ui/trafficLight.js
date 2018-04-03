@@ -12,8 +12,7 @@ function updateTrafficLight( indicator ) {
 
 	// Update the traffic light image.
 	trafficLight
-		.attr( "class", "yst-traffic-light " + indicator.className )
-		.attr( "alt", "" );
+		.attr( "class", "yst-traffic-light " + indicator.className );
 
 	// Update the traffic light link.
 	trafficLightLink.attr( "aria-describedby", "wpseo-traffic-light-desc" );

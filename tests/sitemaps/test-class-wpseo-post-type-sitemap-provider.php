@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Sitemaps
  */
 
@@ -121,7 +123,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_url
 	 */
 	public function test_get_url() {
-		$instance = $this->getMockBuilder( 'WPSEO_Post_Type_Sitemap_Provider_Double' )
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Post_Type_Sitemap_Provider_Double' )
 			->setMethods( array( 'get_home_url' ) )
 			->getMock();
 
@@ -148,5 +151,88 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 */
 	public function set_post_sitemap_url( $url ) {
 		return 'http://example.com';
+	}
+
+	/**
+	 * Tests a regular post is added to the sitemap.
+	 */
+	public function test_regular_post() {
+		$this->factory->post->create();
+
+		// Expect the created post to be in the sitemap list.
+		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'post', 100, 0 ) );
+	}
+
+	/**
+	 * Tests to make sure password protected posts are not in the sitemap.
+	 */
+	public function test_password_protected_post() {
+		// Create password protected post.
+		$this->factory->post->create(
+			array(
+				'post_password' => 'secret',
+			)
+		);
+
+		// Expect the protected post should not be added.
+		$this->assertCount(
+			0,
+			self::$class_instance->get_sitemap_links( 'post', 100, 0 ),
+			'Password protected posts should not be in the sitemap'
+		);
+	}
+
+	/**
+	 * Tests to make sure a regular attachment is include in the sitemap.
+	 */
+	public function test_regular_attachment() {
+		// Enable attachments in the sitemap.
+		WPSEO_Options::set( 'disable-attachment', false );
+
+		// Create non-password-protected post.
+		$post_id = $this->factory->post->create(
+			array(
+				'post_password' => '',
+			)
+		);
+
+		$this->factory->post->create(
+			array(
+				'post_parent' => $post_id,
+				'post_type'   => 'attachment',
+				'post_status' => 'inherit',
+			)
+		);
+
+		// Expect the attchment to be in the list.
+		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
+	}
+
+	/**
+	 * Tests to make sure attachment is not added when parent is a protected post.
+	 *
+	 * Related: https://github.com/Yoast/wordpress-seo/issues/9194
+	 */
+	public function test_password_protected_post_parent_attachment() {
+		// Enable attachments in the sitemap.
+		WPSEO_Options::set( 'disable-attachment', false );
+
+		// Create password protected post.
+		$post_id = $this->factory->post->create(
+			array(
+				'post_password' => 'secret',
+			)
+		);
+
+		$this->factory->post->create(
+			array(
+				'post_parent' => $post_id,
+				'post_type'   => 'attachment',
+				'post_status' => 'inherit',
+			)
+		);
+
+		// Expect the attachment not to be added to the list.
+		$this->assertCount( 0, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
 	}
 }

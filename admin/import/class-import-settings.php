@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Import
  */
 
@@ -137,12 +139,18 @@ class WPSEO_Import_Settings {
 	 * Parse the option file
 	 */
 	private function parse_options() {
-		/*
-		 * Implemented INI_SCANNER_RAW to make sure variables aren't parsed.
-		 *
-		 * http://php.net/manual/en/function.parse-ini-file.php#99943
-		 */
-		$options = parse_ini_file( $this->filename, true, INI_SCANNER_RAW );
+		if ( defined( 'INI_SCANNER_RAW' ) ) {
+			/*
+			 * Implemented INI_SCANNER_RAW to make sure variables aren't parsed.
+			 *
+			 * http://php.net/manual/en/function.parse-ini-file.php#99943
+			 */
+			$options = parse_ini_file( $this->filename, true, INI_SCANNER_RAW );
+		}
+		else {
+			// PHP 5.2 does not implement the 3rd argument, this is a fallback.
+			$options = parse_ini_file( $this->filename, true );
+		}
 
 		if ( is_array( $options ) && $options !== array() ) {
 			$this->import_options( $options );

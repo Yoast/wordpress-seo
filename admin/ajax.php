@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -178,7 +180,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = sprintf(
 			/* translators: %s expands to post type. */
-			__( 'Post has an invalid Post Type: %s.', 'wordpress-seo' ),
+			__( 'Post has an invalid Content Type: %s.', 'wordpress-seo' ),
 			$the_post->post_type
 		);
 
