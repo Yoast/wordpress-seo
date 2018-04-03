@@ -16,7 +16,7 @@ class GutenbergDataCollector extends DataProvider {
 	 */
 	getParentTitle( parentId, callback ) {
 		const model = new wp.api.models.Page( { id: parentId } );
-		model.fetch().done( data => {
+		model.fetch( { data: { _fields: [ "title" ] } } ).done( data => {
 			callback( data.title.rendered );
 		} ).fail( () => {} );
 	}
