@@ -110,19 +110,19 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: April 3rd, 2018
 
 Enhancements:
-* Updated all Help Center videos with new recordings.
-* Improves consistency of capitalisation in settings and tabs.
-* Changes the words 'post type' into 'content type' throughout the plugin.
+* Updates all Help Center videos with new recordings.
 * Adds functionality to import noindex, nofollow and OpenGraph tags from All in One SEO Pack.
+* Improves consistency of capitalisation in settings and tabs.
 * Improves the traffic light icon accessibility.
+* Changes the words 'post type' into 'content type' throughout the plugin.
 
 Bugfixes:
 * Fixes a bug where the Facebook app-id could no longer be set in the Social settings.
-* Fixes a bug existing Yoast SEO data could be overwritten when importing data from All in One SEO Pack.
+* Fixes a bug where existing Yoast SEO data could be overwritten when importing data from All in One SEO Pack.
 * Fixes a bug where the Ryte notification is not removed when disabling the Ryte feature.
 * Fixes a bug where setting a page to `noindex` through the `wpseo_robots` filter did not properly remove the `canonical` element.
 * Fixes a bug where attachments connected to password-protected parents are included in the sitemaps. Props [Scott Carter](https://gobarrelroll.com).
-* Fixes alignment of Go Premium notice.
+* Fixes alignment of the `Go Premium` notice.
 
 = 7.1.0 =
 Release Date: March 20th, 2018
