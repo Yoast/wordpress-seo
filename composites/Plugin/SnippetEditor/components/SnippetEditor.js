@@ -9,7 +9,6 @@ import SnippetPreview, { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetP
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
-import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import colors from "../../../../style-guide/colors.json";
 import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
 import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
@@ -265,8 +264,8 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Maps an editor field to a preview field.
 	 *
-	 * @param {string} field The field to map.
-	 * @returns {string} The mapped field.
+	 * @param {?string} field The field to map.
+	 * @returns {?string} The mapped field.
 	 */
 	mapFieldToPreview( field ) {
 		if ( field === "slug" ) {
@@ -274,14 +273,13 @@ class SnippetEditor extends React.Component {
 		}
 
 		return field;
-
 	}
 
 	/**
 	 * Maps a preview field to an editor field.
 	 *
-	 * @param {string} field The field to map.
-	 * @returns {string} The mapped field.
+	 * @param {?string} field The field to map.
+	 * @returns {?string} The mapped field.
 	 */
 	mapFieldToEditor( field ) {
 		if ( field === "url" ) {
