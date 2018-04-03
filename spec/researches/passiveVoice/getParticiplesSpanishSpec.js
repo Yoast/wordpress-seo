@@ -1,4 +1,4 @@
-var getParticiples = require( "../../../js/researches/passiveVoice/getParticiples.js" );
+var getParticiples = require( "../../../js/researches/passiveVoice/periphrastic/getParticiples.js" );
 var sentencePart = require( "../../../js/values/SentencePart.js" );
 
 describe( "Test for matching Spanish participles", function() {
