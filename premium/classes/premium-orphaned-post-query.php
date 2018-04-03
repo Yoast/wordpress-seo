@@ -58,6 +58,17 @@ class WPSEO_Premium_Orphaned_Post_Query {
 		$query   = 'SELECT object_id FROM ' . $storage->get_table_name() . ' WHERE incoming_link_count = 0';
 
 		$object_ids = $wpdb->get_col( $query );
+
+		//Set count so it unsetting elements has no impact on loop
+		$count = count($object_ids);
+
+		//Remove posts with no-index set to 1 from array.
+		for ( $i = 0; $i < $count; ++$i ) {
+			if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $object_ids[$i] ) === "1" ) {
+				unset($object_ids[$i]);
+			}
+		}
+
 		$object_ids = self::remove_frontpage_id( $object_ids );
 
 		return $object_ids;
