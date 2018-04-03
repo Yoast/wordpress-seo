@@ -1,12 +1,14 @@
 /* External dependencies */
 import React, { Component } from "react";
 import styled from "styled-components";
-import SnippetEditor from "./SnippetEditor";
 import debounce from "lodash/debounce";
+
+/* Internal dependencies */
+import SnippetEditor from "./SnippetEditor";
 
 const Container = styled.div`
 	background-color: white;
-	margin: 5em auto 0; 
+	margin: 5em auto 0;
 `;
 
 const replacementVariables = [

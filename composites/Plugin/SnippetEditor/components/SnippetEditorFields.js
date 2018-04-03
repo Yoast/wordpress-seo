@@ -1,8 +1,11 @@
+/* External components */
 import React from "react";
 import styled from "styled-components";
 import { injectIntl, intlShape, defineMessages } from "react-intl";
-import ReplaceVarEditor from "./ReplaceVarEditor";
 import PropTypes from "prop-types";
+
+/* Internal components */
+import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
 import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
 import colors from "../../../../style-guide/colors";
@@ -51,7 +54,7 @@ function getCaretColor( props ) {
  * The caret is defined in this CSS because we cannot mount/unmount DraftJS.
  *
  * For some reason if you wrap the InputContainer with `.extend` or `styled()`
- * the ReplaceVarEditor in the children will unmount and mount on every focus.
+ * the ReplacementVariableEditor in the children will unmount and mount on every focus.
  * This means that DraftJS cannot keep track of the browser selection. Which
  * breaks the editor completely. We circumvent this by settings the caret styles
  * conditionally.
@@ -182,7 +185,7 @@ class SnippetEditorFields extends React.Component {
 				<FormSection>
 					<label>{ intl.formatMessage( messages.seoTitle ) }</label>
 					<InputContainer isActive={ activeField === "title" } isHovered={ hoveredField === "title" }>
-						<ReplaceVarEditor
+						<ReplacementVariableEditor
 							content={ title }
 							onChange={ content => onChange( "title", content ) }
 							onFocus={ () => onFocus( "title" ) }
@@ -200,7 +203,7 @@ class SnippetEditorFields extends React.Component {
 				<FormSection>
 					<label>{ intl.formatMessage( messages.slug ) }</label>
 					<InputContainer isActive={ activeField === "slug" } isHovered={ hoveredField === "slug" }>
-						<ReplaceVarEditor
+						<ReplacementVariableEditor
 							content={ slug }
 							onChange={ content => onChange( "slug", content ) }
 							onFocus={ () => onFocus( "slug" ) }
@@ -212,7 +215,7 @@ class SnippetEditorFields extends React.Component {
 				<FormSection>
 					<label>{ intl.formatMessage( messages.metaDescription ) }</label>
 					<InputContainer isActive={ activeField === "description" } isHovered={ hoveredField === "description" }>
-						<ReplaceVarEditor
+						<ReplacementVariableEditor
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
 							onFocus={ () => onFocus( "description" ) }

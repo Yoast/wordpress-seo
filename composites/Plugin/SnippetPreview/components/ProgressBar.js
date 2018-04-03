@@ -1,5 +1,8 @@
+/* External components */
 import PropTypes from "prop-types";
 import styled from "styled-components";
+
+/* Internal components */
 import colors from "../../../../style-guide/colors.json";
 
 /**

@@ -8,10 +8,8 @@ import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import partial from "lodash/partial";
 import { parse } from "url";
-import { FormattedMessage } from "react-intl";
 
 /* Internal dependencies */
-import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import FixedWidthContainer from "./fixedWidthContainer";
 import colors from "../../../../style-guide/colors";
 import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";

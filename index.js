@@ -10,7 +10,6 @@ import OnboardingWizard from "./composites/OnboardingWizard/OnboardingWizard";
 import AlgoliaSearcher from "./composites/AlgoliaSearch/AlgoliaSearcher";
 import HelpCenter from "./composites/Plugin/HelpCenter/HelpCenter.js";
 import MessageBox from "./composites/OnboardingWizard/MessageBox";
-import SnippetPreview from "./composites/Plugin/SnippetPreview/components/SnippetPreview";
 
 export {
 	Textfield,
@@ -26,5 +25,7 @@ export {
 	AlgoliaSearcher,
 	MessageBox,
 	HelpCenter,
-	SnippetPreview,
 };
+
+export * from "./composites/Plugin/SnippetPreview";
+export * from "./composites/Plugin/SnippetEditor";
