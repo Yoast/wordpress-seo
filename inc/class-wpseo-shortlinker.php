@@ -69,23 +69,11 @@ class WPSEO_Shortlinker {
 	 * @return string The software name + activation state.
 	 */
 	private function get_software() {
-		if ( ! class_exists( 'WPSEO_Product_Premium' ) ) {
-			return 'free';
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+			return 'premium';
 		}
 
-		static $software;
-
-		if ( $software === null ) {
-			$software          = 'premium-inactive';
-			$product_premium   = new WPSEO_Product_Premium();
-			$extension_manager = new WPSEO_Extension_Manager();
-
-			if ( $extension_manager->is_activated( $product_premium->get_slug() ) ) {
-				$software = 'premium-activated';
-			}
-		}
-
-		return $software;
+		return 'free';
 	}
 
 	/**
