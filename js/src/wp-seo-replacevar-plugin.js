@@ -38,7 +38,7 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 		this._app = app;
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
 
-		this._data = new DataProvider( app.refresh, this.getDataCollector(), store );
+		this._data = new DataProvider( app.refresh, this.getDataCollector( store ), store );
 
 		this.registerReplacements();
 		this.registerModifications();
@@ -52,13 +52,15 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 	/**
 	 * Returns the data collector that should be used.
 	 *
+	 * @param {store} store The redux store.
+	 *
 	 * @returns {DataCollector} The data collector.
 	 */
-	YoastReplaceVarPlugin.prototype.getDataCollector = function() {
+	YoastReplaceVarPlugin.prototype.getDataCollector = function( store ) {
 		if ( isGutenbergDataAvailable() ) {
-			return new GutenbergDataCollector( this._app.refresh );
+			return new GutenbergDataCollector( store );
 		}
-		return new TinyMceDataCollector();
+		return new TinyMceDataCollector( store );
 	};
 
 	/**

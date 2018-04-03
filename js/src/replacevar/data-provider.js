@@ -24,25 +24,15 @@ class ReplacevarData {
 	 */
 	getParentTitle() {
 		const parentId = this.dataCollector.getParentId();
-		if( ! parentId || parentId === 0 ) {
+		if ( ! parentId || parentId === 0 ) {
 			return "";
 		}
-		const parentTitle = get( this.store.getState().replacevars, `parentTitle.${ parentId }` );
-		if( parentTitle ) {
-			return parentTitle;
-		}
 
-		this.dataCollector.getParentTitle( parentId, ( parentTitle ) => {
-			this.store.dispatch(
-				addReplacevar(
-					"parentTitle",
-					parentId,
-					parentTitle,
-				)
-			);
+		const parentTitle = this.dataCollector.getParentTitle( parentId, () => {
 			this.refresh();
 		} );
-		return "";
+
+		return parentTitle;
 	}
 
 

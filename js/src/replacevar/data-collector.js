@@ -2,6 +2,10 @@
  * Prototype class for replacevar data collectors.
  */
 class DataCollector {
+	constructor( store ) {
+		this.store = store;
+	}
+
 	getParentTitle( parentId, callback ) {
 		callback( "" );
 	}
@@ -12,7 +16,7 @@ class DataCollector {
 	 * @returns {string} The parent id.
 	 */
 	getParentId() {
-		return null;
+		return "";
 	}
 }
 
