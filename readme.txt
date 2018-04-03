@@ -114,7 +114,6 @@ Enhancements:
 * Removes the intl polyfill and show message on browsers that doesn't support intl.
 * Don't throw errors when MySQL is set to `sql-mode=ANSI_QUOTES`.
 * Applies Select2 to all select boxes on breadcrumbs page.
-* Improves SVG images accessibility.
 * Adds Baidu Webmaster Tools verification support.
 * Add import functionality for [Premium SEO Pack](https://wordpress.org/plugins/premium-seo-pack/).
 * Add import functionality for [Smartcrawl SEO](https://wordpress.org/plugins/smartcrawl-seo/).
