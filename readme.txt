@@ -112,7 +112,7 @@ Release Date: April 3rd, 2018
 Enhancements:
 * Updates all Help Center videos with new recordings.
 * Adds functionality to import noindex, nofollow and OpenGraph tags from All in One SEO Pack.
-* Improves consistency of capitalisation in settings and tabs.
+* Improves consistency of capitalization in settings and tabs.
 * Improves the traffic light icon accessibility.
 * Changes the words 'post type' into 'content type' throughout the plugin.
 
