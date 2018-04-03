@@ -116,8 +116,8 @@ class SnippetEditor extends React.Component {
 		return <React.Fragment>
 			<SnippetEditorFields
 				data={ data }
-				activeField={ activeField === "url" ? "slug" : activeField }
-				hoveredField={ hoveredField === "url" ? "slug" : hoveredField }
+				activeField={ activeField }
+				hoveredField={ hoveredField }
 				onChange={ onChange }
 				onFocus={ this.setFieldFocus }
 				replacementVariables={ replacementVariables }
@@ -141,23 +141,8 @@ class SnippetEditor extends React.Component {
 	 * @returns {void}
 	 */
 	setFieldFocus( field ) {
-		if ( field === "url" ) {
-			field = "slug";
-		}
+		field = this.mapFieldToEditor( field );
 
-		this.setState( {
-			activeField: field,
-		} );
-	}
-
-	/**
-	 * Activates a certain field in the editor.
-	 *
-	 * @param {string} field The field to activate.
-	 *
-	 * @returns {void}
-	 */
-	activateField( field ) {
 		this.setState( {
 			activeField: field,
 		} );
@@ -176,7 +161,7 @@ class SnippetEditor extends React.Component {
 		 * the correct input field.
 		 */
 		this.open()
-			.then( this.activateField.bind( this, field ) );
+			.then( this.setFieldFocus.bind( this, field ) );
 	}
 
 	/**
@@ -188,7 +173,7 @@ class SnippetEditor extends React.Component {
 	 */
 	onMouseOver( field ) {
 		this.setState( {
-			hoveredField: field,
+			hoveredField: this.mapFieldToEditor( field ),
 		} );
 	}
 
@@ -200,6 +185,8 @@ class SnippetEditor extends React.Component {
 	 * @returns {void}
 	 */
 	onMouseLeave( field ) {
+		field = this.mapFieldToEditor( field );
+
 		if ( field && this.state.hoveredField !== field ) {
 			return;
 		}
@@ -275,6 +262,35 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
+	 * Maps an editor field to a preview field.
+	 *
+	 * @param {string} field The field to map.
+	 * @returns {string} The mapped field.
+	 */
+	mapFieldToPreview( field ) {
+		if ( field === "slug" ) {
+			field = "url";
+		}
+
+		return field;
+
+	}
+
+	/**
+	 * Maps a preview field to an editor field.
+	 *
+	 * @param {string} field The field to map.
+	 * @returns {string} The mapped field.
+	 */
+	mapFieldToEditor( field ) {
+		if ( field === "url" ) {
+			field = "slug";
+		}
+
+		return field;
+	}
+
+	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -294,19 +310,17 @@ class SnippetEditor extends React.Component {
 
 		const mappedData = this.mapDataToPreview( data );
 
-		const props = {
-			mode: this.props.mode,
-			activeField,
-			hoveredField,
-			onMouseOver: this.onMouseOver,
-			onMouseLeave: this.onMouseLeave,
-			onClick: this.onClick,
-			...mappedData,
-		};
-
 		return (
 			<div>
-				<SnippetPreview { ...props } />
+				<SnippetPreview
+					mode={ mode }
+					activeField={ this.mapFieldToPreview( activeField ) }
+					hoveredField={ this.mapFieldToPreview( hoveredField ) }
+					onMouseOver={ this.onMouseOver }
+					onMouseLeave={ this.onMouseLeave }
+					onClick={ this.onClick }
+					{ ...mappedData }
+				/>
 
 				<ModeSwitcher>
 					<MobileButton onClick={ () => onChange( "mode", MODE_MOBILE ) } isActive={ mode === MODE_MOBILE }>
