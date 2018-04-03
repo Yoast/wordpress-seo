@@ -6,7 +6,7 @@ describe( "openSidebarSections actions", () => {
 	it( "should pass along the id when opening a section", () => {
 		const expected = {
 			type: actions.OPEN_SIDEBAR_SECTION,
-			addSection: "sectionOpened",
+			sectionId: "sectionOpened",
 		};
 		const actual = actions.openSidebarSection( "sectionOpened" );
 
@@ -16,7 +16,7 @@ describe( "openSidebarSections actions", () => {
 	it( "should pass along the keyword when closing a section", () => {
 		const expected = {
 			type: actions.CLOSE_SIDEBAR_SECTION,
-			removeSection: "sectionClosed",
+			sectionId: "sectionClosed",
 		};
 		const actual = actions.closeSidebarSection( "sectionClosed" );
 

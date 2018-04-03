@@ -6,18 +6,18 @@ const INITIAL_STATE = [];
  * Helper function: returns an array with the passed item added.
  *
  * @param   {Array}  openSidebarSections The array to which the item should be added.
- * @param   {string} addSection          The item to be added.
+ * @param   {string} sectionId           The item to be added.
  *
  * @returns {Array}                      The array including the item that should be added.
  */
-const sidebarSectionOpener = ( openSidebarSections, addSection ) => {
-	if ( typeof addSection !== "string" || openSidebarSections.includes( addSection ) ) {
+const sidebarSectionOpener = ( openSidebarSections, sectionId ) => {
+	if ( typeof sectionId !== "string" || openSidebarSections.includes( sectionId ) ) {
 		return openSidebarSections;
 	}
 
 	return [
 		...openSidebarSections,
-		addSection,
+		sectionId,
 	];
 };
 
@@ -25,12 +25,12 @@ const sidebarSectionOpener = ( openSidebarSections, addSection ) => {
  * Helper function: returns an array with the passed item removed.
  *
  * @param   {Array}  openSidebarSections The array from which the item should be removed.
- * @param   {string} removeSection       The item to be removed.
+ * @param   {string} sectionId           The item to be removed.
  *
  * @returns {Array}                      The array without the item that should be removed.
  */
-const sidebarSectionCloser = ( openSidebarSections, removeSection ) => {
-	return openSidebarSections.filter( item => item !== removeSection );
+const sidebarSectionCloser = ( openSidebarSections, sectionId ) => {
+	return openSidebarSections.filter( item => item !== sectionId );
 };
 
 /**
@@ -44,9 +44,9 @@ const sidebarSectionCloser = ( openSidebarSections, removeSection ) => {
 function openSidebarSectionsReducer( state = INITIAL_STATE, action ) {
 	switch( action.type ) {
 		case OPEN_SIDEBAR_SECTION:
-			return sidebarSectionOpener( state, action.addSection );
+			return sidebarSectionOpener( state, action.sectionId );
 		case CLOSE_SIDEBAR_SECTION:
-			return sidebarSectionCloser( state, action.removeSection );
+			return sidebarSectionCloser( state, action.sectionId );
 		case CLOSE_ALL_SIDEBAR_SECTIONS:
 			return [];
 		default:
