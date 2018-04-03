@@ -1,6 +1,5 @@
 import SnippetPreview, { MODE_DESKTOP, MODE_MOBILE } from "../components/SnippetPreview";
 import React from "react";
-import renderer from "react-test-renderer";
 import { createComponentWithIntl } from "../../../../utils/intlProvider";
 
 const defaultArgs = {

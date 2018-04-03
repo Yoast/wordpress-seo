@@ -25,7 +25,15 @@
     ],
     "testRegex": ".*Test.js$",
     "coverageDirectory": "coverage",
-    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/*.*Test.js",
+      "!grunt/**/*.js",
+      "!*.js",
+      "!app/**/*.js",
+      "!a11y/examples/example.js"
+    ]
   },
   "author": "Yoast",
   "license": "GPL-3.0",
