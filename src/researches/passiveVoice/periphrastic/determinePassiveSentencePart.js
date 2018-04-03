@@ -1,12 +1,12 @@
-var arrayToRegex = require( "../../../stringProcessing/createRegexFromArray.js" );
-var determineSentencePartIsPassive = require( "./determineSentencePartIsPassive.js" );
+const arrayToRegex = require( "../../../stringProcessing/createRegexFromArray.js" );
+const determineSentencePartIsPassive = require( "./determineSentencePartIsPassive.js" );
 
 // Auxiliaries (only needed for German)
-var auxiliariesGerman = require( "../../german/passiveVoice/auxiliaries.js" )().allAuxiliaries;
+const auxiliariesGerman = require( "../../german/passiveVoice/auxiliaries.js" )().allAuxiliaries;
 
 // Participles
-var getParticiplesGerman = require( "../../german/passiveVoice/getParticiples.js" );
-var getParticiples = require( "./getParticiples.js" );
+const getParticiplesGerman = require( "../../german/passiveVoice/getParticiples.js" );
+const getParticiples = require( "./getParticiples.js" );
 
 
 /**
@@ -19,10 +19,10 @@ var getParticiples = require( "./getParticiples.js" );
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
 module.exports = function( sentencePartText, auxiliaries, language ) {
-	var participles = [];
+	let participles = [];
 	if ( language === "de" ) {
-		var passive = false;
-		var auxiliaryMatches = sentencePartText.match( arrayToRegex( auxiliariesGerman ) );
+		let passive = false;
+		let auxiliaryMatches = sentencePartText.match( arrayToRegex( auxiliariesGerman ) );
 		if ( auxiliaryMatches === null ) {
 			return passive;
 		}

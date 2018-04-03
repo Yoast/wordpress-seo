@@ -1,8 +1,8 @@
-var filter = require( "lodash/filter" );
-var getWords = require( "../../../stringProcessing/getWords.js" );
+const filter = require( "lodash/filter" );
+const getWords = require( "../../../stringProcessing/getWords.js" );
 
-// Verb-form lists
-var getPassiveVerbsRussian = require( "../../russian/passiveVoice/participles.js" )().all;
+// Verb-form lists per language
+const getPassiveVerbsRussian = require( "../../russian/passiveVoice/participlesShortenedList.js" )().all;
 
 /**
  * Matches the sentence against passive verbs.
@@ -11,9 +11,9 @@ var getPassiveVerbsRussian = require( "../../russian/passiveVoice/participles.js
  * @param {Array} passiveVerbs The array containing passive verb-forms.
  * @returns {Array} The found passive verbs.
  */
-var matchPassiveVerbs = function( sentence, passiveVerbs ) {
+let matchPassiveVerbs = function( sentence, passiveVerbs ) {
 	return filter( passiveVerbs, function( word ) {
-		var sentenceWords = getWords( sentence );
+		let sentenceWords = getWords( sentence );
 		return sentenceWords.includes( word );
 	} );
 };
@@ -25,8 +25,8 @@ var matchPassiveVerbs = function( sentence, passiveVerbs ) {
  * @param {Object} language The language of the text.
  * @returns {Array} Array of sentence objects containing the complete sentence and the transition words.
  */
-var determineSentenceIsPassive = function( sentence, language ) {
-	var passiveVerbs = [];
+let determineSentenceIsPassive = function( sentence, language ) {
+	let passiveVerbs = [];
 
 	switch ( language ) {
 		case "ru":

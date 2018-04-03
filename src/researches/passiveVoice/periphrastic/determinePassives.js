@@ -1,6 +1,6 @@
-var getParticiples = require( ".//getParticiples.js" );
+const getParticiples = require( ".//getParticiples.js" );
 
-var determineSentencePartIsPassive =  require( ".//determineSentencePartIsPassive.js" );
+const determineSentencePartIsPassive =  require( ".//determineSentencePartIsPassive.js" );
 
 /**
  * Determines whether a sentence part is passive.
@@ -11,6 +11,6 @@ var determineSentencePartIsPassive =  require( ".//determineSentencePartIsPassiv
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
 module.exports = function( sentencePart, auxiliaries, language ) {
-	var participles = getParticiples( sentencePart, auxiliaries, language );
+	let participles = getParticiples( sentencePart, auxiliaries, language );
 	return determineSentencePartIsPassive( participles );
 };

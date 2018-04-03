@@ -1,19 +1,19 @@
-var getSentences = require( "../stringProcessing/getSentences.js" );
-var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
-var getLanguage = require( "../helpers/getLanguage.js" );
-var Sentence = require( "../values/Sentence.js" );
+const getSentences = require( "../stringProcessing/getSentences.js" );
+const stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" ).stripFullTags;
+const getLanguage = require( "../helpers/getLanguage.js" );
+const Sentence = require( "../values/Sentence.js" );
 
-var forEach = require( "lodash/forEach" );
+const forEach = require( "lodash/forEach" );
 
-var determinePassiveSentencePart = require( "./passiveVoice/periphrastic/determinePassiveSentencePart.js" );
-var determinePassiveSentence = require( "./passiveVoice/morphological/determinePassiveSentence.js" );
+const determinePassiveSentencePart = require( "./passiveVoice/periphrastic/determinePassiveSentencePart.js" );
+const determinePassiveSentence = require( "./passiveVoice/morphological/determinePassiveSentence.js" );
 
-var getSentencePartsDefault = require( "./passiveVoice/periphrastic/getSentenceParts.js" );
-var getSentencePartsGerman = require( "./german/passiveVoice/getSentenceParts.js" );
+const getSentencePartsDefault = require( "./passiveVoice/periphrastic/getSentenceParts.js" );
+const getSentencePartsGerman = require( "./german/passiveVoice/getSentenceParts.js" );
 
-var morphologicalPassiveLanguages = [ "ru", "tr" ];
-var periphrasticPassiveLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn" ];
-var morphologicalAndPeriphrasticPassiveLanguages = [ "sv", "da", "nb" ];
+const morphologicalLanguages = [ "ru", "tr" ];
+const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn" ];
+const morphologicalAndPeriphrasticLanguages = [ "sv", "da", "nb" ];
 
 /**
  * Looks for morphological passive voice.
@@ -22,11 +22,11 @@ var morphologicalAndPeriphrasticPassiveLanguages = [ "sv", "da", "nb" ];
  * @param {string} language Language of the text.
  * @returns {object} The number of passives found in the text and the passive sentences.
  */
-var getPassivesMorphological = function( sentenceObjects, language ) {
-	var passiveSentencesByType = [];
+let getPassivesMorphological = function( sentenceObjects, language ) {
+	let passiveSentencesByType = [];
 
 	forEach( sentenceObjects, function( sentence ) {
-		var strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
+		let strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
 
 		sentence.setPassive( determinePassiveSentence( strippedSentence, language ) );
 
@@ -46,11 +46,11 @@ var getPassivesMorphological = function( sentenceObjects, language ) {
  * @param {string} language Language of the text.
  * @returns {object} The number of passives found in the text and the passive sentences.
  */
-var getPassivesPeriphrastic = function( sentenceObjects, language ) {
-	var passiveSentencesByType = [];
+let getPassivesPeriphrastic = function( sentenceObjects, language ) {
+	let passiveSentencesByType = [];
 	forEach( sentenceObjects, function( sentence ) {
-		var strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
-		var sentenceParts = [];
+		let strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
+		let sentenceParts = [];
 
 		if ( language === "de" ) {
 			sentenceParts = getSentencePartsGerman( strippedSentence );
@@ -58,7 +58,7 @@ var getPassivesPeriphrastic = function( sentenceObjects, language ) {
 			sentenceParts = getSentencePartsDefault( strippedSentence, language );
 		}
 
-		var passive = false;
+		let passive = false;
 		forEach( sentenceParts, function( sentencePart ) {
 			sentencePart.setPassive( determinePassiveSentencePart( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), language ) );
 			passive = passive || sentencePart.isPassive();
@@ -79,14 +79,14 @@ var getPassivesPeriphrastic = function( sentenceObjects, language ) {
  * @param {string} language Language of the text.
  * @returns {object} The number of passives found in the text and the passive sentences.
  */
-var getPassives = function( sentenceObjects, language ) {
-	var passiveSentences = [];
+let getPassives = function( sentenceObjects, language ) {
+	let passiveSentences = [];
 
-	if ( morphologicalPassiveLanguages.includes( language ) ) {
+	if ( morphologicalLanguages.includes( language ) ) {
 		passiveSentences = getPassivesMorphological( sentenceObjects, language );
-	} else if ( periphrasticPassiveLanguages.includes( language ) ) {
+	} else if ( periphrasticLanguages.includes( language ) ) {
 		passiveSentences = getPassivesPeriphrastic( sentenceObjects, language );
-	} else if ( morphologicalAndPeriphrasticPassiveLanguages.includes( language ) ) {
+	} else if ( morphologicalAndPeriphrasticLanguages.includes( language ) ) {
 		passiveSentences = getPassivesMorphological( sentenceObjects, language );
 		passiveSentences.push( getPassivesPeriphrastic( sentenceObjects, language ) );
 	}
@@ -104,12 +104,12 @@ var getPassives = function( sentenceObjects, language ) {
  * @returns {object} The number of passives found in the text and the passive sentences.
  */
 module.exports = function( paper ) {
-	var text = paper.getText();
-	var locale = paper.getLocale();
-	var language = getLanguage( locale );
-	var sentences = getSentences( text );
+	let text = paper.getText();
+	let locale = paper.getLocale();
+	let language = getLanguage( locale );
+	let sentences = getSentences( text );
 
-	var sentenceObjects = [];
+	let sentenceObjects = [];
 
 	forEach( sentences, function( sentence ) {
 		sentenceObjects.push( new Sentence( sentence, locale ) );
