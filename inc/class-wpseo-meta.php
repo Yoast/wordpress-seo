@@ -511,7 +511,9 @@ class WPSEO_Meta {
 				}
 
 				if ( $meta_key === self::$meta_prefix . 'focuskw' ) {
-					$clean = str_replace( array(
+					$clean = str_replace(
+					    apply_filters('wpseo_focuskw_strip_chars',
+					    array(
 						'&lt;',
 						'&gt;',
 						'&quot',
@@ -520,7 +522,7 @@ class WPSEO_Meta {
 						'>',
 						'"',
 						'`',
-					), '', $clean );
+					)), '', $clean );
 				}
 				break;
 		}
