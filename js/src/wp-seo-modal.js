@@ -75,9 +75,9 @@ class Modal extends React.Component {
 					modalAriaLabel={ this.props.labels.modalAriaLabel }
 					appElement={ this.appElement }
 					heading={ this.props.labels.heading }
-					closeIconButton={ this.props.labels.xClose }
-					closeButton={ this.props.labels.close }
-					xCloseButtonClassName={ this.props.classes.xCloseButton }
+					closeIconButton={ this.props.labels.closeIconButton }
+					closeIconButtonClassName={ this.props.classes.closeIconButton }
+					closeButton={ this.props.labels.closeButton }
 					closeButtonClassName={ this.props.classes.closeButton }
 				>
 					<ModalContent />
