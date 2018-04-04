@@ -18,13 +18,33 @@ class WPSEO_OpenGraph_Image {
 
 	/**
 	 * Constructor.
-	 *
-	 * @param string|boolean $image Optional image URL.
 	 */
-	public function __construct( $image = false ) {
-		// If an image was not supplied or could not be added.
-		if ( empty( $image ) || ! $this->add_image_by_url( $image ) ) {
-			$this->set_images();
+	public function __construct() {
+		/**
+		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags.
+		 *
+		 * @api WPSEO_OpenGraph_Image The current object.
+		 */
+		do_action( 'wpseo_add_opengraph_images', $this );
+
+		if ( is_front_page() ) {
+			$this->set_front_page_image();
+		}
+		elseif ( is_home() ) {
+			$this->set_posts_page_image();
+		}
+		elseif ( is_attachment() ) {
+			$this->set_attachment_page_image();
+		}
+		elseif ( is_single() || is_singular() ) {
+			$this->set_singular_image();
+		}
+		elseif ( is_category() || is_tax() || is_tag() ) {
+			$this->set_taxonomy_image();
+		}
+
+		if ( ! $this->has_images() ) {
+			$this->set_default_image();
 		}
 	}
 
@@ -38,13 +58,25 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
+	 * Check whether we have images or not.
+	 *
+	 * @return bool True if we have images, false if we don't.
+	 */
+	public function has_images() {
+		if ( ! empty( $this->images ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Display an OpenGraph image tag.
 	 *
 	 * @param string $img    Source URL to the image.
 	 * @param int    $width  The image width.
 	 * @param int    $height The image height.
 	 *
-	 * @return bool Whether we were succesful or not.
+	 * @return void
 	 */
 	public function add_image( $img, $width = null, $height = null ) {
 		/**
@@ -55,7 +87,7 @@ class WPSEO_OpenGraph_Image {
 		$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
 
 		if ( empty( $img ) ) {
-			return false;
+			return;
 		}
 
 		if ( WPSEO_Utils::is_url_relative( $img ) === true ) {
@@ -63,75 +95,38 @@ class WPSEO_OpenGraph_Image {
 		}
 
 		if ( array_key_exists( $img, $this->images ) ) {
-			return false;
+			return;
 		}
 
 		$this->images[ $img ] = array(
 			'width'  => $width,
 			'height' => $height,
 		);
-
-		return true;
-	}
-
-	/**
-	 * Find the correct image for the current page type.
-	 *
-	 * @return bool Whether we added an image or not.
-	 */
-	protected function set_images() {
-		/**
-		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags.
-		 *
-		 * @api WPSEO_OpenGraph_Image The current object.
-		 */
-		do_action( 'wpseo_add_opengraph_images', $this );
-
-		if ( is_front_page() ) {
-			return $this->get_front_page_image();
-		}
-		if ( is_home() ) { // Posts page, which won't be caught by is_singular() below.
-			return $this->get_posts_page_image();
-		}
-		if ( is_singular() ) {
-			return $this->get_singular_image();
-		}
-		if ( is_category() || is_tax() || is_tag() ) {
-			return $this->get_opengraph_image_taxonomy();
-		}
-
-		return $this->get_default_image();
 	}
 
 	/**
 	 * If the frontpage image exists, call add_image.
-	 *
-	 * @return bool Whether we added an image or not.
 	 */
-	private function get_front_page_image() {
+	private function set_front_page_image() {
 		if ( WPSEO_Options::get( 'og_frontpage_image', '' ) !== '' ) {
-			return $this->add_image_by_url( WPSEO_Options::get( 'og_frontpage_image' ) );
+			$this->add_image_by_url( WPSEO_Options::get( 'og_frontpage_image' ) );
 		}
-		return false;
 	}
 
 	/**
 	 * Get the images of the posts page.
 	 *
-	 * @return bool Whether we added an image or not.
+	 * @return void
 	 */
-	private function get_posts_page_image() {
+	private function set_posts_page_image() {
 		$post_id = get_option( 'page_for_posts' );
 
-		if ( $this->get_opengraph_image_post( $post_id ) ) {
-			return true;
+		$this->set_image_post( $post_id );
+		if ( $this->has_images() ) {
+			return;
 		}
 
-		if ( $this->get_featured_image( $post_id ) ) {
-			return true;
-		}
-
-		return false;
+		$this->set_featured_image( $post_id );
 	}
 
 	/**
@@ -139,60 +134,51 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @param null|int $post_id The post id to get the images for.
 	 *
-	 * @return bool Whether we added an image or not.
+	 * @return void
 	 */
-	private function get_singular_image( $post_id = null ) {
+	private function set_singular_image( $post_id = null ) {
 		if ( $post_id === null ) {
 			$post_id = get_the_ID();
 		}
 
-		if ( $this->get_opengraph_image_post( $post_id ) ) {
-			return true;
+		$this->set_image_post( $post_id );
+		if ( $this->has_images() ) {
+			return;
 		}
 
-		if ( $this->get_attachment_page_image( $post_id ) ) {
-			return true;
+		$this->set_featured_image( $post_id );
+		if ( $this->has_images() ) {
+			return;
 		}
 
-		if ( $this->get_featured_image( $post_id ) ) {
-			return true;
-		}
-
-		return $this->get_content_images( get_post( $post_id ) );
+		$this->add_content_images( get_post( $post_id ) );
 	}
 
 	/**
 	 * Get default image and call add_image.
-	 *
-	 * @return bool Whether we added an image or not.
 	 */
-	private function get_default_image() {
+	private function set_default_image() {
 		if ( count( $this->images ) === 0 && WPSEO_Options::get( 'og_default_image', '' ) !== '' ) {
-			return $this->add_image_by_url( WPSEO_Options::get( 'og_default_image' ) );
+			$this->add_image_by_url( WPSEO_Options::get( 'og_default_image' ) );
 		}
-		return false;
 	}
 
 	/**
 	 * If opengraph-image is set, call add_image and return true.
 	 *
 	 * @param int $post_id Optional post ID to use.
-	 *
-	 * @return bool Whether we added an image or not.
 	 */
-	private function get_opengraph_image_post( $post_id = 0 ) {
+	private function set_image_post( $post_id = 0 ) {
 		$image_url = WPSEO_Meta::get_value( 'opengraph-image', $post_id );
-		return $this->add_image_by_url( $image_url );
+		$this->add_image_by_url( $image_url );
 	}
 
 	/**
 	 * Check if taxonomy has an image and add this image.
-	 *
-	 * @return bool Whether we added an image or not.
 	 */
-	private function get_opengraph_image_taxonomy() {
+	private function set_taxonomy_image() {
 		$image_url = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-image' );
-		return $this->add_image_by_url( $image_url );
+		$this->add_image_by_url( $image_url );
 	}
 
 	/**
@@ -200,9 +186,9 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @param int $post_id The post ID.
 	 *
-	 * @return bool Whether we added an image or not.
+	 * @return void
 	 */
-	private function get_featured_image( $post_id ) {
+	private function set_featured_image( $post_id ) {
 		if ( has_post_thumbnail( $post_id ) ) {
 			$attachment_id = get_post_thumbnail_id( $post_id );
 			/**
@@ -213,27 +199,22 @@ class WPSEO_OpenGraph_Image {
 			$thumb = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
 
 			if ( $this->check_featured_image_size( $thumb ) ) {
-				$return = $this->add_image_by_id( $attachment_id );
-				return $return;
+				$this->add_image_by_id( $attachment_id );
+				return;
 			}
 		}
-
-		return false;
 	}
 
 	/**
-	 * If this is an attachment page, call add_image with the attachment and return true.
+	 * If this is an attachment page, call add_image with the attachment.
 	 *
-	 * @param int $post_id The post ID.
-	 *
-	 * @return bool Whether we added an image or not.
+	 * @return void
 	 */
-	private function get_attachment_page_image( $post_id ) {
-		if ( get_post_type( $post_id ) === 'attachment' && wp_attachment_is_image( $post_id ) ) {
-			return $this->add_image_by_id( $post_id );
+	private function set_attachment_page_image() {
+		$post_id = get_queried_object_id();
+		if ( wp_attachment_is_image( $post_id ) ) {
+			$this->add_image_by_id( $post_id );
 		}
-
-		return false;
 	}
 
 	/**
@@ -241,25 +222,19 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @param object $post The post object.
 	 *
-	 * @return bool Whether we added an image or not.
+	 * @return void
 	 */
-	private function get_content_images( $post ) {
-		$status       = false;
+	private function add_content_images( $post ) {
 		$image_finder = new WPSEO_Content_Images();
 		$images       = $image_finder->get_content_images( $post->ID, $post );
 
 		if ( ! is_array( $images ) || $images === array() ) {
-			return false;
+			return;
 		}
 
 		foreach ( $images as $image ) {
-			$return = $this->add_image_by_url( $image );
-			if ( $return ) {
-				$status = true;
-			}
+			$this->add_image_by_url( $image );
 		}
-
-		return $status;
 	}
 
 	/**
@@ -267,18 +242,17 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @param string $url The given URL.
 	 *
-	 * @return bool Whether we were successful or not.
+	 * @return void
 	 */
 	protected function add_image_by_url( $url ) {
 		if ( $url !== '' ) {
 			$attachment_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
 			if ( $attachment_id > 0 ) {
-				return $this->add_image_by_id( $attachment_id );
+				$this->add_image_by_id( $attachment_id );
+				return;
 			}
-			return $this->add_image( $url );
+			$this->add_image( $url );
 		}
-
-		return false;
 	}
 
 	/**
@@ -306,20 +280,19 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @param int $attachment_id The attachment ID to add.
 	 *
-	 * @return bool Whether we were successful or not.
+	 * @return void
 	 */
 	protected function add_image_by_id( $attachment_id ) {
 		$attachment = WPSEO_Image_Utils::find_correct_image_size( $attachment_id );
 		if ( $attachment ) {
-			return $this->add_image( $attachment['url'], $attachment['width'], $attachment['height'] );
+			$this->add_image( $attachment['url'], $attachment['width'], $attachment['height'] );
+			return;
 		}
 
 		$image = wp_get_attachment_image_src( $attachment_id, 'full' );
 		if ( $image ) {
-			return $this->add_image( $image[0], $image[1], $image[2] );
+			$this->add_image( $image[0], $image[1], $image[2] );
 		}
-
-		return false;
 	}
 
 }

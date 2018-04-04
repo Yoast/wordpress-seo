@@ -531,10 +531,10 @@ class WPSEO_OpenGraph {
 	/**
 	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image.
 	 *
-	 * @param string|boolean $image Optional image URL.
+	 * @return void
 	 */
-	public function image( $image = false ) {
-		$opengraph_images = new WPSEO_OpenGraph_Image( $image );
+	public function image() {
+		$opengraph_images = new WPSEO_OpenGraph_Image();
 
 		foreach ( $opengraph_images->get_images() as $img => $dimensions ) {
 			$tag = 'og:image';

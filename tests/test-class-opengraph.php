@@ -412,47 +412,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertContains( $expected_output, $output );
 	}
 
-
-
-	/**
-	 * Tests whether the correct OG tag for an image via HTTP is generated.
-	 *
-	 * @group test
-	 */
-	public function test_image_insecure_url() {
-		$stub = $this
-			->getMockBuilder( 'WPSEO_OpenGraph' )
-			->setMethods( array( 'og_tag' ) )
-			->getMock();
-
-		$stub
-			->expects( $this->once() )
-			->method( 'og_tag' )
-			->with( 'og:image' );
-
-		$stub->image( 'http://example.org/test.png' );
-	}
-
-
-
-	/**
-	 * Tests whether the correct OG tag for an image via HTTPS is generated.
-	 */
-	public function test_image_secure_url() {
-		$stub = $this
-			->getMockBuilder( 'WPSEO_OpenGraph' )
-			->setMethods( array( 'og_tag' ) )
-			->getMock();
-
-		$stub
-			->expects( $this->exactly( 2 ) )
-			->method( 'og_tag' )
-			->with( $this->logicalOr( 'og:image', 'og:image:secure_url' ) );
-
-		$stub->image( 'https://example.org/test.png' );
-	}
-
-
 	/**
 	 * @covers WPSEO_OpenGraph::description
 	 */
