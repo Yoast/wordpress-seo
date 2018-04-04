@@ -18,7 +18,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 * @return array The retrieved data.
 	 */
 	public function get( $object_id ) {
-		$meta_robots_adv = explode( ',',  WPSEO_Meta::get_value( 'meta-robots-adv', $object_id ) );
+		$meta_robots_adv = explode( ',', WPSEO_Meta::get_value( 'meta-robots-adv', $object_id ) );
 
 		$link_count = new WPSEO_Link_Column_Count();
 		$link_count->set( array( $object_id ) );
