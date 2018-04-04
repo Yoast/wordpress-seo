@@ -72,13 +72,14 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Display an OpenGraph image tag.
 	 *
-	 * @param string $img    Source URL to the image.
-	 * @param int    $width  The image width.
-	 * @param int    $height The image height.
+	 * @param string $img      Source URL to the image.
+	 * @param int    $width    The image width.
+	 * @param int    $height   The image height.
+	 * @param string $alt_text The image alt text.
 	 *
 	 * @return void
 	 */
-	public function add_image( $img, $width = null, $height = null ) {
+	public function add_image( $img, $width = null, $height = null, $alt_text = '' ) {
 		/**
 		 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image.
 		 *
@@ -101,6 +102,7 @@ class WPSEO_OpenGraph_Image {
 		$this->images[ $img ] = array(
 			'width'  => $width,
 			'height' => $height,
+			'alt'    => $alt_text,
 		);
 	}
 
@@ -121,7 +123,7 @@ class WPSEO_OpenGraph_Image {
 	private function set_posts_page_image() {
 		$post_id = get_option( 'page_for_posts' );
 
-		$this->set_image_post( $post_id );
+		$this->set_image_post_meta( $post_id );
 		if ( $this->has_images() ) {
 			return;
 		}
@@ -141,7 +143,7 @@ class WPSEO_OpenGraph_Image {
 			$post_id = get_the_ID();
 		}
 
-		$this->set_image_post( $post_id );
+		$this->set_image_post_meta( $post_id );
 		if ( $this->has_images() ) {
 			return;
 		}
@@ -168,7 +170,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @param int $post_id Optional post ID to use.
 	 */
-	private function set_image_post( $post_id = 0 ) {
+	private function set_image_post_meta( $post_id = 0 ) {
 		$image_url = WPSEO_Meta::get_value( 'opengraph-image', $post_id );
 		$this->add_image_by_url( $image_url );
 	}
@@ -232,8 +234,12 @@ class WPSEO_OpenGraph_Image {
 			return;
 		}
 
-		foreach ( $images as $image ) {
-			$this->add_image_by_url( $image );
+		foreach ( $images as $image_url => $attachment_id ) {
+			if ( $attachment_id !== 0 ) {
+				$this->add_image_by_id( $attachment_id );
+				continue;
+			}
+			$this->add_image_by_url( $image_url );
 		}
 	}
 
@@ -284,14 +290,16 @@ class WPSEO_OpenGraph_Image {
 	 */
 	protected function add_image_by_id( $attachment_id ) {
 		$attachment = WPSEO_Image_Utils::find_correct_image_size( $attachment_id );
+		$alt_text   = WPSEO_Image_Utils::get_image_alt_tag( $attachment_id );
+
 		if ( $attachment ) {
-			$this->add_image( $attachment['url'], $attachment['width'], $attachment['height'] );
+			$this->add_image( $attachment['url'], $attachment['width'], $attachment['height'], $alt_text );
 			return;
 		}
 
 		$image = wp_get_attachment_image_src( $attachment_id, 'full' );
 		if ( $image ) {
-			$this->add_image( $image[0], $image[1], $image[2] );
+			$this->add_image( $image[0], $image[1], $image[2], $alt_text );
 		}
 	}
 

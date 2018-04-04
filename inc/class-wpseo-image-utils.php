@@ -44,25 +44,14 @@ class WPSEO_Image_Utils {
 		 */
 		$max_size = apply_filters( 'wpseo_image_image_weight_limit', ( 2 * 1024 * 1024 ) );
 
-		/**
-		 * Filter: 'wpseo_opengraph_image_sizes' - Determines which image sizes we'll loop through to get an appropriate image.
-		 *
-		 * @api array - The array of image sizes to loop through.
-		 */
-		$image_sizes = apply_filters( 'wpseo_opengraph_image_sizes', array( 'full', 'large', 'medium_large' ) );
-		foreach ( $image_sizes as $size ) {
+		foreach ( self::get_image_sizes() as $size ) {
 			// @todo fix how this is tested in test-class-opengraph as that test now doesn't work.
 			$image = image_get_intermediate_size( $attachment_id, $size );
 			if ( $image === false ) {
 				continue;
 			}
-			// If the file size for the file is over our limit, we're going to go for a smaller version.
-			// phpcs:ignore -- If file size doesn't properly return, we'll not fail.
-			$file_size = filesize( self::get_full_file_path( $image['path'] ) );
-			if ( $file_size === false ) {
-				return $image;
-			}
-			if ( $file_size < $max_size ) {
+			$file_size = self::get_image_file_size( $image );
+			if ( $file_size === false || $file_size < $max_size ) {
 				return $image;
 			}
 		}
@@ -84,7 +73,7 @@ class WPSEO_Image_Utils {
 			$uploads = wp_get_upload_dir();
 		}
 
-		if ( false !== $uploads['error'] ) {
+		if ( empty( $uploads['error'] ) ) {
 			return $uploads['basedir'] . "/$path";
 		}
 
@@ -111,4 +100,45 @@ class WPSEO_Image_Utils {
 		return $img;
 	}
 
+	/**
+	 * Get the image file size.
+	 *
+	 * @param array $image An image array object.
+	 *
+	 * @return int
+	 */
+	public static function get_image_file_size( $image ) {
+		if ( isset( $image['filesize'] ) ) {
+			return $image['filesize'];
+		}
+		// If the file size for the file is over our limit, we're going to go for a smaller version.
+		// phpcs:ignore -- If file size doesn't properly return, we'll not fail.
+		$file_size = @filesize( self::get_full_file_path( $image['path'] ) );
+		// @todo save the filesize to the image metadata.
+		return $file_size;
+	}
+
+	/**
+	 * Retrieve the internal WP image file sizes.
+	 */
+	public static function get_image_sizes() {
+		/**
+		 * Filter: 'wpseo_image_sizes' - Determines which image sizes we'll loop through to get an appropriate image.
+		 *
+		 * @api array - The array of image sizes to loop through.
+		 */
+		$image_sizes = apply_filters( 'wpseo_image_sizes', array( 'full', 'large', 'medium_large' ) );
+		return $image_sizes;
+	}
+
+	/**
+	 * Grabs an image alt text.
+	 *
+	 * @param int $attachment_id The attachment ID.
+	 *
+	 * @return string The image alt text.
+	 */
+	public static function get_image_alt_tag( $attachment_id ) {
+		return (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+	}
 }

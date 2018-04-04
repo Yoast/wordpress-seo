@@ -54,7 +54,8 @@ class WPSEO_Content_Images {
 		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 			foreach ( $matches[0] as $img ) {
 				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-					$images[] = $match[2];
+					$attachment_id       = WPSEO_Image_Utils::get_attachment_by_url( $match[2] );
+					$images[ $match[2] ] = $attachment_id;
 				}
 			}
 		}

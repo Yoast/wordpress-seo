@@ -536,19 +536,23 @@ class WPSEO_OpenGraph {
 	public function image() {
 		$opengraph_images = new WPSEO_OpenGraph_Image();
 
-		foreach ( $opengraph_images->get_images() as $img => $dimensions ) {
+		foreach ( $opengraph_images->get_images() as $img => $image_meta ) {
 			$tag = 'og:image';
 			if ( 0 === strpos( $img, 'https://' ) ) {
 				$tag = 'og:image:secure_url';
 			}
 			$this->og_tag( $tag, esc_url( $img ) );
 
-			if ( ! empty( $dimensions['width'] ) ) {
-				$this->og_tag( 'og:image:width', (int) $dimensions['width'] );
+			if ( ! empty( $image_meta['width'] ) ) {
+				$this->og_tag( 'og:image:width', (int) $image_meta['width'] );
 			}
 
-			if ( ! empty( $dimensions['height'] ) ) {
-				$this->og_tag( 'og:image:height', (int) $dimensions['height'] );
+			if ( ! empty( $image_meta['height'] ) ) {
+				$this->og_tag( 'og:image:height', (int) $image_meta['height'] );
+			}
+
+			if ( ! empty( $image_meta['alt'] ) ) {
+				$this->og_tag( 'og:image:alt', $image_meta['alt'] );
 			}
 		}
 	}
