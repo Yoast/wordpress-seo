@@ -511,19 +511,21 @@ class WPSEO_Meta {
 				}
 
 				if ( $meta_key === self::$meta_prefix . 'focuskw' ) {
-					$clean = str_replace(
-					    apply_filters('wpseo_focuskw_strip_chars',
-					    array(
-						'&lt;',
-						'&gt;',
-						'&quot',
-						'&#96',
-						'<',
-						'>',
-						'"',
-						'`',
-					)), '', $clean );
+
+					/**
+					 * Filter: 'wpseo_focuskw_strippable_chars' - Allows customization of the strippable characters
+					 * in the focus keyword field.
+					 *
+					 * @api array $strippable_chars The characters to strip from the focus keyword.
+					 */
+					$strippable_chars = apply_filters(
+						'wpseo_focuskw_strippable_chars',
+						array( '&lt;', '&gt;', '&quot', '&#96', '<', '>', '"', '`' )
+					);
+
+					$clean = str_replace( $strippable_chars, '', $clean );
 				}
+
 				break;
 		}
 
