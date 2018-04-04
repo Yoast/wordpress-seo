@@ -14,7 +14,7 @@ class WPSEO_Content_Images {
 	 *
 	 * @var string
 	 */
-	private $key_name = 'wpseo_post_image_cache';
+	private $key_name = '_wpseo_post_image_cache';
 
 	/**
 	 * Retrieve images from the post content.
@@ -61,19 +61,45 @@ class WPSEO_Content_Images {
 	 *
 	 * @param string $content The post content string.
 	 *
-	 * @return array
+	 * @return array An array of image URLs as keys and ID's as values.
 	 */
 	private function get_images_from_content( $content ) {
 		$images = array();
-		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-			foreach ( $matches[0] as $img ) {
-				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-					$attachment_id       = WPSEO_Image_Utils::get_attachment_by_url( $match[2] );
-					$images[ $match[2] ] = $attachment_id;
-				}
+		foreach ( $this->get_img_tags_from_content( $content ) as $img ) {
+			$url = $this->get_image_url_from_img( $img );
+			if ( $url ) {
+				$attachment_id  = WPSEO_Image_Utils::get_attachment_by_url( $url );
+				$images[ $url ] = $attachment_id;
 			}
 		}
 
 		return $images;
+	}
+
+	/**
+	 * Gets the image tags from a given content string.
+	 *
+	 * @param string $content The content to search for image tags.
+	 *
+	 * @return array An array of `<img>` tags.
+	 */
+	private function get_img_tags_from_content( $content ) {
+		preg_match_all( '`<img [^>]+>`', $content, $matches, PREG_SET_ORDER );
+		return $matches[0];
+	}
+
+	/**
+	 * Retrieves the image URL from an image tag.
+	 *
+	 * @param string $image Image HTML element.
+	 *
+	 * @return string
+	 */
+	private function get_image_url_from_img( $image ) {
+		preg_match( '`src=(["\'])(.*?)\1`', $image, $matches );
+		if ( isset( $matches[2] ) ) {
+			return $matches[2];
+		}
+		return false;
 	}
 }

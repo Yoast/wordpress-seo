@@ -58,20 +58,17 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Display an OpenGraph image tag.
 	 *
-	 * @param string $img      Source URL to the image.
-	 * @param int    $width    The image width.
-	 * @param int    $height   The image height.
-	 * @param string $alt_text The image alt text.
+	 * @param array $attachment Attachment array.
 	 *
 	 * @return void
 	 */
-	public function add_image( $img, $width = null, $height = null, $alt_text = '' ) {
+	public function add_image( $attachment ) {
 		/**
 		 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image.
 		 *
 		 * @api string - The URL of the OpenGraph image.
 		 */
-		$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
+		$img = trim( apply_filters( 'wpseo_opengraph_image', $attachment['url'] ) );
 
 		if ( empty( $img ) ) {
 			return;
@@ -86,9 +83,10 @@ class WPSEO_OpenGraph_Image {
 		}
 
 		$this->images[ $img ] = array(
-			'width'  => $width,
-			'height' => $height,
-			'alt'    => $alt_text,
+			'width'  => $attachment['width'],
+			'height' => $attachment['height'],
+			'alt'    => $attachment['alt-text'],
+			'type'   => $attachment['mime-type'],
 		);
 	}
 
@@ -279,13 +277,22 @@ class WPSEO_OpenGraph_Image {
 		$alt_text   = WPSEO_Image_Utils::get_image_alt_tag( $attachment_id );
 
 		if ( $attachment ) {
-			$this->add_image( $attachment['url'], $attachment['width'], $attachment['height'], $alt_text );
+			$attachment['alt-text'] = $alt_text;
+			$this->add_image( $attachment );
+
 			return;
 		}
 
 		$image = wp_get_attachment_image_src( $attachment_id, 'full' );
 		if ( $image ) {
-			$this->add_image( $image[0], $image[1], $image[2], $alt_text );
+			$attachment = array(
+				'url'       => $image[0],
+				'width'     => $image[1],
+				'height'    => $image[2],
+				'alt-text'  => $alt_text,
+				'mime-type' => get_post_mime_type( $attachment_id ),
+			);
+			$this->add_image( $attachment );
 		}
 	}
 

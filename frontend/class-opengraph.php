@@ -539,9 +539,9 @@ class WPSEO_OpenGraph {
 		foreach ( $opengraph_images->get_images() as $img => $image_meta ) {
 			$this->og_image_tag( $img );
 
-			foreach ( array( 'width', 'height', 'alt' ) as $key ) {
-				if ( ! empty( $image_meta[ $key ] ) ) {
-					$this->og_tag( 'og:image:' . $key, $image_meta['key'] );
+			foreach ( array( 'width', 'height', 'alt', 'type' ) as $key ) {
+				if ( isset( $image_meta[ $key ] ) && ! empty( $image_meta[ $key ] ) ) {
+					$this->og_tag( 'og:image:' . $key, $image_meta[ $key ] );
 				}
 			}
 		}
