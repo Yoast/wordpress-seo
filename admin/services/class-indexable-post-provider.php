@@ -24,7 +24,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 		$link_count->set( array( $object_id ) );
 
 		return array(
-			'object_id'                   => $object_id,
+			'object_id'                   => (int) $object_id,
 			'object_type'                 => 'post',
 			'object_subtype'              => get_post_type( $object_id ),
 			'permalink'                   => get_permalink( $object_id ),
@@ -38,17 +38,17 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 			'twitter_title'               => WPSEO_Meta::get_value( 'twitter-title', $object_id ),
 			'twitter_description'         => WPSEO_Meta::get_value( 'twitter-description', $object_id ),
 			'twitter_image'               => WPSEO_Meta::get_value( 'twitter-image', $object_id ),
-			'is_robots_noindex'           => WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ),
-			'is_robots_nofollow'          => WPSEO_Meta::get_value( 'meta-robots-nofollow', $object_id ),
+			'is_robots_noindex'           => $this->translate_robots_noindex( WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) ),
+			'is_robots_nofollow'          => WPSEO_Meta::get_value( 'meta-robots-nofollow', $object_id ) === '1',
 			'is_robots_noarchive'         => in_array( 'noarchive', $meta_robots_adv, true ),
 			'is_robots_noimageindex'      => in_array( 'noimageindex', $meta_robots_adv, true ),
 			'is_robots_nosnippet'         => in_array( 'nosnippet', $meta_robots_adv, true ),
 			'primary_focus_keyword'       => WPSEO_Meta::get_value( 'focuskw', $object_id ),
-			'primary_focus_keyword_score' => WPSEO_Meta::get_value( 'linkdex', $object_id ),
-			'readability_score'           => WPSEO_Meta::get_value( 'content_score', $object_id ),
+			'primary_focus_keyword_score' => (int) WPSEO_Meta::get_value( 'linkdex', $object_id ),
+			'readability_score'           => (int) WPSEO_Meta::get_value( 'content_score', $object_id ),
 			'is_cornerstone'              => WPSEO_Meta::get_value( 'is_cornerstone', $object_id ) === '1',
-			'link_count'                  => $link_count->get( $object_id, 'internal_link_count' ),
-			'incoming_link_count'         => $link_count->get( $object_id, 'incoming_link_count' ),
+			'link_count'                  => (int) $link_count->get( $object_id ),
+			'incoming_link_count'         => (int) $link_count->get( $object_id, 'incoming_link_count' ),
 			'created_at'                  => null,
 			'updated_at'                  => null,
 		);
@@ -62,7 +62,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 * @return bool Whether the object id is indexable.
 	 */
 	public function is_indexable( $object_id ) {
-		if ( get_post( $object_id ) === null ) {
+		if ( ! post_exists( $object_id ) ) {
 		 	return false;
 		}
 
@@ -74,11 +74,30 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 			return false;
 		}
 
-		if ( ! WPSEO_Post_Type::is_post_type_indexable( get_post_type( $object_id ) ) ) {
+		$post_type = get_post_type( $object_id );
+		if ( ! WPSEO_Post_Type::is_post_type_indexable( $post_type ) ) {
 			return false;
 		}
 
-
 		return true;
+	}
+
+	/**
+	 * Translates the meta value to a boolean value.
+	 *
+	 * @param string $value The value to translate.
+	 *
+	 * @return bool|null The translated value.
+	 */
+	protected function translate_robots_noindex( $value ) {
+		if ( $value === '1' ) {
+			return true;
+		}
+
+		if ( $value === '2' ) {
+			return false;
+		}
+
+		return null;
 	}
 }

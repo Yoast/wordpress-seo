@@ -21,7 +21,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 		$term = get_term( $object_id );
 
 		return array(
-			'object_id'                   => $object_id,
+			'object_id'                   => (int) $object_id,
 			'object_type'                 => 'term',
 			'object_subtype'              => $term->taxonomy,
 			'permalink'                   => get_term_link( $term ),
@@ -35,7 +35,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 			'twitter_title'               => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'twitter-title' ),
 			'twitter_description'         => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'twitter-description' ),
 			'twitter_image'               => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'twitter-image' ),
-			'is_robots_noindex'           => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' ),
+			'is_robots_noindex'           => $this->translate_robots_noindex( WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' ) ),
 			'is_robots_nofollow'          => null,
 			'is_robots_noarchive'         => null,
 			'is_robots_noimageindex'      => null,
@@ -59,6 +59,42 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 * @return bool Whether the object id is indexable.
 	 */
 	public function is_indexable( $object_id ) {
-		return true;
+		$term = get_term( $object_id );
+
+		if ( $term === null ) {
+			return false;
+		}
+
+		$noindex = $this->translate_robots_noindex( WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' ) );
+		if ( $noindex === null ) {
+			$noindex = WPSEO_Options::get( 'noindex-tax-' . $term->taxonomy, false );
+		}
+
+		if ( $noindex === true ) {
+			return false;
+		}
+
+		$taxonomy = get_taxonomy( $term->taxonomy );
+
+		return $taxonomy->publicly_queryable || ( $taxonomy->_builtin && $taxonomy->public );
+	}
+
+	/**
+	 * Translates the meta value to a boolean value.
+	 *
+	 * @param string $value The value to translate.
+	 *
+	 * @return bool|null The translated value.
+	 */
+	protected function translate_robots_noindex( $value ) {
+		if ( $value === 'noindex' ) {
+			return true;
+		}
+
+		if ( $value === 'index' ) {
+			return false;
+		}
+
+		return null;
 	}
 }
