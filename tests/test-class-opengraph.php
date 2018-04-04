@@ -265,6 +265,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * Test if the opengraph-image (Facebook Image) is added to opengraph.
 	 *
 	 * @covers WPSEO_OpenGraph::image
+	 *
+	 * @group test
 	 */
 	public function test_image_IS_SINGULAR_and_HAS_open_graph_image() {
 		$post_id = $this->factory->post->create();
@@ -291,6 +293,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * Test if the content image does not get added to opengraph when there is an opengraph-image (Facebook Image).
 	 *
 	 * @covers WPSEO_OpenGraph::image
+	 *
+	 * @group test
 	 */
 	public function test_image_IS_SINGULAR_and_HAS_open_graph_image_AND_HAS_content_images() {
 		$post_id = $this->factory->post->create(
@@ -322,6 +326,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * Test if featured image does not get added to opengraph when the image is too small.
 	 *
 	 * @covers WPSEO_OpenGraph::image
+	 * @group test
 	 */
 	public function test_image_IS_SINGULAR_AND_HAS_featured_image_AND_HAS_WRONG_size() {
 		$post_id   = $this->factory->post->create();
@@ -351,6 +356,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if featured image gets added to opengraph when it is the correct size.
 	 * @covers WPSEO_OpenGraph::image
+	 * @group test
 	 */
 	public function test_image_IS_SINGULAR_AND_HAS_featured_image_AND_HAS_RIGHT_size() {
 		$post_id   = $this->factory->post->create();
@@ -381,6 +387,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * Test if image in content is added to open graph.
 	 *
 	 * @covers WPSEO_OpenGraph::image
+	 *
+	 * @group test
 	 */
 	public function test_image_get_content_image() {
 		$post_id = $this->factory->post->create(
@@ -408,6 +416,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests whether the correct OG tag for an image via HTTP is generated.
+	 *
+	 * @group test
 	 */
 	public function test_image_insecure_url() {
 		$stub = $this
@@ -529,7 +539,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$image_url       = 'https://example.com/image.png';
 		$expected_output = <<<EXPECTED
-<meta property="og:image" content="{$image_url}" />
 <meta property="og:image:secure_url" content="{$image_url}" />
 EXPECTED;
 		WPSEO_Meta::set_value( 'opengraph-image', $image_url, $post_id );
