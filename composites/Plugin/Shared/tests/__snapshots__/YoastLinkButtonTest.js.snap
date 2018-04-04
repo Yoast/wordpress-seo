@@ -1,14 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the YoastLinkButton matches the snapshot 1`] = `
-.c1 {
-  text-decoration: none;
-  color: #fff;
-  background: #64a60a;
-  min-width: 152px;
-  text-shadow: 0 0 2px #000;
-}
-
 .c0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -40,7 +32,7 @@ exports[`the YoastLinkButton matches the snapshot 1`] = `
 .c0:hover,
 .c0:focus,
 .c0:active {
-  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ),inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
@@ -49,6 +41,14 @@ exports[`the YoastLinkButton matches the snapshot 1`] = `
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
+}
+
+.c1 {
+  text-decoration: none;
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
