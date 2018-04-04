@@ -17,22 +17,37 @@ class WPSEO_Database_Proxy {
 	protected $suppress_errors = true;
 
 	/** @var bool */
+	protected $is_global = false;
+
+	/** @var bool */
 	protected $last_suppressed_state;
 
 	/** @var wpdb */
 	protected $database;
 
 	/**
-	 * Sets the class attributes.
+	 * Sets the class attributes and registers the table.
 	 *
 	 * @param wpdb   $database        The database object.
 	 * @param string $table_name      The table name that is represented.
 	 * @param bool   $suppress_errors Should the errors be suppressed.
+	 * @param bool   $is_global       Should the table be global in multisite.
 	 */
-	public function __construct( $database, $table_name, $suppress_errors = true ) {
+	public function __construct( $database, $table_name, $suppress_errors = true, $is_global = false ) {
 		$this->table_name      = $table_name;
 		$this->suppress_errors = (bool) $suppress_errors;
+		$this->is_global       = (bool) $is_global;
 		$this->database        = $database;
+
+		// If the table prefix was provided, strip it as it's handled automatically.
+		$table_prefix = $this->get_table_prefix();
+		if ( 0 === strpos( $this->table_name, $table_prefix ) ) {
+			$this->table_prefix = substr( $this->table_name, strlen( $table_prefix ) );
+		}
+
+		if ( ! $this->is_table_registered() ) {
+			$this->register_table();
+		}
 	}
 
 	/**
@@ -183,11 +198,54 @@ class WPSEO_Database_Proxy {
 	}
 
 	/**
-	 * Returns the set table name.
+	 * Returns the full table name.
 	 *
 	 * @return string
 	 */
-	protected function get_table_name() {
-		return $this->table_name;
+	public function get_table_name() {
+		return $this->get_table_prefix() . $this->table_name;
+	}
+
+	/**
+	 * Returns the prefix to use for the table.
+	 *
+	 * @return string Table prefix.
+	 */
+	protected function get_table_prefix() {
+		if ( $this->is_global ) {
+			return $this->database->base_prefix;
+		}
+
+		return $this->database->get_blog_prefix();
+	}
+
+	/**
+	 * Registers the table with WordPress.
+	 */
+	protected function register_table() {
+		$table_name      = $this->table_name;
+		$full_table_name = $this->get_table_name();
+
+		$this->database->$table_name = $full_table_name;
+
+		if ( $this->is_global ) {
+			$this->database->ms_global_tables[] = $table_name;
+		}
+		else {
+			$this->database->tables[] = $table_name;
+		}
+	}
+
+	/**
+	 * Checks if the table has been registered with WordPress.
+	 *
+	 * @return bool True if the table is registered, false otherwise.
+	 */
+	protected function is_table_registered() {
+		if ( $this->is_global ) {
+			return in_array( $this->table_name, $this->database->ms_global_tables, true );
+		}
+
+		return in_array( $this->table_name, $this->database->tables, true );
 	}
 }
