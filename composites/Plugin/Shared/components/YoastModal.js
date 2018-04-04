@@ -48,6 +48,7 @@ class BaseYoastModal extends React.Component {
 				overlayClassName={ `yoast-modal__overlay ${ this.props.className }` }
 				className={ `yoast-modal__content ${ this.props.className }` }
 				appElement={ this.props.appElement }
+				bodyOpenClassName="yoast-modal_is-open"
 			>
 				{
 					this.props.heading &&
