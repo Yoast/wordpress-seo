@@ -38,11 +38,11 @@ class WPSEO_Image_Utils {
 	 */
 	public static function find_correct_image_size( $attachment_id ) {
 		/**
-		 * Filter: 'wpseo_image_image_weight_limit' - Determines what the maximum weight (in bytes) of an image is allowed to be, default is 5 MB.
+		 * Filter: 'wpseo_image_image_weight_limit' - Determines what the maximum weight (in bytes) of an image is allowed to be, default is 2 MB.
 		 *
 		 * @api int - The maximum weight (in bytes) of an image.
 		 */
-		$max_size = apply_filters( 'wpseo_image_image_weight_limit', ( 5 * 1024 * 1024 ) );
+		$max_size = apply_filters( 'wpseo_image_image_weight_limit', ( 2 * 1024 * 1024 ) );
 
 		/**
 		 * Filter: 'wpseo_opengraph_image_sizes' - Determines which image sizes we'll loop through to get an appropriate image.
