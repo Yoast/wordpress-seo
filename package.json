@@ -34,7 +34,9 @@
       "!app/**/*.js",
       "!a11y/examples/example.js"
     ],
-    "snapshotSerializers": [ "enzyme-to-json/serializer" ]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "author": "Yoast",
   "license": "GPL-3.0",
@@ -72,6 +74,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
+    "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "concurrently": "^3.5.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",

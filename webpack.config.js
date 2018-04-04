@@ -1,5 +1,6 @@
 const path = require( "path" );
 const webpack = require( "webpack" );
+const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
 
 const PORT = 3333;
 
@@ -72,6 +73,7 @@ module.exports = {
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
+		new CaseSensitivePathsPlugin(),
 	],
 	resolve: {
 		extensions: [ ".json", ".jsx", ".js" ],
