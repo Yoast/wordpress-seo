@@ -12,7 +12,7 @@ const StyledHeading = styled.h1`
 	font-size: 1rem;
 `;
 
-const StyledButton = styled.button`
+const StyledCloseIconButton = styled.button`
 	float: right;
 	width: 44px;
 	height: 44px;
@@ -45,8 +45,8 @@ class BaseYoastModal extends React.Component {
 				onRequestClose={ this.props.onClose }
 				role="dialog"
 				contentLabel={ this.props.modalAriaLabel }
-				overlayClassName={ `${ this.props.className } yoast-modal__overlay` }
-				className={ `${ this.props.className } yoast-modal__content` }
+				overlayClassName={ `yoast-modal__overlay ${ this.props.className }` }
+				className={ `yoast-modal__content ${ this.props.className }` }
 				appElement={ this.props.appElement }
 			>
 				{
@@ -55,13 +55,14 @@ class BaseYoastModal extends React.Component {
 				}
 				{
 					this.props.closeIconButton &&
-						<StyledButton
+						<StyledCloseIconButton
+							type="button"
 							onClick={ this.props.onClose }
-							className={ `${ this.props.xCloseButtonClassName } yoast-modal__button-close-icon` }
+							className={ `yoast-modal__button-close-icon ${ this.props.closeIconButtonClassName }` }
 							aria-label={ this.props.closeIconButton }
 						>
 							<SvgIcon icon="times" color={ colors.$color_grey_text } />
-						</StyledButton>
+						</StyledCloseIconButton>
 				}
 				<div className="yoast-modal__inside">
 					{ this.props.children }
@@ -72,7 +73,7 @@ class BaseYoastModal extends React.Component {
 							<button
 								type="button"
 								onClick={ this.props.onClose }
-								className={ `${ this.props.closeButtonClassName } yoast-modal__button-close` }
+								className={ `yoast-modal__button-close ${ this.props.closeButtonClassName }` }
 							>
 								{ this.props.closeButton }
 							</button>
@@ -92,8 +93,8 @@ BaseYoastModal.propTypes = {
 	appElement: PropTypes.object.isRequired,
 	heading: PropTypes.string,
 	closeIconButton: PropTypes.string,
+	closeIconButtonClassName: PropTypes.string,
 	closeButton: PropTypes.string,
-	xCloseButtonClassName: PropTypes.string,
 	closeButtonClassName: PropTypes.string,
 };
 
