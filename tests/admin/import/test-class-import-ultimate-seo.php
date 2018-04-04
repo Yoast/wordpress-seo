@@ -35,6 +35,15 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether this importer has been registered.
+	 *
+	 * @covers WPSEO_Plugin_Importers::get
+	 */
+	public function test_importer_registered() {
+		$this->assertContains( 'WPSEO_Import_Ultimate_SEO', WPSEO_Plugin_Importers::get() );
+	}
+
+	/**
 	 * Tests whether we can return false when there's no detectable data.
 	 *
 	 * @covers WPSEO_Import_Ultimate_SEO::run_detect
@@ -77,11 +86,15 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->setup_post();
 		$result  = $this->class_instance->run_import();
 
-		$seo_title = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
-		$seo_desc  = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
+		$seo_title       = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
+		$seo_desc        = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
+		$robots_noindex  = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', true );
+		$robots_nofollow = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', true );
 
-		$this->assertEquals( $seo_title, 'Test title' );
-		$this->assertEquals( $seo_desc, 'Test description' );
+		$this->assertEquals( 1, $robots_noindex );
+		$this->assertEquals( 1, $robots_nofollow );
+		$this->assertEquals( 'Test title', $seo_title );
+		$this->assertEquals( 'Test description', $seo_desc );
 		$this->assertEquals( $this->status( 'import', true ), $result );
 	}
 
@@ -133,7 +146,8 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory()->post->create();
 		update_post_meta( $post_id, '_su_title', 'Test title' );
 		update_post_meta( $post_id, '_su_description', 'Test description' );
-
+		update_post_meta( $post_id, '_su_meta_robots_noindex', 'on' );
+		update_post_meta( $post_id, '_su_meta_robots_nofollow', 'on' );
 		return $post_id;
 	}
 }

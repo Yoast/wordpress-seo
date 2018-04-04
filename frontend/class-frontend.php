@@ -632,6 +632,9 @@ class WPSEO_Frontend {
 	 * Output Webmaster Tools authentication strings.
 	 */
 	public function webmaster_tools_authentication() {
+		// Baidu.
+		$this->webmaster_tools_helper( 'baiduverify', 'baidu-site-verification' );
+
 		// Bing.
 		$this->webmaster_tools_helper( 'msverify', 'msvalidate.01' );
 
@@ -1065,7 +1068,7 @@ class WPSEO_Frontend {
 		}
 
 		$page = max( 1, (int) get_query_var( 'page' ) );
-		$url = get_permalink( get_queried_object_id() );
+		$url  = get_permalink( get_queried_object_id() );
 
 		if ( $page > 1 ) {
 			$this->adjacent_rel_link( 'prev', $url, ( $page - 1 ), 'page' );

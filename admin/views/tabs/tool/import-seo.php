@@ -37,11 +37,11 @@ if ( count( $import_check->needs_import ) === 0 ) {
  * @return void
  */
 function wpseo_import_external_select( $name, $plugins ) {
-	_e( 'Plugin: ', 'wordpress-seo' );
-	echo '<select name="', $name, '">';
+	esc_html_e( 'Plugin: ', 'wordpress-seo' );
+	echo '<select name="', esc_attr( $name ), '">';
 	foreach ( $plugins as $class => $plugin ) {
 		/* translators: %s is replaced with the name of the plugin we're importing from. */
-		echo '<option value="' . $class . '">' . esc_html( $plugin ) . '</option>';
+		echo '<option value="' . esc_attr( $class ) . '">' . esc_html( $plugin ) . '</option>';
 	}
 	echo '</select>';
 }
@@ -60,12 +60,12 @@ function wpseo_import_external_select( $name, $plugins ) {
 </div>
 
 <div class="tab-block">
-	<h3><?php _e( 'Step 2: Import', 'wordpress-seo' ); ?></h3>
+	<h3><?php esc_html_e( 'Step 2: Import', 'wordpress-seo' ); ?></h3>
 	<p>
 		<?php esc_html_e( 'This will import the post metadata like SEO titles and descriptions into your Yoast SEO metadata. It will only do this when there is no existing Yoast SEO metadata yet. The original data will remain in place.', 'wordpress-seo' ); ?>
 	</p>
 	<form action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"
-		  method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
+		method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 		<?php
 		wp_nonce_field( 'wpseo-import-plugins', '_wpnonce', true, true );
 		wpseo_import_external_select( 'import_external_plugin', $import_check->needs_import );
@@ -74,7 +74,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 		do_action( 'wpseo_import_other_plugins' );
 		?>
 		<input type="submit" class="button button-primary" name="import_external"
-			   value="<?php esc_attr_e( 'Import', 'wordpress-seo' ); ?>"/>
+			value="<?php esc_attr_e( 'Import', 'wordpress-seo' ); ?>"/>
 	</form>
 </div>
 
@@ -89,7 +89,11 @@ function wpseo_import_external_select( $name, $plugins ) {
 	<h3><?php esc_html_e( 'Step 4: Run the configuration wizard', 'wordpress-seo' ); ?></h3>
 	<p>
 		<?php
-			printf( esc_html__( 'You should run the configuration wizard, from the SEO &rarr; General &rarr; Dashboard page, to make sure all the settings for your site are correct.', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '">','</a>' );
+		printf(
+			esc_html__( 'You should run the configuration wizard, from the SEO &rarr; General &rarr; Dashboard page, to make sure all the settings for your site are correct.', 'wordpress-seo' ),
+			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">',
+			'</a>'
+		);
 		?>
 	</p>
 </div>
@@ -100,12 +104,12 @@ function wpseo_import_external_select( $name, $plugins ) {
 		<?php esc_html_e( 'Once you\'re certain your site is OK, you can clean up. This will remove all the original data.', 'wordpress-seo' ); ?>
 	</p>
 	<form action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"
-		  method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
+		method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 		<?php
 		wp_nonce_field( 'wpseo-clean-plugins', '_wpnonce', true, true );
 		wpseo_import_external_select( 'clean_external_plugin', $import_check->needs_import );
 		?>
 		<input type="submit" class="button button-primary" name="clean_external"
-			   value="<?php esc_attr_e( 'Clean', 'wordpress-seo' ); ?>"/>
+			value="<?php esc_attr_e( 'Clean', 'wordpress-seo' ); ?>"/>
 	</form>
 </div>
