@@ -63,9 +63,9 @@ class WPSEO_Config_Component_Configuration_Choices implements WPSEO_Config_Compo
 
 		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
 			$configuration_service_text = sprintf(
-				/* translators: %1$s expands to 'Yoast SEO'. */
+				/* translators: %1$s expands to 'Yoast SEO Premium'. */
 				__( 'While we strive to make setting up %1$s as easy as possible, we understand it can still be daunting. If you would rather have us set up %1$s for you, order a %1$s configuration service and sit back while we configure your site.', 'wordpress-seo' ),
-				'Yoast SEO'
+				'Yoast SEO Premium'
 			);
 		}
 
