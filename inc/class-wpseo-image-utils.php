@@ -37,6 +37,25 @@ class WPSEO_Image_Utils {
 	 * @return array|false
 	 */
 	public static function find_correct_image_size( $attachment_id ) {
+		foreach ( self::get_image_sizes() as $size ) {
+			$image = self::check_image_by_size( $attachment_id, $size );
+			if ( $image !== false ) {
+				return $image;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks a size version of an image to see if it's not too heavy.
+	 *
+	 * @param int    $attachment_id Attachment ID.
+	 * @param string $size          Size name.
+	 *
+	 * @return array|false Image array with metadata on success, false on failure.
+	 */
+	public static function check_image_by_size( $attachment_id, $size ) {
 		/**
 		 * Filter: 'wpseo_image_image_weight_limit' - Determines what the maximum weight (in bytes) of an image is allowed to be, default is 2 MB.
 		 *
@@ -44,19 +63,16 @@ class WPSEO_Image_Utils {
 		 */
 		$max_size = apply_filters( 'wpseo_image_image_weight_limit', ( 2 * 1024 * 1024 ) );
 
-		foreach ( self::get_image_sizes() as $size ) {
-			// @todo fix how this is tested in test-class-opengraph as that test now doesn't work.
-			$image = image_get_intermediate_size( $attachment_id, $size );
-			if ( $image === false ) {
-				continue;
-			}
-			$file_size = self::get_image_file_size( $image );
-			if ( $file_size === false || $file_size < $max_size ) {
-				return $image;
-			}
+		$image = image_get_intermediate_size( $attachment_id, $size );
+		if ( $image === false ) {
+			return false;
+		}
+		$file_size = self::get_image_file_size( $image );
+		if ( $file_size > $max_size ) {
+			return false;
 		}
 
-		return false;
+		return $image;
 	}
 
 	/**

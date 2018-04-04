@@ -50,6 +50,20 @@ class WPSEO_Content_Images {
 		 */
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 
+		$images = $this->get_images_from_content( $content );
+		update_post_meta( $post->ID, $this->key_name, $images );
+
+		return $images;
+	}
+
+	/**
+	 * Grabs the images from the content.
+	 *
+	 * @param string $content The post content string.
+	 *
+	 * @return array
+	 */
+	private function get_images_from_content( $content ) {
 		$images = array();
 		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 			foreach ( $matches[0] as $img ) {
@@ -59,7 +73,6 @@ class WPSEO_Content_Images {
 				}
 			}
 		}
-		update_post_meta( $post->ID, $this->key_name, $images );
 
 		return $images;
 	}

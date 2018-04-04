@@ -537,24 +537,29 @@ class WPSEO_OpenGraph {
 		$opengraph_images = new WPSEO_OpenGraph_Image();
 
 		foreach ( $opengraph_images->get_images() as $img => $image_meta ) {
-			$tag = 'og:image';
-			if ( 0 === strpos( $img, 'https://' ) ) {
-				$tag = 'og:image:secure_url';
-			}
-			$this->og_tag( $tag, esc_url( $img ) );
+			$this->og_image_tag( $img );
 
-			if ( ! empty( $image_meta['width'] ) ) {
-				$this->og_tag( 'og:image:width', (int) $image_meta['width'] );
-			}
-
-			if ( ! empty( $image_meta['height'] ) ) {
-				$this->og_tag( 'og:image:height', (int) $image_meta['height'] );
-			}
-
-			if ( ! empty( $image_meta['alt'] ) ) {
-				$this->og_tag( 'og:image:alt', $image_meta['alt'] );
+			foreach ( array( 'width', 'height', 'alt' ) as $key ) {
+				if ( ! empty( $image_meta[ $key ] ) ) {
+					$this->og_tag( 'og:image:' . $key, $image_meta['key'] );
+				}
 			}
 		}
+	}
+
+	/**
+	 * Outputs an image tag based on whether it's https or not.
+	 *
+	 * @param string $img The image URL.
+	 *
+	 * @return void
+	 */
+	private function og_image_tag( $img ) {
+		$tag = 'og:image';
+		if ( 0 === strpos( $img, 'https://' ) ) {
+			$tag = 'og:image:secure_url';
+		}
+		$this->og_tag( $tag, esc_url( $img ) );
 	}
 
 	/**

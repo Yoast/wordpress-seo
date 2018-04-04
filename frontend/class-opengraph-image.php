@@ -27,21 +27,7 @@ class WPSEO_OpenGraph_Image {
 		 */
 		do_action( 'wpseo_add_opengraph_images', $this );
 
-		if ( is_front_page() ) {
-			$this->set_front_page_image();
-		}
-		elseif ( is_home() ) {
-			$this->set_posts_page_image();
-		}
-		elseif ( is_attachment() ) {
-			$this->set_attachment_page_image();
-		}
-		elseif ( is_single() || is_singular() ) {
-			$this->set_singular_image();
-		}
-		elseif ( is_category() || is_tax() || is_tag() ) {
-			$this->set_taxonomy_image();
-		}
+		$this->set_images();
 
 		if ( ! $this->has_images() ) {
 			$this->set_default_image();
@@ -303,4 +289,24 @@ class WPSEO_OpenGraph_Image {
 		}
 	}
 
+	/**
+	 * Sets the images based on the page type.
+	 */
+	private function set_images() {
+		if ( is_front_page() ) {
+			$this->set_front_page_image();
+		}
+		elseif ( is_home() ) {
+			$this->set_posts_page_image();
+		}
+		elseif ( is_attachment() ) {
+			$this->set_attachment_page_image();
+		}
+		elseif ( is_single() || is_singular() ) {
+			$this->set_singular_image();
+		}
+		elseif ( is_category() || is_tax() || is_tag() ) {
+			$this->set_taxonomy_image();
+		}
+	}
 }
