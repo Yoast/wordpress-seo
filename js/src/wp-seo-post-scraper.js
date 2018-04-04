@@ -407,7 +407,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 		postDataCollector.app = app;
 
-		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		let replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 		let shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
@@ -415,7 +415,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 			markdownPlugin.register();
 		}
 
-		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
+		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin, store );
 
 		setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
