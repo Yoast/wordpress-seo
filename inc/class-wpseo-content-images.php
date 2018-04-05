@@ -25,7 +25,7 @@ class WPSEO_Content_Images {
 	 * @return array An array of images found in this post.
 	 */
 	public function get_content_images( $post_id, $post = null ) {
-		$post_image_cache = false; // get_post_meta( $post_id, $this->key_name, true );
+		$post_image_cache = get_post_meta( $post_id, $this->key_name, true );
 		if ( is_array( $post_image_cache ) ) {
 			return $post_image_cache;
 		}

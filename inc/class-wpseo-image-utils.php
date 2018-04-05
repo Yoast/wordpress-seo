@@ -24,8 +24,7 @@ class WPSEO_Image_Utils {
 			return wpcom_vip_attachment_url_to_postid( $url );
 		}
 
-		// We use the WP COM version if we can, see above.
-		// phpcs:ignore WordPress.VIP.RestrictedFunctions
+		// phpcs:ignore WordPress.VIP.RestrictedFunctions -- We use the WP COM version if we can, see above.
 		return attachment_url_to_postid( $url );
 	}
 

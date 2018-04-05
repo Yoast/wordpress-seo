@@ -35,4 +35,8 @@
         <exclude-pattern>inc/class-wpseo-replace-vars.php</exclude-pattern>
     </rule>
 
+    <!-- TEMPORARY exclusion! Because we're not on 0.5 yet -->
+    <rule ref="WordPress.VIP.RestrictedFunctions">
+        <exclude-pattern>inc/class-wpseo-image-utils.php</exclude-pattern>
+    </rule>
 </ruleset>
