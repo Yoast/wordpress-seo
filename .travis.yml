@@ -56,11 +56,7 @@ jobs:
         on:
           repo: Yoast/wordpress-seo
           all_branches: true
-        provider: releases
 
-        on:
-          repo: Yoast/wordpress-seo
-          all_branches: true
     # If the commit was tagged, create an artifact and push it to the distribution github
       deploy:
         script: grunt artifact
@@ -69,7 +65,7 @@ jobs:
         script: bash scripts/deploy_to_dist.sh
         on:
           tags: true
-          repo: Yoast/wordpress-seo
+          repo:  $TRAVIS_REPO_SLUG # Yoast/wordpress-seo
           all_branches: true
 
   allow_failures:
