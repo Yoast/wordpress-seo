@@ -222,17 +222,7 @@ class WPSEO_OpenGraph_Image {
 	private function set_featured_image( $post_id ) {
 		if ( has_post_thumbnail( $post_id ) ) {
 			$attachment_id = get_post_thumbnail_id( $post_id );
-			/**
-			 * Filter: 'wpseo_opengraph_image_size' - Allow changing the image size used for OpenGraph sharing.
-			 *
-			 * @api string $unsigned Size string.
-			 */
-			$thumb = wp_get_attachment_image_src( $attachment_id, apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
-
-			if ( $this->check_featured_image_size( $thumb ) ) {
-				$this->add_image_by_id( $attachment_id );
-				return;
-			}
+			$this->add_image_by_id( $attachment_id );
 		}
 	}
 
@@ -301,26 +291,6 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Check size of featured image. If image is too small, return false, else return true.
-	 *
-	 * @param array $img_data Image info from wp_get_attachment_image_src: url, width, height, icon.
-	 *
-	 * @return bool Whether an image is fit for OpenGraph display or not.
-	 */
-	protected function check_featured_image_size( $img_data ) {
-		if ( ! is_array( $img_data ) ) {
-			return false;
-		}
-
-		// Get the width and height of the image.
-		if ( $img_data[1] < 200 || $img_data[2] < 200 ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Adds an image to the list by attachment ID.
 	 *
 	 * @param int $attachment_id The attachment ID to add.
@@ -328,25 +298,12 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	protected function add_image_by_id( $attachment_id ) {
-		$attachment = WPSEO_Image_Utils::find_correct_image_size( $attachment_id );
-		$alt_text   = WPSEO_Image_Utils::get_image_alt_tag( $attachment_id );
-
-		if ( $attachment ) {
-			$attachment['alt'] = $alt_text;
-			$this->add_image( $attachment );
-
+		if ( ! WPSEO_Image_Utils::check_original_image_size( $attachment_id ) ) {
 			return;
 		}
+		$attachment = WPSEO_Image_Utils::find_correct_image_size( $attachment_id );
 
-		$image = wp_get_attachment_image_src( $attachment_id, 'full' );
-		if ( $image ) {
-			$attachment = array(
-				'url'    => $image[0],
-				'width'  => $image[1],
-				'height' => $image[2],
-				'alt'    => $alt_text,
-				'type'   => get_post_mime_type( $attachment_id ),
-			);
+		if ( $attachment ) {
 			$this->add_image( $attachment );
 		}
 	}

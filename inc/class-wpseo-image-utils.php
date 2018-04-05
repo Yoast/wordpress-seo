@@ -21,11 +21,13 @@ class WPSEO_Image_Utils {
 		$url = preg_replace( '/(.*)-\d+x\d+\.(jpg|png|gif)$/', '$1.$2', $url );
 
 		if ( function_exists( 'wpcom_vip_attachment_url_to_postid' ) ) {
-			return wpcom_vip_attachment_url_to_postid( $url );
+			// @codeCoverageIgnoreStart -- we can't test this properly.
+			return (int) wpcom_vip_attachment_url_to_postid( $url );
+			// @codeCoverageIgnoreEnd -- The rest we _can_ test.
 		}
 
 		// phpcs:ignore WordPress.VIP.RestrictedFunctions -- We use the WP COM version if we can, see above.
-		return attachment_url_to_postid( $url );
+		return (int) attachment_url_to_postid( $url );
 	}
 
 	/**
@@ -39,11 +41,57 @@ class WPSEO_Image_Utils {
 		foreach ( self::get_image_sizes() as $size ) {
 			$image = self::check_image_by_size( $attachment_id, $size );
 			if ( $image !== false ) {
-				return $image;
+				return self::complete_image_data( $image, $attachment_id );
 			}
 		}
 
 		return false;
+	}
+
+	/**
+	 * Enrich the image data to use elsewhere.
+	 *
+	 * @param array $image         Image array with URL and metadata.
+	 * @param int   $attachment_id Attachment ID.
+	 *
+	 * @return array $image {
+	 *     Array of image data
+	 *
+	 *     @type string $alt    Image's alt text.
+	 *     @type int    $width  Width of image.
+	 *     @type int    $height Height of image.
+	 *     @type string $type   Image's MIME type.
+	 *     @type string $url    Image's URL.
+	 * }
+	 */
+	public static function complete_image_data( $image, $attachment_id ) {
+		$image['alt'] = WPSEO_Image_Utils::get_image_alt_tag( $attachment_id );
+		if ( ! isset( $image['type'] ) ) {
+			$image['type'] = get_post_mime_type( $attachment_id );
+		}
+		// Keep only the keys we need, and nothing else.
+		$image = array_intersect_key( $image, array_flip( array( 'alt', 'width', 'height', 'type', 'url' ) ) );
+		return $image;
+	}
+
+	/**
+	 * Check original size of image. If original image is too small, return false, else return true.
+	 *
+	 * @param int $attachment_id The attachment ID to check the size of.
+	 *
+	 * @return bool Whether an image is fit for OpenGraph display or not.
+	 */
+	public static function check_original_image_size( $attachment_id ) {
+		$img_data = wp_get_attachment_metadata( $attachment_id );
+		// Get the width and height of the image.
+		if (
+			( isset( $img_data['width'] ) && $img_data['width'] < 200 ) ||
+			( isset( $img_data['height'] ) && $img_data['height'] < 200 )
+		) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -62,7 +110,7 @@ class WPSEO_Image_Utils {
 		 */
 		$max_size = apply_filters( 'wpseo_image_image_weight_limit', ( 2 * 1024 * 1024 ) );
 
-		$image = image_get_intermediate_size( $attachment_id, $size );
+		$image = self::get_image( $attachment_id, $size );
 
 		if ( $image === false ) {
 			return false;
@@ -73,6 +121,23 @@ class WPSEO_Image_Utils {
 		}
 
 		return $image;
+	}
+
+	/**
+	 * Find the right version of an image based on size.
+	 *
+	 * @param int    $attachment_id Attachment ID.
+	 * @param string $size          Size name.
+	 *
+	 * @return array|false
+	 */
+	private static function get_image( $attachment_id, $size ) {
+		if ( $size === 'full' ) {
+			$image        = wp_get_attachment_metadata( $attachment_id );
+			$image['url'] = wp_get_attachment_image_url( $attachment_id, 'full' );
+			return $image;
+		}
+		return image_get_intermediate_size( $attachment_id, $size );
 	}
 
 	/**

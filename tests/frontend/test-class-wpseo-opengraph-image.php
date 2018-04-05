@@ -158,7 +158,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test get singular false
+	 * Test get singular post with featured image.
 	 */
 	public function test_set_singular_image_featured() {
 		$post_id = $this->create_post();
@@ -169,6 +169,20 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$class_instance = $this->setup_class();
 
 		$this->assertEquals( $this->sample_full_file_array( $image['url'] ), $class_instance->get_images() );
+	}
+
+	/**
+	 * Test get singular with too small featured image.
+	 */
+	public function test_set_singular_image_featured_TOO_SMALL() {
+		$post_id = $this->create_post();
+		$this->create_featured_image( '/assets/small.png', $post_id );
+
+		$this->go_to( get_permalink( $post_id ) );
+
+		$class_instance = $this->setup_class();
+
+		$this->assertEquals( array(), $class_instance->get_images() );
 	}
 
 	/**
@@ -227,6 +241,9 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $this->sample_array(), $class_instance->get_images() );
 	}
 
+	/**
+	 * Test getting the image from post content.
+	 */
 	public function test_get_images_from_content() {
 		// Create our post.
 		$post_id        = $this->create_post();
@@ -270,6 +287,9 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, $class_instance->get_images() );
 	}
 
+	/**
+	 * Test using an image that's already uploaded to another post as OG setting.
+	 */
 	public function test_uploaded_image_added_by_id() {
 		// We create a post, and upload an image to it.
 		$post_id = $this->create_post();
@@ -330,10 +350,10 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 			'tmp_name' => $featured_image,
 		);
 		$attach_id  = media_handle_sideload( $file_array, $post_id );
-
+		$file       = get_attached_file( $attach_id );
+		wp_generate_attachment_metadata( $attach_id, $file );
 		update_post_meta( $post_id, '_thumbnail_id', $attach_id );
 
-		$file = get_attached_file( $attach_id );
 
 		return array(
 			'path' => $file,
