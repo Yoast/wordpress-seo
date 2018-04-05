@@ -14,8 +14,8 @@ exports[`ReplacementVariableEditor wraps a DraftJS editor instance 1`] = `
           "currentContent": Immutable.Record {
             "entityMap": Object {},
             "blockMap": Immutable.OrderedMap {
-              "2hbqv": Immutable.Record {
-                "key": "2hbqv",
+              "1": Immutable.Record {
+                "key": "1",
                 "type": "unstyled",
                 "text": "Dummy content",
                 "characterList": Immutable.List [
@@ -77,17 +77,17 @@ exports[`ReplacementVariableEditor wraps a DraftJS editor instance 1`] = `
               },
             },
             "selectionBefore": Immutable.Record {
-              "anchorKey": "2hbqv",
+              "anchorKey": "1",
               "anchorOffset": 0,
-              "focusKey": "2hbqv",
+              "focusKey": "1",
               "focusOffset": 0,
               "isBackward": false,
               "hasFocus": false,
             },
             "selectionAfter": Immutable.Record {
-              "anchorKey": "2hbqv",
+              "anchorKey": "1",
               "anchorOffset": 0,
-              "focusKey": "2hbqv",
+              "focusKey": "1",
               "focusOffset": 0,
               "isBackward": false,
               "hasFocus": false,
@@ -95,7 +95,7 @@ exports[`ReplacementVariableEditor wraps a DraftJS editor instance 1`] = `
           },
           "decorator": null,
           "directionMap": Immutable.OrderedMap {
-            "2hbqv": "LTR",
+            "1": "LTR",
           },
           "forceSelection": false,
           "inCompositionMode": false,
@@ -104,15 +104,15 @@ exports[`ReplacementVariableEditor wraps a DraftJS editor instance 1`] = `
           "nativelyRenderedContent": null,
           "redoStack": Immutable.Stack [],
           "selection": Immutable.Record {
-            "anchorKey": "2hbqv",
+            "anchorKey": "1",
             "anchorOffset": 0,
-            "focusKey": "2hbqv",
+            "focusKey": "1",
             "focusOffset": 0,
             "isBackward": false,
             "hasFocus": false,
           },
           "treeMap": Immutable.OrderedMap {
-            "2hbqv": Immutable.List [
+            "1": Immutable.List [
               Immutable.Record {
                 "start": 0,
                 "end": 13,
