@@ -17,7 +17,7 @@ class WPSEO_Database_Proxy {
 	protected $suppress_errors = true;
 
 	/** @var bool */
-	protected $is_global = false;
+	protected $is_multisite_table = false;
 
 	/** @var bool */
 	protected $last_suppressed_state;
@@ -28,16 +28,16 @@ class WPSEO_Database_Proxy {
 	/**
 	 * Sets the class attributes and registers the table.
 	 *
-	 * @param wpdb   $database        The database object.
-	 * @param string $table_name      The table name that is represented.
-	 * @param bool   $suppress_errors Should the errors be suppressed.
-	 * @param bool   $is_global       Should the table be global in multisite.
+	 * @param wpdb   $database           The database object.
+	 * @param string $table_name         The table name that is represented.
+	 * @param bool   $suppress_errors    Should the errors be suppressed.
+	 * @param bool   $is_multisite_table Should the table be global in multisite.
 	 */
-	public function __construct( $database, $table_name, $suppress_errors = true, $is_global = false ) {
-		$this->table_name      = $table_name;
-		$this->suppress_errors = (bool) $suppress_errors;
-		$this->is_global       = (bool) $is_global;
-		$this->database        = $database;
+	public function __construct( $database, $table_name, $suppress_errors = true, $is_multisite_table = false ) {
+		$this->table_name         = $table_name;
+		$this->suppress_errors    = (bool) $suppress_errors;
+		$this->is_multisite_table = (bool) $is_multisite_table;
+		$this->database           = $database;
 
 		// If the table prefix was provided, strip it as it's handled automatically.
 		$table_prefix = $this->get_table_prefix();
@@ -212,7 +212,7 @@ class WPSEO_Database_Proxy {
 	 * @return string Table prefix.
 	 */
 	protected function get_table_prefix() {
-		if ( $this->is_global ) {
+		if ( $this->is_multisite_table ) {
 			return $this->database->base_prefix;
 		}
 
@@ -228,7 +228,7 @@ class WPSEO_Database_Proxy {
 
 		$this->database->$table_name = $full_table_name;
 
-		if ( $this->is_global ) {
+		if ( $this->is_multisite_table ) {
 			$this->database->ms_global_tables[] = $table_name;
 			return;
 		}
@@ -242,7 +242,7 @@ class WPSEO_Database_Proxy {
 	 * @return bool True if the table is registered, false otherwise.
 	 */
 	protected function is_table_registered() {
-		if ( $this->is_global ) {
+		if ( $this->is_multisite_table ) {
 			return in_array( $this->table_name, $this->database->ms_global_tables, true );
 		}
 
