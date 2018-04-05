@@ -362,14 +362,13 @@ SnippetEditor.propTypes = {
 	} ).isRequired,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
-	onChange: PropTypes.func,
+	onChange: PropTypes.func.isRequired,
 	titleLengthAssessment: lengthAssessmentShape,
 	descriptionLengthAssessment: lengthAssessmentShape,
 	mapDataToPreview: PropTypes.func,
 };
 
 SnippetEditor.defaultProps = {
-	onChange: () => {},
 	mode: MODE_MOBILE,
 	replacementVariables: [],
 	titleLengthAssessment: {

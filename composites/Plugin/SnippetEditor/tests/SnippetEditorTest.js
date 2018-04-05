@@ -1,10 +1,16 @@
 import SnippetEditor from "../components/SnippetEditor";
 import React from "react";
 import { createComponentWithIntl } from "../../../../utils/intlProvider";
-import { mountWithIntl } from "../../../../utils/helpers/intl-enzyme-test-helper";
+import {
+	mountWithIntl,
+	shallowWithIntl,
+} from "../../../../utils/helpers/intl-enzyme-test-helper";
 import {
 	MODE_DESKTOP,
 } from "../../SnippetPreview/components/SnippetPreview";
+import {
+	focus,
+} from "../components/ReplacementVariableEditor";
 
 jest.mock( "../components/ReplacementVariableEditor" );
 
@@ -17,26 +23,27 @@ const defaultData = {
 const defaultArgs = {
 	baseUrl: "https://example.org/",
 	data: defaultData,
+	onChange: () => {},
 };
-
 
 const renderSnapshotWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	const tree = createComponentWithIntl( <SnippetEditor {...args} /> )
+	const tree = createComponentWithIntl( <SnippetEditor {...args} />, { locale: "en" } )
 		.toJSON();
 
 	expect( tree ).toMatchSnapshot();
 };
 
-const mountSnapshotWithArgs = ( changedArgs ) => {
+const mountWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	const editor = mountWithIntl( <SnippetEditor { ...args } /> );
-
-	editor.instance().open();
-	editor.update();
-
-	expect( editor ).toMatchSnapshot();
+	return mountWithIntl( <SnippetEditor { ...args } /> );
 };
+
+const shallowWithArgs = ( changedArgs ) => {
+	const args = { ...defaultArgs, ...changedArgs };
+	return shallowWithIntl( <SnippetEditor { ...args } /> );
+};
+
 
 describe( "SnippetEditor", () => {
 	it( "shows and editor", () => {
@@ -82,11 +89,138 @@ describe( "SnippetEditor", () => {
 	} );
 
 	it( "opens when calling open()", () => {
-		mountSnapshotWithArgs( {} );
+		const editor = mountWithArgs( {} );
+
+		editor.instance().open();
+		editor.update();
+
+		expect( editor ).toMatchSnapshot();
+	} );
+
+	it( "closes when calling close()", () => {
+		focus.mockClear();
+		const editor = mountWithArgs( {} );
+
+		editor.instance().open();
+		editor.update();
+
+		editor.instance().setFieldFocus( "title" );
+		expect( focus ).toHaveBeenCalledTimes( 1 );
+
+		expect( editor ).toMatchSnapshot();
+
+		editor.instance().close();
+		editor.update();
+
+		expect( editor ).toMatchSnapshot();
+	} );
+
+	it( "highlights the hovered field when onMouseOver() is called", () => {
+		const editor = mountWithArgs( {} );
+
+		editor.instance().open();
+		editor.instance().onMouseOver( "description" );
+		editor.update();
+
+		expect( editor ).toMatchSnapshot();
+	} );
+
+	it( "removes the highlight from the hovered field on calling onMouseLeave()", () => {
+		const editor = shallowWithArgs( {} );
+
+		editor.instance().open();
+		editor.instance().onMouseOver( "description" );
+		editor.update();
+
+		editor.instance().onMouseLeave( "description" );
+		editor.update();
+
+		expect( editor ).toMatchSnapshot();
+	} );
+
+	it( "doesn't remove the highlight if the wrong field is left", () => {
+		const editor = shallowWithArgs( {} );
+
+		editor.instance().open();
+		editor.instance().onMouseOver( "description" );
+		editor.update();
+
+		editor.instance().onMouseLeave( "title" );
+		editor.update();
+
+		expect( editor ).toMatchSnapshot();
+	} );
+
+	it( "highlights the active field when calling setFieldFocus", () => {
+		focus.mockClear();
+
+		const editor = mountWithArgs( {} );
+
+		editor.instance().open();
+		editor.instance().setFieldFocus( "url" );
+		editor.instance().setFieldFocus( "description" );
+		editor.instance().setFieldFocus( "slug" );
+		editor.update();
+
+		expect( focus ).toHaveBeenCalledTimes( 3 );
+		expect( editor ).toMatchSnapshot();
+	} );
+
+	it( "activates a field on onClick() and opens the editor", () => {
+		const editor = shallowWithArgs( {} );
+
+		editor.instance().onClick( "title" );
+		editor.update();
+
+		expect( editor ).toMatchSnapshot();
+	} );
+
+	it( "switches modes when clicking mode switcher buttons", () => {
+		const onChange = jest.fn();
+		const editor = mountWithArgs( { onChange } );
+
+		// Click the mobile button.
+		editor.find( "SnippetEditor__ModeSwitcher" ).find( "button" ).at( 0 ).simulate( "click" );
+
+		expect( onChange ).toBeCalledWith( "mode", "mobile" );
+
+		// Click the desktop button.
+		editor.find( "SnippetEditor__ModeSwitcher" ).find( "button" ).at( 1 ).simulate( "click" );
+
+		expect( onChange ).toBeCalledWith( "mode", "desktop" );
+	} );
+
+	it( "calls callbacks when the editors are focused or changed", () => {
+		const onChange = jest.fn();
+		const editor = mountWithArgs( { onChange } );
+
+		editor.instance().open();
+		editor.update();
+
+		const titleEditor = editor.find( "ReplacementVariableEditor" ).get( 0 );
+		const slugEditor = editor.find( "ReplacementVariableEditor" ).get( 1 );
+		const descriptionEditor = editor.find( "ReplacementVariableEditor" ).get( 2 );
+
+		titleEditor.props.onFocus();
+		expect( editor ).toMatchSnapshot();
+		slugEditor.props.onFocus();
+		expect( editor ).toMatchSnapshot();
+		descriptionEditor.props.onFocus();
+		expect( editor ).toMatchSnapshot();
+
+		titleEditor.props.onChange( "changedTitle" );
+		slugEditor.props.onChange( "changedSlug" );
+		descriptionEditor.props.onChange( "changedDescription" );
+
+		expect( onChange.mock.calls ).toEqual( [
+			[ "title", "changedTitle" ],
+			[ "slug", "changedSlug" ],
+			[ "description", "changedDescription" ],
+		] );
 	} );
 
 	it( "passes replacement variables to the title and description editor", () => {
-		mountSnapshotWithArgs( {
+		const editor = mountWithArgs( {
 			replacementVariables: [
 				{
 					name: "title",
@@ -98,20 +232,47 @@ describe( "SnippetEditor", () => {
 				},
 			],
 		} );
+
+		editor.instance().open();
+		editor.update();
+
+		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "shows the assessments as a colored progress bars", () => {
-		mountSnapshotWithArgs( {
-			titleLengthAssessment: {
-				max: 550,
-				actual: 100,
-				score: 3,
-			},
-			descriptionLengthAssessment: {
-				max: 650,
-				actual: 330,
-				score: 9,
-			},
+	describe( "colored progress bars", () => {
+		it( "can handle scores of 3 and 9", () => {
+			const editor = mountWithArgs( {
+				titleLengthAssessment: {
+					max: 550,
+					actual: 100,
+					score: 3,
+				},
+				descriptionLengthAssessment: {
+					max: 650,
+					actual: 330,
+					score: 9,
+				},
+			} );
+
+			editor.instance().open();
+			editor.update();
+
+			expect( editor ).toMatchSnapshot();
+		} );
+
+		it( "can handle a score of 6", () => {
+			const editor = mountWithArgs( {
+				titleLengthAssessment: {
+					max: 550,
+					actual: 361,
+					score: 6,
+				},
+			} );
+
+			editor.instance().open();
+			editor.update();
+
+			expect( editor ).toMatchSnapshot();
 		} );
 	} );
 } );

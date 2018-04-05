@@ -256,13 +256,13 @@ class SnippetEditorFields extends React.Component {
 
 SnippetEditorFields.propTypes = {
 	replacementVariables: replacementVariablesShape,
-	onChange: PropTypes.func,
+	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	data: PropTypes.shape( {
-		title: PropTypes.string,
-		slug: PropTypes.string,
-		description: PropTypes.string,
-	} ),
+		title: PropTypes.string.isRequired,
+		slug: PropTypes.string.isRequired,
+		description: PropTypes.string.isRequired,
+	} ).isRequired,
 	activeField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
 	hoveredField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
 	titleLengthAssessment: lengthAssessmentShape,
@@ -271,7 +271,8 @@ SnippetEditorFields.propTypes = {
 };
 
 SnippetEditorFields.defaultProps = {
-	onChange: () => {},
+	replacementVariables: [],
+	onFocus: () => {},
 	titleLengthAssessment: {
 		max: 600,
 		actual: 0,
