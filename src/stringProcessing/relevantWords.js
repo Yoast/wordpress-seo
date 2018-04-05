@@ -307,6 +307,7 @@ function getRelevantWords( text, locale ) {
 	if ( wordCount >= wordCountLowerLimit ) {
 		combinations = filterOnDensity( combinations, wordCount, densityLowerLimit, densityUpperLimit );
 	}
+
 	return take( combinations, relevantWordLimit );
 }
 
