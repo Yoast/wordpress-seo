@@ -32,7 +32,9 @@
       "!grunt/**/*.js",
       "!*.js",
       "!app/**/*.js",
-      "!a11y/examples/example.js"
+      "!a11y/examples/example.js",
+      "!utils/helpers/*.js",
+      "!coverage/**/*.js"
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
