@@ -270,22 +270,22 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, $class_instance->get_images() );
 	}
 
-//	public function test_uploaded_image_added_by_id() {
-//		// We create a post, and upload an image to it.
-//		$post_id = $this->create_post();
-//		$image   = $this->create_featured_image( '/assets/yoast.png', $post_id );
-//
-//		// We create another post and use the image, attached to the _other_ post, as its OpenGraph image.
-//		$post2_id = $this->create_post();
-//		WPSEO_Meta::set_value( 'opengraph-image', $image['url'], $post2_id );
-//
-//		$class_instance = $this->setup_class();
-//
-////		$this->assertEquals( $image['url'], get_post_meta( $post2_id, '_yoast_wpseo_opengraph-image', true ) );
-//		$this->assertEquals( $image['url'], WPSEO_Meta::get_value( 'opengraph-image', $post_id ) );
-//		$this->go_to( get_permalink( $post2_id ) );
-//		$this->assertEquals( $this->sample_full_file_array( $image['url'] ), $class_instance->get_images() );
-//	}
+	public function test_uploaded_image_added_by_id() {
+		// We create a post, and upload an image to it.
+		$post_id = $this->create_post();
+		$image   = $this->create_featured_image( '/assets/yoast.png', $post_id );
+
+		// We create another post and use the image, attached to the _other_ post, as its OpenGraph image.
+		$post2_id = $this->create_post();
+		WPSEO_Meta::set_value( 'opengraph-image', $image['url'], $post2_id );
+
+		//		$this->assertEquals( '1', get_post_meta( $post2_id, '_yoast_wpseo_opengraph-image', true ) );
+		$this->assertEquals( $image['url'], WPSEO_Meta::get_value( 'opengraph-image', $post2_id ) );
+		$this->go_to( get_permalink( $post2_id ) );
+		$class_instance = $this->setup_class();
+
+		$this->assertEquals( $this->sample_full_file_array( $image['url'] ), $class_instance->get_images() );
+	}
 
 	/**
 	 * Sets up our test class

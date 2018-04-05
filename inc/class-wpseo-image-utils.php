@@ -64,6 +64,7 @@ class WPSEO_Image_Utils {
 		$max_size = apply_filters( 'wpseo_image_image_weight_limit', ( 2 * 1024 * 1024 ) );
 
 		$image = image_get_intermediate_size( $attachment_id, $size );
+
 		if ( $image === false ) {
 			return false;
 		}
