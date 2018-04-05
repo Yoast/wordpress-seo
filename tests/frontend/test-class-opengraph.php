@@ -492,6 +492,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$image_url       = 'https://example.com/image.png';
 		$expected_output = <<<EXPECTED
+<meta property="og:image" content="{$image_url}" />
 <meta property="og:image:secure_url" content="{$image_url}" />
 EXPECTED;
 		WPSEO_Meta::set_value( 'opengraph-image', $image_url, $post_id );
@@ -726,7 +727,7 @@ EXPECTED;
 
 		$basename       = basename( $image );
 		$upload_dir     = wp_upload_dir();
-		$source_image   = dirname( __FILE__ ) . $image;
+		$source_image   = dirname( __FILE__ ) . '/..' . $image;
 		$featured_image = $upload_dir['path'] . '/' . $basename;
 
 		copy( $source_image, $featured_image ); // Prevent original from deletion.

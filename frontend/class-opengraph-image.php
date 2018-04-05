@@ -69,12 +69,10 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	private function og_image_tag( $img ) {
-		// @todo verify we can output only one of these.
-		$tag = 'og:image';
+		$this->opengraph->og_tag( 'og:image', esc_url( $img ) );
 		if ( 0 === strpos( $img, 'https://' ) ) {
-			$tag = 'og:image:secure_url';
+			$this->opengraph->og_tag( 'og:image:secure_url', esc_url( $img ) );
 		}
-		$this->opengraph->og_tag( $tag, esc_url( $img ) );
 	}
 
 	/**
@@ -162,7 +160,7 @@ class WPSEO_OpenGraph_Image {
 	 */
 	private function set_singular_image( $post_id = null ) {
 		if ( $post_id === null ) {
-			$post_id = get_the_ID();
+			$post_id = get_queried_object_id();
 		}
 
 		$this->set_image_post_meta( $post_id );

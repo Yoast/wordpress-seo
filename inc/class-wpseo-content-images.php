@@ -25,7 +25,7 @@ class WPSEO_Content_Images {
 	 * @return array An array of images found in this post.
 	 */
 	public function get_content_images( $post_id, $post = null ) {
-		$post_image_cache = get_post_meta( $post_id, $this->key_name, true );
+		$post_image_cache = false; // get_post_meta( $post_id, $this->key_name, true );
 		if ( is_array( $post_image_cache ) ) {
 			return $post_image_cache;
 		}
@@ -84,7 +84,7 @@ class WPSEO_Content_Images {
 	 * @return array An array of `<img>` tags.
 	 */
 	private function get_img_tags_from_content( $content ) {
-		preg_match_all( '`<img [^>]+>`', $content, $matches, PREG_SET_ORDER );
+		preg_match_all( '`<img [^>]+>`', $content, $matches );
 		if ( isset( $matches[0] ) ) {
 			return $matches[0];
 		}
