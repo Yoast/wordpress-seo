@@ -7,6 +7,8 @@
 
 /**
  * OpenGraph tests
+ *
+ * @group OpenGraph
  */
 class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 

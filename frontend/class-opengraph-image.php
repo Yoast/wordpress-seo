@@ -17,21 +17,64 @@ class WPSEO_OpenGraph_Image {
 	protected $images = array();
 
 	/**
-	 * Constructor.
+	 * Holds the WPSEO_OpenGraph instance, so we can call og_tag.
+	 *
+	 * @var WPSEO_OpenGraph
 	 */
-	public function __construct() {
-		/**
-		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags.
-		 *
-		 * @api WPSEO_OpenGraph_Image The current object.
-		 */
-		do_action( 'wpseo_add_opengraph_images', $this );
+	private $opengraph;
+
+	/**
+	 * Image tags that we output for each image.
+	 *
+	 * @var array
+	 */
+	private $image_tags = array(
+		'width'     => 'width',
+		'height'    => 'height',
+		'alt'       => 'alt',
+		'mime-type' => 'type',
+	);
+
+	/**
+	 * Constructor.
+	 *
+	 * @param WPSEO_OpenGraph $wpseo_opengraph The OpenGraph object.
+	 */
+	public function __construct( $wpseo_opengraph ) {
+		$this->opengraph = $wpseo_opengraph;
 
 		$this->set_images();
+	}
 
-		if ( ! $this->has_images() ) {
-			$this->set_default_image();
+	/**
+	 * Outputs the images.
+	 */
+	public function show() {
+		foreach ( $this->get_images() as $img => $image_meta ) {
+			$this->og_image_tag( $img );
+
+			foreach ( $this->image_tags as $key => $value ) {
+				if ( isset( $image_meta[ $key ] ) && ! empty( $image_meta[ $key ] ) ) {
+					$this->opengraph->og_tag( 'og:image:' . $key, $image_meta[ $key ] );
+				}
+			}
 		}
+	}
+
+	/**
+	 * Outputs an image tag based on whether it's https or not.
+	 *
+	 * @param string $img The image URL.
+	 *
+	 * @return void
+	 */
+	private function og_image_tag( $img ) {
+		// @todo verify we can output only one of these.
+		$tag = 'og:image';
+		if ( 0 === strpos( $img, 'https://' ) ) {
+			$tag = 'og:image:secure_url';
+		}
+		$this->opengraph->og_tag( $tag, esc_url( $img ) );
 	}
 
 	/**
@@ -82,12 +125,7 @@ class WPSEO_OpenGraph_Image {
 			return;
 		}
 
-		$this->images[ $img ] = array(
-			'width'  => $attachment['width'],
-			'height' => $attachment['height'],
-			'alt'    => $attachment['alt-text'],
-			'type'   => $attachment['mime-type'],
-		);
+		$this->images[ $img ] = $attachment;
 	}
 
 	/**
@@ -241,7 +279,7 @@ class WPSEO_OpenGraph_Image {
 				$this->add_image_by_id( $attachment_id );
 				return;
 			}
-			$this->add_image( $url );
+			$this->add_image( array( 'url' => $url ) );
 		}
 	}
 
@@ -277,7 +315,7 @@ class WPSEO_OpenGraph_Image {
 		$alt_text   = WPSEO_Image_Utils::get_image_alt_tag( $attachment_id );
 
 		if ( $attachment ) {
-			$attachment['alt-text'] = $alt_text;
+			$attachment['alt'] = $alt_text;
 			$this->add_image( $attachment );
 
 			return;
@@ -286,11 +324,11 @@ class WPSEO_OpenGraph_Image {
 		$image = wp_get_attachment_image_src( $attachment_id, 'full' );
 		if ( $image ) {
 			$attachment = array(
-				'url'       => $image[0],
-				'width'     => $image[1],
-				'height'    => $image[2],
-				'alt-text'  => $alt_text,
-				'mime-type' => get_post_mime_type( $attachment_id ),
+				'url'    => $image[0],
+				'width'  => $image[1],
+				'height' => $image[2],
+				'alt'    => $alt_text,
+				'type'   => get_post_mime_type( $attachment_id ),
 			);
 			$this->add_image( $attachment );
 		}
@@ -300,6 +338,13 @@ class WPSEO_OpenGraph_Image {
 	 * Sets the images based on the page type.
 	 */
 	private function set_images() {
+		/**
+		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags.
+		 *
+		 * @api WPSEO_OpenGraph_Image The current object.
+		 */
+		do_action( 'wpseo_add_opengraph_images', $this );
+
 		if ( is_front_page() ) {
 			$this->set_front_page_image();
 		}
@@ -315,5 +360,17 @@ class WPSEO_OpenGraph_Image {
 		elseif ( is_category() || is_tax() || is_tag() ) {
 			$this->set_taxonomy_image();
 		}
+
+		/**
+		 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the OpenGraph tags.
+		 *
+		 * @api WPSEO_OpenGraph_Image The current object.
+		 */
+		do_action( 'wpseo_add_opengraph_additional_images', $this );
+
+		if ( ! $this->has_images() ) {
+			$this->set_default_image();
+		}
+
 	}
 }

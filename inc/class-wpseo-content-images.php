@@ -85,7 +85,10 @@ class WPSEO_Content_Images {
 	 */
 	private function get_img_tags_from_content( $content ) {
 		preg_match_all( '`<img [^>]+>`', $content, $matches, PREG_SET_ORDER );
-		return $matches[0];
+		if ( isset( $matches[0] ) ) {
+			return $matches[0];
+		}
+		return array();
 	}
 
 	/**

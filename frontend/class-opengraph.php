@@ -534,41 +534,8 @@ class WPSEO_OpenGraph {
 	 * @return void
 	 */
 	public function image() {
-		$opengraph_images = new WPSEO_OpenGraph_Image();
-
-		foreach ( $opengraph_images->get_images() as $img => $image_meta ) {
-			$this->og_image_tag( $img );
-
-			foreach ( array( 'width', 'height', 'alt', 'type' ) as $key ) {
-				if ( isset( $image_meta[ $key ] ) && ! empty( $image_meta[ $key ] ) ) {
-					$this->og_tag( 'og:image:' . $key, $image_meta[ $key ] );
-				}
-			}
-		}
-	}
-
-	/**
-	 * Outputs an image tag based on whether it's https or not.
-	 *
-	 * @param string $img The image URL.
-	 *
-	 * @return void
-	 */
-	private function og_image_tag( $img ) {
-		$tag = 'og:image';
-		if ( 0 === strpos( $img, 'https://' ) ) {
-			$tag = 'og:image:secure_url';
-		}
-		$this->og_tag( $tag, esc_url( $img ) );
-	}
-
-	/**
-	 * Fallback method for plugins using image_output.
-	 *
-	 * @param string $image Image URL.
-	 */
-	public function image_output( $image ) {
-		$this->image( $image );
+		$opengraph_image = new WPSEO_OpenGraph_Image( $this );
+		$opengraph_image->show();
 	}
 
 	/**
@@ -784,6 +751,21 @@ class WPSEO_OpenGraph {
 		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
 			_deprecated_function( 'WPSEO_OpenGraph::site_owner', '7.1', null );
 		}
+	}
+
+	/**
+	 * Fallback method for plugins using image_output.
+	 *
+	 * @param string|bool $image Image URL.
+	 *
+	 * @deprecated 7.4
+	 * @codeCoverageIgnore
+	 */
+	public function image_output( $image = false ) {
+		if ( $image !== false ) {
+			_deprecated_argument( 'WPSEO_OpenGraph::image_output', '7.4', 'WPSEO_OpenGraph_Image::show' );
+		}
+		$this->image();
 	}
 
 } /* End of class */
