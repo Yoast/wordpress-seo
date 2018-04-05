@@ -230,10 +230,10 @@ class WPSEO_Database_Proxy {
 
 		if ( $this->is_global ) {
 			$this->database->ms_global_tables[] = $table_name;
+			return;
 		}
-		else {
-			$this->database->tables[] = $table_name;
-		}
+
+		$this->database->tables[] = $table_name;
 	}
 
 	/**
