@@ -5,18 +5,26 @@ import { SET_OVERALL_SCORE_READABILITY, SET_OVERALL_SCORE_SEO } from "../../acti
  */
 const initialState = {};
 
+export function setOverallScoreReadability( state, action ) {
+	return Object.assign( {}, state.analysis.readability,
+		{ overallScore: action.overallScore }
+	);
+}
+
 /**
  * Sets the overall score for SEO results for one or more keywords.
  *
  * @param {Object} action The action.
  * @returns {Object} The overall score per keyword.
  */
-function setOverallScoreSeo( action ) {
+export function setOverallScoreSeo( state, action ) {
 	let scorePerKeyword = {};
 	action.scorePerKeyword.forEach( function( keywordResultsPair ) {
-		scorePerKeyword[ keywordResultsPair.keyword ] = keywordResultsPair.overallScore;
+		scorePerKeyword[ keywordResultsPair.keyword ].overallScore = keywordResultsPair.overallScore;
 	} );
-	return scorePerKeyword;
+	return Object.assign( {}, state.analysis.seo, {
+		[ action.keyword ]: scorePerKeyword,
+	} );
 }
 
 /**
@@ -30,9 +38,9 @@ function setOverallScoreSeo( action ) {
 export function overallScoreReducer( state = initialState, action ) {
 	switch ( action.type ) {
 		case SET_OVERALL_SCORE_READABILITY:
-			return action.overallScore;
+			return setOverallScoreReadability( state, action );
 		case SET_OVERALL_SCORE_SEO:
-			return setOverallScoreSeo( action );
+			return setOverallScoreSeo( state, action );
 		default:
 			return state;
 	}

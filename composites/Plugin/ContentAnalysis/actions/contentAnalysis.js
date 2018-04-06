@@ -130,10 +130,10 @@ export function updateReadabilityResult( result ) {
  *
  * @returns {Object} A set overall score action.
  */
-export function setOverallScoreReadability( results ) {
+export function setOverallScoreReadability( overallScore ) {
 	return {
 		type: SET_OVERALL_SCORE_READABILITY,
-		results: results,
+		overallScore: overallScore,
 	};
 }
 
@@ -144,9 +144,10 @@ export function setOverallScoreReadability( results ) {
 *
 * @returns {Object} A set overall score action.
 */
-export function setOverallScoreSeo( results ) {
+export function setOverallScoreSeo( overallScore, keyword ) {
 	return {
 		type: SET_OVERALL_SCORE_SEO,
-		results: results,
+		keyword: keyword,
+		overallScore: overallScore,
 	};
 }

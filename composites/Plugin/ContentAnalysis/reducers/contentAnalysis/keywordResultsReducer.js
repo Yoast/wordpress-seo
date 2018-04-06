@@ -1,4 +1,6 @@
-import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD } from "../../actions/contentAnalysis";
+import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD,
+	SET_OVERALL_SCORE_SEO } from "../../actions/contentAnalysis";
+import { setOverallScoreSeo } from "./overallScoreReducer";
 import findIndex from "lodash/findIndex";
 import omit from "lodash/omit";
 
@@ -42,7 +44,7 @@ function replaceResult( state, action ) {
  */
 function setResultsForNewKeyword( state, keyword, results ) {
 	return Object.assign( {}, state, {
-		[ keyword ]: results,
+		[ keyword ]: { results: results },
 	} );
 }
 
@@ -59,13 +61,13 @@ function updateSeoResult( state, action ) {
 		return setResultsForNewKeyword( state, action.keyword, [ action.result ] );
 	}
 
-	let resultIndex = findIndex( state[ action.keyword ], { id: action.result.id } );
+	let resultIndex = findIndex( state[ action.keyword.results ], { id: action.result.id } );
 	if( resultIndex !== -1 ) {
 		return replaceResult( state, action );
 	}
 
 	return Object.assign( {}, state, {
-		[ action.keyword ]: [ ...state[ action.keyword ], action.result ],
+		[ action.keyword.results ]: [ ...state[ action.keyword ], action.result ],
 	} );
 }
 
@@ -83,7 +85,7 @@ function updateSeoResultsForKeyword( state, action ) {
 	}
 
 	return Object.assign( {}, state, {
-		[ action.keyword ]: action.results,
+		[ action.keyword.results ]: action.results,
 	} );
 }
 
@@ -96,7 +98,7 @@ function updateSeoResultsForKeyword( state, action ) {
 function setSeoResults( action ) {
 	let resultsPerKeyword = {};
 	action.resultsPerKeyword.forEach( function( keywordResultsPair ) {
-		resultsPerKeyword[ keywordResultsPair.keyword ] = keywordResultsPair.results;
+		resultsPerKeyword[ keywordResultsPair.keyword ] = { results: keywordResultsPair.results };
 	} );
 	return resultsPerKeyword;
 }
@@ -122,6 +124,8 @@ export function keywordResultsReducer( state = initialState, action ) {
 			return omit( state, action.keyword );
 		case SET_SEO_RESULTS_FOR_KEYWORD:
 			return updateSeoResultsForKeyword( state, action );
+		case SET_OVERALL_SCORE_SEO:
+			return setOverallScoreSeo( state, action );
 		default:
 			return state;
 	}
