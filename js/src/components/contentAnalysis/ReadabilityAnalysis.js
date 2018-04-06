@@ -48,9 +48,13 @@ ReadabilityAnalysis.propTypes = {
  */
 function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
+	let results = null;
+	if (typeof( state.analysis.readability ) !== "undefined" ){
+		results = state.analysis.readability.results;
+	}
 
 	return {
-		results: state.analysis.readability,
+		results: results,
 		marksButtonStatus: marksButtonStatus,
 	};
 }
