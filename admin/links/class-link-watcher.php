@@ -50,14 +50,10 @@ class WPSEO_Link_Watcher {
 			return;
 		}
 
-		// When the post status is auto-draft.
-		if ( $post->post_status === 'auto-draft' ) {
-			return;
-		}
+		$post_statuses_to_skip = array( 'auto-draft', 'trash' );
 
-		// When trashing a post
-		if ( $post->post_status === 'trash' ) {
-			return ;
+		if ( in_array( $post->post_status, $post_statuses_to_skip, TRUE ) ) {
+			return;
 		}
 
 		// When the post isn't processable, just remove the saved links.
