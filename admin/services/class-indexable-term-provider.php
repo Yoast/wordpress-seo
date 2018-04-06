@@ -20,29 +20,33 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	public function get( $object_id ) {
 		$term = get_term( $object_id );
 
+		if ( $term === null || is_wp_error( $term ) ) {
+			return array();
+		}
+
 		return array(
 			'object_id'                   => (int) $object_id,
 			'object_type'                 => 'term',
 			'object_subtype'              => $term->taxonomy,
 			'permalink'                   => get_term_link( $term ),
-			'canonical'                   => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' ),
-			'title'                       => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'title' ),
-			'description'                 => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'metadesc' ),
-			'breadcrumb_title'            => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'bctitle' ),
-			'og_title'                    => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'opengraph-title' ),
-			'og_description'              => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'opengraph-description' ),
-			'og_image'                    => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'opengraph-image' ),
-			'twitter_title'               => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'twitter-title' ),
-			'twitter_description'         => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'twitter-description' ),
-			'twitter_image'               => WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'twitter-image' ),
-			'is_robots_noindex'           => $this->translate_robots_noindex( WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' ) ),
+			'canonical'                   => $this->get_meta_value( 'canonical', $term ),
+			'title'                       => $this->get_meta_value( 'title', $term ),
+			'description'                 => $this->get_meta_value( 'desc', $term ),
+			'breadcrumb_title'            => $this->get_meta_value( 'bctitle', $term ),
+			'og_title'                    => $this->get_meta_value( 'opengraph-title', $term ),
+			'og_description'              => $this->get_meta_value( 'opengraph-description', $term ),
+			'og_image'                    => $this->get_meta_value( 'opengraph-image', $term ),
+			'twitter_title'               => $this->get_meta_value( 'twitter-title', $term ),
+			'twitter_description'         => $this->get_meta_value( 'twitter-description', $term ),
+			'twitter_image'               => $this->get_meta_value( 'twitter-image', $term ),
+			'is_robots_noindex'           => $this->translate_robots_noindex( $this->get_meta_value( 'noindex', $term ) ),
 			'is_robots_nofollow'          => null,
 			'is_robots_noarchive'         => null,
 			'is_robots_noimageindex'      => null,
 			'is_robots_nosnippet'         => null,
-			'primary_focus_keyword'       => WPSEO_Meta::get_value( 'focuskw', $object_id ),
-			'primary_focus_keyword_score' => WPSEO_Meta::get_value( 'linkdex', $object_id ),
-			'readability_score'           => WPSEO_Meta::get_value( 'linkdex', $object_id ),
+			'primary_focus_keyword'       => $this->get_meta_value( 'focuskw', $term ),
+			'primary_focus_keyword_score' => (int) $this->get_meta_value( 'linkdex', $term ),
+			'readability_score'           => (int) $this->get_meta_value( 'content_score', $term ),
 			'is_cornerstone'              => false,
 			'link_count'                  => null,
 			'incoming_link_count'         => null,
@@ -61,22 +65,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	public function is_indexable( $object_id ) {
 		$term = get_term( $object_id );
 
-		if ( $term === null ) {
-			return false;
-		}
-
-		$noindex = $this->translate_robots_noindex( WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' ) );
-		if ( $noindex === null ) {
-			$noindex = WPSEO_Options::get( 'noindex-tax-' . $term->taxonomy, false );
-		}
-
-		if ( $noindex === true ) {
-			return false;
-		}
-
-		$taxonomy = get_taxonomy( $term->taxonomy );
-
-		return $taxonomy->publicly_queryable || ( $taxonomy->_builtin && $taxonomy->public );
+		return ( $term !== null && ! is_wp_error( $term ) );
 	}
 
 	/**
@@ -96,5 +85,17 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns the needed term meta field.
+	 *
+	 * @param string $field The requested field.
+	 * @param mixed  $term  The term object.
+	 *
+	 * @return bool|mixed The value of the requested field.
+	 */
+	protected function get_meta_value( $field, $term ) {
+		return WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, $field );
 	}
 }
