@@ -161,6 +161,8 @@ class Indexable_Term_Test extends \PHPUnit_Framework_TestCase {
 		$term_meta = array(
 			'a' => 'a',
 			'wpseo_noindex' => '',
+			'wpseo_focuskw' => '',
+			'wpseo_linkdex' => 10,
 		);
 
 		$post_id = 1;

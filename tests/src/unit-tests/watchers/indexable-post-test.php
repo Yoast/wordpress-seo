@@ -3,6 +3,7 @@
 namespace Yoast\Tests\UnitTests\Watchers;
 
 use Yoast\Tests\Doubles\Indexable_Post as Indexable_Post_Double;
+use Yoast\YoastSEO\Config\Database_Migration;
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
 use Yoast\YoastSEO\Watchers\Indexable_Post;
 
@@ -15,6 +16,12 @@ use Yoast\YoastSEO\Watchers\Indexable_Post;
  * @package Yoast\Tests\Watchers
  */
 class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
+	public function setUp() {
+		parent::setUp();
+
+		\delete_transient( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY );
+	}
+
 	/**
 	 * Tests if the expected hooks are registered
 	 *
@@ -192,15 +199,19 @@ class Indexable_Post_Test extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnValue( array( 'a' => 'a' ) ) );
 
 		$instance
-			->expects( $this->exactly( 3 ) )
+			->expects( $this->exactly( 5 ) )
 			->method( 'get_meta_value' )
 			->withConsecutive(
 				array( $this->equalTo('a') ),
+				array( $this->equalTo('focuskw') ),
+				array( $this->equalTo('linkdex') ),
 				array( $this->equalTo('meta-robots-noindex') ),
 				array( $this->equalTo('meta-robots-adv') )
 			)
 			->will( $this->onConsecutiveCalls(
 				'a',
+				'focus',
+				2,
 				1,
 				'robots_1,robots_2'
 			) );

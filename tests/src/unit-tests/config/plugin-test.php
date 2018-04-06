@@ -76,7 +76,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 		$database_migration = $this->get_database_migration_mock();
 
 		$database_migration
-			->expects( $this->exactly( 2 ) )
+			->expects( $this->exactly( 1 ) )
 			->method( 'is_usable' )
 			->will( $this->returnValue( false ) );
 
@@ -147,18 +147,14 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 		$database_migration = $this->get_database_migration_mock();
 		$database_migration
 			->expects( $this->once() )
-			->method( 'run_migrations' )
-			->will( $this->returnValue( false ) );
+			->method( 'has_migration_error' )
+			->will( $this->returnValue( true ) );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\YoastSEO\Config\Plugin' )
 			->setMethods( array( 'configure_orm' ) )
 			->setConstructorArgs( array( $dependency_management, $database_migration ) )
 			->getMock();
-
-		$instance
-			->expects( $this->once() )
-			->method( 'configure_orm' );
 
 		$instance->initialize();
 
@@ -332,7 +328,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	protected function get_database_migration_mock() {
 		return $this
 			->getMockBuilder( '\Yoast\YoastSEO\Config\Database_Migration' )
-			->setMethods( array( 'run_migrations', 'is_usable' ) )
+			->setMethods( array( 'run_migrations', 'is_usable', 'has_migration_error' ) )
 			->setConstructorArgs( array( null, $this->get_dependecy_management_mock() ) )
 			->getMock();
 	}
