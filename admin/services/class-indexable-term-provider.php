@@ -20,7 +20,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	public function get( $object_id ) {
 		$term = get_term( $object_id );
 
-		if ( $term === null || is_wp_error( $term ) ) {
+		if ( ! $this->is_indexable( $object_id ) ) {
 			return array();
 		}
 
