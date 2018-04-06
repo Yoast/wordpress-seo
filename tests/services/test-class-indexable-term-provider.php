@@ -12,27 +12,42 @@
  */
 class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 
+	/** @var WPSEO_Indexable_Service_Term_Provider */
+	protected $provider;
+
+	/**
+	 * Sets an instance of the provider.
+	 *
+	 * @return void
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		$this->provider = new WPSEO_Indexable_Service_Term_Provider();
+	}
+
 	/**
 	 * Tests getting non existing terms.
 	 *
 	 * @covers WPSEO_Indexable_Service_Term_Provider::get()
 	 */
 	public function test_get_non_existing_term() {
-		$provider = new WPSEO_Indexable_Service_Term_Provider();
-
-		$this->assertEquals( array(), $provider->get( false ) );
-		$this->assertEquals( array(), $provider->get( 'uncategorized' ) );
-		$this->assertEquals( array(), $provider->get( -1 ) );
-		$this->assertEquals( array(), $provider->get( 1000000000 ) );
+		$this->assertEquals( array(), $this->provider->get( false ) );
+		$this->assertEquals( array(), $this->provider->get( 'uncategorized' ) );
+		$this->assertEquals( array(), $this->provider->get( -1 ) );
+		$this->assertEquals( array(), $this->provider->get( 1000000000 ) );
 	}
 
+	/**
+	 * Tests if the term is indexable in various situations.
+	 *
+	 * @covers WPSEO_Indexable_Service_Term_Provider::is_indexable()
+	 */
 	public function test_is_indexable() {
-		$provider = new WPSEO_Indexable_Service_Term_Provider();
-
-		$this->assertFalse( $provider->is_indexable( false ) );
-		$this->assertFalse( $provider->is_indexable( 'uncategorized' ) );
-		$this->assertFalse( $provider->is_indexable( -1 ) );
-		$this->assertFalse( $provider->is_indexable( 1000000000 ) );
+		$this->assertFalse( $this->provider->is_indexable( false ) );
+		$this->assertFalse( $this->provider->is_indexable( 'uncategorized' ) );
+		$this->assertFalse( $this->provider->is_indexable( -1 ) );
+		$this->assertFalse( $this->provider->is_indexable( 1000000000 ) );
 
 		$term = $this
 			->factory()
@@ -44,7 +59,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 				)
 			);
 
-		$this->assertTrue( $provider->is_indexable( $term ) );
+		$this->assertTrue( $this->provider->is_indexable( $term ) );
 
 	}
 
@@ -117,9 +132,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 			'updated_at'                  => null,
 		);
 
-		$provider = new WPSEO_Indexable_Service_Term_Provider();
-
-		$this->assertEquals( $expected, $provider->get( $term->term_id ) );
+		$this->assertEquals( $expected, $this->provider->get( $term->term_id ) );
 	}
 
 	/**
@@ -146,8 +159,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 
 		WPSEO_Taxonomy_Meta::set_value( $term->term_id, $term->taxonomy, 'wpseo_noindex', $robot_value );
 
-		$provider = new WPSEO_Indexable_Service_Term_Provider();
-		$data = $provider->get( $term->term_id );
+		$data = $this->provider->get( $term->term_id );
 
 		$this->assertEquals( $expected, $data[ 'is_robots_noindex' ], $description );
 	}
