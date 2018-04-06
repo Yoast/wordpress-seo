@@ -67,7 +67,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 * @return bool Whether the object id is indexable.
 	 */
 	public function is_indexable( $object_id ) {
-		if ( get_post( $object_id ) === NULL ) {
+		if ( get_post( $object_id ) === null ) {
 		 	return false;
 		}
 
