@@ -20,6 +20,8 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 		$indexable_table = $this->create_table( $table_name );
 
+		$indexable_table->column( 'permalink', 'string', array( 'null' => true, 'limit' => 255 ) );
+
 		$indexable_table->column( 'object_id', 'integer', array( 'unsigned' => true, 'null' => true, 'limit' => 11 ) );
 		$indexable_table->column( 'object_type', 'string', array( 'limit' => 16 ) );
 		$indexable_table->column( 'object_sub_type', 'string', array( 'null' => true, 'limit' => 100 ) );
@@ -30,7 +32,6 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 			'limit'    => 11,
 		) );
 
-		$indexable_table->column( 'permalink', 'string', array( 'null' => true, 'limit' => 255 ) );
 		$indexable_table->column( 'canonical', 'string', array( 'null' => true, 'limit' => 255 ) );
 
 		$indexable_table->column( 'title', 'string', array( 'null' => true, 'limit' => 255 ) );
@@ -63,6 +64,10 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 		// Exexcute the SQL to create the table.
 		$indexable_table->finish();
+
+		$this->add_index( $table_name, array(
+			'permalink',
+		), array( 'name' => 'unique_permalink', 'unique' => true ) );
 
 		$this->add_index( $table_name, array(
 			'object_type',
