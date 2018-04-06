@@ -61,11 +61,15 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Don't process trash posts
+	 * Don't process trash posts.
+	 *
+	 * @covers WPSEO_Link_Watcher::save_post()
+	 *
+	 * @group test
 	 */
 	public function test_skip_trash_posts() {
 
-		$post = $this->factory->post->create(
+		$post = self::factory()->post->create(
 			array(
 				'post_type' => 'post',
 			)
@@ -73,7 +77,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		wp_delete_post( $post );
 
-		$post = get_post($post);
+		$post = get_post( $post );
 
 		$processor = $this->get_processor();
 		$processor

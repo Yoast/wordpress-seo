@@ -52,7 +52,7 @@ class WPSEO_Link_Watcher {
 
 		$post_statuses_to_skip = array( 'auto-draft', 'trash' );
 
-		if ( in_array( $post->post_status, $post_statuses_to_skip, TRUE ) ) {
+		if ( in_array( $post->post_status, $post_statuses_to_skip, true ) ) {
 			return;
 		}
 
