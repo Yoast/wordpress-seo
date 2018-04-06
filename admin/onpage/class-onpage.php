@@ -251,7 +251,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		wp_unschedule_event( time(), 'wpseo_onpage_fetch' );
+		wp_clear_scheduled_hook( 'wpseo_onpage_fetch' );
 	}
 
 	/**
