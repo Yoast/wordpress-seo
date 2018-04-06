@@ -8,7 +8,21 @@ import { IntlProvider as IntlProviderOriginal } from "react-intl";
  * This component will render an IntlProvider when the locale-data promise is resolved.
  */
 class IntlProvider extends React.Component {
+
+	/**
+	 * Renders the provider component.
+	 *
+	 * @returns {IntlProviderOriginal|string} String if Intl is missing, IntlProviderOriginal if not.
+	 */
 	render() {
+		if ( typeof window.Intl === "undefined" ) {
+			return (
+				<div className="notice notice-error">
+					<p>Yoast SEO detected that you are using a browser that doesn't support all the features we require. Please try using a different browser.</p>
+				</div>
+			);
+		}
+
 		return (
 			<IntlProviderOriginal
 				locale="en"

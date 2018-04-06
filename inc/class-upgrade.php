@@ -70,7 +70,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $version, '5.0', '>=' )
-			 && version_compare( $version, '5.1', '<' )
+			&& version_compare( $version, '5.1', '<' )
 		) {
 			$this->upgrade_50_51();
 		}

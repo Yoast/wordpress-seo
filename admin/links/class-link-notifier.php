@@ -6,7 +6,7 @@
  */
 
 /**
- * Repressents the notifier for adding link indexing notification to the dashboard.
+ * Represents the notifier for adding link indexing notification to the dashboard.
  */
 class WPSEO_Link_Notifier {
 

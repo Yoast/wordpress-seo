@@ -28,3 +28,7 @@ exclude_paths:
 - inc/wpseo-functions-deprecated.php
 - js/dist/*
 - css/dist/*
+checks:
+  method-lines:
+    config:
+      threshold: 35

@@ -535,7 +535,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseo-buy-premium {
 	color: #A4286A;
-	padding-right: 5px;
+	margin-right: 5px;
 }
 
 .wpseo-metabox-go-to {
@@ -701,9 +701,9 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	.wpseo-meta-section-link .yst-traffic-light-container {
 		display: block;
 		width: 40px;
-		height: 35px; /* 35+5+2+3=45 must be 5px taller than the container to show the border outside of the contaiiner. */
+		height: 45px;
 		margin: 0;
-		padding: 5px 0 2px;
+		padding: 5px 0 0;
 		border-left-width: 0;
 		border-bottom-width: 3px;
 	}
@@ -725,7 +725,8 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 		display: inline-block;
 		width: 20px;
 		height: 20px;
-		padding: 0 5px 0;
+		margin-right: 5px;
+		padding: 0;
 	}
 
 	.yoast-help-panel {
