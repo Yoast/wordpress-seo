@@ -47,7 +47,7 @@ function updateReadabilityResult( state, action ) {
  *
  * @param {Object} state The current state of the object.
  * @param {Object} action The current action received.
- * @returns {Object} The updated readability rewsults object.
+ * @returns {Object} The updated readability results object.
  */
 export function readabilityResultsReducer( state = initialState, action ) {
 	switch ( action.type ) {
