@@ -223,7 +223,6 @@ class ContentAnalysis extends React.Component {
 				{ this.renderLanguageNotice() }
 				{ errorsFound > 0 &&
 				<AnalysisCollapsible
-					hasHeading={ true }
 					headingLevel={ headingLevel }
 					title={ this.props.intl.formatMessage( messages.errorsHeader ) }
 				>
@@ -231,7 +230,6 @@ class ContentAnalysis extends React.Component {
 				</AnalysisCollapsible> }
 				{ problemsFound > 0 &&
 					<AnalysisCollapsible
-						hasHeading={ true }
 						headingLevel={ headingLevel }
 						title={ this.props.intl.formatMessage( messages.problemsHeader ) }
 					>
@@ -239,7 +237,6 @@ class ContentAnalysis extends React.Component {
 					</AnalysisCollapsible> }
 				{ improvementsFound > 0 &&
 					<AnalysisCollapsible
-						hasHeading={ true }
 						headingLevel={ headingLevel }
 						title={ this.props.intl.formatMessage( messages.improvementsHeader ) }
 					>
@@ -247,7 +244,6 @@ class ContentAnalysis extends React.Component {
 					</AnalysisCollapsible> }
 				{ considerationsFound > 0 &&
 					<AnalysisCollapsible
-						hasHeading={ true }
 						headingLevel={ headingLevel }
 						title={ this.props.intl.formatMessage( messages.considerationsHeader ) }
 					>
@@ -255,7 +251,6 @@ class ContentAnalysis extends React.Component {
 					</AnalysisCollapsible> }
 				{ goodResultsFound > 0 &&
 					<AnalysisCollapsible
-						hasHeading={ true }
 						headingLevel={ headingLevel }
 						title={this.props.intl.formatMessage( messages.goodHeader ) }
 					>

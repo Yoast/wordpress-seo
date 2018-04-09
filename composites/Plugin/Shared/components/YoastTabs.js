@@ -119,6 +119,11 @@ class YoastTabs extends React.Component {
 		);
 	}
 
+	/**
+	 * Calls a callback after this component has been mounted.
+	 *
+	 * @returns {void}
+	 */
 	componentDidMount() {
 		this.props.onTabsMounted();
 	}

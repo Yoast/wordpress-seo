@@ -257,3 +257,41 @@ IconButton.propTypes = {
 IconButton.defaultProps = {
 	iconColor: "#000",
 };
+
+/**
+ * Returns an icons button that can optionally contain a prefix and / or a suffix icon.
+ *
+ * @param {object} props Component props.
+ *
+ * @returns {ReactElement} Styled icon button.
+ */
+export const IconsButton = ( props ) => {
+	const { children: text, prefixIcon, prefixIconColor, suffixIcon, suffixIconColor } = props;
+
+	const newProps = omit( props, [ "prefixIcon", "prefixIconColor", "suffixIcon", "suffixIconColor" ] );
+
+	return (
+		<Button { ...newProps }>
+			{ prefixIcon ? <SvgIcon icon={ prefixIcon } color={ prefixIconColor } /> : null }
+			{ text }
+			{ suffixIcon ? <SvgIcon icon={ suffixIcon } color={ suffixIconColor } /> : null }
+		</Button>
+	);
+};
+
+IconsButton.propTypes = {
+	prefixIcon: PropTypes.string,
+	prefixIconColor: PropTypes.string,
+	suffixIcon: PropTypes.string,
+	suffixIconColor: PropTypes.string,
+	children: PropTypes.oneOfType( [
+		PropTypes.arrayOf( PropTypes.node ),
+		PropTypes.node,
+		PropTypes.string,
+	] ),
+};
+
+IconsButton.defaultProps = {
+	prefixIconColor: "#000",
+	suffixIconColor: "#000",
+};

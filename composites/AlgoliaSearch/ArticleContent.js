@@ -18,14 +18,31 @@ const ArticleContentFullWidth = styled( IFrame )`
  */
 
 class ArticleContent extends React.Component {
+	/**
+	 * Constructs the article content.
+	 *
+	 * @param {Object} props The props for the article content.
+	 */
 	constructor( props ) {
 		super( props );
 	}
 
+	/**
+	 * Transforms a given URL to an AMP URL.
+	 *
+	 * @param {string} originalUrl The original URL.
+	 *
+	 * @returns {string} The AMP URL.
+	 */
 	toAmp( originalUrl ) {
 		return `${ originalUrl }amp/?source=wpseo-kb-search`;
 	}
 
+	/**
+	 * Renders the article content with the AMP URL.
+	 *
+	 * @returns {ReactElement} The rendered element.
+	 */
 	render() {
 		return ( <ArticleContentFullWidth
 			src={ this.toAmp( this.props.post.permalink ) }

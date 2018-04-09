@@ -45,6 +45,13 @@ const ScrollHint = styled.div`
  * @param {string} className Classname to use for the content container.
  */
 export default class FixedWidthContainer extends Component {
+	/**
+	 * Constructs a fixed width container.
+	 *
+	 * @param {Object} props The props for this fixed with container.
+	 *
+	 * @returns {void}
+	 */
 	constructor( props ) {
 		super( props );
 
