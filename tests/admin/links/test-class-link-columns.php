@@ -96,6 +96,15 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the addition of post columns with a non-array value.
+	 */
+	public function test_add_faulty_post_columns() {
+		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
+
+		$this->assertTrue( $link_columns->add_post_columns( true ) );
+	}
+
+	/**
 	 * Test set_count_objects to set the object correctly.
 	 */
 	public function test_set_count_objects() {
