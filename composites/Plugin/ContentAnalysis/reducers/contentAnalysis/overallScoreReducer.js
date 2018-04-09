@@ -6,7 +6,7 @@ import { SET_OVERALL_READABILITY_SCORE, SET_OVERALL_SEO_SCORE } from "../../acti
 const initialState = {};
 
 export function setOverallReadabilityScore( state, action ) {
-	return Object.assign( {}, state.analysis.readability,
+	return Object.assign( {}, state,
 		{ overallScore: action.overallScore }
 	);
 }
@@ -18,13 +18,16 @@ export function setOverallReadabilityScore( state, action ) {
  * @param {Object} action The action.
  * @returns {Object} The overall score per keyword.
  */
+
 export function setOverallSeoScore( state, action ) {
+	/**
 	let scorePerKeyword = {};
 	action.scorePerKeyword.forEach( function( keywordResultsPair ) {
 		scorePerKeyword[ keywordResultsPair.keyword ].overallScore = keywordResultsPair.overallScore;
 	} );
-	return Object.assign( {}, state.analysis.seo, {
-		[ action.keyword ]: scorePerKeyword,
+ 	*/
+	return Object.assign( {}, state, {
+		[ action.keyword ]: action.overallScore,
 	} );
 }
 
