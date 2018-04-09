@@ -45,22 +45,6 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 			Yoast_Modal::add( $add_keyword_modal_config );
 		}
 
-		$more_modal_config = array(
-			'mountHook'  => '.inside .wpseo-metabox-buy-premium',
-			'intl'       => array(
-				'open'            => __( 'Second modal', 'wordpress-seo' ),
-				'modalAriaLabel'  => __( 'Second modal aria-label', 'wordpress-seo' ),
-				'heading'         => __( 'Second modal heading', 'wordpress-seo' ),
-				'closeIconButton' => __( 'Close me 2 aria-label', 'wordpress-seo' ),
-				'closeButton'     => __( 'Close me 2', 'wordpress-seo' ),
-			),
-			'classes'    => array(
-				'closeButton' => 'button button-primary',
-			),
-			'content'    => 'ModalTestContent',
-		);
-		Yoast_Modal::add( $more_modal_config );
-
 		// Keep the default Add Keyword button for Premium. On free it's replaced by React.
 		ob_start();
 		?>
