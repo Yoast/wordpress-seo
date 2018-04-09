@@ -4,6 +4,11 @@ import ScreenReaderText from "./a11y/ScreenReaderText";
 import ScreenReaderShortcut from "./a11y/ScreenReaderShortcut";
 
 class App extends React.Component {
+	/**
+	 * Renders a screen reader text example.
+	 *
+	 * @returns {ReactElement} The rendered element.
+	 */
 	render() {
 		return (
 			<div>

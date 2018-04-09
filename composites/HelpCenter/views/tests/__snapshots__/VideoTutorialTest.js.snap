@@ -53,7 +53,7 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
   padding: 16px 0;
 }
 
-.c4:not( :last-child ) {
+.c4:not(:last-child ) {
   border-bottom: 2px solid #ddd;
   padding-bottom: 16px;
 }

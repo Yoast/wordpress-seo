@@ -1,32 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the HelpCenterButton matches the snapshot 1`] = `
-.c2 {
-  color: #fff;
-  background: #64a60a;
-  min-width: 152px;
-  text-shadow: 0 0 2px #000;
-  overflow: visible;
-  cursor: pointer;
-}
-
-.c2::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c2 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
 .c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -58,7 +32,7 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
 .c1:hover,
 .c1:focus,
 .c1:active {
-  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ),inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
@@ -67,6 +41,32 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
+}
+
+.c2 {
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c2::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c2 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
 }
 
 .c0 {
@@ -92,14 +92,6 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
   flex: none;
 }
 
-.c4 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c1::after {
     display: inline-block;
@@ -110,7 +102,7 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
 
 <button
   aria-expanded={false}
-  className="c0 c1 c2"
+  className="c0 c1 YoastButton-hNXTAd c2"
   onClick={undefined}
   type="button"
 >
@@ -132,7 +124,7 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
     Need Help?
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-down c4"
+      className="yoast-svg-icon yoast-svg-icon-angle-down c3"
       fill="#fff"
       focusable="false"
       role="img"

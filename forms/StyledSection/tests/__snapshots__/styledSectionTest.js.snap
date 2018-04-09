@@ -1173,7 +1173,7 @@ exports[`StyledSection can not add an non-existing icon 1`] = `
   color: red;
 }
 
-.c0 .sc-bwzfXH {
+.c0 .StyledSection__StyledIcon-ebXrFH {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;

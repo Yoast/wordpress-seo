@@ -22,11 +22,21 @@ const InputFieldContainer = styled.div`
 `;
 
 export default class InputField extends React.Component {
+	/**
+	 * Constructs an input field
+	 *
+	 * @param {Object} props The props for this input field.
+	 */
 	constructor( props ) {
 		super( props );
 		this.state = { editorState: EditorState.createEmpty() };
 	}
 
+	/**
+	 * Renders the input field.
+	 *
+	 * @returns {ReactElement} The rendered input field.
+	 */
 	render() {
 		return (
 			<InputFieldContainer onClick={ this.focus.bind( this ) }>
@@ -44,14 +54,33 @@ export default class InputField extends React.Component {
 		);
 	}
 
+	/**
+	 * Changes when the editor state changes.
+	 *
+	 * @param {Object} editorState The editor state for the DraftJS object.
+	 *
+	 * @returns {void}
+	 */
 	onChange( editorState ) {
 		this.setState( { editorState } );
 	}
 
+	/**
+	 * Focuses the editor.
+	 *
+	 * @returns {void}
+	 */
 	focus() {
 		this.editor.focus();
 	}
 
+	/**
+	 * Handles pasted text into the editor.
+	 *
+	 * @param {string} text The inserted text.
+	 *
+	 * @returns {string} A result string.
+	 */
 	handlePastedText( text ) {
 		this.onChange( EditorState.push(
 			this.state.editorState,

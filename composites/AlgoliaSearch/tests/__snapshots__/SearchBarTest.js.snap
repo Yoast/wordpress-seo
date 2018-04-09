@@ -1,32 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the SearchBar component with headingText matches the snapshot 1`] = `
-.c4 {
-  color: #fff;
-  background: #64a60a;
-  min-width: 152px;
-  text-shadow: 0 0 2px #000;
-  overflow: visible;
-  cursor: pointer;
-}
-
-.c4::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c4 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
 .c3 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -58,7 +32,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
 .c3:hover,
 .c3:focus,
 .c3:active {
-  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ),inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
@@ -67,6 +41,32 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
+}
+
+.c4 {
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c4::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c4 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
 }
 
 .c0 form {
@@ -103,7 +103,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
 }
 
 .c2.c2:focus {
-  box-shadow: inset 0 2px 8px 0px rgba( 0,0,0,0.3 ), 0 0 2px rgba( 30,140,190,0.8 );
+  box-shadow: inset 0 2px 8px 0px rgba( 0,0,0,0.3 ),0 0 2px rgba( 30,140,190,0.8 );
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -155,7 +155,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
     />
     <button
       aria-expanded={undefined}
-      className="c3 c4"
+      className="c3 YoastButton-hNXTAd c4"
       onClick={undefined}
       type="submit"
     >
@@ -168,32 +168,6 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
 `;
 
 exports[`the SearchBar component without headingText matches the snapshot 1`] = `
-.c4 {
-  color: #fff;
-  background: #64a60a;
-  min-width: 152px;
-  text-shadow: 0 0 2px #000;
-  overflow: visible;
-  cursor: pointer;
-}
-
-.c4::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c4 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
 .c3 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -225,7 +199,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
 .c3:hover,
 .c3:focus,
 .c3:active {
-  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
+  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ),inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
@@ -234,6 +208,32 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
+}
+
+.c4 {
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c4::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c4 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
 }
 
 .c0 form {
@@ -270,7 +270,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
 }
 
 .c2.c2:focus {
-  box-shadow: inset 0 2px 8px 0px rgba( 0,0,0,0.3 ), 0 0 2px rgba( 30,140,190,0.8 );
+  box-shadow: inset 0 2px 8px 0px rgba( 0,0,0,0.3 ),0 0 2px rgba( 30,140,190,0.8 );
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -322,7 +322,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
     />
     <button
       aria-expanded={undefined}
-      className="c3 c4"
+      className="c3 YoastButton-hNXTAd c4"
       onClick={undefined}
       type="submit"
     >
