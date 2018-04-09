@@ -192,7 +192,7 @@ rules:
   padded-blocks: [1, "never"]
   quote-props: [2, "as-needed", {"keywords": true}]
   quotes: [2, double, avoid-escape]
-  require-jsdoc: [2, {"require": {"MethodDefinition": true}}]
+  require-jsdoc: [1, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true}}]
   semi-spacing: 2
   semi: [2, always]
   sort-vars: 0
