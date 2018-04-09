@@ -53,7 +53,7 @@ describe( "A test that uses the Italian Flesch Reading", function() {
 } );
 
 describe( "A test that uses the Russian Flesch Reading", function() {
-	it( "returns a score", function () {
+	it( "returns a score", function() {
 		var mockPaper = new Paper( "Это бесконечно длинное предложение на русском языке, в нем чрезвычайно много довольно длинных слов, и понять его очень сложно.", { locale: "ru_RU" } );
 		expect( fleschFunction( mockPaper ) ).toBe( 49.3 );
 	} );
