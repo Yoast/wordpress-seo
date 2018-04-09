@@ -180,12 +180,12 @@ describe( "SnippetEditor", () => {
 		const editor = mountWithArgs( { onChange } );
 
 		// Click the mobile button.
-		editor.find( "SnippetEditor__ModeSwitcher" ).find( "button" ).at( 0 ).simulate( "click" );
+		editor.find( "ModeSwitcher__Switcher" ).find( "button" ).at( 0 ).simulate( "click" );
 
 		expect( onChange ).toBeCalledWith( "mode", "mobile" );
 
 		// Click the desktop button.
-		editor.find( "SnippetEditor__ModeSwitcher" ).find( "button" ).at( 1 ).simulate( "click" );
+		editor.find( "ModeSwitcher__Switcher" ).find( "button" ).at( 1 ).simulate( "click" );
 
 		expect( onChange ).toBeCalledWith( "mode", "desktop" );
 	} );

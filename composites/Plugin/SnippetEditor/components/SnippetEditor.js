@@ -1,6 +1,5 @@
 // External dependencies.
 import React from "react";
-import styled from "styled-components";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
@@ -8,55 +7,13 @@ import PropTypes from "prop-types";
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
 import {
 	DEFAULT_MODE,
-	MODE_DESKTOP,
-	MODE_MOBILE,
 	MODES,
 } from "../../SnippetPreview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
-import colors from "../../../../style-guide/colors.json";
 import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
-import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
-
-const SwitcherButton = Button.extend`
-	border: none;
-	border-bottom: 4px solid transparent;
-	
-	width: 31px;
-	height: 31px;
-	
-	border-color: ${ ( props ) => props.isActive ? colors.$color_snippet_active : "transparent" };
-	color: ${ colors.$color_snippet_active };
-	
-	transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
-	transition-property: border-color;
-	
-	&:hover, &:focus {
-		border: none;
-		border-bottom: 4px solid transparent;
-		border-color: ${ colors.$color_snippet_focus };
-		color: ${ colors.$color_snippet_focus };
-	}
-`;
-
-const MobileButton = SwitcherButton.extend`
-	border-radius: 3px 0 0 3px;
-`;
-
-const DesktopButton = SwitcherButton.extend`
-	border-radius: 0 3px 3px 0;
-`;
-
-const ModeSwitcher = styled.div`
-	display: inline-block;
-	margin-top: 10px;
-	margin-left: 20px;
-	border: 1px solid #dbdbdb;
-	border-radius: 4px;
-	background-color: #f7f7f7;
-	vertical-align: top;
-`;
+import ModeSwitcher from "./ModeSwitcher";
 
 const SnippetEditorButton = Button.extend`
 	border: 1px solid #dbdbdb;
@@ -327,23 +284,7 @@ class SnippetEditor extends React.Component {
 					{ ...mappedData }
 				/>
 
-				<ModeSwitcher>
-					<MobileButton onClick={ () => onChange( "mode", MODE_MOBILE ) } isActive={ mode === MODE_MOBILE }>
-						<SvgIcon icon="mobile" size="22px" color="currentColor" />
-						<FormattedScreenReaderMessage
-							id="snippetEditor.desktopPreview"
-							defaultMessage="Mobile preview"
-						/>
-					</MobileButton>
-
-					<DesktopButton onClick={ () => onChange( "mode", MODE_DESKTOP ) } isActive={ mode === MODE_DESKTOP }>
-						<SvgIcon icon="desktop" size="18px" color="currentColor" />
-						<FormattedScreenReaderMessage
-							id="snippetEditor.desktopPreview"
-							defaultMessage="Desktop preview"
-						/>
-					</DesktopButton>
-				</ModeSwitcher>
+				<ModeSwitcher onChange={ ( mode ) => onChange( "mode", mode ) } active={ mode } />
 
 				<EditSnippetButton onClick={ isOpen ? this.close : this.open }>
 					<SvgIcon icon="edit" />
