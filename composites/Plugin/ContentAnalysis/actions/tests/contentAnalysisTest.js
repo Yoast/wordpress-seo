@@ -12,10 +12,10 @@ import {
 	removeKeyword,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
-	SET_OVERALL_SCORE_READABILITY,
-	setOverallScoreReadability,
-	SET_OVERALL_SCORE_SEO,
-	setOverallScoreSeo,
+	SET_OVERALL_READABILITY_SCORE,
+	setOverallReadabilityScore,
+	SET_OVERALL_SEO_SCORE,
+	setOverallSeoScore,
 } from "../contentAnalysis";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
@@ -135,16 +135,15 @@ describe( "removeKeyword function", function() {
 
 describe( "setOverallScore readability function", function() {
 	it( "creates the setOverallScore for readability results action", function() {
-		let results = [
-			{ id: "result", score: 3, description: "This is a bad score!", markingIsActive: false },
+		let overallScore = [
 			{ id: "overallScore", score: 3 },
 		];
 
 		const expected = {
-			type: SET_OVERALL_SCORE_READABILITY,
-			results: results,
+			type: SET_OVERALL_READABILITY_SCORE,
+			overallScore: overallScore,
 		};
-		const actual = setOverallScoreReadability( results );
+		const actual = setOverallReadabilityScore( overallScore );
 		expect( actual ).toEqual( expected );
 	} );
 } );
@@ -175,10 +174,10 @@ describe( "setOverallScore seo function", function() {
 		} ];
 
 		const expected = {
-			type: SET_OVERALL_SCORE_SEO,
+			type: SET_OVERALL_SEO_SCORE,
 			results: scorePerKeyword,
 		};
-		const actual = setOverallScoreSeo( scorePerKeyword );
+		const actual = setOverallSeoScore( scorePerKeyword );
 		expect( actual ).toEqual( expected );
 	} );
 } );

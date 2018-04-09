@@ -1,5 +1,5 @@
-import { UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS, SET_OVERALL_SCORE_READABILITY } from "../../actions/contentAnalysis";
-import { setOverallScoreReadability } from "./overallScoreReducer";
+import { UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS, SET_OVERALL_READABILITY_SCORE } from "../../actions/contentAnalysis";
+import { setOverallReadabilityScore } from "./overallScoreReducer";
 import findIndex from "lodash/findIndex";
 
 /**
@@ -11,7 +11,15 @@ const initialState = {};
  * Helper functions
  */
 
-function setReadabilityResult( state, action ) {
+/**
+ * Sets the readability results.
+ *
+ * @param {Object} state The state.
+ * @param {Object} action The action.
+ *
+ * @returns {Object} The new results.
+ */
+function setReadabilityResults( state, action ) {
 	return Object.assign( {}, state,
 		{ results: action.results },
 	);
@@ -47,16 +55,16 @@ function updateReadabilityResult( state, action ) {
  *
  * @param {Object} state The current state of the object.
  * @param {Object} action The current action received.
- * @returns {Object} The updated readability rewsults object.
+ * @returns {Object} The updated readability results object.
  */
 export function readabilityResultsReducer( state = initialState, action ) {
 	switch ( action.type ) {
 		case SET_READABILITY_RESULTS:
-			return setReadabilityResult( state, action );
+			return setReadabilityResults( state, action );
 		case UPDATE_READABILITY_RESULT:
 			return updateReadabilityResult( state, action );
-		case SET_OVERALL_SCORE_READABILITY:
-			return setOverallScoreReadability( state, action );
+		case SET_OVERALL_READABILITY_SCORE:
+			return setOverallReadabilityScore( state, action );
 		default:
 			return state;
 	}

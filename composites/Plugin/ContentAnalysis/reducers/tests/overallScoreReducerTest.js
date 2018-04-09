@@ -1,66 +1,29 @@
-import { SET_OVERALL_SCORE_SEO, SET_OVERALL_SCORE_READABILITY } from "../../actions/contentAnalysis";
+import { SET_OVERALL_SEO_SCORE, SET_OVERALL_READABILITY_SCORE } from "../../actions/contentAnalysis";
 import { overallScoreReducer } from "../contentAnalysis/overallScoreReducer";
 
 describe( "SET_OVERALL_SCORE for seo action", () => {
 	it( "sets overall score for an seo analysis result", () => {
 		const state = {};
-		let firstKeyword = "thisIsMyFirstKeyword";
-		let secondKeyword = "thisIsMySecondKeyword";
 		const action = {
-			type: SET_OVERALL_SCORE_SEO,
-			scorePerKeyword: [
-				{
-					keyword: firstKeyword,
-					results: [
-						{
-							id: "resultId",
-							score: 3,
-							description: "This is a bad score!",
-							markingIsActive: false,
-						},
-						{
-							id: "resultId2",
-							score: 6,
-							description: "This is a mediocre score!",
-							markingIsActive: false,
-						},
-					],
-					overallScore: {
-						score: 5,
-						description: "This is a mediocre score!",
-					},
-				},
-				{
-					keyword: secondKeyword,
-					results: [
-						{
-							id: "resultId",
-							score: 1,
-							description: "This is a bad score!",
-							markingIsActive: false,
-						},
-						{
-							id: "resultId2",
-							score: 5,
-							description: "This is a mediocre score!",
-							markingIsActive: false,
-						},
-					],
-					overallScore: {
-						score: 3,
-						description: "This is a bad score!",
-					},
-				},
-			],
-		};
-		const expected = {
-			thisIsMyFirstKeyword: {
+			type: SET_OVERALL_SEO_SCORE,
+			keyword: "first keyword",
+			overallScore: {
 				score: 5,
 				description: "This is a mediocre score!",
 			},
-			thisIsMySecondKeyword: {
-				score: 3,
-				description: "This is a bad score!",
+		};
+		const expected = {
+			"first keyword": {
+				overallScore: {
+					score: 5,
+					description: "This is a mediocre score!",
+				},
+			},
+			"second keyword": {
+				overallScore: {
+					score: 3,
+					description: "This is a bad score!",
+				},
 			},
 		};
 
@@ -74,21 +37,7 @@ describe( "SET_OVERALL_SCORE for readability action", () => {
 	it( "sets overall score for a readability analysis result", () => {
 		const state = [];
 		const action = {
-			type: SET_OVERALL_SCORE_READABILITY,
-			results: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
+			type: SET_OVERALL_READABILITY_SCORE,
 			overallScore: {
 				score: 5,
 				description: "This is a mediocre score!",
