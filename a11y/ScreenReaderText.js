@@ -1,8 +1,8 @@
-/* External dependencies */
+// External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
 
-/* Internal dependencies */
+// External dependencies.
 import Styles from "./Styles";
 
 /**

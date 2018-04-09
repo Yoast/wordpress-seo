@@ -1,8 +1,26 @@
+// External dependencies.
 import React from "react";
-import ScreenReaderText from "./ScreenReaderText";
 import { FormattedMessage } from "react-intl";
 import omit from "lodash/omit";
 import PropTypes from "prop-types";
+
+// External dependencies.
+import ScreenReaderText from "./ScreenReaderText";
+
+/**
+ * Combines the text that is passed to the formatted screen reader message.
+ *
+ * @param {string[]} textNodes The text nodes passed from the FormattedMessage
+ *                             component.
+ * @param {Object}   props     The props to the `FormattedScreenReaderMessage`
+ *                             component.
+ * @returns {string} The combined text.
+ */
+function renderText( textNodes, props ) {
+	const combinedParts = [ props.before, ...textNodes, props.after ];
+
+	return combinedParts.join( "" );
+}
 
 /**
  * Renders a message which should only be shown to screen readers. All props
@@ -12,16 +30,16 @@ import PropTypes from "prop-types";
  * string. This is useful for punctuation that shouldn't be translated. Such
  * punctuation can for example be a colon.
  *
- * @param {Object} props The view properties.
+ * @param {Object} props        The view properties.
  * @param {string} props.before A piece of text to render before the translation.
- * @param {string} props.after A piece of text to render after the translation.
+ * @param {string} props.after  A piece of text to render after the translation.
  *
- * @returns {ReactElement} ScreenReaderText The div containing the screen reader text.
+ * @returns {ReactElement} The rendered div containing the screen reader text.
  */
 const FormattedScreenReaderMessage = ( props ) => {
 	return (
 		<FormattedMessage { ...omit( props, "children" ) }>
-			{ ( textNodes ) => <ScreenReaderText>{ [ props.before, ...textNodes, props.after ].join( "" ) }</ScreenReaderText> }
+			{ ( textNodes ) => <ScreenReaderText>{ renderText( textNodes, props ) }</ScreenReaderText> }
 		</FormattedMessage>
 	);
 };

@@ -1,14 +1,16 @@
-/* External dependencies */
+// External dependencies.
 import React from "react";
 import styled from "styled-components";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
-/* Internal dependencies */
+// External dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
 import {
-	DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE,
-	MODES
+	DEFAULT_MODE,
+	MODE_DESKTOP,
+	MODE_MOBILE,
+	MODES,
 } from "../../SnippetPreview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";

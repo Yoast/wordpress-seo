@@ -1,9 +1,9 @@
-/* External dependencies */
+// External dependencies.
 import React, { Component } from "react";
 import styled from "styled-components";
 import debounce from "lodash/debounce";
 
-/* Internal dependencies */
+// External dependencies.
 import SnippetEditor from "../composites/Plugin/SnippetEditor/components/SnippetEditor";
 
 const Container = styled.div`

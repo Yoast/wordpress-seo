@@ -8,11 +8,11 @@ import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
 import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
+import SnippetEditor from "./app/SnippetEditorExample";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
 import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
-import SnippetEditor from "./app/SnippetEditorWrapper";
 
 const components = [
 	{

@@ -1,4 +1,4 @@
-/* External dependencies */
+// External dependencies.
 import React, { PureComponent } from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
@@ -9,11 +9,11 @@ import truncate from "lodash/truncate";
 import partial from "lodash/partial";
 import { parse } from "url";
 
-/* Internal dependencies */
+// External dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
 import colors from "../../../../style-guide/colors";
 import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
-import {DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES} from "../constants";
+import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders

@@ -1,11 +1,14 @@
+// External dependencies.
 import React from "react";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import createMentionPlugin, { defaultSuggestionsFilter } from "draft-js-mention-plugin";
-import { serializeEditor, unserializeEditor } from "../serialization";
 import flow from "lodash/flow";
 import PropTypes from "prop-types";
+
+// Internal dependencies.
 import { replacementVariablesShape } from "../constants";
+import { serializeEditor, unserializeEditor } from "../serialization";
 
 /**
  * Creates a DraftJS editor state from a string.
@@ -32,29 +35,55 @@ const serializeEditorState = flow( [
 	serializeEditor,
 ] );
 
-class ReplaceVarEditor extends React.Component {
+/**
+ * A replacement variable editor. It allows replacements variables as tokens in
+ * its editor. It's a small shell on top of DraftJS.
+ */
+class ReplacementVariableEditor extends React.Component {
 	/**
 	 * Constructs the replacement variable editor for use.
 	 *
-	 * @param {Object} props The props to instantiate this editor with.
+	 * @param {Object} props                        The props to instantiate this
+	 *                                              editor with.
+	 * @param {string} props.content                The content to instantiate this
+	 *                                              editor with.
+	 * @param {Object[]} props.replacementVariables The replacement variables that
+	 *                                              should be available in the
+	 *                                              editor.
+	 * @param {Function} props.onChange             Called when the content inside
+	 *                                              is edited.
+	 * @param {Function} props.onFocus              Called when this editor is
+	 *                                              focused.
+	 * @param {Function} props.onBlur               Called when this editor is
+	 *                                              unfocused.
 	 *
 	 * @returns {void}
 	 */
 	constructor( props ) {
 		super( props );
 
-		const { content } = this.props;
+		const { content: rawContent } = this.props;
 
 		this.state = {
-			editorState: createEditorState( content ),
+			editorState: createEditorState( rawContent ),
 			replacementVariables: props.replacementVariables,
 		};
 
-		this._serializedContent = content;
+		/*
+		 * To prevent re-rendering the editor excessively we need to set the serialized
+		 * content to the passed content. This is possible because the following is
+		 * true:
+		 * `rawContent === serialize( unserialize( rawContent ) )`
+		 */
+		this._serializedContent = rawContent;
 
 		this.onChange = this.onChange.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
 
+		/*
+		 * The mentions plugin is used to autocomplete the replacement variable
+		 * names.
+		 */
 		this.mentionsPlugin = createMentionPlugin( {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
@@ -149,19 +178,18 @@ class ReplaceVarEditor extends React.Component {
 	}
 }
 
-ReplaceVarEditor.propTypes = {
+ReplacementVariableEditor.propTypes = {
 	content: PropTypes.string.isRequired,
-	onChange: PropTypes.func,
-	className: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 
+	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
 };
 
-ReplaceVarEditor.defaultProps = {
+ReplacementVariableEditor.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
 };
 
-export default ReplaceVarEditor;
+export default ReplacementVariableEditor;
