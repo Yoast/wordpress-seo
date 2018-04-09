@@ -19,6 +19,7 @@ class WPSEO_Post_Type {
 	 */
 	public static function get_accessible_post_types() {
 		$post_types = get_post_types( array( 'public' => true ) );
+		$post_types = array_filter( $post_types, 'is_post_type_viewable' );
 
 		/**
 		 * Filter: 'wpseo_accessible_post_types' - Allow changing the accessible post types.
