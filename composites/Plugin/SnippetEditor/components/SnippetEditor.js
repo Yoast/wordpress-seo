@@ -6,7 +6,10 @@ import PropTypes from "prop-types";
 
 /* Internal dependencies */
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
-import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants";
+import {
+	DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE,
+	MODES
+} from "../../SnippetPreview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
@@ -370,7 +373,7 @@ SnippetEditor.propTypes = {
 };
 
 SnippetEditor.defaultProps = {
-	mode: MODE_MOBILE,
+	mode: DEFAULT_MODE,
 	replacementVariables: [],
 	titleLengthAssessment: {
 		max: 600,

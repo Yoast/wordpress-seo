@@ -20,6 +20,13 @@ const renderSnapshotWithArgs = ( changedArgs ) => {
 };
 
 describe( "SnippetPreview", () => {
+	it( "renders a SnippetPreview in the default mode", () => {
+		renderSnapshotWithArgs( {
+			// eslint-disable-next-line no-undefined
+			mode: undefined,
+		} );
+	} );
+
 	it( "renders a SnippetPreview that looks like Google", () => {
 		renderSnapshotWithArgs( {} );
 	} );

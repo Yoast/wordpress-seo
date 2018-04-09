@@ -884,6 +884,176 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 </section>
 `;
 
+exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
+.c0 {
+  border-bottom: 1px hidden #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  margin: 0 20px 10px;
+  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+.c2 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c4 {
+  color: #1e0fbe;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c3 {
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c5 {
+  display: inline-block;
+  line-height: 1.2em;
+  max-height: 2.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c6 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #545454;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+}
+
+.c8 {
+  line-height: 1em;
+  max-height: 4em;
+  overflow: hidden;
+}
+
+.c1 {
+  padding: 16px;
+}
+
+.c7 {
+  border: 0;
+  border-bottom: 1px solid #DFE1E5;
+  margin: 0;
+}
+
+<section>
+  <div
+    className="c0"
+    onMouseLeave={undefined}
+    width={640}
+  >
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
+      <div
+        className="c2"
+        onClick={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOver={[Function]}
+      >
+        <div
+          className="c3 c4"
+        >
+          <span
+            className="c5"
+          >
+            Title
+          </span>
+        </div>
+      </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Url preview:
+      </span>
+      <div
+        className="c6"
+        onClick={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOver={[Function]}
+      >
+        https://example.org
+      </div>
+    </div>
+    <hr
+      className="c7"
+    />
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Meta description preview:
+      </span>
+      <div
+        className="c8 c9"
+        color="#545454"
+        onClick={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOver={[Function]}
+      >
+        Description
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
 exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 .c1 {
   overflow: auto;

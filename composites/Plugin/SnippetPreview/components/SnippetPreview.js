@@ -13,7 +13,7 @@ import { parse } from "url";
 import FixedWidthContainer from "./FixedWidthContainer";
 import colors from "../../../../style-guide/colors";
 import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
-import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
+import {DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES} from "../constants";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -664,7 +664,7 @@ SnippetPreview.defaultProps = {
 	locale: "en_US",
 	hoveredField: "",
 	activeField: "",
-	mode: MODE_DESKTOP,
+	mode: DEFAULT_MODE,
 	isAmp: false,
 
 	onHover: () => {},
