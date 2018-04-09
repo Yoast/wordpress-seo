@@ -18,7 +18,6 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Indexable_Service::get_indexable()
 	 */
 	public function test_get_indexable_for_invalid_object_type() {
-
 		$request = $this
 			->getMockBuilder( 'WP_REST_Request' )
 			->setMethods( array( 'get_param' ) )

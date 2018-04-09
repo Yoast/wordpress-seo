@@ -28,7 +28,6 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 		$this->service = $service;
 	}
 
-
 	/**
 	 * Registers the routes for the endpoints.
 	 *

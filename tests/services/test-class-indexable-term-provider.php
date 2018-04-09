@@ -60,7 +60,6 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 			);
 
 		$this->assertTrue( $this->provider->is_indexable( $term ) );
-
 	}
 
 	/**

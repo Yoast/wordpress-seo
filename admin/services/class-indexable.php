@@ -18,7 +18,6 @@ class WPSEO_Indexable_Service {
 	 * @return WP_REST_Response The response.
 	 */
 	public function get_indexable( WP_REST_Request $request ) {
-
 		$object_type = $request->get_param( 'object_type' );
 		$provider = $this->get_provider( strtolower( $object_type ) );
 
@@ -37,7 +36,6 @@ class WPSEO_Indexable_Service {
 		if ( ! $provider->is_indexable( $object_id ) ) {
 			return new WP_REST_Response(
 				sprintf(
-
 					/* translators: %1$s expands to the requested indexable type. %2$s expands to the request id */
 					__( 'Object %1$s with id %2$s not found', 'wordpress-seo' ),
 					$object_type,
