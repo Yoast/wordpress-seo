@@ -68,7 +68,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Indexable_Service_Term_Provider::get()
 	 * @covers WPSEO_Indexable_Service_Term_Provider::get_meta_value()
-	 * @covers WPSEO_Indexable_Service_Term_Provider::translate_robots_noindex()
+	 * @covers WPSEO_Indexable_Service_Term_Provider::get_robots_noindex_value()
 	 */
 	public function test_get() {
 		$term = $this
@@ -142,7 +142,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected    The expected translation.
 	 * @param string    $description Description of the test.
 	 *
-	 * @covers       WPSEO_Indexable_Service_Term_Provider::translate_robots_noindex()
+	 * @covers       WPSEO_Indexable_Service_Term_Provider::get_robots_noindex_value()
 	 *
 	 * @dataProvider robots_noindex_provider
 	 */

@@ -39,7 +39,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 			'twitter_title'               => $this->get_meta_value( 'twitter-title', $term ),
 			'twitter_description'         => $this->get_meta_value( 'twitter-description', $term ),
 			'twitter_image'               => $this->get_meta_value( 'twitter-image', $term ),
-			'is_robots_noindex'           => $this->translate_robots_noindex( $this->get_meta_value( 'noindex', $term ) ),
+			'is_robots_noindex'           => $this->get_robots_noindex_value( $this->get_meta_value( 'noindex', $term ) ),
 			'is_robots_nofollow'          => null,
 			'is_robots_noarchive'         => null,
 			'is_robots_noimageindex'      => null,
@@ -75,7 +75,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 *
 	 * @return bool|null The translated value.
 	 */
-	protected function translate_robots_noindex( $value ) {
+	protected function get_robots_noindex_value( $value ) {
 		if ( $value === 'noindex' ) {
 			return true;
 		}

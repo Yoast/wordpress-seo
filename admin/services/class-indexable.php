@@ -20,16 +20,31 @@ class WPSEO_Indexable_Service {
 	public function get_indexable( WP_REST_Request $request ) {
 
 		$object_type = $request->get_param( 'object_type' );
-		$provider = $this->get_provider( $object_type );
+		$provider = $this->get_provider( strtolower( $object_type ) );
 
 		if ( $provider === null ) {
-			return new WP_REST_Response( 'Unknown type ' . $object_type, 404 );
+			return new WP_REST_Response(
+				sprintf(
+					/* translators: %1$s expands to the requested indexable type  */
+					__( 'Unknown type %1$s', 'wordpress-seo' ),
+					$object_type
+				),
+				404
+			);
 		}
 
 		$object_id = $request->get_param( 'object_id' );
 		if ( ! $provider->is_indexable( $object_id ) ) {
-			return new WP_REST_Response( 'Object with id ' . $object_id . ' not found', 404 );
+			return new WP_REST_Response(
+				sprintf(
 
+					/* translators: %1$s expands to the requested indexable type. %2$s expands to the request id */
+					__( 'Object %1$s with id %2$s not found', 'wordpress-seo' ),
+					$object_type,
+					$object_id
+				),
+				404
+			);
 		}
 
 		return new WP_REST_Response( $provider->get( $object_id ) );

@@ -27,86 +27,69 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if the post is indexable in various situations.
-	 **
+	 * Tests if the post is indexable with having invalid object_ids.
+	 *
+	 * @dataProvider invalid_object_id_provider
+	 *
+	 * @param mixed  $object_id   The object id.
+	 * @param string $description The test description.
+	 *
+	 * @covers       WPSEO_Indexable_Service_Post_Provider::is_indexable()
+	 */
+	public function test_is_indexable_with_invalid_object_ids( $object_id, $description ) {
+		$this->assertFalse( $this->provider->is_indexable( $object_id ), $description );
+	}
+
+	/**
+	 * Tests the obtaining of a non indexable post.
+	 *
 	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
 	 */
-	public function test_is_indexable( ) {
-		$this->assertFalse( $this->provider->is_indexable( false ) );
-		$this->assertFalse( $this->provider->is_indexable( 'post title' ) );
-		$this->assertFalse( $this->provider->is_indexable( -1 ) );
-		$this->assertFalse( $this->provider->is_indexable( 1000000000 ) );
-		$this->assertFalse( $this->provider->is_indexable( null ) );
+	public function test_is_indexable_with_valid_object_ids_for_non_indexable_posts() {
+		$this->assertFalse( $this->provider->is_indexable( $this->get_revision() ) );
+		$this->assertFalse( $this->provider->is_indexable( $this->get_auto_save() ) );
+	}
 
-		$this->assertFalse(
-			$this->provider->is_indexable(
-				self::factory()->post->create(
-					array(
-						'post_type'   => 'revision',
-						'post_parent' => 2,
-					)
-				)
-			)
-		);
-
-		$this->assertFalse(
-			$this->provider->is_indexable(
-				self::factory()->post->create(
-					array(
-						'post_type'   => 'revision',
-						'post_name'   => '2-autosave',
-						'post_parent' => 2,
-					)
-				)
-			)
-		);
-
+	/**
+	 * Tests if the post is indexable when having a valid object id.
+	 *
+	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
+	 */
+	public function test_is_indexable() {
 		$this->assertTrue( $this->provider->is_indexable( self::factory()->post->create() ) );
+	}
+
+	/**
+	 * Tests if the post is indexable with having invalid object_ids.
+	 *
+	 * @dataProvider invalid_object_id_provider
+	 *
+	 * @param mixed  $object_id   The object id.
+	 * @param string $description The test description.
+	 *
+	 * @covers       WPSEO_Indexable_Service_Post_Provider::get()
+	 */
+	public function test_get_a_non_indexable_post_with_invalid_object_ids( $object_id, $description ) {
+		$this->assertEquals( array(), $this->provider->get( $object_id ), $description );
 	}
 
 	/**
 	 * Tests the obtaining of a non indexable post.
 	 *
 	 * @covers WPSEO_Indexable_Service_Post_Provider::get()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
 	 */
 	public function test_get_a_non_indexable_post() {
-		$this->assertEquals( array(), $this->provider->get( false ) );
-		$this->assertEquals( array(), $this->provider->get( 'post title' ) );
-		$this->assertEquals( array(), $this->provider->get( -1 ) );
-		$this->assertEquals( array(), $this->provider->get( 1000000000 ) );
-		$this->assertEquals( array(), $this->provider->get( null ) );
-
-		$this->assertEquals(
-			array(),
-			$this->provider->get(
-				self::factory()->post->create(
-					array(
-						'post_type'   => 'revision',
-						'post_parent' => 2,
-					)
-				)
-			)
-		);
-
-		$this->assertEquals(
-			array(),
-			$this->provider->get(
-				self::factory()->post->create(
-					array(
-						'post_type'   => 'revision',
-						'post_name'   => '2-autosave',
-						'post_parent' => 2,
-					)
-				)
-			)
-		);
+		$this->assertEquals( array(), $this->provider->get( $this->get_revision() ) );
+		$this->assertEquals( array(), $this->provider->get( $this->get_auto_save() ) );
 	}
 
 	/**
 	 * Tests the getting of an indexable post.
 	 *
 	 * @covers WPSEO_Indexable_Service_Post_Provider::get()
-	 * @covers WPSEO_Indexable_Service_Post_Provider::translate_robots_noindex()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::get_meta_value()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::get_robots_noindex_value()
 	 */
 	public function test_get() {
 		$post = self::factory()->post->create_and_get();
@@ -171,7 +154,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected    The expected translation.
 	 * @param string    $description Description of the test.
 	 *
-	 * @covers       WPSEO_Indexable_Service_Post_Provider::translate_robots_noindex()
+	 * @covers       WPSEO_Indexable_Service_Post_Provider::get_robots_noindex_value()
 	 *
 	 * @dataProvider robots_noindex_provider
 	 */
@@ -195,6 +178,53 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 			array( '1', true, 'With value set to noindex' ),
 			array( '2', false, 'With value set to index' ),
 			array( 'default', null, 'With default value' ),
+		);
+	}
+
+	/**
+	 * Returns an array with test data.
+	 *
+	 * @return array The test data.
+	 */
+	public function invalid_object_id_provider() {
+		return array(
+			array( false, 'With false as object id' ),
+			array( 'post title', 'With a string as object id' ),
+			array( -1, 'With negative number as object id' ),
+			array( 1000000000, 'With large number as object id' ),
+			array( null, 'With null as object id' ),
+			array( $this->get_revision(), 'With a revision as object id' ),
+			array( $this->get_auto_save(), 'With a revision as object id' ),
+
+		);
+	}
+
+	/**
+	 * Creates a revision.
+	 *
+	 * @return int The post id.
+	 */
+	public function get_revision() {
+		return self::factory()->post->create(
+			array(
+				'post_type'   => 'revision',
+				'post_parent' => 2,
+			)
+		);
+	}
+
+	/**
+	 * Creates an auto save post.
+	 *
+	 * @return int The post id.
+	 */
+	public function get_auto_save() {
+		return self::factory()->post->create(
+			array(
+				'post_type'   => 'revision',
+				'post_name'   => '2-autosave',
+				'post_parent' => 2,
+			)
 		);
 	}
 }

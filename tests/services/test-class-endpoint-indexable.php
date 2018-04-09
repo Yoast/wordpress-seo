@@ -71,7 +71,11 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 			->method( 'get_param' )
 			->will( $this->onConsecutiveCalls( 'foo', 100 ) );
 
-		/** @var  $response */
+		/**
+		 * Represents the indexable service object.
+		 *
+		 * @var WPSEO_Indexable_Service $service The service object.
+		 */
 		$response = $service->get_indexable( $request );
 
 		$this->assertEquals( new WP_REST_Response( 'Object with id 100 not found', 404 ), $response );
@@ -137,8 +141,4 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 		$this->assertInstanceOf( 'WPSEO_Indexable_Service_Term_Provider', $service->get_provider( 'term' ) );
 		$this->assertNull( $service->get_provider( 'foo' ) );
 	}
-
-
-
-
 }

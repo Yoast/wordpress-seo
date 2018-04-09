@@ -23,8 +23,6 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 			return array();
 		}
 
-		$meta_robots_adv = explode( ',', WPSEO_Meta::get_value( 'meta-robots-adv', $object_id ) );
-
 		$link_count = new WPSEO_Link_Column_Count();
 		$link_count->set( array( $object_id ) );
 
@@ -43,11 +41,11 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 			'twitter_title'               => $this->get_meta_value( 'twitter-title', $object_id ),
 			'twitter_description'         => $this->get_meta_value( 'twitter-description', $object_id ),
 			'twitter_image'               => $this->get_meta_value( 'twitter-image', $object_id ),
-			'is_robots_noindex'           => $this->translate_robots_noindex( $this->get_meta_value( 'meta-robots-noindex', $object_id ) ),
+			'is_robots_noindex'           => $this->get_robots_noindex_value( $this->get_meta_value( 'meta-robots-noindex', $object_id ) ),
 			'is_robots_nofollow'          => $this->get_meta_value( 'meta-robots-nofollow', $object_id ) === '1',
-			'is_robots_noarchive'         => in_array( 'noarchive', $meta_robots_adv, true ),
-			'is_robots_noimageindex'      => in_array( 'noimageindex', $meta_robots_adv, true ),
-			'is_robots_nosnippet'         => in_array( 'nosnippet', $meta_robots_adv, true ),
+			'is_robots_noarchive'         => strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), 'noarchive' ) !== false,
+			'is_robots_noimageindex'      => strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), 'noimageindex' ) !== false,
+			'is_robots_nosnippet'         => strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), 'nosnippet' ) !== false,
 			'primary_focus_keyword'       => $this->get_meta_value( 'focuskw', $object_id ),
 			'primary_focus_keyword_score' => (int) $this->get_meta_value( 'linkdex', $object_id ),
 			'readability_score'           => (int) $this->get_meta_value( 'content_score', $object_id ),
@@ -89,7 +87,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 *
 	 * @return bool|null The translated value.
 	 */
-	protected function translate_robots_noindex( $value ) {
+	protected function get_robots_noindex_value( $value ) {
 		if ( $value === '1' ) {
 			return true;
 		}
