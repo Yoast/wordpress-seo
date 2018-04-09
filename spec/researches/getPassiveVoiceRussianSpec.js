@@ -109,7 +109,7 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns passive voice in Russian, when the participle starts from a capital letter (e.g., in the beginning of a sentence", function() {
-		// Passive: устранён
+		// Passive: Высказано
 		let paper = new Paper( "Высказано мнение, что через 10 лет в Пенсионном фонде не останется денег.", { locale: "ru_RU" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
