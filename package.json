@@ -38,6 +38,7 @@
     "babel-jest": "^18.0.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-dynamic-import-webpack": "^1.0.2",
+    "babel-plugin-styled-components": "^1.5.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-env": "^1.6.1",
