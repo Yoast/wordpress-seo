@@ -13,7 +13,7 @@ const getPassiveVerbsRussian = require( "../../russian/passiveVoice/participlesS
  */
 let matchPassiveVerbs = function( sentence, passiveVerbs ) {
 	return filter( getWords( sentence ), function( word ) {
-		return passiveVerbs.includes( word );
+		return passiveVerbs.includes( word.toLocaleLowerCase() );
 	} );
 };
 
