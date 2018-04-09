@@ -12,18 +12,17 @@ const getPassiveVerbsRussian = require( "../../russian/passiveVoice/participlesS
  * @returns {Array} The found passive verbs.
  */
 let matchPassiveVerbs = function( sentence, passiveVerbs ) {
-	return filter( passiveVerbs, function( word ) {
-		let sentenceWords = getWords( sentence );
-		return sentenceWords.includes( word );
+	return filter( getWords( sentence ), function( word ) {
+		return passiveVerbs.includes( word );
 	} );
 };
 
 /**
  * Checks the passed sentences to see if they contain passive verb-forms.
  *
- * @param {Array} sentence The sentences to match against.
- * @param {Object} language The language of the text.
- * @returns {Array} Array of sentence objects containing the complete sentence and the transition words.
+ * @param {string} sentence The sentence to match against.
+ * @param {string} language The language of the text.
+ * @returns {Array} The list of encountered passive verbs.
  */
 let determineSentenceIsPassive = function( sentence, language ) {
 	let passiveVerbs = [];

@@ -1,6 +1,6 @@
-const getParticiples = require( ".//getParticiples.js" );
+const getParticiples = require( "./getParticiples.js" );
 
-const determineSentencePartIsPassive =  require( ".//determineSentencePartIsPassive.js" );
+const determineSentencePartIsPassive =  require( "./determineSentencePartIsPassive.js" );
 
 /**
  * Determines whether a sentence part is passive.

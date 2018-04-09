@@ -38,7 +38,7 @@ Sentence.prototype.getLocale = function() {
 /**
  * Returns the passiveness of a sentence.
  *
- * @returns {boolean} returns true if passive, otherwise returns false.
+ * @returns {boolean} True if passive, otherwise returns false.
  */
 Sentence.prototype.isPassive = function() {
 	return this._isPassive;
