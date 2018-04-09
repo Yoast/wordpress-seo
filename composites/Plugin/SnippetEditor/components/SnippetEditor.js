@@ -5,7 +5,8 @@ import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
-import SnippetPreview, { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/components/SnippetPreview";
+import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
+import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";

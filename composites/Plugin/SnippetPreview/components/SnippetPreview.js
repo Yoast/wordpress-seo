@@ -13,6 +13,7 @@ import { parse } from "url";
 import FixedWidthContainer from "./FixedWidthContainer";
 import colors from "../../../../style-guide/colors";
 import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
+import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -27,10 +28,6 @@ const colorDate = "#808080";
 const MAX_WIDTH = 600;
 const WIDTH_PADDING = 20;
 const DESCRIPTION_LIMIT = 280;
-
-export const MODE_DESKTOP = "desktop";
-export const MODE_MOBILE = "mobile";
-export const MODES = [ MODE_DESKTOP, MODE_MOBILE ];
 
 export const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: white;

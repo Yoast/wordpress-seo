@@ -1,4 +1,5 @@
-import SnippetPreview, { MODE_DESKTOP, MODE_MOBILE } from "../components/SnippetPreview";
+import SnippetPreview from "../components/SnippetPreview";
+import { MODE_DESKTOP, MODE_MOBILE } from "../constants";
 import React from "react";
 import { createComponentWithIntl } from "../../../../utils/intlProvider";
 

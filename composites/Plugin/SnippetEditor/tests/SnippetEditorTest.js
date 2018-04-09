@@ -7,7 +7,7 @@ import {
 } from "../../../../utils/helpers/intl-enzyme-test-helper";
 import {
 	MODE_DESKTOP,
-} from "../../SnippetPreview/components/SnippetPreview";
+} from "../../SnippetPreview/constants";
 import {
 	focus,
 } from "../components/ReplacementVariableEditor";
