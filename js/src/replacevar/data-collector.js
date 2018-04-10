@@ -6,18 +6,29 @@ class DataCollector {
 		this.store = store;
 	}
 
-	getParentTitle( parentId, callback ) {
-		callback( "" );
-	}
-
 	/**
-	 * Gets the parent id.
+	 * Get the id of the post's parent.
 	 *
-	 * @returns {string} The parent id.
+	 * @returns {string} The parent's id.
 	 */
 	getParentId() {
 		return "";
 	}
+
+	/**
+	 * Get the title of the post's parent.
+	 *
+	 * @param {string}   id       The parent's id.
+	 * @param {function} callback Function to be called if the value has to be retrieved asynchronously.
+	 *
+	 * @returns {string} The parent's title.
+	 */
+	/* eslint-disable */
+	getParentTitle( id, callback ) {
+		return "(not available)";
+	}
+	/* eslint-enable */
 }
+
 
 export default DataCollector;

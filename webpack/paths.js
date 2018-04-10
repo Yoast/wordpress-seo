@@ -39,11 +39,8 @@ const entry = {
 	"wp-seo-metabox": "./wp-seo-metabox.js",
 	"wp-seo-post-scraper": "./wp-seo-post-scraper.js",
 	"wp-seo-term-scraper": "./wp-seo-term-scraper.js",
-<<<<<<< HEAD
 	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
-=======
 	"wp-seo-modal": "./wp-seo-modal.js",
->>>>>>> trunk
 };
 
 /**

@@ -1,9 +1,4 @@
 /* global wp */
-/**
- * External dependencies
- */
-import watch from "redux-watch";
-import get from "lodash/get";
 
 /**
  * Internal dependencies
@@ -14,35 +9,6 @@ import { getParentTitle } from "../redux/actions";
 class GutenbergDataCollector extends DataCollector {
 	constructor( store ) {
 		super( store );
-	}
-
-	/**
-	 * Gets the parent title.
-	 *
-	 * Gets the parent title via the WordPress REST API, and caches the result,
-	 * and calls the callback once the parent title has been cached.
-	 *
-	 * @param {number|string} parentId The parent id to get the title for.
-	 * @param {function}      callback Callback to call when parent title has been fetched.
-	 *
-	 * @returns {void}
-	 */
-	getParentTitle( parentId, callback ) {
-		const state = this.store.getState();
-		const parentTitle = get( state, `replacevars.parentTitle.${ parentId }` );
-		if ( parentTitle.value ) {
-			return parentTitle;
-		} else if ( ! parentTitle.isLoading ) {
-			return "";
-		}
-		const w = watch( this.store.getState, `replacevars.parentTitle.${ parentId }` );
-		const unsubscribe = this.store.subscribe( w( parentTitle => {
-			if ( parentTitle.isLoaded ) {
-				unsubscribe();
-				return callback( parentTitle.value );
-			}
-		} ) );
-		this.store.dispatch( getParentTitle( parentId ) );
 	}
 
 	/**
