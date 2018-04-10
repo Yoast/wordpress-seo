@@ -1,3 +1,6 @@
+### 7.3.0: April 17th, 2018
+* Includes every change in Yoast SEO core 7.3.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.2.0: April 3rd, 2018
 * Fixes an issue where no new redirect was created after a parent/child relationship of a page was changed.
 * Fixes an issue where reverting the parent/child relationship of two pages could result in a redirect loop.
