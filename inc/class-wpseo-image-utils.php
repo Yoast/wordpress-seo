@@ -93,16 +93,17 @@ class WPSEO_Image_Utils {
 	 */
 	public static function check_image_measurements( $attachment_id, $params ) {
 		$img_data = wp_get_attachment_metadata( $attachment_id );
-		// Get the width and height of the image.
-		if ( isset( $img_data['width'] ) && isset( $img_data['height'] ) ) {
-			$img_data['ratio'] = ( $img_data['width'] / $img_data['height'] );
-			foreach ( array( 'width', 'height', 'ratio' ) as $param ) {
-				if ( $img_data[ $param ] < $params[ 'min_' . $param ] ) {
-					return false;
-				}
-				if ( $img_data[ $param ] > $params[ 'max_' . $param ] ) {
-					return false;
-				}
+		if ( ! isset( $img_data['width'] ) || ! isset( $img_data['height'] ) ) {
+			return true;
+		}
+
+		$img_data['ratio'] = ( $img_data['width'] / $img_data['height'] );
+		foreach ( array( 'width', 'height', 'ratio' ) as $param ) {
+			if ( $img_data[ $param ] < $params[ 'min_' . $param ] ) {
+				return false;
+			}
+			if ( $img_data[ $param ] > $params[ 'max_' . $param ] ) {
+				return false;
 			}
 		}
 
@@ -225,8 +226,7 @@ class WPSEO_Image_Utils {
 		 *
 		 * @api array - The array of image sizes to loop through.
 		 */
-		$image_sizes = apply_filters( 'wpseo_image_sizes', array( 'full', 'large', 'medium_large' ) );
-		return $image_sizes;
+		return apply_filters( 'wpseo_image_sizes', array( 'full', 'large', 'medium_large' ) );
 	}
 
 	/**
