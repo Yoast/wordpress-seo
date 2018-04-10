@@ -21,7 +21,7 @@ import TermDataCollector from "./analysis/TermDataCollector";
 import { termsTmceId as tmceId } from "./wp-seo-tinymce";
 import initializeEdit from "./edit";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
-import { setReadabilityResults, setSeoResultsForKeyword, setOverallScoreReadability, setOverallScoreSeo } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 window.yoastHideMarkers = true;
 
@@ -235,10 +235,8 @@ window.yoastHideMarkers = true;
 
 		if ( isContentAnalysisActive() ) {
 			args.callbacks.saveContentScore = termScraper.saveContentScore.bind( termScraper );
-			let savedContentScore = $( "#yoast_wpseo_content_score" ).val();
 			args.callbacks.updatedContentResults = function( results ) {
 				store.dispatch( setReadabilityResults( results ) );
-				store.dispatch( setOverallScoreReadability( savedContentScore ) );
 			};
 		}
 

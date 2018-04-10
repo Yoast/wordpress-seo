@@ -20,7 +20,7 @@ class SeoAnalysis extends React.Component {
 }
 
 SeoAnalysis.propTypes = {
-	results: PropTypes.array,
+	results: PropTypes.object,
 	marksButtonStatus: PropTypes.string,
 	hideMarksButtons: PropTypes.bool,
 };
@@ -35,9 +35,12 @@ SeoAnalysis.propTypes = {
  */
 function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
-
+	let results = null;
+	if ( typeof( state.analysis.seo[ state.activeKeyword ] ) !== "undefined" ) {
+		results = state.analysis.seo[ state.activeKeyword ].results;
+	}
 	return {
-		results: state.analysis.seo[ state.activeKeyword ] || null,
+		results: results,
 		marksButtonStatus: marksButtonStatus,
 	};
 }

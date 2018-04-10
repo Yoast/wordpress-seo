@@ -7,7 +7,7 @@ import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 
 import initializeEdit from "./edit";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { setReadabilityResults, setSeoResultsForKeyword, setOverallReadabilityScore, setOverallSeoScore } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
 
@@ -282,6 +282,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
+			let savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
 			args.callbacks.updatedKeywordsResults = function( results ) {
 				let keyword = tabManager.getKeywordTab().getKeyWord();
 
@@ -292,14 +293,17 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 				 */
 				if ( tabManager.isMainKeyword( keyword ) ) {
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+					store.dispatch( setOverallSeoScore( savedKeywordScore, keyword ) );
 				}
 			};
 		}
 
 		if ( isContentAnalysisActive() ) {
 			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
+			let savedContentScore = $( "#yoast_wpseo_content_score" ).val();
 			args.callbacks.updatedContentResults = function( results ) {
 				store.dispatch( setReadabilityResults( results ) );
+				store.dispatch( setOverallReadabilityScore( savedContentScore ) );
 			};
 		}
 
