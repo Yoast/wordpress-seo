@@ -98,16 +98,8 @@ class WPSEO_Image_Utils {
 		}
 
 		$img_data['ratio'] = ( $img_data['width'] / $img_data['height'] );
-		foreach ( array( 'width', 'height', 'ratio' ) as $param ) {
-			if (
-				( $img_data[ $param ] < $params[ 'min_' . $param ] ) ||
-				( $img_data[ $param ] > $params[ 'max_' . $param ] )
-			) {
-				return false;
-			}
-		}
 
-		return true;
+		return self::check_image_measurement_params( $params, $img_data );
 	}
 
 	/**
@@ -238,5 +230,26 @@ class WPSEO_Image_Utils {
 	 */
 	public static function get_image_alt_tag( $attachment_id ) {
 		return (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+	}
+
+	/**
+	 * Checks whether an img sizes up to the parameters.
+	 *
+	 * @param array $params   The parameters to check against.
+	 * @param array $img_data The image values.
+	 *
+	 * @return bool
+	 */
+	private static function check_image_measurement_params( $params, $img_data ) {
+		foreach ( array( 'width', 'height', 'ratio' ) as $param ) {
+			if (
+				( $img_data[ $param ] < $params[ 'min_' . $param ] ) ||
+				( $img_data[ $param ] > $params[ 'max_' . $param ] )
+			) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
