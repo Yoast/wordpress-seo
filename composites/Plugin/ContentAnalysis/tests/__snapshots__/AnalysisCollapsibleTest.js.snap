@@ -115,6 +115,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
 
 .c2 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -317,6 +318,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
 
 .c2 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -496,6 +498,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
 
 .c2 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -675,6 +678,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
 
 .c2 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -877,6 +881,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
 
 .c2 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -1079,6 +1084,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
 
 .c2 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }

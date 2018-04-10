@@ -165,6 +165,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
 
 .c4 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -785,6 +786,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
 
 .c4 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -1391,6 +1393,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
 
 .c6 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -2071,6 +2074,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
 
 .c6 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -2733,6 +2737,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
 
 .c4 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -3377,6 +3382,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
 
 .c3 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -4004,6 +4010,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
 
 .c3 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -4631,6 +4638,7 @@ exports[`the ContentAnalysis component without problems and considerations, but 
 
 .c3 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -5104,6 +5112,7 @@ exports[`the ContentAnalysis component without problems and improvements matches
 
 .c3 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -5577,6 +5586,7 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
 
 .c3 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
@@ -6115,6 +6125,7 @@ exports[`the ContentAnalysis component without problems, improvements and consid
 
 .c3 svg {
   margin: 0 8px 0 -5px;
+  padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }

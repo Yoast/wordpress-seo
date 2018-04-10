@@ -32,6 +32,7 @@ const StyledIconsButton = styled( IconsButton )`
 
 	svg {
 		margin: 0 8px 0 -5px; // (icon 20 + button border 1) - 5 = 16 for the 8px grid
+		padding-bottom: 2px;
 		width: 20px;
 		height: 20px;
 	}
