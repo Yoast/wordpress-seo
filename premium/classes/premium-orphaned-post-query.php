@@ -58,7 +58,7 @@ class WPSEO_Premium_Orphaned_Post_Query {
 		$query   = 'SELECT object_id FROM ' . $storage->get_table_name() . ' WHERE incoming_link_count = 0';
 
 		$object_ids = $wpdb->get_col( $query );
-		$object_ids = array_filter( $object_ids, array( 'self', 'is_robots_index' ));
+		$object_ids = array_filter( $object_ids, array( 'self', 'is_robots_index' ) );
 		$object_ids = self::remove_frontpage_id( $object_ids );
 
 		return $object_ids;
