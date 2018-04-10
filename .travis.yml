@@ -8,6 +8,7 @@ branches:
     - trunk
     - /^release\/\d+\.\d+(\.\d+)?(-\S*)?$/
     - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /(\d+\.)?(\d+\.)?(\*|\d+)/
 
 jobs:
   fast_finish: true
@@ -58,14 +59,20 @@ jobs:
           all_branches: true
 
     # If the commit was tagged, create an artifact and push it to the distribution github
+      before_deploy:
+        - nvm install node
+        - curl -o- -L https://yarnpkg.com/install.sh | bash
+        - export PATH=$HOME/.yarn/bin:$PATH
+        - yarn global add grunt-cli
+        - yarn install
       deploy:
         script: grunt artifact
         skip_cleanup: true
         provider: script
-        script: bash scripts/deploy_to_dist.sh
+        script: grunt artifact || scripts/deploy_to_dist.sh $TRAVIS_TAG
         on:
           tags: true
-          repo:  $TRAVIS_REPO_SLUG # Yoast/wordpress-seo
+          repo: $TRAVIS_REPO_SLUG
           all_branches: true
 
   allow_failures:
