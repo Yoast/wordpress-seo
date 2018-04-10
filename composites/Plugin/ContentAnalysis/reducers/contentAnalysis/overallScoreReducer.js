@@ -5,6 +5,13 @@ import { SET_OVERALL_READABILITY_SCORE, SET_OVERALL_SEO_SCORE } from "../../acti
  */
 const initialState = {};
 
+/**
+ * Sets the overall score for the readability analysis.
+ *
+ * @param {Object} state  The state
+ * @param {Object} action The action
+ * @returns {Object} The overall score for the readability analysis
+ */
 export function setOverallReadabilityScore( state, action ) {
 	return Object.assign( {}, state,
 		{ overallScore: action.overallScore }
