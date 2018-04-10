@@ -10,7 +10,9 @@ describe( "SET_OVERALL_SCORE for seo action", () => {
 			overallScore: "5",
 		};
 		const expected = {
-			overallScore: "5",
+			keyword: {
+				overallScore: "5",
+			},
 		};
 
 		const actual = overallScoreReducer( state, action );
