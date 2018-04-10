@@ -11,7 +11,7 @@
 class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storable {
 
 	const REST_NAMESPACE = 'yoast/v1';
-	const ENDPOINT_RETRIEVE = 'indexables/(?P<object_type>.*)/(?P<object_id>\d+)';
+	const ENDPOINT_SINGULAR = 'indexable/(?P<object_type>.*)/(?P<object_id>\d+)';
 
 	const CAPABILITY_RETRIEVE = 'manage_options';
 	const CAPABILITY_STORE = 'manage_options';
@@ -35,7 +35,7 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 	 */
 	public function register() {
 		// Register fetch config.
-		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_RETRIEVE, array(
+		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_SINGULAR, array(
 			'methods'             => 'GET',
 			'callback'            => array(
 				$this->service,

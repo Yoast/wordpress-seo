@@ -31,7 +31,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 		$service  = new WPSEO_Indexable_Service();
 		$response = $service->get_indexable( $request );
 
-		$this->assertEquals( new WP_REST_Response( 'Unknown type foo', 404 ), $response );
+		$this->assertEquals( new WP_REST_Response( 'Unknown type foo', 400 ), $response );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 		 */
 		$response = $service->get_indexable( $request );
 
-		$this->assertEquals( new WP_REST_Response( 'Object foo with id 100 not found', 404 ), $response );
+		$this->assertEquals( new WP_REST_Response( 'Object foo with id 100 not found', 400 ), $response );
 	}
 
 	/**

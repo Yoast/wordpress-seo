@@ -28,7 +28,7 @@ class WPSEO_Indexable_Service {
 					__( 'Unknown type %1$s', 'wordpress-seo' ),
 					$object_type
 				),
-				404
+				400
 			);
 		}
 
@@ -41,7 +41,7 @@ class WPSEO_Indexable_Service {
 					$object_type,
 					$object_id
 				),
-				404
+				400
 			);
 		}
 
