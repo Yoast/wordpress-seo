@@ -69,7 +69,7 @@ jobs:
         script: grunt artifact
         skip_cleanup: true
         provider: script
-        script: grunt artifact || scripts/deploy_to_dist.sh $TRAVIS_TAG
+        script: grunt artifact && scripts/deploy_to_dist.sh $TRAVIS_TAG
         on:
           tags: true
           repo: $TRAVIS_REPO_SLUG
