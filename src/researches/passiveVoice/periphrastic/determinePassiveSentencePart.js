@@ -1,11 +1,11 @@
 const arrayToRegex = require( "../../../stringProcessing/createRegexFromArray.js" );
 const determineSentencePartIsPassive = require( "./determineSentencePartIsPassive.js" );
 
-// Auxiliaries (only needed for German)
+// Auxiliaries and getParticiples (specific for German)
 const auxiliariesGerman = require( "../../german/passiveVoice/auxiliaries.js" )().allAuxiliaries;
-
-// Participles
 const getParticiplesGerman = require( "../../german/passiveVoice/getParticiples.js" );
+
+// General getParticiples
 const getParticiples = require( "./getParticiples.js" );
 
 

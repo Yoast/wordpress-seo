@@ -99,7 +99,8 @@ module.exports = function( paper ) {
 			total: totalNumberSentences,
 			passives: getMorphologicalPassives( sentences, language ).passiveSentences,
 		};
-	} else if ( periphrasticLanguages.includes( language ) ) {
+	}
+	if ( periphrasticLanguages.includes( language ) ) {
 		return {
 			total: totalNumberSentences,
 			passives: getPeriphrasticPassives( sentences, language ).passiveSentences,
