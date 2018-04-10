@@ -762,9 +762,7 @@ class WPSEO_OpenGraph {
 	 * @codeCoverageIgnore
 	 */
 	public function image_output( $image = false ) {
-		if ( $image !== false ) {
-			_deprecated_argument( 'WPSEO_OpenGraph::image_output', '7.4', 'WPSEO_OpenGraph_Image::show' );
-		}
+		_deprecated_function( 'WPSEO_OpenGraph::image_output', '7.4', 'WPSEO_OpenGraph::image' );
 		$this->image();
 	}
 

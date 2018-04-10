@@ -36,6 +36,20 @@ class WPSEO_OpenGraph_Image {
 	);
 
 	/**
+	 * The parameters we have for Facebook images.
+	 *
+	 * @var array
+	 */
+	private $image_params = array(
+		'min_width'  => 200,
+		'max_width'  => 2000,
+		'min_height' => 200,
+		'max_height' => 2000,
+		'min_ratio'  => 1,
+		'max_ratio'  => 3,
+	);
+
+	/**
 	 * Constructor.
 	 *
 	 * @param WPSEO_OpenGraph $wpseo_opengraph The OpenGraph object.
@@ -298,7 +312,7 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	protected function add_image_by_id( $attachment_id ) {
-		if ( ! WPSEO_Image_Utils::check_original_image_size( $attachment_id ) ) {
+		if ( ! WPSEO_Image_Utils::check_image_measurements( $attachment_id, $this->image_params ) ) {
 			return;
 		}
 		$attachment = WPSEO_Image_Utils::find_correct_image_size( $attachment_id );

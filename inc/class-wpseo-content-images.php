@@ -14,10 +14,10 @@ class WPSEO_Content_Images {
 	 *
 	 * @var string
 	 */
-	private $key_name = '_wpseo_post_image_cache';
+	private $cache_meta_key = '_wpseo_post_image_cache';
 
 	/**
-	 * Retrieve images from the post content.
+	 * Retrieves images from the post content.
 	 *
 	 * @param int      $post_id The post ID.
 	 * @param \WP_Post $post    The post object.
@@ -25,7 +25,7 @@ class WPSEO_Content_Images {
 	 * @return array An array of images found in this post.
 	 */
 	public function get_content_images( $post_id, $post = null ) {
-		$post_image_cache = get_post_meta( $post_id, $this->key_name, true );
+		$post_image_cache = get_post_meta( $post_id, $this->cache_meta_key, true );
 		if ( is_array( $post_image_cache ) ) {
 			return $post_image_cache;
 		}
@@ -51,7 +51,7 @@ class WPSEO_Content_Images {
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 
 		$images = $this->get_images_from_content( $content );
-		update_post_meta( $post->ID, $this->key_name, $images );
+		update_post_meta( $post->ID, $this->cache_meta_key, $images );
 
 		return $images;
 	}
@@ -96,7 +96,7 @@ class WPSEO_Content_Images {
 	 *
 	 * @param string $image Image HTML element.
 	 *
-	 * @return string
+	 * @return string|bool The image URL on success, false on failure.
 	 */
 	private function get_image_url_from_img( $image ) {
 		preg_match( '`src=(["\'])(.*?)\1`', $image, $matches );

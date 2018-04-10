@@ -31,7 +31,7 @@ class WPSEO_Image_Utils {
 	}
 
 	/**
-	 * Finds an image size that is under 1 MB and thus viable to use for social sharing.
+	 * Finds an image size that is under 2 MB and thus viable to use for social sharing.
 	 *
 	 * @param int $attachment_id The attachment ID.
 	 *
@@ -65,7 +65,7 @@ class WPSEO_Image_Utils {
 	 * }
 	 */
 	public static function complete_image_data( $image, $attachment_id ) {
-		$image['alt'] = WPSEO_Image_Utils::get_image_alt_tag( $attachment_id );
+		$image['alt'] = self::get_image_alt_tag( $attachment_id );
 		if ( ! isset( $image['type'] ) ) {
 			$image['type'] = get_post_mime_type( $attachment_id );
 		}
@@ -77,18 +77,33 @@ class WPSEO_Image_Utils {
 	/**
 	 * Check original size of image. If original image is too small, return false, else return true.
 	 *
-	 * @param int $attachment_id The attachment ID to check the size of.
+	 * @param int   $attachment_id The attachment ID to check the size of.
+	 * @param array $params {
+	 *    The parameters to check against.
 	 *
-	 * @return bool Whether an image is fit for OpenGraph display or not.
+	 *    @type int    $min_width     Minimum width of image.
+	 *    @type int    $max_width     Maximum width of image.
+	 *    @type int    $min_height    Minimum height of image.
+	 *    @type int    $max_height    Maximum height of image.
+	 *    @type int    $min_ratio     Minimum aspect ratio of image.
+	 *    @type int    $max_ratio     Maximum aspect ratio of image.
+	 * }
+	 *
+	 * @return bool Whether an image is fit for display or not.
 	 */
-	public static function check_original_image_size( $attachment_id ) {
+	public static function check_image_measurements( $attachment_id, $params ) {
 		$img_data = wp_get_attachment_metadata( $attachment_id );
 		// Get the width and height of the image.
-		if (
-			( isset( $img_data['width'] ) && $img_data['width'] < 200 ) ||
-			( isset( $img_data['height'] ) && $img_data['height'] < 200 )
-		) {
-			return false;
+		if ( isset( $img_data['width'] ) && isset( $img_data['height'] ) ) {
+			$img_data['ratio'] = ( $img_data['width'] / $img_data['height'] );
+			foreach ( array( 'width', 'height', 'ratio' ) as $param ) {
+				if ( $img_data[ $param ] < $params[ 'min_' . $param ] ) {
+					return false;
+				}
+				if ( $img_data[ $param ] > $params[ 'max_' . $param ] ) {
+					return false;
+				}
+			}
 		}
 
 		return true;
@@ -129,7 +144,7 @@ class WPSEO_Image_Utils {
 	 * @param int    $attachment_id Attachment ID.
 	 * @param string $size          Size name.
 	 *
-	 * @return array|false
+	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
 	private static function get_image( $attachment_id, $size ) {
 		if ( $size === 'full' ) {
@@ -145,7 +160,7 @@ class WPSEO_Image_Utils {
 	 *
 	 * @param string $path The relative file path.
 	 *
-	 * @return string
+	 * @return string The full file path.
 	 */
 	public static function get_full_file_path( $path ) {
 		static $uploads;
@@ -186,7 +201,7 @@ class WPSEO_Image_Utils {
 	 *
 	 * @param array $image An image array object.
 	 *
-	 * @return int
+	 * @return int The file size in bytes.
 	 */
 	public static function get_image_file_size( $image ) {
 		if ( isset( $image['filesize'] ) ) {
@@ -201,6 +216,8 @@ class WPSEO_Image_Utils {
 
 	/**
 	 * Retrieve the internal WP image file sizes.
+	 *
+	 * @return array $image_sizes An array of image sizes.
 	 */
 	public static function get_image_sizes() {
 		/**
