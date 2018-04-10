@@ -12,22 +12,16 @@ export function setOverallReadabilityScore( state, action ) {
 }
 
 /**
- * Sets the overall score for SEO results for one or more keywords.
+ * Sets the overall score for SEO results for a keyword.
  *
  * @param {Object} state The state.
  * @param {Object} action The action.
- * @returns {Object} The overall score per keyword.
+ * @returns {Object} The overall score for the keyword.
  */
 
 export function setOverallSeoScore( state, action ) {
-	/**
-	let scorePerKeyword = {};
-	action.scorePerKeyword.forEach( function( keywordResultsPair ) {
-		scorePerKeyword[ keywordResultsPair.keyword ].overallScore = keywordResultsPair.overallScore;
-	} );
- 	*/
-	return Object.assign( {}, state, {
-		[ action.keyword ]: action.overallScore,
+	return Object.assign( {}, state[ action.keyword ], {
+		overallScore: action.overallScore,
 	} );
 }
 

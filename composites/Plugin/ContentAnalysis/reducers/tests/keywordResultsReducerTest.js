@@ -23,20 +23,22 @@ describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {
 			],
 		};
 		const expected = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 
 		const actual = keywordResultsReducer( state, action );
@@ -48,20 +50,22 @@ describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {
 describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {
 	it( "sets seo results for a single keyword in an non-empty state", () => {
 		const state = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 		const action = {
 			type: SET_SEO_RESULTS_FOR_KEYWORD,
@@ -82,34 +86,38 @@ describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {
 			],
 		};
 		const expected = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
-			thisIsMySecondKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
+			thisIsMySecondKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 
 		const actual = keywordResultsReducer( state, action );
@@ -121,20 +129,22 @@ describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {
 describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {
 	it( "overwrites seo results for a single keyword when there are already results for that keyword", () => {
 		const state = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 		const action = {
 			type: SET_SEO_RESULTS_FOR_KEYWORD,
@@ -155,20 +165,22 @@ describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {
 			],
 		};
 		const expected = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 9,
-					description: "This is a good score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 9,
+						description: "This is a good score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 
 		const actual = keywordResultsReducer( state, action );
@@ -201,20 +213,22 @@ describe( "SET_SEO_RESULTS action", () => {
 			} ],
 		};
 		const expected = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 
 		const actual = keywordResultsReducer( state, action );
@@ -262,34 +276,38 @@ describe( "SET_SEO_RESULTS action", () => {
 			} ],
 		};
 		const expected = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
-			thisIsMySecondKeyword: [
-				{
-					id: "resultId",
-					score: 9,
-					description: "This is a good score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
+			thisIsMySecondKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 9,
+						description: "This is a good score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 
 		const actual = keywordResultsReducer( state, action );
@@ -299,14 +317,16 @@ describe( "SET_SEO_RESULTS action", () => {
 
 	it( "overwrites existing seo results in a non-empty state", () => {
 		const state = {
-			thisIsMyOldKeyword: [
-				{
-					id: "resultId",
-					score: 9,
-					description: "This is a good score!",
-					markingIsActive: true,
-				},
-			],
+			thisIsMyOldKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 9,
+						description: "This is a good score!",
+						markingIsActive: true,
+					},
+				],
+			},
 		};
 		const action = {
 			type: SET_SEO_RESULTS,
@@ -329,20 +349,22 @@ describe( "SET_SEO_RESULTS action", () => {
 			} ],
 		};
 		const expected = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 
 		const actual = keywordResultsReducer( state, action );
@@ -360,14 +382,16 @@ describe( "UPDATE_SEO_RESULT action", () => {
 			result: { id: "resultId", score: 3, description: "This is a bad score!", markingIsActive: false },
 		};
 		const expected = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 
 		const actual = keywordResultsReducer( state, action );
@@ -377,14 +401,16 @@ describe( "UPDATE_SEO_RESULT action", () => {
 
 	it( "adds a result for a new keyword in a non-empty state", () => {
 		const state = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 		const action = {
 			type: UPDATE_SEO_RESULT,
@@ -392,22 +418,26 @@ describe( "UPDATE_SEO_RESULT action", () => {
 			result: { id: "resultId", score: 9, description: "This is a good score!", markingIsActive: true },
 		};
 		const expected = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-			],
-			thisIsMySecondKeyword: [
-				{
-					id: "resultId",
-					score: 9,
-					description: "This is a good score!",
-					markingIsActive: true,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+				],
+			},
+			thisIsMySecondKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 9,
+						description: "This is a good score!",
+						markingIsActive: true,
+					},
+				],
+			},
 		};
 
 		const actual = keywordResultsReducer( state, action );
@@ -417,22 +447,26 @@ describe( "UPDATE_SEO_RESULT action", () => {
 
 	it( "adds a result for an existing keyword", () => {
 		const state = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-			],
-			thisIsMySecondKeyword: [
-				{
-					id: "resultId",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+				],
+			},
+			thisIsMySecondKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 		const action = {
 			type: UPDATE_SEO_RESULT,
@@ -440,28 +474,32 @@ describe( "UPDATE_SEO_RESULT action", () => {
 			result: { id: "resultId2", score: 9, description: "This is a good score!", markingIsActive: true },
 		};
 		const expected = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-				{
-					id: "resultId2",
-					score: 9,
-					description: "This is a good score!",
-					markingIsActive: true,
-				},
-			],
-			thisIsMySecondKeyword: [
-				{
-					id: "resultId",
-					score: 6,
-					description: "This is a mediocre score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+					{
+						id: "resultId2",
+						score: 9,
+						description: "This is a good score!",
+						markingIsActive: true,
+					},
+				],
+			},
+			thisIsMySecondKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 6,
+						description: "This is a mediocre score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 
 		const actual = keywordResultsReducer( state, action );
@@ -471,14 +509,16 @@ describe( "UPDATE_SEO_RESULT action", () => {
 
 	it( "overwrites an existing result", () => {
 		const state = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 		const action = {
 			type: UPDATE_SEO_RESULT,
@@ -486,14 +526,16 @@ describe( "UPDATE_SEO_RESULT action", () => {
 			result: { id: "resultId", score: 9, description: "This is a good score!", markingIsActive: true },
 		};
 		const expected = {
-			thisIsMyKeyword: [
-				{
-					id: "resultId",
-					score: 9,
-					description: "This is a good score!",
-					markingIsActive: true,
-				},
-			],
+			thisIsMyKeyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 9,
+						description: "This is a good score!",
+						markingIsActive: true,
+					},
+				],
+			},
 		};
 
 		const actual = keywordResultsReducer( state, action );
@@ -505,36 +547,42 @@ describe( "UPDATE_SEO_RESULT action", () => {
 describe( "REMOVE_KEYWORD action", () => {
 	it( "removes a keyword and its results", () => {
 		const state = {
-			keywordToBeRemoved: [
-				{
-					id: "resultId",
-					score: 9,
-					description: "This is a good score!",
-					markingIsActive: true,
-				},
-			],
-			keywordToStay: [
-				{
-					id: "resultId2",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-			],
+			keywordToBeRemoved: {
+				results: [
+					{
+						id: "resultId",
+						score: 9,
+						description: "This is a good score!",
+						markingIsActive: true,
+					},
+				],
+			},
+			keywordToStay: {
+				results: [
+					{
+						id: "resultId2",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 		const action = {
 			type: REMOVE_KEYWORD,
 			keyword: "keywordToBeRemoved",
 		};
 		const expected = {
-			keywordToStay: [
-				{
-					id: "resultId2",
-					score: 3,
-					description: "This is a bad score!",
-					markingIsActive: false,
-				},
-			],
+			keywordToStay: {
+				results: [
+					{
+						id: "resultId2",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+				],
+			},
 		};
 
 		const actual = keywordResultsReducer( state, action );

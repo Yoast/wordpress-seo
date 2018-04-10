@@ -1,6 +1,7 @@
 import { UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS, SET_OVERALL_READABILITY_SCORE } from "../../actions/contentAnalysis";
 import { setOverallReadabilityScore } from "./overallScoreReducer";
 import findIndex from "lodash/findIndex";
+import isUndefined from "lodash/isUndefined";
 
 /**
  * Initial state
@@ -34,16 +35,25 @@ function setReadabilityResults( state, action ) {
  * @returns {Object} The new results.
  */
 function updateReadabilityResult( state, action ) {
-	let resultIndex = findIndex( state, { id: action.result.id } );
+	let resultIndex = findIndex( state.results, { id: action.result.id } );
 
+	if( isUndefined( state.results ) ) {
+		return Object.assign( {}, state,
+			{ results: [ action.result ] },
+		);
+	}
 	// Replace a result when there already is a result with the given id.
 	if( resultIndex !== -1 ) {
-		let newResults = state.filter( function( result ) {
-			return result !== state[ resultIndex ];
+		let newResults = state.results.filter( function( result ) {
+			return result !== state.results[ resultIndex ];
 		} );
-		return newResults.concat( action.result );
+		return Object.assign( {}, state,
+			{ results: newResults.concat( action.result ) }
+		);
 	}
-	return state.concat( action.result );
+	return Object.assign( {}, state,
+		{ results: [ ...state.results, action.result ] },
+	);
 }
 
 /**

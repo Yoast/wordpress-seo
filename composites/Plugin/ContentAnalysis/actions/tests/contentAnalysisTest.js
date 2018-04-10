@@ -150,34 +150,17 @@ describe( "setOverallScore readability function", function() {
 
 describe( "setOverallScore seo function", function() {
 	it( "creates the setOverallScore for seo results action", function() {
-		let keyword1 = "keyword1";
-		let keyword2 = "keyword2";
-		let scorePerKeyword = [ {
-			keyword: keyword1,
-			results: [
-				{ id: "result", score: 3, description: "This is a bad score!", markingIsActive: false },
-				{ id: "result", score: 9, description: "This is a great score!", markingIsActive: true },
-			],
-			overallScore: {
-				score: 3, description: "This is a bad score!",
-			},
-		},
-		{
-			keyword: keyword2,
-			results: [
-				{ id: "result", score: 9, description: "This is a great score!", markingIsActive: false },
-				{ id: "result", score: 8, description: "This is a great score!", markingIsActive: true },
-			],
-			overallScore: {
-				score: 8, description: "This is a great score!",
-			},
-		} ];
+		let keyword = "keyword1";
+		let overallScore = [
+			{ id: "overallScore", score: "3" },
+		];
 
 		const expected = {
 			type: SET_OVERALL_SEO_SCORE,
-			results: scorePerKeyword,
+			keyword: keyword,
+			overallScore: overallScore,
 		};
-		const actual = setOverallSeoScore( scorePerKeyword );
+		const actual = setOverallSeoScore( overallScore, keyword );
 		expect( actual ).toEqual( expected );
 	} );
 } );

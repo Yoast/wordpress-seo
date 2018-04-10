@@ -17,21 +17,12 @@ jest.mock( "../../reducers/contentAnalysis/keywordResultsReducer", () => {
 	};
 } );
 
-jest.mock( "../../reducers/contentAnalysis/overallScoreReducer", () => {
-	return {
-		overallScoreReducer: jest.fn( () => {
-			return { name: "overallScoreReducer" };
-		} ),
-	};
-} );
-
 test( "content analysis reducer with the UPDATE_SEO_RESULT action", () => {
 	const state = {};
 	const action = {
 		type: UPDATE_SEO_RESULT,
 	};
-	const expected = { seo: { name: "keywordResultsReducer" }, readability: { name: "readabilityResultsReducer" },
-		overallScore: { name: "overallScoreReducer" } };
+	const expected = { seo: { name: "keywordResultsReducer" }, readability: { name: "readabilityResultsReducer" } };
 
 	const actual = contentAnalysisReducer( state, action );
 	expect( actual ).toEqual( expected );

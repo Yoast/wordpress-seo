@@ -22,14 +22,14 @@ const initialState = {};
  * @returns {Object} The new results.
  */
 function replaceResult( state, action ) {
-	const newResults = Array.from( state[ action.keyword ], ( result ) => {
+	const newResults = Array.from( state[ action.keyword ].results, ( result ) => {
 		if( result.id === action.result.id ) {
 			return action.result;
 		}
 		return result;
 	} );
 	return Object.assign( {}, state, {
-		[ action.keyword ]: newResults,
+		[ action.keyword ]: { results: newResults },
 	} );
 }
 
@@ -61,13 +61,13 @@ function updateSeoResult( state, action ) {
 		return setResultsForNewKeyword( state, action.keyword, [ action.result ] );
 	}
 
-	let resultIndex = findIndex( state[ action.keyword.results ], { id: action.result.id } );
+	let resultIndex = findIndex( state[ action.keyword ].results, { id: action.result.id } );
 	if( resultIndex !== -1 ) {
 		return replaceResult( state, action );
 	}
 
 	return Object.assign( {}, state, {
-		[ action.keyword.results ]: [ ...state[ action.keyword ], action.result ],
+		[ action.keyword ]: { results: [ ...state[ action.keyword ].results, action.result ] },
 	} );
 }
 
@@ -85,7 +85,7 @@ function updateSeoResultsForKeyword( state, action ) {
 	}
 
 	return Object.assign( {}, state, {
-		[ action.keyword.results ]: action.results,
+		[ action.keyword ]: { results: action.results },
 	} );
 }
 

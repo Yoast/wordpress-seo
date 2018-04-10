@@ -6,25 +6,11 @@ describe( "SET_OVERALL_SCORE for seo action", () => {
 		const state = {};
 		const action = {
 			type: SET_OVERALL_SEO_SCORE,
-			keyword: "first keyword",
-			overallScore: {
-				score: 5,
-				description: "This is a mediocre score!",
-			},
+			keyword: "keyword",
+			overallScore: "5",
 		};
 		const expected = {
-			"first keyword": {
-				overallScore: {
-					score: 5,
-					description: "This is a mediocre score!",
-				},
-			},
-			"second keyword": {
-				overallScore: {
-					score: 3,
-					description: "This is a bad score!",
-				},
-			},
+			overallScore: "5",
 		};
 
 		const actual = overallScoreReducer( state, action );
@@ -38,14 +24,10 @@ describe( "SET_OVERALL_SCORE for readability action", () => {
 		const state = [];
 		const action = {
 			type: SET_OVERALL_READABILITY_SCORE,
-			overallScore: {
-				score: 5,
-				description: "This is a mediocre score!",
-			},
+			overallScore: 5,
 		};
 		const expected = {
-			score: 5,
-			description: "This is a mediocre score!",
+			overallScore: 5,
 		};
 
 		const actual = overallScoreReducer( state, action );
