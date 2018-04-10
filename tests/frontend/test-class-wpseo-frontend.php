@@ -352,7 +352,7 @@ Page 1/5
 Page 2/3
 <!--nextpage-->
 Page 3/3
-'
+',
 			)
 		);
 
@@ -382,7 +382,7 @@ Page 1/5
 Page 2/3
 <!--nextpage-->
 Page 3/3
-'
+',
 			)
 		);
 
@@ -406,7 +406,7 @@ Page 3/3
 		$post_id = $this->factory->post->create(
 			array(
 				'post_type'    => 'post',
-				'post_content' => 'No nextpage HTML comment present.'
+				'post_content' => 'No nextpage HTML comment present.',
 			)
 		);
 
@@ -811,7 +811,8 @@ Page 3/3
 			// Prepare for is_single usage.
 			$page_2_link = str_replace( 'paged=', 'page=', $page_2_link );
 			$page_3_link = str_replace( 'paged=', 'page=', $page_3_link );
-		} else {
+		}
+		else {
 			$page_2_link = user_trailingslashit( rtrim( $initial_url, '/' ) . '/2' );
 			$page_3_link = user_trailingslashit( rtrim( $initial_url, '/' ) . '/3' );
 		}

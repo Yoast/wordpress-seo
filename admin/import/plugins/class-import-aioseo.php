@@ -17,14 +17,26 @@ class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 	protected $plugin_name = 'All In One SEO Pack';
 
 	/**
-	 * Meta key, used in SQL LIKE clause for detect query.
+	 * Meta key, used in SQL LIKE clause for delete query.
 	 *
 	 * @var string
 	 */
 	protected $meta_key = '_aioseop_%';
 
 	/**
-	 * Array of keys to clone.
+	 * OpenGraph keys to import.
+	 *
+	 * @var array
+	 */
+	protected $import_keys = array(
+		'aioseop_opengraph_settings_title'             => 'opengraph-title',
+		'aioseop_opengraph_settings_desc'              => 'opengraph-description',
+		'aioseop_opengraph_settings_customimg'         => 'opengraph-image',
+		'aioseop_opengraph_settings_customimg_twitter' => 'twitter-image',
+	);
+
+	/**
+	 * Array of meta keys to detect and import.
 	 *
 	 * @var array
 	 */
@@ -58,9 +70,8 @@ class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 		$status = parent::import();
 		if ( $status ) {
 			$this->import_opengraph();
-			return true;
 		}
-		return false;
+		return $status;
 	}
 
 	/**
@@ -89,14 +100,7 @@ class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
 		$meta = get_post_meta( $post_id, '_aioseop_opengraph_settings', true );
 		$meta = maybe_unserialize( $meta );
 
-		$import_keys = array(
-			'aioseop_opengraph_settings_title'             => 'opengraph-title',
-			'aioseop_opengraph_settings_desc'              => 'opengraph-description',
-			'aioseop_opengraph_settings_customimg'         => 'opengraph-image',
-			'aioseop_opengraph_settings_customimg_twitter' => 'twitter-image',
-		);
-
-		foreach ( $import_keys as $old_key => $new_key ) {
+		foreach ( $this->import_keys as $old_key => $new_key ) {
 			$this->maybe_save_post_meta( $new_key, $meta[ $old_key ], $post_id );
 		}
 	}

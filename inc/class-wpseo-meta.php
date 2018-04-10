@@ -143,7 +143,7 @@ class WPSEO_Meta {
 				'default_value' => '0',
 				'description'   => '',
 			),
-			'content_score'  => array(
+			'content_score' => array(
 				'type'          => 'hidden',
 				'title'         => 'content_score',
 				'default_value' => '0',
@@ -368,7 +368,7 @@ class WPSEO_Meta {
 				 *
 				 * @return     array
 				 */
-				$field_defs = apply_filters_deprecated( 'wpseo_metabox_entries', array( $field_defs ), 'WPSEO 7.0','wpseo_metabox_entries_general' );
+				$field_defs = apply_filters_deprecated( 'wpseo_metabox_entries', array( $field_defs ), 'WPSEO 7.0', 'wpseo_metabox_entries_general' );
 				break;
 
 
@@ -511,17 +511,21 @@ class WPSEO_Meta {
 				}
 
 				if ( $meta_key === self::$meta_prefix . 'focuskw' ) {
-					$clean = str_replace( array(
-						'&lt;',
-						'&gt;',
-						'&quot',
-						'&#96',
-						'<',
-						'>',
-						'"',
-						'`',
-					), '', $clean );
+
+					/**
+					 * Filter: 'wpseo_focuskw_strippable_chars' - Allows customization of the strippable characters
+					 * in the focus keyword field.
+					 *
+					 * @api array $strippable_chars The characters to strip from the focus keyword.
+					 */
+					$strippable_chars = apply_filters(
+						'wpseo_focuskw_strippable_chars',
+						array( '&lt;', '&gt;', '&quot', '&#96', '<', '>', '"', '`' )
+					);
+
+					$clean = str_replace( $strippable_chars, '', $clean );
 				}
+
 				break;
 		}
 

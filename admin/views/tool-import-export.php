@@ -11,12 +11,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform = Yoast_Form::get_instance();
-
+$yform  = Yoast_Form::get_instance();
 $import = false;
 
 /**
- * The import method is used to dermine if there should be something imported.
+ * The import method is used to determine if there should be something imported.
  *
  * In case of POST the user is on the Yoast SEO import page and in case of the GET the user sees a notice from
  * Yoast SEO that we can import stuff for that plugin.
@@ -25,7 +24,7 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 	check_admin_referer( 'wpseo-import' );
 
 	$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-	$action = 'import';
+	$action     = 'import';
 }
 elseif ( filter_input( INPUT_POST, 'import_external' ) ) {
 	check_admin_referer( 'wpseo-import-plugins' );
@@ -76,7 +75,7 @@ if ( $import ) {
 			$status = 'updated';
 		}
 
-		echo '<div id="message" class="message ', $status, '"><p>', $msg, '</p></div>';
+		echo '<div id="message" class="message ', $status, '"><p>', esc_html( $msg ), '</p></div>';
 	}
 }
 
