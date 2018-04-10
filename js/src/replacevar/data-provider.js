@@ -1,7 +1,3 @@
-import get from "lodash/get";
-
-import { addReplacevar } from "../redux/actions";
-
 /**
  * Adapter for retrieving the replacevars in either the classic editor or TinyMCE.
  */
@@ -34,8 +30,6 @@ class ReplacevarData {
 
 		return parentTitle;
 	}
-
-
 }
 
 export default ReplacevarData;
