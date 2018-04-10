@@ -84,6 +84,7 @@ class WPSEO_OpenGraph_Image {
 			}
 		}
 	}
+
 	/**
 	 * Outputs an image tag based on whether it's https or not.
 	 *

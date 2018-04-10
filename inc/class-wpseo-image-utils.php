@@ -99,10 +99,10 @@ class WPSEO_Image_Utils {
 
 		$img_data['ratio'] = ( $img_data['width'] / $img_data['height'] );
 		foreach ( array( 'width', 'height', 'ratio' ) as $param ) {
-			if ( $img_data[ $param ] < $params[ 'min_' . $param ] ) {
-				return false;
-			}
-			if ( $img_data[ $param ] > $params[ 'max_' . $param ] ) {
+			if (
+				( $img_data[ $param ] < $params[ 'min_' . $param ] ) ||
+				( $img_data[ $param ] > $params[ 'max_' . $param ] )
+			) {
 				return false;
 			}
 		}
