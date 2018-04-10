@@ -5,6 +5,8 @@ import {
 	SET_SEO_RESULTS,
 	SET_READABILITY_RESULTS,
 	SET_SEO_RESULTS_FOR_KEYWORD,
+	SET_OVERALL_READABILITY_SCORE,
+	SET_OVERALL_SEO_SCORE,
 	updateSeoResult,
 	updateReadabilityResult,
 	replaceKeyword,
@@ -12,9 +14,7 @@ import {
 	removeKeyword,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
-	SET_OVERALL_READABILITY_SCORE,
 	setOverallReadabilityScore,
-	SET_OVERALL_SEO_SCORE,
 	setOverallSeoScore,
 } from "../contentAnalysis";
 import configureMockStore from "redux-mock-store";

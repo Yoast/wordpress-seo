@@ -35,14 +35,13 @@ function setReadabilityResults( state, action ) {
  * @returns {Object} The new results.
  */
 function updateReadabilityResult( state, action ) {
-	let resultIndex = findIndex( state.results, { id: action.result.id } );
-
 	// Sets a new readability result if there currently are no results.
 	if( isUndefined( state.results ) ) {
 		return Object.assign( {}, state,
 			{ results: [ action.result ] },
 		);
 	}
+	let resultIndex = findIndex( state.results, { id: action.result.id } );
 	// Replace a result when there already is a result with the given id.
 	if( resultIndex !== -1 ) {
 		let newResults = state.results.filter( function( result ) {
