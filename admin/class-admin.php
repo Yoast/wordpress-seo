@@ -318,11 +318,19 @@ class WPSEO_Admin {
 	 * @return void
 	 */
 	protected function check_php_version() {
+		// Check if the user is running PHP 5.2
+		if ( $this->has_invalid_php_installed() ) {
+			$this->show_unsupported_php_message();
+
+			return;
+		}
+
 		/*
 		 * The Whip message shouldn't be shown from WordPress 4.9.5 and higher because
 		 * that version introduces Serve Happy which is almost similar to Whip.
 		 */
 		$minimal_wp_version = '4.9.5';
+
 		if ( version_compare( $GLOBALS['wp_version'], $minimal_wp_version, '>=' ) ) {
 			return;
 		}
@@ -338,6 +346,35 @@ class WPSEO_Admin {
 		whip_wp_check_versions( array(
 			'php' => '>=5.4',
 		) );
+	}
+
+	/**
+	 * Determines whether or not the user has an invalid version of PHP installed.
+	 *
+	 * @return bool Whether or not PHP 5.2 or lower is installed
+	 */
+	protected function has_invalid_php_installed() {
+		$checker = new Whip_RequirementsChecker( array( 'php' => '5.0' ) );
+
+		$checker->addRequirement( Whip_VersionRequirement::fromCompareString( 'php', '>=5.3' ) );
+		$checker->check();
+
+		return $checker->hasMessages();
+	}
+
+	/**
+	 * Creates a new message to display regarding the usage of PHP 5.2 (or lower).
+	 *
+	 * @return void
+	 */
+	protected function show_unsupported_php_message() {
+		$presenter = new Whip_WPMessagePresenter(
+			new WPSEO_Unsupported_PHP_Message( 'wordpress-seo' ),
+			new Whip_MessageDismisser( time(), WEEK_IN_SECONDS * 4, new Whip_WPDismissOption( 'wordpress-seo-52' ) ),
+			__( 'Remind me again in 4 weeks.', 'wordpress' )
+		);
+
+		$presenter->register_hooks();
 	}
 
 	/**
