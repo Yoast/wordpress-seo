@@ -26,7 +26,7 @@ export function setOverallReadabilityScore( state, action ) {
  * @returns {Object} The overall score for the keyword.
  */
 export function setOverallSeoScore( state, action ) {
-	return Object.assign( {}, state[ action.keyword ], {
+	return Object.assign( {}, state, {
 		overallScore: action.overallScore,
 	} );
 }
