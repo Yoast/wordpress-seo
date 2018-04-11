@@ -20,7 +20,7 @@ class SeoAnalysis extends React.Component {
 }
 
 SeoAnalysis.propTypes = {
-	results: PropTypes.object,
+	results: PropTypes.array,
 	marksButtonStatus: PropTypes.string,
 	hideMarksButtons: PropTypes.bool,
 };
