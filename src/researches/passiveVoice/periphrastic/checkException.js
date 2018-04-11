@@ -1,4 +1,4 @@
-var isEmpty = require( "lodash/isEmpty" );
+const isEmpty = require( "lodash/isEmpty" );
 
 /**
  * Sets sentence part passiveness to passive if no exception rules for the participle apply.

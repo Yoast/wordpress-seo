@@ -1,49 +1,49 @@
-var indices = require( "../../stringProcessing/indices" );
-var getIndicesOfList = indices.getIndicesByWordList;
-var filterIndices = indices.filterIndices;
-var sortIndices = indices.sortIndices;
-var stripSpaces = require( "../../stringProcessing/stripSpaces.js" );
-var normalizeSingleQuotes = require( "../../stringProcessing/quotes.js" ).normalizeSingle;
-var arrayToRegex = require( "../../stringProcessing/createRegexFromArray.js" );
-var getWordIndices = require( "./getIndicesWithRegex.js" );
-var includesIndex = require( "../../stringProcessing/includesIndex" );
-var followsIndex = require( "../../stringProcessing/followsIndex" );
+const indices = require( "../../../stringProcessing/indices" );
+const getIndicesOfList = indices.getIndicesByWordList;
+const filterIndices = indices.filterIndices;
+const sortIndices = indices.sortIndices;
+const stripSpaces = require( "../../../stringProcessing/stripSpaces.js" );
+const normalizeSingleQuotes = require( "../../../stringProcessing/quotes.js" ).normalizeSingle;
+const arrayToRegex = require( "../../../stringProcessing/createRegexFromArray.js" );
+const getWordIndices = require( "./getIndicesWithRegex.js" );
+const includesIndex = require( "../../../stringProcessing/includesIndex" );
+const followsIndex = require( "../../../stringProcessing/followsIndex" );
 
-var filter = require( "lodash/filter" );
-var isUndefined = require( "lodash/isUndefined" );
-var includes = require( "lodash/includes" );
-var map = require( "lodash/map" );
-var forEach = require( "lodash/forEach" );
+const filter = require( "lodash/filter" );
+const isUndefined = require( "lodash/isUndefined" );
+const includes = require( "lodash/includes" );
+const map = require( "lodash/map" );
+const forEach = require( "lodash/forEach" );
 
-// English-specific variables and imports.
-var SentencePartEnglish = require( "../english/passiveVoice/SentencePart" );
-var auxiliariesEnglish = require( "../english/passiveVoice/auxiliaries.js" )().all;
-var stopwordsEnglish = require( "../english/passiveVoice/stopwords.js" )();
-var stopCharacterRegexEnglish = /([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
-var verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
-var ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
+// English-specific constiables and imports.
+const SentencePartEnglish = require( "../../english/passiveVoice/SentencePart" );
+const auxiliariesEnglish = require( "../../english/passiveVoice/auxiliaries.js" )().all;
+const stopwordsEnglish = require( "../../english/passiveVoice/stopwords.js" )();
+const stopCharacterRegexEnglish = /([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+const verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+const ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
 
 // French-specific variables and imports.
-var SentencePartFrench = require( "../french/passiveVoice/SentencePart" );
-var auxiliariesFrench = require( "../french/passiveVoice/auxiliaries.js" )();
-var stopwordsFrench = require( "../french/passiveVoice/stopwords.js" )();
-var stopCharacterRegexFrench = /(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
-var followingAuxiliaryExceptionWordsFrench = [ "le", "la", "les", "une", "l'un", "l'une" ];
-var reflexivePronounsFrench = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];
-var directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
-var elisionAuxiliaryExceptionWords = [ "c'", "s'", "peut-" ];
-var elisionAuxiliaryExceptionRegex = arrayToRegex( elisionAuxiliaryExceptionWords, true );
+const SentencePartFrench = require( "../../french/passiveVoice/SentencePart" );
+const auxiliariesFrench = require( "../../french/passiveVoice/auxiliaries.js" )();
+const stopwordsFrench = require( "../../french/passiveVoice/stopwords.js" )();
+const stopCharacterRegexFrench = /(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+const followingAuxiliaryExceptionWordsFrench = [ "le", "la", "les", "une", "l'un", "l'une" ];
+const reflexivePronounsFrench = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];
+const directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
+const elisionAuxiliaryExceptionWords = [ "c'", "s'", "peut-" ];
+const elisionAuxiliaryExceptionRegex = arrayToRegex( elisionAuxiliaryExceptionWords, true );
 
 // Spanish-specific variables and imports.
-var SentencePartSpanish = require( "../spanish/passiveVoice/SentencePart" );
-var auxiliariesSpanish = require( "../spanish/passiveVoice/auxiliaries.js" )();
-var stopwordsSpanish = require( "../spanish/passiveVoice/stopwords.js" )();
-var stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
-var followingAuxiliaryExceptionWordsSpanish = [ "el", "la", "los", "las", "una" ];
+const SentencePartSpanish = require( "../../spanish/passiveVoice/SentencePart" );
+const auxiliariesSpanish = require( "../../spanish/passiveVoice/auxiliaries.js" )();
+const stopwordsSpanish = require( "../../spanish/passiveVoice/stopwords.js" )();
+const stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+const followingAuxiliaryExceptionWordsSpanish = [ "el", "la", "los", "las", "una" ];
 
 
 // The language-specific variables used to split sentences into sentence parts.
-var languageVariables = {
+const languageVariables = {
 	en: {
 		stopwords: stopwordsEnglish,
 		auxiliaryRegex: arrayToRegex( auxiliariesEnglish ),
@@ -75,9 +75,9 @@ var languageVariables = {
  * @param {string} sentence The sentence to get the active verbs from.
  * @returns {Array} The array with valid matches.
  */
-var getVerbsEndingInIng = function( sentence ) {
+let getVerbsEndingInIng = function( sentence ) {
 	// Matches the sentences with words ending in ing.
-	var matches = sentence.match( verbEndingInIngRegex ) || [];
+	let matches = sentence.match( verbEndingInIngRegex ) || [];
 	// Filters out words ending in -ing that aren't verbs.
 	return filter( matches, function( match ) {
 		return ! includes( ingExclusionArray, stripSpaces( match ) );
@@ -91,10 +91,10 @@ var getVerbsEndingInIng = function( sentence ) {
  * @param {string} language The language for which to get the stop characters.
  * @returns {Array} The array with stop characters.
  */
-var getStopCharacters = function( sentence, language ) {
-	var stopCharacterRegex = languageVariables[ language ].stopCharacterRegex;
-	var match;
-	var matches = [];
+let getStopCharacters = function( sentence, language ) {
+	const stopCharacterRegex = languageVariables[ language ].stopCharacterRegex;
+	let match;
+	let matches = [];
 
 	stopCharacterRegex.lastIndex = 0;
 
@@ -116,8 +116,8 @@ var getStopCharacters = function( sentence, language ) {
  * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
  * @returns {Array} The filtered list of auxiliary indices.
  */
-var auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches ) {
-	var directPrecedenceExceptionMatches = getWordIndices( text, directPrecedenceExceptionRegex );
+let auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches ) {
+	let directPrecedenceExceptionMatches = getWordIndices( text, directPrecedenceExceptionRegex );
 
 	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
 		if ( includesIndex( directPrecedenceExceptionMatches, auxiliaryMatch.index ) ) {
@@ -138,9 +138,9 @@ var auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches ) {
  * @param {string} language The language for which to filter the auxiliaries.
  * @returns {Array} The filtered list of auxiliary indices.
  */
-var followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, language ) {
-	var followingAuxiliaryExceptionRegex = languageVariables[ language ].followingAuxiliaryExceptionRegex;
-	var followingAuxiliaryExceptionMatches = getWordIndices( text, followingAuxiliaryExceptionRegex );
+let followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, language ) {
+	let followingAuxiliaryExceptionRegex = languageVariables[ language ].followingAuxiliaryExceptionRegex;
+	let followingAuxiliaryExceptionMatches = getWordIndices( text, followingAuxiliaryExceptionRegex );
 
 	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
 		if ( followsIndex( followingAuxiliaryExceptionMatches, auxiliaryMatch ) ) {
@@ -160,8 +160,8 @@ var followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, langua
  * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
  * @returns {Array} The filtered list of auxiliary indices.
  */
-var elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
-	var elisionAuxiliaryExceptionMatches = getWordIndices( text, elisionAuxiliaryExceptionRegex );
+let elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
+	let elisionAuxiliaryExceptionMatches = getWordIndices( text, elisionAuxiliaryExceptionRegex );
 
 	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
 		if ( includesIndex( elisionAuxiliaryExceptionMatches, auxiliaryMatch.index, false ) ) {
@@ -184,14 +184,14 @@ var elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
  * @param {string} language The language for which to match the sentence breakers.
  * @returns {Array} The array with valid indices to use for determining sentence parts.
  */
-var getSentenceBreakers = function( sentence, language ) {
+let getSentenceBreakers = function( sentence, language ) {
 	sentence = sentence.toLocaleLowerCase();
-	var stopwords = languageVariables[ language ].stopwords;
-	var auxiliaries = languageVariables[ language ].auxiliaries;
-	var auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
-	var stopwordIndices = getIndicesOfList( stopwords, sentence );
-	var stopCharacterIndices = getStopCharacters( sentence, language );
-	var indices;
+	const stopwords = languageVariables[ language ].stopwords;
+	const auxiliaries = languageVariables[ language ].auxiliaries;
+	let auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
+	let stopwordIndices = getIndicesOfList( stopwords, sentence );
+	let stopCharacterIndices = getStopCharacters( sentence, language );
+	let indices;
 
 	// Concat all indices arrays, filter them and sort them.
 	switch( language ) {
@@ -224,9 +224,9 @@ var getSentenceBreakers = function( sentence, language ) {
  * @param {string} language The language for which to match the auxiliaries.
  * @returns {Array} All formatted matches from the sentence part.
  */
-var getAuxiliaryMatches = function( sentencePart, language ) {
-	var auxiliaryRegex = languageVariables[ language ].auxiliaryRegex;
-	var auxiliaryMatches = sentencePart.match( auxiliaryRegex ) || [];
+let getAuxiliaryMatches = function( sentencePart, language ) {
+	const auxiliaryRegex = languageVariables[ language ].auxiliaryRegex;
+	let auxiliaryMatches = sentencePart.match( auxiliaryRegex ) || [];
 
 	switch( language ) {
 		case "fr":
@@ -266,10 +266,10 @@ var getAuxiliaryMatches = function( sentencePart, language ) {
  * @param {string} language The language for which to get the sentence parts.
  * @returns {Array} The array with all parts of a sentence that have an auxiliary.
  */
-var getSentenceParts = function( sentence, language ) {
-	var sentenceParts = [];
-	var auxiliaryRegex = languageVariables[ language ].auxiliaryRegex;
-	var SentencePart = languageVariables[ language ].SentencePart;
+let getSentenceParts = function( sentence, language ) {
+	let sentenceParts = [];
+	const auxiliaryRegex = languageVariables[ language ].auxiliaryRegex;
+	let SentencePart = languageVariables[ language ].SentencePart;
 
 	sentence = normalizeSingleQuotes( sentence );
 
@@ -278,18 +278,18 @@ var getSentenceParts = function( sentence, language ) {
 		return sentenceParts;
 	}
 
-	var indices = getSentenceBreakers( sentence, language );
+	let indices = getSentenceBreakers( sentence, language );
 	// Get the words after the found auxiliary.
-	for ( var i = 0; i < indices.length; i++ ) {
-		var endIndex = sentence.length;
+	for ( let i = 0; i < indices.length; i++ ) {
+		let endIndex = sentence.length;
 		if ( ! isUndefined( indices[ i + 1 ] ) ) {
 			endIndex = indices[ i + 1 ].index;
 		}
 
 		// Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
-		var sentencePart = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
+		let sentencePart = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
 
-		var auxiliaryMatches = getAuxiliaryMatches( sentencePart, language );
+		let auxiliaryMatches = getAuxiliaryMatches( sentencePart, language );
 		// If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
 		if ( auxiliaryMatches.length !== 0 ) {
 			sentenceParts.push( new SentencePart( sentencePart, auxiliaryMatches ) );

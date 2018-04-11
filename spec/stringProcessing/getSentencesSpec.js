@@ -35,6 +35,16 @@ describe( "Get sentences from text", function() {
 		expect( getSentences( sentence ) ).toEqual( [ "It was a lot.", "Approx!", "two hundred" ] );
 	} );
 
+	it( "returns sentences with multiple sentence delimiters at the end", function() {
+		var sentence = "Was it a lot!?!??! Yes, it was!";
+		expect( getSentences( sentence ) ).toEqual( [ "Was it a lot!?!??!", "Yes, it was!" ] );
+	} );
+
+	it( "returns sentences with multiple periods at the end", function() {
+		var sentence = "It was a lot... Approx. two hundred.";
+		expect( getSentences( sentence ) ).toEqual( [ "It was a lot...", "Approx. two hundred." ] );
+	} );
+
 	it( "returns sentences, with :", function() {
 		var sentence = "One. Two. Three: Four! Five.";
 		expect( getSentences( sentence ).length ).toBe( 4 );

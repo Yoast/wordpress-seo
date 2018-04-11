@@ -1,16 +1,16 @@
-var find = require( "lodash/find" );
-var forEach = require( "lodash/forEach" );
-var memoize = require( "lodash/memoize" );
-var includes = require( "lodash/includes" );
+const find = require( "lodash/find" );
+const forEach = require( "lodash/forEach" );
+const memoize = require( "lodash/memoize" );
+const includes = require( "lodash/includes" );
 
-var irregularsEnglish = require( "../english/passiveVoice/irregulars" )();
-var irregularsRegularFrench = require( "../french/passiveVoice/irregulars" )().irregularsRegular;
-var irregularsIrregularFrench = require( "../french/passiveVoice/irregulars" )().irregularsIrregular;
-var irregularsEndingInSFrench = require( "../french/passiveVoice/irregulars" )().irregularsEndingInS;
-var spanishParticiples = require( "../spanish/passiveVoice/participles" )();
+const irregularsEnglish = require( "../../english/passiveVoice/irregulars" )();
+const irregularsRegularFrench = require( "../../french/passiveVoice/irregulars" )().irregularsRegular;
+const irregularsIrregularFrench = require( "../../french/passiveVoice/irregulars" )().irregularsIrregular;
+const irregularsEndingInSFrench = require( "../../french/passiveVoice/irregulars" )().irregularsEndingInS;
+const spanishParticiples = require( "../../spanish/passiveVoice/participles" )();
 
 // The language-specific participle regexes.
-var languageVariables = {
+const languageVariables = {
 	en: {
 		regularParticiplesRegex: /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig,
 	},
@@ -27,14 +27,14 @@ var languageVariables = {
  *
  * @returns {Array} A list with the matches.
  */
-var regularParticiples = function( word, language ) {
+let regularParticiples = function( word, language ) {
 	// In Spanish we don't match participles with a regular regex pattern.
 	if ( language === "es" ) {
 		return [];
 	}
 
 	// Matches all words with a language-specific participle suffix.
-	var regularParticiplesRegex = languageVariables[ language ].regularParticiplesRegex;
+	const regularParticiplesRegex = languageVariables[ language ].regularParticiplesRegex;
 
 	return word.match( regularParticiplesRegex ) || [];
 };
@@ -48,11 +48,11 @@ var regularParticiples = function( word, language ) {
  * @param {Array} matches The array into which to push the matches.
  * @returns {Array} A list with matched irregular participles.
  */
-var matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes ) {
-	var matches = [];
+let matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes ) {
+	let matches = [];
 	forEach( irregulars, function( irregular ) {
-		var irregularParticiplesRegex = new RegExp( "^" + irregular + suffixes + "?$", "ig" );
-		var participleMatch = word.match( irregularParticiplesRegex );
+		const irregularParticiplesRegex = new RegExp( "^" + irregular + suffixes + "?$", "ig" );
+		let participleMatch = word.match( irregularParticiplesRegex );
 		if ( participleMatch ) {
 			matches.push( participleMatch[ 0 ] );
 		}
@@ -68,8 +68,8 @@ var matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes ) {
  *
  * @returns {Array} A list with the matches.
  */
-var irregularParticiples = function( word, language ) {
-	var matches = [];
+let irregularParticiples = function( word, language ) {
+	let matches = [];
 
 	switch ( language ) {
 		case "fr":

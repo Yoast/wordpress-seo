@@ -235,7 +235,7 @@ function getSentencesFromTokens( tokens ) {
 			case "sentence-delimiter":
 				currentSentence += token.src;
 
-				if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type ) {
+				if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
 				}

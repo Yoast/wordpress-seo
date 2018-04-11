@@ -1,5 +1,5 @@
 var Participle = require( "../../../values/Participle.js" );
-var checkException = require( "../../passiveVoice/checkException.js" );
+var checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
 var directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
 var precedenceException = require( "../../../stringProcessing/precedenceException" );
 

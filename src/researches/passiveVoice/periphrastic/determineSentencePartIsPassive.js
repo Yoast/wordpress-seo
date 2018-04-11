@@ -1,4 +1,4 @@
-var forEach = require( "lodash/forEach" );
+const forEach = require( "lodash/forEach" );
 
 /**
  * Checks if the participles make the sentence part passive.
@@ -7,7 +7,7 @@ var forEach = require( "lodash/forEach" );
  * @returns {boolean} Returns true if the sentence part is passive.
  */
 module.exports =  function( participles ) {
-	var passive = false;
+	let passive = false;
 	forEach( participles, function( participle ) {
 		if ( participle.determinesSentencePartIsPassive() ) {
 			passive = true;
