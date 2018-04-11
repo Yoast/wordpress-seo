@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
+import omit from "lodash/omit";
 
 import colors from "../../../../style-guide/colors.json";
 import { IconsButton } from "../../Shared/components/Button";
+import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 
 const StyledContainer = styled.div`
 	background-color: ${ colors.$color_white };
@@ -72,18 +74,19 @@ const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
 /**
  * Base collapsible panel. Optionally has a heading around the button.
  *
- * @param {object}      props                     The properties for the component.
- * @param {children}    props.children            The content of the Collapsible.
- * @param {IconsButton} props.Heading             Heading button. May be wrapped or styled or both.
- * @param {boolean}     props.isOpen              True displays the children. False means collapsed.
- * @param {function}    props.onToggle            Function to handle the Heading click event.
- * @param {string}      props.prefixIcon          Heading icon before the title.
- * @param {string}      props.prefixIconCollapsed Prefix icon when in collapsed state.
- * @param {string}      props.prefixIconColor     CSS color of the prefix icon.
- * @param {string}      props.suffixIcon          Heading icon after the title.
- * @param {string}      props.suffixIconColor     CSS color of the suffix icon.
- * @param {string}      props.suffixIconCollapsed Suffix icon when in collapsed state.
- * @param {string}      props.title               Title for in the Heading.
+ * @param {object}      props                       The properties for the component.
+ * @param {children}    props.children              The content of the Collapsible.
+ * @param {IconsButton} props.Heading               Heading button. May be wrapped or styled or both.
+ * @param {boolean}     props.isOpen                True displays the children. False means collapsed.
+ * @param {function}    props.onToggle              Function to handle the Heading click event.
+ * @param {string}      props.prefixIcon            Heading icon before the title.
+ * @param {string}      props.prefixIconCollapsed   Prefix icon when in collapsed state.
+ * @param {string}      props.prefixIconColor       CSS color of the prefix icon.
+ * @param {string}      props.suffixIcon            Heading icon after the title.
+ * @param {string}      props.suffixIconColor       CSS color of the suffix icon.
+ * @param {string}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
+ * @param {string}      props.title                 Title for in the Heading.
+ * @param {string}      props.titleScreenReaderText Chance for an extra
  *
  * @returns {ReactElement} A collapsible panel.
  */
@@ -99,6 +102,7 @@ export const CollapsibleStateless = ( props ) => {
 				suffixIconColor={ props.suffixIconColor }
 			>
 				<StyledTitle>{ props.title }</StyledTitle>
+				{ props.titleScreenReaderText ? <ScreenReaderText>{ props.titleScreenReaderText }</ScreenReaderText> : null }
 			</props.Heading>
 			{ props.isOpen && props.children }
 		</StyledContainer>
@@ -120,6 +124,7 @@ CollapsibleStateless.propTypes = {
 	suffixIconCollapsed: PropTypes.string,
 	suffixIconColor: PropTypes.string,
 	title: PropTypes.string,
+	titleScreenReaderText: PropTypes.string,
 };
 
 CollapsibleStateless.defaultProps = {
@@ -135,16 +140,17 @@ export class Collapsible extends React.Component {
 	/**
 	 * The constructor.
 	 *
-	 * @param {object}  props                     The properties for the component.
-	 * @param {number}  props.headingLevel        Heading level: 1 for h1, 2 for h2, etc.
-	 * @param {boolean} props.initialIsOpen       Determines if the initial isOpen state is open or closed.
-	 * @param {string}  props.prefixIcon          Heading icon before the title.
-	 * @param {string}  props.prefixIconCollapsed Prefix icon when in collapsed state.
-	 * @param {string}  props.prefixIconColor     CSS color of the prefix icon.
-	 * @param {string}  props.suffixIcon          Heading icon after the title.
-	 * @param {string}  props.suffixIconColor     CSS color of the suffix icon.
-	 * @param {string}  props.suffixIconCollapsed Suffix icon when in collapsed state.
-	 * @param {string}  props.title               Title for in the Heading.
+	 * @param {object}  props                       The properties for the component.
+	 * @param {number}  props.headingLevel          Heading level: 1 for h1, 2 for h2, etc.
+	 * @param {boolean} props.initialIsOpen         Determines if the initial isOpen state is open or closed.
+	 * @param {string}  props.prefixIcon            Heading icon before the title.
+	 * @param {string}  props.prefixIconCollapsed   Prefix icon when in collapsed state.
+	 * @param {string}  props.prefixIconColor       CSS color of the prefix icon.
+	 * @param {string}  props.suffixIcon            Heading icon after the title.
+	 * @param {string}  props.suffixIconColor       CSS color of the suffix icon.
+	 * @param {string}  props.suffixIconCollapsed   Suffix icon when in collapsed state.
+	 * @param {string}  props.title                 Title for in the Heading.
+	 * @param {string}  props.titleScreenReaderText Chance for an extra
 	 *
 	 * @returns {ReactElement} Base collapsible panel.
 	 */
@@ -241,6 +247,7 @@ Collapsible.propTypes = {
 	suffixIconCollapsed: PropTypes.string,
 	suffixIconColor: PropTypes.string,
 	title: PropTypes.string,
+	titleScreenReaderText: PropTypes.string,
 };
 
 Collapsible.defaultProps = {
