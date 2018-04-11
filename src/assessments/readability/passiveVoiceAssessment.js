@@ -1,15 +1,15 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
-var formatNumber = require( "../../helpers/formatNumber.js" );
-var inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
-var stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const formatNumber = require( "../../helpers/formatNumber.js" );
+const inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
+const stripTags = require( "../../stringProcessing/stripHTMLTags" ).stripIncompleteTags;
 
-var Mark = require( "../../values/Mark.js" );
-var marker = require( "../../markers/addMark.js" );
+const Mark = require( "../../values/Mark.js" );
+const marker = require( "../../markers/addMark.js" );
 
-var map = require( "lodash/map" );
+const map = require( "lodash/map" );
 
-var getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
-var availableLanguages = [ "en", "de", "fr", "es" ];
+const getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
+const availableLanguages = [ "en", "de", "fr", "es" ];
 
 /**
  * Calculates the result based on the number of sentences and passives.
@@ -17,12 +17,12 @@ var availableLanguages = [ "en", "de", "fr", "es" ];
  * @param {object} i18n The object used for translations.
  * @returns {{score: number, text}} resultobject with score and text.
  */
-var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
-	var score;
-	var percentage = 0;
-	var recommendedValue = 10;
-	var passiveVoiceURL = "<a href='https://yoa.st/passive-voice' target='_blank'>";
-	var hasMarks;
+let calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
+	let score;
+	let percentage = 0;
+	let recommendedValue = 10;
+	let passiveVoiceURL = "<a href='https://yoa.st/passive-voice' target='_blank'>";
+	let hasMarks;
 
 	// Prevent division by zero errors.
 	if ( passiveVoice.total !== 0 ) {
@@ -92,11 +92,11 @@ var calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
  * @param {object} researcher The researcher used for calling research.
  * @returns {object} All marked sentences.
  */
-var passiveVoiceMarker = function( paper, researcher ) {
-	var passiveVoice = researcher.getResearch( "passiveVoice" );
+let passiveVoiceMarker = function( paper, researcher ) {
+	const passiveVoice = researcher.getResearch( "passiveVoice" );
 	return map( passiveVoice.passives, function( sentence ) {
 		sentence = stripTags( sentence );
-		var marked = marker( sentence );
+		let marked = marker( sentence );
 		return new Mark( {
 			original: sentence,
 			marked: marked,
@@ -111,12 +111,12 @@ var passiveVoiceMarker = function( paper, researcher ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} the Assessmentresult
  */
-var passiveVoiceAssessment = function( paper, researcher, i18n ) {
-	var passiveVoice = researcher.getResearch( "passiveVoice" );
+let passiveVoiceAssessment = function( paper, researcher, i18n ) {
+	const passiveVoice = researcher.getResearch( "passiveVoice" );
 
-	var passiveVoiceResult = calculatePassiveVoiceResult( passiveVoice, i18n );
+	const passiveVoiceResult = calculatePassiveVoiceResult( passiveVoice, i18n );
 
-	var assessmentResult = new AssessmentResult();
+	const assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( passiveVoiceResult.score );
 	assessmentResult.setText( passiveVoiceResult.text );
@@ -129,7 +129,7 @@ module.exports = {
 	identifier: "passiveVoice",
 	getResult: passiveVoiceAssessment,
 	isApplicable: function( paper ) {
-		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+		const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
 	},
 	getMarks: passiveVoiceMarker,

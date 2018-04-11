@@ -1,4 +1,4 @@
-var wordIndicesRegexes = require( "../../../../js/researches/passiveVoice/getIndicesWithRegex.js" );
+var wordIndicesRegexes = require( "../../../../js/researches/passiveVoice/periphrastic/getIndicesWithRegex.js" );
 
 var cannotDirectlyPrecedePassiveParticiple = require( "../../../../js/researches/english/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 var arrayToRegex = require( "../../../../js/stringProcessing/createRegexFromArray.js" );
