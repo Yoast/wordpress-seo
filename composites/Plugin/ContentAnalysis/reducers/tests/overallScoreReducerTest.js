@@ -3,7 +3,7 @@ import { overallScoreReducer } from "../contentAnalysis/overallScoreReducer";
 
 describe( "SET_OVERALL_SCORE for seo action", () => {
 	it( "sets overall score for an seo analysis result", () => {
-		const state = { keyword: {} };
+		const state = { keyword: { results: [] } };
 		const action = {
 			type: SET_OVERALL_SEO_SCORE,
 			keyword: "keyword",
@@ -12,6 +12,7 @@ describe( "SET_OVERALL_SCORE for seo action", () => {
 		const expected = {
 			keyword: {
 				overallScore: "5",
+				results: [],
 			},
 		};
 

@@ -27,7 +27,7 @@ export function setOverallReadabilityScore( state, action ) {
  */
 export function setOverallSeoScore( state, action ) {
 	return Object.assign( {}, state, {
-		overallScore: action.overallScore,
+		[ action.keyword ]: { ...state[ action.keyword ], overallScore: action.overallScore },
 	} );
 }
 
