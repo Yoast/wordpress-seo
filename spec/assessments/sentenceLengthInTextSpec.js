@@ -96,7 +96,7 @@ describe( "An assessment for sentence length", function() {
 		let sentenceLengthInTextAssessmentRussian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
 		assessment = sentenceLengthInTextAssessmentRussian.getResult( mockPaper, Factory.buildMockResearcher( [
-			{ sentence: "", sentenceLength: 16 }
+			{ sentence: "", sentenceLength: 16 },
 		] ), i18n );
 
 		expect( assessment.hasScore() ).toBe( true );
@@ -111,7 +111,7 @@ describe( "An assessment for sentence length", function() {
 		let sentenceLengthInTextAssessmentItalian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
 		assessment = sentenceLengthInTextAssessmentItalian.getResult( mockPaper, Factory.buildMockResearcher( [
-			{ sentence: "", sentenceLength: 26 }
+			{ sentence: "", sentenceLength: 26 },
 		] ), i18n );
 
 		expect( assessment.hasScore() ).toBe( true );
@@ -126,7 +126,7 @@ describe( "An assessment for sentence length", function() {
 		let sentenceLengthInTextAssessmentItalian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
 		assessment = sentenceLengthInTextAssessmentItalian.getResult( mockPaper, Factory.buildMockResearcher( [
-			{ sentence: "", sentenceLength: 24 }
+			{ sentence: "", sentenceLength: 24 },
 
 		] ), i18n );
 
