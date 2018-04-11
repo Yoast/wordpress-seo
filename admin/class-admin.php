@@ -324,7 +324,7 @@ class WPSEO_Admin {
 			return;
 		}
 
-		// Check if the user is running PHP 5.2
+		// Check if the user is running PHP 5.2.
 		if ( WPSEO_Admin_Utils::is_supported_php_version_installed() === false ) {
 			$this->show_unsupported_php_message();
 
@@ -358,8 +358,8 @@ class WPSEO_Admin {
 	protected function show_unsupported_php_message() {
 		$presenter = new Whip_WPMessagePresenter(
 			new WPSEO_Unsupported_PHP_Message(),
-			new Whip_MessageDismisser( time(), WEEK_IN_SECONDS * 4, new Whip_WPDismissOption() ),
-			__( 'Remind me again in 4 weeks.', 'wordpress' )
+			new Whip_MessageDismisser( time(), ( WEEK_IN_SECONDS * 4 ), new Whip_WPDismissOption() ),
+			__( 'Remind me again in 4 weeks.', 'wordpress-seo' )
 		);
 
 		$presenter->register_hooks();
