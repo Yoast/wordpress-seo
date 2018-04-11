@@ -43,6 +43,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'yoast_plugin_compatibility_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'yoast_plugin_suggestions_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'unsupported_php_notice' ), 15 );
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
@@ -408,6 +409,45 @@ class WPSEO_Admin_Init {
 				)
 			)
 		);
+	}
+
+	/**
+	 * Creates an unsupported PHP version notification in the notification center.
+	 *
+	 * @return void
+	 */
+	public function unsupported_php_notice() {
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) || $this->is_site_notice_dismissed( 'wpseo_dismiss_unsupported_php' ) ) {
+			return;
+		}
+
+		$info_message = sprintf(
+			/* translators: 1: the Yoast SEO version that is dropping support; 2: The PHP version no longer being supported; 3: The link tag to the information page; 4: The link closing tag. */
+			__( 'As of version %1$s, Yoast SEO is going to stop supporting PHP %2$s, which is the PHP version your site is running on. You can %3$sfind instructions here%4$s on how to update your PHP version quickly and safely.', 'wordpress-seo' ),
+			'7.3',
+			'5.2',
+			'<a href="' . esc_attr( 'https://wordpress.org/support/upgrade-php/' ) . '" target="_blank" rel="noopener noreferrer">',
+			'</a>'
+		);
+
+		$unsupported_php_notification = new Yoast_Notification(
+			$info_message,
+			array(
+				'type'         => Yoast_Notification::ERROR,
+				'id'           => 'wpseo-dismiss-unsupported-php',
+				'capabilities' => 'wpseo_manage_options',
+			)
+		);
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		if ( WPSEO_Admin_Utils::is_supported_php_version_installed() === false ) {
+			$notification_center->add_notification( $unsupported_php_notification );
+
+			return;
+		}
+
+		$notification_center->remove_notification( $unsupported_php_notification );
 	}
 
 	/**

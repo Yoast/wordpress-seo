@@ -318,8 +318,14 @@ class WPSEO_Admin {
 	 * @return void
 	 */
 	protected function check_php_version() {
+
+		// If the user isn't an admin, don't display anything.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		// Check if the user is running PHP 5.2
-		if ( $this->has_invalid_php_installed() ) {
+		if ( WPSEO_Admin_Utils::is_supported_php_version_installed() === false ) {
 			$this->show_unsupported_php_message();
 
 			return;
@@ -335,10 +341,6 @@ class WPSEO_Admin {
 			return;
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
 		if ( ! $this->on_dashboard_page() ) {
 			return;
 		}
@@ -349,28 +351,14 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Determines whether or not the user has an invalid version of PHP installed.
-	 *
-	 * @return bool Whether or not PHP 5.2 or lower is installed
-	 */
-	protected function has_invalid_php_installed() {
-		$checker = new Whip_RequirementsChecker( array( 'php' => '5.0' ) );
-
-		$checker->addRequirement( Whip_VersionRequirement::fromCompareString( 'php', '>=5.3' ) );
-		$checker->check();
-
-		return $checker->hasMessages();
-	}
-
-	/**
 	 * Creates a new message to display regarding the usage of PHP 5.2 (or lower).
 	 *
 	 * @return void
 	 */
 	protected function show_unsupported_php_message() {
 		$presenter = new Whip_WPMessagePresenter(
-			new WPSEO_Unsupported_PHP_Message( 'wordpress-seo' ),
-			new Whip_MessageDismisser( time(), WEEK_IN_SECONDS * 4, new Whip_WPDismissOption( 'wordpress-seo-52' ) ),
+			new WPSEO_Unsupported_PHP_Message(),
+			new Whip_MessageDismisser( time(), WEEK_IN_SECONDS * 4, new Whip_WPDismissOption() ),
 			__( 'Remind me again in 4 weeks.', 'wordpress' )
 		);
 
