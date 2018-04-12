@@ -86,7 +86,7 @@ const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
  * @param {string}      props.suffixIconColor       CSS color of the suffix icon.
  * @param {string}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
  * @param {string}      props.title                 Title for in the Heading.
- * @param {string}      props.titleScreenReaderText Chance for an extra
+ * @param {string}      props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
  *
  * @returns {ReactElement} A collapsible panel.
  */
@@ -150,7 +150,7 @@ export class Collapsible extends React.Component {
 	 * @param {string}  props.suffixIconColor       CSS color of the suffix icon.
 	 * @param {string}  props.suffixIconCollapsed   Suffix icon when in collapsed state.
 	 * @param {string}  props.title                 Title for in the Heading.
-	 * @param {string}  props.titleScreenReaderText Chance for an extra
+	 * @param {string}  props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
 	 *
 	 * @returns {ReactElement} Base collapsible panel.
 	 */
