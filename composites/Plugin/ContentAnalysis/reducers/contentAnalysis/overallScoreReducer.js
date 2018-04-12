@@ -21,7 +21,7 @@ export function setOverallReadabilityScore( state, action ) {
 /**
  * Sets the overall score for SEO results for a keyword.
  *
- * @param {Object} state The state.
+ * @param {Object} state  The state.
  * @param {Object} action The action.
  * @returns {Object} The overall score for the keyword.
  */
