@@ -144,7 +144,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-right c10"
+        className="yoast-svg-icon yoast-svg-icon-arrow-down c10"
         fill="#000"
         focusable="false"
         role="img"
@@ -153,7 +153,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M1791 896L448.5 1671.09L448.5 120.91z"
+          d="M896 1791L120.91 448.5L1671.09 448.5z"
         />
       </svg>
     </button>
@@ -309,7 +309,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-down c10"
+        className="yoast-svg-icon yoast-svg-icon-arrow-up c10"
         fill="#000"
         focusable="false"
         role="img"
@@ -318,7 +318,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M896 1791L120.91 448.5L1671.09 448.5z"
+          d="M1671.09 1343.5L120.91 1343.5L896 1z"
         />
       </svg>
     </button>
@@ -486,7 +486,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-right c10"
+        className="yoast-svg-icon yoast-svg-icon-arrow-down c10"
         fill="#000"
         focusable="false"
         role="img"
@@ -495,7 +495,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M1791 896L448.5 1671.09L448.5 120.91z"
+          d="M896 1791L120.91 448.5L1671.09 448.5z"
         />
       </svg>
     </button>
@@ -651,7 +651,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-down c10"
+        className="yoast-svg-icon yoast-svg-icon-arrow-up c10"
         fill="#000"
         focusable="false"
         role="img"
@@ -660,7 +660,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M896 1791L120.91 448.5L1671.09 448.5z"
+          d="M1671.09 1343.5L120.91 1343.5L896 1z"
         />
       </svg>
     </button>
@@ -832,7 +832,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-down c10"
+        className="yoast-svg-icon yoast-svg-icon-arrow-up c10"
         fill="#000"
         focusable="false"
         role="img"
@@ -841,7 +841,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M896 1791L120.91 448.5L1671.09 448.5z"
+          d="M1671.09 1343.5L120.91 1343.5L896 1z"
         />
       </svg>
     </button>
@@ -1009,7 +1009,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-arrow-right c10"
+        className="yoast-svg-icon yoast-svg-icon-arrow-down c10"
         fill="#000"
         focusable="false"
         role="img"
@@ -1018,7 +1018,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M1791 896L448.5 1671.09L448.5 120.91z"
+          d="M896 1791L120.91 448.5L1671.09 448.5z"
         />
       </svg>
     </button>
