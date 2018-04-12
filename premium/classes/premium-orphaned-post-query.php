@@ -96,6 +96,7 @@ class WPSEO_Premium_Orphaned_Post_Query {
 	 * @return bool False when set to no-index, true otherwise.
 	 */
 	protected static function is_robots_index( $object_id ) {
-		return WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) === '0';
+		$type = get_post_type( $object_id );
+		return WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) !== '1' and !WPSEO_Options::get( 'noindex-' . $type );
 	}
 }
