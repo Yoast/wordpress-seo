@@ -237,7 +237,7 @@ Collapsible.defaultProps = {
 	initialIsOpen: false,
 	prefixIconColor: colors.$black,
 	suffixIcon: "arrow-down",
-	suffixIconCollapsed: "arrow-right",
+	suffixIconCollapsed: "arrow-up",
 	suffixIconColor: colors.$black,
 };
 
