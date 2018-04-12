@@ -35,13 +35,13 @@ class WPSEO_Image_Utils {
 	 *
 	 * @param int $attachment_id The attachment ID.
 	 *
-	 * @return array|false
+	 * @return array|false Image array on success, false on failure.
 	 */
 	public static function find_correct_image_size( $attachment_id ) {
 		foreach ( self::get_image_sizes() as $size ) {
 			$image = self::check_image_by_size( $attachment_id, $size );
 			if ( $image !== false ) {
-				return self::complete_image_data( $image, $attachment_id );
+				return $image;
 			}
 		}
 
@@ -58,6 +58,7 @@ class WPSEO_Image_Utils {
 	 *     Array of image data
 	 *
 	 *     @type string $alt    Image's alt text.
+	 *     @type string $alt    Image's alt text.
 	 *     @type int    $width  Width of image.
 	 *     @type int    $height Height of image.
 	 *     @type string $type   Image's MIME type.
@@ -65,12 +66,15 @@ class WPSEO_Image_Utils {
 	 * }
 	 */
 	public static function complete_image_data( $image, $attachment_id ) {
-		$image['alt'] = self::get_image_alt_tag( $attachment_id );
+		$image['id']     = $attachment_id;
+		$image['alt']    = self::get_image_alt_tag( $attachment_id );
+		$image['pixels'] = ( $image['width'] * $image['height'] );
+
 		if ( ! isset( $image['type'] ) ) {
 			$image['type'] = get_post_mime_type( $attachment_id );
 		}
 		// Keep only the keys we need, and nothing else.
-		$image = array_intersect_key( $image, array_flip( array( 'alt', 'width', 'height', 'type', 'url' ) ) );
+		$image = array_intersect_key( $image, array_flip( array( 'id', 'alt', 'path', 'width', 'height', 'pixels', 'type', 'size', 'url' ) ) );
 		return $image;
 	}
 
@@ -120,9 +124,10 @@ class WPSEO_Image_Utils {
 
 		$image = self::get_image( $attachment_id, $size );
 
-		if ( $image === false ) {
-			return false;
+		if ( $image === false || ! isset( $image['path'] ) ) {
+			return $image;
 		}
+
 		$file_size = self::get_image_file_size( $image );
 		if ( $file_size > $max_size ) {
 			return false;
@@ -141,11 +146,21 @@ class WPSEO_Image_Utils {
 	 */
 	private static function get_image( $attachment_id, $size ) {
 		if ( $size === 'full' ) {
-			$image        = wp_get_attachment_metadata( $attachment_id );
-			$image['url'] = wp_get_attachment_image_url( $attachment_id, 'full' );
-			return $image;
+			$image         = wp_get_attachment_metadata( $attachment_id );
+			$image['url']  = wp_get_attachment_image_url( $attachment_id, 'full' );
+			$image['path'] = get_attached_file( $attachment_id );
 		}
-		return image_get_intermediate_size( $attachment_id, $size );
+
+		if ( ! isset( $image ) ) {
+			$image = image_get_intermediate_size( $attachment_id, $size );
+		}
+
+		if ( ! $image ) {
+			return false;
+		}
+
+		$image['size'] = $size;
+		return self::complete_image_data( $image, $attachment_id );
 	}
 
 	/**
