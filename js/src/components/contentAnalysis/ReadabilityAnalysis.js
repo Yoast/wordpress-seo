@@ -3,6 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import isUndefined from "lodash/isUndefined";
 
 import Results from "./Results";
 
@@ -49,7 +50,7 @@ ReadabilityAnalysis.propTypes = {
 function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
 	let results = null;
-	if ( typeof( state.analysis.readability ) !== "undefined" ) {
+	if ( ! isUndefined( state.analysis.readability ) ) {
 		results = state.analysis.readability.results;
 	}
 
