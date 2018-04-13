@@ -417,13 +417,14 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	public function unsupported_php_notice() {
-		$info_message = sprintf(
-			/* translators: 1: the Yoast SEO version that is dropping support; 2: The PHP version no longer being supported; 3: The link tag to the information page; 4: The link closing tag. */
-			__( 'As of version %1$s, Yoast SEO is going to stop supporting PHP %2$s, which is the PHP version your site is running on. You can %3$sfind instructions here%4$s on how to update your PHP version quickly and safely.', 'wordpress-seo' ),
-			'7.3',
-			'5.2',
-			'<a href="' . esc_attr( 'https://wordpress.org/support/upgrade-php/' ) . '" target="_blank" rel="noopener noreferrer">',
-			'</a>'
+
+		$info_message = '<strong>' . __( 'Action is needed', 'wordpress-seo' ) . '</strong>' . ': ';
+		$info_message .= sprintf(
+			/* translators: 1: the Yoast SEO version that is dropping support; 2: The release date of the version of Yoast SEO that is dropping support; 3: The PHP version no longer being supported; */
+			__( 'As of version %1$s, due to be released on %2$s, Yoast SEO will no longer work with PHP %3$s. Unfortunately, your site is running on PHP %3$s right now, so action is needed. Thankfully, you can update your PHP yourself.', 'wordpress-seo' ),
+			'7.5',
+			'15-05-2018',
+			'5.2'
 		);
 
 		$unsupported_php_notification = new Yoast_Notification(
