@@ -89,7 +89,7 @@ class WPSEO_Premium_Orphaned_Post_Query {
 	}
 
 	/**
-	 * Returns true when an object is set to index.
+	 * Determines whether or not the passed object is set to be indexable.
 	 *
 	 * @param string $object_id The object id to check.
 	 *
@@ -97,6 +97,7 @@ class WPSEO_Premium_Orphaned_Post_Query {
 	 */
 	protected static function is_robots_index( $object_id ) {
 		$type = get_post_type( $object_id );
-		return WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) !== '1' and !WPSEO_Options::get( 'noindex-' . $type );
+
+		return WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) !== '1' && WPSEO_Options::get( 'noindex-' . $type ) === false;
 	}
 }
