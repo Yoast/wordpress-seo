@@ -417,11 +417,11 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	public function unsupported_php_notice() {
-
-		$info_message = '<strong>' . __( 'Action is needed', 'wordpress-seo' ) . '</strong>' . ': ';
-		$info_message .= sprintf(
-			/* translators: 1: the Yoast SEO version that is dropping support; 2: The release date of the version of Yoast SEO that is dropping support; 3: The PHP version no longer being supported; */
-			__( 'As of version %1$s, due to be released on %2$s, Yoast SEO will no longer work with PHP %3$s. Unfortunately, your site is running on PHP %3$s right now, so action is needed. Thankfully, you can update your PHP yourself.', 'wordpress-seo' ),
+		$info_message = sprintf(
+			/* translators: 1: The strong opening tag; 2: The strong closing tag; 3: the Yoast SEO version that is dropping support; 4: The release date of the version of Yoast SEO that is dropping support; 5: The PHP version no longer being supported; */
+			__( '%1$sAction is needed%2$s: As of version %3$s, due to be released on %4$s, Yoast SEO will no longer work with PHP %5$s. Unfortunately, your site is running on PHP %5$s right now, so action is needed. Thankfully, you can update your PHP yourself.', 'wordpress-seo' ),
+			'<strong>',
+			'</strong>',
 			'7.5',
 			date_i18n( get_option( 'date_format' ), strtotime( '15-05-2018' ) ),
 			'5.2'
