@@ -423,7 +423,7 @@ class WPSEO_Admin_Init {
 			/* translators: 1: the Yoast SEO version that is dropping support; 2: The release date of the version of Yoast SEO that is dropping support; 3: The PHP version no longer being supported; */
 			__( 'As of version %1$s, due to be released on %2$s, Yoast SEO will no longer work with PHP %3$s. Unfortunately, your site is running on PHP %3$s right now, so action is needed. Thankfully, you can update your PHP yourself.', 'wordpress-seo' ),
 			'7.5',
-			'15-05-2018',
+			date_i18n( get_option( 'date_format' ), strtotime( '15-05-2018' ) ),
 			'5.2'
 		);
 
