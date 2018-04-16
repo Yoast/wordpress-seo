@@ -339,6 +339,11 @@ class WPSEO_Sitemaps_Renderer {
 			return home_url( 'main-sitemap.xsl' );
 		}
 
+		//Check if plugin url is not loaded from a different domain.
+		if ( strpos( plugins_url(), home_url() ) !== 0 ) {
+			return home_url( 'main-sitemap.xsl' );
+		}
+
 		return plugin_dir_url( WPSEO_FILE ) . 'css/main-sitemap.xsl';
 	}
 }
