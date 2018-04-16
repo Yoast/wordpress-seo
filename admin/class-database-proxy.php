@@ -41,7 +41,7 @@ class WPSEO_Database_Proxy {
 
 		// If the table prefix was provided, strip it as it's handled automatically.
 		$table_prefix = $this->get_table_prefix();
-		if ( 0 === strpos( $this->table_name, $table_prefix ) ) {
+		if ( strpos( $this->table_name, $table_prefix ) === 0 ) {
 			$this->table_prefix = substr( $this->table_name, strlen( $table_prefix ) );
 		}
 
@@ -200,7 +200,7 @@ class WPSEO_Database_Proxy {
 	/**
 	 * Returns the full table name.
 	 *
-	 * @return string
+	 * @return string Full table name including prefix.
 	 */
 	public function get_table_name() {
 		return $this->get_table_prefix() . $this->table_name;
@@ -209,7 +209,7 @@ class WPSEO_Database_Proxy {
 	/**
 	 * Returns the prefix to use for the table.
 	 *
-	 * @return string Table prefix.
+	 * @return string The table prefix depending on the database context.
 	 */
 	protected function get_table_prefix() {
 		if ( $this->is_multisite_table ) {
@@ -221,6 +221,8 @@ class WPSEO_Database_Proxy {
 
 	/**
 	 * Registers the table with WordPress.
+	 *
+	 * @return void
 	 */
 	protected function register_table() {
 		$table_name      = $this->table_name;

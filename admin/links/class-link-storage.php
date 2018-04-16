@@ -24,7 +24,7 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 	 * @param string $table_prefix Optional. Deprecated argument.
 	 */
 	public function __construct( $table_prefix = null ) {
-		if ( null !== $table_prefix ) {
+		if ( $table_prefix !== null ) {
 			_deprecated_argument( __METHOD__, 'WPSEO 7.4' );
 		}
 
