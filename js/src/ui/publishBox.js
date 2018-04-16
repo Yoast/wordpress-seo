@@ -23,10 +23,8 @@ var imageScoreClass = "image yoast-logo svg";
 	 * @returns {String} A string with label and description with correct text decoration.
 	 */
 	function createSEOScoreLabel( scoreType, status ) {
-		var label =  wpseoPostScraperL10n.publish_box.labels[ scoreType ] || "";
-		status = wpseoPostScraperL10n.publish_box.statuses[ status ] || "";
-
-		return label + ": <strong>" + status + "</strong>";
+		var label = wpseoPostScraperL10n.publish_box.labels[ scoreType ][ status ] || "";
+		return label;
 	}
 
 	/**
@@ -58,12 +56,12 @@ var imageScoreClass = "image yoast-logo svg";
 	function createScoresInPublishBox( type, status ) {
 		var publishSection = $( "<div />", {
 			"class": "misc-pub-section yoast yoast-seo-score " + type + "-score",
-			"id": type + "-score",
+			id: type + "-score",
 		} );
 
 		var spanElem = $( "<span />", {
 			"class": scoreDescriptionClass,
-			"html": createSEOScoreLabel( type, status ),
+			html: createSEOScoreLabel( type, status ),
 		} );
 
 		var imgElem = $( "<span>" )

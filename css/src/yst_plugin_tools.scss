@@ -1,129 +1,11 @@
-h4 {
-	clear: both;
-	margin: 1.2em 0 0.5em 0;
-}
+@import "icons";
 
-p.desc {
-	margin: 6px 0 10px 0;
-	padding: 0 0 8px 25px;
-}
-
-p.desc.label {
-	margin: 0 0 20px;
-	padding: 0 0 10px 200px;
-}
-
-tr.yst_row {
-	margin: 5px 0 0 0;
-	padding: 5px 0 0 0;
-}
-
-tr.yst_row.even {
-	background-color: #f6f6f6;
-}
-
-div.yoastbox ul {
-	margin-left: 20px;
-}
-
-.postbox {
-	margin: 10px 10px 0 0;
-}
-
-label {
-	float: left;
-	margin-left: 6px;
-}
-
-.yoast-inline-label {
-	float: none;
-	margin: 0;
-}
-
-label.radio {
-	float: none;
-	margin-right: 20px;
-}
-
-input.textinput,
-textarea,
-select {
-	width: 400px;
-}
-
-input.checkbox + label.checkbox {
-	width: auto;
-}
-
-input.textinput,
-textarea.textinput,
-select.select {
-	float: left;
-	margin: 0 3px 15px 0;
-	padding: 5px;
-}
-
-textarea.textinput {
-	padding: 3px 6px;
-}
-
-select.select {
-	padding: 3px;
-}
-
-input.checkbox,
-input.checkbox.double {
-	float: left;
-	margin: 6px 10px 6px 0;
-}
-
-.textinput.metadesc {
-	height: 50px;
-}
-
-textarea.import {
-	width: 500px;
-	height: 100px;
-}
-
-label.textinput,
-label.select,
-label.checkbox {
-	width: 200px;
-	margin: 5px 0 5px 0;
-	background-color: transparent;
-}
-
-.wpseo-gsc-reload-crawl-issues-form {
-	position: relative;
-	top: 9px;
-}
-
-.wp-core-ui .button.wpseo-gsc-save-profile {
-	margin-left: 200px;
-}
-
-table.wpseo th {
-	text-align: left;
-}
-
+/* Settings pages layout based on CSS table model. */
 .wpseo_content_wrapper {
 	display: table;
 	width: 100%;
-}
-
-.wpseo_content_wrapper p,
-.wpseo_content_wrapper li {
-	max-width: 600px;
-}
-
-.wpseo_content_wrapper .notice p {
-	max-width: none;
-}
-
-/* Notices below Settings pages tabs. */
-#wpseo-tabs + .notice {
-	margin-top: 1.5em;
+	// IE11 and Edge need this for the Help Center responsiveness.
+	table-layout: fixed;
 }
 
 .wpseo_content_cell {
@@ -134,19 +16,130 @@ table.wpseo th {
 	vertical-align: top;
 }
 
-.wpseo-remove-ads {
-	margin-top: 0;
-	padding: 12px;
-	border: 1px solid #0075b3;
-	border-radius: 20px;
-	border-bottom-right-radius: 0;
-	background-color: #fff;
-}
-
 #wpseo_content_top {
-	min-width: 800px;
+	width: 100%;
 }
 
+#sidebar-container {
+	/* For historical reasons banner images have a 261px width. */
+	width: 261px;
+	padding: 0 0 0 19px;
+}
+
+/* @todo: check this. */
+tr.yst_row {
+	margin: 5px 0 0 0;
+	padding: 5px 0 0 0;
+}
+
+/* @todo: check this. */
+tr.yst_row.even {
+	background-color: #f6f6f6;
+}
+
+/* @todo: check this. */
+.postbox {
+	margin: 10px 10px 0 0;
+}
+
+/* Forms. */
+label.textinput,
+label.select {
+	float: left;
+	width: 200px;
+	margin: 5px 0;
+}
+
+.yoast-inline-label {
+	float: none;
+	margin: 0;
+}
+
+input.textinput,
+textarea,
+select {
+	width: 400px;
+}
+
+input.textinput,
+textarea.textinput,
+select.select {
+	margin: 0 0 15px 0;
+}
+
+/* @todo: check if the .double class is still used. */
+input.radio,
+input.checkbox,
+input.checkbox.double {
+	margin: 6px 10px 6px 0;
+}
+
+/* @todo: check this. */
+.textinput.metadesc {
+	height: 50px;
+}
+
+/* @todo: check this. Couldn't find any textarea with class 'import'. */
+textarea.import {
+	width: 500px;
+	height: 100px;
+}
+
+p.desc {
+	margin: 6px 0 10px 0;
+	padding: 0 0 8px 25px;
+}
+
+p.desc.label,
+div.desc.label {
+	margin: 0 0 20px;
+	padding: 0 0 10px 200px;
+}
+
+/* Google Search Console: Reload crawl issues form. */
+.wpseo-gsc-reload-crawl-issues-form {
+	position: relative;
+	top: 9px;
+}
+
+.wp-core-ui .button.wpseo-gsc-save-profile {
+	margin-left: 200px;
+}
+
+/* Styles for Yoast specific content. */
+.wpseo_content_wrapper h3 {
+	font-size: 1.15em;
+	margin: 1em 0 0.5em 0;
+}
+
+h4 {
+	clear: both;
+	margin: 1.2em 0 0.5em 0;
+}
+
+.wpseo_content_wrapper p,
+.wpseo_content_wrapper li {
+	max-width: 600px;
+}
+
+.yoast .search-box,
+.wpseo_content_wrapper .notice p,
+.yoast-container .container,
+.yoast-alert p {
+	max-width: none;
+}
+
+/* @todo: check this. */
+table.wpseo th {
+	text-align: left;
+}
+
+/* Notices below Settings pages tabs. */
+#wpseo-tabs + .notice {
+	margin-top: 1.5em;
+}
+
+/* Template variables error. */
 .wpseo-variable-warning-element {
 	border: 1px solid #c62d2d !important;
 }
@@ -166,67 +159,40 @@ table.wpseo th {
 	color: #c62d2d;
 }
 
-.wpseo_content_wrapper h3 {
-	margin: 1em 0 0.5em 0;
-}
-
+/* Create redirect popup. */
 .wpseo_content_wrapper h1.wpseo-redirect-url-title {
 	margin: 1em 0 0.5em 0;
 	font-size: 1.3em;
 }
 
-#sidebar-container {
-	width: 261px;
-	padding: 0 0 0 20px;
-}
-
-@media (max-width: 1020px) {
-	#wpseo_content_top {
-		margin-left: 0;
-		padding-left: 0;
-	}
-}
-
-.wpseo-admin-page .form-table tr,
-.wpseo-admin-page .form-table th,
-.wpseo-admin-page .form-table td {
-	vertical-align: top;
-}
-
+/* @todo: check this. */
 .postbox form {
 	line-height: 150%;
 }
 
-div.yoastbox ul li {
-	list-style: square;
-}
-
+/* @todo: check this. */
 .text {
 	width: 250px;
 }
 
-div.yoastbox .button:hover,
-div.yoastbox .button-primary:hover {
-	text-decoration: none;
+/* Template variables table. */
+table.yoast_help {
+	border-collapse: collapse;
+	width: 100%;
 }
 
-/*.button, .button-primary {*/
-/*margin-top: 10px;*/
-/*}*/
 table.yoast_help,
 table.yoast_help th,
 table.yoast_help td {
 	border: 1px solid #ddd;
-	border-collapse: collapse;
 	color: #444;
-	font-size: 12px;
 }
 
 table.yoast_help th,
 table.yoast_help td {
 	padding: 5px 10px;
 	text-align: left;
-	vertical-align: text-top;
+	vertical-align: top;
 }
 
 table.yoast_help tr {
@@ -241,18 +207,35 @@ table.yoast_help tr:hover {
 	background-color: #ddd;
 }
 
+table.yoast_help thead tr,
+table.yoast_help thead tr:hover {
+	background-color: #fff;
+}
+
+table.yoast_help .yoast-variable-name {
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+table.yoast_help .yoast-variable-desc {
+	min-width: 300px;
+}
+
+/* @todo: check this. */
 .correct {
 	padding: 5px;
 	color: white;
 	background-color: green;
 }
 
+/* @todo: check this. */
 .wrong {
 	padding: 5px;
 	color: white;
 	background-color: #dc3232;
 }
 
+/* @todo: check this. */
 .wrong code {
 	padding: 3px 8px;
 	color: #000;
@@ -271,29 +254,22 @@ table.yoast_help tr:hover {
 	max-width: none;
 }
 
+/* @todo: check this. */
 .button.fixit {
 	float: right;
 	margin: 0 5px;
 }
 
+/* @todo: check this. */
 .button.checkit {
 	float: right;
 	margin: 0 5px;
 	padding: 5px 8px;
 }
 
-.fb-buttons .button-primary,
-.fb-buttons .button {
-	margin-right: 8px;
-}
-
-.postbox#donate {
-	border: 2px green;
-}
-
+/* Tabs. */
 .wpseotab {
 	display: none;
-	margin-top: 15px;
 }
 
 .wpseotab.active {
@@ -304,48 +280,27 @@ table.yoast_help tr:hover {
 	margin-left: 6px;
 }
 
+.wpseotab .tab-block {
+	display: block;
+	margin: 30px 0;
+}
+
 .wpseotab p.expl strong {
 	font-size: 115%;
 }
 
-#sidebar .yoastbox {
-	margin: 0 0 10px 0;
-	padding: 10px 15px;
-	border: 1px solid #ccc;
-	border-radius: 5px 25px;
-}
-
-#sidebar .yoastbox h2 {
-	font-size: 16px;
-}
-
-#sidebar .promo {
-	color: #000;
-}
-
-#donate.yoastbox,
-#sitereview.yoastbox {
-	border-color: green;
-	background-color: #cfc;
-}
-
-h2 {
-	margin-bottom: 20px;
-}
-
-h2 code {
-	font-size: 23px;
-}
-
-#pointer-primary {
-	margin: 0 5px 0 0;
-}
-
+/* Debug Information meta box. */
 #wpseo-debug-info {
 	clear: both;
+	margin: 20px 0 0;
+	padding: 20px 20px 0;
+	border: 1px solid #e5e5e5;
+	background-color: #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0,.04);
 }
 
-#wpseo-debug-info .hndle {
+#wpseo-debug-info h2 {
+	margin: 0;
 	cursor: auto;
 }
 
@@ -359,48 +314,16 @@ h2 code {
 	color: #c00;
 }
 
+/* Bulk editor. */
 input.wpseo-new-title,
 textarea.wpseo-new-metadesc {
 	width: 100%;
 	max-width: 100%;
 }
 
-.wpseotab .extension {
-	float: left;
-	box-sizing: border-box;
-	width: 300px;
-	height: 230px;
-	margin: 10px 20px 10px 0;
-	border: 1px solid #ccc;
-}
-
-.wpseotab .extension p {
-	margin: 0;
-	padding: 10px;
-}
-
-.wpseotab .extension h3 {
-	box-sizing: border-box;
-	height: 110px;
-	margin: 0;
-	padding: 20px 10px 0 120px;
-	border-bottom: 1px solid #ccc;
-	background: #fff no-repeat left 10px;
-	background-size: 130px 100px;
-}
-
-.wpseotab .extension a {
-	text-decoration: none;
-}
-
-.wpseotab .extension button.installed {
-	border-color: #00a000;
-	background-color: #00a000;
-	cursor: default;
-}
-
+/* Search Appearance: title separator. */
 #separator {
-	margin: 1.5em 0 1em;
+	margin: 1.5em 0 0.5em;
 }
 
 #separator input.radio {
@@ -414,7 +337,7 @@ textarea.wpseo-new-metadesc {
 #separator input.radio + label {
 	float: left;
 	width: 30px !important;
-	margin: 0 5px 0 0 !important;
+	margin: 0 5px 0.5em 0 !important;
 	padding: 9px 6px;
 	border: 1px solid #ccc;
 	/* Don't change: these mimic Google's font and font size for titles */
@@ -436,23 +359,26 @@ textarea.wpseo-new-metadesc {
 	border-bottom-right-radius: 0;
 }
 
+/* @todo: check this. */
 .svg-container {
 	text-align: center;
 }
 
+/* @todo: check this. */
 .svg-container .dashicons {
 	width: 200px;
 	height: 100px;
 	font-size: 100px;
 }
 
+/* Yoast SEO credits page. */
 body.toplevel_page_wpseo_dashboard .wp-badge {
-	border: none;
-	background: url(../images/Yoast_SEO_Icon.svg);
-	background-size: 150px 160px;
+	background: transparent url(../../images/Yoast_SEO_Icon.svg) no-repeat 50% 10px;
+	background-size: 140px 140px;
 	box-shadow: none;
 }
 
+/* @todo: remove this, see #6380. */
 .nav-tab .dashicons {
 	width: 18px;
 	height: 18px;
@@ -460,16 +386,18 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	line-height: 24px;
 }
 
+/* @todo: remove this, see #6380. */
 .nav-tab .pinteresticon {
 	width: 12px;
 	height: 24px;
 	margin-right: 2px;
-	background-image: url(../images/pinterest-23x30.png);
+	background-image: url(../../images/pinterest-23x30.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: contain;
 }
 
+/* Recalculate score progress bar. Note: currently not used. */
 #wpseo_progressbar {
 	height: 25px;
 	border: 1px solid #006691;
@@ -480,15 +408,298 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	background: #006691;
 }
 
-.wpseo-add-fb-admin-form-wrap .notice span {
-	margin-left: 10px;
+.wpseo-progressbar-wrapper {
+	display: inline;
+	width: 100%;
+}
+
+.wpseo-progressbar {
+	display: block;
+	width: 100%;
+	height: 25px;
+	border: 1px solid #006691;
+}
+
+.wpseo-progressbar .ui-progressbar-value {
+	height: 25px;
+	background: #006691;
 }
 
 .archives-titles-metas-content {
 	padding-top: 1em;
 }
 
+/* Banners sidebar. */
+.yoast-sidebar {
+
+	&__title {
+		width: 100%;
+		margin: 46px 0 20px;
+		padding: 10px 0;
+		color: #a4286a;
+		text-align: left;
+		box-sizing: border-box;
+		line-height: 19px;
+		border-bottom: 1px solid #a4286a;
+	}
+
+	&__spot {
+		padding: 10px 0;
+		border-bottom: 1px solid #ddd;
+
+		h2, a {
+			color: #a4286a;
+		}
+
+		h2 {
+			margin-top: 0;
+		}
+
+		ul {
+			position: relative;
+		}
+
+		li {
+			list-style: none;
+			margin-left: 20px;
+
+			&::before {
+				content: '+';
+				position: absolute;
+				left: 0;
+				font-weight: bold;
+			}
+		}
+
+	}
+}
+
+.wpseo-banner {
+	&__link {
+		display: inline-block;
+	}
+
+	&__image {
+		vertical-align: top;
+	}
+}
+
+/* Premium Upsell Admin Block
+ * @since 5.1
+ */
+.yoast_premium_upsell_admin_block {
+	border: 1px solid #ccc;
+	background-color: #fff;
+	padding: 10px;
+	max-width: 650px;
+	overflow: hidden;
+	margin-top: 2em;
+
+	&--close {
+		color: #333;
+		text-decoration: none;
+		font-weight: bold;
+		font-size: 16px;
+		border: 1px solid #ccc;
+		padding: 1px 4px;
+	}
+
+	&--header {
+		margin-top: 0.3em;
+		font-size: 1.7em;
+		font-weight: bold;
+	}
+
+	&--motivation {
+		display: flex;
+		flex-wrap: wrap;
+
+		& li {
+			flex: 0 0 50%;
+			list-style: none;
+		}
+	}
+
+	&--argument {
+		padding: 0 8px 0 20px;
+
+		&::before {
+			position: relative;
+			left: -16px;
+			margin-right: -10px;
+			font-weight: bold;
+			content: "+";
+			top: -1px;
+		}
+	}
+
+	@media screen and (max-width: 480px) {
+		&--motivation {
+			display: block;
+		}
+	}
+}
+
+// Scrollable tables.
+//
+// The scrollable tables can be used in three different ways.
+//
+// 1. Full-width and always scrollable.
+// Just set the table width to a value higher than `100%`. The columns width can
+// be set to percentage values (recommended) or other values, as necessary.
+//
+// 2. Full-width responsive tables.
+// Set the initial table width to `100%`. Then, use media queries breakpoints to
+// increase the width to values higher than `100%` and make the table scrollable
+// on smaller screens. Columns width: same as above.
+//
+// 3. Tables width based on their content (non-full-width).
+// Don't set a CSS width on the table. Instead, set a `min-width` on one or more
+// table columns or use `white-space: nowrap` depending on the desired behavior.
+// The `min-width` should be set to what's a reasonably good value for a
+// comfortable readability of the column's cells content and at the same time
+// allow the table to shrink. The table cells use `box-sizing: border-box` to
+// make setting the `min-width` easier.
+
+// Variables table in the Advanced > RSS page.
+.yoast-variable-desc {
+	min-width: 300px;
+}
+
+.yoast-table-scrollable {
+	// Webkit uses `content-box`. Switch everything to `border-box` to have
+	// consistent results when setting/getting the table and cells width.
+	box-sizing: border-box;
+
+	& th,
+	& td {
+		box-sizing: border-box;
+	}
+
+	&__container {
+		&.yoast-has-scroll {
+			position: relative;
+			overflow: hidden;
+
+			&:after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 100%;
+				width: 50px;
+				height: calc( 100% - 16px );
+				border-radius: 10px 0 0 10px / 50% 0 0 50%;
+				box-shadow: -5px 0 10px rgba(0, 0, 0, 0.25);
+			}
+		}
+
+		&.yoast-has-scroll .yoast-table-scrollable__inner {
+			overflow-x: scroll;
+			// Ensure the horizontal scrollbar doesn't overlap the table content.
+			padding-bottom: 16px;
+		}
+	}
+
+	&__hintwrapper {
+		display: none;
+
+		&.yoast-has-scroll {
+			display: block;
+			margin: 1em 0;
+			text-align: center;
+		}
+	}
+
+	.yoast-has-scroll &__hint {
+		display: inline-block;
+
+		&:before {
+			content: "\21c4";
+			display: inline-block;
+			margin-right: 10px;
+			font-size: 20px;
+			line-height: inherit;
+			vertical-align: text-top;
+		}
+	}
+}
+
+/* Responsive layout. */
+@media screen and ( max-width: 1024px ) {
+	.wpseo_content_wrapper,
+	.wpseo_content_cell {
+		display: block;
+		height: auto;
+	}
+
+	#wpseo_content_top {
+		width: auto;
+	}
+
+	#sidebar-container {
+		width: auto;
+		padding: 0;
+	}
+
+	/* Banners sidebar. */
+	.yoast-sidebar {
+
+		&__spot {
+			float: left;
+			width: 50%;
+			border: none;
+			text-align: center;
+
+			& > strong:first-child {
+				display: block;
+				max-width: 261px;
+				margin: 0 auto;
+				text-align: left;
+			}
+
+			ul, p {
+				max-width: 261px;
+				text-align: left;
+				margin: 1em auto;
+			}
+		}
+	}
+}
+
 @media screen and ( max-width: 782px ) {
+	/* Forms. */
+	label.textinput,
+	label.select {
+		display: inline-block;
+		float: none;
+		width: auto;
+	}
+
+	input.textinput,
+	textarea,
+	textarea.textinput {
+		display: block;
+		width: 100%;
+	}
+
+	select,
+	select.select,
+	.select2-container {
+		display: block;
+		max-width: 100%;
+		margin: 0 0 5px 0;
+	}
+
+	p.desc.label,
+	div.desc.label {
+		padding-left: 0;
+	}
+
+	.wp-core-ui .button.wpseo-gsc-save-profile {
+		margin-left: 0;
+	}
+
+	/* Google Search Console: Reload crawl issues form. */
 	.wpseo-gsc-reload-crawl-issues-form {
 		top: 0;
 		margin: 1em 0;
@@ -500,43 +711,38 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 @media screen and ( max-width: 600px ) {
+	/* Google Search Console: Reload crawl issues form. */
 	.wpseo-gsc-reload-crawl-issues-form {
 		margin-bottom: 0;
 	}
-}
 
-.yoast-sidebar {
+	/* Banners sidebar. */
+	.yoast-sidebar {
 
-	&__title {
-		width: 100%;
-		margin: 46px 0 20px;
-		padding: 10px;
-		border: none;
-		outline: none;
-		color: #a4286a;
-		background: none;
-		text-align: left;
-		box-sizing: border-box;
-		line-height: 19px;
-		border-bottom: 1px solid #a4286a;
-	}
-
-	&__spot {
-		padding: 10px 0;
-		border-bottom: 1px solid #ddd;
-
-		a {
-			color: #a4286a;
+		&__spot {
+			float: none;
+			width: 261px;
+			margin: 0 auto;
+			border-bottom: 1px solid #ddd;
 		}
 	}
 }
 
-.wpseo-banner {
-	&__link {
-	   display: inline-block;
+@media screen and ( max-width: 500px ) {
+	body.toplevel_page_wpseo_dashboard .wp-badge {
+		padding-top: 80px;
+		background-size: 100px 100px;
+		background-color: #a4286a;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 	}
+}
 
-	&__image {
-	   vertical-align: top;
-	}
+.wpseo-checkmark-ok-icon {
+	float: left;
+	width: 18px;
+	margin-right: 5px;
+	height: 18px;
+	background: url(svg-icon-check-ok()) no-repeat;
+	background-size: 18px;
+	vertical-align: top;
 }

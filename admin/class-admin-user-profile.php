@@ -1,7 +1,9 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
- * @since      1.8.0
+ * @since   1.8.0
  */
 
 /**
@@ -9,7 +11,7 @@
  */
 class WPSEO_Admin_User_Profile {
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 */
 	public function __construct() {
 		add_action( 'show_user_profile', array( $this, 'user_profile' ) );
@@ -21,7 +23,7 @@ class WPSEO_Admin_User_Profile {
 	}
 
 	/**
-	 * Clear author sitemap cache when settings are changed
+	 * Clear author sitemap cache when settings are changed.
 	 *
 	 * @since 3.1
 	 *
@@ -31,7 +33,7 @@ class WPSEO_Admin_User_Profile {
 	 */
 	public function clear_author_sitemap_cache( $meta_id, $object_id, $meta_key ) {
 		if ( '_yoast_wpseo_profile_updated' === $meta_key ) {
-			WPSEO_Utils::clear_sitemap_cache( array( 'author' ) );
+			WPSEO_Sitemaps_Cache::clear( array( 'author' ) );
 		}
 	}
 
@@ -53,7 +55,7 @@ class WPSEO_Admin_User_Profile {
 	/**
 	 * Updates the user metas that (might) have been set on the user profile page.
 	 *
-	 * @param    int $user_id of the updated user.
+	 * @param int $user_id User ID of the updated user.
 	 */
 	public function process_user_option_update( $user_id ) {
 		update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
@@ -68,22 +70,19 @@ class WPSEO_Admin_User_Profile {
 
 		update_user_meta( $user_id, 'wpseo_title', $this->filter_input_post( 'wpseo_author_title' ) );
 		update_user_meta( $user_id, 'wpseo_metadesc', $this->filter_input_post( 'wpseo_author_metadesc' ) );
-		update_user_meta( $user_id, 'wpseo_metakey', $this->filter_input_post( 'wpseo_author_metakey' ) );
-		update_user_meta( $user_id, 'wpseo_excludeauthorsitemap', $this->filter_input_post( 'wpseo_author_exclude' ) );
+		update_user_meta( $user_id, 'wpseo_noindex_author', $this->filter_input_post( 'wpseo_noindex_author' ) );
 		update_user_meta( $user_id, 'wpseo_content_analysis_disable', $this->filter_input_post( 'wpseo_content_analysis_disable' ) );
 		update_user_meta( $user_id, 'wpseo_keyword_analysis_disable', $this->filter_input_post( 'wpseo_keyword_analysis_disable' ) );
 	}
 
 	/**
-	 * Add the inputs needed for SEO values to the User Profile page
+	 * Add the inputs needed for SEO values to the User Profile page.
 	 *
 	 * @param WP_User $user User instance to output for.
 	 */
 	public function user_profile( $user ) {
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
-
 		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
 
-		require_once( 'views/user-profile.php' );
+		require_once WPSEO_PATH . 'admin/views/user-profile.php';
 	}
 }

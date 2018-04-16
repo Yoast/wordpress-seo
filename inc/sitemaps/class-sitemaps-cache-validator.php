@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\XML_Sitemaps
  */
 
@@ -80,7 +82,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 		 * We need to use a timeout on the transient, otherwise the values get autoloaded, this adds
 		 * another restriction to the length.
 		 */
-		$max_length = 45; // 64 - 19 ('_transient_timeout_')
+		$max_length  = 45; // 64 - 19 ('_transient_timeout_')
 		$max_length -= strlen( $prefix );
 		$max_length -= strlen( $postfix );
 

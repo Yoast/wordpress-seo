@@ -1,12 +1,19 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Recalculate
+ */
 
 /**
- * @package WPSEO\Unittests
+ * Unit Test Class.
  */
 class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 
+	/** @var \WPSEO_Recalculate_Scores_Ajax Class instance. */
 	private $instance;
 
+	/** @var array test posts. */
 	private $posts = array();
 
 	/**
@@ -32,7 +39,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	public function test_get_total() {
 		add_filter( 'wp_die_handler', array( $this, 'set_total_response_no_posts' ) );
 
-		$ajax_nonce        = wp_create_nonce( "wpseo_recalculate" );
+		$ajax_nonce        = wp_create_nonce( 'wpseo_recalculate' );
 		$_REQUEST['nonce'] = $ajax_nonce;
 
 		$this->instance->get_total();
@@ -43,7 +50,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Override die handler for test_get_total()
 	 *
-	 * @param $response
+	 * @param mixed $response Fake response.
 	 *
 	 * @return array Callable handler for wp_die
 	 */
@@ -69,7 +76,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	public function test_get_total_with_posts() {
 		add_filter( 'wp_die_handler', array( $this, 'set_total_response_two_posts' ) );
 
-		$ajax_nonce        = wp_create_nonce( "wpseo_recalculate" );
+		$ajax_nonce        = wp_create_nonce( 'wpseo_recalculate' );
 		$_REQUEST['nonce'] = $ajax_nonce;
 
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
@@ -83,7 +90,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Override die handler for test_get_total_with_posts()
 	 *
-	 * @param $response
+	 * @param mixed $response Fake response.
 	 *
 	 * @return array Callable handler for wp_die
 	 */

@@ -1,5 +1,13 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Admin
+ */
 
+/**
+ * Unit Test Class.
+ */
 class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -12,7 +20,15 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Input_Select::get_attributes
 	 */
 	public function test_html_with_options() {
-		$select = new Yoast_Input_Select( 'test-id', 'test-field', array( 'foo' => 'bar', 'baz' => 'foo' ), false );
+		$select = new Yoast_Input_Select(
+			'test-id',
+			'test-field',
+			array(
+				'foo' => 'bar',
+				'baz' => 'foo',
+			),
+			false
+		);
 		$html   = $select->get_html();
 
 		$this->assertContains( '<select name="test-field" id="test-id">', $html );
@@ -47,7 +63,15 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Input_Select::get_select_values
 	 */
 	public function test_html_with_options_and_one_active() {
-		$select = new Yoast_Input_Select( 'test-id', 'test-field', array( 'foo' => 'bar', 'baz' => 'foo' ), 'baz' );
+		$select = new Yoast_Input_Select(
+			'test-id',
+			'test-field',
+			array(
+				'foo' => 'bar',
+				'baz' => 'foo',
+			),
+			'baz'
+		);
 		$html   = $select->get_html();
 
 		$this->assertContains( '<select name="test-field" id="test-id">', $html );
@@ -118,8 +142,8 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_html_with_adding_attribute() {
 		$select = new Yoast_Input_Select( 'test-id', 'test-field', array( 'foo' => '' ), false );
-		$select->add_attribute( 'class', 'test');
-		$html   = $select->get_html();
+		$select->add_attribute( 'class', 'test' );
+		$html = $select->get_html();
 
 		$this->assertContains( '<select class="test" name="test-field" id="test-id">', $html );
 	}

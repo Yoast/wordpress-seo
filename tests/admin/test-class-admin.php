@@ -1,5 +1,13 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Admin
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -40,6 +48,4 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
 	}
-
-
 }

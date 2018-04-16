@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -15,48 +17,55 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 
 			switch ( $status ) {
 				case 'active':
-					$button = sprintf( '<button type="button" class="button button-link dismiss"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-no-alt"></span></button>', __( 'Dismiss this item.', 'wordpress-seo' ) );
+					$button = sprintf( '<button type="button" class="button dismiss"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-no-alt"></span></button>', esc_html__( 'Dismiss this item.', 'wordpress-seo' ) );
 					break;
 
 				case 'dismissed':
-					$button = sprintf( '<button type="button" class="button button-link restore"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-hidden"></span></button>', __( 'Restore this item.', 'wordpress-seo' ) );
+					$button = sprintf( '<button type="button" class="button restore"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-hidden"></span></button>', esc_html__( 'Restore this item.', 'wordpress-seo' ) );
 					break;
 			}
 
-			printf( '<div class="yoast-alert-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>', $notification->get_id(), $notification->get_nonce(), $notification->get_json(), $notification, $button );
+			printf(
+				'<div class="yoast-alert-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>',
+				esc_attr( $notification->get_id() ),
+				esc_attr( $notification->get_nonce() ),
+				esc_attr( $notification->get_json() ),
+				$notification,
+				$button
+			);
 		}
 	}
 }
 
+$wpseo_i18n_summary = $i18n_issues;
 if ( ! $active ) {
-	$dashicon = 'yes';
+	$dashicon           = 'yes';
+	$wpseo_i18n_summary = $i18n_no_issues;
 }
 
 ?>
-<h3><span class="dashicons dashicons-<?php echo $dashicon; ?>"></span> <?php echo $i18n_title ?> (<?php echo $active_total ?>)</h3>
+<h3><span class="dashicons <?php echo esc_attr( 'dashicons-' . $dashicon ); ?>"></span> <?php echo esc_html( $i18n_title ); ?> (<?php echo (int) $active_total; ?>)</h3>
 
-<div id="yoast-<?php echo $type ?>">
+<div id="<?php echo esc_attr( 'yoast-' . $type ); ?>">
 
 	<?php if ( $total ) : ?>
-		<p><?php echo ( ! $active ) ? $i18n_no_issues : $i18n_issues; ?></p>
+		<p><?php echo esc_html( $wpseo_i18n_summary ); ?></p>
 
-		<div class="container" id="yoast-<?php echo $type ?>-active">
+		<div class="container" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
 			<?php _yoast_display_alerts( $active, 'active' ); ?>
 		</div>
 
 		<?php if ( $dismissed ) : ?>
-			<div class="separator"></div>
+			<h4 class="yoast-muted-title"><?php echo esc_html( $i18n_muted_issues_title ); ?></h4>
 		<?php endif; ?>
 
-		<div class="container" id="yoast-<?php echo $type ?>-dismissed">
+		<div class="container" id="<?php echo esc_attr( 'yoast-' . $type . '-dismissed' ); ?>">
 			<?php _yoast_display_alerts( $dismissed, 'dismissed' ); ?>
 		</div>
 
-		<div class="yoast-bottom-spacing"></div>
-
 	<?php else : ?>
 
-		<p><?php echo $i18n_no_issues; ?></p>
+		<p><?php echo esc_html( $i18n_no_issues ); ?></p>
 
 	<?php endif; ?>
 </div>

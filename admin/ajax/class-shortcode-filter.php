@@ -1,6 +1,8 @@
 <?php
 /**
- * @package WPSEO\Admin|Ajax
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Ajax
  */
 
 /**
@@ -30,7 +32,7 @@ class WPSEO_Shortcode_Filter {
 		foreach ( $shortcodes as $shortcode ) {
 			$parsed_shortcodes[] = array(
 				'shortcode' => $shortcode,
-				'output' => do_shortcode( $shortcode ),
+				'output'    => do_shortcode( $shortcode ),
 			);
 		}
 

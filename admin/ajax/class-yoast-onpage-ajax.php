@@ -1,13 +1,15 @@
 <?php
 /**
- * @package WPSEO\admin|ajax
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Ajax
  */
 
 /**
  * Class Yoast_OnPage_Ajax
  *
- * This class will catch the request to dismiss the OnPage.org notice and will store the dismiss status as an user meta
- * in the database
+ * This class will catch the request to dismiss the Ryte notice and will store
+ * the dismiss status as an user meta in the database.
  */
 class Yoast_OnPage_Ajax {
 

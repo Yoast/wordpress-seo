@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -14,7 +16,12 @@ $ht_access_file = get_home_path() . '.htaccess';
 
 if ( isset( $_POST['create_robots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
-		die( __( 'You cannot create a robots.txt file.', 'wordpress-seo' ) );
+		$die_msg = sprintf(
+			/* translators: %s expands to robots.txt. */
+			__( 'You cannot create a %s file.', 'wordpress-seo' ),
+			'robots.txt'
+		);
+		die( esc_html( $die_msg ) );
 	}
 
 	check_admin_referer( 'wpseo_create_robots' );
@@ -30,7 +37,12 @@ if ( isset( $_POST['create_robots'] ) ) {
 
 if ( isset( $_POST['submitrobots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
-		die( __( 'You cannot edit the robots.txt file.', 'wordpress-seo' ) );
+		$die_msg = sprintf(
+			/* translators: %s expands to robots.txt. */
+			__( 'You cannot edit the %s file.', 'wordpress-seo' ),
+			'robots.txt'
+		);
+		die( esc_html( $die_msg ) );
 	}
 
 	check_admin_referer( 'wpseo-robotstxt' );
@@ -41,14 +53,23 @@ if ( isset( $_POST['submitrobots'] ) ) {
 			$f = fopen( $robots_file, 'w+' );
 			fwrite( $f, $robotsnew );
 			fclose( $f );
-			$msg = __( 'Updated Robots.txt', 'wordpress-seo' );
+			$msg = sprintf(
+				/* translators: %s expands to robots.txt. */
+				__( 'Updated %s', 'wordpress-seo' ),
+				'robots.txt'
+			);
 		}
 	}
 }
 
 if ( isset( $_POST['submithtaccess'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
-		die( __( 'You cannot edit the .htaccess file.', 'wordpress-seo' ) );
+		$die_msg = sprintf(
+			/* translators: %s expands to ".htaccess". */
+			__( 'You cannot edit the %s file.', 'wordpress-seo' ),
+			'.htaccess'
+		);
+		die( esc_html( $die_msg ) );
 	}
 
 	check_admin_referer( 'wpseo-htaccess' );
@@ -75,25 +96,47 @@ else {
 }
 
 echo '<br><br>';
-$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-editor', 'Bulk editor',
-	array( 'video_url' => 'https://yoa.st/screencast-tools-file-editor' ) );
+$helpcenter_tab = new WPSEO_Option_Tab( 'bulk-editor', __( 'Bulk editor', 'wordpress-seo' ),
+	array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-file-editor' ) ) );
 
-$helpcenter = new WPSEO_Help_Center( 'bulk-editor', $helpcenter_tab );
-$helpcenter->output_help_center();
+$helpcenter = new WPSEO_Help_Center( 'bulk-editor', $helpcenter_tab, WPSEO_Utils::is_yoast_seo_premium() );
+$helpcenter->localize_data();
+$helpcenter->mount();
 
-echo '<h2>', __( 'Robots.txt', 'wordpress-seo' ), '</h2>';
+// N.B.: "robots.txt" is a fixed file name and should not be translatable.
+echo '<h2>robots.txt</h2>';
 
 
 if ( ! file_exists( $robots_file ) ) {
 	if ( is_writable( get_home_path() ) ) {
 		echo '<form action="', esc_url( $action_url ), '" method="post" id="robotstxtcreateform">';
 		wp_nonce_field( 'wpseo_create_robots', '_wpnonce', true, true );
-		echo '<p>', __( 'You don\'t have a robots.txt file, create one here:', 'wordpress-seo' ), '</p>';
-		echo '<input type="submit" class="button" name="create_robots" value="', __( 'Create robots.txt file', 'wordpress-seo' ), '">';
+		echo '<p>';
+		printf(
+			/* translators: %s expands to robots.txt. */
+			esc_html__( 'You don\'t have a %s file, create one here:', 'wordpress-seo' ),
+			'robots.txt'
+		);
+		echo '</p>';
+
+		printf(
+			'<input type="submit" class="button" name="create_robots" value="%s">',
+			sprintf(
+				/* translators: %s expands to robots.txt. */
+				esc_attr__( 'Create %s file', 'wordpress-seo' ),
+				'robots.txt'
+			)
+		);
 		echo '</form>';
 	}
 	else {
-		echo '<p>', __( 'If you had a robots.txt file and it was editable, you could edit it from here.', 'wordpress-seo' ), '</p>';
+		echo '<p>';
+		printf(
+			/* translators: %s expands to robots.txt. */
+			esc_html__( 'If you had a %s file and it was editable, you could edit it from here.', 'wordpress-seo' ),
+			'robots.txt'
+		);
+		echo '</p>';
 	}
 }
 else {
@@ -103,24 +146,48 @@ else {
 	if ( filesize( $robots_file ) > 0 ) {
 		$content = fread( $f, filesize( $robots_file ) );
 	}
-	$robots_txt_content = esc_textarea( $content );
 
 	if ( ! is_writable( $robots_file ) ) {
-		echo '<p><em>', __( 'If your robots.txt were writable, you could edit it from here.', 'wordpress-seo' ), '</em></p>';
-		echo '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">', $robots_txt_content, '</textarea><br/>';
+		echo '<p><em>';
+		printf(
+			/* translators: %s expands to robots.txt. */
+			esc_html__( 'If your %s were writable, you could edit it from here.', 'wordpress-seo' ),
+			'robots.txt'
+		);
+		echo '</em></p>';
+		echo '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
 	}
 	else {
 		echo '<form action="', esc_url( $action_url ), '" method="post" id="robotstxtform">';
 		wp_nonce_field( 'wpseo-robotstxt', '_wpnonce', true, true );
-		echo '<p><label for="robotsnew" class="yoast-inline-label">', __( 'Edit the content of your robots.txt:', 'wordpress-seo' ), '</label></p>';
-		echo '<textarea class="large-text code" rows="15" name="robotsnew" id="robotsnew">', $robots_txt_content, '</textarea><br/>';
-		echo '<div class="submit"><input class="button" type="submit" name="submitrobots" value="', __( 'Save changes to Robots.txt', 'wordpress-seo' ), '" /></div>';
+		echo '<p><label for="robotsnew" class="yoast-inline-label">';
+		printf(
+			/* translators: %s expands to robots.txt. */
+			esc_html__( 'Edit the content of your %s:', 'wordpress-seo' ),
+			'robots.txt'
+		);
+		echo '</label></p>';
+		echo '<textarea class="large-text code" rows="15" name="robotsnew" id="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
+		printf(
+			'<div class="submit"><input class="button" type="submit" name="submitrobots" value="%s" /></div>',
+			sprintf(
+				/* translators: %s expands to robots.txt. */
+				esc_attr__( 'Save changes to %s', 'wordpress-seo' ),
+				'robots.txt'
+			)
+		);
 		echo '</form>';
 	}
 }
 if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) ) {
 
-	echo '<h2>', __( '.htaccess file', 'wordpress-seo' ), '</h2>';
+	echo '<h2>';
+	printf(
+		/* translators: %s expands to ".htaccess". */
+		esc_html__( '%s file', 'wordpress-seo' ),
+		'.htaccess'
+	);
+	echo '</h2>';
 
 	if ( file_exists( $ht_access_file ) ) {
 		$f = fopen( $ht_access_file, 'r' );
@@ -129,22 +196,46 @@ if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWAR
 		if ( filesize( $ht_access_file ) > 0 ) {
 			$contentht = fread( $f, filesize( $ht_access_file ) );
 		}
-		$contentht = esc_textarea( $contentht );
 
 		if ( ! is_writable( $ht_access_file ) ) {
-			echo '<p><em>', __( 'If your .htaccess were writable, you could edit it from here.', 'wordpress-seo' ), '</em></p>';
-			echo '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">', $contentht, '</textarea><br/>';
+			echo '<p><em>';
+			printf(
+				/* translators: %s expands to ".htaccess". */
+				esc_html__( 'If your %s were writable, you could edit it from here.', 'wordpress-seo' ),
+				'.htaccess'
+			);
+			echo '</em></p>';
+			echo '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $contentht ), '</textarea><br/>';
 		}
 		else {
 			echo '<form action="', esc_url( $action_url ), '" method="post" id="htaccessform">';
 			wp_nonce_field( 'wpseo-htaccess', '_wpnonce', true, true );
-			echo '<p><label for="htaccessnew" class="yoast-inline-label">', __( 'Edit the content of your .htaccess:', 'wordpress-seo' ), '</label></p>';
-			echo '<textarea class="large-text code" rows="15" name="htaccessnew" id="htaccessnew">', $contentht, '</textarea><br/>';
-			echo '<div class="submit"><input class="button" type="submit" name="submithtaccess" value="', __( 'Save changes to .htaccess', 'wordpress-seo' ), '" /></div>';
+			echo '<p><label for="htaccessnew" class="yoast-inline-label">';
+			printf(
+				/* translators: %s expands to ".htaccess". */
+				esc_html__( 'Edit the content of your %s:', 'wordpress-seo' ),
+				'.htaccess'
+			);
+			echo '</label></p>';
+			echo '<textarea class="large-text code" rows="15" name="htaccessnew" id="htaccessnew">', esc_textarea( $contentht ), '</textarea><br/>';
+			printf(
+				'<div class="submit"><input class="button" type="submit" name="submithtaccess" value="%s" /></div>',
+				sprintf(
+					/* translators: %s expands to ".htaccess". */
+					esc_attr__( 'Save changes to %s', 'wordpress-seo' ),
+					'.htaccess'
+				)
+			);
 			echo '</form>';
 		}
 	}
 	else {
-		echo '<p>', __( 'If you had a .htaccess file and it was editable, you could edit it from here.', 'wordpress-seo' ), '</p>';
+		echo '<p>';
+		printf(
+			/* translators: %s expands to ".htaccess". */
+			esc_html__( 'If you had a %s file and it was editable, you could edit it from here.', 'wordpress-seo' ),
+			'.htaccess'
+		);
+		echo '</p>';
 	}
 }

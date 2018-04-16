@@ -1,27 +1,29 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Sitemaps
  */
-
-require_once 'class-wpseo-sitemaps-double.php';
 
 /**
  * Class WPSEO_Sitemaps_Test
+ *
+ * @group sitemaps
  */
 class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Sitemaps
+	 * @var WPSEO_Sitemaps_Double
 	 */
 	private static $class_instance;
 
 	/**
-	 * Set up our double class
+	 * Set up our double class.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		self::$class_instance = new WPSEO_Sitemaps_Double;
+		self::$class_instance = new WPSEO_Sitemaps_Double();
 	}
 
 	/**
@@ -41,7 +43,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the main sitemap and also tests the transient cache
+	 * Tests the main sitemap and also tests the transient cache.
 	 *
 	 * @covers WPSEO_Sitemaps::redirect
 	 */
@@ -52,7 +54,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		$this->factory->post->create();
 
-		// Go to the XML sitemap twice, see if transient cache is set
+		// Go to the XML sitemap twice, see if transient cache is set.
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
 		$this->expectOutputContains( array(
 			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -73,7 +75,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test for last modified date
+	 * Test for last modified date.
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
 	 */
@@ -82,16 +84,34 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		$older_date  = '2015-01-01 12:00:00';
 		$newest_date = '2016-01-01 12:00:00';
 
-		register_post_type( 'yoast', array( 'public' => true, 'has_archive' => true ) );
+		register_post_type(
+			'yoast',
+			array(
+				'public'      => true,
+				'has_archive' => true,
+			)
+		);
 
-		$this->factory->post->create( array( 'post_status' => 'publish', 'post_type' => 'yoast', 'post_date' => $newest_date ) );
-		$this->factory->post->create( array( 'post_status' => 'publish', 'post_type' => 'yoast', 'post_date' => $older_date ) );
+		$this->factory->post->create(
+			array(
+				'post_status' => 'publish',
+				'post_type'   => 'yoast',
+				'post_date'   => $newest_date,
+			)
+		);
+		$this->factory->post->create(
+			array(
+				'post_status' => 'publish',
+				'post_type'   => 'yoast',
+				'post_date'   => $older_date,
+			)
+		);
 
 		$this->assertEquals( $newest_date, WPSEO_Sitemaps::get_last_modified_gmt( array( 'yoast' ) ) );
 	}
 
 	/**
-	 * Test for last modified date with invalid post types
+	 * Test for last modified date with invalid post types.
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
 	 */

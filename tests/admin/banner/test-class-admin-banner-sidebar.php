@@ -1,17 +1,21 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Admin\Banner
+ */
 
-class WPSEO_Features_Mock extends WPSEO_Features {
-
-	public function is_free() {
-		return false;
-	}
-
-}
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 
 	/** @var WPSEO_Admin_Banner_Sidebar */
 	protected $admin_banner_sidebar;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -21,7 +25,7 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Returns a mock from the WPSEO_Admin_Banner_Sidebar.
 	 *
-	 * @param array $methods_to_mock
+	 * @param array $methods_to_mock Array of method names.
 	 *
 	 * @return WPSEO_Admin_Banner_Sidebar
 	 */
@@ -38,7 +42,7 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Admin_Banner_Sidebar::__construct
 	 */
-	public function test_constructor( ) {
+	public function test_constructor() {
 		$admin_banner_sidebar = new WPSEO_Admin_Banner_Sidebar( 'test-title', new WPSEO_Admin_Banner_Renderer() );
 
 		$this->assertEquals( 'test-title', $admin_banner_sidebar->get_title() );
@@ -49,7 +53,7 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Admin_Banner_Sidebar::get_title
 	 */
-	public function test_get_title(  ) {
+	public function test_get_title() {
 		$this->assertEquals( 'test-title', $this->admin_banner_sidebar->get_title() );
 	}
 
@@ -74,7 +78,7 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Admin_Banner_Sidebar::get_banner_spots
 	 */
-	public function test_get_banner_spots(  ) {
+	public function test_get_banner_spots() {
 		$this->admin_banner_sidebar->initialize( new WPSEO_Features() );
 
 		if ( ! method_exists( $this, 'assertContainsOnlyInstancesOf' ) ) {
@@ -94,7 +98,7 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Admin_Banner_Sidebar::add_banner_spot()
 	 */
-	public function test_add_banner_spot(  ) {
+	public function test_add_banner_spot() {
 		$mock = $this->getSidebarMock( array( 'add_banner_spot' ) );
 		$mock
 			->expects( $this->any() )

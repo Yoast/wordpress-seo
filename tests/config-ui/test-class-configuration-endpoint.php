@@ -1,30 +1,9 @@
 <?php
 /**
- * @package WPSEO\UnitTests
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\ConfigUI
  */
-
-/**
- * Class WPSEO_Configuration_Endpoint_Mock
- */
-class WPSEO_Configuration_Endpoint_Mock extends WPSEO_Configuration_Endpoint {
-	public function get_service() {
-		return $this->service;
-	}
-}
-
-if ( class_exists( 'WP_REST_Server' ) ):
-	/**
-	 * Class WPSEO_WP_REST_Server_Mock
-	 */
-	class WPSEO_WP_REST_Server_Mock extends WP_REST_Server {
-		/**
-		 * @return array
-		 */
-		public function get_endpoints() {
-			return $this->endpoints;
-		}
-	}
-endif;
 
 /**
  * Class WPSEO_Configuration_Endpoint_Test
@@ -114,7 +93,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 		$this->endpoint->register();
 
 		$endpoints = $wp_rest_server->get_endpoints();
-		
+
 		$this->assertTrue( isset( $endpoints[ '/' . WPSEO_Configuration_Endpoint::REST_NAMESPACE ] ) );
 		$this->assertTrue( isset( $endpoints[ '/' . WPSEO_Configuration_Endpoint::REST_NAMESPACE . '/' . WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE ] ) );
 		$this->assertTrue( isset( $endpoints[ '/' . WPSEO_Configuration_Endpoint::REST_NAMESPACE . '/' . WPSEO_Configuration_Endpoint::ENDPOINT_STORE ] ) );

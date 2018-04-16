@@ -1,23 +1,26 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Framework
  */
 
 /**
  * TestCase base class for convenience methods.
  */
-class WPSEO_UnitTestCase extends WP_UnitTestCase {
+abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 
 	/**
-	 * @param string $key
-	 * @param mixed  $value
+	 * @param string $key   Key to be used with PHP superglobals.
+	 * @param mixed  $value Value to assign to it.
 	 */
 	protected function set_post( $key, $value ) {
-		$_POST[ $key ] = $_REQUEST[ $key ] = addslashes( $value );
+		$_POST[ $key ]    = addslashes( $value );
+		$_REQUEST[ $key ] = $_POST[ $key ];
 	}
 
 	/**
-	 * @param string $key
+	 * @param string $key Key as used with PHP superglobal.
 	 */
 	protected function unset_post( $key ) {
 		unset( $_POST[ $key ], $_REQUEST[ $key ] );
@@ -31,18 +34,23 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
-	 * @param string $expected
+	 * Tests for expected output.
+	 *
+	 * @param string $expected    Expected output.
+	 * @param string $description Explanation what why this result is expected.
 	 */
-	protected function expectOutput( $expected ) {
+	protected function expectOutput( $expected, $description = '' ) {
 		$output = ob_get_contents();
 		ob_clean();
+
 		$output   = preg_replace( '|\R|', "\r\n", $output );
 		$expected = preg_replace( '|\R|', "\r\n", $expected );
-		$this->assertEquals( $expected, $output );
+
+		$this->assertEquals( $expected, $output, $description );
 	}
 
 	/**
-	 * @param string|array $expected
+	 * @param string|array $expected Expected output.
 	 */
 	protected function expectOutputContains( $expected ) {
 		$output = preg_replace( '|\R|', "\r\n", ob_get_contents() );

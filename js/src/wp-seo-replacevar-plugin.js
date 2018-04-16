@@ -5,8 +5,6 @@ var isUndefined = require( "lodash/isUndefined" );
 var ReplaceVar = require( "./values/replaceVar" );
 
 ( function() {
-	"use strict";
-
 	var modifiableFields = [
 		"content",
 		"title",
@@ -23,6 +21,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	/**
 	 * Variable replacement plugin for WordPress.
 	 *
+	 * @param {app} app The app object.
+	 *
 	 * @returns {void}
 	 */
 	var YoastReplaceVarPlugin = function( app ) {
@@ -34,7 +34,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		this.registerEvents();
 	};
 
-	/**
+	/*
 	 * GENERIC
 	 */
 
@@ -231,7 +231,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		this._app.pluginReloaded( "replaceVariablePlugin" );
 	};
 
-	/**
+	/*
 	 * TAXONOMIES
 	 */
 
@@ -317,7 +317,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Replace the custom taxonomies.
 	 *
 	 * @param {string} text The text to have its custom taxonomy placeholders replaced.
-	 * @return {string} The text in which the custom taxonomy placeholders have been replaced.
+	 *
+	 * @returns {string} The text in which the custom taxonomy placeholders have been replaced.
 	 */
 	YoastReplaceVarPlugin.prototype.replaceCustomTaxonomy = function( text ) {
 		forEach( taxonomyElements, function( taxonomy, taxonomyName ) {
@@ -337,6 +338,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Returns the string to replace the category taxonomy placeholders.
 	 *
 	 * @param {string} taxonomyName The name of the taxonomy needed for the lookup.
+	 *
 	 * @returns {string} The categories as a comma separated list.
 	 */
 	YoastReplaceVarPlugin.prototype.getTaxonomyReplaceVar = function( taxonomyName ) {
@@ -359,7 +361,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		return jQuery.unique( filtered ).join( ", " );
 	};
 
-	/**
+	/*
 	 * CUSTOM FIELDS
 	 */
 
@@ -464,7 +466,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		}.bind( this ) );
 	};
 
-	/**
+	/*
 	 * SPECIALIZED REPLACES
 	 */
 
@@ -475,9 +477,9 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * @returns {string} The data with all its placeholders replaced by actual values.
 	 */
 	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
-		var term_title = this._app.rawData.name;
+		var termTitle = this._app.rawData.name;
 
-		data = data.replace( /%%term_title%%/g, term_title );
+		data = data.replace( /%%term_title%%/g, termTitle );
 
 		return data;
 	};
@@ -501,6 +503,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 	/**
 	 * Checks whether or not there's a parent title available.
 	 *
+	 * @param {Object} parent The parent element.
+ 	 *
 	 * @returns {boolean} Whether or not there is a parent title present.
 	 */
 	YoastReplaceVarPlugin.prototype.hasParentTitle = function( parent ) {
@@ -522,6 +526,13 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 		return parentText;
 	};
+
+	/*
+	 * STATIC VARIABLES
+	 */
+
+	// Exposes the ReplaceVar class for functionality of plugins integrating.
+	YoastReplaceVarPlugin.ReplaceVar = ReplaceVar;
 
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
 }() );

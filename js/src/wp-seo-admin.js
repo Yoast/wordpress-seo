@@ -1,6 +1,5 @@
-/* global wpseoAdminL10n, ajaxurl, tb_remove, wpseoSelect2Locale */
+/* global wpseoAdminL10n, ajaxurl, wpseoSelect2Locale */
 
-import initializeAlgoliaSearch from "./kb-search/wp-seo-kb-search-init";
 import a11ySpeak from "a11y-speak";
 
 ( function() {
@@ -9,11 +8,13 @@ import a11ySpeak from "a11y-speak";
 	/**
 	 * Detects the wrong use of variables in title and description templates
 	 *
-	 * @param {element} e
+	 * @param {element} e The element to verify.
+	 *
+	 * @returns {void}
 	 */
 	function wpseoDetectWrongVariables( e ) {
 		var warn = false;
-		var error_id = "";
+		var errorId = "";
 		var wrongVariables = [];
 		var authorVariables = [ "userid", "name", "user_description" ];
 		var dateVariables = [ "date" ];
@@ -43,15 +44,15 @@ import a11ySpeak from "a11y-speak";
 			wrongVariables = wrongVariables.concat( authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, [ "searchphrase" ] );
 		}
 		jQuery.each( wrongVariables, function( index, variable ) {
-			error_id = e.attr( "id" ) + "-" + variable + "-warning";
+			errorId = e.attr( "id" ) + "-" + variable + "-warning";
 			if ( e.val().search( "%%" + variable + "%%" ) !== -1 ) {
 				e.addClass( "wpseo-variable-warning-element" );
 				var msg = wpseoAdminL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
-				if ( jQuery( "#" + error_id ).length ) {
-					jQuery( "#" + error_id ).html( msg );
+				if ( jQuery( "#" + errorId ).length ) {
+					jQuery( "#" + errorId ).html( msg );
 				}
 				else {
-					e.after( ' <div id="' + error_id + '" class="wpseo-variable-warning">' + msg + "</div>" );
+					e.after( ' <div id="' + errorId + '" class="wpseo-variable-warning">' + msg + "</div>" );
 				}
 
 				a11ySpeak( wpseoAdminL10n.variable_warning.replace( "%s", variable ), "assertive" );
@@ -59,8 +60,8 @@ import a11ySpeak from "a11y-speak";
 				warn = true;
 			}
 			else {
-				if ( jQuery( "#" + error_id ).length ) {
-					jQuery( "#" + error_id ).remove();
+				if ( jQuery( "#" + errorId ).length ) {
+					jQuery( "#" + errorId ).remove();
 				}
 			}
 		}
@@ -73,10 +74,12 @@ import a11ySpeak from "a11y-speak";
 	/**
 	 * Sets a specific WP option
 	 *
-	 * @param {string} option The option to update
-	 * @param {string} newval The new value for the option
-	 * @param {string} hide The ID of the element to hide on success
-	 * @param {string} nonce The nonce for the action
+	 * @param {string} option The option to update.
+	 * @param {string} newval The new value for the option.
+	 * @param {string} hide   The ID of the element to hide on success.
+	 * @param {string} nonce  The nonce for the action.
+	 *
+	 * @returns {void}
 	 */
 	function setWPOption( option, newval, hide, nonce ) {
 		jQuery.post( ajaxurl, {
@@ -93,39 +96,20 @@ import a11ySpeak from "a11y-speak";
 	}
 
 	/**
-	 * Do the kill blocking files action
+	 * Copies the meta description for the homepage.
 	 *
-	 * @param {string} nonce
+	 * @returns {void}
 	 */
-	function wpseoKillBlockingFiles( nonce ) {
-		jQuery.post( ajaxurl, {
-			action: "wpseo_kill_blocking_files",
-			_ajax_nonce: nonce,
-		} ).done( function( response ) {
-			var noticeContainer = jQuery( ".yoast-notice-blocking-files" ),
-				noticeParagraph = jQuery( "#blocking_files" );
-
-			noticeParagraph.html( response.data.message );
-			// Make the notice focusable and move focue on it so screen readers will read out its content.
-			noticeContainer.attr( "tabindex", "-1" ).focus();
-
-			if ( response.success ) {
-				noticeContainer.removeClass( "notice-error" ).addClass( "notice-success" );
-			} else {
-				noticeContainer.addClass( "yoast-blocking-files-error" );
-			}
+	function wpseoCopyHomeMeta() {
+		jQuery( "#copy-home-meta-description" ).on( "click", function() {
+			jQuery( "#og_frontpage_desc" ).val( jQuery( "#meta_description" ).val() );
 		} );
 	}
 
 	/**
-	 * Copies the meta description for the homepage
-	 */
-	function wpseoCopyHomeMeta() {
-		jQuery( "#og_frontpage_desc" ).val( jQuery( "#meta_description" ).val() );
-	}
-
-	/**
 	 * Makes sure we store the action hash so we can return to the right hash
+	 *
+	 * @returns {void}
 	 */
 	function wpseoSetTabHash() {
 		var conf = jQuery( "#wpseo-conf" );
@@ -141,48 +125,9 @@ import a11ySpeak from "a11y-speak";
 	jQuery( window ).on( "hashchange", wpseoSetTabHash );
 
 	/**
-	 * When the hash changes, get the base url from the action and then add the current hash
-	 */
-	jQuery( document ).on( "ready", wpseoSetTabHash );
-
-	/**
-	 * Add a Facebook admin for via AJAX.
-	 */
-	function wpseo_add_fb_admin() {
-		var target_form = jQuery( "#TB_ajaxContent" );
-
-		jQuery.post(
-			ajaxurl,
-			{
-				_wpnonce: target_form.find( "input[name=fb_admin_nonce]" ).val(),
-				admin_name: target_form.find( "input[name=fb_admin_name]" ).val(),
-				admin_id: target_form.find( "input[name=fb_admin_id]" ).val(),
-				action: "wpseo_add_fb_admin",
-			},
-			function( response ) {
-				var resp = jQuery.parseJSON( response );
-
-				target_form.find( "p.notice" ).remove();
-
-				switch ( resp.success ) {
-					case 1:
-
-						target_form.find( "input[type=text]" ).val( "" );
-
-						jQuery( "#user_admin" ).append( resp.html );
-						jQuery( "#connected_fb_admins" ).show();
-						tb_remove();
-						break;
-					case 0 :
-						target_form.find( ".form-wrap" ).prepend( resp.html );
-						break;
-				}
-			}
-		);
-	}
-
-	/**
 	 * Adds select2 for selected fields.
+	 *
+	 * @returns {void}
 	 */
 	function initSelect2() {
 		var select2Width = "400px";
@@ -200,7 +145,7 @@ import a11ySpeak from "a11y-speak";
 		} );
 
 		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery( "#post_types-post-maintax" ).select2( {
+		jQuery( "#breadcrumbs select" ).select2( {
 			width: select2Width,
 			language: wpseoSelect2Locale,
 		} );
@@ -214,9 +159,16 @@ import a11ySpeak from "a11y-speak";
 
 	/**
 	 * Set the initial active tab in the settings pages.
+	 *
+	 * @returns {void}
 	 */
 	function setInitialActiveTab() {
 		var activeTabId = window.location.hash.replace( "#top#", "" );
+		/* In some cases, the second # gets replace by %23, which makes the tab
+		 * switching not work unless we do this. */
+		if ( activeTabId.search( "#top" ) !== -1 ) {
+			activeTabId = window.location.hash.replace( "#top%23", "" );
+		}
 		/*
 		 * WordPress uses fragment identifiers for its own in-page links, e.g.
 		 * `#wpbody-content` and other plugins may do that as well. Also, facebook
@@ -237,19 +189,15 @@ import a11ySpeak from "a11y-speak";
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
-	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
-	window.wpseo_add_fb_admin = wpseo_add_fb_admin;
+	// eslint-disable-next-line
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
 	jQuery( document ).ready( function() {
-
-		initializeAlgoliaSearch();
-
-		// Toggle the XML sitemap section.
-		jQuery( "#enablexmlsitemap" ).change( function() {
-			jQuery( "#sitemapinfo" ).toggle( jQuery( this ).is( ":checked" ) );
-		} ).change();
+		/**
+		 * When the hash changes, get the base url from the action and then add the current hash.
+		 */
+		wpseoSetTabHash();
 
 		// Toggle the Author archives section.
 		jQuery( "#disable-author input[type='radio']" ).change( function() {
@@ -267,6 +215,14 @@ import a11ySpeak from "a11y-speak";
 			}
 		} ).change();
 
+		// Toggle the Media section.
+		jQuery( "#disable-attachment input[type='radio']" ).change( function() {
+			// The value on is disabled, off is enabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#media_settings" ).toggle( jQuery( this ).val() === "off" );
+			}
+		} ).change();
+
 		// Toggle the Format-based archives section.
 		jQuery( "#disable-post_format" ).change( function() {
 			jQuery( "#post_format-titles-metas" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
@@ -277,26 +233,20 @@ import a11ySpeak from "a11y-speak";
 			jQuery( "#breadcrumbsinfo" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
-		// Toggle the Author / user sitemap section.
-		jQuery( "#disable_author_sitemap" ).find( "input:radio" ).change( function() {
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#xml_user_block" ).toggle( jQuery( this ).val() === "off" );
-			}
-		} ).change();
-
-		// Toggle the Redirect ugly URLs to clean permalinks section.
-		jQuery( "#cleanpermalinks" ).change( function() {
-			jQuery( "#cleanpermalinksdiv" ).toggle( jQuery( this ).is( ":checked" ) );
-		} ).change();
-
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
 			jQuery( ".wpseotab" ).removeClass( "active" );
 
 			var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
-			jQuery( "#" + id ).addClass( "active" );
+			var activeTab = jQuery( "#" + id );
+			activeTab.addClass( "active" );
 			jQuery( this ).addClass( "nav-tab-active" );
+			if ( activeTab.hasClass( "nosave" ) ) {
+				jQuery( "#submit" ).hide();
+			} else {
+				jQuery( "#submit" ).show();
+			}
 		} );
 
 		// Handle the Company or Person select.
@@ -321,11 +271,6 @@ import a11ySpeak from "a11y-speak";
 			wpseoDetectWrongVariables( jQuery( this ) );
 		} ).change();
 
-		// XML sitemaps "Fix it" button.
-		jQuery( "#blocking_files .button" ).on( "click", function() {
-			wpseoKillBlockingFiles( jQuery( this ).data( "nonce" ) );
-		} );
-
 		// Prevent form submission when pressing Enter on the switch-toggles.
 		jQuery( ".switch-yoast-seo input" ).on( "keydown", function( event ) {
 			if ( "keydown" === event.type && 13 === event.which ) {
@@ -333,6 +278,7 @@ import a11ySpeak from "a11y-speak";
 			}
 		} );
 
+		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
 	} );

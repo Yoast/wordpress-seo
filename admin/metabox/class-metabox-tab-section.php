@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -52,16 +54,36 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 			'link_class'      => '',
 			'link_aria_label' => '',
 		);
+
 		$options = array_merge( $default_options, $options );
 
 		$this->name = $name;
-		foreach ( $tabs as $tab ) {
+
+		// Filter out invalid tab instances.
+		$valid_tabs = array_filter( $tabs, array( $this, 'is_valid_tab' ) );
+
+		foreach ( $valid_tabs as $tab ) {
 			$this->add_tab( $tab );
 		}
 		$this->link_content    = $link_content;
 		$this->link_title      = $options['link_title'];
 		$this->link_class      = $options['link_class'];
 		$this->link_aria_label = $options['link_aria_label'];
+	}
+
+	/**
+	 * Determines whether the passed tab is considered valid.
+	 *
+	 * @param mixed $tab The potential tab that needs to be validated.
+	 *
+	 * @return bool Whether or not the tab is valid.
+	 */
+	protected function is_valid_tab( $tab ) {
+		if ( $tab instanceof WPSEO_Metabox_Tab && ! $tab instanceof WPSEO_Metabox_Null_Tab ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -85,12 +107,18 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 	 */
 	public function display_content() {
 		if ( $this->has_tabs() ) {
-			$html = '<div id="wpseo-meta-section-%1$s" class="wpseo-meta-section">';
+			$html  = '<div id="%1$s" class="wpseo-meta-section">';
 			$html .= '<div class="wpseo-metabox-tabs-div">';
-			$html .= '<ul class="wpseo-metabox-tabs wpseo-metabox-tab-%1$s">%2$s</ul>%3$s';
+			$html .= '<ul class="wpseo-metabox-tabs %2$s">%3$s</ul>%4$s';
 			$html .= '</div></div>';
 
-			printf( $html, esc_attr( $this->name ), $this->tab_links(), $this->tab_content() );
+			printf(
+				$html,
+				esc_attr( 'wpseo-meta-section-' . $this->name ),
+				esc_attr( 'wpseo-metabox-tab-' . $this->name ),
+				$this->tab_links(),
+				$this->tab_content()
+			);
 		}
 	}
 

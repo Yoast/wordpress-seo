@@ -1,6 +1,13 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Metabox
+ */
 
-
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 
 	/**
@@ -8,6 +15,9 @@ class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 	 */
 	protected $subject;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->subject = new WPSEO_Metabox_Editor();
@@ -17,8 +27,14 @@ class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 		$this->subject->register_hooks();
 	}
 
+	public function get_flat_version() {
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+
+		return $asset_manager->flatten_version( WPSEO_VERSION );
+	}
+
 	public function test_add_css_inside_editor_empty() {
-		$expected = home_url() . '/wp-content/plugins/wordpress-seo/css/inside-editor-331' . WPSEO_CSSJS_SUFFIX . '.css';
+		$expected = home_url() . '/wp-content/plugins/wordpress-seo/css/dist/inside-editor-' . $this->get_flat_version() . WPSEO_CSSJS_SUFFIX . '.css';
 
 		$actual = $this->subject->add_css_inside_editor( '' );
 
@@ -26,7 +42,7 @@ class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_add_css_inside_editor_preexisting() {
-		$expected = 'preexisting,' . home_url() . '/wp-content/plugins/wordpress-seo/css/inside-editor-331' . WPSEO_CSSJS_SUFFIX . '.css';
+		$expected = 'preexisting,' . home_url() . '/wp-content/plugins/wordpress-seo/css/dist/inside-editor-' . $this->get_flat_version() . WPSEO_CSSJS_SUFFIX . '.css';
 
 		$actual = $this->subject->add_css_inside_editor( 'preexisting' );
 
@@ -59,7 +75,12 @@ class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 			'custom_elements' => '~yoastmark',
 		);
 
-		$actual = $this->subject->add_custom_element( array( 'custom_elements' => '', 'other_property' => 'hello world' ) );
+		$actual = $this->subject->add_custom_element(
+			array(
+				'custom_elements' => '',
+				'other_property'  => 'hello world',
+			)
+		);
 
 		$this->assertEquals( $expected, $actual );
 	}

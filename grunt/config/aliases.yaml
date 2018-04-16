@@ -21,9 +21,10 @@ build:
   - 'imagemin'
 # Build JavaScript from assets to production
 'build:js':
-  - 'copy'
+  - 'copy:dependencies'
   - 'browserify:build'
   - 'uglify'
+  - 'webpack:buildDev'
 
 # Build internationalisation features
 'build:i18n':
@@ -56,24 +57,48 @@ check:
 'check:i18n':
   - 'checktextdomain'
 
+# Update all versions except the stable tag
+'update-version-trunk':
+  - 'update-version:pluginFile'
+  - 'update-version:initializer'
+
+'artifact':
+  - 'shell:production-composer-install'
+  # Build like we normally would
+  - 'release'
+  # Remove build folder
+  - 'clean:artifact'
+  # Copy only the relevant files to the folder
+  - 'copy:artifact'
+  # Create a zip file
+  - 'compress:artifact'
+
 # Get the project ready for release
 release:
   - 'build:images'
+  - 'clean:build-assets'
   - 'release:css'
   - 'release:js'
-  - 'release:clean'
+  - 'build:i18n'
 'release:css':
   - 'build:css'
   - 'cssmin'
 'release:js':
-  - 'copy'
-  - 'browserify:build'
+  - 'copy:dependencies'
   - 'browserify:release-es6'
   - 'uglify'
-'release:clean':
-  - 'clean:release-js'
-  - 'clean:release-css'
-  - 'clean:release-misc'
+  - 'webpack:buildProd'
+
+'deploy:trunk':
+  - 'update-version-trunk'
+  - 'artifact'
+  - 'wp_deploy:trunk'
+
+'deploy:master':
+  - 'update-version'
+  - 'artifact'
+  - 'wp_deploy:master'
+
 # Default task
 default:
-  - build
+  - 'build'

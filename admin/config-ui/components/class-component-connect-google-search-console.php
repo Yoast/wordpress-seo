@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\ConfigurationUI
  */
 
@@ -131,8 +133,8 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	protected function get_profilelist() {
 		$profiles = array();
 		$sites    = $this->gsc_service->get_sites();
-		foreach ( $sites as $siteKey => $siteValue ) {
-			$profiles[ untrailingslashit( $siteKey )  ] = untrailingslashit( $siteValue );
+		foreach ( $sites as $site_key => $site_value ) {
+			$profiles[ untrailingslashit( $site_key )  ] = untrailingslashit( $site_value );
 		}
 
 		return $profiles;

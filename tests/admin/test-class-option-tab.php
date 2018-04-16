@@ -1,5 +1,13 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Admin
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Option_Tab_Test extends WPSEO_UnitTestCase {
 
 	public function test_get_name() {
@@ -36,6 +44,25 @@ class WPSEO_Option_Tab_Test extends WPSEO_UnitTestCase {
 		$option_tab = new WPSEO_Option_Tab( 'name', 'label' );
 
 		$this->assertEquals( '', $option_tab->get_opt_group() );
+	}
+
+	/**
+	 * @covers WPSEO_Option_Tab::has_save_button
+	 */
+	public function test_has_no_save_button() {
+		$option_tab = new WPSEO_Option_Tab( 'name', 'label', array( 'save_button' => false ) );
+
+		$this->assertFalse( $option_tab->has_save_button() );
+	}
+
+	/**
+	 * @covers WPSEO_Option_Tab::has_save_button
+	 */
+	public function test_has_save_button() {
+		// By default, we do have a save button.
+		$option_tab = new WPSEO_Option_Tab( 'name', 'label' );
+
+		$this->assertTrue( $option_tab->has_save_button() );
 	}
 
 }

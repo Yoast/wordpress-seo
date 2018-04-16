@@ -72,3 +72,38 @@
 #wpadminbar #wp-admin-bar-wpseo-licenses .ab-item {
 	color: #f18500;
 }
+
+@media screen and ( max-width: 782px ) {
+	#wpadminbar #wp-admin-bar-wpseo-menu {
+		display: block;
+		position: static;
+	}
+
+	#wpadminbar .yoast-logo.svg {
+		width: 52px;
+		height: 46px;
+		background-position: 50% 8px;
+		background-size: 30px;
+	}
+
+	// Target just the first counter in the top level.
+	#wpadminbar .yoast-logo + .yoast-issue-counter {
+		margin-left: -10px;
+	}
+
+	// Target just the second counter in the sub-menu.
+	#wpadminbar .ab-sub-wrapper .yoast-issue-counter {
+		vertical-align: text-top;
+		position: relative;
+		top: -5px;
+	}
+
+	#wp-admin-bar-wpseo-menu.menupop .ab-sub-wrapper #wp-admin-bar-wpseo-kwresearch,
+	#wp-admin-bar-wpseo-menu.menupop .ab-sub-wrapper #wp-admin-bar-wpseo-settings {
+		display: none;
+	}
+
+	#wpadminbar .yoast-issue-added {
+		top: 46px;
+	}
+}

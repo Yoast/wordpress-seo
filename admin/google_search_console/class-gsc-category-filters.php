@@ -1,6 +1,8 @@
 <?php
 /**
- * @package WPSEO\Admin|Google_Search_Console
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Google_Search_Console
  */
 
 /**
@@ -23,7 +25,7 @@ class WPSEO_GSC_Category_Filters {
 	 *
 	 * @var array
 	 */
-	private $filter_values   = array();
+	private $filter_values = array();
 
 	/**
 	 * The current category
@@ -80,7 +82,8 @@ class WPSEO_GSC_Category_Filters {
 	 * Getting the current view
 	 */
 	private function get_current_category() {
-		if ( $current_category = filter_input( INPUT_GET, 'category' ) ) {
+		$current_category = filter_input( INPUT_GET, 'category' );
+		if ( ! empty( $current_category ) ) {
 			return $current_category;
 		}
 
@@ -112,7 +115,7 @@ class WPSEO_GSC_Category_Filters {
 	private function set_filter_values() {
 		$this->set_filter_value( 'access_denied', __( 'Access denied', 'wordpress-seo' ), __( 'Server requires authentication or is blocking Googlebot from accessing the site.', 'wordpress-seo' ), __( 'Show information about errors in category \'Access Denied\'', 'wordpress-seo' ) );
 		$this->set_filter_value( 'faulty_redirects', __( 'Faulty redirects', 'wordpress-seo' ) );
-		$this->set_filter_value( 'not_followed',__( 'Not followed', 'wordpress-seo' ) );
+		$this->set_filter_value( 'not_followed', __( 'Not followed', 'wordpress-seo' ) );
 		$this->set_filter_value( 'not_found', __( 'Not found', 'wordpress-seo' ), __( 'URL points to a non-existent page.', 'wordpress-seo' ), __( 'Show information about errors in category \'Not Found\'', 'wordpress-seo' ) );
 		$this->set_filter_value( 'other', __( 'Other', 'wordpress-seo' ), __( 'Google was unable to crawl this URL due to an undetermined issue.', 'wordpress-seo' ), __( 'Show information about errors in category \'Other\'', 'wordpress-seo' ) );
 		/* Translators: %1$s: expands to '<code>robots.txt</code>'. */
@@ -146,7 +149,12 @@ class WPSEO_GSC_Category_Filters {
 	 * @return string
 	 */
 	private function create_view_link( $category, $count ) {
-		$href  = add_query_arg( array( 'category' => $category, 'paged' => 1 ) );
+		$href = add_query_arg(
+			array(
+				'category' => $category,
+				'paged'    => 1,
+			)
+		);
 
 		$class = 'gsc_category';
 
@@ -154,7 +162,8 @@ class WPSEO_GSC_Category_Filters {
 			$class .= ' current';
 		}
 
-		$help_button = $help_panel = '';
+		$help_button = '';
+		$help_panel  = '';
 		if ( $this->filter_values[ $category ]['description'] !== '' ) {
 			$help        = new WPSEO_Admin_Help_Panel( $category, $this->filter_values[ $category ]['help-button'], $this->filter_values[ $category ]['description'], 'has-wrapper' );
 			$help_button = $help->get_button_html();

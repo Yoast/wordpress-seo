@@ -13,7 +13,7 @@
 	letter-spacing: 0.01em;
 	color: #000;
 
-	$gutter: 50px;
+	$gutter: 32px;
 
 	*,
 	*:before,
@@ -27,29 +27,6 @@
 		padding-bottom: 1.88rem;
 		border-top: 1px solid $scheme-academy-secondary;
 		position: relative;
-
-		&:after {
-			content: '';
-			border: none;
-
-			// Hard-code color to match WordPress.
-			border-top: 20px solid #f1f1f1;
-			border-left: 40px solid transparent;
-			border-right: 40px solid transparent;
-			position: absolute;
-			top: -2px;
-			left: 50%;
-			z-index: 1;
-			height: 0;
-			line-height: 0;
-			-webkit-transform: translateX(-50%);
-			-moz-transform: translateX(-50%);
-			-ms-transform: translateX(-50%);
-			-o-transform: translateX(-50%);
-			transform: translateX(-50%);
-
-			@include vendor(filter, drop-shadow(0 1px 0 $scheme-academy-secondary));
-		}
 	}
 
 	&-list--usp {
@@ -79,30 +56,72 @@
 		}
 	}
 
-	&-button--installed {
-		background-color: $color-green;
-		cursor: default;
-		color: $color-white;
+	&-button {
 
-		&:hover {
-			background-color: $color-green;
-			text-decoration: none;
+		&--extension {
+			color: $color-white;
+			text-transform: uppercase;
+			padding-left: 0.8em;
+			padding-right: 0.8em;
+
+			& + &-activated, & + &-not-activated {
+				margin-left: 0;
+			}
+
+			&-buy {
+				&, &:hover {
+					background-color: $color-pink-dark;
+				}
+
+				&:visited {
+					color: $color-white;
+				}
+			}
+
+			&-installed, &-activated, &-not-activated {
+				&:hover {
+					text-decoration: none;
+				}
+			}
+
+			&-installed {
+				margin-right: 0.2rem;
+
+				&, &:hover {
+					background-color: $color_green_medium;
+				}
+			}
+
+			&-not-activated {
+				&, &:hover {
+					background-color: $color-error;
+				}
+			}
+
+			&-activated {
+				&, &:hover {
+					background-color: $color_green_medium;
+				}
+			}
+
 		}
 	}
 
 	&-promo-extensions {
 		display: flex;
 		flex-wrap: wrap;
-		margin-left: -1 * $gutter;
+		margin-left: ( -1 * $gutter ) + 8px;
 
 		> h2 {
 			width: 100%;
 			margin-left: $gutter;
+			margin-bottom: $gutter;
 		}
 	}
 
 	&-promo-extension {
-		max-width: 330px;
+		max-width: 340px;
+		padding-bottom: 120px;
 		background-color: transparent;
 		border-color: $scheme-academy-secondary;
 		margin-left: $gutter;
@@ -121,13 +140,47 @@
 			}
 		}
 
+
+		.yoast {
+			&-button-container {
+				position: absolute;
+				bottom: 20px;
+				left: 20px;
+				right: 20px;
+
+				div.yoast-button--extension {
+					cursor: default;
+				}
+			}
+		}
+
+
 		.yoast-button {
 			width: 100%;
 			max-height: none;
-		}
+			font-size: 0.9rem;
 
-		.yoast-button--installed {
-			width: auto;
+			&--installed {
+				color: $color-white;
+			}
+
+			&--extension {
+				font-size: 0.9rem;
+				text-align: center;
+				margin-top: 0;
+
+				&-installed {
+					margin: 0 2% 0 0;
+					width: 48%;
+				}
+
+				&-activated, &-not-activated {
+					margin-left: 0;
+					margin-right: 0;
+					width: 48%;
+				}
+			}
+
 		}
 
 		h3 {
@@ -143,6 +196,7 @@
 	&-seo {
 		&-premium-extension {
 			@include clearfix;
+			margin: 2em 0.5em 1.5em;
 		}
 
 		&-premium-benefits {
@@ -156,9 +210,30 @@
 		}
 	}
 
+	&-link--license,
 	&-link--more-info {
-		color: $color-grey-text;
-		background: url(svg-icon-info($color-grey-text));
+		font-family: $font-stack-default;
+		color: $color-pink-dark;
+		font-weight: 600;
+	}
+
+	&-link--license {
+
+		margin:  1em 0 0 0;
+
+		.yoast-promo-extension & {
+			display: block;
+			margin:  1em 0 0 0;
+		}
+
+		&:after {
+			content: " \00BB";
+		}
+	}
+
+
+	&-link--more-info {
+		background: url(svg-icon-info($color-pink-dark));
 		padding-left: calc( 1em + 5px );
 		background-size: 1em;
 		background-repeat: no-repeat;

@@ -1,6 +1,8 @@
 <?php
 /**
- * @package WPSEO\admin|ajax
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Ajax
  */
 
 /**
@@ -98,7 +100,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	 * @param string $posted_plugin Plugin to check against dismissed conflicts.
 	 */
 	private function compare_plugin( $posted_plugin ) {
-		if ( ! in_array( $posted_plugin, $this->dismissed_conflicts ) ) {
+		if ( ! in_array( $posted_plugin, $this->dismissed_conflicts, true ) ) {
 			$this->dismissed_conflicts[] = $posted_plugin;
 		}
 	}

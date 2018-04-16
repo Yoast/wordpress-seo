@@ -1,15 +1,20 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Meta::set_value()
 	 */
 	public function test_set_value() {
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -22,7 +27,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_value() {
 
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -30,48 +35,48 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 'test_get_value_value', WPSEO_Meta::get_value( 'test_get_value_key' ) );
 
-		// TODO test for defaults
+		// @todo Test for defaults.
 
-		// TODO test if non-existing keys return an empty string
+		// @todo Test if non-existing keys return an empty string.
 	}
 
 	/**
-	 * Test if default meta values are removed when updating post_meta
+	 * Test if default meta values are removed when updating post_meta.
 	 * @covers WPSEO_Meta::remove_meta_if_default
 	 */
 	public function test_remove_meta_if_default() {
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 
-		// generate key
+		// Generate key.
 		$key = WPSEO_Meta::$meta_prefix . 'meta-robots-noindex';
 
-		// set post meta to default value
+		// Set post meta to default value.
 		$default_value = WPSEO_Meta::$defaults[ $key ];
 		update_post_meta( $post_id, $key, $default_value );
 
-		// default post meta should not be saved
+		// Default post meta should not be saved.
 		$meta_value = get_post_meta( $post_id, $key, true );
 		$this->assertEquals( '', $meta_value );
 	}
 
 	/**
-	 * Test if default meta values aren't saved when updating post_meta
+	 * Test if default meta values aren't saved when updating post_meta.
 	 * @covers WPSEO_Meta::dont_save_meta_if_default
 	 */
 	public function test_dont_save_meta_if_default() {
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		// generate key
+		// Generate key.
 		$key = WPSEO_Meta::$meta_prefix . 'meta-robots-noindex';
 
-		// add default value to post_meta
+		// Add default value to post_meta.
 		$default_value = WPSEO_Meta::$defaults[ $key ];
 		add_post_meta( $post_id, $key, $default_value );
 
-		// default post meta should not be saved
+		// Default post meta should not be saved.
 		$meta_value = get_post_meta( $post_id, $key );
 		$this->assertEquals( array(), $meta_value );
 	}
@@ -93,19 +98,19 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_array_merge_recursive_distinct() {
 
-		$inputArray1 = array(
+		$input_array1 = array(
 			'one' => array(
 				'one-one' => array(),
 			),
 		);
 
-		$inputArray2 = array(
+		$input_array2 = array(
 			'one' => array(
 				'one-one' => 'string',
 			),
 		);
 
-		$output = WPSEO_Meta::array_merge_recursive_distinct( $inputArray1, $inputArray2 );
+		$output = WPSEO_Meta::array_merge_recursive_distinct( $input_array1, $input_array2 );
 		$this->assertEquals( $output['one']['one-one'], 'string' );
 	}
 
@@ -114,26 +119,26 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_validate_meta_robots_adv() {
 
-		// none should take precedence
+		// None should take precedence.
 		$this->assertEquals( 'none', WPSEO_Meta::validate_meta_robots_adv( 'none, something-invalid, noarchive' ) );
 		$this->assertEquals( 'none', WPSEO_Meta::validate_meta_robots_adv( array( 'none', 'something-invalid', 'noarchive' ) ) );
 
-		// - should take precedence
+		// - should take precedence.
 		$this->assertEquals( '-', WPSEO_Meta::validate_meta_robots_adv( '-, something-invalid, noarchive' ) );
 		$this->assertEquals( '-', WPSEO_Meta::validate_meta_robots_adv( array( '-', 'something-invalid', 'noarchive' ) ) );
 
-		// string should be cleaned
+		// String should be cleaned.
 		$this->assertEquals( 'noarchive,nosnippet', WPSEO_Meta::validate_meta_robots_adv( 'noarchive, nosnippet' ) );
 		$this->assertEquals( 'noarchive,nosnippet', WPSEO_Meta::validate_meta_robots_adv( array( 'noarchive', 'nosnippet' ) ) );
 
 	}
 
 	/**
-	 * Test value returned when valid $_POST key supplied
+	 * Test value returned when valid $_POST key supplied.
 	 * @covers WPSEO_Meta::get_post_value
 	 */
 	public function test_get_post_value() {
-		$key = 'my_test_key';
+		$key   = 'my_test_key';
 		$value = 'my_test_key_value';
 		$this->set_post( $key, $value );
 
@@ -141,7 +146,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test default value returned when non-existant $_POST key supplied
+	 * Test default value returned when non-existant $_POST key supplied.
 	 * @covers WPSEO_Meta::get_post_value
 	 */
 	public function test_get_post_value_default() {

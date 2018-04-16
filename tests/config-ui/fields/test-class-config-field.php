@@ -1,20 +1,9 @@
 <?php
 /**
- * @package WPSEO\UnitTests
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\ConfigUI\Fields
  */
-
-/**
- * Class WPSEO_Config_Field_
- */
-class WPSEO_Config_Field_ extends WPSEO_Config_Field {
-
-	/**
-	 * @param $data
-	 */
-	public function set_data( $data ) {
-		$this->data = $data;
-	}
-}
 
 /**
  * Class WPSEO_Config_Field_Test
@@ -31,7 +20,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 		$identifier = 'i';
 		$component  = 'c';
 
-		$field = new WPSEO_Config_Field_( $identifier, $component );
+		$field = new WPSEO_Config_Field_Double( $identifier, $component );
 
 		$this->assertEquals( $identifier, $field->get_identifier() );
 		$this->assertEquals( $component, $field->get_component() );
@@ -45,7 +34,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 		$property       = 'p';
 		$property_value = 'pv';
 
-		$field = new WPSEO_Config_Field_( 'a', 'b' );
+		$field = new WPSEO_Config_Field_Double( 'a', 'b' );
 		$field->set_property( $property, $property_value );
 
 		$properties = $field->get_properties();
@@ -62,7 +51,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	public function test_get_data() {
 		$data = 'test';
 
-		$field = new WPSEO_Config_Field_( 'a', 'b' );
+		$field = new WPSEO_Config_Field_Double( 'a', 'b' );
 		$field->set_data( $data );
 
 		$this->assertEquals( $data, $field->get_data() );
@@ -74,7 +63,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_set_requires() {
 		$field_b = 'field_b';
-		$value = 'value';
+		$value   = 'value';
 
 		$expected = array(
 			'field' => $field_b,
@@ -119,7 +108,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Config_Field::to_array()
 	 */
 	public function test_to_array_properties() {
-		$property = 'p';
+		$property       = 'p';
 		$property_value = 'pv';
 
 		$field = new WPSEO_Config_Field( 'a', 'b' );
@@ -129,6 +118,6 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 
 		$this->assertArrayHasKey( 'properties', $result );
 		$this->assertArrayHasKey( $property, $result['properties'] );
-		$this->assertEquals( $property_value, $result['properties'][$property] );
+		$this->assertEquals( $property_value, $result['properties'][ $property ] );
 	}
 }

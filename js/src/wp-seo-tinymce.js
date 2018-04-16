@@ -4,6 +4,8 @@ var forEach = require( "lodash/forEach" );
 var isUndefined = require( "lodash/isUndefined" );
 var editorHasMarks = require( "./decorator/tinyMCE" ).editorHasMarks;
 var editorRemoveMarks = require( "./decorator/tinyMCE" ).editorRemoveMarks;
+import { setMarkerStatus } from "./redux/actions/markerButtons";
+let store;
 
 /**
  * The HTML 'id' attribute for the TinyMCE editor.
@@ -20,21 +22,31 @@ var tmceId = "content";
 var termsTmceId = "description";
 
 ( function() {
+	/**
+	 * Sets the store.
+	 *
+	 * @param {Object} newStore The store to set.
+	 * @returns {void}
+	 */
+	function setStore( newStore ) {
+		store = newStore;
+	}
 
 	/**
 	 * Gets content from the content field by element id.
 	 *
-	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
-	 * @returns {String}
+	 * @param {String} contentID The (HTML) id attribute for the TinyMCE field.
+	 *
+	 * @returns {String} The tinyMCE content.
 	 */
-	function tinyMCEElementContent( content_id ) {
-		return document.getElementById( content_id ) && document.getElementById( content_id ).value || "";
+	function tinyMCEElementContent( contentID ) {
+		return document.getElementById( contentID ) && document.getElementById( contentID ).value || "";
 	}
 
 	/**
 	 * Returns whether or not the tinyMCE script is available on the page.
 	 *
-	 * @returns {boolean}
+	 * @returns {boolean} True when tinyMCE is loaded.
 	 */
 	function isTinyMCELoaded() {
 		return (
@@ -91,17 +103,16 @@ var termsTmceId = "description";
 	/**
 	 * Returns the value of the content field via TinyMCE object, or ff tinyMCE isn't initialized via the content element id.
 	 * Also converts 'amp;' to & in the content.
-	 * @param {String} content_id The (HTML) id attribute for the TinyMCE field.
+	 * @param {String} contentID The (HTML) id attribute for the TinyMCE field.
 	 * @returns {String} Content from the TinyMCE editor.
 	 */
-	function getContentTinyMce( content_id ) {
-		// if no TinyMce object available
+	function getContentTinyMce( contentID ) {
+		// If no TinyMCE object available
 		var content = "";
-		if ( isTinyMCEAvailable( content_id ) === false || isTinyMCEBodyAvailable( content_id ) === false ) {
-			content = tinyMCEElementContent( content_id );
-		}
-		else {
-			content = tinyMCE.get( content_id ).getContent();
+		if ( isTinyMCEAvailable( contentID ) === false || isTinyMCEBodyAvailable( contentID ) === false ) {
+			content = tinyMCEElementContent( contentID );
+		} else {
+			content = tinyMCE.get( contentID ).getContent();
 		}
 
 		return convertHtmlEntities( content );
@@ -139,12 +150,8 @@ var termsTmceId = "description";
 	 * @returns {void}
 	 */
 	function disableMarkerButtons() {
-		if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
-			YoastSEO.app.contentAssessorPresenter.disableMarkerButtons();
-		}
-
-		if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
-			YoastSEO.app.seoAssessorPresenter.disableMarkerButtons();
+		if ( ! isUndefined( store ) ) {
+			store.dispatch( setMarkerStatus( "disabled" ) );
 		}
 	}
 
@@ -154,12 +161,8 @@ var termsTmceId = "description";
 	 * @returns {void}
 	 */
 	function enableMarkerButtons() {
-		if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
-			YoastSEO.app.contentAssessorPresenter.enableMarkerButtons();
-		}
-
-		if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
-			YoastSEO.app.seoAssessorPresenter.enableMarkerButtons();
+		if ( ! isUndefined( store ) ) {
+			store.dispatch( setMarkerStatus( "enabled" ) );
 		}
 	}
 
@@ -173,14 +176,7 @@ var termsTmceId = "description";
 		// If #wp-content-wrap has the 'html-active' class, text view is enabled in WordPress.
 		// TMCE is not available, the text cannot be marked and so the marker buttons are disabled.
 		if ( jQuery( "#wp-content-wrap" ).hasClass( "html-active" ) ) {
-			// The enable/disable marker functions are not called here,
-			// because the render function(in yoastseo lib) doesn't have to be called.
-			if ( ! isUndefined( YoastSEO.app.contentAssessorPresenter ) ) {
-				YoastSEO.app.contentAssessorPresenter._disableMarkerButtons = true;
-			}
-			if ( ! isUndefined( YoastSEO.app.seoAssessorPresenter ) ) {
-				YoastSEO.app.seoAssessorPresenter._disableMarkerButtons = true;
-			}
+			disableMarkerButtons();
 
 			if( isTinyMCELoaded() ) {
 				tinyMCE.on( "AddEditor", function() {
@@ -226,5 +222,6 @@ var termsTmceId = "description";
 		wpTextViewOnInitCheck: wpTextViewOnInitCheck,
 		tmceId,
 		termsTmceId,
+		setStore,
 	};
 }( jQuery ) );

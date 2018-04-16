@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\ConfigurationUI
  */
 
@@ -20,7 +22,7 @@ class WPSEO_Config_Field {
 	protected $requires = array();
 
 	/** @var array|mixed Value of this field */
-	protected $data;
+	protected $data = array();
 
 	/**
 	 * WPSEO_Config_Field constructor.

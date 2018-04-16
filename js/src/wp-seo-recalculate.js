@@ -4,13 +4,11 @@
 
 var Jed = require( "jed" );
 var Paper = require( "yoastseo/js/values/Paper" );
-var SEOAssessor = require( "yoastseo/js/SEOAssessor" );
+var SEOAssessor = require( "yoastseo/js/seoAssessor" );
 var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
 var isUndefined = require( "lodash/isUndefined" );
 
 ( function( $ ) {
-	"use strict";
-
 	var i18n = new Jed( {
 		domain: "js-text-analysis",
 		locale_data: {
@@ -23,16 +21,18 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Constructs the recalculate score.
 	 *
+	 * @param {int} totalCount The total amount of items to calculate.
+	 *
 	 * @constructor
 	 */
-	var YoastRecalculateScore = function( total_count ) {
+	var YoastRecalculateScore = function( totalCount ) {
 		// Sets the total count
-		this.total_count = total_count;
+		this.totalCount = totalCount;
 		this.oncomplete  = false;
 
 		this.setupAssessors();
 
-		$( "#wpseo_count_total" ).html( total_count );
+		$( "#wpseo_count_total" ).html( totalCount );
 
 		jQuery( "#wpseo_progressbar" ).progressbar( { value: 0 } );
 	};
@@ -55,24 +55,24 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Starts the recalculation
 	 *
-	 * @param {int} items_to_fetch
-	 * @param {string} fetch_type
-	 * @param {string} id_field
-	 * @param {Function|bool} callback
+	 * @param {int} itemsToFetch     The amount of items to fetch.
+	 * @param {string} fetchType      The fetch type.
+	 * @param {string} idField        The ID field to extract from each item.
+	 * @param {Function|bool} callback Callback when calculating has been completed.
 	 *
 	 * @returns {void}
 	 */
-	YoastRecalculateScore.prototype.start = function( items_to_fetch, fetch_type, id_field, callback ) {
-		if ( ! this.validAssessors.hasOwnProperty( fetch_type ) ) {
-			throw new Error( "Unknown fetch type of " + fetch_type + " given." );
+	YoastRecalculateScore.prototype.start = function( itemsToFetch, fetchType, idField, callback ) {
+		if ( ! this.validAssessors.hasOwnProperty( fetchType ) ) {
+			throw new Error( "Unknown fetch type of " + fetchType + " given." );
 		}
 
-		this.fetch_type     = fetch_type;
-		this.items_to_fetch = items_to_fetch;
-		this.id_field       = id_field;
-		this.oncomplete     = callback;
+		this.fetchType    = fetchType;
+		this.itemsToFetch = itemsToFetch;
+		this.idField      = idField;
+		this.oncomplete   = callback;
 
-		this.assessor       = this.validAssessors[ fetch_type ];
+		this.assessor       = this.validAssessors[ fetchType ];
 
 		this.getItemsToRecalculate( 1 );
 	};
@@ -80,42 +80,42 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Updates the progressbar
 	 *
-	 * @param {int} total_posts
+	 * @param {int} totalPosts Total amount of posts.
 	 *
 	 * @returns {void}
 	 */
-	YoastRecalculateScore.prototype.updateProgressBar = function( total_posts ) {
-		var current_value = jQuery( "#wpseo_count" ).text();
-		var new_value = parseInt( current_value, 10 ) + total_posts;
-		var new_width = new_value * ( 100 / this.total_count );
+	YoastRecalculateScore.prototype.updateProgressBar = function( totalPosts ) {
+		var currentValue = jQuery( "#wpseo_count" ).text();
+		var newValue = parseInt( currentValue, 10 ) + totalPosts;
+		var newWidth = newValue * ( 100 / this.totalCount );
 
-		jQuery( "#wpseo_progressbar" ).progressbar( "value", new_width );
+		jQuery( "#wpseo_progressbar" ).progressbar( "value", newWidth );
 
-		this.updateCountElement( new_value );
+		this.updateCountElement( newValue );
 	};
 
 	/**
 	 * Updates the element with the new count value
 	 *
-	 * @param {int} new_value
+	 * @param {int} newValue The new value for count element.
 	 *
 	 * @returns {void}
 	 */
-	YoastRecalculateScore.prototype.updateCountElement = function( new_value ) {
-		jQuery( "#wpseo_count" ).html( new_value );
+	YoastRecalculateScore.prototype.updateCountElement = function( newValue ) {
+		jQuery( "#wpseo_count" ).html( newValue );
 	};
 
 	/**
 	 * Calculate the scores
 	 *
-	 * @param {int}   total_items
-	 * @param {array} items
+	 * @param {int}   totalItems Total amount of items.
+	 * @param {array} items       The items to calculate the score for.
 	 *
-	 * @returns {void}
+	 * @returns {array} The calculated scores
 	 */
-	YoastRecalculateScore.prototype.calculateScores = function( total_items, items ) {
+	YoastRecalculateScore.prototype.calculateScores = function( totalItems, items ) {
 		var scores = [];
-		for ( var i = 0; i < total_items; i++ ) {
+		for ( var i = 0; i < totalItems; i++ ) {
 			scores.push( this.getScore( items[ i ] ) );
 		}
 
@@ -125,8 +125,9 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Returns the score
 	 *
-	 * @param {json} item
-	 * @returns {{item_id: int, score}}
+	 * @param {json} item Item to get te score for.
+	 *
+	 * @returns {{item_id: int, score}} Object with score for item.
 	 */
 	YoastRecalculateScore.prototype.getScore = function( item ) {
 		return {
@@ -139,19 +140,20 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Returns the item id
 	 *
-	 * @param {json} item
-	 * @returns {int}
+	 * @param {json} item Item to get the id from.
+	 *
+	 * @returns {int} The id from the item.
 	 */
 	YoastRecalculateScore.prototype.getItemID = function( item ) {
-		this.items_to_fetch--;
+		this.itemsToFetch--;
 
-		return item[ this.id_field ];
+		return item[ this.idField ];
 	};
 
 	/**
 	 * Pass the post to the analyzer to calculates it's core
 	 *
-	 * @param {Object} item
+	 * @param {Object} item Item to calculate the score for.
 	 *
 	 * @returns {void}
 	 */
@@ -174,7 +176,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Parse the response given by request in getItemsToRecalculate.
 	 *
-	 * @param {Object} response
+	 * @param {Object} response Response to parse.
 	 *
 	 * @returns {void}
 	 */
@@ -188,11 +190,10 @@ var isUndefined = require( "lodash/isUndefined" );
 				this.updateProgressBar( response.total_items );
 			}
 
-			if ( ! isUndefined( response.next_page ) ) {
-				this.getItemsToRecalculate( response.next_page );
-			}
-			else {
+			if ( isUndefined( response.next_page ) ) {
 				this.onCompleteRequest();
+			} else {
+				this.getItemsToRecalculate( response.next_page );
 			}
 
 			return true;
@@ -217,7 +218,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Sends the scores to the backend
 	 *
-	 * @param {array} scores
+	 * @param {array} scores Scores to send.
 	 *
 	 * @returns {void}
 	 */
@@ -228,7 +229,7 @@ var isUndefined = require( "lodash/isUndefined" );
 				action: "wpseo_update_score",
 				nonce: jQuery( "#wpseo_recalculate_nonce" ).val(),
 				scores: scores,
-				type: this.fetch_type,
+				type: this.fetchType,
 			}
 		);
 	};
@@ -236,18 +237,18 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Get the posts which have to be recalculated.
 	 *
-	 * @param {int} current_page
+	 * @param {int} currentPage The current page.
 	 *
 	 * @returns {void}
 	 */
-	YoastRecalculateScore.prototype.getItemsToRecalculate = function( current_page ) {
+	YoastRecalculateScore.prototype.getItemsToRecalculate = function( currentPage ) {
 		jQuery.post(
 			ajaxurl,
 			{
 				action: "wpseo_recalculate_scores",
 				nonce: jQuery( "#wpseo_recalculate_nonce" ).val(),
-				paged: current_page,
-				type: this.fetch_type,
+				paged: currentPage,
+				type: this.fetchType,
 			},
 			this.parseResponse.bind( this ),
 			"json"
@@ -257,11 +258,11 @@ var isUndefined = require( "lodash/isUndefined" );
 	/**
 	 * Starting the recalculation process
 	 *
-	 * @param {object} response
+	 * @param {object} response The response.
 	 *
 	 * @returns {void}
 	 */
-	function start_recalculate( response ) {
+	function startRecalculate( response ) {
 		var PostsToFetch = parseInt( response.posts, 10 );
 		var TermsToFetch = parseInt( response.terms, 10 );
 
@@ -278,10 +279,10 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * @returns {void}
 	 */
 	function init() {
-		var recalculate_link = jQuery( "#wpseo_recalculate_link" );
+		var recalculateLink = jQuery( "#wpseo_recalculate_link" );
 
-		if ( ! isUndefined( recalculate_link ) ) {
-			recalculate_link.click(
+		if ( ! isUndefined( recalculateLink ) ) {
+			recalculateLink.click(
 				function() {
 					// Reset the count element and the progressbar
 					jQuery( "#wpseo_count" ).text( 0 );
@@ -292,14 +293,14 @@ var isUndefined = require( "lodash/isUndefined" );
 							action: "wpseo_recalculate_total",
 							nonce: jQuery( "#wpseo_recalculate_nonce" ).val(),
 						},
-						start_recalculate,
+						startRecalculate,
 						"json"
 					);
 				}
 			);
 
-			if ( recalculate_link.data( "open" ) ) {
-				recalculate_link.trigger( "click" );
+			if ( recalculateLink.data( "open" ) ) {
+				recalculateLink.trigger( "click" );
 			}
 		}
 	}

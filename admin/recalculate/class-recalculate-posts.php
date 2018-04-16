@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -37,7 +39,7 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	 */
 	protected function get_items( $paged ) {
 		$items_per_page = max( 1, $this->items_per_page );
-		$post_query = new WP_Query(
+		$post_query     = new WP_Query(
 			array(
 				'post_type'      => 'any',
 				'meta_key'       => '_yoast_wpseo_focuskw',

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package Yoast\Tests\Notifications
  */
 
@@ -20,7 +22,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$this->user_id = $this->factory->user->create();
 
 		$user = new WP_User( $this->user_id );
-		$user->add_cap( 'manage_options' );
+		$user->add_cap( 'wpseo_manage_options' );
 
 		wp_set_current_user( $this->user_id );
 	}
@@ -241,10 +243,16 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_sorted_notifications_by_priority() {
 		$message_1 = '1';
-		$options_1 = array( 'type' => 'error', 'priority' => 0.5 );
+		$options_1 = array(
+			'type'     => 'error',
+			'priority' => 0.5,
+		);
 
 		$message_2 = '2';
-		$options_2 = array( 'type' => 'error', 'priority' => 1 );
+		$options_2 = array(
+			'type'     => 'error',
+			'priority' => 1,
+		);
 
 		$notification_1 = new Yoast_Notification( $message_1, $options_1 );
 		$notification_2 = new Yoast_Notification( $message_2, $options_2 );
@@ -333,7 +341,10 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_dismissal_key = 'dismissed';
 
 		$message = 'c';
-		$options = array( 'id' => 'my_id', 'dismissal_key' => $notification_dismissal_key );
+		$options = array(
+			'id'            => 'my_id',
+			'dismissal_key' => $notification_dismissal_key,
+		);
 
 		$notification = new Yoast_Notification( $message, $options );
 
@@ -360,7 +371,13 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$old_nonce = 'outdated';
 
-		$outdated = new Yoast_Notification( 'outdated', array( 'nonce' => $old_nonce, 'id' => 'test' ) );
+		$outdated = new Yoast_Notification(
+			'outdated',
+			array(
+				'nonce' => $old_nonce,
+				'id'    => 'test',
+			)
+		);
 		$new      = new Yoast_Notification( 'new', array( 'id' => 'test' ) );
 
 		$notification_center->add_notification( $outdated );
@@ -369,7 +386,10 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notifications = $notification_center->get_notifications();
 
 		$this->assertInternalType( 'array', $notifications );
-		$this->assertNotEquals( $notifications[0]->get_nonce(), $old_nonce );
+
+		$notification = array_shift( $notifications );
+
+		$this->assertNotEquals( $notification->get_nonce(), $old_nonce );
 	}
 
 	/**

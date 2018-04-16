@@ -1,8 +1,13 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -15,9 +20,12 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-		self::$class_instance = new WPSEO_Rewrite;
+		self::$class_instance = new WPSEO_Rewrite();
 	}
 
 	/**
@@ -25,7 +33,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_schedule_flush() {
 		self::$class_instance->schedule_flush();
-		$this->assertTrue( get_option( $this->flush_option_name ) == true );
+		$this->assertTrue( get_option( $this->flush_option_name ) === 1 );
 	}
 
 	/**
@@ -48,12 +56,12 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 		$input         = 'http://yoast.com/cat/link/';
 		$category_base = get_option( 'category_base' );
 
-		if ( '' == $category_base ) {
+		if ( empty( $category_base ) ) {
 			$category_base = 'category';
 		}
 
-		// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash)
-		if ( '/' == substr( $category_base, 0, 1 ) ) {
+		// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash).
+		if ( '/' === substr( $category_base, 0, 1 ) ) {
 			$category_base = substr( $category_base, 1 );
 		}
 
@@ -69,9 +77,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	public function test_query_vars() {
 		$this->assertEquals( array(), self::$class_instance->query_vars( array() ) );
 
-		$options                      = WPSEO_Options::get_all();
-		$options['stripcategorybase'] = true;
-		update_option( WPSEO_Option_Permalinks::get_instance()->option_name, $options );
+		WPSEO_Options::set( 'stripcategorybase', true );
 		$this->assertEquals( array( 'wpseo_category_redirect' ), self::$class_instance->query_vars( array() ) );
 	}
 
@@ -79,7 +85,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Rewrite::request
 	 */
 	public function test_request() {
-		// @TODO find method to test redirects
+		// @todo Find method to test redirects.
 	}
 
 	/**
@@ -89,15 +95,15 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 		$c = self::$class_instance;
 
-		$categories = get_categories( array( 'hide_empty' => false ) );
+		$categories          = get_categories( array( 'hide_empty' => false ) );
 		$permalink_structure = get_option( 'permalink_structure' );
 
-		if ( ! (is_multisite() && 0 === strpos( $permalink_structure, '/blog/' ) ) ) {
+		if ( ! ( is_multisite() && 0 === strpos( $permalink_structure, '/blog/' ) ) ) {
 			$expected = array(
 				'(uncategorized)/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
 				'(uncategorized)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',
-				'(uncategorized)/?$' => 'index.php?category_name=$matches[1]',
-				'$' => 'index.php?wpseo_category_redirect=$matches[1]',
+				'(uncategorized)/?$'                   => 'index.php?category_name=$matches[1]',
+				'$'                                    => 'index.php?wpseo_category_redirect=$matches[1]',
 			);
 		}
 		else {

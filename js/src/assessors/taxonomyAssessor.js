@@ -1,17 +1,17 @@
 var Assessor = require( "yoastseo/js/assessor.js" );
 
-var introductionKeyword = require( "yoastseo/js/assessments/introductionKeywordAssessment.js" );
-var keyphraseLength = require( "yoastseo/js/assessments/keyphraseLengthAssessment.js" );
-var keywordDensity = require( "yoastseo/js/assessments/keywordDensityAssessment.js" );
-var keywordStopWords = require( "yoastseo/js/assessments/keywordStopWordsAssessment.js" );
-var metaDescriptionKeyword = require( "yoastseo/js/assessments/metaDescriptionKeywordAssessment.js" );
-var metaDescriptionLength = require( "yoastseo/js/assessments/metaDescriptionLengthAssessment.js" );
-var titleKeyword = require( "yoastseo/js/assessments/titleKeywordAssessment.js" );
-var titleWidth = require( "yoastseo/js/assessments/pageTitleWidthAssessment.js" );
-var urlKeyword = require( "yoastseo/js/assessments/urlKeywordAssessment.js" );
-var urlLength = require( "yoastseo/js/assessments/urlLengthAssessment.js" );
-var urlStopWords = require( "yoastseo/js/assessments/urlStopWordsAssessment.js" );
-var taxonomyTextLength = require( "yoastseo/js/assessments/taxonomyTextLengthAssessment" );
+var introductionKeyword = require( "yoastseo/js/assessments/seo/introductionKeywordAssessment.js" );
+var keyphraseLength = require( "yoastseo/js/assessments/seo/keyphraseLengthAssessment.js" );
+var keywordDensity = require( "yoastseo/js/assessments/seo/keywordDensityAssessment.js" );
+var keywordStopWords = require( "yoastseo/js/assessments/seo/keywordStopWordsAssessment.js" );
+var metaDescriptionKeyword = require( "yoastseo/js/assessments/seo/metaDescriptionKeywordAssessment.js" );
+var MetaDescriptionLength = require( "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js" );
+var titleKeyword = require( "yoastseo/js/assessments/seo/titleKeywordAssessment.js" );
+var TitleWidth = require( "yoastseo/js/assessments/seo/pageTitleWidthAssessment.js" );
+var UrlKeyword = require( "yoastseo/js/assessments/seo/urlKeywordAssessment.js" );
+var UrlLength = require( "yoastseo/js/assessments/seo/urlLengthAssessment.js" );
+var urlStopWords = require( "yoastseo/js/assessments/seo/urlStopWordsAssessment.js" );
+var taxonomyTextLength = require( "yoastseo/js/assessments/seo/taxonomyTextLengthAssessment" );
 
 /**
  * Creates the Assessor
@@ -28,12 +28,12 @@ var TaxonomyAssessor = function( i18n ) {
 		keywordDensity,
 		keywordStopWords,
 		metaDescriptionKeyword,
-		metaDescriptionLength,
+		new MetaDescriptionLength(),
 		taxonomyTextLength,
 		titleKeyword,
-		titleWidth,
-		urlKeyword,
-		urlLength,
+		new TitleWidth(),
+		new UrlKeyword(),
+		new UrlLength(),
 		urlStopWords,
 	];
 };

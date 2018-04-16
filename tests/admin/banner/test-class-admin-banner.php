@@ -1,5 +1,13 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Admin\Banner
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Banner_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -7,6 +15,9 @@ class WPSEO_Admin_Banner_Test extends WPSEO_UnitTestCase {
 	 */
 	protected $admin_banner;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 

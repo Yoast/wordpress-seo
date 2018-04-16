@@ -1,11 +1,22 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	private $asset_manager;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -128,7 +139,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$result = $wp_styles->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle' ];
 
 		$this->assertEquals( WPSEO_Admin_Asset_Manager::PREFIX . 'handle', $result->handle );
-		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/css/src' . WPSEO_CSSJS_SUFFIX . '.css', $result->src );
+		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/css/dist/src' . WPSEO_CSSJS_SUFFIX . '.css', $result->src );
 		$this->assertEquals( array( 'deps' ), $result->deps );
 		$this->assertEquals( 'version', $result->ver );
 		$this->assertEquals( 'print', $result->args );
@@ -150,7 +161,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 
 		$result = $wp_styles->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle2' ];
 
-		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/css/src.suffix.css', $result->src );
+		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/css/dist/src.suffix.css', $result->src );
 	}
 
 	/**
@@ -274,5 +285,34 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			->method( 'register_styles' );
 
 		$class_instance->register_assets();
+	}
+
+	/**
+	 * Tests the flatten_version function
+	 *
+	 * @covers WPSEO_Admin_Asset_Manager::flatten_version
+	 * @dataProvider flatten_version_provider
+	 *
+	 * @param string $original Version number.
+	 * @param string $expected Expected output.
+	 */
+	public function test_flatten_version( $original, $expected ) {
+		$this->assertEquals( $expected, $this->asset_manager->flatten_version( $original ) );
+	}
+
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
+	public function flatten_version_provider() {
+		return array(
+			array( '3.0', '300' ),
+			array( '1.4', '140' ),
+			array( '', '' ),
+			array( '3.0.0', '300' ),
+			array( '25.1456.140', '251456140' ),
+			array( '1', '1' ),
+		);
 	}
 }

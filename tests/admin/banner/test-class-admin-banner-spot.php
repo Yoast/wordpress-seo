@@ -1,28 +1,13 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Admin\Banner
+ */
 
-class WPSEO_Admin_Banner_Renderer_Mock extends WPSEO_Admin_Banner_Renderer {
-
-	/**
-	 * Overrides the render method to get a render method for the test.
-	 *
-	 * @param WPSEO_Admin_Banner $banner
-	 *
-	 * @return string
-	 */
-	public function render( WPSEO_Admin_Banner $banner  ) {
-
-		return sprintf(
-			'url:%s|image:%s|width:%i|height:%i|alt:%s',
-			$banner->get_url(),
-			$banner->get_image(),
-			$banner->get_width(),
-			$banner->get_height(),
-			$banner->get_alt()
-		);
-	}
-
-}
-
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Banner_Spot_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -52,7 +37,7 @@ class WPSEO_Admin_Banner_Spot_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Admin_Banner_Spot::set_description
 	 */
-	public function test_set_description(   ) {
+	public function test_set_description() {
 		$admin_banner_spot = new WPSEO_Admin_Banner_Spot( 'title' );
 
 		$admin_banner_spot->set_description( 'description' );

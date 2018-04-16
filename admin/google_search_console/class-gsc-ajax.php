@@ -1,6 +1,8 @@
 <?php
 /**
- * @package WPSEO\Admin|Google_Search_Console
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Google_Search_Console
  */
 
 /**
@@ -12,8 +14,7 @@ class WPSEO_GSC_Ajax {
 	 * Setting the AJAX hooks for GSC
 	 */
 	public function __construct() {
-		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue',  array( $this, 'ajax_mark_as_fixed' ) );
-		add_action( 'wp_ajax_wpseo_gsc_create_redirect_url', array( $this, 'ajax_create_redirect' ) );
+		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue', array( $this, 'ajax_mark_as_fixed' ) );
 		add_action( 'wp_ajax_wpseo_dismiss_gsc', array( $this, 'dismiss_notice' ) );
 		add_action( 'wp_ajax_wpseo_save_auth_code', array( $this, 'save_auth_code' ) );
 		add_action( 'wp_ajax_wpseo_clear_auth_code', array( $this, 'clear_auth_code' ) );
@@ -30,30 +31,6 @@ class WPSEO_GSC_Ajax {
 			$marker = new WPSEO_GSC_Marker( filter_input( INPUT_POST, 'url' ) );
 
 			wp_die( $marker->get_response() );
-		}
-
-		wp_die( 'false' );
-	}
-
-	/**
-	 * Handling the request to create a new redirect from the issued URL
-	 */
-	public function ajax_create_redirect() {
-		if ( $this->valid_nonce() && class_exists( 'WPSEO_Redirect_Manager' ) && defined( 'WPSEO_PREMIUM_PATH' ) ) {
-			$redirect_manager = new WPSEO_Redirect_Manager();
-
-			$old_url = filter_input( INPUT_POST, 'old_url' );
-
-			// Creates the redirect.
-			$redirect = new WPSEO_Redirect( $old_url, filter_input( INPUT_POST, 'new_url' ), filter_input( INPUT_POST, 'type' ) );
-
-			if ( $redirect_manager->create_redirect( $redirect ) ) {
-				if ( filter_input( INPUT_POST, 'mark_as_fixed' ) === 'true' ) {
-					new WPSEO_GSC_Marker( $old_url );
-				}
-
-				wp_die( 'true' );
-			}
 		}
 
 		wp_die( 'false' );

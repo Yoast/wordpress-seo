@@ -2,19 +2,25 @@
 var timeGrunt = require( "time-grunt" );
 var path = require( "path" );
 var loadGruntConfig = require( "load-grunt-config" );
+const { flattenVersionForFile } = require( "./webpack/paths" );
 
 module.exports = function( grunt ) {
-	"use strict";
 
 	timeGrunt( grunt );
 
+	const pkg = grunt.file.readJSON( "package.json" );
+	const pluginVersion = pkg.yoast.pluginVersion;
+
 	// Define project configuration
 	var project = {
+		pluginVersion: pluginVersion,
+		pluginSlug: "wordpress-seo",
+		pluginMainFile: "wp-seo.php",
 		paths: {
 			get config() {
 				return this.grunt + "config/";
 			},
-			css: "css/",
+			css: "css/dist/",
 			sass: "css/src/",
 			grunt: "grunt/",
 			images: "images/",
@@ -25,8 +31,8 @@ module.exports = function( grunt ) {
 		files: {
 			sass: [ "<%= paths.sass %>*.scss" ],
 			css: [
-				"css/*.css",
-				"!css/*.min.css",
+				"css/dist/*.css",
+				"!css/dist/*.min.css",
 			],
 			js: [
 				"js/src/**/*.js",
@@ -55,8 +61,10 @@ module.exports = function( grunt ) {
 			},
 			grunt: "Gruntfile.js",
 		},
-		pkg: grunt.file.readJSON( "package.json" ),
+		pkg,
 	};
+
+	project.pluginVersionSlug = flattenVersionForFile( pluginVersion );
 
 	// Load Grunt configurations and tasks
 	loadGruntConfig( grunt, {

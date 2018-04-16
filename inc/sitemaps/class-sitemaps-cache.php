@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\XML_Sitemaps
  */
 
@@ -177,7 +179,12 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public static function invalidate_helper( $unused, $type ) {
 
-		self::invalidate( $type );
+		if (
+			WPSEO_Options::get( 'noindex-' . $type ) === false ||
+			WPSEO_Options::get( 'noindex-tax-' . $type ) === false
+		) {
+			self::invalidate( $type );
+		}
 	}
 
 	/**
@@ -193,7 +200,7 @@ class WPSEO_Sitemaps_Cache {
 			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
 		}
 
-		if ( ! in_array( 'subscriber', $user->roles ) ) {
+		if ( ! in_array( 'subscriber', $user->roles, true ) ) {
 			self::invalidate( 'author' );
 		}
 	}

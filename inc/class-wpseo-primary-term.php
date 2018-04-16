@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO
  */
 
@@ -26,7 +28,7 @@ class WPSEO_Primary_Term {
 	 */
 	public function __construct( $taxonomy_name, $post_id ) {
 		$this->taxonomy_name = $taxonomy_name;
-		$this->post_ID = $post_id;
+		$this->post_ID       = $post_id;
 	}
 
 	/**

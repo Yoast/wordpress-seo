@@ -1,0 +1,53 @@
+.postbox {
+	.yoast-help-center {
+		&__button {
+			border: none;
+			box-shadow: none;
+			text-transform: none;
+			text-decoration: underline;
+			color: #0073aa;
+			margin: 0;
+			min-height: 0;
+			font: inherit;
+			padding: 8px 0;
+
+			svg {
+				margin: 0 13px;
+			}
+		}
+	}
+}
+
+// Override styling on taxonomy pages to disable responsiveness larger than tablet width.
+#edittag {
+	.yoast-video-tutorial__video-container {
+		float: none;
+		max-width: 100%;
+		margin: 0 auto;
+	}
+	.yoast-video-tutorial__descriptions {
+		margin: 0 auto;
+		padding: 0;
+	}
+}
+
+// Override styling on post edit page, to extend min-width because of sidebar.
+#poststuff {
+	@media screen and (max-width: 1480px) {
+		.yoast-video-tutorial__video-container {
+			float: none;
+			max-width: 100%;
+			margin: 0 auto;
+		}
+		.yoast-video-tutorial__descriptions {
+			margin: 0 auto;
+			padding: 0;
+		}
+	}
+}
+
+.wpseo-metabox {
+	#yoast-help-center-container {
+		margin: 8px 0;
+	}
+}

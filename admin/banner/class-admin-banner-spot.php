@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Banner
  */
 
@@ -13,6 +15,9 @@ class WPSEO_Admin_Banner_Spot {
 
 	/** @var string */
 	private $description = '';
+
+	/** @var string */
+	private $extra = '';
 
 	/** @var WPSEO_Admin_Banner[] */
 	private $banners = array();
@@ -47,12 +52,30 @@ class WPSEO_Admin_Banner_Spot {
 	}
 
 	/**
+	 * Returns the extra content.
+	 *
+	 * @return string
+	 */
+	public function get_extra() {
+		return $this->extra;
+	}
+
+	/**
 	 * Sets the description
 	 *
 	 * @param string $description The description.
 	 */
 	public function set_description( $description ) {
 		$this->description = $description;
+	}
+
+	/**
+	 * Sets the "extra"
+	 *
+	 * @param string $extra The "extra".
+	 */
+	public function set_extra( $extra ) {
+		$this->extra = $extra;
 	}
 
 	/**

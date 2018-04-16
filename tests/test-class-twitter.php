@@ -1,8 +1,13 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -10,25 +15,29 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up a WPSEO_Twitter object.
+	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 		ob_start();
 
-		// create instance of WPSEO_Twitter class
-		require 'framework/class-expose-wpseo-twitter.php';
+		// Create instance of WPSEO_Twitter class.
 		self::$class_instance = new Expose_WPSEO_Twitter();
 		WPSEO_Frontend::get_instance()->reset();
-		// clean output which was outputted by WPSEO_Twitter constructor
+		// Clean output which was outputted by WPSEO_Twitter constructor.
 		ob_end_clean();
 	}
 
-
+	/**
+	 * Clean up after each test.
+	 */
 	public function tearDown() {
 		parent::tearDown();
 		ob_clean();
 		WPSEO_Frontend::get_instance()->reset();
 
-		// Reset shown images
+		// Reset shown images.
 		self::$class_instance->shown_images = array();
 	}
 
@@ -38,17 +47,17 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_twitter() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title'  => 'Twitter Test Post',
+				'post_title'   => 'Twitter Test Post',
 				'post_excerpt' => 'Twitter Test Excerpt',
-				'post_type'   => 'post',
-				'post_status' => 'publish',
+				'post_type'    => 'post',
+				'post_status'  => 'publish',
 			)
 		);
 		$this->go_to( get_permalink( $post_id ) );
 
 		self::$class_instance->twitter();
 
-		$expected = '<meta name="twitter:card" content="summary" />
+		$expected = '<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:description" content="Twitter Test Excerpt" />
 <meta name="twitter:title" content="Twitter Test Post - Test Blog" />
 ';
@@ -60,26 +69,26 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_type() {
 
-		// test invalid option, should default to summary
-		self::$class_instance->options['twitter_card_type'] = 'something_invalid';
-		$expected                                           = $this->metatag( 'card', 'summary' );
+		// Test invalid option, should default to summary.
+		WPSEO_Options::set( 'twitter_card_type', 'something_invalid' );
+		$expected = $this->metatag( 'card', 'summary_large_image' );
 
 		self::$class_instance->type();
 		$this->expectOutput( $expected );
 
-		// test valid option
-		self::$class_instance->options['twitter_card_type'] = 'summary_large_image';
-		$expected                                           = $this->metatag( 'card', 'summary_large_image' );
+		// Test valid option.
+		WPSEO_Options::set( 'twitter_card_type', 'summary' );
+		$expected = $this->metatag( 'card', 'summary' );
 
 		self::$class_instance->type();
 		$this->expectOutput( $expected );
 
-		self::$class_instance->options['twitter_card_type'] = 'summary';
+		WPSEO_Options::set( 'twitter_card_type', 'summary' );
 	}
 
 	/**
-	 * @param $name
-	 * @param $value
+	 * @param string $name  Name.
+	 * @param string $value Value.
 	 *
 	 * @return string
 	 */
@@ -91,9 +100,9 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::site_twitter
 	 */
 	public function test_site_twitter() {
-		// test valid option
-		self::$class_instance->options['twitter_site'] = 'yoast';
-		$expected                                      = $this->metatag( 'site', '@yoast' );
+		// Test valid option.
+		WPSEO_Options::set( 'twitter_site', 'yoast' );
+		$expected = $this->metatag( 'site', '@yoast' );
 
 		self::$class_instance->site_twitter();
 		$this->expectOutput( $expected );
@@ -103,7 +112,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::author
 	 */
 	public function test_author_twitter() {
-		// create user, create post, attach user as author
+		// Create user, create post, attach user as author.
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		$post_id = $this->factory->post->create(
 			array(
@@ -114,21 +123,21 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		// go to post we just created
+		// Go to post we just created.
 		$this->go_to( get_permalink( $post_id ) );
 
-		// test fallback to twitter_site option
-		self::$class_instance->options['twitter_site'] = 'yoast';
+		// Test fallback to twitter_site option.
+		WPSEO_Options::set( 'twitter_site', 'yoast' );
 		self::$class_instance->author();
 		$expected = $this->metatag( 'creator', '@yoast' );
 		$this->expectOutput( $expected );
 
-		// create user, give twitter ID, this should now overwrite the site's settings
+		// Create user, give twitter ID, this should now overwrite the site's settings.
 		update_user_meta( $user_id, 'twitter', '@jdevalk' );
 		$expected = $this->metatag( 'creator', '@jdevalk' );
 		$this->go_to( get_permalink( $post_id ) );
 
-		// test user meta
+		// Test user meta.
 		self::$class_instance->author();
 		$this->expectOutput( $expected );
 	}
@@ -137,7 +146,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::title
 	 */
 	public function test_twitter_title() {
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -150,11 +159,11 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::description
 	 */
 	public function test_twitter_description_excerpt() {
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		// test excerpt
+		// Test excerpt.
 		$expected = $this->metatag( 'description', get_the_excerpt() );
 
 		ob_clean();
@@ -166,10 +175,10 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::description
 	 */
 	public function test_twitter_description_metadesc() {
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 
-		// test wpseo meta
+		// Test wpseo meta.
 		WPSEO_Meta::set_value( 'metadesc', 'Meta description', $post_id );
 
 		$this->go_to( get_permalink( $post_id ) );
@@ -180,11 +189,16 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests static page set as front page
+	 * Tests static page set as front page.
 	 */
 	public function test_static_front_page() {
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'front-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 		$this->go_to_home();
@@ -207,15 +221,25 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests static page set as posts page
+	 * Tests static page set as posts page.
 	 */
 	public function test_static_posts_page() {
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'front-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 
-		$post_id = $this->factory->post->create( array( 'post_title' => 'blog-page', 'post_type' => 'page' ) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title' => 'blog-page',
+				'post_type'  => 'page',
+			)
+		);
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -247,13 +271,13 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_image_output() {
 		$image_url = 'http://url.jpg';
 
-		// test image url
+		// Test image URL.
 		$expected = $this->metatag( 'image', $image_url );
 		$result   = self::$class_instance->image_output( $image_url );
 		$this->assertTrue( $result );
 		$this->expectOutput( $expected );
 
-		// same image url shouldn't be shown twice
+		// Same image URL shouldn't be shown twice.
 		$result = self::$class_instance->image_output( $image_url );
 		$this->assertFalse( $result );
 	}
@@ -262,11 +286,11 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::image()
 	 */
 	public function test_homepage_image() {
-		// test default image
+		// Test default image.
 		$image_url = 'http://url-default-image.jpg';
 
-		// reset default_image option
-		self::$class_instance->options['og_frontpage_image'] = $image_url;
+		// Reset default_image option.
+		WPSEO_Options::set( 'og_frontpage_image', $image_url );
 
 		$this->go_to_home();
 		$expected = $this->metatag( 'image', $image_url );
@@ -279,33 +303,33 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::image()
 	 */
 	public function test_default_image() {
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		// test default image
+		// Test default image.
 		$image_url = 'http://url-default-image.jpg';
 
-		self::$class_instance->options['og_default_image'] = $image_url;
-		$expected                                          = $this->get_expected_image_output( $image_url );
+		WPSEO_Options::set( 'og_default_image', $image_url );
+		$expected = $this->get_expected_image_output( $image_url );
 
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
 	}
 
 	/**
-	 * @param $url
+	 * @param string $url URL.
 	 *
 	 * @return string
 	 */
 	private function get_expected_image_output( $url ) {
 
-		// get expected output
+		// Get expected output.
 		self::$class_instance->image_output( $url );
 		$expected = ob_get_contents();
 		ob_clean();
 
-		// reset shown_images array
+		// Reset shown_images array.
 		self::$class_instance->shown_images = array();
 
 		return $expected;
@@ -315,11 +339,11 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::image()
 	 */
 	public function test_meta_value_image() {
-		// create and go to post
+		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		// test wpseo meta value
+		// Test wpseo meta value.
 		$image_url = 'http://url-singular-meta-image.jpg';
 		WPSEO_Meta::set_value( 'twitter-image', $image_url, $post_id );
 		$expected = $this->get_expected_image_output( $image_url );
@@ -332,8 +356,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::image()
 	 */
 	public function test_post_thumbnail_image() {
-		$post_id = $this->factory->post->create();
-		$filename = 'post-thumbnail.jpg';
+		$post_id       = $this->factory->post->create();
+		$filename      = 'post-thumbnail.jpg';
 		$attachment_id = $this->factory->attachment->create_object( $filename, 0, array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',
@@ -352,7 +376,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::image()
 	 */
 	public function test_post_content_image() {
-		$url = 'http://example.com/example.jpg';
+		$url     = 'http://example.com/example.jpg';
 		$post_id = $this->factory->post->create( array( 'post_content' => "Bla <img src='$url'/> bla" ) );
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -363,7 +387,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing with a twitter title set for the taxonomy
+	 * Testing with a twitter title set for the taxonomy.
 	 *
 	 * @covers WPSEO_Twitter::title
 	 */
@@ -380,7 +404,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing with a twitter meta description set for the taxonomy
+	 * Testing with a twitter meta description set for the taxonomy.
 	 *
 	 * @covers WPSEO_Twitter::description
 	 */
@@ -397,7 +421,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing with a twitter meta image set for the taxonomy
+	 * Testing with a twitter meta image set for the taxonomy.
 	 *
 	 * @covers WPSEO_Twitter::image
 	 */
@@ -420,15 +444,15 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		$expected = $this->metatag( 'card', 'summary_large_image' );
 
-		// Insert image into DB so we have something to test against
-		$filename = "image.jpg";
-		$id       = $this->factory->attachment->create_object( $filename, 0, array(
+		// Insert image into DB so we have something to test against.
+		$filename  = 'image.jpg';
+		$id        = $this->factory->attachment->create_object( $filename, 0, array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',
 		) );
 		$expected .= $this->metatag( 'image', 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
 
-		// Create and go to post
+		// Create and go to post.
 		$content = '[gallery ids="' . $id . '"]';
 		$post_id = $this->factory->post->create( array( 'post_content' => $content ) );
 		$this->go_to( get_permalink( $post_id ) );

@@ -1,5 +1,12 @@
 @import "menu";
+@import "../../node_modules/yoastseo/css/tooltips";
 
+/* General typography */
+.yoast-measure {
+	max-width: 600px;
+}
+
+/* Thickbox */
 #TB_window .wpseo_content_wrapper p {
 	font-size: 14px;
 	font-style: normal;
@@ -8,12 +15,15 @@
 #TB_window .wpseo_content_wrapper label {
 	margin: 0 10px 0 0;
 	font-size: 14px;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .wpseo-premium-popup-title {
-	margin: 1em 0;
-	font-size: 1.3em;
+	// Using !important to override WP styles.
+	margin: 1em 0 !important;
+	padding: 0 !important;
+	font-size: 1.3em !important;
+	font-weight: 600 !important;
 }
 
 .wpseo-premium-popup-icon {
@@ -43,4 +53,397 @@
 
 .yoast-label-strong {
 	font-weight: 600;
+}
+
+// Responsive videos.
+// Other common aspect ratios: 75% = 4:3, 66.66% = 3:2, 62.5% = 8:5.
+.yoast-video-container-max-width {
+	max-width: 560px;
+}
+
+.yoast-video-container {
+	position: relative;
+	padding-bottom: 56.25%; // 16:9.
+	height: 0;
+	overflow: hidden;
+}
+
+.yoast-video-container iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+// Forms.
+.yoast-settings {
+	margin-bottom: 2em;
+	// Mimic the WordPress table layout.
+	padding-left: 220px;
+}
+
+.yoast-settings h2 {
+	margin-bottom: 0;
+	margin-left: -220px;
+}
+
+// By default, labels are left aligned to mimic the WordPress table layout.
+.yoast-settings label {
+	display: inline-block;
+	width: 200px;
+	padding-top: 4px;
+	padding-right: 10px;
+	margin-right: 6px;
+	margin-left: -220px;
+	font-size: 14px;
+	line-height: 1.3;
+	font-weight: 600;
+	color: #23282d;
+	vertical-align: top;
+}
+
+// Default vertical spacing between blocks of controls.
+.yoast-settings label,
+.yoast-settings fieldset,
+.yoast-settings input[type="text"],
+.yoast .yoast-settings__checkbox, // Needs higher specificity.
+.yoast .yoast-settings__radio, // Needs higher specificity.
+.yoast-settings textarea,
+.yoast-settings select {
+	margin-top: 2em;
+	margin-bottom: 0.5em;
+}
+
+// Max-width for some elements.
+.yoast-settings__textarea--medium {
+	width: 100%;
+	max-width: 600px;
+}
+
+// Checkboxes and radio buttons need selectors with higher specificity.
+.yoast .yoast-settings__checkbox,
+.yoast .yoast-settings__radio {
+	vertical-align: top;
+	// Ideally, checkboxes and radio buttons should have the same height of a
+	// line of text. We fix the vertical alignment by other means.
+	position: relative;
+	top: 1px;
+}
+
+// Fieldsets for checkboxes and radio buttons.
+.yoast-settings__group--checkbox,
+.yoast-settings__group--radio {
+	padding-top: 1em;
+}
+
+// Checkboxes and radio buttons within a fieldset need smaller vertical margins.
+.yoast-settings__group--checkbox .yoast-settings__checkbox,
+.yoast-settings__group--radio .yoast-settings__radio {
+	margin: 0 4px 10px 0;
+}
+
+// Labels for checkboxes and radio buttons.
+.yoast-settings__checkbox + label,
+.yoast-settings__radio + label {
+	width: auto;
+	margin-left: 0;
+	margin-right: 0;
+	padding: 0;
+	max-width: calc( 100% - 25px );
+}
+
+// Labels for checkboxes and radio buttons within a fieldset.
+.yoast-settings__group--checkbox .yoast-settings__checkbox + label,
+.yoast-settings__group--radio .yoast-settings__radio + label {
+	margin-top: 0;
+	margin-bottom: 10px;
+	font-weight: 400;
+}
+
+// Other form elements.
+.yoast-settings legend {
+	font-size: 14px;
+	font-weight: 600;
+	color: #23282d;
+}
+
+.yoast-settings .description {
+	margin-top: 0;
+	font-size: 14px;
+}
+
+/* Icons in the posts and taxonomies table cells. */
+td .wpseo-score-icon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin-left: 5px;
+	border-radius: 50%;
+	background: #888;
+	line-height: 16px;
+}
+
+/* Adjust vertical alignment of the icons in the table cells. */
+td .wpseo-score-icon {
+	margin-top: 3px;
+}
+
+/* Table internal links, SEO, and Readability columns tooltips. */
+.fixed th.column-wpseo-score,
+.fixed th.column-wpseo-score-readability,
+.fixed th.column-wpseo-links,
+.fixed th.column-wpseo-linked {
+	/* 42px */
+	width: 3em;
+	padding: 0;
+}
+
+/* Don't use selectors related to classes added with JavaScript to avoid flickering. */
+th.column-wpseo-links a,
+th.column-wpseo-linked a,
+th.column-wpseo-score .yoast-tooltip,
+th.column-wpseo-score-readability .yoast-tooltip {
+	overflow: visible; /* Override WP property to make tooltips visible. */
+	display: inline-block; /* To contain floats instead of using overflow. */
+	vertical-align: middle;
+	padding: 8px 0;
+}
+
+th.column-wpseo-score .yoast-tooltip,
+th.column-wpseo-score-readability .yoast-tooltip {
+	/* 11+20+11=42px */
+	padding: 8px 11px;
+}
+
+.column-wpseo-links .yoast-tooltip-multiline::after {
+	/* Edge doesn't support width: max-content; */
+	width: 999px;
+	max-width: 160px;
+}
+
+.column-wpseo-linked .yoast-tooltip-multiline::after {
+	/* Edge doesn't support width: max-content; */
+	width: 999px;
+	max-width: 170px;
+}
+
+.yoast-column-header-has-tooltip {
+	position: relative;
+}
+
+/* Generate the icons in the table columns, exclude Screen Options. */
+.manage-column .yoast-column-header-has-tooltip:before {
+	content: "";
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	vertical-align: top;
+	text-decoration: none !important;
+	color: #444;
+}
+
+.manage-column .yoast-linked-to:before {
+	background: transparent url( "../../images/link-out-icon.svg" ) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.manage-column .yoast-linked-from:before {
+	background: transparent url( "../../images/link-in-icon.svg" ) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.manage-column .yoast-column-seo-score:before {
+	background: transparent url( "../../images/Yoast_SEO_negative_icon.svg" ) no-repeat 0 0;
+	background-size: 20px;
+}
+
+.manage-column .yoast-column-readability:before {
+	background: transparent url( "../../images/readability-icon.svg" ) no-repeat 0 0;
+	background-size: 20px;
+}
+
+/* Do not allow link numbers to break in the table cells. */
+td.column-wpseo-links,
+td.column-wpseo-linked {
+	word-wrap: normal;
+}
+
+/* Make the checkboxes lable in the Screen Options visible. */
+#screen-meta .yoast-column-header-has-tooltip .screen-reader-text {
+	position: static;
+	width: auto;
+	height: auto;
+	visibility: visible;
+}
+
+@media screen and ( max-width: 782px ) {
+	.yoast-settings {
+		padding-left: 0;
+	}
+
+	.yoast-settings h2 {
+		margin-left: 0;
+	}
+
+	.yoast-settings label {
+		width: auto;
+		padding: 0;
+		margin-right: 0;
+		margin-left: 0;
+	}
+
+	.yoast .yoast-settings__radio,
+	.yoast-settings__radio + label {
+		margin-bottom: 1em;
+	}
+
+	.yoast-settings__checkbox + label,
+	.yoast-settings__radio + label {
+		max-width: calc( 100% - 35px );
+		padding-top: 8px;
+	}
+
+	.yoast-settings__group--checkbox .yoast-settings__checkbox + label,
+	.yoast-settings__group--radio .yoast-settings__radio + label {
+		padding-top: 4px;
+	}
+
+	.yoast-settings input[type="text"],
+	.yoast-settings textarea,
+	.yoast-settings select {
+		display: block;
+		width: 100%;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding: 7px 10px;
+		max-width: none;
+		line-height: 1.5;
+		box-sizing: border-box;
+	}
+}
+
+/* Help Center */
+#yoast-help-center-container {
+	margin: 16px 0 24px;
+}
+
+.react-tabs__tab-panel {
+	max-width: 900px;
+	margin: 0 auto;
+
+	li {
+		max-width: none !important;
+	}
+}
+
+.yoast-help-center-open #sidebar-container {
+	display: none;
+}
+
+.contact-premium-support {
+ 	text-align: center;
+
+	&__content {
+		margin: 0 auto 1.5em;
+		font-size: 0.9375rem;
+		line-height: 1.4;
+
+		&:nth-child( 2 ) {
+			max-width: 610px;
+		}
+
+		&:nth-child( 3 ) {
+			max-width: 560px;
+		}
+	}
+
+	// Higher specificity.
+	& &__button {
+		margin-bottom: 48px;
+	}
+}
+
+.wpseo-premium-description {
+	margin-top: 0.5em;
+}
+
+.wpseo-premium-advantages-list {
+	list-style: disc;
+	padding-left: 1.5em;
+}
+
+.yoast_help.yoast-help-button {
+	overflow: visible;
+	position: relative;
+	width: 20px;
+	height: 20px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: none;
+	color: #72777c;
+	background: transparent;
+	box-shadow: none;
+	vertical-align: top;
+	/* IE 11 */
+	cursor: pointer;
+}
+
+.yoast-section .yoast_help.yoast-help-button {
+	float: right;
+}
+
+.help-button-inline .yoast_help.yoast-help-button {
+	margin-top: -4px;
+}
+
+.yoast-section .yoast_help.yoast-help-button {
+	margin-top: -44px;
+}
+
+.wpseo-admin-page .yoast_help.yoast-help-button {
+	margin-right: 6px;
+}
+
+.yoast_help .yoast-help-icon::before {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 4px;
+	content: "\f223";
+}
+
+.yoast_help.yoast-help-button:hover,
+.yoast_help.yoast-help-button:focus {
+	color: #0073aa;
+}
+
+.yoast_help.yoast-help-button:focus .yoast-help-icon::before,
+.assessment-results__mark:focus {
+	border-radius: 100%;
+	box-shadow: 0 0 0 1px #5b9dd9,
+	0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.yoast-help-panel {
+	display: none;
+	clear: both;
+	max-width: 30em !important;
+	padding: 0 0 1em;
+	font-weight: normal;
+	white-space: normal;
+}
+
+.wpseo-admin-page .yoast-help-panel {
+	max-width: 600px !important;
+}
+
+.copy-home-meta-description .yoast-help-panel {
+	max-width: 400px !important;
+}
+
+.yoast-modal_is-open {
+	overflow: hidden;
 }

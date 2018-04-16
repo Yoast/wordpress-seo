@@ -1,6 +1,8 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Sitemaps
  */
 
 /**

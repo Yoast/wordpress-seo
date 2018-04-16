@@ -1,7 +1,5 @@
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
-	"use strict";
-
 	return {
 		"combine-pot-files": {
 			fromFiles: [
@@ -61,6 +59,10 @@ module.exports = function( grunt ) {
 					" --add-comments=\"Translators: \"" +
 					" " + files.join( " " );
 			},
+		},
+
+		"production-composer-install": {
+			command: "composer install --prefer-dist --optimize-autoloader --no-dev",
 		},
 	};
 };

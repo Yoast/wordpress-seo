@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Notifications
  */
 
@@ -94,7 +96,7 @@ class Yoast_Notification_Center {
 		$user_id       = ( ! is_null( $user_id ) ? $user_id : get_current_user_id() );
 		$dismissal_key = $notification->get_dismissal_key();
 
-		$current_value = get_user_meta( $user_id, $dismissal_key, $single = true );
+		$current_value = get_user_meta( $user_id, $dismissal_key, true );
 
 		return ! empty( $current_value );
 	}
@@ -169,7 +171,7 @@ class Yoast_Notification_Center {
 		}
 
 		// Remove notification dismissal for all users.
-		$deleted = delete_metadata( 'user', $user_id = 0, $dismissal_key, $meta_value = '', $delete_all = true );
+		$deleted = delete_metadata( 'user', 0, $dismissal_key, '', true );
 
 		return $deleted;
 	}
@@ -226,8 +228,12 @@ class Yoast_Notification_Center {
 
 	/**
 	 * Display the notifications
+	 *
+	 * @param bool $echo_as_json True when notifications should be printed directly.
+	 *
+	 * @return void
 	 */
-	public function display_notifications() {
+	public function display_notifications( $echo_as_json = false ) {
 
 		// Never display notifications for network admin.
 		if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
@@ -235,11 +241,27 @@ class Yoast_Notification_Center {
 		}
 
 		$sorted_notifications = $this->get_sorted_notifications();
-		foreach ( $sorted_notifications as $notification ) {
-			if ( ! $notification->is_persistent() ) {
-				echo $notification;
-				$this->remove_notification( $notification );
+		$notifications        = array_filter( $sorted_notifications, array( $this, 'is_notification_persistent' ) );
+
+		if ( empty( $notifications ) ) {
+			return;
+		}
+
+		array_walk( $notifications, array( $this, 'remove_notification' ) );
+
+		if ( $echo_as_json ) {
+			$notification_json = array();
+			foreach ( $notifications as $notification ) {
+				$notification_json[] = $notification->render();
 			}
+
+			echo json_encode( $notification_json );
+
+			return;
+		}
+
+		foreach ( $notifications as $notification ) {
+			echo $notification;
 		}
 	}
 
@@ -332,9 +354,10 @@ class Yoast_Notification_Center {
 	 * AJAX display notifications
 	 */
 	public function ajax_get_notifications() {
+		$echo = filter_input( INPUT_POST, 'version' ) === '2';
 
 		// Display the notices.
-		$this->display_notifications();
+		$this->display_notifications( $echo );
 
 		// AJAX die.
 		exit;
@@ -360,6 +383,13 @@ class Yoast_Notification_Center {
 	public function update_storage() {
 
 		$notifications = $this->get_notifications();
+
+		/**
+		 * Filter: 'yoast_notifications_before_storage' - Allows developer to filter notifications before saving them.
+		 *
+		 * @api Yoast_Notification[] $notifications
+		 */
+		$notifications = apply_filters( 'yoast_notifications_before_storage', $notifications );
 
 		// No notifications to store, clear storage.
 		if ( empty( $notifications ) ) {
@@ -427,7 +457,8 @@ class Yoast_Notification_Center {
 
 		if ( is_array( $stored_notifications ) ) {
 			$notifications = array_map( array( $this, 'array_to_notification' ), $stored_notifications );
-			$notifications = array_filter( $notifications, array( $this, 'filter_notification_current_user' ) );
+			// Apply array_values to ensure we get a 0-indexed array.
+			$notifications = array_values( array_filter( $notifications, array( $this, 'filter_notification_current_user' ) ) );
 
 			$this->notifications = $notifications;
 		}
@@ -557,13 +588,13 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Write the notifications to a cookie (hooked on shutdown)
+	 * Checks if given notification is persistent.
 	 *
-	 * Function renamed to 'update_storage'.
+	 * @param Yoast_Notification $notification The notification to check.
 	 *
-	 * @deprecated 3.2 remove in 3.5
+	 * @return bool True when notification is not persistent.
 	 */
-	public function set_transient() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.2' );
+	private function is_notification_persistent( Yoast_Notification $notification ) {
+		return ! $notification->is_persistent();
 	}
 }

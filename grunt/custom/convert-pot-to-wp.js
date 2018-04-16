@@ -1,6 +1,6 @@
 let gettextParser = require( "gettext-parser" );
-let _forEach = require( "lodash/foreach" );
-let _isEmpty = require( "lodash/isempty" );
+let _forEach = require( "lodash/forEach" );
+let _isEmpty = require( "lodash/isEmpty" );
 
 let TAB = "\t";
 let NEWLINE = "\n";
@@ -17,13 +17,13 @@ let fileFooter = NEWLINE + [
 ].join( NEWLINE ) + NEWLINE;
 
 /**
- * Escapes double quotes.
+ * Escapes single quotes.
  *
  * @param {string} input The string to be escaped.
  * @returns {string} The escaped string.
  */
-function escapeDoubleQuotes( input ) {
-	return input.replace( /"/g, '\\"' );
+function escapeSingleQuotes( input ) {
+	return input.replace( /'/g, "\\'" );
 }
 
 /**
@@ -61,14 +61,14 @@ function convertTranslationToPHP( translation, textdomain ) {
 	}
 
 	if ( "" !== original ) {
-		original = escapeDoubleQuotes( original );
+		original = escapeSingleQuotes( original );
 
 		if ( _isEmpty( translation.msgid_plural ) ) {
-			php += TAB + `__( "${original}", "${textdomain}" )`;
+			php += TAB + `__( '${original}', '${textdomain}' )`;
 		} else {
-			let plural = escapeDoubleQuotes( translation.msgid_plural );
+			let plural = escapeSingleQuotes( translation.msgid_plural );
 
-			php += TAB + `_n( "${original}", "${plural}", 1, "${textdomain}" )`;
+			php += TAB + `_n_noop( '${original}', '${plural}', '${textdomain}' )`;
 		}
 	}
 

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -32,8 +34,8 @@ class WPSEO_Admin_Help_Panel {
 	 * Constructor.
 	 *
 	 * @param string $id                Unique identifier of the element the inline help refers to, used as an identifier in the html.
-	 * @param string $help_button_text  The Help Button text.
-	 * @param string $help_content      The Help Panel content.
+	 * @param string $help_button_text  The Help Button text. Needs a properly escaped string.
+	 * @param string $help_content      The Help Panel content. Needs a properly escaped string (might contain HTML).
 	 * @param string $wrapper           Optional Whether to print out a container div element for the Help Panel, used for styling.
 	 *                                  Pass a `has-wrapper` value to print out the container. Default: no container.
 	 */
@@ -56,7 +58,7 @@ class WPSEO_Admin_Help_Panel {
 		}
 
 		return sprintf(
-			' <button type="button" class="yoast_help yoast-help-button dashicons" id="%1$s-help-toggle" aria-expanded="false" aria-controls="%1$s-help"><span class="screen-reader-text">%2$s</span></button>',
+			' <button type="button" class="yoast_help yoast-help-button dashicons" id="%1$s-help-toggle" aria-expanded="false" aria-controls="%1$s-help"><span class="yoast-help-icon" aria-hidden="true"></span><span class="screen-reader-text">%2$s</span></button>',
 			esc_attr( $this->id ),
 			$this->help_button_text
 		);
@@ -73,7 +75,8 @@ class WPSEO_Admin_Help_Panel {
 			return '';
 		}
 
-		$wrapper_start = $wrapper_end = '';
+		$wrapper_start = '';
+		$wrapper_end   = '';
 
 		if ( 'has-wrapper' === $this->wrapper ) {
 			$wrapper_start = '<div class="yoast-seo-help-container">';

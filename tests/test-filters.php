@@ -1,8 +1,13 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class Filters_Test extends WPSEO_UnitTestCase {
 
 	/**

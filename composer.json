@@ -5,13 +5,13 @@
 		"wordpress",
 		"seo"
 	],
-	"homepage": "https://yoast.com/wordpress/plugins/seo/",
-	"license": "GPL-2.0+",
+	"homepage": "https://yoa.st/1ui",
+	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Team Yoast",
 			"email": "support@yoast.com",
-			"homepage": "https://yoast.com"
+			"homepage": "https://yoa.st/1--"
 		}
 	],
 	"type": "wordpress-plugin",
@@ -23,15 +23,16 @@
 	},
 	"require": {
 		"composer/installers": "~1.0",
-		"yoast/license-manager": "^1.4.0",
-		"yoast/i18n-module": "^1.0",
+		"yoast/license-manager": "1.6.0",
+		"yoast/i18n-module": "^3.0",
 		"yoast/api-libs": "^2.0",
-		"xrstf/composer-php52": "^1.0.20"
+		"xrstf/composer-php52": "^1.0.20",
+		"yoast/whip": "^1.1.0"
 	},
 	"require-dev": {
-		"yoast/yoastcs": "0.3",
-		"codeclimate/php-test-reporter": "dev-master",
-		"yoast/php-development-environment": "^1.0"
+		"yoast/php-development-environment": "^1.0",
+		"yoast/yoastcs": "~0.4.3",
+		"roave/security-advisories": "dev-master"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -43,10 +44,24 @@
 			"deprecated/"
 		]
 	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/"
+		]
+	},
 	"scripts": {
 		"config-yoastcs": [
 			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
 			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
+		],
+		"check-cs": [
+			"\"vendor/bin/phpcs\""
+		],
+		"check-cs-errors": [
+			"\"vendor/bin/phpcs\" --error-severity=1 --warning-severity=6"
+		],
+		"fix-cs": [
+			"\"vendor/bin/phpcbf\""
 		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"

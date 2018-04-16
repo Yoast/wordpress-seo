@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -64,6 +66,7 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 			'link_aria_label' => '',
 			'single'          => false,
 		);
+
 		$options = array_merge( $default_options, $options );
 
 		$this->name            = $name;
@@ -107,7 +110,8 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	 */
 	public function content() {
 		return sprintf(
-			'<div id="wpseo_%1$s" class="wpseotab %1$s">%2$s</div>',
+			'<div id="%1$s" class="wpseotab %2$s">%3$s</div>',
+			esc_attr( 'wpseo_' . $this->name ),
 			esc_attr( $this->name ),
 			$this->content
 		);

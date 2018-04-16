@@ -10,6 +10,7 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar }from "../ui/adminBar";
 
 import publishBox from "../ui/publishBox";
+import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 
 let $ = jQuery;
 let currentKeyword = "";
@@ -18,6 +19,7 @@ let currentKeyword = "";
  * Show warning in console when the unsupported CkEditor is used
  *
  * @param {Object} args The arguments for the post scraper.
+ * @param {Object} args.data The data.
  * @param {TabManager} args.tabManager The tab manager for this post.
  *
  * @constructor
@@ -27,23 +29,31 @@ let PostDataCollector = function( args ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
 
+	this._data = args.data;
 	this._tabManager = args.tabManager;
 };
 
 /**
  * Get data from input fields and store them in an analyzerData object. This object will be used to fill
- * the analyzer and the snippet preview.
+ * the analyzer and the snippet preview. If Gutenberg data is available, use it.
  *
- * @returns {void}
+ * @returns {Object} The data.
  */
 PostDataCollector.prototype.getData = function() {
+	let gutenbergData;
+
+	// Only use data from Gutenberg if Gutenberg is available.
+	if ( isGutenbergDataAvailable() ) {
+		gutenbergData = this._data.getData();
+	}
+
 	return {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		meta: this.getMeta(),
-		text: this.getText(),
-		title: this.getTitle(),
-		url: this.getUrl(),
-		excerpt: this.getExcerpt(),
+		text: gutenbergData && gutenbergData.content ? gutenbergData.content : this.getText(),
+		title: gutenbergData && gutenbergData.title ? gutenbergData.title : this.getTitle(),
+		url: gutenbergData && gutenbergData.slug ? gutenbergData.slug : this.getUrl(),
+		excerpt: gutenbergData && gutenbergData.excerpt ? gutenbergData.excerpt : this.getExcerpt(),
 		snippetTitle: this.getSnippetTitle(),
 		snippetMeta: this.getSnippetMeta(),
 		snippetCite: this.getSnippetCite(),
@@ -104,8 +114,7 @@ PostDataCollector.prototype.getUrl = function() {
 	var newPostSlug = $( "#new-post-slug" );
 	if ( 0 < newPostSlug.length ) {
 		url = newPostSlug.val();
-	}
-	else if ( document.getElementById( "editable-post-name-full" ) !== null ) {
+	} else if ( document.getElementById( "editable-post-name-full" ) !== null ) {
 		url = document.getElementById( "editable-post-name-full" ).textContent;
 	}
 
@@ -214,8 +223,10 @@ PostDataCollector.prototype.getPermalink = function() {
 
 /**
  * Get the category name from the list item.
- * @param {jQuery Object} li Item which contains the category
- * @returns {String} Name of the category
+ *
+ * @param {Object} li Item which contains the category.
+ *
+ * @returns {String}  Name of the category.
  */
 PostDataCollector.prototype.getCategoryName = function( li ) {
 	var clone = li.clone();
@@ -225,8 +236,9 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
 
 /**
  * When the snippet is updated, update the (hidden) fields on the page.
- * @param {Object} value
- * @param {String} type
+ *
+ * @param {Object} value The value to set.
+ * @param {String} type  The type to set the value for.
  *
  * @returns {void}
  */
@@ -267,10 +279,10 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 /**
  * The data passed from the snippet editor.
  *
- * @param {Object} data
- * @param {string} data.title
- * @param {string} data.urlPath
- * @param {string} data.metaDesc
+ * @param {Object} data          Object with data value.
+ * @param {string} data.title    The title.
+ * @param {string} data.urlPath  The url.
+ * @param {string} data.metaDesc The meta description.
  *
  * @returns {void}
  */
@@ -283,6 +295,8 @@ PostDataCollector.prototype.saveSnippetData = function( data ) {
 /**
  * Calls the event binders.
  *
+ * @param {app} app The app object.
+ *
  * @returns {void}
  */
 PostDataCollector.prototype.bindElementEvents = function( app ) {
@@ -292,6 +306,8 @@ PostDataCollector.prototype.bindElementEvents = function( app ) {
 
 /**
  * Binds the reanalyze timer on change of dom element.
+ *
+ * @param {app} app The app object.
  *
  * @returns {void}
  */
@@ -304,6 +320,8 @@ PostDataCollector.prototype.changeElementEventBinder = function( app ) {
 
 /**
  * Binds the renewData function on the change of input elements.
+ *
+ * @param {app} app The app object.
  *
  * @returns {void}
  */
@@ -357,8 +375,14 @@ PostDataCollector.prototype.saveScores = function( score ) {
 
 		if ( "" === currentKeyword ) {
 			indicator.className = "na";
-			indicator.screenReaderText = this.app.i18n.dgettext( "js-text-analysis", "Enter a focus keyword to calculate the SEO score" );
-			indicator.fullText = this.app.i18n.dgettext( "js-text-analysis", "Content optimization: Enter a focus keyword to calculate the SEO score" );
+			indicator.screenReaderText = this.app.i18n.dgettext(
+				"js-text-analysis",
+				"Enter a focus keyword to calculate the SEO score"
+			);
+			indicator.fullText = this.app.i18n.dgettext(
+				"js-text-analysis",
+				"Content optimization: Enter a focus keyword to calculate the SEO score"
+			);
 		}
 
 		this._tabManager.updateKeywordTab( score, currentKeyword );

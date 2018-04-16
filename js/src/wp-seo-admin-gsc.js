@@ -1,21 +1,31 @@
-/* jshint unused:false */
 /* global ajaxurl */
 /* global tb_click */
-/* global tb_remove */
 jQuery( function() {
-	"use strict";
+	jQuery( ".subsubsub .yoast_help" ).on(
+		"click active",
+		function() {
+			let targetElementID = "#" + jQuery( this ).attr( "aria-controls" );
+			jQuery( ".yoast-help-panel" ).not( targetElementID ).hide();
+		}
+	);
+
 
 	// Store the control that opened the modal dialog for later use.
 	var $gscModalFocusedBefore;
 
 	jQuery( "#gsc_auth_code" ).click(
 		function() {
-			var auth_url = jQuery( "#gsc_auth_url" ).val(),
+			var authUrl = jQuery( "#gsc_auth_url" ).val(),
 				w = 600,
 				h = 500,
 				left = ( screen.width / 2 ) - ( w / 2 ),
 				top = ( screen.height / 2 ) - ( h / 2 );
-			return window.open( auth_url, "wpseogscauthcode", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left );
+			return window.open(
+				authUrl,
+				"wpseogscauthcode",
+				"toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, " +
+				"copyhistory=no, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left
+			);
 		}
 	);
 
@@ -37,6 +47,7 @@ jQuery( function() {
 			// Get the control that opened the modal dialog.
 			$gscModalFocusedBefore = jQuery( this );
 			// Call Thickbox now and bind `this`. The Thickbox UI is now available.
+			// eslint-disable-next-line
 			tb_click.call( this );
 
 			// Get the Thickbox modal elements.
@@ -82,87 +93,76 @@ jQuery( function() {
 	} );
 } );
 
-/**
- * Adds a redirect from the google search console overview.
- *
- * @returns {boolean} Always returns false to cancel the default event handler.
- */
-function wpseo_gsc_post_redirect() {
-	"use strict";
-
-	var target_form = jQuery( "#TB_ajaxContent" );
-	var old_url     = jQuery( target_form ).find( "input[name=current_url]" ).val();
-	var is_checked  = jQuery( target_form ).find( "input[name=mark_as_fixed]" ).prop( "checked" );
-
-	jQuery.post(
-		ajaxurl,
-		{
-			action: "wpseo_gsc_create_redirect_url",
-			ajax_nonce: jQuery( ".wpseo-gsc-ajax-security" ).val(),
-			old_url: old_url,
-			new_url: jQuery( target_form ).find( "input[name=new_url]" ).val(),
-			mark_as_fixed: is_checked,
-			platform: jQuery( "#field_platform" ).val(),
-			category: jQuery( "#field_category" ).val(),
-			type: "301",
-		},
-		function() {
-			if( is_checked === true ) {
-				// Remove the row with old url
-				jQuery( 'span:contains("' + old_url + '")' ).closest( "tr" ).remove();
-			}
-
-			// Remove the thickbox
-			tb_remove();
-		}
-	);
-
-	return false;
-}
 
 /**
  * Decrement current category count by one.
  *
  * @param {string} category The category count to update.
+ *
+ * @returns {void}
  */
-function wpseo_update_category_count( category ) {
-	"use strict";
-
-	var count_element = jQuery( "#gsc_count_" + category + "" );
-	var new_count     = parseInt( count_element.text(), 10 ) - 1;
-	if( new_count < 0 ) {
-		new_count = 0;
+function wpseoUpdateCategoryCount( category ) {
+	var countElement = jQuery( "#gsc_count_" + category + "" );
+	var newCount     = parseInt( countElement.text(), 10 ) - 1;
+	if( newCount < 0 ) {
+		newCount = 0;
 	}
 
-	count_element.text( new_count );
+	countElement.text( newCount );
 }
 
 /**
- * Marks a search console crawl issue as fixed.
+ * Sends the request to mark the given url as fixed.
  *
- * @param {string} url The URL that has been fixed.
+ * @param {string} nonce    The nonce for the request
+ * @param {string} platform The platform to mark the issue for.
+ * @param {string} category The category to mark the issue for.
+ * @param {string} url      The url to mark as fixed.
+ *
+ * @returns {void}
  */
-function wpseo_mark_as_fixed( url ) {
-	"use strict";
-
+function wpseoSendMarkAsFixed( nonce, platform, category, url ) {
 	jQuery.post(
 		ajaxurl,
 		{
 			action: "wpseo_mark_fixed_crawl_issue",
-			ajax_nonce: jQuery( ".wpseo-gsc-ajax-security" ).val(),
-			platform: jQuery( "#field_platform" ).val(),
-			category: jQuery( "#field_category" ).val(),
+			// eslint-disable-next-line
+			ajax_nonce: nonce,
+			platform: platform,
+			category: category,
 			url: url,
 		},
 		function( response ) {
 			if ( "true" === response ) {
-				wpseo_update_category_count( jQuery( "#field_category" ).val() );
+				wpseoUpdateCategoryCount( jQuery( "#field_category" ).val() );
 				jQuery( 'span:contains("' + url + '")' ).closest( "tr" ).remove();
 			}
 		}
 	);
 }
 
-window.wpseo_gsc_post_redirect = wpseo_gsc_post_redirect;
-window.wpseo_update_category_count = wpseo_update_category_count;
-window.wpseo_mark_as_fixed = wpseo_mark_as_fixed;
+/**
+ * Marks a search console crawl issue as fixed.
+ *
+ * @param {string} url The URL that has been fixed.
+ *
+ * @returns {void}
+ */
+function wpseoMarkAsFixed( url ) {
+	wpseoSendMarkAsFixed(
+		jQuery( ".wpseo-gsc-ajax-security" ).val(),
+		jQuery( "#field_platform" ).val(),
+		jQuery( "#field_category" ).val(),
+		url
+	);
+}
+
+window.wpseoUpdateCategoryCount = wpseoUpdateCategoryCount;
+window.wpseoMarkAsFixed = wpseoMarkAsFixed;
+window.wpseoSendMarkAsFixed = wpseoSendMarkAsFixed;
+
+/* eslint-disable camelcase */
+window.wpseo_update_category_count = wpseoUpdateCategoryCount;
+window.wpseo_mark_as_fixed = wpseoMarkAsFixed;
+window.wpseo_send_mark_as_fixed = wpseoSendMarkAsFixed;
+/* eslint-enable camelcase */

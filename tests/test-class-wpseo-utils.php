@@ -1,13 +1,18 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests
  */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
 
 	/**
-	 * @covers WPSEO_Options::grant_access
+	 * @covers WPSEO_Utils::grant_access
 	 */
 	public function test_grant_access() {
 
@@ -91,6 +96,10 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider translate_score_provider
 	 * @covers WPSEO_Utils::translate_score()
+	 *
+	 * @param int    $score     The decimal score to translate.
+	 * @param bool   $css_value Whether to return the i18n translated score or the CSS class value.
+	 * @param string $expected  Expected function result.
 	 */
 	public function test_translate_score( $score, $css_value, $expected ) {
 		$this->assertEquals( $expected, WPSEO_Utils::translate_score( $score, $css_value ) );
@@ -114,9 +123,9 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 			array( 83, true, 'good' ),
 			array( 100, true, 'good' ),
 			array( 0, false, 'Not available' ),
-			array( 1, false, 'Bad' ),
-			array( 23, false, 'Bad' ),
-			array( 40, false, 'Bad' ),
+			array( 1, false, 'Needs improvement' ),
+			array( 23, false, 'Needs improvement' ),
+			array( 40, false, 'Needs improvement' ),
 			array( 41, false, 'OK' ),
 			array( 55, false, 'OK' ),
 			array( 70, false, 'OK' ),
@@ -166,6 +175,10 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'nl', WPSEO_Utils::get_language( 'nl_NL' ) );
 		$this->assertEquals( 'nl', WPSEO_Utils::get_language( 'nl_XX' ) );
 		$this->assertEquals( 'nl', WPSEO_Utils::get_language( 'nl' ) );
+		$this->assertEquals( 'haw', WPSEO_Utils::get_language( 'haw_US' ) );
+		$this->assertEquals( 'rhg', WPSEO_Utils::get_language( 'rhg' ) );
+		$this->assertEquals( 'en', WPSEO_Utils::get_language( 'xxxx' ) );
+		$this->assertEquals( 'en', WPSEO_Utils::get_language( 'xxxx_XX' ) );
+		$this->assertEquals( 'en', WPSEO_Utils::get_language( '_XX' ) );
 	}
-	
 }

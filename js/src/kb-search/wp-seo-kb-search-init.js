@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactDom from "react-dom";
-import AlgoliaSearcher from "./wp-seo-kb-search.js";
+import { AlgoliaSearcher } from "yoast-components";
 
 /**
  * Gets the translations for the AlgoliaSearcher from the wpseoAdminL10n global and returns them in a properties array.
@@ -11,8 +11,8 @@ import AlgoliaSearcher from "./wp-seo-kb-search.js";
  *            loadingPlaceholder: *, search: *, open: *, openLabel: *, back: *, backLabel: *, iframeTitle: *}}
  *            Object containing the translated text properties for the knowledge base component.
  */
-var getTranslations = () => {
-	var translations = {
+let getTranslations = () => {
+	let translations = {
 		noResultsText: wpseoAdminL10n.kb_no_results,
 		headingText: wpseoAdminL10n.kb_heading,
 		searchButtonText: wpseoAdminL10n.kb_search_button_text,
@@ -28,24 +28,27 @@ var getTranslations = () => {
 	};
 	return translations;
 };
+
 /**
- * Renders the the AlgoliaSearchers into their containers.
+ * Renders the AlgoliaSearchers into their containers.
  *
  * @returns {array} The rendered AlgoliaSearchers.
  */
-var renderAlgoliaSearchers = () => {
-// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
-	var mountingPoints = jQuery( ".wpseo-kb-search" );
-	var algoliaSearchers = [];
+let renderAlgoliaSearchers = () => {
+	// Inject kb-search in divs with the classname of 'wpseo-kb-search'.
+	let mountingPoints = jQuery( ".wpseo-kb-search" );
+	let algoliaSearchers = [];
+
 	jQuery.each( mountingPoints, ( index, mountingPoint ) => {
-		var tabId = jQuery( mountingPoint ).closest( ".wpseotab" ).attr( "id" );
-		var translations = getTranslations();
+		let tabId = jQuery( mountingPoint ).closest( ".wpseotab" ).attr( "id" );
+		let translations = getTranslations();
 
 		algoliaSearchers.push( {
 			tabName: tabId,
 			algoliaSearcher: ReactDom.render( React.createElement( AlgoliaSearcher, translations ), mountingPoint ),
 		} );
 	} );
+
 	return algoliaSearchers;
 };
 
@@ -56,13 +59,13 @@ var renderAlgoliaSearchers = () => {
  *
  * @returns {void}
  */
-var bindEventHandlers = ( algoliaSearchers )  => {
+let bindEventHandlers = ( algoliaSearchers ) => {
 	// Get the used search strings from the algoliaSearcher React component for the active tab and fire an event with this data.
 	jQuery( ".contact-support" ).on( "click", () => {
-		var activeTabName = jQuery( ".wpseotab.active" ).attr( "id" );
+		let activeTabName = jQuery( ".wpseotab.active" ).attr( "id" );
 
 		// 1st by default. (Used for the Advanced settings pages because of how the tabs were set up)
-		var activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher;
+		let activeAlgoliaSearcher = algoliaSearchers[ 0 ].algoliaSearcher;
 
 		jQuery.each( algoliaSearchers, ( key, searcher ) => {
 			if ( searcher.tabName === activeTabName ) {
@@ -72,17 +75,18 @@ var bindEventHandlers = ( algoliaSearchers )  => {
 				return false;
 			}
 		} );
-		var usedQueries = activeAlgoliaSearcher.state.usedQueries;
+		let usedQueries = activeAlgoliaSearcher.state.usedQueries;
 		jQuery( window ).trigger( "YoastSEO:ContactSupport", { usedQueries: usedQueries } );
 	} );
 };
 
 /**
- *  Initializes the AlgoliaSearchers (in the knowledge base tabs).
+ * Initializes the AlgoliaSearchers (in the knowledge base tabs).
  *
- *  @returns {void}
+ * @deprecated 5.7 Use yoast-components's AlgoliaSearcher.
+ * @returns {void}
  */
-var initializeAlgoliaSearch = () => {
+let initializeAlgoliaSearch = () => {
 	let algoliaSearchers = renderAlgoliaSearchers();
 	bindEventHandlers( algoliaSearchers );
 };

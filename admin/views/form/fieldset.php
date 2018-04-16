@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -19,6 +21,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 ?>
 
 <fieldset id="<?php echo esc_attr( $id ); ?>"<?php echo $attributes; ?>>
-	<legend id="<?php echo esc_attr( $id ); ?>-legend"<?php echo $legend_attributes; ?>><?php echo esc_html( $legend_content ); ?></legend>
+	<legend id="<?php echo esc_attr( $id . '-legend' ); ?>"<?php echo $legend_attributes; ?>><?php echo esc_html( $legend_content ); ?></legend>
 	<?php echo $content; ?>
 </fieldset>

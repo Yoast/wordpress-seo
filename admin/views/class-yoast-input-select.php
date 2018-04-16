@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -42,10 +44,10 @@ class Yoast_Input_Select {
 	 * @param string $selected_option The current selected option.
 	 */
 	public function __construct( $select_id, $select_name, array $select_options, $selected_option ) {
-		$this->select_id         = $select_id;
-		$this->select_name       = $select_name;
-		$this->select_options    = $select_options;
-		$this->selected_option   = $selected_option;
+		$this->select_id       = $select_id;
+		$this->select_name     = $select_name;
+		$this->select_options  = $select_options;
+		$this->selected_option = $selected_option;
 	}
 
 	/**
@@ -55,7 +57,7 @@ class Yoast_Input_Select {
 		// Extract it, because we want each value accessible via a variable instead of accessing it as an array.
 		extract( $this->get_select_values() );
 
-		require( dirname( WPSEO_FILE ) . '/admin/views/form/select.php' );
+		require WPSEO_PATH . 'admin/views/form/select.php';
 	}
 
 	/**

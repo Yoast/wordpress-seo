@@ -1,29 +1,19 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Taxonomy
  */
 
-class WPSEO_Taxonomy_Content_Fields_Double extends WPSEO_Taxonomy_Content_Fields {
-
-	/**
-	 * Override an option value
-	 *
-	 * @param string $option_name  The target key which will be overwritten
-	 * @param string $option_value The new value for the option.
-	 */
-	public function set_option($option_name, $option_value) {
-		$this->options[ $option_name ] = $option_value;
-
-	}
-
-}
-
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @var WPSEO_Taxonomy_Social_Fields_Double
 	 */
-	private  $class_instance;
+	private $class_instance;
 
 	/**
 	 * @var stdClass The created term.

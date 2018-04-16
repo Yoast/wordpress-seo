@@ -1,14 +1,25 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Admin\Banner
+ */
 
+/**
+ * Unit Test Class.
+ */
 class WPSEO_Admin_Banner_Spot_Renderer_Test extends WPSEO_UnitTestCase {
 
 	/** @var  WPSEO_Admin_Banner_Spot_Renderer */
 	protected $admin_banner_spot_renderer;
 
+	/**
+	 * Set up the class which will be tested.
+	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->admin_banner_spot_renderer = new WPSEO_Admin_Banner_Spot_Renderer;
+		$this->admin_banner_spot_renderer = new WPSEO_Admin_Banner_Spot_Renderer();
 	}
 
 	/**

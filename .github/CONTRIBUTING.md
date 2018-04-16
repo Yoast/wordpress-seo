@@ -1,66 +1,60 @@
-Thanks for reading our contribution guidelines! What do you want to do:
+# Contribution Guidelines
+<img src="https://yoast-mercury.s3.amazonaws.com/uploads/2013/02/Yoast_Logo_Large_RGB.png" alt="Yoast logo" width="250px">
 
-* [File a bug / an issue](#filing-issue)
-* [Security issues](#security)
-* [Contribute to Yoast SEO](#contribute)
+Before filing a bug report or a feature request, be sure to read the contribution guidelines.
 
-<a name="filing-issue"></a>
-#Filing issues
+## How to use GitHub
+We use GitHub exclusively for well-documented bugs, feature requests and code contributions. Communication is always done in English.
 
-__Please Note:__ GitHub is for bug reports and code contributions only - if you have a support question or a request for a customisation don't post here, go to our [Support Forum](http://wordpress.org/support/plugin/wordpress-seo) instead.
+To receive free support for WordPress SEO we have the following channels:
+* [Yoast Knowledge base](https://yoa.st/1y0)
+* [Support forums](https://wordpress.org/support/plugin/wordpress-seo) on WordPress.org
 
-For localization, please refer to [translate.yoast.com](http://translate.yoast.com/projects/wordpress-seo), though bugs with strings that can't be translated are welcome here.
+If you have purchased one of [our premium plugins](https://yoa.st/1y1), we will give you personal support via email, please see your purchase email for details.
 
-## How to write a useful bug report
-If you think you have found a bug (we acknowledge that that's a possibility), please make sure you're using the latest version of the plugin. If possible check out the latest version from GitHub and see if the bug still exists there.
 
-A useful bug report explains:
+Thanks for your understanding.
 
-1. What you were trying to achieve.
-2. What you were expecting to happen.
-3. What actually happened, illustrated with screenshots if possible.
+## Security issues
+Please do not report security issues here. Instead, email them to security at yoast dot com so we can deal with them securely and quickly.
 
-Your bug report should also contain your WordPress version and if there are any errors, the _exact_ error text, including line numbers.
+## I have found a bug
+Before opening a new issue, please:
+* update to the newest versions of WordPress and the Yoast SEO plugins.
+* search for duplicate issues to prevent opening a duplicate issue. If there is already an open existing issue, please comment on that issue.
+* check our [knowledge base](https://yoa.st/1y0) for your issue. There are a lot of common errors documented there with possible solutions.
+* follow our _New issue_ template when creating a new issue.
+* check for [plugin and theme conflicts](https://yoa.st/1y2). Please report your findings in the issue.
+* check for [JavaScript errors with your browser's console](https://yoa.st/1y3). Please report your findings in the issue.
+* add as much information as possible. For example: add screenshots, relevant links, step by step guides etc.
 
-### Blank / white screen
-If you're getting a blank screen and you report just that, we can do _absolutely_ nothing. By default, your WordPress install suppresses all errors, to prevent information leaks, but we need those errors to be able to help you. If you apply the small piece of code in [this post on WP_DEBUG](https://yoast.com/wordpress-debug/) to your site, you should be able to open the URL that gave you a white screen, append `?debug=debug` to the URL and get the actual error.
+## I have a feature request
+Before opening a new issue, please:
+* search for duplicate issues to prevent opening a duplicate feature request. If there is already an open existing request, please leave a comment there.
+* add as much information as possible. For example: give us a clear explanation of why you think the feature request is something we should consider for the Yoast SEO plugins.
 
-That error will help us, without that error, we're completely in the dark about your white page problem...
-
-### Interface errors
-If you're reporting a bug about specific interface elements not working as expected, there's probably an error showing in your browsers JavaScript console. Please open your browsers console and copy the exact error showing there, or make a screenshot. If you don't know how to open your browsers console, here is info for [Chrome](https://developer.chrome.com/devtools/docs/console) and [Firefox](https://developer.mozilla.org/en/docs/Tools/Web_Console). For IE, some Googling will help but it changes with every version.
-
-<a name="security"></a>
-#Security issues
-Please do _not_ report security issues here, but email them to security at yoast dot com so we can deal with them securely and quickly.
-
-<a name="contribute"></a>
-#Contribute to Yoast SEO
-
-Community made patches, localisations, bug reports and contributions are very welcome and help make Yoast SEO remains the #1 SEO plugin for WordPress.
+## I want to create a patch
+Community made patches, localizations, bug reports and contributions are very welcome and help Yoast SEO remain the #1 SEO plugin for WordPress.
 
 When contributing please ensure you follow the guidelines below so that we can keep on top of things.
 
-## Getting Started
+#### Submitting an issue you found
+Make sure your problem does not exist as a ticket already by searching through [the existing issues](https://github.com/Yoast/wordpress-seo/issues). If you cannot find anything which resembles your problem, please [create a new issue](https://github.com/Yoast/wordpress-seo/issues/new).
 
-If there is no ticket for your issue, submit it first, following the above guidelines.
-
-## Making Changes
+#### Fixing an issue
 
 * Fork the repository on GitHub (make sure to use the trunk branch, not master).
 * Make the changes to your forked repository.
-  * Ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/) and have properly documented any new functions, actions and filters following the [documentation standards](http://make.wordpress.org/core/handbook/inline-documentation-standards/php-documentation-standards/).
-* When committing, reference your issue (if present) and include a note about the fix.
+* Ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/) and you properly document any new functions, actions and filters following the [documentation standards](http://make.wordpress.org/core/handbook/inline-documentation-standards/php-documentation-standards/).
+* When committing, reference your issue and include a note about the fix.
 * Push the changes to your fork and submit a pull request to the 'trunk' branch of the Yoast SEO repository.
 
-At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary.
+We will review your pull request and merge when everything is in order. We will help you to make sure the code complies with the standards described above.
 
-<a name="patch-welcome"></a>
-## "Patch welcome" issues
+#### 'Patch welcome' issues
+Some issues are labeled 'patch-welcome'. This means we see the value in the particular enhancement being suggested but have decided for now not to prioritize it. If you however decide to write a patch for it, we'll gladly include it after some code review.
 
-Some issues are labeled "Patch-welcome". This means we see the value in the particular enhancement being suggested but have decided for now not to prioritize it. If you however decide to write a patch for it we'll gladly include it after some code review.
-
-# Additional Resources
-* [Yoast SEO API](https://yoast.com/wordpress/plugins/seo/api/)
+#### Additional Resources
+* [Yoast SEO API](https://yoa.st/1y4)
 * [General GitHub Documentation](http://help.github.com/)
 * [GitHub Pull Request documentation](http://help.github.com/send-pull-requests/)
