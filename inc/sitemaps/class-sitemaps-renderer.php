@@ -339,7 +339,7 @@ class WPSEO_Sitemaps_Renderer {
 			return home_url( 'main-sitemap.xsl' );
 		}
 
-		//Fallback in case the plugin url is on a different (sub)domain.
+		// Fallback in case the plugin url is on a different (sub)domain.
 		if ( strpos( plugins_url(), home_url() ) !== 0 ) {
 			return home_url( 'main-sitemap.xsl' );
 		}
