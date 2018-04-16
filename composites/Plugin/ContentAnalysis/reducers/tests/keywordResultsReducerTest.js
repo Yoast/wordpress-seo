@@ -3,7 +3,6 @@ import {
 	UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD,
 	SET_OVERALL_SEO_SCORE
 } from "../../actions/contentAnalysis";
-import {overallScoreReducer} from "../contentAnalysis/overallScoreReducer";
 
 describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {
 	it( "sets seo results for a single keyword in an empty state", () => {

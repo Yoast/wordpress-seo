@@ -3,7 +3,6 @@ import {
 	UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS,
 	SET_OVERALL_READABILITY_SCORE
 } from "../../actions/contentAnalysis";
-import {overallScoreReducer} from "../contentAnalysis/overallScoreReducer";
 
 describe( "SET_READABILITY_RESULTS action", () => {
 	it( "sets readability results in an empty state", () => {
