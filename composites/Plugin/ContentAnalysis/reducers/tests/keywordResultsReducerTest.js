@@ -596,7 +596,28 @@ describe( "REMOVE_KEYWORD action", () => {
 
 describe( "SET_OVERALL_SCORE for seo action", () => {
 	it( "sets overall score for an seo analysis result", () => {
-		const state = { keyword: { results: [] } };
+		const state = {
+			keyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 9,
+						description: "This is a good score!",
+						markingIsActive: true,
+					},
+				],
+			},
+			keyword2: {
+				results: [
+					{
+						id: "resultId2",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+				],
+			},
+		};
 		const action = {
 			type: SET_OVERALL_SEO_SCORE,
 			keyword: "keyword",
@@ -604,8 +625,25 @@ describe( "SET_OVERALL_SCORE for seo action", () => {
 		};
 		const expected = {
 			keyword: {
+				results: [
+					{
+						id: "resultId",
+						score: 9,
+						description: "This is a good score!",
+						markingIsActive: true,
+					},
+				],
 				overallScore: "5",
-				results: [],
+			},
+			keyword2: {
+				results: [
+					{
+						id: "resultId2",
+						score: 3,
+						description: "This is a bad score!",
+						markingIsActive: false,
+					},
+				],
 			},
 		};
 

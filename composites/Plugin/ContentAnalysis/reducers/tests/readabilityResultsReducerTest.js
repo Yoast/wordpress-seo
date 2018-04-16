@@ -246,13 +246,54 @@ describe( "UPDATE_READABILITY_RESULT action", () => {
 
 describe( "SET_OVERALL_SCORE for readability action", () => {
 	it( "sets overall score for a readability analysis result", () => {
-		const state = [];
+		const state = {
+			results: [
+				{
+					id: "resultId2",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId3",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+			],
+		};
 		const action = {
 			type: SET_OVERALL_READABILITY_SCORE,
 			overallScore: 5,
 		};
 		const expected = {
 			overallScore: 5,
+			results: [
+				{
+					id: "resultId2",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+				{
+					id: "resultId3",
+					score: 3,
+					description: "This is a bad score!",
+					markingIsActive: false,
+				},
+			],
 		};
 
 		const actual = readabilityResultsReducer( state, action );
