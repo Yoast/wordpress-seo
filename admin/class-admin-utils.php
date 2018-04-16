@@ -71,7 +71,7 @@ class WPSEO_Admin_Utils {
 	/**
 	 * Determines whether or not the user has an invalid version of PHP installed.
 	 *
-	 * @return bool Whether or not PHP 5.2 or lower is installed
+	 * @return bool Whether or not PHP 5.2 or lower is installed.
 	 */
 	public static function is_supported_php_version_installed() {
 		$checker = new Whip_RequirementsChecker( array( 'php' => PHP_VERSION ) );
