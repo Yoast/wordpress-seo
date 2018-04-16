@@ -66,6 +66,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.16.0",
     "eslint-config-yoast": "^3.0.1",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-yoast": "^1.0.0",
     "grunt": "^1.0.1",
