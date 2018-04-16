@@ -1,5 +1,4 @@
 import { UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS, SET_OVERALL_READABILITY_SCORE } from "../../actions/contentAnalysis";
-import { setOverallReadabilityScore } from "./overallScoreReducer";
 import findIndex from "lodash/findIndex";
 import isUndefined from "lodash/isUndefined";
 
@@ -53,6 +52,19 @@ function updateReadabilityResult( state, action ) {
 	}
 	return Object.assign( {}, state,
 		{ results: [ ...state.results, action.result ] },
+	);
+}
+
+/**
+ * Sets the overall score for the readability analysis.
+ *
+ * @param {Object} state  The state
+ * @param {Object} action The action
+ * @returns {Object} The overall score for the readability analysis
+ */
+export function setOverallReadabilityScore( state, action ) {
+	return Object.assign( {}, state,
+		{ overallScore: action.overallScore }
 	);
 }
 

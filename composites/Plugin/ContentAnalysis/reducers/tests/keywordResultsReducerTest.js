@@ -1,5 +1,9 @@
 import { keywordResultsReducer } from "../contentAnalysis/keywordResultsReducer";
-import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD } from "../../actions/contentAnalysis";
+import {
+	UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD,
+	SET_OVERALL_SEO_SCORE
+} from "../../actions/contentAnalysis";
+import {overallScoreReducer} from "../contentAnalysis/overallScoreReducer";
 
 describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {
 	it( "sets seo results for a single keyword in an empty state", () => {
@@ -590,6 +594,28 @@ describe( "REMOVE_KEYWORD action", () => {
 		expect( actual ).toEqual( expected );
 	} );
 } );
+
+describe( "SET_OVERALL_SCORE for seo action", () => {
+	it( "sets overall score for an seo analysis result", () => {
+		const state = { keyword: { results: [] } };
+		const action = {
+			type: SET_OVERALL_SEO_SCORE,
+			keyword: "keyword",
+			overallScore: "5",
+		};
+		const expected = {
+			keyword: {
+				overallScore: "5",
+				results: [],
+			},
+		};
+
+		const actual = keywordResultsReducer( state, action );
+
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
 
 describe( "BOGUS action", () => {
 	it( "returns the unchanged state when a bogus action is passed to the reducer", () => {

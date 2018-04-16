@@ -1,5 +1,9 @@
 import { readabilityResultsReducer } from "../contentAnalysis/readabilityResultsReducer";
-import { UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS } from "../../actions/contentAnalysis";
+import {
+	UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS,
+	SET_OVERALL_READABILITY_SCORE
+} from "../../actions/contentAnalysis";
+import {overallScoreReducer} from "../contentAnalysis/overallScoreReducer";
 
 describe( "SET_READABILITY_RESULTS action", () => {
 	it( "sets readability results in an empty state", () => {
@@ -233,6 +237,23 @@ describe( "UPDATE_READABILITY_RESULT action", () => {
 					markingIsActive: true,
 				},
 			],
+		};
+
+		const actual = readabilityResultsReducer( state, action );
+
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "SET_OVERALL_SCORE for readability action", () => {
+	it( "sets overall score for a readability analysis result", () => {
+		const state = [];
+		const action = {
+			type: SET_OVERALL_READABILITY_SCORE,
+			overallScore: 5,
+		};
+		const expected = {
+			overallScore: 5,
 		};
 
 		const actual = readabilityResultsReducer( state, action );

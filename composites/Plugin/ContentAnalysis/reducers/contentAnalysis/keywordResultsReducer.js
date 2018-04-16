@@ -1,6 +1,5 @@
 import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD,
 	SET_OVERALL_SEO_SCORE } from "../../actions/contentAnalysis";
-import { setOverallSeoScore } from "./overallScoreReducer";
 import findIndex from "lodash/findIndex";
 import omit from "lodash/omit";
 
@@ -101,6 +100,19 @@ function setSeoResults( action ) {
 		resultsPerKeyword[ keywordResultsPair.keyword ] = { results: keywordResultsPair.results };
 	} );
 	return resultsPerKeyword;
+}
+
+/**
+ * Sets the overall score for SEO results for a keyword.
+ *
+ * @param {Object} state  The state.
+ * @param {Object} action The action.
+ * @returns {Object} The overall score for the keyword.
+ */
+export function setOverallSeoScore( state, action ) {
+	return Object.assign( {}, state, {
+		[ action.keyword ]: { ...state[ action.keyword ], overallScore: action.overallScore },
+	} );
 }
 
 /**
