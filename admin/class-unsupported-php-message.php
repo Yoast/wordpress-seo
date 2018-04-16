@@ -51,14 +51,14 @@ class WPSEO_Unsupported_PHP_Message implements Whip_Message {
 				'<a href="https://wordpress.org/support/upgrade-php/" target="_blank" rel="noopener noreferrer">',
 				'</a>',
 				'7.2',
-				'<a href="https://yoa.st/wg" target="_blank">'
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/wg' ) . '" target="_blank">'
 			) ) . '<br />';
 
 		$message[] = Whip_MessageFormatter::paragraph(
 			sprintf(
 				/* translators: 1: The link tag to email examples page; 2: The link closing tag; 3: The link tag for the list of recommended WordPress hosting partners; */
 				__( 'If you cannot update your PHP yourself, you can send an email to your host. We have %1$sexamples%2$s here. If they don\'t want to upgrade your PHP version, we recommend switching hosts. Take a look at our list of %3$srecommended WordPress hosting partners%2$s, they\'ve been vetted by the Yoast support team and offer all the features a modern host should have.', 'wordpress-seo' ),
-				'<a href="https://yoa.st/wh" target="_blank">',
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/wh' ) . '" target="_blank">',
 				'</a>',
 				sprintf( '<a href="%1$s" target="_blank">', esc_url( Whip_Host::hostingPageUrl() ) )
 				) ) . '<br />';
