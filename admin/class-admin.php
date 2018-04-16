@@ -318,7 +318,6 @@ class WPSEO_Admin {
 	 * @return void
 	 */
 	protected function check_php_version() {
-
 		// If the user isn't an admin, don't display anything.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
