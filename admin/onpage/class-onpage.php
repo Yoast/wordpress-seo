@@ -104,9 +104,9 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 */
 	public function add_weekly_schedule( $schedules ) {
 		if ( ! is_array( $schedules ) ) {
-			return $schedules;
+			$schedules = array();
 		}
-		
+
 		$schedules['weekly'] = array(
 			'interval' => WEEK_IN_SECONDS,
 			'display'  => __( 'Once Weekly', 'wordpress-seo' ),
