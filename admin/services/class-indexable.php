@@ -41,7 +41,7 @@ class WPSEO_Indexable_Service {
 					$object_type,
 					$object_id
 				),
-				400
+				404
 			);
 		}
 
