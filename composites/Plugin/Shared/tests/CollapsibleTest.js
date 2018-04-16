@@ -97,4 +97,23 @@ describe( "CollapsibleStateless", () => {
 		onToggle();
 		expect( component.toJSON() ).toMatchSnapshot();
 	} );
+
+	it( "matches the snapshot with prefix seo icon and screen reader text", () => {
+		const component = renderer.create(
+			<CollapsibleStateless
+				title="Lorem ipsum dolor sit amet"
+				titleScreenReaderText="bad SEO score"
+				prefixIcon="circle"
+				prefixIconCollapsed="circle"
+				prefixIconColor="red"
+				isOpen={ true }
+				onToggle={ () => {} }
+			>
+				{ content }
+			</CollapsibleStateless>
+		);
+
+		let tree = component.toJSON();
+		expect( tree ).toMatchSnapshot();
+	} );
 } );

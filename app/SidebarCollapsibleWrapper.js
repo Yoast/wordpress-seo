@@ -34,6 +34,7 @@ export default function SidebarCollapsibleWrapper() {
 			<WidgetContainer>
 				<Collapsible
 					title="Insert some collapsible title here"
+					titleScreenReaderText="bad SEO score"
 					initialIsOpen={ true }
 					prefixIcon="circle"
 					prefixIconCollapsed="circle"
@@ -59,7 +60,7 @@ export default function SidebarCollapsibleWrapper() {
 					suffixIconCollapsed="question-circle"
 					suffixIconColor="purple"
 				>
-					<p>Maybe some help text here with a link <a target="_blank" href="https://yoast.com">Go to Yoast</a></p>
+					<p>Maybe some help text here with a link <a target="_blank" rel="noopener noreferrer" href="https://yoast.com">Go to Yoast</a></p>
 				</Collapsible>
 			</WidgetContainer>
 		</SortableContainer>
