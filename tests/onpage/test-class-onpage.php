@@ -50,6 +50,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $schedules['weekly']['interval'], WEEK_IN_SECONDS );
 		$this->assertEquals( $schedules['weekly']['display'], __( 'Once Weekly', 'wordpress-seo' ) );
 	}
+
 	/**
 	 * Test if the weekly schedule is added to wp_get_schedules.
 	 *
