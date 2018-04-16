@@ -61,6 +61,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$wpdb->query( "DROP TABLE {$full_table_name}" );
 	}
 
+	/**
+	 * Tests inserting a valid dataset into the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::insert()
+	 */
 	public function test_insert() {
 		$result = self::$proxy->insert(
 			array(
@@ -73,6 +78,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( 1, $result );
 	}
 
+	/**
+	 * Tests inserting a dataset with an existing ID into the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::insert()
+	 */
 	public function test_insert_exists() {
 		$result = self::$proxy->insert(
 			array(
@@ -86,6 +96,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $result );
 	}
 
+	/**
+	 * Tests inserting an invalid dataset into the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::insert()
+	 */
 	public function test_insert_invalid() {
 		$result = self::$proxy->insert(
 			array(
@@ -97,6 +112,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $result );
 	}
 
+	/**
+	 * Tests updating a valid dataset in the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::update()
+	 */
 	public function test_update() {
 		$result = self::$proxy->update(
 			array(
@@ -112,6 +132,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( 1, $result );
 	}
 
+	/**
+	 * Tests updating a not existing dataset in the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::update()
+	 */
 	public function test_update_not_exists() {
 		$result = self::$proxy->update(
 			array(
@@ -127,6 +152,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( 0, $result );
 	}
 
+	/**
+	 * Tests updating an invalid dataset in the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::update()
+	 */
 	public function test_update_invalid() {
 		$result = self::$proxy->update(
 			array(
@@ -142,6 +172,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $result );
 	}
 
+	/**
+	 * Tests inserting or otherwise updating a valid dataset in the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::upsert()
+	 */
 	public function test_upsert_new() {
 		$result = self::$proxy->upsert(
 			array(
@@ -159,6 +194,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( 1, $result );
 	}
 
+	/**
+	 * Tests inserting or otherwise updating an existing dataset in the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::upsert()
+	 */
 	public function test_upsert_existing() {
 		$result = self::$proxy->upsert(
 			array(
@@ -176,6 +216,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( 1, $result );
 	}
 
+	/**
+	 * Tests deleting a valid dataset from the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::delete()
+	 */
 	public function test_delete() {
 		$result = self::$proxy->delete(
 			array(
@@ -187,6 +232,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( 1, $result );
 	}
 
+	/**
+	 * Tests deleting a not existing dataset from the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::delete()
+	 */
 	public function test_delete_not_exists() {
 		$result = self::$proxy->delete(
 			array(
@@ -198,6 +248,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( 0, $result );
 	}
 
+	/**
+	 * Tests deleting an invalid dataset from the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::delete()
+	 */
 	public function test_delete_invalid() {
 		$result = self::$proxy->delete(
 			array(
@@ -209,6 +264,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $result );
 	}
 
+	/**
+	 * Tests querying results from the database.
+	 *
+	 * @covers WPSEO_Database_Proxy::get_results()
+	 */
 	public function test_get_results() {
 		$table_name = self::$proxy->get_table_name();
 
@@ -225,6 +285,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, $result );
 	}
 
+	/**
+	 * Tests creating a table in the database from columns definition.
+	 *
+	 * @covers WPSEO_Database_Proxy::create_table()
+	 */
 	public function test_create_table() {
 		global $wpdb;
 
@@ -245,10 +310,20 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( $result );
 	}
 
+	/**
+	 * Tests checking whether the last database request resulted in an error.
+	 *
+	 * @covers WPSEO_Database_Proxy::has_error()
+	 */
 	public function test_has_error() {
 		$this->assertFalse( self::$proxy->has_error() );
 	}
 
+	/**
+	 * Tests correctness of the full prefixed table name for a regular table.
+	 *
+	 * @covers WPSEO_Database_Proxy::get_table_name()
+	 */
 	public function test_get_table_name() {
 		global $wpdb;
 
@@ -258,6 +333,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( $expected, $result );
 	}
 
+	/**
+	 * Tests correctness of the full prefixed table name for a global table.
+	 *
+	 * @covers WPSEO_Database_Proxy::get_table_name()
+	 */
 	public function test_get_table_name_global() {
 		global $wpdb;
 
@@ -270,6 +350,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( $expected, $result );
 	}
 
+	/**
+	 * Tests correct registration of a regular table with WordPress.
+	 *
+	 * @covers WPSEO_Database_Proxy::register_table()
+	 */
 	public function test_register_table() {
 		global $wpdb;
 
@@ -279,6 +364,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( in_array( $proxy_table_name, $wpdb->tables, true ) );
 	}
 
+	/**
+	 * Tests correct registration of a global table with WordPress.
+	 *
+	 * @covers WPSEO_Database_Proxy::register_table()
+	 */
 	public function test_register_table_global() {
 		global $wpdb;
 
