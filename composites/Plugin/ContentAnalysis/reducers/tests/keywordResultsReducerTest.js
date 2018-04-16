@@ -1,7 +1,7 @@
 import { keywordResultsReducer } from "../contentAnalysis/keywordResultsReducer";
 import {
 	UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD,
-	SET_OVERALL_SEO_SCORE
+	SET_OVERALL_SEO_SCORE,
 } from "../../actions/contentAnalysis";
 
 describe( "SET_SEO_RESULTS_FOR_KEYWORD action", () => {

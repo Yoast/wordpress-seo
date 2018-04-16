@@ -1,7 +1,7 @@
 import { readabilityResultsReducer } from "../contentAnalysis/readabilityResultsReducer";
 import {
 	UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS,
-	SET_OVERALL_READABILITY_SCORE
+	SET_OVERALL_READABILITY_SCORE,
 } from "../../actions/contentAnalysis";
 
 describe( "SET_READABILITY_RESULTS action", () => {
