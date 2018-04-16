@@ -49,8 +49,18 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( array_key_exists( 'weekly', $schedules ) );
 		$this->assertEquals( $schedules['weekly']['interval'], WEEK_IN_SECONDS );
 		$this->assertEquals( $schedules['weekly']['display'], __( 'Once Weekly', 'wordpress-seo' ) );
+	}
+	/**
+	 * Test if the weekly schedule is added to wp_get_schedules.
+	 *
+	 * @see https://github.com/Yoast/wordpress-seo/issues/9450
+	 * @see https://github.com/Yoast/wordpress-seo/issues/9475
+	 *
+	 * @covers WPSEO_OnPage::add_weekly_schedule
+	 */
+	public function test_add_weekly_schedule_with_invalid_filter_input() {
+		$this->class_instance->register_hooks();
 
-		// Test with invalid filter output.
 		add_filter( 'cron_schedules', '__return_false', 1 );
 
 		$schedules = wp_get_schedules();
