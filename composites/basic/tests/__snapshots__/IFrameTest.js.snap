@@ -3,7 +3,12 @@
 exports[`the IFrame with props matches the snapshot 1`] = `
 <iframe
   className="test-class-name"
+  title="IFrame title"
 />
 `;
 
-exports[`the IFrame without props matches the snapshot 1`] = `<iframe />`;
+exports[`the IFrame without props matches the snapshot 1`] = `
+<iframe
+  title="IFrame title"
+/>
+`;

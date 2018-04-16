@@ -9,9 +9,15 @@ import PropTypes from "prop-types";
  * @constructor
  */
 const Label = ( props ) => {
+	/*
+	 * The jsx-a11y plugin doesn't see we actually use htmlFor because we render
+	 * the label without the associated input element.
+	 */
+	/* eslint-disable jsx-a11y/label-has-for */
 	return (
 		<label htmlFor={props.for} {...props.optionalAttributes}>{props.children}</label>
 	);
+	/* eslint-enable jsx-a11y/label-has-for */
 };
 
 /**

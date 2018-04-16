@@ -41,6 +41,11 @@ class Checkbox extends React.Component {
 	 * @returns {ReactElement} The Checkbox react component including its label.
 	 */
 	render() {
+		/*
+ 		 * The jsx-a11y plugin doesn't see we actually use htmlFor because we render
+		 * the label without the associated input element.
+ 		 */
+		/* eslint-disable jsx-a11y/label-has-for */
 		return(
 			<React.Fragment>
 				<YoastCheckbox type="checkbox" id={ this.props.id } onChange={ this.handleChange.bind( this ) } />
@@ -49,6 +54,7 @@ class Checkbox extends React.Component {
 				</label>
 			</React.Fragment>
 		);
+		/* eslint-enable jsx-a11y/label-has-for */
 	}
 }
 
