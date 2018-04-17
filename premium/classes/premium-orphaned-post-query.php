@@ -96,8 +96,12 @@ class WPSEO_Premium_Orphaned_Post_Query {
 	 * @return bool False when set to no-index, true otherwise.
 	 */
 	protected static function is_robots_index( $object_id ) {
-		$type = get_post_type( $object_id );
+		// A value of '0' means inherit from the post type.
+		if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) === '0' ) {
+			return WPSEO_Options::get( 'noindex-' . get_post_type( $object_id ) ) === false;
+		}
 
-		return WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) !== '1' && WPSEO_Options::get( 'noindex-' . $type ) === false;
+		// A value of '2' means: Index.
+		return WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) === '2';
 	}
 }
