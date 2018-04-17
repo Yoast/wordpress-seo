@@ -45,7 +45,7 @@ Make sure your problem does not exist as a ticket already by searching through [
 
 * Fork the repository on GitHub (make sure to use the trunk branch, not master).
 * Make the changes to your forked repository.
-* Ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/) and you properly document any new functions, actions and filters following the [documentation standards](http://make.wordpress.org/core/handbook/inline-documentation-standards/php-documentation-standards/).
+* Ensure you stick to the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/) and you properly document any new functions, actions and filters following the [documentation standards](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/).
 * When committing, reference your issue and include a note about the fix.
 * Push the changes to your fork and submit a pull request to the 'trunk' branch of the Yoast SEO repository.
 
@@ -56,5 +56,5 @@ Some issues are labeled 'patch-welcome'. This means we see the value in the part
 
 #### Additional Resources
 * [Yoast SEO API](https://yoa.st/1y4)
-* [General GitHub Documentation](http://help.github.com/)
-* [GitHub Pull Request documentation](http://help.github.com/send-pull-requests/)
+* [General GitHub Documentation](https://help.github.com/)
+* [GitHub Pull Request documentation](https://help.github.com/send-pull-requests/)
