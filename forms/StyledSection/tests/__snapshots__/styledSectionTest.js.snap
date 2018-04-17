@@ -1136,61 +1136,6 @@ exports[`StyledSection can change the icon to times 1`] = `
 </section>
 `;
 
-exports[`StyledSection can not add an non-existing icon 1`] = `
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding: 0 20px 16px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 8px 0 0;
-  font-size: 1rem;
-  line-height: 1.5;
-  margin: 0 0 16px;
-  font-family: "Open Sans",sans-serif;
-  font-weight: 300;
-  color: red;
-}
-
-.c0 .StyledSection__StyledIcon-ebXrFH {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  margin-right: 8px;
-}
-
-<section
-  className="yoast-section c0"
->
-  <h2
-    className="c1 "
-  >
-    Insights. Hello, this is a Styled Section heading.
-  </h2>
-</section>
-`;
-
 exports[`StyledSection have a red icon 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
