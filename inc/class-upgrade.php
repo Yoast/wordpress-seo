@@ -538,6 +538,9 @@ class WPSEO_Upgrade {
 		global $wpdb;
 		// We've moved the cornerstone checkbox to our proper namespace.
 		$wpdb->query( "UPDATE $wpdb->postmeta SET meta_key = '_yoast_wpseo_is_cornerstone' WHERE meta_key = '_yst_is_cornerstone'" );
+
+		// Remove the previous Whip dismissed message, as this is a new one regarding PHP 5.2.
+		delete_option( 'whip_dismiss_timestamp' );
 	}
 
 	/**
