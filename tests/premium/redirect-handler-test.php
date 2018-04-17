@@ -612,6 +612,45 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the handling of normal redirects.
+	 *
+	 * @covers WPSEO_Redirect_Handler::handle_normal_redirects
+	 *
+	 * @dataProvider normal_redirect_subfolder_provider
+	 *
+	 * @param string         $request_uri    The requested uri.
+	 * @param WPSEO_Redirect $redirect       The redirect object.
+	 * @param WPSEO_Redirect $expected_calls The expected amount of calls.
+	 *
+	 */
+	public function test_handle_normal_redirects_with_subfolder_installation( $request_uri, WPSEO_Redirect $redirect, $expected_calls ) {
+		$redirects = array(
+			$redirect->get_origin() => array(
+				'url'  => $redirect->get_target(),
+				'type' => $redirect->get_type(),
+			),
+		);
+
+		/** @var WPSEO_Redirect_Handler_Double $class_instance */
+		$class_instance = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'get_redirects', 'do_redirect' ) )
+			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'get_redirects' )
+			->will( $this->returnValue( $redirects ) );
+
+		$class_instance
+			->expects( $this->exactly( $expected_calls ) )
+			->method( 'do_redirect' )
+			->with( $this->identicalTo( $redirect->get_target() ), $this->identicalTo( $redirect->get_type() ) );
+
+		$class_instance->handle_normal_redirects( rawurldecode( $request_uri ) );
+	}
+
+	/**
 	 * Tests the handling of regex redirects.
 	 *
 	 * @dataProvider regex_redirect_provider
@@ -894,6 +933,54 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 			array(
 				'redirect/to',
 				new WPSEO_Redirect( 'redirect/to', '/file', 301 ),
+			),
+		);
+	}
+
+	/**
+	 * Provider for the default (normal) redirects with 'a subfolder' installation.
+	 *
+	 * The format for each record is:
+	 * [0] string:         The request url.
+	 * [1] WPSEO_Redirect: The redirect object.
+	 * [2] int:            The amount of expected calls.
+	 *
+	 * @returns array List with redirects.
+	 */
+	public function normal_redirect_subfolder_provider() {
+		return array(
+			// See: https://github.com/Yoast/wordpress-seo-premium/issues/453
+			array(
+				'subfolder/old-url',
+				new WPSEO_Redirect( '/subfolder/old-url', '/new-url', 301 ),
+				1
+			),
+			array(
+				'subfolder/old-url',
+				new WPSEO_Redirect( '/old-url', '/new-url', 301 ),
+				0
+			),
+			array(
+				'subfolder/old-url',
+				new WPSEO_Redirect( '/subfolder/old-url', '/subfolder/new-url', 301 ),
+				1
+			),
+
+			// See: https://github.com/Yoast/wordpress-seo-premium/issues/1192
+			array(
+				'wp/old-url-single-site',
+				new WPSEO_Redirect( '/wp/old-url-single-site', home_url( '/wp/new-url-single-site' ), 301 ),
+				1
+			),
+			array(
+				'/blog/category/old',
+				new WPSEO_Redirect( '/category/old', home_url( '/category/new' ), 301 ),
+				0
+			),
+			array(
+				'/blog/category/old',
+				new WPSEO_Redirect( '/blog/category/old', home_url( '/category/new' ), 301 ),
+				1
 			),
 		);
 	}
