@@ -1,14 +1,29 @@
-import { UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS } from "../../actions/contentAnalysis";
+import { UPDATE_READABILITY_RESULT, SET_READABILITY_RESULTS, SET_OVERALL_READABILITY_SCORE } from "../../actions/contentAnalysis";
 import findIndex from "lodash/findIndex";
+import isUndefined from "lodash/isUndefined";
 
 /**
  * Initial state
  */
-const initialState = [];
+const initialState = {};
 
 /**
  * Helper functions
  */
+
+/**
+ * Sets the readability results.
+ *
+ * @param {Object} state The state.
+ * @param {Object} action The action.
+ *
+ * @returns {Object} The new results.
+ */
+function setReadabilityResults( state, action ) {
+	return Object.assign( {}, state,
+		{ results: action.results },
+	);
+}
 
 /**
  * Updates a readability result.
@@ -19,16 +34,38 @@ const initialState = [];
  * @returns {Object} The new results.
  */
 function updateReadabilityResult( state, action ) {
-	let resultIndex = findIndex( state, { id: action.result.id } );
-
+	// Sets a new readability result if there currently are no results.
+	if( isUndefined( state.results ) ) {
+		return Object.assign( {}, state,
+			{ results: [ action.result ] },
+		);
+	}
+	let resultIndex = findIndex( state.results, { id: action.result.id } );
 	// Replace a result when there already is a result with the given id.
 	if( resultIndex !== -1 ) {
-		let newResults = state.filter( function( result ) {
-			return result !== state[ resultIndex ];
+		let newResults = state.results.filter( function( result ) {
+			return result !== state.results[ resultIndex ];
 		} );
-		return newResults.concat( action.result );
+		return Object.assign( {}, state,
+			{ results: newResults.concat( action.result ) }
+		);
 	}
-	return state.concat( action.result );
+	return Object.assign( {}, state,
+		{ results: [ ...state.results, action.result ] },
+	);
+}
+
+/**
+ * Sets the overall score for the readability analysis.
+ *
+ * @param {Object} state  The state
+ * @param {Object} action The action
+ * @returns {Object} The overall score for the readability analysis
+ */
+export function setOverallReadabilityScore( state, action ) {
+	return Object.assign( {}, state,
+		{ overallScore: action.overallScore }
+	);
 }
 
 /**
@@ -45,9 +82,11 @@ function updateReadabilityResult( state, action ) {
 export function readabilityResultsReducer( state = initialState, action ) {
 	switch ( action.type ) {
 		case SET_READABILITY_RESULTS:
-			return action.results;
+			return setReadabilityResults( state, action );
 		case UPDATE_READABILITY_RESULT:
 			return updateReadabilityResult( state, action );
+		case SET_OVERALL_READABILITY_SCORE:
+			return setOverallReadabilityScore( state, action );
 		default:
 			return state;
 	}
