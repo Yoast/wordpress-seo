@@ -9,8 +9,37 @@ const pkg = require( "../package.json" );
 const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
 const outputFilename = "[name]-" + pluginVersionSlug + ".min.js";
 
+const externals = {
+	// This is necessary for Gutenberg to work.
+	tinymce: "window.tinymce",
+};
+
+// This makes sure the @wordpress dependencies are correctly transformed.
+const wpDependencies = [
+	"i18n",
+	"components",
+	"element",
+	"blocks",
+	"utils",
+	"date",
+	"data",
+	"editor",
+	"viewport",
+];
+
+const alias = {};
+
+wpDependencies.forEach( wpDependency => {
+	alias[ "@wordpress/" + wpDependency ] = path.resolve(
+		__dirname,
+		"../",
+		"node_modules/gutenberg/" + wpDependency
+	);
+} );
+
+
 const defaultWebpackConfig = {
-	devtool: "eval",
+	devtool: "cheap-module-eval-source-map",
 	entry: paths.entry,
 	context: paths.jsSrc,
 	output: {
@@ -20,6 +49,7 @@ const defaultWebpackConfig = {
 	},
 	resolve: {
 		extensions: [ ".json", ".js", ".jsx" ],
+		alias,
 	},
 	module: {
 		rules: [
@@ -46,6 +76,7 @@ const defaultWebpackConfig = {
 			},
 		],
 	},
+	externals,
 	plugins: [
 		new webpack.DefinePlugin( {
 			"process.env": {

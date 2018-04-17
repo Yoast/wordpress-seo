@@ -190,6 +190,14 @@ class WPSEO_Admin_Asset_Manager {
 
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
+		$backport_wp_dependencies = array( self::PREFIX . 'react-dependencies' );
+
+		// If Gutenberg is present we can borrow their globals for our own.
+		if ( function_exists( 'gutenberg_register_scripts_and_styles' ) ) {
+			$backport_wp_dependencies[] = 'wp-element';
+			$backport_wp_dependencies[] = 'wp-data';
+		}
+
 		return array(
 			array(
 				'name' => 'react-dependencies',
@@ -200,11 +208,16 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
+				'name' => 'wp-globals-backport',
+				'src'  => 'wp-seo-wp-data-backport-' . $flat_version,
+				'deps' => $backport_wp_dependencies,
+			),
+			array(
 				'name' => 'yoast-modal',
 				'src'  => 'wp-seo-modal-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -212,7 +225,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-help-center-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -258,7 +271,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 				'in_footer' => false,
 			),
@@ -283,7 +296,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -291,7 +304,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -351,7 +364,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'configuration-wizard-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			// Register for backwards-compatiblity.
@@ -397,7 +410,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					self::PREFIX . 'api',
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
