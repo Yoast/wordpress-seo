@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 7.3-RC1\n"
+"Project-Id-Version: Yoast SEO 7.3\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-04-03 13:43:54+00:00\n"
+"POT-Creation-Date: 2018-04-17 08:51:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -208,25 +208,25 @@ msgid ""
 msgstr ""
 
 #. translators: 1: link open tag; 2: link close tag.
-#: admin/class-admin-init.php:90
+#: admin/class-admin-init.php:91
 msgid ""
 "You still have the default WordPress tagline, even an empty one is probably "
 "better. %1$sYou can fix this in the customizer%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:117
+#: admin/class-admin-init.php:118
 msgid "Huge SEO Issue: You're blocking access to robots."
 msgstr ""
 
 #. translators: %1$s resolves to the opening tag of the link to the reading
 #. settings, %1$s resolves to the closing tag for the link
-#: admin/class-admin-init.php:120
+#: admin/class-admin-init.php:121
 msgid ""
 "You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search "
 "Engine Visibility."
 msgstr ""
 
-#: admin/class-admin-init.php:148
+#: admin/class-admin-init.php:149
 msgid ""
 "Paging comments is enabled, this is not needed in 999 out of 1000 cases, we "
 "recommend to disable it."
@@ -234,17 +234,17 @@ msgstr ""
 
 #. translators: %1$s resolves to the opening tag of the link to the comment
 #. setting page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:153
+#: admin/class-admin-init.php:154
 msgid ""
 "To fix this uncheck the box in front of the \"Break comments into pages...\" "
 "on the %1$sComment settings page%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:186
+#: admin/class-admin-init.php:187
 msgid "Just another WordPress site"
 msgstr ""
 
-#: admin/class-admin-init.php:196
+#: admin/class-admin-init.php:197
 msgid ""
 "You do not have your postname in the URL of your posts and pages, it is "
 "highly recommended that you do. Consider setting your permalink structure to "
@@ -253,7 +253,7 @@ msgstr ""
 
 #. translators: %1$s resolves to the starting tag of the link to the permalink
 #. settings page, %2$s resolves to the closing tag of the link
-#: admin/class-admin-init.php:200
+#: admin/class-admin-init.php:201
 msgid "You can fix this on the %1$sPermalink settings page%2$s."
 msgstr ""
 
@@ -261,7 +261,7 @@ msgstr ""
 #. to Google Analytics by Yoast
 #. translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version,
 #. %3$s expands to the plugin name
-#: admin/class-admin-init.php:257 admin/class-admin-init.php:360
+#: admin/class-admin-init.php:258 admin/class-admin-init.php:361
 msgid ""
 "%1$s detected you are using version %2$s of %3$s, please update to the "
 "latest version to prevent compatibility issues."
@@ -269,7 +269,7 @@ msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version,
 #. %3$s expands to the plugin name
-#: admin/class-admin-init.php:310
+#: admin/class-admin-init.php:311
 msgid ""
 "%1$s and %2$s can work together a lot better by adding a helper plugin. "
 "Please install %3$s to make your life better."
@@ -277,10 +277,22 @@ msgstr ""
 
 #. translators: 1: is a link to 'admin_url /
 #. admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag
-#: admin/class-admin-init.php:400
+#: admin/class-admin-init.php:401
 msgid ""
 "We've updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s "
 "for all posts and pages."
+msgstr ""
+
+#. translators: 1: The strong opening tag; 2: The strong closing tag; 3: the
+#. Yoast SEO version that is dropping support; 4: The release date of the
+#. version of Yoast SEO that is dropping support; 5: The PHP version no longer
+#. being supported;
+#: admin/class-admin-init.php:422 admin/class-unsupported-php-message.php:25
+msgid ""
+"%1$sAction is needed%2$s: As of version %3$s, due to be released on %4$s, "
+"Yoast SEO will no longer work with PHP %5$s. Unfortunately, your site is "
+"running on PHP %5$s right now, so action is needed. Thankfully, you can "
+"update your PHP yourself."
 msgstr ""
 
 #: admin/class-admin.php:164
@@ -323,40 +335,44 @@ msgstr ""
 msgid "Scroll to see the table content."
 msgstr ""
 
-#: admin/class-admin.php:504
+#: admin/class-admin.php:361 vendor/yoast/whip/src/facades/wordpress.php:29
+msgid "Remind me again in 4 weeks."
+msgstr ""
+
+#: admin/class-admin.php:528
 msgid "For more information:"
 msgstr ""
 
-#: admin/class-admin.php:505
+#: admin/class-admin.php:529
 msgid "Title optimization"
 msgstr ""
 
-#: admin/class-admin.php:506
+#: admin/class-admin.php:530
 msgid "Why Google won't display the right page title"
 msgstr ""
 
-#: admin/class-admin.php:512 admin/class-admin.php:513 admin/pages/metas.php:42
+#: admin/class-admin.php:536 admin/class-admin.php:537 admin/pages/metas.php:42
 #: admin/pages/metas.php:63
 msgid "Template explanation"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO.
-#: admin/class-admin.php:516
+#: admin/class-admin.php:540
 msgid ""
 "The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
 "tabs on the left explain the available variables."
 msgstr ""
 
-#: admin/class-admin.php:519 admin/pages/metas.php:65
+#: admin/class-admin.php:543 admin/pages/metas.php:65
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:526 admin/class-admin.php:527 admin/pages/metas.php:70
+#: admin/class-admin.php:550 admin/class-admin.php:551 admin/pages/metas.php:70
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:534 admin/class-admin.php:535 admin/pages/metas.php:76
+#: admin/class-admin.php:558 admin/class-admin.php:559 admin/pages/metas.php:76
 msgid "Advanced Variables"
 msgstr ""
 
@@ -1061,6 +1077,54 @@ msgstr ""
 msgid ""
 "%1$s and %2$s can work together a lot better by adding a helper plugin. "
 "Please activate %3$s to make your life better."
+msgstr ""
+
+#: admin/class-unsupported-php-message.php:21
+msgid "PHP update required."
+msgstr ""
+
+#: admin/class-unsupported-php-message.php:34
+msgid "Why?"
+msgstr ""
+
+#. translators: 1: the PHP version that will no longer be supported; 2: The
+#. year the unsupported PHP version was released; 3: The minimal PHP version
+#. that will be supported; 4: The year the minimally supported version of PHP
+#. was released;
+#: admin/class-unsupported-php-message.php:38
+msgid ""
+"PHP is the programming language WordPress is developed in and your site runs "
+"on. PHP %1$s was released in %2$s and was replaced by PHP %3$s in %4$s. "
+"Newer versions of PHP are both faster and more secure, so updating will have "
+"a positive effect on your site. Plus, it it enables our developers to use "
+"the latest technologies to make Yoast SEO even better."
+msgstr ""
+
+#: admin/class-unsupported-php-message.php:46
+msgid "How?"
+msgstr ""
+
+#. translators: 1: The link tag to the  WordPress instructions page for
+#. upgrading to newer versions of PHP; 2: The link closing tag; 3: The
+#. recommended PHP version; 4: The Yoast article about testing plugin
+#. compatibility with newer PHP versions;
+#: admin/class-unsupported-php-message.php:50
+msgid ""
+"For any questions you may have about updating your PHP version, WordPress "
+"%1$shas a great page with instructions here%2$s. We recommend going up to "
+"version %3$s. Not all plugins may be ready for PHP 7 though, so %4$swe wrote "
+"an article on how to test them before you update here%2$s."
+msgstr ""
+
+#. translators: 1: The link tag to email examples page; 2: The link closing
+#. tag; 3: The link tag for the list of recommended WordPress hosting partners;
+#: admin/class-unsupported-php-message.php:60
+msgid ""
+"If you cannot update your PHP yourself, you can send an email to your host. "
+"We have %1$sexamples%2$s here. If they don't want to upgrade your PHP "
+"version, we recommend switching hosts. Take a look at our list of "
+"%3$srecommended WordPress hosting partners%2$s, they've been vetted by the "
+"Yoast support team and offer all the features a modern host should have."
 msgstr ""
 
 #. translators: %s expands to Yoast
@@ -4810,10 +4874,6 @@ msgstr ""
 msgid "%sRenew your license now%s."
 msgstr ""
 
-#: vendor/yoast/whip/src/facades/wordpress.php:29
-msgid "Remind me again in 4 weeks."
-msgstr ""
-
 #: vendor/yoast/whip/src/messages/Whip_HostMessage.php:54
 msgid "A message from %1$s"
 msgstr ""
@@ -4875,7 +4935,7 @@ msgid ""
 "provide."
 msgstr ""
 
-#: wp-seo-main.php:463
+#: wp-seo-main.php:461
 msgid ""
 "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask "
 "your web host to enable it."
@@ -4884,19 +4944,19 @@ msgstr ""
 #. translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the
 #. installation manual in the Readme for the Yoast SEO code repository on
 #. GitHub
-#: wp-seo-main.php:485
+#: wp-seo-main.php:483
 msgid ""
 "The %1$s plugin installation is incomplete. Please refer to %2$sinstallation "
 "instructions%3$s."
 msgstr ""
 
-#: wp-seo-main.php:509
+#: wp-seo-main.php:507
 msgid ""
 "The filter extension seem to be unavailable. Please ask your web host to "
 "enable it."
 msgstr ""
 
-#: wp-seo-main.php:519
+#: wp-seo-main.php:517
 msgid "Activation failed:"
 msgstr ""
 

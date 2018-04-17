@@ -27,7 +27,7 @@ class WPSEO_Premium {
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
 	/** @var string */
-	const PLUGIN_VERSION_NAME = '7.3-RC1';
+	const PLUGIN_VERSION_NAME = '7.3';
 
 	/** @var string */
 	const PLUGIN_VERSION_CODE = '16';
