@@ -9,17 +9,11 @@ import { Provider } from "react-redux";
 import flowRight from "lodash/flowRight";
 
 import IntlProvider from "./components/IntlProvider";
-import markerStatusReducer from "./redux/reducers/markerButtons";
-import keywordsReducer from "./redux/reducers/keywords";
-import analysisReducer from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
-import activeKeywordReducer from "./redux/reducers/activeKeyword";
-import activeTab from "./redux/reducers/activeTab";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
-import openSidebarSectionsReducer from "./redux/reducers/openSidebarSections";
-import cornerstoneContentReducer from "./redux/reducers/cornerstoneContent";
+import reducers from "./redux/reducers";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -27,6 +21,19 @@ if( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoPostScraperL10n;
 } else if ( window.wpseoTermScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
+}
+
+/**
+ * Registers a redux store to Gutenberg.
+ *
+ * @returns {store} The store.
+ */
+function registerStore() {
+	const { combineReducers, registerStore } = wp.data;
+
+	return registerStore( "yoast-seo/editor", {
+		reducer: combineReducers( reducers ),
+	} );
 }
 
 /**
@@ -51,17 +58,11 @@ function configureStore() {
 		enhancers.push( window.__REDUX_DEVTOOLS_EXTENSION__() );
 	}
 
-	const rootReducer = combineReducers( {
-		marksButtonStatus: markerStatusReducer,
-		keywords: keywordsReducer,
-		openSidebarSections: openSidebarSectionsReducer,
-		analysis: analysisReducer,
-		activeKeyword: activeKeywordReducer,
-		isCornerstone: cornerstoneContentReducer,
-		activeTab,
-	} );
+	if ( isGutenbergDataAvailable() ) {
+		return registerStore();
+	}
 
-	return createStore( rootReducer, {}, flowRight( enhancers ) );
+	return createStore( combineReducers( reducers ), {}, flowRight( enhancers ) );
 }
 
 /**
