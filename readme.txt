@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
-Tested up to: 4.9.4
+Tested up to: 4.9.5
 Stable tag: 7.2
 Requires PHP: 5.2.4
 
@@ -110,32 +110,32 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: April 17th, 2018
 
 Enhancements:
-* Resets the opcode cache when an update has been done.
-* Removes the intl polyfill and show message on browsers that doesn't support intl.
-* Don't throw errors when MySQL is set to `sql-mode=ANSI_QUOTES`.
-* Applies Select2 to all select boxes on breadcrumbs page.
+* Removes the `intl` polyfill and shows a message on browsers that don't support this feature.
 * Adds Baidu Webmaster Tools verification support.
-* Add import functionality for [Premium SEO Pack](https://wordpress.org/plugins/premium-seo-pack/).
-* Add import functionality for [Smartcrawl SEO](https://wordpress.org/plugins/smartcrawl-seo/).
-* Add import functionality for [Squirrly SEO](https://wordpress.org/plugins/squirrly-seo/).
-* Add import functionality for [Platinum SEO Pack](https://wordpress.org/plugins/platinum-seo-pack/).
-* Add import functionality for [SEO Framework](https://wordpress.org/plugins/autodescription/).
-* Add import functionality for [Greg's High Performance SEO](https://wordpress.org/plugins/gregs-high-performance-seo/).
-* Add import functionality for [WP Meta SEO](https://wordpress.org/plugins/wp-meta-seo/).
-* Improve social data import for wpSEO.de.
-* Showing the options below the admin pages has been moved to the Yoast Test helper plugin.
+* Adds import functionality for [Premium SEO Pack](https://wordpress.org/plugins/premium-seo-pack/).
+* Adds import functionality for [Smartcrawl SEO](https://wordpress.org/plugins/smartcrawl-seo/).
+* Adds import functionality for [Squirrly SEO](https://wordpress.org/plugins/squirrly-seo/).
+* Adds import functionality for [Platinum SEO Pack](https://wordpress.org/plugins/platinum-seo-pack/).
+* Adds import functionality for [SEO Framework](https://wordpress.org/plugins/autodescription/).
+* Adds import functionality for [Greg's High Performance SEO](https://wordpress.org/plugins/gregs-high-performance-seo/).
+* Adds import functionality for [WP Meta SEO](https://wordpress.org/plugins/wp-meta-seo/).
+* Improves the social data import for the wpSEO.de plugin.
+* Removes the debug data from the admin pages, which were only showing when WordPress is in DEBUG mode.
+* Applies Select2 to all select boxes on breadcrumbs page.
+* Attempts to reset `opcode` cache during the upgrade routine.
+* Changes the wording for the Ryte indexability check on the features tab.
 
 Bugfixes:
-* Prevents hard casting to array on WP internal filter.
-* Fixes a bug where the pagination overlaps the cornerstone info block on lower resolutions.
-* Fixed a bug where the keyword filter doesn't work on the post overview.
-* Fixes the comment that appears for admins when there's no meta description on a post or page to not have HTML entities.
-* Changes the wording for the Ryte indexability check on the features tab.
+* Prevents hard casting to array in the `WPSEO_Link_Columns::add_post_columns` method signature.
+* Fixes a bug where an error is thrown when MySQL has the `sql-mode` set to `ANSI_QUOTES`.
+* Fixes a bug where the pagination overlaps the cornerstone information message, on post overview pages in combination with low resolutions.
+* Fixed a bug where the keyword filter doesn't work on the post overview page.
+* Removes HTML entities from the HTML comment that appears for admins when there's no meta description on a post or page.
 * Changes JSON+LD organization output to always point to `#organization` on the homepage instead of the current page.
-* Fixes a bug where non-public taxonomies are settable in the breadcrumbs.
+* Fixes a bug where non-public taxonomies were shown in the breadcrumbs.
 
 Other:
-* Minor I18n improvements.
+* Minor internationalization improvements.
 * Security hardening.
 
 = 7.2.0 =
