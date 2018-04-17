@@ -6,23 +6,23 @@ import Checkbox from "../components/Checkbox";
 describe( Checkbox, () => {
 	it( "matches the snapshot", () => {
 		const component = renderer.create(
-			<Checkbox id="test-id" onChange={() => {
-			}} label="test label"/>
+			<Checkbox id="test-id" onChange={ () => {
+			} } label="test label"/>
 		);
 
 		let tree = component.toJSON();
-		expect(tree).toMatchSnapshot();
-	});
+		expect( tree ).toMatchSnapshot();
+	} );
 
 	it( "matches the snapshot when an array is provided as a label", () => {
 		const component = renderer.create(
 			<Checkbox id="test-id" onChange={() => {
-			}} label={["test label ", "using arrays"]}/>
+			}} label={ [ "test label ", "using arrays" ] }/>
 		);
 
 		let tree = component.toJSON();
-		expect(tree).toMatchSnapshot();
-	});
+		expect( tree ).toMatchSnapshot();
+	} );
 
 	it( "executes callback once", () => {
 		let event = {
@@ -40,8 +40,8 @@ describe( Checkbox, () => {
 		);
 
 		let tree = component.toJSON();
-		tree[0].props.onChange(event);
+		tree[ 0 ].props.onChange( event );
 
-		expect(onChange).toHaveBeenCalledTimes(1);
-	});
+		expect( onChange ).toHaveBeenCalledTimes( 1 );
+	} );
 } );
