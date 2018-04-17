@@ -312,9 +312,31 @@ class WPSEO_Admin {
 
 	/**
 	 * Initializes Whip to show a notice for outdated PHP versions.
+	 *
+	 * @todo Deprecate this method when WordPress 5.1 is our currently minimal supported version.
+	 *
+	 * @return void
 	 */
 	protected function check_php_version() {
+		// If the user isn't an admin, don't display anything.
 		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// Check if the user is running PHP 5.2.
+		if ( WPSEO_Admin_Utils::is_supported_php_version_installed() === false ) {
+			$this->show_unsupported_php_message();
+
+			return;
+		}
+
+		/*
+		 * The Whip message shouldn't be shown from WordPress 4.9.5 and higher because
+		 * that version introduces Serve Happy which is almost similar to Whip.
+		 */
+		$minimal_wp_version = '4.9.5';
+
+		if ( version_compare( $GLOBALS['wp_version'], $minimal_wp_version, '>=' ) ) {
 			return;
 		}
 
@@ -325,6 +347,21 @@ class WPSEO_Admin {
 		whip_wp_check_versions( array(
 			'php' => '>=5.4',
 		) );
+	}
+
+	/**
+	 * Creates a new message to display regarding the usage of PHP 5.2 (or lower).
+	 *
+	 * @return void
+	 */
+	protected function show_unsupported_php_message() {
+		$presenter = new Whip_WPMessagePresenter(
+			new WPSEO_Unsupported_PHP_Message(),
+			new Whip_MessageDismisser( time(), ( WEEK_IN_SECONDS * 4 ), new Whip_WPDismissOption() ),
+			__( 'Remind me again in 4 weeks.', 'wordpress-seo' )
+		);
+
+		$presenter->register_hooks();
 	}
 
 	/**

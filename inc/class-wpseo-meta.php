@@ -149,6 +149,12 @@ class WPSEO_Meta {
 				'default_value' => '0',
 				'description'   => '',
 			),
+			'is_cornerstone' => array(
+				'type'          => 'non-form',
+				'title'         => 'is_cornerstone',
+				'default_value' => '0',
+				'description'   => '',
+			),
 			'pageanalysis' => array(
 				'type'         => 'pageanalysis',
 				'title'        => '', // Translation added later.
@@ -362,7 +368,7 @@ class WPSEO_Meta {
 				 *
 				 * @return     array
 				 */
-				$field_defs = apply_filters_deprecated( 'wpseo_metabox_entries', array( $field_defs ), 'WPSEO 7.0','wpseo_metabox_entries_general' );
+				$field_defs = apply_filters_deprecated( 'wpseo_metabox_entries', array( $field_defs ), 'WPSEO 7.0', 'wpseo_metabox_entries_general' );
 				break;
 
 

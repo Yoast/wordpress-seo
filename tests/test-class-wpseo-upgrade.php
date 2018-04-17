@@ -201,7 +201,7 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 			$wpdb->options,
 			array(
 				'option_name'  => $option_name,
-				'option_value' => serialize( $option_value )
+				'option_value' => serialize( $option_value ),
 			),
 			array( 'option_name' => $option_name )
 		);

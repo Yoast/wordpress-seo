@@ -17,7 +17,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $xml_sitemap_extra = false;
 if ( WPSEO_Options::get( 'enable_xml_sitemap' ) ) {
-	$xml_sitemap_extra = '<a href="' . WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) . '" target="_blank">' . __( 'See the XML sitemap.', 'wordpress-seo' ) . '</a>';
+	$xml_sitemap_extra = '<a href="' . esc_url( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) )
+		. '" target="_blank">' . esc_html__( 'See the XML sitemap.', 'wordpress-seo' ) . '</a>';
 }
 $feature_toggles = array(
 	(object) array(
@@ -67,7 +68,7 @@ $feature_toggles = array(
 		'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Ryte' ),
 		'setting'         => 'onpage_indexability',
 		/* translators: %1$s expands to Ryte. */
-		'label'           => sprintf( __( '%1$s can check daily if your site is still indexable by search engines and will notify you when this is not the case.', 'wordpress-seo' ), 'Ryte' ),
+		'label'           => sprintf( __( '%1$s will check weekly if your site is still indexable by search engines and Yoast SEO will notify you when this is not the case.', 'wordpress-seo' ), 'Ryte' ),
 		/* translators: %s expands to Ryte. */
 		'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'Ryte ' ),
 		'read_more_url'   => 'https://yoa.st/2an',
@@ -103,12 +104,12 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 ?>
 <h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
 <div style="max-width:600px">
-	<?php echo esc_html( sprintf(
-	/* translators: %1$s expands to Yoast SEO */
-		__( '%1$s comes with a lot of features. You can enable / disable some of them below. Clicking the question mark gives more information about the feature.', 'wordpress-seo' ),
-		'Yoast SEO'
-	) ) ?>
 	<?php
+	echo sprintf(
+		/* translators: %1$s expands to Yoast SEO */
+		esc_html__( '%1$s comes with a lot of features. You can enable / disable some of them below. Clicking the question mark gives more information about the feature.', 'wordpress-seo' ),
+		'Yoast SEO'
+	);
 
 	/**
 	 * Simple sorting function used for usort straight below.
@@ -130,13 +131,18 @@ $feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 			$help_text .= ' ' . $feature->extra;
 		}
 		if ( ! empty( $feature->read_more_label ) ) {
-			$help_text .= ' ' . sprintf( '<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>', WPSEO_Shortlinker::get( $feature->read_more_url ), esc_html( $feature->read_more_label ) );
+			$help_text .= ' ';
+			$help_text .= sprintf(
+				'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
+				esc_url( WPSEO_Shortlinker::get( $feature->read_more_url ) ),
+				esc_html( $feature->read_more_label )
+			);
 		}
 
 		$feature_help = new WPSEO_Admin_Help_Panel(
 			$feature->setting,
 			/* translators: %s expands to a feature's name */
-			sprintf( __( 'Help on: %s', 'wordpress-seo' ), $feature->name ),
+			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) ),
 			$help_text
 		);
 
