@@ -11,3 +11,12 @@ test( "the SvgIcon matches the snapshot", () => {
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
+
+test( "throws a warning when a non-existing icon is passed", () => {
+	console.warn = jest.fn();
+	const component = renderer.create(
+		<SvgIcon icon="fake-icon" color="black" size="32px" className="my-icon" />
+	);
+
+	expect( console.warn ).toHaveBeenCalledTimes( 1 );
+} );
