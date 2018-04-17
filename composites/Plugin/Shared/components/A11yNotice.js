@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-/**
+/*
  * A span tag invisible to the user, but not to screen readers.
  *
  * If you need a different element then a span, you can use styled-component's .withComponent function.
