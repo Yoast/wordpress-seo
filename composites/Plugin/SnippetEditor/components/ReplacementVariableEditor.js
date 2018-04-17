@@ -50,6 +50,8 @@ class ReplacementVariableEditor extends React.Component {
 	 * @param {Object[]} props.replacementVariables The replacement variables that
 	 *                                              should be available in the
 	 *                                              editor.
+	 * @param {string}   props.ariaLabelledBy       The ID of the field this is
+	 *                                              labelled by.
 	 * @param {Function} props.onChange             Called when the content inside
 	 *                                              is edited.
 	 * @param {Function} props.onFocus              Called when this editor is
@@ -164,7 +166,7 @@ class ReplacementVariableEditor extends React.Component {
 	 */
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur } = this.props;
+		const { onFocus, onBlur, ariaLabelledBy } = this.props;
 		const { editorState, replacementVariables } = this.state;
 
 		return (
@@ -177,6 +179,7 @@ class ReplacementVariableEditor extends React.Component {
 					plugins={ [ this.mentionsPlugin ] }
 					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
+					ariaLabelledBy={ ariaLabelledBy }
 				/>
 				<MentionSuggestions
 					onSearchChange={ this.onSearchChange }
@@ -191,6 +194,7 @@ class ReplacementVariableEditor extends React.Component {
 ReplacementVariableEditor.propTypes = {
 	content: PropTypes.string.isRequired,
 	replacementVariables: replacementVariablesShape,
+	ariaLabelledBy: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,

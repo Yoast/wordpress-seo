@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { injectIntl, intlShape, defineMessages } from "react-intl";
 import PropTypes from "prop-types";
+import uniqueId from "lodash/uniqueId";
 
 /* Internal components */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
@@ -91,6 +92,10 @@ const StyledEditor = styled.section`
 	padding: 0 20px;
 `;
 
+const SimulatedLabel = styled.div`
+	cursor: pointer;
+`;
+
 class SnippetEditorFields extends React.Component {
 	/**
 	 * Constructs the snippet editor fields.
@@ -128,6 +133,8 @@ class SnippetEditorFields extends React.Component {
 			slug: null,
 			description: null,
 		};
+
+		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
 		this.setRef = this.setRef.bind( this );
 	}
@@ -204,7 +211,10 @@ class SnippetEditorFields extends React.Component {
 		return (
 			<StyledEditor>
 				<FormSection>
-					<label>{ intl.formatMessage( messages.seoTitle ) }</label>
+					<SimulatedLabel
+						id={ this.uniqueId + "-title" }
+						onClick={ () => onFocus( "title" ) }
+					>{ intl.formatMessage( messages.seoTitle ) }</SimulatedLabel>
 					<InputContainer isActive={ activeField === "title" } isHovered={ hoveredField === "title" }>
 						<ReplacementVariableEditor
 							content={ title }
@@ -212,6 +222,7 @@ class SnippetEditorFields extends React.Component {
 							onFocus={ () => onFocus( "title" ) }
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "title", ref ) }
+							ariaLabelledBy={ this.uniqueId + "-title" }
 						/>
 					</InputContainer>
 
@@ -222,7 +233,10 @@ class SnippetEditorFields extends React.Component {
 					/>
 				</FormSection>
 				<FormSection>
-					<label>{ intl.formatMessage( messages.slug ) }</label>
+					<SimulatedLabel
+						id={ this.uniqueId + "-slug" }
+						onClick={ () => onFocus( "slug" ) }
+					>{ intl.formatMessage( messages.slug ) }</SimulatedLabel>
 					<InputContainer isActive={ activeField === "slug" } isHovered={ hoveredField === "slug" }>
 						<ReplacementVariableEditor
 							content={ slug }
@@ -230,11 +244,15 @@ class SnippetEditorFields extends React.Component {
 							onFocus={ () => onFocus( "slug" ) }
 							replacementVariables={ [] }
 							ref={ ref => this.setRef( "slug", ref ) }
+							ariaLabelledBy={ this.uniqueId + "-slug" }
 						/>
 					</InputContainer>
 				</FormSection>
 				<FormSection>
-					<label>{ intl.formatMessage( messages.metaDescription ) }</label>
+					<SimulatedLabel
+						id={ this.uniqueId + "-description" }
+						onClick={ () => onFocus( "description" ) }
+					>{ intl.formatMessage( messages.metaDescription ) }</SimulatedLabel>
 					<InputContainer isActive={ activeField === "description" } isHovered={ hoveredField === "description" }>
 						<ReplacementVariableEditor
 							content={ description }
@@ -242,6 +260,7 @@ class SnippetEditorFields extends React.Component {
 							onFocus={ () => onFocus( "description" ) }
 							replacementVariables={ replacementVariables }
 							ref={ ref => this.setRef( "description", ref ) }
+							ariaLabelledBy={ this.uniqueId + "-description" }
 						/>
 					</InputContainer>
 
