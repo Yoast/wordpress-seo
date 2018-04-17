@@ -119,7 +119,7 @@ exports[`the YoastTabs matches the snapshot 1`] = `
       <p>
         This is some content for tab 1. 
         <a
-          href="#"
+          href="#1"
         >
           focusable element 1
         </a>
@@ -262,7 +262,7 @@ exports[`the YoastTabs with props matches the snapshot 1`] = `
       <p>
         This is some content for tab 1. 
         <a
-          href="#"
+          href="#1"
         >
           focusable element 1
         </a>

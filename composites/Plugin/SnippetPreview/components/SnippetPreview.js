@@ -244,10 +244,24 @@ export default class SnippetPreview extends Component {
 		this.setDescriptionRef = this.setDescriptionRef.bind( this );
 	}
 
+	/**
+	 * Sets the title element reference for later use.
+	 *
+	 * @param {Object} titleElement The title element.
+	 *
+	 * @returns {void}
+	 */
 	setTitleRef( titleElement ) {
 		this._titleElement = titleElement;
 	}
 
+	/**
+	 * Sets the description element reference for later use.
+	 *
+	 * @param {Object} descriptionElement The description element.
+	 *
+	 * @returns {void}
+	 */
 	setDescriptionRef( descriptionElement ) {
 		this._descriptionElement = descriptionElement;
 	}
@@ -455,11 +469,17 @@ export default class SnippetPreview extends Component {
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
 
+		/*
+		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
+		 * However this is not relevant in this case, because the url is not focusable.
+		 */
+		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return <Url onClick={ onClick.bind( null, "url" ) }
 		            onMouseOver={ partial( onMouseOver, "url" ) }
 		            onMouseLeave={ partial( onMouseLeave, "url" ) }>
 			{ urlContent }
 		</Url>;
+		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
 
 	/**
@@ -527,6 +547,12 @@ export default class SnippetPreview extends Component {
 
 		const renderedDate = this.renderDate();
 
+		/*
+		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
+		 * However this is not relevant in this case, because the title and description are
+		 * not focusable.
+		 */
+		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return (
 			<section>
 				<Container onMouseLeave={ this.onMouseLeave }
@@ -564,6 +590,7 @@ export default class SnippetPreview extends Component {
 				</Container>
 			</section>
 		);
+	/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
 
 	/**

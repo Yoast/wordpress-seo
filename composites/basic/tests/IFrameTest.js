@@ -5,7 +5,7 @@ import IFrame from "../IFrame.js";
 
 test( "the IFrame without props matches the snapshot", () => {
 	const component = renderer.create(
-		<IFrame />
+		<IFrame title="IFrame title" />
 	);
 
 	let tree = component.toJSON();
@@ -14,7 +14,7 @@ test( "the IFrame without props matches the snapshot", () => {
 
 test( "the IFrame with props matches the snapshot", () => {
 	const component = renderer.create(
-		<IFrame className="test-class-name" />
+		<IFrame title="IFrame title" className="test-class-name" />
 	);
 
 	let tree = component.toJSON();

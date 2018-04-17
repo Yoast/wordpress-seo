@@ -9,6 +9,13 @@ const Container = styled.div`
 `;
 
 export default class SnippetPreviewExample extends Component {
+	/**
+	 * Constructs a snippet preview example
+	 *
+	 * @param {Object} props The props for the snippet preview example.
+	 *
+	 * @returns {void}
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -46,6 +53,13 @@ export default class SnippetPreviewExample extends Component {
 		this.onMouseLeave = this.onMouseLeave.bind( this );
 	}
 
+	/**
+	 * Handles the on mouse over for a field.
+	 *
+	 * @param {string} field The field that is hovered over.
+	 *
+	 * @returns {void}
+	 */
 	onMouseOver( field ) {
 		if ( this.state.hoveredField === field ) {
 			return;
@@ -56,6 +70,13 @@ export default class SnippetPreviewExample extends Component {
 		} );
 	}
 
+	/**
+	 * Handles the on mouse leave for a field.
+	 *
+	 * @param {string} field The field that is left.
+	 *
+	 * @returns {void}
+	 */
 	onMouseLeave( field ) {
 		if ( field && this.state.hoveredField !== field ) {
 			return;
@@ -66,18 +87,39 @@ export default class SnippetPreviewExample extends Component {
 		} );
 	}
 
+	/**
+	 * Handles switching the mode.
+	 *
+	 * @param {string} mode The mode to switch to.
+	 *
+	 * @returns {void}
+	 */
 	switch( mode ) {
 		this.setState( {
 			mode,
 		} );
 	}
 
+	/**
+	 * Updates title in the state based on an event.
+	 *
+	 * @param {Object} event The event that occurred.
+	 *
+	 * @returns {void}
+	 */
 	updateTitle( event ) {
 		this.setState( {
 			title: event.target.value,
 		} );
 	}
 
+	/**
+	 * Updates the URL in the state based on an event.
+	 *
+	 * @param {Object} event The event that occurred.
+	 *
+	 * @returns {void}
+	 */
 	updateUrl( event ) {
 		this.setState( {
 			url: event.target.value,

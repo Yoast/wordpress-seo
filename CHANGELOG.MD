@@ -5,7 +5,20 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-### 3.3.0 March 19th, 2018
+## 3.4.0 April 9th, 2018
+
+### Added
+
+* Added "$color_noindex":"#1e8cbe" to colors.json.
+* Added Collapsible and CollapsibleStateless components.
+* Added IconsButton component.
+* Added YoastModal component based on react-modal to handle all the modal dialogs.
+
+### Other
+
+* Refactored AnalysisCollapsible and AnalysisCollapsibleStateless to use the new collapsible.
+
+## 3.3.0 March 19th, 2018
 
 ### Added
 
