@@ -76,6 +76,23 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 		$this->assertContains( "<image:title><![CDATA[{$title}]]></image:title>", $index );
 		$this->assertContains( "<image:caption><![CDATA[{$alt}]]></image:caption>", $index );
 	}
+
+	/**
+	 * Tests getting the fallback url if the plugin is loaded from a different domain.
+	 *
+	 * @covers WPSEO_Sitemaps_Renderer_Double::get_xsl_url()
+	 */
+	public function test_is_home_url_returned_correctly() {
+		$class_instance = new WPSEO_Sitemaps_Renderer_Double();
+
+		function change_plugin_url() {
+			return 'http://test.com/wp-content/plugins';
+		}
+
+		add_filter( 'plugins_url', 'change_plugin_url' );
+
+		$this->assertEquals( 'http://example.org/main-sitemap.xsl', $class_instance->get_xsl_url() );
+	}
 }
 
 
