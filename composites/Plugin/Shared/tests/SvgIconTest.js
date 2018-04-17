@@ -14,7 +14,7 @@ test( "the SvgIcon matches the snapshot", () => {
 
 test( "throws a warning when a non-existing icon is passed", () => {
 	console.warn = jest.fn();
-	const component = renderer.create(
+	renderer.create(
 		<SvgIcon icon="fake-icon" color="black" size="32px" className="my-icon" />
 	);
 
