@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
 /**
- * Class WPSEO_Term_Watcher
+ * Class WPSEO_Term_Watcher.
  */
 class WPSEO_Term_Watcher extends WPSEO_Watcher {
 
@@ -18,21 +20,21 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	protected $watch_type = 'term';
 
 	/**
-	 * Used when the slug is changed using quick edit
+	 * Used when the slug is changed using quick edit.
 	 *
 	 * @var string
 	 */
 	protected $old_url = '';
 
 	/**
-	 * Constructing the object
+	 * Constructing the object.
 	 */
 	public function __construct() {
 		$this->set_hooks();
 	}
 
 	/**
-	 * Load needed js file
+	 * Load needed js file.
 	 *
 	 * @param string $current_page The page that is opened at the moment.
 	 */
@@ -55,7 +57,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Add an extra field to term edit screen
+	 * Add an extra field to term edit screen.
 	 *
 	 * @param string $tag      The current tag name.
 	 * @param string $taxonomy The name of the current taxonomy.
@@ -67,7 +69,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Set old URL when the quick edit is used for taxonomies
+	 * Set old URL when the quick edit is used for taxonomies.
 	 */
 	public function set_old_url_quick_edit() {
 		$permalink = $this->get_taxonomy_permalink();
@@ -78,7 +80,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Detect if the slug changed, hooked into 'post_updated'
+	 * Detect if the slug changed, hooked into 'post_updated'.
 	 *
 	 * @param integer  $term_id  The term id.
 	 * @param integer  $tt_id    The term taxonomy id.
@@ -88,7 +90,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_slug_change( $term_id, $tt_id, $taxonomy ) {
 		/**
-		 * Filter: 'wpseo_premium_term_redirect_slug_change' - Check if a redirect should be created on term slug change
+		 * Filter: 'wpseo_premium_term_redirect_slug_change' - Check if a redirect should be created on term slug change.
 		 *
 		 * @api bool unsigned
 		 */
@@ -110,7 +112,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Offer to create a redirect from the term that is about to get deleted
+	 * Offer to create a redirect from the term that is about to get deleted.
 	 *
 	 * @param integer $term_id The term id that will be deleted.
 	 */
@@ -136,7 +138,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Get the URL to the term and returns it's path
+	 * Get the URL to the term and returns it's path.
 	 *
 	 * @param string $tag      The current tag name.
 	 * @param string $taxonomy The name of the current taxonomy.
@@ -154,7 +156,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Get permalink for taxonomy
+	 * Get permalink for taxonomy.
 	 *
 	 * @return string|WP_Error
 	 */
@@ -163,7 +165,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Get the old URL
+	 * Get the old URL.
 	 *
 	 * @return bool|string
 	 */
@@ -181,7 +183,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Setting the hooks for the term watcher
+	 * Setting the hooks for the term watcher.
 	 */
 	protected function set_hooks() {
 		global $pagenow;

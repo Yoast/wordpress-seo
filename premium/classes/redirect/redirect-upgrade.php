@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
 /**
- * Class WPSEO_Redirect_Manager
+ * Class WPSEO_Redirect_Manager.
  */
 class WPSEO_Redirect_Upgrade {
 
@@ -17,7 +19,7 @@ class WPSEO_Redirect_Upgrade {
 	);
 
 	/**
-	 * Upgrade routine from Yoast SEO premium 1.2.0
+	 * Upgrade routine from Yoast SEO premium 1.2.0.
 	 */
 	public static function upgrade_1_2_0() {
 		$redirect_option = self::get_redirect_option();
@@ -38,7 +40,7 @@ class WPSEO_Redirect_Upgrade {
 	}
 
 	/**
-	 * Check if redirects should be imported from the free version
+	 * Check if redirects should be imported from the free version.
 	 *
 	 * @since 2.3
 	 */

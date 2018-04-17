@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Admin\Links
  */
 
@@ -91,6 +93,15 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 			$expected,
 			$link_columns->add_post_columns( array() )
 		);
+	}
+
+	/**
+	 * Tests the addition of post columns with a non-array value.
+	 */
+	public function test_add_faulty_post_columns() {
+		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
+
+		$this->assertTrue( $link_columns->add_post_columns( true ) );
 	}
 
 	/**

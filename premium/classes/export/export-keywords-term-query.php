@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes\Export
  */
 
@@ -10,16 +12,32 @@
  */
 class WPSEO_Export_Keywords_Term_Query implements WPSEO_Export_Keywords_Query {
 
-	/** @var wpdb The WordPress database object. */
+	/**
+	 * The WordPress database object.
+	 *
+	 * @var wpdb
+	 */
 	protected $wpdb;
 
-	/** @var array The columns to query for, an array of strings. */
+	/**
+	 * The columns to query for, an array of strings.
+	 *
+	 * @var array
+	 */
 	protected $columns;
 
-	/** @var array The database columns to select in the query, an array of strings. */
+	/**
+	 * The database columns to select in the query, an array of strings.
+	 *
+	 * @var array
+	 */
 	protected $selects;
 
-	/** @var int Number of items to fetch per page */
+	/**
+	 * Number of items to fetch per page.
+	 *
+	 * @var int
+	 */
 	protected $page_size;
 
 	/**

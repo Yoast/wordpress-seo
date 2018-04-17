@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
@@ -14,14 +16,14 @@ class WPSEO_Redirect_Option_Exporter_Test extends WPSEO_UnitTestCase {
 	private $class_instance;
 
 	/**
-	 * Setting the class instance with an instanste of the exporter class
+	 * Setting the class instance with an instanste of the exporter class.
 	 */
 	public function setUp() {
 		$this->class_instance = new WPSEO_Redirect_Option_Exporter();
 	}
 
 	/**
-	 * Delete the options on teardown
+	 * Delete the options on teardown.
 	 */
 	public function tearDown() {
 		delete_option( WPSEO_Redirect_Option::OPTION_PLAIN );
@@ -30,7 +32,7 @@ class WPSEO_Redirect_Option_Exporter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the exporting of plain redirects
+	 * Test the exporting of plain redirects.
 	 *
 	 * @covers WPSEO_Redirect_Option_Exporter::export
 	 */
@@ -49,7 +51,7 @@ class WPSEO_Redirect_Option_Exporter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the exporting of plain redirects
+	 * Test the exporting of plain redirects.
 	 *
 	 * @covers WPSEO_Redirect_Option_Exporter::export
 	 */
@@ -68,7 +70,7 @@ class WPSEO_Redirect_Option_Exporter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the formatting of the redirect
+	 * Test the formatting of the redirect.
 	 *
 	 * @covers WPSEO_Redirect_Option_Exporter::format
 	 */

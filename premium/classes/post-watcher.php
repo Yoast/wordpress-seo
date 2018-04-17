@@ -1,27 +1,42 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
 /**
- * Class WPSEO_Post_Watcher
+ * Class WPSEO_Post_Watcher.
  */
 class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 	/**
-	 * @var string Type of watcher, will be used for the filters.
+	 * Type of watcher, will be used for the filters.
+	 *
+	 * @var string
 	 */
 	protected $watch_type = 'post';
 
+	/** @var WPSEO_Redirect_Manager Redirect Manager */
+	private $redirect_manager;
+
 	/**
-	 * Constructor of class
+	 * Constructor of class.
+	 *
+	 * @param WPSEO_Redirect_Manager|null $redirect_manager Redirect Manager to use.
 	 */
-	public function __construct() {
+	public function __construct( WPSEO_Redirect_Manager $redirect_manager = null ) {
+		if ( $redirect_manager === null ) {
+			$redirect_manager = new WPSEO_Redirect_Manager();
+		}
+
+		$this->redirect_manager = $redirect_manager;
+
 		$this->set_hooks();
 	}
 
 	/**
-	 * Load needed js file
+	 * Load needed js file.
 	 */
 	public function page_scripts() {
 		global $pagenow;
@@ -45,7 +60,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Add an extra field to post edit screen so we know the old URL in the 'post_updated' hook
+	 * Add an extra field to post edit screen so we know the old URL in the 'post_updated' hook.
 	 *
 	 * @param WP_Post $post The post object to get the ID from.
 	 */
@@ -59,7 +74,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Detect if the slug changed, hooked into 'post_updated'
+	 * Detect if the slug changed, hooked into 'post_updated'.
 	 *
 	 * @param integer $post_id     The ID of the post.
 	 * @param WP_Post $post        The post with the new values.
@@ -69,18 +84,14 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
 
-		// If post is a revision do not create redirect.
-		if ( wp_is_post_revision( $post_before ) && wp_is_post_revision( $post ) ) {
+		if ( ! $this->is_redirect_relevant( $post, $post_before ) ) {
 			return false;
 		}
 
-		// There is no slug change.
-		if ( $post->post_name === $post_before->post_name ) {
-			return false;
-		}
+		$this->remove_colliding_redirect( $post, $post_before );
 
 		/**
-		 * Filter: 'wpseo_premium_post_redirect_slug_change' - Check if a redirect should be created on post slug change
+		 * Filter: 'wpseo_premium_post_redirect_slug_change' - Check if a redirect should be created on post slug change.
 		 *
 		 * @api bool unsigned
 		 */
@@ -89,7 +100,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		}
 
 		$old_url = $this->get_old_url( $post, $post_before );
-
 		if ( ! $old_url ) {
 			return false;
 		}
@@ -107,7 +117,50 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Checks whether the given post is public or not
+	 * Removes a colliding redirect if it is found.
+	 *
+	 * @param WP_Post $post        The post with the new values.
+	 * @param WP_Post $post_before The post with the previous values.
+	 *
+	 * @return void
+	 */
+	protected function remove_colliding_redirect( $post, $post_before ) {
+		$redirect = $this->redirect_manager->get_redirect( $this->get_target_url( $post ) );
+		if ( $redirect === false ) {
+			return;
+		}
+
+		if ( $redirect->get_target() !== trim( $this->get_target_url( $post_before ), '/' ) ) {
+			return;
+		}
+
+		$this->redirect_manager->delete_redirects( array( $redirect ) );
+	}
+
+	/**
+	 * Determines if redirect is relevant for the provided post.
+	 *
+	 * @param WP_Post $post        The post with the new values.
+	 * @param WP_Post $post_before The post with the previous values.
+	 *
+	 * @return bool True if a redirect might be relevant.
+	 */
+	protected function is_redirect_relevant( $post, $post_before ) {
+		// If post is a revision do not create redirect.
+		if ( wp_is_post_revision( $post_before ) !== false && wp_is_post_revision( $post ) !== false ) {
+			return false;
+		}
+
+		// There is no slug change.
+		if ( $this->get_target_url( $post ) === $this->get_target_url( $post_before ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks whether the given post is public or not.
 	 *
 	 * @param integer $post_id The current post ID.
 	 *
@@ -121,10 +174,10 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		);
 
 		/**
-		 * Filter: 'wpseo_public_post_statuses' - Allow changing the statuses that are expected to have caused a URL to be public
+		 * Filter: 'wpseo_public_post_statuses' - Allow changing the statuses that are expected to have caused a URL to be public.
 		 *
-		 * @api array $published_post_statuses The statuses that'll be treated as published
-		 * @param object $post The post object we're doing the published check for
+		 * @api array $published_post_statuses The statuses that'll be treated as published.
+		 * @param object $post The post object we're doing the published check for.
 		 */
 		$public_post_statuses = apply_filters( 'wpseo_public_post_statuses', $public_post_statuses, $post_id );
 
@@ -132,7 +185,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Offer to create a redirect from the post that is about to get trashed
+	 * Offer to create a redirect from the post that is about to get trashed.
 	 *
 	 * @param integer $post_id The current post ID.
 	 */
@@ -149,7 +202,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 				__( '%1$s detected that you moved a post (%5$s) to the trash. You can either: %2$s Don\'t know what to do? %3$sRead this post%4$s.', 'wordpress-seo-premium' ),
 				'Yoast SEO Premium',
 				$this->get_delete_action_list( $url, $id ),
-				'<a target="_blank" href="https://yoast.com/deleting-pages-from-your-site/#utm_source=wordpress-seo-premium-' . $this->watch_type . '-watcher&amp;utm_medium=dialog&amp;utm_campaign=410-redirect">',
+				'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/2jd' ) . '">',
 				'</a>',
 				'<code>' . $url . '</code>'
 			);
@@ -160,7 +213,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Offer to create a redirect from the post that is about to get  restored from the trash
+	 * Offer to create a redirect from the post that is about to get  restored from the trash.
 	 *
 	 * @param integer $post_id The current post ID.
 	 */
@@ -187,7 +240,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Offer to create a redirect from the post that is about to get deleted
+	 * Offer to create a redirect from the post that is about to get deleted.
 	 *
 	 * @param integer $post_id The current post ID.
 	 */
@@ -212,7 +265,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Look up if URL does exists in the current redirects
+	 * Look up if URL does exists in the current redirects.
 	 *
 	 * @param string $url URL to search for.
 	 *
@@ -227,7 +280,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * This method checks if a redirect is needed.
 	 *
-	 * This method will check if URL as redirect already exists
+	 * This method will check if URL as redirect already exists.
 	 *
 	 * @param integer $post_id      The current post ID.
 	 * @param bool    $should_exist Boolean to determine if the URL should be exist as a redirect.
@@ -258,15 +311,15 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Get the URL to the post and returns it's path
+	 * Retrieves the path of the URL for the supplied post.
 	 *
-	 * @param integer $post_id The current post ID.
+	 * @param int|WP_Post $post The current post ID.
 	 *
-	 * @return string
+	 * @return string The URL for the supplied post.
 	 */
-	protected function get_target_url( $post_id ) {
+	protected function get_target_url( $post ) {
 		// Use the correct URL path.
-		$url = wp_parse_url( get_permalink( $post_id ) );
+		$url = wp_parse_url( get_permalink( $post ) );
 		if ( is_array( $url ) && isset( $url['path'] ) ) {
 			return $url['path'];
 		}
@@ -275,7 +328,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Get the old URL
+	 * Get the old URL.
 	 *
 	 * @param object $post        The post object with the new values.
 	 * @param object $post_before The post object with the old values.
@@ -283,23 +336,25 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool|string
 	 */
 	protected function get_old_url( $post, $post_before ) {
-		$wpseo_old_post_url = filter_input( INPUT_POST, 'wpseo_old_post_url' );
+		$wpseo_old_post_url = $this->get_post_old_post_url();
 
-		if ( empty( $wpseo_old_post_url ) ) {
-			// Check if request is inline action and new slug is not old slug, if so set wpseo_post_old_url.
-			$action = filter_input( INPUT_POST, 'action' );
-
-			if ( ! empty( $action ) && $action === 'inline-save' && $post->post_name !== $post_before->post_name ) {
-				return '/' . $post_before->post_name . '/';
-			}
-			return false;
+		if ( ! empty( $wpseo_old_post_url ) ) {
+			return $wpseo_old_post_url;
 		}
 
-		return $wpseo_old_post_url;
+		// Check if request is inline action and new slug is not old slug, if so set wpseo_post_old_url.
+		$action = $this->get_post_action();
+
+		$url_before = $this->get_target_url( $post_before );
+		if ( ! empty( $action ) && $action === 'inline-save' && $this->get_target_url( $post ) !== $url_before ) {
+			return $url_before;
+		}
+
+		return false;
 	}
 
 	/**
-	 * Setting the hooks for the post watcher
+	 * Setting the hooks for the post watcher.
 	 */
 	protected function set_hooks() {
 		global $pagenow;
@@ -382,7 +437,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool True when in an AJAX-request and the action is inline-save.
 	 */
 	protected function is_action_inline_save() {
-		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && filter_input( INPUT_POST, 'action' ) === 'inline-save' );
+		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && $this->get_post_action() === 'inline-save' );
 	}
 
 	/**
@@ -394,5 +449,23 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	protected function is_nested_pages( $current_page ) {
 		return ( $current_page === 'admin.php' && filter_input( INPUT_GET, 'page' ) === 'nestedpages' );
+	}
+
+	/**
+	 * Retrieves wpseo_old_post_url field from the post.
+	 *
+	 * @return mixed.
+	 */
+	protected function get_post_old_post_url() {
+		return filter_input( INPUT_POST, 'wpseo_old_post_url' );
+	}
+
+	/**
+	 * Retrieves action field from the post.
+	 *
+	 * @return mixed.
+	 */
+	protected function get_post_action() {
+		return filter_input( INPUT_POST, 'action' );
 	}
 }

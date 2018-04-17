@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Taxonomy
  */
 
@@ -17,15 +19,6 @@ class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 	 * @var stdClass The created term.
 	 */
 	private $term;
-
-	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-taxonomy-content-fields-double.php';
-	}
 
 	/**
 	 * Adding a term and set the class instance

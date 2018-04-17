@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\XML_Sitemaps
  */
 
@@ -27,9 +29,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_index_links( $max_entries ) {
 
-		$options = WPSEO_Options::get_all();
-
-		if ( $options['disable-author'] || $options['disable_author_sitemap'] ) {
+		if ( WPSEO_Options::get( 'disable-author', false ) || WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
 			return array();
 		}
 
@@ -89,8 +89,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
-		$options = WPSEO_Options::get_all();
-
 		$defaults = array(
 			// @todo Re-enable after plugin requirements raised to WP 4.6 with the fix.
 			// 'who'        => 'authors', Breaks meta keys, see https://core.trac.wordpress.org/ticket/36724#ticket R.
@@ -107,61 +105,24 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				array(
 					'relation' => 'OR',
 					array(
-						'key'     => 'wpseo_excludeauthorsitemap',
+						'key'     => 'wpseo_noindex_author',
 						'value'   => 'on',
 						'compare' => '!=',
 					),
 					array(
-						'key'     => 'wpseo_excludeauthorsitemap',
+						'key'     => 'wpseo_noindex_author',
 						'compare' => 'NOT EXISTS',
 					),
 				),
 			),
 		);
 
-		if ( $options['disable_author_noposts'] === true ) {
+		if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', true ) ) {
 			// $defaults['who']                 = ''; // Otherwise it cancels out next argument.
 			$defaults['has_published_posts'] = true;
 		}
 
-		$excluded_roles = $this->get_excluded_roles();
-
-		if ( ! empty( $excluded_roles ) ) {
-			// $defaults['who']          = ''; // Otherwise it cancels out next argument.
-			$defaults['role__not_in'] = $excluded_roles;
-		}
-
 		return get_users( array_merge( $defaults, $arguments ) );
-	}
-
-	/**
-	 * Retrieve array of roles, excluded in settings.
-	 *
-	 * @return array
-	 */
-	protected function get_excluded_roles() {
-
-		static $excluded_roles;
-
-		if ( isset( $excluded_roles ) ) {
-			return $excluded_roles;
-		}
-
-		$options = WPSEO_Options::get_all();
-		$roles   = WPSEO_Utils::get_roles();
-
-		foreach ( $roles as $role_slug => $role_name ) {
-
-			if ( ! empty( $options[ "user_role-{$role_slug}-not_in_sitemap" ] ) ) {
-				$excluded_roles[] = $role_name;
-			}
-		}
-
-		if ( ! empty( $excluded_roles ) ) { // Otherwise it's handled by who=>authors query.
-			$excluded_roles[] = 'Subscriber';
-		}
-
-		return $excluded_roles;
 	}
 
 	/**
@@ -175,11 +136,9 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
-		$options = WPSEO_Options::get_all();
-
 		$links = array();
 
-		if ( $options['disable-author'] === true || $options['disable_author_sitemap'] === true ) {
+		if ( WPSEO_Options::get( 'disable-author', false ) || WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
 			return $links;
 		}
 
@@ -271,35 +230,5 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * @param array $users Array of user objects to filter.
 		 */
 		return apply_filters( 'wpseo_sitemap_exclude_author', $users );
-	}
-
-	/**
-	 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field.
-	 *
-	 * @since 1.6
-	 *
-	 * @deprecated 3.3 User meta sort can now be done by queries.
-	 *
-	 * @param WP_User $first  The first WP user.
-	 * @param WP_User $second The second WP user.
-	 *
-	 * @return int 0 if equal, 1 if $a is larger else or -1;
-	 */
-	public function user_map_sorter( $first, $second ) {
-		_deprecated_function( __METHOD__, 'WPSEO 3.3', esc_html__( 'Use queries instead', 'wordpress-seo' ) );
-
-		if ( ! isset( $first->_yoast_wpseo_profile_updated ) ) {
-			$first->_yoast_wpseo_profile_updated = time();
-		}
-
-		if ( ! isset( $second->_yoast_wpseo_profile_updated ) ) {
-			$second->_yoast_wpseo_profile_updated = time();
-		}
-
-		if ( $first->_yoast_wpseo_profile_updated === $second->_yoast_wpseo_profile_updated ) {
-			return 0;
-		}
-
-		return ( ( $first->_yoast_wpseo_profile_updated > $second->_yoast_wpseo_profile_updated ) ? 1 : -1 );
 	}
 }

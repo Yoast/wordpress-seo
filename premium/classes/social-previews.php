@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium
  */
 
@@ -17,7 +19,7 @@ class WPSEO_Social_Previews {
 	}
 
 	/**
-	 * Sets the hooks necessary for AJAX
+	 * Sets the hooks necessary for AJAX.
 	 */
 	public function set_ajax_hooks() {
 		add_action( 'wp_ajax_retrieve_image_data_from_url', array( $this, 'ajax_retrieve_image_data_from_url' ) );
@@ -33,7 +35,7 @@ class WPSEO_Social_Previews {
 	}
 
 	/**
-	 * Retrieves image data from an image URL
+	 * Retrieves image data from an image URL.
 	 */
 	public function ajax_retrieve_image_data_from_url() {
 		$url = filter_input( INPUT_GET, 'imageURL' );
@@ -60,7 +62,7 @@ class WPSEO_Social_Previews {
 	}
 
 	/**
-	 * Determines an attachment ID from a URL which might be an attachment URL
+	 * Determines an attachment ID from a URL which might be an attachment URL.
 	 *
 	 * @link https://philipnewcomer.net/2012/11/get-the-attachment-id-from-an-image-url-in-wordpress/
 	 *
@@ -129,8 +131,6 @@ class WPSEO_Social_Previews {
 	 * @return array
 	 */
 	private function localize() {
-		$options = WPSEO_Options::get_option( 'wpseo_social' );
-
 		if ( empty( WPSEO_Social_Admin::$meta_fields['social']['opengraph-title']['description'] ) ) {
 			WPSEO_Social_Admin::translate_meta_boxes();
 		}
@@ -142,7 +142,7 @@ class WPSEO_Social_Previews {
 			'uploadImage'           => __( 'Upload image', 'wordpress-seo-premium' ),
 			'useOtherImage'         => __( 'Use other image', 'wordpress-seo-premium' ),
 			'removeImageButton'     => __( 'Remove image', 'wordpress-seo-premium' ),
-			'facebookDefaultImage'  => $options['og_default_image'],
+			'facebookDefaultImage'  => WPSEO_Options::get( 'og_default_image' ),
 			'i18n'                  => array(
 				'help'       => $this->get_help_translations( $social ),
 				'helpButton' => array(
@@ -192,8 +192,7 @@ class WPSEO_Social_Previews {
 	 */
 	private function get_website() {
 		// We only want the host part of the URL.
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$website = parse_url( home_url(), PHP_URL_HOST );
+		$website = wp_parse_url( home_url(), PHP_URL_HOST );
 		$website = trim( $website, '/' );
 		$website = strtolower( $website );
 

@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
 /**
- * Test class for testing the accessible validation class
+ * Test class for testing the accessible validation class.
  *
  * @covers WPSEO_Redirect_Accessible_Validation
  */

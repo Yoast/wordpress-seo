@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
 /**
- * Test class for testing the redirect page
+ * Test class for testing the redirect page.
  *
  * @covers WPSEO_Redirect_Page
  */
@@ -16,7 +18,7 @@ class WPSEO_Redirect_Page_Test extends WPSEO_UnitTestCase {
 	private $class_instance;
 
 	/**
-	 * Setting up the instance
+	 * Setting up the instance.
 	 *
 	 * @covers WPSEO_Redirect_Page::__construct
 	 */
@@ -46,7 +48,7 @@ class WPSEO_Redirect_Page_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the result of the set screen option
+	 * Test the result of the set screen option.
 	 *
 	 * @covers WPSEO_Redirect_Page::set_screen_option
 	 */
@@ -56,7 +58,7 @@ class WPSEO_Redirect_Page_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing if we get the options
+	 * Testing if we get the options.
 	 *
 	 * @covers WPSEO_Redirect_Page::get_options
 	 */
@@ -67,7 +69,7 @@ class WPSEO_Redirect_Page_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'off', $options['separate_file'] );
 
 		/*
-		 * Because of PHP 5.2, this can not be done
+		 * Because of PHP 5.2, this can not be done.
 		 * $this->assertArraySubset(
 		 *     array( 'disable_php_redirect' => 'off', 'separate_file' => 'off' ),
 		 *     WPSEO_Redirect_Manager::get_options()

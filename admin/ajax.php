@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -60,10 +62,7 @@ function wpseo_set_ignore() {
 	check_ajax_referer( 'wpseo-ignore' );
 
 	$ignore_key = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
-	$options    = get_option( 'wpseo' );
-
-	$options[ 'ignore_' . $ignore_key ] = true;
-	update_option( 'wpseo', $options );
+	WPSEO_Options::set( 'ignore_' . $ignore_key, true );
 
 	die( '1' );
 }
@@ -86,57 +85,6 @@ function wpseo_dismiss_tagline_notice() {
 }
 
 add_action( 'wp_ajax_wpseo_dismiss_tagline_notice', 'wpseo_dismiss_tagline_notice' );
-
-/**
- * Function used to delete blocking files, dies on exit.
- */
-function wpseo_kill_blocking_files() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
-	}
-
-	check_ajax_referer( 'wpseo-blocking-files' );
-
-	$message = 'success';
-	$errors  = array();
-
-	// Todo: Use WP_Filesystem, but not so easy to use in AJAX with credentials form still internal.
-	$options = get_option( 'wpseo' );
-	if ( is_array( $options['blocking_files'] ) && $options['blocking_files'] !== array() ) {
-		foreach ( $options['blocking_files'] as $file ) {
-			if ( is_file( $file ) ) {
-				if ( ! @unlink( $file ) ) {
-					$errors[] = sprintf(
-						/* translators: %s expands to the file path and name. */
-						__( 'The file %s could not be removed. Please remove it via FTP.', 'wordpress-seo' ),
-						'<code>' . $file . '</code>'
-					);
-				}
-			}
-
-			if ( is_dir( $file ) ) {
-				if ( ! @ rmdir( $file ) ) {
-					$errors[] = sprintf(
-						/* translators: %s expands to the directory path and name. */
-						__( 'The directory %s could not be removed. Please remove it via FTP.', 'wordpress-seo' ),
-						'<code>' . $file . '</code>'
-					);
-				}
-			}
-		}
-	}
-
-	if ( $errors ) {
-		$message = implode( '<br />', $errors );
-		wp_send_json_error( array( 'message' => $message ) );
-	}
-	else {
-		$message = __( 'Files successfully removed.', 'wordpress-seo' );
-		wp_send_json_success( array( 'message' => $message ) );
-	}
-}
-
-add_action( 'wp_ajax_wpseo_kill_blocking_files', 'wpseo_kill_blocking_files' );
 
 /**
  * Used in the editor to replace vars for the snippet preview
@@ -232,7 +180,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = sprintf(
 			/* translators: %s expands to post type. */
-			__( 'Post has an invalid Post Type: %s.', 'wordpress-seo' ),
+			__( 'Post has an invalid Content Type: %s.', 'wordpress-seo' ),
 			$the_post->post_type
 		);
 
@@ -337,23 +285,6 @@ function wpseo_upsert_new( $what, $post_id, $new, $original ) {
 }
 
 /**
- * Handles the posting of a new FB admin.
- */
-function wpseo_add_fb_admin() {
-	check_ajax_referer( 'wpseo_fb_admin_nonce' );
-
-	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
-	}
-
-	$facebook_social = new Yoast_Social_Facebook();
-
-	wp_die( $facebook_social->add_admin( filter_input( INPUT_POST, 'admin_name' ), filter_input( INPUT_POST, 'admin_id' ) ) );
-}
-
-add_action( 'wp_ajax_wpseo_add_fb_admin', 'wpseo_add_fb_admin' );
-
-/**
  * Retrieves the keyword for the keyword doubles.
  */
 function ajax_get_keyword_usage() {
@@ -401,46 +332,11 @@ function ajax_get_term_keyword_usage() {
 
 add_action( 'wp_ajax_get_term_keyword_usage', 'ajax_get_term_keyword_usage' );
 
-/**
- * Removes stopword from the sample permalink that is generated in an AJAX request
- *
- * @param array  $permalink The permalink generated for this post by WordPress.
- * @param int    $post_id   The ID of the post.
- * @param string $title     The title for the post that the user used.
- * @param string $name      The name for the post that the user used.
- *
- * @return array
- */
-function wpseo_remove_stopwords_sample_permalink( $permalink, $post_id, $title, $name ) {
-	WPSEO_Options::get_instance();
-	$options = WPSEO_Options::get_options( array( 'wpseo_permalinks' ) );
-	if ( $options['cleanslugs'] !== true ) {
-		return $permalink;
-	}
-
-	/*
-	 * If the name is empty and the title is not, WordPress will generate a slug. In that case we want to remove stop
-	 * words from the slug.
-	 */
-	if ( empty( $name ) && ! empty( $title ) ) {
-		$stop_words = new WPSEO_Admin_Stop_Words();
-
-		// The second element is the slug.
-		$permalink[1] = $stop_words->remove_in( $permalink[1] );
-	}
-
-	return $permalink;
-}
-
-add_action( 'get_sample_permalink', 'wpseo_remove_stopwords_sample_permalink', 10, 4 );
-
 // Crawl Issue Manager AJAX hooks.
 new WPSEO_GSC_Ajax();
 
 // SEO Score Recalculations.
 new WPSEO_Recalculate_Scores_Ajax();
-
-new Yoast_Dashboard_Widget();
 
 new Yoast_OnPage_Ajax();
 
@@ -448,20 +344,46 @@ new WPSEO_Shortcode_Filter();
 
 new WPSEO_Taxonomy_Columns();
 
-
 // Setting the notice for the recalculate the posts.
 new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax::FOR_SITE );
 
 /********************** DEPRECATED METHODS **********************/
 
+
 /**
- * Create an export and return the URL
+ * Removes stopword from the sample permalink that is generated in an AJAX request
  *
- * @deprecated 3.3.2
+ * @deprecated 6.3
  * @codeCoverageIgnore
  */
-function wpseo_get_export() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 3.3.2', 'This method is deprecated.' );
+function wpseo_remove_stopwords_sample_permalink() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 6.3', 'This method is deprecated.' );
 
+	wpseo_ajax_json_echo_die( '' );
+}
+
+/**
+ * Function used to delete blocking files, dies on exit.
+ *
+ * @deprecated 7.0
+ * @codeCoverageIgnore
+ */
+function wpseo_kill_blocking_files() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.0', 'This method is deprecated.' );
+
+	wpseo_ajax_json_echo_die( '' );
+}
+
+/**
+ * Handles the posting of a new FB admin.
+ *
+ * @deprecated 7.1
+ * @codeCoverageIgnore
+ */
+function wpseo_add_fb_admin() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die( '-1' );
+	}
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.0', 'This method is deprecated.' );
 	wpseo_ajax_json_echo_die( '' );
 }

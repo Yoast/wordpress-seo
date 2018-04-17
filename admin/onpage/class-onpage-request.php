@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -61,19 +63,5 @@ class WPSEO_OnPage_Request {
 		}
 
 		return $json_body;
-	}
-
-	/**
-	 * Returns the fetched response
-	 *
-	 * @deprecated 3.1.2
-	 * @codeCoverageIgnore
-	 *
-	 * @return array
-	 */
-	public function get_response() {
-		_deprecated_function( __METHOD__, 'WPSEO 3.1.2', 'WPSEO_OnPage_Request::do_request' );
-
-		return array();
 	}
 }

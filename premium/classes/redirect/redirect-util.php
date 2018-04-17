@@ -1,12 +1,15 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
 /**
- * Helpers for redirects
+ * Helpers for redirects.
  */
 class WPSEO_Redirect_Util {
+
 	/**
 	 * @var bool
 	 */
@@ -19,14 +22,13 @@ class WPSEO_Redirect_Util {
 	 * @return bool
 	 */
 	public static function is_relative_url( $url ) {
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$url_scheme = parse_url( $url, PHP_URL_SCHEME );
+		$url_scheme = wp_parse_url( $url, PHP_URL_SCHEME );
 
 		return ! $url_scheme;
 	}
 
 	/**
-	 * Returns whether or not the permalink structure has a trailing slash
+	 * Returns whether or not the permalink structure has a trailing slash.
 	 *
 	 * @return bool
 	 */
@@ -41,7 +43,7 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
-	 * Returns whether or not the URL has query variables
+	 * Returns whether or not the URL has query variables.
 	 *
 	 * @param string $url The URL.
 	 * @return bool
@@ -51,7 +53,7 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
-	 * Returns whether or not the given URL has a fragment identifier
+	 * Returns whether or not the given URL has a fragment identifier.
 	 *
 	 * @param string $url The URL to parse.
 	 *
@@ -63,28 +65,26 @@ class WPSEO_Redirect_Util {
 			return true;
 		}
 
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$fragment = parse_url( $url, PHP_URL_FRAGMENT );
+		$fragment = wp_parse_url( $url, PHP_URL_FRAGMENT );
 
 		return ! empty( $fragment );
 	}
 
 	/**
-	 * Returns whether or not the given URL has an extension
+	 * Returns whether or not the given URL has an extension.
 	 *
 	 * @param string $url The URL to parse.
 	 *
 	 * @return bool Whether or not the given URL has an extension.
 	 */
 	public static function has_extension( $url ) {
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$parsed = parse_url( $url, PHP_URL_PATH );
+		$parsed = wp_parse_url( $url, PHP_URL_PATH );
 
 		return false !== strpos( $parsed, '.' );
 	}
 
 	/**
-	 * Returns whether or not a target URL requires a trailing slash
+	 * Returns whether or not a target URL requires a trailing slash.
 	 *
 	 * @param string $target_url The target URL to check.
 	 *

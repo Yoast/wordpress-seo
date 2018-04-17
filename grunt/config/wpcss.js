@@ -1,4 +1,4 @@
-// https://github.com/cedaro/grunt-wp-css
+// See https://github.com/cedaro/grunt-wp-css for details.
 module.exports = {
 	css: {
 		expand: true,

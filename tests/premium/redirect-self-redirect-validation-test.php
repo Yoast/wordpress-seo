@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
 /**
- * Test class for testing the self redirection validation class
+ * Test class for testing the self redirection validation class.
  *
  * @covers WPSEO_Redirect_Self_Redirect_Validation
  */
@@ -21,7 +23,7 @@ class WPSEO_Redirect_Self_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 	private $home_url = 'http://example.org';
 
 	/**
-	 * Setting the class_instance with an instance of WPSEO_Redirect_Self_Redirect_Validation
+	 * Setting the class_instance with an instance of WPSEO_Redirect_Self_Redirect_Validation.
 	 */
 	public function setUp() {
 		$this->class_instance = new WPSEO_Redirect_Self_Redirect_Validation();
@@ -89,7 +91,7 @@ class WPSEO_Redirect_Self_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provide array with redirects to test against
+	 * Provide array with redirects to test against.
 	 *
 	 * @return array
 	 */
@@ -101,7 +103,7 @@ class WPSEO_Redirect_Self_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provide array with redirects to test against
+	 * Provide array with redirects to test against.
 	 *
 	 * @return array
 	 */

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes\Export\Views
  */
 
@@ -25,10 +27,20 @@ $wpseo_csv_export_explain = sprintf(
 		wp_nonce_field( 'wpseo-export', '_wpnonce', true );
 		$yform->set_options_value( 'export-keywords-score', true );
 		$yform->checkbox( 'export-keywords-score', __( 'Export keyword scores', 'wordpress-seo-premium' ) );
+
 		$yform->set_options_value( 'export-url', true );
 		$yform->checkbox( 'export-url', __( 'Export URL', 'wordpress-seo-premium' ) );
+
 		$yform->set_options_value( 'export-title', true );
 		$yform->checkbox( 'export-title', __( 'Export title', 'wordpress-seo-premium' ) );
+
+		$yform->set_options_value( 'export-seo-title', false );
+		$yform->checkbox( 'export-seo-title', __( 'Export SEO title', 'wordpress-seo-premium' ) );
+
+		$yform->set_options_value( 'export-meta-description', false );
+		$yform->checkbox( 'export-meta-description', __( 'Export meta description', 'wordpress-seo-premium' ) );
+
+		$yform->set_options_value( 'export-readability-score', false );
 		$yform->checkbox( 'export-readability-score', __( 'Export readability score', 'wordpress-seo-premium' ) );
 		?>
 		<br class="clear">

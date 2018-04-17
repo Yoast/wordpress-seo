@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
@@ -38,7 +40,12 @@ class WPSEO_Redirect_Page {
 	 * A redirect-type filter.
 	 */
 	public function list_table_search() {
-		$url = filter_input( INPUT_SERVER, 'REQUEST_URI' );
+		$options = array( 'options' => array( 'default' => '' ) );
+		$url     = filter_input( INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL, $options );
+
+		if ( empty( $url ) && isset( $_SERVER['REQUEST_URI'] ) ) {
+			$url = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL, $options );
+		}
 
 		$new_url = $this->extract_redirect_type_from_url( $url );
 		$new_url = $this->extract_search_string_from_url( $new_url );
@@ -97,7 +104,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Load the admin redirects scripts
+	 * Load the admin redirects scripts.
 	 */
 	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -125,7 +132,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Catch redirects_per_page
+	 * Catch redirects_per_page.
 	 *
 	 * @param string $status Unused.
 	 * @param string $option The option name where the value is set for.
@@ -140,7 +147,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Get the Yoast SEO options
+	 * Get the Yoast SEO options.
 	 *
 	 * @return array
 	 */
@@ -164,7 +171,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Hook that runs after the 'wpseo_redirect' option is updated
+	 * Hook that runs after the 'wpseo_redirect' option is updated.
 	 *
 	 * @param array $old_value Unused.
 	 * @param array $value     The new saved values.
@@ -249,7 +256,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Initialize the AJAX redirect files
+	 * Initialize the AJAX redirect files.
 	 */
 	private function initialize_ajax() {
 		// Normal Redirect AJAX.
@@ -260,7 +267,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Getting the current active tab
+	 * Getting the current active tab.
 	 *
 	 * @return string
 	 */
@@ -285,7 +292,7 @@ class WPSEO_Redirect_Page {
 	}
 
 	/**
-	 * Setting redirect manager, based on the current active tab
+	 * Setting redirect manager, based on the current active tab.
 	 *
 	 * @return WPSEO_Redirect_Manager
 	 */
@@ -306,6 +313,8 @@ class WPSEO_Redirect_Page {
 
 	/**
 	 * Fetches the bulk action for removing redirects.
+	 *
+	 * @return void
 	 */
 	private function fetch_bulk_action() {
 		if ( wp_verify_nonce( filter_input( INPUT_POST, 'wpseo_redirects_ajax_nonce' ), 'wpseo-redirects-ajax-security' ) ) {

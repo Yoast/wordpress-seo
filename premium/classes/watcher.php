@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
@@ -9,7 +11,9 @@
 abstract class WPSEO_Watcher {
 
 	/**
-	 * @var string The type to watch for.
+	 * The type to watch for.
+	 *
+	 * @var string
 	 */
 	protected $watch_type;
 
@@ -105,7 +109,7 @@ abstract class WPSEO_Watcher {
 			$this->get_delete_notification(),
 			'Yoast SEO Premium',
 			$this->get_delete_action_list( $url, $id ),
-			'<a target="_blank" href="https://yoast.com/deleting-pages-from-your-site/#utm_source=wordpress-seo-premium-' . $this->watch_type . '-watcher&amp;utm_medium=dialog&amp;utm_campaign=410-redirect">',
+			'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/2jd' ) . '">',
 			'</a>'
 		);
 

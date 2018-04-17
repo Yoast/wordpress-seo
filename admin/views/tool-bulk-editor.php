@@ -1,7 +1,9 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
- * @since      1.5.0
+ * @since   1.5.0
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -9,8 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-
-$options = get_option( 'wpseo' );
 
 $wpseo_bulk_titles_table      = new WPSEO_Bulk_Title_Editor_List_Table();
 $wpseo_bulk_description_table = new WPSEO_Bulk_Description_List_Table();
@@ -63,7 +63,7 @@ function wpseo_get_rendered_tab( $table, $id ) {
 
 ?>
 <script>
-	var wpseoBulkEditorNonce = '<?php echo wp_create_nonce( 'wpseo-bulk-editor' ); ?>';
+	var wpseoBulkEditorNonce = <?php echo wp_json_encode( wp_create_nonce( 'wpseo-bulk-editor' ) ); ?>;
 
 	// eslint-disable-next-line
 	var wpseo_bulk_editor_nonce = wpseoBulkEditorNonce;

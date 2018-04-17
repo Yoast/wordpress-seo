@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Frontend
  */
 
@@ -83,9 +85,7 @@ class WPSEO_Rewrite {
 	 * @return array
 	 */
 	public function query_vars( $query_vars ) {
-		$options = WPSEO_Options::get_option( 'wpseo_permalinks' );
-
-		if ( $options['stripcategorybase'] === true ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
 			$query_vars[] = 'wpseo_category_redirect';
 		}
 

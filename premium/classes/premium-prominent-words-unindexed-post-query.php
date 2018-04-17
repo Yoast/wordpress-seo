@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium
  */
 
@@ -8,7 +10,9 @@
  */
 class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	protected $totals = array();
 
 	/**
@@ -59,7 +63,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	 *
 	 * @return array Array with the totals for the requested posttypes.
 	 */
-	protected function get_totals( $post_types ) {
+	public function get_totals( $post_types ) {
 		global $wpdb;
 
 		if ( $post_types === array() ) {
@@ -88,10 +92,31 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 		$totals = array();
 
 		foreach ( $results as $result ) {
-			$totals[ $result->post_type ] = (int) $result->total;
+			$totals[ $this->determine_rest_endpoint_for_post_type( $result->post_type ) ] = (int) $result->total;
 		}
 
 		return $totals;
+	}
+
+	/**
+	 * Determines the REST endpoint for the given post type.
+	 *
+	 * @param string $post_type The post type to determine the endpoint for.
+	 *
+	 * @return string The endpoint. Returns empty string if post type doesn't exist.
+	 */
+	protected function determine_rest_endpoint_for_post_type( $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
+
+		if ( is_null( $post_type_object ) ) {
+			return '';
+		}
+
+		if ( isset( $post_type_object->rest_base ) && $post_type_object->rest_base !== false ) {
+			return $post_type_object->rest_base;
+		}
+
+		return $post_type_object->name;
 	}
 
 	/**
@@ -106,7 +131,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	}
 
 	/**
-	 * Gets the Post IDs of un-indexed objects
+	 * Gets the Post IDs of un-indexed objects.
 	 *
 	 * @param array|string $post_types The post type(s) to fetch.
 	 * @param int          $limit      Limit the number of results.
@@ -215,7 +240,7 @@ class WPSEO_Premium_Prominent_Words_Unindexed_Post_Query {
 	}
 
 	/**
-	 * Formats the post type for the IN-statement
+	 * Formats the post type for the IN-statement.
 	 *
 	 * @deprecated 5.8.0
 	 *

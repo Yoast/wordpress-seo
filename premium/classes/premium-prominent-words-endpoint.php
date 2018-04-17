@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium
  */
 
@@ -28,7 +30,7 @@ class WPSEO_Premium_Prominent_Words_Endpoint implements WPSEO_WordPress_Integrat
 	}
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
 		add_action( 'rest_api_init', array( $this, 'register' ) );

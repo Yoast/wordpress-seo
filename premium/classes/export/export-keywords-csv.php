@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes\Export
  */
 
@@ -10,10 +12,18 @@
  */
 class WPSEO_Export_Keywords_CSV {
 
-	/** @var array The columns that should be presented */
+	/**
+	 * The columns that should be presented.
+	 *
+	 * @var array
+	 */
 	protected $columns;
 
-	/** @var array Data to be exported */
+	/**
+	 * Data to be exported.
+	 *
+	 * @var array
+	 */
 	protected $data = '';
 
 	/**
@@ -58,6 +68,8 @@ class WPSEO_Export_Keywords_CSV {
 			'readability_score' => esc_html__( 'readability score', 'wordpress-seo-premium' ),
 			'keywords'          => esc_html__( 'keyword', 'wordpress-seo-premium' ),
 			'keywords_score'    => esc_html__( 'keyword score', 'wordpress-seo-premium' ),
+			'seo_title'         => esc_html__( 'seo title', 'wordpress-seo-premium' ),
+			'meta_description'  => esc_html__( 'meta description', 'wordpress-seo-premium' ),
 		);
 
 		$csv  = $this->sanitize_csv_column( esc_html__( 'ID', 'wordpress-seo-premium' ) );
@@ -122,7 +134,7 @@ class WPSEO_Export_Keywords_CSV {
 	 * @return string CSV formatted column.
 	 */
 	protected function get_csv_column_from_result( array $result, $key, $keywords_index ) {
-		if ( in_array( $key, array( 'title', 'url', 'readability_score' ), true ) ) {
+		if ( in_array( $key, array( 'title', 'url', 'seo_title', 'meta_description', 'readability_score' ), true ) ) {
 			return $this->get_csv_string_column_from_result( $result, $key );
 		}
 

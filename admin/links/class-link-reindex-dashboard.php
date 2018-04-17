@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Links\Reindex
  */
 
@@ -15,6 +17,8 @@ class WPSEO_Link_Reindex_Dashboard {
 
 	/**
 	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		if ( ! $this->is_dashboard_page() ) {
@@ -25,7 +29,8 @@ class WPSEO_Link_Reindex_Dashboard {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ), 10 );
 
 		add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
-		add_action( 'wpseo_internal_linking', array( $this, 'add_link_index_interface' ) );
+
+		add_action( 'wpseo_tools_overview_list_items', array( $this, 'show_tools_overview_item' ), 10 );
 	}
 
 	/**
@@ -42,9 +47,35 @@ class WPSEO_Link_Reindex_Dashboard {
 	}
 
 	/**
+	 * Adds an item to the tools page overview list.
+	 *
+	 * @return void
+	 */
+	public function show_tools_overview_item() {
+		echo '<li>';
+		echo '<strong>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</strong><br/>';
+
+		if ( ! $this->has_unprocessed() ) {
+			echo $this->message_already_indexed();
+		}
+
+		if ( $this->has_unprocessed() ) {
+			printf( '<span id="reindexLinks">%s</span>', $this->message_start_indexing() );
+		}
+
+		echo '</li>';
+	}
+
+	/**
 	 * Add the indexing interface for links to the dashboard.
+	 *
+	 * @deprecated 7.0
+	 *
+	 * @return void
 	 */
 	public function add_link_index_interface() {
+		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
+
 		$html  = '';
 		$html .= '<h2>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</h2>';
 		$html .= '<p>' . sprintf(
@@ -55,19 +86,12 @@ class WPSEO_Link_Reindex_Dashboard {
 				'</a>'
 		) . '</p>';
 
-
-		if ( $this->unprocessed === 0 ) {
+		if ( ! $this->has_unprocessed() ) {
 			$html .= '<p>' . $this->message_already_indexed() . '</p>';
 		}
 
-		if ( $this->unprocessed > 0 ) {
-			$html .= '<p id="reindexLinks">';
-			$html .= sprintf(
-				'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%2$s</a>',
-				175,
-				esc_attr__( 'Count links in your texts', 'wordpress-seo' )
-			);
-			$html .= '</p>';
+		if ( $this->has_unprocessed() ) {
+			$html .= '<p id="reindexLinks">' . $this->message_start_indexing() . '</p>';
 		}
 
 		$html .= '<br />';
@@ -77,6 +101,8 @@ class WPSEO_Link_Reindex_Dashboard {
 
 	/**
 	 * Generates the model box.
+	 *
+	 * @return void
 	 */
 	public function modal_box() {
 		if ( ! $this->is_dashboard_page() ) {
@@ -88,18 +114,18 @@ class WPSEO_Link_Reindex_Dashboard {
 
 		$blocks = array();
 
-		if ( $this->unprocessed === 0 ) {
+		if ( ! $this->has_unprocessed() ) {
 			$inner_text = sprintf( '<p>%s</p>',
 				esc_html__( 'All your texts are already counted, there is no need to count them again.', 'wordpress-seo' )
 			);
 		}
 
-		if ( $this->unprocessed > 0 ) {
+		if ( $this->has_unprocessed() ) {
 			$progress = sprintf(
 				/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
 				__( 'Text %1$s of %2$s processed.', 'wordpress-seo' ),
 				'<span id="wpseo_count_index_links">0</span>',
-				sprintf( '<strong id="wpseo_count_total">%d</strong>', $this->unprocessed )
+				sprintf( '<strong id="wpseo_count_total">%d</strong>', $this->get_unprocessed_count() )
 			);
 
 			$inner_text  = '<div id="wpseo_index_links_progressbar" class="wpseo-progressbar"></div>';
@@ -121,13 +147,15 @@ class WPSEO_Link_Reindex_Dashboard {
 
 	/**
 	 * Enqueues site wide analysis script
+	 *
+	 * @return void
 	 */
 	public function enqueue() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'reindex-links' );
 
 		$data = array(
-			'amount'  => $this->unprocessed,
+			'amount'  => $this->get_unprocessed_count(),
 			'restApi' => array(
 				'root'     => esc_url_raw( rest_url() ),
 				'endpoint' => WPSEO_Link_Reindex_Post_Endpoint::REST_NAMESPACE . '/' . WPSEO_Link_Reindex_Post_Endpoint::ENDPOINT_QUERY,
@@ -145,22 +173,52 @@ class WPSEO_Link_Reindex_Dashboard {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'reindex-links', 'yoastReindexLinksData', array( 'data' => $data ) );
 	}
 
-
 	/**
 	 * Checks if the current page is the dashboard page.
 	 *
 	 * @return bool True when current page is the dashboard page.
 	 */
 	protected function is_dashboard_page() {
-		return ( filter_input( INPUT_GET, 'page' ) === 'wpseo_dashboard' );
+		return ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' );
 	}
 
 	/**
-	 * When everything has been indexed already.
+	 * Retrieves the string to display when everything has been indexed.
 	 *
-	 * @return string
+	 * @return string The message to show when everything has been indexed.
 	 */
-	protected function message_already_indexed() {
+	public function message_already_indexed() {
 		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! All the links in your texts have been counted.', 'wordpress-seo' );
+	}
+
+	/**
+	 * Returns if there are unprocessed items
+	 *
+	 * @return bool True if there are unprocessed items.
+	 */
+	public function has_unprocessed() {
+		return $this->unprocessed > 0;
+	}
+
+	/**
+	 * Returns the number of unprocessed items.
+	 *
+	 * @return int Number of unprocessed items.
+	 */
+	public function get_unprocessed_count() {
+		return $this->unprocessed;
+	}
+
+	/**
+	 * Retrieves the message to show starting indexation.
+	 *
+	 * @return string The message.
+	 */
+	public function message_start_indexing() {
+		return sprintf(
+			'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%2$s</a>',
+			175,
+			esc_attr__( 'Count links in your texts', 'wordpress-seo' )
+		);
 	}
 }

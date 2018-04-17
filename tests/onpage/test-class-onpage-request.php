@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\OnPage
  */
 
@@ -9,20 +11,11 @@
 class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-onpage-request-double.php';
-	}
-
-	/**
 	 * Test if there is a response
 	 *
-	 * @covers WPSEO_OnPage_Request::get_response
+	 * @covers WPSEO_OnPage_Request::get_remote
 	 */
-	public function test_get_response() {
+	public function test_get_remote() {
 		$request = new WPSEO_OnPage_Request_Double();
 
 		$this->assertEquals(
@@ -37,9 +30,9 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if there is a response for an url that will be redirected
 	 *
-	 * @covers WPSEO_OnPage_Request::get_response
+	 * @covers WPSEO_OnPage_Request::get_remote
 	 */
-	public function test_get_response_redirected() {
+	public function test_get_remote_redirected() {
 		$request = new WPSEO_OnPage_Request_Double();
 
 		$this->assertEquals(
@@ -54,9 +47,9 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if there is a response for a domain that isn't 'indexable'
 	 *
-	 * @covers WPSEO_OnPage_Request::get_response
+	 * @covers WPSEO_OnPage_Request::get_remote
 	 */
-	public function test_get_response_not_indexable() {
+	public function test_get_remote_not_indexable() {
 		$request = new WPSEO_OnPage_Request_Double();
 
 		$this->assertEquals(

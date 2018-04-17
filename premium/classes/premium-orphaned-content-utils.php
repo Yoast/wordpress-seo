@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium
  */
 
@@ -14,17 +16,11 @@ class WPSEO_Premium_Orphaned_Content_Utils {
 	 * @return bool True when the text link counter is enabled.
 	 */
 	public static function is_feature_enabled() {
-		static $options;
-
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			return false;
 		}
 
-		if ( $options === null ) {
-			$options = WPSEO_Options::get_options( array( 'wpseo' ) );
-		}
-
-		return $options['enable_text_link_counter'];
+		return WPSEO_Options::get( 'enable_text_link_counter', false );
 	}
 
 	/**

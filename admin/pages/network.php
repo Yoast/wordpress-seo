@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -50,12 +52,7 @@ if ( get_blog_count() > 100 ) {
 }
 else {
 
-	if ( function_exists( 'get_sites' ) ) { // WP 4.6+.
-		$sites = array_map( 'get_object_vars', get_sites( array( 'deleted' => 0 ) ) );
-	}
-	else {
-		$sites = wp_get_sites( array( 'deleted' => 0 ) );
-	}
+	$sites = array_map( 'get_object_vars', get_sites( array( 'deleted' => 0 ) ) );
 
 	if ( is_array( $sites ) && $sites !== array() ) {
 		$dropdown_input = array(

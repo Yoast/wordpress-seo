@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
 /**
- * Test class for testing the endpoint validation class
+ * Test class for testing the endpoint validation class.
  *
  * @covers WPSEO_Redirect_Endpoint_Validation
  */
@@ -16,8 +18,9 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	private $class_instance;
 
 	/**
+	 * Array with redirects to test against.
 	 *
-	 * @var array Array with redirects to test against.
+	 * @var array
 	 */
 	private $redirects = array(
 		'old_url'    => 'new_url',
@@ -78,7 +81,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the end point is in a redirect loop
+	 * Validate if the end point is in a redirect loop.
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 * @covers WPSEO_Redirect_Endpoint_Validation::get_error

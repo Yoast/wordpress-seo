@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium\Doubles
  */
 

@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
 /**
- * Test class for the presenter
+ * Test class for the presenter.
  *
  * @covers WPSEO_Redirect_Presenter
  */
@@ -16,7 +18,7 @@ class WPSEO_Redirect_Presenter_Test extends WPSEO_UnitTestCase {
 	private $class_instance;
 
 	/**
-	 * Setting the presenter
+	 * Setting the presenter.
 	 */
 	public function setUp() {
 		$this->class_instance = new WPSEO_Redirect_Presenter();

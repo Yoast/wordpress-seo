@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Main
  */
 
@@ -13,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '6.0' );
+define( 'WPSEO_VERSION', '7.3' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -182,6 +184,10 @@ function _wpseo_activate() {
 	$notifier = new WPSEO_Link_Notifier();
 	$notifier->manage_notification();
 
+	// Schedule cronjob when it doesn't exists on activation.
+	$wpseo_onpage = new WPSEO_OnPage();
+	$wpseo_onpage->activate_hooks();
+
 	do_action( 'wpseo_activate' );
 }
 /**
@@ -266,18 +272,20 @@ function wpseo_init() {
 	WPSEO_Options::get_instance();
 	WPSEO_Meta::init();
 
-	$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks', 'wpseo_xml' ) );
-	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
+	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
+		if ( function_exists( 'opcache_reset' ) ) {
+			opcache_reset();
+		}
+
 		new WPSEO_Upgrade();
 		// Get a cleaned up version of the $options.
-		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks', 'wpseo_xml' ) );
 	}
 
-	if ( $options['stripcategorybase'] === true ) {
+	if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
 		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
 	}
 
-	if ( $options['enablexmlsitemap'] === true ) {
+	if ( WPSEO_Options::get( 'enable_xml_sitemap' ) === true ) {
 		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps();
 	}
 
@@ -294,6 +302,10 @@ function wpseo_init() {
 	 */
 	$link_watcher = new WPSEO_Link_Watcher_Loader();
 	$link_watcher->load();
+
+	// Loading Ryte integration.
+	$wpseo_onpage = new WPSEO_OnPage();
+	$wpseo_onpage->register_hooks();
 }
 
 /**
@@ -301,22 +313,24 @@ function wpseo_init() {
  */
 function wpseo_init_rest_api() {
 	// We can't do anything when requirements are not met.
-	if ( WPSEO_Utils::is_api_available() ) {
-		// Boot up REST API.
-		$configuration_service = new WPSEO_Configuration_Service();
-		$configuration_service->initialize();
-
-		$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
-		$link_reindex_endpoint->register();
-
-		$statistics_service  = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
-		$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
-		$statistics_endpoint->register();
-
-		$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
-		$ryte_endpoint         = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
-		$ryte_endpoint->register();
+	if ( ! WPSEO_Utils::is_api_available() ) {
+		return;
 	}
+
+	// Boot up REST API.
+	$configuration_service = new WPSEO_Configuration_Service();
+	$configuration_service->initialize();
+
+	$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
+	$link_reindex_endpoint->register();
+
+	$statistics_service  = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
+	$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
+	$statistics_endpoint->register();
+
+	$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
+	$ryte_endpoint         = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
+	$ryte_endpoint->register();
 }
 
 /**
@@ -325,8 +339,7 @@ function wpseo_init_rest_api() {
 function wpseo_frontend_init() {
 	add_action( 'init', 'initialize_wpseo_front' );
 
-	$options = WPSEO_Options::get_option( 'wpseo_internallinks' );
-	if ( $options['breadcrumbs-enable'] === true ) {
+	if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
 		/**
 		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
 		 * there's no reason to have bbPress breadcrumbs as well.
@@ -344,12 +357,11 @@ function wpseo_frontend_init() {
  * Instantiate the different social classes on the frontend
  */
 function wpseo_frontend_head_init() {
-	$options = WPSEO_Options::get_option( 'wpseo_social' );
-	if ( $options['twitter'] === true ) {
+	if ( WPSEO_Options::get( 'twitter' ) === true ) {
 		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
 	}
 
-	if ( $options['opengraph'] === true ) {
+	if ( WPSEO_Options::get( 'opengraph' ) === true ) {
 		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph();
 	}
 
@@ -409,9 +421,6 @@ register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
 register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
-
-// Loading Ryte integration.
-new WPSEO_OnPage();
 
 // Registers SEO capabilities.
 $wpseo_register_capabilities = new WPSEO_Register_Capabilities();

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
@@ -17,19 +19,25 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public $items;
 
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	private $filter = array(
 		'redirect_type' => null,
 		'search_string' => null,
 	);
 
 	/**
-	 * @var string The name of the first column.
+	 * The name of the first column.
+	 *
+	 * @var string
 	 */
 	private $current_column;
 
 	/**
-	 * @var string The primary column.
+	 * The primary column.
+	 *
+	 * @var string
 	 */
 	private $primary_column = 'type';
 
@@ -390,7 +398,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * The old column actions
+	 * The old column actions.
 	 *
 	 * @param string $column The column name to verify.
 	 *

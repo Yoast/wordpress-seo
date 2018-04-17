@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\ConfigUI
  */
 
@@ -10,15 +12,6 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 	/** @var WPSEO_Configuration_Service_Mock Mock holder */
 	protected $structure;
-
-	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-structure-mock.php';
-	}
 
 	/**
 	 * Set up

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Internals\Options
  */
 
@@ -18,11 +20,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 */
 	protected $defaults = array(
-		// Non-form fields, set via procedural code in admin/pages/social.php.
-		'fb_admins'          => array(), // Array of user id's => array( name => '', link => '' ).
-
-		// Non-form field, set via translate_defaults() and validate_option() methods.
-		'fbconnectkey'       => '',
 		// Form fields.
 		'facebook_site'      => '', // Text field.
 		'instagram_url'      => '',
@@ -50,10 +47,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 */
 	public $ms_exclude = array(
 		/* Privacy. */
-		'fb_admins',
-		'fbconnectkey',
-		'fbadminapp',
 		'pinterestverify',
+		'fbadminapp',
 	);
 
 
@@ -89,31 +84,15 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		return self::$instance;
 	}
 
-
 	/**
 	 * Translate/set strings used in the option defaults.
 	 *
 	 * @return void
 	 */
 	public function translate_defaults() {
-		/* Auto-magically set the fb connect key. */
-		$this->defaults['fbconnectkey'] = self::get_fbconnectkey();
-
 		self::$twitter_card_types['summary']             = __( 'Summary', 'wordpress-seo' );
 		self::$twitter_card_types['summary_large_image'] = __( 'Summary with large image', 'wordpress-seo' );
 	}
-
-
-	/**
-	 * Get a Facebook connect key for the blog.
-	 *
-	 * @static
-	 * @return string
-	 */
-	public static function get_fbconnectkey() {
-		return md5( get_bloginfo( 'url' ) . rand() );
-	}
-
 
 	/**
 	 * Validate the option.
@@ -128,57 +107,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 		foreach ( $clean as $key => $value ) {
 			switch ( $key ) {
-				/* Automagic Facebook connect key. */
-				case 'fbconnectkey':
-					if ( ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) && preg_match( '`^[a-f0-9]{32}$`', $old[ $key ] ) > 0 ) {
-						$clean[ $key ] = $old[ $key ];
-					}
-					else {
-						$clean[ $key ] = self::get_fbconnectkey();
-					}
-					break;
-
-
-				/* Will not always exist in form. */
-				case 'fb_admins':
-					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
-						if ( $dirty[ $key ] === array() ) {
-							$clean[ $key ] = array();
-						}
-						else {
-							foreach ( $dirty[ $key ] as $user_id => $fb_array ) {
-								/*
-								 * @todo [JRF/JRF => Yoast/whomever] add user_id validation -
-								 * are these WP user-ids or FB user-ids ? Probably FB user-ids,
-								 * if so, find out the rules for FB user-ids.
-								 */
-								if ( is_array( $fb_array ) && $fb_array !== array() ) {
-									foreach ( $fb_array as $fb_key => $fb_value ) {
-										switch ( $fb_key ) {
-											case 'name':
-												/**
-												 * @todo [JRF => whomever] add validation for name based
-												 * on rules if there are any.
-												 * Input comes from: $_GET['userrealname']
-												 */
-												$clean[ $key ][ $user_id ][ $fb_key ] = sanitize_text_field( $fb_value );
-												break;
-
-											case 'link':
-												$clean[ $key ][ $user_id ][ $fb_key ] = WPSEO_Utils::sanitize_url( $fb_value );
-												break;
-										}
-									}
-								}
-							}
-							unset( $user_id, $fb_array, $fb_key, $fb_value );
-						}
-					}
-					elseif ( isset( $old[ $key ] ) && is_array( $old[ $key ] ) ) {
-						$clean[ $key ] = $old[ $key ];
-					}
-					break;
-
 				/* text fields */
 				case 'og_frontpage_desc':
 				case 'og_frontpage_title':
@@ -261,16 +189,14 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'twitter':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
+
+				case 'fbadminapp' :
+					if ( isset( $dirty[ $key ] ) && ! empty( $dirty[ $key ] ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
 			}
 		}
-
-		/**
-		 * Only validate 'fbadminapp', so leave the clean default.
-		 */
-		if ( isset( $dirty['fbadminapp'] ) && ! empty( $dirty['fbadminapp'] ) ) {
-			$clean['fbadminapp'] = $dirty['fbadminapp'];
-		}
-
 
 		return $clean;
 	}
@@ -305,8 +231,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		if ( is_array( $old_option ) && $old_option !== array() ) {
 			$move = array(
 				'opengraph',
-				'fb_adminid',
-				'fb_appid',
 			);
 			foreach ( $move as $key ) {
 				if ( isset( $old_option[ $key ] ) && ! isset( $option_value[ $key ] ) ) {

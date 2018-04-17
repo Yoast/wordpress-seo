@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\ConfigurationUI
  */
 
@@ -51,17 +53,28 @@ class WPSEO_Config_Component_Configuration_Choices implements WPSEO_Config_Compo
 			),
 			plugin_dir_url( WPSEO_FILE ) . '/images/Yoast_SEO_Icon.svg'
 		);
+
+		$configuration_service_text = sprintf(
+			/* translators: %1$s expands to 'Yoast SEO', %2$s expands to 'Yoast SEO Premium'. */
+			__( 'While we strive to make setting up %1$s as easy as possible, we understand it can still be daunting. If you would rather have us set up %1$s for you (and get a copy of %2$s in the process), order a %1$s configuration service and sit back while we configure your site.', 'wordpress-seo' ),
+			'Yoast SEO',
+			'Yoast SEO Premium'
+		);
+
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+			$configuration_service_text = sprintf(
+				/* translators: %1$s expands to 'Yoast SEO Premium'. */
+				__( 'While we strive to make setting up %1$s as easy as possible, we understand it can still be daunting. If you would rather have us set up %1$s for you, order a %1$s configuration service and sit back while we configure your site.', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			);
+		}
+
 		$field->add_choice(
 			sprintf(
 				/* translators: %s expands to 'Yoast SEO'. */
 				__( 'Let us set up %s for you', 'wordpress-seo' ), 'Yoast SEO'
 			),
-			sprintf(
-				/* translators: %1$s expands to 'Yoast SEO', %2$s expands to 'Yoast SEO Premium'. */
-				__( 'While we strive to make setting up %1$s as easy as possible, we understand it can still be daunting. If you would rather have us set up %1$s for you (and get a copy of %2$s in the process), order a %1$s configuration service and sit back while we configure your site.', 'wordpress-seo' ),
-				'Yoast SEO',
-				'Yoast SEO Premium'
-			),
+			$configuration_service_text,
 			array(
 				'type'   => 'secondary',
 				'label'  => __( 'Configuration service', 'wordpress-seo' ),

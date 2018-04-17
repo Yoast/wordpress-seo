@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Links
  */
 
@@ -93,7 +95,7 @@ class WPSEO_Link_Query {
 				   AND posts.post_type IN ( ' . $post_types . ' )
 				   AND yoast_meta.internal_link_count IS NULL
 				 LIMIT %d
-	   ';
+		';
 		// @codingStandardsIgnoreEnd
 
 		return $wpdb->get_results(
@@ -138,10 +140,8 @@ class WPSEO_Link_Query {
 	 * @return string
 	 */
 	protected static function get_count_table_name() {
-		$storage     = new WPSEO_Meta_Storage();
-		$count_table = $storage->get_table_name();
-
-		return $count_table;
+		$storage = new WPSEO_Meta_Storage();
+		return $storage->get_table_name();
 	}
 
 	/**
@@ -149,7 +149,7 @@ class WPSEO_Link_Query {
 	 *
 	 * @param array $post_types The post types to format.
 	 *
-	 * @return array|string
+	 * @return string Post types formatted for use in SQL statement.
 	 */
 	protected static function format_post_types( array $post_types ) {
 		$sanitized_post_types = array_map( 'esc_sql', $post_types );

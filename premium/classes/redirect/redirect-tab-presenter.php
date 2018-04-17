@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
 /**
- * Class WPSEO_Redirect_Tab_Presenter
+ * Class WPSEO_Redirect_Tab_Presenter.
  */
 abstract class WPSEO_Redirect_Tab_Presenter {
 

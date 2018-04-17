@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
@@ -15,7 +17,9 @@ class WPSEO_Facebook_Profile {
 	const TRANSIENT_NAME = 'yoast_facebook_profiles';
 
 	/**
-	 * @var string URL providing us the full name belonging to the user.
+	 * URL providing us the full name belonging to the user.
+	 *
+	 * @var string
 	 */
 	private $facebook_endpoint = 'https://www.facebook.com/plugins/follow.php?href=';
 
@@ -46,11 +50,11 @@ class WPSEO_Facebook_Profile {
 	}
 
 	/**
-	 * Get the Facebook profile url from the user profile. If field is not set or empty, just return empty string
+	 * Get the Facebook profile url from the user profile.
 	 *
 	 * @param int $user_id The user to get the Facebook profile field for.
 	 *
-	 * @return string
+	 * @return string URL or empty string if the field is not set or empty.
 	 */
 	private function get_facebook_profile( $user_id ) {
 		$facebook_profile = get_the_author_meta( 'facebook', $user_id );
@@ -63,8 +67,8 @@ class WPSEO_Facebook_Profile {
 	}
 
 	/**
-	 * Get the name used on Facebook from the transient cache, if the name isn't fetched already get it from the Facebook
-	 * follow widget.
+	 * Get the name used on Facebook from the transient cache, if the name isn't
+	 * fetched already get it from the Facebook follow widget.
 	 *
 	 * @param string $facebook_profile The profile to get.
 	 *

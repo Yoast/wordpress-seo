@@ -1,7 +1,9 @@
 <?php
 /**
- * @package    WPSEO\Admin\Notifications
- * @since      1.5.3
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Notifications
+ * @since   1.5.3
  */
 
 /**

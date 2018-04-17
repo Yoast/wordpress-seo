@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Internals
  */
 
@@ -31,8 +33,7 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
 		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
 		if ( ! $breadcrumbs_enabled ) {
-			$options             = get_option( 'wpseo_internallinks' );
-			$breadcrumbs_enabled = ( $options['breadcrumbs-enable'] === true );
+			$breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
 		}
 
 		if ( $breadcrumbs_enabled ) {
@@ -164,17 +165,14 @@ function wpseo_wpml_config( $config ) {
 					foreach ( $translate_cp as $post_type ) {
 						$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-' . $post_type;
 						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-' . $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-' . $post_type;
 						$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-ptarchive-' . $post_type;
 						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-ptarchive-' . $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-ptarchive-' . $post_type;
 
 						$translate_tax = $sitepress->get_translatable_taxonomies( false, $post_type );
 						if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
 							foreach ( $translate_tax as $taxonomy ) {
 								$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-tax-' . $taxonomy;
 								$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-tax-' . $taxonomy;
-								$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-tax-' . $taxonomy;
 							}
 						}
 					}

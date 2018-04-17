@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium|Classes
  */
 
 /**
- * The metabox for premium
+ * The metabox for premium.
  */
 class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 
@@ -27,7 +29,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Registers relevant hooks to WordPress
+	 * Registers relevant hooks to WordPress.
 	 */
 	public function register_hooks() {
 		add_action( 'admin_init', array( $this, 'register_assets' ) );
@@ -37,7 +39,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Registers assets to WordPress
+	 * Registers assets to WordPress.
 	 */
 	public function register_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -58,7 +60,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Enqueues assets when relevant
+	 * Enqueues assets when relevant.
 	 */
 	public function enqueue_assets() {
 		if ( WPSEO_Metabox::is_post_edit( $GLOBALS['pagenow'] ) ) {
@@ -73,9 +75,8 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	 * Send data to assets by using wp_localize_script.
 	 */
 	public function send_data_to_assets() {
-		$options                  = WPSEO_Options::get_option( 'wpseo' );
-		$insights_enabled         = ( isset( $options['enable_metabox_insights'] ) && $options['enable_metabox_insights'] );
-		$link_suggestions_enabled = ( isset( $options['enable_link_suggestions'] ) && $options['enable_link_suggestions'] );
+		$insights_enabled         = WPSEO_Options::get( 'enable_metabox_insights', false );
+		$link_suggestions_enabled = WPSEO_Options::get( 'enable_link_suggestions', false );
 
 		$language_support = new WPSEO_Premium_Prominent_Words_Language_Support();
 
@@ -120,7 +121,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Retrieves the post ID from the globals
+	 * Retrieves the post ID from the globals.
 	 *
 	 * @return {int} The post ID.
 	 */

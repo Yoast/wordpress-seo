@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
@@ -18,5 +20,4 @@ class WPSEO_Redirect_Htaccess_Util_Test extends WPSEO_UnitTestCase {
 	public function test_get_htaccess_file_path() {
 		$this->assertContains( '.htaccess', WPSEO_Redirect_Htaccess_Util::get_htaccess_file_path() );
 	}
-
 }

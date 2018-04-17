@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\ConfigurationUI
  */
 
@@ -42,9 +44,7 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 	 * @return string The value for the environment_type wpseo option.
 	 */
 	public function get_data() {
-		$option = WPSEO_Options::get_option( 'wpseo' );
-
-		return $option['environment_type'];
+		return WPSEO_Options::get( 'environment_type' );
 	}
 
 	/**
@@ -55,19 +55,15 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 	 * @return bool Returns whether the value is successfully set.
 	 */
 	public function set_data( $environment_type ) {
-		$option = WPSEO_Options::get_option( 'wpseo' );
-
-		if ( $option['environment_type'] !== $environment_type ) {
-			$option['environment_type'] = $environment_type;
-			update_option( 'wpseo', $option );
+		$return = true;
+		if ( $this->get_data() !== $environment_type ) {
+			$return = WPSEO_Options::set( 'environment_type', $environment_type );
 			if ( ! $this->set_indexation( $environment_type ) ) {
 				return false;
 			}
 		}
 
-		$saved_environment_option = WPSEO_Options::get_option( 'wpseo' );
-
-		return ( $saved_environment_option['environment_type'] === $option['environment_type'] );
+		return $return;
 	}
 
 	/**
@@ -90,8 +86,7 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 
 			return true;
 		}
-		$saved_blog_public_value = get_option( 'blog_public' );
 
-		return ( $saved_blog_public_value === $new_blog_public_value );
+		return ( get_option( 'blog_public' ) === $new_blog_public_value );
 	}
 }

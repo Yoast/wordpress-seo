@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Admin
  */
 
@@ -17,15 +19,6 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 	 * @var Yoast_Notification_Center_Double
 	 */
 	protected $notification_center;
-
-	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/class-wpseo-suggested-plugins-double.php';
-	}
 
 	/**
 	 * Set up our double class.

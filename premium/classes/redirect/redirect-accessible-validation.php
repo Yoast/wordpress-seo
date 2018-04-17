@@ -1,24 +1,28 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes\Redirect
  */
 
 /**
- * Validates the accessibility of a redirect's target
+ * Validates the accessibility of a redirect's target.
  */
 class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation {
 
 	/**
-	 * @var WPSEO_Validation_Result The validation error.
+	 * The validation error.
+	 *
+	 * @var WPSEO_Validation_Result
 	 */
 	private $error;
 
 	/**
 	 * Validates if the target is accessible and based on its response code it will set a warning (if applicable).
 	 *
-	 * @param WPSEO_Redirect $redirect  The redirect to validate.
+	 * @param WPSEO_Redirect $redirect     The redirect to validate.
 	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.
-	 * @param array|null     $redirects Unused.
+	 * @param array|null     $redirects    Unused.
 	 *
 	 * @return bool Whether or not the target is valid.
 	 */
@@ -97,7 +101,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	}
 
 	/**
-	 * Returns the validation error
+	 * Returns the validation error.
 	 *
 	 * @return WPSEO_Validation_Result
 	 */
@@ -119,7 +123,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	/**
 	 * Check if the target is relative, if so just parse a full URL.
 	 *
-	 * @param string $target The target to pars.
+	 * @param string $target The target to parse.
 	 *
 	 * @return string
 	 */

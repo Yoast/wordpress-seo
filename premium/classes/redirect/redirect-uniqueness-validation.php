@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes\Redirect
  */
 
 /**
- * Validates the uniqueness of a redirect
+ * Validates the uniqueness of a redirect.
  */
 class WPSEO_Redirect_Uniqueness_Validation implements WPSEO_Redirect_Validation {
 
@@ -42,7 +44,7 @@ class WPSEO_Redirect_Uniqueness_Validation implements WPSEO_Redirect_Validation 
 	}
 
 	/**
-	 * Returns the validation error
+	 * Returns the validation error.
 	 *
 	 * @return WPSEO_Validation_Result
 	 */

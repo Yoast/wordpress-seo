@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
 /**
- * Test class for testing the url redirect manager
+ * Test class for testing the url redirect manager.
  *
  * @covers WPSEO_Redirect_Manager
  */
@@ -16,7 +18,7 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	protected $class_instance;
 
 	/**
-	 * Setting up the class instance and fill it with some fake redirects
+	 * Setting up the class instance and fill it with some fake redirects.
 	 */
 	public function setUp() {
 
@@ -29,7 +31,7 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Unset the class instance
+	 * Unset the class instance.
 	 */
 	public function tearDown() {
 		// Clear the option to be sure there are no redirects.
@@ -39,7 +41,7 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Check if the redirects are filled
+	 * Check if the redirects are filled.
 	 *
 	 * @covers WPSEO_Redirect_Manager::get_redirects
 	 */
@@ -52,7 +54,7 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing if redirect is added, if redirecs contains the added redirect and if the contained redirect is what is just added
+	 * Testing if redirect is added, if redirecs contains the added redirect and if the contained redirect is what is just added.
 	 *
 	 * @covers WPSEO_Redirect_Manager::create_redirect
 	 */
@@ -67,7 +69,7 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '301', $redirect->get_type() );
 
 		/*
-		 * Because of PHP 5.2, this can not be done
+		 * Because of PHP 5.2, this can not be done.
 		 * $this->assertArraySubset( array( 'add_redirect' => array( 'url' => 'added_redirect', 'type' => 301 ) ), $redirects );
 		 */
 
@@ -76,7 +78,7 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test what happens if we update the redirect
+	 * Test what happens if we update the redirect.
 	 *
 	 * @covers WPSEO_Redirect_Manager::create_redirect
 	 * @covers WPSEO_Redirect_Manager::update_redirect
@@ -111,7 +113,7 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test removing a redirect
+	 * Test removing a redirect.
 	 *
 	 * @covers WPSEO_Redirect_Manager::delete_redirects
 	 */

@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
 /**
- * Class WPSEO_Premium_Javascript_Strings
+ * Class WPSEO_Premium_Javascript_Strings.
  */
 class WPSEO_Premium_Javascript_Strings {
 
@@ -14,7 +16,7 @@ class WPSEO_Premium_Javascript_Strings {
 	private static $strings = null;
 
 	/**
-	 * Fill the value of self::$strings with translated strings
+	 * Fill the value of self::$strings with translated strings.
 	 */
 	private static function fill() {
 		self::$strings = array(
@@ -60,7 +62,7 @@ class WPSEO_Premium_Javascript_Strings {
 	}
 
 	/**
-	 * Returns an array with all the translated strings
+	 * Returns an array with all the translated strings.
 	 *
 	 * @return array
 	 */

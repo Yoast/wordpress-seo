@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Options\Tabs
  */
 
@@ -20,10 +22,8 @@ class WPSEO_Option_Tabs_Formatter {
 
 	/**
 	 * @param WPSEO_Option_Tabs $option_tabs Option Tabs to get tabs from.
-	 * @param Yoast_Form        $yform Yoast Form which is being used in the views.
-	 * @param array             $options Options which are being used in the views.
 	 */
-	public function run( WPSEO_Option_Tabs $option_tabs, Yoast_Form $yform, $options = array() ) {
+	public function run( WPSEO_Option_Tabs $option_tabs ) {
 
 		echo '<h2 class="nav-tab-wrapper" id="wpseo-tabs">';
 		foreach ( $option_tabs->get_tabs() as $tab ) {
@@ -31,7 +31,7 @@ class WPSEO_Option_Tabs_Formatter {
 				'<a class="nav-tab" id="%1$s" href="%2$s">%3$s</a>',
 				esc_attr( $tab->get_name() . '-tab' ),
 				esc_url( '#top#' . $tab->get_name() ),
-				$tab->get_label()
+				esc_html( $tab->get_label() )
 			);
 		}
 		echo '</h2>';
@@ -42,11 +42,14 @@ class WPSEO_Option_Tabs_Formatter {
 
 		foreach ( $option_tabs->get_tabs() as $tab ) {
 			$identifier = $tab->get_name();
-			printf( '<div id="%s" class="wpseotab">', esc_attr( $identifier ) );
+
+			$class = 'wpseotab ' . ( $tab->has_save_button() ? 'save' : 'nosave' );
+			printf( '<div id="%1$s" class="%2$s">', esc_attr( $identifier ), esc_attr( $class ) );
 
 			// Output the settings view for all tabs.
 			$tab_view = $this->get_tab_view( $option_tabs, $tab );
 			if ( is_file( $tab_view ) ) {
+				$yform = Yoast_Form::get_instance();
 				require_once $tab_view;
 			}
 

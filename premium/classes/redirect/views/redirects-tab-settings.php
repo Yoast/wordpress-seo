@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Views
  */
 
@@ -71,8 +73,8 @@ if ( ! empty( $redirect_file ) ) {
 		$yform->set_option( 'wpseo_redirect' );
 
 		$yform->toggle_switch( 'disable_php_redirect', array(
-			'off' => '<code>PHP</code>',
-			'on'  => ( WPSEO_Utils::is_apache() ) ? '<code>.htaccess</code>' : __( 'Web server', 'wordpress-seo-premium' ),
+			'off' => 'PHP',
+			'on'  => ( WPSEO_Utils::is_apache() ) ? '.htaccess' : __( 'Web server', 'wordpress-seo-premium' ),
 		), __( 'Redirect method', 'wordpress-seo-premium' ) );
 
 		if ( WPSEO_Utils::is_apache() ) {

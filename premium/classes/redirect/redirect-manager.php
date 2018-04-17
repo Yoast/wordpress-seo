@@ -1,20 +1,26 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
 /**
- * Class WPSEO_Redirect_Manager
+ * Class WPSEO_Redirect_Manager.
  */
 class WPSEO_Redirect_Manager {
 
 	/**
-	 * @var WPSEO_Redirect_Option Model object to handle the redirects.
+	 * Model object to handle the redirects.
+	 *
+	 * @var WPSEO_Redirect_Option
 	 */
 	protected $redirect_option;
 
 	/**
-	 * @var string The redirect format, this might be plain or regex.
+	 * The redirect format, this might be plain or regex.
+	 *
+	 * @var string
 	 */
 	protected $redirect_format;
 
@@ -43,7 +49,7 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Setting the property with the redirects
+	 * Setting the property with the redirects.
 	 *
 	 * @param string                    $redirect_format The format for the redirects.
 	 * @param WPSEO_Redirect_Exporter[] $exporters       The exporters used to save redirects in files.
@@ -60,7 +66,7 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Get the redirects
+	 * Get the redirects.
 	 *
 	 * @return WPSEO_Redirect[]
 	 */
@@ -70,7 +76,7 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Returns all redirects
+	 * Returns all redirects.
 	 *
 	 * @return WPSEO_Redirect[]
 	 */
@@ -90,7 +96,7 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Create a new redirect
+	 * Create a new redirect.
 	 *
 	 * @param WPSEO_Redirect $redirect The redirect object to add.
 	 *
@@ -107,7 +113,7 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Save the redirect
+	 * Save the redirect.
 	 *
 	 * @param WPSEO_Redirect $current_redirect The old redirect, the value is a key in the redirects array.
 	 * @param WPSEO_Redirect $redirect         New redirect object.
@@ -125,7 +131,7 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Delete the redirects
+	 * Delete the redirects.
 	 *
 	 * @param WPSEO_Redirect[] $delete_redirects Array with the redirects to remove.
 	 *
@@ -169,7 +175,7 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Filter the redirects that don't match the needed format
+	 * Filter the redirects that don't match the needed format.
 	 *
 	 * @param WPSEO_Redirect $redirect The redirect to filter.
 	 *

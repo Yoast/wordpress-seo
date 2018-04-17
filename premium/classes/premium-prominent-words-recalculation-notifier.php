@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium
  */
 
@@ -113,8 +115,11 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 				),
 				'<a href="https://yoa.st/notification-internal-link">',
 				'</a>',
-				'<button type="button" id="noticeRunAnalysis" class="button">',
-				'</button>'
+				sprintf(
+					'<a href="%s" class="button">',
+					esc_url( admin_url( 'admin.php?page=wpseo_tools#open-internal-links-calculation' ) )
+				),
+				'</a>'
 			),
 			array(
 				'type'         => Yoast_Notification::WARNING,
@@ -142,8 +147,6 @@ class WPSEO_Premium_Prominent_Words_Recalculation_Notifier implements WPSEO_Word
 	 * @return bool True when link suggestions are enabled.
 	 */
 	protected function has_enabled_link_suggestions() {
-		$options = WPSEO_Options::get_option( 'wpseo' );
-
-		return ( isset( $options['enable_link_suggestions'] ) && $options['enable_link_suggestions'] );
+		return WPSEO_Options::get( 'enable_link_suggestions', false );
 	}
 }

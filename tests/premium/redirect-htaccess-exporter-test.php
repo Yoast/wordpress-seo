@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
@@ -35,7 +37,6 @@ class WPSEO_Redirect_Htaccess_Exporter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 *
 	 * Testing if the export method will be called and returns true
 	 *
 	 * @covers WPSEO_Redirect_File_Exporter::export

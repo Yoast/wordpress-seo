@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Tracking
  */
 
@@ -50,7 +52,7 @@ class WPSEO_Tracking_Plugin_Data implements WPSEO_Collection {
 			'url'     => $plugin['PluginURI'],
 			'version' => $plugin['Version'],
 			'author'  => array(
-				'name' => strip_tags( $plugin['Author'] ),
+				'name' => wp_strip_all_tags( $plugin['Author'], true ),
 				'url'  => $plugin['AuthorURI'],
 			),
 		);

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests
  */
 
@@ -10,7 +12,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
 
 	/**
-	 * @covers WPSEO_Options::grant_access
+	 * @covers WPSEO_Utils::grant_access
 	 */
 	public function test_grant_access() {
 

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
@@ -16,7 +18,7 @@ class WPSEO_Redirect_Validator_Test extends WPSEO_UnitTestCase {
 	private $class_instance;
 
 	/**
-	 * Setting the instance
+	 * Setting the instance.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -38,13 +40,13 @@ class WPSEO_Redirect_Validator_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with redirects which don't exists already. Resulting in no validation errors
+	 * Test with redirects which don't exists already. Resulting in no validation errors.
 	 *
 	 * @dataProvider redirect_provider
 	 *
-	 * @param string $origin The origin url.
-	 * @param string $target Target url.
-	 * @param int    $type   Type of the redirect.
+	 * @param string $origin     The origin url.
+	 * @param string $target     Target url.
+	 * @param int    $type       Type of the redirect.
 	 * @param string $old_origin The old origin, when empty the redirect is new.
 	 *
 	 * @covers       WPSEO_Redirect_Validator::validate
@@ -59,7 +61,7 @@ class WPSEO_Redirect_Validator_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with redirects which don't exists already. Resulting in no validation errors
+	 * Test with redirects which don't exists already. Resulting in no validation errors.
 	 *
 	 * @dataProvider faulty_redirect_provider
 	 *
@@ -105,7 +107,7 @@ class WPSEO_Redirect_Validator_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provide an array with non existing redirects
+	 * Provide an array with non-existant redirects.
 	 *
 	 * @return array
 	 */

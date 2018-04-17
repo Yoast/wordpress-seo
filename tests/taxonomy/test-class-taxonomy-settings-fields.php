@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Taxonomy
  */
 
@@ -17,15 +19,6 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 	 * @var stdClass The created term.
 	 */
 	private $term;
-
-	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-taxonomy-settings-fields-double.php';
-	}
 
 	/**
 	 * Adding a term and set the class instance
@@ -48,8 +41,8 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( is_array( $fields ) );
 
-		$this->assertTrue( array_key_exists( 'sitemap_include', $fields ) );
-		$this->assertEquals( 'select', $fields['sitemap_include']['type'] );
+		$this->assertTrue( array_key_exists( 'noindex', $fields ) );
+		$this->assertEquals( 'select', $fields['noindex']['type'] );
 	}
 
 	/**
@@ -66,19 +59,6 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the breadcrumbs title field will be hidden if the option 'breadcrumbs-enable' is set to false.
-	 *
-	 * WPSEO_Taxonomy_Settings_Fields::get
-	 */
-	public function test_get_fields_hidden_meta_keywords() {
-		$this->class_instance->set_option( 'usemetakeywords', true );
-		$this->assertTrue( array_key_exists( 'metakey', $this->class_instance->get() ) );
-
-		$this->class_instance->set_option( 'usemetakeywords', false );
-		$this->assertFalse( array_key_exists( 'metakey', $this->class_instance->get() ) );
-	}
-
-	/**
 	 * Test the result of get_robot_index
 	 *
 	 * WPSEO_Taxonomy_Content_Fields::get_robot_index
@@ -90,7 +70,7 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 		$fields_before = $this->class_instance->get();
 
 		$this->assertEquals(
-			'Default for this taxonomy type, currently: noindex',
+			'No (current default for Tags)',
 			$fields_before['noindex']['options']['options']['default']
 		);
 
@@ -99,17 +79,8 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 
 		$fields_after = $this->class_instance->get();
 		$this->assertEquals(
-			'Default for this taxonomy type, currently: index',
+			'Yes (current default for Tags)',
 			$fields_after['noindex']['options']['options']['default']
 		);
-	}
-
-	public function test_get_noindex_options_ON_non_public_blog() {
-		update_option( 'blog_public', '0' );
-
-		$no_index_options = $this->class_instance->get();
-
-		$this->assertEquals( '<br /><span class="error-message">Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won&#039;t have an effect.</span>', $no_index_options['noindex']['options']['description'] );
-
 	}
 }

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
@@ -97,8 +99,7 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 	 * @return bool Whether or not the link suggestions are enabled.
 	 */
 	public function is_enabled() {
-		$options = WPSEO_Options::get_option( 'wpseo' );
-		return ( isset( $options['enable_link_suggestions'] ) && $options['enable_link_suggestions'] );
+		return WPSEO_Options::get( 'enable_link_suggestions', false );
 	}
 
 	/**

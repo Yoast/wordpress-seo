@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
@@ -48,7 +50,7 @@ class WPSEO_Dublin_Core {
 		 *
 		 * @api string $content The content of the property
 		 */
-		$content = apply_filters( 'wpseo_dc_' . $property, $content );
+		$content = apply_filters_deprecated( 'wpseo_dc_' . $property, array( $content ), 'WPSEO 5.3' );
 
 		if ( empty( $content ) ) {
 			return false;

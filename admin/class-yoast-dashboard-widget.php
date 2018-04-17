@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -32,7 +34,15 @@ class Yoast_Dashboard_Widget {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_assets' ) );
+		add_action( 'admin_init', array( $this, 'queue_dashboard_widget' ) );
+	}
 
+	/**
+	 * Adds the dashboard widget if it should be shown.
+	 *
+	 * @return void
+	 */
+	public function queue_dashboard_widget() {
 		if ( $this->show_widget() ) {
 			add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
 		}
@@ -105,7 +115,7 @@ class Yoast_Dashboard_Widget {
 		return array(
 			'feed_header'      => sprintf(
 				/* translators: %1$s resolves to Yoast.com */
-				__( 'Latest blogposts on %1$s', 'wordpress-seo' ),
+				__( 'Latest blog posts on %1$s', 'wordpress-seo' ),
 				'Yoast.com'
 			),
 			'feed_footer'      => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),

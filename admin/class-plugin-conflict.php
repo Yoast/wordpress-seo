@@ -1,7 +1,9 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
- * @since      1.7.0
+ * @since   1.7.0
  */
 
 /**
@@ -35,7 +37,6 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			'facebook-thumb-fixer/_facebook-thumb-fixer.php',        // Facebook Thumb Fixer.
 			'facebook-and-digg-thumbnail-generator/facebook-and-digg-thumbnail-generator.php',
 			// Fedmich's Facebook Open Graph Meta.
-			'header-footer/plugin.php',                              // Header and Footer.
 			'network-publisher/networkpub.php',                      // Network Publisher.
 			'nextgen-facebook/nextgen-facebook.php',                 // NextGEN Facebook OG.
 			'opengraph/opengraph.php',                               // Open Graph.
@@ -133,8 +134,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 		$plugin_sections = array();
 
 		// Only check for open graph problems when they are enabled.
-		$social_options = WPSEO_Options::get_option( 'wpseo_social' );
-		if ( $social_options['opengraph'] ) {
+		if ( WPSEO_Options::get( 'opengraph' ) ) {
 			/* translators: %1$s expands to Yoast SEO, %2%s: 'Facebook' plugin name of possibly conflicting plugin with regard to creating OpenGraph output. */
 			$plugin_sections['open_graph'] = __( 'Both %1$s and %2$s create OpenGraph output, which might make Facebook, Twitter, LinkedIn and other social networks use the wrong texts and images when your pages are being shared.', 'wordpress-seo' )
 				. '<br/><br/>'
@@ -145,14 +145,13 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 		}
 
 		// Only check for XML conflicts if sitemaps are enabled.
-		$xml_sitemap_options = WPSEO_Options::get_option( 'wpseo_xml' );
-		if ( $xml_sitemap_options['enablexmlsitemap'] ) {
+		if ( WPSEO_Options::get( 'enable_xml_sitemap' ) ) {
 			/* translators: %1$s expands to Yoast SEO, %2$s: 'Google XML Sitemaps' plugin name of possibly conflicting plugin with regard to the creation of sitemaps. */
-			$plugin_sections['xml_sitemaps'] = __( 'Both %1$s and %2$s can create XML sitemaps. Having two XML sitemaps is not beneficial for search engines, yet might slow down your site.', 'wordpress-seo' )
+			$plugin_sections['xml_sitemaps'] = __( 'Both %1$s and %2$s can create XML sitemaps. Having two XML sitemaps is not beneficial for search engines and might slow down your site.', 'wordpress-seo' )
 				. '<br/><br/>'
-				. '<a class="button" href="' . admin_url( 'admin.php?page=wpseo_xml' ) . '">'
+				. '<a class="button" href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#features' ) . '">'
 				/* translators: %1$s expands to Yoast SEO. */
-				. sprintf( __( 'Configure %1$s\'s XML Sitemap settings', 'wordpress-seo' ), 'Yoast SEO' )
+				. sprintf( __( 'Toggle %1$s\'s XML Sitemap', 'wordpress-seo' ), 'Yoast SEO' )
 				. '</a>';
 		}
 

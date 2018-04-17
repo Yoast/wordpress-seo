@@ -1,6 +1,12 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Views
+ */
+
+/**
+ * @var Yoast_Form $yform
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -22,7 +28,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 </p>
 
 <form
-	action="<?php echo esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#wpseo-import' ) ); ?>"
+	action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#wpseo-import' ) ); ?>"
 	method="post" enctype="multipart/form-data"
 	accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 	<?php wp_nonce_field( 'wpseo-import-file', '_wpnonce', true, true ); ?>

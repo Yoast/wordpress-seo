@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
@@ -7,6 +9,7 @@
  * Unit Test Class.
  */
 class WPSEO_Redirect_Util_Test extends PHPUnit_Framework_TestCase {
+
 	/**
 	 * @var string
 	 */

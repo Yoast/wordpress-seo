@@ -25,7 +25,7 @@
     "eslint-config-yoast": "^2.0.1",
     "eslint-plugin-react": "^6.1.2",
     "eslint-plugin-yoast": "^1.0.1",
-    "grunt": "^0.4.5",
+    "grunt": ">=0.4.0",
     "grunt-autoprefixer": "^1.0.1",
     "grunt-browserify": "^4.0.1",
     "grunt-checktextdomain": "^0.1.1",
@@ -59,9 +59,12 @@
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "sassdash": "^0.8.2",
-    "yoast-premium-components": "git+ssh://git@github.com/yoast/yoast-premium-components.git#1.5.0",
+    "yoast-components": "^3.3.0",
+    "yoast-premium-components": "git+ssh://git@github.com/yoast/yoast-premium-components.git#1.6.0",
     "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews#1.4.2",
-    "yoast-components": "2.11.9",
-    "yoastseo": "^1.28"
+    "yoastseo": "^1.30.2"
+  },
+  "yoast": {
+    "pluginVersion": "7.3"
   }
 }

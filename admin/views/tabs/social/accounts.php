@@ -1,6 +1,12 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Views
+ */
+
+/**
+ * @var Yoast_Form $yform
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -9,12 +15,17 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<h2>' . esc_html__( 'Your social profiles', 'wordpress-seo' ) . '</h2>';
+$social_profiles_help = new WPSEO_Admin_Help_Panel(
+	'social-accounts',
+	__( 'Learn more about your social profiles settings', 'wordpress-seo' ),
+	__( 'To let search engines know which social profiles are associated to this site, enter your site social profiles data below.', 'wordpress-seo' ),
+	'has-wrapper'
+);
 
-echo '<p>';
-esc_html_e( 'To let search engines know which social profiles are associated to this site, enter them below:', 'wordpress-seo' );
-echo '</p>';
+echo '<h2 class="help-button-inline">' . esc_html__( 'Your social profiles', 'wordpress-seo' ) . $social_profiles_help->get_button_html() . '</h2>';
+echo $social_profiles_help->get_panel_html();
 
+$yform = Yoast_Form::get_instance();
 $yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
 $yform->textinput( 'twitter_site', __( 'Twitter Username', 'wordpress-seo' ) );
 $yform->textinput( 'instagram_url', __( 'Instagram URL', 'wordpress-seo' ) );

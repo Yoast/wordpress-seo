@@ -6,7 +6,7 @@
 		"seo"
 	],
 	"homepage": "https://yoa.st/1ui",
-	"license": "GPL-2.0+",
+	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Team Yoast",
@@ -27,13 +27,13 @@
 		"yoast/i18n-module": "^3.0",
 		"yoast/api-libs": "^2.0",
 		"xrstf/composer-php52": "^1.0.20",
-        "yoast/wp-helpscout": "^2.0",
+		"yoast/wp-helpscout": "^2.0",
 		"yoast/whip": "^1.1"
 	},
 	"require-dev": {
-		"codeclimate/php-test-reporter": "dev-master",
 		"yoast/php-development-environment": "^1.0",
-		"yoast/yoastcs": "~0.4.3"
+		"yoast/yoastcs": "~0.4.3",
+		"roave/security-advisories": "dev-master"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -43,6 +43,11 @@
 			"frontend/",
 			"inc/",
 			"deprecated/"
+		]
+	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/"
 		]
 	},
 	"scripts": {

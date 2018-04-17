@@ -1,23 +1,51 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Metabox
  */
 
 /**
- * Tab to add a keyword to analyze
+ * Tab to add a keyword to analyze.
  */
 class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 
 	/**
-	 * Returns a button because a link is inappropriate here
+	 * Returns a button because a link is inappropriate here.
 	 *
 	 * @return string
 	 */
 	public function link() {
 
-		// Ensure thickbox is enqueued.
-		add_thickbox();
+		if ( ! WPSEO_UTILS::is_yoast_seo_premium() ) {
+			$add_keyword_modal_config = array(
+				'mountHook'      => '.wpseo-tab-add-keyword',
+				'openButtonIcon' => 'plus',
+				'intl'           => array(
+					'open'           => __( 'Add keyword', 'wordpress-seo' ),
+					'modalAriaLabel' => sprintf(
+						/* translators: %s expands to 'Yoast SEO Premium'. */
+						__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
+					),
+					'heading'        => sprintf(
+						/* translators: %s expands to 'Yoast SEO Premium'. */
+						__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
+					),
+				),
+				'classes'        => array(
+					'openButton' => 'wpseo-add-keyword button button-link',
+				),
+				'content'        => 'AddKeyword',
+			);
 
+			$translations = new WPSEO_Add_Keyword_Modal;
+			$translations->enqueue_translations();
+			$benefits = new WPSEO_Premium_Benefits_List;
+			$benefits->enqueue_translations();
+			Yoast_Modal::add( $add_keyword_modal_config );
+		}
+
+		// Keep the default Add Keyword button for Premium. On free it's replaced by React.
 		ob_start();
 		?>
 		<li class="wpseo-tab-add-keyword">
@@ -26,38 +54,12 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 				<?php esc_html_e( 'Add keyword', 'wordpress-seo' ); ?>
 			</button>
 		</li>
-
 		<?php
-		$popup_title = __( 'Want to add more than one keyword?', 'wordpress-seo' );
-		/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-		$popup_content  = '<p>' . sprintf( __( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ) . '">Yoast SEO Premium</a>'
-				) . '</p>';
-		$popup_content .= '<p>' . sprintf(
-			/* translators: %s expands to 'Yoast SEO Premium'. */
-			__( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium'
-			) . '</p>';
-		$popup_content .= '<ul>';
-		$popup_content .= '<li>' . sprintf(
-			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-			__( '%1$sNo more dead links%2$s: easy redirect manager', 'wordpress-seo' ), '<strong>', '</strong>'
-		) . '</li>';
-		$popup_content .= '<li><strong>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</strong></li>';
-		$popup_content .= '<li>' . sprintf(
-			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-			__( '%1$sSocial media preview%2$s: Facebook &amp; Twitter', 'wordpress-seo' ), '<strong>', '</strong>'
-		) . '</li>';
-		$popup_content .= '<li><strong>' . __( '24/7 support', 'wordpress-seo' ) . '</strong></li>';
-		$popup_content .= '<li><strong>' . __( 'No ads!', 'wordpress-seo' ) . '</strong></li>';
-		$popup_content .= '</ul>';
-		$premium_popup  = new WPSEO_Premium_Popup( 'add-keyword', 'h1', $popup_title, $popup_content, WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ) );
-		echo $premium_popup->get_premium_message();
-
 		return ob_get_clean();
 	}
 
 	/**
-	 * Returns an empty string because this tab has no content
+	 * Returns an empty string because this tab has no content.
 	 *
 	 * @return string
 	 */

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium
  */
 
@@ -20,6 +22,7 @@ class WPSEO_Premium_Prominent_Words_Support {
 		 * @api array The accessible post types.
 		 */
 		$prominent_words_post_types = apply_filters( 'wpseo_prominent_words_post_types', WPSEO_Post_Type::get_accessible_post_types() );
+
 		if ( ! is_array( $prominent_words_post_types ) || empty( $prominent_words_post_types ) ) {
 			$prominent_words_post_types = array();
 		}

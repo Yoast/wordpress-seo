@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
@@ -8,7 +10,9 @@
  */
 class WPSEO_Premium_GSC_Modal {
 
-	/** @var  WPSEO_Redirect_Manager */
+	/**
+	 * @var WPSEO_Redirect_Manager
+	 */
 	protected $redirect_manager;
 
 	const EXISTING_REDIRECT_HEIGHT = 160;

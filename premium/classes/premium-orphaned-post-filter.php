@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium
  */
 
@@ -82,7 +84,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
-	 * Modifies the query based on the seo_filter variable in $_GET
+	 * Modifies the query based on the seo_filter variable in $_GET.
 	 *
 	 * @param string $where Query variables.
 	 *

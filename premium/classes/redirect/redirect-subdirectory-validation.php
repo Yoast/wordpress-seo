@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes\Redirect
  */
 
@@ -9,7 +11,9 @@
 class WPSEO_Redirect_Subdirectory_Validation implements WPSEO_Redirect_Validation {
 
 	/**
-	 * @var WPSEO_Validation_Result The validation error.
+	 * The validation error.
+	 *
+	 * @var WPSEO_Validation_Result
 	 */
 	private $error;
 
@@ -37,7 +41,7 @@ class WPSEO_Redirect_Subdirectory_Validation implements WPSEO_Redirect_Validatio
 		}
 
 		$this->error = new WPSEO_Validation_Warning( sprintf(
-			/* translators: %1$s expands to the subdirectory WordPress is installed.  */
+			/* translators: %1$s expands to the subdirectory WordPress is installed. */
 			__(
 				'Your redirect is missing the subdirectory where WordPress is installed in. This will result in a redirect that won\'t work. Make sure the redirect starts with %1$s',
 				'wordpress-seo-premium'
@@ -49,7 +53,7 @@ class WPSEO_Redirect_Subdirectory_Validation implements WPSEO_Redirect_Validatio
 	}
 
 	/**
-	 * Returns the validation error
+	 * Returns the validation error.
 	 *
 	 * @return WPSEO_Validation_Result
 	 */

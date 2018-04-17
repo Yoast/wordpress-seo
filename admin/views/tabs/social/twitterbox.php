@@ -1,6 +1,12 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Views
+ */
+
+/**
+ * @var Yoast_Form $yform
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -14,11 +20,7 @@ echo '<h2>' . esc_html__( 'Twitter settings', 'wordpress-seo' ) . '</h2>';
 $yform->light_switch( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) );
 
 echo '<p>';
-printf(
-	/* translators: %s expands to <code>&lt;head&gt;</code> */
-	esc_html__( 'Add Twitter card meta data to your site\'s %s section.', 'wordpress-seo' ),
-	'<code>&lt;head&gt;</code>'
-);
+esc_html_e( 'Enable this feature if you want Twitter to display a preview with images and a text excerpt when a link to your site is shared.', 'wordpress-seo' );
 echo '</p>';
 
 echo '<br />';

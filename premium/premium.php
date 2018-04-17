@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium
  */
 
@@ -25,7 +27,7 @@ class WPSEO_Premium {
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
 	/** @var string */
-	const PLUGIN_VERSION_NAME = '5.9.4';
+	const PLUGIN_VERSION_NAME = '7.3';
 
 	/** @var string */
 	const PLUGIN_VERSION_CODE = '16';
@@ -87,13 +89,15 @@ class WPSEO_Premium {
 	 * WPSEO_Premium Constructor
 	 */
 	public function __construct() {
-		$link_suggestions_service = new WPSEO_Premium_Link_Suggestions_Service();
+		$link_suggestions_service        = new WPSEO_Premium_Link_Suggestions_Service();
+		$prominent_words_unindexed_query = new WPSEO_Premium_Prominent_Words_Unindexed_Post_Query();
+		$prominent_words_support         = new WPSEO_Premium_Prominent_Words_Support();
 
 		$this->integrations = array(
 			'premium-metabox'                        => new WPSEO_Premium_Metabox(),
 			'prominent-words-registration'           => new WPSEO_Premium_Prominent_Words_Registration(),
 			'prominent-words-endpoint'               => new WPSEO_Premium_Prominent_Words_Endpoint( new WPSEO_Premium_Prominent_Words_Service() ),
-			'prominent-words-recalculation'          => new WPSEO_Premium_Prominent_Words_Recalculation(),
+			'prominent-words-recalculation'          => new WPSEO_Premium_Prominent_Words_Recalculation( $prominent_words_unindexed_query, $prominent_words_support ),
 			'prominent-words-recalculation-link'     => new WPSEO_Premium_Prominent_Words_Link_Endpoint( new WPSEO_Premium_Prominent_Words_Link_Service() ),
 			'prominent-words-recalculation-notifier' => new WPSEO_Premium_Prominent_Words_Recalculation_Notifier(),
 			'prominent-words-recalculation-endpoint' => new WPSEO_Premium_Prominent_Words_Recalculation_Endpoint( new WPSEO_Premium_Prominent_Words_Recalculation_Service() ),
@@ -125,14 +129,20 @@ class WPSEO_Premium {
 
 		if ( $language_support->is_language_supported( $language ) ) {
 			$feature_toggles[] = (object) array(
-				'name'    => __( 'Metabox insights', 'wordpress-seo-premium' ),
-				'setting' => 'enable_metabox_insights',
-				'label'   => __( 'The metabox insights section contains insights about your content, like an overview of the most prominent words in your text.', 'wordpress-seo-premium' ),
+				'name'            => __( 'Insights', 'wordpress-seo-premium' ),
+				'setting'         => 'enable_metabox_insights',
+				'label'           => __( 'The Insights section in our metabox shows you useful data about your content, like what words you use most often.', 'wordpress-seo-premium' ),
+				'read_more_label' => __( 'Read more about how the insights can help you improve your content.', 'wordpress-seo-premium' ),
+				'read_more_url'   => 'https://yoa.st/2ai',
+				'order'           => 41,
 			);
 			$feature_toggles[] = (object) array(
-				'name'    => __( 'Link suggestions', 'wordpress-seo-premium' ),
-				'setting' => 'enable_link_suggestions',
-				'label'   => __( 'The link suggestions section contains a list of posts on your blog with similar content that might be interesting to link to.', 'wordpress-seo-premium' ),
+				'name'            => __( 'Link suggestions', 'wordpress-seo-premium' ),
+				'setting'         => 'enable_link_suggestions',
+				'label'           => __( 'The link suggestions metabox contains a list of posts on your blog with similar content that might be interesting to link to.', 'wordpress-seo-premium' ),
+				'read_more_label' => __( 'Read more about how internal linking can improve your site structure.', 'wordpress-seo-premium' ),
+				'read_more_url'   => 'https://yoa.st/17g',
+				'order'           => 42,
 			);
 		}
 
@@ -350,9 +360,8 @@ class WPSEO_Premium {
 	 */
 	public function redirect_canonical_fix( $redirect_url, $requested_url ) {
 		$redirects = new WPSEO_Redirect_Option( false );
-		// @todo Replace with call to wp_parse_url() once minimum requirement has gone up to WP 4.7.
-		$path     = parse_url( $requested_url, PHP_URL_PATH );
-		$redirect = $redirects->get( $path );
+		$path      = wp_parse_url( $requested_url, PHP_URL_PATH );
+		$redirect  = $redirects->get( $path );
 		if ( $redirect === false ) {
 			return $redirect_url;
 		}
@@ -485,19 +494,6 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Add redirects to admin pages so the Yoast scripts are loaded
-	 *
-	 * @param array $admin_pages Array with the admin pages.
-	 *
-	 * @return array
-	 * @deprecated 3.1
-	 */
-	public function add_admin_pages( $admin_pages ) {
-		_deprecated_function( 'WPSEO_Premium::add_admin_pages', 'WPSEO 3.1' );
-		return $admin_pages;
-	}
-
-	/**
 	 * Register the premium settings
 	 */
 	public function register_settings() {
@@ -539,6 +535,7 @@ class WPSEO_Premium {
 		if ( isset( $page ) && $page !== false ) {
 			$query_var = $page;
 		}
+
 		$is_beacon_page = in_array( strtolower( $query_var ), $this->get_beacon_pages(), true );
 
 		// Only add the helpscout beacon on Yoast SEO pages.

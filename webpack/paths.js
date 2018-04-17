@@ -40,7 +40,24 @@ const entry = {
 	"wp-seo-metabox": "./wp-seo-metabox.js",
 	"wp-seo-post-scraper": "./wp-seo-post-scraper.js",
 	"wp-seo-term-scraper": "./wp-seo-term-scraper.js",
+	"wp-seo-modal": "./wp-seo-modal.js",
 };
+
+/**
+ * Flattens a version for usage in a filename.
+ *
+ * @param {string} version The version to flatten.
+ *
+ * @returns {string} The flattened version.
+ */
+function flattenVersionForFile( version ) {
+	let versionParts = version.split( "." );
+	if ( versionParts.length === 2 && /^\d+$/.test( versionParts[ 1 ] ) ) {
+		versionParts.push( 0 );
+	}
+
+	return versionParts.join( "" );
+}
 
 module.exports = {
 	entry,
@@ -49,4 +66,5 @@ module.exports = {
 	jsSrc: jsSrcPath,
 	cssDist: cssDistPath,
 	select2: path.resolve( "node_modules", "select2", "dist" ),
+	flattenVersionForFile,
 };

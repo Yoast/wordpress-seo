@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin test file.
+ *
  * @package WPSEO\Tests\Premium
  */
 
 /**
- * Test class for testing the uniqueness validation class
+ * Test class for testing the uniqueness validation class.
  *
  * @covers WPSEO_Redirect_Uniqueness_Validation
  */
@@ -14,9 +16,11 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	 * @var WPSEO_Redirect_Uniqueness_Validation
 	 */
 	private $class_instance;
+
 	/**
+	 * Array with redirects to test against.
 	 *
-	 * @var array Array with redirects to test against.
+	 * @var array
 	 */
 	private $redirects = array(
 		'old_url'    => 'new_url',
@@ -25,7 +29,7 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	);
 
 	/**
-	 * Setting the class_instance with an instance of WPSEO_Redirect_Uniqueness_Validation
+	 * Setting the class_instance with an instance of WPSEO_Redirect_Uniqueness_Validation.
 	 */
 	public function setUp() {
 		$this->class_instance = new WPSEO_Redirect_Uniqueness_Validation();
@@ -37,9 +41,9 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider existing_redirect_provider
 	 *
-	 * @param string $old_url    The origin url.
-	 * @param string $new_url    The url to redirect to.
-	 * @param int    $type       Type of the redirect.
+	 * @param string $old_url The origin url.
+	 * @param string $new_url The url to redirect to.
+	 * @param int    $type    Type of the redirect.
 	 *
 	 * @covers WPSEO_Redirect_Uniqueness_Validation::run
 	 * @covers WPSEO_Redirect_Uniqueness_Validation::get_error
@@ -61,7 +65,7 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test with redirects which do exists already in non unique url modus. This is the case when redirects are being
-	 * edited. The result will be true, because there are no validation errors
+	 * edited. The result will be true, because there are no validation errors.
 	 *
 	 * @dataProvider non_existing_redirect_provider
 	 *
@@ -97,7 +101,7 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provide array with redirects that already exists
+	 * Provide array with redirects that already exists.
 	 *
 	 * @return array
 	 */
@@ -111,7 +115,7 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provide array with redirects that already exists
+	 * Provide array with redirects that already exists.
 	 *
 	 * @return array
 	 */

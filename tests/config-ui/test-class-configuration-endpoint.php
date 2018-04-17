@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\ConfigUI
  */
 
@@ -9,16 +11,6 @@
 class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	/** @var WPSEO_Configuration_Endpoint_Mock */
 	protected $endpoint;
-
-	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-configuration-endpoint-mock.php';
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-wp-rest-server-mock.php';
-	}
 
 	/**
 	 * Set up

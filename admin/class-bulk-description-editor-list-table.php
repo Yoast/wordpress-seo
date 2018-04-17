@@ -1,7 +1,9 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Bulk Editor
- * @since      1.5.0
+ * @since   1.5.0
  */
 
 /**
@@ -62,8 +64,8 @@ class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 			case 'col_new_yoast_seo_metadesc':
 				return sprintf(
 					'<textarea id="%1$s" name="%1$s" class="wpseo-new-metadesc" data-id="%2$s" aria-labelledby="col_new_yoast_seo_metadesc"></textarea>',
-					'wpseo-new-metadesc-' . $record->ID,
-					$record->ID
+					esc_attr( 'wpseo-new-metadesc-' . $record->ID ),
+					esc_attr( $record->ID )
 				);
 
 			case 'col_existing_yoast_seo_metadesc':

@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -22,12 +24,20 @@ class WPSEO_Premium_Prominent_Words_Versioning implements WPSEO_WordPress_Integr
 			return;
 		}
 
+		add_action( 'rest_api_init', array( $this, 'register_rest_argument' ) );
+	}
+
+	/**
+	 * Registers REST arguments for all relevant post types.
+	 *
+	 * This has to be done at init, to make sure all plugins have registered their post types.
+	 */
+	public function register_rest_argument() {
 		foreach ( $this->get_post_types() as $post_type ) {
 			add_filter( 'rest_' . $post_type . '_query', array( $this, 'rest_add_query_args' ), 10, 2 );
 			add_filter( 'rest_' . $post_type . '_collection_params', array( $this, 'rest_register_collection_param' ) );
 		}
 	}
-
 
 	/**
 	 * Saves the version number as a meta.

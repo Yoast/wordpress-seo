@@ -1,10 +1,12 @@
 <?php
 /**
+ * WPSEO Premium plugin file.
+ *
  * @package WPSEO\Premium\Classes
  */
 
 /**
- * Class WPSEO_Redirect_Ajax
+ * Class WPSEO_Redirect_Ajax.
  */
 class WPSEO_Redirect_Ajax {
 
@@ -14,7 +16,9 @@ class WPSEO_Redirect_Ajax {
 	private $redirect_manager;
 
 	/**
-	 * @var string Format of the redirect, might be plain or regex.
+	 * Format of the redirect, might be plain or regex.
+	 *
+	 * @var string
 	 */
 	private $redirect_format;
 
@@ -31,7 +35,7 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
-	 * Function that handles the AJAX 'wpseo_add_redirect' action
+	 * Function that handles the AJAX 'wpseo_add_redirect' action.
 	 */
 	public function ajax_add_redirect() {
 		$this->valid_ajax_check();
@@ -67,7 +71,7 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
-	 * Function that handles the AJAX 'wpseo_update_redirect' action
+	 * Function that handles the AJAX 'wpseo_update_redirect' action.
 	 */
 	public function ajax_update_redirect() {
 
@@ -100,7 +104,7 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
-	 * Function that handles the AJAX 'wpseo_delete_redirect' action
+	 * Function that handles the AJAX 'wpseo_delete_redirect' action.
 	 */
 	public function ajax_delete_redirect() {
 
@@ -120,7 +124,7 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
-	 * Run the validation
+	 * Run the validation.
 	 *
 	 * @param WPSEO_Redirect      $redirect         The redirect to save.
 	 * @param WPSEO_Redirect|null $current_redirect The current redirect.
@@ -144,7 +148,7 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
-	 * Setting the AJAX hooks
+	 * Setting the AJAX hooks.
 	 *
 	 * @param string $hook_suffix The piece that will be stitched after the hooknames.
 	 */
@@ -165,7 +169,7 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
-	 * Check if the posted nonce is valid and if the user has the needed rights
+	 * Check if the posted nonce is valid and if the user has the needed rights.
 	 */
 	private function valid_ajax_check() {
 		// Check nonce.
@@ -175,7 +179,7 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
-	 * Checks whether the current user is allowed to do what he's doing
+	 * Checks whether the current user is allowed to do what he's doing.
 	 */
 	private function permission_check() {
 		if ( ! current_user_can( 'edit_posts' ) ) {
@@ -184,7 +188,7 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
-	 * Get the redirect from the post values
+	 * Get the redirect from the post values.
 	 *
 	 * @param string $post_value The key where the post values are located in the $_POST.
 	 *
@@ -202,7 +206,7 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
-	 * Sanitize the URL for displaying on the window
+	 * Sanitize the URL for displaying on the window.
 	 *
 	 * @param string $url The URL to sanitize.
 	 *

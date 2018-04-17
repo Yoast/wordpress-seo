@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Inc
  */
 
@@ -22,15 +24,6 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 	 * @var int id of the primary term
 	 */
 	private $primary_term_id = 54;
-
-	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-primary-term-double.php';
-	}
 
 	/**
 	 * Return the correct primary term when primary term already exists.

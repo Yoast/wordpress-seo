@@ -1,26 +1,21 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Sitemaps
  */
 
 /**
  * Class WPSEO_Sitemaps_Test
+ *
+ * @group sitemaps
  */
 class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Sitemaps
+	 * @var WPSEO_Sitemaps_Double
 	 */
 	private static $class_instance;
-
-	/**
-	 * Load the test mock class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/class-wpseo-sitemaps-double.php';
-	}
 
 	/**
 	 * Set up our double class.

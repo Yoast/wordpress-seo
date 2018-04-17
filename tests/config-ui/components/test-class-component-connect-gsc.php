@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\ConfigUI\Components
  */
 
@@ -13,15 +15,6 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 
 	/** @var array List of stub calls */
 	protected $stub_calls = array();
-
-	/**
-	 * Include helper class.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		require_once WPSEO_TESTS_PATH . 'doubles/wpseo-config-component-connect-google-search-console-mock.php';
-	}
 
 	/**
 	 * Set up

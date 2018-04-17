@@ -1,12 +1,15 @@
 <?php
 /**
- * @package WPSEO\Premium\Views
+ * WPSEO Premium plugin file.
  *
+ * @package WPSEO\Premium\Views
+ */
+
+/*
  * @var array  $redirect_types
  * @var string $old_url
  * @var string $origin_label_value
  */
-
 ?>
 <div class="redirect_form_row" id="row-wpseo_redirects_type">
 	<label class='textinput' for='<?php echo esc_attr( 'wpseo_redirects_type' . $input_suffix ); ?>'>
@@ -29,7 +32,7 @@
 	printf(
 		/* translators: 1: opens a link to a related knowledge base article. 2: closes the link. */
 		esc_html__( 'The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served. %1$sLearn more about redirect types%2$s.', 'wordpress-seo-premium' ),
-		'<a href="http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types" target="_blank">',
+		'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/2jb' ) . '" target="_blank">',
 		'</a>'
 	);
 	?>

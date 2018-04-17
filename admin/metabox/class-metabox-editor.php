@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Metabox
  */
 
@@ -28,7 +30,8 @@ class WPSEO_Metabox_Editor {
 		/** @var WPSEO_Admin_Asset $inside_editor */
 		$inside_editor = $styles['inside-editor'];
 
-		$url = $inside_editor->get_url( WPSEO_Admin_Asset::TYPE_CSS, WPSEO_FILE );
+		$asset_location = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
+		$url            = $asset_location->get_url( $inside_editor, WPSEO_Admin_Asset::TYPE_CSS );
 
 		if ( '' === $css_files ) {
 			$css_files = $url;
