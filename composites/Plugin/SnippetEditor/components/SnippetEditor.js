@@ -3,7 +3,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
-// External dependencies.
+// Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
 import {
 	DEFAULT_MODE,
@@ -36,7 +36,27 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
-	 * @param {Object} props The props for the snippet editor.
+	 * @param {Object} props                             The props for the snippet
+	 *                                                   editor.
+	 * @param {Object} props.replacementVariables        The replacement variables
+	 *                                                   for this editor.
+	 * @param {Object} props.data                        The initial editor data.
+	 * @param {string} props.data.title                  The initial title.
+	 * @param {string} props.data.slug                   The initial slug.
+	 * @param {string} props.data.description            The initial description.
+	 * @param {string} props.baseUrl                     The base URL to use for the
+	 *                                                   preview.
+	 * @param {string} props.mode                        The mode the editor should
+	 *                                                   be in.
+	 * @param {Function} props.onChange                  Called when the data
+	 *                                                   changes.
+	 * @param {Object} props.titleLengthAssessment       The values for the title
+	 *                                                   length assessment.
+	 * @param {Object} props.descriptionLengthAssessment The values for the
+	 *                                                   description length
+	 *                                                   assessment.
+	 * @param {Function} props.mapDataToPreview          Function to map the editor
+	 *                                                   data to data for the preview.
 	 *
 	 * @returns {void}
 	 */

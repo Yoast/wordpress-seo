@@ -4,7 +4,7 @@ import { FormattedMessage } from "react-intl";
 import omit from "lodash/omit";
 import PropTypes from "prop-types";
 
-// External dependencies.
+// Internal dependencies.
 import ScreenReaderText from "./ScreenReaderText";
 
 /**

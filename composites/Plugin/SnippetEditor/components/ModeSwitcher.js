@@ -10,6 +10,14 @@ import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReader
 import SvgIcon from "../../Shared/components/SvgIcon";
 import PropTypes from "prop-types";
 
+/**
+ * Renders a switcher button.
+ *
+ * @param {Object}  props The props for this component.
+ * @param {boolean} props.isActive Whether or not this button is currently active.
+ *
+ * @returns {ReactComponent} The rendered component.
+ */
 const SwitcherButton = Button.extend`
 	border: none;
 	border-bottom: 4px solid transparent;
@@ -49,9 +57,16 @@ const Switcher = styled.div`
 	vertical-align: top;
 `;
 
-const ModeSwitcher = ( props ) => {
-	const { onChange, active } = props;
-
+/**
+ * Renders a mode switcher between mobile and desktop.
+ *
+ * @param {Object} props The props for this component.
+ * @param {Function} props.onChange Callback that is called when the mode switches.
+ * @param {boolean}  props.active   Which mode is currently active.
+ *
+ * @returns {ReactElement} The rendered element.
+ */
+const ModeSwitcher = ( { onChange, active } ) => {
 	return <Switcher>
 		<MobileButton onClick={ () => onChange( MODE_MOBILE ) } isActive={ active === MODE_MOBILE }>
 			<SvgIcon icon="mobile" size="22px" color="currentColor" />

@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-// External dependencies.
+// Internal dependencies.
 import Styles from "./Styles";
 
 /**

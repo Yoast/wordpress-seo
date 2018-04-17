@@ -9,7 +9,7 @@ import truncate from "lodash/truncate";
 import partial from "lodash/partial";
 import { parse } from "url";
 
-// External dependencies.
+// Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
 import colors from "../../../../style-guide/colors";
 import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";

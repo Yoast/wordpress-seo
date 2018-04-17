@@ -95,7 +95,28 @@ class SnippetEditorFields extends React.Component {
 	/**
 	 * Constructs the snippet editor fields.
 	 *
-	 * @param {Object} props The props for the editor fields.
+	 * @param {Object}   props                             The props for the editor
+	 *                                                     fields.
+	 * @param {Object}   props.replacementVariables        The replacement variables
+	 *                                                     for this editor.
+	 * @param {Object}   props.data                        The initial editor data.
+	 * @param {string}   props.data.title                  The initial title.
+	 * @param {string}   props.data.slug                   The initial slug.
+	 * @param {string}   props.data.description            The initial description.
+	 * @param {Function} props.onChange                    Called when the data
+	 *                                                     changes.
+	 * @param {Function} props.onFocus                     Called when a field is
+	 *                                                     focused.
+	 * @param {Object}   props.titleLengthAssessment       The values for the title
+	 *                                                     length assessment.
+	 * @param {Object}   props.descriptionLengthAssessment The values for the
+	 *                                                     description length
+	 *                                                     assessment.
+	 * @param {string}   props.activeField                 The field that is
+	 *                                                     currently active.
+	 * @param {string}   props.hoveredField                The field that is
+	 *                                                     currently hovered.
+	 *
 	 *
 	 * @returns {void}
 	 */

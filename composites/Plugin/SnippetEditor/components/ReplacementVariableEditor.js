@@ -79,6 +79,7 @@ class ReplacementVariableEditor extends React.Component {
 
 		this.onChange = this.onChange.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
+		this.setEditorRef = this.setEditorRef.bind( this );
 
 		/*
 		 * The mentions plugin is used to autocomplete the replacement variable
@@ -146,6 +147,17 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
+	 * Sets the editor reference on this component instance.
+	 *
+	 * @param {Object} editor The editor React reference.
+	 *
+	 * @returns {void}
+	 */
+	setEditorRef( editor ) {
+		this.editor = editor;
+	}
+
+	/**
 	 * Renders the editor including DraftJS and the mentions plugin.
 	 *
 	 * @returns {ReactElement} The rendered element.
@@ -163,9 +175,7 @@ class ReplacementVariableEditor extends React.Component {
 					onFocus={ onFocus }
 					onBlur={ onBlur }
 					plugins={ [ this.mentionsPlugin ] }
-					ref={ ( element ) => {
-						this.editor = element;
-					} }
+					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
 				/>
 				<MentionSuggestions
@@ -181,7 +191,6 @@ class ReplacementVariableEditor extends React.Component {
 ReplacementVariableEditor.propTypes = {
 	content: PropTypes.string.isRequired,
 	replacementVariables: replacementVariablesShape,
-
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,

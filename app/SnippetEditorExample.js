@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import debounce from "lodash/debounce";
 
-// External dependencies.
+// Internal dependencies.
 import SnippetEditor from "../composites/Plugin/SnippetEditor/components/SnippetEditor";
 
 const Container = styled.div`
@@ -178,26 +178,30 @@ export default class SnippetEditorExample extends Component {
 			slug: this.state.slug,
 		};
 
-		let props = Object.assign( {}, this.state, {
+		let titleLengthAssessment = {
+			max: 600,
+			actual: this.state.currentTitleLength,
+			score: this.state.currentTitleLength > 300 ? 9 : 6,
+		};
+
+		let descriptionLengthAssessment = {
+			max: 320,
+			actual: this.state.currentDescriptionLength,
+			score: this.state.currentDescriptionLength > 160 ? 9 : 3,
+		};
+
+		const snippetEditorProps = Object.assign( {}, this.state, {
 			data: data,
 			baseUrl: "https://local.wordpress.test/",
 			onChange: this.onChangedData,
 			replacementVariables,
-			titleLengthAssessment: {
-				max: 600,
-				actual: this.state.currentTitleLength,
-				score: this.state.currentTitleLength > 300 ? 9 : 6,
-			},
-			descriptionLengthAssessment: {
-				max: 320,
-				actual: this.state.currentDescriptionLength,
-				score: this.state.currentDescriptionLength > 160 ? 9 : 3,
-			},
+			titleLengthAssessment: titleLengthAssessment,
+			descriptionLengthAssessment: descriptionLengthAssessment,
 		} );
 
 		return <Container>
 			<SnippetEditor
-				{ ...props }
+				{ ...snippetEditorProps }
 			/>
 
 			<h2>Test Sliders</h2>
