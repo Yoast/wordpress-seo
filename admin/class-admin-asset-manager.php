@@ -29,7 +29,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * Constructs a manager of assets. Needs a location to know where to register assets at.
 	 *
 	 * @param WPSEO_Admin_Asset_Location $asset_location The provider of the asset location.
-	 * @param string                     $prefix         The prefix for naming assets
+	 * @param string                     $prefix         The prefix for naming assets.
 	 */
 	public function __construct( WPSEO_Admin_Asset_Location $asset_location = null, $prefix = self::PREFIX ) {
 		if ( $asset_location === null ) {
