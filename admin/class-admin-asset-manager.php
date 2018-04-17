@@ -30,18 +30,13 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @param WPSEO_Admin_Asset_Location $asset_location The provider of the asset location.
 	 */
-	public function __construct( WPSEO_Admin_Asset_Location $asset_location = null , $prefix = null) {
+	public function __construct( WPSEO_Admin_Asset_Location $asset_location = null, $prefix = self::PREFIX ) {
 		if ( $asset_location === null ) {
 			$asset_location = self::create_default_location();
 		}
 
 		$this->asset_location = $asset_location;
-
-		if ( $prefix !== null ) {
-			$this->prefix = $prefix;
-		} else {
-			$this->prefix = self::PREFIX;
-		}
+		$this->prefix         = $prefix;
 	}
 
 	/**
@@ -144,6 +139,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * Flattens a version number for use in a filename
 	 *
 	 * @param string $version The original version number.
+	 *
 	 * @return string The flattened version number.
 	 */
 	public function flatten_version( $version ) {
@@ -428,8 +424,8 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array( $this->prefix . 'toggle-switch' ),
 			),
 			array(
-				'name'   => 'toggle-switch',
-				'src'    => 'toggle-switch-' . $flat_version,
+				'name' => 'toggle-switch',
+				'src'  => 'toggle-switch-' . $flat_version,
 			),
 			array(
 				'name' => 'dismissible',
