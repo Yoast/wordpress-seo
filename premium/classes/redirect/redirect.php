@@ -53,7 +53,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @param string $format The format of the redirect.
 	 */
 	public function __construct( $origin, $target = '', $type = self::PERMANENT, $format = self::FORMAT_PLAIN ) {
-		$this->origin = ( $format === WPSEO_Redirect::FORMAT_PLAIN ) ? $this->sanitize_origin_url( $origin ) : $origin;
+		$this->origin = ( $format === self::FORMAT_PLAIN ) ? $this->sanitize_origin_url( $origin ) : $origin;
 		$this->target = $this->sanitize_target_url( $target );
 		$this->format = $format;
 		$this->type   = (int) $type;
@@ -62,7 +62,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Returns the origin.
 	 *
-	 * @return string
+	 * @return string The set origin.
 	 */
 	public function get_origin() {
 		return $this->origin;
@@ -71,7 +71,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Returns the target
 	 *
-	 * @return string
+	 * @return string The set target.
 	 */
 	public function get_target() {
 		return $this->target;
@@ -80,7 +80,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Returns the type
 	 *
-	 * @return int
+	 * @return int The set type.
 	 */
 	public function get_type() {
 		return $this->type;
@@ -89,7 +89,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Returns the format
 	 *
-	 * @return string
+	 * @return string The set format.
 	 */
 	public function get_format() {
 		return $this->format;
@@ -141,6 +141,8 @@ class WPSEO_Redirect implements ArrayAccess {
 	 *
 	 * @param string $offset The offset to assign the value to.
 	 * @param string $value  The value to set.
+	 *
+	 * @return void
 	 */
 	public function offsetSet( $offset, $value ) {
 		switch ( $offset ) {
@@ -159,6 +161,8 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @link http://php.net/manual/en/arrayaccess.offsetunset.php
 	 *
 	 * @param string $offset The offset to unset.
+	 *
+	 * @return void
 	 */
 	public function offsetUnset( $offset ) {
 
@@ -169,11 +173,11 @@ class WPSEO_Redirect implements ArrayAccess {
 	 *
 	 * @param string $url The URL to compare.
 	 *
-	 * @return bool
+	 * @return bool True when url matches the origin.
 	 */
 	public function origin_is( $url ) {
 		// Sanitize the slash in case of plain redirect.
-		if ( $this->format === WPSEO_Redirect::FORMAT_PLAIN ) {
+		if ( $this->format === self::FORMAT_PLAIN ) {
 			$url = $this->sanitize_slash( $url );
 		}
 
@@ -185,11 +189,11 @@ class WPSEO_Redirect implements ArrayAccess {
 	 *
 	 * @param string $url_to_sanitize The URL to sanitize.
 	 *
-	 * @return string
+	 * @return string The sanitized url.
 	 */
 	private function sanitize_slash( $url_to_sanitize ) {
 		$url = $url_to_sanitize;
-		if ( WPSEO_Redirect_Util::is_relative_url( $url_to_sanitize ) && $url !== '/' ) {
+		if ( $url !== '/' && WPSEO_Redirect_Util::is_relative_url( $url_to_sanitize ) ) {
 			$url = trim( $url_to_sanitize, '/' );
 		}
 
