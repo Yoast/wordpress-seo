@@ -27,10 +27,14 @@ const wpDependencies = [
 	"viewport",
 ];
 
-const alias = {};
+const alias = {
+	// This prevents loading multiple versions of React:
+	react: path.join( __dirname, "../", "node_modules/react" ),
+	"react-dom": path.join( __dirname, "../", "node_modules/react-dom" ),
+};
 
 wpDependencies.forEach( wpDependency => {
-	alias[ "@wordpress/" + wpDependency ] = path.resolve(
+	alias[ "@wordpress/" + wpDependency ] = path.join(
 		__dirname,
 		"../",
 		"node_modules/gutenberg/" + wpDependency
