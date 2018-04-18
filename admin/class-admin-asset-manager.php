@@ -209,7 +209,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'wp-globals-backport',
-				'src'  => 'wp-seo-wp-data-backport-' . $flat_version,
+				'src'  => 'wp-seo-wp-globals-backport-' . $flat_version,
 				'deps' => $backport_wp_dependencies,
 			),
 			array(
