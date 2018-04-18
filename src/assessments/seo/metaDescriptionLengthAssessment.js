@@ -6,7 +6,6 @@ let merge = require( "lodash/merge" );
  * Assessment for calculating the length of the meta description.
  */
 class MetaDescriptionLengthAssessment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -106,7 +105,6 @@ class MetaDescriptionLengthAssessment extends Assessment {
 			return i18n.dgettext( "js-text-analysis", "The meta description has a nice length." );
 		}
 	}
-
 }
 
 module.exports = MetaDescriptionLengthAssessment;

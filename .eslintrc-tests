@@ -11,3 +11,4 @@ rules:
   max-statements: 0
   new-cap: 0
   no-redeclare: 0
+  no-useless-escape: 1

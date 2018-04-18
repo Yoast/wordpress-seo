@@ -53,7 +53,6 @@ function createTokenizer() {
  * @since 1.8.0
  */
 class UrlStructure {
-
 	/**
 	 * Sets the structure to the passed structure.
 	 *

@@ -217,7 +217,6 @@ function getSentencesFromTokens( tokens ) {
 		var nextCharacters;
 
 		switch ( token.type ) {
-
 			case "html-start":
 			case "html-end":
 				if ( isBreakTag( token.src ) ) {

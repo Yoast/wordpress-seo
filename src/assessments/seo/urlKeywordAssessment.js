@@ -6,7 +6,6 @@ let merge = require( "lodash/merge" );
  * Represents the URL keyword assessments. This assessments will check if the keyword is present in the url.
  */
 class UrlKeywordAssessment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -88,7 +87,6 @@ class UrlKeywordAssessment extends Assessment {
 
 		return i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." );
 	}
-
 }
 
 module.exports = UrlKeywordAssessment;

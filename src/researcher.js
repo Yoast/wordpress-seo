@@ -121,9 +121,9 @@ Researcher.prototype.addResearch = function( name, research ) {
  */
 Researcher.prototype.hasResearch = function( name ) {
 	return Object.keys( this.getAvailableResearches() ).filter(
-	function( research ) {
-		return research === name;
-	} ).length > 0;
+		function( research ) {
+			return research === name;
+		} ).length > 0;
 };
 
 /**

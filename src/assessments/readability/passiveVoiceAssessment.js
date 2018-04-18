@@ -51,17 +51,17 @@ let calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 			score: score,
 			hasMarks: hasMarks,
 			text: i18n.sprintf(
-					i18n.dgettext(
-						"js-text-analysis",
+				i18n.dgettext(
+					"js-text-analysis",
 
-						// Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
-						// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
-						"%1$s of the sentences contain %2$spassive voice%3$s, " +
+					// Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+					// %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+					"%1$s of the sentences contain %2$spassive voice%3$s, " +
 						"which is less than or equal to the recommended maximum of %4$s." ),
-					percentage + "%",
-					passiveVoiceURL,
-					"</a>",
-					recommendedValue + "%"
+				percentage + "%",
+				passiveVoiceURL,
+				"</a>",
+				recommendedValue + "%"
 			),
 		};
 	}
