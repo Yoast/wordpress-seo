@@ -23,7 +23,7 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * @var string prefix for naming the assets.
 	 */
-	protected $prefix;
+	private $prefix;
 
 	/**
 	 * Constructs a manager of assets. Needs a location to know where to register assets at.
