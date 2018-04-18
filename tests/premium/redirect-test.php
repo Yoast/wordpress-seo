@@ -11,6 +11,83 @@
 class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Tests the instantiation of a redirect on a subdirectory installation.
+	 *
+	 * @dataProvider redirect_provider_for_subdirectory_installation
+	 *
+	 * @param array  $redirect        The redirect.
+	 * @param string $expected_origin The expected origin.
+	 * @param string $expected_target The expected target.
+	 */
+	public function test_redirect_on_subdirectory_installation( array $redirect, $expected_origin, $expected_target ) {
+		$old_home = get_option( 'home' );
+		update_option( 'home', 'http://example.org/blog' );
+
+		$redirect = new WPSEO_Redirect( $redirect['origin'], $redirect['target'], 301, 'plain' );
+
+		$this->assertEquals( $expected_origin, $redirect->get_origin() );
+		$this->assertEquals( $expected_target, $redirect->get_target() );
+
+		update_option( 'home', $old_home );
+	}
+
+	/**
+	 * Provider for testing a redirect when a blog is installed in a subdirectory.
+	 *
+	 * @return array The redirects to test.
+	 */
+	public function redirect_provider_for_subdirectory_installation() {
+		$redirects =  array(
+			array(
+				'redirect'        => array(
+					'origin' => 'http://example.org/blog/origin',
+					'target' => 'http://example.org/blog/target',
+				),
+				'expected_origin' => 'origin',
+				'expected_target' => 'blog/target',
+			),
+			array(
+				'redirect'        => array(
+					'origin' => 'blog/origin',
+					'target' => 'http://example.org/blog/target',
+				),
+				'expected_origin' => 'blog/origin',
+				'expected_target' => 'blog/target',
+			),
+			array(
+				'redirect'        => array(
+					'origin' => 'origin',
+					'target' => 'http://example.org/blog/target',
+				),
+				'expected_origin' => 'origin',
+				'expected_target' => 'blog/target',
+			),
+		);
+
+		return $redirects;
+	}
+
+	/**
+	 * Tests the instantiation of a redirect on a subdomain installation.
+	 */
+	public function test_redirect_on_subdomain_installation() {
+		$old_home = get_option( 'home' );
+		update_option( 'home', 'http://blog.example.org' );
+
+		$redirect = new WPSEO_Redirect(
+			'origin',
+			'http://blog.example.org/blog/target',
+			301,
+			'plain'
+		);
+
+		$this->assertEquals( 'origin', $redirect->get_origin() );
+		$this->assertEquals( 'blog/target', $redirect->get_target() );
+
+		update_option( 'home', $old_home );
+	}
+
+	/**
 	 * Test if constructor works
 	 *
 	 * @covers WPSEO_Redirect::__construct
