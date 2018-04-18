@@ -103,6 +103,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_73();
 		}
 
+		if ( version_compare( $version, '7.4-RC0', '<' ) ) {
+			$this->upgrade_74();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -541,6 +545,29 @@ class WPSEO_Upgrade {
 
 		// Remove the previous Whip dismissed message, as this is a new one regarding PHP 5.2.
 		delete_option( 'whip_dismiss_timestamp' );
+	}
+
+	/**
+	 * Performs the 7.4 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_74() {
+		$this->remove_sitemap_validators();
+	}
+
+	/**
+	 * Removes all sitemap validators.
+	 *
+	 * This should be executed on every upgrade routine until we have removed the sitemap caching in the database.
+	 *
+	 * @return void
+	 */
+	private function remove_sitemap_validators() {
+		global $wpdb;
+
+		// Remove all sitemap validators.
+		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'wpseo_sitemap%validator%'" );
 	}
 
 	/**
