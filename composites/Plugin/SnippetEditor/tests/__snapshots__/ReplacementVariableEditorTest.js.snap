@@ -3,6 +3,7 @@
 exports[`ReplacementVariableEditor wraps a DraftJS editor instance 1`] = `
 <React.Fragment>
   <PluginEditor
+    ariaLabelledBy="id"
     customStyleMap={Object {}}
     decorators={Array []}
     defaultBlockRenderMap={true}

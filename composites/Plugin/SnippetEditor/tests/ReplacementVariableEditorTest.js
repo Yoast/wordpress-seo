@@ -17,7 +17,7 @@ jest.mock( "draft-js/lib/generateRandomKey", () => () => {
 
 describe( "ReplacementVariableEditor", () => {
 	it( "wraps a DraftJS editor instance", () => {
-		const editor = shallow( <ReplacementVariableEditor content="Dummy content" onChange={ () => {} } /> );
+		const editor = shallow( <ReplacementVariableEditor content="Dummy content" onChange={ () => {} } ariaLabelledBy="id" /> );
 
 		expect( editor ).toMatchSnapshot();
 	} );
