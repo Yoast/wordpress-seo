@@ -127,7 +127,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = $this->setup_class();
 
-		$this->assertEquals( $this->sample_full_file_array( $upload_dir['url'] . '/' . $filename ), $class_instance->get_images() );
+		$this->assertEquals( $this->sample_full_file_array( $upload_dir['url'] . '/' . $filename, $attach_id ), $class_instance->get_images() );
 
 		wp_delete_file( get_attached_file( $attach_id ) );
 	}
@@ -168,7 +168,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = $this->setup_class();
 
-		$this->assertEquals( $this->sample_full_file_array( $image['url'] ), $class_instance->get_images() );
+		$this->assertEquals( $this->sample_full_file_array( $image['url'], $image['id'] ), $class_instance->get_images() );
 	}
 
 	/**
@@ -213,7 +213,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = $this->setup_class();
 
-		$this->assertEquals( $this->sample_full_file_array( $image['url'] ), $class_instance->get_images() );
+		$this->assertEquals( $this->sample_full_file_array( $image['url'], $image['id'] ), $class_instance->get_images() );
 	}
 
 	/**
@@ -279,7 +279,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 		$class_instance = $this->setup_class();
 
-		$expected = $this->sample_full_file_array( $attached_image );
+		$expected = $this->sample_full_file_array( $attached_image, $attach_id );
 		$expected['https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg'] = array(
 			'url' => 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg'
 		);
@@ -304,7 +304,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post2_id ) );
 		$class_instance = $this->setup_class();
 
-		$this->assertEquals( $this->sample_full_file_array( $image['url'] ), $class_instance->get_images() );
+		$this->assertEquals( $this->sample_full_file_array( $image['url'], $image['id'] ), $class_instance->get_images() );
 	}
 
 	/**
@@ -356,6 +356,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 
 		return array(
+			'id'   => $attach_id,
 			'path' => $file,
 			'url'  => $upload_dir['url'] . '/' . basename( $file ),
 		);
@@ -379,11 +380,12 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Returns a sample test array.
 	 *
-	 * @param string $url The URL for the file
+	 * @param string $url The URL for the file.
+	 * @param int    $id  Attached file ID.
 	 *
-	 * @return array
+	 * @return array An array for our default file.
 	 */
-	private function sample_full_file_array( $url ) {
+	private function sample_full_file_array( $url, $id ) {
 		return array(
 			$url => array(
 				'url'    => $url,
@@ -391,6 +393,10 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 				'height' => 500,
 				'alt'    => '',
 				'type'   => 'image/png',
+				'path'   => get_attached_file( $id ),
+				'size'   => 'full',
+				'id' 	 => $id,
+				'pixels' => 250000,
 			),
 		);
 	}
