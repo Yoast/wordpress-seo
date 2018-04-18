@@ -54,7 +54,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	public function __construct( $origin, $target = '', $type = self::PERMANENT, $format = self::FORMAT_PLAIN ) {
 		$this->origin = ( $format === WPSEO_Redirect::FORMAT_PLAIN ) ? $this->sanitize_url( $origin ) : $origin;
-		$this->target = $this->sanitize_url( $target );
+		$this->target = $this->sanitize_target_url( $target );
 		$this->format = $format;
 		$this->type   = (int) $type;
 	}
@@ -224,6 +224,25 @@ class WPSEO_Redirect implements ArrayAccess {
 		}
 
 		return str_replace( $blog_url, '', $stripped_url );
+	}
+
+	/**
+	 * Sanitizes the target url.
+	 *
+	 * @param string $url The url to sanitize.
+	 *
+	 * @return string The sanitized url.
+	 */
+	private function sanitize_target_url( $url ) {
+		$blog_url     = $this->strip_scheme_from_url( get_home_url() );
+		$stripped_url = $this->strip_scheme_from_url( $url );
+
+		// Match against the stripped URL for easier matching.
+		if ( ! $this->contains_blog_url( $stripped_url, $blog_url ) || $this->is_subdomain( $stripped_url, $blog_url ) ) {
+			return $this->sanitize_slash( $url );
+		}
+
+		return $this->sanitize_slash( str_replace( $blog_url, '', $stripped_url ) );
 	}
 
 	/**
