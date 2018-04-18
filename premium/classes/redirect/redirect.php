@@ -212,18 +212,22 @@ class WPSEO_Redirect implements ArrayAccess {
 	 *
 	 * @param string $url The URL to sanitize.
 	 *
-	 * @return string
+	 * @return string The sanitized url.
 	 */
 	private function sanitize_origin_url( $url ) {
-		$blog_url     = $this->strip_scheme_from_url( get_home_url() );
-		$stripped_url = $this->strip_scheme_from_url( $url );
+		$blog_url        = get_home_url();
+		$blog_url_pieces = wp_parse_url( $blog_url );
+		$url_pieces      = wp_parse_url( $url );
 
-		// Match against the stripped URL for easier matching.
-		if ( ! $this->contains_blog_url( $stripped_url, $blog_url ) || $this->is_subdomain( $stripped_url, $blog_url ) ) {
-			return $this->sanitize_slash( $url );
+		if ( $this->match_home_url( $blog_url_pieces, $url_pieces ) ) {
+			$url = str_replace(
+				$this->strip_scheme_from_url( $blog_url ),
+				'',
+				$this->strip_scheme_from_url( $url )
+			);
 		}
 
-		return $this->sanitize_slash( str_replace( $blog_url, '', $stripped_url ) );
+		return $this->sanitize_slash( $url );
 	}
 
 	/**
@@ -243,6 +247,18 @@ class WPSEO_Redirect implements ArrayAccess {
 		}
 
 		return $this->sanitize_slash( str_replace( $blog_url, '', $stripped_url ) );
+	}
+
+	/**
+	 * Checks if the URL matches the Blog URL by comparing their host.
+	 *
+	 * @param array $blog_url_pieces The pieces (wp_parse_url) from the home_url.
+	 * @param array $url_pieces      The pieces (wp_parse_url) from the url to match.
+	 *
+	 * @return bool True when both hosts are equal.
+	 */
+	private function match_home_url( $blog_url_pieces, $url_pieces ) {
+		return ( isset( $url_pieces['scheme'], $url_pieces['host'] ) && $url_pieces['host'] === $blog_url_pieces['host'] );
 	}
 
 	/**
