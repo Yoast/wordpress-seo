@@ -199,12 +199,13 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Strip the protocol from the URL.
 	 *
-	 * @param string $url The URL to remove the protocol from.
+	 * @param string $scheme The scheme to strip.
+	 * @param string $url    The URL to remove the scheme from.
 	 *
-	 * @return string
+	 * @return string The url without the scheme.
 	 */
-	private function strip_scheme_from_url( $url ) {
-		return preg_replace( '(^https?://)', '', $url );
+	private function strip_scheme_from_url( $scheme, $url ) {
+		return str_replace( $scheme . '://', '', $url );
 	}
 
 	/**
@@ -221,9 +222,9 @@ class WPSEO_Redirect implements ArrayAccess {
 
 		if ( $this->match_home_url( $blog_url_pieces, $url_pieces ) ) {
 			$url = str_replace(
-				$this->strip_scheme_from_url( $blog_url ),
+				$this->strip_scheme_from_url( $blog_url_pieces['scheme'], $blog_url ),
 				'',
-				$this->strip_scheme_from_url( $url )
+				$this->strip_scheme_from_url( $url_pieces['scheme'], $url )
 			);
 		}
 
@@ -246,7 +247,7 @@ class WPSEO_Redirect implements ArrayAccess {
 			$url = str_replace(
 				$blog_url_pieces['host'],
 				'',
-				$this->strip_scheme_from_url( $url ) );
+				$this->strip_scheme_from_url( $url_pieces['scheme'], $url ) );
 		}
 
 		return $this->sanitize_slash( $url );
