@@ -192,6 +192,14 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
+				'name' => 'yoast-modal',
+				'src'  => 'wp-seo-modal-' . $flat_version,
+				'deps' => array(
+					'jquery',
+					self::PREFIX . 'react-dependencies',
+				),
+			),
+			array(
 				'name' => 'help-center',
 				'src'  => 'wp-seo-help-center-' . $flat_version,
 				'deps' => array(

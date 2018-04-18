@@ -16,7 +16,7 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 		// Setup data to expect.
 		$expected = array(
 			'rssbefore' => 'a',
-			'rssafter'  => 'b'
+			'rssafter'  => 'b',
 		);
 
 		$this->set_options( $expected );
@@ -42,7 +42,7 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 			'disable_author_sitemap' => false,
 			'disable_author_noposts' => true,
 			'entries-per-page'       => 1000,
-			'excluded-posts'         => array()
+			'excluded-posts'         => array(),
 		) );
 
 		$this->assertEquals( $expected, get_option( 'wpseo_xml' ) );
@@ -54,8 +54,8 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 	public function test_contents_of_wpseo_permalinks() {
 		// Setup data to expect.
 		$expected = array(
-			'redirectattachment' => true,
-			'stripcategorybase'  => false,
+			'redirectattachment'              => true,
+			'stripcategorybase'               => false,
 
 			'cleanpermalinks'                 => false,
 			'cleanpermalink-extravars'        => '',
@@ -130,7 +130,7 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 			'company_logo'           => 'http://c',
 			'company_name'           => 'd',
 			'company_or_person'      => 'company',
-			'person_name'            => 'f'
+			'person_name'            => 'f',
 		);
 
 		$this->set_options( $expected );

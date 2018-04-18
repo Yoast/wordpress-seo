@@ -10,6 +10,12 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
+"@babel/helper-annotate-as-pure@^7.0.0-beta.37":
+  version "7.0.0-beta.44"
+  resolved "https://registry.yarnpkg.com/@babel/helper-annotate-as-pure/-/helper-annotate-as-pure-7.0.0-beta.44.tgz#8ecf33cc5235295afcc7f160a63cab17ce7776f4"
+  dependencies:
+    "@babel/types" "7.0.0-beta.44"
+
 "@babel/helper-function-name@7.0.0-beta.36":
   version "7.0.0-beta.36"
   resolved "https://registry.yarnpkg.com/@babel/helper-function-name/-/helper-function-name-7.0.0-beta.36.tgz#366e3bc35147721b69009f803907c4d53212e88d"
@@ -49,6 +55,14 @@
 "@babel/types@7.0.0-beta.36":
   version "7.0.0-beta.36"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.36.tgz#64f2004353de42adb72f9ebb4665fc35b5499d23"
+  dependencies:
+    esutils "^2.0.2"
+    lodash "^4.2.0"
+    to-fast-properties "^2.0.0"
+
+"@babel/types@7.0.0-beta.44":
+  version "7.0.0-beta.44"
+  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.44.tgz#6b1b164591f77dec0a0342aca995f2d046b3a757"
   dependencies:
     esutils "^2.0.2"
     lodash "^4.2.0"
@@ -779,6 +793,14 @@ babel-plugin-jest-hoist@^18.0.0:
 babel-plugin-jest-hoist@^22.4.1:
   version "22.4.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-jest-hoist/-/babel-plugin-jest-hoist-22.4.1.tgz#d712fe5da8b6965f3191dacddbefdbdf4fb66d63"
+
+babel-plugin-styled-components@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-styled-components/-/babel-plugin-styled-components-1.5.1.tgz#31dbeb696d1354d1585e60d66c7905f5e474afcd"
+  dependencies:
+    "@babel/helper-annotate-as-pure" "^7.0.0-beta.37"
+    babel-types "^6.26.0"
+    stylis "^3.0.0"
 
 babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"
@@ -3201,6 +3223,10 @@ executable@^1.0.0:
   resolved "https://registry.yarnpkg.com/executable/-/executable-1.1.0.tgz#877980e9112f3391066da37265de7ad8434ab4d9"
   dependencies:
     meow "^3.1.0"
+
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
 
 exit-hook@^1.0.0:
   version "1.1.1"
@@ -7636,6 +7662,14 @@ react-intl@^2.4.0:
     intl-relativeformat "^2.0.0"
     invariant "^2.1.1"
 
+react-modal@^3.1.10:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.3.2.tgz#b13da9490653a7c76bc0e9600323eb1079c620e7"
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
+    warning "^3.0.0"
+
 react-redux@^5.0.6:
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.6.tgz#23ed3a4f986359d68b5212eaaa681e60d6574946"
@@ -8826,7 +8860,7 @@ styled-components@^2.1.2:
     stylis "^3.4.0"
     supports-color "^3.2.3"
 
-stylis@^3.4.0:
+stylis@^3.0.0, stylis@^3.4.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.5.0.tgz#016fa239663d77f868fef5b67cf201c4b7c701e1"
 
@@ -9943,9 +9977,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-yoast-components@^3.2.1:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-3.3.0.tgz#eddc59290fbc996cff70ade4b6c2cd82904b7672"
+yoast-components@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-3.4.0.tgz#aafb6ffefc1b0bf6af37b953e48f96e5756f677a"
   dependencies:
     a11y-speak "git+https://github.com/Yoast/a11y-speak.git#master"
     algoliasearch "^3.22.3"
@@ -9955,6 +9989,7 @@ yoast-components@^3.2.1:
     jed "^1.1.1"
     lodash "^4.17.4"
     prop-types "^15.6.0"
+    react-modal "^3.1.10"
     react-redux "^5.0.6"
     react-tabs "^2.2.1"
     redux "^3.7.2"
