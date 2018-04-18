@@ -196,6 +196,16 @@ class WPSEO_Admin_Asset_Manager {
 		if ( function_exists( 'gutenberg_register_scripts_and_styles' ) ) {
 			$backport_wp_dependencies[] = 'wp-element';
 			$backport_wp_dependencies[] = 'wp-data';
+
+			/*
+			 * The version of TinyMCE that Gutenberg uses is incompatible with
+			 * the one core uses. So we need to make sure that the core version
+			 * is used in the classic editor.
+			 */
+			if ( wp_script_is( 'tinymce-latest', 'registered' ) && isset( $_GET[ 'classic-editor' ] ) ) {
+				wp_deregister_script( 'tinymce-latest' );
+				wp_register_script( 'tinymce-latest', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array( 'jquery' ), false, true );
+			}
 		}
 
 		return array(
