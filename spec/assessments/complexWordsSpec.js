@@ -152,7 +152,7 @@ describe( "an assessment returning complex words", function() {
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 1 } ],
 			} ]
-			), i18n );
+		), i18n );
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "0% of the words contain <a href='https://yoa.st/difficult-words' target='_blank'>over 3 syllables</a>, " +
 			"which is less than or equal to the recommended maximum of 5%." );

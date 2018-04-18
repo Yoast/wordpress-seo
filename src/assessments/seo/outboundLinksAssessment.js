@@ -7,7 +7,6 @@ let merge = require( "lodash/merge" );
  * Assessment for calculating the outbound links in the text.
  */
 class OutboundLinksAssessment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -112,8 +111,8 @@ class OutboundLinksAssessment extends Assessment {
 			return i18n.sprintf( i18n.dgettext(
 				"js-text-analysis",
 				"This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s)."
-				),
-				linkStatistics.externalNofollow, linkStatistics.externalDofollow );
+			),
+			linkStatistics.externalNofollow, linkStatistics.externalDofollow );
 		}
 
 		if ( linkStatistics.externalDofollow === linkStatistics.total ) {
@@ -123,7 +122,6 @@ class OutboundLinksAssessment extends Assessment {
 
 		return "";
 	}
-
 }
 
 module.exports = OutboundLinksAssessment;

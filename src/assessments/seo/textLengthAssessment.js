@@ -7,7 +7,6 @@ let merge = require( "lodash/merge" );
  * Assessment that will test if the text is long enough.
  */
 class TextLengthAssessment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -164,7 +163,6 @@ class TextLengthAssessment extends Assessment {
 
 		return "";
 	}
-
 }
 
 module.exports = TextLengthAssessment;

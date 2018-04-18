@@ -7,7 +7,6 @@ let merge = require( "lodash/merge" );
  * Represents the assessmenth that will calculate if the width of the page title is correct.
  */
 class PageTitleWidthAssesment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -107,7 +106,6 @@ class PageTitleWidthAssesment extends Assessment {
 
 		return i18n.dgettext( "js-text-analysis", "Please create an SEO title." );
 	}
-
 }
 
 module.exports = PageTitleWidthAssesment;

@@ -97,7 +97,6 @@ function getBlocks( text ) {
 		var nextToken = tokens[ i + 1 ];
 
 		switch ( token.type ) {
-
 			case "content":
 			case "greater-than-sign-content":
 			case "inline-start":

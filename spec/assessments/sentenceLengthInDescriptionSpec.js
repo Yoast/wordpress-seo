@@ -1,4 +1,4 @@
-import sentenceLengthInDescriptionAssessment from "../../js/assessments/readability/sentenceLengthInDescriptionAssessment" ;
+import sentenceLengthInDescriptionAssessment from "../../js/assessments/readability/sentenceLengthInDescriptionAssessment";
 import Paper from "../../js/values/Paper.js";
 import Factory from "../helpers/factory.js";
 let i18n = Factory.buildJed();

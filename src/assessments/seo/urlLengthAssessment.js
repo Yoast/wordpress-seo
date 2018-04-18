@@ -6,7 +6,6 @@ let merge = require( "lodash/merge" );
  * Assessment that checks if the url is long enough.
  */
 class UrlLengthAssessment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -87,7 +86,6 @@ class UrlLengthAssessment extends Assessment {
 
 		return "";
 	}
-
 }
 
 module.exports = UrlLengthAssessment;

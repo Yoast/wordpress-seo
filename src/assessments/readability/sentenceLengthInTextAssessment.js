@@ -15,7 +15,6 @@ let merge = require( "lodash/merge" );
  * Represents the assessment that will calculate the length of sentences in the text.
  */
 class SentenceLengthInTextAssessment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *

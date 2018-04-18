@@ -149,7 +149,7 @@ module.exports = function() {
 
 		// These categories are used in the passive voice assessment. If they directly precede a participle, the sentence part is not passive.
 		cannotDirectlyPrecedePassiveParticiple: [].concat( articles, prepositions, demonstrativePronouns, possessivePronouns, ordinalNumerals,
-		continuousVerbs, quantifiers ),
+			continuousVerbs, quantifiers ),
 
 		/*
 		These categories are used in the passive voice assessment. If they appear between an auxiliary and a participle,
