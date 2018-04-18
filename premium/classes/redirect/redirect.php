@@ -214,7 +214,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 *
 	 * @return string
 	 */
-	private function sanitize_blog_url( $url ) {
+	private function sanitize_origin_url( $url ) {
 		$blog_url     = $this->strip_scheme_from_url( get_home_url() );
 		$stripped_url = $this->strip_scheme_from_url( $url );
 
@@ -253,7 +253,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @return string
 	 */
 	private function sanitize_url( $url ) {
-		$url = $this->sanitize_blog_url( $url );
+		$url = $this->sanitize_origin_url( $url );
 
 		return $this->sanitize_slash( $url );
 	}
