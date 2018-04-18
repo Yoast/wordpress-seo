@@ -53,7 +53,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @param string $format The format of the redirect.
 	 */
 	public function __construct( $origin, $target = '', $type = self::PERMANENT, $format = self::FORMAT_PLAIN ) {
-		$this->origin = ( $format === WPSEO_Redirect::FORMAT_PLAIN ) ? $this->sanitize_url( $origin ) : $origin;
+		$this->origin = ( $format === WPSEO_Redirect::FORMAT_PLAIN ) ? $this->sanitize_origin_url( $origin ) : $origin;
 		$this->target = $this->sanitize_target_url( $target );
 		$this->format = $format;
 		$this->type   = (int) $type;
@@ -220,10 +220,10 @@ class WPSEO_Redirect implements ArrayAccess {
 
 		// Match against the stripped URL for easier matching.
 		if ( ! $this->contains_blog_url( $stripped_url, $blog_url ) || $this->is_subdomain( $stripped_url, $blog_url ) ) {
-			return $url;
+			return $this->sanitize_slash( $url );
 		}
 
-		return str_replace( $blog_url, '', $stripped_url );
+		return $this->sanitize_slash( str_replace( $blog_url, '', $stripped_url ) );
 	}
 
 	/**
@@ -243,19 +243,6 @@ class WPSEO_Redirect implements ArrayAccess {
 		}
 
 		return $this->sanitize_slash( str_replace( $blog_url, '', $stripped_url ) );
-	}
-
-	/**
-	 * Sanitize the URL to remove both the blog's base URL and potential trailing slashes.
-	 *
-	 * @param string $url The URL to sanitize.
-	 *
-	 * @return string
-	 */
-	private function sanitize_url( $url ) {
-		$url = $this->sanitize_origin_url( $url );
-
-		return $this->sanitize_slash( $url );
 	}
 
 	/**
