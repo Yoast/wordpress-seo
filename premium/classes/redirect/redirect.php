@@ -203,7 +203,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 *
 	 * @return string
 	 */
-	private function strip_protocol( $url ) {
+	private function strip_scheme_from_url( $url ) {
 		return preg_replace( '(^https?://)', '', $url );
 	}
 
@@ -215,8 +215,8 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @return string
 	 */
 	private function sanitize_blog_url( $url ) {
-		$blog_url     = $this->strip_protocol( get_home_url() );
-		$stripped_url = $this->strip_protocol( $url );
+		$blog_url     = $this->strip_scheme_from_url( get_home_url() );
+		$stripped_url = $this->strip_scheme_from_url( $url );
 
 		// Match against the stripped URL for easier matching.
 		if ( ! $this->contains_blog_url( $stripped_url, $blog_url ) || $this->is_subdomain( $stripped_url, $blog_url ) ) {
