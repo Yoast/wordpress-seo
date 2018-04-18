@@ -7,6 +7,8 @@
 
 /**
  * Test class for testing WPSEO_Redirect
+ *
+ * @group redirects
  */
 class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 
@@ -42,6 +44,14 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 				'redirect'        => array(
 					'origin' => 'http://example.org/blog/origin',
 					'target' => 'http://example.org/blog/target',
+				),
+				'expected_origin' => 'origin',
+				'expected_target' => 'blog/target',
+			),
+			array(
+				'redirect'        => array(
+					'origin' => 'origin',
+					'target' => 'https://example.org/blog/target',
 				),
 				'expected_origin' => 'origin',
 				'expected_target' => 'blog/target',
@@ -255,8 +265,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the result of using absolute URLs that point to the home url.
 	 *
-	 * @covers WPSEO_Redirect::sanitize_url
-	 * @covers WPSEO_Redirect::sanitize_blog_url
+	 * @covers WPSEO_Redirect::sanitize_origin_url
 	 */
 	public function test_blog_url_to_relative_url() {
 		$blog_url = get_home_url();
@@ -269,8 +278,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the result of a subdomain being used as the target.
 	 *
-	 * @covers WPSEO_Redirect::sanitize_url
-	 * @covers WPSEO_Redirect::sanitize_blog_url
+	 * @covers WPSEO_Redirect::sanitize_origin_url
 	 */
 	public function test_subdomain_remains_unaffected() {
 		$blog_url  = 'http://example.org/';
