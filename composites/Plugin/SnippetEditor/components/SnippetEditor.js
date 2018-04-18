@@ -292,6 +292,11 @@ class SnippetEditor extends React.Component {
 
 		const mappedData = this.mapDataToPreview( data );
 
+		/*
+		 * The SnippetPreview is not a build-in HTML element so this check is not
+		 * relevant.
+		 */
+		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return (
 			<div>
 				<SnippetPreview
@@ -317,6 +322,7 @@ class SnippetEditor extends React.Component {
 				{ this.renderEditor() }
 			</div>
 		);
+		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
 }
 
