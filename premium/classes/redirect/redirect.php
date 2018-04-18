@@ -160,6 +160,8 @@ class WPSEO_Redirect implements ArrayAccess {
 	 *
 	 * @link http://php.net/manual/en/arrayaccess.offsetunset.php
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $offset The offset to unset.
 	 *
 	 * @return void

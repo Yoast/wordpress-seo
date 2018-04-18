@@ -621,7 +621,6 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 * @param string         $request_uri    The requested uri.
 	 * @param WPSEO_Redirect $redirect       The redirect object.
 	 * @param WPSEO_Redirect $expected_calls The expected amount of calls.
-	 *
 	 */
 	public function test_handle_normal_redirects_with_subfolder_installation( $request_uri, WPSEO_Redirect $redirect, $expected_calls ) {
 		$redirects = array(

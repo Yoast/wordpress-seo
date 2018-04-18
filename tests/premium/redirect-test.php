@@ -98,77 +98,77 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if constructor works
+	 * @dataProvider redirect_provider
 	 *
-	 * @covers WPSEO_Redirect::__construct
-	 * @covers WPSEO_Redirect::get_origin
-	 * @covers WPSEO_Redirect::get_target
-	 * @covers WPSEO_Redirect::get_type
-	 * @covers WPSEO_Redirect::get_format
+	 * @param WPSEO_Redirect $redirect The redirect object.
+	 * @param string         $origin   Expected origin.
+	 * @param string         $target   Expected target.
+	 * @param int            $type     Expected type.
+	 * @param string         $format   Expected format.
 	 */
-	public function test_construct_relative_url() {
-
-		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
-
-		$this->assertEquals( 'origin', $redirect->get_origin() );
-		$this->assertEquals( 'target', $redirect->get_target() );
-		$this->assertEquals( 301, $redirect->get_type() );
-		$this->assertEquals( 'plain', $redirect->get_format() );
+	public function test_redirect( WPSEO_Redirect $redirect, $origin, $target, $type, $format ) {
+		$this->assertEquals( $origin, $redirect->get_origin() );
+		$this->assertEquals( $target, $redirect->get_target() );
+		$this->assertEquals( $type, $redirect->get_type() );
+		$this->assertEquals( $format, $redirect->get_format() );
 	}
 
 	/**
-	 * Test if constructor does not sanitize absolute URLs
+	 * Values for the redirect test.
 	 *
-	 * @covers WPSEO_Redirect::__construct
-	 * @covers WPSEO_Redirect::get_origin
-	 * @covers WPSEO_Redirect::get_target
-	 * @covers WPSEO_Redirect::get_type
-	 * @covers WPSEO_Redirect::get_format
+	 * @return array
 	 */
-	public function test_construct_absolute_url() {
-		$redirect = new WPSEO_Redirect( 'origin', 'https://yoast.com/', 301, 'plain' );
-
-		$this->assertEquals( 'origin', $redirect->get_origin() );
-		$this->assertEquals( 'https://yoast.com/', $redirect->get_target() );
-		$this->assertEquals( 301, $redirect->get_type() );
-		$this->assertEquals( 'plain', $redirect->get_format() );
-	}
-
-	/**
-	 * Test if constructor works
-	 *
-	 * @covers WPSEO_Redirect::__construct
-	 * @covers WPSEO_Redirect::get_origin
-	 * @covers WPSEO_Redirect::get_target
-	 * @covers WPSEO_Redirect::get_type
-	 * @covers WPSEO_Redirect::get_format
-	 */
-	public function test_construct_regex() {
-
-		$redirect = new WPSEO_Redirect( 'origin', 'target', 307, 'regex' );
-
-		$this->assertEquals( 'origin', $redirect->get_origin() );
-		$this->assertEquals( 'target', $redirect->get_target() );
-		$this->assertEquals( 307, $redirect->get_type() );
-		$this->assertEquals( 'regex', $redirect->get_format() );
-	}
-
-	/**
-	 * Test how constructor deals with the defaults
-	 *
-	 * @covers WPSEO_Redirect::__construct
-	 * @covers WPSEO_Redirect::get_origin
-	 * @covers WPSEO_Redirect::get_target
-	 * @covers WPSEO_Redirect::get_type
-	 * @covers WPSEO_Redirect::get_format
-	 */
-	public function test_construct_defaults() {
-		$redirect = new WPSEO_Redirect( 'origin', 'target' );
-
-		$this->assertEquals( 'origin', $redirect->get_origin() );
-		$this->assertEquals( 'target', $redirect->get_target() );
-		$this->assertEquals( 301, $redirect->get_type() );
-		$this->assertEquals( 'plain', $redirect->get_format() );
+	public function redirect_provider() {
+		return array(
+			// Tests a relative url.
+			array(
+				'redirect' => new WPSEO_Redirect( 'origin', 'target', 301, 'plain' ),
+				'origin'   => 'origin',
+				'target'   => 'target',
+				'type'     => 301,
+				'format'   => 'plain',
+			),
+			// Tests a absolute url.
+			array(
+				'redirect' => new WPSEO_Redirect( 'origin', 'https://yoast.com/', 301, 'plain' ),
+				'origin'   => 'origin',
+				'target'   => 'https://yoast.com/',
+				'type'     => 301,
+				'format'   => 'plain',
+			),
+			// Tests a regex redirect.
+			array(
+				'redirect' => new WPSEO_Redirect( 'origin', 'target', 307, 'regex' ),
+				'origin'   => 'origin',
+				'target'   => 'target',
+				'type'     => 307,
+				'format'   => 'regex',
+			),
+			// Tests the usage of the default values.
+			array(
+				'redirect' => new WPSEO_Redirect( 'origin', 'target' ),
+				'origin'   => 'origin',
+				'target'   => 'target',
+				'type'     => 301,
+				'format'   => 'plain',
+			),
+			// Tests the result of using absolute URLs that contains the home url.
+			array(
+				'redirect' => new WPSEO_Redirect( home_url( 'origin' ), home_url( 'target' ), 301, 'plain' ),
+				'origin'   => 'origin',
+				'target'   => 'target',
+				'type'     => 301,
+				'format'   => 'plain',
+			),
+			// Tests the result of using absolute URLs that contains the home url.
+			array(
+				'redirect' => new WPSEO_Redirect( home_url( 'origin' ), 'http://sub.example.org/', 301, 'plain' ),
+				'origin'   => 'origin',
+				'target'   => 'http://sub.example.org/',
+				'type'     => 301,
+				'format'   => 'plain',
+			),
+		);
 	}
 
 	/**
@@ -227,6 +227,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	public function test_offsetGet() {
 		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
 
+		$this->assertEquals( 'origin', $redirect['old'] );
 		$this->assertEquals( 'target', $redirect['url'] );
 		$this->assertEquals( 301, $redirect['type'] );
 
@@ -260,32 +261,5 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 		unset( $redirect['url'] );
 
 		$this->assertEquals( 'target', $redirect->get_target() );
-	}
-
-	/**
-	 * Tests the result of using absolute URLs that point to the home url.
-	 *
-	 * @covers WPSEO_Redirect::sanitize_origin_url
-	 */
-	public function test_blog_url_to_relative_url() {
-		$blog_url = get_home_url();
-		$redirect = new WPSEO_Redirect( $blog_url . '/origin', $blog_url . '/target', 301, 'plain' );
-
-		$this->assertEquals( 'origin', $redirect->get_origin() );
-		$this->assertEquals( 'target', $redirect->get_target() );
-	}
-
-	/**
-	 * Tests the result of a subdomain being used as the target.
-	 *
-	 * @covers WPSEO_Redirect::sanitize_origin_url
-	 */
-	public function test_subdomain_remains_unaffected() {
-		$blog_url  = 'http://example.org/';
-		$subdomain = 'http://sub.example.org/';
-
-		$redirect = new WPSEO_Redirect( $blog_url, $subdomain, 301, 'plain' );
-
-		$this->assertEquals( $redirect->get_target(), $subdomain );
 	}
 }
