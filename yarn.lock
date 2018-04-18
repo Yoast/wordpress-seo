@@ -1931,9 +1931,9 @@ escodegen@^1.9.0:
   optionalDependencies:
     source-map "~0.5.6"
 
-eslint-config-yoast@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-yoast/-/eslint-config-yoast-2.0.2.tgz#67b287ecd14af551f41cad57bc71930ca433eb8d"
+eslint-config-yoast@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-yoast/-/eslint-config-yoast-3.0.1.tgz#e01397d3634ad81217d3f27b27b1a69ffb8609c0"
   dependencies:
     js-yaml "^3.6.0"
 
