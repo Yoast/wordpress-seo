@@ -175,7 +175,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @return array scripts that need to be registered.
 	 */
-	private function scripts_to_be_registered() {
+	protected function scripts_to_be_registered() {
 
 		$select2_language = 'en';
 		$user_locale      = WPSEO_Utils::get_user_locale();
@@ -415,7 +415,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @return array styles that need to be registered.
 	 */
-	private function styles_to_be_registered() {
+	protected function styles_to_be_registered() {
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
 		return array(
