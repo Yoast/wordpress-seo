@@ -38,8 +38,8 @@ class WPSEO_Image_Utils {
 	 * @return array|false Image array on success, false on failure.
 	 */
 	public static function find_correct_image_size( $attachment_id ) {
-		foreach ( self::get_image_sizes() as $size ) {
-			$image = self::check_image_by_size( $attachment_id, $size );
+		foreach ( self::get_sizes() as $size ) {
+			$image = self::has_usable_file_size( $attachment_id, $size );
 			if ( $image !== false ) {
 				return $image;
 			}
@@ -49,7 +49,7 @@ class WPSEO_Image_Utils {
 	}
 
 	/**
-	 * Enrich the image data to use elsewhere.
+	 * Retrieves the image data.
 	 *
 	 * @param array $image         Image array with URL and metadata.
 	 * @param int   $attachment_id Attachment ID.
@@ -65,9 +65,9 @@ class WPSEO_Image_Utils {
 	 *     @type string $url    Image's URL.
 	 * }
 	 */
-	public static function complete_image_data( $image, $attachment_id ) {
+	public static function get_data( $image, $attachment_id ) {
 		$image['id']     = $attachment_id;
-		$image['alt']    = self::get_image_alt_tag( $attachment_id );
+		$image['alt']    = self::get_alt_tag( $attachment_id );
 		$image['pixels'] = ( $image['width'] * $image['height'] );
 
 		if ( ! isset( $image['type'] ) ) {
@@ -95,15 +95,15 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return bool Whether an image is fit for display or not.
 	 */
-	public static function check_image_measurements( $attachment_id, $params ) {
+	public static function has_usable_dimensions( $attachment_id, $params ) {
 		$img_data = wp_get_attachment_metadata( $attachment_id );
-		if ( ! isset( $img_data['width'] ) || ! isset( $img_data['height'] ) ) {
+		if ( empty( $img_data['width'] ) || empty( $img_data['height'] ) ) {
 			return true;
 		}
 
 		$img_data['ratio'] = ( $img_data['width'] / $img_data['height'] );
 
-		return self::check_image_measurement_params( $params, $img_data );
+		return self::has_usable_measurements( $img_data, $params );
 	}
 
 	/**
@@ -114,21 +114,20 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return array|false Image array with metadata on success, false on failure.
 	 */
-	public static function check_image_by_size( $attachment_id, $size ) {
+	public static function has_usable_file_size( $attachment_id, $size ) {
 		/**
 		 * Filter: 'wpseo_image_image_weight_limit' - Determines what the maximum weight (in bytes) of an image is allowed to be, default is 2 MB.
 		 *
 		 * @api int - The maximum weight (in bytes) of an image.
 		 */
-		$max_size = apply_filters( 'wpseo_image_image_weight_limit', ( 2 * 1024 * 1024 ) );
+		$max_size = apply_filters( 'wpseo_image_image_weight_limit', 2097152 );
 
 		$image = self::get_image( $attachment_id, $size );
-
 		if ( $image === false || ! isset( $image['path'] ) ) {
 			return $image;
 		}
 
-		$file_size = self::get_image_file_size( $image );
+		$file_size = self::get_file_size( $image );
 		if ( $file_size > $max_size ) {
 			return false;
 		}
@@ -160,7 +159,7 @@ class WPSEO_Image_Utils {
 		}
 
 		$image['size'] = $size;
-		return self::complete_image_data( $image, $attachment_id );
+		return self::get_data( $image, $attachment_id );
 	}
 
 	/**
@@ -170,10 +169,10 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return string The full file path.
 	 */
-	public static function get_full_file_path( $path ) {
+	public static function get_absolute_path( $path ) {
 		static $uploads;
 
-		if ( ! isset( $uploads ) ) {
+		if ( $uploads === null ) {
 			$uploads = wp_get_upload_dir();
 		}
 
@@ -211,15 +210,15 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return int The file size in bytes.
 	 */
-	public static function get_image_file_size( $image ) {
+	public static function get_file_size( $image ) {
 		if ( isset( $image['filesize'] ) ) {
 			return $image['filesize'];
 		}
+
 		// If the file size for the file is over our limit, we're going to go for a smaller version.
-		// phpcs:ignore -- If file size doesn't properly return, we'll not fail.
-		$file_size = @filesize( self::get_full_file_path( $image['path'] ) );
 		// @todo save the filesize to the image metadata.
-		return $file_size;
+		// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- If file size doesn't properly return, we'll not fail.
+		return @filesize( self::get_absolute_path( $image['path'] ) );
 	}
 
 	/**
@@ -227,7 +226,7 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return array $image_sizes An array of image sizes.
 	 */
-	public static function get_image_sizes() {
+	public static function get_sizes() {
 		/**
 		 * Filter: 'wpseo_image_sizes' - Determines which image sizes we'll loop through to get an appropriate image.
 		 *
@@ -243,19 +242,19 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return string The image alt text.
 	 */
-	public static function get_image_alt_tag( $attachment_id ) {
+	public static function get_alt_tag( $attachment_id ) {
 		return (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
 	}
 
 	/**
 	 * Checks whether an img sizes up to the parameters.
 	 *
-	 * @param array $params   The parameters to check against.
 	 * @param array $img_data The image values.
+	 * @param array $params   The parameters to check against.
 	 *
 	 * @return bool
 	 */
-	private static function check_image_measurement_params( $params, $img_data ) {
+	private static function has_usable_measurements( $img_data, $params ) {
 		foreach ( array( 'width', 'height', 'ratio' ) as $param ) {
 			if (
 				( $img_data[ $param ] < $params[ 'min_' . $param ] ) ||

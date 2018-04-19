@@ -14,7 +14,7 @@ class WPSEO_Content_Images {
 	 *
 	 * @var string
 	 */
-	private $cache_meta_key = '_wpseo_post_image_cache';
+	private $cache_meta_key = '_yoast_wpseo_post_image_cache';
 
 	/**
 	 * Retrieves images from the post content.
@@ -24,34 +24,16 @@ class WPSEO_Content_Images {
 	 *
 	 * @return array An array of images found in this post.
 	 */
-	public function get_content_images( $post_id, $post = null ) {
-		$post_image_cache = get_post_meta( $post_id, $this->cache_meta_key, true );
+	public function get_images( $post_id, $post = null ) {
+		$post_image_cache = $this->get_cached_images( $post_id );
 		if ( is_array( $post_image_cache ) ) {
 			return $post_image_cache;
 		}
-		if ( is_null( $post ) ) {
-			$post = get_post( $post_id );
-		}
-		return $this->heat_content_image_cache( $post );
-	}
 
-	/**
-	 * Heat the content image cache so we can retrieve it everywhere.
-	 *
-	 * @param \WP_Post $post The post object.
-	 *
-	 * @return array $images An array of images found in the post, empty if none found.
-	 */
-	private function heat_content_image_cache( $post ) {
-		/**
-		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis.
-		 *
-		 * @api string $post_content The Post content string.
-		 */
-		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+		$images = $this->get_images_from_content( $this->get_post_content( $post_id, $post ) );
 
-		$images = $this->get_images_from_content( $content );
-		update_post_meta( $post->ID, $this->cache_meta_key, $images );
+		// Store the data in the cache.
+		$this->update_image_cache( $post, $images );
 
 		return $images;
 	}
@@ -66,10 +48,9 @@ class WPSEO_Content_Images {
 	private function get_images_from_content( $content ) {
 		$images = array();
 		foreach ( $this->get_img_tags_from_content( $content ) as $img ) {
-			$url = $this->get_image_url_from_img( $img );
+			$url = $this->get_img_tag_source( $img );
 			if ( $url ) {
-				$attachment_id  = WPSEO_Image_Utils::get_attachment_by_url( $url );
-				$images[ $url ] = $attachment_id;
+				$images[ $url ] = WPSEO_Image_Utils::get_attachment_by_url( $url );
 			}
 		}
 
@@ -84,10 +65,15 @@ class WPSEO_Content_Images {
 	 * @return array An array of `<img>` tags.
 	 */
 	private function get_img_tags_from_content( $content ) {
+		if ( strpos( $content, '<img' ) === false ) {
+			return array();
+		}
+
 		preg_match_all( '`<img [^>]+>`', $content, $matches );
 		if ( isset( $matches[0] ) ) {
 			return $matches[0];
 		}
+
 		return array();
 	}
 
@@ -98,11 +84,65 @@ class WPSEO_Content_Images {
 	 *
 	 * @return string|bool The image URL on success, false on failure.
 	 */
-	private function get_image_url_from_img( $image ) {
+	private function get_img_tag_source( $image ) {
 		preg_match( '`src=(["\'])(.*?)\1`', $image, $matches );
 		if ( isset( $matches[2] ) ) {
 			return $matches[2];
 		}
 		return false;
+	}
+
+	/**
+	 * Retrieves the images from the cache.
+	 *
+	 * @param int $post_id Post ID to retrieve images for.
+	 *
+	 * @return mixed Data stored in the cache.
+	 */
+	private function get_cached_images( $post_id ) {
+		return get_post_meta( $post_id, $this->cache_meta_key, true );
+	}
+
+	/**
+	 * Updates the image cache.
+	 *
+	 * @param WP_Post|array $post   The post to store the cache for.
+	 * @param array         $images The data to store in the cache.
+	 *
+	 * @return void
+	 */
+	private function update_image_cache( $post, $images ) {
+		update_post_meta( $post->ID, $this->cache_meta_key, $images );
+	}
+
+	/**
+	 * Retrieves the post content we want to work with.
+	 *
+	 * @param int                $post_id The post ID.
+	 * @param WP_Post|array|null $post    The post.
+	 *
+	 * @return string The content of the supplied post.
+	 */
+	private function get_post_content( $post_id, $post ) {
+		if ( $post === null ) {
+			$post = get_post( $post_id );
+		}
+
+		if ( $post === null ) {
+			return '';
+		}
+
+		/**
+		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis.
+		 *
+		 * @api string $post_content The Post content string.
+		 */
+		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+
+		if ( ! is_string( $content ) ) {
+			$content = '';
+		}
+
+		return $content;
 	}
 }

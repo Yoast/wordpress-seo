@@ -262,7 +262,7 @@ class WPSEO_OpenGraph_Image {
 	 */
 	private function add_content_images( $post ) {
 		$image_finder = new WPSEO_Content_Images();
-		$images       = $image_finder->get_content_images( $post->ID, $post );
+		$images       = $image_finder->get_images( $post->ID, $post );
 
 		if ( ! is_array( $images ) || $images === array() ) {
 			return;
@@ -313,7 +313,7 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	protected function add_image_by_id( $attachment_id ) {
-		if ( ! WPSEO_Image_Utils::check_image_measurements( $attachment_id, $this->image_params ) ) {
+		if ( ! WPSEO_Image_Utils::has_usable_dimensions( $attachment_id, $this->image_params ) ) {
 			return;
 		}
 		$attachment = WPSEO_Image_Utils::find_correct_image_size( $attachment_id );

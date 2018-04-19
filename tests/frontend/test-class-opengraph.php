@@ -387,7 +387,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_image_get_content_image() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />',
+				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_home_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />',
 			)
 		);
 
@@ -396,12 +396,10 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_OpenGraph();
 
 		ob_start();
-
 		$class_instance->opengraph();
-
 		$output = ob_get_clean();
 
-		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
+		$expected_output = '<meta property="og:image" content="' . get_home_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
 
 		$this->assertContains( $expected_output, $output );
 	}
