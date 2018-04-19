@@ -13,7 +13,7 @@ const isGutenbergDataAvailable = () => {
 		! isUndefined( window.wp ) &&
 		! isUndefined( wp.data ) &&
 		! isUndefined( wp.data.select( "core/editor" ) ) &&
-		! isFunction( wp.data.select( "core/editor" ).getEditedPostAttribute )
+		isFunction( wp.data.select( "core/editor" ).getEditedPostAttribute )
 	);
 };
 
