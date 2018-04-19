@@ -612,24 +612,6 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Parses the home url with a sub directory being set.
-	 */
-	public function test_parse_target_url_with_subdirectory() {
-		$old_home = get_option( 'home' );
-		update_option( 'home', 'http://example.org/blog' );
-
-		$redirect = new WPSEO_Redirect( 'origin', 'blog/redirect' );
-		$handler  = new WPSEO_Redirect_Handler_Double();
-
-		$this->assertEquals(
-			'http://example.org/blog/redirect',
-			$handler->parse_target_url( $redirect->get_target() )
-		);
-
-		update_option( 'home', $old_home );
-	}
-
-	/**
 	 * Tests the handling of regex redirects.
 	 *
 	 * @dataProvider regex_redirect_provider
