@@ -50,11 +50,11 @@ let linkSuggestionsIsSupported = function() {
 };
 
 /**
- * Registers a redux store to Gutenberg.
+ * Registers a redux store in Gutenberg.
  *
  * @returns {Object} The store.
  */
-function registerStore() {
+function registerStoreInGutenberg() {
 	const { combineReducers, registerStore } = wp.data;
 
 	return registerStore( "yoast-seo-premium/editor", {
@@ -80,7 +80,7 @@ function initializeMetabox() {
 	}
 
 	if ( isGutenbergDataAvailable() ) {
-		registerStore();
+		registerStoreInGutenberg();
 	}
 }
 
