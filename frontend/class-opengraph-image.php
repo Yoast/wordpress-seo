@@ -54,7 +54,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @param WPSEO_OpenGraph $wpseo_opengraph The OpenGraph object.
 	 */
-	public function __construct( $wpseo_opengraph ) {
+	public function __construct( WPSEO_OpenGraph $wpseo_opengraph ) {
 		$this->opengraph = $wpseo_opengraph;
 
 		$this->set_images();
