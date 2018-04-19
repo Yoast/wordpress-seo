@@ -64,8 +64,8 @@ class WPSEO_OpenGraph_Image {
 	 * Outputs the images.
 	 */
 	public function show() {
-		foreach ( $this->get_images() as $img => $image_meta ) {
-			$this->og_image_tag( $img );
+		foreach ( $this->get_images() as $image => $image_meta ) {
+			$this->og_image_tag( $image );
 			$this->show_image_meta( $image_meta );
 		}
 	}
@@ -79,7 +79,7 @@ class WPSEO_OpenGraph_Image {
 	 */
 	private function show_image_meta( $image_meta ) {
 		foreach ( $this->image_tags as $key => $value ) {
-			if ( isset( $image_meta[ $key ] ) && ! empty( $image_meta[ $key ] ) ) {
+			if ( ! empty( $image_meta[ $key ] ) ) {
 				$this->opengraph->og_tag( 'og:image:' . $key, $image_meta[ $key ] );
 			}
 		}
@@ -88,14 +88,16 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Outputs an image tag based on whether it's https or not.
 	 *
-	 * @param string $img The image URL.
+	 * @param string $image_url The image URL.
 	 *
 	 * @return void
 	 */
-	private function og_image_tag( $img ) {
-		$this->opengraph->og_tag( 'og:image', esc_url( $img ) );
-		if ( 0 === strpos( $img, 'https://' ) ) {
-			$this->opengraph->og_tag( 'og:image:secure_url', esc_url( $img ) );
+	private function og_image_tag( $image_url ) {
+		$this->opengraph->og_tag( 'og:image', esc_url( $image_url ) );
+
+		// Add secure URL if detected. Not all services implement this, so the regular one also needs to be rendered.
+		if ( strpos( $image_url, 'https://' ) === 0 ) {
+			$this->opengraph->og_tag( 'og:image:secure_url', esc_url( $image_url ) );
 		}
 	}
 
@@ -114,10 +116,7 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool True if we have images, false if we don't.
 	 */
 	public function has_images() {
-		if ( ! empty( $this->images ) ) {
-			return true;
-		}
-		return false;
+		return ! empty( $this->images );
 	}
 
 	/**
@@ -154,9 +153,12 @@ class WPSEO_OpenGraph_Image {
 	 * If the frontpage image exists, call add_image.
 	 */
 	private function set_front_page_image() {
-		if ( WPSEO_Options::get( 'og_frontpage_image', '' ) !== '' ) {
-			$this->add_image_by_url( WPSEO_Options::get( 'og_frontpage_image' ) );
+		// If no frontpage image is found, don't add anything.
+		if ( WPSEO_Options::get( 'og_frontpage_image', '' ) === '' ) {
+			return;
 		}
+
+		$this->add_image_by_url( WPSEO_Options::get( 'og_frontpage_image' ) );
 	}
 
 	/**
@@ -269,22 +271,14 @@ class WPSEO_OpenGraph_Image {
 		}
 
 		foreach ( $images as $image_url => $attachment_id ) {
-			$this->add_image_by_url_or_id( $image_url, $attachment_id );
-		}
-	}
+			if ( $attachment_id !== 0 ) {
+				$this->add_image_by_id( $attachment_id );
+			}
 
-	/**
-	 * Add an image based on either the attachment ID or the URL.
-	 *
-	 * @param string $image_url     The image URL.
-	 * @param int    $attachment_id The attachment ID.
-	 */
-	private function add_image_by_url_or_id( $image_url, $attachment_id ) {
-		if ( $attachment_id !== 0 ) {
-			$this->add_image_by_id( $attachment_id );
-			return;
+			if ( $attachment_id === 0 ) {
+				$this->add_image_by_url( $image_url );
+			}
 		}
-		$this->add_image_by_url( $image_url );
 	}
 
 	/**
@@ -295,14 +289,17 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	protected function add_image_by_url( $url ) {
-		if ( $url !== '' ) {
-			$attachment_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
-			if ( $attachment_id > 0 ) {
-				$this->add_image_by_id( $attachment_id );
-				return;
-			}
-			$this->add_image( array( 'url' => $url ) );
+		if ( empty( $url ) ) {
+			return;
 		}
+
+		$attachment_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
+		if ( $attachment_id > 0 ) {
+			$this->add_image_by_id( $attachment_id );
+			return;
+		}
+
+		$this->add_image( array( 'url' => $url ) );
 	}
 
 	/**
