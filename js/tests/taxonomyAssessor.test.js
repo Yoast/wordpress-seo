@@ -55,21 +55,6 @@ describe ( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a keyword with a stopword", function() {
-		assessor.assess( new Paper( "text", { keyword: "the keyword" } ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
-
-		expect( assessments ).toEqual( [
-			"introductionKeyword",
-			"keywordStopWords",
-			"metaDescriptionLength",
-			"titleKeyword",
-			"titleWidth",
-			"textLength"
-		] );
-	} );
-
 	it( "additionally runs assessments that require a url", function() {
 		assessor.assess( new Paper( "text", { url: "sample url" } ) );
 		let AssessmentResults = assessor.getValidResults();
@@ -79,34 +64,6 @@ describe ( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textLength"
-		] );
-	} );
-
-	it( "additionally runs assessments that require a url that is too long", function() {
-		assessor.assess( new Paper( "text", { url: "12345678901234567890123456789012345678901" } ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
-
-		expect( assessments ).toEqual( [
-			"keyphraseLength",
-			"metaDescriptionLength",
-			"titleWidth",
-			"urlLength",
-			"textLength"
-		] );
-	} );
-
-	it( "additionally runs assessments that require a url with a stopword", function() {
-		assessor.assess( new Paper( "text", { url: "the sample url" } ) );
-		let AssessmentResults = assessor.getValidResults();
-		let assessments = getResults( AssessmentResults );
-
-		expect( assessments ).toEqual( [
-			"keyphraseLength",
-			"metaDescriptionLength",
-			"titleWidth",
-			"urlStopWords",
 			"textLength"
 		] );
 	} );
