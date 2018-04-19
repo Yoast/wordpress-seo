@@ -413,9 +413,7 @@ class WPSEO_Redirect_Handler {
 	 * @return string The parsed url.
 	 */
 	protected function parse_target_url( $target_url ) {
-		$scheme = wp_parse_url( $target_url, PHP_URL_SCHEME );
-
-		if ( ! empty( $scheme ) ) {
+		if ( $this->has_url_scheme( $target_url ) ) {
 			return $target_url;
 		}
 
@@ -423,6 +421,19 @@ class WPSEO_Redirect_Handler {
 		$target_url = $this->format_for_multisite( $target_url );
 
 		return $this->home_url( $target_url );
+	}
+
+	/**
+	 * Checks if given url has a scheme.
+	 *
+	 * @param string $url The url to check.
+	 *
+	 * @return bool True when url has scheme.
+	 */
+	protected function has_url_scheme( $url ) {
+		$scheme = wp_parse_url( $url, PHP_URL_SCHEME );
+
+		return ! empty( $scheme );
 	}
 
 	/**
@@ -472,6 +483,22 @@ class WPSEO_Redirect_Handler {
 	 * @return string The redirect url.
 	 */
 	protected function home_url( $redirect_url ) {
+		$home_url      = untrailingslashit( home_url() );
+		$home_url_path = wp_parse_url( $home_url, PHP_URL_PATH );
+
+		if ( $home_url_path === null ) {
+			return home_url( $redirect_url );
+		}
+
+		// Normalizes the home url path and the redirect url.
+		$home_url_path = ltrim( $home_url_path , '/' );
+		$redirect_url  = ltrim( $redirect_url , '/' );
+
+		// Check if the redirect_url starts with the home url.
+		if ( strpos( $redirect_url, $home_url_path ) === 0 ) {
+			$redirect_url = substr( $redirect_url, strlen( $home_url_path ) );
+		}
+
 		return home_url( $redirect_url );
 	}
 
