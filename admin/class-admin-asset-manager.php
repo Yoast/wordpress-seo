@@ -201,8 +201,11 @@ class WPSEO_Admin_Asset_Manager {
 			 * The version of TinyMCE that Gutenberg uses is incompatible with
 			 * the one core uses. So we need to make sure that the core version
 			 * is used in the classic editor.
+			 *
+			 * $_GET is used here because as far as I am aware you cannot use
+			 * filter_input to check for the existence of a query variable.
 			 */
-			if ( wp_script_is( 'tinymce-latest', 'registered' ) && isset( $_GET[ 'classic-editor' ] ) ) {
+			if ( wp_script_is( 'tinymce-latest', 'registered' ) && isset( $_GET['classic-editor'] ) ) {
 				wp_deregister_script( 'tinymce-latest' );
 				wp_register_script( 'tinymce-latest', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array( 'jquery' ), false, true );
 			}
