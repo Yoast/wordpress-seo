@@ -493,7 +493,7 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Strips the subdirectory from the given url.
 	 *
-	 * @param string $url The url to strip the
+	 * @param string $url The url to strip the subdirectory from.
 	 *
 	 * @return string The url with the stripped subdirectory.
 	 */
