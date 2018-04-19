@@ -132,21 +132,20 @@ class WPSEO_OpenGraph_Image {
 		 *
 		 * @api string - The URL of the OpenGraph image.
 		 */
-		$img = trim( apply_filters( 'wpseo_opengraph_image', $attachment['url'] ) );
-
-		if ( empty( $img ) ) {
+		$image_url = trim( apply_filters( 'wpseo_opengraph_image', $attachment['url'] ) );
+		if ( empty( $image_url ) ) {
 			return;
 		}
 
-		if ( WPSEO_Utils::is_url_relative( $img ) === true ) {
-			$img = WPSEO_Image_Utils::get_relative_path( $img );
+		if ( WPSEO_Utils::is_url_relative( $image_url ) === true ) {
+			$image_url = WPSEO_Image_Utils::get_relative_path( $image_url );
 		}
 
-		if ( array_key_exists( $img, $this->images ) ) {
+		if ( array_key_exists( $image_url, $this->images ) ) {
 			return;
 		}
 
-		$this->images[ $img ] = $attachment;
+		$this->images[ $image_url ] = $attachment;
 	}
 
 	/**
