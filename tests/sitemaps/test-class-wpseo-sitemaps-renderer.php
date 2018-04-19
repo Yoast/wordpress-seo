@@ -78,6 +78,13 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Helper function to set plugin url to a different domain.
+	 */
+	public function change_plugin_url() {
+		return 'http://test.com/wp-content/plugins';
+	}
+
+	/**
 	 * Tests getting the fallback url if the plugin is loaded from a different domain.
 	 *
 	 * @covers WPSEO_Sitemaps_Renderer_Double::get_xsl_url()
@@ -85,14 +92,12 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	public function test_is_home_url_returned_correctly() {
 		$class_instance = new WPSEO_Sitemaps_Renderer_Double();
 
-		function change_plugin_url() {
-			return 'http://test.com/wp-content/plugins';
-		}
-
-		add_filter( 'plugins_url', 'change_plugin_url' );
-
+		add_filter( 'plugins_url', array ($this, 'change_plugin_url') );
 		$this->assertEquals( 'http://example.org/main-sitemap.xsl', $class_instance->get_xsl_url() );
+		remove_filter('plugins_url', array ($this, 'change_plugin_url'));
 	}
+
+
 }
 
 
