@@ -316,6 +316,8 @@ class WPSEO_Redirect_Handler {
 			$request_uri = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL, $options );
 		}
 
+		$request_uri = $this->strip_subdirectory( $request_uri );
+
 		return rawurldecode( $request_uri );
 	}
 
@@ -483,23 +485,40 @@ class WPSEO_Redirect_Handler {
 	 * @return string The redirect url.
 	 */
 	protected function home_url( $redirect_url ) {
+		$redirect_url = $this->strip_subdirectory( $redirect_url );
+
+		return home_url( $redirect_url );
+	}
+
+	/**
+	 * Strips the subdirectory from the given url.
+	 *
+	 * @param string $url The url to strip the
+	 *
+	 * @return string The url with the stripped subdirectory.
+	 */
+	protected function strip_subdirectory( $url ) {
 		$home_url      = untrailingslashit( home_url() );
 		$home_url_path = wp_parse_url( $home_url, PHP_URL_PATH );
 
 		if ( $home_url_path === null ) {
-			return home_url( $redirect_url );
+			return $url;
 		}
 
 		// Normalizes the home url path and the redirect url.
 		$home_url_path = ltrim( $home_url_path , '/' );
-		$redirect_url  = ltrim( $redirect_url , '/' );
+		$url           = ltrim( $url , '/' );
 
 		// Check if the redirect_url starts with the home url.
-		if ( strpos( $redirect_url, $home_url_path ) === 0 ) {
-			$redirect_url = substr( $redirect_url, strlen( $home_url_path ) );
+		if ( strpos( $url, $home_url_path ) === 0 ) {
+			$new_url = substr( $url, strlen( $home_url_path ) );
+
+			if ( $new_url ) {
+				return $new_url;
+			}
 		}
 
-		return home_url( $redirect_url );
+		return $url;
 	}
 
 	/**
