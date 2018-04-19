@@ -37,7 +37,7 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return array|false Image array on success, false on failure.
 	 */
-	public static function find_correct_image_size( $attachment_id ) {
+	public static function get_optimal_variation( $attachment_id ) {
 		foreach ( self::get_sizes() as $size ) {
 			$image = self::has_usable_file_size( $attachment_id, $size );
 			if ( $image !== false ) {

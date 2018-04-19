@@ -316,7 +316,7 @@ class WPSEO_OpenGraph_Image {
 		if ( ! WPSEO_Image_Utils::has_usable_dimensions( $attachment_id, $this->image_params ) ) {
 			return;
 		}
-		$attachment = WPSEO_Image_Utils::find_correct_image_size( $attachment_id );
+		$attachment = WPSEO_Image_Utils::get_optimal_variation( $attachment_id );
 
 		if ( $attachment ) {
 			$this->add_image( $attachment );
