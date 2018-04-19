@@ -2,4 +2,3 @@ extends: yoast
 
 rules:
   complexity: [1, 6]
-  no-useless-escape: 1
