@@ -1,7 +1,9 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Internals
- * @since      1.5.0
+ * @since   1.5.0
  */
 
 /**
@@ -141,9 +143,15 @@ class WPSEO_Meta {
 				'default_value' => '0',
 				'description'   => '',
 			),
-			'content_score' => array(
+			'content_score'  => array(
 				'type'          => 'hidden',
 				'title'         => 'content_score',
+				'default_value' => '0',
+				'description'   => '',
+			),
+			'is_cornerstone' => array(
+				'type'          => 'non-form',
+				'title'         => 'is_cornerstone',
 				'default_value' => '0',
 				'description'   => '',
 			),

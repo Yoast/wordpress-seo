@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -11,7 +13,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $yform = Yoast_Form::get_instance();
 
-$import  = false;
+$import = false;
 
 /**
  * The import method is used to dermine if there should be something imported.
@@ -51,12 +53,18 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 $import = apply_filters( 'wpseo_handle_import', $import );
 
 if ( $import ) {
+
+	$message = '';
+	if ( $import->status instanceof WPSEO_Import_Status ) {
+		$message = $import->status->get_msg();
+	}
+
 	/**
-	 * Allow customization of import&export message
+	 * Allow customization of import/export message.
 	 *
 	 * @api  string  $msg  The message.
 	 */
-	$msg = apply_filters( 'wpseo_import_message', $import->status->get_msg() );
+	$msg = apply_filters( 'wpseo_import_message', $message );
 
 	if ( ! empty( $msg ) ) {
 		$status = 'error';

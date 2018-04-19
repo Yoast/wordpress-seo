@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -30,7 +32,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 
 			$where .= sprintf(
 				' AND ' . $wpdb->posts . '.ID IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "1" ) ',
-				WPSEO_Cornerstone::META_NAME
+				WPSEO_Meta::$meta_prefix . WPSEO_Cornerstone::META_NAME
 			);
 		}
 
@@ -83,7 +85,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 				meta_value = "1" AND meta_key = %s
 				',
 				$this->get_current_post_type(),
-				WPSEO_Cornerstone::META_NAME
+				WPSEO_Meta::$meta_prefix . WPSEO_Cornerstone::META_NAME
 			)
 		);
 	}

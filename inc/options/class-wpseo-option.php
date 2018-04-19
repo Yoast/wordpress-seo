@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Internals\Options
  */
 
@@ -146,6 +148,9 @@ abstract class WPSEO_Option {
 		 * (only available on back-end).
 		*/
 		add_filter( 'sanitize_option_' . $this->option_name, array( $this, 'validate' ) );
+
+		// Flushes the rewrite rules when option is updated.
+		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_rewrites' ) );
 
 		/* Register our option for the admin pages */
 		add_action( 'admin_init', array( $this, 'register_setting' ) );

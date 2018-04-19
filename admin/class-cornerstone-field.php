@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
@@ -25,7 +27,7 @@ class WPSEO_Cornerstone_Field {
 		$return  = '';
 		$return .= sprintf(
 			'<input id="%1$s" class="wpseo-cornerstone-checkbox" type="checkbox" value="1" name="%1$s" %2$s/>',
-			WPSEO_Cornerstone::META_NAME,
+			WPSEO_Cornerstone::FIELD_NAME,
 			checked( $this->get_meta_value( $post->ID ), '1', false )
 		);
 
@@ -50,6 +52,6 @@ class WPSEO_Cornerstone_Field {
 	 * @return null|string The meta value from the database.
 	 */
 	protected function get_meta_value( $post_id ) {
-		return get_post_meta( $post_id, WPSEO_Cornerstone::META_NAME, true );
+		return WPSEO_Meta::get_value( WPSEO_Cornerstone::META_NAME, $post_id );
 	}
 }

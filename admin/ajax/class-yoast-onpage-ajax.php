@@ -1,6 +1,8 @@
 <?php
 /**
- * @package WPSEO\admin|ajax
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Ajax
  */
 
 /**

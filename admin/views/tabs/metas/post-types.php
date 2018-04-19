@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Views
  */
 
@@ -51,8 +53,8 @@ $post_types = get_post_types(
 );
 
 if ( is_array( $post_types ) && $post_types !== array() ) {
-	echo '<h2>' . esc_html__( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
-	echo '<p>' . esc_html__( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';
+	echo '<h2>' . esc_html__( 'Custom Content Type Archives', 'wordpress-seo' ) . '</h2>';
+	echo '<p>' . esc_html__( 'Note: instead of templates these are the actual titles and meta descriptions for these custom content type archive pages.', 'wordpress-seo' ) . '</p>';
 	foreach ( $post_types as $post_type ) {
 		$name = $post_type->name;
 		echo '<div class="tab-block">';

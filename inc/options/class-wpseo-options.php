@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Internals\Options
  */
 
@@ -223,7 +225,12 @@ class WPSEO_Options {
 	 * @return mixed|null Returns value if found, $default if not.
 	 */
 	public static function get( $key, $default = null ) {
+		self::$backfill->remove_hooks();
+
 		$option = self::get_all();
+
+		self::$backfill->register_hooks();
+
 		if ( isset( $option[ $key ] ) ) {
 			return $option[ $key ];
 		}
