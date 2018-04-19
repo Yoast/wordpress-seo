@@ -498,18 +498,17 @@ class WPSEO_Redirect_Handler {
 	 * @return string The url with the stripped subdirectory.
 	 */
 	protected function strip_subdirectory( $url ) {
-		$home_url      = untrailingslashit( home_url() );
-		$home_url_path = wp_parse_url( $home_url, PHP_URL_PATH );
+		$home_url_path = $this->get_home_url_path();
 
 		if ( $home_url_path === null ) {
 			return $url;
 		}
 
-		// Normalizes the home url path and the redirect url.
+		// Normalizes the home url path and the url.
 		$home_url_path = ltrim( $home_url_path , '/' );
 		$url           = ltrim( $url , '/' );
 
-		// Check if the redirect_url starts with the home url.
+		// Check if the url begins with the home url.
 		if ( strpos( $url, $home_url_path ) === 0 ) {
 			$new_url = substr( $url, strlen( $home_url_path ) );
 
@@ -519,6 +518,16 @@ class WPSEO_Redirect_Handler {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Returns the URL PATH from the home url.
+	 *
+	 * @return string|null The url path or null if there isn't one.
+	 */
+	protected function get_home_url_path() {
+		$home_url = untrailingslashit( home_url() );
+		return wp_parse_url( $home_url, PHP_URL_PATH );
 	}
 
 	/**

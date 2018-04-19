@@ -175,6 +175,13 @@ class WPSEO_Redirect_Handler_Double extends WPSEO_Redirect_Handler {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function strip_subdirectory( $url ) {
+		return parent::strip_subdirectory( $url );
+	}
+
+	/**
 	 * Sets the is_redirected value.
 	 *
 	 * @return void
