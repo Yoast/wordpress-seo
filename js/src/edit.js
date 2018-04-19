@@ -24,11 +24,11 @@ if( window.wpseoPostScraperL10n ) {
 }
 
 /**
- * Registers a redux store to Gutenberg.
+ * Registers a redux store in Gutenberg.
  *
- * @returns {store} The store.
+ * @returns {Object} The store.
  */
-function registerStore() {
+function registerStoreInGutenberg() {
 	const { combineReducers, registerStore } = wp.data;
 
 	return registerStore( "yoast-seo/editor", {
@@ -59,7 +59,7 @@ function configureStore() {
 	}
 
 	if ( isGutenbergDataAvailable() ) {
-		return registerStore();
+		return registerStoreInGutenberg();
 	}
 
 	return createStore( combineReducers( reducers ), {}, flowRight( enhancers ) );
