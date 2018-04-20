@@ -39,8 +39,8 @@ class WPSEO_Image_Utils {
 	 */
 	public static function get_optimal_variation( $attachment_id ) {
 		foreach ( self::get_sizes() as $size ) {
-			$image = self::has_usable_file_size( $attachment_id, $size );
-			if ( $image !== false ) {
+			$image = self::get_image( $attachment_id, $size );
+			if ( $image && self::has_usable_file_size( $image ) ) {
 				return $image;
 			}
 		}
@@ -109,12 +109,15 @@ class WPSEO_Image_Utils {
 	/**
 	 * Checks a size version of an image to see if it's not too heavy.
 	 *
-	 * @param int    $attachment_id Attachment ID.
-	 * @param string $size          Size name.
+	 * @param array $image Image to check the file size of.
 	 *
-	 * @return array|false Image array with metadata on success, false on failure.
+	 * @return bool True when the image is within limits, false if not.
 	 */
-	public static function has_usable_file_size( $attachment_id, $size ) {
+	public static function has_usable_file_size( $image ) {
+		if ( ! is_array( $image ) || $image === array() ) {
+			return false;
+		}
+
 		/**
 		 * Filter: 'wpseo_image_image_weight_limit' - Determines what the maximum weight (in bytes) of an image is allowed to be, default is 2 MB.
 		 *
@@ -122,17 +125,12 @@ class WPSEO_Image_Utils {
 		 */
 		$max_size = apply_filters( 'wpseo_image_image_weight_limit', 2097152 );
 
-		$image = self::get_image( $attachment_id, $size );
-		if ( $image === false || ! isset( $image['path'] ) ) {
-			return $image;
+		// We cannot check without a path, so assume it's fine.
+		if ( ! isset( $image['path'] ) ) {
+			return true;
 		}
 
-		$file_size = self::get_file_size( $image );
-		if ( $file_size > $max_size ) {
-			return false;
-		}
-
-		return $image;
+		return ( self::get_file_size( $image ) <= $max_size );
 	}
 
 	/**
@@ -252,7 +250,7 @@ class WPSEO_Image_Utils {
 	 * @param array $img_data The image values.
 	 * @param array $params   The parameters to check against.
 	 *
-	 * @return bool
+	 * @return bool True if the image has usable measurements, false if not.
 	 */
 	private static function has_usable_measurements( $img_data, $params ) {
 		foreach ( array( 'width', 'height', 'ratio' ) as $param ) {
