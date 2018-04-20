@@ -98,4 +98,30 @@ class WPSEO_Redirect_Util {
 			! self::has_fragment_identifier( $target_url ) &&
 			! self::has_extension( $target_url );
 	}
+
+	/**
+	 * Removes the installation directory from the given URL.
+	 *
+	 * @param string $base_url The URL that is the basis of the removal.
+	 * @param string $url      URL to probably remove the directory from.
+	 *
+	 * @return string The URL without the subdirectory.
+	 */
+	public static function remove_installation_directory( $base_url, $url ) {
+		$home_url_path = wp_parse_url( $base_url, PHP_URL_PATH );
+		$home_url_path = ltrim( $home_url_path , '/' );
+
+		if ( empty( $home_url_path ) ) {
+			return $url;
+		}
+
+		$url = ltrim( $url , '/' );
+
+		// When the url doesn't begin with the home url path.
+		if ( strpos( $url, $home_url_path ) !== 0 ) {
+			return $url;
+		}
+
+		return substr( $url, strlen( $home_url_path ) );
+	}
 }

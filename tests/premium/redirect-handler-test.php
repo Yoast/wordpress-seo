@@ -862,12 +862,12 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	public function test_strip_subdirectory( $home_url_path, $url, $expected, $message ) {
 		$redirect_handler = $this
 			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
-			->setMethods( array( 'get_home_url_path' ) )
+			->setMethods( array( 'get_home_url' ) )
 			->getMock();
 
 		$redirect_handler
 			->expects( $this->once() )
-			->method( 'get_home_url_path' )
+			->method( 'get_home_url' )
 			->will( $this->returnValue( $home_url_path ) );
 
 		/**
