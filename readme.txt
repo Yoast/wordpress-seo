@@ -109,6 +109,10 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: May 1st, 2018
 
 Enhancements:
+* Adds OpenGraph image dimension-meta tags for more images.
+* Excludes images from being used in OpenGraph meta tags, if the image is larger than 2MB.
+* Adds caching for images found in a post to reduce load.
+* Adds image alt tag to the OpenGraph output, using the meta tag `og:image:alt`.
 * Adds the `is_post_type_viewable` WordPress function to improve support for the `wpseo_accessible_post_types` filters.
 * Adds the ability to filter our strippable characters from the keyword. Allowing keywords such as `21" OLED television` to be used without the `"` character being stripped out. This can be done via the `wpseo_focuskw_strippable_chars` filter. Props to [Bryan Headrick](https://github.com/bheadrick).
 
