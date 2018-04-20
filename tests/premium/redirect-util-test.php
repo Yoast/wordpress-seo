@@ -161,4 +161,21 @@ class WPSEO_Redirect_Util_Test extends PHPUnit_Framework_TestCase {
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '/relative/' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '/relative' ) );
 	}
+
+	/**
+	 * Tests the removal of the installation directory.
+	 *
+	 * @covers WPSEO_Redirect_Util::remove_installation_directory()
+	 *
+	 * @group test
+	 */
+	public function test_remove_installation_directory() {
+		$this->assertEquals( 'page', WPSEO_Redirect_Util::remove_installation_directory( 'http://example.com', 'page' ) );
+		$this->assertEquals( '/page', WPSEO_Redirect_Util::remove_installation_directory( 'http://example.com', '/page' ) );
+		$this->assertEquals( 'page', WPSEO_Redirect_Util::remove_installation_directory( 'http://example.com/blog', 'page' ) );
+		$this->assertEquals( 'page', WPSEO_Redirect_Util::remove_installation_directory( 'http://example.com/blog/', 'page' ) );
+		$this->assertEquals( '/page/', WPSEO_Redirect_Util::remove_installation_directory( 'http://example.com/blog', 'blog/page/' ) );
+		$this->assertEquals( '/blog/page/', WPSEO_Redirect_Util::remove_installation_directory( 'http://example.com/blog', 'blog/blog/page/' ) );
+	}
+
 }
