@@ -402,7 +402,7 @@ class WPSEO_Premium {
 
 		$old_url = $parsed_url['path'];
 
-		$home_url_path = wp_parse_url( home_url() );
+		$home_url_path = wp_parse_url( home_url(), PHP_URL_PATH );
 		if ( $home_url_path !== null ) {
 			$old_url = substr( $old_url, strlen( $home_url_path ) );
 		}
