@@ -1237,7 +1237,7 @@ class WPSEO_Frontend {
 		}
 		elseif ( $this->frontend_page_type->is_simple_page() ) {
 			$post      = get_post( $this->frontend_page_type->get_simple_page_id() );
-			$post_type = $post->post_type;
+			$post_type = isset( $post->post_type ) ? $post->post_type : '';
 
 			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
 				$template = WPSEO_Options::get( 'metadesc-' . $post_type );
