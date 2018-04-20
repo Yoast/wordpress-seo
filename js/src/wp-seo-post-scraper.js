@@ -24,6 +24,9 @@ import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetPreviewHelpers from "./analysis/snippetPreview";
 import UsedKeywords from "./analysis/usedKeywords";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
+import { updateData } from "./redux/actions/snippetEditor";
+import isFunction from "lodash/isFunction";
+import debounce from "lodash/debounce";
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
@@ -77,6 +80,21 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	} );
 
 	/**
+	 * Dispatches an action to the store that updates the snippet editor.
+	 *
+	 * @param {Object} data The data from the legacy snippet editor.
+	 *
+	 * @returns {void}
+	 */
+	const dispatchUpdateSnippetEditor = function( data ) {
+		editStore.dispatch( updateData( {
+			title: data.title,
+			slug: data.urlPath,
+			description: data.metaDesc,
+		} ) );
+	};
+
+	/**
 	 * Initializes the snippet preview.
 	 *
 	 * @param {PostDataCollector} postScraper Object for getting post data.
@@ -88,7 +106,18 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 			title: postScraper.getSnippetTitle(),
 			urlPath: postScraper.getSnippetCite(),
 			metaDesc: postScraper.getSnippetMeta(),
-		}, postScraper.saveSnippetData.bind( postScraper ) );
+		}, ( data ) => {
+			const state = editStore.getState();
+			const prevData = state.snippetEditor.data;
+
+			if (
+				prevData.title !== data.title ||
+				prevData.description !== data.metaDesc ||
+				prevData.slug !== data.urlPath
+			) {
+				dispatchUpdateSnippetEditor( data );
+			}
+		} );
 	}
 	/**
 	 * Determines if markers should be shown.
@@ -377,6 +406,41 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 	}
 
 	/**
+	 * Renders the legacy snippet preview based on some data from the redux store.
+	 *
+	 * @param {Object} data The data from the store.
+	 *
+	 * @returns {void}
+	 */
+	function renderLegacySnippetEditor( data ) {
+		if ( isFunction( snippetPreview.refresh ) ) {
+			let changedData = false;
+
+			if ( snippetPreview.data.title !== data.title ) {
+				snippetPreview.element.input.title.value = data.title;
+
+				changedData = true;
+			}
+
+			if ( snippetPreview.data.urlPath !== data.slug ) {
+				snippetPreview.element.input.urlPath.value = data.slug;
+
+				changedData = true;
+			}
+
+			if ( snippetPreview.data.metaDesc !== data.description ) {
+				snippetPreview.element.input.metaDesc.value = data.description;
+
+				changedData = true;
+			}
+
+			if ( changedData ) {
+				snippetPreview.changedInput();
+			}
+		}
+	}
+
+	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
@@ -386,6 +450,7 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 			analysisSection: "pageanalysis",
 			onRefreshRequest: () => {},
 			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
+			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;
@@ -465,6 +530,27 @@ import { setMarkerStatus } from "./redux/actions/markerButtons";
 		if ( data.setRefresh ) {
 			data.setRefresh( app.refresh );
 		}
+
+		const snippetEditorData = {
+			title: postDataCollector.getSnippetTitle(),
+			slug: postDataCollector.getSnippetCite(),
+			description: postDataCollector.getSnippetMeta(),
+		};
+
+		store.dispatch( updateData( snippetEditorData ) );
+
+		store.subscribe( () => {
+			const state = store.getState();
+			const data = state.snippetEditor.data;
+
+			postDataCollector.saveSnippetData( {
+				title: data.title,
+				urlPath: data.slug,
+				metaDesc: data.description,
+			} );
+
+			renderLegacySnippetEditor( data );
+		} );
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

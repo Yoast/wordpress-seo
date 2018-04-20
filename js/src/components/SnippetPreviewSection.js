@@ -1,22 +1,27 @@
 import React from "react";
 import styled from "styled-components";
-import { SnippetPreview, StyledSection, StyledHeading } from "yoast-components";
-import { injectIntl, defineMessages } from "react-intl";
+import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
+import SnippetEditor from "../containers/SnippetEditor";
+import {injectIntl, defineMessages, intlShape} from "react-intl";
+import PropTypes from "prop-types";
 
 const messages = defineMessages( {
 	snippetPreview: {
 		id: "snippetPreview.snippetPreview",
-		defaultMessage: "Snippet preview",
+		defaultMessage: "React snippet preview",
 	},
 } );
 
 const Section = styled( StyledSection )`
 	margin-bottom: 2em;
 	max-width: 640px;
-	padding: 0 0 16px;
+	
+	&${ StyledSectionBase } {
+		padding: 0 0 16px;
 
-	& ${ StyledHeading } {
-		padding-left: 20px;
+		& ${ StyledHeading } {
+			padding-left: 20px;
+		}
 	}
 `;
 
@@ -27,8 +32,8 @@ const Section = styled( StyledSection )`
  *
  * @returns {ReactElement} Snippet Preview Section.
  */
-const SnippetPreviewSection = ( props ) => {
-	const { formatMessage } = props.intl;
+const SnippetPreviewSection = ( { intl, baseUrl } ) => {
+	const { formatMessage } = intl;
 
 	return <Section
 		headingLevel={ 3 }
@@ -36,13 +41,15 @@ const SnippetPreviewSection = ( props ) => {
 		headingIcon="eye"
 		headingIconColor="#555"
 	>
-		<SnippetPreview
-			title="Title"
-			url="Url"
-			description="Description"
-			onClick={ () => {} }
+		<SnippetEditor
+			baseUrl={ baseUrl }
 		/>
 	</Section>;
+};
+
+SnippetPreviewSection.propTypes = {
+	baseUrl: PropTypes.string.isRequired,
+	intl: intlShape,
 };
 
 export default injectIntl( SnippetPreviewSection );
