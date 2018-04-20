@@ -87,11 +87,17 @@ import debounce from "lodash/debounce";
 	 * @returns {void}
 	 */
 	const dispatchUpdateSnippetEditor = function( data ) {
-		editStore.dispatch( updateData( {
-			title: data.title,
-			slug: data.urlPath,
-			description: data.metaDesc,
-		} ) );
+		/*
+		 * The set timeout makes sure the React component is only rendered on the next
+		 * frame.
+		 */
+		setTimeout( () => {
+			editStore.dispatch( updateData( {
+				title: data.title,
+				slug: data.urlPath,
+				description: data.metaDesc,
+			} ) );
+		}, 0 );
 	};
 
 	/**
