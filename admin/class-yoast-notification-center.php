@@ -96,7 +96,12 @@ class Yoast_Notification_Center {
 		$user_id       = ( ! is_null( $user_id ) ? $user_id : get_current_user_id() );
 		$dismissal_key = $notification->get_dismissal_key();
 
-		$current_value = get_user_meta( $user_id, $dismissal_key, true );
+		$current_value = get_user_option( $dismissal_key, $user_id );
+
+		// Back-compat.
+		if ( empty( $current_value ) ) {
+			$current_value = get_user_meta( $user_id, $dismissal_key, true );
+		}
 
 		return ! empty( $current_value );
 	}
@@ -147,6 +152,39 @@ class Yoast_Notification_Center {
 	}
 
 	/**
+	 * Dismiss the notification
+	 *
+	 * @param Yoast_Notification $notification Notification to dismiss.
+	 * @param string             $meta_value   Value to save in the dismissal.
+	 *
+	 * @return bool
+	 */
+	public static function dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
+		// Dismiss notification.
+		return ( false !== update_user_option( get_current_user_id(), $notification->get_dismissal_key(), $meta_value ) );
+	}
+
+	/**
+	 * Restores a notification.
+	 *
+	 * @param Yoast_Notification $notification Notification to restore.
+	 *
+	 * @return bool True if restored, false otherwise.
+	 */
+	public static function restore_notification( Yoast_Notification $notification ) {
+
+		// Restore notification.
+		$restored = delete_user_option( get_current_user_id(), $notification->get_dismissal_key() );
+
+		// Back-compat.
+		if ( metadata_exists( 'user', get_current_user_id(), $notification->get_dismissal_key() ) ) {
+			$restored = delete_user_meta( get_current_user_id(), $notification->get_dismissal_key() ) && $restored;
+		}
+
+		return false !== $restored;
+	}
+
+	/**
 	 * Clear dismissal information for the specified Notification
 	 *
 	 * When a cause is resolved, the next time it is present we want to show
@@ -157,6 +195,8 @@ class Yoast_Notification_Center {
 	 * @return bool
 	 */
 	public function clear_dismissal( $notification ) {
+
+		global $wpdb;
 
 		if ( $notification instanceof Yoast_Notification ) {
 			$dismissal_key = $notification->get_dismissal_key();
@@ -171,7 +211,10 @@ class Yoast_Notification_Center {
 		}
 
 		// Remove notification dismissal for all users.
-		$deleted = delete_metadata( 'user', 0, $dismissal_key, '', true );
+		$deleted = delete_metadata( 'user', 0, $wpdb->get_blog_prefix() . $dismissal_key, '', true );
+
+		// Back-compat.
+		$deleted = delete_metadata( 'user', 0, $dismissal_key, '', true ) || $deleted;
 
 		return $deleted;
 	}
@@ -490,19 +533,6 @@ class Yoast_Notification_Center {
 		}
 
 		return 0;
-	}
-
-	/**
-	 * Dismiss the notification
-	 *
-	 * @param Yoast_Notification $notification Notification to dismiss.
-	 * @param string             $meta_value   Value to save in the dismissal.
-	 *
-	 * @return bool
-	 */
-	private static function dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
-		// Dismiss notification.
-		return ( false !== update_user_meta( get_current_user_id(), $notification->get_dismissal_key(), $meta_value ) );
 	}
 
 	/**
