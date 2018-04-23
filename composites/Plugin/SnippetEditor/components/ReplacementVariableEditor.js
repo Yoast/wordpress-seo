@@ -160,6 +160,23 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
+	 * Sets the state of this editor when the incoming content changes.
+	 *
+	 * @param {Object} nextProps The props this component receives.
+	 *
+	 * @returns {void}
+	 */
+	componentWillReceiveProps( nextProps ) {
+		if ( nextProps.content !== this._serializedContent ) {
+			this._serializedContent = nextProps.content;
+
+			this.setState( {
+				editorState: createEditorState( nextProps.content ),
+			} );
+		}
+	}
+
+	/**
 	 * Renders the editor including DraftJS and the mentions plugin.
 	 *
 	 * @returns {ReactElement} The rendered element.
