@@ -262,13 +262,13 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Checks if the URL matches the Blog URL by comparing their host.
 	 *
-	 * @param array $blog_url_pieces The pieces (wp_parse_url) from the home_url.
+	 * @param array $home_url_pieces The pieces (wp_parse_url) from the home_url.
 	 * @param array $url_pieces      The pieces (wp_parse_url) from the url to match.
 	 *
 	 * @return bool True when both hosts are equal.
 	 */
-	private function match_home_url( $blog_url_pieces, $url_pieces ) {
-		return ( isset( $url_pieces['scheme'], $url_pieces['host'] ) && $url_pieces['host'] === $blog_url_pieces['host'] );
+	private function match_home_url( $home_url_pieces, $url_pieces ) {
+		return ( isset( $url_pieces['scheme'], $url_pieces['host'] ) && $url_pieces['host'] === $home_url_pieces['host'] );
 	}
 
 }
