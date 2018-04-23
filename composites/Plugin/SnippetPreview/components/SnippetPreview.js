@@ -196,6 +196,10 @@ const Amp = styled.div`
  * @returns {ReactElement} React elements to be rendered.
  */
 function highlightKeyword( locale, keyword, text ) {
+	if ( keyword === "" ) {
+		return text;
+	}
+
 	// Match keyword case-insensitively.
 	const keywordMatcher = createWordRegex( keyword, "", false );
 
