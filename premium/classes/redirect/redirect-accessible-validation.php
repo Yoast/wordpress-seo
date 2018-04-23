@@ -136,7 +136,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 		}
 
 		// Removes the installation directory if present.
-		$target = WPSEO_Redirect_Util::remove_installation_directory( $this->get_home_url(), $target );
+		$target = WPSEO_Redirect_Util::strip_base_url_path_from_url( $this->get_home_url(), $target );
 
 		// If we have a relative url make it absolute.
 		$absolute = get_home_url( null, $target );

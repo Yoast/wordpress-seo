@@ -100,28 +100,28 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
-	 * Removes the installation directory from the given URL.
+	 * Removes the base url path from the given URL.
 	 *
-	 * @param string $base_url The URL that is the basis of the removal.
-	 * @param string $url      URL to probably remove the directory from.
+	 * @param string $base_url The base URL that will be stripped.
+	 * @param string $url      URL to remove the path from.
 	 *
-	 * @return string The URL without the subdirectory.
+	 * @return string The URL without the base url
 	 */
-	public static function remove_installation_directory( $base_url, $url ) {
-		$home_url_path = wp_parse_url( $base_url, PHP_URL_PATH );
-		$home_url_path = ltrim( $home_url_path , '/' );
+	public static function strip_base_url_path_from_url( $base_url, $url ) {
+		$base_url_path = wp_parse_url( $base_url, PHP_URL_PATH );
+		$base_url_path = ltrim( $base_url_path , '/' );
 
-		if ( empty( $home_url_path ) ) {
+		if ( empty( $base_url_path ) ) {
 			return $url;
 		}
 
 		$url = ltrim( $url , '/' );
 
-		// When the url doesn't begin with the home url path.
-		if ( strpos( $url, $home_url_path ) !== 0 ) {
+		// When the url doesn't begin with the base url path.
+		if ( stripos( trailingslashit( $url ), trailingslashit( $base_url_path ) ) !== 0 ) {
 			return $url;
 		}
 
-		return substr( $url, strlen( $home_url_path ) );
+		return substr( $url, strlen( $base_url_path ) );
 	}
 }

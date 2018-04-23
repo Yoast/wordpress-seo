@@ -498,7 +498,7 @@ class WPSEO_Redirect_Handler {
 	 * @return string The url with the stripped subdirectory.
 	 */
 	protected function strip_subdirectory( $url ) {
-		return WPSEO_Redirect_Util::remove_installation_directory( $this->get_home_url(), $url );
+		return WPSEO_Redirect_Util::strip_base_url_path_from_url( $this->get_home_url(), $url );
 	}
 
 	/**

@@ -222,13 +222,13 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @return string The sanitized url.
 	 */
 	private function sanitize_origin_url( $url ) {
-		$blog_url        = get_home_url();
-		$blog_url_pieces = wp_parse_url( $blog_url );
+		$home_url        = get_home_url();
+		$home_url_pieces = wp_parse_url( $home_url );
 		$url_pieces      = wp_parse_url( $url );
 
-		if ( $this->match_home_url( $blog_url_pieces, $url_pieces ) ) {
+		if ( $this->match_home_url( $home_url_pieces, $url_pieces ) ) {
 			$url = str_replace(
-				$this->strip_scheme_from_url( $blog_url_pieces['scheme'], $blog_url ),
+				$this->strip_scheme_from_url( $home_url_pieces['scheme'], $home_url ),
 				'',
 				$this->strip_scheme_from_url( $url_pieces['scheme'], $url )
 			);
@@ -245,13 +245,13 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @return string The sanitized url.
 	 */
 	private function sanitize_target_url( $url ) {
-		$blog_url        = get_home_url();
-		$blog_url_pieces = wp_parse_url( $blog_url );
+		$home_url        = get_home_url();
+		$home_url_pieces = wp_parse_url( $home_url );
 		$url_pieces      = wp_parse_url( $url );
 
-		if ( $this->match_home_url( $blog_url_pieces, $url_pieces ) ) {
+		if ( $this->match_home_url( $home_url_pieces, $url_pieces ) ) {
 			$url = str_replace(
-				$blog_url_pieces['host'],
+				$home_url_pieces['host'],
 				'',
 				$this->strip_scheme_from_url( $url_pieces['scheme'], $url ) );
 		}

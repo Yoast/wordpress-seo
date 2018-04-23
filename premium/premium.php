@@ -400,7 +400,7 @@ class WPSEO_Premium {
 			return;
 		}
 
-		$old_url = WPSEO_Redirect_Util::remove_installation_directory( home_url(), $parsed_url['path'] );
+		$old_url = WPSEO_Redirect_Util::strip_base_url_path_from_url( home_url(), $parsed_url['path'] );
 
 		if ( isset( $parsed_url['query'] ) && $parsed_url['query'] !== '' ) {
 			$old_url .= '?' . $parsed_url['query'];

@@ -41,10 +41,13 @@ class WPSEO_Redirect_Handler_Subdirectory_Test extends WPSEO_UnitTestCase {
 	 * Tests if the subdirectory is stripped from the request uri.
 	 */
 	public function test_get_request_uri() {
+		$old_request_uri = $_SERVER['REQUEST_URI'];
 		$_SERVER['REQUEST_URI'] = 'blog/page';
 
 		$handler  = new WPSEO_Redirect_Handler_Double();
 		$this->assertEquals( '/page', $handler->get_request_uri() );
+
+		$_SERVER['REQUEST_URI'] = $old_request_uri;
 	}
 
 	/**
@@ -59,6 +62,4 @@ class WPSEO_Redirect_Handler_Subdirectory_Test extends WPSEO_UnitTestCase {
 			$handler->parse_target_url( $redirect->get_target() )
 		);
 	}
-
-
 }
