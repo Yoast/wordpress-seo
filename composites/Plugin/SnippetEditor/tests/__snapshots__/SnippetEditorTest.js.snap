@@ -332,6 +332,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
     className="c10"
   >
     <button
+      aria-pressed={true}
       className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
       onClick={[Function]}
       type="button"
@@ -366,6 +367,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
       </span>
     </button>
     <button
+      aria-pressed={false}
       className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
       onClick={[Function]}
       type="button"
@@ -401,6 +403,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
     </button>
   </div>
   <button
+    aria-expanded={false}
     className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
     onClick={[Function]}
     type="button"
@@ -451,6 +454,8 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
     onChange={[Function]}
   />
   <Button
+    aria-expanded={true}
+    innerRef={[Function]}
     onClick={[Function]}
   >
     <SvgIcon
@@ -1064,13 +1069,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      Test description
-                      <strong
-                        key="interpolation-child-1/.0"
-                      >
-                        , 
-                      </strong>
-                      %%replacement_variable%%
+                      Test description, %%replacement_variable%%
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -1089,10 +1088,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
           className="c10"
         >
           <Button
+            aria-pressed={true}
             isActive={true}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -1103,6 +1104,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               type="button"
             >
               <Button
+                aria-pressed={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -1113,6 +1115,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 type="button"
               >
                 <Button
+                  aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -1123,6 +1126,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   type="button"
                 >
                   <Button
+                    aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -1133,6 +1137,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -1143,6 +1148,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       type="button"
                     >
                       <button
+                        aria-pressed={true}
                         className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -1213,10 +1219,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
             </Button>
           </Button>
           <Button
+            aria-pressed={false}
             isActive={false}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -1227,6 +1235,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               type="button"
             >
               <Button
+                aria-pressed={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -1237,6 +1246,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 type="button"
               >
                 <Button
+                  aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -1247,6 +1257,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   type="button"
                 >
                   <Button
+                    aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -1257,6 +1268,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -1267,6 +1279,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       type="button"
                     >
                       <button
+                        aria-pressed={false}
                         className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -1340,54 +1353,67 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       </ModeSwitcher__Switcher>
     </ModeSwitcher>
     <Button
+      aria-expanded={true}
+      innerRef={[Function]}
       onClick={[Function]}
     >
       <Button
+        aria-expanded={true}
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
         className="c20"
+        innerRef={[Function]}
         onClick={[Function]}
         textColor="#555"
         type="button"
       >
         <Button
+          aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
           className="c20 Button-kDSBcD c12"
+          innerRef={[Function]}
           onClick={[Function]}
           textColor="#555"
           type="button"
         >
           <Button
+            aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
             className="c20 Button-kDSBcD c12 Button-kDSBcD c13"
+            innerRef={[Function]}
             onClick={[Function]}
             textColor="#555"
             type="button"
           >
             <Button
+              aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
               className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14"
+              innerRef={[Function]}
               onClick={[Function]}
               textColor="#555"
               type="button"
             >
               <Button__BaseButton
+                aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
                 className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+                innerRef={[Function]}
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
+                  aria-expanded={true}
                   className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                   onClick={[Function]}
                   type="button"
@@ -2295,13 +2321,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      Test description
-                      <strong
-                        key="interpolation-child-1/.0"
-                      >
-                        , 
-                      </strong>
-                      %%replacement_variable%%
+                      Test description, %%replacement_variable%%
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -2320,10 +2340,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
           className="c10"
         >
           <Button
+            aria-pressed={true}
             isActive={true}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -2334,6 +2356,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               type="button"
             >
               <Button
+                aria-pressed={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -2344,6 +2367,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 type="button"
               >
                 <Button
+                  aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -2354,6 +2378,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   type="button"
                 >
                   <Button
+                    aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -2364,6 +2389,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -2374,6 +2400,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       type="button"
                     >
                       <button
+                        aria-pressed={true}
                         className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -2444,10 +2471,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
             </Button>
           </Button>
           <Button
+            aria-pressed={false}
             isActive={false}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -2458,6 +2487,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               type="button"
             >
               <Button
+                aria-pressed={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -2468,6 +2498,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 type="button"
               >
                 <Button
+                  aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -2478,6 +2509,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   type="button"
                 >
                   <Button
+                    aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -2488,6 +2520,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -2498,6 +2531,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       type="button"
                     >
                       <button
+                        aria-pressed={false}
                         className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -2571,54 +2605,67 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       </ModeSwitcher__Switcher>
     </ModeSwitcher>
     <Button
+      aria-expanded={true}
+      innerRef={[Function]}
       onClick={[Function]}
     >
       <Button
+        aria-expanded={true}
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
         className="c20"
+        innerRef={[Function]}
         onClick={[Function]}
         textColor="#555"
         type="button"
       >
         <Button
+          aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
           className="c20 Button-kDSBcD c12"
+          innerRef={[Function]}
           onClick={[Function]}
           textColor="#555"
           type="button"
         >
           <Button
+            aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
             className="c20 Button-kDSBcD c12 Button-kDSBcD c13"
+            innerRef={[Function]}
             onClick={[Function]}
             textColor="#555"
             type="button"
           >
             <Button
+              aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
               className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14"
+              innerRef={[Function]}
               onClick={[Function]}
               textColor="#555"
               type="button"
             >
               <Button__BaseButton
+                aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
                 className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+                innerRef={[Function]}
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
+                  aria-expanded={true}
                   className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                   onClick={[Function]}
                   type="button"
@@ -3526,13 +3573,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      Test description
-                      <strong
-                        key="interpolation-child-1/.0"
-                      >
-                        , 
-                      </strong>
-                      %%replacement_variable%%
+                      Test description, %%replacement_variable%%
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -3551,10 +3592,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
           className="c10"
         >
           <Button
+            aria-pressed={true}
             isActive={true}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -3565,6 +3608,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               type="button"
             >
               <Button
+                aria-pressed={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -3575,6 +3619,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 type="button"
               >
                 <Button
+                  aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -3585,6 +3630,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   type="button"
                 >
                   <Button
+                    aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -3595,6 +3641,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -3605,6 +3652,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       type="button"
                     >
                       <button
+                        aria-pressed={true}
                         className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -3675,10 +3723,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
             </Button>
           </Button>
           <Button
+            aria-pressed={false}
             isActive={false}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -3689,6 +3739,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               type="button"
             >
               <Button
+                aria-pressed={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -3699,6 +3750,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 type="button"
               >
                 <Button
+                  aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -3709,6 +3761,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   type="button"
                 >
                   <Button
+                    aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -3719,6 +3772,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -3729,6 +3783,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       type="button"
                     >
                       <button
+                        aria-pressed={false}
                         className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -3802,54 +3857,67 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       </ModeSwitcher__Switcher>
     </ModeSwitcher>
     <Button
+      aria-expanded={true}
+      innerRef={[Function]}
       onClick={[Function]}
     >
       <Button
+        aria-expanded={true}
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
         className="c20"
+        innerRef={[Function]}
         onClick={[Function]}
         textColor="#555"
         type="button"
       >
         <Button
+          aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
           className="c20 Button-kDSBcD c12"
+          innerRef={[Function]}
           onClick={[Function]}
           textColor="#555"
           type="button"
         >
           <Button
+            aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
             className="c20 Button-kDSBcD c12 Button-kDSBcD c13"
+            innerRef={[Function]}
             onClick={[Function]}
             textColor="#555"
             type="button"
           >
             <Button
+              aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
               className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14"
+              innerRef={[Function]}
               onClick={[Function]}
               textColor="#555"
               type="button"
             >
               <Button__BaseButton
+                aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
                 className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+                innerRef={[Function]}
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
+                  aria-expanded={true}
                   className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                   onClick={[Function]}
                   type="button"
@@ -4757,13 +4825,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      Test description
-                      <strong
-                        key="interpolation-child-1/.0"
-                      >
-                        , 
-                      </strong>
-                      %%replacement_variable%%
+                      Test description, %%replacement_variable%%
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -4782,10 +4844,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           className="c10"
         >
           <Button
+            aria-pressed={true}
             isActive={true}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -4796,6 +4860,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               type="button"
             >
               <Button
+                aria-pressed={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -4806,6 +4871,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 type="button"
               >
                 <Button
+                  aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -4816,6 +4882,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   type="button"
                 >
                   <Button
+                    aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -4826,6 +4893,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -4836,6 +4904,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       type="button"
                     >
                       <button
+                        aria-pressed={true}
                         className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -4906,10 +4975,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
             </Button>
           </Button>
           <Button
+            aria-pressed={false}
             isActive={false}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -4920,6 +4991,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               type="button"
             >
               <Button
+                aria-pressed={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -4930,6 +5002,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 type="button"
               >
                 <Button
+                  aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -4940,6 +5013,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   type="button"
                 >
                   <Button
+                    aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -4950,6 +5024,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -4960,6 +5035,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       type="button"
                     >
                       <button
+                        aria-pressed={false}
                         className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -5033,54 +5109,67 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       </ModeSwitcher__Switcher>
     </ModeSwitcher>
     <Button
+      aria-expanded={true}
+      innerRef={[Function]}
       onClick={[Function]}
     >
       <Button
+        aria-expanded={true}
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
         className="c20"
+        innerRef={[Function]}
         onClick={[Function]}
         textColor="#555"
         type="button"
       >
         <Button
+          aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
           className="c20 Button-kDSBcD c12"
+          innerRef={[Function]}
           onClick={[Function]}
           textColor="#555"
           type="button"
         >
           <Button
+            aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
             className="c20 Button-kDSBcD c12 Button-kDSBcD c13"
+            innerRef={[Function]}
             onClick={[Function]}
             textColor="#555"
             type="button"
           >
             <Button
+              aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
               className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14"
+              innerRef={[Function]}
               onClick={[Function]}
               textColor="#555"
               type="button"
             >
               <Button__BaseButton
+                aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
                 className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+                innerRef={[Function]}
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
+                  aria-expanded={true}
                   className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                   onClick={[Function]}
                   type="button"
@@ -5913,13 +6002,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      Test description
-                      <strong
-                        key="interpolation-child-1/.0"
-                      >
-                        , 
-                      </strong>
-                      %%replacement_variable%%
+                      Test description, %%replacement_variable%%
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -5938,10 +6021,12 @@ exports[`SnippetEditor closes when calling close() 2`] = `
           className="c10"
         >
           <Button
+            aria-pressed={true}
             isActive={true}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -5952,6 +6037,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
               type="button"
             >
               <Button
+                aria-pressed={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -5962,6 +6048,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 type="button"
               >
                 <Button
+                  aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -5972,6 +6059,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   type="button"
                 >
                   <Button
+                    aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -5982,6 +6070,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -5992,6 +6081,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       type="button"
                     >
                       <button
+                        aria-pressed={true}
                         className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -6062,10 +6152,12 @@ exports[`SnippetEditor closes when calling close() 2`] = `
             </Button>
           </Button>
           <Button
+            aria-pressed={false}
             isActive={false}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -6076,6 +6168,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
               type="button"
             >
               <Button
+                aria-pressed={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -6086,6 +6179,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 type="button"
               >
                 <Button
+                  aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -6096,6 +6190,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   type="button"
                 >
                   <Button
+                    aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -6106,6 +6201,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -6116,6 +6212,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       type="button"
                     >
                       <button
+                        aria-pressed={false}
                         className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -6189,54 +6286,67 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       </ModeSwitcher__Switcher>
     </ModeSwitcher>
     <Button
+      aria-expanded={false}
+      innerRef={[Function]}
       onClick={[Function]}
     >
       <Button
+        aria-expanded={false}
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
         className="c20"
+        innerRef={[Function]}
         onClick={[Function]}
         textColor="#555"
         type="button"
       >
         <Button
+          aria-expanded={false}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
           className="c20 Button-kDSBcD c12"
+          innerRef={[Function]}
           onClick={[Function]}
           textColor="#555"
           type="button"
         >
           <Button
+            aria-expanded={false}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
             className="c20 Button-kDSBcD c12 Button-kDSBcD c13"
+            innerRef={[Function]}
             onClick={[Function]}
             textColor="#555"
             type="button"
           >
             <Button
+              aria-expanded={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
               className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14"
+              innerRef={[Function]}
               onClick={[Function]}
               textColor="#555"
               type="button"
             >
               <Button__BaseButton
+                aria-expanded={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
                 className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+                innerRef={[Function]}
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
+                  aria-expanded={false}
                   className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                   onClick={[Function]}
                   type="button"
@@ -6880,13 +6990,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      Test description
-                      <strong
-                        key="interpolation-child-1/.0"
-                      >
-                        , 
-                      </strong>
-                      %%replacement_variable%%
+                      Test description, %%replacement_variable%%
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -6905,10 +7009,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           className="c10"
         >
           <Button
+            aria-pressed={true}
             isActive={true}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -6919,6 +7025,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               type="button"
             >
               <Button
+                aria-pressed={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -6929,6 +7036,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 type="button"
               >
                 <Button
+                  aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -6939,6 +7047,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   type="button"
                 >
                   <Button
+                    aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -6949,6 +7058,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -6959,6 +7069,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       type="button"
                     >
                       <button
+                        aria-pressed={true}
                         className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -7029,10 +7140,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
             </Button>
           </Button>
           <Button
+            aria-pressed={false}
             isActive={false}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -7043,6 +7156,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               type="button"
             >
               <Button
+                aria-pressed={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -7053,6 +7167,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 type="button"
               >
                 <Button
+                  aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -7063,6 +7178,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   type="button"
                 >
                   <Button
+                    aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -7073,6 +7189,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -7083,6 +7200,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       type="button"
                     >
                       <button
+                        aria-pressed={false}
                         className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -7156,54 +7274,67 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       </ModeSwitcher__Switcher>
     </ModeSwitcher>
     <Button
+      aria-expanded={true}
+      innerRef={[Function]}
       onClick={[Function]}
     >
       <Button
+        aria-expanded={true}
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
         className="c20"
+        innerRef={[Function]}
         onClick={[Function]}
         textColor="#555"
         type="button"
       >
         <Button
+          aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
           className="c20 Button-kDSBcD c12"
+          innerRef={[Function]}
           onClick={[Function]}
           textColor="#555"
           type="button"
         >
           <Button
+            aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
             className="c20 Button-kDSBcD c12 Button-kDSBcD c13"
+            innerRef={[Function]}
             onClick={[Function]}
             textColor="#555"
             type="button"
           >
             <Button
+              aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
               className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14"
+              innerRef={[Function]}
               onClick={[Function]}
               textColor="#555"
               type="button"
             >
               <Button__BaseButton
+                aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
                 className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+                innerRef={[Function]}
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
+                  aria-expanded={true}
                   className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                   onClick={[Function]}
                   type="button"
@@ -8143,13 +8274,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      Test description
-                      <strong
-                        key="interpolation-child-1/.0"
-                      >
-                        , 
-                      </strong>
-                      %%replacement_variable%%
+                      Test description, %%replacement_variable%%
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -8168,10 +8293,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           className="c10"
         >
           <Button
+            aria-pressed={true}
             isActive={true}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -8182,6 +8309,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               type="button"
             >
               <Button
+                aria-pressed={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -8192,6 +8320,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 type="button"
               >
                 <Button
+                  aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -8202,6 +8331,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   type="button"
                 >
                   <Button
+                    aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -8212,6 +8342,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -8222,6 +8353,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       type="button"
                     >
                       <button
+                        aria-pressed={true}
                         className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -8292,10 +8424,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
             </Button>
           </Button>
           <Button
+            aria-pressed={false}
             isActive={false}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -8306,6 +8440,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               type="button"
             >
               <Button
+                aria-pressed={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -8316,6 +8451,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 type="button"
               >
                 <Button
+                  aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -8326,6 +8462,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   type="button"
                 >
                   <Button
+                    aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -8336,6 +8473,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -8346,6 +8484,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       type="button"
                     >
                       <button
+                        aria-pressed={false}
                         className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -8419,54 +8558,67 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       </ModeSwitcher__Switcher>
     </ModeSwitcher>
     <Button
+      aria-expanded={true}
+      innerRef={[Function]}
       onClick={[Function]}
     >
       <Button
+        aria-expanded={true}
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
         className="c20"
+        innerRef={[Function]}
         onClick={[Function]}
         textColor="#555"
         type="button"
       >
         <Button
+          aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
           className="c20 Button-kDSBcD c12"
+          innerRef={[Function]}
           onClick={[Function]}
           textColor="#555"
           type="button"
         >
           <Button
+            aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
             className="c20 Button-kDSBcD c12 Button-kDSBcD c13"
+            innerRef={[Function]}
             onClick={[Function]}
             textColor="#555"
             type="button"
           >
             <Button
+              aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
               className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14"
+              innerRef={[Function]}
               onClick={[Function]}
               textColor="#555"
               type="button"
             >
               <Button__BaseButton
+                aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
                 className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+                innerRef={[Function]}
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
+                  aria-expanded={true}
                   className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                   onClick={[Function]}
                   type="button"
@@ -8840,6 +8992,8 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
     onChange={[Function]}
   />
   <Button
+    aria-expanded={true}
+    innerRef={[Function]}
     onClick={[Function]}
   >
     <SvgIcon
@@ -9217,11 +9371,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
-          Test description
-          <strong>
-            , 
-          </strong>
-          %%replacement_variable%%
+          Test description, %%replacement_variable%%
         </div>
       </div>
     </div>
@@ -9230,6 +9380,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
     className="c10"
   >
     <button
+      aria-pressed={true}
       className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
       onClick={[Function]}
       type="button"
@@ -9264,6 +9415,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
       </span>
     </button>
     <button
+      aria-pressed={false}
       className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
       onClick={[Function]}
       type="button"
@@ -9299,6 +9451,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
     </button>
   </div>
   <button
+    aria-expanded={false}
     className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
     onClick={[Function]}
     type="button"
@@ -9647,11 +9800,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
-          Test description
-          <strong>
-            , 
-          </strong>
-          %%replacement_variable%%
+          Test description, %%replacement_variable%%
         </div>
       </div>
     </div>
@@ -9660,6 +9809,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
     className="c10"
   >
     <button
+      aria-pressed={true}
       className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
       onClick={[Function]}
       type="button"
@@ -9694,6 +9844,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
       </span>
     </button>
     <button
+      aria-pressed={false}
       className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
       onClick={[Function]}
       type="button"
@@ -9729,6 +9880,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
     </button>
   </div>
   <button
+    aria-expanded={false}
     className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
     onClick={[Function]}
     type="button"
@@ -10356,13 +10508,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      Test description
-                      <strong
-                        key="interpolation-child-1/.0"
-                      >
-                        , 
-                      </strong>
-                      %%replacement_variable%%
+                      Test description, %%replacement_variable%%
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -10381,10 +10527,12 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
           className="c11"
         >
           <Button
+            aria-pressed={true}
             isActive={true}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -10395,6 +10543,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
               type="button"
             >
               <Button
+                aria-pressed={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -10405,6 +10554,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                 type="button"
               >
                 <Button
+                  aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -10415,6 +10565,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                   type="button"
                 >
                   <Button
+                    aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -10425,6 +10576,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -10435,6 +10587,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                       type="button"
                     >
                       <button
+                        aria-pressed={true}
                         className="c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                         onClick={[Function]}
                         type="button"
@@ -10505,10 +10658,12 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
             </Button>
           </Button>
           <Button
+            aria-pressed={false}
             isActive={false}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -10519,6 +10674,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
               type="button"
             >
               <Button
+                aria-pressed={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -10529,6 +10685,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                 type="button"
               >
                 <Button
+                  aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -10539,6 +10696,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                   type="button"
                 >
                   <Button
+                    aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -10549,6 +10707,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -10559,6 +10718,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                       type="button"
                     >
                       <button
+                        aria-pressed={false}
                         className="c19 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                         onClick={[Function]}
                         type="button"
@@ -10632,54 +10792,67 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
       </ModeSwitcher__Switcher>
     </ModeSwitcher>
     <Button
+      aria-expanded={true}
+      innerRef={[Function]}
       onClick={[Function]}
     >
       <Button
+        aria-expanded={true}
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
         className="c21"
+        innerRef={[Function]}
         onClick={[Function]}
         textColor="#555"
         type="button"
       >
         <Button
+          aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
           className="c21 Button-kDSBcD c13"
+          innerRef={[Function]}
           onClick={[Function]}
           textColor="#555"
           type="button"
         >
           <Button
+            aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
             className="c21 Button-kDSBcD c13 Button-kDSBcD c14"
+            innerRef={[Function]}
             onClick={[Function]}
             textColor="#555"
             type="button"
           >
             <Button
+              aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
               className="c21 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+              innerRef={[Function]}
               onClick={[Function]}
               textColor="#555"
               type="button"
             >
               <Button__BaseButton
+                aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
                 className="c21 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+                innerRef={[Function]}
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
+                  aria-expanded={true}
                   className="c21 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                   onClick={[Function]}
                   type="button"
@@ -11631,13 +11804,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        Test description
-                        <strong
-                          key="interpolation-child-1/.0"
-                        >
-                          , 
-                        </strong>
-                        %%replacement_variable%%
+                        Test description, %%replacement_variable%%
                       </div>
                     </SnippetPreview__DesktopDescription>
                   </SnippetPreview__MobileDescription>
@@ -11657,10 +11824,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
           className="c11"
         >
           <Button
+            aria-pressed={true}
             isActive={true}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -11671,6 +11840,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
               type="button"
             >
               <Button
+                aria-pressed={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -11681,6 +11851,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 type="button"
               >
                 <Button
+                  aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -11691,6 +11862,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   type="button"
                 >
                   <Button
+                    aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -11701,6 +11873,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -11711,6 +11884,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                       type="button"
                     >
                       <button
+                        aria-pressed={true}
                         className="c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                         onClick={[Function]}
                         type="button"
@@ -11781,10 +11955,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
             </Button>
           </Button>
           <Button
+            aria-pressed={false}
             isActive={false}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -11795,6 +11971,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
               type="button"
             >
               <Button
+                aria-pressed={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -11805,6 +11982,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 type="button"
               >
                 <Button
+                  aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -11815,6 +11993,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   type="button"
                 >
                   <Button
+                    aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -11825,6 +12004,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -11835,6 +12015,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                       type="button"
                     >
                       <button
+                        aria-pressed={false}
                         className="c19 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                         onClick={[Function]}
                         type="button"
@@ -11908,54 +12089,67 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
       </ModeSwitcher__Switcher>
     </ModeSwitcher>
     <Button
+      aria-expanded={true}
+      innerRef={[Function]}
       onClick={[Function]}
     >
       <Button
+        aria-expanded={true}
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
         className="c21"
+        innerRef={[Function]}
         onClick={[Function]}
         textColor="#555"
         type="button"
       >
         <Button
+          aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
           className="c21 Button-kDSBcD c13"
+          innerRef={[Function]}
           onClick={[Function]}
           textColor="#555"
           type="button"
         >
           <Button
+            aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
             className="c21 Button-kDSBcD c13 Button-kDSBcD c14"
+            innerRef={[Function]}
             onClick={[Function]}
             textColor="#555"
             type="button"
           >
             <Button
+              aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
               className="c21 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+              innerRef={[Function]}
               onClick={[Function]}
               textColor="#555"
               type="button"
             >
               <Button__BaseButton
+                aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
                 className="c21 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+                innerRef={[Function]}
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
+                  aria-expanded={true}
                   className="c21 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                   onClick={[Function]}
                   type="button"
@@ -12863,13 +13057,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      Test description
-                      <strong
-                        key="interpolation-child-1/.0"
-                      >
-                        , 
-                      </strong>
-                      %%replacement_variable%%
+                      Test description, %%replacement_variable%%
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -12888,10 +13076,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           className="c10"
         >
           <Button
+            aria-pressed={true}
             isActive={true}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -12902,6 +13092,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               type="button"
             >
               <Button
+                aria-pressed={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -12912,6 +13103,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 type="button"
               >
                 <Button
+                  aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -12922,6 +13114,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   type="button"
                 >
                   <Button
+                    aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -12932,6 +13125,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -12942,6 +13136,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       type="button"
                     >
                       <button
+                        aria-pressed={true}
                         className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -13012,10 +13207,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
             </Button>
           </Button>
           <Button
+            aria-pressed={false}
             isActive={false}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -13026,6 +13223,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               type="button"
             >
               <Button
+                aria-pressed={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -13036,6 +13234,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 type="button"
               >
                 <Button
+                  aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -13046,6 +13245,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   type="button"
                 >
                   <Button
+                    aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -13056,6 +13256,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -13066,6 +13267,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       type="button"
                     >
                       <button
+                        aria-pressed={false}
                         className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -13139,54 +13341,67 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       </ModeSwitcher__Switcher>
     </ModeSwitcher>
     <Button
+      aria-expanded={true}
+      innerRef={[Function]}
       onClick={[Function]}
     >
       <Button
+        aria-expanded={true}
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
         className="c20"
+        innerRef={[Function]}
         onClick={[Function]}
         textColor="#555"
         type="button"
       >
         <Button
+          aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
           className="c20 Button-kDSBcD c12"
+          innerRef={[Function]}
           onClick={[Function]}
           textColor="#555"
           type="button"
         >
           <Button
+            aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
             className="c20 Button-kDSBcD c12 Button-kDSBcD c13"
+            innerRef={[Function]}
             onClick={[Function]}
             textColor="#555"
             type="button"
           >
             <Button
+              aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
               className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14"
+              innerRef={[Function]}
               onClick={[Function]}
               textColor="#555"
               type="button"
             >
               <Button__BaseButton
+                aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
                 className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+                innerRef={[Function]}
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
+                  aria-expanded={true}
                   className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                   onClick={[Function]}
                   type="button"
@@ -14105,13 +14320,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      Test description
-                      <strong
-                        key="interpolation-child-1/.0"
-                      >
-                        , 
-                      </strong>
-                      %%replacement_variable%%
+                      Test description, %%replacement_variable%%
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -14130,10 +14339,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
           className="c10"
         >
           <Button
+            aria-pressed={true}
             isActive={true}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -14144,6 +14355,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               type="button"
             >
               <Button
+                aria-pressed={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -14154,6 +14366,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 type="button"
               >
                 <Button
+                  aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -14164,6 +14377,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   type="button"
                 >
                   <Button
+                    aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -14174,6 +14388,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -14184,6 +14399,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       type="button"
                     >
                       <button
+                        aria-pressed={true}
                         className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -14254,10 +14470,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
             </Button>
           </Button>
           <Button
+            aria-pressed={false}
             isActive={false}
             onClick={[Function]}
           >
             <Button
+              aria-pressed={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -14268,6 +14486,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               type="button"
             >
               <Button
+                aria-pressed={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -14278,6 +14497,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 type="button"
               >
                 <Button
+                  aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -14288,6 +14508,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   type="button"
                 >
                   <Button
+                    aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
                     boxShadowColor="#ccc"
@@ -14298,6 +14519,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     type="button"
                   >
                     <Button__BaseButton
+                      aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -14308,6 +14530,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       type="button"
                     >
                       <button
+                        aria-pressed={false}
                         className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                         onClick={[Function]}
                         type="button"
@@ -14381,54 +14604,67 @@ exports[`SnippetEditor passes replacement variables to the title and description
       </ModeSwitcher__Switcher>
     </ModeSwitcher>
     <Button
+      aria-expanded={true}
+      innerRef={[Function]}
       onClick={[Function]}
     >
       <Button
+        aria-expanded={true}
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
         className="c20"
+        innerRef={[Function]}
         onClick={[Function]}
         textColor="#555"
         type="button"
       >
         <Button
+          aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
           className="c20 Button-kDSBcD c12"
+          innerRef={[Function]}
           onClick={[Function]}
           textColor="#555"
           type="button"
         >
           <Button
+            aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
             className="c20 Button-kDSBcD c12 Button-kDSBcD c13"
+            innerRef={[Function]}
             onClick={[Function]}
             textColor="#555"
             type="button"
           >
             <Button
+              aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
               className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14"
+              innerRef={[Function]}
               onClick={[Function]}
               textColor="#555"
               type="button"
             >
               <Button__BaseButton
+                aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
                 className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+                innerRef={[Function]}
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
+                  aria-expanded={true}
                   className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
                   onClick={[Function]}
                   type="button"
@@ -14846,6 +15082,8 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
     onChange={[Function]}
   />
   <Button
+    aria-expanded={true}
+    innerRef={[Function]}
     onClick={[Function]}
   >
     <SvgIcon
@@ -15224,11 +15462,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            Test description
-            <strong>
-              , 
-            </strong>
-            %%replacement_variable%%
+            Test description, %%replacement_variable%%
           </div>
         </div>
       </div>
@@ -15238,6 +15472,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
     className="c10"
   >
     <button
+      aria-pressed={false}
       className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
       onClick={[Function]}
       type="button"
@@ -15272,6 +15507,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
       </span>
     </button>
     <button
+      aria-pressed={true}
       className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
       onClick={[Function]}
       type="button"
@@ -15307,6 +15543,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
     </button>
   </div>
   <button
+    aria-expanded={false}
     className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
     onClick={[Function]}
     type="button"
@@ -15655,11 +15892,7 @@ exports[`SnippetEditor shows and editor 1`] = `
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
-          Test description
-          <strong>
-            , 
-          </strong>
-          %%replacement_variable%%
+          Test description, %%replacement_variable%%
         </div>
       </div>
     </div>
@@ -15668,6 +15901,7 @@ exports[`SnippetEditor shows and editor 1`] = `
     className="c10"
   >
     <button
+      aria-pressed={true}
       className="c11 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
       onClick={[Function]}
       type="button"
@@ -15702,6 +15936,7 @@ exports[`SnippetEditor shows and editor 1`] = `
       </span>
     </button>
     <button
+      aria-pressed={false}
       className="c18 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
       onClick={[Function]}
       type="button"
@@ -15737,6 +15972,7 @@ exports[`SnippetEditor shows and editor 1`] = `
     </button>
   </div>
   <button
+    aria-expanded={false}
     className="c20 Button-kDSBcD c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 c16"
     onClick={[Function]}
     type="button"
