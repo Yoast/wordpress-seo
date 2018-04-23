@@ -872,7 +872,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 
 		/**
 		 * Represents the WPSEO_Redirect_Handler_Double class.
-		 * 
+		 *
 		 * @var WPSEO_Redirect_Handler_Double $redirect_handler
 		 */
 		$this->assertEquals( $expected, $redirect_handler->strip_subdirectory( $url ), $message );

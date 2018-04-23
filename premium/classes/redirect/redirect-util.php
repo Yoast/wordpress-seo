@@ -115,7 +115,7 @@ class WPSEO_Redirect_Util {
 			return $url;
 		}
 
-		$url = ltrim( $url , '/' );
+		$url = ltrim( $url, '/' );
 
 		// When the url doesn't begin with the base url path.
 		if ( stripos( trailingslashit( $url ), trailingslashit( $base_url_path ) ) !== 0 ) {
