@@ -174,6 +174,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 					FROM `{$wpdb->posts}`
 					WHERE ID IN ( " . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ' )
 					AND post_status = "publish"
+					AND post_password = ""
 					AND post_type = %s',
 				$replacements
 			)
