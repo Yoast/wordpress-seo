@@ -202,10 +202,10 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
  * @returns {Array} The filtered list of word combination objects.
  */
 function filterFunctionWords( combinations, functionWords ) {
-	combinations = filterFunctionWordsAnywhere( combinations, functionWords().filteredAnywhere );
-	combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords().filteredAtBeginningAndEnding );
-	combinations = filterFunctionWordsAtEnding( combinations, functionWords().filteredAtEnding );
-	combinations = filterFunctionWordsAtBeginning( combinations, functionWords().filteredAtBeginning );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords.filteredAnywhere );
+	combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords.filteredAtBeginningAndEnding );
+	combinations = filterFunctionWordsAtEnding( combinations, functionWords.filteredAtEnding );
+	combinations = filterFunctionWordsAtBeginning( combinations, functionWords.filteredAtBeginning );
 	return combinations;
 }
 
@@ -238,7 +238,7 @@ function getRelevantWords( text, locale ) {
 
 	let functionWords = functionWordLists[ language ];
 
-	let words = getWordCombinations( text, 1, functionWords().all );
+	let words = getWordCombinations( text, 1, functionWords.all );
 	let wordCount = words.length;
 
 	let oneWordCombinations = getRelevantCombinations(
@@ -254,10 +254,10 @@ function getRelevantWords( text, locale ) {
 		oneWordRelevanceMap[ combination.getCombination() ] = combination.getRelevance( functionWords );
 	} );
 
-	let twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2, functionWords().all ) );
-	let threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3, functionWords().all ) );
-	let fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4, functionWords().all ) );
-	let fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5, functionWords().all ) );
+	let twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2, functionWords.all ) );
+	let threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3, functionWords.all ) );
+	let fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4, functionWords.all ) );
+	let fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5, functionWords.all ) );
 
 	let combinations = oneWordCombinations.concat(
 		twoWordCombinations,
