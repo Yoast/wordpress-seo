@@ -104,6 +104,7 @@
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
+    "redux-watch": "^1.1.1",
     "select2": "^4.0.5",
     "styled-components": "^2.1.2",
     "yoast-components": "^3.4.0",

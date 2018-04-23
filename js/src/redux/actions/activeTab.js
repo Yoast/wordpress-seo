@@ -1,4 +1,4 @@
-const PREFIX = "WPSEO_";
+import { PREFIX } from "./prefix";
 
 export const SET_ACTIVE_TAB = `${ PREFIX }SET_ACTIVE_TAB`;
 
