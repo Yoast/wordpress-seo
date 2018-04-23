@@ -24,9 +24,10 @@ import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetPreviewHelpers from "./analysis/snippetPreview";
 import UsedKeywords from "./analysis/usedKeywords";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
-import { updateData } from "./redux/actions/snippetEditor";
+import {
+	updateData,
+} from "./redux/actions/snippetEditor";
 import isFunction from "lodash/isFunction";
-import debounce from "lodash/debounce";
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line

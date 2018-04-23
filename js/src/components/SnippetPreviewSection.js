@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
 import SnippetEditor from "../containers/SnippetEditor";
-import {injectIntl, defineMessages, intlShape} from "react-intl";
+import { injectIntl, defineMessages, intlShape } from "react-intl";
 import PropTypes from "prop-types";
 
 const messages = defineMessages( {
