@@ -68,7 +68,10 @@ const Switcher = styled.div`
  */
 const ModeSwitcher = ( { onChange, active } ) => {
 	return <Switcher>
-		<MobileButton onClick={ () => onChange( MODE_MOBILE ) } isActive={ active === MODE_MOBILE }>
+		<MobileButton
+			onClick={ () => onChange( MODE_MOBILE ) }
+			isActive={ active === MODE_MOBILE }
+			aria-pressed={ active === MODE_MOBILE }>
 			<SvgIcon icon="mobile" size="22px" color="currentColor" />
 			<FormattedScreenReaderMessage
 				id="snippetEditor.desktopPreview"
@@ -76,7 +79,10 @@ const ModeSwitcher = ( { onChange, active } ) => {
 			/>
 		</MobileButton>
 
-		<DesktopButton onClick={ () => onChange( MODE_DESKTOP ) } isActive={ active === MODE_DESKTOP }>
+		<DesktopButton
+			onClick={ () => onChange( MODE_DESKTOP ) }
+			isActive={ active === MODE_DESKTOP }
+			aria-pressed={ active === MODE_DESKTOP }>
 			<SvgIcon icon="desktop" size="18px" color="currentColor" />
 			<FormattedScreenReaderMessage
 				id="snippetEditor.desktopPreview"

@@ -75,6 +75,7 @@ class SnippetEditor extends React.Component {
 		this.onMouseLeave = this.onMouseLeave.bind( this );
 		this.open = this.open.bind( this );
 		this.close = this.close.bind( this );
+		this.setEditButtonRef = this.setEditButtonRef.bind( this );
 	}
 
 	/**
@@ -201,6 +202,8 @@ class SnippetEditor extends React.Component {
 		this.setState( {
 			isOpen: false,
 			activeField: null,
+		}, () => {
+			this._editButton.focus();
 		} );
 	}
 
@@ -273,6 +276,17 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
+	 * Sets a reference to the edit button so we can move focus to it.
+	 *
+	 * @param {Object} ref The edit button element.
+	 *
+	 * @returns {void}
+	 */
+	setEditButtonRef( ref ) {
+		this._editButton = ref;
+	}
+
+	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -311,7 +325,11 @@ class SnippetEditor extends React.Component {
 
 				<ModeSwitcher onChange={ ( mode ) => onChange( "mode", mode ) } active={ mode } />
 
-				<EditSnippetButton onClick={ isOpen ? this.close : this.open }>
+				<EditSnippetButton
+					onClick={ isOpen ? this.close : this.open }
+					aria-expanded={ isOpen }
+					innerRef={ this.setEditButtonRef }
+				>
 					<SvgIcon icon="edit" />
 					<FormattedMessage
 						id="snippetEditor.editSnippet"
