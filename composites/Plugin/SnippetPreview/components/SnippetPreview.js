@@ -515,8 +515,13 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	componentDidUpdate() {
 		if ( this.props.mode === MODE_MOBILE ) {
-			this.fitTitle();
-			this.fitDescription();
+			clearTimeout( this.fitTitleTimeout );
+
+			// Make sure that fitting the title doesn't block other rendering.
+			this.fitTitleTimeout = setTimeout( () => {
+				this.fitTitle();
+				this.fitDescription();
+			}, 10 );
 		}
 	}
 
