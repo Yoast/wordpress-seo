@@ -1,7 +1,6 @@
 import React from "react";
 import { IntlProvider } from "react-intl";
 
-import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
 import ContentAnalysis from "./app/ContentAnalysisWrapper";
 import Wizard from "./app/WizardWrapper";
 import DashboardWidget from "./app/DashboardWidgetWrapper";
@@ -15,11 +14,6 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
 
 const components = [
-	{
-		id: "search-results-editor",
-		name: "Search results editor",
-		component: <SearchResultsEditor />,
-	},
 	{
 		id: "snippet-preview",
 		name: "Snippet preview",
