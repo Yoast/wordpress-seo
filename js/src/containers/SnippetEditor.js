@@ -13,7 +13,7 @@ import {
  *
  * @returns {Object} Data suitable for the `SnippetEditor` component.
  */
-function mapStateToProps( { snippetEditor } ) {
+export function mapStateToProps( { snippetEditor } ) {
 	const data = snippetEditor.data;
 
 	return {
@@ -30,16 +30,18 @@ function mapStateToProps( { snippetEditor } ) {
  *
  * @returns {Object} Props suitable for the `SnippetEditor` component.
  */
-function mapDispatchToProps( dispatch ) {
+export function mapDispatchToProps( dispatch ) {
 	return {
 		onChange: ( key, value ) => {
+			let action = updateData( {
+				[ key ]: value,
+			} );
+
 			if ( key === "mode" ) {
-				dispatch( switchMode( value ) );
+				action = switchMode( value );
 			}
 
-			dispatch( updateData( {
-				[ key ]: value,
-			} ) );
+			dispatch( action );
 		},
 	};
 }

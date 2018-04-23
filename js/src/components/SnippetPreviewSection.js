@@ -5,13 +5,6 @@ import SnippetEditor from "../containers/SnippetEditor";
 import { injectIntl, defineMessages, intlShape } from "react-intl";
 import PropTypes from "prop-types";
 
-const messages = defineMessages( {
-	snippetPreview: {
-		id: "snippetPreview.snippetPreview",
-		defaultMessage: "React snippet preview",
-	},
-} );
-
 const Section = styled( StyledSection )`
 	margin-bottom: 2em;
 	max-width: 640px;
@@ -33,11 +26,9 @@ const Section = styled( StyledSection )`
  * @returns {ReactElement} Snippet Preview Section.
  */
 const SnippetPreviewSection = ( { intl, baseUrl } ) => {
-	const { formatMessage } = intl;
-
 	return <Section
 		headingLevel={ 3 }
-		headingText={ formatMessage( messages.snippetPreview ) }
+		headingText="React snippet preview"
 		headingIcon="eye"
 		headingIconColor="#555"
 	>
@@ -49,7 +40,6 @@ const SnippetPreviewSection = ( { intl, baseUrl } ) => {
 
 SnippetPreviewSection.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
-	intl: intlShape,
 };
 
-export default injectIntl( SnippetPreviewSection );
+export default SnippetPreviewSection;
