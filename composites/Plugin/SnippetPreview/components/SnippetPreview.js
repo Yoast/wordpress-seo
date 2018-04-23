@@ -1,5 +1,5 @@
-/* External dependencies */
-import React, { Component } from "react";
+// External dependencies.
+import React, { PureComponent } from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 import transliterate from "yoastseo/js/stringProcessing/transliterate";
@@ -9,25 +9,25 @@ import truncate from "lodash/truncate";
 import partial from "lodash/partial";
 import { parse } from "url";
 
-/* Internal dependencies */
-import ScreenReaderText from "../../../../a11y/ScreenReaderText";
-import FixedWidthContainer from "./fixedWidthContainer";
+// Internal dependencies.
+import FixedWidthContainer from "./FixedWidthContainer";
+import colors from "../../../../style-guide/colors";
+import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
+import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 
+/*
+ * These colors should not be abstracted. They are chosen because Google renders
+ * the snippet like this.
+ */
 const colorTitle = "#1e0fbe";
 const colorUrl = "#006621";
 const colorDescription = "#545454";
 const colorGeneratedDescription = "#777";
 const colorDate = "#808080";
 
-const colorCaret = "#555555";
-const colorCaretHover = "#bfbfbf";
-
 const MAX_WIDTH = 600;
 const WIDTH_PADDING = 20;
 const DESCRIPTION_LIMIT = 280;
-
-export const DESKTOP = "desktop";
-export const MOBILE = "mobile";
 
 export const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: white;
@@ -71,7 +71,7 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 			display: block;
 			position: absolute;
 			top: -3px;
-			left: ${ () => mode === DESKTOP ? "-22px" : "-40px" };
+			left: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
 			width: 24px;
 			height: 24px;
 			background-image: url( ${ () => angleRight( color ) });
@@ -196,6 +196,10 @@ const Amp = styled.div`
  * @returns {ReactElement} React elements to be rendered.
  */
 function highlightKeyword( locale, keyword, text ) {
+	if ( keyword === "" ) {
+		return text;
+	}
+
 	// Match keyword case-insensitively.
 	const keywordMatcher = createWordRegex( keyword, "", false );
 
@@ -218,7 +222,7 @@ function highlightKeyword( locale, keyword, text ) {
 	} );
 }
 
-export default class SnippetPreview extends Component {
+export default class SnippetPreview extends PureComponent {
 	/**
 	 * Renders the SnippetPreview component.
 	 *
@@ -377,11 +381,11 @@ export default class SnippetPreview extends Component {
 	 * @returns {string} The description to render.
 	 */
 	getDescription() {
-		if ( this.props.mode === MOBILE && this.props.description !== this.state.description ) {
+		if ( this.props.mode === MODE_MOBILE && this.props.description !== this.state.description ) {
 			return this.state.description + " ...";
 		}
 
-		if ( this.props.mode === DESKTOP ) {
+		if ( this.props.mode === MODE_DESKTOP ) {
 			return truncate( this.props.description, {
 				length: DESCRIPTION_LIMIT,
 				omission: "",
@@ -418,11 +422,11 @@ export default class SnippetPreview extends Component {
 		} = this.props;
 
 		if ( activeField === fieldName ) {
-			return addCaretStyle( BaseComponent, colorCaret, mode );
+			return addCaretStyle( BaseComponent, colors.$color_snippet_active, mode );
 		}
 
 		if ( hoveredField === fieldName ) {
-			return addCaretStyle( BaseComponent, colorCaretHover, mode );
+			return addCaretStyle( BaseComponent, colors.$color_snippet_hover, mode );
 		}
 
 		return BaseComponent;
@@ -461,7 +465,7 @@ export default class SnippetPreview extends Component {
 
 		let urlContent;
 
-		if ( this.props.mode === MOBILE ) {
+		if ( this.props.mode === MODE_MOBILE ) {
 			urlContent = this.getBreadcrumbs();
 		} else {
 			urlContent = highlightKeyword( locale, keyword, url );
@@ -510,9 +514,14 @@ export default class SnippetPreview extends Component {
 	 * @returns {void}
 	 */
 	componentDidUpdate() {
-		if ( this.props.mode === MOBILE ) {
-			this.fitTitle();
-			this.fitDescription();
+		if ( this.props.mode === MODE_MOBILE ) {
+			clearTimeout( this.fitTitleTimeout );
+
+			// Make sure that fitting the title doesn't block other rendering.
+			this.fitTitleTimeout = setTimeout( () => {
+				this.fitTitle();
+				this.fitDescription();
+			}, 10 );
 		}
 	}
 
@@ -541,9 +550,9 @@ export default class SnippetPreview extends Component {
 			Description,
 		} = this.getPreparedComponents( mode );
 
-		const separator = mode === DESKTOP ? null : <Separator/>;
-		const downArrow = mode === DESKTOP ? <UrlDownArrow/> : null;
-		const amp       = mode === DESKTOP || ! isAmp ? null : <Amp/>;
+		const separator = mode === MODE_DESKTOP ? null : <Separator/>;
+		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow/> : null;
+		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp/>;
 
 		const renderedDate = this.renderDate();
 
@@ -559,7 +568,11 @@ export default class SnippetPreview extends Component {
 				           width={ MAX_WIDTH + 2 * WIDTH_PADDING }
 				           padding={ WIDTH_PADDING }>
 					<PartContainer>
-						<ScreenReaderText>SEO title preview:</ScreenReaderText>
+						<FormattedScreenReaderMessage
+							id="snippetPreview.seoTitlePreview"
+							defaultMessage="SEO title preview"
+							after=":"
+						/>
 						<Title onClick={ onClick.bind( null, "title" ) }
 						       onMouseOver={ partial( onMouseOver, "title" ) }
 						       onMouseLeave={ partial( onMouseLeave, "title" ) }>
@@ -569,15 +582,22 @@ export default class SnippetPreview extends Component {
 								</TitleUnbounded>
 							</TitleBounded>
 						</Title>
-						<ScreenReaderText>Slug preview:</ScreenReaderText>
+						<FormattedScreenReaderMessage
+							id="snippetPreview.urlPreview"
+							defaultMessage="Url preview"
+							after=":"
+						/>
 						{ amp }
 						{ this.renderUrl() }
 						{ downArrow }
 					</PartContainer>
 					{ separator }
 					<PartContainer>
-						<ScreenReaderText>Meta description
-							preview:</ScreenReaderText>
+						<FormattedScreenReaderMessage
+							id="snippetPreview.metaDescriptionPreview"
+							defaultMessage="Meta description preview"
+							after=":"
+						/>
 						<Description isDescriptionGenerated={ isDescriptionGenerated }
 						             onClick={ onClick.bind( null, "description" ) }
 						             onMouseOver={ partial( onMouseOver, "description" ) }
@@ -606,10 +626,10 @@ export default class SnippetPreview extends Component {
 	 * }} The prepared components.
 	 */
 	getPreparedComponents( mode ) {
-		const BaseDescription = mode === DESKTOP ? DesktopDescription : MobileDescription;
-		const PartContainer = mode === DESKTOP ? DesktopPartContainer : MobilePartContainer;
-		const Container = mode === DESKTOP ? DesktopContainer : MobileContainer;
-		const TitleUnbounded = mode === DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
+		const BaseDescription = mode === MODE_DESKTOP ? DesktopDescription : MobileDescription;
+		const PartContainer = mode === MODE_DESKTOP ? DesktopPartContainer : MobilePartContainer;
+		const Container = mode === MODE_DESKTOP ? DesktopContainer : MobileContainer;
+		const TitleUnbounded = mode === MODE_DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
 
 		const Title = this.addCaretStyles( "title", BaseTitle );
 		const Description = this.addCaretStyles( "description", BaseDescription );
@@ -636,7 +656,7 @@ SnippetPreview.propTypes = {
 	keyword: PropTypes.string,
 	isDescriptionGenerated: PropTypes.bool,
 	locale: PropTypes.string,
-	mode: PropTypes.oneOf( [ DESKTOP, MOBILE ] ),
+	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
 
 	onClick: PropTypes.func.isRequired,
@@ -653,7 +673,7 @@ SnippetPreview.defaultProps = {
 	locale: "en_US",
 	hoveredField: "",
 	activeField: "",
-	mode: "desktop",
+	mode: DEFAULT_MODE,
 	isAmp: false,
 
 	onHover: () => {},

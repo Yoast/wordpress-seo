@@ -2,13 +2,13 @@ import React from "react";
 import { IntlProvider } from "react-intl";
 
 import SearchResultsEditor from "./composites/SearchResultEditor/SearchResultEditor";
-import SnippetPreviewExample from "./composites/Plugin/SnippetPreview/components/SnippetPreviewExample";
 import ContentAnalysis from "./app/ContentAnalysisWrapper";
 import Wizard from "./app/WizardWrapper";
 import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
 import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
+import SnippetEditor from "./app/SnippetEditorExample";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
@@ -23,7 +23,7 @@ const components = [
 	{
 		id: "snippet-preview",
 		name: "Snippet preview",
-		component: <SnippetPreviewExample />,
+		component: <SnippetEditor />,
 	},
 	{
 		id: "wizard",
@@ -57,7 +57,12 @@ const components = [
 			id="example-checkbox"
 			label={ [
 				"This is a label that also accepts arrays, so you can pass links such as ",
-				<a key="1" href="https://yoa.st/metabox-help-cornerstone?utm_content=7.0.3" target="_blank">cornerstone content</a>,
+				<a
+					key="1"
+					href="https://yoa.st/metabox-help-cornerstone?utm_content=7.0.3"
+					target="_blank"
+					rel="noopener noreferrer"
+				>cornerstone content</a>,
 				", for example.",
 			] }
 			onChange={ event => console.log( event ) }
