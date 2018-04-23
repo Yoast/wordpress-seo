@@ -2,14 +2,7 @@ let getWords = require( "../stringProcessing/getWords.js" );
 let getSentences = require( "../stringProcessing/getSentences.js" );
 let WordCombination = require( "../values/WordCombination.js" );
 let normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
-let germanFunctionWords = require( "../researches/german/functionWords.js" );
-let englishFunctionWords = require( "../researches/english/functionWords.js" );
-let dutchFunctionWords = require( "../researches/dutch/functionWords.js" );
-let spanishFunctionWords = require( "../researches/spanish/functionWords.js" );
-let italianFunctionWords = require( "../researches/italian/functionWords.js" );
-let frenchFunctionWords = require( "../researches/french/functionWords.js" );
-let portugueseFunctionWords = require( "../researches/portuguese/functionWords.js" );
-let russianFunctionWords = require( "../researches/russian/functionWords.js" );
+let functionWordLists = require( "../helpers/getFunctionWords.js" )();
 let getLanguage = require( "../helpers/getLanguage.js" );
 
 let filter = require( "lodash/filter" );
@@ -238,34 +231,12 @@ function filterCombinations( combinations, functionWords ) {
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
 function getRelevantWords( text, locale ) {
-	let functionWords;
-	switch( getLanguage( locale ) ) {
-		case "de":
-			functionWords = germanFunctionWords;
-			break;
-		case "nl":
-			functionWords = dutchFunctionWords;
-			break;
-		case "fr":
-			functionWords = frenchFunctionWords;
-			break;
-		case "es":
-			functionWords = spanishFunctionWords;
-			break;
-		case "it":
-			functionWords = italianFunctionWords;
-			break;
-		case "pt":
-			functionWords = portugueseFunctionWords;
-			break;
-		case "ru":
-			functionWords = russianFunctionWords;
-			break;
-		default:
-		case "en":
-			functionWords = englishFunctionWords;
-			break;
+	let language = getLanguage( locale );
+	if ( ! functionWordLists.hasOwnProperty( language ) ) {
+		language = "en";
 	}
+
+	let functionWords = functionWordLists[ language ];
 
 	let words = getWordCombinations( text, 1, functionWords().all );
 	let wordCount = words.length;
