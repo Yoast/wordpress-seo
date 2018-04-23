@@ -454,7 +454,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that dismissing a notification only affects the current site in multisite.
 	 *
-	 * @ms-required
+	 * @group ms-required
 	 *
 	 * @covers Yoast_Notification_Center::dismiss_notification()
 	 */
@@ -485,7 +485,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that restoring a notification only affects the current site in multisite.
 	 *
-	 * @ms-required
+	 * @group ms-required
 	 *
 	 * @covers Yoast_Notification_Center::restore_notification()
 	 */
@@ -521,7 +521,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that checking for dismissed notifications applies only to the current site in multisite.
 	 *
-	 * @ms-required
+	 * @group ms-required
 	 *
 	 * @covers Yoast_Notification_Center::is_notification_dismissed()
 	 */
