@@ -215,7 +215,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	}
 
 	/**
-	 * Remove the blog's base URL from the redirect to ensure that relative URLs are created.
+	 * Remove the home URL from the redirect to ensure that relative URLs are created.
 	 *
 	 * @param string $url The URL to sanitize.
 	 *
@@ -260,7 +260,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	}
 
 	/**
-	 * Checks if the URL matches the Blog URL by comparing their host.
+	 * Checks if the URL matches the home URL by comparing their host.
 	 *
 	 * @param array $home_url_pieces The pieces (wp_parse_url) from the home_url.
 	 * @param array $url_pieces      The pieces (wp_parse_url) from the url to match.
