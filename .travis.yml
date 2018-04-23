@@ -8,7 +8,7 @@ branches:
     - trunk
     - /^release\/\d+\.\d+(\.\d+)?(-\S*)?$/
     - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
-
+    # Also build tags like 1.1.1 or 1.1 for deployment.
     - /(\d+\.)?(\d+\.)?(\*|\d+)/
 
 jobs:
@@ -59,26 +59,26 @@ jobs:
           repo: Yoast/wordpress-seo
           all_branches: true
     - stage: deploy
-          if: tag IS present
-          before_deploy:
-            - nvm install node
-            - curl -o- -L https://yarnpkg.com/install.sh | bash
-            - export PATH=$HOME/.yarn/bin:$PATH
-            - yarn global add grunt-cli
-            - yarn install
-            - grunt set-version -new-version=$TRAVIS_TAG
-            - grunt update-version
-            - grunt artifact
+      if: tag IS present
+      before_deploy:
+        - nvm install node
+        - curl -o- -L https://yarnpkg.com/install.sh | bash
+        - export PATH=$HOME/.yarn/bin:$PATH
+        - yarn global add grunt-cli
+        - yarn install
+        - grunt set-version -new-version=$TRAVIS_TAG
+        - grunt update-version
+        - grunt artifact
 
-          # If the commit was tagged, create an artifact and push it to the distribution github
-          deploy:
-            skip_cleanup: true
-            provider: script
-            script: bash scripts/deploy_to_dist.sh $TRAVIS_TAG wordpress-seo
-            on:
-              tags: true
-              repo: $TRAVIS_REPO_SLUG
-              all_branches: true
+      # If the commit was tagged, create an artifact and push it to the distribution github
+      deploy:
+        skip_cleanup: true
+        provider: script
+        script: bash scripts/deploy_to_dist.sh $TRAVIS_TAG wordpress-seo
+        on:
+          tags: true
+          repo: $TRAVIS_REPO_SLUG
+          all_branches: true
 
   allow_failures:
     # Allow failures for unstable builds.
@@ -155,6 +155,7 @@ before_script:
     grunt --version
   fi
 - locale -a
+- echo "repo $TRAVIS_REPO_SLUG commit $TRAVIS_COMMIT containing tag $TRAVIS_TAG"
 
 script:
 # JavaScript checks
