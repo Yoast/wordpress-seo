@@ -72,7 +72,6 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	 * This is a custom extension of the PHPUnit and WordPress requirements handling.
 	 */
 	protected function checkRequirements() {
-
 		parent::checkRequirements();
 
 		$annotations = $this->getAnnotations();
