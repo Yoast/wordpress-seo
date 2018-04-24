@@ -2,7 +2,7 @@ import {
 	mapDispatchToProps,
 	mapStateToProps,
 } from "../../src/containers/SnippetEditor";
-import {switchMode, updateData} from "../../src/redux/actions/snippetEditor";
+import { switchMode, updateData } from "../../src/redux/actions/snippetEditor";
 
 
 describe( "SnippetEditor container", () => {

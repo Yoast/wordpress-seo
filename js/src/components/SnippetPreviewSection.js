@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
 import SnippetEditor from "../containers/SnippetEditor";
-import { injectIntl, defineMessages, intlShape } from "react-intl";
 import PropTypes from "prop-types";
 
 const Section = styled( StyledSection )`
@@ -25,7 +24,7 @@ const Section = styled( StyledSection )`
  *
  * @returns {ReactElement} Snippet Preview Section.
  */
-const SnippetPreviewSection = ( { intl, baseUrl } ) => {
+const SnippetPreviewSection = ( { baseUrl } ) => {
 	return <Section
 		headingLevel={ 3 }
 		headingText="React snippet preview"
