@@ -191,10 +191,10 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::add_ms_option()
 	 */
 	public function test_ms_options_included_in_get_in_multisite() {
-		$ms_options = WPSEO_Options::get_option( 'wpseo_ms' );
+		$ms_option_keys = array( 'access', 'defaultblog' );
 
-		foreach ( $ms_options as $key => $value ) {
-			$this->assertEquals( $value, WPSEO_Options::get( $key ) );
+		foreach ( $ms_option_keys as $key ) {
+			$this->assertNotNull( WPSEO_Options::get( $key ) );
 		}
 	}
 
@@ -207,7 +207,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::add_ms_option()
 	 */
 	public function test_ms_options_excluded_in_get_non_multisite() {
-		$ms_option_keys = array_keys( WPSEO_Options::get_option( 'wpseo_ms' ) );
+		$ms_option_keys = array( 'access', 'defaultblog' );
 
 		foreach ( $ms_option_keys as $key ) {
 			$this->assertNull( WPSEO_Options::get( $key ) );
