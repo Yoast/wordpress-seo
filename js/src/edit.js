@@ -37,35 +37,6 @@ function registerStoreInGutenberg() {
 }
 
 /**
- * Creates a redux store.
- *
- * @returns {Object} Things that need to be exposed, such as the store.
- */
-function configureStore() {
-	const middleware = [
-		thunk,
-	];
-
-	if ( process.env.NODE_ENV !== "production" ) {
-		middleware.push( logger );
-	}
-
-	const enhancers = [
-		applyMiddleware( ...middleware ),
-	];
-
-	if ( window.__REDUX_DEVTOOLS_EXTENSION__ ) {
-		enhancers.push( window.__REDUX_DEVTOOLS_EXTENSION__() );
-	}
-
-	if ( isGutenbergDataAvailable() ) {
-		return registerStoreInGutenberg();
-	}
-
-	return createStore( combineReducers( reducers ), {}, flowRight( enhancers ) );
-}
-
-/**
  * Wraps a component in the required top level components.
  *
  * @param {ReactElement} Component The component to be wrapped.
@@ -159,7 +130,7 @@ function renderReactApps( store, args ) {
  * @returns {Object} The store and the data.
  */
 export function initialize( args ) {
-	const store = configureStore();
+	const store = registerStoreInGutenberg();
 	let data = {};
 
 	// Only use Gutenberg's data if Gutenberg is available.
