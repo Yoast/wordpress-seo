@@ -80,17 +80,21 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 		if ( ! empty( $annotations['class']['group'] ) ) {
 			$groups = array_merge( $groups, $annotations['class']['group'] );
 		}
+
 		if ( ! empty( $annotations['method']['group'] ) ) {
 			$groups = array_merge( $groups, $annotations['method']['group'] );
 		}
 
-		if ( ! empty( $groups ) ) {
-			if ( in_array( 'ms-required', $groups, true ) ) {
-				$this->skipWithoutMultisite();
-			}
-			if ( in_array( 'ms-excluded', $groups, true ) ) {
-				$this->skipWithMultisite();
-			}
+		if ( empty( $groups ) ) {
+			return;
+		}
+
+		if ( in_array( 'ms-required', $groups, true ) ) {
+			$this->skipWithoutMultisite();
+		}
+
+		if ( in_array( 'ms-excluded', $groups, true ) ) {
+			$this->skipWithMultisite();
 		}
 	}
 }
