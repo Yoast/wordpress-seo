@@ -59,7 +59,7 @@ const defaultWebpackConfig = {
 		rules: [
 			{
 				test: /.jsx?$/,
-				exclude: /node_modules\/(?!(yoast-components)\/).*/,
+				exclude: /node_modules\/(?!(yoast-components|gutenberg)\/).*/,
 				use: [
 					{
 						loader: "babel-loader",
