@@ -27,6 +27,11 @@ const Choice = ( props ) => {
 
 	let fieldSet = () => {
 		if ( type === "select" ) {
+			/*
+			 * Disabled until a solution for the bigger a11y issue is found: unexpectedly triggering
+			 * the onchange event for keyboard users.
+			 */
+			/* eslint-disable jsx-a11y/no-onchange */
 			return <fieldset className={"yoast-wizard-input-select-" + fieldName}>
 				<select defaultValue={props.value} name={fieldName}
 				        className={props.optionClassName} onChange={props.onChange}>
@@ -42,6 +47,7 @@ const Choice = ( props ) => {
 				</select>
 			</fieldset>
 			;
+			/* eslint-enable jsx-a11y/no-onchange */
 		}
 		return <fieldset className={"yoast-wizard-input-radio-" + fieldName}>
 				{fieldKeys.map( ( choiceName, index ) => {

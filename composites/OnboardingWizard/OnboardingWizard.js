@@ -168,6 +168,8 @@ class OnboardingWizard extends React.Component {
 					"A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} " +
 					"describing what step you are on and which changes you want to make (if any)."
 				),
+				// The anchor does have content (see mixedString above).
+				// eslint-disable-next-line jsx-a11y/anchor-has-content
 				components: { link: <a href="https://yoa.st/bugreport" target="_blank" rel="noopener noreferrer" /> },
 			} ),
 		} );

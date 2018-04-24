@@ -1,9 +1,11 @@
 const path = require( "path" );
 const webpack = require( "webpack" );
+const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
 
 const PORT = 3333;
 
 module.exports = {
+	devtool: "cheap-module-eval-source-map",
 	entry: [
 		// Polyfill
 		"babel-polyfill",
@@ -43,17 +45,17 @@ module.exports = {
 				use: [ {
 					loader: "babel-loader",
 					options: {
-						babelrc: false,
 						presets: [
 							[ "es2015",
 								// https://github.com/gaearon/react-hot-loader/tree/master/docs#webpack-2
 								{ modules: false },
-							], "react" ],
+							] ],
 
 						env: {
 							development: {
 								plugins: [
 									"react-hot-loader/babel",
+									"babel-plugin-styled-components",
 								],
 							},
 
@@ -70,6 +72,8 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
+		new webpack.NamedModulesPlugin(),
+		new CaseSensitivePathsPlugin(),
 	],
 	resolve: {
 		extensions: [ ".json", ".jsx", ".js" ],

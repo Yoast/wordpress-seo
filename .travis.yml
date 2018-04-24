@@ -15,10 +15,10 @@ install:
 
 script:
 - grunt check
-- yarn test -- --coverage --runInBand
+- yarn test --coverage --runInBand
 
 after_success:
-- npm install -g codeclimate-test-reporter
+- yarn global add codeclimate-test-reporter
 - codeclimate-test-reporter < coverage/lcov.info
 
 notifications:

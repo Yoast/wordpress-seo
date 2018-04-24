@@ -7,17 +7,17 @@ const items = [
 	{
 		id: "tab1",
 		label: "tab1",
-		content: <p>This is some content for tab 1. <a href="#">focusable element 1</a></p>,
+		content: <p>This is some content for tab 1. <a href="#1">focusable element 1</a></p>,
 	},
 	{
 		id: "tab2",
 		label: "tab2",
-		content: <p>This is some content for tab 2. <a href="#">focusable element 2</a></p>,
+		content: <p>This is some content for tab 2. <a href="#2">focusable element 2</a></p>,
 	},
 	{
 		id: "tab3",
 		label: "tab3",
-		content: <p>This is some content for tab 3. <a href="#">focusable element 3</a></p>,
+		content: <p>This is some content for tab 3. <a href="#3">focusable element 3</a></p>,
 	},
 ];
 

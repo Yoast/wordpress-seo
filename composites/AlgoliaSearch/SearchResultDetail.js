@@ -63,6 +63,11 @@ const RightYoastLinkButton = makeOutboundLink( styled( YoastLinkButton )`
  */
 class SearchResultDetail extends React.Component {
 
+	/**
+	 * Creates navigational elements.
+	 *
+	 * @returns {ReactElement} The rendered element.
+	 */
 	createNavigation() {
 		const formatMessage = this.props.intl.formatMessage;
 		const openButtonText = formatMessage( messages.openButton );
@@ -96,6 +101,11 @@ class SearchResultDetail extends React.Component {
 		);
 	}
 
+	/**
+	 * Renders the search result detail.
+	 *
+	 * @returns {ReactElement} The rendered element.
+	 */
 	render() {
 		const formatMessage = this.props.intl.formatMessage;
 		const searchResulLabel = formatMessage( messages.searchResult );

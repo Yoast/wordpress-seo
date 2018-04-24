@@ -49,24 +49,6 @@ describe( "StyledSection", () => {
 		expect( tree.children[ 0 ].type ).toBe( "h4" );
 	} );
 
-	test( "can not add an non-existing icon", () => {
-		const component = renderer.create(
-			<StyledSection
-				headingText="Insights. Hello, this is a Styled Section heading."
-				headingColor="red"
-				headingLevel={2}
-				headingIcon="fake-icon"
-				headingIconColor="blue"
-				headingIconSize="16"
-			/>
-		);
-
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
-		const child = tree.children[ 0 ].children[ 0 ];
-		expect( typeof child ).toEqual( "string" );
-	} );
-
 	forEach( icons, function( icon ) {
 		test( `can change the icon to ${icon}`, () => {
 			const component = renderer.create(

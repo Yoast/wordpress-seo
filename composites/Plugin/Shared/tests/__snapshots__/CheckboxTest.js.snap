@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Checkbox matches the snapshot 1`] = `
+Array [
+  .c0 {
+  margin-right: 0.5em;
+}
+
+<input
+    className="c0"
+    id="test-id"
+    onChange={[Function]}
+    type="checkbox"
+  />,
+  <label
+    htmlFor="test-id"
+  >
+    test label
+  </label>,
+]
+`;
+
+exports[`Checkbox matches the snapshot when an array is provided as a label 1`] = `
+Array [
+  .c0 {
+  margin-right: 0.5em;
+}
+
+<input
+    className="c0"
+    id="test-id"
+    onChange={[Function]}
+    type="checkbox"
+  />,
+  <label
+    htmlFor="test-id"
+  >
+    test label 
+    using arrays
+  </label>,
+]
+`;

@@ -17,6 +17,7 @@ $palette_pink_light:         #e1bee7; // Safe to use with $palette_grey_dark –
 $palette_pink_dark:          #a4286a; // Safe to use with $palette_white – $palette_grey.
 $palette_blue:               #0066cd; // Safe to use with $palette_white – $palette_grey_light and lighter.
 $palette_blue_light:         #a9a9ce; // Safe to use with $palette_black.
+$palette_blue_medium:        #1e8cbe; // Safe to use with $palette_black.
 $palette_blue_dark:          #084a67; // Safe to use with $palette_white – $palette_grey_medium.
 $palette_green:              #77b227; // Safe to use with $palette_black.
 $palette_green_light:        #7ad03a; // Safe to use with $palette_black.
@@ -32,6 +33,7 @@ $palette_yellow:             #ffeb3b; // Safe to use with $palette_grey_text - $
 $color_bad:                  $palette_red;
 $color_ok:                   $palette_orange_light;
 $color_good:                 $palette_green_light;
+$color_noindex:              $palette_blue_medium;
 $color_score_icon:           $palette_grey_medium_dark;
 
 $color_white:                $palette_white;
@@ -82,6 +84,10 @@ $color_grey_cta:             $palette_grey;
 $color_grey_line:            $palette_grey;
 $color_grey_quote:           $palette_grey_text;
 $color_grey_text:            $palette_grey_text;
+
+$color_snippet_focus:        $palette_blue_medium;
+$color_snippet_hover:        $palette_grey_medium;
+$color_snippet_active:       $palette_grey_dark;
 
 // My Yoast colors.
 $color_grey_medium_dark:     $palette_grey_medium_dark;

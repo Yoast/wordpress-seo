@@ -1,9 +1,13 @@
-extends: ["yoast"]
+extends: [ "yoast", "plugin:jsx-a11y/recommended" ]
 
 parser: babel-eslint
 
 rules:
   complexity: [1, 6]
+  // A wrapping label is not necessary when there already is an htmlFor attribute.
+  jsx-a11y/label-has-for: [ "error", { required: "id" } ]
 
 env:
   jest: true
+
+plugins: [ "jsx-a11y" ]
