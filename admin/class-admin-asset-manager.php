@@ -190,6 +190,31 @@ class WPSEO_Admin_Asset_Manager {
 
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
+		$backport_wp_dependencies = array( self::PREFIX . 'react-dependencies' );
+
+		// If Gutenberg is present we can borrow their globals for our own.
+		if ( function_exists( 'gutenberg_register_scripts_and_styles' ) ) {
+			$backport_wp_dependencies[] = 'wp-element';
+			$backport_wp_dependencies[] = 'wp-data';
+
+			if ( ! wp_script_is( 'wp-element', 'registered' ) ) {
+				gutenberg_register_scripts_and_styles();
+			}
+
+			/*
+			 * The version of TinyMCE that Gutenberg uses is incompatible with
+			 * the one core uses. So we need to make sure that the core version
+			 * is used in the classic editor.
+			 *
+			 * $_GET is used here because as far as I am aware you cannot use
+			 * filter_input to check for the existence of a query variable.
+			 */
+			if ( wp_script_is( 'tinymce-latest', 'registered' ) && isset( $_GET['classic-editor'] ) ) {
+				wp_deregister_script( 'tinymce-latest' );
+				wp_register_script( 'tinymce-latest', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array( 'jquery' ), false, true );
+			}
+		}
+
 		return array(
 			array(
 				'name' => 'react-dependencies',
@@ -200,11 +225,16 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
+				'name' => 'wp-globals-backport',
+				'src'  => 'wp-seo-wp-globals-backport-' . $flat_version,
+				'deps' => $backport_wp_dependencies,
+			),
+			array(
 				'name' => 'yoast-modal',
 				'src'  => 'wp-seo-modal-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -212,7 +242,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-help-center-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -258,7 +288,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 				'in_footer' => false,
 			),
@@ -283,7 +313,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -291,7 +321,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -351,7 +381,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'configuration-wizard-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			// Register for backwards-compatiblity.
@@ -397,7 +427,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					self::PREFIX . 'api',
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
