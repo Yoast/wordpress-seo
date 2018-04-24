@@ -150,8 +150,6 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_update_storage() {
 
-		wp_set_current_user( 1 );
-
 		$message = 'b';
 		$options = array( 'id' => 'some_id' );
 
@@ -165,7 +163,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$subject->update_storage();
 
-		$stored_notifications = get_user_option( Yoast_Notification_Center::STORAGE_KEY, get_current_user_id() );
+		$stored_notifications = get_user_option( Yoast_Notification_Center::STORAGE_KEY, $this->user_id );
 
 		$test = array( $notification->to_array() );
 
@@ -462,7 +460,6 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$site2 = self::factory()->blog->create();
 
-		$user_id       = get_current_user_id();
 		$notification  = new Yoast_Notification( 'notification', array(
 			'id'            => 'some_id',
 			'dismissal_key' => 'notification_dismissal',
@@ -472,10 +469,10 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		// Dismiss notification for the current site.
 		Yoast_Notification_Center::dismiss_notification( $notification );
 
-		$site1_dismissed = (bool) get_user_option( $dismissal_key, $user_id );
+		$site1_dismissed = (bool) get_user_option( $dismissal_key, $this->user_id );
 
 		switch_to_blog( $site2 );
-		$site2_dismissed = (bool) get_user_option( $dismissal_key, $user_id );
+		$site2_dismissed = (bool) get_user_option( $dismissal_key, $this->user_id );
 		restore_current_blog();
 
 		$this->assertTrue( $site1_dismissed );
