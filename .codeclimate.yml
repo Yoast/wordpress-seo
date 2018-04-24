@@ -17,3 +17,4 @@ exclude_paths:
 - grunt/**/*
 - Gruntfile.js
 - "**/*Test.js"
+- app/**/*

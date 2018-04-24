@@ -1,14 +1,36 @@
-/* External dependencies */
+// External dependencies.
 import React, { Component } from "react";
-import SnippetPreview from "./SnippetPreview";
 import styled from "styled-components";
+import debounce from "lodash/debounce";
+
+// Internal dependencies.
+import SnippetEditor from "../composites/Plugin/SnippetEditor/components/SnippetEditor";
 
 const Container = styled.div`
 	background-color: white;
-	margin: 5em auto 0; 
+	margin: 5em auto 0;
 `;
 
-export default class SnippetPreviewExample extends Component {
+const replacementVariables = [
+	{
+		name: "title",
+		value: "Title",
+	},
+	{
+		name: "post_type",
+		value: "Gallery",
+	},
+	{
+		name: "snippet",
+		value: "The snippet of your post.",
+	},
+	{
+		name: "snippet_manual",
+		value: "The manual snippet of your post.",
+	},
+];
+
+export default class SnippetEditorExample extends Component {
 	/**
 	 * Constructs a snippet preview example
 	 *
@@ -24,6 +46,7 @@ export default class SnippetPreviewExample extends Component {
 			" Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet Title Snippet" +
 			" Title Snippet Title Snippet Title Snippet Title Snippet Title",
 			url: "https://local.wordpress.test/welcome-to-the-gutenberg-editor-2/",
+			slug: "welcome-to-the-gutenberg-editor-2",
 			description: "Of Mountains & Printing Presses The goal of this new editor is to make" +
 			" adding rich content to WordPress simple and enjoyable. This whole post is composed" +
 			" of. Of Mountains & Printing Presses The goal of this new editor is to make adding" +
@@ -43,14 +66,16 @@ export default class SnippetPreviewExample extends Component {
 				// eslint-disable-next-line no-console
 				console.log( "clicked:", type );
 			},
-			hoveredField: "",
-			activeField: "description",
 			breadcrumbs: [ "hallo", "is", "it", "me", "you" ],
 			isAmp: true,
+			isEditorOpen: false,
+			currentTitleLength: 0,
+			currentDescriptionLength: 0,
 		};
 
 		this.onMouseOver = this.onMouseOver.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
+		this.onChangedData = debounce( this.onChangedData.bind( this ), 150 );
 	}
 
 	/**
@@ -127,34 +152,71 @@ export default class SnippetPreviewExample extends Component {
 	}
 
 	/**
-	 * Renders the SnippetPreview component.
+	 * Handles a piece of changed data.
 	 *
-	 * @param {string} title                  The title tag.
-	 * @param {string} url                    The URL of the page for which to generate a snippet.
-	 * @param {string} description            The meta description.
-	 * @param {string} keyword                The keyword for the page.
-	 * @param {string} isDescriptionGenerated Whether the description was generated.
-	 * @param {string} locale                 The locale of the page.
+	 * @param {string} key The key for this data.
+	 * @param {*} data The data itself.
 	 *
-	 * @returns {ReactElement} The SnippetPreview component.
+	 * @returns {void}
+	 */
+	onChangedData( key, data ) {
+		this.setState( {
+			[ key ]: data,
+		} );
+	}
+
+	/**
+	 * Renders an example of how to use the snippet editor.
+	 *
+	 * @returns {ReactElement} The rendered snippet editor.
 	 */
 	render() {
-		let props = Object.assign( {}, this.state );
+		const data = {
+			title: this.state.title,
+			url: this.state.url,
+			description: this.state.description,
+			slug: this.state.slug,
+		};
 
-		props.onMouseOver = this.onMouseOver;
-		props.onMouseLeave = this.onMouseLeave;
+		let titleLengthAssessment = {
+			max: 600,
+			actual: this.state.currentTitleLength,
+			score: this.state.currentTitleLength > 300 ? 9 : 6,
+		};
+
+		let descriptionLengthAssessment = {
+			max: 320,
+			actual: this.state.currentDescriptionLength,
+			score: this.state.currentDescriptionLength > 160 ? 9 : 3,
+		};
+
+		const snippetEditorProps = Object.assign( {}, this.state, {
+			data: data,
+			baseUrl: "https://local.wordpress.test/",
+			onChange: this.onChangedData,
+			replacementVariables,
+			titleLengthAssessment: titleLengthAssessment,
+			descriptionLengthAssessment: descriptionLengthAssessment,
+		} );
 
 		return <Container>
-			<button onClick={ this.switch.bind( this, "desktop" ) }>Desktop</button>
-			<button onClick={ this.switch.bind( this, "mobile" ) }>Mobile</button>
-			<input type="text" onChange={ this.updateTitle.bind( this ) } value={ this.state.title } />
-			<input type="text" onChange={ this.updateUrl.bind( this ) } value={ this.state.url } />
+			<SnippetEditor
+				{ ...snippetEditorProps }
+			/>
 
-			<br /><br /><br />
-
-			<div>
-				<SnippetPreview {...props} />
-			</div>
+			<h2>Test Sliders</h2>
+			<input
+				type="range"
+				min={ 0 }
+				max={ 600 }
+				onChange={ ( event ) => this.onChangedData( "currentTitleLength", parseInt( event.target.value, 10 ) ) }
+			/>
+			<input
+				type="range"
+				min={ 0 }
+				max={ 320 }
+				onChange={ ( event ) => this.onChangedData( "currentDescriptionLength", parseInt( event.target.value, 10 ) ) }
+			/>
 		</Container>;
 	}
 }
