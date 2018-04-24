@@ -7,7 +7,6 @@ import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 
 import reducers from "yoast-premium-components/redux/reducers";
-import isGutenbergDataAvailable from "../../../../js/src/helpers/isGutenbergDataAvailable";
 
 let settings = wpseoPremiumMetaboxData.data;
 
@@ -79,9 +78,7 @@ function initializeMetabox() {
 		initializeLinkSuggestionsMetabox();
 	}
 
-	if ( isGutenbergDataAvailable() ) {
-		registerStoreInGutenberg();
-	}
+	registerStoreInGutenberg();
 }
 
 /**
