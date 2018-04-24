@@ -34,8 +34,6 @@ window.yoastHideMarkers = true;
 
 	var tabManager;
 
-	let store;
-
 	/**
 	 * Get the editor created via wp_editor() and append it to the term-description-wrap
 	 * table cell. This way we can use the wp tinyMCE editor on the description field.
@@ -187,7 +185,7 @@ window.yoastHideMarkers = true;
 		const editArgs = {
 			analysisSection: "pageanalysis",
 		};
-		store = initializeEdit( editArgs ).store;
+		const { store } = initializeEdit( editArgs );
 
 		snippetContainer = $( "#wpseosnippet" );
 
