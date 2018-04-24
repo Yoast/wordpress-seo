@@ -19,12 +19,13 @@ const defaultWebpackConfig = {
 		jsonpFunction: "yoastWebpackJsonp",
 	},
 	resolve: {
-		extensions: [ ".js", ".jsx" ],
+		extensions: [ ".json", ".js", ".jsx" ],
 	},
 	module: {
 		rules: [
 			{
 				test: /.jsx?$/,
+				exclude: /node_modules\/(?!(yoast-components)\/).*/,
 				use: [
 					{
 						loader: "babel-loader",
@@ -38,6 +39,10 @@ const defaultWebpackConfig = {
 						loader: "svg-react-loader",
 					},
 				],
+			},
+			{
+				test: /\.json$/,
+				use: [ "json-loader" ],
 			},
 		],
 	},

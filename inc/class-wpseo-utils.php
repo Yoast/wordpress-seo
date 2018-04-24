@@ -388,7 +388,6 @@ class WPSEO_Utils {
 			'on',
 			'On',
 			'ON',
-
 		);
 		$false = array(
 			'0',
