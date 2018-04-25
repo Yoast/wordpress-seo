@@ -1,16 +1,15 @@
 /* global wpseoReplaceVarsL10n, require */
-var forEach = require( "lodash/forEach" );
-var filter = require( "lodash/filter" );
-var isUndefined = require( "lodash/isUndefined" );
+import forEach from "lodash/forEach";
+import filter from "lodash/filter";
+import isUndefined from "lodash/isUndefined";
 
-var ReplaceVar = require( "./values/replaceVar" );
+import ReplaceVar from "./values/replaceVar";
 import {
 	GutenbergDataCollector,
 	TinyMceDataCollector,
 	DataProvider,
 } from "./replacevar";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
-
 
 ( function() {
 	var modifiableFields = [
@@ -29,7 +28,8 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 	/**
 	 * Variable replacement plugin for WordPress.
 	 *
-	 * @param {app} app The app object.
+	 * @param {Object} app The app object.
+	 * @param {Object} store The Redux store.
 	 *
 	 * @returns {void }
 	 */
@@ -58,7 +58,7 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 			return new GutenbergDataCollector( this._app.refresh );
 		}
 		return new TinyMceDataCollector();
-	}
+	};
 
 	/**
 	 * Registers all the placeholders and their replacements.
