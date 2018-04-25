@@ -334,7 +334,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * @return WPSEO_OpenGraph_Image
 	 */
 	private function setup_class() {
-		return new WPSEO_OpenGraph_Image( new WPSEO_OpenGraph() );
+		return new WPSEO_OpenGraph_Image( null, new WPSEO_OpenGraph() );
 	}
 
 	/**

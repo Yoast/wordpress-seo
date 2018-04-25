@@ -536,11 +536,7 @@ class WPSEO_OpenGraph {
 	 * @return void
 	 */
 	public function image( $image = false ) {
-		if ( empty( $image ) === false ) {
-			_deprecated_argument( __METHOD__, 'WPSEO 7.4' );
-		}
-
-		$opengraph_image = new WPSEO_OpenGraph_Image( $this );
+		$opengraph_image = new WPSEO_OpenGraph_Image( $image, $this );
 		$opengraph_image->show();
 	}
 
