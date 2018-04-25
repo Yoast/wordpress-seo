@@ -101,7 +101,9 @@ function wpseo_premium_init() {
 	new WPSEO_Premium();
 }
 
-add_action( 'plugins_loaded', 'wpseo_premium_init', 14 );
+if ( ! wp_installing() ) {
+	add_action( 'plugins_loaded', 'wpseo_premium_init', 14 );
+}
 
 // Activation hook.
 if ( is_admin() ) {
