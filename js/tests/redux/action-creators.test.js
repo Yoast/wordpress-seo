@@ -1,7 +1,7 @@
 import {
-	SNIPPET_EDITOR_SWITCH_MODE,
-	SNIPPET_EDITOR_UPDATE_DATA,
-	SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE,
+	SWITCH_MODE,
+	UPDATE_DATA,
+	UPDATE_REPLACEMENT_VARIABLE,
 	switchMode,
 	updateData,
 	updateReplacementVariable,
@@ -11,7 +11,7 @@ describe( "snippet editor action creators", () => {
 	describe( "switchMode", () => {
 		it( "returns an action", () => {
 			expect( switchMode( "mobile" ) ).toEqual( {
-				type: SNIPPET_EDITOR_SWITCH_MODE,
+				type: SWITCH_MODE,
 				mode: "mobile",
 			} );
 		} );
@@ -22,7 +22,7 @@ describe( "snippet editor action creators", () => {
 			const data = { title: "title" };
 
 			expect( updateData( data ) ).toEqual( {
-				type: SNIPPET_EDITOR_UPDATE_DATA,
+				type: UPDATE_DATA,
 				data,
 			} );
 		} );
@@ -31,7 +31,7 @@ describe( "snippet editor action creators", () => {
 	describe( "updateReplacementVariable", () => {
 		it( "returns an action", () => {
 			expect( updateReplacementVariable( "title", "Title" ) ).toEqual( {
-				type: SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE,
+				type: UPDATE_REPLACEMENT_VARIABLE,
 				name: "title",
 				value: "Title",
 			} );

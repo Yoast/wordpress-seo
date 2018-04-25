@@ -1,8 +1,8 @@
 import { DEFAULT_MODE } from "yoast-components";
 import {
-	SNIPPET_EDITOR_SWITCH_MODE,
-	SNIPPET_EDITOR_UPDATE_DATA,
-	SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE,
+	SWITCH_MODE,
+	UPDATE_DATA,
+	UPDATE_REPLACEMENT_VARIABLE,
 } from "../actions/snippetEditor";
 
 const INITIAL_STATE = {
@@ -25,13 +25,13 @@ const INITIAL_STATE = {
  */
 function snippetEditorReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
-		case SNIPPET_EDITOR_SWITCH_MODE:
+		case SWITCH_MODE:
 			return {
 				...state,
 				mode: action.mode,
 			};
 
-		case SNIPPET_EDITOR_UPDATE_DATA:
+		case UPDATE_DATA:
 			return {
 				...state,
 				data: {
@@ -40,7 +40,7 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 				},
 			};
 
-		case SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE:
+		case UPDATE_REPLACEMENT_VARIABLE:
 			return {
 				...state,
 				replacementVariables: [

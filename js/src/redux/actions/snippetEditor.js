@@ -1,8 +1,6 @@
-const prefix = "SNIPPET_EDITOR";
-
-export const SNIPPET_EDITOR_SWITCH_MODE = `${ prefix }_SWITCH_MODE`;
-export const SNIPPET_EDITOR_UPDATE_DATA = `${ prefix }_UPDATE_DATA`;
-export const SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE = `${ prefix }_UPDATE_REPLACEMENT_VARIABLE`;
+export const SWITCH_MODE = "SNIPPET_EDITOR_SWITCH_MODE";
+export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
+export const UPDATE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE";
 
 /**
  * Switches mode of the snippet editor.
@@ -13,7 +11,7 @@ export const SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE = `${ prefix }_UPDATE_RE
  */
 export function switchMode( mode ) {
 	return {
-		type: SNIPPET_EDITOR_SWITCH_MODE,
+		type: SWITCH_MODE,
 		mode,
 	};
 }
@@ -30,7 +28,7 @@ export function switchMode( mode ) {
  */
 export function updateData( data ) {
 	return {
-		type: SNIPPET_EDITOR_UPDATE_DATA,
+		type: UPDATE_DATA,
 		data,
 	};
 }
@@ -45,7 +43,7 @@ export function updateData( data ) {
  */
 export function updateReplacementVariable( name, value ) {
 	return {
-		type: SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE,
+		type: UPDATE_REPLACEMENT_VARIABLE,
 		name,
 		value,
 	};
