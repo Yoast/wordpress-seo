@@ -18,17 +18,15 @@ class DataCollector {
 	/**
 	 * Get the title of the post's parent.
 	 *
-	 * @param {string}   id       The parent's id.
-	 * @param {function} callback Function to be called if the value has to be retrieved asynchronously.
+	 * @param {string} parentId The parent's id.
 	 *
-	 * @returns {string} The parent's title.
+	 * @returns {Promise} A Promise containing the Parent Title.
 	 */
 	/* eslint-disable */
-	getParentTitle( id, callback ) {
-		return "(not available)";
+	getParentTitle( parentId ) {
+		return new Promise( () => "(not available)" );
 	}
 	/* eslint-enable */
 }
-
 
 export default DataCollector;

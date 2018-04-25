@@ -51,7 +51,7 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 	/**
 	 * Returns the data collector that should be used.
 	 *
-	 * @param {store} store The redux store.
+	 * @param {Object} store The Redux store.
 	 *
 	 * @returns {DataCollector} The data collector.
 	 */

@@ -1,28 +1,38 @@
-/* global wpseoReplaceVarsL10n */
-
+/* global wpseoReplaceVarsL10n jQuery */
+/**
+ * External dependencies
+ */
 import isUndefined from "lodash/isUndefined";
 
-class TinyMceDataCollector {
+/**
+ * Internal dependencies
+ */
+import DataCollector from "./data-collector";
+
+/**
+ * TinyMCE replacevar data collector.
+ */
+class TinyMceDataCollector extends DataCollector {
+	/**
+	 * Gets the parent id.
+	 *
+	 * @returns {string} The parent id.
+	 */
+	getParentId() {
+		const select = jQuery( "#parent_id, #parent" ).eq( 0 );
+		return select.find( "option:selected" ).val();
+	}
+
 	/**
 	 * Gets the parent title.
 	 *
-	 * @param {number|string} parentId The parent id to get the title for.
-	 * @param {function}      callback Callback to call when parent title has been fetched.
-	 *
-	 * @returns {string} Parent title.
+	 * @returns {Promise} A Promise containing the Parent Title.
 	 */
-	getParentTitle( parentId, callback ) {
+	getParentTitle() {
 		const select = jQuery( "#parent_id, #parent" ).eq( 0 );
+		const parentTitle = this.hasParentTitle( select ) ? this.getParentTitleReplacement( select ) : "";
 
-		if ( ! this.hasParentTitle( select ) ) {
-			return "";
-		}
-
-		const parentTitle = this.getParentTitleReplacement( select );
-
-		callback( parentTitle );
-
-		return parentTitle;
+		return new Promise( () => parentTitle );
 	}
 
 	/**
@@ -50,16 +60,6 @@ class TinyMceDataCollector {
 		}
 
 		return parentText;
-	}
-
-	/**
-	 * Gets the parent id.
-	 *
-	 * @returns {string} The parent id.
-	 */
-	getParentId() {
-		const select = jQuery( "#parent_id, #parent" ).eq( 0 );
-		return select.find( "option:selected" ).val();
 	}
 }
 

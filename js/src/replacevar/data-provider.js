@@ -1,7 +1,7 @@
 /**
  * Adapter for retrieving the replacevars in either the classic editor or TinyMCE.
  */
-class ReplacevarData {
+class ReplaceVarData {
 	/**
 	 * @param {function}      refresh       Refresh function for YoastSEO.
 	 * @param {DataCollector} dataCollector The data collector.
@@ -18,18 +18,17 @@ class ReplacevarData {
 	 *
 	 * @returns {string} Parent title.
 	 */
-	getParentTitle() {
+	async getParentTitle() {
 		const parentId = this.dataCollector.getParentId();
 		if ( ! parentId || parentId === 0 ) {
 			return "";
 		}
 
-		const parentTitle = this.dataCollector.getParentTitle( parentId, () => {
-			this.refresh();
-		} );
+		const parentTitle = await this.dataCollector.getParentTitle( parentId );
+		this.refresh();
 
 		return parentTitle;
 	}
 }
 
-export default ReplacevarData;
+export default ReplaceVarData;

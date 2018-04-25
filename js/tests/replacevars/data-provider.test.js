@@ -19,7 +19,7 @@ beforeEach( () => {
 	};
 } );
 
-describe( "DataProvider", () => {
+describe( "ReplaceVarData", () => {
 	it( "doesn't call the data collector when a cached value is available", () => {
 		const refresh = jest.fn();
 		store.getState.mockReturnValue( {

@@ -1,4 +1,5 @@
 /* global wp */
+
 /**
  * External dependencies
  */
@@ -9,28 +10,10 @@ import get from "lodash/get";
  */
 import DataCollector from "./data-collector";
 
+/**
+ * Gutenberg replacevar data collector.
+ */
 class GutenbergDataCollector extends DataCollector {
-	constructor( store ) {
-		super( store );
-	}
-	/**
-	 * Gets the parent title.
-	 *
-	 * Gets the parent title via the WordPress REST API, and caches the result,
-	 * and calls the refresh callback once the parent title has been cached.
-	 *
-	 * @param {number|string} parentId The parent id to get the title for.
-	 * @param {function}      callback Callback to call when parent title has been fetched.
-	 *
-	 * @returns {void}
-	 */
-	getParentTitle( parentId, callback ) {
-		const model = new wp.api.models.Page( { id: parentId } );
-		model.fetch( { data: { _fields: [ "title" ] } } ).done( data => {
-			callback( data.title.rendered );
-		} ).fail( () => {} );
-	}
-
 	/**
 	 * Gets the parent id.
 	 *
@@ -39,7 +22,22 @@ class GutenbergDataCollector extends DataCollector {
 	getParentId() {
 		return wp.data.select( "core/editor" ).getEditedPostAttribute( "parent" );
 	}
-}
 
+	/**
+	 * Gets the parent title.
+	 *
+	 * Gets the parent title via the WordPress REST API, and caches the result,
+	 * and calls the refresh callback once the parent title has been cached.
+	 *
+	 * @param {number|string} parentId The parent id to get the title for.
+	 *
+	 * @returns {Promise} A Promise containing the Parent Title.
+	 */
+	getParentTitle( parentId ) {
+		const model = new wp.api.models.Page( { id: parentId } );
+
+		return model.fetch( { data: { _fields: [ "title" ] } } ).then( data => get( data, "title.rendered", "" ) );
+	}
+}
 
 export default GutenbergDataCollector;
