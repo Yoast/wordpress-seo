@@ -197,10 +197,6 @@ class WPSEO_Admin_Asset_Manager {
 			$backport_wp_dependencies[] = 'wp-element';
 			$backport_wp_dependencies[] = 'wp-data';
 
-			if ( ! wp_script_is( 'wp-element', 'registered' ) ) {
-				gutenberg_register_scripts_and_styles();
-			}
-
 			/*
 			 * The version of TinyMCE that Gutenberg uses is incompatible with
 			 * the one core uses. So we need to make sure that the core version
