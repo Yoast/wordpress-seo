@@ -11,7 +11,7 @@ import {
  * @param {Object} state The current state.
  * @param {Object} state.snippetEditor The state for the snippet editor.
  *
- * @returns {Object} Data suitable for the `SnippetEditor` component.
+ * @returns {Object} Data for the `SnippetEditor` component.
  */
 export function mapStateToProps( { snippetEditor } ) {
 	const data = snippetEditor.data;
@@ -28,7 +28,7 @@ export function mapStateToProps( { snippetEditor } ) {
  *
  * @param {Function} dispatch The dispatch function that will dispatch a redux action.
  *
- * @returns {Object} Props suitable for the `SnippetEditor` component.
+ * @returns {Object} Props for the `SnippetEditor` component.
  */
 export function mapDispatchToProps( dispatch ) {
 	return {

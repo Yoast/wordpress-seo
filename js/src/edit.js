@@ -107,7 +107,7 @@ function renderReactApp( target, component, store ) {
  * Renders the snippet preview for display.
  *
  * @param {Object} store   Redux store.
- * @param {string} baseUrl The base URL of this site.
+ * @param {string} baseUrl The base URL of the site the user is editing.
  *
  * @returns {void}
  */

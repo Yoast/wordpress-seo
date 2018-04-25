@@ -9,7 +9,7 @@ jest.mock( "../../src/containers/SnippetEditor", () => {
 } );
 
 jest.mock( "yoast-components", () => {
-	return { StyledSection: () =><span>yoast-components StyledSection</span> };
+	return { StyledSection: () => <span>yoast-components StyledSection</span> };
 } );
 
 describe( "SnippetPreviewSection", () => {

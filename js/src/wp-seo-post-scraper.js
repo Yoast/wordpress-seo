@@ -24,9 +24,7 @@ import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetPreviewHelpers from "./analysis/snippetPreview";
 import UsedKeywords from "./analysis/usedKeywords";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
-import {
-	updateData,
-} from "./redux/actions/snippetEditor";
+import { updateData } from "./redux/actions/snippetEditor";
 import isFunction from "lodash/isFunction";
 
 ( function( $ ) {
@@ -89,7 +87,7 @@ import isFunction from "lodash/isFunction";
 	 */
 	const dispatchUpdateSnippetEditor = function( data ) {
 		/*
-		 * The set timeout makes sure the React component is only rendered on the next
+		 * The setTimeout makes sure the React component is only rendered on the next
 		 * frame.
 		 */
 		setTimeout( () => {
@@ -115,12 +113,12 @@ import isFunction from "lodash/isFunction";
 			metaDesc: postScraper.getSnippetMeta(),
 		}, ( data ) => {
 			const state = editStore.getState();
-			const prevData = state.snippetEditor.data;
+			const previousData = state.snippetEditor.data;
 
 			if (
-				prevData.title !== data.title ||
-				prevData.description !== data.metaDesc ||
-				prevData.slug !== data.urlPath
+				previousData.title !== data.title ||
+				previousData.description !== data.metaDesc ||
+				previousData.slug !== data.urlPath
 			) {
 				dispatchUpdateSnippetEditor( data );
 			}
@@ -413,7 +411,8 @@ import isFunction from "lodash/isFunction";
 	}
 
 	/**
-	 * Renders the legacy snippet preview based on some data from the redux store.
+	 * Renders the legacy snippet preview based on the passed data from the redux
+	 * store.
 	 *
 	 * @param {Object} data The data from the store.
 	 *
@@ -421,27 +420,27 @@ import isFunction from "lodash/isFunction";
 	 */
 	function renderLegacySnippetEditor( data ) {
 		if ( isFunction( snippetPreview.refresh ) ) {
-			let changedData = false;
+			let isDataChanged = false;
 
 			if ( snippetPreview.data.title !== data.title ) {
 				snippetPreview.element.input.title.value = data.title;
 
-				changedData = true;
+				isDataChanged = true;
 			}
 
 			if ( snippetPreview.data.urlPath !== data.slug ) {
 				snippetPreview.element.input.urlPath.value = data.slug;
 
-				changedData = true;
+				isDataChanged = true;
 			}
 
 			if ( snippetPreview.data.metaDesc !== data.description ) {
 				snippetPreview.element.input.metaDesc.value = data.description;
 
-				changedData = true;
+				isDataChanged = true;
 			}
 
-			if ( changedData ) {
+			if ( isDataChanged ) {
 				snippetPreview.changedInput();
 			}
 		}

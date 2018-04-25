@@ -16,7 +16,7 @@ const INITIAL_STATE = {
 };
 
 /**
- * Reduces the dispatches action for the snippet editor state.
+ * Reduces the dispatched action for the snippet editor state.
  *
  * @param {Object} state The current state.
  * @param {Object} action The action that was just dispatched.

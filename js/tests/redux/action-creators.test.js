@@ -1,7 +1,10 @@
 import {
-	SNIPPET_EDITOR_SWITCH_MODE, SNIPPET_EDITOR_UPDATE_DATA,
+	SNIPPET_EDITOR_SWITCH_MODE,
+	SNIPPET_EDITOR_UPDATE_DATA,
 	SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE,
-	switchMode, updateData, updateReplacementVariable,
+	switchMode,
+	updateData,
+	updateReplacementVariable,
 } from "../../src/redux/actions/snippetEditor";
 
 describe( "snippet editor action creators", () => {
