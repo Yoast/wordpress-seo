@@ -41,7 +41,8 @@
 			"admin/",
 			"frontend/",
 			"inc/",
-			"deprecated/"
+			"deprecated/",
+			"cli/"
 		]
 	},
 	"autoload-dev": {
