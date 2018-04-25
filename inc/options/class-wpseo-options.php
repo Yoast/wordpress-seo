@@ -459,7 +459,7 @@ class WPSEO_Options {
 	 *
 	 * @param array $option The currently present options settings.
 	 *
-	 * @return array Options possible including multisite.
+	 * @return array Options possibly including multisite.
 	 */
 	protected static function add_ms_option( $option ) {
 		if ( ! is_multisite() ) {
@@ -467,6 +467,7 @@ class WPSEO_Options {
 		}
 
 		$ms_option = self::get_option( 'wpseo_ms' );
+
 		return array_merge( $option, $ms_option );
 	}
 
