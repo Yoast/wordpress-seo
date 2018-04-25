@@ -18,7 +18,11 @@ class TinyMceDataCollector {
 			return "";
 		}
 
-		callback( this.getParentTitleReplacement( select ) );
+		const parentTitle = this.getParentTitleReplacement( select );
+
+		callback( parentTitle );
+
+		return parentTitle;
 	}
 
 	/**

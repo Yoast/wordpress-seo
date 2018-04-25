@@ -1,8 +1,18 @@
 /* global wp */
+/**
+ * External dependencies
+ */
+import get from "lodash/get";
 
-import DataProvider from "./data-provider";
+/**
+ * Internal dependencies
+ */
+import DataCollector from "./data-collector";
 
-class GutenbergDataCollector extends DataProvider {
+class GutenbergDataCollector extends DataCollector {
+	constructor( store ) {
+		super( store );
+	}
 	/**
 	 * Gets the parent title.
 	 *
@@ -12,7 +22,7 @@ class GutenbergDataCollector extends DataProvider {
 	 * @param {number|string} parentId The parent id to get the title for.
 	 * @param {function}      callback Callback to call when parent title has been fetched.
 	 *
-	 * @returns {string} Parent title.
+	 * @returns {void}
 	 */
 	getParentTitle( parentId, callback ) {
 		const model = new wp.api.models.Page( { id: parentId } );
