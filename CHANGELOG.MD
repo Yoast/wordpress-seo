@@ -5,6 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 3.5.1 April 25th, 2018
+
+### Fixed
+
+* Removed import reference to a file that no longer exists.
+
 ## 3.5.0 April 24th, 2018
 
 ### Added
