@@ -103,21 +103,6 @@ class Indexable_Author_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests the result value of get_sitemap_include_value
-	 *
-	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::get_sitemap_include_value()
-	 */
-	public function test_get_sitemap_include_value() {
-		$instance = new Indexable_Author_Double();
-
-		$this->assertFalse( $instance->get_sitemap_include_value( 'on' ) );
-
-		$this->assertTrue( $instance->get_sitemap_include_value( 'off' ) );
-		$this->assertTrue( $instance->get_sitemap_include_value( false ) );
-		$this->assertTrue( $instance->get_sitemap_include_value( true ) );
-	}
-
-	/**
 	 * Tests if get meta data returns expected data
 	 *
 	 * @covers \Yoast\YoastSEO\Watchers\Indexable_Author::get_meta_data()

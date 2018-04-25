@@ -68,10 +68,14 @@ class Primary_Term implements Integration {
 	 * @return void
 	 */
 	protected function save_primary_term( $post_id, $taxonomy ) {
-		$term_id = filter_input( INPUT_POST, \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
+		// This request must be valid.
+		if ( ! check_admin_referer( 'save-primary-term', \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' ) ) {
+			return;
+		}
 
-		// We accept an empty string here because we need to save that if no terms are selected.
-		if ( null === $term_id && check_admin_referer( 'save-primary-term', \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' ) ) {
+		$term_id = filter_input( INPUT_POST, \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
+		if ( empty( $term_id ) ) {
+			// @todo remove the indexable if found.
 			return;
 		}
 
@@ -107,6 +111,7 @@ class Primary_Term implements Integration {
 			$post_id = $this->get_current_id();
 		}
 
+		// @todo determine if caching is needed here, no database queries are used?
 		$taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_id, 'wpseo' );
 		if ( false !== $taxonomies ) {
 			return $taxonomies;

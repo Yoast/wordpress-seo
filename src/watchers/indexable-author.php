@@ -120,17 +120,6 @@ class Indexable_Author implements Integration {
 	}
 
 	/**
-	 * Converts the sitemap exclude meta value to the indexable value.
-	 *
-	 * @param string $meta_value Current meta value.
-	 *
-	 * @return bool Value to use in the indexable.
-	 */
-	protected function get_sitemap_include_value( $meta_value ) {
-		return $meta_value !== 'on';
-	}
-
-	/**
 	 * Retrieves the permalink of a user.
 	 *
 	 * @codeCoverageIgnore
