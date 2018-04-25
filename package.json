@@ -71,6 +71,7 @@
     "grunt-shell": "^1.1.2",
     "grunt-webpack": "^3.0.2",
     "grunt-wp-css": "^0.2.1",
+    "grunt-wp-deploy": "^1.2.1",
     "grunt-wp-i18n": "^1.0.0",
     "i18n-calypso": "^1.8.4",
     "jest": "^18.0.0",
@@ -92,7 +93,6 @@
   "dependencies": {
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
-    "grunt-wp-deploy": "^1.2.1",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "lodash": "^4.17.4",
