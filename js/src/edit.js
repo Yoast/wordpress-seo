@@ -9,17 +9,11 @@ import { Provider } from "react-redux";
 import flowRight from "lodash/flowRight";
 
 import IntlProvider from "./components/IntlProvider";
-import markerStatusReducer from "./redux/reducers/markerButtons";
-import keywordsReducer from "./redux/reducers/keywords";
-import analysisReducer from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
-import activeKeywordReducer from "./redux/reducers/activeKeyword";
-import activeTab from "./redux/reducers/activeTab";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
-import openSidebarSectionsReducer from "./redux/reducers/openSidebarSections";
-import cornerstoneContentReducer from "./redux/reducers/cornerstoneContent";
+import reducers from "./redux/reducers";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -30,38 +24,16 @@ if( window.wpseoPostScraperL10n ) {
 }
 
 /**
- * Creates a redux store.
+ * Registers a redux store in Gutenberg.
  *
- * @returns {Object} Things that need to be exposed, such as the store.
+ * @returns {Object} The store.
  */
-function configureStore() {
-	const middleware = [
-		thunk,
-	];
+function registerStoreInGutenberg() {
+	const { combineReducers, registerStore } = wp.data;
 
-	if ( process.env.NODE_ENV !== "production" ) {
-		middleware.push( logger );
-	}
-
-	const enhancers = [
-		applyMiddleware( ...middleware ),
-	];
-
-	if ( window.__REDUX_DEVTOOLS_EXTENSION__ ) {
-		enhancers.push( window.__REDUX_DEVTOOLS_EXTENSION__() );
-	}
-
-	const rootReducer = combineReducers( {
-		marksButtonStatus: markerStatusReducer,
-		keywords: keywordsReducer,
-		openSidebarSections: openSidebarSectionsReducer,
-		analysis: analysisReducer,
-		activeKeyword: activeKeywordReducer,
-		isCornerstone: cornerstoneContentReducer,
-		activeTab,
+	return registerStore( "yoast-seo/editor", {
+		reducer: combineReducers( reducers ),
 	} );
-
-	return createStore( rootReducer, {}, flowRight( enhancers ) );
 }
 
 /**
@@ -158,7 +130,7 @@ function renderReactApps( store, args ) {
  * @returns {Object} The store and the data.
  */
 export function initialize( args ) {
-	const store = configureStore();
+	const store = registerStoreInGutenberg();
 	let data = {};
 
 	// Only use Gutenberg's data if Gutenberg is available.
