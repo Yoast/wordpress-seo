@@ -27,6 +27,9 @@ class MailchimpSignup extends React.Component {
 			successfulSignup: this.props.value,
 			isLoading: false,
 		};
+
+		this.setNameInputRef = this.setNameInputRef.bind( this );
+		this.setEmailInputRef = this.setEmailInputRef.bind( this );
 	}
 
 	/**
@@ -60,9 +63,9 @@ class MailchimpSignup extends React.Component {
 	 * @returns {void}
 	 */
 	signup() {
-		let email = this.refs.emailInput.value;
+		let email = this._emailInput.value;
 		let data = `EMAIL=${email}`;
-		let name = this.refs.nameInput.value.trim();
+		let name = this._nameInput.value.trim();
 
 		if ( name !== "" ) {
 			data = data + `&NAME=${encodeURIComponent( name )}`;
@@ -173,6 +176,28 @@ class MailchimpSignup extends React.Component {
 	}
 
 	/**
+	 * Set the name input reference.
+	 *
+	 * @param {Object} ref The name input element.
+	 *
+	 * @returns {void}
+	 */
+	setNameInputRef( ref ) {
+		this._nameInput = ref;
+	}
+
+	/**
+	 * Set the email input reference.
+	 *
+	 * @param {Object} ref The email input element.
+	 *
+	 * @returns {void}
+	 */
+	setEmailInputRef( ref ) {
+		this._emailInput = ref;
+	}
+
+	/**
 	 * @summary Renders the Mailchimp component.
 	 *
 	 * @returns {JSX.Element} Rendered Mailchimp Component.
@@ -187,7 +212,7 @@ class MailchimpSignup extends React.Component {
 		let input = <input
 			id="mailchimpEmail"
 			className="yoast-wizard-text-input-field"
-			ref="emailInput"
+			ref={ this.setEmailInputRef }
 			type="text"
 			name={this.props.name}
 			defaultValue={this.props.properties.currentUserEmail}
@@ -217,7 +242,7 @@ class MailchimpSignup extends React.Component {
 							<input
 								id="mailchimpName"
 								className="yoast-wizard-text-input-field"
-								ref="nameInput"
+								ref={ this.setNameInputRef }
 								type="text"
 								name="name"
 								defaultValue={this.props.properties.userName}/>
