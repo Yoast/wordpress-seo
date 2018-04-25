@@ -262,7 +262,7 @@ function wpseo_admin_bar_menu() {
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-general',
-			'title'  => __( 'Dashboard', 'wordpress-seo' ),
+			'title'  => __( 'General', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_dashboard' ),
 		) );
 		$wp_admin_bar->add_menu( array(
