@@ -1,4 +1,4 @@
-const prefix = "SNIPPET_EDITOR"
+const prefix = "SNIPPET_EDITOR";
 
 export const SNIPPET_EDITOR_SWITCH_MODE = `${ prefix }_SWITCH_MODE`;
 export const SNIPPET_EDITOR_UPDATE_DATA = `${ prefix }_UPDATE_DATA`;
