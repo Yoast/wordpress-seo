@@ -8,7 +8,6 @@ import { DEFAULT_MODE } from "yoast-components";
 describe( "snippet editor reducers", () => {
 	describe( "snippetEditorReducer", () => {
 		it( "has a default state", () => {
-			// eslint-disable-next-line no-undefined
 			const result = snippetEditorReducer( undefined, { type: "undefined" } );
 
 			expect( result ).toEqual( {
