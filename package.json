@@ -27,7 +27,8 @@
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/js/tests/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+      "find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js"
     },
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
@@ -102,6 +103,7 @@
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
     "draft-js-mention-plugin": "^2.0.1",
+    "find-with-regex": "~1.0.2",
     "grunt-wp-deploy": "^1.2.1",
     "gutenberg": "Wordpress/gutenberg",
     "interpolate-components": "^1.1.0",

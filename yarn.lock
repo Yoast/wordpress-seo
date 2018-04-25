@@ -3980,6 +3980,10 @@ find-with-regex@^1.0.2:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/find-with-regex/-/find-with-regex-1.1.0.tgz#93030ec0f6229708fcc014501d642dc2941e5c6e"
 
+find-with-regex@~1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/find-with-regex/-/find-with-regex-1.0.2.tgz#d3b36286539f14c527e31f194159c6d251651a45"
+
 findup-sync@~0.1.2:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/findup-sync/-/findup-sync-0.1.3.tgz#7f3e7a97b82392c653bf06589bd85190e93c3683"
