@@ -70,7 +70,7 @@ class WPSEO_Configuration_Page {
 	public function enqueue_assets() {
 		wp_enqueue_media();
 
-		if ( ! wp_script_is( 'wp-element', 'registered' ) ) {
+		if ( ! wp_script_is( 'wp-element', 'registered' ) && function_exists( 'gutenberg_register_scripts_and_styles' ) ) {
 			gutenberg_register_scripts_and_styles();
 		}
 
