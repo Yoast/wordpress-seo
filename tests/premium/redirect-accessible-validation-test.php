@@ -260,6 +260,26 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the situation where the installation directory is removed
+	 * from the target.
+	 *
+	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target()
+	 */
+	public function test_parse_target_on_subdirectory_installation() {
+		$old_home = get_option( 'home' );
+		update_option( 'home', 'http://example.org/blog' );
+
+		$double = new WPSEO_Redirect_Accessible_Validation_Double();
+
+		$this->assertEquals(
+			'http://example.org/blog/absolute',
+			$double->return_parse_target( '/blog/absolute' )
+		);
+
+		update_option( 'home', $old_home );
+	}
+
+	/**
 	 * Fake a 305 request code.
 	 *
 	 * @param mixed $in Filter input value.
