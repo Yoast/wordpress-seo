@@ -228,6 +228,7 @@ class WPSEO_Options {
 		self::$backfill->remove_hooks();
 
 		$option = self::get_all();
+		$option = self::add_ms_option( $option );
 
 		self::$backfill->register_hooks();
 
@@ -451,6 +452,23 @@ class WPSEO_Options {
 		$saved_option = self::get_option( $wpseo_options_group_name );
 
 		return $saved_option[ $option_name ] === $options[ $option_name ];
+	}
+
+	/**
+	 * Adds the multisite options to the option stack if relevant.
+	 *
+	 * @param array $option The currently present options settings.
+	 *
+	 * @return array Options possibly including multisite.
+	 */
+	protected static function add_ms_option( $option ) {
+		if ( ! is_multisite() ) {
+			return $option;
+		}
+
+		$ms_option = self::get_option( 'wpseo_ms' );
+
+		return array_merge( $option, $ms_option );
 	}
 
 	/**
