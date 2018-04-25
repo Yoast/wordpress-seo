@@ -316,6 +316,8 @@ class WPSEO_Redirect_Handler {
 			$request_uri = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL, $options );
 		}
 
+		$request_uri = $this->strip_subdirectory( $request_uri );
+
 		return rawurldecode( $request_uri );
 	}
 
@@ -413,9 +415,7 @@ class WPSEO_Redirect_Handler {
 	 * @return string The parsed url.
 	 */
 	protected function parse_target_url( $target_url ) {
-		$scheme = wp_parse_url( $target_url, PHP_URL_SCHEME );
-
-		if ( ! empty( $scheme ) ) {
+		if ( $this->has_url_scheme( $target_url ) ) {
 			return $target_url;
 		}
 
@@ -423,6 +423,19 @@ class WPSEO_Redirect_Handler {
 		$target_url = $this->format_for_multisite( $target_url );
 
 		return $this->home_url( $target_url );
+	}
+
+	/**
+	 * Checks if given url has a scheme.
+	 *
+	 * @param string $url The url to check.
+	 *
+	 * @return bool True when url has scheme.
+	 */
+	protected function has_url_scheme( $url ) {
+		$scheme = wp_parse_url( $url, PHP_URL_SCHEME );
+
+		return ! empty( $scheme );
 	}
 
 	/**
@@ -472,7 +485,29 @@ class WPSEO_Redirect_Handler {
 	 * @return string The redirect url.
 	 */
 	protected function home_url( $redirect_url ) {
+		$redirect_url = $this->strip_subdirectory( $redirect_url );
+
 		return home_url( $redirect_url );
+	}
+
+	/**
+	 * Strips the subdirectory from the given url.
+	 *
+	 * @param string $url The url to strip the subdirectory from.
+	 *
+	 * @return string The url with the stripped subdirectory.
+	 */
+	protected function strip_subdirectory( $url ) {
+		return WPSEO_Redirect_Util::strip_base_url_path_from_url( $this->get_home_url(), $url );
+	}
+
+	/**
+	 * Returns the URL PATH from the home url.
+	 *
+	 * @return string|null The url path or null if there isn't one.
+	 */
+	protected function get_home_url() {
+		return home_url();
 	}
 
 	/**

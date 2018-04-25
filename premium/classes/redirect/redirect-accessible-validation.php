@@ -128,12 +128,15 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 * @return string
 	 */
 	protected function parse_target( $target ) {
-		$url_parts = wp_parse_url( $target );
+		$scheme = wp_parse_url( $target, PHP_URL_SCHEME );
 
 		// If we have an absolute url return it.
-		if ( ! empty( $url_parts['scheme'] ) ) {
+		if ( ! empty( $scheme ) ) {
 			return $target;
 		}
+
+		// Removes the installation directory if present.
+		$target = WPSEO_Redirect_Util::strip_base_url_path_from_url( $this->get_home_url(), $target );
 
 		// If we have a relative url make it absolute.
 		$absolute = get_home_url( null, $target );
@@ -144,5 +147,14 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 		}
 
 		return $absolute;
+	}
+
+	/**
+	 * Returns the home url.
+	 *
+	 * @return string The home url.
+	 */
+	protected function get_home_url() {
+		return home_url();
 	}
 }
