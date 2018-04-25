@@ -40,6 +40,28 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests instantiating of the object with no argument.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::__construct
+	 */
+	public function test_constructor_with_no_argument() {
+		$class_instance = new WPSEO_OpenGraph_Image();
+
+		$this->assertAttributeInstanceOf( 'WPSEO_OpenGraph', 'opengraph', $class_instance );
+	}
+
+	/**
+	 * Tests instantiating of the object with a string argument.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::__construct
+	 */
+	public function test_constructor_with_string_argument() {
+		$class_instance = new WPSEO_OpenGraph_Image( 'image.jpg' );
+
+		$this->assertAttributeInstanceOf( 'WPSEO_OpenGraph', 'opengraph', $class_instance );
+	}
+
+	/**
 	 * Tests whether has images is false by default.
 	 */
 	public function test_has_images_is_FALSE() {

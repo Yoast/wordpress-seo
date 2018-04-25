@@ -52,9 +52,13 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_OpenGraph $wpseo_opengraph The OpenGraph object.
+	 * @param mixed $wpseo_opengraph Optional. The OpenGraph object.
 	 */
-	public function __construct( WPSEO_OpenGraph $wpseo_opengraph ) {
+	public function __construct( $wpseo_opengraph = null ) {
+		if ( $wpseo_opengraph instanceof WPSEO_Opengraph === false ) {
+			$wpseo_opengraph = new WPSEO_OpenGraph();
+		}
+
 		$this->opengraph = $wpseo_opengraph;
 
 		$this->set_images();

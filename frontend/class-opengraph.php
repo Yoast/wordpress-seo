@@ -531,9 +531,15 @@ class WPSEO_OpenGraph {
 	/**
 	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image.
 	 *
+	 * @param string|bool $image Optional. Image URL.
+	 *
 	 * @return void
 	 */
-	public function image() {
+	public function image( $image = false ) {
+		if ( empty( $image ) === false ) {
+			_deprecated_argument( __METHOD__, 'WPSEO 7.4' );
+		}
+
 		$opengraph_image = new WPSEO_OpenGraph_Image( $this );
 		$opengraph_image->show();
 	}
