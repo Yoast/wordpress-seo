@@ -43,7 +43,7 @@ final class WPSEO_CLI_Redirect_Create_Command extends WPSEO_CLI_Redirect_Base_Co
 	 * ---
 	 *
 	 * [--force]
-	 * : Force creation of the redirect, so an existing redirect will be overwritten.
+	 * : Force creation of the redirect, bypassing any validation.
 	 * ---
 	 * default: false
 	 * ---
@@ -61,10 +61,10 @@ final class WPSEO_CLI_Redirect_Create_Command extends WPSEO_CLI_Redirect_Base_Co
 			WP_CLI::error( "Redirect already exists for '{$origin}'." );
 		}
 
-		$this->validate( $origin, $target, $type, $format, $force, $force );
+		$force || $this->validate( $origin, $target, $type, $format );
 
 		$success = $exists
-			? $this->update_redirect( $origin, $target, $type, $format )
+			? $this->update_redirect( $origin, $origin, $target, $type, $format )
 			: $this->create_redirect( $origin, $target, $type, $format );
 
 		if ( ! $success ) {

@@ -45,23 +45,19 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	/**
 	 * Update an existing redirect.
 	 *
-	 * @param string $origin Origin of the redirect.
-	 * @param string $target Target of the redirect.
-	 * @param string $type   Type of the redirect.
-	 * @param string $format Format of the redirect.
+	 * @param string $old_origin Origin of the redirect.
+	 * @param string $new_origin Origin of the redirect.
+	 * @param string $target     Target of the redirect.
+	 * @param string $type       Type of the redirect.
+	 * @param string $format     Format of the redirect.
 	 *
 	 * @return bool Whether updating was successful.
 	 */
-	protected function update_redirect( $origin, $target, $type, $format ) {
-		$redirect = new WPSEO_Redirect( $origin, $target, $type, $format );
+	protected function update_redirect( $old_origin, $new_origin, $target, $type, $format ) {
+		$old_redirect = new WPSEO_Redirect( $old_origin );
+		$new_redirect = new WPSEO_Redirect( $new_origin, $target, $type, $format );
 
-		/*
-		 * The update_redirect method takes two redirect objects, a current one
-		 * and the planned new one. However, the $origin is used as ID and is
-		 * the only value that is retrieved from the current redirect, so
-		 * there's effectively no point in having two different objects.
-		 */
-		return $this->redirect_manager->update_redirect( $redirect, $redirect );
+		return $this->redirect_manager->update_redirect( $old_redirect, $new_redirect );
 	}
 
 	/**
@@ -102,15 +98,19 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	/**
 	 * Check whether a given redirect is valid.
 	 *
-	 * @param WPSEO_Redirect $redirect       Redirect to validate.
-	 * @param bool           $ignore_warning Ignore warnings.
-	 * @param bool           $ignore_error   Ignore errors.
+	 * @param string $new_origin
+	 * @param string $target
+	 * @param  int   $type
+	 * @param string $format
+	 * @param null   $old_origin
 	 */
-	protected function validate( $origin, $target, $type, $format, $ignore_warning = false, $ignore_error = false ) {
-		$redirect  = new WPSEO_Redirect( $origin, $target, $type, $format );
+	protected function validate( $new_origin, $target, $type, $format, $old_origin = null ) {
+		$new_redirect = new WPSEO_Redirect( $new_origin, $target, $type, $format );
+		$old_redirect = null !== $old_origin ? $this->get_redirect( $old_origin ) : null;
+
 		$validator = new WPSEO_Redirect_Validator();
 
-		if ( $validator->validate( $redirect ) === true ) {
+		if ( $validator->validate( $new_redirect, $old_redirect ) === true ) {
 			return;
 		}
 
@@ -118,16 +118,16 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 
 		$message = sprintf(
 			'Failed to validate redirect \'%s\' => \'%s\': %s',
-			$redirect->get_origin(),
-			$redirect->get_target(),
+			$new_redirect->get_origin(),
+			$new_redirect->get_target(),
 			$this->reformat_error( $error->get_message() )
 		);
 
-		if ( ! $ignore_warning && $error->get_type() === 'warning' ) {
+		if ( $error->get_type() === 'warning' ) {
 			WP_CLI::warning( $message );
 		}
 
-		if ( ! $ignore_error && $error->get_type() === 'error' ) {
+		if ( $error->get_type() === 'error' ) {
 			WP_CLI::error( $message );
 		}
 	}

@@ -16,8 +16,11 @@ final class WPSEO_CLI_Redirect_Update_Command extends WPSEO_CLI_Redirect_Base_Co
 	 * ## OPTIONS
 	 *
 	 * <origin>
-	 * : Origin of the redirect.
+	 * : Origin of the redirect to update.
 	 *
+	 * <new-origin>
+	 * : New origin of the redirect.
+
 	 * <target>
 	 * : Target of the redirect.
 	 *
@@ -43,13 +46,13 @@ final class WPSEO_CLI_Redirect_Update_Command extends WPSEO_CLI_Redirect_Base_Co
 	 * ---
 	 *
 	 * [--force]
-	 * : Force updating of a redirect, so an missing redirect will be created.
+	 * : Force updating of the redirect, bypassing any validation.
 	 * ---
 	 * default: false
 	 * ---
 	 */
 	public function __invoke( $args, $assoc_args ) {
-		list( $origin, $target ) = $args;
+		list( $origin, $new_origin, $target ) = $args;
 
 		$type   = (int) WP_CLI\Utils\get_flag_value( $assoc_args, 'type', '301' );
 		$format = WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'plain' );
@@ -61,16 +64,14 @@ final class WPSEO_CLI_Redirect_Update_Command extends WPSEO_CLI_Redirect_Base_Co
 			WP_CLI::error( "Redirect does not exist for '{$origin}'." );
 		}
 
-		$this->validate( $origin, $target, $type, $format, $force, $force );
+		$force || $this->validate( $new_origin, $target, $type, $format, $origin );
 
-		$success = $exists
-			? $this->update_redirect( $origin, $target, $type, $format )
-			: $this->create_redirect( $origin, $target, $type, $format );
+		$success = $this->update_redirect( $origin, $new_origin, $target, $type, $format );
 
 		if ( ! $success ) {
-			WP_CLI::error( "Could not update redirect: '{$origin}' => '{$target}'." );
+			WP_CLI::error( "Could not update redirect: '{$new_origin}' => '{$target}'." );
 		}
 
-		WP_CLI::success( "Redirect updated: '{$origin}' => '{$target}'." );
+		WP_CLI::success( "Redirect updated: '{$new_origin}' => '{$target}'." );
 	}
 }
