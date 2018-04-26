@@ -17,7 +17,6 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Fixed
 * Fixes a bug where sentences ending in multiple sentence marks, exclamation marks or ellipses were treated as multiple sentences.
 
-
 ## 1.30.2  March 16th, 2018
 ### Changed
 * Reverted the default view of the snippet preview to desktop.
