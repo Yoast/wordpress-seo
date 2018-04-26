@@ -98,4 +98,49 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	protected function has_redirect( $origin ) {
 		return false !== $this->get_redirect( $origin );
 	}
+
+	/**
+	 * Check whether a given redirect is valid.
+	 *
+	 * @param WPSEO_Redirect $redirect       Redirect to validate.
+	 * @param bool           $ignore_warning Ignore warnings.
+	 * @param bool           $ignore_error   Ignore errors.
+	 */
+	protected function validate( $origin, $target, $type, $format, $ignore_warning = false, $ignore_error = false ) {
+		$redirect  = new WPSEO_Redirect( $origin, $target, $type, $format );
+		$validator = new WPSEO_Redirect_Validator();
+
+		if ( $validator->validate( $redirect ) === true ) {
+			return;
+		}
+
+		$error = $validator->get_error();
+
+		$message = sprintf(
+			'Failed to validate redirect \'%s\' => \'%s\': %s',
+			$redirect->get_origin(),
+			$redirect->get_target(),
+			$this->reformat_error( $error->get_message() )
+		);
+
+		if ( ! $ignore_warning && $error->get_type() === 'warning' ) {
+			WP_CLI::warning( $message );
+		}
+
+		if ( ! $ignore_error && $error->get_type() === 'error' ) {
+			WP_CLI::error( $message );
+		}
+	}
+
+	/**
+	 * Reformat error messages by removing excessive whitespace.
+	 *
+	 * @param string $message Error message to reformat.
+	 *
+	 * @return string Reformatted error message.
+	 */
+	protected function reformat_error( $message ) {
+		$message = preg_replace('/\s+/', ' ', $message );
+		return trim( $message );
+	}
 }
