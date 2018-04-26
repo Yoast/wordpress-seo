@@ -5,6 +5,19 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.31.0 April 26th, 2018
+### Added
+* Adds readability analysis for Russian.
+* Adds prominent words for Russian.
+
+### Changed
+* Improves SVG image accessibility.
+* Updates the language support table in the README.
+
+### Fixed
+* Fixes a bug where sentences ending in multiple sentence marks, exclamation marks or ellipses were treated as multiple sentences.
+
+
 ## 1.30.2  March 16th, 2018
 ### Changed
 * Reverted the default view of the snippet preview to desktop.
