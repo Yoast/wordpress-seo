@@ -8,7 +8,8 @@
 /**
  * Unit Test Class.
  */
-class WPSEO_Register_Capabilities_Tests extends PHPUnit_Framework_TestCase {
+class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
+
 	public function test_register() {
 		$manager = WPSEO_Capability_Manager_Factory::get();
 
@@ -18,6 +19,47 @@ class WPSEO_Register_Capabilities_Tests extends PHPUnit_Framework_TestCase {
 		$registered = $manager->get_capabilities();
 
 		$this->assertContains( 'wpseo_bulk_edit', $registered );
+		$this->assertContains( 'wpseo_edit_advanced_metadata', $registered );
 		$this->assertContains( 'wpseo_manage_options', $registered );
+	}
+
+	/**
+	 * Tests that capabilities are correctly unset if only super admins have access.
+	 *
+	 * @group ms-required
+	 *
+	 * @dataProvider data_maybe_revoke_wpseo_manage_options_cap
+	 *
+	 * @covers WPSEO_Register_Capabilities::maybe_revoke_wpseo_manage_options_cap()
+	 */
+	public function test_maybe_revoke_wpseo_manage_options_cap( $role, $access, $expected_has_cap ) {
+		WPSEO_Options::get_instance();
+
+		$options           = get_site_option( 'wpseo_ms', array() );
+		$options['access'] = $access;
+		update_site_option( 'wpseo_ms', $options );
+
+		$register = new WPSEO_Register_Capabilities();
+		$register->register();
+
+		$user = self::factory()->user->create_and_get( array( 'role' => $role ) );
+		if ( $role === 'network_administrator' ) {
+			grant_super_admin( $user->ID );
+		}
+
+		$allcaps = $register->maybe_revoke_wpseo_manage_options_cap( $user->allcaps, array( 'wpseo_manage_options' ), array(), $user );
+
+		$this->assertSame( $expected_has_cap, ! empty( $allcaps['wpseo_manage_options'] ) );
+	}
+
+	public function data_maybe_revoke_wpseo_manage_options_cap() {
+		return array(
+			array( 'wpseo_manager', 'superadmin', true ),
+			array( 'administrator', 'superadmin', false ),
+			array( 'network_administrator', 'superadmin', true ),
+			array( 'wpseo_manager', 'admin', true ),
+			array( 'administrator', 'admin', true ),
+			array( 'network_administrator', 'admin', true ),
+		);
 	}
 }
