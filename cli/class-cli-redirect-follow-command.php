@@ -18,6 +18,13 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 	private $detected_loop = false;
 
 	/**
+	 * Stack of traversed targets.
+	 *
+	 * @var array<string>
+	 */
+	private $stack = array();
+
+	/**
 	 * Follows a Yoast SEO redirect chain to get the final target it resolves to.
 	 *
 	 * ## OPTIONS
@@ -49,7 +56,7 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 		}
 
 		$stack = $this->get_stack( $redirect, $limit );
-		if ( $trace ) {
+		if ( ! $trace ) {
 			$stack = (array) array_pop( $stack );
 		}
 		array_map( 'WP_CLI::line', $stack );
@@ -65,13 +72,12 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 	 * @param WPSEO_Redirect $redirect Redirect to get the stack for.
 	 * @param int            $limit    Number of steps to limit the stack to.
 	 *
-	 * @return array Array of target URL steps.
+	 * @return array<string> Array of target URL steps.
 	 */
-	public function get_stack( WPSEO_Redirect $redirect, $limit ) {
+	private function get_stack( WPSEO_Redirect $redirect, $limit ) {
 		$steps = 0;
-		$stack = array();
 
-		while ( false !== $redirect ) {
+		while ( ! $this->detected_loop && false !== $redirect ) {
 			$steps++;
 			if ( $limit > 0 && $steps >= $limit ) {
 				break;
@@ -79,22 +85,26 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 
 			$target = $redirect->get_target();
 
-			if ( array_key_exists( $target, $stack ) ) {
-				$this->detected_loop = true;
-				break;
-			}
+			$this->add_to_stack( $target );
 
-			$stack[ $target ] = true;
-
-			$target_redirect = $this->get_redirect( $target );
-
-			if ( false === $target_redirect ) {
-				break;
-			}
-
-			$redirect = $target_redirect;
+			$redirect = $this->get_redirect( $target );
 		}
 
-		return array_keys( $stack );
+		return array_keys( $this->stack );
+	}
+
+	/**
+	 * Add a new target to the stack.
+	 *
+	 * @param string $target Target to add to the stack.
+	 */
+	private function add_to_stack( $target ) {
+		if ( array_key_exists( $target, $this->stack ) ) {
+			$this->detected_loop = true;
+
+			return;
+		}
+
+		$this->stack[ $target ] = true;
 	}
 }
