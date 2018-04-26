@@ -98,7 +98,7 @@ class Yoast_Notification_Center {
 
 		$current_value = get_user_option( $dismissal_key, $user_id );
 
-		// Back-compat.
+		// Check unprefixed user meta for backward-compatibility.
 		if ( empty( $current_value ) ) {
 			$current_value = get_user_meta( $user_id, $dismissal_key, true );
 		}
@@ -152,16 +152,16 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Dismiss the notification
+	 * Dismisses a notification.
 	 *
 	 * @param Yoast_Notification $notification Notification to dismiss.
 	 * @param string             $meta_value   Value to save in the dismissal.
 	 *
-	 * @return bool
+	 * @return bool True if dismissed, false otherwise.
 	 */
 	public static function dismiss_notification( Yoast_Notification $notification, $meta_value = 'seen' ) {
 		// Dismiss notification.
-		return ( false !== update_user_option( get_current_user_id(), $notification->get_dismissal_key(), $meta_value ) );
+		return update_user_option( get_current_user_id(), $notification->get_dismissal_key(), $meta_value ) !== false;
 	}
 
 	/**
@@ -173,15 +173,18 @@ class Yoast_Notification_Center {
 	 */
 	public static function restore_notification( Yoast_Notification $notification ) {
 
-		// Restore notification.
-		$restored = delete_user_option( get_current_user_id(), $notification->get_dismissal_key() );
+		$user_id       = get_current_user_id();
+		$dismissal_key = $notification->get_dismissal_key();
 
-		// Back-compat.
-		if ( metadata_exists( 'user', get_current_user_id(), $notification->get_dismissal_key() ) ) {
-			$restored = delete_user_meta( get_current_user_id(), $notification->get_dismissal_key() ) && $restored;
+		// Restore notification.
+		$restored = delete_user_option( $user_id, $dismissal_key );
+
+		// Delete unprefixed user meta too for backward-compatibility.
+		if ( metadata_exists( 'user', $user_id, $dismissal_key ) ) {
+			$restored = delete_user_meta( $user_id, $dismissal_key ) && $restored;
 		}
 
-		return false !== $restored;
+		return $restored !== false;
 	}
 
 	/**
@@ -213,7 +216,7 @@ class Yoast_Notification_Center {
 		// Remove notification dismissal for all users.
 		$deleted = delete_metadata( 'user', 0, $wpdb->get_blog_prefix() . $dismissal_key, '', true );
 
-		// Back-compat.
+		// Delete unprefixed user meta too for backward-compatibility.
 		$deleted = delete_metadata( 'user', 0, $dismissal_key, '', true ) || $deleted;
 
 		return $deleted;
