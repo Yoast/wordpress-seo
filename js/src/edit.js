@@ -1,12 +1,8 @@
-/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp */
+/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp yoast */
 
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import thunk from "redux-thunk";
-import logger from "redux-logger";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import flowRight from "lodash/flowRight";
 
 import IntlProvider from "./components/IntlProvider";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
@@ -29,7 +25,7 @@ if( window.wpseoPostScraperL10n ) {
  * @returns {Object} The store.
  */
 function registerStoreInGutenberg() {
-	const { combineReducers, registerStore } = wp.data;
+	const { combineReducers, registerStore } = yoast._wp.data;
 
 	return registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
