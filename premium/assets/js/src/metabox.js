@@ -54,7 +54,7 @@ let linkSuggestionsIsSupported = function() {
  * @returns {Object} The store.
  */
 function registerStoreInGutenberg() {
-	const { combineReducers, registerStore } = wp.data;
+	const { registerStore } = wp.data;
 
 	return registerStore( "yoast-seo-premium/editor", {
 		reducer: reducers,
