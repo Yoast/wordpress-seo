@@ -61,6 +61,23 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$this->assertAttributeInstanceOf( 'WPSEO_OpenGraph', 'opengraph', $class_instance );
 	}
 
+
+	/**
+	 * Tests instantiating of the object OpenGraph 'not being set'.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::__construct
+	 */
+	public function test_constructor_with_no_global_wpseo_og_object() {
+		$old_og = $GLOBALS['wpseo_og'];
+		$GLOBALS['wpseo_og'] = false;
+		$class_instance = new WPSEO_OpenGraph_Image( 'image.jpg' );
+
+		$GLOBALS['wpseo_og'] = $old_og;
+
+		$this->assertAttributeInstanceOf( 'WPSEO_OpenGraph', 'opengraph', $class_instance );
+
+	}
+
 	/**
 	 * Tests whether has images is false by default.
 	 */
