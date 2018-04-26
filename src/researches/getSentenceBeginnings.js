@@ -59,7 +59,7 @@ let compareFirstWords = function( sentenceBeginnings, sentences ) {
  */
 function sanitizeSentence( sentence ) {
 	sentence = stripTags( sentence );
-	sentence = sentence.replace( /^[^A-Za-z0-9]/, "" );
+	sentence = sentence.replace( /^[^A-Za-zА-Яа-я0-9]/, "" );
 
 	return sentence;
 }
