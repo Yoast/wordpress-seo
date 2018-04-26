@@ -51,27 +51,11 @@ class Plugin implements Integration {
 	 * @param Database_Migration|null    $database_migration    Class to manage database migrations.
 	 */
 	public function __construct( Dependency_Management $dependency_management = null, Database_Migration $database_migration = null ) {
-		if ( $dependency_management === null ) {
-			$dependency_management = new Dependency_Management();
-		}
-
-		if ( $database_migration === null ) {
-			$database_migration = new Database_Migration( $GLOBALS['wpdb'], $dependency_management );
-		}
+		$dependency_management = $dependency_management ?: new Dependency_Management();
+		$database_migration = $database_migration ?: new Database_Migration( $GLOBALS['wpdb'], $dependency_management );
 
 		$this->dependency_management = $dependency_management;
 		$this->database_migration    = $database_migration;
-	}
-
-	/**
-	 * Adds an integration to the stack
-	 *
-	 * @param Integration $integration Integration to add.
-	 *
-	 * @return void
-	 */
-	public function add_integration( Integration $integration ) {
-		$this->integrations[] = $integration;
 	}
 
 	/**
