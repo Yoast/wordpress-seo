@@ -11,6 +11,13 @@
 final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Command {
 
 	/**
+	 * Whether a redirect loop was detected.
+	 *
+	 * @var bool
+	 */
+	private $detected_loop = false;
+
+	/**
 	 * Follows a Yoast SEO redirect chain to get the final target it resolves to.
 	 *
 	 * ## OPTIONS
@@ -38,9 +45,28 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 			WP_CLI::error( "Redirect does not exist for '{$origin}'." );
 		}
 
+		$stack = $this->get_stack( $redirect, $limit );
+
+		foreach ( $trace ? $stack : (array) array_pop( $stack ) as $target ) {
+			WP_CLI::line( $target );
+		}
+
+		if ( $this->detected_loop ) {
+			WP_CLI::error( "Detected redirect loop for redirect: '{$origin}'." );
+		}
+	}
+
+	/**
+	 * Get the stack of redirect targets for a given starting redirect.
+	 *
+	 * @param WPSEO_Redirect $redirect Redirect to get the stack for.
+	 * @param int            $limit    Number of steps to limit the stack to.
+	 *
+	 * @return array Array of target URL steps.
+	 */
+	public function get_stack( WPSEO_Redirect $redirect, $limit ) {
 		$steps = 0;
 		$stack = array();
-		$loop  = false;
 
 		while ( false !== $redirect ) {
 			$steps++;
@@ -51,7 +77,7 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 			$target = $redirect->get_target();
 
 			if ( array_key_exists( $target, $stack ) ) {
-				$loop = true;
+				$this->detected_loop = true;
 				break;
 			}
 
@@ -66,14 +92,6 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 			$redirect = $target_redirect;
 		}
 
-		$stack = array_keys( $stack );
-
-		foreach ( $trace ? $stack : (array) array_pop( $stack ) as $target ) {
-			WP_CLI::line( $target );
-		}
-
-		if ( $loop ) {
-			WP_CLI::error( "Detected redirect loop for redirect: '{$origin}'." );
-		}
+		return array_keys( $stack );
 	}
 }
