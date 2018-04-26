@@ -25,12 +25,18 @@ class Yoast_Notification_Center {
 	/** @var array Notifications that were resolved this execution */
 	private $resolved = 0;
 
+	/** @var array Internal storage for transaction before notifications have been retrieved from storage. */
+	private $queued_transactions = array();
+
+	/** @var bool Internal flag for whether notifications have been retrieved from storage. */
+	private $notifications_retrieved = false;
+
 	/**
 	 * Construct
 	 */
 	private function __construct() {
 
-		$this->retrieve_notifications_from_storage();
+		add_action( 'init', array( $this, 'setup_current_notifications' ), 1 );
 
 		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
 
@@ -177,11 +183,36 @@ class Yoast_Notification_Center {
 	}
 
 	/**
+	 * Retrieves notifications from the storage and merges in previous notification changes.
+	 *
+	 * The current user in WordPress is not loaded shortly before the 'init' hook, but the plugin
+	 * sometimes needs to add or remove notifications before that. In such cases, the transactions
+	 * are not actually executed, but added to a queue. That queue is then handled in this method,
+	 * after notifications for the current user have been set up.
+	 */
+	public function setup_current_notifications() {
+		$this->retrieve_notifications_from_storage();
+
+		foreach ( $this->queued_transactions as $transaction ) {
+			list( $callback, $args ) = $transaction;
+
+			call_user_func_array( $callback, $args );
+		}
+
+		$this->queued_transactions = array();
+	}
+
+	/**
 	 * Add notification to the cookie
 	 *
 	 * @param Yoast_Notification $notification Notification object instance.
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
+
+		if ( ! $this->notifications_retrieved ) {
+			$this->queued_transactions[] = array( array( $this, __METHOD__ ), func_get_args() );
+			return;
+		}
 
 		// Don't add if the user can't see it.
 		if ( ! $notification->display_for_current_user() ) {
@@ -272,6 +303,11 @@ class Yoast_Notification_Center {
 	 * @param bool               $resolve Resolve as fixed.
 	 */
 	public function remove_notification( Yoast_Notification $notification, $resolve = true ) {
+
+		if ( ! $this->notifications_retrieved ) {
+			$this->queued_transactions[] = array( array( $this, __METHOD__ ), func_get_args() );
+			return;
+		}
 
 		$index = false;
 
@@ -448,6 +484,12 @@ class Yoast_Notification_Center {
 	 */
 	private function retrieve_notifications_from_storage() {
 
+		if ( $this->notifications_retrieved ) {
+			return;
+		}
+
+		$this->notifications_retrieved = true;
+
 		$stored_notifications = get_user_option( self::STORAGE_KEY, get_current_user_id() );
 
 		// Check if notifications are stored.
@@ -518,7 +560,8 @@ class Yoast_Notification_Center {
 	 */
 	private function clear_notifications() {
 
-		$this->notifications = array();
+		$this->notifications           = array();
+		$this->notifications_retrieved = false;
 	}
 
 	/**
