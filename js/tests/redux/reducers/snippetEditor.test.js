@@ -1,5 +1,6 @@
 import {
-	switchMode, updateData,
+	switchMode,
+	updateData,
 	updateReplacementVariable,
 } from "../../../src/redux/actions/snippetEditor";
 import snippetEditorReducer from "../../../src/redux/reducers/snippetEditor";
