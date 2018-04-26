@@ -19,7 +19,6 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 
 	/**
 	 * Instantiate a WPSEO_CLI_Redirect_Create_Command object.
-	 *
 	 */
 	public function __construct() {
 		// This could potentially have the Redirect Manager injected.
@@ -98,15 +97,15 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	/**
 	 * Check whether a given redirect is valid.
 	 *
-	 * @param string $new_origin
-	 * @param string $target
-	 * @param  int   $type
-	 * @param string $format
-	 * @param null   $old_origin
+	 * @param string      $new_origin New origin of the redirect.
+	 * @param string      $target     Target of the redirect.
+	 * @param int         $type       Type of the redirect.
+	 * @param string      $format     Format of the redirect.
+	 * @param string|null $old_origin Optional. Old origin of the redirect to update.
 	 */
 	protected function validate( $new_origin, $target, $type, $format, $old_origin = null ) {
 		$new_redirect = new WPSEO_Redirect( $new_origin, $target, $type, $format );
-		$old_redirect = null !== $old_origin ? $this->get_redirect( $old_origin ) : null;
+		$old_redirect = ( null !== $old_origin ) ? $this->get_redirect( $old_origin ) : null;
 
 		$validator = new WPSEO_Redirect_Validator();
 
@@ -140,7 +139,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	 * @return string Reformatted error message.
 	 */
 	protected function reformat_error( $message ) {
-		$message = preg_replace('/\s+/', ' ', $message );
+		$message = preg_replace( '/\s+/', ' ', $message );
 		return trim( $message );
 	}
 }

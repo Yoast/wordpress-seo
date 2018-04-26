@@ -4,6 +4,10 @@
  *
  * @package WPSEO\CLI
  */
+
+/**
+ * Enforce premium version requirement on commands covering premium features.
+ */
 final class WPSEO_CLI_Premium_Requirement {
 
 	/**

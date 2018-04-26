@@ -47,6 +47,9 @@ final class WPSEO_CLI_Redirect_Create_Command extends WPSEO_CLI_Redirect_Base_Co
 	 * ---
 	 * default: false
 	 * ---
+	 *
+	 * @param array $args Array of positional arguments.
+	 * @param array $assoc_args Associative array of associative arguments.
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		list( $origin, $target ) = $args;
@@ -63,9 +66,13 @@ final class WPSEO_CLI_Redirect_Create_Command extends WPSEO_CLI_Redirect_Base_Co
 
 		$force || $this->validate( $origin, $target, $type, $format );
 
-		$success = $exists
-			? $this->update_redirect( $origin, $origin, $target, $type, $format )
-			: $this->create_redirect( $origin, $target, $type, $format );
+		if ( $exists ) {
+			$success = $this->update_redirect( $origin, $origin, $target, $type, $format );
+		}
+
+		if ( ! $exists ) {
+			$success = $this->create_redirect( $origin, $target, $type, $format );
+		}
 
 		if ( ! $success ) {
 			WP_CLI::error( "Could not create redirect: '{$origin}' => '{$target}'." );

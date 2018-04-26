@@ -49,6 +49,9 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	 * * target
 	 * * type
 	 * * format
+	 *
+	 * @param array $args Array of positional arguments.
+	 * @param array $assoc_args Associative array of associative arguments.
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		$filter = $this->get_filter( $assoc_args );
@@ -71,7 +74,7 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 		$redirects = array_filter(
 			$this->get_redirects(),
 			function ( $redirect ) use ( $filter ) {
-				foreach( $filter as $key => $value ) {
+				foreach ( $filter as $key => $value ) {
 					// Loose comparison to ignore type.
 					if ( $value != $redirect[ $key ] ) {
 						return false;
@@ -90,7 +93,7 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	 *
 	 * @return array Associative array of redirects.
 	 */
-	private function get_redirects(  ) {
+	private function get_redirects() {
 		$redirect_objects = $this->redirect_manager->get_all_redirects();
 
 		return array_map(

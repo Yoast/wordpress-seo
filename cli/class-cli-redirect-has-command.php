@@ -17,6 +17,9 @@ final class WPSEO_CLI_Redirect_Has_Command extends WPSEO_CLI_Redirect_Base_Comma
 	 *
 	 * <origin>
 	 * : Origin of the redirect.
+	 *
+	 * @param array $args Array of positional arguments.
+	 * @param array $assoc_args Associative array of associative arguments.
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		list( $origin ) = $args;

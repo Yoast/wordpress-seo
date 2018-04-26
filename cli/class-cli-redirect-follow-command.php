@@ -33,6 +33,9 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 	 * ---
 	 * default: 0
 	 * ---
+	 *
+	 * @param array $args Array of positional arguments.
+	 * @param array $assoc_args Associative array of associative arguments.
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		list( $origin ) = $args;
@@ -46,10 +49,10 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 		}
 
 		$stack = $this->get_stack( $redirect, $limit );
-
-		foreach ( $trace ? $stack : (array) array_pop( $stack ) as $target ) {
-			WP_CLI::line( $target );
+		if ( $trace ) {
+			$stack = (array) array_pop( $stack );
 		}
+		array_map( 'WP_CLI::line', $stack );
 
 		if ( $this->detected_loop ) {
 			WP_CLI::error( "Detected redirect loop for redirect: '{$origin}'." );
