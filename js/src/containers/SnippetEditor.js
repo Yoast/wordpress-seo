@@ -13,14 +13,8 @@ import {
  *
  * @returns {Object} Data for the `SnippetEditor` component.
  */
-export function mapStateToProps( { snippetEditor } ) {
-	const data = snippetEditor.data;
-
-	return {
-		data: data,
-		mode: snippetEditor.mode,
-		replacementVariables: snippetEditor.replacementVariables,
-	};
+export function mapStateToProps( state ) {
+	return state.snippetEditor;
 }
 
 /**

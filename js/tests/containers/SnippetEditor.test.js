@@ -14,7 +14,12 @@ describe( "SnippetEditor container", () => {
 				slug: "slug",
 				description: "Description",
 			},
-			replacementVariables: [],
+			replacementVariables: [
+				{
+					name: "variable",
+					value: "Value",
+				},
+			],
 		} };
 		const expected = {
 			mode: "desktop",
@@ -23,7 +28,12 @@ describe( "SnippetEditor container", () => {
 				slug: "slug",
 				description: "Description",
 			},
-			replacementVariables: [],
+			replacementVariables: [
+				{
+					name: "variable",
+					value: "Value",
+				},
+			],
 		};
 
 		const result = mapStateToProps( state );
