@@ -531,10 +531,12 @@ class WPSEO_OpenGraph {
 	/**
 	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image.
 	 *
+	 * @param string|bool $image Optional. Image URL.
+	 *
 	 * @return void
 	 */
-	public function image() {
-		$opengraph_image = new WPSEO_OpenGraph_Image( $this );
+	public function image( $image = false ) {
+		$opengraph_image = new WPSEO_OpenGraph_Image( $image, $this );
 		$opengraph_image->show();
 	}
 
@@ -763,7 +765,8 @@ class WPSEO_OpenGraph {
 	 */
 	public function image_output( $image = false ) {
 		_deprecated_function( 'WPSEO_OpenGraph::image_output', '7.4', 'WPSEO_OpenGraph::image' );
-		$this->image();
+
+		$this->image( $image );
 	}
 
 } /* End of class */
