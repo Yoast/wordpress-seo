@@ -1,23 +1,22 @@
 // Make sure the Jed object is globally available
-let Jed = require('jed');
-
-let _ = require("lodash");
-
-let FactoryProto = function(){};
+let Jed = require( "jed" );
+let FactoryProto = function() {};
 
 FactoryProto.prototype.buildJed = function() {
-	return new Jed({
-		"domain": "js-text-analysis",
-		"locale_data": {
+	return new Jed( {
+		domain: "js-text-analysis",
+		locale_data: { // eslint-disable-line camelcase
 			"js-text-analysis": {
-				"": {}
-			}
-		}
-	});
+				"": {},
+			},
+		},
+	} );
 };
 
 /**
  * Returns a mock element that lodash accepts as an element
+ *
+ * @returns {object} Mock HTML element.
  */
 FactoryProto.prototype.buildMockElement = function() {
 	var mockElement;
@@ -31,7 +30,10 @@ FactoryProto.prototype.buildMockElement = function() {
 /**
  * Returns a mock researcher
  *
- * @returns {Researcher}
+ * @param {object}  expectedValue The expected value or values.
+ * @param {boolean} multiValue    True if multiple values are expected.
+ *
+ * @returns {Researcher} Mock researcher.
  */
 FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false ) {
 	if( multiValue && typeof expectedValue === "object" ) {
@@ -50,9 +52,11 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 
 /**
  * This method repeats a string and returns a new string based on the string and the amount of repetitions.
- * @param string
- * @param times
- * @returns {string}
+ *
+ * @param {string} string      String to repeat.
+ * @param {int}    repetitions Number of repetitions.
+ *
+ * @returns {string} The result.
  */
 FactoryProto.prototype.buildMockString = function( string, repetitions ) {
 	var resultString = "";
@@ -60,7 +64,7 @@ FactoryProto.prototype.buildMockString = function( string, repetitions ) {
 	string = string || "Test ";
 	repetitions = repetitions || 1;
 
-	for (var i = 0; i < repetitions; i++) {
+	for ( var i = 0; i < repetitions; i++ ) {
 		resultString += string;
 	}
 

@@ -267,7 +267,7 @@ module.exports = function() {
 	return {
 		// These word categories are filtered at the beginning of word combinations.
 		filteredAtBeginning: [].concat( otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive, delexicalizedVerbsInfinitive,
-		copulaInfinitive, interviewVerbsInfinitive ),
+			copulaInfinitive, interviewVerbsInfinitive ),
 
 		// These word categories are filtered at the ending of word combinations.
 		filteredAtEnding: [].concat( ordinalNumerals, generalAdjectivesAdverbs ),

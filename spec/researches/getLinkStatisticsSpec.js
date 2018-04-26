@@ -3,11 +3,10 @@ var Paper = require( "../../js/values/Paper.js" );
 var foundLinks;
 
 describe( "Tests a string for anchors and its attributes", function() {
-
 	const paperAttributes = {
 		keyword: "link",
 		url: "http://yoast.com",
-		permalink: "http://yoast.com"
+		permalink: "http://yoast.com",
 	};
 
 	it( "should detect internal links", function() {
@@ -31,7 +30,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		var attributes = {
 			keyword: "test",
 			url: "http://yoast.com",
-			permalink: "http://yoast.com"
+			permalink: "http://yoast.com",
 		};
 
 		var mockPaper = new Paper( "string <a href='http://yoast.com/some-other-page/'>link</a>", attributes );
@@ -44,7 +43,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		var attributes = {
 			keyword: "focuskeyword",
 			url: "http://yoast.com",
-			permalink: "http://yoast.com"
+			permalink: "http://yoast.com",
 		};
 
 		var mockPaper = new Paper( "string <a href='http://yoast.com/some-other-page/'>focuskeyword</a>", attributes );
@@ -58,7 +57,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		var attributes = {
 			keyword: "focuskeyword",
 			url: "http://yoast.com",
-			permalink: "http://yoast.com"
+			permalink: "http://yoast.com",
 		};
 
 		var mockPaper = new Paper( "string <a href='http://example.com/some-page/'>focuskeyword</a>", attributes );
@@ -72,7 +71,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		var attributes = {
 			keyword: "focuskeyword",
 			url: "http://yoast.com/this-page/",
-			permalink: "http://yoast.com/this-page/"
+			permalink: "http://yoast.com/this-page/",
 		};
 
 		var mockPaper = new Paper( "string <a href='http://yoast.com/this-page/'>focuskeyword</a>", attributes );
@@ -114,15 +113,9 @@ describe( "Tests a string for anchors and its attributes", function() {
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 		expect( foundLinks.externalDofollow ).toBe( 0 );
-	});
+	} );
 
 	it( "should detect nofollow suffixed with some other argument in the rel tag", function() {
-		var attributes = {
-			keyword: "link",
-			url: "http://yoast.com",
-			permalink: "http://yoast.com"
-		};
-
 		var mockPaper = new Paper( "string <a href='http://example.com' rel='nofollow noreferrer'>link</a>", paperAttributes );
 		foundLinks = linkCount( mockPaper );
 		expect( foundLinks.total ).toBe( 1 );
@@ -201,7 +194,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		var attributes = {
 			keyword: "keyword",
 			url: "http://example.org",
-			permalink: "http://example.org"
+			permalink: "http://example.org",
 		};
 		var mockPaper = new Paper( "hello", attributes );
 
@@ -212,7 +205,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			totalNaKeyword: 0,
 			keyword: {
 				totalKeyword: 0,
-				matchedAnchors: []
+				matchedAnchors: [],
 			},
 			internalTotal: 0,
 			internalDofollow: 0,
@@ -222,7 +215,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			externalNofollow: 0,
 			otherTotal: 0,
 			otherDofollow: 0,
-			otherNofollow: 0
+			otherNofollow: 0,
 		} );
 
 		mockPaper = new Paper( "<a href='http://example.org/test123'>test123</a>" +
@@ -244,8 +237,8 @@ describe( "Tests a string for anchors and its attributes", function() {
 				totalKeyword: 2,
 				matchedAnchors: [
 					"<a href='http://example.org/test123'>keyword</a>",
-					"<a href='http://yoast.com'>keyword</a>"
-				]
+					"<a href='http://yoast.com'>keyword</a>",
+				],
 			},
 			internalTotal: 3,
 			internalDofollow: 2,
@@ -255,7 +248,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			externalNofollow: 1,
 			otherTotal: 2,
 			otherDofollow: 1,
-			otherNofollow: 1
+			otherNofollow: 1,
 		} );
 	} );
 
@@ -263,7 +256,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		var attributes = {
 			keyword: "keyword",
 			url: "http://example.org/keyword",
-			permalink: "http://example.org/keyword"
+			permalink: "http://example.org/keyword",
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword'>Keyword</a>", attributes );
@@ -275,7 +268,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			totalNaKeyword: 0,
 			keyword: {
 				totalKeyword: 0,
-				matchedAnchors: []
+				matchedAnchors: [],
 			},
 			internalTotal: 1,
 			internalDofollow: 1,
@@ -285,7 +278,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			externalNofollow: 0,
 			otherTotal: 0,
 			otherDofollow: 0,
-			otherNofollow: 0
+			otherNofollow: 0,
 		} );
 	} );
 
@@ -293,7 +286,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		var attributes = {
 			keyword: "keyword",
 			url: "http://example.org/keyword#top",
-			permalink: "http://example.org/keyword#top"
+			permalink: "http://example.org/keyword#top",
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword'>Keyword</a>", attributes );
@@ -305,7 +298,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			totalNaKeyword: 0,
 			keyword: {
 				totalKeyword: 0,
-				matchedAnchors: []
+				matchedAnchors: [],
 			},
 			internalTotal: 1,
 			internalDofollow: 1,
@@ -315,7 +308,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			externalNofollow: 0,
 			otherTotal: 0,
 			otherDofollow: 0,
-			otherNofollow: 0
+			otherNofollow: 0,
 		} );
 	} );
 
@@ -323,7 +316,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		var attributes = {
 			keyword: "keyword",
 			url: "http://example.org/keyword",
-			permalink: "http://example.org/keyword"
+			permalink: "http://example.org/keyword",
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword#top'>resume</a>", attributes );
@@ -335,7 +328,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			totalNaKeyword: 0,
 			keyword: {
 				totalKeyword: 0,
-				matchedAnchors: []
+				matchedAnchors: [],
 			},
 			internalTotal: 1,
 			internalDofollow: 1,
@@ -345,16 +338,15 @@ describe( "Tests a string for anchors and its attributes", function() {
 			externalNofollow: 0,
 			otherTotal: 0,
 			otherDofollow: 0,
-			otherNofollow: 0
+			otherNofollow: 0,
 		} );
-
 	} );
 
 	it( "should match the keyword in an url with a hash", function() {
 		var attributes = {
 			keyword: "keyword",
 			url: "http://example.org/keyword",
-			permalink: "http://example.org/keyword"
+			permalink: "http://example.org/keyword",
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>resume</a>", attributes );
@@ -366,7 +358,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			totalNaKeyword: 0,
 			keyword: {
 				totalKeyword: 0,
-				matchedAnchors: []
+				matchedAnchors: [],
 			},
 			internalTotal: 0,
 			internalDofollow: 0,
@@ -376,16 +368,15 @@ describe( "Tests a string for anchors and its attributes", function() {
 			externalNofollow: 0,
 			otherTotal: 0,
 			otherDofollow: 0,
-			otherNofollow: 0
+			otherNofollow: 0,
 		} );
-
 	} );
 
 	it( "should match the keyword in an url with a hash in the current url", function() {
 		var attributes = {
 			keyword: "keyword",
 			url: "http://example.org/keyword#top",
-			permalink: "http://example.org/keyword#top"
+			permalink: "http://example.org/keyword#top",
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>keyword</a>", attributes );
@@ -397,7 +388,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			totalNaKeyword: 0,
 			keyword: {
 				totalKeyword: 1,
-				matchedAnchors: [ "<a href='http://example.com/keyword#top'>keyword</a>" ]
+				matchedAnchors: [ "<a href='http://example.com/keyword#top'>keyword</a>" ],
 			},
 			internalTotal: 0,
 			internalDofollow: 0,
@@ -407,16 +398,15 @@ describe( "Tests a string for anchors and its attributes", function() {
 			externalNofollow: 0,
 			otherTotal: 0,
 			otherDofollow: 0,
-			otherNofollow: 0
+			otherNofollow: 0,
 		} );
-
 	} );
 
 	it( "should match without a keyword", function() {
 		var attributes = {
 			keyword: "",
 			url: "http://example.org/keyword#top",
-			permalink: "http://example.org/keyword#top"
+			permalink: "http://example.org/keyword#top",
 		};
 
 		var mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>keyword</a>", attributes );
@@ -428,7 +418,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			totalNaKeyword: 0,
 			keyword: {
 				totalKeyword: 0,
-				matchedAnchors: []
+				matchedAnchors: [],
 			},
 			internalTotal: 0,
 			internalDofollow: 0,
@@ -438,8 +428,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			externalNofollow: 0,
 			otherTotal: 0,
 			otherDofollow: 0,
-			otherNofollow: 0
+			otherNofollow: 0,
 		} );
 	} );
-
 } );

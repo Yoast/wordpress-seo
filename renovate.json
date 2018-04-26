@@ -1,12 +1,9 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":preserveSemverRanges",
+    ":automergeMinor"
   ],
-  "pinVersions": false,
-  "dependencies": {
-    "pinVersions": false
-  },
   "timezone": "Europe/Amsterdam",
-  "schedule": ["after 10pm and before 5am on every weekday", "every weekend"],
-  "updateNotScheduled": false
+  "prHourlyLimit": 2
 }

@@ -3,7 +3,6 @@
  * Represents the defaults of an assessment.
  */
 class Assessment {
-
 	/**
 	 * Executes the assessment and return its result.
 	 *
@@ -27,7 +26,6 @@ class Assessment {
 	isApplicable( paper ) {
 		return true;
 	}
-
 }
 
 /* eslint-enable no-unused-vars */

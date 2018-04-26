@@ -6,7 +6,6 @@ let merge = require( "lodash/merge" );
  * Represents the assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
  */
 class TextImagesAssessment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -134,7 +133,6 @@ class TextImagesAssessment extends Assessment {
 
 		return "";
 	}
-
 }
 
 module.exports = TextImagesAssessment;

@@ -1,8 +1,7 @@
 var getSubheadingTexts = require( "../../js/stringProcessing/getSubheadingTexts.js" );
 
 var result;
-describe( "A function to get all text blocks from subheadings", function(){
-
+describe( "A function to get all text blocks from subheadings", function() {
 	it( "returns 1 block of text", function() {
 		result = getSubheadingTexts( "<h2>this is text</h2>this is subheading text" );
 		expect( result ).toContain( "this is subheading text" );
@@ -23,7 +22,7 @@ describe( "A function to get all text blocks from subheadings", function(){
 
 	it( "returns 1 block of text, using | character", function() {
 		result = getSubheadingTexts( "<h2>this | is | text</h2>this |is| subheading text" );
-		expect( result.length ).toBe ( 1 );
+		expect( result.length ).toBe( 1 );
 		expect( result ).toContain( "this is subheading text" );
 		expect( result ).not.toContain( "this is text" );
 	} );

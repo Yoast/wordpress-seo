@@ -1,4 +1,4 @@
-var wordIndicesRegexes = require( "../../../../js/researches/passiveVoice/getIndicesWithRegex.js" );
+var wordIndicesRegexes = require( "../../../../js/researches/passiveVoice/periphrastic/getIndicesWithRegex.js" );
 
 var cannotDirectlyPrecedePassiveParticiple = require( "../../../../js/researches/english/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
 var arrayToRegex = require( "../../../../js/stringProcessing/createRegexFromArray.js" );
@@ -9,18 +9,18 @@ describe( "a test for matching words that cannot directly precede a participle."
 		var directPrecedenceExceptionWords = wordIndicesRegexes( "A boy.", directPrecedenceExceptionRegex );
 		expect( directPrecedenceExceptionWords ).toEqual(
 			[
-				{ match: 'A', index: 0 }
+				{ match: "A", index: 0 },
 			]
-		)
+		);
 	} );
 
 	it( "matches multiple words that cannot directly precede a participle in a sentence part", function() {
 		var directPrecedenceExceptionWords = wordIndicesRegexes( "The boy, the girl, a dog.", directPrecedenceExceptionRegex );
 		expect( directPrecedenceExceptionWords ).toEqual(
 			[
-				{ match: 'The', index: 0 },
-				{ match: ' the', index: 8 },
-				{ match: ' a', index: 18 }
+				{ match: "The", index: 0 },
+				{ match: " the", index: 8 },
+				{ match: " a", index: 18 },
 			]
 		);
 	} );

@@ -77,7 +77,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			expand to a link to an article on yoast.com about why you should not use a keyword more than once. */
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$sonce before%2$s. " +
 				"It’s probably a good idea to read about %3$swhy you should not use your focus keyword more than once%4$s." ),
-				url, "</a>",  "<a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>", "</a>" ),
+			url, "</a>",  "<a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>", "</a>" ),
 			score: 6,
 		};
 	}
@@ -89,7 +89,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			about why you should not use a keyword more than once. */
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$s%2$d times before%3$s. " +
 				"It’s probably a good idea to read about %4$swhy you should not use your focus keyword more than once%5$s." ),
-				url, count, "</a>", "<a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>", "</a>" ),
+			url, count, "</a>", "<a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>", "</a>" ),
 			score: 1,
 		};
 	}

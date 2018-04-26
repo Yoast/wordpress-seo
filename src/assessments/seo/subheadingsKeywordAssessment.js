@@ -6,7 +6,6 @@ let merge = require( "lodash/merge" );
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
  */
 class SubHeadingsKeywordAssessment extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -95,7 +94,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 		if ( score === this._config.scores.multipleMatches || score === this._config.scores.oneMatch ) {
 			return i18n.sprintf(
 				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy." ),
-					subHeadings.count, subHeadings.matches
+				subHeadings.count, subHeadings.matches
 			);
 		}
 
@@ -108,7 +107,6 @@ class SubHeadingsKeywordAssessment extends Assessment {
 
 		return "";
 	}
-
 }
 
 module.exports = SubHeadingsKeywordAssessment;

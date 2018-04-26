@@ -32,8 +32,8 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 			text: i18n.sprintf( i18n.dgettext(
 				"js-text-analysis",
 				"This page has %1$s nofollowed internal link(s) and %2$s normal internal link(s)."
-				),
-				linkStatistics.internalNofollow, linkStatistics.internalDofollow ),
+			),
+			linkStatistics.internalNofollow, linkStatistics.internalDofollow ),
 		};
 	}
 

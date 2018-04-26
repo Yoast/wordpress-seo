@@ -1,6 +1,5 @@
 var getLanguageAvailability = require( "../../js/helpers/getLanguageAvailability.js" );
 describe( "checks is a language is available, based on locale and a given list", function() {
-
 	it( "Returns true when a language is available", function() {
 		var locale = "en_US";
 		expect( getLanguageAvailability( locale, [ "en" ] ) ).toBe( true );

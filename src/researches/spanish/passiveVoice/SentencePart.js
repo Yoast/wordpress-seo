@@ -1,6 +1,6 @@
 var SentencePart = require( "../../../values/SentencePart.js" );
 
-var getParticiples = require( "../../passiveVoice/getParticiples.js" );
+var getParticiples = require( "../../passiveVoice/periphrastic/getParticiples.js" );
 
 /**
  * Creates a Spanish-specific sentence part.

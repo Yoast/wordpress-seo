@@ -217,7 +217,6 @@ function getSentencesFromTokens( tokens ) {
 		var nextCharacters;
 
 		switch ( token.type ) {
-
 			case "html-start":
 			case "html-end":
 				if ( isBreakTag( token.src ) ) {
@@ -235,7 +234,7 @@ function getSentencesFromTokens( tokens ) {
 			case "sentence-delimiter":
 				currentSentence += token.src;
 
-				if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type ) {
+				if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
 					tokenSentences.push( currentSentence );
 					currentSentence = "";
 				}

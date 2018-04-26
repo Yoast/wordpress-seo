@@ -13,7 +13,6 @@ let inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
  * Represents the assessment for calculating the text after each subheading.
  */
 class SubheadingsDistributionTooLong extends Assessment {
-
 	/**
 	 * Sets the identifier and the config.
 	 *
