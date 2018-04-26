@@ -22,8 +22,8 @@ var TaxonomyAssessor = function( i18n ) {
 	this._assessments = [
 		introductionKeyword,
 		keyphraseLength,
-		keywordDensity,
-		metaDescriptionKeyword,
+		new keywordDensity(),
+		new metaDescriptionKeyword(),
 		new MetaDescriptionLength(),
 		titleKeyword,
 		new TitleWidth(),
