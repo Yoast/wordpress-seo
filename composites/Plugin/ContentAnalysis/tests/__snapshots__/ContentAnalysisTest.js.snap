@@ -2536,25 +2536,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component with language notice for someone who cannot change the language matches the snapshot 1`] = `
-.c3 {
-  border: 0;
-  -webkit-clip: rect(1px,1px,1px,1px);
-  clip: rect(1px,1px,1px,1px);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  -webkit-transform: translateY(1em);
-  -ms-transform: translateY(1em);
-  transform: translateY(1em);
-}
-
-.c20 {
+.c18 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -2567,18 +2549,18 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   height: 24px;
 }
 
-.c20:hover {
+.c18:hover {
   border-color: #fff;
 }
 
-.c20:disabled {
+.c18:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
-.c16 {
+.c14 {
   min-height: 24px;
   padding: 0 4px 0 0;
   display: -webkit-box;
@@ -2591,49 +2573,49 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   align-items: flex-start;
 }
 
-.c17 {
+.c15 {
   margin-top: 3px;
   position: relative;
   left: -1px;
 }
 
-.c19 {
+.c17 {
   margin: 0 8px 0 11px;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-.c12 {
+.c10 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c7 {
+.c5 {
   font-size: 0.8rem;
 }
 
-.c8:active {
+.c6:active {
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c9:hover {
+.c7:hover {
   color: #000;
 }
 
-.c10::-moz-focus-inner {
+.c8::-moz-focus-inner {
   border-width: 0;
 }
 
-.c10:focus {
+.c8:focus {
   outline: none;
   border-color: #0066cd;
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c11 {
+.c9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2662,17 +2644,17 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   min-height: 32px;
 }
 
-.c11 svg {
+.c9 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c4 {
+.c2 {
   background-color: #fff;
 }
 
-.c14 {
+.c12 {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
@@ -2685,12 +2667,12 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   font-weight: 600;
 }
 
-.c5 {
+.c3 {
   margin: 0;
   font-weight: normal;
 }
 
-.c6 {
+.c4 {
   width: 100%;
   background-color: #fff;
   padding: 0;
@@ -2705,25 +2687,25 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   color: #0066cd;
 }
 
-.c6:hover {
+.c4:hover {
   border-color: transparent;
   color: #0066cd;
 }
 
-.c6:active {
+.c4:active {
   box-shadow: none;
   background-color: #fff;
   color: #0066cd;
 }
 
-.c6 svg {
+.c4 svg {
   margin: 0 8px 0 -5px;
   padding-bottom: 2px;
   width: 20px;
   height: 20px;
 }
 
-.c6 span {
+.c4 span {
   margin: 8px 0;
   word-wrap: break-word;
   font-size: 1.25em;
@@ -2731,7 +2713,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   font-weight: inherit;
 }
 
-.c15 {
+.c13 {
   margin: 0;
   list-style: none;
   padding: 0 16px 0 0;
@@ -2750,12 +2732,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   margin-left: 24px;
 }
 
-.c2 {
-  color: #0066cd;
-  margin-left: 4px;
-}
-
-.c13 {
+.c11 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -2763,7 +2740,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   flex: none;
 }
 
-.c18 {
+.c16 {
   width: 13px;
   height: 13px;
   -webkit-flex: none;
@@ -2771,7 +2748,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   flex: none;
 }
 
-.c21 {
+.c19 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -2780,7 +2757,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c11::after {
+  .c9::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -2798,37 +2775,24 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
       <strong>
         English
       </strong>
-      .
+      . If this is not correct, contact your site administrator.
     </span>
-    <a
-      className="c2"
-      href="#"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      Change language
-      <span
-        className="c3"
-      >
-        (Opens in a new browser tab)
-      </span>
-    </a>
   </p>
   <div
-    className="c4"
+    className="c2"
   >
     <h4
-      className="c5"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c6 c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 Button-kDSBcD c11 c12"
+        className="c4 c5 Button-kDSBcD c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-angle-up c13"
+          className="yoast-svg-icon yoast-svg-icon-angle-up c11"
           fill="#555"
           focusable="false"
           role="img"
@@ -2841,22 +2805,22 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
           />
         </svg>
         <span
-          className="c14"
+          className="c12"
         >
           Errors (1)
         </span>
       </button>
     </h4>
     <ul
-      className="c15"
+      className="c13"
       role="list"
     >
       <li
-        className="c16"
+        className="c14"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-circle c17 c18"
+          className="yoast-svg-icon yoast-svg-icon-circle c15 c16"
           fill="#888"
           focusable="false"
           role="img"
@@ -2869,7 +2833,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
           />
         </svg>
         <p
-          className="c19"
+          className="c17"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -2880,20 +2844,20 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
     </ul>
   </div>
   <div
-    className="c4"
+    className="c2"
   >
     <h4
-      className="c5"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c6 c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 Button-kDSBcD c11 c12"
+        className="c4 c5 Button-kDSBcD c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-angle-up c13"
+          className="yoast-svg-icon yoast-svg-icon-angle-up c11"
           fill="#555"
           focusable="false"
           role="img"
@@ -2906,22 +2870,22 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
           />
         </svg>
         <span
-          className="c14"
+          className="c12"
         >
           Problems (1)
         </span>
       </button>
     </h4>
     <ul
-      className="c15"
+      className="c13"
       role="list"
     >
       <li
-        className="c16"
+        className="c14"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-circle c17 c18"
+          className="yoast-svg-icon yoast-svg-icon-circle c15 c16"
           fill="#dc3232"
           focusable="false"
           role="img"
@@ -2934,7 +2898,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
           />
         </svg>
         <p
-          className="c19"
+          className="c17"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -2944,7 +2908,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c18"
           disabled={false}
           id="1"
           onClick={[Function]}
@@ -2952,7 +2916,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c21"
+            className="yoast-svg-icon yoast-svg-icon-eye c19"
             fill="#555"
             focusable="false"
             role="img"
@@ -2969,20 +2933,20 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
     </ul>
   </div>
   <div
-    className="c4"
+    className="c2"
   >
     <h4
-      className="c5"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c6 c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 Button-kDSBcD c11 c12"
+        className="c4 c5 Button-kDSBcD c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-angle-up c13"
+          className="yoast-svg-icon yoast-svg-icon-angle-up c11"
           fill="#555"
           focusable="false"
           role="img"
@@ -2995,22 +2959,22 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
           />
         </svg>
         <span
-          className="c14"
+          className="c12"
         >
           Improvements (1)
         </span>
       </button>
     </h4>
     <ul
-      className="c15"
+      className="c13"
       role="list"
     >
       <li
-        className="c16"
+        className="c14"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-circle c17 c18"
+          className="yoast-svg-icon yoast-svg-icon-circle c15 c16"
           fill="#ee7c1b"
           focusable="false"
           role="img"
@@ -3023,7 +2987,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
           />
         </svg>
         <p
-          className="c19"
+          className="c17"
           dangerouslySetInnerHTML={
             Object {
               "__html": "I know you can do better! You can do it!",
@@ -3034,20 +2998,20 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
     </ul>
   </div>
   <div
-    className="c4"
+    className="c2"
   >
     <h4
-      className="c5"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c6 c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 Button-kDSBcD c11 c12"
+        className="c4 c5 Button-kDSBcD c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-angle-up c13"
+          className="yoast-svg-icon yoast-svg-icon-angle-up c11"
           fill="#555"
           focusable="false"
           role="img"
@@ -3060,22 +3024,22 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
           />
         </svg>
         <span
-          className="c14"
+          className="c12"
         >
           Considerations (1)
         </span>
       </button>
     </h4>
     <ul
-      className="c15"
+      className="c13"
       role="list"
     >
       <li
-        className="c16"
+        className="c14"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-circle c17 c18"
+          className="yoast-svg-icon yoast-svg-icon-circle c15 c16"
           fill="#888"
           focusable="false"
           role="img"
@@ -3088,7 +3052,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
           />
         </svg>
         <p
-          className="c19"
+          className="c17"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Maybe you should change this...",
@@ -3099,20 +3063,20 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
     </ul>
   </div>
   <div
-    className="c4"
+    className="c2"
   >
     <h4
-      className="c5"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c6 c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 Button-kDSBcD c11 c12"
+        className="c4 c5 Button-kDSBcD c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 c10"
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-angle-up c13"
+          className="yoast-svg-icon yoast-svg-icon-angle-up c11"
           fill="#555"
           focusable="false"
           role="img"
@@ -3125,22 +3089,22 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
           />
         </svg>
         <span
-          className="c14"
+          className="c12"
         >
           Good results (2)
         </span>
       </button>
     </h4>
     <ul
-      className="c15"
+      className="c13"
       role="list"
     >
       <li
-        className="c16"
+        className="c14"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-circle c17 c18"
+          className="yoast-svg-icon yoast-svg-icon-circle c15 c16"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -3153,7 +3117,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
           />
         </svg>
         <p
-          className="c19"
+          className="c17"
           dangerouslySetInnerHTML={
             Object {
               "__html": "You're doing great!",
@@ -3162,11 +3126,11 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
         />
       </li>
       <li
-        className="c16"
+        className="c14"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-circle c17 c18"
+          className="yoast-svg-icon yoast-svg-icon-circle c15 c16"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -3179,7 +3143,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
           />
         </svg>
         <p
-          className="c19"
+          className="c17"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Woohoo!",
@@ -3189,7 +3153,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c20"
+          className="c18"
           disabled={false}
           id="3"
           onClick={[Function]}
@@ -3197,7 +3161,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
         >
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-eye c21"
+            className="yoast-svg-icon yoast-svg-icon-eye c19"
             fill="#555"
             focusable="false"
             role="img"

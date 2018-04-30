@@ -205,7 +205,7 @@ describe( "ContentAnalysis", () => {
 				changeLanguageLink={ "#" }
 				language="English"
 				showLanguageNotice={ true }
-				canChangeLanguage={ true }
+				canChangeLanguage={ false }
 			/>
 		);
 
