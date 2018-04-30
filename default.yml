@@ -154,7 +154,7 @@ rules:
   id-length: 0
   id-match: 0
   indent: [1, tab, {"SwitchCase": 1}]
-  jsx-quotes: 0
+  jsx-quotes: [1, "prefer-double"]
   key-spacing: [1, {"beforeColon": false, "afterColon": true}]
   linebreak-style: [2, unix]
   lines-around-comment: 0
@@ -203,3 +203,33 @@ rules:
   space-unary-ops: [2, {"words": false, "nonwords": false, "overrides": { "!": true }}]
   spaced-comment: [2, "always"]
   wrap-regex: 0
+
+  # React plugins settings (https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules)
+  react/jsx-tag-spacing: [1, {"beforeClosing": "never"}]
+  react/jsx-pascal-case: 1
+  react/jsx-no-bind: 1
+  react/jsx-max-props-per-line: [1, {"maximum": 6}] # A high maximum to make sure it is always a smell when it occurs.
+  react/jsx-max-depth: [1, {"max": 8}] # A high maximum to make sure it is always a smell when it occurs.
+  react/jsx-indent-props: [1, "tab"]
+  react/jsx-indent: [1, "tab"]
+  react/jsx-first-prop-new-line: [1, "multiline"]
+  react/jsx-equals-spacing: 1
+  react/jsx-curly-spacing: [1, {"when": "always", "children": true}]
+  react/jsx-closing-bracket-location: 1
+  react/jsx-boolean-value: [1, "always"]
+
+  react/void-dom-elements-no-children: 1
+  react/self-closing-comp: 1
+  react/require-default-props: 1
+  react/prefer-es6-class: 1
+  react/no-unused-state: 1
+  react/no-unused-prop-types: 1
+  react/no-this-in-sfc: 1
+  react/no-typos: 1
+  react/no-render-return-value: 1
+  react/no-redundant-should-component-update: 1
+  react/no-access-state-in-setstate: 1
+  react/forbid-foreign-prop-types: 1
+  react/default-props-match-prop-types: 1
+  react/button-has-type: 1
+  react/boolean-prop-naming: 1
