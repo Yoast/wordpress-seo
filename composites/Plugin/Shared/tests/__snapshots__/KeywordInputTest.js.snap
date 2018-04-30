@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KeywordInput matches the snapshot by default 1`] = `
+Array [
+  <label
+    htmlFor="test-id"
+  >
+    test label
+  </label>,
+  .c0 {
+  margin-right: 0.5em;
+  border-color: white;
+}
+
+<input
+    className="c0"
+    id="test-id"
+    onChange={[Function]}
+    type="text"
+  />,
+  .c0 {
+  font-size: 1em;
+  color: #dc3232;
+  margin: 1em 0;
+  min-height: 1.8em;
+}
+
+<div
+    className="c0"
+  />,
+]
+`;
