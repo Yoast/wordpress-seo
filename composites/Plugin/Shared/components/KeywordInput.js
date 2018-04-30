@@ -17,7 +17,6 @@ const ErrorText = styled.div`
 `;
 
 class KeywordInput extends React.Component {
-
 	/**
 	 * Constructs a KeywordInput component
 	 *
@@ -48,7 +47,6 @@ class KeywordInput extends React.Component {
 		} else {
 			this.setState( { showErrorMessage: false } );
 		}
-
 	}
 
 	/**
