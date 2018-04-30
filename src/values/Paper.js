@@ -30,8 +30,8 @@ var Paper = function( text, attributes ) {
 	if ( attributes.locale === "" ) {
 		attributes.locale = defaultAttributes.locale;
 	}
-	const keywordIsNotEmpty = replaceDiacritics( attributes.keyword ).match( /[A-Za-zА-Яа-я0-9]/gi );
-	if ( isEmpty( keywordIsNotEmpty ) ) {
+	const onlyLetters = attributes.keyword.replace( /[‘’“”"'.?!:;,¿¡«»&*@#±^%|~`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\u002b\u0026\s]/g, "");
+	if ( isEmpty( onlyLetters ) ) {
 		attributes.keyword = defaultAttributes.keyword;
 	}
 	this._attributes = attributes;
