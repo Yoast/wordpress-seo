@@ -45,8 +45,7 @@ class KeywordInput extends React.Component {
 		let separatedWords = keywordText.split( "," );
 		if ( separatedWords.length > 1 ) {
 			this.setState( { showErrorMessage: true } );
-		}
-		else {
+		} else {
 			this.setState( { showErrorMessage: false } );
 		}
 
