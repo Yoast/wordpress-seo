@@ -1,5 +1,3 @@
-/* describe it */
-
 /* External dependencies */
 import React from "react";
 import renderer from "react-test-renderer";
