@@ -43,6 +43,7 @@ const entry = {
 	"wp-seo-term-scraper": "./wp-seo-term-scraper.js",
 	"wp-seo-modal": "./wp-seo-modal.js",
 	"wp-seo-wp-globals-backport": "./wp-seo-wp-globals-backport.js",
+	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
 };
 
 /**

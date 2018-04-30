@@ -27,8 +27,12 @@
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/js/tests/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    }
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+      "find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js"
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "devDependencies": {
     "@wordpress/babel-preset-default": "^1.1.3",
@@ -49,6 +53,9 @@
     "babelify": "^7.3.0",
     "copy-webpack-plugin": "^4.0.1",
     "envify": "^3.4.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.3",
     "eslint-config-yoast": "^1.3.1",
     "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-yoast": "^1.0.1",
@@ -94,6 +101,9 @@
   "dependencies": {
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
+    "draft-js": "^0.10.5",
+    "draft-js-mention-plugin": "^2.0.1",
+    "find-with-regex": "~1.0.2",
     "grunt-wp-deploy": "^1.2.1",
     "gutenberg": "Wordpress/gutenberg",
     "interpolate-components": "^1.1.0",
@@ -108,8 +118,8 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
-    "styled-components": "^2.1.2",
-    "yoast-components": "^3.4.0",
+    "styled-components": "^3.2.6",
+    "yoast-components": "^3.5.1",
     "yoastseo": "^1.30.2"
   },
   "yoast": {
