@@ -7,7 +7,7 @@ import styled from "styled-components";
 import colors from "../../../../style-guide/colors";
 
 const YoastHelpText = styled.p`
-	color: ${colors.$color_grey_text};
+	color: ${ colors.$color_grey_text };
 	font-size: 0.9em;
 `;
 
@@ -29,7 +29,7 @@ export default class HelpText extends React.Component {
 
 		return (
 			<YoastHelpText>
-				{text}
+				{ text }
 			</YoastHelpText>
 		);
 	}

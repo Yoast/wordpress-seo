@@ -226,7 +226,7 @@ class ContentAnalysis extends React.Component {
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
-				{ helpText && <HelpText text={helpText} /> }
+				{ helpText && <HelpText text={ helpText } /> }
 				{ this.renderLanguageNotice() }
 				{ errorsFound > 0 &&
 				<AnalysisCollapsible
