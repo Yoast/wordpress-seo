@@ -17,5 +17,12 @@
     "dynamic-import-webpack",
     "transform-object-rest-spread"
   ],
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-react-jsx"
+      ]
+    }
+  },
   "comments": true
 }
