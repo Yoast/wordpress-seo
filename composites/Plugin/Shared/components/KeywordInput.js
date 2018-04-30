@@ -18,6 +18,13 @@ const ErrorText = styled.div`
 
 class KeywordInput extends React.Component {
 
+	/**
+	 * Constructs a KeywordInput component
+	 *
+	 * @param {Object} props The props for this input field component.
+	 *
+	 * @returns {void}
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -27,6 +34,13 @@ class KeywordInput extends React.Component {
 		};
 	}
 
+	/**
+	 * Checks the keyword input for comma-separated words
+	 *
+	 * @param {String} keywordText The text of the input
+	 *
+	 * @returns {void}
+	 */
 	checkKeywordInput( keywordText ) {
 		let separatedWords = keywordText.split( "," );
 		if ( separatedWords.length > 1 ) {
@@ -38,6 +52,13 @@ class KeywordInput extends React.Component {
 
 	}
 
+	/**
+	 * Displays the error message
+	 *
+	 * @param {String} input 		 The text of the input
+	 *
+	 * @returns {Element} ErrorText  The error message element
+	 */
 	displayErrorMessage( input = "" ) {
 		if ( this.state.showErrorMessage && input !== "" ) {
 			return (
@@ -55,11 +76,23 @@ class KeywordInput extends React.Component {
 		);
 	}
 
+	/**
+	 * Handles changes in the KeywordInput.
+	 *
+	 * @param {Event} event The onChange event.
+	 *
+	 * @returns {void} Calls the checkKeywordInput-function.
+	 */
 	handleChange( event ) {
 		this.setState( { keyword: event.target.value } );
 		this.checkKeywordInput( event.target.value );
 	}
 
+	/**
+	 * Renders an input field, a label, and if the condition is met, an error message.
+	 *
+	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
+	 */
 	render() {
 		let color = this.state.showErrorMessage ? "red" : "white";
 		KeywordField[ "border-color" ] = color;
