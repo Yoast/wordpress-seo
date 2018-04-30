@@ -69,7 +69,6 @@ const components = [
 		component: <KeywordInput
 			id="focus-keyword"
 			label={ "Focus keyword"}
-			onChange={ this.onChange.bind( this ) }
 		/>,
 	},
 	{

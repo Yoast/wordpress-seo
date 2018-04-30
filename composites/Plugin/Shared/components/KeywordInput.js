@@ -1,29 +1,12 @@
 import React from "react";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import styled from "styled-components";
-import colors from "style-guide/colors.json";
+import colors from "../../../../style-guide/colors.json";
 import PropTypes from "prop-types";
 
-
-const messages = defineMessages( {
-	validationFormatURL: {
-		id: "validation.format.keyword",
-		message: "Are you trying to use multiple keywords? You should add them separately below.",
-	},
-} );
-
-const KeywordField = styled.input`
+let KeywordField = styled.input`
 	margin-right: 0.5em;
-`;
-
-const WarningMessage = styled.div`
-	padding: 1em;
-	background-color: ${ colors.$color_yellow };
-	margin: 0.5em 0 0 0;
-	overflow: auto;
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
+	border-color: ${ props => props.borderColor };
 `;
 
 const ErrorText = styled.div`
@@ -46,9 +29,13 @@ class KeywordInput extends React.Component {
 
 	checkKeywordInput( keywordText ) {
 		let separatedWords = keywordText.split( "," );
-		if ( separatedWords.length > 1) {
+		if ( separatedWords.length > 1 ) {
 			this.setState( { showErrorMessage: true } );
 		}
+		else {
+			this.setState( { showErrorMessage: false } );
+		}
+
 	}
 
 	displayErrorMessage( input = "" ) {
@@ -56,8 +43,8 @@ class KeywordInput extends React.Component {
 			return (
 				<ErrorText>
 					<FormattedMessage
-						id="sites.addSite.urlValidationMessage"
-						defaultMessage={ messages.message }
+						id="KeywordError"
+						defaultMessage= "Are you trying to use multiple keywords? You should add them separately below."
 						role="alert"
 					/>
 				</ErrorText>
@@ -69,21 +56,23 @@ class KeywordInput extends React.Component {
 	}
 
 	handleChange( event ) {
-		this.setState( { keyword: event.target.keyword }, () => this.props.onChange( this.state.keyword ) );
-		this.checkKeywordInput( event.target.keyword );
+		this.setState( { keyword: event.target.value } );
+		this.checkKeywordInput( event.target.value );
 	}
 
 	render() {
+		let color = this.state.showErrorMessage ? "red" : "white";
+		KeywordField[ "border-color" ] = color;
 		return(
 			<React.Fragment>
-				<KeywordField type="text" id={ this.props.id } onChange={ this.handleChange.bind( this ) }>
-					<label htmlFor={ this.props.id }>
-						{ this.props.label }
-					</label>
-				</KeywordField>
-				<WarningMessage error={ this.state.showErrorMessage } />
-
-				{ this.displayErrorMessage( this.props.keyword ) }
+				<label htmlFor={ this.props.id }>
+					{ this.props.label }
+				</label>
+				<KeywordField type="text" id={ this.props.id }
+							  onChange={ this.handleChange.bind( this ) }
+							  borderColor={ color }
+				/>
+				{ this.displayErrorMessage( this.state.keyword ) }
 			</React.Fragment>
 		);
 	}
@@ -91,7 +80,7 @@ class KeywordInput extends React.Component {
 
 KeywordInput.propTypes = {
 	id: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
+	onChange: PropTypes.func,
 	label: PropTypes.oneOfType( [
 		PropTypes.string,
 		PropTypes.array,
@@ -104,3 +93,4 @@ KeywordInput.defaultProps = {
 };
 
 export default KeywordInput;
+
