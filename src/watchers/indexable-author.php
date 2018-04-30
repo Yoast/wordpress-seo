@@ -93,7 +93,7 @@ class Indexable_Author implements Integration {
 	/**
 	 * Retrieves the indexable for a user.
 	 *
-	 * @param int  $user_id     The use to retrieve the indexable for.
+	 * @param int  $user_id     The user to retrieve the indexable for.
 	 * @param bool $auto_create Optional. Create the indexable when it does not exist yet.
 	 *
 	 * @return Indexable The indexable for the suppied user ID.
@@ -113,7 +113,7 @@ class Indexable_Author implements Integration {
 		}
 
 		if ( ! $indexable ) {
-			throw new No_Indexable_Found( 'No indexable found for supplied arguments' );
+			throw No_Indexable_Found::from_author_id( $user_id );
 		}
 
 		return $indexable;

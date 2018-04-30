@@ -112,7 +112,7 @@ class Indexable_Term implements Integration {
 		}
 
 		if ( ! $indexable ) {
-			throw new No_Indexable_Found( 'No indexable found for supplied arguments' );
+			throw No_Indexable_Found::from_term_id( $term_id, $taxonomy );
 		}
 
 		return $indexable;

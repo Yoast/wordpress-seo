@@ -137,7 +137,7 @@ class Indexable_Post implements Integration {
 		}
 
 		if ( ! $indexable ) {
-			throw new No_Indexable_Found( 'No indexable found for supplied arguments' );
+			throw No_Indexable_Found::from_post_id( $post_id );
 		}
 
 		return $indexable;

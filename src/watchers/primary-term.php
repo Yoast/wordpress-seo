@@ -187,7 +187,7 @@ class Primary_Term implements Integration {
 		}
 
 		if ( ! $indexable ) {
-			throw new No_Indexable_Found( 'No indexable found for supplied arguments' );
+			throw No_Indexable_Found::from_primary_term( $post_id, $taxonomy );
 		}
 
 		return $indexable;
