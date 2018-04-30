@@ -1,6 +1,5 @@
 var defaults = require( "lodash/defaults" );
 const isEmpty = require( "lodash/isEmpty.js" );
-const replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
@@ -30,7 +29,7 @@ var Paper = function( text, attributes ) {
 	if ( attributes.locale === "" ) {
 		attributes.locale = defaultAttributes.locale;
 	}
-	const onlyLetters = attributes.keyword.replace( /[‘’“”"'.?!:;,¿¡«»&*@#±^%|~`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\u002b\u0026\s]/g, "");
+	const onlyLetters = attributes.keyword.replace( /[‘’“”"'.?!:;,¿¡«»&*@#±^%|~`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\u002b\u0026\s]/g, "" );
 	if ( isEmpty( onlyLetters ) ) {
 		attributes.keyword = defaultAttributes.keyword;
 	}
