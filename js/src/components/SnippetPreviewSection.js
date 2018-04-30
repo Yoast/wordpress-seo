@@ -33,6 +33,11 @@ const SnippetPreviewSection = ( { baseUrl } ) => {
 	>
 		<SnippetEditor
 			baseUrl={ baseUrl }
+			mapDataToPreview={ ( mappedData ) => {
+				mappedData.url = mappedData.url.replace( /\s/g, "-" );
+
+				return mappedData;
+			} }
 		/>
 	</Section>;
 };
