@@ -31,14 +31,11 @@ var ReplaceVar = require( "./values/replaceVar" );
 	var YoastReplaceVarPlugin = function( app, store ) {
 		this._app = app;
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
+		this._store=store;
 
 		this.registerReplacements();
 		this.registerModifications();
 		this.registerEvents();
-
-		for( let placeholder in placeholders ) {
-			store.dispatch( updateReplacementVariable( placeholder, "" ) );
-		}
 	};
 
 	/*
@@ -130,6 +127,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 */
 	YoastReplaceVarPlugin.prototype.addReplacement = function( replacement ) {
 		placeholders[ replacement.placeholder ] = replacement;
+		this._store.dispatch( updateReplacementVariable( replacement.replacement, "" ) );
 	};
 
 	/**
