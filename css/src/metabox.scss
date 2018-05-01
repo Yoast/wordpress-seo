@@ -231,13 +231,15 @@ ul.wpseo-metabox-tabs li {
 }
 
 /* Basic styling for social, advanced, and add-ons tabs content. */
-.wpseotab input,
-.wpseotab label,
-.wpseotab textarea,
-.wpseotab .select2-container,
-.yoast-metabox__description,
-.wpseotab p.error-message {
-	max-width: 600px;
+.yoast {
+	.wpseotab input,
+	.wpseotab label,
+	.wpseotab textarea,
+	.wpseotab .select2-container,
+	.yoast-metabox__description,
+	.wpseotab p.error-message {
+		max-width: 600px;
+	}
 }
 
 .wpseotab fieldset {
