@@ -7,6 +7,8 @@
 
 /**
  * OpenGraph tests
+ *
+ * @group OpenGraph
  */
 class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
@@ -385,7 +387,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_image_get_content_image() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />',
+				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_home_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />',
 			)
 		);
 
@@ -394,54 +396,13 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_OpenGraph();
 
 		ob_start();
-
 		$class_instance->opengraph();
-
 		$output = ob_get_clean();
 
-		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
+		$expected_output = '<meta property="og:image" content="' . get_home_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
 
 		$this->assertContains( $expected_output, $output );
 	}
-
-
-
-	/**
-	 * Tests whether the correct OG tag for an image via HTTP is generated.
-	 */
-	public function test_image_insecure_url() {
-		$stub = $this
-			->getMockBuilder( 'WPSEO_OpenGraph' )
-			->setMethods( array( 'og_tag' ) )
-			->getMock();
-
-		$stub
-			->expects( $this->once() )
-			->method( 'og_tag' )
-			->with( 'og:image' );
-
-		$stub->image( 'http://example.org/test.png' );
-	}
-
-
-
-	/**
-	 * Tests whether the correct OG tag for an image via HTTPS is generated.
-	 */
-	public function test_image_secure_url() {
-		$stub = $this
-			->getMockBuilder( 'WPSEO_OpenGraph' )
-			->setMethods( array( 'og_tag' ) )
-			->getMock();
-
-		$stub
-			->expects( $this->exactly( 2 ) )
-			->method( 'og_tag' )
-			->with( $this->logicalOr( 'og:image', 'og:image:secure_url' ) );
-
-		$stub->image( 'https://example.org/test.png' );
-	}
-
 
 	/**
 	 * @covers WPSEO_OpenGraph::description
@@ -764,7 +725,7 @@ EXPECTED;
 
 		$basename       = basename( $image );
 		$upload_dir     = wp_upload_dir();
-		$source_image   = dirname( __FILE__ ) . $image;
+		$source_image   = dirname( __FILE__ ) . '/..' . $image;
 		$featured_image = $upload_dir['path'] . '/' . $basename;
 
 		copy( $source_image, $featured_image ); // Prevent original from deletion.

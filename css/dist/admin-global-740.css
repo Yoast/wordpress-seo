@@ -684,3 +684,7 @@ td.column-wpseo-linked {
 .copy-home-meta-description .yoast-help-panel {
 	max-width: 400px !important;
 }
+
+.yoast-modal_is-open {
+	overflow: hidden;
+}
