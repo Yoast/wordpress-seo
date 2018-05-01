@@ -55,6 +55,22 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "The copy scores 55 in the <a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a> test, which is considered fairly difficult to read. Try to make shorter sentences to improve readability." );
 	} );
 
+	it( "returns a 'fairly difficult' score for a Russian paper with the score between 40 and 50, and the associated feedback text for a paper.", function() {
+		const paper = new Paper( "This is a very interesting paper", { locale: "ru_RU" } );
+		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 45.0 ), i18n );
+
+		expect( result.getScore() ).toBe( 6 );
+		expect( result.getText() ).toBe( "The copy scores 45 in the <a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a> test, which is considered fairly difficult to read. Try to make shorter sentences to improve readability." );
+	} );
+
+	it( "returns a 'difficult' score for a non-Russian paper with the score between 40 and 50, and the associated feedback text for a paper.", function() {
+		const paper = new Paper( "This is a very interesting paper" );
+		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 45.0 ), i18n );
+
+		expect( result.getScore() ).toBe( 3 );
+		expect( result.getText() ).toBe( "The copy scores 45 in the <a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a> test, which is considered difficult to read. Try to make shorter sentences, using less difficult words to improve readability." );
+	} );
+
 	it( "returns a 'difficult' score and the associated feedback text for a paper.", function() {
 		const paper = new Paper( "This is a very interesting paper" );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 36.6 ), i18n );
