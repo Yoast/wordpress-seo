@@ -112,11 +112,14 @@ Release Date: May 15th, 2018
 Enhancements:
 * Adds `$prefix` to the WPSEO_Admin_Asset_Manager class call and make `$prefix` publicly accessible.
 * Introduces REST API endpoint for getting an indexable post or term.
+* Adds readability analysis for Russian.
+* Improves SVG image accessibility.
 
 Bugfixes:
 * Fixes a bug where attempting to get Yoast SEO options in multi-site, would result in wrong values being returned.
 * Fixes a bug where the admin bar still used old copy. Dashboard has now been renamed to General.
 * Fixes a bug where loading the WordPress content directory from a different domain blocked the XML sitemap from loading.
+* Fixes a bug where sentences ending in multiple sentence marks, exclamation marks or ellipses were treated as multiple sentences.
 
 Other:
 * Adds to the documentation of `getColorFromScore()` that `noindex` is also an expected outcome.
