@@ -1,3 +1,6 @@
+### 7.4.0: May 1st, 2018
+* Includes every change in Yoast SEO core 7.4.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.3.0: April 17th, 2018
 * Fixes a bug where the pagination overlaps the orphaned content information message, on post overview pages in combination with low resolutions.
 * Includes every change in Yoast SEO core 7.3.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).

@@ -25,8 +25,8 @@ class WPSEO_Unsupported_PHP_Message implements Whip_Message {
 					__( '%1$sAction is needed%2$s: As of version %3$s, due to be released on %4$s, Yoast SEO will no longer work with PHP %5$s. Unfortunately, your site is running on PHP %5$s right now, so action is needed. Thankfully, you can update your PHP yourself.', 'wordpress-seo' ),
 					'<strong>',
 					'</strong>',
-					'7.5',
-					date_i18n( get_option( 'date_format' ), strtotime( '15-05-2018' ) ),
+					'7.7',
+					date_i18n( get_option( 'date_format' ), strtotime( '11-06-2018' ) ),
 					'5.2'
 				)
 			) . '<br />';
