@@ -1,8 +1,8 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
 import styled from "styled-components";
-import colors from "../../../../style-guide/colors.json";
 import PropTypes from "prop-types";
+
+import colors from "../../../../style-guide/colors.json";
 
 let KeywordField = styled.input`
 	margin-right: 0.5em;
@@ -11,7 +11,7 @@ let KeywordField = styled.input`
 
 const ErrorText = styled.div`
 	font-size: 1em;
-	color: ${ colors.$color_red};
+	color: ${ colors.$color_red };
 	margin: 1em 0;
 	min-height: 1.8em;
 `;
@@ -20,12 +20,17 @@ class KeywordInput extends React.Component {
 	/**
 	 * Constructs a KeywordInput component
 	 *
-	 * @param {Object} props The props for this input field component.
+	 * @param {Object}      props          The props for this input field component.
+	 * @param {String}    	props.id       The id of the KeywordInput.
+	 * @param {IconsButton} props.label    The label of the KeywordInput.
+	 * @param {boolean}     props.keyword  The initial keyword passed to the state.
 	 *
 	 * @returns {void}
 	 */
 	constructor( props ) {
 		super( props );
+
+		this.onChange = this.handleChange.bind( this );
 
 		this.state = {
 			showErrorMessage: false,
@@ -52,25 +57,18 @@ class KeywordInput extends React.Component {
 	/**
 	 * Displays the error message
 	 *
-	 * @param {String} input 		 The text of the input
+	 * @param {String} input The text of the input
 	 *
-	 * @returns {Element} ErrorText  The error message element
+	 * @returns {Element} ErrorText The error message element
 	 */
 	displayErrorMessage( input = "" ) {
 		if ( this.state.showErrorMessage && input !== "" ) {
 			return (
-				<ErrorText>
-					<FormattedMessage
-						id="KeywordError"
-						defaultMessage= "Are you trying to use multiple keywords? You should add them separately below."
-						role="alert"
-					/>
+				<ErrorText id="KeywordError" role="alert">
+						Are you trying to use multiple keywords? You should add them separately below.
 				</ErrorText>
 			);
 		}
-		return (
-			<ErrorText />
-		);
 	}
 
 	/**
@@ -91,16 +89,15 @@ class KeywordInput extends React.Component {
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		let color = this.state.showErrorMessage ? "red" : "white";
-		KeywordField[ "border-color" ] = color;
+		const color = this.state.showErrorMessage ? "red" : "white";
 		return(
 			<React.Fragment>
 				<label htmlFor={ this.props.id }>
 					{ this.props.label }
 				</label>
 				<KeywordField type="text" id={ this.props.id }
-							  onChange={ this.handleChange.bind( this ) }
 							  borderColor={ color }
+							  onChange = { this.onChange }
 				/>
 				{ this.displayErrorMessage( this.state.keyword ) }
 			</React.Fragment>
@@ -110,11 +107,7 @@ class KeywordInput extends React.Component {
 
 KeywordInput.propTypes = {
 	id: PropTypes.string.isRequired,
-	onChange: PropTypes.func,
-	label: PropTypes.oneOfType( [
-		PropTypes.string,
-		PropTypes.array,
-	] ).isRequired,
+	label: PropTypes.string.isRequired,
 	keyword: PropTypes.string,
 };
 

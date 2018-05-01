@@ -1,8 +1,11 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { mountWithIntl } from "enzyme-react-intl";
+import EnzymeAdapter from "enzyme-adapter-react-16";
+import Enzyme from "enzyme/build/index";
 
 import KeywordInput from "../components/KeywordInput";
+
+Enzyme.configure( { adapter: new EnzymeAdapter() } );
 
 describe( KeywordInput, () => {
 	it( "matches the snapshot by default", () => {
@@ -16,7 +19,7 @@ describe( KeywordInput, () => {
 	} );
 
 	it( "does not display the error message for a single keyword", () => {
-		const wrapper = mountWithIntl(
+		const wrapper = Enzyme.mount(
 			<KeywordInput id="test-id" label="test label" />
 		);
 		wrapper.find( "input" ).simulate( "change", {
@@ -25,11 +28,10 @@ describe( KeywordInput, () => {
 			},
 		} );
 		expect( wrapper.state().showErrorMessage ).toEqual( false );
-		expect( wrapper.find( "div" ).text() ).toBeFalsy();
 	} );
 
 	it( "does not display the error message for two words separated by whitespace", () => {
-		const wrapper = mountWithIntl(
+		const wrapper = Enzyme.mount(
 			<KeywordInput id="test-id" label="test label" />
 		);
 		wrapper.find( "input" ).simulate( "change", {
@@ -38,11 +40,10 @@ describe( KeywordInput, () => {
 			},
 		} );
 		expect( wrapper.state().showErrorMessage ).toEqual( false );
-		expect( wrapper.find( "div" ).text() ).toBeFalsy();
 	} );
 
 	it( "displays the error message for comma-separated words", () => {
-		const wrapper = mountWithIntl(
+		const wrapper = Enzyme.mount(
 			<KeywordInput id="test-id" label="test label" />
 		);
 		wrapper.find( "input" ).simulate( "change", {
