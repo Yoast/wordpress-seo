@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2018-05-01 11:14:58+00:00\n"
+"POT-Creation-Date: 2018-05-01 12:53:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -527,7 +527,7 @@ msgstr ""
 msgid "Not all the required fields are filled."
 msgstr ""
 
-#: classes/redirect/redirect-presenter.php:60 premium.php:459
+#: classes/redirect/redirect-presenter.php:60 premium.php:462
 msgid "Redirects"
 msgstr ""
 
@@ -965,15 +965,15 @@ msgstr ""
 msgid "Read more about how internal linking can improve your site structure."
 msgstr ""
 
-#: premium.php:408
+#: premium.php:413
 msgid "Create Redirect"
 msgstr ""
 
-#: premium.php:440
+#: premium.php:443
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: premium.php:493
+#: premium.php:496
 msgid "Enabled"
 msgstr ""
 
