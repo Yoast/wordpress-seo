@@ -306,6 +306,9 @@ function wpseo_init() {
 	// Loading Ryte integration.
 	$wpseo_onpage = new WPSEO_OnPage();
 	$wpseo_onpage->register_hooks();
+
+	$wpseo_content_images = new WPSEO_Content_Images();
+	$wpseo_content_images->register_hooks();
 }
 
 /**
