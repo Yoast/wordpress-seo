@@ -10,7 +10,6 @@
  */
 class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 
-
 	/**
 	 * Returns the query value this filter uses.
 	 *
