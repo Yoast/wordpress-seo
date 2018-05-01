@@ -6,6 +6,8 @@ import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
 import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 
+import reducers from "yoast-premium-components/redux/reducers";
+
 let settings = wpseoPremiumMetaboxData.data;
 
 let contentEndpointsAvailable = wpseoPremiumMetaboxData.data.restApi.available && wpseoPremiumMetaboxData.data.restApi.contentEndpointsAvailable;
@@ -45,6 +47,20 @@ function linkSuggestionsEnabled() {
 let linkSuggestionsIsSupported = function() {
 	return contentEndpointsAvailable && linkSuggestionsEnabled();
 };
+
+/**
+ * Registers a redux store in Gutenberg.
+ *
+ * @returns {Object} The store.
+ */
+function registerStoreInGutenberg() {
+	const { registerStore } = yoast._wp.data;
+
+	return registerStore( "yoast-seo-premium/editor", {
+		reducer: reducers,
+	} );
+}
+
 /**
  * Initializes the metabox for premium.
  *
@@ -61,6 +77,8 @@ function initializeMetabox() {
 	if ( linkSuggestionsIsSupported() ) {
 		initializeLinkSuggestionsMetabox();
 	}
+
+	registerStoreInGutenberg();
 }
 
 /**

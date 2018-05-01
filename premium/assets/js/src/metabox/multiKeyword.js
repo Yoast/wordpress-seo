@@ -451,7 +451,7 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
 
 	tabElement.replaceWith( html );
 
-	if ( results.length !== 0 ) {
+	if ( results.length !== 0 && ! _isUndefined( YoastSEO.store ) ) {
 		YoastSEO.store.dispatch( setSeoResultsForKeyword( keyword, results ) );
 	}
 };
