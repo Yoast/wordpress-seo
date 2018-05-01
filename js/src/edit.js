@@ -1,4 +1,4 @@
-/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp */
+/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp yoast */
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
@@ -14,6 +14,7 @@ import Data from "./analysis/data.js";
 import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
 import reducers from "./redux/reducers";
+import PluginIcon from "../../images/Yoast_icon_kader.svg";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -34,6 +35,41 @@ function registerStoreInGutenberg() {
 	return registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
 	} );
+}
+
+/**
+ * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
+ * and creates that sidebar's content.
+ *
+ * @returns {void}
+ **/
+function registerPlugin() {
+	if ( isGutenbergDataAvailable() ) {
+		const { Fragment } = yoast._wp.element;
+		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
+		const { registerPlugin } = wp.plugins;
+
+		const YoastSidebar = () => (
+			<Fragment>
+				<PluginSidebarMoreMenuItem
+					target="seo-sidebar"
+					icon={ <PluginIcon/> }
+				>
+					Yoast SEO
+				</PluginSidebarMoreMenuItem>
+				<PluginSidebar
+					name="seo-sidebar"
+					title="Yoast SEO"
+				>
+					<p> Contents of the sidebar </p>
+				</PluginSidebar>
+			</Fragment>
+		);
+
+		registerPlugin( "yoast-seo", {
+			render: YoastSidebar,
+		} );
+	}
 }
 
 /**
@@ -132,6 +168,7 @@ function renderReactApps( store, args ) {
 export function initialize( args ) {
 	const store = registerStoreInGutenberg();
 	let data = {};
+	registerPlugin();
 
 	// Only use Gutenberg's data if Gutenberg is available.
 	if ( isGutenbergDataAvailable() ) {
