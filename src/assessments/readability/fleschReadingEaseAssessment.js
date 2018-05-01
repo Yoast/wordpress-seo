@@ -35,7 +35,7 @@ class FleschReadingEaseAssessment extends Assessment {
 			let assessmentResult =  new AssessmentResult();
 			const calculatedScore = this.calculateScore();
 			assessmentResult.setScore( calculatedScore.score );
-			assessmentResult.setText( this.translateScore( calculatedScore, i18n ) );
+			assessmentResult.setText( this.translateScore( calculatedScore.resultText, calculatedScore.note, i18n ) );
 
 			return assessmentResult;
 		}
@@ -47,79 +47,52 @@ class FleschReadingEaseAssessment extends Assessment {
 	 */
 	calculateScore() {
 		if ( this.fleschReadingResult > this._config.borders.veryEasy ) {
-			return {
-				score: this._config.scores.good,
-				resultText: this._config.resultTexts.veryEasy,
-				note: "",
-			};
+			return this._config.veryEasy;
 		}
 
 		if ( inRange( this.fleschReadingResult, this._config.borders.easy, this._config.borders.veryEasy ) ) {
-			return {
-				score: this._config.scores.good,
-				resultText: this._config.resultTexts.easy,
-				note: "",
-			};
+			return this._config.easy;
 		}
 
 		if ( inRange( this.fleschReadingResult, this._config.borders.fairlyEasy, this._config.borders.easy ) ) {
-			return {
-				score: this._config.scores.good,
-				resultText: this._config.resultTexts.fairlyEasy,
-				note: "",
-			};
+			return this._config.fairlyEasy;
 		}
 
 		if ( inRange( this.fleschReadingResult, this._config.borders.okay, this._config.borders.fairlyEasy ) ) {
-			return {
-				score: this._config.scores.good,
-				resultText: this._config.resultTexts.okay,
-				note: "",
-			};
+			return this._config.okay;
 		}
 
 		if ( inRange( this.fleschReadingResult, this._config.borders.fairlyDifficult, this._config.borders.okay ) ) {
-			return {
-				score: this._config.scores.fine,
-				resultText: this._config.resultTexts.fairlyDifficult,
-				note: this._config.notes.fairlyDifficult,
-			};
+			return this._config.fairlyDifficult;
 		}
 
 		if ( inRange( this.fleschReadingResult, this._config.borders.difficult, this._config.borders.fairlyDifficult ) ) {
-			return {
-				score: this._config.scores.bad,
-				resultText: this._config.resultTexts.difficult,
-				note: this._config.notes.difficult,
-			};
+			return this._config.difficult;
 		}
 
 		if ( this.fleschReadingResult < this._config.borders.difficult ) {
-			return {
-				score: this._config.scores.bad,
-				resultText: this._config.resultTexts.veryDifficult,
-				note: this._config.notes.difficult,
-			};
+			return this._config.veryDifficult;
 		}
 	}
 
 	/**
 	 * Translates the FleschReading score into a specific feedback text.
 	 *
-	 * @param {Object} calculatedScore The Flesch reading score for the paper.
+	 * @param {string} resultText The feedback for a range of Flesch reading results from the config.
+	 * @param {string} noteText The note for a range of Flesch reading results from the config.
 	 * @param {Object} i18n The i18n-object used for parsing translations.
 	 * @returns {string} text Feedback text.
 	 */
-	translateScore( calculatedScore, i18n ) {
+	translateScore( resultText, noteText, i18n ) {
 		/* Translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
 		 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
 		let text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
-		const feedback = i18n.dgettext( "js-text-analysis", calculatedScore.resultText );
+		const feedback = i18n.dgettext( "js-text-analysis", resultText );
 		const url = "<a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a>";
 
 		let note = "";
-		if ( ! isEmpty( calculatedScore.note ) ) {
-			note = i18n.dgettext( "js-text-analysis", calculatedScore.note );
+		if ( ! isEmpty( noteText ) ) {
+			note = i18n.dgettext( "js-text-analysis", noteText );
 		}
 
 		// Results must be between 0 and 100;
