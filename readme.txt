@@ -105,6 +105,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
 = 7.4.0 =
 Release Date: May 1st, 2018
 
@@ -114,7 +115,6 @@ Enhancements:
 * Adds caching for images found in a post to reduce load.
 * Adds image alt tag to the OpenGraph output, using the meta tag `og:image:alt`.
 * Adds the `is_post_type_viewable` WordPress function to improve support for the `wpseo_accessible_post_types` filters.
-* Adds the ability to filter our strippable characters from the keyword. Allowing keywords such as `21" OLED television` to be used without the `"` character being stripped out. This can be done via the `wpseo_focuskw_strippable_chars` filter. Props to [Bryan Headrick](https://github.com/bheadrick).
 
 Bugfixes:
 * Fixes a bug where a non-array value causes a fatal error when `cron_schedules` filter has been executed.

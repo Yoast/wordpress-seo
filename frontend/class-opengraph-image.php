@@ -52,10 +52,26 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_OpenGraph $wpseo_opengraph The OpenGraph object.
+	 * @param null|string     $image     Optional. The Image to use.
+	 * @param WPSEO_OpenGraph $opengraph Optional. The OpenGraph object.
 	 */
-	public function __construct( WPSEO_OpenGraph $wpseo_opengraph ) {
-		$this->opengraph = $wpseo_opengraph;
+	public function __construct( $image = null, WPSEO_OpenGraph $opengraph = null ) {
+		if ( $opengraph === null ) {
+			global $wpseo_og;
+
+			// Use the global if available.
+			if ( empty( $wpseo_og ) ) {
+				$wpseo_og = new WPSEO_OpenGraph();
+			}
+
+			$opengraph = $wpseo_og;
+		}
+
+		$this->opengraph = $opengraph;
+
+		if ( ! empty( $image ) && is_string( $image ) ) {
+			$this->add_image_by_url( $image );
+		}
 
 		$this->set_images();
 	}

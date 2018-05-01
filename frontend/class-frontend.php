@@ -1243,7 +1243,10 @@ class WPSEO_Frontend {
 				$template = WPSEO_Options::get( 'metadesc-' . $post_type );
 				$term     = $post;
 			}
-			$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
+
+			if ( is_object( $post ) ) {
+				$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
+			}
 		}
 		else {
 			if ( is_search() ) {

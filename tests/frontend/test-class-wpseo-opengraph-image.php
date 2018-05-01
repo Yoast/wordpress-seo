@@ -40,6 +40,45 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests instantiating of the object with no argument.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::__construct
+	 */
+	public function test_constructor_with_no_argument() {
+		$class_instance = new WPSEO_OpenGraph_Image();
+
+		$this->assertAttributeInstanceOf( 'WPSEO_OpenGraph', 'opengraph', $class_instance );
+	}
+
+	/**
+	 * Tests instantiating of the object with a string argument.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::__construct
+	 */
+	public function test_constructor_with_string_argument() {
+		$class_instance = new WPSEO_OpenGraph_Image( 'image.jpg' );
+
+		$this->assertAttributeInstanceOf( 'WPSEO_OpenGraph', 'opengraph', $class_instance );
+	}
+
+
+	/**
+	 * Tests instantiating of the object OpenGraph 'not being set'.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::__construct
+	 */
+	public function test_constructor_with_no_global_wpseo_og_object() {
+		$old_og = $GLOBALS['wpseo_og'];
+		$GLOBALS['wpseo_og'] = false;
+		$class_instance = new WPSEO_OpenGraph_Image( 'image.jpg' );
+
+		$GLOBALS['wpseo_og'] = $old_og;
+
+		$this->assertAttributeInstanceOf( 'WPSEO_OpenGraph', 'opengraph', $class_instance );
+
+	}
+
+	/**
 	 * Tests whether has images is false by default.
 	 */
 	public function test_has_images_is_FALSE() {
@@ -312,7 +351,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * @return WPSEO_OpenGraph_Image
 	 */
 	private function setup_class() {
-		return new WPSEO_OpenGraph_Image( new WPSEO_OpenGraph() );
+		return new WPSEO_OpenGraph_Image( null, new WPSEO_OpenGraph() );
 	}
 
 	/**
