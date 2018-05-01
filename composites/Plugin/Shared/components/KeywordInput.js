@@ -16,6 +16,8 @@ const ErrorText = styled.div`
 	min-height: 1.8em;
 `;
 
+const ErrorMessage = "Are you trying to use multiple keywords? You should add them separately below.";
+
 class KeywordInput extends React.Component {
 	/**
 	 * Constructs a KeywordInput component
@@ -65,7 +67,7 @@ class KeywordInput extends React.Component {
 		if ( this.state.showErrorMessage && input !== "" ) {
 			return (
 				<ErrorText id="KeywordError" role="alert">
-						Are you trying to use multiple keywords? You should add them separately below.
+					{ ErrorMessage }
 				</ErrorText>
 			);
 		}
