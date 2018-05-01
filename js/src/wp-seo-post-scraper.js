@@ -39,8 +39,6 @@ import isFunction from "lodash/isFunction";
 	let decorator = null;
 	let tabManager, postDataCollector;
 
-	let editStore;
-
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview.
 	 *
@@ -142,8 +140,8 @@ import isFunction from "lodash/isFunction";
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
 		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
-			if ( ! isUndefined( editStore ) ) {
-				editStore.dispatch( setMarkerStatus( "hidden" ) );
+			if ( ! isUndefined( YoastSEO.store ) ) {
+				YoastSEO.store.dispatch( setMarkerStatus( "hidden" ) );
 			}
 			return false;
 		}
@@ -353,9 +351,10 @@ import isFunction from "lodash/isFunction";
 	 * @param {TabManager} tabManager The tab manager to expose globally.
 	 * @param {YoastReplaceVarPlugin} replaceVarsPlugin The replace vars plugin to expose.
 	 * @param {YoastShortcodePlugin} shortcodePlugin The shortcode plugin to expose.
+	 * @param {Object} store The Redux store to expose globally.
 	 * @returns {void}
 	 */
-	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin ) {
+	function exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin, store ) {
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
@@ -367,7 +366,7 @@ import isFunction from "lodash/isFunction";
 		window.YoastSEO.wp._tabManager = tabManager;
 		window.YoastSEO.wp._tinyMCEHelper = tinyMCEHelper;
 
-		window.YoastSEO.store = editStore;
+		window.YoastSEO.store = store;
 	}
 
 	/**
@@ -459,7 +458,6 @@ import isFunction from "lodash/isFunction";
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
 		};
 		const { store, data } = initializeEdit( editArgs );
-		editStore = store;
 
 		snippetContainer = $( "#wpseosnippet" );
 
@@ -478,7 +476,7 @@ import isFunction from "lodash/isFunction";
 
 		postDataCollector.app = app;
 
-		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		let replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 		let shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
@@ -486,7 +484,7 @@ import isFunction from "lodash/isFunction";
 			markdownPlugin.register();
 		}
 
-		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
+		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin, store );
 
 		setStore( store );
 		tinyMCEHelper.wpTextViewOnInitCheck();
