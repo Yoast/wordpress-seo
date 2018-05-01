@@ -8,13 +8,33 @@
 /**
  * WPSEO_Content_Images
  */
-class WPSEO_Content_Images {
+class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
 	/**
 	 * The key used to store our image cache.
 	 *
 	 * @var string
 	 */
 	private $cache_meta_key = '_yoast_wpseo_post_image_cache';
+
+	/**
+	 * Registers the hooks.
+	 *
+	 * @return void
+	 */
+	public function register_hooks() {
+		add_action( 'save_post', array( $this, 'clear_cached_images' ) );
+	}
+
+	/**
+	 * Removes the cached images on post save.
+	 *
+	 * @param int $post_id The post id to remove the images from.
+	 *
+	 * @return void
+	 */
+	public function clear_cached_images( $post_id ) {
+		delete_post_meta( $post_id, $this->cache_meta_key );
+	}
 
 	/**
 	 * Retrieves images from the post content.
