@@ -15,7 +15,7 @@ Improve your WordPress SEO: Write better content and have a fully optimized Word
 
 ### Yoast SEO: the #1 WordPress SEO plugin
 
-Need an SEO plugin that helps you reach for the stars? Yoast SEO is the original WordPress SEO plugin since 2008. It is the favorite tool of millions of users, ranging from the bakery around the corner to some of the most popular sites on the planet. With Yoast SEO, you get a solid toolset that helps you aim for that number one spot in the search results. Yoast: SEO for everyone.
+Need some help with your search engine optimization? Need an SEO plugin that helps you reach for the stars? Yoast SEO is the original WordPress SEO plugin since 2008. It is the favorite tool of millions of users, ranging from the bakery around the corner to some of the most popular sites on the planet. With Yoast SEO, you get a solid toolset that helps you aim for that number one spot in the search results. Yoast: SEO for everyone.
 
 Yoast SEO does everything in its power to please both visitors and search engine spiders. How? Below you’ll find a small sampling of the powers of Yoast SEO:
 
@@ -62,7 +62,7 @@ Bug reports for Yoast SEO are [welcomed on GitHub](https://github.com/Yoast/word
 
 ### Further Reading
 
-For more info, check out the following articles:
+For more info on search engine optimization, check out the following:
 
 * The [Yoast SEO Plugin](https://yoa.st/1v8) official homepage.
 * The [Yoast SEO Knowledgebase](https://yoa.st/1va).
@@ -106,6 +106,25 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.4.0 =
+Release Date: May 1st, 2018
+
+Enhancements:
+* Adds OpenGraph image dimension-meta tags for more images.
+* Excludes images from being used in OpenGraph meta tags, if the image is larger than 2MB.
+* Adds caching for images found in a post to reduce load.
+* Adds image alt tag to the OpenGraph output, using the meta tag `og:image:alt`.
+* Adds the `is_post_type_viewable` WordPress function to improve support for the `wpseo_accessible_post_types` filters.
+
+Bugfixes:
+* Fixes a bug where a non-array value causes a fatal error when `cron_schedules` filter has been executed.
+* Fixes a bug where not all database tables were removed when a subsite was deleted in a multisite environment.
+* Fixes a bug where deleting multiple posts might cause performance issues. Props to [Moeini](https://github.com/abolfazl-moeini).
+
+Other:
+* Introduces a message, warning about dropping of PHP 5.2 support in an upcoming version.
+* Alters the configuration service text in the Configuration Wizard when a user is already running Yoast SEO Premium. Previously the text contained a reference to getting a bundled copy of Premium, even if the user was already running Premium.
+
 = 7.3.0 =
 Release Date: April 17th, 2018
 
@@ -137,24 +156,6 @@ Bugfixes:
 Other:
 * Minor internationalization improvements.
 * Security hardening.
-
-= 7.2.0 =
-Release Date: April 3rd, 2018
-
-Enhancements:
-* Updates all Help Center videos with new recordings.
-* Adds functionality to import noindex, nofollow and OpenGraph tags from All in One SEO Pack.
-* Improves consistency of capitalization in settings and tabs.
-* Improves the traffic light icon accessibility.
-* Changes the words 'post type' into 'content type' throughout the plugin.
-
-Bugfixes:
-* Fixes a bug where the Facebook app-id could no longer be set in the Social settings.
-* Fixes a bug where existing Yoast SEO data could be overwritten when importing data from All in One SEO Pack.
-* Fixes a bug where the Ryte notification is not removed when disabling the Ryte feature.
-* Fixes a bug where setting a page to `noindex` through the `wpseo_robots` filter did not properly remove the `canonical` element.
-* Fixes a bug where attachments connected to password-protected parents are included in the sitemaps. Props [Scott Carter](https://gobarrelroll.com).
-* Fixes alignment of the `Go Premium` notice.
 
 = Earlier versions =
 

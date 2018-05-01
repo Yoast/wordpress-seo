@@ -522,6 +522,7 @@ class WPSEO_Meta {
 						'`',
 					), '', $clean );
 				}
+
 				break;
 		}
 

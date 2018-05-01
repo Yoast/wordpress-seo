@@ -1,4 +1,4 @@
-yoastWebpackJsonp([4],{
+yoastWebpackJsonp([5],{
 
 /***/ 1:
 /***/ (function(module, exports, __webpack_require__) {
@@ -29,12 +29,12 @@ if (false) {
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(207)();
+  module.exports = __webpack_require__(160)();
 }
 
 /***/ }),
 
-/***/ 1021:
+/***/ 1022:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -146,7 +146,7 @@ exports.default = ScoreAssessments;
 
 /***/ }),
 
-/***/ 1058:
+/***/ 1062:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -158,23 +158,23 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(45);
+var _reactDom = __webpack_require__(46);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _SeoAssessment = __webpack_require__(1059);
+var _SeoAssessment = __webpack_require__(1063);
 
 var _SeoAssessment2 = _interopRequireDefault(_SeoAssessment);
 
-var _ScoreAssessments = __webpack_require__(1021);
+var _ScoreAssessments = __webpack_require__(1022);
 
 var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
 
-var _getFeed2 = __webpack_require__(1061);
+var _getFeed2 = __webpack_require__(1065);
 
 var _getFeed3 = _interopRequireDefault(_getFeed2);
 
-var _WordpressFeed = __webpack_require__(1062);
+var _WordpressFeed = __webpack_require__(1066);
 
 var _WordpressFeed2 = _interopRequireDefault(_WordpressFeed);
 
@@ -425,7 +425,7 @@ if (element) {
 
 /***/ }),
 
-/***/ 1059:
+/***/ 1063:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -450,11 +450,11 @@ var _styledComponents = __webpack_require__(3);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _StackedProgressBar = __webpack_require__(1060);
+var _StackedProgressBar = __webpack_require__(1064);
 
 var _StackedProgressBar2 = _interopRequireDefault(_StackedProgressBar);
 
-var _ScoreAssessments = __webpack_require__(1021);
+var _ScoreAssessments = __webpack_require__(1022);
 
 var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
 
@@ -520,7 +520,7 @@ exports.default = SeoAssessment;
 
 /***/ }),
 
-/***/ 1060:
+/***/ 1064:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -608,7 +608,7 @@ exports.default = StackedProgressBar;
 
 /***/ }),
 
-/***/ 1061:
+/***/ 1065:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -789,7 +789,7 @@ function getFeed(url) {
 
 /***/ }),
 
-/***/ 1062:
+/***/ 1066:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -955,7 +955,7 @@ exports.default = WordpressFeed;
 
 /***/ }),
 
-/***/ 207:
+/***/ 160:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -968,9 +968,9 @@ exports.default = WordpressFeed;
 
 
 
-var emptyFunction = __webpack_require__(43);
-var invariant = __webpack_require__(73);
-var ReactPropTypesSecret = __webpack_require__(208);
+var emptyFunction = __webpack_require__(37);
+var invariant = __webpack_require__(64);
+var ReactPropTypesSecret = __webpack_require__(161);
 
 module.exports = function () {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -1015,7 +1015,7 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ 208:
+/***/ 161:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1037,8 +1037,8 @@ module.exports = ReactPropTypesSecret;
 /***/ 4:
 /***/ (function(module, exports) {
 
-module.exports = {"$palette_white":"#fff","$palette_grey_ultra_light":"#f7f7f7","$palette_grey_light":"#f1f1f1","$palette_grey":"#ddd","$palette_grey_medium":"#ccc","$palette_grey_disabled":"#a0a5aa","$palette_grey_medium_dark":"#888","$palette_grey_text":"#646464","$palette_grey_dark":"#555","$palette_black":"#000","$palette_purple":"#5d237a","$palette_purple_dark":"#6c2548","$palette_pink":"#d73763","$palette_pink_light":"#e1bee7","$palette_pink_dark":"#a4286a","$palette_blue":"#0066cd","$palette_blue_light":"#a9a9ce","$palette_blue_dark":"#084a67","$palette_green":"#77b227","$palette_green_light":"#7ad03a","$palette_green_medium_light":"#64a60a","$palette_green_medium":"#008a00","$palette_green_blue":"#009288","$palette_orange":"#dc5c04","$palette_orange_light":"#ee7c1b","$palette_red":"#dc3232","$palette_red_light":"#f9bdbd","$palette_yellow":"#ffeb3b","$color_bad":"#dc3232","$color_ok":"#ee7c1b","$color_good":"#7ad03a","$color_score_icon":"#888","$color_white":"#fff","$color_black":"#000","$color_green":"#77b227","$color_green_medium":"#008a00","$color_green_blue":"#009288","$color_grey":"#ddd","$color_grey_dark":"#555","$color_purple":"#5d237a","$color_purple_dark":"#6c2548","$color_pink":"#d73763","$color_pink_light":"#e1bee7","$color_pink_dark":"#a4286a","$color_blue":"#0066cd","$color_blue_light":"#a9a9ce","$color_blue_dark":"#084a67","$color_red":"#dc3232","$color_border_light":"#f7f7f7","$color_border":"#ccc","$color_input_border":"#ddd","$color_background_light":"#f7f7f7","$color_button":"#f7f7f7","$color_button_text":"#555","$color_button_border":"#ccc","$color_button_hover":"#fff","$color_button_border_hover":"#888","$color_button_text_hover":"#000","$color_button_border_active":"#000","$color_headings":"#555","$color_marker_inactive":"#555","$color_marker_active":"#fff","$color_marker_disabled":"#a0a5aa","$color_error":"#dc3232","$color_orange":"#dc5c04","$color_orange_hover":"#c35204","$color_grey_hover":"#cecece","$color_pink_hover":"#cc2956","$color_grey_cta":"#ddd","$color_grey_line":"#ddd","$color_grey_quote":"#646464","$color_grey_text":"#646464","$color_grey_medium_dark":"#888","$color_green_medium_light":"#64a60a","$color_grey_disabled":"#a0a5aa","$color_grey_medium":"#ccc","$color_grey_light":"#f1f1f1","$color_yellow":"#ffeb3b","$color_error_message":"#f9bdbd"}
+module.exports = {"$palette_white":"#fff","$palette_grey_ultra_light":"#f7f7f7","$palette_grey_light":"#f1f1f1","$palette_grey":"#ddd","$palette_grey_medium":"#ccc","$palette_grey_disabled":"#a0a5aa","$palette_grey_medium_dark":"#888","$palette_grey_text":"#646464","$palette_grey_dark":"#555","$palette_black":"#000","$palette_purple":"#5d237a","$palette_purple_dark":"#6c2548","$palette_pink":"#d73763","$palette_pink_light":"#e1bee7","$palette_pink_dark":"#a4286a","$palette_blue":"#0066cd","$palette_blue_light":"#a9a9ce","$palette_blue_dark":"#084a67","$palette_green":"#77b227","$palette_green_light":"#7ad03a","$palette_green_medium_light":"#64a60a","$palette_green_medium":"#008a00","$palette_green_blue":"#009288","$palette_orange":"#dc5c04","$palette_orange_light":"#ee7c1b","$palette_red":"#dc3232","$palette_red_light":"#f9bdbd","$palette_yellow":"#ffeb3b","$color_bad":"#dc3232","$color_ok":"#ee7c1b","$color_good":"#7ad03a","$color_noindex":"#1e8cbe","$color_score_icon":"#888","$color_white":"#fff","$color_black":"#000","$color_green":"#77b227","$color_green_medium":"#008a00","$color_green_blue":"#009288","$color_grey":"#ddd","$color_grey_dark":"#555","$color_purple":"#5d237a","$color_purple_dark":"#6c2548","$color_pink":"#d73763","$color_pink_light":"#e1bee7","$color_pink_dark":"#a4286a","$color_blue":"#0066cd","$color_blue_light":"#a9a9ce","$color_blue_dark":"#084a67","$color_red":"#dc3232","$color_border_light":"#f7f7f7","$color_border":"#ccc","$color_input_border":"#ddd","$color_background_light":"#f7f7f7","$color_button":"#f7f7f7","$color_button_text":"#555","$color_button_border":"#ccc","$color_button_hover":"#fff","$color_button_border_hover":"#888","$color_button_text_hover":"#000","$color_button_border_active":"#000","$color_headings":"#555","$color_marker_inactive":"#555","$color_marker_active":"#fff","$color_marker_disabled":"#a0a5aa","$color_error":"#dc3232","$color_orange":"#dc5c04","$color_orange_hover":"#c35204","$color_grey_hover":"#cecece","$color_pink_hover":"#cc2956","$color_grey_cta":"#ddd","$color_grey_line":"#ddd","$color_grey_quote":"#646464","$color_grey_text":"#646464","$color_grey_medium_dark":"#888","$color_green_medium_light":"#64a60a","$color_grey_disabled":"#a0a5aa","$color_grey_medium":"#ccc","$color_grey_light":"#f1f1f1","$color_yellow":"#ffeb3b","$color_error_message":"#f9bdbd"}
 
 /***/ })
 
-},[1058]);
+},[1062]);

@@ -1,6 +1,6 @@
-yoastWebpackJsonp([5],{
+yoastWebpackJsonp([6],{
 
-/***/ 1066:
+/***/ 1070:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -404,4 +404,4 @@ window.ystEscapeFocusKw = ystEscapeFocusKw;
 
 /***/ })
 
-},[1066]);
+},[1070]);
