@@ -58,6 +58,7 @@ class WPSEO_Premium_Orphaned_Post_Query {
 		$query   = 'SELECT object_id FROM ' . $storage->get_table_name() . ' WHERE incoming_link_count = 0';
 
 		$object_ids = $wpdb->get_col( $query );
+		$object_ids = array_filter( $object_ids, array( 'self', 'is_robots_index' ) );
 		$object_ids = self::remove_frontpage_id( $object_ids );
 
 		return $object_ids;
@@ -85,5 +86,22 @@ class WPSEO_Premium_Orphaned_Post_Query {
 		}
 
 		return $object_ids;
+	}
+
+	/**
+	 * Determines whether or not the passed object is set to be indexable.
+	 *
+	 * @param string $object_id The object id to check.
+	 *
+	 * @return bool False when set to no-index, true otherwise.
+	 */
+	protected static function is_robots_index( $object_id ) {
+		// A value of '0' means inherit from the post type.
+		if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) === '0' ) {
+			return WPSEO_Options::get( 'noindex-' . get_post_type( $object_id ) ) === false;
+		}
+
+		// A value of '2' means: Index.
+		return WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) === '2';
 	}
 }

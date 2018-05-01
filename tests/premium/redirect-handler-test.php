@@ -846,7 +846,59 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $class_instance->load_php_redirects() );
 	}
 
+
+	/**
+	 * Tests the stripping of a subdirectory on different setups.
+	 *
+	 * @dataProvider strip_directory_provider
+	 *
+	 * @param string $home_url_path The home url path.
+	 * @param string $url           The url to strip the directory from.
+	 * @param string $expected      The expected value.
+	 * @param string $message       Message for PHPUnit.
+	 *
+	 * @covers WPSEO_Redirect_Handler::strip_subdirectory()
+	 */
+	public function test_strip_subdirectory( $home_url_path, $url, $expected, $message ) {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'get_home_url' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'get_home_url' )
+			->will( $this->returnValue( $home_url_path ) );
+
+		/**
+		 * Represents the WPSEO_Redirect_Handler_Double class.
+		 *
+		 * @var WPSEO_Redirect_Handler_Double $redirect_handler
+		 */
+		$this->assertEquals( $expected, $redirect_handler->strip_subdirectory( $url ), $message );
+	}
+
 	/* ********************* Data Providers ********************* */
+
+	/**
+	 * Provider for stripping the subdirectory from a given url.
+	 *
+	 * The format for each record is:
+	 * [0] string: The home url path.
+	 * [1] string: The url to strip the directory from.
+	 * [2] string: The expected value.
+	 * [3] string: Message for PHPUnit.
+	 *
+	 * @returns array The test data.
+	 *
+	 */
+	public function strip_directory_provider() {
+		return array(
+			array( null, 'blog/page', 'blog/page', 'With no subdirectory set' ),
+			array( '/blog', 'blog/page', '/page', 'With blog as subdirectory' ),
+			array( '/blog', 'page', 'page', 'With a url on a higher level then subdirectory' ),
+		);
+	}
 
 	/**
 	 * Provider for the default (normal) redirects.

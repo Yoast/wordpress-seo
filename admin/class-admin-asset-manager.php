@@ -21,16 +21,23 @@ class WPSEO_Admin_Asset_Manager {
 	const PREFIX = 'yoast-seo-';
 
 	/**
+	 * @var string prefix for naming the assets.
+	 */
+	private $prefix;
+
+	/**
 	 * Constructs a manager of assets. Needs a location to know where to register assets at.
 	 *
 	 * @param WPSEO_Admin_Asset_Location $asset_location The provider of the asset location.
+	 * @param string                     $prefix         The prefix for naming assets.
 	 */
-	public function __construct( WPSEO_Admin_Asset_Location $asset_location = null ) {
+	public function __construct( WPSEO_Admin_Asset_Location $asset_location = null, $prefix = self::PREFIX ) {
 		if ( $asset_location === null ) {
 			$asset_location = self::create_default_location();
 		}
 
 		$this->asset_location = $asset_location;
+		$this->prefix         = $prefix;
 	}
 
 	/**
@@ -39,7 +46,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * @param string $script The name of the script to enqueue.
 	 */
 	public function enqueue_script( $script ) {
-		wp_enqueue_script( self::PREFIX . $script );
+		wp_enqueue_script( $this->prefix . $script );
 	}
 
 	/**
@@ -48,7 +55,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * @param string $style The name of the style to enqueue.
 	 */
 	public function enqueue_style( $style ) {
-		wp_enqueue_style( self::PREFIX . $style );
+		wp_enqueue_style( $this->prefix . $style );
 	}
 
 	/**
@@ -58,7 +65,7 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	public function register_script( WPSEO_Admin_Asset $script ) {
 		wp_register_script(
-			self::PREFIX . $script->get_name(),
+			$this->prefix . $script->get_name(),
 			$this->asset_location->get_url( $script, WPSEO_Admin_Asset::TYPE_JS ),
 			$script->get_deps(),
 			$script->get_version(),
@@ -73,7 +80,7 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	public function register_style( WPSEO_Admin_Asset $style ) {
 		wp_register_style(
-			self::PREFIX . $style->get_name(),
+			$this->prefix . $style->get_name(),
 			$this->asset_location->get_url( $style, WPSEO_Admin_Asset::TYPE_CSS ),
 			$style->get_deps(),
 			$style->get_version(),
@@ -133,6 +140,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * Flattens a version number for use in a filename
 	 *
 	 * @param string $version The original version number.
+	 *
 	 * @return string The flattened version number.
 	 */
 	public function flatten_version( $version ) {
@@ -167,7 +175,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @return array scripts that need to be registered.
 	 */
-	private function scripts_to_be_registered() {
+	protected function scripts_to_be_registered() {
 
 		$select2_language = 'en';
 		$user_locale      = WPSEO_Utils::get_user_locale();
@@ -182,6 +190,27 @@ class WPSEO_Admin_Asset_Manager {
 
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
+		$backport_wp_dependencies = array( self::PREFIX . 'react-dependencies' );
+
+		// If Gutenberg is present we can borrow their globals for our own.
+		if ( function_exists( 'gutenberg_register_scripts_and_styles' ) ) {
+			$backport_wp_dependencies[] = 'wp-element';
+			$backport_wp_dependencies[] = 'wp-data';
+
+			/*
+			 * The version of TinyMCE that Gutenberg uses is incompatible with
+			 * the one core uses. So we need to make sure that the core version
+			 * is used in the classic editor.
+			 *
+			 * $_GET is used here because as far as I am aware you cannot use
+			 * filter_input to check for the existence of a query variable.
+			 */
+			if ( wp_script_is( 'tinymce-latest', 'registered' ) && isset( $_GET['classic-editor'] ) ) {
+				wp_deregister_script( 'tinymce-latest' );
+				wp_register_script( 'tinymce-latest', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array( 'jquery' ), false, true );
+			}
+		}
+
 		return array(
 			array(
 				'name' => 'react-dependencies',
@@ -192,11 +221,16 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
+				'name' => 'wp-globals-backport',
+				'src'  => 'wp-seo-wp-globals-backport-' . $flat_version,
+				'deps' => $backport_wp_dependencies,
+			),
+			array(
 				'name' => 'yoast-modal',
 				'src'  => 'wp-seo-modal-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -204,7 +238,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-help-center-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -250,7 +284,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 				'in_footer' => false,
 			),
@@ -275,7 +309,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -283,7 +317,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -343,7 +377,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'configuration-wizard-' . $flat_version,
 				'deps' => array(
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			// Register for backwards-compatiblity.
@@ -389,7 +423,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					self::PREFIX . 'api',
 					'jquery',
-					self::PREFIX . 'react-dependencies',
+					self::PREFIX . 'wp-globals-backport',
 				),
 			),
 			array(
@@ -407,7 +441,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @return array styles that need to be registered.
 	 */
-	private function styles_to_be_registered() {
+	protected function styles_to_be_registered() {
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
 		return array(
@@ -417,8 +451,8 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			array(
-				'name'   => 'toggle-switch',
-				'src'    => 'toggle-switch-' . $flat_version,
+				'name' => 'toggle-switch',
+				'src'  => 'toggle-switch-' . $flat_version,
 			),
 			array(
 				'name' => 'dismissible',

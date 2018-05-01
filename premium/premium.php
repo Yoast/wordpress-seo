@@ -27,7 +27,7 @@ class WPSEO_Premium {
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
 	/** @var string */
-	const PLUGIN_VERSION_NAME = '7.3';
+	const PLUGIN_VERSION_NAME = '7.4';
 
 	/** @var string */
 	const PLUGIN_VERSION_CODE = '16';
@@ -388,28 +388,31 @@ class WPSEO_Premium {
 	 * Add 'Create Redirect' option to admin bar menu on 404 pages
 	 */
 	public function admin_bar_menu() {
-
-		if ( is_404() ) {
-			global $wp, $wp_admin_bar;
-
-			$parsed_url = wp_parse_url( home_url( add_query_arg( null, null ) ) );
-
-			if ( is_array( $parsed_url ) ) {
-				$old_url = $parsed_url['path'];
-
-				if ( isset( $parsed_url['query'] ) && $parsed_url['query'] !== '' ) {
-					$old_url .= '?' . $parsed_url['query'];
-				}
-
-				$old_url = urlencode( $old_url );
-
-				$wp_admin_bar->add_menu( array(
-					'id'    => 'wpseo-premium-create-redirect',
-					'title' => __( 'Create Redirect', 'wordpress-seo-premium' ),
-					'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url ),
-				) );
-			}
+		if ( ! is_404() ) {
+			return;
 		}
+
+		global $wp, $wp_admin_bar;
+
+		$parsed_url = wp_parse_url( home_url( $wp->request ) );
+
+		if ( ! is_array( $parsed_url ) ) {
+			return;
+		}
+
+		$old_url = WPSEO_Redirect_Util::strip_base_url_path_from_url( home_url(), $parsed_url['path'] );
+
+		if ( isset( $parsed_url['query'] ) && $parsed_url['query'] !== '' ) {
+			$old_url .= '?' . $parsed_url['query'];
+		}
+
+		$old_url = rawurlencode( $old_url );
+
+		$wp_admin_bar->add_menu( array(
+			'id'    => 'wpseo-premium-create-redirect',
+			'title' => __( 'Create Redirect', 'wordpress-seo-premium' ),
+			'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url ),
+		) );
 	}
 
 	/**
