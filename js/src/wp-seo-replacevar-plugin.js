@@ -31,7 +31,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	var YoastReplaceVarPlugin = function( app, store ) {
 		this._app = app;
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
-		this._store=store;
+		this._store = store;
 
 		this.registerReplacements();
 		this.registerModifications();
