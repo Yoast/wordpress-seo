@@ -18,6 +18,22 @@ const Section = styled( StyledSection )`
 `;
 
 /**
+ * Function to map the editor data to data for the preview.
+ *
+ * @param {Object} mappedData The default mappedData object.
+ * @param {string} mappedData.title The processed title.
+ * @param {string} mappedData.url The baseUrl with the slug.
+ * @param {string} mappedData.description The processed description.
+ *
+ * @returns {Object} The new mappedData object.
+ */
+const mapDataToPreview = function( mappedData ) {
+	mappedData.url = mappedData.url.replace( /\s/g, "-" );
+
+	return mappedData;
+};
+
+/**
  * Creates the Snippet Preview Section.
  *
  * @param {Object} props The component props.
@@ -33,11 +49,7 @@ const SnippetPreviewSection = ( { baseUrl } ) => {
 	>
 		<SnippetEditor
 			baseUrl={ baseUrl }
-			mapDataToPreview={ ( mappedData ) => {
-				mappedData.url = mappedData.url.replace( /\s/g, "-" );
-
-				return mappedData;
-			} }
+			mapDataToPreview={ mapDataToPreview }
 		/>
 	</Section>;
 };
