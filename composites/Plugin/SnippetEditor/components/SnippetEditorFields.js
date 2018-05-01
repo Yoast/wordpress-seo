@@ -315,11 +315,13 @@ SnippetEditorFields.defaultProps = {
 	onFocus: () => {},
 	titleLengthAssessment: {
 		max: 600,
+		min: 400,
 		actual: 0,
 		score: 0,
 	},
 	descriptionLengthAssessment: {
 		max: 320,
+		min: 120,
 		actual: 0,
 		score: 0,
 	},

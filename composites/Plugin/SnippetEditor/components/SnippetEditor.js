@@ -287,6 +287,26 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
+	 * Sets the description length score based on the actual description length.
+	 *
+	 * @param {Object} descriptionLengthAssessment The assessment object containing the actual description length, the
+	 *												maximum length and the length score.
+	 * @returns {void}
+	 */
+	setDescriptionLengthAssessmentScore( descriptionLengthAssessment ) {
+		let descriptionLength = descriptionLengthAssessment.actual;
+
+		if ( descriptionLength > 0 && descriptionLength < descriptionLengthAssessment.min ||
+			descriptionLength > descriptionLengthAssessment.max ) {
+			descriptionLengthAssessment.score = 5;
+		}
+
+		if ( descriptionLength >= descriptionLengthAssessment.min && descriptionLength <= descriptionLengthAssessment.max ) {
+			descriptionLengthAssessment.score = 7;
+		}
+	}
+
+	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -296,6 +316,8 @@ class SnippetEditor extends React.Component {
 			onChange,
 			data,
 			mode,
+			descriptionLengthAssessment,
+			titleLengthAssessment,
 		} = this.props;
 
 		const {
@@ -306,6 +328,11 @@ class SnippetEditor extends React.Component {
 
 		const mappedData = this.mapDataToPreview( data );
 
+		descriptionLengthAssessment.actual = data.description.length;
+		titleLengthAssessment.actual = data.title.length;
+		this.setDescriptionLengthAssessmentScore( descriptionLengthAssessment );
+		console.log(descriptionLengthAssessment)
+		console.log(titleLengthAssessment)
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
 		 * relevant.
@@ -364,11 +391,13 @@ SnippetEditor.defaultProps = {
 	replacementVariables: [],
 	titleLengthAssessment: {
 		max: 600,
+		min: 400,
 		actual: 0,
 		score: 0,
 	},
 	descriptionLengthAssessment: {
 		max: 320,
+		min: 120,
 		actual: 0,
 		score: 0,
 	},
