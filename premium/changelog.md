@@ -1,3 +1,16 @@
+### 7.5.0: May 15th, 2018
+Enhancements:
+* Adds Russian Insights and Linking Suggestions.
+
+Bugfixes:
+* Fixes a bug where the subdirectory is added twice to the origin form field when pressing the create redirect link on the adminbar.
+* Fixes a bug where the subdirectory is stripped out of the redirect target when it's provided as a full url.
+* Fixes a bug where posts set to `noindex` would show in the orphaned content filter.
+
+Other:
+* Sets the maximum amount of Linking Suggestions to 10.
+* Includes every change in Yoast SEO core 7.5.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.4.0: May 1st, 2018
 * Includes every change in Yoast SEO core 7.4.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 
