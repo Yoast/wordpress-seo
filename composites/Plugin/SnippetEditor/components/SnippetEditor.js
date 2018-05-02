@@ -307,6 +307,29 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
+	 * Sets the title length score based on the actual title length in pixels.
+	 *
+	 * @param {Object} titleLengthAssessment The assessment object containing the actual title length, the maximum
+	 * 											length and the length score.
+	 * @returns {void}
+	 */
+	setTitleLengthAssessmentScore( titleLengthAssessment ) {
+		let descriptionLength = titleLengthAssessment.actual;
+
+		if ( descriptionLength > titleLengthAssessment.max ) {
+			titleLengthAssessment.score = 2;
+		}
+
+		if ( descriptionLength > 0 && descriptionLength < titleLengthAssessment.min ) {
+			titleLengthAssessment.score = 5;
+		}
+
+		if ( descriptionLength >= titleLengthAssessment.min && descriptionLength <= titleLengthAssessment.max ) {
+			titleLengthAssessment.score = 7;
+		}
+	}
+
+	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -331,6 +354,7 @@ class SnippetEditor extends React.Component {
 		descriptionLengthAssessment.actual = data.description.length;
 		titleLengthAssessment.actual = data.title.length;
 		this.setDescriptionLengthAssessmentScore( descriptionLengthAssessment );
+		this.setTitleLengthAssessmentScore( titleLengthAssessment );
 		console.log(descriptionLengthAssessment)
 		console.log(titleLengthAssessment)
 		/*
