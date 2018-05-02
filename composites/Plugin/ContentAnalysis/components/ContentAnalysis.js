@@ -268,7 +268,7 @@ class ContentAnalysis extends React.Component {
 	}
 }
 
-ContentAnalysis.propTypes = {
+export const ContentAnalysisPropType = PropTypes.shape( {
 	onMarkButtonClick: PropTypes.func,
 	problemsResults: PropTypes.array,
 	improvementsResults: PropTypes.array,
@@ -284,7 +284,9 @@ ContentAnalysis.propTypes = {
 	marksButtonClassName: PropTypes.string,
 	intl: intlShape.isRequired,
 	helpText: HelpTextPropType,
-};
+} );
+
+ContentAnalysis.propTypes = ContentAnalysisPropType;
 
 ContentAnalysis.defaultProps = {
 	onMarkButtonClick: () => {},

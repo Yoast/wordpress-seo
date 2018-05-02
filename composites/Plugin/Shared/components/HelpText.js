@@ -7,8 +7,8 @@ import styled from "styled-components";
 import colors from "../../../../style-guide/colors";
 
 const YoastHelpText = styled.p`
-	color: ${ colors.$color_grey_text };
-	font-size: 0.9em;
+	color: ${ props => props.color ? props.color : colors.$color_grey_medium_dark };
+	font-size: ${ props => props.fontSize ? props.fontSize : "0.8em" };
 `;
 
 /**
