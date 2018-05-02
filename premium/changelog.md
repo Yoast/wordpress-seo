@@ -1,3 +1,6 @@
+### 7.4.1: May 2nd, 2018
+* Includes every change in Yoast SEO core 7.4.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers)
+
 ### 7.4.0: May 1st, 2018
 * Includes every change in Yoast SEO core 7.4.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 
