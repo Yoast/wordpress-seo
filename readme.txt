@@ -106,6 +106,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.4.1 =
+Release Date: May 2nd, 2018
+
+Bugfixes:
+* Re-adds `wpseo_opengraph_image_size` filter. This will completely override any automatic size determination our code does. This filter now also applies to all ways an `og:image` can be determined: In the content, as a featured image or as set in our Facebook image setting.
+* Fixes an unintended backwards incompatible change which caused "Warning: Illegal string offset ‘url’ in".
+* Fixes an unintended change which caused SVGs to be included in consideration for the `og:image` tag. SVG images are not allowed by Facebook, so these should never be used in the `og:image` tag.
+
 = 7.4.0 =
 Release Date: May 1st, 2018
 
