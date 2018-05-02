@@ -118,6 +118,16 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether has images is false by default.
+	 */
+	public function test_add_image_as_string() {
+		$class_instance = $this->setup_class();
+		$class_instance->add_image( '/test.png' );
+
+		$this->assertEquals( $this->sample_array(), $class_instance->get_images() );
+	}
+
+	/**
 	 * Test setting the front page image.
 	 */
 	public function test_frontpage_image() {

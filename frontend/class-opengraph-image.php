@@ -143,6 +143,12 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	public function add_image( $attachment ) {
+
+		// Don't break backwards compatibility.
+		if ( is_string( $attachment ) ) {
+			$attachment = array( 'url' => $attachment );
+		}
+
 		/**
 		 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image.
 		 *
