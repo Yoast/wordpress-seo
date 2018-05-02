@@ -77,6 +77,7 @@ class LinkSuggestions extends React.Component {
 		let articleLink = interpolateComponents( {
 			mixedString: articleLinkString,
 			components: {
+				// eslint-disable-next-line jsx-a11y/anchor-has-content
 				a: <a href="https://yoa.st/site-structure-metabox" />,
 			},
 		} );
@@ -136,7 +137,8 @@ class LinkSuggestions extends React.Component {
 		let articleLink = interpolateComponents( {
 			mixedString: articleLinkString,
 			components: {
-				a: <a href="https://yoa.st/metabox-ls-help-cornerstone" target="_blank" />,
+				// eslint-disable-next-line jsx-a11y/anchor-has-content
+				a: <a href="https://yoa.st/metabox-ls-help-cornerstone" rel="noopener noreferrer" target="_blank" />,
 			},
 		} );
 

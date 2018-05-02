@@ -2,6 +2,7 @@ import KeywordSuggestions from "../KeywordSuggestions";
 import React from "react";
 import renderer from "react-test-renderer";
 
+/* eslint-disable require-jsdoc */
 function createWord( word ) {
 	return {
 		getCombination: () => {
@@ -13,6 +14,7 @@ function createWord( word ) {
 function createWords( words ) {
 	return words.map( createWord );
 }
+/* eslint-enable require-jsdoc */
 
 describe( "KeywordSuggestions", function() {
 	it( "renders keyword suggestions as list items", () => {
