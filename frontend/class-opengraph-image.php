@@ -342,6 +342,54 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
+	 * Returns the overridden image size if it has been overridden.
+	 *
+	 * @return null|string The overridden image size or null.
+	 */
+	protected function get_overridden_image_size() {
+		/**
+		 * Filter: 'wpseo_opengraph_image_size' - Allow overriding the image size used
+		 * for OpenGraph sharing. If this filter is used, the defined size will always be
+		 * used for the og:image. The image will still be rejected if it is too small.
+		 *
+		 * Only use this filter if you manually want to determine the best image size
+		 * for the `og:image` tag.
+		 *
+		 * Use the `wpseo_image_sizes` filter if you want to use our logic. That filter
+		 * can be used to add an image size that needs to be taken into consideration
+		 * within our own logic
+		 *
+		 * @api string $size Size string.
+		 */
+		return apply_filters( 'wpseo_opengraph_image_size', null );
+	}
+
+	/**
+	 * Determines if the OpenGraph image size should overridden.
+	 *
+	 * @return bool Whether the size should be overridden.
+	 */
+	protected function is_size_overridden() {
+		return $this->get_overridden_image_size() !== null;
+	}
+
+	/**
+	 * Adds the possibility to short-circuit all the optimal variation logic with
+	 * your own size.
+	 *
+	 * @param int $attachment_id The attachment ID that is used.
+	 *
+	 * @return void
+	 */
+	protected function get_overridden_image( $attachment_id ) {
+		$attachment = WPSEO_Image_Utils::get_image( $attachment_id, $this->get_overridden_image_size() );
+
+		if ( $attachment ) {
+			$this->add_image( $attachment );
+		}
+	}
+
+	/**
 	 * Adds an image to the list by attachment ID.
 	 *
 	 * @param int $attachment_id The attachment ID to add.
@@ -350,6 +398,11 @@ class WPSEO_OpenGraph_Image {
 	 */
 	protected function add_image_by_id( $attachment_id ) {
 		if ( ! $this->is_valid_attachment( $attachment_id ) ) {
+			return;
+		}
+
+		if ( $this->is_size_overridden() ) {
+			$this->get_overridden_image( $attachment_id );
 			return;
 		}
 
