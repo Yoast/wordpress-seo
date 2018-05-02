@@ -7,6 +7,7 @@ import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
 import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
+import KeywordSuggestionsWrapper from "./app/KeywordSuggestionWrapper";
 import SnippetEditor from "./app/SnippetEditorExample";
 
 // Required to make Material UI work with touch screens.
@@ -75,6 +76,11 @@ const components = [
 		id: "sidebar-collapsible",
 		name: "Sidebar Collapsible",
 		component: <SidebarCollapsibleWrapper />,
+	},
+	{
+		id: "keyword-suggestions",
+		name: "Keyword suggestions",
+		component: <KeywordSuggestionsWrapper />,
 	},
 ];
 
