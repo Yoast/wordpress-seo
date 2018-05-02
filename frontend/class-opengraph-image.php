@@ -50,6 +50,14 @@ class WPSEO_OpenGraph_Image {
 	);
 
 	/**
+	 * Image types that are supported by OpenGraph.
+	 *
+	 * @var array
+	 */
+	private $valid_image_types = array( 'image/jpeg', 'image/gif', 'image/png' );
+
+
+	/**
 	 * Constructor.
 	 *
 	 * @param null|string     $image     Optional. The Image to use.
@@ -144,9 +152,14 @@ class WPSEO_OpenGraph_Image {
 	 */
 	public function add_image( $attachment ) {
 
-		// Don't break backwards compatibility.
+		 // In the past `add_image` accepted an image url, so leave this for backwards compatibility.
 		if ( is_string( $attachment ) ) {
 			$attachment = array( 'url' => $attachment );
+		}
+
+		// If the URL ends in `.svg`, we need to return.
+		if ( ! $this->is_valid_image_url( $attachment['url'] ) ) {
+			return;
 		}
 
 		/**
@@ -331,11 +344,16 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	protected function add_image_by_id( $attachment_id ) {
+		if ( ! $this->is_valid_attachment( $attachment_id ) ) {
+			return;
+		}
+
 		if ( ! WPSEO_Image_Utils::has_usable_dimensions( $attachment_id, $this->image_params ) ) {
 			return;
 		}
 
 		$attachment = WPSEO_Image_Utils::get_optimal_variation( $attachment_id );
+
 		if ( $attachment ) {
 			$this->add_image( $attachment );
 		}
@@ -379,5 +397,51 @@ class WPSEO_OpenGraph_Image {
 		do_action( 'wpseo_add_opengraph_additional_images', $this );
 
 		$this->maybe_set_default_image();
+	}
+
+	/**
+	 * Determines whether or not the wanted attachment is considered valid.
+	 *
+	 * @param int $attachment_id The attachment ID to get the attachment by.
+	 *
+	 * @return bool Whether or not the attachment is valid.
+	 */
+	protected function is_valid_attachment( $attachment_id ) {
+		$attachment = get_post_mime_type( $attachment_id );
+
+		if ( $attachment === false ) {
+			return false;
+		}
+
+		return $this->is_valid_image_type( $attachment );
+	}
+
+	/**
+	 * Determines whether the passed mime type is a valid image type.
+	 *
+	 * @param string $mime_type The detected mime type.
+	 *
+	 * @return bool Whether or not the attachment is a valid image type.
+	 */
+	protected function is_valid_image_type( $mime_type ) {
+		return in_array( $mime_type, $this->valid_image_types, true );
+	}
+
+	/**
+	 * Determines whether the passed URL is considered valid.
+	 * In this case, this means it doesn't end in .svg.
+	 *
+	 * @param string $url The URL to check.
+	 *
+	 * @return bool Whether or not the URL is an SVG.
+	 */
+	protected function is_valid_image_url( $url ) {
+		if ( ! is_string( $url ) ) {
+			return false;
+		}
+
+		$parsed_url = parse_url( $url );
+
+		return substr( $parsed_url['path'], -4 ) !== '.svg';
 	}
 }
