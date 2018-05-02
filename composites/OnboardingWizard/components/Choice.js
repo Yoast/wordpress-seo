@@ -49,7 +49,8 @@ const Choice = ( props ) => {
 			;
 			/* eslint-enable jsx-a11y/no-onchange */
 		}
-		return <fieldset className={"yoast-wizard-input-radio-" + fieldName}>
+		return (
+			<fieldset className={"yoast-wizard-input-radio-" + fieldName}>
 				{fieldKeys.map( ( choiceName, index ) => {
 					let choice = choices[ choiceName ];
 					let id = `${fieldName}-${index}`;
@@ -67,7 +68,7 @@ const Choice = ( props ) => {
 					);
 				} )}
 			</fieldset>
-		;
+		);
 	};
 
 	return (
