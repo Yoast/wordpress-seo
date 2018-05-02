@@ -141,7 +141,7 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
-	private static function get_image( $attachment_id, $size ) {
+	public static function get_image( $attachment_id, $size ) {
 		if ( $size === 'full' ) {
 			$image         = wp_get_attachment_metadata( $attachment_id );
 			$image['url']  = wp_get_attachment_image_url( $attachment_id, 'full' );
