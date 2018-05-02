@@ -111,7 +111,7 @@ function renderReactApp( target, component, store ) {
  *
  * @returns {void}
  */
-function renderSnippetPreview( store, baseUrl ) {
+function renderSnippetPreview( store, baseUrl, date ) {
 	const targetElement = document.getElementById( "wpseosnippet" );
 
 	if ( ! targetElement ) {
@@ -124,6 +124,7 @@ function renderSnippetPreview( store, baseUrl ) {
 	ReactDOM.render(
 		wrapInTopLevelComponents( SnippetPreviewSection, store, {
 			baseUrl,
+			date,
 		} ),
 		container,
 	);
@@ -170,7 +171,7 @@ export function initialize( args ) {
 	renderReactApps( store, args );
 
 	if ( args.shouldRenderSnippetPreview ) {
-		renderSnippetPreview( store, args.snippetEditorBaseUrl );
+		renderSnippetPreview( store, args.snippetEditorBaseUrl, args.snippetEditorDate );
 	}
 
 	return {
