@@ -341,7 +341,7 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Determines if the og image size should overridden.
+	 * Determines if the OpenGraph image size should overridden.
 	 *
 	 * @return bool Whether the size should be overridden.
 	 */
