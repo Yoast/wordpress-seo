@@ -56,6 +56,12 @@ class WPSEO_OpenGraph_Image {
 	 */
 	private $valid_image_types = array( 'image/jpeg', 'image/gif', 'image/png' );
 
+	/**
+	 * Image extensions that are supported by OpenGraph.
+	 *
+	 * @var array
+	 */
+	private $valid_image_extensions = array( 'jpeg', 'jpg', 'gif', 'png' );
 
 	/**
 	 * Constructor.
@@ -429,19 +435,59 @@ class WPSEO_OpenGraph_Image {
 
 	/**
 	 * Determines whether the passed URL is considered valid.
-	 * In this case, this means it doesn't end in .svg.
 	 *
 	 * @param string $url The URL to check.
 	 *
-	 * @return bool Whether or not the URL is an SVG.
+	 * @return bool Whether or not the URL is a valid image.
 	 */
 	protected function is_valid_image_url( $url ) {
 		if ( ! is_string( $url ) ) {
 			return false;
 		}
 
+		$image_extension = $this->get_extension_from_url( $url );
+
+		return in_array( $image_extension, $this->valid_image_extensions, true );
+	}
+
+	/**
+	 * Gets the image path from the passed URL.
+	 *
+	 * @param string $url The URL to get the path from.
+	 *
+	 * @return string The path of the image URL. Returns an empty string if URL parsing fails.
+	 */
+	protected function get_image_url_path( $url ) {
 		$parsed_url = parse_url( $url );
 
-		return substr( $parsed_url['path'], -4 ) !== '.svg';
+		if ( $parsed_url === false ) {
+			return '';
+		}
+
+		return $parsed_url['path'];
+	}
+
+	/**
+	 * Determines the file extension of the passed URL.
+	 *
+	 * @param string $url The URL.
+	 *
+	 * @return string The extension.
+	 */
+	protected function get_extension_from_url( $url ) {
+		$extension = '';
+		$path = $this->get_image_url_path( $url );
+
+		if ( $path === '' ) {
+			return $extension;
+		}
+
+		$parts = explode( '.', $path );
+
+		if ( ! empty( $parts ) ) {
+			$extension = end( $parts );
+		}
+
+		return $extension;
 	}
 }
