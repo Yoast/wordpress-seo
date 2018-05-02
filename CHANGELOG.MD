@@ -5,6 +5,31 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 3.5.1 April 25th, 2018
+
+### Fixed
+
+* Removed import reference to a file that no longer exists.
+
+## 3.5.0 April 24th, 2018
+
+### Added
+
+* Added the jsx-a11y ESLint plugin. [#468](https://github.com/Yoast/yoast-components/pull/468)
+* [Collapsible] Added an optional ScreenReaderText after the Collapsible title. [#450](https://github.com/Yoast/yoast-components/pull/464)
+* Added a SnippetEditor component. Renders the SnippetPreview component with editor fields to change the data. [#460](https://github.com/Yoast/yoast-components/pull/460)
+* Added a ReplacementVariable component. Renders a DraftJS editor with replacement variables as entities. [#460](https://github.com/Yoast/yoast-components/pull/460)
+* Added a FormattedScreenReaderMessage component Renders a message translated, but also as screen reader text. Ensures that ScreenReaderText can remain pure and only accept a string. [#460](https://github.com/Yoast/yoast-components/pull/460)
+
+### Changed
+
+* Changed the collapsible panel to use up/down arrows instead of the right/down arrows it used. The direction of the arrow now also matches Gutenberg. [#463](https://github.com/Yoast/yoast-components/pull/465)
+* [AnalysisCollapsible] Center SVG angles in AnalysisCollapsible. [#462](https://github.com/Yoast/yoast-components/pull/462)
+
+### Other
+
+* Updated all dependencies that only had a minor or patch update. [#453](https://github.com/Yoast/yoast-components/pull/453)
+
 ## 3.4.0 April 9th, 2018
 
 ### Added

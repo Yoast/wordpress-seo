@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import a11ySpeak from "a11y-speak";
+import { speak as a11ySpeak } from "@wordpress/a11y";
 import { injectIntl, intlShape, defineMessages } from "react-intl";
 import styled from "styled-components";
 

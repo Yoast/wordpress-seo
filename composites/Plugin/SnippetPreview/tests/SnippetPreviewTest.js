@@ -1,25 +1,32 @@
-import SnippetPreview, { DESKTOP, MOBILE } from "../components/SnippetPreview";
+import SnippetPreview from "../components/SnippetPreview";
+import { MODE_DESKTOP, MODE_MOBILE } from "../constants";
 import React from "react";
-import renderer from "react-test-renderer";
+import { createComponentWithIntl } from "../../../../utils/intlProvider";
 
 const defaultArgs = {
 	description: "Description",
 	title: "Title",
 	url: "https://example.org",
-	mode: DESKTOP,
+	mode: MODE_DESKTOP,
 	onClick: jest.fn(),
 };
 
 const renderSnapshotWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	const tree = renderer
-		.create( <SnippetPreview {...args} /> )
+	const tree = createComponentWithIntl( <SnippetPreview {...args} /> )
 		.toJSON();
 
 	expect( tree ).toMatchSnapshot();
 };
 
 describe( "SnippetPreview", () => {
+	it( "renders a SnippetPreview in the default mode", () => {
+		renderSnapshotWithArgs( {
+			// eslint-disable-next-line no-undefined
+			mode: undefined,
+		} );
+	} );
+
 	it( "renders a SnippetPreview that looks like Google", () => {
 		renderSnapshotWithArgs( {} );
 	} );
@@ -62,11 +69,11 @@ describe( "SnippetPreview", () => {
 
 	describe( "mobile mode", () => {
 		it( "renders differently than desktop", () => {
-			renderSnapshotWithArgs( { mode: MOBILE } );
+			renderSnapshotWithArgs( { mode: MODE_MOBILE } );
 		} );
 
 		it( "renders an AMP logo when isAmp is true", () => {
-			renderSnapshotWithArgs( { mode: MOBILE, isAmp: true } );
+			renderSnapshotWithArgs( { mode: MODE_MOBILE, isAmp: true } );
 		} );
 	} );
 } );

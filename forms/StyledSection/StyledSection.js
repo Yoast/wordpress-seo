@@ -10,9 +10,9 @@ import SvgIcon from "../../composites/Plugin/Shared/components/SvgIcon";
 
 export const StyledHeading = styled( Heading )``;
 
-const StyledIcon = styled( SvgIcon )``;
+export const StyledIcon = styled( SvgIcon )``;
 
-const StyledSectionBase = styled( Section )`
+export const StyledSectionBase = styled( Section )`
 	box-shadow: 0 1px 2px ${ rgba( colors.$color_black, 0.2 ) };
 	background-color: ${ colors.$color_white };
 	padding: 0 20px 16px;
