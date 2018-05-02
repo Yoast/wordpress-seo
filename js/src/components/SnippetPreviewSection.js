@@ -13,6 +13,7 @@ const Section = styled( StyledSection )`
 
 		& ${ StyledHeading } {
 			padding-left: 20px;
+			font-size: 14.4px;
 		}
 	}
 `;
