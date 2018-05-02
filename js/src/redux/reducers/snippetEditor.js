@@ -3,6 +3,7 @@ import {
 	SWITCH_MODE,
 	UPDATE_DATA,
 	UPDATE_REPLACEMENT_VARIABLE,
+	INSERT_REPLACEMENT_VARIABLE,
 } from "../actions/snippetEditor";
 
 const INITIAL_STATE = {
@@ -41,6 +42,21 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 			};
 
 		case UPDATE_REPLACEMENT_VARIABLE:
+			let newReplacementVariables = state.replacementVariables.map( ( replaceVar ) => {
+				if( replaceVar.name === action.name ) {
+					return {
+						name: action.name,
+						value: action.value,
+					}
+				}
+				return replaceVar;
+			} );
+			return {
+				...state,
+				replacementVariables: newReplacementVariables,
+			};
+
+		case INSERT_REPLACEMENT_VARIABLE:
 			return {
 				...state,
 				replacementVariables: [

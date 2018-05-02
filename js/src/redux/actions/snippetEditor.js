@@ -1,6 +1,7 @@
 export const SWITCH_MODE = "SNIPPET_EDITOR_SWITCH_MODE";
 export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
 export const UPDATE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE";
+export const INSERT_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_INSERT_REPLACEMENT_VARIABLE";
 
 /**
  * Switches mode of the snippet editor.
@@ -44,6 +45,22 @@ export function updateData( data ) {
 export function updateReplacementVariable( name, value ) {
 	return {
 		type: UPDATE_REPLACEMENT_VARIABLE,
+		name,
+		value,
+	};
+}
+
+/**
+ * Inserts replacement variables in redux.
+ *
+ * @param {string} name  The name of the replacement variable.
+ * @param {string} value The value of the replacement variable.
+ *
+ * @returns {Object} An action for redux.
+ */
+export function insertReplacementVariable( name, value ) {
+	return {
+		type: INSERT_REPLACEMENT_VARIABLE,
 		name,
 		value,
 	};
