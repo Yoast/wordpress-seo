@@ -157,7 +157,6 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	public function add_image( $attachment ) {
-
 		 // In the past `add_image` accepted an image url, so leave this for backwards compatibility.
 		if ( is_string( $attachment ) ) {
 			$attachment = array( 'url' => $attachment );
@@ -458,7 +457,7 @@ class WPSEO_OpenGraph_Image {
 	 * @return string The path of the image URL. Returns an empty string if URL parsing fails.
 	 */
 	protected function get_image_url_path( $url ) {
-		$parsed_url = parse_url( $url );
+		$parsed_url = wp_parse_url( $url );
 
 		if ( $parsed_url === false ) {
 			return '';
