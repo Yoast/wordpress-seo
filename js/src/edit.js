@@ -162,7 +162,7 @@ export function initialize( args ) {
 
 	// Only use Gutenberg's data if Gutenberg is available.
 	if ( isGutenbergDataAvailable() ) {
-		const gutenbergData = new Data( wp.data, args.onRefreshRequest );
+		const gutenbergData = new Data( wp.data, args.onRefreshRequest, store );
 		gutenbergData.subscribeToGutenberg();
 		data = gutenbergData;
 	}
