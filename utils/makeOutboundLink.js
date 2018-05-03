@@ -1,15 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { defineMessages, injectIntl, intlShape } from "react-intl";
+import { __ } from "@wordpress/i18n";
 
 import { A11yNotice } from "../composites/Plugin/Shared/components/A11yNotice";
 
-const messages = defineMessages( {
-	opensInNewTab: {
-		id: "a11yNotice.opensInNewTab",
-		defaultMessage: "(Opens in a new browser tab)",
-	},
-} );
+const messages = {
+	opensInNewTab: __( "(Opens in a new browser tab)" ),
+};
 
 /**
  * Makes an anchor component into an outbound link that opens in a new tab.
@@ -36,7 +33,7 @@ export const makeOutboundLink = ( Component = "a" ) => {
 				React.createElement(
 					A11yNotice,
 					null,
-					this.props.intl.formatMessage( messages.opensInNewTab )
+					messages.opensInNewTab
 				)
 			);
 		}
@@ -45,7 +42,6 @@ export const makeOutboundLink = ( Component = "a" ) => {
 		children: PropTypes.oneOfType( [
 			PropTypes.node,
 		] ),
-		intl: intlShape.isRequired,
 	};
-	return injectIntl( OutboundLink );
+	return OutboundLink;
 };
