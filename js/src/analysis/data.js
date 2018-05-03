@@ -80,8 +80,34 @@ class Data {
 		};
 	}
 
+	/**
+	 * Fills the redux store with the newly acquired data.
+	 *
+	 * @param {Object} newData The newly aquired data.
+	 *
+	 * @returns {void}
+	 */
+	fillReplacementValues( newData ) {
+		// Todo: Handle content change
+
+		// Fill title
+		this.store.dispatch( updateReplacementVariable( "title", newData.title ) );
+
+		// Todo: Handle slug change
+
+		// Fill excerpt
+		this.store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
+	}
+
+	/**
+	 * Fills the redux store with the changed data.
+	 *
+	 * @param {Object} newData The changed data.
+	 *
+	 * @returns {void}
+	 */
 	handleEditorChange( newData ) {
-		// // Handle content change
+		// Todo: Handle content change
 		// if( this.data.content !== newData.content ) {
 		// }
 
@@ -90,7 +116,7 @@ class Data {
 			this.store.dispatch( updateReplacementVariable( "title", newData.title ) );
 		}
 
-		// // Handle slug change
+		// Todo: Handle slug change
 		// if( this.data.slug !== newData.slug ) {
 		// }
 
@@ -126,6 +152,7 @@ class Data {
 	subscribeToGutenberg() {
 		// Fill data object on page load.
 		this.data = this.collectGutenbergData( this.getPostAttribute );
+		this.fillReplacementValues( this.data );
 		this.subscriber = debounce( this.refreshYoastSEO, 500 );
 		this._wpData.subscribe(
 			this.subscriber

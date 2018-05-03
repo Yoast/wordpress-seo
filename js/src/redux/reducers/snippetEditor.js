@@ -1,9 +1,10 @@
 import { DEFAULT_MODE } from "yoast-components";
+import defaultReplaceVariables from "../../values/defaultReplaceVariables"
 import {
 	SWITCH_MODE,
 	UPDATE_DATA,
 	UPDATE_REPLACEMENT_VARIABLE,
-	INSERT_REPLACEMENT_VARIABLE,
+	SET_REPLACEMENT_VARIABLES,
 } from "../actions/snippetEditor";
 
 const INITIAL_STATE = {
@@ -13,7 +14,7 @@ const INITIAL_STATE = {
 		slug: "",
 		description: "",
 	},
-	replacementVariables: [],
+	replacementVariables: defaultReplaceVariables,
 };
 
 /**
@@ -42,6 +43,22 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 			};
 
 		case UPDATE_REPLACEMENT_VARIABLE:
+			const index = state.replacementVariables.findIndex( replaceVar => {
+				return replaceVar.name === action.name;
+			} );
+			if ( index === -1 ) {
+				return {
+					...state,
+					replacementVariables: [
+						...state.replacementVariables,
+						{
+							name: action.name,
+							value: action.value,
+						},
+					],
+				};
+			}
+
 			let newReplacementVariables = state.replacementVariables.map( ( replaceVar ) => {
 				if( replaceVar.name === action.name ) {
 					return {
@@ -54,18 +71,6 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				replacementVariables: newReplacementVariables,
-			};
-
-		case INSERT_REPLACEMENT_VARIABLE:
-			return {
-				...state,
-				replacementVariables: [
-					...state.replacementVariables,
-					{
-						name: action.name,
-						value: action.value,
-					},
-				],
 			};
 	}
 

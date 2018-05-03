@@ -1,6 +1,4 @@
 /* global wpseoReplaceVarsL10n, require */
-import { insertReplacementVariable } from "./redux/actions/snippetEditor";
-
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -127,10 +125,6 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 */
 	YoastReplaceVarPlugin.prototype.addReplacement = function( replacement ) {
 		placeholders[ replacement.placeholder ] = replacement;
-
-		// Stripping percentage signs to have clean names in the Redux store.
-		let strippedPlaceholder = replacement.placeholder.replace( "(\\s*%%sep%%)*", "" ).replace( /%%/g, "" );
-		this._store.dispatch( insertReplacementVariable( strippedPlaceholder, "" ) );
 	};
 
 	/**
