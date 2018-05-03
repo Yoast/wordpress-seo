@@ -107,13 +107,13 @@ class KeywordInput extends React.Component {
 	}
 }
 
-export const KeywordInputPropType = PropTypes.shape( {
+export const keywordInputPropType = {
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	keyword: PropTypes.string,
-} );
+};
 
-KeywordInput.propTypes = KeywordInputPropType;
+KeywordInput.propTypes = keywordInputPropType;
 
 KeywordInput.defaultProps = {
 	keyword: "",
