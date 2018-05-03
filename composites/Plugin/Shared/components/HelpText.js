@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
@@ -18,7 +18,7 @@ const YoastHelpText = styled.p`
  *
  * @returns {ReactElement} HelpText component.
  */
-export default class HelpText extends React.Component {
+export default class HelpText extends PureComponent {
 	/**
 	 * Renders a help text component.
 	 *
