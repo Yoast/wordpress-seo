@@ -177,7 +177,7 @@ describe( "An assessment for the flesch reading", function() {
 
 	it( "returns a null result for the assessment for an Afrikaans paper with text.", function() {
 		const paper = new Paper( "Hierdie is 'n interessante papier.", { locale: "af_ZA" } );
-		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher(0 ), i18n );
+		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 0 ), i18n );
 		expect( result ).toBe( null );
 	} );
 
