@@ -43,7 +43,7 @@ SnippetPreviewSection.propTypes = {
 	date: PropTypes.string,
 };
 
-SnippetPreviewSection.propTypes = {
+SnippetPreviewSection.defaultProps = {
 	date: "",
 };
 
