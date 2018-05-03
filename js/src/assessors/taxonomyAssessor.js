@@ -5,7 +5,7 @@ var keyphraseLength = require( "yoastseo/js/assessments/seo/keyphraseLengthAsses
 var keywordDensity = require( "yoastseo/js/assessments/seo/keywordDensityAssessment.js" );
 var metaDescriptionKeyword = require( "yoastseo/js/assessments/seo/metaDescriptionKeywordAssessment.js" );
 var MetaDescriptionLength = require( "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js" );
-var titleKeyword = require( "yoastseo/js/assessments/seo/titleKeywordAssessment.js" );
+var TitleKeyword = require( "yoastseo/js/assessments/seo/titleKeywordAssessment.js" );
 var TitleWidth = require( "yoastseo/js/assessments/seo/pageTitleWidthAssessment.js" );
 var UrlKeyword = require( "yoastseo/js/assessments/seo/urlKeywordAssessment.js" );
 var TextLength = require( "yoastseo/js/assessments/seo/textLengthAssessment.js" );
@@ -25,7 +25,7 @@ var TaxonomyAssessor = function( i18n ) {
 		keywordDensity,
 		metaDescriptionKeyword,
 		new MetaDescriptionLength(),
-		titleKeyword,
+		new TitleKeyword(),
 		new TitleWidth(),
 		new UrlKeyword(),
 		new TextLength( {
