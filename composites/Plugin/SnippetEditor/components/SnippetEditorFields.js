@@ -72,6 +72,7 @@ const InputContainer = styled.div.attrs( {
 	position: relative;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	font-size: 14px;
+	margin-top: 5px;
 	
 	&::before {
 		display: block;
@@ -91,7 +92,7 @@ const FormSection = styled.div`
 `;
 
 const StyledEditor = styled.section`
-	padding: 0 20px;
+	padding-top: 20px;
 `;
 
 const SimulatedLabel = styled.div`
