@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO Premium 7.5-RC2\n"
+"Project-Id-Version: Yoast SEO Premium 7.5-RC3\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-05-03 07:22:01+00:00\n"
+"POT-Creation-Date: 2018-05-03 08:57:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5059,31 +5059,6 @@ msgstr ""
 msgid ""
 "Someone from Team Yoast will get back to you soon, normally within a couple "
 "of hours."
-msgstr ""
-
-#: wp-seo-main.php:468
-msgid ""
-"The Standard PHP Library (SPL) extension seem to be unavailable. Please ask "
-"your web host to enable it."
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the
-#. installation manual in the Readme for the Yoast SEO code repository on
-#. GitHub
-#: wp-seo-main.php:490
-msgid ""
-"The %1$s plugin installation is incomplete. Please refer to %2$sinstallation "
-"instructions%3$s."
-msgstr ""
-
-#: wp-seo-main.php:514
-msgid ""
-"The filter extension seem to be unavailable. Please ask your web host to "
-"enable it."
-msgstr ""
-
-#: wp-seo-main.php:524
-msgid "Activation failed:"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
