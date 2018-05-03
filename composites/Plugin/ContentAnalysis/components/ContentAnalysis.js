@@ -2,14 +2,12 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { injectIntl, intlShape, defineMessages, FormattedMessage } from "react-intl";
+import { injectIntl, intlShape, defineMessages } from "react-intl";
 
 /* Internal dependencies */
 import colors from "../../../../style-guide/colors.json";
-import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 import AnalysisResult from "../components/AnalysisResult.js";
 import AnalysisCollapsible from "../components/AnalysisCollapsible.js";
-import HelpText, { HelpTextPropType } from "../../../../composites/Plugin/Shared/components/HelpText";
 
 export const ContentAnalysisContainer = styled.div`
 	width: 100%;
@@ -17,17 +15,6 @@ export const ContentAnalysisContainer = styled.div`
 	max-width: 800px;
 	margin: 0 auto;
 `;
-
-const LanguageNotice = styled.p`
-	min-height: 24px;
-	margin-bottom: 8px;
-	margin-left: 24px;
-`;
-
-const ChangeLanguageLink = makeOutboundLink( styled.a`
-	color: ${ colors.$color_blue };
-	margin-left: 4px;
-` );
 
 const messages = defineMessages( {
 	languageNoticeLink: {
@@ -168,41 +155,6 @@ class ContentAnalysis extends React.Component {
 	}
 
 	/**
-	 * Renders the language notice. Provides a link to a setting page in case of
-	 * administrator, a notice to contact an administrator otherwise.
-	 *
-	 * @returns {ReactElement} The rendered language notice.
-	 */
-	renderLanguageNotice() {
-		let showLanguageNotice = this.props.showLanguageNotice;
-		let canChangeLanguage = this.props.canChangeLanguage;
-		if ( ! showLanguageNotice ) {
-			return null;
-		}
-		if ( canChangeLanguage ) {
-			return (
-				<LanguageNotice>
-					<FormattedMessage
-						id="content-analysis.language-notice"
-						defaultMessage="Your site language is set to {language}."
-						values={ { language: <strong>{ this.props.language }</strong> } } />
-					<ChangeLanguageLink href={ this.props.changeLanguageLink }>
-						{ this.props.intl.formatMessage( messages.languageNoticeLink ) }
-					</ChangeLanguageLink>
-				</LanguageNotice>
-			);
-		}
-		return (
-			<LanguageNotice>
-				<FormattedMessage
-					id="content-analysis.language-notice-contact-admin"
-					defaultMessage="Your site language is set to {language}. If this is not correct, contact your site administrator."
-					values={ { language: <strong>{ this.props.language }</strong> } } />
-			</LanguageNotice>
-		);
-	}
-
-	/**
 	 * Renders a ContentAnalysis component.
 	 *
 	 * @returns {ReactElement} The rendered ContentAnalysis component.
@@ -215,7 +167,6 @@ class ContentAnalysis extends React.Component {
 			considerationsResults,
 			errorsResults,
 			headingLevel,
-			helpText,
 		} = this.props;
 		const errorsFound = errorsResults.length;
 		const problemsFound = problemsResults.length;
@@ -226,8 +177,6 @@ class ContentAnalysis extends React.Component {
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
-				{ helpText && <HelpText text={ helpText } /> }
-				{ this.renderLanguageNotice() }
 				{ errorsFound > 0 &&
 				<AnalysisCollapsible
 					headingLevel={ headingLevel }
@@ -268,25 +217,23 @@ class ContentAnalysis extends React.Component {
 	}
 }
 
-export const ContentAnalysisPropType = PropTypes.shape( {
+export const contentAnalysisPropType = {
 	onMarkButtonClick: PropTypes.func,
 	problemsResults: PropTypes.array,
 	improvementsResults: PropTypes.array,
 	goodResults: PropTypes.array,
 	considerationsResults: PropTypes.array,
 	errorsResults: PropTypes.array,
-	changeLanguageLink: PropTypes.string.isRequired,
-	canChangeLanguage: PropTypes.bool,
-	language: PropTypes.string.isRequired,
-	showLanguageNotice: PropTypes.bool,
 	headingLevel: PropTypes.number,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
-	intl: intlShape.isRequired,
-	helpText: HelpTextPropType,
-} );
+	intl: intlShape,
+};
 
-ContentAnalysis.propTypes = ContentAnalysisPropType;
+ContentAnalysis.propTypes = {
+	...contentAnalysisPropType,
+	intl: contentAnalysisPropType.intl.isRequired,
+};
 
 ContentAnalysis.defaultProps = {
 	onMarkButtonClick: () => {},
@@ -295,8 +242,6 @@ ContentAnalysis.defaultProps = {
 	goodResults: [],
 	considerationsResults: [],
 	errorsResults: [],
-	showLanguageNotice: false,
-	canChangeLanguage: false,
 	headingLevel: 4,
 	marksButtonStatus: "enabled",
 };

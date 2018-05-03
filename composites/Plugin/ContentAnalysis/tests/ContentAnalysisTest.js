@@ -62,8 +62,6 @@ describe( "ContentAnalysis", () => {
 				goodResults={ goodResults }
 				considerationsResults={ considerationsResults }
 				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
 			/>
 		);
 
@@ -79,8 +77,6 @@ describe( "ContentAnalysis", () => {
 				goodResults={ goodResults }
 				considerationsResults={ considerationsResults }
 				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
 			/>
 		);
 
@@ -96,8 +92,6 @@ describe( "ContentAnalysis", () => {
 				goodResults={ goodResults }
 				considerationsResults={ considerationsResults }
 				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
 			/>
 		);
 
@@ -113,8 +107,6 @@ describe( "ContentAnalysis", () => {
 				goodResults={ goodResults }
 				considerationsResults={ [] }
 				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
 			/>
 		);
 
@@ -130,8 +122,6 @@ describe( "ContentAnalysis", () => {
 				goodResults={ goodResults }
 				considerationsResults={ [] }
 				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
 			/>
 		);
 
@@ -148,64 +138,6 @@ describe( "ContentAnalysis", () => {
 				goodResults={ goodResults }
 				considerationsResults={ considerationsResults }
 				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
-			/>
-		);
-
-		let tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
-	} );
-
-	it( "the ContentAnalysis component with language notice matches the snapshot", () => {
-		const component = createComponentWithIntl(
-			<ContentAnalysis
-				problemsResults={ problemsResults }
-				improvementsResults={ improvementsResults }
-				goodResults={ goodResults }
-				considerationsResults={ considerationsResults }
-				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
-				showLanguageNotice={ true }
-			/>
-		);
-
-		let tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
-	} );
-
-	it( "the ContentAnalysis component with language notice for someone who can change the language matches the snapshot", () => {
-		const component = createComponentWithIntl(
-			<ContentAnalysis
-				problemsResults={ problemsResults }
-				improvementsResults={ improvementsResults }
-				goodResults={ goodResults }
-				considerationsResults={ considerationsResults }
-				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
-				showLanguageNotice={ true }
-				canChangeLanguage={ true }
-			/>
-		);
-
-		let tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
-	} );
-
-	it( "the ContentAnalysis component with language notice for someone who cannot change the language matches the snapshot", () => {
-		const component = createComponentWithIntl(
-			<ContentAnalysis
-				problemsResults={ problemsResults }
-				improvementsResults={ improvementsResults }
-				goodResults={ goodResults }
-				considerationsResults={ considerationsResults }
-				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
-				showLanguageNotice={ true }
-				canChangeLanguage={ false }
 			/>
 		);
 
@@ -221,9 +153,6 @@ describe( "ContentAnalysis", () => {
 				goodResults={ goodResults }
 				considerationsResults={ considerationsResults }
 				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
-				showLanguageNotice={ true }
 				marksButtonStatus={ "disabled" }
 			/>
 		);
@@ -240,32 +169,7 @@ describe( "ContentAnalysis", () => {
 				goodResults={ goodResults }
 				considerationsResults={ considerationsResults }
 				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
-				showLanguageNotice={ true }
 				marksButtonStatus={ "hidden" }
-			/>
-		);
-
-		let tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
-	} );
-
-	it( "the ContentAnalysis component with HelpText matches the snapshot", () => {
-		const component = createComponentWithIntl(
-			<ContentAnalysis
-				problemsResults={ problemsResults }
-				improvementsResults={ improvementsResults }
-				goodResults={ goodResults }
-				considerationsResults={ considerationsResults }
-				errorsResults={ errorsResults }
-				changeLanguageLink={ "#" }
-				language="English"
-				helpText={ [
-					"This is a text to help you ",
-					<a key="1" href="http://www.example.com">with a link</a>,
-					" and some more text.",
-				] }
 			/>
 		);
 
