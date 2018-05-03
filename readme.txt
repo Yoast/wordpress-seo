@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.4.2 =
+Release Date: May 3rd, 2018
+
+Bugfixes:
+* Fixes automatic image size detection for OpenGraph images. When an image was used that was too large, we wouldn't output the `og:image` tag. That is now fixed.
+* Fixes a bug where portrait images where not allowed for the OpenGraph image.
+
 = 7.4.1 =
 Release Date: May 2nd, 2018
 
