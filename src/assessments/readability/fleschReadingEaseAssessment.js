@@ -11,7 +11,7 @@ class FleschReadingEaseAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 * @returns {void}
 	 */
 	constructor( config ) {
@@ -27,25 +27,26 @@ class FleschReadingEaseAssessment extends Assessment {
 	 * @param {Object} paper The paper to run this assessment on.
 	 * @param {Object} researcher The researcher used for the assessment.
 	 * @param {Object} i18n The i18n-object used for parsing translations.
-	 * @returns {Object} an assessmentResult with the score and formatted text.
+	 * @returns {Object} An assessmentResult with the score and formatted text.
 	 */
 	getResult( paper, researcher, i18n ) {
 		this.fleschReadingResult = researcher.getResearch( "calculateFleschReading" );
 		if ( this.isApplicable( paper ) ) {
 			let assessmentResult =  new AssessmentResult();
-			const calculatedScore = this.calculateScore();
-			assessmentResult.setScore( calculatedScore.score );
-			assessmentResult.setText( this.translateScore( calculatedScore.resultText, calculatedScore.note, i18n ) );
+			const calculatedResult = this.calculateResult();
+			assessmentResult.setScore( calculatedResult.score );
+			assessmentResult.setText( this.translateScore( calculatedResult.resultText, calculatedResult.note, i18n ) );
 
 			return assessmentResult;
 		}
+		return null;
 	}
 
 	/**
 	 * Calculates the assessment result based on the fleschReadingScore.
-	 * @returns {object} object with score, resultText and note.
+	 * @returns {Object} Object with score, resultText and note.
 	 */
-	calculateScore() {
+	calculateResult() {
 		if ( this.fleschReadingResult > this._config.borders.veryEasy ) {
 			return this._config.veryEasy;
 		}
@@ -70,9 +71,7 @@ class FleschReadingEaseAssessment extends Assessment {
 			return this._config.difficult;
 		}
 
-		if ( this.fleschReadingResult < this._config.borders.difficult ) {
-			return this._config.veryDifficult;
-		}
+		return this._config.veryDifficult;
 	}
 
 	/**
@@ -112,7 +111,7 @@ class FleschReadingEaseAssessment extends Assessment {
 	 * Checks if Flesch reading analysis is available for the language of the paper.
 	 *
 	 * @param {Object} paper The paper to have the Flesch score to be calculated for.
-	 * @returns {boolean} If the language is available and the paper is not empty.
+	 * @returns {boolean} Returns true if the language is available and the paper is not empty.
 	 */
 	isApplicable( paper ) {
 		const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
