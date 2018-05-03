@@ -28,6 +28,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		// Form fields.
 		'disableadvanced_meta'            => true,
 		'onpage_indexability'             => true,
+		'baiduverify'                     => '', // Text field.
 		'googleverify'                    => '', // Text field.
 		'msverify'                        => '', // Text field.
 		'yandexverify'                    => '',
@@ -49,6 +50,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	public $ms_exclude = array(
 		/* Privacy. */
+		'baiduverify',
 		'googleverify',
 		'msverify',
 		'yandexverify',
@@ -137,6 +139,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				/* Verification strings. */
+				case 'baiduverify':
 				case 'googleverify':
 				case 'msverify':
 				case 'yandexverify':

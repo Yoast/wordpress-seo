@@ -426,7 +426,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	public function test_is_using_default_indexing() {
 		$post = $this->factory()->post->create_and_get( array() );
 
-		// Set metavalue
+		// Set metavalue.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '0', $post->ID );
 
 		$uses_default_indexing = self::$class_instance->uses_default_indexing( $post->ID );
@@ -442,7 +442,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	public function test_is_not_using_default_indexing() {
 		$post = $this->factory()->post->create_and_get( array() );
 
-		// Set metavalue
+		// Set metavalue.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
 
 		$uses_default_indexing = self::$class_instance->uses_default_indexing( $post->ID );
@@ -458,7 +458,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	public function test_is_indexable_when_set_on_post() {
 		$post = $this->factory()->post->create_and_get( array() );
 
-		// Set metavalue
+		// Set metavalue.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
 
 		$is_indexable = self::$class_instance->is_indexable( $post->ID );
@@ -474,7 +474,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	public function test_is_indexable_when_using_default() {
 		$post = $this->factory()->post->create_and_get( array( 'post_type' => 'post' ) );
 
-		// Set metavalue
+		// Set metavalue.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '0', $post->ID );
 		WPSEO_Options::set( 'noindex-post', false );
 
@@ -491,7 +491,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	public function test_is_not_indexable_when_using_default() {
 		$post = $this->factory()->post->create_and_get( array( 'post_type' => 'post' ) );
 
-		// Set metavalue
+		// Set metavalue.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '0', $post->ID );
 		WPSEO_Options::set( 'noindex-post', true );
 

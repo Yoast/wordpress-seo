@@ -18,7 +18,8 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if the get_all function returns an array with at least the indexses associated with the options: wpseo and wpseo_titles.
+	 * Tests if the get_all() function returns an array with at least the indexes
+	 * associated with the options: wpseo and wpseo_titles.
 	 *
 	 * @covers WPSEO_Options::get_all
 	 */
@@ -30,7 +31,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the get_options function returns an empty array if you pass an empty array.
+	 * Test if the get_options() function returns an empty array if you pass an empty array.
 	 *
 	 * @covers WPSEO_Options::get_options
 	 */
@@ -40,7 +41,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the get_options function returns an empty array if you pass nonexistent options.
+	 * Test if the get_options() function returns an empty array if you pass nonexistent options.
 	 *
 	 * @covers WPSEO_Options::get_options
 	 */
@@ -50,7 +51,8 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the get_options function returns an array containing two of the correct keys when entering an array with two valid optionnames.
+	 * Test if the get_options() function returns an array containing two of the correct
+	 * keys when entering an array with two valid optionnames.
 	 *
 	 * @covers WPSEO_Options::get_options
 	 */
@@ -60,7 +62,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the get_option function returns an empty array if you pass null.
+	 * Test if the get_option() function returns an empty array if you pass null.
 	 *
 	 * @covers WPSEO_Options::get_option
 	 */
@@ -70,7 +72,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the get_option function returns an empty array if you pass an empty string.
+	 * Test if the get_option() function returns an empty array if you pass an empty string.
 	 *
 	 * @covers WPSEO_Options::get_option
 	 */
@@ -80,7 +82,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the get_option function returns an empty array if you pass an nonexistent option.
+	 * Test if the get_option() function returns an empty array if you pass an nonexistent option.
 	 *
 	 * @covers WPSEO_Options::get_option
 	 */
@@ -90,7 +92,8 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the get_option function returns an array containing one of the correct keys when entering an array with a single valid optionname.
+	 * Test if the get_option() function returns an array containing one of the correct
+	 * keys when entering an array with a single valid optionname.
 	 *
 	 * @covers WPSEO_Options::get_option
 	 */
@@ -100,7 +103,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if the get_option_value function returns a valid result.
+	 * Tests if the get() function returns a valid result.
 	 *
 	 * @covers WPSEO_Options::get()
 	 */
@@ -118,7 +121,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if the get_option_value function returns a valid result.
+	 * Tests if the get() function returns a valid result.
 	 *
 	 * @covers WPSEO_Options::get()
 	 */
@@ -128,7 +131,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if the get_option_value function returns a valid result.
+	 * Tests if the get() function returns a valid result.
 	 *
 	 * @covers WPSEO_Options::get()
 	 */
@@ -138,7 +141,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if the get_option_value function returns a valid result.
+	 * Tests if the get() function returns a valid result.
 	 *
 	 * @covers WPSEO_Options::get()
 	 */
@@ -148,7 +151,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 		$option_before['show_onboarding_notice']  = false;
 		update_option( 'wpseo', $option_before );
 
-		// Turn them around and see if they still return the correct value
+		// Turn them around and see if they still return the correct value.
 		WPSEO_Options::set( 'keyword_analysis_active', false );
 		WPSEO_Options::set( 'show_onboarding_notice', true );
 
@@ -176,6 +179,38 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 			$this->assertEquals( array(), $intersected, 'Option keys must be unique (' . $option_name . ').' );
 
 			$keys = array_merge( $keys, $option_keys );
+		}
+	}
+
+	/**
+	 * Tests that multisite options are available via WPSEO_Options::get() in multisite.
+	 *
+	 * @group ms-required
+	 *
+	 * @covers WPSEO_Options::get()
+	 * @covers WPSEO_Options::add_ms_option()
+	 */
+	public function test_ms_options_included_in_get_in_multisite() {
+		$ms_option_keys = array( 'access', 'defaultblog' );
+
+		foreach ( $ms_option_keys as $key ) {
+			$this->assertNotNull( WPSEO_Options::get( $key ) );
+		}
+	}
+
+	/**
+	 * Tests that multisite options are not available via WPSEO_Options::get() in non-multisite.
+	 *
+	 * @group ms-excluded
+	 *
+	 * @covers WPSEO_Options::get()
+	 * @covers WPSEO_Options::add_ms_option()
+	 */
+	public function test_ms_options_excluded_in_get_non_multisite() {
+		$ms_option_keys = array( 'access', 'defaultblog' );
+
+		foreach ( $ms_option_keys as $key ) {
+			$this->assertNull( WPSEO_Options::get( $key ) );
 		}
 	}
 }

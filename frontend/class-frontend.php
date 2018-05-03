@@ -632,6 +632,9 @@ class WPSEO_Frontend {
 	 * Output Webmaster Tools authentication strings.
 	 */
 	public function webmaster_tools_authentication() {
+		// Baidu.
+		$this->webmaster_tools_helper( 'baiduverify', 'baidu-site-verification' );
+
 		// Bing.
 		$this->webmaster_tools_helper( 'msverify', 'msvalidate.01' );
 
@@ -1065,7 +1068,7 @@ class WPSEO_Frontend {
 		}
 
 		$page = max( 1, (int) get_query_var( 'page' ) );
-		$url = get_permalink( get_queried_object_id() );
+		$url  = get_permalink( get_queried_object_id() );
 
 		if ( $page > 1 ) {
 			$this->adjacent_rel_link( 'prev', $url, ( $page - 1 ), 'page' );
@@ -1234,13 +1237,16 @@ class WPSEO_Frontend {
 		}
 		elseif ( $this->frontend_page_type->is_simple_page() ) {
 			$post      = get_post( $this->frontend_page_type->get_simple_page_id() );
-			$post_type = $post->post_type;
+			$post_type = isset( $post->post_type ) ? $post->post_type : '';
 
 			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
 				$template = WPSEO_Options::get( 'metadesc-' . $post_type );
 				$term     = $post;
 			}
-			$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
+
+			if ( is_object( $post ) ) {
+				$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
+			}
 		}
 		else {
 			if ( is_search() ) {
