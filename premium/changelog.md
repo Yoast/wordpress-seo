@@ -11,6 +11,9 @@ Other:
 * Sets the maximum amount of Linking Suggestions to 10.
 * Includes every change in Yoast SEO core 7.5.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 
+### 7.4.2: May 3rd, 2018
+* Includes every change in Yoast SEO core 7.4.2 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers)
+
 ### 7.4.1: May 2nd, 2018
 * Includes every change in Yoast SEO core 7.4.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers)
 
