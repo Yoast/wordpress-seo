@@ -43,18 +43,3 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 
 // Load the Yoast SEO plugin.
 require_once dirname( WPSEO_FILE ) . '/wp-seo-main.php';
-
-function yst_custom_upload_mimes( $existing_mimes = array() ) {
-	// Add EPS to the allowed uploaded file types.
-	$existing_mimes['eps'] = 'application/postscript';
-
-	// Add CSV to the allowed uploaded file types.
-	$existing_mimes['csv'] = 'text/csv';
-
-	// Add SVG to the allowed uploaded file types.
-	$existing_mimes['svg'] = 'image/svg+xml';
-
-	return $existing_mimes;
-}
-
-add_filter( 'upload_mimes', 'yst_custom_upload_mimes' );
