@@ -40,7 +40,7 @@ const MobileContainer = styled.div`
 	border-radius: 2px;
 	box-shadow: 0 1px 2px rgba(0,0,0,.2);
 	margin: 0 20px 10px;
-	font-family: Roboto-Regular, HelveticaNeue, Arial, sans-serif;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	max-width: ${ MAX_WIDTH }px;
 	box-sizing: border-box;
 `;
@@ -112,6 +112,7 @@ export const TitleUnboundedMobile = styled.span`
 	max-height: 2.4em;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	font-size: 16px;
 `;
 
 export const BaseUrl = styled.div`
@@ -134,6 +135,7 @@ const MobileDescription = styled( DesktopDescription )`
 	line-height: 1em;
 	max-height: 4em;
 	overflow: hidden;
+	font-size: 14px;
 `;
 
 const MobilePartContainer = styled.div`
@@ -588,7 +590,7 @@ export default class SnippetPreview extends PureComponent {
 							after=":"
 						/>
 						{ amp }
-						{ this.renderUrl() }
+						<slug> { this.renderUrl() } </slug>
 						{ downArrow }
 					</PartContainer>
 					{ separator }
