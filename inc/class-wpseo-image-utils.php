@@ -31,24 +31,6 @@ class WPSEO_Image_Utils {
 	}
 
 	/**
-	 * Finds an image size that is under 2 MB and thus viable to use for social sharing.
-	 *
-	 * @param int $attachment_id The attachment ID.
-	 *
-	 * @return array|false Image array on success, false on failure.
-	 */
-	public static function get_optimal_variation( $attachment_id ) {
-		foreach ( self::get_sizes() as $size ) {
-			$image = self::get_image( $attachment_id, $size );
-			if ( $image && self::has_usable_file_size( $image ) ) {
-				return $image;
-			}
-		}
-
-		return false;
-	}
-
-	/**
 	 * Retrieves the image data.
 	 *
 	 * @param array $image         Image array with URL and metadata.
@@ -76,34 +58,6 @@ class WPSEO_Image_Utils {
 		// Keep only the keys we need, and nothing else.
 		$image = array_intersect_key( $image, array_flip( array( 'id', 'alt', 'path', 'width', 'height', 'pixels', 'type', 'size', 'url' ) ) );
 		return $image;
-	}
-
-	/**
-	 * Check original size of image. If original image is too small, return false, else return true.
-	 *
-	 * @param int   $attachment_id The attachment ID to check the size of.
-	 * @param array $params {
-	 *    The parameters to check against.
-	 *
-	 *    @type int    $min_width     Minimum width of image.
-	 *    @type int    $max_width     Maximum width of image.
-	 *    @type int    $min_height    Minimum height of image.
-	 *    @type int    $max_height    Maximum height of image.
-	 *    @type int    $min_ratio     Minimum aspect ratio of image.
-	 *    @type int    $max_ratio     Maximum aspect ratio of image.
-	 * }
-	 *
-	 * @return bool Whether an image is fit for display or not.
-	 */
-	public static function has_usable_dimensions( $attachment_id, $params ) {
-		$img_data = wp_get_attachment_metadata( $attachment_id );
-		if ( empty( $img_data['width'] ) || empty( $img_data['height'] ) ) {
-			return true;
-		}
-
-		$img_data['ratio'] = ( $img_data['width'] / $img_data['height'] );
-
-		return self::has_usable_measurements( $img_data, $params );
 	}
 
 	/**
@@ -220,6 +174,81 @@ class WPSEO_Image_Utils {
 	}
 
 	/**
+	 * Returns the different image variations for consideration.
+	 *
+	 * @param int $attachment_id The attachment to return the variations for.
+	 *
+	 * @return array The different variations possible for this attachment ID.
+	 */
+	public static function get_variations( $attachment_id ) {
+		$variations = array();
+
+		foreach ( self::get_sizes() as $size ) {
+			$variation = self::get_image( $attachment_id, $size );
+
+			// The get_image function returns false if the size doesn't exist for this attachment.
+			if ( $variation ) {
+				$variations[] = $variation;
+			}
+		}
+
+		return $variations;
+	}
+
+	/**
+	 * Check original size of image. If original image is too small, return false, else return true.
+	 *
+	 * Filters a list of variations by a certain set of usable dimensions
+	 *
+	 * @param array $usable_dimensions {
+	 *    The parameters to check against.
+	 *
+	 *    @type int    $min_width     Minimum width of image.
+	 *    @type int    $max_width     Maximum width of image.
+	 *    @type int    $min_height    Minimum height of image.
+	 *    @type int    $max_height    Maximum height of image.
+	 *    @type int    $min_ratio     Minimum aspect ratio of image.
+	 *    @type int    $max_ratio     Maximum aspect ratio of image.
+	 * }
+	 * @param array $variations The variations that should be considered.
+	 *
+	 * @return array Whether a variation is fit for display or not.
+	 */
+	public static function filter_usable_dimensions( $usable_dimensions, $variations ) {
+		$filtered = array();
+
+		foreach ( $variations as $variation ) {
+			$dimensions = $variation;
+
+			$dimensions['ratio'] = ( $dimensions['width'] / $dimensions['height'] );
+
+			if ( self::has_usable_dimensions( $dimensions, $usable_dimensions ) ) {
+				$filtered[] = $variation;
+			}
+		}
+
+		return $filtered;
+	}
+
+	/**
+	 * Filters a list of variations by (disk) file size.
+	 *
+	 * @param array $variations The variations to consider.
+	 *
+	 * @return array The validations that pass the required file size limits.
+	 */
+	public static function filter_usable_file_size( $variations ) {
+		foreach ( $variations as $variation ) {
+			// We return early to prevent measuring the file size of all the variations.
+			if ( self::has_usable_file_size( $variation ) ) {
+				return array( $variation );
+			}
+		}
+
+		return array();
+	}
+
+	/**
 	 * Retrieve the internal WP image file sizes.
 	 *
 	 * @return array $image_sizes An array of image sizes.
@@ -247,17 +276,18 @@ class WPSEO_Image_Utils {
 	/**
 	 * Checks whether an img sizes up to the parameters.
 	 *
-	 * @param array $img_data The image values.
-	 * @param array $params   The parameters to check against.
+	 * @param array $dimensions        The image values.
+	 * @param array $usable_dimensions The parameters to check against.
 	 *
 	 * @return bool True if the image has usable measurements, false if not.
 	 */
-	private static function has_usable_measurements( $img_data, $params ) {
+	private static function has_usable_dimensions( $dimensions, $usable_dimensions ) {
 		foreach ( array( 'width', 'height', 'ratio' ) as $param ) {
-			if (
-				( $img_data[ $param ] < $params[ 'min_' . $param ] ) ||
-				( $img_data[ $param ] > $params[ 'max_' . $param ] )
-			) {
+			$minimum = $usable_dimensions[ 'min_' . $param ];
+			$maximum = $usable_dimensions[ 'max_' . $param ];
+			$current = $dimensions[ $param ];
+
+			if ( ( $current < $minimum ) || ( $current > $maximum ) ) {
 				return false;
 			}
 		}
