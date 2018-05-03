@@ -106,12 +106,12 @@ function renderReactApp( target, component, store ) {
 /**
  * Renders the snippet preview for display.
  *
- * @param {Object} store   Redux store.
- * @param {string} baseUrl The base URL of the site the user is editing.
+ * @param {Object} store Redux store.
+ * @param {Object} props Props to be passed to the snippet preview.
  *
  * @returns {void}
  */
-function renderSnippetPreview( store, baseUrl, date ) {
+function renderSnippetPreview( store, props ) {
 	const targetElement = document.getElementById( "wpseosnippet" );
 
 	if ( ! targetElement ) {
@@ -122,10 +122,7 @@ function renderSnippetPreview( store, baseUrl, date ) {
 	targetElement.parentNode.insertBefore( container, targetElement );
 
 	ReactDOM.render(
-		wrapInTopLevelComponents( SnippetPreviewSection, store, {
-			baseUrl,
-			date,
-		} ),
+		wrapInTopLevelComponents( SnippetPreviewSection, store, props ),
 		container,
 	);
 }
@@ -171,7 +168,10 @@ export function initialize( args ) {
 	renderReactApps( store, args );
 
 	if ( args.shouldRenderSnippetPreview ) {
-		renderSnippetPreview( store, args.snippetEditorBaseUrl, args.snippetEditorDate );
+		renderSnippetPreview( store, {
+			baseUrl: args.snippetEditorBaseUrl,
+			date: args.snippetEditorDate,
+		} );
 	}
 
 	return {
