@@ -6,8 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.5
-Stable tag: 7.5-RC3
-Requires PHP: 5.2.4
+Stable tag: 7.4.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -124,6 +123,17 @@ Bugfixes:
 Other:
 * Adds to the documentation of `getColorFromScore()` that `noindex` is also an expected outcome.
 
+<<<<<<< HEAD
+=======
+= 7.4.2 =
+Release Date: May 3rd, 2018
+
+Bugfixes:
+* Fixes automatic image size detection for OpenGraph images. When an image was used that was too large, we wouldn't output the `og:image` tag. That is now fixed.
+* Fixes a bug where portrait images where not allowed for the OpenGraph image.
+
+
+>>>>>>> 978f109a7885af726cfbc7d433ff0cc57ea7abe3
 = 7.4.1 =
 Release Date: May 2nd, 2018
 
