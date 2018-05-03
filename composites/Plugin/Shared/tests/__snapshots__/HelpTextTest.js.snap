@@ -8,6 +8,8 @@ exports[`HelpText matches the snapshot by default 1`] = `
 
 <p
   className="c0"
+  color="#888"
+  fontSize="0.8em"
 >
   Some help text.
 </p>
@@ -21,6 +23,8 @@ exports[`HelpText matches the snapshot when an array is provided as text 1`] = `
 
 <p
   className="c0"
+  color="#888"
+  fontSize="0.8em"
 >
   Text 
   &lt;a href="https://www.example.com"&gt;with a link&lt;/a&gt;
