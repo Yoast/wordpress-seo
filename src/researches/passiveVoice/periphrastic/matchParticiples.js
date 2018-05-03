@@ -12,10 +12,10 @@ const spanishParticiples = require( "../../spanish/passiveVoice/participles" )()
 // The language-specific participle regexes.
 const languageVariables = {
 	en: {
-		regularParticiplesRegex: /\w+ed($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig,
+		regularParticiplesRegex: /\w+ed($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
 	},
 	fr: {
-		regularParticiplesRegex: /\S+(é|ée|és|ées)($|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig,
+		regularParticiplesRegex: /\S+(é|ée|és|ées)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
 	},
 };
 

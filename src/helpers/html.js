@@ -14,7 +14,7 @@ var blockElementEndRegex = new RegExp( "^</(" + blockElements.join( "|" ) + ")[^
 var inlineElementStartRegex = new RegExp( "^<(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
 var inlineElementEndRegex = new RegExp( "^</(" + inlineElements.join( "|" ) + ")[^>]*>$", "i" );
 
-var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/;
+var otherElementStartRegex = /^<([^>\s/]+)[^>]*>$/;
 var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
 
 var contentRegex = /^[^<]+$/;

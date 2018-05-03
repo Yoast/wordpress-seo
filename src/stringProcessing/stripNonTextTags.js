@@ -9,7 +9,7 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
  * @returns {string} The text stripped of tags, except for li, p, dd and h1-h6 tags.
  */
 module.exports = function( text ) {
-	text = text.replace( /<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, "" );
+	text = text.replace( /<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?>/g, "" );
 	text = stripSpaces( text );
 	return text;
 };
