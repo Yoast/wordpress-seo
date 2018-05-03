@@ -62,7 +62,7 @@ function getCaretColor( props ) {
  */
 const InputContainer = styled.div.attrs( {
 } )`
-	padding: 5px;
+	padding: 3px;
 	border: 1px solid ${ ( props ) => props.isActive ? "#5b9dd9" : "#ddd" };
 	box-shadow: ${ ( props ) => props.isActive ? "0 0 2px rgba(30,140,190,.8);" : "inset 0 1px 2px rgba(0,0,0,.07)" };
 	background-color: #fff;
@@ -70,6 +70,8 @@ const InputContainer = styled.div.attrs( {
 	outline: 0;
 	transition: 50ms border-color ease-in-out;
 	position: relative;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+	font-size: 14px;
 	
 	&::before {
 		display: block;
@@ -94,6 +96,8 @@ const StyledEditor = styled.section`
 
 const SimulatedLabel = styled.div`
 	cursor: pointer;
+	font-size: 16px;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 `;
 
 class SnippetEditorFields extends React.Component {

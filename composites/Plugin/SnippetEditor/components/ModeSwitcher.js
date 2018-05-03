@@ -21,6 +21,7 @@ import PropTypes from "prop-types";
 const SwitcherButton = Button.extend`
 	border: none;
 	border-bottom: 4px solid transparent;
+	
 	width: 31px;
 	height: 31px;
 	
