@@ -44,6 +44,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
+    "@wordpress/i18n": "^1.1.0",
     "algoliasearch": "^3.22.3",
     "debug": "^3.0.0",
     "draft-js": "^0.10.5",
