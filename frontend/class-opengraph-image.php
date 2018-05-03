@@ -406,11 +406,17 @@ class WPSEO_OpenGraph_Image {
 			return;
 		}
 
-		if ( ! WPSEO_Image_Utils::has_usable_dimensions( $attachment_id, $this->image_params ) ) {
+		$variations = WPSEO_Image_Utils::get_variations( $attachment_id );
+		$variations = WPSEO_Image_Utils::filter_usable_dimensions( $this->image_params, $variations );
+		$variations = WPSEO_Image_Utils::filter_usable_file_size( $variations );
+
+		// If we are left without variations, there is no valid variation for this attachment.
+		if ( empty( $variations ) ) {
 			return;
 		}
 
-		$attachment = WPSEO_Image_Utils::get_optimal_variation( $attachment_id );
+		// The variations are ordered so the first variations is by definition the best one.
+		$attachment = $variations[0];
 
 		if ( $attachment ) {
 			$this->add_image( $attachment );
