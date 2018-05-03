@@ -4,16 +4,16 @@ import PropTypes from "prop-types";
 
 // Internal dependencies.
 import HelpText, { helpTextPropType } from "../../Shared/components/HelpText";
-import KeywordInput, { keywordInputPropType } from "../../Shared/components/KeywordInput";
+import LanguageNotice, { languageNoticePropType } from "../../Shared/components/LanguageNotice";
 import ContentAnalysis, { contentAnalysisPropType } from "./ContentAnalysis";
 
-export default class SeoAnalysis extends PureComponent {
+export default class ReadabilityAnalysis extends PureComponent {
 	/**
-	 * Creates the SeoAnalysis component.
+	 * Creates the ReadabilityAnalysis component.
 	 *
 	 * @param {Object} props The passed props.
 	 *
-	 * @returns {ReactElement} The SeoAnalysis component.
+	 * @returns {ReactElement} The ReadabilityAnalysis component.
 	 */
 	constructor( props ) {
 		super( props );
@@ -25,23 +25,23 @@ export default class SeoAnalysis extends PureComponent {
 	 * @returns {ReactElement} The rendered seo analysis.
 	 */
 	render() {
-		const { helpText, keywordInput, contentAnalysis } = this.props;
+		const { helpText, languageNotice, contentAnalysis } = this.props;
 
 		return (
 			<Fragment>
 				<HelpText { ...helpText } />
-				<KeywordInput { ...keywordInput } />
+				<LanguageNotice { ...languageNotice } />
 				<ContentAnalysis { ...contentAnalysis } />
 			</Fragment>
 		);
 	}
 }
 
-SeoAnalysis.propTypes = {
+ReadabilityAnalysis.propTypes = {
 	helpText: PropTypes.shape( helpTextPropType ),
-	keywordInput: PropTypes.shape( keywordInputPropType ),
+	languageNotice: PropTypes.shape( languageNoticePropType ),
 	contentAnalysis: PropTypes.shape( contentAnalysisPropType ),
 };
 
-SeoAnalysis.defaultProps = {
+ReadabilityAnalysis.defaultProps = {
 };

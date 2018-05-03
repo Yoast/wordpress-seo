@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import SeoAnalysis from "../composites/Plugin/ContentAnalysis/components/SeoAnalysis";
+import ReadabilityAnalysis from "../composites/Plugin/ContentAnalysis/components/ReadabilityAnalysis";
 
 const Container = styled.div`
     min-width: 255px;
@@ -15,11 +15,11 @@ const Container = styled.div`
 `;
 
 /**
- * Returns the SeoAnalysisExample component.
+ * Returns the ReadabilityAnalysisExample component.
  *
- * @returns {ReactElement} The SeoAnalysisExample component.
+ * @returns {ReactElement} The ReadabilityAnalysisExample component.
  */
-export default function SeoAnalysisExample() {
+export default function ReadabilityAnalysisExample() {
 	const problemsResults = [
 		{
 			text: "Your text is bad, and you should feel bad.",
@@ -71,7 +71,7 @@ export default function SeoAnalysisExample() {
 
 	return (
 		<Container>
-			<SeoAnalysis
+			<ReadabilityAnalysis
 				helpText={ {
 					text: [
 						"Enter the search term you'd like this post to be found with and see how it would rank. ",
@@ -81,9 +81,11 @@ export default function SeoAnalysisExample() {
 						".",
 					],
 				} }
-				keywordInput={ {
-					id: "keyword-input",
-					label: "Enter a focus keyword:",
+				languageNotice={ {
+					canChangeLanguage: true,
+					changeLanguageLink: "#",
+					language: "English",
+					showLanguageNotice: true,
 				} }
 				contentAnalysis={ {
 					problemsResults,

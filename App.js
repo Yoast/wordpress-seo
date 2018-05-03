@@ -1,7 +1,6 @@
 import React from "react";
 import { IntlProvider } from "react-intl";
 
-import ContentAnalysis from "./app/ContentAnalysisWrapper";
 import Wizard from "./app/WizardWrapper";
 import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
@@ -9,6 +8,7 @@ import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
 import SnippetEditor from "./app/SnippetEditorExample";
 import SeoAnalysis from "./app/SeoAnalysisExample";
+import ReadabilityAnalysis from "./app/ReadabilityAnalysisExample";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
@@ -32,14 +32,14 @@ const components = [
 		component: <Loader />,
 	},
 	{
-		id: "content-analysis",
-		name: "Content analysis",
-		component: <ContentAnalysis />,
-	},
-	{
 		id: "seo-analysis",
 		name: "SEO Analysis",
 		component: <SeoAnalysis />,
+	},
+	{
+		id: "readability-analysis",
+		name: "Readability Analysis",
+		component: <ReadabilityAnalysis />,
 	},
 	{
 		id: "dashboard-widget",
