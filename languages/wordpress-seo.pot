@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 7.5-RC1\n"
+"Project-Id-Version: Yoast SEO Premium 7.5-RC2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-05-01 14:06:31+00:00\n"
+"POT-Creation-Date: 2018-05-03 07:22:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -196,7 +196,7 @@ msgstr ""
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
-#. Plugin Name of the plugin/theme
+#: admin/capabilities/class-capability-manager-integration.php:68
 msgid "Yoast SEO"
 msgstr ""
 
@@ -5086,8 +5086,12 @@ msgstr ""
 msgid "Activation failed:"
 msgstr ""
 
-#. Plugin URI of the plugin/theme
-msgid "https://yoa.st/1uj"
+#. Plugin Name of the plugin/theme
+msgid "Yoast SEO Premium"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://yoa.st/2jc"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -5098,10 +5102,6 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "Team Yoast"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://yoa.st/1uk"
 msgstr ""
 
 #. translators: %s expands to the number of posts in localized format.
