@@ -8,7 +8,7 @@ import uniqueId from "lodash/uniqueId";
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
-import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
+import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import colors from "../../../../style-guide/colors";
 
 const messages = defineMessages( {
@@ -33,7 +33,7 @@ const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 );
 
 let TitleReplacementVariableEditor = styled( ReplacementVariableEditor )`
-	color: ${ ( props ) => props.titleLengthAssessment.score < 5 ? colors.$color_bad : colors.$color_black };
+	color: ${ ( props ) => props.titleLengthProgress.score < 5 ? colors.$color_bad : colors.$color_black };
 `;
 
 /**
@@ -116,9 +116,9 @@ class SnippetEditorFields extends React.Component {
 	 *                                                     changes.
 	 * @param {Function} props.onFocus                     Called when a field is
 	 *                                                     focused.
-	 * @param {Object}   props.titleLengthAssessment       The values for the title
+	 * @param {Object}   props.titleLengthProgress       The values for the title
 	 *                                                     length assessment.
-	 * @param {Object}   props.descriptionLengthAssessment The values for the
+	 * @param {Object}   props.descriptionLengthProgress The values for the
 	 *                                                     description length
 	 *                                                     assessment.
 	 * @param {string}   props.activeField                 The field that is
@@ -198,7 +198,6 @@ class SnippetEditorFields extends React.Component {
 	 * @returns {ReactElement} The snippet editor element.
 	 */
 	render() {
-		console.log("Rendered!")
 		const {
 			intl,
 			replacementVariables,
@@ -207,8 +206,8 @@ class SnippetEditorFields extends React.Component {
 			data,
 			activeField,
 			hoveredField,
-			titleLengthAssessment,
-			descriptionLengthAssessment,
+			titleLengthProgress,
+			descriptionLengthProgress,
 		} = this.props;
 
 		const { title, slug, description } = data;
@@ -228,14 +227,14 @@ class SnippetEditorFields extends React.Component {
 							replacementVariables={ replacementVariables }
 							innerRef={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ this.uniqueId + "-title" }
-							titleLengthAssessment={ titleLengthAssessment }
+							titleLengthProgress={ titleLengthProgress }
 						/>
 					</InputContainer>
 
 					<ProgressBar
-						max={ titleLengthAssessment.max }
-						value={ titleLengthAssessment.actual }
-						progressColor={ this.getProgressColor( titleLengthAssessment.score ) }
+						max={ titleLengthProgress.max }
+						value={ titleLengthProgress.actual }
+						progressColor={ this.getProgressColor( titleLengthProgress.score ) }
 					/>
 				</FormSection>
 				<FormSection>
@@ -271,9 +270,9 @@ class SnippetEditorFields extends React.Component {
 					</InputContainer>
 
 					<ProgressBar
-						max={ descriptionLengthAssessment.max }
-						value={ descriptionLengthAssessment.actual }
-						progressColor={ this.getProgressColor( descriptionLengthAssessment.score ) }
+						max={ descriptionLengthProgress.max }
+						value={ descriptionLengthProgress.actual }
+						progressColor={ this.getProgressColor( descriptionLengthProgress.score ) }
 					/>
 				</FormSection>
 			</StyledEditor>
@@ -311,20 +310,20 @@ SnippetEditorFields.propTypes = {
 	} ).isRequired,
 	activeField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
 	hoveredField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
-	titleLengthAssessment: lengthAssessmentShape,
-	descriptionLengthAssessment: lengthAssessmentShape,
+	titleLengthProgress: lengthProgressShape,
+	descriptionLengthProgress: lengthProgressShape,
 	intl: intlShape.isRequired,
 };
 
 SnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
-	titleLengthAssessment: {
+	titleLengthProgress: {
 		max: 600,
 		actual: 0,
 		score: 0,
 	},
-	descriptionLengthAssessment: {
+	descriptionLengthProgress: {
 		max: 320,
 		actual: 0,
 		score: 0,

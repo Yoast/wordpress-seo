@@ -183,7 +183,6 @@ class ReplacementVariableEditor extends React.Component {
 	 * @returns {String} The block's class name.
 	 */
 	getBlockClassName() {
-		console.log( "hallo, dit is een class name" + this.props.className )
 		return this.props.className;
 	}
 

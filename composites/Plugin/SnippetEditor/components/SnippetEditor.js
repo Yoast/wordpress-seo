@@ -12,7 +12,7 @@ import {
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
-import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
+import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
 
 const SnippetEditorButton = Button.extend`
@@ -50,9 +50,9 @@ class SnippetEditor extends React.Component {
 	 *                                                   be in.
 	 * @param {Function} props.onChange                  Called when the data
 	 *                                                   changes.
-	 * @param {Object} props.titleLengthAssessment       The values for the title
+	 * @param {Object} props.titleLengthProgress       The values for the title
 	 *                                                   length assessment.
-	 * @param {Object} props.descriptionLengthAssessment The values for the
+	 * @param {Object} props.descriptionLengthProgress The values for the
 	 *                                                   description length
 	 *                                                   assessment.
 	 * @param {Function} props.mapDataToPreview          Function to map the editor
@@ -87,8 +87,8 @@ class SnippetEditor extends React.Component {
 		const {
 			data,
 			onChange,
-			titleLengthAssessment,
-			descriptionLengthAssessment,
+			titleLengthProgress,
+			descriptionLengthProgress,
 			replacementVariables,
 		} = this.props;
 		const { activeField, hoveredField, isOpen } = this.state;
@@ -105,8 +105,8 @@ class SnippetEditor extends React.Component {
 				onChange={ onChange }
 				onFocus={ this.setFieldFocus }
 				replacementVariables={ replacementVariables }
-				titleLengthAssessment={ titleLengthAssessment }
-				descriptionLengthAssessment={ descriptionLengthAssessment }
+				titleLengthProgress={ titleLengthProgress }
+				descriptionLengthProgress={ descriptionLengthProgress }
 			/>
 			<CloseEditorButton onClick={ this.close }>
 				<FormattedMessage
@@ -296,8 +296,6 @@ class SnippetEditor extends React.Component {
 			onChange,
 			data,
 			mode,
-			descriptionLengthAssessment,
-			titleLengthAssessment,
 		} = this.props;
 
 		const {
@@ -308,10 +306,6 @@ class SnippetEditor extends React.Component {
 
 		const mappedData = this.mapDataToPreview( data );
 
-		descriptionLengthAssessment.actual = data.description.length;
-		titleLengthAssessment.actual = data.title.length;
-		console.log(descriptionLengthAssessment)
-		console.log(titleLengthAssessment)
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
 		 * relevant.
@@ -360,20 +354,20 @@ SnippetEditor.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	onChange: PropTypes.func.isRequired,
-	titleLengthAssessment: lengthAssessmentShape,
-	descriptionLengthAssessment: lengthAssessmentShape,
+	titleLengthProgress: lengthProgressShape,
+	descriptionLengthProgress: lengthProgressShape,
 	mapDataToPreview: PropTypes.func,
 };
 
 SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
 	replacementVariables: [],
-	titleLengthAssessment: {
+	titleLengthProgress: {
 		max: 600,
 		actual: 0,
 		score: 0,
 	},
-	descriptionLengthAssessment: {
+	descriptionLengthProgress: {
 		max: 320,
 		actual: 0,
 		score: 0,

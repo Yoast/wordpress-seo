@@ -242,12 +242,12 @@ describe( "SnippetEditor", () => {
 	describe( "colored progress bars", () => {
 		it( "can handle scores of 3 and 9", () => {
 			const editor = mountWithArgs( {
-				titleLengthAssessment: {
+				titleLengthProgress: {
 					max: 550,
 					actual: 100,
 					score: 3,
 				},
-				descriptionLengthAssessment: {
+				descriptionLengthProgress: {
 					max: 650,
 					actual: 330,
 					score: 9,
@@ -262,7 +262,7 @@ describe( "SnippetEditor", () => {
 
 		it( "can handle a score of 6", () => {
 			const editor = mountWithArgs( {
-				titleLengthAssessment: {
+				titleLengthProgress: {
 					max: 550,
 					actual: 361,
 					score: 6,
