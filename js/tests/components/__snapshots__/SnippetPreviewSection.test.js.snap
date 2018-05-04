@@ -1,6 +1,7 @@
 exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
 <SnippetPreviewSection
-  baseUrl="http://example.org">
+  baseUrl="http://example.org"
+  date="">
   <Styled(StyledSection)
     headingIcon="eye"
     headingIconColor="#555"
