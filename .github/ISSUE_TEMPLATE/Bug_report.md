@@ -4,7 +4,7 @@ about: Create a report to help us improve
 
 ---
 
-<!-- Please use this template when creating an issue. 
+<!-- Please use this template when creating an issue.
 - Please check the boxes after you've created your issue.
 - Please use the latest version of Yoast SEO.-->
 
