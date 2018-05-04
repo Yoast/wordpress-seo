@@ -74,9 +74,9 @@ export default function ReadabilityAnalysisExample() {
 			<ReadabilityAnalysis
 				helpText={ {
 					text: [
-						"Enter the search term you'd like this post to be found with and see how it would rank. ",
+						"This analysis checks your writing for grammar and writing style so your content is as clear as it can be, ",
 						<a key="1" href="https://yoa.st/content-analysis" target="_blank" rel="noopener noreferrer">
-							Learn more about the Content Analysis Tool
+							Learn more about Readability Analysis
 						</a>,
 						".",
 					],

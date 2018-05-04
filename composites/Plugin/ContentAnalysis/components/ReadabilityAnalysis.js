@@ -11,7 +11,13 @@ export default class ReadabilityAnalysis extends PureComponent {
 	/**
 	 * Creates the ReadabilityAnalysis component.
 	 *
-	 * @param {Object} props The passed props.
+	 * Contains a help text, a language notice and the content analysis.
+	 * Built to use in a Gutenberg sidebar.
+	 *
+	 * @param {Object} props                 The passed props.
+	 * @param {Object} props.helpText        The props for the HelpText component.
+	 * @param {Object} props.languageNotice  The props for the LanguageNotice component.
+	 * @param {Object} props.contentAnalysis The props for the ContentAnalysis component.
 	 *
 	 * @returns {ReactElement} The ReadabilityAnalysis component.
 	 */

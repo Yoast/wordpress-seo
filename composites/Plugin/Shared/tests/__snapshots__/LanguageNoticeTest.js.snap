@@ -4,9 +4,7 @@ exports[`LanguageNotice matches the snapshot by default 1`] = `null`;
 
 exports[`LanguageNotice matches the snapshot when showLanguageNotice equals true 1`] = `
 .c0 {
-  min-height: 24px;
-  margin-bottom: 8px;
-  margin-left: 24px;
+  margin: 1em 0;
 }
 
 <p
@@ -40,9 +38,7 @@ exports[`LanguageNotice matches the snapshot with a changed language link 1`] = 
 }
 
 .c0 {
-  min-height: 24px;
-  margin-bottom: 8px;
-  margin-left: 24px;
+  margin: 1em 0;
 }
 
 .c1 {
@@ -94,9 +90,7 @@ exports[`LanguageNotice matches the snapshot with another language 1`] = `
 }
 
 .c0 {
-  min-height: 24px;
-  margin-bottom: 8px;
-  margin-left: 24px;
+  margin: 1em 0;
 }
 
 .c1 {

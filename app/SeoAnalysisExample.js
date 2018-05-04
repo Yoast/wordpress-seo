@@ -74,16 +74,18 @@ export default function SeoAnalysisExample() {
 			<SeoAnalysis
 				helpText={ {
 					text: [
-						"Enter the search term you'd like this post to be found with and see how it would rank. ",
+						"A focus keyword is the term (or phrase) you'd like this post to be found with in search engines. ",
+						"Enter it below to see how you can improve your text for this term. ",
 						<a key="1" href="https://yoa.st/content-analysis" target="_blank" rel="noopener noreferrer">
-							Learn more about the Content Analysis Tool
+							Learn more about the Keyword Analysis
 						</a>,
 						".",
 					],
 				} }
 				keywordInput={ {
-					id: "keyword-input",
 					label: "Enter a focus keyword:",
+					showLabel: false,
+					keyword: "Mountaineering in the catskills during high season.",
 				} }
 				contentAnalysis={ {
 					problemsResults,

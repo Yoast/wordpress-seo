@@ -9,6 +9,7 @@ import colors from "../../../../style-guide/colors";
 const YoastHelpText = styled.p`
 	color: ${ props => props.color };
 	font-size: ${ props => props.fontSize };
+	margin-top: 0;
 `;
 
 /**

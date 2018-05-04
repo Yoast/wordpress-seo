@@ -10,9 +10,7 @@ import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 import colors from "../../../../style-guide/colors";
 
 const YoastLanguageNotice = styled.p`
-	min-height: 24px;
-	margin-bottom: 8px;
-	margin-left: 24px;
+	margin: 1em 0;
 `;
 
 const ChangeLanguageLink = makeOutboundLink( styled.a`
