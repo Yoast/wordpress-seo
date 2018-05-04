@@ -21,8 +21,19 @@ class Integration_Group implements Integration {
 	 *
 	 * @return void
 	 */
-	public function __construct( array $integrations ) {
+	public function __construct( array $integrations = array() ) {
 		$this->integrations = $this->ensure_integration( $integrations );
+	}
+
+	/**
+	 * Adds an integration to the group.
+	 *
+	 * @param Integration $integration The integration to add.
+	 *
+	 * @return void
+	 */
+	public function add_integration( Integration $integration ) {
+		$this->integrations[] = $integration;
 	}
 
 	/**

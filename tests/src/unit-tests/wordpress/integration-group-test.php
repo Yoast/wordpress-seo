@@ -12,6 +12,24 @@ use Yoast\YoastSEO\WordPress\Integration_Group;
  * @package Yoast\Tests
  */
 class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
+
+	/**
+	 * Tests the addition of an integration.
+	 *
+	 * @covers \Yoast\YoastSEO\WordPress\Integration_Group::add_integration()
+	 */
+	public function test_add_integrations() {
+		$instance = new \Yoast\YoastSEO\WordPress\Integration_Group();
+
+		$integration = $this
+			->getMockBuilder( '\Yoast\YoastSEO\WordPress\Integration' )
+			->getMock();
+
+		$instance->add_integration( $integration );
+
+		$this->assertAttributeContains( $integration, 'integrations', $instance );
+	}
+
 	/**
 	 * Tests ensure integration is called on constructor
 	 *
