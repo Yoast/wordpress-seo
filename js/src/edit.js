@@ -108,10 +108,12 @@ function renderReactApp( target, component, store ) {
  *
  * @param {Object} store   Redux store.
  * @param {string} baseUrl The base URL of the site the user is editing.
+ * @param {Object} titleLengthProgress The title length progress data.
+ * @param {Object} descriptionLengthProgress The description length progress data.
  *
  * @returns {void}
  */
-function renderSnippetPreview( store, baseUrl ) {
+function renderSnippetPreview( store, baseUrl, titleLengthProgress, descriptionLengthProgress ) {
 	const targetElement = document.getElementById( "wpseosnippet" );
 
 	if ( ! targetElement ) {
@@ -124,6 +126,8 @@ function renderSnippetPreview( store, baseUrl ) {
 	ReactDOM.render(
 		wrapInTopLevelComponents( SnippetPreviewSection, store, {
 			baseUrl,
+			titleLengthProgress,
+			descriptionLengthProgress,
 		} ),
 		container,
 	);
