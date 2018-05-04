@@ -1218,7 +1218,7 @@ SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
 };
 
 /**
- * Creates elements with the purpose to calculate the sizes of elements and puts these elemenents to the body.
+ * Creates elements with the purpose to calculate the sizes of elements and puts these elements to the body.
  *
  * @returns {void}
  */

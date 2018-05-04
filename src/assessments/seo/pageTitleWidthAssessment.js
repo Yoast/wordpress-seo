@@ -48,6 +48,9 @@ class PageTitleWidthAssesment extends Assessment {
 		assessmentResult.setScore( this.calculateScore( pageTitleWidth ) );
 		assessmentResult.setText( this.translateScore( pageTitleWidth, i18n ) );
 
+		// Max and actual are used in the snippet editor progress bar.
+		assessmentResult.max = this._config.maxLength;
+		assessmentResult.actual = pageTitleWidth;
 		return assessmentResult;
 	}
 
