@@ -73,7 +73,6 @@ const InputContainer = styled.div.attrs( {
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	font-size: 14px;
 	margin-top: 5px;
-	height: ${ ( props ) => props.height ? props.height + "px;" : "auto;" }
 	
 	&::before {
 		display: block;
@@ -221,7 +220,7 @@ class SnippetEditorFields extends React.Component {
 						id={ this.uniqueId + "-title" }
 						onClick={ () => onFocus( "title" ) }
 					>{ intl.formatMessage( messages.seoTitle ) }</SimulatedLabel>
-					<InputContainer isActive={ activeField === "title" } isHovered={ hoveredField === "title" } height={ 25 }>
+					<InputContainer isActive={ activeField === "title" } isHovered={ hoveredField === "title" }>
 						<ReplacementVariableEditor
 							content={ title }
 							onChange={ content => onChange( "title", content ) }
@@ -243,7 +242,7 @@ class SnippetEditorFields extends React.Component {
 						id={ this.uniqueId + "-slug" }
 						onClick={ () => onFocus( "slug" ) }
 					>{ intl.formatMessage( messages.slug ) }</SimulatedLabel>
-					<InputContainer isActive={ activeField === "slug" } isHovered={ hoveredField === "slug" } height={ 25 }>
+					<InputContainer isActive={ activeField === "slug" } isHovered={ hoveredField === "slug" }>
 						<ReplacementVariableEditor
 							content={ slug }
 							onChange={ content => onChange( "slug", content ) }
@@ -259,7 +258,7 @@ class SnippetEditorFields extends React.Component {
 						id={ this.uniqueId + "-description" }
 						onClick={ () => onFocus( "description" ) }
 					>{ intl.formatMessage( messages.metaDescription ) }</SimulatedLabel>
-					<InputContainer isActive={ activeField === "description" } isHovered={ hoveredField === "description" } height={ 84 }>
+					<InputContainer isActive={ activeField === "description" } isHovered={ hoveredField === "description" }>
 						<ReplacementVariableEditor
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
