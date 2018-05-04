@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.5
-Stable tag: 7.3
+Stable tag: 7.4.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,6 +106,40 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.4.2 =
+Release Date: May 3rd, 2018
+
+Bugfixes:
+* Fixes automatic image size detection for OpenGraph images. When an image was used that was too large, we wouldn't output the `og:image` tag. That is now fixed.
+* Fixes a bug where portrait images where not allowed for the OpenGraph image.
+
+= 7.4.1 =
+Release Date: May 2nd, 2018
+
+Bugfixes:
+* Re-adds `wpseo_opengraph_image_size` filter. This will completely override any automatic size determination our code does. This filter now also applies to all ways an `og:image` can be determined: In the content, as a featured image or as set in our Facebook image setting.
+* Fixes an unintended backwards incompatible change which caused "Warning: Illegal string offset ‘url’ in".
+* Fixes an unintended change which caused SVGs to be included in consideration for the `og:image` tag. SVG images are not allowed by Facebook, so these should never be used in the `og:image` tag.
+
+= 7.4.0 =
+Release Date: May 1st, 2018
+
+Enhancements:
+* Adds OpenGraph image dimension-meta tags for more images.
+* Excludes images from being used in OpenGraph meta tags, if the image is larger than 2MB.
+* Adds caching for images found in a post to reduce load.
+* Adds image alt tag to the OpenGraph output, using the meta tag `og:image:alt`.
+* Adds the `is_post_type_viewable` WordPress function to improve support for the `wpseo_accessible_post_types` filters.
+
+Bugfixes:
+* Fixes a bug where a non-array value causes a fatal error when `cron_schedules` filter has been executed.
+* Fixes a bug where not all database tables were removed when a subsite was deleted in a multisite environment.
+* Fixes a bug where deleting multiple posts might cause performance issues. Props to [Moeini](https://github.com/abolfazl-moeini).
+
+Other:
+* Introduces a message, warning about dropping of PHP 5.2 support in an upcoming version.
+* Alters the configuration service text in the Configuration Wizard when a user is already running Yoast SEO Premium. Previously the text contained a reference to getting a bundled copy of Premium, even if the user was already running Premium.
+
 = 7.3.0 =
 Release Date: April 17th, 2018
 
@@ -137,24 +171,6 @@ Bugfixes:
 Other:
 * Minor internationalization improvements.
 * Security hardening.
-
-= 7.2.0 =
-Release Date: April 3rd, 2018
-
-Enhancements:
-* Updates all Help Center videos with new recordings.
-* Adds functionality to import noindex, nofollow and OpenGraph tags from All in One SEO Pack.
-* Improves consistency of capitalization in settings and tabs.
-* Improves the traffic light icon accessibility.
-* Changes the words 'post type' into 'content type' throughout the plugin.
-
-Bugfixes:
-* Fixes a bug where the Facebook app-id could no longer be set in the Social settings.
-* Fixes a bug where existing Yoast SEO data could be overwritten when importing data from All in One SEO Pack.
-* Fixes a bug where the Ryte notification is not removed when disabling the Ryte feature.
-* Fixes a bug where setting a page to `noindex` through the `wpseo_robots` filter did not properly remove the `canonical` element.
-* Fixes a bug where attachments connected to password-protected parents are included in the sitemaps. Props [Scott Carter](https://gobarrelroll.com).
-* Fixes alignment of the `Go Premium` notice.
 
 = Earlier versions =
 

@@ -16,7 +16,6 @@ const externals = {
 
 // This makes sure the @wordpress dependencies are correctly transformed.
 const wpDependencies = [
-	"i18n",
 	"components",
 	"element",
 	"blocks",
@@ -59,10 +58,19 @@ const defaultWebpackConfig = {
 		rules: [
 			{
 				test: /.jsx?$/,
-				exclude: /node_modules\/(?!(yoast-components|gutenberg)\/).*/,
+				exclude: /node_modules\/(?!(yoast-components|gutenberg|yoastseo)\/).*/,
 				use: [
 					{
 						loader: "babel-loader",
+						options: {
+							env: {
+								development: {
+									plugins: [
+										"babel-plugin-styled-components",
+									],
+								},
+							},
+						},
 					},
 				],
 			},

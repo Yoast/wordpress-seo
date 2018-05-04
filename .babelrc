@@ -20,7 +20,8 @@
   "env": {
     "test": {
       "plugins": [
-        "transform-react-jsx"
+        "transform-react-jsx",
+        "babel-plugin-styled-components"
       ]
     }
   },
