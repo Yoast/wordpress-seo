@@ -186,7 +186,6 @@ window.yoastHideMarkers = true;
 
 		const editArgs = {
 			analysisSection: "pageanalysis",
-			snippetEditorDate: wpseoTermScraperL10n.metaDescriptionDate,
 		};
 		store = initializeEdit( editArgs ).store;
 
