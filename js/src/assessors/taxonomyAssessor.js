@@ -1,7 +1,7 @@
 var Assessor = require( "yoastseo/js/assessor.js" );
 
 var introductionKeyword = require( "yoastseo/js/assessments/seo/introductionKeywordAssessment.js" );
-var keyphraseLength = require( "yoastseo/js/assessments/seo/keyphraseLengthAssessment.js" );
+var KeyphraseLength = require( "yoastseo/js/assessments/seo/keyphraseLengthAssessment.js" );
 var keywordDensity = require( "yoastseo/js/assessments/seo/keywordDensityAssessment.js" );
 var metaDescriptionKeyword = require( "yoastseo/js/assessments/seo/metaDescriptionKeywordAssessment.js" );
 var MetaDescriptionLength = require( "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js" );
@@ -21,9 +21,9 @@ var TaxonomyAssessor = function( i18n ) {
 
 	this._assessments = [
 		introductionKeyword,
-		keyphraseLength,
-		keywordDensity,
-		metaDescriptionKeyword,
+		new KeyphraseLength(),
+		new keywordDensity(),
+		new metaDescriptionKeyword(),
 		new MetaDescriptionLength(),
 		titleKeyword,
 		new TitleWidth(),
