@@ -10,7 +10,7 @@ import { getResultsForKeyword, getActiveKeyword } from "../redux/selectors/resul
 /**
  * Returns true for the title length result.
  *
- * @param {array} results The seo results.
+ * @param {array} results The SEO results.
  * @returns {boolean} True if it's the title length result.
  */
 function isTitleLengthResult( results ) {
@@ -20,7 +20,7 @@ function isTitleLengthResult( results ) {
 /**
  * Returns true for the description length result.
  *
- * @param {array} results The seo results.
+ * @param {array} results The SEO results.
  * @returns {boolean} True if it's the description length result.
  */
 function isDescriptionLengthResult( results ) {
