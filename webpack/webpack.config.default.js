@@ -54,6 +54,7 @@ const defaultWebpackConfig = {
 	resolve: {
 		extensions: [ ".json", ".js", ".jsx" ],
 		alias,
+		symlinks: false,
 	},
 	module: {
 		rules: [
