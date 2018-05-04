@@ -63,6 +63,15 @@ const defaultWebpackConfig = {
 				use: [
 					{
 						loader: "babel-loader",
+						options: {
+							env: {
+								development: {
+									plugins: [
+										"babel-plugin-styled-components",
+									],
+								},
+							},
+						},
 					},
 				],
 			},
