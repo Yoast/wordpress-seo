@@ -287,49 +287,6 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Sets the description length score based on the actual description length.
-	 *
-	 * @param {Object} descriptionLengthAssessment The assessment object containing the actual description length, the
-	 *												maximum length and the length score.
-	 * @returns {void}
-	 */
-	setDescriptionLengthAssessmentScore( descriptionLengthAssessment ) {
-		let descriptionLength = descriptionLengthAssessment.actual;
-
-		if ( descriptionLength > 0 && descriptionLength < descriptionLengthAssessment.min ||
-			descriptionLength > descriptionLengthAssessment.max ) {
-			descriptionLengthAssessment.score = 5;
-		}
-
-		if ( descriptionLength >= descriptionLengthAssessment.min && descriptionLength <= descriptionLengthAssessment.max ) {
-			descriptionLengthAssessment.score = 7;
-		}
-	}
-
-	/**
-	 * Sets the title length score based on the actual title length in pixels.
-	 *
-	 * @param {Object} titleLengthAssessment The assessment object containing the actual title length, the maximum
-	 * 											length and the length score.
-	 * @returns {void}
-	 */
-	setTitleLengthAssessmentScore( titleLengthAssessment ) {
-		let descriptionLength = titleLengthAssessment.actual;
-
-		if ( descriptionLength > titleLengthAssessment.max ) {
-			titleLengthAssessment.score = 2;
-		}
-
-		if ( descriptionLength > 0 && descriptionLength < titleLengthAssessment.min ) {
-			titleLengthAssessment.score = 5;
-		}
-
-		if ( descriptionLength >= titleLengthAssessment.min && descriptionLength <= titleLengthAssessment.max ) {
-			titleLengthAssessment.score = 7;
-		}
-	}
-
-	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -353,8 +310,6 @@ class SnippetEditor extends React.Component {
 
 		descriptionLengthAssessment.actual = data.description.length;
 		titleLengthAssessment.actual = data.title.length;
-		this.setDescriptionLengthAssessmentScore( descriptionLengthAssessment );
-		this.setTitleLengthAssessmentScore( titleLengthAssessment );
 		console.log(descriptionLengthAssessment)
 		console.log(titleLengthAssessment)
 		/*
@@ -415,13 +370,11 @@ SnippetEditor.defaultProps = {
 	replacementVariables: [],
 	titleLengthAssessment: {
 		max: 600,
-		min: 400,
 		actual: 0,
 		score: 0,
 	},
 	descriptionLengthAssessment: {
 		max: 320,
-		min: 120,
 		actual: 0,
 		score: 0,
 	},

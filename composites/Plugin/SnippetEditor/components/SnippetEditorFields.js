@@ -32,6 +32,10 @@ const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 	"</svg>"
 );
 
+let TitleReplacementVariableEditor = styled( ReplacementVariableEditor )`
+	color: ${ ( props ) => props.titleLengthAssessment.score < 5 ? colors.$color_bad : colors.$color_black };
+`;
+
 /**
  * Returns the color of the caret for an InputContainer based on the props.
  *
@@ -52,11 +56,11 @@ function getCaretColor( props ) {
 }
 
 /*
- * The caret is defined in this CSS because we cannot mount/unmount DraftJS.
+ * The caret is defined in this CSS because we cannot mount/unmount Draft.js.
  *
  * For some reason if you wrap the InputContainer with `.extend` or `styled()`
  * the ReplacementVariableEditor in the children will unmount and mount on every focus.
- * This means that DraftJS cannot keep track of the browser selection. Which
+ * This means that Draft.js cannot keep track of the browser selection. Which
  * breaks the editor completely. We circumvent this by settings the caret styles
  * conditionally.
  */
@@ -143,7 +147,7 @@ class SnippetEditorFields extends React.Component {
 	 * Sets ref for field editor.
 	 *
 	 * @param {string} field The field for this ref.
-	 * @param {Object} ref The DraftJS react element.
+	 * @param {Object} ref The Draft.js react element.
 	 *
 	 * @returns {void}
 	 */
@@ -194,6 +198,7 @@ class SnippetEditorFields extends React.Component {
 	 * @returns {ReactElement} The snippet editor element.
 	 */
 	render() {
+		console.log("Rendered!")
 		const {
 			intl,
 			replacementVariables,
@@ -216,13 +221,14 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "title" ) }
 					>{ intl.formatMessage( messages.seoTitle ) }</SimulatedLabel>
 					<InputContainer isActive={ activeField === "title" } isHovered={ hoveredField === "title" }>
-						<ReplacementVariableEditor
+						<TitleReplacementVariableEditor
 							content={ title }
 							onChange={ content => onChange( "title", content ) }
 							onFocus={ () => onFocus( "title" ) }
 							replacementVariables={ replacementVariables }
-							ref={ ( ref ) => this.setRef( "title", ref ) }
+							innerRef={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ this.uniqueId + "-title" }
+							titleLengthAssessment={ titleLengthAssessment }
 						/>
 					</InputContainer>
 
@@ -315,13 +321,11 @@ SnippetEditorFields.defaultProps = {
 	onFocus: () => {},
 	titleLengthAssessment: {
 		max: 600,
-		min: 400,
 		actual: 0,
 		score: 0,
 	},
 	descriptionLengthAssessment: {
 		max: 320,
-		min: 120,
 		actual: 0,
 		score: 0,
 	},
