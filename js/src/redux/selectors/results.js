@@ -13,7 +13,6 @@ export function getActiveKeyword( state ) {
 	return state.activeKeyword;
 }
 
-
 export function getResultsForKeyword( state, keyword ) {
 	const seoResults = getSeoResults( state );
 
