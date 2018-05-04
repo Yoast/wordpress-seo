@@ -23,7 +23,7 @@ class PageTitleWidthAssesment extends Assessment {
 			scores: {
 				noTitle: 1,
 				widthTooShort: 6,
-				widthTooLong: 6,
+				widthTooLong: 3,
 				widthCorrect: 9,
 			},
 		};
