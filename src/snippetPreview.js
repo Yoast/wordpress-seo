@@ -647,6 +647,8 @@ SnippetPreview.prototype.formatCite = function() {
 
 	// URL's cannot contain whitespace so replace it by dashes.
 	cite = cite.replace( /\s/g, "-" );
+	// Strip out question mark and hash characters from the raw URL.
+	cite = cite.replace( /\?|#/g, "" );
 
 	return cite;
 };
