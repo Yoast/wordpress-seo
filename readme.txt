@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.5
-Stable tag: 7.4
+Stable tag: 7.4.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -105,6 +105,21 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 7.4.2 =
+Release Date: May 3rd, 2018
+
+Bugfixes:
+* Fixes automatic image size detection for OpenGraph images. When an image was used that was too large, we wouldn't output the `og:image` tag. That is now fixed.
+* Fixes a bug where portrait images where not allowed for the OpenGraph image.
+
+= 7.4.1 =
+Release Date: May 2nd, 2018
+
+Bugfixes:
+* Re-adds `wpseo_opengraph_image_size` filter. This will completely override any automatic size determination our code does. This filter now also applies to all ways an `og:image` can be determined: In the content, as a featured image or as set in our Facebook image setting.
+* Fixes an unintended backwards incompatible change which caused "Warning: Illegal string offset ‘url’ in".
+* Fixes an unintended change which caused SVGs to be included in consideration for the `og:image` tag. SVG images are not allowed by Facebook, so these should never be used in the `og:image` tag.
 
 = 7.4.0 =
 Release Date: May 1st, 2018
