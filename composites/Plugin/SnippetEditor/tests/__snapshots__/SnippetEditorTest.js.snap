@@ -6,7 +6,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -42,6 +42,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -49,6 +50,10 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -62,6 +67,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -182,9 +188,13 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -516,7 +526,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -552,6 +562,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -559,6 +570,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -572,6 +587,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -589,7 +605,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -617,7 +633,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c25 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -626,6 +642,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c25::before {
@@ -645,11 +664,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c22 {
-  padding: 0 20px;
+  padding: 20px 20px 0;
 }
 
 .c24 {
   cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c16 {
@@ -760,9 +781,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -771,8 +796,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 
 .c27 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
 }
 
@@ -1768,7 +1795,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -1804,6 +1831,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -1811,6 +1839,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -1824,6 +1856,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -1841,7 +1874,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -1869,7 +1902,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c25 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -1878,6 +1911,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c25::before {
@@ -1897,11 +1933,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c22 {
-  padding: 0 20px;
+  padding: 20px 20px 0;
 }
 
 .c24 {
   cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c16 {
@@ -2012,9 +2050,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -2023,8 +2065,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 
 .c27 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
 }
 
@@ -3020,7 +3064,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -3056,6 +3100,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -3063,6 +3108,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -3076,6 +3125,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -3093,7 +3143,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -3121,7 +3171,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c25 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -3130,6 +3180,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c25::before {
@@ -3149,11 +3202,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c22 {
-  padding: 0 20px;
+  padding: 20px 20px 0;
 }
 
 .c24 {
   cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c16 {
@@ -3264,9 +3319,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -3275,8 +3334,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 
 .c27 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
 }
 
@@ -4272,7 +4333,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -4308,6 +4369,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -4315,6 +4377,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -4328,6 +4394,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -4345,7 +4412,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -4373,7 +4440,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c25 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -4382,6 +4449,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c25::before {
@@ -4401,11 +4471,13 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c22 {
-  padding: 0 20px;
+  padding: 20px 20px 0;
 }
 
 .c24 {
   cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c16 {
@@ -4516,9 +4588,13 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -4527,8 +4603,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 
 .c27 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
 }
 
@@ -5524,7 +5602,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -5560,6 +5638,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -5567,6 +5646,10 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -5580,6 +5663,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -5700,9 +5784,13 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -6405,7 +6493,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -6441,6 +6529,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -6448,6 +6537,10 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -6461,6 +6554,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -6478,7 +6572,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -6510,7 +6604,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -6538,7 +6632,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c25 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -6547,6 +6641,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c25::before {
@@ -6566,11 +6663,13 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c22 {
-  padding: 0 20px;
+  padding: 20px 20px 0;
 }
 
 .c24 {
   cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c16 {
@@ -6681,9 +6780,13 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -6692,8 +6795,10 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 
 .c28 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
 }
 
@@ -7689,7 +7794,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -7725,6 +7830,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -7732,6 +7838,10 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -7745,6 +7855,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -7762,7 +7873,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -7794,7 +7905,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -7822,7 +7933,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c25 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -7831,6 +7942,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c25::before {
@@ -7850,11 +7964,13 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c22 {
-  padding: 0 20px;
+  padding: 20px 20px 0;
 }
 
 .c24 {
   cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c16 {
@@ -7965,9 +8081,13 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -7976,8 +8096,10 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 
 .c28 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
 }
 
@@ -9054,7 +9176,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -9090,6 +9212,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -9097,6 +9220,10 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -9110,6 +9237,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -9230,9 +9358,13 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -9483,7 +9615,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -9519,6 +9651,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -9526,6 +9659,10 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -9539,6 +9676,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -9659,9 +9797,13 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -9912,7 +10054,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -9948,6 +10090,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c7 {
@@ -9955,6 +10098,10 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c10 {
@@ -9968,6 +10115,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -9985,7 +10133,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -10013,7 +10161,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
 }
 
 .c26 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -10022,6 +10170,9 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c26::before {
@@ -10037,7 +10188,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
 }
 
 .c28 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #5b9dd9;
   box-shadow: 0 0 2px rgba(30,140,190,.8);
   background-color: #fff;
@@ -10046,6 +10197,9 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c28::before {
@@ -10065,11 +10219,13 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
 }
 
 .c23 {
-  padding: 0 20px;
+  padding: 20px 20px 0;
 }
 
 .c25 {
   cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c17 {
@@ -10180,9 +10336,13 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
 
 .c21 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c21 svg {
@@ -10191,8 +10351,10 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
 
 .c29 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
 }
 
@@ -11207,7 +11369,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -11243,6 +11405,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -11250,6 +11413,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c10 {
@@ -11263,6 +11430,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -11280,7 +11448,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -11308,7 +11476,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 }
 
 .c26 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -11317,6 +11485,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c26::before {
@@ -11332,7 +11503,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 }
 
 .c28 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -11341,6 +11512,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c28::before {
@@ -11360,11 +11534,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 }
 
 .c23 {
-  padding: 0 20px;
+  padding: 20px 20px 0;
 }
 
 .c25 {
   cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c17 {
@@ -11475,9 +11651,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 
 .c21 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c21 svg {
@@ -11486,8 +11666,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 
 .c29 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
 }
 
@@ -12504,7 +12686,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -12540,6 +12722,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -12547,6 +12730,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -12560,6 +12747,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -12577,7 +12765,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -12605,7 +12793,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c25 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -12614,6 +12802,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c25::before {
@@ -12633,11 +12824,13 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c22 {
-  padding: 0 20px;
+  padding: 20px 20px 0;
 }
 
 .c24 {
   cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c16 {
@@ -12748,9 +12941,13 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -12759,8 +12956,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 
 .c27 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
 }
 
@@ -13756,7 +13955,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -13792,6 +13991,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -13799,6 +13999,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -13812,6 +14016,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -13829,7 +14034,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -13857,7 +14062,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c25 {
-  padding: 5px;
+  padding: 3px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -13866,6 +14071,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
   -webkit-transition: 50ms border-color ease-in-out;
   transition: 50ms border-color ease-in-out;
   position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .c25::before {
@@ -13885,11 +14093,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c22 {
-  padding: 0 20px;
+  padding: 20px 20px 0;
 }
 
 .c24 {
   cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c16 {
@@ -14000,9 +14210,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -14011,8 +14225,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
 
 .c27 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
 }
 
@@ -15191,6 +15407,10 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -15272,9 +15492,13 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
@@ -15575,7 +15799,7 @@ exports[`SnippetEditor shows and editor 1`] = `
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -15611,6 +15835,7 @@ exports[`SnippetEditor shows and editor 1`] = `
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -15618,6 +15843,10 @@ exports[`SnippetEditor shows and editor 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -15631,6 +15860,7 @@ exports[`SnippetEditor shows and editor 1`] = `
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -15751,9 +15981,13 @@ exports[`SnippetEditor shows and editor 1`] = `
 
 .c20 {
   font-size: 0.8rem;
+  height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
-  margin: 10px 0 0 9px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
 }
 
 .c20 svg {
