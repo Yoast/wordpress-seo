@@ -296,6 +296,7 @@ class SnippetEditor extends React.Component {
 			onChange,
 			data,
 			mode,
+			date,
 		} = this.props;
 
 		const {
@@ -315,6 +316,7 @@ class SnippetEditor extends React.Component {
 			<div>
 				<SnippetPreview
 					mode={ mode }
+					date={ date }
 					activeField={ this.mapFieldToPreview( activeField ) }
 					hoveredField={ this.mapFieldToPreview( hoveredField ) }
 					onMouseOver={ this.onMouseOver }
@@ -353,6 +355,7 @@ SnippetEditor.propTypes = {
 	} ).isRequired,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
+	date: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
@@ -361,6 +364,7 @@ SnippetEditor.propTypes = {
 
 SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
+	date: "",
 	replacementVariables: [],
 	titleLengthProgress: {
 		max: 600,

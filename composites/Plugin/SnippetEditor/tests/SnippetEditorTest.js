@@ -62,6 +62,10 @@ describe( "SnippetEditor", () => {
 		renderSnapshotWithArgs( { mode: MODE_DESKTOP } );
 	} );
 
+	it( "passes the date prop", () => {
+		renderSnapshotWithArgs( { date: "date string" } );
+	} );
+
 	it( "accepts a custom data mapping function", () => {
 		const mapper = jest.fn( () => {
 			return {
