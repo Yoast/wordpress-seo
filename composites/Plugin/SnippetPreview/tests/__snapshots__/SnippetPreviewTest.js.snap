@@ -53,6 +53,10 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -225,6 +229,10 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -400,6 +408,10 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -532,7 +544,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -568,6 +580,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c7 {
@@ -575,6 +588,10 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c10 {
@@ -588,6 +605,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -716,7 +734,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -752,6 +770,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -759,6 +778,10 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -772,6 +795,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -886,7 +910,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   margin: 0 20px 10px;
-  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   max-width: 600px;
   box-sizing: border-box;
 }
@@ -922,6 +946,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .c6 {
@@ -929,6 +954,10 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -942,6 +971,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   line-height: 1em;
   max-height: 4em;
   overflow: hidden;
+  font-size: 14px;
 }
 
 .c1 {
@@ -1103,6 +1133,10 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {
@@ -1275,6 +1309,10 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c10 {
@@ -1459,6 +1497,10 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c10 {
@@ -1643,6 +1685,10 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c10 {
@@ -1827,6 +1873,10 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c10 {
@@ -2011,6 +2061,10 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c10 {
@@ -2195,6 +2249,10 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c10 {
@@ -2379,6 +2437,10 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   color: #006621;
   cursor: pointer;
   position: relative;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .c9 {

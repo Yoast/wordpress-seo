@@ -6,7 +6,7 @@ exports[`the progress bar matches the snapshot 1`] = `
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -47,7 +47,7 @@ exports[`the progress bar with custom color matches the snapshot 1`] = `
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -88,7 +88,7 @@ exports[`the progress bar with progress matches the snapshot 1`] = `
   width: 100%;
   height: 8px;
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
