@@ -1,41 +1,68 @@
+// External dependencies.
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import uniqueId from "lodash/uniqueId";
+import { __ } from "@wordpress/i18n";
 
+// Internal dependencies.
 import colors from "../../../../style-guide/colors.json";
 
-let KeywordField = styled.input`
-	margin-right: 0.5em;
-	border-color: ${ props => props.borderColor };
+const errorColor = colors.$color_red;
+
+const YoastKeywordInput = styled.div`
+	display: flex;
+	flex-direction: column;
+	margin: 1em 0;
 `;
 
-const ErrorText = styled.div`
-	font-size: 1em;
-	color: ${ colors.$color_red };
-	margin: 1em 0;
+const KeywordFieldLabel = styled.label`
+	font-size: 1.1em;
+	font-weight: bold;
+	margin-bottom: 0.5em;
+`;
+
+const KeywordField = styled.input`
+	border-color: ${ colors.$color_grey_light };
+	border-style: solid;
+	border-width: 3px;
+	padding: 0.75em;
+	font-size: 1.1em;
+
+	&.hasError {
+		border-color: ${ errorColor };
+		outline-color: ${ errorColor };
+	}
+`;
+
+const ErrorText = styled.p`
+	color: ${ errorColor };
+	margin: 0.5em 0 0 0;
 	min-height: 1.8em;
 `;
 
-const ErrorMessage = "Are you trying to use multiple keywords? You should add them separately below.";
+const ErrorMessage = __( "Are you trying to use multiple keywords? You should add them separately below." );
 
 class KeywordInput extends React.Component {
 	/**
 	 * Constructs a KeywordInput component
 	 *
-	 * @param {Object}      props          The props for this input field component.
-	 * @param {String}    	props.id       The id of the KeywordInput.
-	 * @param {IconsButton} props.label    The label of the KeywordInput.
-	 * @param {boolean}     props.keyword  The initial keyword passed to the state.
+	 * @param {Object}  props           The props for this input field component.
+	 * @param {string}  props.id        The id of the KeywordInput.
+	 * @param {string}  props.label     The label of the KeywordInput.
+	 * @param {boolean} props.showLabel Toggle between an actual label or an aria-label on the input.
+	 * @param {string}  props.keyword   The initial keyword passed to the state.
 	 *
 	 * @returns {void}
 	 */
 	constructor( props ) {
 		super( props );
 
-		this.onChange = this.handleChange.bind( this );
+		this.handleChange = this.handleChange.bind( this );
+		this.displayErrorMessage = this.displayErrorMessage.bind( this );
 
 		this.state = {
-			showErrorMessage: false,
+			showErrorMessage: this.checkKeywordInput( props.keyword ),
 			keyword: props.keyword,
 		};
 	}
@@ -43,30 +70,25 @@ class KeywordInput extends React.Component {
 	/**
 	 * Checks the keyword input for comma-separated words
 	 *
-	 * @param {String} keywordText The text of the input
+	 * @param {string} keywordText The text of the input
 	 *
-	 * @returns {void}
+	 * @returns {boolean} Returns true if a comma was found.
 	 */
 	checkKeywordInput( keywordText ) {
-		let separatedWords = keywordText.split( "," );
-		if ( separatedWords.length > 1 ) {
-			this.setState( { showErrorMessage: true } );
-		} else {
-			this.setState( { showErrorMessage: false } );
-		}
+		return keywordText.includes( "," );
 	}
 
 	/**
 	 * Displays the error message
 	 *
-	 * @param {String} input The text of the input
+	 * @param {string} input The text of the input
 	 *
-	 * @returns {Element} ErrorText The error message element
+	 * @returns {ReactElement} ErrorText The error message element
 	 */
 	displayErrorMessage( input = "" ) {
 		if ( this.state.showErrorMessage && input !== "" ) {
 			return (
-				<ErrorText id="KeywordError" role="alert">
+				<ErrorText role="alert">
 					{ ErrorMessage }
 				</ErrorText>
 			);
@@ -78,11 +100,18 @@ class KeywordInput extends React.Component {
 	 *
 	 * @param {Event} event The onChange event.
 	 *
-	 * @returns {void} Calls the checkKeywordInput-function.
+	 * @returns {void} Sets the state if a change has been made.
 	 */
 	handleChange( event ) {
-		this.setState( { keyword: event.target.value } );
-		this.checkKeywordInput( event.target.value );
+		const keyword = event.target.value;
+		const showErrorMessage = this.checkKeywordInput( keyword );
+
+		if (
+			keyword !== this.state.keyword ||
+			showErrorMessage !== this.state.showErrorMessage
+		) {
+			this.setState( { keyword, showErrorMessage } );
+		}
 	}
 
 	/**
@@ -91,31 +120,40 @@ class KeywordInput extends React.Component {
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		const color = this.state.showErrorMessage ? "red" : "white";
+		const { keyword, showErrorMessage } = this.state;
+		const { id, label, showLabel } = this.props;
+
 		return(
-			<React.Fragment>
-				<label htmlFor={ this.props.id }>
-					{ this.props.label }
-				</label>
-				<KeywordField type="text" id={ this.props.id }
-							  borderColor={ color }
-							  onChange = { this.onChange }
+			<YoastKeywordInput>
+				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
+					{ label }
+				</KeywordFieldLabel> }
+				<KeywordField
+					aria-label={ showLabel ? null : label }
+					type="text"
+					id={ id }
+					className={ showErrorMessage ? "hasError" : null }
+					onChange={ this.handleChange }
+					value={ keyword }
 				/>
-				{ this.displayErrorMessage( this.state.keyword ) }
-			</React.Fragment>
+				{ this.displayErrorMessage( keyword ) }
+			</YoastKeywordInput>
 		);
 	}
 }
 
 export const keywordInputPropType = {
-	id: PropTypes.string.isRequired,
+	id: PropTypes.string,
 	label: PropTypes.string.isRequired,
+	showLabel: PropTypes.bool,
 	keyword: PropTypes.string,
 };
 
 KeywordInput.propTypes = keywordInputPropType;
 
 KeywordInput.defaultProps = {
+	id: uniqueId( "yoast-keyword-input-" ),
+	showLabel: false,
 	keyword: "",
 };
 
