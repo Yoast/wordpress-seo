@@ -45,9 +45,23 @@ class WPSEO_OpenGraph_Image {
 		'max_width'  => 2000,
 		'min_height' => 200,
 		'max_height' => 2000,
-		'min_ratio'  => 1,
+		'min_ratio'  => 0.333,
 		'max_ratio'  => 3,
 	);
+
+	/**
+	 * Image types that are supported by OpenGraph.
+	 *
+	 * @var array
+	 */
+	private $valid_image_types = array( 'image/jpeg', 'image/gif', 'image/png' );
+
+	/**
+	 * Image extensions that are supported by OpenGraph.
+	 *
+	 * @var array
+	 */
+	private $valid_image_extensions = array( 'jpeg', 'jpg', 'gif', 'png' );
 
 	/**
 	 * Constructor.
@@ -143,6 +157,16 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	public function add_image( $attachment ) {
+		 // In the past `add_image` accepted an image url, so leave this for backwards compatibility.
+		if ( is_string( $attachment ) ) {
+			$attachment = array( 'url' => $attachment );
+		}
+
+		// If the URL ends in `.svg`, we need to return.
+		if ( ! $this->is_valid_image_url( $attachment['url'] ) ) {
+			return;
+		}
+
 		/**
 		 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image.
 		 *
@@ -318,6 +342,54 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
+	 * Returns the overridden image size if it has been overridden.
+	 *
+	 * @return null|string The overridden image size or null.
+	 */
+	protected function get_overridden_image_size() {
+		/**
+		 * Filter: 'wpseo_opengraph_image_size' - Allow overriding the image size used
+		 * for OpenGraph sharing. If this filter is used, the defined size will always be
+		 * used for the og:image. The image will still be rejected if it is too small.
+		 *
+		 * Only use this filter if you manually want to determine the best image size
+		 * for the `og:image` tag.
+		 *
+		 * Use the `wpseo_image_sizes` filter if you want to use our logic. That filter
+		 * can be used to add an image size that needs to be taken into consideration
+		 * within our own logic
+		 *
+		 * @api string $size Size string.
+		 */
+		return apply_filters( 'wpseo_opengraph_image_size', null );
+	}
+
+	/**
+	 * Determines if the OpenGraph image size should overridden.
+	 *
+	 * @return bool Whether the size should be overridden.
+	 */
+	protected function is_size_overridden() {
+		return $this->get_overridden_image_size() !== null;
+	}
+
+	/**
+	 * Adds the possibility to short-circuit all the optimal variation logic with
+	 * your own size.
+	 *
+	 * @param int $attachment_id The attachment ID that is used.
+	 *
+	 * @return void
+	 */
+	protected function get_overridden_image( $attachment_id ) {
+		$attachment = WPSEO_Image_Utils::get_image( $attachment_id, $this->get_overridden_image_size() );
+
+		if ( $attachment ) {
+			$this->add_image( $attachment );
+		}
+	}
+
+	/**
 	 * Adds an image to the list by attachment ID.
 	 *
 	 * @param int $attachment_id The attachment ID to add.
@@ -325,11 +397,27 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	protected function add_image_by_id( $attachment_id ) {
-		if ( ! WPSEO_Image_Utils::has_usable_dimensions( $attachment_id, $this->image_params ) ) {
+		if ( ! $this->is_valid_attachment( $attachment_id ) ) {
 			return;
 		}
 
-		$attachment = WPSEO_Image_Utils::get_optimal_variation( $attachment_id );
+		if ( $this->is_size_overridden() ) {
+			$this->get_overridden_image( $attachment_id );
+			return;
+		}
+
+		$variations = WPSEO_Image_Utils::get_variations( $attachment_id );
+		$variations = WPSEO_Image_Utils::filter_usable_dimensions( $this->image_params, $variations );
+		$variations = WPSEO_Image_Utils::filter_usable_file_size( $variations );
+
+		// If we are left without variations, there is no valid variation for this attachment.
+		if ( empty( $variations ) ) {
+			return;
+		}
+
+		// The variations are ordered so the first variations is by definition the best one.
+		$attachment = $variations[0];
+
 		if ( $attachment ) {
 			$this->add_image( $attachment );
 		}
@@ -373,5 +461,91 @@ class WPSEO_OpenGraph_Image {
 		do_action( 'wpseo_add_opengraph_additional_images', $this );
 
 		$this->maybe_set_default_image();
+	}
+
+	/**
+	 * Determines whether or not the wanted attachment is considered valid.
+	 *
+	 * @param int $attachment_id The attachment ID to get the attachment by.
+	 *
+	 * @return bool Whether or not the attachment is valid.
+	 */
+	protected function is_valid_attachment( $attachment_id ) {
+		$attachment = get_post_mime_type( $attachment_id );
+
+		if ( $attachment === false ) {
+			return false;
+		}
+
+		return $this->is_valid_image_type( $attachment );
+	}
+
+	/**
+	 * Determines whether the passed mime type is a valid image type.
+	 *
+	 * @param string $mime_type The detected mime type.
+	 *
+	 * @return bool Whether or not the attachment is a valid image type.
+	 */
+	protected function is_valid_image_type( $mime_type ) {
+		return in_array( $mime_type, $this->valid_image_types, true );
+	}
+
+	/**
+	 * Determines whether the passed URL is considered valid.
+	 *
+	 * @param string $url The URL to check.
+	 *
+	 * @return bool Whether or not the URL is a valid image.
+	 */
+	protected function is_valid_image_url( $url ) {
+		if ( ! is_string( $url ) ) {
+			return false;
+		}
+
+		$image_extension = $this->get_extension_from_url( $url );
+
+		return in_array( $image_extension, $this->valid_image_extensions, true );
+	}
+
+	/**
+	 * Gets the image path from the passed URL.
+	 *
+	 * @param string $url The URL to get the path from.
+	 *
+	 * @return string The path of the image URL. Returns an empty string if URL parsing fails.
+	 */
+	protected function get_image_url_path( $url ) {
+		$parsed_url = wp_parse_url( $url );
+
+		if ( $parsed_url === false ) {
+			return '';
+		}
+
+		return $parsed_url['path'];
+	}
+
+	/**
+	 * Determines the file extension of the passed URL.
+	 *
+	 * @param string $url The URL.
+	 *
+	 * @return string The extension.
+	 */
+	protected function get_extension_from_url( $url ) {
+		$extension = '';
+		$path = $this->get_image_url_path( $url );
+
+		if ( $path === '' ) {
+			return $extension;
+		}
+
+		$parts = explode( '.', $path );
+
+		if ( ! empty( $parts ) ) {
+			$extension = end( $parts );
+		}
+
+		return $extension;
 	}
 }

@@ -1,13 +1,13 @@
 exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
 <SnippetPreviewSection
   baseUrl="http://example.org">
-  <Styled(StyledSection)
+  <SnippetPreviewSection__Section
     headingIcon="eye"
     headingIconColor="#555"
     headingLevel={3}
     headingText="React snippet preview">
     <StyledSection
-      className="sc-bdVaJa eVxHxm"
+      className="SnippetPreviewSection__Section-kWfIbs cakLAM"
       headingIcon="eye"
       headingIconColor="#555"
       headingLevel={3}
@@ -16,6 +16,6 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
         yoast-components StyledSection
       </span>
     </StyledSection>
-  </Styled(StyledSection)>
+  </SnippetPreviewSection__Section>
 </SnippetPreviewSection>
 `;
