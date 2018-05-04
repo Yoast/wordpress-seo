@@ -440,7 +440,9 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	getBreadcrumbs() {
 		const { url, breadcrumbs } = this.props;
-		const { protocol, hostname, pathname } = parse( url );
+		// Strip out question mark and hash characters from the raw URL.
+		const cleanUrl = url.replace( /\?|#/g, "" );
+		const { protocol, hostname, pathname } = parse( cleanUrl );
 
 		const hostPart = protocol === "https:" ? protocol + "//" + hostname : hostname;
 
