@@ -594,7 +594,7 @@ export default class SnippetPreview extends PureComponent {
 							after=":"
 						/>
 						{ amp }
-						<slug> { this.renderUrl() } </slug>
+						{ this.renderUrl() }
 						{ downArrow }
 					</PartContainer>
 					{ separator }
