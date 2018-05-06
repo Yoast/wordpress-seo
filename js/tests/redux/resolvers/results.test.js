@@ -8,7 +8,7 @@ let state = {
 	activeKeyword: "active",
 	analysis: {
 		seo: {
-			"active": [ "result1", "result2" ],
+			active: [ "result1", "result2" ],
 		},
 	},
 };
@@ -17,7 +17,7 @@ describe( "getSeoResults selector", () => {
 	it( "returns the seo results", () => {
 		const result = getSeoResults( state );
 
-		expect( result ).toEqual( { "active": [ "result1", "result2" ] } );
+		expect( result ).toEqual( { active: [ "result1", "result2" ] } );
 	} );
 } );
 
