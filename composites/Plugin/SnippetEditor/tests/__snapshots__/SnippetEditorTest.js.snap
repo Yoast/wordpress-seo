@@ -18,6 +18,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -528,6 +529,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -1781,6 +1783,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -3034,6 +3037,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -4287,6 +4291,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -5540,6 +5545,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -6422,6 +6428,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -7707,6 +7714,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -9073,6 +9081,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -9502,6 +9511,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -9931,6 +9941,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -11227,6 +11238,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -12525,6 +12537,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -13778,6 +13791,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -15086,6 +15100,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -15614,6 +15629,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 
 .c5 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -16037,6 +16053,7 @@ exports[`SnippetEditor shows and editor 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
