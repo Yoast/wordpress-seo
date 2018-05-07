@@ -207,8 +207,6 @@ class WPSEO_Image_Utils {
 	 *    @type int    $max_width     Maximum width of image.
 	 *    @type int    $min_height    Minimum height of image.
 	 *    @type int    $max_height    Maximum height of image.
-	 *    @type int    $min_ratio     Minimum aspect ratio of image.
-	 *    @type int    $max_ratio     Maximum aspect ratio of image.
 	 * }
 	 * @param array $variations The variations that should be considered.
 	 *
@@ -219,8 +217,6 @@ class WPSEO_Image_Utils {
 
 		foreach ( $variations as $variation ) {
 			$dimensions = $variation;
-
-			$dimensions['ratio'] = ( $dimensions['width'] / $dimensions['height'] );
 
 			if ( self::has_usable_dimensions( $dimensions, $usable_dimensions ) ) {
 				$filtered[] = $variation;
@@ -282,11 +278,11 @@ class WPSEO_Image_Utils {
 	 * @return bool True if the image has usable measurements, false if not.
 	 */
 	private static function has_usable_dimensions( $dimensions, $usable_dimensions ) {
-		foreach ( array( 'width', 'height', 'ratio' ) as $param ) {
+		foreach ( array( 'width', 'height' ) as $param ) {
 			$minimum = $usable_dimensions[ 'min_' . $param ];
 			$maximum = $usable_dimensions[ 'max_' . $param ];
-			$current = $dimensions[ $param ];
 
+			$current = $dimensions[ $param ];
 			if ( ( $current < $minimum ) || ( $current > $maximum ) ) {
 				return false;
 			}
