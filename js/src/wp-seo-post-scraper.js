@@ -457,6 +457,7 @@ import isFunction from "lodash/isFunction";
 			onRefreshRequest: () => {},
 			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
+			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;
@@ -478,7 +479,7 @@ import isFunction from "lodash/isFunction";
 
 		postDataCollector.app = app;
 
-		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		let replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 		let shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
