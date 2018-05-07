@@ -246,7 +246,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		<?php } ?>
 		</div>
 
-	<?php
+		<?php
 	}
 
 	/**
