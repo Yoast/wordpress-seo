@@ -42,24 +42,10 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 			};
 
 		case UPDATE_REPLACEMENT_VARIABLE: {
-			const index = state.replacementVariables.findIndex( replaceVar => {
-				return replaceVar.name === action.name;
-			} );
-			if ( index === -1 ) {
-				return {
-					...state,
-					replacementVariables: [
-						...state.replacementVariables,
-						{
-							name: action.name,
-							value: action.value,
-						},
-					],
-				};
-			}
-
-			let newReplacementVariables = state.replacementVariables.map( ( replaceVar ) => {
+			let isNewReplaceVar = true;
+			let nextReplacementVariables = state.replacementVariables.map( ( replaceVar ) => {
 				if ( replaceVar.name === action.name ) {
+					isNewReplaceVar = false;
 					return {
 						name: action.name,
 						value: action.value,
@@ -67,10 +53,16 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 				}
 				return replaceVar;
 			} );
+			if ( isNewReplaceVar ) {
+				nextReplacementVariables.push( {
+					name: action.name,
+					value: action.value,
+				} );
+			}
 			return {
 				...state,
-				replacementVariables: newReplacementVariables,
-			};
+				replacementVariables: nextReplacementVariables,
+			}
 		}
 	}
 
