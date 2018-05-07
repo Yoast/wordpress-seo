@@ -1,20 +1,15 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { injectIntl, intlShape, defineMessages } from "react-intl";
+import { __ } from "@wordpress/i18n";
 
+/* Internal dependencies */
 import { HelpCenterButton } from "../../Plugin/Shared/components/HelpCenterButton";
 import Paper from "../../../composites/basic/Paper";
 import colors from "../../../style-guide/colors.json";
 import YoastTabs from "../Shared/components/YoastTabs";
 import breakpoints from "../../../style-guide/responsive-breakpoints.json";
-
-const messages = defineMessages( {
-	buttonText: {
-		id: "helpCenter.buttonText",
-		defaultMessage: "Need help?",
-	},
-} );
 
 export const HelpCenterContainer = styled.div`
 	margin: 0;
@@ -82,7 +77,7 @@ class HelpCenter extends React.Component {
 					iconColor={ this.props.buttonIconColor }
 					withTextShadow={ this.props.buttonWithTextShadow }
 				>
-					{ this.props.intl.formatMessage( messages.buttonText ) }
+					{ __( "Need help?", "yoast-components" ) }
 				</HelpCenterButton>
 				{ this.state.isExpanded && <HelpCenterPaper minHeight="432px">
 					<YoastTabs
@@ -103,7 +98,6 @@ class HelpCenter extends React.Component {
 
 HelpCenter.propTypes = {
 	className: PropTypes.string,
-	intl: intlShape.isRequired,
 	items: PropTypes.array.isRequired,
 	buttonBackgroundColor: PropTypes.string,
 	buttonTextColor: PropTypes.string,
@@ -132,4 +126,4 @@ HelpCenter.defaultProps = {
 	className: "yoast-help-center",
 };
 
-export default injectIntl( HelpCenter );
+export default HelpCenter;
