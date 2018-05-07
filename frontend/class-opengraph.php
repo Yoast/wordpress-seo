@@ -413,7 +413,7 @@ class WPSEO_OpenGraph {
 			'nb_NO', // Norwegian (bokmal).
 			'nd_ZW', // Ndebele.
 			'ne_NP', // Nepali.
-			'nl_BE', // Dutch (Belgie).
+			'nl_BE', // Dutch (Belgium).
 			'nl_NL', // Dutch.
 			'nn_NO', // Norwegian (nynorsk).
 			'ny_MW', // Chewa.
