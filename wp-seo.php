@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Yoast SEO
- * Version:     7.4.1
+ * Version:     7.4.2
  * Plugin URI:  https://yoa.st/1uj
  * Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
  * Author:      Team Yoast
@@ -43,18 +43,3 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 
 // Load the Yoast SEO plugin.
 require_once dirname( WPSEO_FILE ) . '/wp-seo-main.php';
-
-function yst_custom_upload_mimes( $existing_mimes = array() ) {
-	// Add EPS to the allowed uploaded file types.
-	$existing_mimes['eps'] = 'application/postscript';
-
-	// Add CSV to the allowed uploaded file types.
-	$existing_mimes['csv'] = 'text/csv';
-
-	// Add SVG to the allowed uploaded file types.
-	$existing_mimes['svg'] = 'image/svg+xml';
-
-	return $existing_mimes;
-}
-
-add_filter( 'upload_mimes', 'yst_custom_upload_mimes' );
