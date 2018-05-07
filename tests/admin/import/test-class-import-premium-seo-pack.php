@@ -192,9 +192,9 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 		$result = $this->class_instance->run_cleanup();
 
 		global $wpdb;
-		$dbResult = $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}psp'" );
+		$db_result = $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}psp'" );
 
-		$this->assertNull( $dbResult );
+		$this->assertNull( $db_result );
 		$this->assertEquals( $this->status( 'cleanup', true ), $result );
 	}
 
