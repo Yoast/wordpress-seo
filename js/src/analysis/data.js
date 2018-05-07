@@ -88,40 +88,27 @@ class Data {
 	 * @returns {void}
 	 */
 	fillReplacementValues( newData ) {
-		// Todo: Handle content change
-
 		// Fill title
 		this.store.dispatch( updateReplacementVariable( "title", newData.title ) );
-
-		// Todo: Handle slug change
 
 		// Fill excerpt
 		this.store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 	}
 
 	/**
-	 * Fills the redux store with the changed data.
+	 * Updates the redux store with the changed data.
 	 *
 	 * @param {Object} newData The changed data.
 	 *
 	 * @returns {void}
 	 */
 	handleEditorChange( newData ) {
-		// Todo: Handle content change
-		// if( this.data.content !== newData.content ) {
-		// }
-
 		// Handle title change
-		if( this.data.title !== newData.title ) {
+		if ( this.data.title !== newData.title ) {
 			this.store.dispatch( updateReplacementVariable( "title", newData.title ) );
 		}
-
-		// Todo: Handle slug change
-		// if( this.data.slug !== newData.slug ) {
-		// }
-
 		// Handle excerpt change
-		if( this.data.excerpt !== newData.excerpt ) {
+		if ( this.data.excerpt !== newData.excerpt ) {
 			this.store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 		}
 	}

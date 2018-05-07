@@ -50,19 +50,3 @@ export function updateReplacementVariable( name, value ) {
 		value,
 	};
 }
-
-/**
- * Inserts replacement variables in redux.
- *
- * @param {string} name  The name of the replacement variable.
- * @param {string} value The value of the replacement variable.
- *
- * @returns {Object} An action for redux.
- */
-export function insertReplacementVariable( name, value ) {
-	return {
-		type: INSERT_REPLACEMENT_VARIABLE,
-		name,
-		value,
-	};
-}

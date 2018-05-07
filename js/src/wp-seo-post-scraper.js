@@ -478,7 +478,7 @@ import isFunction from "lodash/isFunction";
 
 		postDataCollector.app = app;
 
-		let replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
 		let shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
