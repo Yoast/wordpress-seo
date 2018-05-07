@@ -45,8 +45,6 @@ class WPSEO_OpenGraph_Image {
 		'max_width'  => 2000,
 		'min_height' => 200,
 		'max_height' => 2000,
-		'min_ratio'  => 0.333,
-		'max_ratio'  => 3,
 	);
 
 	/**

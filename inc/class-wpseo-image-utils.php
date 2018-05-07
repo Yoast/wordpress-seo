@@ -207,10 +207,7 @@ class WPSEO_Image_Utils {
 	 *    @type int    $max_width     Maximum width of image.
 	 *    @type int    $min_height    Minimum height of image.
 	 *    @type int    $max_height    Maximum height of image.
-	 *    @type int    $min_ratio     Minimum aspect ratio of image.
-	 *    @type int    $max_ratio     Maximum aspect ratio of image.
 	 * }
-	 *
 	 * @param array $variations The variations that should be considered.
 	 *
 	 * @return array Whether a variation is fit for display or not.
@@ -284,8 +281,8 @@ class WPSEO_Image_Utils {
 		foreach ( array( 'width', 'height' ) as $param ) {
 			$minimum = $usable_dimensions[ 'min_' . $param ];
 			$maximum = $usable_dimensions[ 'max_' . $param ];
-			$current = $dimensions[ $param ];
 
+			$current = $dimensions[ $param ];
 			if ( ( $current < $minimum ) || ( $current > $maximum ) ) {
 				return false;
 			}
