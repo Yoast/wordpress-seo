@@ -82,8 +82,8 @@ window.yoastHideMarkers = true;
 	 */
 	const dispatchUpdateSnippetEditor = function( data ) {
 		/*
-		 * The setTimeout makes sure the React component is only rendered on the next
-		 * frame.
+		 * The setTimeout makes sure the React component is only updated on the next
+		 * frame. This is to prevent input lag.
 		 */
 		setTimeout( () => {
 			store.dispatch( updateData( {
