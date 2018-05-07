@@ -110,19 +110,15 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: May 15th, 2018
 
 Enhancements:
-* Adds `$prefix` to the WPSEO_Admin_Asset_Manager class call and make `$prefix` publicly accessible.
-* Introduces REST API endpoint for getting an indexable post or term.
 * Adds readability analysis for Russian.
 * Improves SVG image accessibility.
 
 Bugfixes:
-* Fixes a bug where attempting to get Yoast SEO options in multi-site, would result in wrong values being returned.
-* Fixes a bug where the admin bar still used old copy. Dashboard has now been renamed to General.
-* Fixes a bug where loading the WordPress content directory from a different domain blocked the XML sitemap from loading.
 * Fixes a bug where sentences ending in multiple sentence marks, exclamation marks or ellipses were treated as multiple sentences.
-
-Other:
-* Adds to the documentation of `getColorFromScore()` that `noindex` is also an expected outcome.
+* Fixes a bug where attempting to get Yoast SEO options in multi-site, would result in wrong values being returned.
+* Fixes a bug where the sitemap styling could not be loaded when the Site domain differs from the Admin domain.
+* Fixes a bug where images with specific aspect ratios where removed from OpenGraph consideration, this was causing unexpected results with Facebook sharing. The aspect ratio check has been removed completely for now.
+* Fixes a bug where the admin bar still used old copy. Dashboard has now been renamed to General.
 
 = 7.4.2 =
 Release Date: May 3rd, 2018
