@@ -111,7 +111,7 @@ Release Date: May 15th, 2018
 
 Enhancements:
 * Adds readability analysis for Russian.
-* Improves SVG image accessibility.
+* Improves accessibility.
 
 Bugfixes:
 * Fixes a bug where sentences ending in multiple sentence marks, exclamation marks or ellipses were treated as multiple sentences.
