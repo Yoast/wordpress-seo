@@ -43,6 +43,7 @@ const MobileContainer = styled.div`
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	max-width: ${ MAX_WIDTH }px;
 	box-sizing: border-box;
+	font-size: 14px;
 `;
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
@@ -133,17 +134,18 @@ export const DesktopDescription = styled.div.attrs( {
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
+	font-size: 13px;
 `;
 
 const MobileDescription = styled( DesktopDescription )`
-	line-height: 1em;
 	max-height: 4em;
 	overflow: hidden;
 	font-size: 14px;
+	line-height: 20px;
 `;
 
 const MobilePartContainer = styled.div`
-	padding: 16px;
+	padding: 8px 16px;
 `;
 
 const DesktopPartContainer = styled.div`

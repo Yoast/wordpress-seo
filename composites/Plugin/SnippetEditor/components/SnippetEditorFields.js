@@ -62,7 +62,7 @@ function getCaretColor( props ) {
  */
 const InputContainer = styled.div.attrs( {
 } )`
-	padding: 3px;
+	padding: 3px 5px;
 	border: 1px solid ${ ( props ) => props.isActive ? "#5b9dd9" : "#ddd" };
 	box-shadow: ${ ( props ) => props.isActive ? "0 0 2px rgba(30,140,190,.8);" : "inset 0 1px 2px rgba(0,0,0,.07)" };
 	background-color: #fff;
@@ -87,12 +87,18 @@ const InputContainer = styled.div.attrs( {
 	}
 `;
 
+const InputContainerDescription = InputContainer.extend`
+	min-height: 60px;
+	padding: 2px 6px;
+	line-height: 19.6px;
+`;
+
 const FormSection = styled.div`
-	margin: 1em 0;
+	margin: 32px 0;
 `;
 
 const StyledEditor = styled.section`
-	padding: 20px 20px 0;
+	padding: 10px 20px 20px 20px;
 `;
 
 const SimulatedLabel = styled.div`
@@ -258,7 +264,7 @@ class SnippetEditorFields extends React.Component {
 						id={ this.uniqueId + "-description" }
 						onClick={ () => onFocus( "description" ) }
 					>{ intl.formatMessage( messages.metaDescription ) }</SimulatedLabel>
-					<InputContainer isActive={ activeField === "description" } isHovered={ hoveredField === "description" }>
+					<InputContainerDescription isActive={ activeField === "description" } isHovered={ hoveredField === "description" }>
 						<ReplacementVariableEditor
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
@@ -267,7 +273,7 @@ class SnippetEditorFields extends React.Component {
 							ref={ ref => this.setRef( "description", ref ) }
 							ariaLabelledBy={ this.uniqueId + "-description" }
 						/>
-					</InputContainer>
+					</InputContainerDescription>
 
 					<ProgressBar
 						max={ descriptionLengthAssessment.max }
