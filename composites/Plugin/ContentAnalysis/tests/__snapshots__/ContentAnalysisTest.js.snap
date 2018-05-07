@@ -235,13 +235,11 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
   <p
     className="c1"
   >
-    <span>
-      Your site language is set to 
-      <strong>
-        English
-      </strong>
-      . If this is not correct, contact your site administrator.
-    </span>
+    Your site language is set to 
+    <strong>
+      English
+    </strong>
+    . If this is not correct, contact your site administrator.
   </p>
   <div
     className="c2"
@@ -848,13 +846,11 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
   <p
     className="c1"
   >
-    <span>
-      Your site language is set to 
-      <strong>
-        English
-      </strong>
-      . If this is not correct, contact your site administrator.
-    </span>
+    Your site language is set to 
+    <strong>
+      English
+    </strong>
+    . If this is not correct, contact your site administrator.
   </p>
   <div
     className="c2"
@@ -1468,13 +1464,11 @@ exports[`the ContentAnalysis component with language notice for someone who can 
   <p
     className="c1"
   >
-    <span>
-      Your site language is set to 
-      <strong>
-        English
-      </strong>
-      .
-    </span>
+    Your site language is set to 
+    <strong>
+      English
+    </strong>
+    .
     <a
       className="c2"
       href="#"
@@ -2149,13 +2143,11 @@ exports[`the ContentAnalysis component with language notice for someone who cann
   <p
     className="c1"
   >
-    <span>
-      Your site language is set to 
-      <strong>
-        English
-      </strong>
-      .
-    </span>
+    Your site language is set to 
+    <strong>
+      English
+    </strong>
+    .
     <a
       className="c2"
       href="#"
@@ -2807,13 +2799,11 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
   <p
     className="c1"
   >
-    <span>
-      Your site language is set to 
-      <strong>
-        English
-      </strong>
-      . If this is not correct, contact your site administrator.
-    </span>
+    Your site language is set to 
+    <strong>
+      English
+    </strong>
+    . If this is not correct, contact your site administrator.
   </p>
   <div
     className="c2"
