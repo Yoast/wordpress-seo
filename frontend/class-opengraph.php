@@ -365,6 +365,7 @@ class WPSEO_OpenGraph {
 			'ff_NG', // Fulah.
 			'fi_FI', // Finnish.
 			'fo_FO', // Faroese.
+			'fr_BE', // French (Belgium).
 			'fr_CA', // French (Canada).
 			'fr_FR', // French (France).
 			'fy_NL', // Frisian.
