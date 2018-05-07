@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '7.4.2' );
+define( 'WPSEO_VERSION', '7.5-RC2' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -327,13 +327,17 @@ function wpseo_init_rest_api() {
 	$link_reindex_endpoint = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
 	$link_reindex_endpoint->register();
 
-	$statistics_service  = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
-	$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
-	$statistics_endpoint->register();
-
 	$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
 	$ryte_endpoint         = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
 	$ryte_endpoint->register();
+
+	$indexable_service  = new WPSEO_Indexable_Service();
+	$indexable_endpoint = new WPSEO_Endpoint_Indexable( $indexable_service );
+	$indexable_endpoint->register();
+
+	$statistics_service  = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
+	$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
+	$statistics_endpoint->register();
 }
 
 /**
