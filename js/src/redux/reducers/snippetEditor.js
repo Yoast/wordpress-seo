@@ -62,7 +62,7 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				replacementVariables: nextReplacementVariables,
-			}
+			};
 		}
 	}
 
