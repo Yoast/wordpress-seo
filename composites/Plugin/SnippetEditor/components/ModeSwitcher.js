@@ -32,6 +32,7 @@ const SwitcherButton = Button.extend`
 	transition-property: border-color;
 	
 	&:hover, &:focus {
+		background-color: ${ colors.$color_white };
 		border: none;
 		border-bottom: 4px solid transparent;
 		border-color: ${ colors.$color_snippet_focus };
