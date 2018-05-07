@@ -95,14 +95,14 @@ window.yoastHideMarkers = true;
 	};
 
 	/**
-	 * Renders the legacy snippet preview based on the passed data from the redux
+	 * Update the legacy snippet preview based on the passed data from the redux
 	 * store.
 	 *
 	 * @param {Object} data The data from the store.
 	 *
 	 * @returns {void}
 	 */
-	function renderLegacySnippetEditor( data ) {
+	function updateLegacySnippetEditor( data ) {
 		if ( isFunction( snippetPreview.refresh ) ) {
 			let isDataChanged = false;
 
@@ -385,7 +385,7 @@ window.yoastHideMarkers = true;
 				metaDesc: data.description,
 			} );
 
-			renderLegacySnippetEditor( data );
+			updateLegacySnippetEditor( data );
 		} );
 	} );
 }( jQuery, window ) );
