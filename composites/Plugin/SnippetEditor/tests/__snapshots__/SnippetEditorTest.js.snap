@@ -423,9 +423,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
         d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
       />
     </svg>
-    <span>
-      Edit snippet
-    </span>
+    Edit snippet
   </button>
 </div>
 `;
@@ -463,11 +461,7 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
       icon="edit"
       size="16px"
     />
-    <FormattedMessage
-      defaultMessage="Edit snippet"
-      id="snippetEditor.editSnippet"
-      values={Object {}}
-    />
+    Edit snippet
   </Button>
   <React.Fragment>
     <InjectIntl(SnippetEditorFields)
@@ -501,11 +495,7 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
     <Button
       onClick={[Function]}
     >
-      <FormattedMessage
-        defaultMessage="Close snippet editor"
-        id="snippet-editor.close-editor"
-        values={Object {}}
-      />
+      Close snippet editor
     </Button>
   </React.Fragment>
 </div>
@@ -1449,15 +1439,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       </svg>
                     </SvgIcon__StyledSvg>
                   </SvgIcon>
-                  <FormattedMessage
-                    defaultMessage="Edit snippet"
-                    id="snippetEditor.editSnippet"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit snippet
-                    </span>
-                  </FormattedMessage>
+                  Edit snippet
                 </button>
               </Button__BaseButton>
             </Button>
@@ -1745,15 +1727,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   onClick={[Function]}
                   type="button"
                 >
-                  <FormattedMessage
-                    defaultMessage="Close snippet editor"
-                    id="snippet-editor.close-editor"
-                    values={Object {}}
-                  >
-                    <span>
-                      Close snippet editor
-                    </span>
-                  </FormattedMessage>
+                  Close snippet editor
                 </button>
               </Button__BaseButton>
             </Button>
@@ -2703,15 +2677,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       </svg>
                     </SvgIcon__StyledSvg>
                   </SvgIcon>
-                  <FormattedMessage
-                    defaultMessage="Edit snippet"
-                    id="snippetEditor.editSnippet"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit snippet
-                    </span>
-                  </FormattedMessage>
+                  Edit snippet
                 </button>
               </Button__BaseButton>
             </Button>
@@ -2999,15 +2965,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   onClick={[Function]}
                   type="button"
                 >
-                  <FormattedMessage
-                    defaultMessage="Close snippet editor"
-                    id="snippet-editor.close-editor"
-                    values={Object {}}
-                  >
-                    <span>
-                      Close snippet editor
-                    </span>
-                  </FormattedMessage>
+                  Close snippet editor
                 </button>
               </Button__BaseButton>
             </Button>
@@ -3957,15 +3915,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       </svg>
                     </SvgIcon__StyledSvg>
                   </SvgIcon>
-                  <FormattedMessage
-                    defaultMessage="Edit snippet"
-                    id="snippetEditor.editSnippet"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit snippet
-                    </span>
-                  </FormattedMessage>
+                  Edit snippet
                 </button>
               </Button__BaseButton>
             </Button>
@@ -4253,15 +4203,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   onClick={[Function]}
                   type="button"
                 >
-                  <FormattedMessage
-                    defaultMessage="Close snippet editor"
-                    id="snippet-editor.close-editor"
-                    values={Object {}}
-                  >
-                    <span>
-                      Close snippet editor
-                    </span>
-                  </FormattedMessage>
+                  Close snippet editor
                 </button>
               </Button__BaseButton>
             </Button>
@@ -5211,15 +5153,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       </svg>
                     </SvgIcon__StyledSvg>
                   </SvgIcon>
-                  <FormattedMessage
-                    defaultMessage="Edit snippet"
-                    id="snippetEditor.editSnippet"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit snippet
-                    </span>
-                  </FormattedMessage>
+                  Edit snippet
                 </button>
               </Button__BaseButton>
             </Button>
@@ -5507,15 +5441,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   onClick={[Function]}
                   type="button"
                 >
-                  <FormattedMessage
-                    defaultMessage="Close snippet editor"
-                    id="snippet-editor.close-editor"
-                    values={Object {}}
-                  >
-                    <span>
-                      Close snippet editor
-                    </span>
-                  </FormattedMessage>
+                  Close snippet editor
                 </button>
               </Button__BaseButton>
             </Button>
@@ -6390,15 +6316,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       </svg>
                     </SvgIcon__StyledSvg>
                   </SvgIcon>
-                  <FormattedMessage
-                    defaultMessage="Edit snippet"
-                    id="snippetEditor.editSnippet"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit snippet
-                    </span>
-                  </FormattedMessage>
+                  Edit snippet
                 </button>
               </Button__BaseButton>
             </Button>
@@ -7380,15 +7298,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       </svg>
                     </SvgIcon__StyledSvg>
                   </SvgIcon>
-                  <FormattedMessage
-                    defaultMessage="Edit snippet"
-                    id="snippetEditor.editSnippet"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit snippet
-                    </span>
-                  </FormattedMessage>
+                  Edit snippet
                 </button>
               </Button__BaseButton>
             </Button>
@@ -7676,15 +7586,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   onClick={[Function]}
                   type="button"
                 >
-                  <FormattedMessage
-                    defaultMessage="Close snippet editor"
-                    id="snippet-editor.close-editor"
-                    values={Object {}}
-                  >
-                    <span>
-                      Close snippet editor
-                    </span>
-                  </FormattedMessage>
+                  Close snippet editor
                 </button>
               </Button__BaseButton>
             </Button>
@@ -8666,15 +8568,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       </svg>
                     </SvgIcon__StyledSvg>
                   </SvgIcon>
-                  <FormattedMessage
-                    defaultMessage="Edit snippet"
-                    id="snippetEditor.editSnippet"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit snippet
-                    </span>
-                  </FormattedMessage>
+                  Edit snippet
                 </button>
               </Button__BaseButton>
             </Button>
@@ -8962,15 +8856,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   onClick={[Function]}
                   type="button"
                 >
-                  <FormattedMessage
-                    defaultMessage="Close snippet editor"
-                    id="snippet-editor.close-editor"
-                    values={Object {}}
-                  >
-                    <span>
-                      Close snippet editor
-                    </span>
-                  </FormattedMessage>
+                  Close snippet editor
                 </button>
               </Button__BaseButton>
             </Button>
@@ -9015,11 +8901,7 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
       icon="edit"
       size="16px"
     />
-    <FormattedMessage
-      defaultMessage="Edit snippet"
-      id="snippetEditor.editSnippet"
-      values={Object {}}
-    />
+    Edit snippet
   </Button>
   <React.Fragment>
     <InjectIntl(SnippetEditorFields)
@@ -9053,11 +8935,7 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
     <Button
       onClick={[Function]}
     >
-      <FormattedMessage
-        defaultMessage="Close snippet editor"
-        id="snippet-editor.close-editor"
-        values={Object {}}
-      />
+      Close snippet editor
     </Button>
   </React.Fragment>
 </div>
@@ -9486,9 +9364,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
         d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
       />
     </svg>
-    <span>
-      Edit snippet
-    </span>
+    Edit snippet
   </button>
 </div>
 `;
@@ -9916,9 +9792,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
         d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
       />
     </svg>
-    <span>
-      Edit snippet
-    </span>
+    Edit snippet
   </button>
 </div>
 `;
@@ -10904,15 +10778,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                       </svg>
                     </SvgIcon__StyledSvg>
                   </SvgIcon>
-                  <FormattedMessage
-                    defaultMessage="Edit snippet"
-                    id="snippetEditor.editSnippet"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit snippet
-                    </span>
-                  </FormattedMessage>
+                  Edit snippet
                 </button>
               </Button__BaseButton>
             </Button>
@@ -11200,15 +11066,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                   onClick={[Function]}
                   type="button"
                 >
-                  <FormattedMessage
-                    defaultMessage="Close snippet editor"
-                    id="snippet-editor.close-editor"
-                    values={Object {}}
-                  >
-                    <span>
-                      Close snippet editor
-                    </span>
-                  </FormattedMessage>
+                  Close snippet editor
                 </button>
               </Button__BaseButton>
             </Button>
@@ -12203,15 +12061,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                       </svg>
                     </SvgIcon__StyledSvg>
                   </SvgIcon>
-                  <FormattedMessage
-                    defaultMessage="Edit snippet"
-                    id="snippetEditor.editSnippet"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit snippet
-                    </span>
-                  </FormattedMessage>
+                  Edit snippet
                 </button>
               </Button__BaseButton>
             </Button>
@@ -12499,15 +12349,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   onClick={[Function]}
                   type="button"
                 >
-                  <FormattedMessage
-                    defaultMessage="Close snippet editor"
-                    id="snippet-editor.close-editor"
-                    values={Object {}}
-                  >
-                    <span>
-                      Close snippet editor
-                    </span>
-                  </FormattedMessage>
+                  Close snippet editor
                 </button>
               </Button__BaseButton>
             </Button>
@@ -13457,15 +13299,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       </svg>
                     </SvgIcon__StyledSvg>
                   </SvgIcon>
-                  <FormattedMessage
-                    defaultMessage="Edit snippet"
-                    id="snippetEditor.editSnippet"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit snippet
-                    </span>
-                  </FormattedMessage>
+                  Edit snippet
                 </button>
               </Button__BaseButton>
             </Button>
@@ -13753,15 +13587,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   onClick={[Function]}
                   type="button"
                 >
-                  <FormattedMessage
-                    defaultMessage="Close snippet editor"
-                    id="snippet-editor.close-editor"
-                    values={Object {}}
-                  >
-                    <span>
-                      Close snippet editor
-                    </span>
-                  </FormattedMessage>
+                  Close snippet editor
                 </button>
               </Button__BaseButton>
             </Button>
@@ -14722,15 +14548,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       </svg>
                     </SvgIcon__StyledSvg>
                   </SvgIcon>
-                  <FormattedMessage
-                    defaultMessage="Edit snippet"
-                    id="snippetEditor.editSnippet"
-                    values={Object {}}
-                  >
-                    <span>
-                      Edit snippet
-                    </span>
-                  </FormattedMessage>
+                  Edit snippet
                 </button>
               </Button__BaseButton>
             </Button>
@@ -15062,15 +14880,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   onClick={[Function]}
                   type="button"
                 >
-                  <FormattedMessage
-                    defaultMessage="Close snippet editor"
-                    id="snippet-editor.close-editor"
-                    values={Object {}}
-                  >
-                    <span>
-                      Close snippet editor
-                    </span>
-                  </FormattedMessage>
+                  Close snippet editor
                 </button>
               </Button__BaseButton>
             </Button>
@@ -15515,9 +15325,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
         d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
       />
     </svg>
-    <span>
-      Edit snippet
-    </span>
+    Edit snippet
   </button>
 </div>
 `;
@@ -15555,11 +15363,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       icon="edit"
       size="16px"
     />
-    <FormattedMessage
-      defaultMessage="Edit snippet"
-      id="snippetEditor.editSnippet"
-      values={Object {}}
-    />
+    Edit snippet
   </Button>
   <React.Fragment>
     <InjectIntl(SnippetEditorFields)
@@ -15593,11 +15397,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
     <Button
       onClick={[Function]}
     >
-      <FormattedMessage
-        defaultMessage="Close snippet editor"
-        id="snippet-editor.close-editor"
-        values={Object {}}
-      />
+      Close snippet editor
     </Button>
   </React.Fragment>
 </div>
@@ -16028,9 +15828,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
         d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
       />
     </svg>
-    <span>
-      Edit snippet
-    </span>
+    Edit snippet
   </button>
 </div>
 `;
@@ -16458,9 +16256,7 @@ exports[`SnippetEditor shows and editor 1`] = `
         d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
       />
     </svg>
-    <span>
-      Edit snippet
-    </span>
+    Edit snippet
   </button>
 </div>
 `;
