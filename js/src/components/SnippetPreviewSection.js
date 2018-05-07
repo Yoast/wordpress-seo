@@ -18,6 +18,23 @@ const Section = styled( StyledSection )`
 `;
 
 /**
+ * Process the snippet editor form data before it's being displayed in the snippet preview.
+ *
+ * @param {Object} data The snippet preview data object.
+ * @param {string} data.title The snippet preview title.
+ * @param {string} data.url The snippet preview url: baseUrl with the slug.
+ * @param {string} data.description The snippet preview description.
+ *
+ * @returns {Object} The snippet preview data object.
+ */
+const mapEditorDataToPreview = function( data ) {
+	// Replace whitespaces in the url with dashes.
+	data.url = data.url.replace( /\s/g, "-" );
+
+	return data;
+};
+
+/**
  * Creates the Snippet Preview Section.
  *
  * @param {Object} props The component props.
@@ -33,6 +50,7 @@ const SnippetPreviewSection = ( { baseUrl, date } ) => {
 	>
 		<SnippetEditor
 			baseUrl={ baseUrl }
+			mapDataToPreview={ mapEditorDataToPreview }
 			date={ date }
 		/>
 	</Section>;
