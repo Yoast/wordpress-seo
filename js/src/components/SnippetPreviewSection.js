@@ -20,8 +20,6 @@ const Section = styled( StyledSection )`
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
  *
- * Replace whitespaces in the url with dashes.
- *
  * @param {Object} data The snippet preview data object.
  * @param {string} data.title The snippet preview title.
  * @param {string} data.url The snippet preview url: baseUrl with the slug.
@@ -30,6 +28,7 @@ const Section = styled( StyledSection )`
  * @returns {Object} The snippet preview data object.
  */
 const mapEditorDataToPreview = function( data ) {
+	// Replace whitespaces in the url with dashes.
 	data.url = data.url.replace( /\s/g, "-" );
 
 	return data;
