@@ -365,6 +365,7 @@ class WPSEO_OpenGraph {
 			'ff_NG', // Fulah.
 			'fi_FI', // Finnish.
 			'fo_FO', // Faroese.
+			'fr_BE', // French (Belgium).
 			'fr_CA', // French (Canada).
 			'fr_FR', // French (France).
 			'fy_NL', // Frisian.
@@ -412,7 +413,7 @@ class WPSEO_OpenGraph {
 			'nb_NO', // Norwegian (bokmal).
 			'nd_ZW', // Ndebele.
 			'ne_NP', // Nepali.
-			'nl_BE', // Dutch (Belgie).
+			'nl_BE', // Dutch (Belgium).
 			'nl_NL', // Dutch.
 			'nn_NO', // Norwegian (nynorsk).
 			'ny_MW', // Chewa.
