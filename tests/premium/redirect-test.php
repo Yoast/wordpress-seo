@@ -39,7 +39,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	 * @return array The redirects to test.
 	 */
 	public function redirect_provider_for_subdirectory_installation() {
-		$redirects =  array(
+		$redirects = array(
 			array(
 				'redirect'        => array(
 					'origin' => 'http://example.org/blog/origin',
