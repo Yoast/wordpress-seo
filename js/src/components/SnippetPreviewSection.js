@@ -24,7 +24,7 @@ const Section = styled( StyledSection )`
  *
  * @returns {ReactElement} Snippet Preview Section.
  */
-const SnippetPreviewSection = ( { baseUrl } ) => {
+const SnippetPreviewSection = ( { baseUrl, date } ) => {
 	return <Section
 		headingLevel={ 3 }
 		headingText="React snippet preview"
@@ -33,12 +33,18 @@ const SnippetPreviewSection = ( { baseUrl } ) => {
 	>
 		<SnippetEditor
 			baseUrl={ baseUrl }
+			date={ date }
 		/>
 	</Section>;
 };
 
 SnippetPreviewSection.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
+	date: PropTypes.string,
+};
+
+SnippetPreviewSection.defaultProps = {
+	date: "",
 };
 
 export default SnippetPreviewSection;
