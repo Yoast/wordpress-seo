@@ -16,6 +16,7 @@ import activeKeyword from "./redux/reducers/activeKeyword";
 import activeTab from "./redux/reducers/activeTab";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
+import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
 
@@ -163,6 +164,8 @@ export function initialize( args ) {
 		const gutenbergData = new Data( wp.data, args.onRefreshRequest, store );
 		gutenbergData.subscribeToGutenberg();
 		data = gutenbergData;
+	} else {
+		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
 	}
 
 	renderReactApps( store, args );
