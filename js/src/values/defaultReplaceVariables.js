@@ -1,7 +1,4 @@
-/*
-This const was created to populate the redux store with the default replace variables, while keeping the reducer clean.
- */
-
+// This const was created to populate the redux store with the default replace variables, while keeping the reducer clean.
 const defaultReplaceVariables = [
 	{
 		name: "currentdate",

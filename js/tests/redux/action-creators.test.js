@@ -2,11 +2,9 @@ import {
 	SWITCH_MODE,
 	UPDATE_DATA,
 	UPDATE_REPLACEMENT_VARIABLE,
-	INSERT_REPLACEMENT_VARIABLE,
 	switchMode,
 	updateData,
 	updateReplacementVariable,
-	insertReplacementVariable,
 } from "../../src/redux/actions/snippetEditor";
 
 describe( "snippet editor action creators", () => {
@@ -34,16 +32,6 @@ describe( "snippet editor action creators", () => {
 		it( "returns an action", () => {
 			expect( updateReplacementVariable( "title", "Title" ) ).toEqual( {
 				type: UPDATE_REPLACEMENT_VARIABLE,
-				name: "title",
-				value: "Title",
-			} );
-		} );
-	} );
-
-	describe( "insertReplacementVariable", () => {
-		it( "returns an action", () => {
-			expect( insertReplacementVariable( "title", "Title" ) ).toEqual( {
-				type: INSERT_REPLACEMENT_VARIABLE,
 				name: "title",
 				value: "Title",
 			} );
