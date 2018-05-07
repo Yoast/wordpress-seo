@@ -1,8 +1,11 @@
+// External dependencies.
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
+
+// Internal dependencies.
 import SnippetEditor from "../containers/SnippetEditor";
-import PropTypes from "prop-types";
 
 const Section = styled( StyledSection )`
 	margin-bottom: 2em;
@@ -37,11 +40,15 @@ const mapEditorDataToPreview = function( data ) {
 /**
  * Creates the Snippet Preview Section.
  *
- * @param {Object} props The component props.
+ * @param {Object} props           The component props.
+ * @param {string} props.baseUrl   The base url that the preview uses for the slug.
+ * @param {string} props.date      The date that can get prefixed to the meta description.
+ * @param {Object} props.templates Can contain templates for the title and/or the description.
+ *                                 Which will then be used if they are empty.
  *
  * @returns {ReactElement} Snippet Preview Section.
  */
-const SnippetPreviewSection = ( { baseUrl, date } ) => {
+const SnippetPreviewSection = ( { baseUrl, date, templates } ) => {
 	return <Section
 		headingLevel={ 3 }
 		headingText="React snippet preview"
@@ -52,6 +59,7 @@ const SnippetPreviewSection = ( { baseUrl, date } ) => {
 			baseUrl={ baseUrl }
 			mapDataToPreview={ mapEditorDataToPreview }
 			date={ date }
+			templates={ templates }
 		/>
 	</Section>;
 };
@@ -59,6 +67,7 @@ const SnippetPreviewSection = ( { baseUrl, date } ) => {
 SnippetPreviewSection.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
 	date: PropTypes.string,
+	templates: PropTypes.object,
 };
 
 SnippetPreviewSection.defaultProps = {
