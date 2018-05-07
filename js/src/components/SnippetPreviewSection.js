@@ -18,19 +18,21 @@ const Section = styled( StyledSection )`
 `;
 
 /**
- * Function to map the editor data to data for the preview.
+ * Process the snippet editor form data before it's being displayed in the snippet preview.
  *
- * @param {Object} mappedData The default mappedData object.
- * @param {string} mappedData.title The processed title.
- * @param {string} mappedData.url The baseUrl with the slug.
- * @param {string} mappedData.description The processed description.
+ * Replace whitespaces in the url with dashes.
  *
- * @returns {Object} The new mappedData object.
+ * @param {Object} data The snippet preview data object.
+ * @param {string} data.title The snippet preview title.
+ * @param {string} data.url The snippet preview url: baseUrl with the slug.
+ * @param {string} data.description The snippet preview description.
+ *
+ * @returns {Object} The snippet preview data object.
  */
-const mapDataToPreview = function( mappedData ) {
-	mappedData.url = mappedData.url.replace( /\s/g, "-" );
+const mapEditorDataToPreview = function( data ) {
+	data.url = data.url.replace( /\s/g, "-" );
 
-	return mappedData;
+	return data;
 };
 
 /**
@@ -49,7 +51,7 @@ const SnippetPreviewSection = ( { baseUrl } ) => {
 	>
 		<SnippetEditor
 			baseUrl={ baseUrl }
-			mapDataToPreview={ mapDataToPreview }
+			mapDataToPreview={ mapEditorDataToPreview }
 		/>
 	</Section>;
 };
