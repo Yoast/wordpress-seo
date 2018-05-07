@@ -26,6 +26,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 
 .c5 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -198,6 +199,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 
 .c5 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -373,6 +375,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 
 .c5 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -544,6 +547,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -728,6 +732,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -898,6 +903,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -1076,6 +1082,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 
 .c5 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -1248,6 +1255,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 
 .c6 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -1432,6 +1440,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 
 .c5 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -1616,6 +1625,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 
 .c5 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -1800,6 +1810,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 
 .c6 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -1984,6 +1995,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 
 .c5 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -2168,6 +2180,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 
 .c5 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -2352,6 +2365,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 
 .c5 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
