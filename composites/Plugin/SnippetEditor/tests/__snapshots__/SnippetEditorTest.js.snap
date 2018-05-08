@@ -658,7 +658,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 .c26::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -688,7 +688,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 .c28::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -1977,7 +1977,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 .c26::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -2007,7 +2007,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 .c28::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -3296,7 +3296,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 .c26::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -3326,7 +3326,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 .c28::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -4615,7 +4615,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c26::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -4645,7 +4645,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c28::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -6877,7 +6877,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c26::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -6907,7 +6907,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c28::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -8228,7 +8228,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c26::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -8258,7 +8258,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c28::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -10518,7 +10518,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
 .c27::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -10548,7 +10548,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
 .c30::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -10575,7 +10575,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
 .c29::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -11883,7 +11883,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 .c27::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -11913,7 +11913,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 .c29::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -13223,7 +13223,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c26::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -13253,7 +13253,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c28::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -14542,7 +14542,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c26::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;
@@ -14572,7 +14572,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c28::before {
   display: block;
   position: absolute;
-  top: 4px;
+  top: -1px;
   left: -25px;
   width: 24px;
   height: 24px;

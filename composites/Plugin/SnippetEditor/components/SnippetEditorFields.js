@@ -77,7 +77,7 @@ const InputContainer = styled.div.attrs( {
 	&::before {
 		display: block;
 		position: absolute;
-		top: 4px;
+		top: -1px;
 		left: -25px;
 		width: 24px;
 		height: 24px;
