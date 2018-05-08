@@ -166,6 +166,7 @@ export function initialize( args ) {
 		data = gutenbergData;
 	} else {
 		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
+		classicEditorData.initialize( args.replaceVars );
 	}
 
 	renderReactApps( store, args );

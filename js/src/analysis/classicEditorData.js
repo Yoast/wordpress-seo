@@ -18,9 +18,13 @@ class ClassicEditorData {
 	constructor( refresh, store ) {
 		this._refresh = refresh;
 		this.store = store;
-		this.data = this.getInitialData();
-		this.sendInitialData();
+		this.data = {};
 		this.updateData = this.updateData.bind( this );
+	}
+
+	initialize( replaceVars ) {
+		this.data = this.getInitialData( replaceVars );
+		this.sendInitialData();
 		this.subscribeToElements();
 	}
 
@@ -65,10 +69,9 @@ class ClassicEditorData {
 		this.store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
 	}
 
-	getInitialData() {
-		let data = wpseoReplaceVarsL10n.replace_vars;
+	getInitialData( replaceVars ) {
 		return {
-			...data,
+			...replaceVars,
 			title: this.getTitle(),
 			excerpt: this.getExcerpt(),
 		}
