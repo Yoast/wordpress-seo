@@ -26,7 +26,6 @@ const SwitcherButton = styled( Button )`
 	height: 31px;
 	
 	border-color: ${ ( props ) => props.isActive ? colors.$color_snippet_active : "transparent" };
-	background-color: ${ ( props ) => props.isActive ? colors.$color_white : "inherit" };
 	color: ${ colors.$color_snippet_active };
 	
 	transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
