@@ -37,6 +37,7 @@ const SwitcherButton = styled( Button )`
 		border-bottom: 4px solid transparent;
 		border-color: ${ colors.$color_snippet_focus };
 		color: ${ colors.$color_snippet_focus };
+		box-shadow: none;
 	}
 `;
 

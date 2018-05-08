@@ -182,6 +182,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -205,6 +206,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -820,6 +822,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -843,6 +846,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -2139,6 +2143,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -2162,6 +2167,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -3458,6 +3464,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -3481,6 +3488,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -4777,6 +4785,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -4800,6 +4809,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -5984,6 +5994,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -6007,6 +6018,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -7039,6 +7051,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -7062,6 +7075,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -8390,6 +8404,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -8413,6 +8428,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -9678,6 +9694,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -9701,6 +9718,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -10123,6 +10141,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -10146,6 +10165,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -10707,6 +10727,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c20 {
@@ -10730,6 +10751,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c11 {
@@ -12045,6 +12067,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c20 {
@@ -12068,6 +12091,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c11 {
@@ -13385,6 +13409,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -13408,6 +13433,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -14704,6 +14730,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -14727,6 +14754,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -16042,6 +16070,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -16065,6 +16094,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
@@ -16491,6 +16521,7 @@ exports[`SnippetEditor shows and editor 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c19 {
@@ -16514,6 +16545,7 @@ exports[`SnippetEditor shows and editor 1`] = `
   border-bottom: 4px solid transparent;
   border-color: #1e8cbe;
   color: #1e8cbe;
+  box-shadow: none;
 }
 
 .c10 {
