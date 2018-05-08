@@ -1,9 +1,10 @@
 // External dependencies.
 import { connect } from "react-redux";
 import { SnippetEditor } from "yoast-components";
-import isEmpty from "lodash/isEmpty";
-import forEach from "lodash/forEach";
 import cloneDeep from "lodash/cloneDeep";
+import forEach from "lodash/forEach";
+import has from "lodash/has";
+import isEmpty from "lodash/isEmpty";
 
 // Internal dependencies.
 import {
@@ -12,35 +13,42 @@ import {
 } from "../redux/actions/snippetEditor";
 
 /**
- * Applies the template to the data in the state.
+ * Applies the templates to the data.
  *
- * @param {Object} data     Scoped part of the redux state.
- * @param {string} key      The key of the data.
- * @param {string} template The value of the template.
+ * A template is used when:
+ * - A template key matches a data key.
+ * - The matched data is empty.
  *
- * @returns {Object} The Redux state.
+ * @param {Object} data      The data object.
+ * @param {Object} templates The templates object.
+ *
+ * @returns {Object} The data with templates applied.
  */
-function applyDataTemplate( data, key, template ) {
-	if ( isEmpty( data[ key ] ) ) {
-		data[ key ] = template;
-	}
+function applyTemplatesToData( data, templates ) {
+	forEach( templates, ( template, key ) => {
+		// If the data exists and is empty, use the template.
+		if ( has( data, key ) && isEmpty( data[ key ] ) ) {
+			data[ key ] = template;
+		}
+	} );
 	return data;
 }
 
 /**
  * Maps the redux state to the snippet editor component.
  *
- * @param {Object} state The current state.
+ * @param {Object} state               The current state.
  * @param {Object} state.snippetEditor The state for the snippet editor.
- * @param {Object} ownProps The properties for the snippet editor.
+ * @param {Object} ownProps            The properties for the snippet editor.
+ * @param {Object} ownProps.templates  The templates object.
  *
  * @returns {Object} Data for the `SnippetEditor` component.
  */
 export function mapStateToProps( state, ownProps ) {
 	const newState = cloneDeep( state.snippetEditor );
-	forEach( ownProps.templates, ( template, key ) => {
-		newState.data = applyDataTemplate( newState.data, key, template );
-	} );
+	if ( has( ownProps, "templates" ) ) {
+		newState.data = applyTemplatesToData( newState.data, ownProps.templates );
+	}
 	return newState;
 }
 
@@ -55,16 +63,11 @@ export function mapStateToProps( state, ownProps ) {
 export function mapDispatchToProps( dispatch, ownProps ) {
 	return {
 		onChange: ( key, value ) => {
-			// Check if we are updating something that contains a template.
-			forEach( ownProps.templates, ( template, templateKey ) => {
-				if ( key === templateKey ) {
-					// If the value is the same as the template, pretend it is empty.
-					if ( value === template ) {
-						console.log( "clearing", key, value, template );
-						value = "";
-					}
-				}
-			} );
+			// If the templates prop has the same key and it equals the value.
+			if ( has( ownProps, "templates", key ) && value === ownProps.templates[ key ] ) {
+				// Replace the value with an empty string.
+				value = "";
+			}
 
 			let action = updateData( {
 				[ key ]: value,
