@@ -40,20 +40,15 @@ let PostDataCollector = function( args ) {
  * @returns {Object} The data.
  */
 PostDataCollector.prototype.getData = function() {
-	let gutenbergData;
-
-	// Only use data from Gutenberg if Gutenberg is available.
-	if ( isGutenbergDataAvailable() ) {
-		gutenbergData = this._data.getData();
-	}
+	let data = this._data.getData();
 
 	return {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		meta: this.getMeta(),
-		text: gutenbergData && gutenbergData.content ? gutenbergData.content : this.getText(),
-		title: gutenbergData && gutenbergData.title ? gutenbergData.title : this.getTitle(),
-		url: gutenbergData && gutenbergData.slug ? gutenbergData.slug : this.getUrl(),
-		excerpt: gutenbergData && gutenbergData.excerpt ? gutenbergData.excerpt : this.getExcerpt(),
+		text: data.content,
+		title: data.title,
+		url: data.slug,
+		excerpt: data.excerpt,
 		snippetTitle: this.getSnippetTitle(),
 		snippetMeta: this.getSnippetMeta(),
 		snippetCite: this.getSnippetCite(),

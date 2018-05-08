@@ -140,6 +140,19 @@ function renderReactApps( store, args ) {
 	renderReactApp( args.analysisSection, AnalysisSection, store );
 }
 
+function initializeData( data, args, store ) {
+	// Only use Gutenberg's data if Gutenberg is available.
+	if ( isGutenbergDataAvailable() ) {
+		const gutenbergData = new Data( data, args.onRefreshRequest, store );
+		gutenbergData.initialize( args.replaceVars );
+		return gutenbergData;
+	} else {
+		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
+		classicEditorData.initialize( args.replaceVars );
+		return classicEditorData;
+	}
+}
+
 /**
  * Initializes all functionality on the edit screen.
  *
@@ -157,17 +170,8 @@ function renderReactApps( store, args ) {
  */
 export function initialize( args ) {
 	const store = configureStore();
-	let data = {};
 
-	// Only use Gutenberg's data if Gutenberg is available.
-	if ( isGutenbergDataAvailable() ) {
-		const gutenbergData = new Data( wp.data, args.onRefreshRequest, store );
-		gutenbergData.subscribeToGutenberg();
-		data = gutenbergData;
-	} else {
-		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
-		classicEditorData.initialize( args.replaceVars );
-	}
+	let data = initializeData( wp.data, args, store );
 
 	renderReactApps( store, args );
 

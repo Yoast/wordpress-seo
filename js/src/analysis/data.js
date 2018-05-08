@@ -1,5 +1,6 @@
 import debounce from "lodash/debounce";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
+import fillReplacementValues from "../helpers/sendReplaceVarsToStore";
 
 /**
  * Represents the data.
@@ -20,6 +21,21 @@ class Data {
 		this.data = {};
 		this.getPostAttribute = this.getPostAttribute.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
+	}
+
+	initialize( replaceVars ) {
+		// Fill data object on page load.
+		this.data = this.getInitialData( replaceVars );
+		fillReplacementValues( this.data, this.store );
+		this.subscribeToGutenberg();
+	};
+
+	getInitialData( replaceVars ) {
+		let gutenbergData = this.collectGutenbergData( this.getPostAttribute );
+		return {
+			...replaceVars,
+			...gutenbergData,
+		}
 	}
 
 	/**
@@ -81,21 +97,6 @@ class Data {
 	}
 
 	/**
-	 * Fills the redux store with the newly acquired data.
-	 *
-	 * @param {Object} newData The newly aquired data.
-	 *
-	 * @returns {void}
-	 */
-	fillReplacementValues( newData ) {
-		// Fill title
-		this.store.dispatch( updateReplacementVariable( "title", newData.title ) );
-
-		// Fill excerpt
-		this.store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
-	}
-
-	/**
 	 * Updates the redux store with the changed data.
 	 *
 	 * @param {Object} newData The changed data.
@@ -137,9 +138,6 @@ class Data {
 	 * @returns {void}
 	 */
 	subscribeToGutenberg() {
-		// Fill data object on page load.
-		this.data = this.collectGutenbergData( this.getPostAttribute );
-		this.fillReplacementValues( this.data );
 		this.subscriber = debounce( this.refreshYoastSEO, 500 );
 		this._wpData.subscribe(
 			this.subscriber
