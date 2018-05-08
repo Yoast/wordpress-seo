@@ -5,13 +5,13 @@ yoastWebpackJsonp([3],[
 /* 3 */,
 /* 4 */,
 /* 5 */,
-/* 6 */,
-/* 7 */
+/* 6 */
 /***/ (function(module, exports) {
 
-eval("var g;\r\n\r\n// This works in non-strict mode\r\ng = (function() {\r\n\treturn this;\r\n})();\r\n\r\ntry {\r\n\t// This works if eval is allowed (see CSP)\r\n\tg = g || Function(\"return this\")() || (1,eval)(\"this\");\r\n} catch(e) {\r\n\t// This works if the window reference is available\r\n\tif(typeof window === \"object\")\r\n\t\tg = window;\r\n}\r\n\r\n// g can still be undefined, but nothing to do about it...\r\n// We return undefined, instead of nothing here, so it's\r\n// easier to handle this case. if(!global) { ...}\r\n\r\nmodule.exports = g;\r\n\n\n//////////////////\n// WEBPACK FOOTER\n// (webpack)/buildin/global.js\n// module id = 7\n// module chunks = 0 1 2 3 4 5 6\n\n//# sourceURL=webpack:///(webpack)/buildin/global.js?");
+eval("var g;\r\n\r\n// This works in non-strict mode\r\ng = (function() {\r\n\treturn this;\r\n})();\r\n\r\ntry {\r\n\t// This works if eval is allowed (see CSP)\r\n\tg = g || Function(\"return this\")() || (1,eval)(\"this\");\r\n} catch(e) {\r\n\t// This works if the window reference is available\r\n\tif(typeof window === \"object\")\r\n\t\tg = window;\r\n}\r\n\r\n// g can still be undefined, but nothing to do about it...\r\n// We return undefined, instead of nothing here, so it's\r\n// easier to handle this case. if(!global) { ...}\r\n\r\nmodule.exports = g;\r\n\n\n//////////////////\n// WEBPACK FOOTER\n// (webpack)/buildin/global.js\n// module id = 6\n// module chunks = 0 1 2 3 4 5 6\n\n//# sourceURL=webpack:///(webpack)/buildin/global.js?");
 
 /***/ }),
+/* 7 */,
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -463,7 +463,7 @@ eval("\nvar $at = __webpack_require__(576)(true);\n\n// 21.1.3.27 String.prototy
 /* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */\nvar freeGlobal = typeof global == 'object' && global && global.Object === Object && global;\n\nmodule.exports = freeGlobal;\n\n/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))\n\n//////////////////\n// WEBPACK FOOTER\n// /Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/lodash/_freeGlobal.js\n// module id = 124\n// module chunks = 0 1 2 3 4 5 6\n\n//# sourceURL=webpack:////Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/lodash/_freeGlobal.js?");
+eval("/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */\nvar freeGlobal = typeof global == 'object' && global && global.Object === Object && global;\n\nmodule.exports = freeGlobal;\n\n/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))\n\n//////////////////\n// WEBPACK FOOTER\n// /Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/lodash/_freeGlobal.js\n// module id = 124\n// module chunks = 0 1 2 3 4 5 6\n\n//# sourceURL=webpack:////Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/lodash/_freeGlobal.js?");
 
 /***/ }),
 /* 125 */
@@ -2723,7 +2723,7 @@ eval("/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__freeGlobal_js__ = __
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */\nvar freeGlobal = typeof global == 'object' && global && global.Object === Object && global;\n\n/* harmony default export */ __webpack_exports__[\"a\"] = (freeGlobal);\n\n/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(7)))\n\n//////////////////\n// WEBPACK FOOTER\n// /Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/lodash-es/_freeGlobal.js\n// module id = 1146\n// module chunks = 0 1 3\n\n//# sourceURL=webpack:////Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/lodash-es/_freeGlobal.js?");
+eval("/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */\nvar freeGlobal = typeof global == 'object' && global && global.Object === Object && global;\n\n/* harmony default export */ __webpack_exports__[\"a\"] = (freeGlobal);\n\n/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))\n\n//////////////////\n// WEBPACK FOOTER\n// /Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/lodash-es/_freeGlobal.js\n// module id = 1146\n// module chunks = 0 1 3\n\n//# sourceURL=webpack:////Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/lodash-es/_freeGlobal.js?");
 
 /***/ }),
 /* 1147 */
@@ -2771,7 +2771,7 @@ eval("module.exports = __webpack_require__(1153);\n\n\n//////////////////\n// WE
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("/* WEBPACK VAR INJECTION */(function(global, module) {\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _ponyfill = __webpack_require__(1154);\n\nvar _ponyfill2 = _interopRequireDefault(_ponyfill);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }\n\nvar root; /* global window */\n\n\nif (typeof self !== 'undefined') {\n  root = self;\n} else if (typeof window !== 'undefined') {\n  root = window;\n} else if (typeof global !== 'undefined') {\n  root = global;\n} else if (true) {\n  root = module;\n} else {\n  root = Function('return this')();\n}\n\nvar result = (0, _ponyfill2['default'])(root);\nexports['default'] = result;\n/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(32)(module)))\n\n//////////////////\n// WEBPACK FOOTER\n// /Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/symbol-observable/lib/index.js\n// module id = 1153\n// module chunks = 0 1 3\n\n//# sourceURL=webpack:////Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/symbol-observable/lib/index.js?");
+eval("/* WEBPACK VAR INJECTION */(function(global, module) {\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _ponyfill = __webpack_require__(1154);\n\nvar _ponyfill2 = _interopRequireDefault(_ponyfill);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }\n\nvar root; /* global window */\n\n\nif (typeof self !== 'undefined') {\n  root = self;\n} else if (typeof window !== 'undefined') {\n  root = window;\n} else if (typeof global !== 'undefined') {\n  root = global;\n} else if (true) {\n  root = module;\n} else {\n  root = Function('return this')();\n}\n\nvar result = (0, _ponyfill2['default'])(root);\nexports['default'] = result;\n/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(32)(module)))\n\n//////////////////\n// WEBPACK FOOTER\n// /Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/symbol-observable/lib/index.js\n// module id = 1153\n// module chunks = 0 1 3\n\n//# sourceURL=webpack:////Users/jimmy/Yoast/vagrant-local/www/wordpress-default/public_html/wp-content/plugins/wordpress-seo/node_modules/symbol-observable/lib/index.js?");
 
 /***/ }),
 /* 1154 */

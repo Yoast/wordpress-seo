@@ -5,7 +5,6 @@ import RaisedButton from "material-ui/RaisedButton";
 import { localize } from "yoast-components/utils/i18n";
 import IconMailOutline from "material-ui/svg-icons/communication/mail-outline";
 import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
-import colors from "yoast-components/style-guide/colors.json";
 
 /**
  * @summary Mailchimp signup component.

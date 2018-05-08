@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 7.5-RC2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-05-08 13:48:09+00:00\n"
+"POT-Creation-Date: 2018-05-08 14:32:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -5716,15 +5716,15 @@ msgstr ""
 msgid "There is an error with the request."
 msgstr ""
 
-#: js/src/components/MailchimpSignup.js:240
+#: js/src/components/MailchimpSignup.js:239
 msgid "Email"
 msgstr ""
 
-#: js/src/components/MailchimpSignup.js:222
+#: js/src/components/MailchimpSignup.js:221
 msgid "Sign Up!"
 msgstr ""
 
-#: js/src/components/MailchimpSignup.js:115
+#: js/src/components/MailchimpSignup.js:114
 msgid "MailChimp signup failed:"
 msgstr ""
 
