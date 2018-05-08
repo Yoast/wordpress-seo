@@ -93,7 +93,9 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	public function test_add_image_empty() {
 		$class_instance = $this->setup_class();
 
-		$this->assertEmpty( $class_instance->add_image( array( 'url' => '' ) ) );
+		$class_instance->add_image( array( 'url' => '' ) );
+
+		$this->assertEmpty( $class_instance->get_images() );
 	}
 
 	/**
