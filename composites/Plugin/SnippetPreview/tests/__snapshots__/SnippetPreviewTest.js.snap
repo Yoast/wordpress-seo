@@ -591,7 +591,11 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 .c9 {
   line-height: 1em;
   max-height: 4em;
+}
+
+.c11 {
   overflow: hidden;
+  max-height: calc( 4em + 3px );
 }
 
 .c1 {
@@ -707,7 +711,12 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
-        Description
+        <div
+          className="c11 c9 c10"
+          color="#545454"
+        >
+          Description
+        </div>
       </div>
     </div>
   </div>
@@ -776,7 +785,11 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 .c8 {
   line-height: 1em;
   max-height: 4em;
+}
+
+.c10 {
   overflow: hidden;
+  max-height: calc( 4em + 3px );
 }
 
 .c1 {
@@ -878,7 +891,12 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
-        Description
+        <div
+          className="c10 c8 c9"
+          color="#545454"
+        >
+          Description
+        </div>
       </div>
     </div>
   </div>
@@ -947,7 +965,11 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 .c8 {
   line-height: 1em;
   max-height: 4em;
+}
+
+.c10 {
   overflow: hidden;
+  max-height: calc( 4em + 3px );
 }
 
 .c1 {
@@ -1049,7 +1071,12 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
-        Description
+        <div
+          className="c10 c8 c9"
+          color="#545454"
+        >
+          Description
+        </div>
       </div>
     </div>
   </div>
@@ -1309,7 +1336,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
   background-size: 25px;
   content: "";
 }
@@ -1494,7 +1521,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
   background-size: 25px;
   content: "";
 }
@@ -1679,7 +1706,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
   background-size: 25px;
   content: "";
 }
@@ -1864,7 +1891,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
   background-size: 25px;
   content: "";
 }
@@ -2049,7 +2076,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
   background-size: 25px;
   content: "";
 }
@@ -2234,7 +2261,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
   background-size: 25px;
   content: "";
 }
