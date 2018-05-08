@@ -138,12 +138,11 @@ window.yoastHideMarkers = true;
 	/**
 	 * Initializes the snippet preview.
 	 *
-	 * @param {TermDataCollector} termScraper Object for getting term data.
+	 * @param {Object} snippetEditorData The snippet editor data.
 	 *
 	 * @returns {SnippetPreview} Instance of snippetpreview.
 	 */
-	function initSnippetPreview( termScraper ) {
-		const snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
+	function initSnippetPreview( snippetEditorData ) {
 		return snippetPreviewHelpers.create( snippetContainer, {
 			title: snippetEditorData.title,
 			urlPath: snippetEditorData.slug,
@@ -275,7 +274,13 @@ window.yoastHideMarkers = true;
 		tabManager.init();
 
 		termScraper = new TermDataCollector( { tabManager } );
-		snippetPreview = initSnippetPreview( termScraper );
+
+		// Initialize the snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoTermScraperL10n );
+		snippetEditorData = snippetEditorHelpers.applyTemplatesToData( snippetEditorData, snippetEditorTemplates );
+
+		snippetPreview = initSnippetPreview( snippetEditorData );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
@@ -373,7 +378,6 @@ window.yoastHideMarkers = true;
 		} );
 
 		// Set the initial snippet editor data.
-		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
 		store.dispatch( updateData( snippetEditorData ) );
 
 		// Subscribe to the store to save the snippet editor data.

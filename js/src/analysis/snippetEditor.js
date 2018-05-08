@@ -1,3 +1,5 @@
+import has from "lodash/has";
+import forEach from "lodash/forEach";
 import isEmpty from "lodash/isEmpty";
 import isUndefined from "lodash/isUndefined";
 
@@ -53,7 +55,7 @@ function getTemplatesFromL10n( l10nObject ) {
 		templates.title = "%%title%% - %%sitename%%";
 	}
 
-	const description = l10nObject.metadesc_template;
+	const description = "%%sitedesc%%";//l10nObject.metadesc_template;
 	if ( ! isEmpty( description ) ) {
 		templates.description = description;
 	}
@@ -61,8 +63,27 @@ function getTemplatesFromL10n( l10nObject ) {
 	return templates;
 }
 
+/**
+ * Applies the templates to the data.
+ *
+ * @param {Object} data      The data object.
+ * @param {Object} templates The templates object.
+ *
+ * @returns {Object} The data with templates applied.
+ */
+function applyTemplatesToData( data, templates ) {
+	forEach( templates, ( template, key ) => {
+		// If the data exists and is empty, use the template.
+		if ( has( data, key ) && isEmpty( data[ key ] ) ) {
+			data[ key ] = template;
+		}
+	} );
+	return data;
+}
+
 export default {
 	getDataFromCollector,
 	getDataFromStore,
 	getTemplatesFromL10n,
+	applyTemplatesToData,
 };
