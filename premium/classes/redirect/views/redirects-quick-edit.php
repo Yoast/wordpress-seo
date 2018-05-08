@@ -15,16 +15,16 @@
 						<div class="inline-edit-col">
 							<div class="wpseo_redirect_form">
 								<?php
-									$form_presenter->display(
-										array(
-											'input_suffix' => '{{data.suffix}}',
-											'values'       => array(
-												'origin' => '{{data.origin}}',
-												'target' => '{{data.target}}',
-												'type'   => '<# if(data.type === %1$s) {  #> selected="selected"<# } #>',
-											),
-										)
-									);
+								$form_presenter->display(
+									array(
+										'input_suffix' => '{{data.suffix}}',
+										'values'       => array(
+											'origin' => '{{data.origin}}',
+											'target' => '{{data.target}}',
+											'type'   => '<# if(data.type === %1$s) {  #> selected="selected"<# } #>',
+										),
+									)
+								);
 								?>
 							</div>
 						</div>
