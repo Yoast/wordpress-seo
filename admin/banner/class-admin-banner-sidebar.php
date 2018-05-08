@@ -324,7 +324,7 @@ class WPSEO_Admin_Banner_Sidebar {
 
 		$courses_spot->add_banner(
 			new WPSEO_Admin_Banner(
-				WPSEO_Shortlinker::get( 'https://yoa.st/15h' ),
+				WPSEO_Shortlinker::get( 'https://yoa.st/2oi' ),
 				'SEO-for-beginners-training.png',
 				261,
 				152,
