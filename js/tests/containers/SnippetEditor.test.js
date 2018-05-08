@@ -54,4 +54,36 @@ describe( "SnippetEditor container", () => {
 			[ updateData( { title: "Title" } ) ],
 		] );
 	} );
+
+	it( "fills in the templates correctly while ignoring non-existing and non-empty ones", () => {
+		const state = {
+			snippetEditor: {
+				mode: "desktop",
+				data: {
+					title: "",
+					slug: "slug",
+					description: "Description",
+				},
+			},
+		};
+		const props = {
+			templates: {
+				title: "%%title%%",
+				extra: "%%extra%%",
+				description: "%%title%%",
+			},
+		};
+		const expected = {
+			mode: "desktop",
+			data: {
+				title: "%%title%%",
+				slug: "slug",
+				description: "Description",
+			},
+		};
+
+		const result = mapStateToProps( state, props );
+
+		expect( result ).toEqual( expected );
+	} );
 } );
