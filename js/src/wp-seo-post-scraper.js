@@ -1,6 +1,7 @@
 /* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
+import isFunction from "lodash/isFunction";
 
 import { tmceId, setStore } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
@@ -25,7 +26,6 @@ import snippetPreviewHelpers from "./analysis/snippetPreview";
 import UsedKeywords from "./analysis/usedKeywords";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
-import isFunction from "lodash/isFunction";
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
