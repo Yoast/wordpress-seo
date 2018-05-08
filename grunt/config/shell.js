@@ -22,6 +22,26 @@ module.exports = function( grunt ) {
 			},
 		},
 
+		"combine-pots-yoast-components": {
+			fromFiles: [
+				"<%= files.pot.yoastComponents1 %>",
+				"<%= files.pot.yoastComponents2 %>",
+			],
+			toFile: "<%= files.pot.yoastComponents %>",
+			command: function() {
+				var files, toFile;
+
+				files = grunt.config.get( "shell.combine-pots-yoast-components.fromFiles" );
+				toFile = grunt.config.get( "shell.combine-pots-yoast-components.toFile" );
+
+				return "msgcat" +
+					// The use-first flag prevents the file header from being messed up.
+					" --use-first" +
+					" " + files.join( " " ) +
+					" > " + toFile;
+			},
+		},
+
 		"makepot-yoast-components": {
 			fromFiles: [
 				"node_modules/yoast-components/**/*.js",
@@ -35,10 +55,14 @@ module.exports = function( grunt ) {
 				files = grunt.file.expand( files );
 
 				return "./node_modules/.bin/i18n-calypso" +
-					" -o <%= files.pot.yoastComponents %>" +
+					" -o <%= files.pot.yoastComponents1 %>" +
 					" -f POT" +
 					" " + files.join( " " );
 			},
+		},
+
+		"makepot-yoast-components2": {
+			command: "yarn i18n-yoast-components",
 		},
 
 		"makepot-yoastseojs": {

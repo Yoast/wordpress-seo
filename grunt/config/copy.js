@@ -16,6 +16,19 @@ module.exports = {
 			},
 		],
 	},
+	"json-translations": {
+		files: [
+			{
+				expand: true,
+				cwd: "languages/",
+				src: [ "wordpress-seo-*.json" ],
+				dest: "languages/",
+				rename: ( dest, src ) => {
+					return dest + src.replace( "wordpress-seo", "yoast-components" );
+				},
+			},
+		],
+	},
 	artifact: {
 		files: [
 			{

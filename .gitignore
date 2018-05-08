@@ -68,3 +68,4 @@ test.sh
 /languages/wordpress-seo-temp.pot
 /languages/yoast-components.pot
 /coverage
+/gettext.pot

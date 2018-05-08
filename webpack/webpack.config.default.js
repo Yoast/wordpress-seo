@@ -30,6 +30,9 @@ const alias = {
 	// This prevents loading multiple versions of React:
 	react: path.join( __dirname, "../", "node_modules/react" ),
 	"react-dom": path.join( __dirname, "../", "node_modules/react-dom" ),
+
+	// This prevents loading multiple versions of @wordpress/i18n:
+	"@wordpress/i18n": path.join( __dirname, "../", "node_modules/@wordpress/i18n" ),
 };
 
 wpDependencies.forEach( wpDependency => {

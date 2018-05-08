@@ -15,4 +15,15 @@ module.exports = {
 			},
 		},
 	},
+	"plugin-json": {
+		options: {
+			url: "<%= pkg.plugin.glotpress %>",
+			domainPath: "<%= paths.languages %>",
+			file_format: "%domainPath%/%textdomain%-%wp_locale%.json",
+			slug: "wp-plugins/<%= pkg.plugin.textdomain %>/dev/",
+			textdomain: "<%= pkg.plugin.textdomain %>",
+			formats: [ "jed1x" ],
+			filter: "<%= glotpress_download.plugin.options.filter %>",
+		},
+	},
 };

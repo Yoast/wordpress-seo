@@ -17,7 +17,8 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "webpack --config ./webpack/webpack.config.prod.js",
+    "build": "NODE_ENV=production webpack --config ./webpack/webpack.config.prod.js",
+    "i18n-yoast-components": "NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot > /dev/null",
     "start": "webpack-dev-server --config ./webpack/webpack.config.dev.js --progress"
   },
   "jest": {
@@ -35,9 +36,11 @@
     ]
   },
   "devDependencies": {
+    "@wordpress/babel-plugin-makepot": "^1.0.0",
     "@wordpress/babel-preset-default": "^1.1.3",
     "algoliasearch": "^3.16.0",
     "autoprefixer": "^6.3.1",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
     "babel-jest": "^18.0.0",

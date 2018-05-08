@@ -34,12 +34,15 @@ build:
 'build:i18n:potFiles':
   - 'makepot'
   - 'shell:makepot-yoast-components'
+  - 'shell:makepot-yoast-components2'
+  - 'shell:combine-pots-yoast-components'
   - 'shell:makepot-yoastseojs'
   - 'convert-pot-to-wp'
   - 'shell:combine-pot-files'
 # Download and build the latest translations
 'build:i18n:translations':
   - 'glotpress_download'
+  - 'copy:json-translations'
   - 'po2json'
   - 'i18n-clean-json'
   - 'clean:po-files'
