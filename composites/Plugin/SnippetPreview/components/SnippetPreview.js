@@ -122,9 +122,12 @@ export const BaseUrl = styled.div`
 	cursor: pointer;
 	position: relative;
 	max-width: 90%;
-	text-overflow: ellipsis;
-	overflow: hidden;
 	white-space: nowrap;
+`;
+
+const BaseUrlOverflowContainer = styled( BaseUrl )`
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 export const DesktopDescription = styled.div.attrs( {
@@ -493,10 +496,13 @@ export default class SnippetPreview extends PureComponent {
 		 * However this is not relevant in this case, because the url is not focusable.
 		 */
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
-		return <Url onClick={ onClick.bind( null, "url" ) }
-		            onMouseOver={ partial( onMouseOver, "url" ) }
-		            onMouseLeave={ partial( onMouseLeave, "url" ) }>
-			{ urlContent }
+		return <Url>
+			<BaseUrlOverflowContainer
+				onClick={ onClick.bind( null, "url" ) }
+				onMouseOver={ partial( onMouseOver, "url" ) }
+				onMouseLeave={ partial( onMouseLeave, "url" ) }>
+				{ urlContent }
+			</BaseUrlOverflowContainer>
 		</Url>;
 		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
