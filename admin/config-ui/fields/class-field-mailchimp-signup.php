@@ -19,21 +19,25 @@ class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 		$current_user = wp_get_current_user();
 		$user_email   = ( $current_user->ID > 0 ) ? $current_user->user_email : '';
 
-		$this->set_property( 'title', __( 'Stay up-to-date', 'wordpress-seo' ) );
-		$this->set_property(
-			'label',
-			sprintf(
-				/* translators: %s expands to Yoast SEO. */
-				__( 'Your %1$s plugin is now set up. SEO, however, is subject to constant change. Sign up for our newsletter if you would like to keep up-to-date regarding %1$s, other plugins by Yoast and important news in the world of SEO.', 'wordpress-seo' ),
-				'Yoast SEO'
-			)
+		$signup_text = sprintf(
+			/* translators: %1$s expands to Yoast SEO for WordPress. */
+			__( 'Sign up for our newsletter if you would like to keep up-to-date about %1$s, other cool plugins by Yoast, and interesting news and tips from the world of SEO.', 'wordpress-seo' ),
+			'Yoast SEO for WordPress'
 		);
 
-		$this->set_property( 'decoration', plugin_dir_url( WPSEO_FILE ) . 'images/newsletter-collage.png' );
+		$gdpr_notice = sprintf(
+			/* translators: %1$s expands to an opening anchor tag, %2$s expands to a closing anchor tag. */
+			__( 'Yoast respects the GDPR. Read our %1$sprivacy policy%2$s on what happens with your personal information.', 'wordpress-seo' ),
+			'<a target="_blank" rel="noopener noreferrer" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/gdpr-config-wizard' ) . '">',
+			'</a>'
+		);
 
+		$this->set_property( 'label', $signup_text );
+		$this->set_property( 'decoration', plugin_dir_url( WPSEO_FILE ) . 'images/newsletter-collage.png' );
 		$this->set_property( 'mailchimpActionUrl', 'https://yoast.us1.list-manage.com/subscribe/post-json?u=ffa93edfe21752c921f860358&id=972f1c9122' );
 		$this->set_property( 'currentUserEmail', $user_email );
-		$this->set_property( 'userName', trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ) );
+		$this->set_property( 'freeAccountNotice', __( 'Includes a free MyYoast account which gives you access to our free SEO for Beginners course!', 'wordpress-seo' ) );
+		$this->set_property( 'GDPRNotice', sprintf( '<small>%s</small>', $gdpr_notice ) );
 	}
 
 	/**

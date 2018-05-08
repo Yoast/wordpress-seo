@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 7.5-RC2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-05-03 10:45:46+00:00\n"
+"POT-Creation-Date: 2018-05-08 13:48:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1543,16 +1543,26 @@ msgid ""
 "Your privacy is safe with us."
 msgstr ""
 
-#: admin/config-ui/fields/class-field-mailchimp-signup.php:22
-msgid "Stay up-to-date"
+#. translators: %1$s expands to Yoast SEO for WordPress.
+#: admin/config-ui/fields/class-field-mailchimp-signup.php:24
+msgid ""
+"Sign up for our newsletter if you would like to keep up-to-date about %1$s, "
+"other cool plugins by Yoast, and interesting news and tips from the world of "
+"SEO."
 msgstr ""
 
-#. translators: %s expands to Yoast SEO.
-#: admin/config-ui/fields/class-field-mailchimp-signup.php:27
+#. translators: %1$s expands to an opening anchor tag, %2$s expands to a
+#. closing anchor tag.
+#: admin/config-ui/fields/class-field-mailchimp-signup.php:30
 msgid ""
-"Your %1$s plugin is now set up. SEO, however, is subject to constant change. "
-"Sign up for our newsletter if you would like to keep up-to-date regarding "
-"%1$s, other plugins by Yoast and important news in the world of SEO."
+"Yoast respects the GDPR. Read our %1$sprivacy policy%2$s on what happens "
+"with your personal information."
+msgstr ""
+
+#: admin/config-ui/fields/class-field-mailchimp-signup.php:39
+msgid ""
+"Includes a free MyYoast account which gives you access to our free SEO for "
+"Beginners course!"
 msgstr ""
 
 #: admin/config-ui/fields/class-field-multiple-authors.php:18
@@ -5706,12 +5716,8 @@ msgstr ""
 msgid "There is an error with the request."
 msgstr ""
 
-#: js/src/components/MailchimpSignup.js:254
-msgid "Email"
-msgstr ""
-
 #: js/src/components/MailchimpSignup.js:240
-msgid "Name"
+msgid "Email"
 msgstr ""
 
 #: js/src/components/MailchimpSignup.js:222

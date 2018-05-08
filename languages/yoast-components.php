@@ -58,11 +58,8 @@ $generated_i18n_strings = array(
 	// Reference: js/src/components/ConnectGoogleSearchConsole.js:112
 	__( 'There is an error with the request.', 'wordpress-seo' ),
 
-	// Reference: js/src/components/MailchimpSignup.js:254
-	__( 'Email', 'wordpress-seo' ),
-
 	// Reference: js/src/components/MailchimpSignup.js:240
-	__( 'Name', 'wordpress-seo' ),
+	__( 'Email', 'wordpress-seo' ),
 
 	// Reference: js/src/components/MailchimpSignup.js:222
 	__( 'Sign Up!', 'wordpress-seo' ),

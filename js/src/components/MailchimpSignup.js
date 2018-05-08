@@ -229,24 +229,10 @@ class MailchimpSignup extends React.Component {
 		return (
 			<div className="yoast-wizard--columns yoast-wizard-newsletter">
 				<div>
-					<h2 className="yoast-wizard-newsletter--header"><IconMailOutline
-						color={ colors.$palette_pink_dark }/>{this.props.properties.title}</h2>
+					<h2 className="yoast-wizard-newsletter--header"> {this.props.properties.title}</h2>
 					<p>{this.props.properties.label}</p>
+					{ this.props.properties.freeAccountNotice && <strong>{ this.props.properties.freeAccountNotice }</strong> }
 					<div className="yoast-wizard--columns yoast-wizard--columns__even">
-						<div className="yoast-wizard-text-input">
-							<label
-								htmlFor="mailchimpName"
-								className="yoast-wizard-text-input-label">
-								{this.props.translate( "Name" )}
-							</label>
-							<input
-								id="mailchimpName"
-								className="yoast-wizard-text-input-field"
-								ref={ this.setNameInputRef }
-								type="text"
-								name="name"
-								defaultValue={this.props.properties.userName}/>
-						</div>
 						<div className="yoast-wizard-text-input">
 							<label
 								htmlFor="mailchimpEmail"
@@ -256,9 +242,12 @@ class MailchimpSignup extends React.Component {
 							{input}
 						</div>
 					</div>
+
 					{button}
 					{message}
 					{loader}
+
+					{ this.props.properties.GDPRNotice && <div dangerouslySetInnerHTML={ { __html: this.props.properties.GDPRNotice } }></div> }
 				</div>
 				<div className="hide-on-tablet yoast-wizard-newsletter--decoration">
 					<img src={this.props.properties.decoration}/>
