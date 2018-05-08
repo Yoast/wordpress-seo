@@ -18,6 +18,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -469,7 +470,7 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
     />
   </Button>
   <React.Fragment>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -528,6 +529,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -827,6 +829,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       "title": "Test title",
     }
   }
+  date=""
   descriptionLengthAssessment={
     Object {
       "actual": 0,
@@ -1462,7 +1465,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         </Button>
       </Button>
     </Button>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -1490,205 +1493,151 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         }
       }
     >
-      <SnippetEditorFields
-        activeField={null}
-        data={
-          Object {
-            "description": "Test description, %%replacement_variable%%",
-            "slug": "test-slug",
-            "title": "Test title",
-          }
-        }
-        descriptionLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 320,
-            "score": 0,
-          }
-        }
-        hoveredField={null}
-        intl={
-          Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "textComponent": "span",
-          }
-        }
-        onChange={[MockFunction]}
-        onFocus={[Function]}
-        replacementVariables={Array []}
-        titleLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 600,
-            "score": 0,
-          }
-        }
-      >
-        <SnippetEditorFields__StyledEditor>
-          <section
-            className="c22"
-          >
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+      <SnippetEditorFields__StyledEditor>
+        <section
+          className="c22"
+        >
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-title"
+                onClick={[Function]}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c24"
                   id="snippet-editor-field-5-title"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-5-title"
-                    onClick={[Function]}
-                  >
-                    SEO title
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-title"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
-                  aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
-                  max={600}
-                  progressColor="#dc3232"
-                  value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={600}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  SEO title
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-5-title"
+                    content="Test title"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={600}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c26"
+                  max={600}
+                  value={0}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-slug"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-5-slug"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-5-slug"
-                    onClick={[Function]}
-                  >
-                    Slug
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-slug"
-                      content="test-slug"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  Slug
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-5-slug"
+                    content="test-slug"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-description"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-5-description"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-5-description"
-                    onClick={[Function]}
-                  >
-                    Meta description
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
+                  Meta description
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+              >
+                <div
+                  className="c25"
                 >
-                  <div
-                    className="c25"
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-5-description"
+                    content="Test description, %%replacement_variable%%"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-description"
-                      content="Test description, %%replacement_variable%%"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={320}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
                   aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
+                  className="c26"
                   max={320}
-                  progressColor="#dc3232"
                   value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={320}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-          </section>
-        </SnippetEditorFields__StyledEditor>
-      </SnippetEditorFields>
-    </InjectIntl(SnippetEditorFields)>
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+        </section>
+      </SnippetEditorFields__StyledEditor>
+    </SnippetEditorFields>
     <Button
       onClick={[Function]}
     >
@@ -1780,6 +1729,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -2079,6 +2029,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       "title": "Test title",
     }
   }
+  date=""
   descriptionLengthAssessment={
     Object {
       "actual": 0,
@@ -2714,7 +2665,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         </Button>
       </Button>
     </Button>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -2742,205 +2693,151 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         }
       }
     >
-      <SnippetEditorFields
-        activeField={null}
-        data={
-          Object {
-            "description": "Test description, %%replacement_variable%%",
-            "slug": "test-slug",
-            "title": "Test title",
-          }
-        }
-        descriptionLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 320,
-            "score": 0,
-          }
-        }
-        hoveredField={null}
-        intl={
-          Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "textComponent": "span",
-          }
-        }
-        onChange={[MockFunction]}
-        onFocus={[Function]}
-        replacementVariables={Array []}
-        titleLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 600,
-            "score": 0,
-          }
-        }
-      >
-        <SnippetEditorFields__StyledEditor>
-          <section
-            className="c22"
-          >
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+      <SnippetEditorFields__StyledEditor>
+        <section
+          className="c22"
+        >
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-title"
+                onClick={[Function]}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c24"
                   id="snippet-editor-field-5-title"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-5-title"
-                    onClick={[Function]}
-                  >
-                    SEO title
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-title"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
-                  aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
-                  max={600}
-                  progressColor="#dc3232"
-                  value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={600}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  SEO title
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-5-title"
+                    content="Test title"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={600}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c26"
+                  max={600}
+                  value={0}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-slug"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-5-slug"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-5-slug"
-                    onClick={[Function]}
-                  >
-                    Slug
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-slug"
-                      content="test-slug"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  Slug
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-5-slug"
+                    content="test-slug"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-description"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-5-description"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-5-description"
-                    onClick={[Function]}
-                  >
-                    Meta description
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
+                  Meta description
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+              >
+                <div
+                  className="c25"
                 >
-                  <div
-                    className="c25"
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-5-description"
+                    content="Test description, %%replacement_variable%%"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-description"
-                      content="Test description, %%replacement_variable%%"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={320}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
                   aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
+                  className="c26"
                   max={320}
-                  progressColor="#dc3232"
                   value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={320}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-          </section>
-        </SnippetEditorFields__StyledEditor>
-      </SnippetEditorFields>
-    </InjectIntl(SnippetEditorFields)>
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+        </section>
+      </SnippetEditorFields__StyledEditor>
+    </SnippetEditorFields>
     <Button
       onClick={[Function]}
     >
@@ -3032,6 +2929,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -3331,6 +3229,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       "title": "Test title",
     }
   }
+  date=""
   descriptionLengthAssessment={
     Object {
       "actual": 0,
@@ -3966,7 +3865,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         </Button>
       </Button>
     </Button>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -3994,205 +3893,151 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         }
       }
     >
-      <SnippetEditorFields
-        activeField={null}
-        data={
-          Object {
-            "description": "Test description, %%replacement_variable%%",
-            "slug": "test-slug",
-            "title": "Test title",
-          }
-        }
-        descriptionLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 320,
-            "score": 0,
-          }
-        }
-        hoveredField={null}
-        intl={
-          Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "textComponent": "span",
-          }
-        }
-        onChange={[MockFunction]}
-        onFocus={[Function]}
-        replacementVariables={Array []}
-        titleLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 600,
-            "score": 0,
-          }
-        }
-      >
-        <SnippetEditorFields__StyledEditor>
-          <section
-            className="c22"
-          >
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+      <SnippetEditorFields__StyledEditor>
+        <section
+          className="c22"
+        >
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-title"
+                onClick={[Function]}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c24"
                   id="snippet-editor-field-5-title"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-5-title"
-                    onClick={[Function]}
-                  >
-                    SEO title
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-title"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
-                  aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
-                  max={600}
-                  progressColor="#dc3232"
-                  value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={600}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  SEO title
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-5-title"
+                    content="Test title"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={600}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c26"
+                  max={600}
+                  value={0}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-slug"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-5-slug"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-5-slug"
-                    onClick={[Function]}
-                  >
-                    Slug
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-slug"
-                      content="test-slug"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  Slug
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-5-slug"
+                    content="test-slug"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-description"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-5-description"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-5-description"
-                    onClick={[Function]}
-                  >
-                    Meta description
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
+                  Meta description
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+              >
+                <div
+                  className="c25"
                 >
-                  <div
-                    className="c25"
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-5-description"
+                    content="Test description, %%replacement_variable%%"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-description"
-                      content="Test description, %%replacement_variable%%"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={320}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
                   aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
+                  className="c26"
                   max={320}
-                  progressColor="#dc3232"
                   value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={320}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-          </section>
-        </SnippetEditorFields__StyledEditor>
-      </SnippetEditorFields>
-    </InjectIntl(SnippetEditorFields)>
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+        </section>
+      </SnippetEditorFields__StyledEditor>
+    </SnippetEditorFields>
     <Button
       onClick={[Function]}
     >
@@ -4284,6 +4129,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -4583,6 +4429,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       "title": "Test title",
     }
   }
+  date=""
   descriptionLengthAssessment={
     Object {
       "actual": 0,
@@ -5218,7 +5065,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         </Button>
       </Button>
     </Button>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -5246,205 +5093,151 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         }
       }
     >
-      <SnippetEditorFields
-        activeField={null}
-        data={
-          Object {
-            "description": "Test description, %%replacement_variable%%",
-            "slug": "test-slug",
-            "title": "Test title",
-          }
-        }
-        descriptionLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 320,
-            "score": 0,
-          }
-        }
-        hoveredField={null}
-        intl={
-          Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "textComponent": "span",
-          }
-        }
-        onChange={[Function]}
-        onFocus={[Function]}
-        replacementVariables={Array []}
-        titleLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 600,
-            "score": 0,
-          }
-        }
-      >
-        <SnippetEditorFields__StyledEditor>
-          <section
-            className="c22"
-          >
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+      <SnippetEditorFields__StyledEditor>
+        <section
+          className="c22"
+        >
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-2-title"
+                onClick={[Function]}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c24"
                   id="snippet-editor-field-2-title"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-2-title"
-                    onClick={[Function]}
-                  >
-                    SEO title
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-2-title"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
-                  aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
-                  max={600}
-                  progressColor="#dc3232"
-                  value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={600}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  SEO title
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-2-title"
+                    content="Test title"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={600}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c26"
+                  max={600}
+                  value={0}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-2-slug"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-2-slug"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-2-slug"
-                    onClick={[Function]}
-                  >
-                    Slug
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-2-slug"
-                      content="test-slug"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  Slug
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-2-slug"
+                    content="test-slug"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-2-description"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-2-description"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-2-description"
-                    onClick={[Function]}
-                  >
-                    Meta description
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
+                  Meta description
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+              >
+                <div
+                  className="c25"
                 >
-                  <div
-                    className="c25"
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-2-description"
+                    content="Test description, %%replacement_variable%%"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-2-description"
-                      content="Test description, %%replacement_variable%%"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={320}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
                   aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
+                  className="c26"
                   max={320}
-                  progressColor="#dc3232"
                   value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={320}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-          </section>
-        </SnippetEditorFields__StyledEditor>
-      </SnippetEditorFields>
-    </InjectIntl(SnippetEditorFields)>
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+        </section>
+      </SnippetEditorFields__StyledEditor>
+    </SnippetEditorFields>
     <Button
       onClick={[Function]}
     >
@@ -5536,6 +5329,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -5760,6 +5554,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       "title": "Test title",
     }
   }
+  date=""
   descriptionLengthAssessment={
     Object {
       "actual": 0,
@@ -6417,6 +6212,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -6748,6 +6544,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       "title": "Test title",
     }
   }
+  date=""
   descriptionLengthAssessment={
     Object {
       "actual": 0,
@@ -7383,7 +7180,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         </Button>
       </Button>
     </Button>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -7411,205 +7208,151 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         }
       }
     >
-      <SnippetEditorFields
-        activeField={null}
-        data={
-          Object {
-            "description": "Test description, %%replacement_variable%%",
-            "slug": "test-slug",
-            "title": "Test title",
-          }
-        }
-        descriptionLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 320,
-            "score": 0,
-          }
-        }
-        hoveredField={null}
-        intl={
-          Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "textComponent": "span",
-          }
-        }
-        onChange={[Function]}
-        onFocus={[Function]}
-        replacementVariables={Array []}
-        titleLengthAssessment={
-          Object {
-            "actual": 361,
-            "max": 550,
-            "score": 6,
-          }
-        }
-      >
-        <SnippetEditorFields__StyledEditor>
-          <section
-            className="c22"
-          >
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+      <SnippetEditorFields__StyledEditor>
+        <section
+          className="c22"
+        >
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-8-title"
+                onClick={[Function]}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c24"
                   id="snippet-editor-field-8-title"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-8-title"
-                    onClick={[Function]}
-                  >
-                    SEO title
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-8-title"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
-                  aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
-                  max={550}
-                  progressColor="#ee7c1b"
-                  value={361}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={550}
-                    value={361}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  SEO title
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-8-title"
+                    content="Test title"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={550}
+                progressColor="#ee7c1b"
+                value={361}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c26"
+                  max={550}
+                  value={361}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-8-slug"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-8-slug"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-8-slug"
-                    onClick={[Function]}
-                  >
-                    Slug
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-8-slug"
-                      content="test-slug"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  Slug
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-8-slug"
+                    content="test-slug"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-8-description"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-8-description"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-8-description"
-                    onClick={[Function]}
-                  >
-                    Meta description
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
+                  Meta description
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+              >
+                <div
+                  className="c25"
                 >
-                  <div
-                    className="c25"
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-8-description"
+                    content="Test description, %%replacement_variable%%"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-8-description"
-                      content="Test description, %%replacement_variable%%"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={320}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
                   aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
+                  className="c27"
                   max={320}
-                  progressColor="#dc3232"
                   value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c27"
-                    max={320}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-          </section>
-        </SnippetEditorFields__StyledEditor>
-      </SnippetEditorFields>
-    </InjectIntl(SnippetEditorFields)>
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+        </section>
+      </SnippetEditorFields__StyledEditor>
+    </SnippetEditorFields>
     <Button
       onClick={[Function]}
     >
@@ -7701,6 +7444,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -8032,6 +7776,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       "title": "Test title",
     }
   }
+  date=""
   descriptionLengthAssessment={
     Object {
       "actual": 330,
@@ -8667,7 +8412,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         </Button>
       </Button>
     </Button>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -8695,205 +8440,151 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         }
       }
     >
-      <SnippetEditorFields
-        activeField={null}
-        data={
-          Object {
-            "description": "Test description, %%replacement_variable%%",
-            "slug": "test-slug",
-            "title": "Test title",
-          }
-        }
-        descriptionLengthAssessment={
-          Object {
-            "actual": 330,
-            "max": 650,
-            "score": 9,
-          }
-        }
-        hoveredField={null}
-        intl={
-          Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "textComponent": "span",
-          }
-        }
-        onChange={[Function]}
-        onFocus={[Function]}
-        replacementVariables={Array []}
-        titleLengthAssessment={
-          Object {
-            "actual": 100,
-            "max": 550,
-            "score": 3,
-          }
-        }
-      >
-        <SnippetEditorFields__StyledEditor>
-          <section
-            className="c22"
-          >
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+      <SnippetEditorFields__StyledEditor>
+        <section
+          className="c22"
+        >
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-7-title"
+                onClick={[Function]}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c24"
                   id="snippet-editor-field-7-title"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-7-title"
-                    onClick={[Function]}
-                  >
-                    SEO title
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-7-title"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
-                  aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
-                  max={550}
-                  progressColor="#dc3232"
-                  value={100}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={550}
-                    value={100}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  SEO title
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-7-title"
+                    content="Test title"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={550}
+                progressColor="#dc3232"
+                value={100}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c26"
+                  max={550}
+                  value={100}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-7-slug"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-7-slug"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-7-slug"
-                    onClick={[Function]}
-                  >
-                    Slug
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-7-slug"
-                      content="test-slug"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  Slug
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-7-slug"
+                    content="test-slug"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-7-description"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-7-description"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-7-description"
-                    onClick={[Function]}
-                  >
-                    Meta description
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
+                  Meta description
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+              >
+                <div
+                  className="c25"
                 >
-                  <div
-                    className="c25"
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-7-description"
+                    content="Test description, %%replacement_variable%%"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-7-description"
-                      content="Test description, %%replacement_variable%%"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={650}
+                progressColor="#7ad03a"
+                value={330}
+              >
+                <progress
                   aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
+                  className="c27"
                   max={650}
-                  progressColor="#7ad03a"
                   value={330}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c27"
-                    max={650}
-                    value={330}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-          </section>
-        </SnippetEditorFields__StyledEditor>
-      </SnippetEditorFields>
-    </InjectIntl(SnippetEditorFields)>
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+        </section>
+      </SnippetEditorFields__StyledEditor>
+    </SnippetEditorFields>
     <Button
       onClick={[Function]}
     >
@@ -9007,7 +8698,7 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
     />
   </Button>
   <React.Fragment>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -9066,6 +8757,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -9495,6 +9187,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -9924,6 +9617,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -10259,6 +9953,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
       "title": "Test title",
     }
   }
+  date=""
   descriptionLengthAssessment={
     Object {
       "actual": 0,
@@ -10901,7 +10596,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
         </Button>
       </Button>
     </Button>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField="slug"
       data={
         Object {
@@ -10929,205 +10624,151 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
         }
       }
     >
-      <SnippetEditorFields
-        activeField="slug"
-        data={
-          Object {
-            "description": "Test description, %%replacement_variable%%",
-            "slug": "test-slug",
-            "title": "Test title",
-          }
-        }
-        descriptionLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 320,
-            "score": 0,
-          }
-        }
-        hoveredField={null}
-        intl={
-          Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "textComponent": "span",
-          }
-        }
-        onChange={[Function]}
-        onFocus={[Function]}
-        replacementVariables={Array []}
-        titleLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 600,
-            "score": 0,
-          }
-        }
-      >
-        <SnippetEditorFields__StyledEditor>
-          <section
-            className="c23"
-          >
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c24"
+      <SnippetEditorFields__StyledEditor>
+        <section
+          className="c23"
+        >
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c24"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-4-title"
+                onClick={[Function]}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
                   id="snippet-editor-field-4-title"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c25"
-                    id="snippet-editor-field-4-title"
-                    onClick={[Function]}
-                  >
-                    SEO title
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c26"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-4-title"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
-                  aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
-                  max={600}
-                  progressColor="#dc3232"
-                  value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c27"
-                    max={600}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c24"
+                  SEO title
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c26"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-4-title"
+                    content="Test title"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={600}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c27"
+                  max={600}
+                  value={0}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c24"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-4-slug"
+                onClick={[Function]}
+              >
+                <div
+                  className="c25"
                   id="snippet-editor-field-4-slug"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c25"
-                    id="snippet-editor-field-4-slug"
-                    onClick={[Function]}
-                  >
-                    Slug
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={true}
-                  isHovered={false}
-                >
-                  <div
-                    className="c28"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-4-slug"
-                      content="test-slug"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c24"
+                  Slug
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={true}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c28"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-4-slug"
+                    content="test-slug"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c24"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-4-description"
+                onClick={[Function]}
+              >
+                <div
+                  className="c25"
                   id="snippet-editor-field-4-description"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c25"
-                    id="snippet-editor-field-4-description"
-                    onClick={[Function]}
-                  >
-                    Meta description
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
+                  Meta description
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+              >
+                <div
+                  className="c26"
                 >
-                  <div
-                    className="c26"
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-4-description"
+                    content="Test description, %%replacement_variable%%"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-4-description"
-                      content="Test description, %%replacement_variable%%"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={320}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
                   aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
+                  className="c27"
                   max={320}
-                  progressColor="#dc3232"
                   value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c27"
-                    max={320}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-          </section>
-        </SnippetEditorFields__StyledEditor>
-      </SnippetEditorFields>
-    </InjectIntl(SnippetEditorFields)>
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+        </section>
+      </SnippetEditorFields__StyledEditor>
+    </SnippetEditorFields>
     <Button
       onClick={[Function]}
     >
@@ -11219,6 +10860,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -11554,6 +11196,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
       "title": "Test title",
     }
   }
+  date=""
   descriptionLengthAssessment={
     Object {
       "actual": 0,
@@ -12198,7 +11841,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
         </Button>
       </Button>
     </Button>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -12226,205 +11869,151 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
         }
       }
     >
-      <SnippetEditorFields
-        activeField={null}
-        data={
-          Object {
-            "description": "Test description, %%replacement_variable%%",
-            "slug": "test-slug",
-            "title": "Test title",
-          }
-        }
-        descriptionLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 320,
-            "score": 0,
-          }
-        }
-        hoveredField="description"
-        intl={
-          Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "textComponent": "span",
-          }
-        }
-        onChange={[Function]}
-        onFocus={[Function]}
-        replacementVariables={Array []}
-        titleLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 600,
-            "score": 0,
-          }
-        }
-      >
-        <SnippetEditorFields__StyledEditor>
-          <section
-            className="c23"
-          >
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c24"
+      <SnippetEditorFields__StyledEditor>
+        <section
+          className="c23"
+        >
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c24"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-3-title"
+                onClick={[Function]}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
                   id="snippet-editor-field-3-title"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c25"
-                    id="snippet-editor-field-3-title"
-                    onClick={[Function]}
-                  >
-                    SEO title
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c26"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-3-title"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
-                  aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
-                  max={600}
-                  progressColor="#dc3232"
-                  value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c27"
-                    max={600}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c24"
+                  SEO title
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c26"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-3-title"
+                    content="Test title"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={600}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c27"
+                  max={600}
+                  value={0}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c24"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-3-slug"
+                onClick={[Function]}
+              >
+                <div
+                  className="c25"
                   id="snippet-editor-field-3-slug"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c25"
-                    id="snippet-editor-field-3-slug"
-                    onClick={[Function]}
-                  >
-                    Slug
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c26"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-3-slug"
-                      content="test-slug"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c24"
+                  Slug
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c26"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-3-slug"
+                    content="test-slug"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c24"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-3-description"
+                onClick={[Function]}
+              >
+                <div
+                  className="c25"
                   id="snippet-editor-field-3-description"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c25"
-                    id="snippet-editor-field-3-description"
-                    onClick={[Function]}
-                  >
-                    Meta description
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={true}
+                  Meta description
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={true}
+              >
+                <div
+                  className="c28"
                 >
-                  <div
-                    className="c28"
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-3-description"
+                    content="Test description, %%replacement_variable%%"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-3-description"
-                      content="Test description, %%replacement_variable%%"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={320}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
                   aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
+                  className="c27"
                   max={320}
-                  progressColor="#dc3232"
                   value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c27"
-                    max={320}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-          </section>
-        </SnippetEditorFields__StyledEditor>
-      </SnippetEditorFields>
-    </InjectIntl(SnippetEditorFields)>
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+        </section>
+      </SnippetEditorFields__StyledEditor>
+    </SnippetEditorFields>
     <Button
       onClick={[Function]}
     >
@@ -12516,6 +12105,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -12815,6 +12405,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       "title": "Test title",
     }
   }
+  date=""
   descriptionLengthAssessment={
     Object {
       "actual": 0,
@@ -13450,7 +13041,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         </Button>
       </Button>
     </Button>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -13478,205 +13069,151 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         }
       }
     >
-      <SnippetEditorFields
-        activeField={null}
-        data={
-          Object {
-            "description": "Test description, %%replacement_variable%%",
-            "slug": "test-slug",
-            "title": "Test title",
-          }
-        }
-        descriptionLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 320,
-            "score": 0,
-          }
-        }
-        hoveredField={null}
-        intl={
-          Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "textComponent": "span",
-          }
-        }
-        onChange={[Function]}
-        onFocus={[Function]}
-        replacementVariables={Array []}
-        titleLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 600,
-            "score": 0,
-          }
-        }
-      >
-        <SnippetEditorFields__StyledEditor>
-          <section
-            className="c22"
-          >
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+      <SnippetEditorFields__StyledEditor>
+        <section
+          className="c22"
+        >
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-1-title"
+                onClick={[Function]}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c24"
                   id="snippet-editor-field-1-title"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-1-title"
-                    onClick={[Function]}
-                  >
-                    SEO title
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-1-title"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
-                  aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
-                  max={600}
-                  progressColor="#dc3232"
-                  value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={600}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  SEO title
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-1-title"
+                    content="Test title"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={600}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c26"
+                  max={600}
+                  value={0}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-1-slug"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-1-slug"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-1-slug"
-                    onClick={[Function]}
-                  >
-                    Slug
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-1-slug"
-                      content="test-slug"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  Slug
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-1-slug"
+                    content="test-slug"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-1-description"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-1-description"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-1-description"
-                    onClick={[Function]}
-                  >
-                    Meta description
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
+                  Meta description
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+              >
+                <div
+                  className="c25"
                 >
-                  <div
-                    className="c25"
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-1-description"
+                    content="Test description, %%replacement_variable%%"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-1-description"
-                      content="Test description, %%replacement_variable%%"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={320}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
                   aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
+                  className="c26"
                   max={320}
-                  progressColor="#dc3232"
                   value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={320}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-          </section>
-        </SnippetEditorFields__StyledEditor>
-      </SnippetEditorFields>
-    </InjectIntl(SnippetEditorFields)>
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+        </section>
+      </SnippetEditorFields__StyledEditor>
+    </SnippetEditorFields>
     <Button
       onClick={[Function]}
     >
@@ -13768,6 +13305,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -14067,6 +13605,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       "title": "Test title",
     }
   }
+  date=""
   descriptionLengthAssessment={
     Object {
       "actual": 0,
@@ -14713,7 +14252,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         </Button>
       </Button>
     </Button>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -14752,238 +14291,173 @@ exports[`SnippetEditor passes replacement variables to the title and description
         }
       }
     >
-      <SnippetEditorFields
-        activeField={null}
-        data={
-          Object {
-            "description": "Test description, %%replacement_variable%%",
-            "slug": "test-slug",
-            "title": "Test title",
-          }
-        }
-        descriptionLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 320,
-            "score": 0,
-          }
-        }
-        hoveredField={null}
-        intl={
-          Object {
-            "defaultFormats": Object {},
-            "defaultLocale": "en",
-            "formatDate": [Function],
-            "formatHTMLMessage": [Function],
-            "formatMessage": [Function],
-            "formatNumber": [Function],
-            "formatPlural": [Function],
-            "formatRelative": [Function],
-            "formatTime": [Function],
-            "formats": Object {},
-            "formatters": Object {
-              "getDateTimeFormat": [Function],
-              "getMessageFormat": [Function],
-              "getNumberFormat": [Function],
-              "getPluralFormat": [Function],
-              "getRelativeFormat": [Function],
-            },
-            "locale": "en",
-            "messages": Object {},
-            "now": [Function],
-            "textComponent": "span",
-          }
-        }
-        onChange={[Function]}
-        onFocus={[Function]}
-        replacementVariables={
-          Array [
-            Object {
-              "name": "title",
-              "value": "Title!!!",
-            },
-            Object {
-              "name": "excerpt",
-              "value": "Excerpt!!!",
-            },
-          ]
-        }
-        titleLengthAssessment={
-          Object {
-            "actual": 0,
-            "max": 600,
-            "score": 0,
-          }
-        }
-      >
-        <SnippetEditorFields__StyledEditor>
-          <section
-            className="c22"
-          >
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+      <SnippetEditorFields__StyledEditor>
+        <section
+          className="c22"
+        >
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-6-title"
+                onClick={[Function]}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c24"
                   id="snippet-editor-field-6-title"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-6-title"
-                    onClick={[Function]}
-                  >
-                    SEO title
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-6-title"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={
-                        Array [
-                          Object {
-                            "name": "title",
-                            "value": "Title!!!",
-                          },
-                          Object {
-                            "name": "excerpt",
-                            "value": "Excerpt!!!",
-                          },
-                        ]
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
-                  aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
-                  max={600}
-                  progressColor="#dc3232"
-                  value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={600}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  SEO title
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-6-title"
+                    content="Test title"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={
+                      Array [
+                        Object {
+                          "name": "title",
+                          "value": "Title!!!",
+                        },
+                        Object {
+                          "name": "excerpt",
+                          "value": "Excerpt!!!",
+                        },
+                      ]
+                    }
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={600}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c26"
+                  max={600}
+                  value={0}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-6-slug"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-6-slug"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-6-slug"
-                    onClick={[Function]}
-                  >
-                    Slug
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
-                >
-                  <div
-                    className="c25"
-                  >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-6-slug"
-                      content="test-slug"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-              </div>
-            </SnippetEditorFields__FormSection>
-            <SnippetEditorFields__FormSection>
-              <div
-                className="c23"
+                  Slug
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
               >
-                <SnippetEditorFields__SimulatedLabel
+                <div
+                  className="c25"
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-6-slug"
+                    content="test-slug"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c23"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-6-description"
+                onClick={[Function]}
+              >
+                <div
+                  className="c24"
                   id="snippet-editor-field-6-description"
                   onClick={[Function]}
                 >
-                  <div
-                    className="c24"
-                    id="snippet-editor-field-6-description"
-                    onClick={[Function]}
-                  >
-                    Meta description
-                  </div>
-                </SnippetEditorFields__SimulatedLabel>
-                <SnippetEditorFields__InputContainer
-                  isActive={false}
-                  isHovered={false}
+                  Meta description
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+              >
+                <div
+                  className="c25"
                 >
-                  <div
-                    className="c25"
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-6-description"
+                    content="Test description, %%replacement_variable%%"
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={
+                      Array [
+                        Object {
+                          "name": "title",
+                          "value": "Title!!!",
+                        },
+                        Object {
+                          "name": "excerpt",
+                          "value": "Excerpt!!!",
+                        },
+                      ]
+                    }
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-6-description"
-                      content="Test description, %%replacement_variable%%"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={
-                        Array [
-                          Object {
-                            "name": "title",
-                            "value": "Title!!!",
-                          },
-                          Object {
-                            "name": "excerpt",
-                            "value": "Excerpt!!!",
-                          },
-                        ]
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </div>
-                </SnippetEditorFields__InputContainer>
-                <ProgressBar
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={320}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
                   aria-hidden="true"
-                  backgroundColor="#f7f7f7"
-                  borderColor="#ddd"
+                  className="c26"
                   max={320}
-                  progressColor="#dc3232"
                   value={0}
-                >
-                  <progress
-                    aria-hidden="true"
-                    className="c26"
-                    max={320}
-                    value={0}
-                  />
-                </ProgressBar>
-              </div>
-            </SnippetEditorFields__FormSection>
-          </section>
-        </SnippetEditorFields__StyledEditor>
-      </SnippetEditorFields>
-    </InjectIntl(SnippetEditorFields)>
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+        </section>
+      </SnippetEditorFields__StyledEditor>
+    </SnippetEditorFields>
     <Button
       onClick={[Function]}
     >
@@ -15057,6 +14531,446 @@ exports[`SnippetEditor passes replacement variables to the title and description
 </SnippetEditor>
 `;
 
+exports[`SnippetEditor passes the date prop 1`] = `
+.c0 {
+  border-bottom: 1px hidden #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  margin: 0 20px 10px;
+  font-family: Roboto-Regular,HelveticaNeue,Arial,sans-serif;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+.c2 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c4 {
+  color: #1e0fbe;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c3 {
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c5 {
+  display: inline-block;
+  line-height: 1.2em;
+  max-height: 2.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c6 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+}
+
+.c9 {
+  color: #545454;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+}
+
+.c8 {
+  line-height: 1em;
+  max-height: 4em;
+  overflow: hidden;
+}
+
+.c1 {
+  padding: 16px;
+}
+
+.c10 {
+  color: #808080;
+}
+
+.c7 {
+  border: 0;
+  border-bottom: 1px solid #DFE1E5;
+  margin: 0;
+}
+
+.c17 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c12 {
+  font-size: 0.8rem;
+  border: none;
+  border-bottom: 4px solid transparent;
+  width: 31px;
+  height: 31px;
+  border-color: #555;
+  color: #555;
+  -webkit-transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  -webkit-transition-property: border-color;
+  transition-property: border-color;
+  border-radius: 3px 0 0 3px;
+}
+
+.c12:hover,
+.c12:focus {
+  border: none;
+  border-bottom: 4px solid transparent;
+  border-color: #1e8cbe;
+  color: #1e8cbe;
+}
+
+.c13:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c14:hover {
+  color: #000;
+}
+
+.c15::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c15:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c16 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c16 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c19 {
+  font-size: 0.8rem;
+  border: none;
+  border-bottom: 4px solid transparent;
+  width: 31px;
+  height: 31px;
+  border-color: transparent;
+  color: #555;
+  -webkit-transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  -webkit-transition-property: border-color;
+  transition-property: border-color;
+  border-radius: 0 3px 3px 0;
+}
+
+.c19:hover,
+.c19:focus {
+  border: none;
+  border-bottom: 4px solid transparent;
+  border-color: #1e8cbe;
+  color: #1e8cbe;
+}
+
+.c21 {
+  font-size: 0.8rem;
+  border: 1px solid #dbdbdb;
+  box-shadow: none;
+  margin: 10px 0 0 9px;
+}
+
+.c21 svg {
+  margin-right: 7px;
+}
+
+.c11 {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 20px;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  vertical-align: top;
+}
+
+.c18 {
+  width: 22px;
+  height: 22px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c20 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c22 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c16::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div>
+  <section>
+    <div
+      className="c0"
+      onMouseLeave={undefined}
+      width={640}
+    >
+      <div
+        className="c1"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c2"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          <div
+            className="c3 c4"
+          >
+            <span
+              className="c5"
+            >
+              Test title
+            </span>
+          </div>
+        </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c6"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          example.org › test-slug
+        </div>
+      </div>
+      <hr
+        className="c7"
+      />
+      <div
+        className="c1"
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c8 c9"
+          color="#545454"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          <span
+            className="c10"
+          >
+            date string
+             - 
+          </span>
+          Test description, %%replacement_variable%%
+        </div>
+      </div>
+    </div>
+  </section>
+  <div
+    className="c11"
+  >
+    <button
+      aria-pressed={true}
+      className="c12 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-mobile c18"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="22px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M976 1408q0-33-23.5-56.5t-56.5-23.5-56.5 23.5-23.5 56.5 23.5 56.5 56.5 23.5 56.5-23.5 23.5-56.5zm208-160v-704q0-13-9.5-22.5t-22.5-9.5h-512q-13 0-22.5 9.5t-9.5 22.5v704q0 13 9.5 22.5t22.5 9.5h512q13 0 22.5-9.5t9.5-22.5zm-192-848q0-16-16-16h-160q-16 0-16 16t16 16h160q16 0 16-16zm288-16v1024q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-1024q0-52 38-90t90-38h512q52 0 90 38t38 90z"
+        />
+      </svg>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Mobile preview
+      </span>
+    </button>
+    <button
+      aria-pressed={false}
+      className="c19 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
+      onClick={[Function]}
+      type="button"
+    >
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-desktop c20"
+        fill="currentColor"
+        focusable="false"
+        role="img"
+        size="18px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1728 992v-832q0-13-9.5-22.5t-22.5-9.5h-1600q-13 0-22.5 9.5t-9.5 22.5v832q0 13 9.5 22.5t22.5 9.5h1600q13 0 22.5-9.5t9.5-22.5zm128-832v1088q0 66-47 113t-113 47h-544q0 37 16 77.5t32 71 16 43.5q0 26-19 45t-45 19h-512q-26 0-45-19t-19-45q0-14 16-44t32-70 16-78h-544q-66 0-113-47t-47-113v-1088q0-66 47-113t113-47h1600q66 0 113 47t47 113z"
+        />
+      </svg>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Desktop preview
+      </span>
+    </button>
+  </div>
+  <button
+    aria-expanded={false}
+    className="c21 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-edit c22"
+      fill={undefined}
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 1792 1792"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+      />
+    </svg>
+    <span>
+      Edit snippet
+    </span>
+  </button>
+</div>
+`;
+
 exports[`SnippetEditor removes the highlight from the hovered field on calling onMouseLeave() 1`] = `
 <div>
   <SnippetPreview
@@ -15097,7 +15011,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
     />
   </Button>
   <React.Fragment>
-    <InjectIntl(SnippetEditorFields)
+    <SnippetEditorFields
       activeField={null}
       data={
         Object {
@@ -15164,6 +15078,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 
 .c5 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;
@@ -15587,6 +15502,7 @@ exports[`SnippetEditor shows and editor 1`] = `
 
 .c4 {
   color: #1e0fbe;
+  -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
   line-height: 1.2;

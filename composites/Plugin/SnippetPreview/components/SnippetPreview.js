@@ -233,6 +233,7 @@ export default class SnippetPreview extends PureComponent {
 	 * @param {string} props.keyword                The keyword for the page.
 	 * @param {string} props.isDescriptionGenerated Whether the description was generated.
 	 * @param {string} props.locale                 The locale of the page.
+	 * @param {string} props.date                   Optional, the date to display before the meta description.
 	 *
 	 * @returns {ReactElement} The SnippetPreview component.
 	 */
@@ -439,7 +440,9 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	getBreadcrumbs() {
 		const { url, breadcrumbs } = this.props;
-		const { protocol, hostname, pathname } = parse( url );
+		// Strip out question mark and hash characters from the raw URL.
+		const cleanUrl = url.replace( /\?|#/g, "" );
+		const { protocol, hostname, pathname } = parse( cleanUrl );
 
 		const hostPart = protocol === "https:" ? protocol + "//" + hostname : hostname;
 

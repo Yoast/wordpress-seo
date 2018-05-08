@@ -1,19 +1,14 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { injectIntl, intlShape, defineMessages } from "react-intl";
+import { __ } from "@wordpress/i18n";
 
+/* Internal dependencies */
 import Paper from "./Paper";
 import colors from "../../style-guide/colors.json";
 import SvgIcon from "../../composites/Plugin/Shared/components/SvgIcon";
 import breakpoints from "../../style-guide/responsive-breakpoints.json";
-
-const messages = defineMessages( {
-	buttonAriaLabel: {
-		id: "notification.buttonAriaLabel",
-		defaultMessage: "Dismiss this notice",
-	},
-} );
 
 const NotificationContainer = styled.div`
 	display: flex;
@@ -102,7 +97,7 @@ function Notification( props ) {
 			{ props.isDismissable && <DismissButton
 				onClick={ props.onClick }
 				type="button"
-				aria-label={ props.intl.formatMessage( messages.buttonAriaLabel ) }
+				aria-label={ __( "Dismiss this notice", "yoast-components" ) }
 			>
 				<StyledIcon icon="times" color={ colors.$color_grey_text } size="24px" />
 			</DismissButton> }
@@ -111,7 +106,6 @@ function Notification( props ) {
 }
 
 Notification.propTypes = {
-	intl: intlShape.isRequired,
 	imageSrc: PropTypes.string,
 	imageWidth: PropTypes.string,
 	imageHeight: PropTypes.string,
@@ -127,4 +121,4 @@ Notification.defaultProps = {
 	headingLevel: "h3",
 };
 
-export default injectIntl( Notification );
+export default Notification;
