@@ -1,30 +1,15 @@
 /* External dependencies */
 import React from "react";
 import styled from "styled-components";
-import { injectIntl, intlShape, defineMessages } from "react-intl";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
+import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
 import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
 import colors from "../../../../style-guide/colors";
-
-const messages = defineMessages( {
-	seoTitle: {
-		id: "snippetEditor.seoTitle",
-		defaultMessage: "SEO title",
-	},
-	slug: {
-		id: "snippetEditor.slug",
-		defaultMessage: "Slug",
-	},
-	metaDescription: {
-		id: "snippetEditor.metaDescription",
-		defaultMessage: "Meta description",
-	},
-} );
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 	'<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">' +
@@ -206,7 +191,6 @@ class SnippetEditorFields extends React.Component {
 	 */
 	render() {
 		const {
-			intl,
 			replacementVariables,
 			onChange,
 			onFocus,
@@ -225,7 +209,7 @@ class SnippetEditorFields extends React.Component {
 					<SimulatedLabel
 						id={ this.uniqueId + "-title" }
 						onClick={ () => onFocus( "title" ) }
-					>{ intl.formatMessage( messages.seoTitle ) }</SimulatedLabel>
+					>{ __( "SEO title", "yoast-components" ) }</SimulatedLabel>
 					<InputContainer isActive={ activeField === "title" } isHovered={ hoveredField === "title" }>
 						<ReplacementVariableEditor
 							content={ title }
@@ -247,7 +231,7 @@ class SnippetEditorFields extends React.Component {
 					<SimulatedLabel
 						id={ this.uniqueId + "-slug" }
 						onClick={ () => onFocus( "slug" ) }
-					>{ intl.formatMessage( messages.slug ) }</SimulatedLabel>
+					>{ __( "Slug", "yoast-components" ) }</SimulatedLabel>
 					<InputContainer isActive={ activeField === "slug" } isHovered={ hoveredField === "slug" }>
 						<ReplacementVariableEditor
 							content={ slug }
@@ -263,7 +247,7 @@ class SnippetEditorFields extends React.Component {
 					<SimulatedLabel
 						id={ this.uniqueId + "-description" }
 						onClick={ () => onFocus( "description" ) }
-					>{ intl.formatMessage( messages.metaDescription ) }</SimulatedLabel>
+					>{ __( "Meta description", "yoast-components" ) }</SimulatedLabel>
 					<InputContainerDescription isActive={ activeField === "description" } isHovered={ hoveredField === "description" }>
 						<ReplacementVariableEditor
 							content={ description }
@@ -318,7 +302,6 @@ SnippetEditorFields.propTypes = {
 	hoveredField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
 	titleLengthAssessment: lengthAssessmentShape,
 	descriptionLengthAssessment: lengthAssessmentShape,
-	intl: intlShape.isRequired,
 };
 
 SnippetEditorFields.defaultProps = {
@@ -336,4 +319,4 @@ SnippetEditorFields.defaultProps = {
 	},
 };
 
-export default injectIntl( SnippetEditorFields );
+export default SnippetEditorFields;

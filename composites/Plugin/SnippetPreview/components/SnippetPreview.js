@@ -75,7 +75,7 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 			left: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
 			width: 24px;
 			height: 24px;
-			background-image: url( ${ () => angleRight( color ) });
+			background-image: url( ${ () => angleRight( color ) } );
 			background-size: 25px;
 			content: "";
 		}
@@ -139,9 +139,13 @@ export const DesktopDescription = styled.div.attrs( {
 
 const MobileDescription = styled( DesktopDescription )`
 	max-height: 4em;
+`;
+
+const MobileDescriptionOverflowContainer = styled( MobileDescription )`
 	overflow: hidden;
 	font-size: 14px;
 	line-height: 20px;
+	max-height: calc( 4em + 3px );
 `;
 
 const MobilePartContainer = styled.div`
@@ -241,6 +245,7 @@ export default class SnippetPreview extends PureComponent {
 	 * @param {string} props.keyword                The keyword for the page.
 	 * @param {string} props.isDescriptionGenerated Whether the description was generated.
 	 * @param {string} props.locale                 The locale of the page.
+	 * @param {string} props.date                   Optional, the date to display before the meta description.
 	 *
 	 * @returns {ReactElement} The SnippetPreview component.
 	 */
@@ -447,7 +452,9 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	getBreadcrumbs() {
 		const { url, breadcrumbs } = this.props;
-		const { protocol, hostname, pathname } = parse( url );
+		// Strip out question mark and hash characters from the raw URL.
+		const cleanUrl = url.replace( /\?|#/g, "" );
+		const { protocol, hostname, pathname } = parse( cleanUrl );
 
 		const hostPart = protocol === "https:" ? protocol + "//" + hostname : hostname;
 
@@ -534,15 +541,62 @@ export default class SnippetPreview extends PureComponent {
 	}
 
 	/**
+	 * Renders the snippet preview description, based on the mode.
+	 *
+	 * @returns {ReactElement} The rendered description.
+	 */
+	renderDescription() {
+		const {
+			keyword,
+			isDescriptionGenerated,
+			locale,
+			onClick,
+			onMouseLeave,
+			onMouseOver,
+			mode,
+		} = this.props;
+
+		const renderedDate = this.renderDate();
+
+		const outerContainerProps = {
+			isDescriptionGenerated: isDescriptionGenerated,
+			onClick: onClick.bind( null, "description" ),
+			onMouseOver: partial( onMouseOver, "description" ),
+			onMouseLeave: partial( onMouseLeave, "description" ),
+		};
+
+		if ( mode === MODE_DESKTOP ) {
+			const DesktopDescriptionWithCaret = this.addCaretStyles( "description", DesktopDescription );
+			return (
+				<DesktopDescriptionWithCaret { ...outerContainerProps }
+											  innerRef={ this.setDescriptionRef }>
+					{ renderedDate }
+					{ highlightKeyword( locale, keyword, this.getDescription() ) }
+				</DesktopDescriptionWithCaret>
+			);
+		} else if ( mode === MODE_MOBILE ) {
+			const MobileDescriptionWithCaret = this.addCaretStyles( "description", MobileDescription );
+			return (
+				<MobileDescriptionWithCaret
+					{ ...outerContainerProps } >
+					<MobileDescriptionOverflowContainer
+						innerRef={ this.setDescriptionRef } >
+						{ renderedDate }
+						{ highlightKeyword( locale, keyword, this.getDescription() ) }
+					</MobileDescriptionOverflowContainer>
+				</MobileDescriptionWithCaret>
+			);
+		}
+		return null;
+	}
+
+	/**
 	 * Renders the snippet preview.
 	 *
 	 * @returns {ReactElement} The rendered snippet preview.
 	 */
 	render() {
 		const {
-			keyword,
-			isDescriptionGenerated,
-			locale,
 			onClick,
 			onMouseLeave,
 			onMouseOver,
@@ -555,14 +609,11 @@ export default class SnippetPreview extends PureComponent {
 			Container,
 			TitleUnbounded,
 			Title,
-			Description,
 		} = this.getPreparedComponents( mode );
 
 		const separator = mode === MODE_DESKTOP ? null : <Separator/>;
 		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow/> : null;
 		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp/>;
-
-		const renderedDate = this.renderDate();
 
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
@@ -606,14 +657,7 @@ export default class SnippetPreview extends PureComponent {
 							defaultMessage="Meta description preview"
 							after=":"
 						/>
-						<Description isDescriptionGenerated={ isDescriptionGenerated }
-						             onClick={ onClick.bind( null, "description" ) }
-						             onMouseOver={ partial( onMouseOver, "description" ) }
-						             onMouseLeave={ partial( onMouseLeave, "description" ) }
-						             innerRef={ this.setDescriptionRef } >
-							{ renderedDate }
-							{ highlightKeyword( locale, keyword, this.getDescription() ) }
-						</Description>
+						{ this.renderDescription() }
 					</PartContainer>
 				</Container>
 			</section>
@@ -630,24 +674,20 @@ export default class SnippetPreview extends PureComponent {
 	 *     Container: ReactComponent,
 	 *     TitleUnbounded: ReactComponent,
 	 *     Title: ReactComponent,
-	 *     Description: ReactComponent
 	 * }} The prepared components.
 	 */
 	getPreparedComponents( mode ) {
-		const BaseDescription = mode === MODE_DESKTOP ? DesktopDescription : MobileDescription;
 		const PartContainer = mode === MODE_DESKTOP ? DesktopPartContainer : MobilePartContainer;
 		const Container = mode === MODE_DESKTOP ? DesktopContainer : MobileContainer;
 		const TitleUnbounded = mode === MODE_DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
 
 		const Title = this.addCaretStyles( "title", BaseTitle );
-		const Description = this.addCaretStyles( "description", BaseDescription );
 
 		return {
 			PartContainer,
 			Container,
 			TitleUnbounded,
 			Title,
-			Description,
 		};
 	}
 }

@@ -12,6 +12,7 @@ import SnippetEditor from "./app/SnippetEditorExample";
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
 import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
+import KeywordInput from "./composites/Plugin/Shared/components/KeywordInput";
 
 const components = [
 	{
@@ -60,6 +61,14 @@ const components = [
 				", for example.",
 			] }
 			onChange={ event => console.log( event ) }
+		/>,
+	},
+	{
+		id: "focus-keyword",
+		name: "Keyword",
+		component: <KeywordInput
+			id="focus-keyword"
+			label={ "Focus keyword"}
 		/>,
 	},
 	{
