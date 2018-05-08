@@ -121,7 +121,7 @@ export const BaseUrl = styled.div`
 	color: ${ colorUrl };
 	cursor: pointer;
 	position: relative;
-	width: 90%;
+	max-width: 90%;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
