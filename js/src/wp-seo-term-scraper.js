@@ -1,9 +1,13 @@
 /* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
+
+// External dependencies.
 import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
-import isUndefined from "lodash/isUndefined";
+import isEqual from "lodash/isEqual";
 import isFunction from "lodash/isFunction";
+import isUndefined from "lodash/isUndefined";
 
+// Internal dependencies.
 import initializeEdit from "./edit";
 import { termsTmceId as tmceId } from "./wp-seo-tinymce";
 import { update as updateTrafficLight } from "./ui/trafficLight";
@@ -14,6 +18,7 @@ import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetPreviewHelpers from "./analysis/snippetPreview";
+import snippetEditorHelpers from "./analysis/snippetEditor";
 import TermDataCollector from "./analysis/TermDataCollector";
 import UsedKeywords from "./analysis/usedKeywords";
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
@@ -138,13 +143,13 @@ window.yoastHideMarkers = true;
 	 * @returns {SnippetPreview} Instance of snippetpreview.
 	 */
 	function initSnippetPreview( termScraper ) {
+		const snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
 		return snippetPreviewHelpers.create( snippetContainer, {
-			title: termScraper.getSnippetTitle(),
-			urlPath: termScraper.getSnippetCite(),
-			metaDesc: termScraper.getSnippetMeta(),
+			title: snippetEditorData.title,
+			urlPath: snippetEditorData.slug,
+			metaDesc: snippetEditorData.description,
 		}, ( data ) => {
-			const state = store.getState();
-			const previousData = state.snippetEditor.data;
+			const previousData = snippetEditorHelpers.getDataFromStore( store );
 
 			if (
 				previousData.title !== data.title ||
@@ -367,25 +372,20 @@ window.yoastHideMarkers = true;
 			app.snippetPreview.handleWindowResizing();
 		} );
 
-		const snippetEditorData = {
-			title: termScraper.getSnippetTitle(),
-			slug: termScraper.getSnippetCite(),
-			description: termScraper.getSnippetMeta(),
-		};
-
+		// Set the initial snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
 		store.dispatch( updateData( snippetEditorData ) );
 
+		// Subscribe to the store to save the snippet editor data.
 		store.subscribe( () => {
-			const state = store.getState();
-			const data = state.snippetEditor.data;
+			const data = snippetEditorHelpers.getDataFromStore( store );
 
-			termScraper.saveSnippetData( {
-				title: data.title,
-				urlPath: data.slug,
-				metaDesc: data.description,
-			} );
+			if ( ! isEqual( snippetEditorData, data ) ) {
+				snippetEditorData = data;
+				termScraper.saveSnippetData( data );
 
-			updateLegacySnippetEditor( data );
+				updateLegacySnippetEditor( data );
+			}
 		} );
 	} );
 }( jQuery, window ) );

@@ -1,14 +1,16 @@
 /* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
-import { App } from "yoastseo";
-import isUndefined from "lodash/isUndefined";
-import isFunction from "lodash/isFunction";
 
+// External dependencies.
+import { App } from "yoastseo";
+import isEqual from "lodash/isEqual";
+import isFunction from "lodash/isFunction";
+import isUndefined from "lodash/isUndefined";
+import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+
+// Internal dependencies.
+import initializeEdit from "./edit";
 import { tmceId, setStore } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
-
-import initializeEdit from "./edit";
-import { setActiveKeyword } from "./redux/actions/activeKeyword";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
 
@@ -23,7 +25,10 @@ import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetPreviewHelpers from "./analysis/snippetPreview";
+import snippetEditorHelpers from "./analysis/snippetEditor";
 import UsedKeywords from "./analysis/usedKeywords";
+
+import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
 
@@ -107,13 +112,13 @@ import { updateData } from "./redux/actions/snippetEditor";
 	 * @returns {SnippetPreview} The created snippetpreview element.
 	 */
 	function initSnippetPreview( postScraper ) {
+		const snippetEditorData = snippetEditorHelpers.getDataFromCollector( postScraper );
 		return snippetPreviewHelpers.create( snippetContainer, {
-			title: postScraper.getSnippetTitle(),
-			urlPath: postScraper.getSnippetCite(),
-			metaDesc: postScraper.getSnippetMeta(),
+			title: snippetEditorData.title,
+			urlPath: snippetEditorData.slug,
+			metaDesc: snippetEditorData.description,
 		}, ( data ) => {
-			const state = editStore.getState();
-			const previousData = state.snippetEditor.data;
+			const previousData = snippetEditorHelpers.getDataFromStore( editStore );
 
 			if (
 				previousData.title !== data.title ||
@@ -411,14 +416,14 @@ import { updateData } from "./redux/actions/snippetEditor";
 	}
 
 	/**
-	 * Renders the legacy snippet preview based on the passed data from the redux
+	 * Update the legacy snippet preview based on the passed data from the redux
 	 * store.
 	 *
 	 * @param {Object} data The data from the store.
 	 *
 	 * @returns {void}
 	 */
-	function renderLegacySnippetEditor( data ) {
+	function updateLegacySnippetEditor( data ) {
 		if ( isFunction( snippetPreview.refresh ) ) {
 			let isDataChanged = false;
 
@@ -474,13 +479,13 @@ import { updateData } from "./redux/actions/snippetEditor";
 		publishBox.initalise();
 		snippetPreview = initSnippetPreview( postDataCollector );
 
-		let appArgs = getAppArgs( store );
+		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
 		postDataCollector.app = app;
 
-		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
-		let shortcodePlugin = new YoastShortcodePlugin( app );
+		const replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		const shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
 			let markdownPlugin = new YoastMarkdownPlugin( app );
@@ -516,7 +521,7 @@ import { updateData } from "./redux/actions/snippetEditor";
 		}
 
 		// Switch between assessors when checkbox has been checked.
-		let cornerstoneCheckbox = jQuery( "#yoast_wpseo_is_cornerstone" );
+		const cornerstoneCheckbox = jQuery( "#yoast_wpseo_is_cornerstone" );
 		app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
 		cornerstoneCheckbox.change( function() {
 			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
@@ -524,7 +529,7 @@ import { updateData } from "./redux/actions/snippetEditor";
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
-		let originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
+		const originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
 		app.initAssessorPresenters = function() {
 			originalInitAssessorPresenters();
 			disableYoastSEORenderers( app );
@@ -538,25 +543,20 @@ import { updateData } from "./redux/actions/snippetEditor";
 			data.setRefresh( app.refresh );
 		}
 
-		const snippetEditorData = {
-			title: postDataCollector.getSnippetTitle(),
-			slug: postDataCollector.getSnippetCite(),
-			description: postDataCollector.getSnippetMeta(),
-		};
-
+		// Set the initial snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
 		store.dispatch( updateData( snippetEditorData ) );
 
+		// Subscribe to the store to save the snippet editor data.
 		store.subscribe( () => {
-			const state = store.getState();
-			const data = state.snippetEditor.data;
+			const data = snippetEditorHelpers.getDataFromStore( store );
 
-			postDataCollector.saveSnippetData( {
-				title: data.title,
-				urlPath: data.slug,
-				metaDesc: data.description,
-			} );
+			if ( ! isEqual( snippetEditorData, data ) ) {
+				snippetEditorData = data;
+				postDataCollector.saveSnippetData( data );
 
-			renderLegacySnippetEditor( data );
+				updateLegacySnippetEditor( data );
+			}
 		} );
 	}
 
