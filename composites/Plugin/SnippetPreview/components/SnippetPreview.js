@@ -128,6 +128,7 @@ export const BaseUrl = styled.div`
 const BaseUrlOverflowContainer = styled( BaseUrl )`
 	overflow: hidden;
 	text-overflow: ellipsis;
+	max-width: 100%;
 `;
 
 export const DesktopDescription = styled.div.attrs( {
