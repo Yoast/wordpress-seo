@@ -55,7 +55,7 @@ function getTemplatesFromL10n( l10nObject ) {
 		templates.title = "%%title%% - %%sitename%%";
 	}
 
-	const description = "%%sitedesc%%";//l10nObject.metadesc_template;
+	const description = l10nObject.metadesc_template;
 	if ( ! isEmpty( description ) ) {
 		templates.description = description;
 	}
