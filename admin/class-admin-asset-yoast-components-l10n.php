@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Admin
+ */
 
+/**
+ * Localizes yoast-components.
+ */
 final class WPSEO_Admin_Asset_Yoast_Components_l10n {
 	/**
 	 * Localizes the given script with the yoast-components translations.
