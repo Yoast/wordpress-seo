@@ -532,6 +532,11 @@ export default class SnippetPreview extends PureComponent {
 		}
 	}
 
+	/**
+	 * Renders the snippet preview description, based on the mode.
+	 *
+	 * @returns {ReactElement} The rendered description.
+	 */
 	renderDescription() {
 		const {
 			keyword,
