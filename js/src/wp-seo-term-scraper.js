@@ -278,7 +278,7 @@ window.yoastHideMarkers = true;
 		// Initialize the snippet editor data.
 		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
 		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoTermScraperL10n );
-		snippetEditorData = snippetEditorHelpers.applyTemplatesToData( snippetEditorData, snippetEditorTemplates );
+		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		snippetPreview = initSnippetPreview( snippetEditorData );
 
@@ -386,7 +386,9 @@ window.yoastHideMarkers = true;
 
 			if ( ! isEqual( snippetEditorData, data ) ) {
 				snippetEditorData = data;
-				termScraper.saveSnippetData( data );
+				termScraper.saveSnippetData(
+					snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates )
+				);
 
 				updateLegacySnippetEditor( data );
 			}

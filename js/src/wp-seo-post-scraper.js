@@ -480,7 +480,7 @@ import { updateData } from "./redux/actions/snippetEditor";
 		// Initialize the snippet editor data.
 		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
 		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoPostScraperL10n );
-		snippetEditorData = snippetEditorHelpers.applyTemplatesToData( snippetEditorData, snippetEditorTemplates );
+		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		snippetPreview = initSnippetPreview( snippetEditorData );
 
@@ -557,7 +557,9 @@ import { updateData } from "./redux/actions/snippetEditor";
 
 			if ( ! isEqual( snippetEditorData, data ) ) {
 				snippetEditorData = data;
-				postDataCollector.saveSnippetData( data );
+				postDataCollector.saveSnippetData(
+					snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates )
+				);
 
 				updateLegacySnippetEditor( data );
 			}

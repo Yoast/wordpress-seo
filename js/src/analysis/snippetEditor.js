@@ -64,26 +64,53 @@ function getTemplatesFromL10n( l10nObject ) {
 }
 
 /**
- * Applies the templates to the data.
+ * Add templates to the snippet editor data.
  *
  * @param {Object} data      The data object.
  * @param {Object} templates The templates object.
  *
- * @returns {Object} The data with templates applied.
+ * @returns {Object} A copy of the data with the templates applied.
  */
-function applyTemplatesToData( data, templates ) {
+function getDataWithTemplates( data, templates ) {
+	const dataWithTemplates = {};
+
 	forEach( templates, ( template, key ) => {
-		// If the data exists and is empty, use the template.
-		if ( has( data, key ) && isEmpty( data[ key ] ) ) {
-			data[ key ] = template;
+		if ( has( data, key ) && data[ key ] === "" ) {
+			dataWithTemplates[ key ] = template;
+		} else {
+			dataWithTemplates[ key ] = data[ key ];
 		}
 	} );
-	return data;
+
+	return dataWithTemplates;
+}
+
+/**
+ * Remove the templates from the snippet editor data.
+ *
+ * @param {Object} data      The data object.
+ * @param {Object} templates The templates object.
+
+ * @returns {Object} A copy of the data without the templates.
+ */
+function getDataWithoutTemplates( data, templates ) {
+	const dataWithoutTemplates = {};
+
+	forEach( templates, ( template, key ) => {
+		if ( has( data, key ) && data[ key ] === template ) {
+			dataWithoutTemplates[ key ] = "";
+		} else {
+			dataWithoutTemplates[ key ] = data[ key ];
+		}
+	} );
+
+	return dataWithoutTemplates;
 }
 
 export default {
 	getDataFromCollector,
 	getDataFromStore,
 	getTemplatesFromL10n,
-	applyTemplatesToData,
+	getDataWithTemplates,
+	getDataWithoutTemplates,
 };
