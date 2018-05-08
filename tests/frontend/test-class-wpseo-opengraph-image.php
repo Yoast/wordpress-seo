@@ -128,6 +128,16 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether has images is false by default.
+	 */
+	public function test_add_image_with_no_url_key() {
+		$class_instance = $this->setup_class();
+
+		$class_instance->add_image( array( 'link' => '/test.png' ) );
+		$this->assertEmpty( $class_instance->get_images() );
+	}
+
+	/**
 	 * Tests whether adding SVGs results in no og:image being created.
 	 */
 	public function test_add_svg_image() {
