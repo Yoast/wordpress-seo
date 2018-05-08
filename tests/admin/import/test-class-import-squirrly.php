@@ -227,9 +227,9 @@ class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
 		$result = $this->class_instance->run_cleanup();
 
 		global $wpdb;
-		$dbResult = $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}qss'" );
+		$db_result = $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}qss'" );
 
-		$this->assertNull( $dbResult );
+		$this->assertNull( $db_result );
 		$this->assertEquals( $this->status( 'cleanup', true ), $result );
 		$this->assertEquals( $this->status( 'detect', false ), $this->class_instance->run_detect() );
 	}
