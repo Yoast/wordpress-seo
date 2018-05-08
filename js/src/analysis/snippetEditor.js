@@ -1,4 +1,3 @@
-import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import isUndefined from "lodash/isUndefined";
 
@@ -53,7 +52,11 @@ function getTemplatesFromL10n( l10nObject ) {
 	if ( isEmpty( templates.title ) ) {
 		templates.title = "%%title%% - %%sitename%%";
 	}
-	templates.description = get( l10nObject, "metadesc_template", "" );
+
+	const description = l10nObject.metadesc_template;
+	if ( ! isEmpty( description ) ) {
+		templates.description = description;
+	}
 
 	return templates;
 }
