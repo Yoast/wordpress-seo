@@ -10,7 +10,7 @@
  */
 class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Premium_Orphaned_Post_Filter */
+	/** @var WPSEO_Premium_Orphaned_Post_Filter_Double */
 	protected $class_instance;
 
 	/**
@@ -21,7 +21,7 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance =
 			$this
-				->getMockBuilder( 'WPSEO_Premium_Orphaned_Post_Filter' )
+				->getMockBuilder( 'WPSEO_Premium_Orphaned_Post_Filter_Double' )
 				->setMethods( array( 'filter_published_posts', 'get_where_filter', 'is_filter_active' ) )
 				->getMock();
 	}
@@ -59,7 +59,7 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Premium_Orphaned_Post_Filter::filter_posts
 	 */
-	public function test_filter_posts_unpublished_posts_deel_2() {
+	public function test_filter_posts_no_active_filter() {
 
 		$this->class_instance
 			->expects( $this->once() )
@@ -93,6 +93,60 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 		$expected = " AND $wpdb->posts.post_status = 'publish' AND $wpdb->posts.post_password = ''";
 		$actual = $class_instance->filter_published_posts();
 
-		$this->assertequals( $expected, $actual );
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests if filter_posts only returns posts that are published and not password protected.
+	 *
+	 * @covers WPSEO_Premium_Orphaned_Post_Filter::filter_posts
+	 */
+	public function test_filter_posts_from_database() {
+
+		$class_instance =
+			$this
+				->getMockBuilder( 'WPSEO_Premium_Orphaned_Post_Filter_Double' )
+				->setMethods( array( 'is_filter_active' ) )
+				->getMock();
+
+		$class_instance->register_hooks();
+
+		//Create 4 posts: only the two published pages without password are expected to be returned.
+		$post_1 = $this->factory->post->create_and_get( array(
+			'post_title'    => 'A Published page',
+			'post_status'   => 'publish',
+		) );
+		//Create a draft page that we expect to be filtered out by filter_published_posts.
+		$this->factory->post->create_and_get( array(
+			'post_title'    => 'Draft Page',
+			'post_status'   => 'draft',
+		) );
+		//Create a password protected page that we expect to be filtered out by filter_published_posts.
+		$this->factory->post->create_and_get( array(
+			'post_title'    => 'Secret page',
+			'post_status'   => 'publish',
+			'post_password' => 'verysecretpassword'
+		) );
+		$post_2 = $this->factory->post->create_and_get( array(
+			'post_title'    => 'Another Published page',
+			'post_status'   => 'publish',
+		) );
+
+		$class_instance
+			->method( 'is_filter_active' )
+			->will( $this->returnValue( true ) );
+
+		//As 1 post is a draft and 1 is password protected, we expect only the two published posts to be returned.
+		$expected = array(
+			$post_2,
+			$post_1,
+		);
+
+		$query = new WP_Query( array(
+			'post_type' => 'post',
+		) );
+		$actual = $query->get_posts();
+
+		$this->assertEquals( $expected, $actual );
 	}
 }
