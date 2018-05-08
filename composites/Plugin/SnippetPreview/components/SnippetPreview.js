@@ -558,25 +558,25 @@ export default class SnippetPreview extends PureComponent {
 		};
 
 		if ( mode === MODE_DESKTOP ) {
-			const DesktopDescriptionWithCarret = this.addCaretStyles( "description", DesktopDescription );
+			const DesktopDescriptionWithCaret = this.addCaretStyles( "description", DesktopDescription );
 			return (
-				<DesktopDescriptionWithCarret { ...outerContainerProps }
+				<DesktopDescriptionWithCaret { ...outerContainerProps }
 											  innerRef={ this.setDescriptionRef }>
 					{ renderedDate }
 					{ highlightKeyword( locale, keyword, this.getDescription() ) }
-				</DesktopDescriptionWithCarret>
+				</DesktopDescriptionWithCaret>
 			);
 		} else if ( mode === MODE_MOBILE ) {
-			const MobileDescriptionWithCarret = this.addCaretStyles( "description", MobileDescription );
+			const MobileDescriptionWithCaret = this.addCaretStyles( "description", MobileDescription );
 			return (
-				<MobileDescriptionWithCarret
+				<MobileDescriptionWithCaret
 					{ ...outerContainerProps } >
 					<MobileDescriptionOverflowContainer
 						innerRef={ this.setDescriptionRef } >
 						{ renderedDate }
 						{ highlightKeyword( locale, keyword, this.getDescription() ) }
 					</MobileDescriptionOverflowContainer>
-				</MobileDescriptionWithCarret>
+				</MobileDescriptionWithCaret>
 			);
 		}
 		return null;
