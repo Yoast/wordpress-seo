@@ -1,7 +1,7 @@
 // External dependencies.
 import React from "react";
-import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -109,10 +109,7 @@ class SnippetEditor extends React.Component {
 				descriptionLengthAssessment={ descriptionLengthAssessment }
 			/>
 			<CloseEditorButton onClick={ this.close }>
-				<FormattedMessage
-					id="snippet-editor.close-editor"
-					defaultMessage="Close snippet editor"
-				/>
+				{ __( "Close snippet editor", "yoast-components" ) }
 			</CloseEditorButton>
 		</React.Fragment>;
 	}
@@ -333,10 +330,7 @@ class SnippetEditor extends React.Component {
 					innerRef={ this.setEditButtonRef }
 				>
 					<SvgIcon icon="edit" />
-					<FormattedMessage
-						id="snippetEditor.editSnippet"
-						defaultMessage="Edit snippet"
-					/>
+					{ __( "Edit snippet", "yoast-components" ) }
 				</EditSnippetButton>
 
 				{ this.renderEditor() }
