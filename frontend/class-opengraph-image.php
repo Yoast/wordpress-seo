@@ -152,7 +152,7 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Display an OpenGraph image tag.
 	 *
-	 * @param array $attachment Attachment array.
+	 * @param string|array $attachment Attachment array.
 	 *
 	 * @return void
 	 */
@@ -160,6 +160,10 @@ class WPSEO_OpenGraph_Image {
 		 // In the past `add_image` accepted an image url, so leave this for backwards compatibility.
 		if ( is_string( $attachment ) ) {
 			$attachment = array( 'url' => $attachment );
+		}
+
+		if ( ! is_array( $attachment ) || empty( $attachment['url'] ) ) {
+			return;
 		}
 
 		// If the URL ends in `.svg`, we need to return.
