@@ -59,7 +59,7 @@ class WPSEO_Image_Utils {
 
 		$image['id']     = $attachment_id;
 		$image['alt']    = self::get_alt_tag( $attachment_id );
-		$image['pixels'] = ( $image['width'] * $image['height'] );
+		$image['pixels'] = ( (int) $image['width'] * (int) $image['height'] );
 
 		if ( ! isset( $image['type'] ) ) {
 			$image['type'] = get_post_mime_type( $attachment_id );
