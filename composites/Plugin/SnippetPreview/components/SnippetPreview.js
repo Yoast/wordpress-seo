@@ -458,7 +458,7 @@ export default class SnippetPreview extends PureComponent {
 
 		const breadCrumbs = [ hostPart, ...urlParts ].filter( part => !! part ).join( " › " );
 
-		return decodeURI( breadCrumbs.replace( /%20/g, " " ) );
+		return decodeURI( breadCrumbs );
 	}
 
 	/**
