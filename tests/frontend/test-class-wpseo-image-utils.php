@@ -71,7 +71,7 @@ final class WPSEO_Image_Utils_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the absolute path is working as expected
+	 * Tests if the absolute path is working as expected.
 	 *
 	 * @param string $input    Data to use in execution.
 	 * @param string $expected Expected result.
@@ -98,11 +98,15 @@ final class WPSEO_Image_Utils_Test extends PHPUnit_Framework_TestCase {
 				'/a',
 				$uploads['basedir'] . '/a',
 				'Relative path should receive basedir as prefix.',
-				$uploads['basedir'] . '/a',
-				$uploads['basedir'] . '/a',
+			),
+			array(
+				$uploads['basedir'] . '/b',
+				$uploads['basedir'] . '/b',
 				'Absolute path should be returned as is.',
-				'/b' . $uploads['basedir'] . '/a',
-				$uploads['basedir'] . '/b' . $uploads['basedir'] . '/a',
+			),
+			array(
+				'/c' . $uploads['basedir'] . '/d',
+				$uploads['basedir'] . '/c' . $uploads['basedir'] . '/d',
 				'Relative path with absolute path inside should be prefixed with basedir.',
 			)
 		);
