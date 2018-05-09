@@ -448,7 +448,7 @@ export default class SnippetPreview extends PureComponent {
 		 * Strip out question mark and hash characters from the raw URL and percent-encode
 		 * characters that are not allowed in a URI.
 		 */
-		const cleanEncodedUrl = encodeURI( url ).replace( /\?|#/g, "" );
+		const cleanEncodedUrl = encodeURI( url.replace( /\?|#/g, "" ) );
 
 		const { protocol, hostname, pathname } = parse( cleanEncodedUrl );
 
