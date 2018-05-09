@@ -135,7 +135,7 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 				'image'         => array( 'with' => 'no image', 'and' => 'height keys given' ),
 				'expected'      => false,
 				'attachment_id' => $attachment_id,
-				'message'       => 'An array without the widht and height keys',
+				'message'       => 'An array without the width and height keys',
 			),
 			array(
 				'image'         => array( 'width' => '10', 'height' => '10' ),
@@ -166,6 +166,24 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 				),
 				'attachment_id' => $attachment_id,
 				'message'       => 'With unwanted keys being stripped',
+			),
+			array(
+				'image'         => array(
+					'width'       => 100,
+					'height'      => 0,
+				),
+				'expected'      => false,
+				'attachment_id' => $attachment_id,
+				'message'       => 'Empty height should not be parsed as valid image',
+			),
+			array(
+				'image'         => array(
+					'width'       => 0,
+					'height'      => 100,
+				),
+				'expected'      => false,
+				'attachment_id' => $attachment_id,
+				'message'       => 'Empty width should not be parsed as valid image',
 			),
 			array(
 				'image'         => array(
