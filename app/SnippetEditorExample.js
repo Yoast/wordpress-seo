@@ -190,18 +190,15 @@ export default class SnippetEditorExample extends Component {
 			score: this.state.currentDescriptionLength > 160 ? 9 : 3,
 		};
 
-		const snippetEditorProps = Object.assign( {}, this.state, {
-			data: data,
-			baseUrl: "https://local.wordpress.test/",
-			onChange: this.onChangedData,
-			replacementVariables,
-			titleLengthAssessment: titleLengthAssessment,
-			descriptionLengthAssessment: descriptionLengthAssessment,
-		} );
-
 		return <Container>
 			<SnippetEditor
-				{ ...snippetEditorProps }
+				{ ...this.state }
+				data={ data }
+				baseUrl="https://local.wordpress.test/"
+				onChange={ this.onChangedData }
+				replacementVariables={ replacementVariables }
+				titleLengthAssessment={ titleLengthAssessment }
+				descriptionLengthAssessment={ descriptionLengthAssessment }
 			/>
 
 			<h2>Test Sliders</h2>

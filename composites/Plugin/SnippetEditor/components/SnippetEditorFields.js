@@ -8,6 +8,7 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
+import ControlledInput from "./ControlledInput";
 import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
 import colors from "../../../../style-guide/colors";
 
@@ -69,6 +70,20 @@ const InputContainer = styled.div.attrs( {
 		background-image: url( ${ ( props ) => angleRight( getCaretColor( props ) ) });
 		background-size: 25px;
 		content: "";
+	}
+`;
+
+const SlugInput = styled( ControlledInput )`
+	border: none;
+	width: 100%;
+	height: inherit;
+	line-height: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+
+	&:focus {
+		outline: 0;
 	}
 `;
 
@@ -179,7 +194,6 @@ class SnippetEditorFields extends React.Component {
 
 		if ( activeField !== prevActiveField ) {
 			const activeElement = this.elements[ activeField ];
-
 			activeElement.focus();
 		}
 	}
@@ -233,14 +247,12 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "slug" ) }
 					>{ __( "Slug", "yoast-components" ) }</SimulatedLabel>
 					<InputContainer isActive={ activeField === "slug" } isHovered={ hoveredField === "slug" }>
-						<ReplacementVariableEditor
-							content={ slug }
-							onChange={ content => onChange( "slug", content ) }
+						<SlugInput
+							initialValue={ slug }
+							onChange={ value => onChange( "slug", value ) }
 							onFocus={ () => onFocus( "slug" ) }
-							replacementVariables={ [] }
-							ref={ ref => this.setRef( "slug", ref ) }
-							ariaLabelledBy={ this.uniqueId + "-slug" }
-						/>
+							passedRef={ ref => this.setRef( "slug", ref ) }
+							aria-labelledby={ this.uniqueId + "-slug" } />
 					</InputContainer>
 				</FormSection>
 				<FormSection>
