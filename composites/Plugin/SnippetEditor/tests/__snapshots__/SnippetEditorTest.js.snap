@@ -655,6 +655,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   content: "";
 }
 
+.c28 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c28:focus {
+  outline: 0;
+}
+
 .c24 {
   margin: 1em 0;
 }
@@ -784,7 +798,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   margin-right: 7px;
 }
 
-.c28 {
+.c29 {
   font-size: 0.8rem;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -1601,15 +1615,30 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 <div
                   className="c26"
                 >
-                  <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-slug"
-                    content="test-slug"
+                  <SnippetEditorFields__SlugInput
+                    aria-labelledby="snippet-editor-field-5-slug"
+                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
-                    replacementVariables={Array []}
+                    passedRef={[Function]}
                   >
-                    <div />
-                  </ReplacementVariableEditor>
+                    <ControlledInput
+                      aria-labelledby="snippet-editor-field-5-slug"
+                      className="c28"
+                      initialValue="test-slug"
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      passedRef={[Function]}
+                    >
+                      <input
+                        aria-labelledby="snippet-editor-field-5-slug"
+                        className="c28"
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        value="test-slug"
+                      />
+                    </ControlledInput>
+                  </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
             </div>
@@ -1675,7 +1704,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c28"
+        className="c29"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -1684,7 +1713,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c28 Button-kDSBcD c13"
+          className="c29 Button-kDSBcD c13"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -1693,7 +1722,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c28 Button-kDSBcD c13 Button-kDSBcD c14"
+            className="c29 Button-kDSBcD c13 Button-kDSBcD c14"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -1702,7 +1731,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+              className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -1711,13 +1740,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+                className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
+                  className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                   onClick={[Function]}
                   type="button"
                 >
@@ -1876,6 +1905,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   content: "";
 }
 
+.c28 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c28:focus {
+  outline: 0;
+}
+
 .c24 {
   margin: 1em 0;
 }
@@ -2005,7 +2048,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   margin-right: 7px;
 }
 
-.c28 {
+.c29 {
   font-size: 0.8rem;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -2822,15 +2865,30 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 <div
                   className="c26"
                 >
-                  <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-slug"
-                    content="test-slug"
+                  <SnippetEditorFields__SlugInput
+                    aria-labelledby="snippet-editor-field-5-slug"
+                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
-                    replacementVariables={Array []}
+                    passedRef={[Function]}
                   >
-                    <div />
-                  </ReplacementVariableEditor>
+                    <ControlledInput
+                      aria-labelledby="snippet-editor-field-5-slug"
+                      className="c28"
+                      initialValue="test-slug"
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      passedRef={[Function]}
+                    >
+                      <input
+                        aria-labelledby="snippet-editor-field-5-slug"
+                        className="c28"
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        value="test-slug"
+                      />
+                    </ControlledInput>
+                  </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
             </div>
@@ -2896,7 +2954,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c28"
+        className="c29"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -2905,7 +2963,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c28 Button-kDSBcD c13"
+          className="c29 Button-kDSBcD c13"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -2914,7 +2972,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c28 Button-kDSBcD c13 Button-kDSBcD c14"
+            className="c29 Button-kDSBcD c13 Button-kDSBcD c14"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -2923,7 +2981,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+              className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -2932,13 +2990,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+                className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
+                  className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                   onClick={[Function]}
                   type="button"
                 >
@@ -3097,6 +3155,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   content: "";
 }
 
+.c28 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c28:focus {
+  outline: 0;
+}
+
 .c24 {
   margin: 1em 0;
 }
@@ -3226,7 +3298,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   margin-right: 7px;
 }
 
-.c28 {
+.c29 {
   font-size: 0.8rem;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -4043,15 +4115,30 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 <div
                   className="c26"
                 >
-                  <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-slug"
-                    content="test-slug"
+                  <SnippetEditorFields__SlugInput
+                    aria-labelledby="snippet-editor-field-5-slug"
+                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
-                    replacementVariables={Array []}
+                    passedRef={[Function]}
                   >
-                    <div />
-                  </ReplacementVariableEditor>
+                    <ControlledInput
+                      aria-labelledby="snippet-editor-field-5-slug"
+                      className="c28"
+                      initialValue="test-slug"
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      passedRef={[Function]}
+                    >
+                      <input
+                        aria-labelledby="snippet-editor-field-5-slug"
+                        className="c28"
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        value="test-slug"
+                      />
+                    </ControlledInput>
+                  </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
             </div>
@@ -4117,7 +4204,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c28"
+        className="c29"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -4126,7 +4213,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c28 Button-kDSBcD c13"
+          className="c29 Button-kDSBcD c13"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -4135,7 +4222,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c28 Button-kDSBcD c13 Button-kDSBcD c14"
+            className="c29 Button-kDSBcD c13 Button-kDSBcD c14"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -4144,7 +4231,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+              className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -4153,13 +4240,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+                className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
+                  className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                   onClick={[Function]}
                   type="button"
                 >
@@ -4318,6 +4405,20 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   content: "";
 }
 
+.c28 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c28:focus {
+  outline: 0;
+}
+
 .c24 {
   margin: 1em 0;
 }
@@ -4447,7 +4548,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   margin-right: 7px;
 }
 
-.c28 {
+.c29 {
   font-size: 0.8rem;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -5264,15 +5365,30 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 <div
                   className="c26"
                 >
-                  <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-2-slug"
-                    content="test-slug"
+                  <SnippetEditorFields__SlugInput
+                    aria-labelledby="snippet-editor-field-2-slug"
+                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
-                    replacementVariables={Array []}
+                    passedRef={[Function]}
                   >
-                    <div />
-                  </ReplacementVariableEditor>
+                    <ControlledInput
+                      aria-labelledby="snippet-editor-field-2-slug"
+                      className="c28"
+                      initialValue="test-slug"
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      passedRef={[Function]}
+                    >
+                      <input
+                        aria-labelledby="snippet-editor-field-2-slug"
+                        className="c28"
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        value="test-slug"
+                      />
+                    </ControlledInput>
+                  </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
             </div>
@@ -5338,7 +5454,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c28"
+        className="c29"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -5347,7 +5463,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c28 Button-kDSBcD c13"
+          className="c29 Button-kDSBcD c13"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -5356,7 +5472,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c28 Button-kDSBcD c13 Button-kDSBcD c14"
+            className="c29 Button-kDSBcD c13 Button-kDSBcD c14"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -5365,7 +5481,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+              className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -5374,13 +5490,13 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+                className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
+                  className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                   onClick={[Function]}
                   type="button"
                 >
@@ -6387,7 +6503,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   margin: 0;
 }
 
-.c28 {
+.c29 {
   box-sizing: border-box;
   width: 100%;
   height: 8px;
@@ -6400,21 +6516,21 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border: 1px solid #ddd;
 }
 
-.c28::-webkit-progress-bar {
+.c29::-webkit-progress-bar {
   background-color: #f7f7f7;
 }
 
-.c28::-webkit-progress-value {
+.c29::-webkit-progress-value {
   background-color: #dc3232;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
-.c28::-moz-progress-bar {
+.c29::-moz-progress-bar {
   background-color: #dc3232;
 }
 
-.c28::-ms-fill {
+.c29::-ms-fill {
   background-color: #dc3232;
   border: 0;
 }
@@ -6473,6 +6589,20 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22transparent%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c28 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c28:focus {
+  outline: 0;
 }
 
 .c24 {
@@ -6604,7 +6734,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   margin-right: 7px;
 }
 
-.c29 {
+.c30 {
   font-size: 0.8rem;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -7421,15 +7551,30 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 <div
                   className="c26"
                 >
-                  <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-8-slug"
-                    content="test-slug"
+                  <SnippetEditorFields__SlugInput
+                    aria-labelledby="snippet-editor-field-8-slug"
+                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
-                    replacementVariables={Array []}
+                    passedRef={[Function]}
                   >
-                    <div />
-                  </ReplacementVariableEditor>
+                    <ControlledInput
+                      aria-labelledby="snippet-editor-field-8-slug"
+                      className="c28"
+                      initialValue="test-slug"
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      passedRef={[Function]}
+                    >
+                      <input
+                        aria-labelledby="snippet-editor-field-8-slug"
+                        className="c28"
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        value="test-slug"
+                      />
+                    </ControlledInput>
+                  </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
             </div>
@@ -7478,7 +7623,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               >
                 <progress
                   aria-hidden="true"
-                  className="c28"
+                  className="c29"
                   max={320}
                   value={0}
                 />
@@ -7495,7 +7640,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c29"
+        className="c30"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -7504,7 +7649,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c29 Button-kDSBcD c13"
+          className="c30 Button-kDSBcD c13"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -7513,7 +7658,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c29 Button-kDSBcD c13 Button-kDSBcD c14"
+            className="c30 Button-kDSBcD c13 Button-kDSBcD c14"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -7522,7 +7667,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+              className="c30 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -7531,13 +7676,13 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+                className="c30 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
+                  className="c30 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                   onClick={[Function]}
                   type="button"
                 >
@@ -7672,7 +7817,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border: 0;
 }
 
-.c28 {
+.c29 {
   box-sizing: border-box;
   width: 100%;
   height: 8px;
@@ -7685,21 +7830,21 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border: 1px solid #ddd;
 }
 
-.c28::-webkit-progress-bar {
+.c29::-webkit-progress-bar {
   background-color: #f7f7f7;
 }
 
-.c28::-webkit-progress-value {
+.c29::-webkit-progress-value {
   background-color: #7ad03a;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
-.c28::-moz-progress-bar {
+.c29::-moz-progress-bar {
   background-color: #7ad03a;
 }
 
-.c28::-ms-fill {
+.c29::-ms-fill {
   background-color: #7ad03a;
   border: 0;
 }
@@ -7726,6 +7871,20 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22transparent%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c28 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c28:focus {
+  outline: 0;
 }
 
 .c24 {
@@ -7857,7 +8016,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   margin-right: 7px;
 }
 
-.c29 {
+.c30 {
   font-size: 0.8rem;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -8674,15 +8833,30 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 <div
                   className="c26"
                 >
-                  <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-7-slug"
-                    content="test-slug"
+                  <SnippetEditorFields__SlugInput
+                    aria-labelledby="snippet-editor-field-7-slug"
+                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
-                    replacementVariables={Array []}
+                    passedRef={[Function]}
                   >
-                    <div />
-                  </ReplacementVariableEditor>
+                    <ControlledInput
+                      aria-labelledby="snippet-editor-field-7-slug"
+                      className="c28"
+                      initialValue="test-slug"
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      passedRef={[Function]}
+                    >
+                      <input
+                        aria-labelledby="snippet-editor-field-7-slug"
+                        className="c28"
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        value="test-slug"
+                      />
+                    </ControlledInput>
+                  </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
             </div>
@@ -8731,7 +8905,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               >
                 <progress
                   aria-hidden="true"
-                  className="c28"
+                  className="c29"
                   max={650}
                   value={330}
                 />
@@ -8748,7 +8922,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c29"
+        className="c30"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -8757,7 +8931,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c29 Button-kDSBcD c13"
+          className="c30 Button-kDSBcD c13"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -8766,7 +8940,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c29 Button-kDSBcD c13 Button-kDSBcD c14"
+            className="c30 Button-kDSBcD c13 Button-kDSBcD c14"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -8775,7 +8949,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+              className="c30 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -8784,13 +8958,13 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+                className="c30 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
+                  className="c30 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                   onClick={[Function]}
                   type="button"
                 >
@@ -9773,7 +9947,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 </div>
 `;
 
-exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`] = `
+exports[`SnippetEditor highlights the active ReplacementVariableEditor when calling setFieldFocus 1`] = `
 .c0 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -9818,7 +9992,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   text-overflow: ellipsis;
 }
 
-.c7 {
+.c6 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -9846,7 +10020,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   padding: 16px;
 }
 
-.c8 {
+.c7 {
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
@@ -9908,7 +10082,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   content: "";
 }
 
-.c29 {
+.c30 {
   padding: 5px;
   border: 1px solid #5b9dd9;
   box-shadow: 0 0 2px rgba(30,140,190,.8);
@@ -9920,7 +10094,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   position: relative;
 }
 
-.c29::before {
+.c30::before {
   display: block;
   position: absolute;
   top: 4px;
@@ -9930,6 +10104,20 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#1e8cbe%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c29 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c29:focus {
+  outline: 0;
 }
 
 .c25 {
@@ -10061,7 +10249,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   margin-right: 7px;
 }
 
-.c30 {
+.c31 {
   font-size: 0.8rem;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -10102,7 +10290,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
   flex: none;
 }
 
-.c6::before {
+.c8::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -10178,7 +10366,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
 >
   <div>
     <SnippetPreview
-      activeField="url"
+      activeField="description"
       breadcrumbs={null}
       date=""
       description="Test description, %%replacement_variable%%"
@@ -10298,32 +10486,25 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                     </ScreenReaderText>
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
-                <SnippetPreview
+                <SnippetPreview__BaseUrl
                   onClick={[Function]}
                   onMouseLeave={[Function]}
                   onMouseOver={[Function]}
                 >
-                  <SnippetPreview__BaseUrl
+                  <div
                     className="c6"
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
-                    <div
-                      className="c6 c7"
-                      onClick={[Function]}
-                      onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
-                    >
-                      example.org › test-slug
-                    </div>
-                  </SnippetPreview__BaseUrl>
-                </SnippetPreview>
+                    example.org › test-slug
+                  </div>
+                </SnippetPreview__BaseUrl>
               </div>
             </SnippetPreview__MobilePartContainer>
             <SnippetPreview__Separator>
               <hr
-                className="c8"
+                className="c7"
               />
             </SnippetPreview__Separator>
             <SnippetPreview__MobilePartContainer>
@@ -10359,49 +10540,57 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                     </ScreenReaderText>
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
-                <SnippetPreview__MobileDescription
+                <SnippetPreview
                   isDescriptionGenerated={false}
                   onClick={[Function]}
                   onMouseLeave={[Function]}
                   onMouseOver={[Function]}
                 >
-                  <SnippetPreview__DesktopDescription
-                    className="c9"
+                  <SnippetPreview__MobileDescription
+                    className="c8"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
-                    <div
-                      className="c9 c10"
-                      color="#545454"
+                    <SnippetPreview__DesktopDescription
+                      className="c8 c9"
+                      isDescriptionGenerated={false}
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__MobileDescriptionOverflowContainer
-                        innerRef={[Function]}
+                      <div
+                        className="c8 c9 c10"
+                        color="#545454"
+                        onClick={[Function]}
+                        onMouseLeave={[Function]}
+                        onMouseOver={[Function]}
                       >
-                        <SnippetPreview__MobileDescription
-                          className="c11"
+                        <SnippetPreview__MobileDescriptionOverflowContainer
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__DesktopDescription
-                            className="c11 c9"
+                          <SnippetPreview__MobileDescription
+                            className="c11"
                             innerRef={[Function]}
                           >
-                            <div
-                              className="c11 c9 c10"
-                              color="#545454"
+                            <SnippetPreview__DesktopDescription
+                              className="c11 c9"
+                              innerRef={[Function]}
                             >
-                              Test description, %%replacement_variable%%
-                            </div>
-                          </SnippetPreview__DesktopDescription>
-                        </SnippetPreview__MobileDescription>
-                      </SnippetPreview__MobileDescriptionOverflowContainer>
-                    </div>
-                  </SnippetPreview__DesktopDescription>
-                </SnippetPreview__MobileDescription>
+                              <div
+                                className="c11 c9 c10"
+                                color="#545454"
+                              >
+                                Test description, %%replacement_variable%%
+                              </div>
+                            </SnippetPreview__DesktopDescription>
+                          </SnippetPreview__MobileDescription>
+                        </SnippetPreview__MobileDescriptionOverflowContainer>
+                      </div>
+                    </SnippetPreview__DesktopDescription>
+                  </SnippetPreview__MobileDescription>
+                </SnippetPreview>
               </div>
             </SnippetPreview__MobilePartContainer>
           </div>
@@ -10792,7 +10981,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
       </Button>
     </Button>
     <SnippetEditorFields
-      activeField="slug"
+      activeField="description"
       data={
         Object {
           "description": "Test description, %%replacement_variable%%",
@@ -10891,21 +11080,36 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
-                isActive={true}
+                isActive={false}
                 isHovered={false}
               >
                 <div
-                  className="c29"
+                  className="c27"
                 >
-                  <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-4-slug"
-                    content="test-slug"
+                  <SnippetEditorFields__SlugInput
+                    aria-labelledby="snippet-editor-field-4-slug"
+                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
-                    replacementVariables={Array []}
+                    passedRef={[Function]}
                   >
-                    <div />
-                  </ReplacementVariableEditor>
+                    <ControlledInput
+                      aria-labelledby="snippet-editor-field-4-slug"
+                      className="c29"
+                      initialValue="test-slug"
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      passedRef={[Function]}
+                    >
+                      <input
+                        aria-labelledby="snippet-editor-field-4-slug"
+                        className="c29"
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        value="test-slug"
+                      />
+                    </ControlledInput>
+                  </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
             </div>
@@ -10927,11 +11131,11 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
-                isActive={false}
+                isActive={true}
                 isHovered={false}
               >
                 <div
-                  className="c27"
+                  className="c30"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-description"
@@ -10971,7 +11175,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c30"
+        className="c31"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -10980,7 +11184,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c30 Button-kDSBcD c14"
+          className="c31 Button-kDSBcD c14"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -10989,7 +11193,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c30 Button-kDSBcD c14 Button-kDSBcD c15"
+            className="c31 Button-kDSBcD c14 Button-kDSBcD c15"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -10998,7 +11202,7 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c30 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+              className="c31 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -11007,13 +11211,13 @@ exports[`SnippetEditor highlights the active field when calling setFieldFocus 1`
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c30 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17"
+                className="c31 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c30 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
+                  className="c31 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
                   onClick={[Function]}
                   type="button"
                 >
@@ -11172,7 +11376,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   content: "";
 }
 
-.c29 {
+.c30 {
   padding: 5px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
@@ -11184,7 +11388,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   position: relative;
 }
 
-.c29::before {
+.c30::before {
   display: block;
   position: absolute;
   top: 4px;
@@ -11194,6 +11398,20 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c29 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c29:focus {
+  outline: 0;
 }
 
 .c25 {
@@ -11325,7 +11543,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   margin-right: 7px;
 }
 
-.c30 {
+.c31 {
   font-size: 0.8rem;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -12162,15 +12380,30 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 <div
                   className="c27"
                 >
-                  <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-3-slug"
-                    content="test-slug"
+                  <SnippetEditorFields__SlugInput
+                    aria-labelledby="snippet-editor-field-3-slug"
+                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
-                    replacementVariables={Array []}
+                    passedRef={[Function]}
                   >
-                    <div />
-                  </ReplacementVariableEditor>
+                    <ControlledInput
+                      aria-labelledby="snippet-editor-field-3-slug"
+                      className="c29"
+                      initialValue="test-slug"
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      passedRef={[Function]}
+                    >
+                      <input
+                        aria-labelledby="snippet-editor-field-3-slug"
+                        className="c29"
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        value="test-slug"
+                      />
+                    </ControlledInput>
+                  </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
             </div>
@@ -12196,7 +12429,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 isHovered={true}
               >
                 <div
-                  className="c29"
+                  className="c30"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-description"
@@ -12236,7 +12469,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c30"
+        className="c31"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -12245,7 +12478,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c30 Button-kDSBcD c14"
+          className="c31 Button-kDSBcD c14"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -12254,7 +12487,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c30 Button-kDSBcD c14 Button-kDSBcD c15"
+            className="c31 Button-kDSBcD c14 Button-kDSBcD c15"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -12263,7 +12496,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c30 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+              className="c31 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -12272,13 +12505,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c30 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17"
+                className="c31 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c30 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
+                  className="c31 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 c18"
                   onClick={[Function]}
                   type="button"
                 >
@@ -12437,6 +12670,20 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   content: "";
 }
 
+.c28 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c28:focus {
+  outline: 0;
+}
+
 .c24 {
   margin: 1em 0;
 }
@@ -12566,7 +12813,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   margin-right: 7px;
 }
 
-.c28 {
+.c29 {
   font-size: 0.8rem;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -13383,15 +13630,30 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 <div
                   className="c26"
                 >
-                  <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-1-slug"
-                    content="test-slug"
+                  <SnippetEditorFields__SlugInput
+                    aria-labelledby="snippet-editor-field-1-slug"
+                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
-                    replacementVariables={Array []}
+                    passedRef={[Function]}
                   >
-                    <div />
-                  </ReplacementVariableEditor>
+                    <ControlledInput
+                      aria-labelledby="snippet-editor-field-1-slug"
+                      className="c28"
+                      initialValue="test-slug"
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      passedRef={[Function]}
+                    >
+                      <input
+                        aria-labelledby="snippet-editor-field-1-slug"
+                        className="c28"
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        value="test-slug"
+                      />
+                    </ControlledInput>
+                  </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
             </div>
@@ -13457,7 +13719,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c28"
+        className="c29"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -13466,7 +13728,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c28 Button-kDSBcD c13"
+          className="c29 Button-kDSBcD c13"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -13475,7 +13737,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c28 Button-kDSBcD c13 Button-kDSBcD c14"
+            className="c29 Button-kDSBcD c13 Button-kDSBcD c14"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -13484,7 +13746,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+              className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -13493,13 +13755,13 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+                className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
+                  className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                   onClick={[Function]}
                   type="button"
                 >
@@ -13658,6 +13920,20 @@ exports[`SnippetEditor passes replacement variables to the title and description
   content: "";
 }
 
+.c28 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c28:focus {
+  outline: 0;
+}
+
 .c24 {
   margin: 1em 0;
 }
@@ -13787,7 +14063,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   margin-right: 7px;
 }
 
-.c28 {
+.c29 {
   font-size: 0.8rem;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -14637,15 +14913,30 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 <div
                   className="c26"
                 >
-                  <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-6-slug"
-                    content="test-slug"
+                  <SnippetEditorFields__SlugInput
+                    aria-labelledby="snippet-editor-field-6-slug"
+                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
-                    replacementVariables={Array []}
+                    passedRef={[Function]}
                   >
-                    <div />
-                  </ReplacementVariableEditor>
+                    <ControlledInput
+                      aria-labelledby="snippet-editor-field-6-slug"
+                      className="c28"
+                      initialValue="test-slug"
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      passedRef={[Function]}
+                    >
+                      <input
+                        aria-labelledby="snippet-editor-field-6-slug"
+                        className="c28"
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        value="test-slug"
+                      />
+                    </ControlledInput>
+                  </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
             </div>
@@ -14722,7 +15013,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c28"
+        className="c29"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -14731,7 +15022,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c28 Button-kDSBcD c13"
+          className="c29 Button-kDSBcD c13"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -14740,7 +15031,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c28 Button-kDSBcD c13 Button-kDSBcD c14"
+            className="c29 Button-kDSBcD c13 Button-kDSBcD c14"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -14749,7 +15040,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
+              className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -14758,13 +15049,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
+                className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c28 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
+                  className="c29 Button-kDSBcD c13 Button-kDSBcD c14 Button-kDSBcD c15 Button-kDSBcD c16 c17"
                   onClick={[Function]}
                   type="button"
                 >
