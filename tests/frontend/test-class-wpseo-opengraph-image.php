@@ -90,17 +90,6 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether has images is false by default.
 	 */
-	public function test_add_image_empty() {
-		$class_instance = $this->setup_class();
-
-		$class_instance->add_image( array( 'url' => '' ) );
-
-		$this->assertEmpty( $class_instance->get_images() );
-	}
-
-	/**
-	 * Tests whether has images is false by default.
-	 */
 	public function test_add_image_relative() {
 		$class_instance = $this->setup_class();
 
@@ -130,24 +119,63 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests whether has images is false by default.
+	 * Tests the situations where an image won't added.
+	 *
+	 * @dataProvider invalid_image_provider
+	 *
+	 * @param mixed $image The image data.
+	 * @param string $message The message to show when test fails.
 	 */
-	public function test_add_image_with_no_url_key() {
-		$class_instance = $this->setup_class();
+	public function test_invalid_images( $image, $message ) {
 
-		$class_instance->add_image( array( 'link' => '/test.png' ) );
-		$this->assertEmpty( $class_instance->get_images() );
+		$class_instance = $this->setup_class();
+		$class_instance->add_image( $image );
+
+		$this->assertEmpty( $class_instance->get_images(), $message );
 	}
 
 	/**
-	 * Tests whether adding SVGs results in no og:image being created.
+	 * Provides data that will be skipped when adding it as a image.
+	 *
+	 * @return array The data.
 	 */
-	public function test_add_svg_image() {
-		$class_instance = $this->setup_class();
-		$class_instance->add_image( array( 'url' => 'http://example.org/test.svg' ) );
-
-		$this->assertEmpty( $class_instance->get_images() );
+	public function invalid_image_provider() {
+		return array(
+			array(
+				array( 'url' => 'http://example.org/test.svg' ),
+				'Adding an SVG as image',
+			),
+			array(
+				array( 'link' => '/test.png' ),
+				'With url key missing',
+			),
+			array(
+				array( 'url' => '' ),
+				'With an empty url given'
+			),
+			array(
+				array( 'url' => null ),
+				'With null given as url'
+			),
+			array(
+				array(),
+				'With empty array'
+			),
+			array(
+				null,
+				'With null given as data'
+			),
+			array(
+				false,
+				'With false given as data'
+			),
+			array(
+				stdObject array(),
+				'With false given as data'
+			),
+		);
 	}
+
 
 	/**
 	 * Test setting the front page image.
