@@ -17,7 +17,7 @@ function getDataFromCollector( collector ) {
 }
 
 /**
- * Gets the snippet editor data from a data collector.
+ * Gets the snippet editor data from the redux store.
  *
  * @param {Object} store The redux store to get the data from.
  *
