@@ -24,6 +24,6 @@ class Suggestions extends React.Component {
 
 export default Suggestions;
 
-Suggestions.PropTypes = {
-	properties: PropTypes.array.isRequired,
+Suggestions.propTypes = {
+	properties: PropTypes.object.isRequired,
 };

@@ -35,9 +35,9 @@ class Suggestion extends React.Component {
 
 export default Suggestion;
 
-Suggestion.PropTypes = {
+Suggestion.propTypes = {
 	title: PropTypes.string.isRequired,
 	copy: PropTypes.string.isRequired,
 	video: PropTypes.string.isRequired,
-	button: PropTypes.array.isRequired,
+	button: PropTypes.object.isRequired,
 };
