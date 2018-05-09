@@ -67,7 +67,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		$options = WPSEO_Options::get_instance();
 
 		if ( $options->get( 'access' ) === 'superadmin' && ! is_super_admin( $user->ID ) ) {
-			unset( $allcaps['wpseo_manage_options' ] );
+			unset( $allcaps['wpseo_manage_options'] );
 		}
 
 		return $allcaps;
