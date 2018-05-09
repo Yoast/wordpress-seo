@@ -96,9 +96,9 @@ describe( "SnippetPreview", () => {
 		} );
 
 		it( "doesn't percent encode characters that are percent encoded by node's url.parse", () => {
-			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "http://www.google.nl/percent:%" } );
+			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "http://www.google.nl/`^ {}" } );
 
-			expect( wrapper.find( "SnippetPreview__BaseUrl" ).text() ).toBe( "www.google.nl › percent:%" );
+			expect( wrapper.find( "SnippetPreview__BaseUrl" ).text() ).toBe( "www.google.nl › `^ {}" );
 		} );
 	} );
 } );
