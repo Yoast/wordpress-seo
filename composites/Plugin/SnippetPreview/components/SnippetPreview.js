@@ -123,6 +123,7 @@ export const BaseUrl = styled.div`
 	position: relative;
 	max-width: 90%;
 	white-space: nowrap;
+	font-size: 14px;
 `;
 
 const BaseUrlOverflowContainer = styled( BaseUrl )`
@@ -143,6 +144,7 @@ export const DesktopDescription = styled.div.attrs( {
 
 const MobileDescription = styled( DesktopDescription )`
 	max-height: 4em;
+	padding-bottom: 3px;
 `;
 
 const MobileDescriptionOverflowContainer = styled( MobileDescription )`
