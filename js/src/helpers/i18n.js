@@ -13,7 +13,7 @@ export function setYoastComponentsI18n() {
 	const jed = getI18n();
 	const currentTranslations = get( jed, [ "options", "locale_data", "yoast-components" ], false );
 
-	if ( false === currentTranslations ) {
+	if ( currentTranslations === false ) {
 		const translations = get( window, [ "wpseoYoastComponentsL10n", "locale_data", "yoast-components" ], false );
 
 		if ( translations === false ) {
