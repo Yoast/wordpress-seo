@@ -20,6 +20,7 @@ class ClassicEditorData {
 		this.store = store;
 		this.data = {};
 		this.updateData = this.updateData.bind( this );
+		this.debouncedUpdateData = debounce( this.updateData, 500 );
 	}
 
 	/**
@@ -31,6 +32,7 @@ class ClassicEditorData {
 	 */
 	initialize( replaceVars ) {
 		this.data = this.getInitialData( replaceVars );
+		console.log( "this.data: ", this.data );
 		fillReplacementValues( this.data, this.store );
 		this.subscribeToElements();
 	}
@@ -103,9 +105,17 @@ class ClassicEditorData {
 	 */
 	subscribeToInputElement( elementId, targetReplaceVar ) {
 		let element = document.getElementById( elementId );
-		let debouncedUpdateData = debounce( this.updateData, 500 );
+
+		/*
+		 * On terms some elements don't exist in the DOM, such as the title element.
+		 * We return early if the element was not found.
+		 */
+		if ( ! element ) {
+			return;
+		}
+
 		element.addEventListener( "input", ( event ) => {
-			debouncedUpdateData( event, targetReplaceVar );
+			this.debouncedUpdateData( event, targetReplaceVar );
 		} );
 	}
 
@@ -131,6 +141,7 @@ class ClassicEditorData {
 	 * @returns {Object} The data.
 	 */
 	getInitialData( replaceVars ) {
+		console.log( replaceVars );
 		return {
 			...replaceVars,
 			title: this.getTitle(),
