@@ -19,21 +19,21 @@ class ClassicEditorData {
 	 */
 	constructor( refresh, store ) {
 		this._refresh = refresh;
-		this.store = store;
-		this.data = {};
+		this._store = store;
+		this._data = {};
 		this.updateData = this.updateData.bind( this );
 	}
 
 	/**
-	 * Initializes the class by filling this.data and subscribing to relevant elements.
+	 * Initializes the class by filling this._data and subscribing to relevant elements.
 	 *
 	 * @param {Object} replaceVars The replacement variables passed in the wp-seo-post-scraper args.
 	 *
 	 * @returns {void}
 	 */
 	initialize( replaceVars ) {
-		this.data = this.getInitialData( replaceVars );
-		updateReplacementVariables( this.data, this.store );
+		this._data = this.getInitialData( replaceVars );
+		updateReplacementVariables( this._data, this._store );
 		this.subscribeToElements();
 	}
 
@@ -129,8 +129,8 @@ class ClassicEditorData {
 	 */
 	updateData( event, targetReplaceVar ) {
 		const replaceValue = event.target.value;
-		this.data[ targetReplaceVar ] = replaceValue;
-		this.store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
+		this._data[ targetReplaceVar ] = replaceValue;
+		this._store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
 	}
 
 	/**
@@ -156,9 +156,9 @@ class ClassicEditorData {
 	 * @returns {Object} The data.
 	 */
 	getData() {
-		this.data.content = this.getContent();
+		this._data.content = this.getContent();
 
-		return this.data;
+		return this._data;
 	}
 }
 module.exports = ClassicEditorData;

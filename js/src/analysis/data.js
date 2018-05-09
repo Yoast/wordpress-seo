@@ -17,16 +17,16 @@ class Data {
 	constructor( wpData, refresh, store ) {
 		this._wpData = wpData;
 		this._refresh = refresh;
-		this.store = store;
-		this.data = {};
+		this._store = store;
+		this._data = {};
 		this.getPostAttribute = this.getPostAttribute.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
 
 	initialize( replaceVars ) {
 		// Fill data object on page load.
-		this.data = this.getInitialData( replaceVars );
-		fillReplacementValues( this.data, this.store );
+		this._data = this.getInitialData( replaceVars );
+		fillReplacementValues( this._data, this._store );
 		this.subscribeToGutenberg();
 	}
 
@@ -105,12 +105,12 @@ class Data {
 	 */
 	handleEditorChange( newData ) {
 		// Handle title change
-		if ( this.data.title !== newData.title ) {
-			this.store.dispatch( updateReplacementVariable( "title", newData.title ) );
+		if ( this._data.title !== newData.title ) {
+			this._store.dispatch( updateReplacementVariable( "title", newData.title ) );
 		}
 		// Handle excerpt change
-		if ( this.data.excerpt !== newData.excerpt ) {
-			this.store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
+		if ( this._data.excerpt !== newData.excerpt ) {
+			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 		}
 	}
 
@@ -123,11 +123,11 @@ class Data {
 		let gutenbergData = this.collectGutenbergData( this.getPostAttribute );
 
 		// Set isDirty to true if the current data and Gutenberg data are unequal.
-		let isDirty = ! this.isShallowEqual( this.data, gutenbergData );
+		let isDirty = ! this.isShallowEqual( this._data, gutenbergData );
 
 		if ( isDirty ) {
 			this.handleEditorChange( gutenbergData );
-			this.data = gutenbergData;
+			this._data = gutenbergData;
 			this._refresh();
 		}
 	}
@@ -150,7 +150,7 @@ class Data {
 	 * @returns {Object} The data and whether the data is dirty.
 	 */
 	getData() {
-		return this.data;
+		return this._data;
 	}
 }
 module.exports = Data;
