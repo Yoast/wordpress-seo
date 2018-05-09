@@ -42,14 +42,21 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 		$register = new WPSEO_Register_Capabilities();
 		$register->register();
 
-		$user = self::factory()->user->create_and_get( array( 'role' => $role ) );
 		if ( $role === 'network_administrator' ) {
+			$user = self::factory()->user->create_and_get( array( 'role' => 'administrator' ) );
 			grant_super_admin( $user->ID );
+		} else {
+			$user = self::factory()->user->create_and_get( array( 'role' => $role ) );
 		}
 
 		$allcaps = $register->maybe_revoke_wpseo_manage_options_cap( $user->allcaps, array( 'wpseo_manage_options' ), array(), $user );
 
-		$this->assertSame( $expected_has_cap, ! empty( $allcaps['wpseo_manage_options'] ) );
+		$has_cap = ! empty( $allcaps['wpseo_manage_options'] );
+		if ( $expected_has_cap ) {
+			$this->assertTrue( $has_cap );
+		} else {
+			$this->assertFalse( $has_cap );
+		}
 	}
 
 	public function data_maybe_revoke_wpseo_manage_options_cap() {
