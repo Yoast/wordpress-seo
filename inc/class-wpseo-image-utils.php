@@ -36,7 +36,7 @@ class WPSEO_Image_Utils {
 	 * @param array $image         Image array with URL and metadata.
 	 * @param int   $attachment_id Attachment ID.
 	 *
-	 * @return array $image {
+	 * @return false|array $image {
 	 *     Array of image data
 	 *
 	 *     @type string $alt    Image's alt text.
@@ -48,6 +48,15 @@ class WPSEO_Image_Utils {
 	 * }
 	 */
 	public static function get_data( $image, $attachment_id ) {
+		if ( ! is_array( $image ) ) {
+			return false;
+		}
+
+		// Deals with non-set keys and values being null or false.
+		if ( ! isset( $image['width'], $image['height'] ) ) {
+			return false;
+		}
+
 		$image['id']     = $attachment_id;
 		$image['alt']    = self::get_alt_tag( $attachment_id );
 		$image['pixels'] = ( $image['width'] * $image['height'] );
@@ -97,12 +106,14 @@ class WPSEO_Image_Utils {
 	 */
 	public static function get_image( $attachment_id, $size ) {
 		if ( $size === 'full' ) {
-			$image         = wp_get_attachment_metadata( $attachment_id );
-			$image['url']  = wp_get_attachment_image_url( $attachment_id, 'full' );
-			$image['path'] = get_attached_file( $attachment_id );
+			$image = wp_get_attachment_metadata( $attachment_id );
+			if ( is_array( $image ) ) {
+				$image['url']  = wp_get_attachment_image_url( $attachment_id, 'full' );
+				$image['path'] = get_attached_file( $attachment_id );
+			}
 		}
 
-		if ( ! isset( $image ) ) {
+		if ( ! isset( $image ) || ! is_array( $image ) ) {
 			$image = image_get_intermediate_size( $attachment_id, $size );
 		}
 
