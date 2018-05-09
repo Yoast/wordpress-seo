@@ -32,7 +32,6 @@ class ClassicEditorData {
 	 */
 	initialize( replaceVars ) {
 		this.data = this.getInitialData( replaceVars );
-		console.log( "this.data: ", this.data );
 		fillReplacementValues( this.data, this.store );
 		this.subscribeToElements();
 	}
@@ -141,7 +140,6 @@ class ClassicEditorData {
 	 * @returns {Object} The data.
 	 */
 	getInitialData( replaceVars ) {
-		console.log( replaceVars );
 		return {
 			...replaceVars,
 			title: this.getTitle(),
