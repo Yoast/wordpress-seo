@@ -75,14 +75,14 @@ final class WPSEO_Image_Utils_Test extends PHPUnit_Framework_TestCase {
 	 *
 	 * @param string $input    Data to use in execution.
 	 * @param string $expected Expected result.
-	 * @param string $reason   Description of the tested data.
+	 * @param string $message  Description of the tested data.
 	 *
 	 * @dataProvider data_get_absolute_path
 	 */
-	public function test_absolute_path( $input, $expected, $reason = '' ) {
+	public function test_absolute_path( $input, $expected, $message = '' ) {
 		$result = WPSEO_Image_Utils::get_absolute_path( $input );
 
-		$this->assertEquals( $expected, $result, $reason );
+		$this->assertEquals( $expected, $result, $message );
 	}
 
 	/**
