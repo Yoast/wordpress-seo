@@ -228,7 +228,7 @@ class MailchimpSignup extends React.Component {
 		return (
 			<div className="yoast-wizard--columns yoast-wizard-newsletter">
 				<div>
-					<h2 className="yoast-wizard-newsletter--header"> {this.props.properties.title}</h2>
+					<h2 className="yoast-wizard-newsletter--header">{this.props.properties.title}</h2>
 					<p>{this.props.properties.label}</p>
 					{ this.props.properties.freeAccountNotice && <strong>{ this.props.properties.freeAccountNotice }</strong> }
 					<div className="yoast-wizard--columns yoast-wizard--columns__even">
