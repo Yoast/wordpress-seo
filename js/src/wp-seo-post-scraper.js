@@ -107,12 +107,11 @@ import { updateData } from "./redux/actions/snippetEditor";
 	/**
 	 * Initializes the snippet preview.
 	 *
-	 * @param {PostDataCollector} postScraper Object for getting post data.
+	 * @param {Object} snippetEditorData The snippet editor data.
 	 *
 	 * @returns {SnippetPreview} The created snippetpreview element.
 	 */
-	function initSnippetPreview( postScraper ) {
-		const snippetEditorData = snippetEditorHelpers.getDataFromCollector( postScraper );
+	function initSnippetPreview( snippetEditorData ) {
 		return snippetPreviewHelpers.create( snippetContainer, {
 			title: snippetEditorData.title,
 			urlPath: snippetEditorData.slug,
@@ -477,7 +476,13 @@ import { updateData } from "./redux/actions/snippetEditor";
 		tabManager = initializeTabManager();
 		postDataCollector = initializePostDataCollector( data );
 		publishBox.initalise();
-		snippetPreview = initSnippetPreview( postDataCollector );
+
+		// Initialize the snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoPostScraperL10n );
+		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+
+		snippetPreview = initSnippetPreview( snippetEditorData );
 
 		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
@@ -544,7 +549,6 @@ import { updateData } from "./redux/actions/snippetEditor";
 		}
 
 		// Set the initial snippet editor data.
-		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
 		store.dispatch( updateData( snippetEditorData ) );
 
 		// Subscribe to the store to save the snippet editor data.
@@ -553,7 +557,9 @@ import { updateData } from "./redux/actions/snippetEditor";
 
 			if ( ! isEqual( snippetEditorData, data ) ) {
 				snippetEditorData = data;
-				postDataCollector.saveSnippetData( data );
+				postDataCollector.saveSnippetData(
+					snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates )
+				);
 
 				updateLegacySnippetEditor( data );
 			}

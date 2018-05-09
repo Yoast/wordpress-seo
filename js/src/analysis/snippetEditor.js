@@ -1,3 +1,5 @@
+import has from "lodash/has";
+import forEach from "lodash/forEach";
 import isEmpty from "lodash/isEmpty";
 import isUndefined from "lodash/isUndefined";
 
@@ -61,8 +63,54 @@ function getTemplatesFromL10n( l10nObject ) {
 	return templates;
 }
 
+/**
+ * Add templates to the snippet editor data.
+ *
+ * @param {Object} data      The data object.
+ * @param {Object} templates The templates object.
+ *
+ * @returns {Object} A copy of the data with the templates applied.
+ */
+function getDataWithTemplates( data, templates ) {
+	const dataWithTemplates = {};
+
+	forEach( templates, ( template, key ) => {
+		if ( has( data, key ) && data[ key ] === "" ) {
+			dataWithTemplates[ key ] = template;
+		} else {
+			dataWithTemplates[ key ] = data[ key ];
+		}
+	} );
+
+	return dataWithTemplates;
+}
+
+/**
+ * Remove the templates from the snippet editor data.
+ *
+ * @param {Object} data      The data object.
+ * @param {Object} templates The templates object.
+
+ * @returns {Object} A copy of the data without the templates.
+ */
+function getDataWithoutTemplates( data, templates ) {
+	const dataWithoutTemplates = {};
+
+	forEach( templates, ( template, key ) => {
+		if ( has( data, key ) && data[ key ] === template ) {
+			dataWithoutTemplates[ key ] = "";
+		} else {
+			dataWithoutTemplates[ key ] = data[ key ];
+		}
+	} );
+
+	return dataWithoutTemplates;
+}
+
 export default {
 	getDataFromCollector,
 	getDataFromStore,
 	getTemplatesFromL10n,
+	getDataWithTemplates,
+	getDataWithoutTemplates,
 };
