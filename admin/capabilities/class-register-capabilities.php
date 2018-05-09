@@ -54,14 +54,20 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 			return $allcaps;
 		}
 
+		// If the user does not have 'wpseo_manage_options' anyway, we don't need to revoke access.
+		if ( empty( $allcaps['wpseo_manage_options'] ) ) {
+			return $allcaps;
+		}
+
+		// If the user does not have 'delete_users', they are not an administrator.
+		if ( empty( $allcaps['delete_users'] ) ) {
+			return $allcaps;
+		}
+
 		$options = WPSEO_Options::get_instance();
 
-		if ( $options->get( 'access' ) === 'superadmin' && ! empty( $allcaps['wpseo_manage_options'] ) ) {
-
-			// Only administrators can `delete_users`, so we can rely on that capability.
-			if ( ! empty( $allcaps['delete_users'] ) && ! is_super_admin( $user->ID ) ) {
-				unset( $allcaps['wpseo_manage_options' ] );
-			}
+		if ( $options->get( 'access' ) === 'superadmin' && ! is_super_admin( $user->ID ) ) {
+			unset( $allcaps['wpseo_manage_options' ] );
 		}
 
 		return $allcaps;
