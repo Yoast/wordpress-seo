@@ -53,7 +53,7 @@ class WPSEO_Image_Utils {
 		}
 
 		// Deals with non-set keys and values being null or false.
-		if ( ! isset( $image['width'], $image['height'] ) ) {
+		if ( empty( $image['width'] ) || empty( $image['height'] ) ) {
 			return false;
 		}
 
