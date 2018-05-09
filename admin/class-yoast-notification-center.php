@@ -209,8 +209,9 @@ class Yoast_Notification_Center {
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 
-		if ( ! $this->notifications_retrieved ) {
-			$this->queued_transactions[] = array( array( $this, __METHOD__ ), func_get_args() );
+		$callback = array( $this, __METHOD__ );
+		$args     = func_get_args();
+		if ( $this->maybe_queue_transaction( $callback, $args ) ) {
 			return;
 		}
 
@@ -304,8 +305,9 @@ class Yoast_Notification_Center {
 	 */
 	public function remove_notification( Yoast_Notification $notification, $resolve = true ) {
 
-		if ( ! $this->notifications_retrieved ) {
-			$this->queued_transactions[] = array( array( $this, __METHOD__ ), func_get_args() );
+		$callback = array( $this, __METHOD__ );
+		$args     = func_get_args();
+		if ( $this->maybe_queue_transaction( $callback, $args ) ) {
 			return;
 		}
 
@@ -639,5 +641,33 @@ class Yoast_Notification_Center {
 	 */
 	private function is_notification_persistent( Yoast_Notification $notification ) {
 		return ! $notification->is_persistent();
+	}
+
+	/**
+	 * Queues a notification transaction for later execution if notifications are not yet set up.
+	 *
+	 * @param callable $callback Callback that performs the transaction.
+	 * @param array    $args     Arguments to pass to the callback.
+	 *
+	 * @return bool True if transaction was queued, false if it can be performed immediately.
+	 */
+	private function maybe_queue_transaction( $callback, $args ) {
+		if ( $this->notifications_retrieved ) {
+			return false;
+		}
+
+		$this->queue_transaction( $callback, $args );
+
+		return true;
+	}
+
+	/**
+	 * Queues a notification transaction for later execution.
+	 *
+	 * @param callable $callback Callback that performs the transaction.
+	 * @param array    $args     Arguments to pass to the callback.
+	 */
+	private function queue_transaction( $callback, $args ) {
+		$this->queued_transactions[] = array( $callback, $args );
 	}
 }
