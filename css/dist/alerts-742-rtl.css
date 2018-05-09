@@ -12,251 +12,6 @@
 	clip-path: inset(50%);
 }
 
-/* css for snippet */
-.yoast-search-result-preview__heading {
-	margin: 0 -20px 15px;
-	padding: 8px 20px;
-	border-bottom: 1px solid #f7f7f7;
-	color: #555;
-	font-family: "Open Sans", sans-serif;
-	font-size: 0.9rem;
-	font-weight: 300;
-}
-
-.yoast-search-result-preview__field {
-	overflow: hidden;
-	position: relative;
-	width: 600px;
-	cursor: pointer;
-}
-
-.yoast-search-result-preview__field:before,
-.yoast-search-result-preview__field:after {
-	display: table;
-	content: " ";
-}
-
-.yoast-search-result-preview__field:after {
-	clear: both;
-}
-
-.yoast-search-result-preview__field--hover:before {
-	display: block;
-	position: absolute;
-	left: -3px;
-	width: 24px;
-	height: 24px;
-	margin-top: -3px;
-	background-image: url("data:image/svg+xml;charset=utf8,_encode('<svg width=\"1792\" height=\"1792\" viewBox=\"0 0 1792 1792\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"#646464\" d=\"M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z\" /></svg>')");
-	background-size: 25px;
-	content: "";
-}
-
-.yoast-search-result-preview__field--focus:before {
-	display: block;
-	position: absolute;
-	left: -3px;
-	width: 24px;
-	height: 24px;
-	margin-top: -3px;
-	background-image: url("data:image/svg+xml;charset=utf8,_encode('<svg width=\"1792\" height=\"1792\" viewBox=\"0 0 1792 1792\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"#0066cd\" d=\"M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z\" /></svg>')");
-	background-size: 25px;
-	content: "";
-}
-
-.yoast-search-result-preview__title {
-	overflow: hidden;
-	margin: 0;
-	color: #1a0dab;
-	font-size: 18px;
-	font-weight: normal;
-	line-height: 1.2;
-	white-space: nowrap;
-	text-decoration: none;
-	text-overflow: ellipsis;
-}
-
-.yoast-search-result-preview__url {
-	color: #006621;
-	font-size: 14px;
-	font-style: normal;
-	line-height: 16px;
-}
-
-.yoast-search-result-preview__description,
-.yoast-search-result-preview__date {
-	font-size: 13px;
-	line-height: 1.4;
-}
-
-.yoast-search-result-preview__date {
-	color: #808080;
-}
-
-.yoast-search-result-preview__description {
-	color: #545454;
-}
-
-.yoast-button,
-.yoast-button__edit {
-	padding: 8px 10px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	color: #555;
-	background: #f7f7f7;
-	font-size: 0.8rem;
-	cursor: pointer;
-}
-
-.yoast-button__edit {
-	display: block;
-	margin-top: 1em;
-	padding-left: 32px;
-	background: #f7f7f7 url("data:image/svg+xml;charset=utf8,_encode('<svg width=\"1792\" height=\"1792\" viewBox=\"0 0 1792 1792\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"#555\" d=\"M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z\" /></svg>')") no-repeat 8px center/16px 16px;
-	background-size: 16px;
-}
-
-.yoast-search-result-form {
-	overflow: hidden;
-	background-color: #fff;
-	font-family: Arial, sans-serif;
-}
-
-.yoast-search-result-form__heading {
-	margin: 0 -20px 15px;
-	padding: 8px 20px;
-	border-bottom: 1px solid #f7f7f7;
-	color: #555;
-	font-family: "Open Sans", sans-serif;
-	font-size: 0.9rem;
-	font-weight: 300;
-}
-
-.yoast-search-result-form__container--hover:before {
-	display: block;
-	position: absolute;
-	left: -3px;
-	width: 24px;
-	height: 24px;
-	margin-top: -3px;
-	margin-top: 15px;
-	background-image: url("data:image/svg+xml;charset=utf8,_encode('<svg width=\"1792\" height=\"1792\" viewBox=\"0 0 1792 1792\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"#646464\" d=\"M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z\" /></svg>')");
-	background-size: 25px;
-	content: "";
-}
-
-.yoast-search-result-form__container--focus:before {
-	display: block;
-	position: absolute;
-	left: -3px;
-	width: 24px;
-	height: 24px;
-	margin-top: -3px;
-	margin-top: 15px;
-	background-image: url("data:image/svg+xml;charset=utf8,_encode('<svg width=\"1792\" height=\"1792\" viewBox=\"0 0 1792 1792\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"#0066cd\" d=\"M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z\" /></svg>')");
-	background-size: 25px;
-	content: "";
-}
-
-.yoast-search-result-form__label {
-	display: block;
-	width: 100%;
-	margin-top: 1em;
-}
-
-.yoast-search-result-form__field {
-	box-sizing: border-box;
-	width: 100%;
-	border: 1px solid #ddd;
-}
-
-.yoast-search-result-form__description {
-	display: block;
-	box-sizing: border-box;
-	width: 100%;
-	height: 70px;
-	border: 1px solid #ddd;
-}
-
-.yoast-search-result-form__progress {
-	display: block;
-	box-sizing: border-box;
-	width: 100%;
-	height: 8px;
-	margin-top: 5px;
-	border: 0;
-
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-}
-
-.yoast-search-result-form__progress::-webkit-progress-bar {
-	border: 1px solid #ddd;
-	background-color: #f7f7f7;
-}
-
-.yoast-search-result-form__close-button {
-	margin-top: 1em;
-}
-
-.yoast-search-result-form__progress--bad {
-	color: #dc3232;
-}
-
-.yoast-search-result-form__progress--bad::-webkit-progress-value {
-	background-color: #dc3232;
-	transition: width 250ms;
-}
-
-.yoast-search-result-form__progress--bad::-moz-progress-bar {
-	background-color: #dc3232;
-}
-
-.yoast-search-result-form__progress--bad--fallback {
-	overflow: hidden;
-	max-width: 100%;
-	background-color: #dc3232;
-}
-
-.yoast-search-result-form__progress--ok {
-	color: #ee7c1b;
-}
-
-.yoast-search-result-form__progress--ok::-webkit-progress-value {
-	background-color: #ee7c1b;
-	transition: width 250ms;
-}
-
-.yoast-search-result-form__progress--ok::-moz-progress-bar {
-	background-color: #ee7c1b;
-}
-
-.yoast-search-result-form__progress--ok--fallback {
-	overflow: hidden;
-	max-width: 100%;
-	background-color: #ee7c1b;
-}
-
-.yoast-search-result-form__progress--good {
-	color: #7ad03a;
-}
-
-.yoast-search-result-form__progress--good::-webkit-progress-value {
-	background-color: #7ad03a;
-	transition: width 250ms;
-}
-
-.yoast-search-result-form__progress--good::-moz-progress-bar {
-	background-color: #7ad03a;
-}
-
-.yoast-search-result-form__progress--good--fallback {
-	overflow: hidden;
-	max-width: 100%;
-	background-color: #7ad03a;
-}
-
 body {
 	margin: 0;
 	padding: 0;
@@ -292,7 +47,7 @@ body {
 	min-height: 20px;
 	padding: 2em;
 	background: #fff;
-	text-align: left;
+	text-align: right;
 }
 
 @media screen and (max-width: 768px) {
@@ -324,7 +79,7 @@ body {
 
 .yoast-wizard--navigation {
 	width: 100%;
-	text-align: right;
+	text-align: left;
 }
 
 .yoast-wizard--button {
@@ -332,7 +87,7 @@ body {
 }
 
 .yoast-wizard--button__next {
-	margin-left: 1em;
+	margin-right: 1em;
 }
 
 .yoast-wizard--button__next button:hover,
@@ -371,8 +126,8 @@ body {
 
 	.yoast-wizard--step__active div > span > span {
 		display: block !important;
-		margin-left: -7px;
-		padding-right: 99px !important;
+		margin-right: -7px;
+		padding-left: 99px !important;
 	}
 }
 
@@ -421,7 +176,7 @@ body {
 	position: absolute;
 	z-index: 10;
 	top: 0;
-	left: 0;
+	right: 0;
 	width: 100%;
 	height: 100%;
 	opacity: 0.2;
@@ -439,7 +194,7 @@ body {
 	min-height: 20px;
 	border: 1px solid #ccc;
 	box-shadow: rgba(0, 0, 0, 0.15) 0 3px 10px, rgba(0, 0, 0, 0.2) 0 3px 10px;
-	text-align: left;
+	text-align: right;
 }
 
 .yoast-wizard-container--no-navigation {
@@ -496,7 +251,7 @@ body {
 }
 
 .yoast-wizard input[type="radio"] {
-	margin: 0.3em 0.7em 0.3em 0;
+	margin: 0.3em 0 0.3em 0.7em;
 	vertical-align: middle;
 }
 
@@ -521,15 +276,15 @@ body {
 .yoast-wizard-input-radio-separator input {
 	/* visually hide the radio buttons but keep them accessible */
 	position: absolute;
-	left: -9999em;
+	right: -9999em;
 	width: 1px;
 	height: 1px;
 }
 
 .yoast-wizard-input-radio-separator input + label {
-	float: left;
+	float: right;
 	width: 30px !important;
-	margin: 0 5px 5px 0 !important;
+	margin: 0 0 5px 5px !important;
 	padding: 6px 3px;
 	border: 1px solid #ccc;
 	/* Don't change: these mimic Google's font and font size for titles */
@@ -549,7 +304,7 @@ body {
 .yoast-wizard-input-radio-separator input:checked + label,
 .yoast-wizard-input-radio-separator input:focus + label {
 	border-radius: 10px;
-	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 /* Responsive videos. */
@@ -569,7 +324,7 @@ body {
 .yoast-video-container iframe {
 	position: absolute;
 	top: 0;
-	left: 0;
+	right: 0;
 	width: 100%;
 	height: 100%;
 }
@@ -577,7 +332,7 @@ body {
 .yoast-wizard-notice__error {
 	margin-bottom: 15px;
 	padding: 12px;
-	border-left: 4px solid #dc3232;
+	border-right: 4px solid #dc3232;
 	background: #fff;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
@@ -614,7 +369,7 @@ body {
 
 .yoast-alert {
 	padding: 0 12px;
-	border-left: 4px solid #fff;
+	border-right: 4px solid #fff;
 	background: #fff;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
@@ -628,19 +383,19 @@ body {
 }
 
 .yoast-container__alert .yoast-alert {
-	border-left-color: #dc3232;
+	border-right-color: #dc3232;
 }
 
 #yoast-alerts-dismissed .yoast-alert {
-	border-left-color: #d93f69;
+	border-right-color: #d93f69;
 }
 
 .yoast-container__warning .yoast-alert {
-	border-left-color: #5d237a;
+	border-right-color: #5d237a;
 }
 
 #yoast-warnings-dismissed .yoast-alert {
-	border-left-color: #0075b3;
+	border-right-color: #0075b3;
 }
 
 .yoast-container {
@@ -698,7 +453,7 @@ h3 .dashicons-warning {
 .yoast-alerts .button.dismiss {
 	width: 45px;
 	height: 45px;
-	margin-left: 10px;
+	margin-right: 10px;
 	padding: 0;
 	outline: none;
 	line-height: inherit;
@@ -733,15 +488,15 @@ h3 .dashicons-warning {
 	display: table-cell;
 	position: absolute;
 	top: 0;
-	right: 0;
-	bottom: 0;
 	left: 0;
+	bottom: 0;
+	right: 0;
 	border-radius: 4px;
 	background-color: rgba(232, 232, 232, 0.7);
 }
 
 .yoast-no-issues {
-	padding: 1em 1em 1em 16px;
+	padding: 1em 16px 1em 1em;
 	color: #666;
 }
 
@@ -755,8 +510,8 @@ h3 .dashicons-warning {
 	display: inline-block;
 	width: 100%;
 	height: 0.5em;
-	margin-right: -100%;
-	margin-left: 10px;
+	margin-left: -100%;
+	margin-right: 10px;
 	border-top: 1px solid #ddd;
 	vertical-align: bottom;
 	content: "";
@@ -822,7 +577,7 @@ h3 .dashicons-warning {
 	.yoast-alerts .yoast-container__configuration-wizard--dismiss {
 		position: absolute;
 		top: 5px;
-		right: 5px;
+		left: 5px;
 		width: 40px;
 		margin: 0;
 	}

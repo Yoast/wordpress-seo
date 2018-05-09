@@ -25,7 +25,7 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		global $wpdb;
 
 		self::$proxy_table_name = 'yoast_seo_test_table';
-		self::$proxy = new WPSEO_Database_Proxy( $wpdb, self::$proxy_table_name, true );
+		self::$proxy            = new WPSEO_Database_Proxy( $wpdb, self::$proxy_table_name, true );
 		self::$proxy->create_table(
 			array(
 				'id bigint(20) unsigned NOT NULL AUTO_INCREMENT',
