@@ -96,7 +96,7 @@ class ClassicEditorData {
 	}
 
 	/**
-	 * Subscribes to an element via its id, and sets a debounced callback.
+	 * Subscribes to an element via its id, and sets a callback.
 	 *
 	 * @param {string} elementId          The id of the element to subscribe to.
 	 * @param {string} targetReplaceVar   The name of the replacevar the value should be sent to.
