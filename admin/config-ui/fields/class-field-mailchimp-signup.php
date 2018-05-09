@@ -20,14 +20,16 @@ class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 		$user_email   = ( $current_user->ID > 0 ) ? $current_user->user_email : '';
 
 		$signup_text = sprintf(
-			/* translators: %1$s expands to Yoast SEO for WordPress. */
-			__( 'Sign up for our newsletter if you would like to keep up-to-date about %1$s, other cool plugins by Yoast, and interesting news and tips from the world of SEO.', 'wordpress-seo' ),
-			'Yoast SEO for WordPress'
+			/* translators: %1$s expands to Yoast SEO for WordPress, %2$s expands to Yoast */
+			__( 'Sign up for our newsletter if you would like to keep up-to-date about %1$s, other cool plugins by %2$s, and interesting news and tips from the world of SEO.', 'wordpress-seo' ),
+			'Yoast SEO for WordPress',
+			'Yoast'
 		);
 
 		$gdpr_notice = sprintf(
-			/* translators: %1$s expands to an opening anchor tag, %2$s expands to a closing anchor tag. */
-			__( 'Yoast respects the GDPR. Read our %1$sprivacy policy%2$s on what happens with your personal information.', 'wordpress-seo' ),
+			/* translators: %1$s expands Yoast, %2$s expands to an opening anchor tag, %3$s expands to a closing anchor tag. */
+			__( '%1$s respects the GDPR. Read our %2$sprivacy policy%3$s on what happens with your personal information.', 'wordpress-seo' ),
+			'Yoast',
 			'<a target="_blank" rel="noopener noreferrer" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/gdpr-config-wizard' ) . '">',
 			'</a>'
 		);
