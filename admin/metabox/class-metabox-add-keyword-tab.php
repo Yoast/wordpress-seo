@@ -38,9 +38,9 @@ class WPSEO_Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 				'content'        => 'AddKeyword',
 			);
 
-			$translations = new WPSEO_Add_Keyword_Modal;
+			$translations = new WPSEO_Add_Keyword_Modal();
 			$translations->enqueue_translations();
-			$benefits = new WPSEO_Premium_Benefits_List;
+			$benefits = new WPSEO_Premium_Benefits_List();
 			$benefits->enqueue_translations();
 			Yoast_Modal::add( $add_keyword_modal_config );
 		}

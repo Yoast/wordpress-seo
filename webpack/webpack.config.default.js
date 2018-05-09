@@ -16,7 +16,6 @@ const externals = {
 
 // This makes sure the @wordpress dependencies are correctly transformed.
 const wpDependencies = [
-	"i18n",
 	"components",
 	"element",
 	"blocks",
@@ -54,6 +53,7 @@ const defaultWebpackConfig = {
 	resolve: {
 		extensions: [ ".json", ".js", ".jsx" ],
 		alias,
+		symlinks: false,
 	},
 	module: {
 		rules: [

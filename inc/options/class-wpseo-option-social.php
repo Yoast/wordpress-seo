@@ -190,7 +190,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
 
-				case 'fbadminapp' :
+				case 'fbadminapp':
 					if ( isset( $dirty[ $key ] ) && ! empty( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
