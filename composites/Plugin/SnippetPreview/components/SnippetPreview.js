@@ -40,9 +40,10 @@ const MobileContainer = styled.div`
 	border-radius: 2px;
 	box-shadow: 0 1px 2px rgba(0,0,0,.2);
 	margin: 0 20px 10px;
-	font-family: Roboto-Regular, HelveticaNeue, Arial, sans-serif;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	max-width: ${ MAX_WIDTH }px;
 	box-sizing: border-box;
+	font-size: 14px;
 `;
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
@@ -112,6 +113,7 @@ export const TitleUnboundedMobile = styled.span`
 	max-height: 2.4em;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	font-size: 16px;
 `;
 
 export const BaseUrl = styled.div`
@@ -119,6 +121,15 @@ export const BaseUrl = styled.div`
 	color: ${ colorUrl };
 	cursor: pointer;
 	position: relative;
+	max-width: 90%;
+	white-space: nowrap;
+	font-size: 14px;
+`;
+
+const BaseUrlOverflowContainer = styled( BaseUrl )`
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 100%;
 `;
 
 export const DesktopDescription = styled.div.attrs( {
@@ -128,20 +139,23 @@ export const DesktopDescription = styled.div.attrs( {
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
+	font-size: 13px;
 `;
 
 const MobileDescription = styled( DesktopDescription )`
-	line-height: 1em;
 	max-height: 4em;
+	padding-bottom: 3px;
 `;
 
 const MobileDescriptionOverflowContainer = styled( MobileDescription )`
 	overflow: hidden;
+	font-size: 14px;
+	line-height: 20px;
 	max-height: calc( 4em + 3px );
 `;
 
 const MobilePartContainer = styled.div`
-	padding: 16px;
+	padding: 8px 16px;
 `;
 
 const DesktopPartContainer = styled.div`
@@ -485,10 +499,13 @@ export default class SnippetPreview extends PureComponent {
 		 * However this is not relevant in this case, because the url is not focusable.
 		 */
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
-		return <Url onClick={ onClick.bind( null, "url" ) }
-		            onMouseOver={ partial( onMouseOver, "url" ) }
-		            onMouseLeave={ partial( onMouseLeave, "url" ) }>
-			{ urlContent }
+		return <Url>
+			<BaseUrlOverflowContainer
+				onClick={ onClick.bind( null, "url" ) }
+				onMouseOver={ partial( onMouseOver, "url" ) }
+				onMouseLeave={ partial( onMouseLeave, "url" ) }>
+				{ urlContent }
+			</BaseUrlOverflowContainer>
 		</Url>;
 		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}

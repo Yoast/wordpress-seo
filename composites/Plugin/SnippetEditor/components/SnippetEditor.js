@@ -14,14 +14,19 @@ import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
+import colors from "../../../../style-guide/colors";
 
 const SnippetEditorButton = Button.extend`
+	height: 33px;
 	border: 1px solid #dbdbdb;
 	box-shadow: none;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 `;
 
 const EditSnippetButton = SnippetEditorButton.extend`
-	margin: 10px 0 0 9px;
+	margin: 10px 0 0 4px;
+	fill: ${ colors.$color_grey_dark };
+	padding-left: 8px;
 	
 	& svg {
 		margin-right: 7px;
