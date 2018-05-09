@@ -170,8 +170,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 				'With false given as data'
 			),
 			array(
-				stdObject array(),
-				'With false given as data'
+				(object) array( 'url' => null ),
+				'With object given as data',
 			),
 		);
 	}
