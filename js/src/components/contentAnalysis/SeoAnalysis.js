@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import isUndefined from "lodash/isUndefined";
 
 import Results from "./Results";
 
@@ -35,9 +36,12 @@ SeoAnalysis.propTypes = {
  */
 function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
-
+	let results = null;
+	if ( ! isUndefined( state.analysis.seo[ state.activeKeyword ] ) ) {
+		results = state.analysis.seo[ state.activeKeyword ].results;
+	}
 	return {
-		results: state.analysis.seo[ state.activeKeyword ] || null,
+		results: results,
 		marksButtonStatus: marksButtonStatus,
 	};
 }
