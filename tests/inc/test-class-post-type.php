@@ -50,7 +50,13 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type::get_accessible_post_types()
 	 */
 	public function test_get_accessible_post_types_with_a_custom_post_type_that_is_noy_publicly_queryable() {
-		register_post_type( 'hidden-post-type', array( 'public' => true, 'publicly_queryable' => false ) );
+		register_post_type(
+			'hidden-post-type',
+			array(
+				'public'             => true,
+				'publicly_queryable' => false,
+			)
+		);
 
 		$this->assertNotContains( 'hidden-post-type', WPSEO_Post_Type::get_accessible_post_types() );
 	}

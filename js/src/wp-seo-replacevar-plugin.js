@@ -22,6 +22,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Variable replacement plugin for WordPress.
 	 *
 	 * @param {app} app The app object.
+	 * @param {Object} store The redux store.
 	 *
 	 * @returns {void}
 	 */
