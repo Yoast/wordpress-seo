@@ -22,6 +22,4 @@ export function setYoastComponentsI18n() {
 			setLocaleData( translations, "yoast-components" );
 		}
 	}
-
-	console.log( jed.options.locale_data[ "yoast-components" ] );
 }

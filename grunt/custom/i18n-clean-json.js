@@ -28,10 +28,12 @@ module.exports = function( grunt ) {
 		strings[ "" ].domain = newTextdomain;
 		json.locale_data[ newTextdomain ] = strings;
 
+		// This property is added by GlotPress which is unnecessary.
 		if ( json.hasOwnProperty( "translation-revision-date" ) ) {
 			delete json[ "translation-revision-date" ];
 		}
 
+		// This property is added by GlotPress which is unnecessary.
 		if ( json.hasOwnProperty( "generator" ) ) {
 			delete json.generator;
 		}
