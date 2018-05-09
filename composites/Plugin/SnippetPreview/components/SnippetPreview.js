@@ -4,6 +4,7 @@ import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 import transliterate from "yoastseo/js/stringProcessing/transliterate";
 import createWordRegex from "yoastseo/js/stringProcessing/createWordRegex";
+import replaceSpecialCharactersAndDiacritics from "yoastseo/js/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import partial from "lodash/partial";
@@ -196,25 +197,35 @@ const Amp = styled.div`
  * @param {string} locale The locale.
  * @param {string} keyword The keyword.
  * @param {string} text The text in which to highlight a keyword.
+ * @param {string} cleanText Optional. The text in which to highlight a keyword
+ *                           without special characters and diacritics.
  *
  * @returns {ReactElement} React elements to be rendered.
  */
-function highlightKeyword( locale, keyword, text ) {
+function highlightKeyword( locale, keyword, text, cleanText ) {
 	if ( keyword === "" ) {
 		return text;
 	}
 
-	// Match keyword case-insensitively.
-	const keywordMatcher = createWordRegex( keyword, "", false );
+	/*
+	 * When a text has been cleaned up from special characters and diacritics
+	 * we need to match against a cleaned up keyword as well.
+	 */
+	const textToUse = cleanText ? cleanText : text;
+	const keywordToUse = cleanText ? replaceSpecialCharactersAndDiacritics( keyword ) : keyword;
 
-	text = text.replace( keywordMatcher, function( keyword ) {
-		return `{{strong}}${ keyword }{{/strong}}`;
+	// Match keyword case-insensitively.
+	const keywordMatcher = createWordRegex( keywordToUse, "", false );
+
+	text = textToUse.replace( keywordMatcher, function( keywordToUse ) {
+		return `{{strong}}${ keywordToUse }{{/strong}}`;
 	} );
 
 	// Transliterate the keyword for highlighting
 	const transliteratedKeyword = transliterate( keyword, locale );
 	if ( transliteratedKeyword !== keyword ) {
 		const transliteratedKeywordMatcher = createWordRegex( transliteratedKeyword, "", false );
+		// Let the transliteration run on the text with no previous replacements.
 		text = text.replace( transliteratedKeywordMatcher, function( keyword ) {
 			return `{{strong}}${ keyword }{{/strong}}`;
 		} );
@@ -440,10 +451,11 @@ export default class SnippetPreview extends PureComponent {
 	/**
 	 * Returns the breadcrumbs string to be rendered.
 	 *
+	 * @param {string} url The url to use to build the breadcrumbs.
 	 * @returns {string} The breadcrumbs.
 	 */
-	getBreadcrumbs() {
-		const { url, breadcrumbs } = this.props;
+	getBreadcrumbs( url ) {
+		const { breadcrumbs } = this.props;
 		// Strip out question mark and hash characters from the raw URL.
 		const cleanUrl = url.replace( /\?|#/g, "" );
 		const { protocol, hostname, pathname } = parse( cleanUrl );
@@ -471,11 +483,18 @@ export default class SnippetPreview extends PureComponent {
 		} = this.props;
 
 		let urlContent;
+		/*
+		 * We need to replace special characters and diacritics only on the url
+		 * string because when highlightKeyword kicks in, interpolateComponents
+		 * returns an array of strings plus a strong React element, and replace()
+		 * can't run on an array.
+		 */
+		let cleanUrl = replaceSpecialCharactersAndDiacritics( url );
 
 		if ( this.props.mode === MODE_MOBILE ) {
-			urlContent = this.getBreadcrumbs();
+			urlContent = this.getBreadcrumbs( cleanUrl );
 		} else {
-			urlContent = highlightKeyword( locale, keyword, url );
+			urlContent = highlightKeyword( locale, keyword, url, cleanUrl );
 		}
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
