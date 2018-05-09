@@ -28,14 +28,14 @@ class Data {
 		this.data = this.getInitialData( replaceVars );
 		fillReplacementValues( this.data, this.store );
 		this.subscribeToGutenberg();
-	};
+	}
 
 	getInitialData( replaceVars ) {
 		let gutenbergData = this.collectGutenbergData( this.getPostAttribute );
 		return {
 			...replaceVars,
 			...gutenbergData,
-		}
+		};
 	}
 
 	/**

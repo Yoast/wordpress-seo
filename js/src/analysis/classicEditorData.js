@@ -1,4 +1,3 @@
-/* global wpseoReplaceVarsL10n */
 import debounce from "lodash/debounce";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import fillReplacementValues from "../helpers/sendReplaceVarsToStore";
@@ -47,15 +46,20 @@ class ClassicEditorData {
 	}
 
 	/**
-	 * Gets the excerpt from the document
+	 * Gets the excerpt from the document.
 	 *
-	 * @return {string} The excerpt or an empty string.
+	 * @returns {string} The excerpt or an empty string.
 	 */
 	getExcerpt() {
 		let excerptElement = document.getElementById( "excerpt" );
 		return excerptElement && excerptElement.value || "";
 	}
 
+	/**
+	 * Gets the slug from the document.
+	 *
+	 * @returns {string} The slug or an empty string.
+	 */
 	getSlug() {
 		let slug = "";
 
@@ -70,20 +74,33 @@ class ClassicEditorData {
 		return slug;
 	}
 
+	/**
+	 * Gets the content of the document after removing marks.
+	 *
+	 * @returns {string} The content of the document.
+	 */
 	getContent() {
 		return removeMarks( tmceHelper.getContentTinyMce( tmceId ) );
 	}
 
+	/**
+	 * Subscribes to input elements.
+	 *
+	 * @returns {void}
+	 */
 	subscribeToElements() {
 		this.subscribeToInputElement( "title", "title" );
 		this.subscribeToInputElement( "excerpt", "excerpt" );
+		this.subscribeToInputElement( "content", "content" );
 	}
 
 	/**
-	 * Subscribes to an element via its id, and sends the changes to redux.
+	 * Subscribes to an element via its id, and sets a debounced callback.
 	 *
 	 * @param {string} elementId          The id of the element to subscribe to.
 	 * @param {string} targetReplaceVar   The name of the replacevar the value should be sent to.
+	 *
+	 * @returns {void}
 	 */
 	subscribeToInputElement( elementId, targetReplaceVar ) {
 		let element = document.getElementById( elementId );
@@ -93,12 +110,27 @@ class ClassicEditorData {
 		} );
 	}
 
+	/**
+	 * Sets the event target value in the data and dispatches to the store.
+	 *
+	 * @param {Object} event            An event object.
+	 * @param {string} targetReplaceVar The replacevar the event's value belongs to.
+	 *
+	 * @returns {void}
+	 */
 	updateData( event, targetReplaceVar ) {
 		let replaceValue = event.target.value;
 		this.data[ targetReplaceVar ] = replaceValue;
 		this.store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
 	}
 
+	/**
+	 * Gets the initial data from the replacevars and document.
+	 *
+	 * @param {Object} replaceVars The replaceVars object.
+	 *
+	 * @returns {Object} The data.
+	 */
 	getInitialData( replaceVars ) {
 		return {
 			...replaceVars,
@@ -106,9 +138,14 @@ class ClassicEditorData {
 			excerpt: this.getExcerpt(),
 			slug: this.getSlug(),
 			content: this.getContent(),
-		}
+		};
 	}
 
+	/**
+	 * Returns the data.
+	 *
+	 * @returns {Object} The data.
+	 */
 	getData() {
 		return this.data;
 	}

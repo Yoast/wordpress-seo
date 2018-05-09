@@ -140,17 +140,27 @@ function renderReactApps( store, args ) {
 	renderReactApp( args.analysisSection, AnalysisSection, store );
 }
 
-function initializeData( data, args, store ) {
+/**
+ * Initialize the appropriate data class.
+ *
+ * @param {Object}   data                   The data from the editor.
+ * @param {Object}   args                   The args.
+ * @param {Function} args.onRefreshRequest  The function to call on refresh request.
+ * @param {Object}   args.replaceVars       The replaceVars object.
+ * @param {Object}   store                  The redux store.
+ *
+ * @returns {Object} The instantiated data class.
+ */
+export function initializeData( data, args, store ) {
 	// Only use Gutenberg's data if Gutenberg is available.
 	if ( isGutenbergDataAvailable() ) {
 		const gutenbergData = new Data( data, args.onRefreshRequest, store );
 		gutenbergData.initialize( args.replaceVars );
 		return gutenbergData;
-	} else {
-		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
-		classicEditorData.initialize( args.replaceVars );
-		return classicEditorData;
 	}
+	const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
+	classicEditorData.initialize( args.replaceVars );
+	return classicEditorData;
 }
 
 /**

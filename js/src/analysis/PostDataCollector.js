@@ -10,7 +10,6 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar }from "../ui/adminBar";
 
 import publishBox from "../ui/publishBox";
-import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 
 let $ = jQuery;
 let currentKeyword = "";
