@@ -160,7 +160,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 
 		$data = $this->provider->get( $term->term_id );
 
-		$this->assertEquals( $expected, $data[ 'is_robots_noindex' ], $description );
+		$this->assertEquals( $expected, $data['is_robots_noindex'], $description );
 	}
 
 	/**

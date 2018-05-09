@@ -99,7 +99,7 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 		$opengraph_image = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'opengraph-image', true );
 		$opengraph_title = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'opengraph-title', true );
 		$twitter_title   = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'twitter-title', true );
-		$focuskw = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'focuskw', true );
+		$focuskw         = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'focuskw', true );
 
 		$this->assertEquals( 'Test title', $seo_title );
 		$this->assertEquals( 'Test description', $seo_desc );
@@ -129,7 +129,7 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->setup_post();
 		delete_post_meta( $post_id, '_wds_twitter' );
 		delete_post_meta( $post_id, '_wds_opengraph' );
-		$result  = $this->class_instance->run_import();
+		$result = $this->class_instance->run_import();
 
 		$seo_title       = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
 		$seo_desc        = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
@@ -163,12 +163,12 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 		$original_wpdb = $wpdb;
 
 		$wpdb = $this->getMockBuilder( 'wpdb' )
-					 ->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
-					 ->setMethods( array( 'query' ) )
-					 ->getMock();
+			->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
+			->setMethods( array( 'query' ) )
+			->getMock();
 		$wpdb->expects( $this->any() )
-			 ->method( 'query' )
-			 ->will( $this->returnValue( false ) );
+			->method( 'query' )
+			->will( $this->returnValue( false ) );
 		$result          = $class_instance->run_import();
 		$expected_result = $this->status( 'import', false );
 		$expected_result->set_msg( 'The Yoast SEO importer functionality uses temporary database tables. It seems your WordPress install does not have the capability to do this, please consult your hosting provider.' );
@@ -256,12 +256,12 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 		$original_wpdb = $wpdb;
 
 		$wpdb = $this->getMockBuilder( 'wpdb' )
-					 ->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
-					 ->setMethods( array( 'query' ) )
-					 ->getMock();
+			->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
+			->setMethods( array( 'query' ) )
+			->getMock();
 		$wpdb->expects( $this->any() )
-			 ->method( 'query' )
-			 ->will( $this->returnValue( false ) );
+			->method( 'query' )
+			->will( $this->returnValue( false ) );
 
 		$result          = $class_instance->run_cleanup();
 		$expected_result = $this->status( 'cleanup', false );

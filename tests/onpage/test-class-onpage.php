@@ -198,12 +198,12 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 		update_option( 'blog_public', 1 );
 
 		$instance = $this->getMockBuilder( 'WPSEO_OnPage_Double' )
-						 ->setMethods( array( 'get_option' ) )
-						 ->getMock();
+			->setMethods( array( 'get_option' ) )
+			->getMock();
 
 		$instance->expects( $this->atLeastOnce() )
-				 ->method( 'get_option' )
-				 ->will( $this->returnValue( $option ) );
+			->method( 'get_option' )
+			->will( $this->returnValue( $option ) );
 
 		$this->assertFalse( $instance->should_show_notice(), 'The notice should not be shown when disabled.' );
 	}
