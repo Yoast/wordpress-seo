@@ -16,16 +16,18 @@ final class WPSEO_Image_Utils_Test extends PHPUnit_Framework_TestCase {
 		$expected = array();
 		if ( $inside ) {
 			$expected[] = array(
-				'width' => $width,
+				'width'  => $width,
 				'height' => $height,
 			);
 		}
+
 		$input = array(
 			array(
-				'width' => $width,
+				'width'  => $width,
 				'height' => $height,
 			),
 		);
+
 		$requirements = array(
 			'min_width'  => 200,
 			'max_width'  => 2000,

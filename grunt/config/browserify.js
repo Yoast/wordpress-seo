@@ -18,7 +18,6 @@ module.exports = {
 			"js/dist/wp-seo-featured-image-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-featured-image.js" ],
 			"js/dist/wp-seo-metabox-category-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-metabox-category.js" ],
 			"js/dist/wp-seo-recalculate-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-recalculate.js" ],
-			"js/dist/wp-seo-replacevar-plugin-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-replacevar-plugin.js" ],
 			"js/dist/wp-seo-shortcode-plugin-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-shortcode-plugin.js" ],
 			"js/dist/wp-seo-reindex-links-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-reindex-links.js" ],
 			"js/dist/wp-seo-babel-polyfill-<%= pluginVersionSlug %>.js": [ "js/src/wp-seo-babel-polyfill.js" ],

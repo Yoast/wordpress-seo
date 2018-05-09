@@ -67,3 +67,4 @@ test.sh
 /artifact.zip
 /languages/wordpress-seo-temp.pot
 /languages/yoast-components.pot
+/coverage
