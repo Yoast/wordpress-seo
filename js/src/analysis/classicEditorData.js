@@ -91,7 +91,6 @@ class ClassicEditorData {
 	subscribeToElements() {
 		this.subscribeToInputElement( "title", "title" );
 		this.subscribeToInputElement( "excerpt", "excerpt" );
-		this.subscribeToInputElement( "content", "content" );
 	}
 
 	/**
@@ -142,11 +141,13 @@ class ClassicEditorData {
 	}
 
 	/**
-	 * Returns the data.
+	 * Add the latest content to the data object, and return the data object.
 	 *
 	 * @returns {Object} The data.
 	 */
 	getData() {
+		this.data.content = this.getContent();
+
 		return this.data;
 	}
 }
