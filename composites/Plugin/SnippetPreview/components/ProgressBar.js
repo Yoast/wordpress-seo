@@ -39,7 +39,7 @@ const ProgressBar = styled.progress`
 		background-color: ${ props => props.progressColor };
 		border: 0;
 	}
-}`;
+`;
 
 
 ProgressBar.defaultProps = {
