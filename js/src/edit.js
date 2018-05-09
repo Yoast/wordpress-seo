@@ -181,7 +181,7 @@ export function initializeData( data, args, store ) {
 export function initialize( args ) {
 	const store = configureStore();
 
-	let data = initializeData( wp.data, args, store );
+	const data = initializeData( wp.data, args, store );
 
 	renderReactApps( store, args );
 

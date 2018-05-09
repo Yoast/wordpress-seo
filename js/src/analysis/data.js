@@ -1,6 +1,6 @@
 import debounce from "lodash/debounce";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
-import fillReplacementValues from "../helpers/sendReplaceVarsToStore";
+import fillReplacementValues from "../helpers/updateReplacementVariables";
 
 /**
  * Represents the data.
@@ -31,7 +31,7 @@ class Data {
 	}
 
 	getInitialData( replaceVars ) {
-		let gutenbergData = this.collectGutenbergData( this.getPostAttribute );
+		const gutenbergData = this.collectGutenbergData( this.getPostAttribute );
 		return {
 			...replaceVars,
 			...gutenbergData,

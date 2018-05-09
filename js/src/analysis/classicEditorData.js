@@ -1,7 +1,9 @@
-import debounce from "lodash/debounce";
-import { updateReplacementVariable } from "../redux/actions/snippetEditor";
-import fillReplacementValues from "../helpers/sendReplaceVarsToStore";
+/* External dependencies */
 import removeMarks from "yoastseo/js/markers/removeMarks";
+
+/* Internal dependencies */
+import { updateReplacementVariable } from "../redux/actions/snippetEditor";
+import updateReplacementVariables from "../helpers/updateReplacementVariables";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
 
 /**
@@ -20,11 +22,10 @@ class ClassicEditorData {
 		this.store = store;
 		this.data = {};
 		this.updateData = this.updateData.bind( this );
-		this.debouncedUpdateData = debounce( this.updateData, 500 );
 	}
 
 	/**
-	 * Initializes the class by filling (and managing) data.
+	 * Initializes the class by filling this.data and subscribing to relevant elements.
 	 *
 	 * @param {Object} replaceVars The replacement variables passed in the wp-seo-post-scraper args.
 	 *
@@ -32,7 +33,7 @@ class ClassicEditorData {
 	 */
 	initialize( replaceVars ) {
 		this.data = this.getInitialData( replaceVars );
-		fillReplacementValues( this.data, this.store );
+		updateReplacementVariables( this.data, this.store );
 		this.subscribeToElements();
 	}
 
@@ -103,7 +104,7 @@ class ClassicEditorData {
 	 * @returns {void}
 	 */
 	subscribeToInputElement( elementId, targetReplaceVar ) {
-		let element = document.getElementById( elementId );
+		const element = document.getElementById( elementId );
 
 		/*
 		 * On terms some elements don't exist in the DOM, such as the title element.
@@ -114,7 +115,7 @@ class ClassicEditorData {
 		}
 
 		element.addEventListener( "input", ( event ) => {
-			this.debouncedUpdateData( event, targetReplaceVar );
+			this.updateData( event, targetReplaceVar );
 		} );
 	}
 
@@ -127,7 +128,7 @@ class ClassicEditorData {
 	 * @returns {void}
 	 */
 	updateData( event, targetReplaceVar ) {
-		let replaceValue = event.target.value;
+		const replaceValue = event.target.value;
 		this.data[ targetReplaceVar ] = replaceValue;
 		this.store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
 	}

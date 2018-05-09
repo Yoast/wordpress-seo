@@ -39,7 +39,7 @@ let PostDataCollector = function( args ) {
  * @returns {Object} The data.
  */
 PostDataCollector.prototype.getData = function() {
-	let data = this._data.getData();
+	const data = this._data.getData();
 
 	return {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",

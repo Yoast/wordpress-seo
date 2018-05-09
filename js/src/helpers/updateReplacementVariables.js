@@ -11,7 +11,7 @@ export const nonReplaceVars = [ "slug", "content" ];
  *
  * @returns {void}
  */
-export default function fillReplacementValues( data, store ) {
+export default function updateReplacementVariables( data, store ) {
 	forEach( data, ( value, name ) => {
 		if ( nonReplaceVars.includes( name ) ) {
 			return;
