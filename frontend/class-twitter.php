@@ -621,7 +621,12 @@ class WPSEO_Twitter {
 	 * Displays the authors Twitter account.
 	 */
 	protected function author() {
-		$twitter = ltrim( trim( get_the_author_meta( 'twitter', get_post()->post_author ) ), '@' );
+		$post = get_post();
+
+		$twitter = null;
+		if ( is_object( $post ) ) {
+			$twitter = ltrim( trim( get_the_author_meta( 'twitter', $post->post_author ) ), '@' );
+		}
 		/**
 		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO
 		 *
