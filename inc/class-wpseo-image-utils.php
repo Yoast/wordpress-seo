@@ -105,25 +105,43 @@ class WPSEO_Image_Utils {
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
 	public static function get_image( $attachment_id, $size ) {
+		$image = false;
 		if ( $size === 'full' ) {
-			$image = wp_get_attachment_metadata( $attachment_id );
-			if ( is_array( $image ) ) {
-				$image['url']  = wp_get_attachment_image_url( $attachment_id, 'full' );
-				$image['path'] = get_attached_file( $attachment_id );
-			}
+			$image = self::get_full_size_image_data( $attachment_id );
 		}
 
-		if ( ! isset( $image ) || ! is_array( $image ) ) {
-			$image = image_get_intermediate_size( $attachment_id, $size );
+		if ( ! $image ) {
+			$image         = image_get_intermediate_size( $attachment_id, $size );
+			$image['size'] = $size;
 		}
 
 		if ( ! $image ) {
 			return false;
 		}
 
-		$image['size'] = $size;
 		return self::get_data( $image, $attachment_id );
 	}
+
+	/**
+	 * Returns the image data for the full size image.
+	 *
+	 * @param int $attachment_id Attachment ID.
+	 *
+	 * @return array|false Array when there is a full size image. False if not.
+	 */
+	protected static function get_full_size_image_data( $attachment_id ) {
+		$image = wp_get_attachment_metadata( $attachment_id );
+		if ( ! is_array( $image ) ) {
+			return false;
+		}
+
+		$image['url']  = wp_get_attachment_image_url( $attachment_id, 'full' );
+		$image['path'] = get_attached_file( $attachment_id );
+		$image['size'] = 'full';
+
+		return $image;
+	}
+
 
 	/**
 	 * Finds the full file path for a given image file.
