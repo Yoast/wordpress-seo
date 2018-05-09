@@ -211,7 +211,7 @@ class MailchimpSignup extends React.Component {
 		let input = <input
 			id="mailchimpEmail"
 			className="yoast-wizard-text-input-field"
-			ref={ this.setEmailInputRef }
+			ref={this.setEmailInputRef}
 			type="text"
 			name={this.props.name}
 			defaultValue={this.props.properties.currentUserEmail}
@@ -220,7 +220,7 @@ class MailchimpSignup extends React.Component {
 			primary={true}
 			label={this.props.translate( "Sign Up!" )}
 			onClick={this.signup.bind( this )}
-			icon={ <IconMailOutline color="#ffffff" viewBox="0 0 28 28"/> }
+			icon={<IconMailOutline color="#ffffff" viewBox="0 0 28 28"/>}
 		/>;
 		let message = this.getSignupMessage();
 		let loader = this.getLoadingIndicator();
@@ -230,7 +230,7 @@ class MailchimpSignup extends React.Component {
 				<div>
 					<h2 className="yoast-wizard-newsletter--header">{this.props.properties.title}</h2>
 					<p>{this.props.properties.label}</p>
-					{ this.props.properties.freeAccountNotice && <strong>{ this.props.properties.freeAccountNotice }</strong> }
+					{this.props.properties.freeAccountNotice && <strong>{ this.props.properties.freeAccountNotice }</strong>}
 					<div className="yoast-wizard--columns yoast-wizard--columns__even">
 						<div className="yoast-wizard-text-input">
 							<label
@@ -246,7 +246,7 @@ class MailchimpSignup extends React.Component {
 					{message}
 					{loader}
 
-					{ this.props.properties.GDPRNotice && <div dangerouslySetInnerHTML={ { __html: this.props.properties.GDPRNotice } }></div> }
+					{this.props.properties.GDPRNotice && <div dangerouslySetInnerHTML={{ __html: this.props.properties.GDPRNotice }}></div>}
 				</div>
 				<div className="hide-on-tablet yoast-wizard-newsletter--decoration">
 					<img src={this.props.properties.decoration}/>
