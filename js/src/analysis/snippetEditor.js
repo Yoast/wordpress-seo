@@ -72,13 +72,11 @@ function getTemplatesFromL10n( l10nObject ) {
  * @returns {Object} A copy of the data with the templates applied.
  */
 function getDataWithTemplates( data, templates ) {
-	const dataWithTemplates = {};
+	const dataWithTemplates = { ...data };
 
 	forEach( templates, ( template, key ) => {
 		if ( has( data, key ) && data[ key ] === "" ) {
 			dataWithTemplates[ key ] = template;
-		} else {
-			dataWithTemplates[ key ] = data[ key ];
 		}
 	} );
 
@@ -94,13 +92,11 @@ function getDataWithTemplates( data, templates ) {
  * @returns {Object} A copy of the data without the templates.
  */
 function getDataWithoutTemplates( data, templates ) {
-	const dataWithoutTemplates = {};
+	const dataWithoutTemplates = { ...data };
 
 	forEach( templates, ( template, key ) => {
 		if ( has( data, key ) && data[ key ] === template ) {
 			dataWithoutTemplates[ key ] = "";
-		} else {
-			dataWithoutTemplates[ key ] = data[ key ];
 		}
 	} );
 

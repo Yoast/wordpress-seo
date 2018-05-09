@@ -386,9 +386,12 @@ window.yoastHideMarkers = true;
 
 			if ( ! isEqual( snippetEditorData, data ) ) {
 				snippetEditorData = data;
-				termScraper.saveSnippetData(
-					snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates )
-				);
+				const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
+				termScraper.saveSnippetData( {
+					title: dataWithoutTemplates.title,
+					urlPath: dataWithoutTemplates.slug,
+					metaDesc: dataWithoutTemplates.description,
+				} );
 
 				updateLegacySnippetEditor( data );
 			}

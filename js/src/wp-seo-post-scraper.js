@@ -557,9 +557,12 @@ import { updateData } from "./redux/actions/snippetEditor";
 
 			if ( ! isEqual( snippetEditorData, data ) ) {
 				snippetEditorData = data;
-				postDataCollector.saveSnippetData(
-					snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates )
-				);
+				const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
+				postDataCollector.saveSnippetData( {
+					title: dataWithoutTemplates.title,
+					urlPath: dataWithoutTemplates.slug,
+					metaDesc: dataWithoutTemplates.description,
+				} );
 
 				updateLegacySnippetEditor( data );
 			}
