@@ -6,8 +6,8 @@ module.exports = {
 		"<%= paths.languages %>yoast-seo.json",
 
 		"<%= files.pot.yoastComponents %>",
-		"<%= files.pot.yoastComponents1 %>",
-		"<%= files.pot.yoastComponents2 %>",
+		"<%= files.pot.yoastComponentsConfigurationWizard %>",
+		"<%= files.pot.yoastComponentsRemaining %>",
 		"<%= paths.languages %>yoast-components.pot",
 		"<%= paths.languages %>yoast-components.json",
 

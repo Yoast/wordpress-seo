@@ -24,8 +24,8 @@ module.exports = function( grunt ) {
 
 		"combine-pots-yoast-components": {
 			fromFiles: [
-				"<%= files.pot.yoastComponents1 %>",
-				"<%= files.pot.yoastComponents2 %>",
+				"<%= files.pot.yoastComponentsConfigurationWizard %>",
+				"<%= files.pot.yoastComponentsRemaining %>",
 			],
 			toFile: "<%= files.pot.yoastComponents %>",
 			command: function() {
@@ -42,7 +42,7 @@ module.exports = function( grunt ) {
 			},
 		},
 
-		"makepot-yoast-components": {
+		"makepot-yoast-components-configuration-wizard": {
 			fromFiles: [
 				"node_modules/yoast-components/**/*.js",
 				"!node_modules/yoast-components/node_modules/**/*.js",
@@ -50,18 +50,18 @@ module.exports = function( grunt ) {
 			],
 			textdomain: "yoast-components",
 			command: function() {
-				let files = grunt.config.get( "shell.makepot-yoast-components.fromFiles" );
+				let files = grunt.config.get( "shell.makepot-yoast-components-configuration-wizard.fromFiles" );
 
 				files = grunt.file.expand( files );
 
 				return "./node_modules/.bin/i18n-calypso" +
-					" -o <%= files.pot.yoastComponents1 %>" +
+					" -o <%= files.pot.yoastComponentsConfigurationWizard %>" +
 					" -f POT" +
 					" " + files.join( " " );
 			},
 		},
 
-		"makepot-yoast-components2": {
+		"makepot-yoast-components-remaining": {
 			command: "yarn i18n-yoast-components",
 		},
 
