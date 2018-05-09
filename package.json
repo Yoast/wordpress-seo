@@ -95,11 +95,6 @@
   "dependencies": {
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
-<<<<<<< HEAD
-    "grunt-wp-deploy": "^1.2.1",
-    "gutenberg": "Wordpress/gutenberg",
-=======
->>>>>>> origin/master
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "lodash": "^4.17.4",
