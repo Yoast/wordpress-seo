@@ -11,87 +11,89 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform = Yoast_Form::get_instance();
+function wpseo_ms_get_site_dropdown_choices( $include_empty = false ) {
+	$choices = array();
 
-$options = get_site_option( 'wpseo_ms' );
-
-if ( isset( $_POST['wpseo_submit'] ) ) {
-	check_admin_referer( 'wpseo-network-settings' );
-
-	foreach ( array( 'access', 'defaultblog' ) as $opt ) {
-		$options[ $opt ] = $_POST['wpseo_ms'][ $opt ];
+	if ( $include_empty ) {
+		$choices['-'] = __( 'None', 'wordpress-seo' );
 	}
-	unset( $opt );
-	WPSEO_Options::update_site_option( 'wpseo_ms', $options );
-	add_settings_error( 'wpseo_ms', 'settings_updated', __( 'Settings Updated.', 'wordpress-seo' ), 'updated' );
+
+	$available_states = array(
+		'public'   => __( 'public', 'wordpress-seo' ),
+		'archived' => __( 'archived', 'wordpress-seo' ),
+		'mature'   => __( 'mature', 'wordpress-seo' ),
+		'spam'     => __( 'spam', 'wordpress-seo' ),
+	);
+
+	$sites = get_sites( array( 'deleted' => 0 ) );
+	foreach ( $sites as $site ) {
+		$choices[ $site->blog_id ] = $site->blog_id . ': ' . $site->domain;
+
+		$site_states = array();
+		foreach ( $available_states as $state_slug => $state_label ) {
+			if ( $site->$state_slug === '1' ) {
+				$site_states[] = $state_label;
+			}
+		}
+
+		if ( ! empty( $site_states ) ) {
+			$choices[ $site->blog_id ] .= ' [' . implode( ', ', $site_states ) . ']';
+		}
+	}
+
+	return $choices;
 }
 
-if ( isset( $_POST['wpseo_restore_blog'] ) ) {
-	check_admin_referer( 'wpseo-network-restore' );
-	if ( isset( $_POST['wpseo_ms']['restoreblog'] ) && is_numeric( $_POST['wpseo_ms']['restoreblog'] ) ) {
-		$restoreblog = (int) WPSEO_Utils::validate_int( $_POST['wpseo_ms']['restoreblog'] );
-		$blog        = get_blog_details( $restoreblog );
+function wpseo_ms_maybe_restore_site() {
+	if ( isset( $_POST['wpseo_restore_blog'] ) ) {
+		check_admin_referer( 'wpseo-network-restore' );
+		if ( isset( $_POST['wpseo_ms']['restoreblog'] ) && is_numeric( $_POST['wpseo_ms']['restoreblog'] ) ) {
+			$restoreblog = (int) WPSEO_Utils::validate_int( $_POST['wpseo_ms']['restoreblog'] );
+			$blog        = get_blog_details( $restoreblog );
 
-		if ( $blog ) {
-			WPSEO_Options::reset_ms_blog( $restoreblog );
-			/* translators: %s expands to the name of a blog within a multi-site network. */
-			add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $blog->blogname ) ), 'updated' );
+			if ( $blog ) {
+				WPSEO_Options::reset_ms_blog( $restoreblog );
+				/* translators: %s expands to the name of a blog within a multi-site network. */
+				add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $blog->blogname ) ), 'updated' );
+			}
+			else {
+				/* translators: %s expands to the ID of a blog within a multi-site network. */
+				add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( 'Blog %s not found.', 'wordpress-seo' ), esc_html( $restoreblog ) ), 'error' );
+			}
+			unset( $restoreblog, $blog );
 		}
-		else {
-			/* translators: %s expands to the ID of a blog within a multi-site network. */
-			add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( 'Blog %s not found.', 'wordpress-seo' ), esc_html( $restoreblog ) ), 'error' );
-		}
-		unset( $restoreblog, $blog );
 	}
 }
 
-/* Set up selectbox dropdowns for smaller networks (usability) */
-$use_dropdown = true;
-if ( get_blog_count() > 100 ) {
-	$use_dropdown = false;
-}
-else {
+function wpseo_ms_print_restore_form() {
+	$yform = Yoast_Form::get_instance();
 
-	$sites = array_map( 'get_object_vars', get_sites( array( 'deleted' => 0 ) ) );
+	echo '<h2>' . esc_html__( 'Restore site to default settings', 'wordpress-seo' ) . '</h2>';
+	echo '<form method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+	wp_nonce_field( 'wpseo-network-restore', '_wpnonce', true, true );
+	echo '<p>' . esc_html__( 'Using this form you can reset a site to the default SEO settings.', 'wordpress-seo' ) . '</p>';
 
-	if ( is_array( $sites ) && $sites !== array() ) {
-		$dropdown_input = array(
-			'-' => __( 'None', 'wordpress-seo' ),
+	if ( get_blog_count() <= 100 ) {
+		$yform->select(
+			'restoreblog',
+			__( 'Site ID', 'wordpress-seo' ),
+			wpseo_ms_get_site_dropdown_choices(),
+			'wpseo_ms'
 		);
-
-		foreach ( $sites as $site ) {
-			$dropdown_input[ $site['blog_id'] ] = $site['blog_id'] . ': ' . $site['domain'];
-
-			$blog_states = array();
-			if ( $site['public'] === '1' ) {
-				$blog_states[] = __( 'public', 'wordpress-seo' );
-			}
-			if ( $site['archived'] === '1' ) {
-				$blog_states[] = __( 'archived', 'wordpress-seo' );
-			}
-			if ( $site['mature'] === '1' ) {
-				$blog_states[] = __( 'mature', 'wordpress-seo' );
-			}
-			if ( $site['spam'] === '1' ) {
-				$blog_states[] = __( 'spam', 'wordpress-seo' );
-			}
-			if ( $blog_states !== array() ) {
-				$dropdown_input[ $site['blog_id'] ] .= ' [' . implode( ', ', $blog_states ) . ']';
-			}
-		}
-		unset( $site, $blog_states );
 	}
 	else {
-		$use_dropdown = false;
+		$yform->textinput( 'restoreblog', __( 'Blog ID', 'wordpress-seo' ), 'wpseo_ms' );
 	}
-	unset( $sites );
+
+	echo '<input type="submit" name="wpseo_restore_blog" value="' . esc_attr__( 'Restore site to defaults', 'wordpress-seo' ) . '" class="button"/>';
+	echo '</form>';
 }
 
-$yform->admin_header( false, 'wpseo_ms' );
+wpseo_ms_maybe_restore_site();
+add_action( 'wpseo_admin_footer', 'wpseo_ms_print_restore_form' );
 
-echo '<h2>', esc_html__( 'MultiSite Settings', 'wordpress-seo' ), '</h2>';
-echo '<form method="post" accept-charset="', esc_attr( get_bloginfo( 'charset' ) ), '">';
-wp_nonce_field( 'wpseo-network-settings', '_wpnonce', true, true );
+$yform = Yoast_Form::get_instance();
+$yform->admin_header( true, 'wpseo_ms' );
 
 /* {@internal Important: Make sure the options added to the array here are in line with the options set in the WPSEO_Option_MS::$allowed_access_options property.}} */
 $yform->select(
@@ -105,11 +107,11 @@ $yform->select(
 	'wpseo_ms'
 );
 
-if ( $use_dropdown === true ) {
+if ( get_blog_count() <= 100 ) {
 	$yform->select(
 		'defaultblog',
 		__( 'New sites in the network inherit their SEO settings from this site', 'wordpress-seo' ),
-		$dropdown_input,
+		wpseo_ms_get_site_dropdown_choices( true ),
 		'wpseo_ms'
 	);
 	echo '<p>' . esc_html__( 'Choose the site whose settings you want to use as default for all sites that are added to your network. If you choose \'None\', the normal plugin defaults will be used.', 'wordpress-seo' ) . '</p>';
@@ -127,29 +129,4 @@ else {
 }
 	echo '<p><strong>' . esc_html__( 'Take note:', 'wordpress-seo' ) . '</strong> ' . esc_html__( 'Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new blogs.', 'wordpress-seo' ) . '</p>';
 
-
-echo '<input type="submit" name="wpseo_submit" class="button button-primary" value="' . esc_attr__( 'Save MultiSite Settings', 'wordpress-seo' ) . '"/>';
-echo '</form>';
-
-echo '<h2>' . esc_html__( 'Restore site to default settings', 'wordpress-seo' ) . '</h2>';
-echo '<form method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
-wp_nonce_field( 'wpseo-network-restore', '_wpnonce', true, true );
-echo '<p>' . esc_html__( 'Using this form you can reset a site to the default SEO settings.', 'wordpress-seo' ) . '</p>';
-
-if ( $use_dropdown === true ) {
-	unset( $dropdown_input['-'] );
-	$yform->select(
-		'restoreblog',
-		__( 'Site ID', 'wordpress-seo' ),
-		$dropdown_input,
-		'wpseo_ms'
-	);
-}
-else {
-	$yform->textinput( 'restoreblog', __( 'Blog ID', 'wordpress-seo' ), 'wpseo_ms' );
-}
-
-echo '<input type="submit" name="wpseo_restore_blog" value="' . esc_attr__( 'Restore site to defaults', 'wordpress-seo' ) . '" class="button"/>';
-echo '</form>';
-
-$yform->admin_footer( false );
+$yform->admin_footer( true );

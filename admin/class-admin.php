@@ -89,6 +89,10 @@ class WPSEO_Admin {
 		$this->check_php_version();
 		$this->initialize_cornerstone_content();
 
+		if ( Yoast_Network_Settings_API::check_requirements() ) {
+			Yoast_Network_Settings_API::get()->register_hooks();
+		}
+
 		new Yoast_Modal();
 
 		$integrations[] = new WPSEO_Yoast_Columns();
@@ -102,7 +106,6 @@ class WPSEO_Admin {
 		foreach ( $integrations as $integration ) {
 			$integration->register_hooks();
 		}
-
 	}
 
 	/**
