@@ -196,11 +196,21 @@ class WPSEO_OpenGraph_Image {
 	 * If the frontpage image exists, call add_image.
 	 */
 	private function set_front_page_image() {
+	    
+        $show_on_front = get_option( 'show_on_front' );
+        
+        // if frontpage is a simple page, call the set_singular_image function
+        if( $show_on_front !== 'posts' ){
+            $this->set_singular_image();
+            return;
+        }
+        
 		// If no frontpage image is found, don't add anything.
 		if ( WPSEO_Options::get( 'og_frontpage_image', '' ) === '' ) {
 			return;
 		}
-
+        
+        // if posts are showing in frontpage, add image set in options
 		$this->add_image_by_url( WPSEO_Options::get( 'og_frontpage_image' ) );
 	}
 
