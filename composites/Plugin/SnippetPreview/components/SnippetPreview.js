@@ -253,6 +253,16 @@ function highlightKeyword( locale, keyword, text, cleanText ) {
 	} );
 }
 
+/**
+ * Returns if a url has a trailing slash or not.
+ *
+ * @param {string} url The url to check for a trailing slash.
+ * @returns {boolean} Whether or not the url contains a trailing slash.
+ */
+function hasTrailingSlash( url ) {
+	return url.indexOf( "/" ) === ( url.length - 1 );
+}
+
 export default class SnippetPreview extends PureComponent {
 	/**
 	 * Renders the SnippetPreview component.
@@ -511,7 +521,10 @@ export default class SnippetPreview extends PureComponent {
 		 * returns an array of strings plus a strong React element, and replace()
 		 * can't run on an array.
 		 */
+		console.log( "Raw url: " + url );
 		let cleanUrl = replaceSpecialCharactersAndDiacritics( url );
+		console.log( "cleanUrl: " + cleanUrl );
+		console.log( "this.props.mode: " + this.props.mode );
 
 		if ( this.props.mode === MODE_MOBILE ) {
 			urlContent = this.getBreadcrumbs( cleanUrl );
@@ -520,6 +533,12 @@ export default class SnippetPreview extends PureComponent {
 		}
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
+
+		console.log( "First: " + urlContent );
+		if ( ! hasTrailingSlash( urlContent ) ) {
+			urlContent = urlContent + "/";
+		}
+		console.log( "Then: " + urlContent );
 
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
@@ -716,7 +735,6 @@ export default class SnippetPreview extends PureComponent {
 		const PartContainer = mode === MODE_DESKTOP ? DesktopPartContainer : MobilePartContainer;
 		const Container = mode === MODE_DESKTOP ? DesktopContainer : MobileContainer;
 		const TitleUnbounded = mode === MODE_DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
-
 		const Title = this.addCaretStyles( "title", BaseTitle );
 
 		return {
