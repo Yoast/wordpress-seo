@@ -119,8 +119,6 @@ Bugfixes:
 * Fixes a bug where images with specific aspect ratios where removed from OpenGraph consideration, this was causing unexpected results with Facebook sharing. The aspect ratio check has been removed completely for now.
 * Fixes a bug where the admin bar still used old copy. Dashboard has now been renamed to General.
 
-<<<<<<< HEAD
-=======
 = 7.4.2 =
 Release Date: May 3rd, 2018
 
@@ -128,8 +126,6 @@ Bugfixes:
 * Fixes automatic image size detection for OpenGraph images. When an image was used that was too large, we wouldn't output the `og:image` tag. That is now fixed.
 * Fixes a bug where portrait images where not allowed for the OpenGraph image.
 
-
->>>>>>> 978f109a7885af726cfbc7d433ff0cc57ea7abe3
 = 7.4.1 =
 Release Date: May 2nd, 2018
 
