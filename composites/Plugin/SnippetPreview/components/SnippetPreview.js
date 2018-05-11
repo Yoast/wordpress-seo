@@ -15,6 +15,7 @@ import FixedWidthContainer from "./FixedWidthContainer";
 import colors from "../../../../style-guide/colors";
 import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
+import HelpTextWrapper from "../components/HelpTextWrapper";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -52,6 +53,9 @@ const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 		'<path fill="' + color + '" d="M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z" />' +
 	"</svg>"
 );
+
+export const helpText = [ "This is a rendering of what this post might look like in Google's search results. ",
+	<a key="1" href="https://yoa.st/snippet-preview" rel="noopener norefferer">Learn more about the Snippet Preview.</a> ];
 
 export const BaseTitle = styled.div`
 	cursor: pointer;
@@ -651,6 +655,9 @@ export default class SnippetPreview extends PureComponent {
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return (
 			<section>
+				<div>
+					<HelpTextWrapper helpText = { helpText } />
+				</div>
 				<Container onMouseLeave={ this.onMouseLeave }
 				           width={ MAX_WIDTH + 2 * WIDTH_PADDING }
 				           padding={ WIDTH_PADDING }>
@@ -734,6 +741,7 @@ SnippetPreview.propTypes = {
 	locale: PropTypes.string,
 	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
+	helpText: PropTypes.string,
 
 	onClick: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
