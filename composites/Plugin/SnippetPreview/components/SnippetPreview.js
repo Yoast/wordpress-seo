@@ -127,11 +127,13 @@ export const BaseUrl = styled.div`
 	font-size: 14px;
 `;
 
-const BaseUrlOverflowContainer = styled( BaseUrl )`
+const BaseUrlOverflowContainer = BaseUrl.extend`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 100%;
 `;
+
+BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
 export const DesktopDescription = styled.div.attrs( {
 	color: ( props ) => props.isDescriptionGenerated ? colorGeneratedDescription : colorDescription,

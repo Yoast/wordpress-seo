@@ -92,13 +92,13 @@ describe( "SnippetPreview", () => {
 		it( "properly renders multiple breadcrumbs in mobile view", () => {
 			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "http://www.google.nl/about" } );
 
-			expect( wrapper.find( "SnippetPreview__BaseUrl" ).text() ).toBe( "www.google.nl › about" );
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
 		} );
 
 		it( "doesn't percent encode characters that are percent encoded by node's url.parse", () => {
 			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "http://www.google.nl/`^ {}" } );
 
-			expect( wrapper.find( "SnippetPreview__BaseUrl" ).text() ).toBe( "www.google.nl › `^ {}" );
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › `^ {}" );
 		} );
 	} );
 } );
