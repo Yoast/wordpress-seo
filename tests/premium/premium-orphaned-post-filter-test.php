@@ -14,7 +14,7 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 	protected $class_instance;
 
 	/**
-	 * Set up the class which will be tested.
+	 * Sets up the class which will be tested.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -90,7 +90,7 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 
 		global $wpdb;
 
-		$expected = " AND $wpdb->posts.post_status = 'publish' AND $wpdb->posts.post_password = ''";
+		$expected = " AND {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_password = ''";
 		$actual = $class_instance->filter_published_posts();
 
 		$this->assertEquals( $expected, $actual );
@@ -111,17 +111,17 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->register_hooks();
 
-		//Create 4 posts: only the two published pages without password are expected to be returned.
+		// Create 4 posts: only the two published pages without password are expected to be returned.
 		$post_1 = $this->factory->post->create_and_get( array(
 			'post_title'    => 'A Published page',
 			'post_status'   => 'publish',
 		) );
-		//Create a draft page that we expect to be filtered out by filter_published_posts.
+		// Create a draft page that we expect to be filtered out by filter_published_posts.
 		$this->factory->post->create_and_get( array(
 			'post_title'    => 'Draft Page',
 			'post_status'   => 'draft',
 		) );
-		//Create a password protected page that we expect to be filtered out by filter_published_posts.
+		// Create a password protected page that we expect to be filtered out by filter_published_posts.
 		$this->factory->post->create_and_get( array(
 			'post_title'    => 'Secret page',
 			'post_status'   => 'publish',
@@ -136,7 +136,7 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 			->method( 'is_filter_active' )
 			->will( $this->returnValue( true ) );
 
-		//As 1 post is a draft and 1 is password protected, we expect only the two published posts to be returned.
+		// As 1 post is a draft and 1 is password protected, we expect only the two published posts to be returned.
 		$expected = array(
 			$post_2,
 			$post_1,

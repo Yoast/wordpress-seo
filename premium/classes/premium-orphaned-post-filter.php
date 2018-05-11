@@ -129,7 +129,8 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	 */
 	protected function filter_published_posts() {
 		global $wpdb;
-		return " AND $wpdb->posts.post_status = 'publish' AND $wpdb->posts.post_password = ''";
+
+		return " AND {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_password = ''";
 	}
 
 	/**
