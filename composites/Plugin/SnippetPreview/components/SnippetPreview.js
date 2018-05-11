@@ -207,7 +207,7 @@ const Amp = styled.div`
 /**
  * Highlights a keyword with strong React elements.
  *
- * @param {string} locale Two character locale.
+ * @param {string} locale ISO 639 (2/3 characters) locale.
  * @param {string} keyword The keyword.
  * @param {string} text The text in which to highlight a keyword.
  *

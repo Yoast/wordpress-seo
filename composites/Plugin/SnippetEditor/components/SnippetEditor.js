@@ -301,6 +301,7 @@ class SnippetEditor extends React.Component {
 			mode,
 			date,
 			locale,
+			keyword,
 		} = this.props;
 
 		const {
@@ -319,6 +320,7 @@ class SnippetEditor extends React.Component {
 		return (
 			<div>
 				<SnippetPreview
+					keyword={ keyword }
 					mode={ mode }
 					date={ date }
 					activeField={ this.mapFieldToPreview( activeField ) }
@@ -362,6 +364,7 @@ SnippetEditor.propTypes = {
 	titleLengthAssessment: lengthAssessmentShape,
 	descriptionLengthAssessment: lengthAssessmentShape,
 	mapDataToPreview: PropTypes.func,
+	keyword: PropTypes.string,
 	locale: PropTypes.string,
 };
 
