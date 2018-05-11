@@ -4,6 +4,7 @@ import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 import transliterate from "yoastseo/js/stringProcessing/transliterate";
 import createWordRegex from "yoastseo/js/stringProcessing/createWordRegex";
+import replaceSpecialCharactersAndDiacritics from "yoastseo/js/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import partial from "lodash/partial";
@@ -40,9 +41,10 @@ const MobileContainer = styled.div`
 	border-radius: 2px;
 	box-shadow: 0 1px 2px rgba(0,0,0,.2);
 	margin: 0 20px 10px;
-	font-family: Roboto-Regular, HelveticaNeue, Arial, sans-serif;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	max-width: ${ MAX_WIDTH }px;
 	box-sizing: border-box;
+	font-size: 14px;
 `;
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
@@ -112,6 +114,7 @@ export const TitleUnboundedMobile = styled.span`
 	max-height: 2.4em;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	font-size: 16px;
 `;
 
 export const BaseUrl = styled.div`
@@ -119,6 +122,15 @@ export const BaseUrl = styled.div`
 	color: ${ colorUrl };
 	cursor: pointer;
 	position: relative;
+	max-width: 90%;
+	white-space: nowrap;
+	font-size: 14px;
+`;
+
+const BaseUrlOverflowContainer = styled( BaseUrl )`
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 100%;
 `;
 
 export const DesktopDescription = styled.div.attrs( {
@@ -128,20 +140,23 @@ export const DesktopDescription = styled.div.attrs( {
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
+	font-size: 13px;
 `;
 
 const MobileDescription = styled( DesktopDescription )`
-	line-height: 1em;
 	max-height: 4em;
+	padding-bottom: 3px;
 `;
 
 const MobileDescriptionOverflowContainer = styled( MobileDescription )`
 	overflow: hidden;
+	font-size: 14px;
+	line-height: 20px;
 	max-height: calc( 4em + 3px );
 `;
 
 const MobilePartContainer = styled.div`
-	padding: 16px;
+	padding: 8px 16px;
 `;
 
 const DesktopPartContainer = styled.div`
@@ -196,25 +211,35 @@ const Amp = styled.div`
  * @param {string} locale The locale.
  * @param {string} keyword The keyword.
  * @param {string} text The text in which to highlight a keyword.
+ * @param {string} cleanText Optional. The text in which to highlight a keyword
+ *                           without special characters and diacritics.
  *
  * @returns {ReactElement} React elements to be rendered.
  */
-function highlightKeyword( locale, keyword, text ) {
+function highlightKeyword( locale, keyword, text, cleanText ) {
 	if ( keyword === "" ) {
 		return text;
 	}
 
-	// Match keyword case-insensitively.
-	const keywordMatcher = createWordRegex( keyword, "", false );
+	/*
+	 * When a text has been cleaned up from special characters and diacritics
+	 * we need to match against a cleaned up keyword as well.
+	 */
+	const textToUse = cleanText ? cleanText : text;
+	const keywordToUse = cleanText ? replaceSpecialCharactersAndDiacritics( keyword ) : keyword;
 
-	text = text.replace( keywordMatcher, function( keyword ) {
-		return `{{strong}}${ keyword }{{/strong}}`;
+	// Match keyword case-insensitively.
+	const keywordMatcher = createWordRegex( keywordToUse, "", false );
+
+	text = textToUse.replace( keywordMatcher, function( keywordToUse ) {
+		return `{{strong}}${ keywordToUse }{{/strong}}`;
 	} );
 
 	// Transliterate the keyword for highlighting
 	const transliteratedKeyword = transliterate( keyword, locale );
 	if ( transliteratedKeyword !== keyword ) {
 		const transliteratedKeywordMatcher = createWordRegex( transliteratedKeyword, "", false );
+		// Let the transliteration run on the text with no previous replacements.
 		text = text.replace( transliteratedKeywordMatcher, function( keyword ) {
 			return `{{strong}}${ keyword }{{/strong}}`;
 		} );
@@ -440,10 +465,11 @@ export default class SnippetPreview extends PureComponent {
 	/**
 	 * Returns the breadcrumbs string to be rendered.
 	 *
+	 * @param {string} url The url to use to build the breadcrumbs.
 	 * @returns {string} The breadcrumbs.
 	 */
-	getBreadcrumbs() {
-		const { url, breadcrumbs } = this.props;
+	getBreadcrumbs( url ) {
+		const { breadcrumbs } = this.props;
 		/*
 		 * Strip out question mark and hash characters from the raw URL and percent-encode
 		 * characters that are not allowed in a URI.
@@ -477,11 +503,18 @@ export default class SnippetPreview extends PureComponent {
 		} = this.props;
 
 		let urlContent;
+		/*
+		 * We need to replace special characters and diacritics only on the url
+		 * string because when highlightKeyword kicks in, interpolateComponents
+		 * returns an array of strings plus a strong React element, and replace()
+		 * can't run on an array.
+		 */
+		let cleanUrl = replaceSpecialCharactersAndDiacritics( url );
 
 		if ( this.props.mode === MODE_MOBILE ) {
-			urlContent = this.getBreadcrumbs();
+			urlContent = this.getBreadcrumbs( cleanUrl );
 		} else {
-			urlContent = highlightKeyword( locale, keyword, url );
+			urlContent = highlightKeyword( locale, keyword, url, cleanUrl );
 		}
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
@@ -491,10 +524,13 @@ export default class SnippetPreview extends PureComponent {
 		 * However this is not relevant in this case, because the url is not focusable.
 		 */
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
-		return <Url onClick={ onClick.bind( null, "url" ) }
-		            onMouseOver={ partial( onMouseOver, "url" ) }
-		            onMouseLeave={ partial( onMouseLeave, "url" ) }>
-			{ urlContent }
+		return <Url>
+			<BaseUrlOverflowContainer
+				onClick={ onClick.bind( null, "url" ) }
+				onMouseOver={ partial( onMouseOver, "url" ) }
+				onMouseLeave={ partial( onMouseLeave, "url" ) }>
+				{ urlContent }
+			</BaseUrlOverflowContainer>
 		</Url>;
 		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}

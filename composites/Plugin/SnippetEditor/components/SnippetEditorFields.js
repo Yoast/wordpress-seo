@@ -8,6 +8,7 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
+import ControlledInput from "./ControlledInput";
 import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
 import colors from "../../../../style-guide/colors";
 
@@ -47,7 +48,7 @@ function getCaretColor( props ) {
  */
 const InputContainer = styled.div.attrs( {
 } )`
-	padding: 5px;
+	padding: 3px 5px;
 	border: 1px solid ${ ( props ) => props.isActive ? "#5b9dd9" : "#ddd" };
 	box-shadow: ${ ( props ) => props.isActive ? "0 0 2px rgba(30,140,190,.8);" : "inset 0 1px 2px rgba(0,0,0,.07)" };
 	background-color: #fff;
@@ -55,11 +56,14 @@ const InputContainer = styled.div.attrs( {
 	outline: 0;
 	transition: 50ms border-color ease-in-out;
 	position: relative;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+	font-size: 14px;
+	margin-top: 5px;
 	
 	&::before {
 		display: block;
 		position: absolute;
-		top: 4px;
+		top: -1px;
 		left: -25px;
 		width: 24px;
 		height: 24px;
@@ -69,16 +73,38 @@ const InputContainer = styled.div.attrs( {
 	}
 `;
 
+const SlugInput = styled( ControlledInput )`
+	border: none;
+	width: 100%;
+	height: inherit;
+	line-height: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+
+	&:focus {
+		outline: 0;
+	}
+`;
+
+const InputContainerDescription = InputContainer.extend`
+	min-height: 60px;
+	padding: 2px 6px;
+	line-height: 19.6px;
+`;
+
 const FormSection = styled.div`
-	margin: 1em 0;
+	margin: 32px 0;
 `;
 
 const StyledEditor = styled.section`
-	padding: 0 20px;
+	padding: 10px 20px 20px 20px;
 `;
 
 const SimulatedLabel = styled.div`
 	cursor: pointer;
+	font-size: 16px;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 `;
 
 class SnippetEditorFields extends React.Component {
@@ -168,7 +194,6 @@ class SnippetEditorFields extends React.Component {
 
 		if ( activeField !== prevActiveField ) {
 			const activeElement = this.elements[ activeField ];
-
 			activeElement.focus();
 		}
 	}
@@ -222,14 +247,12 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "slug" ) }
 					>{ __( "Slug", "yoast-components" ) }</SimulatedLabel>
 					<InputContainer isActive={ activeField === "slug" } isHovered={ hoveredField === "slug" }>
-						<ReplacementVariableEditor
-							content={ slug }
-							onChange={ content => onChange( "slug", content ) }
+						<SlugInput
+							initialValue={ slug }
+							onChange={ value => onChange( "slug", value ) }
 							onFocus={ () => onFocus( "slug" ) }
-							replacementVariables={ [] }
-							ref={ ref => this.setRef( "slug", ref ) }
-							ariaLabelledBy={ this.uniqueId + "-slug" }
-						/>
+							passedRef={ ref => this.setRef( "slug", ref ) }
+							aria-labelledby={ this.uniqueId + "-slug" } />
 					</InputContainer>
 				</FormSection>
 				<FormSection>
@@ -237,7 +260,7 @@ class SnippetEditorFields extends React.Component {
 						id={ this.uniqueId + "-description" }
 						onClick={ () => onFocus( "description" ) }
 					>{ __( "Meta description", "yoast-components" ) }</SimulatedLabel>
-					<InputContainer isActive={ activeField === "description" } isHovered={ hoveredField === "description" }>
+					<InputContainerDescription isActive={ activeField === "description" } isHovered={ hoveredField === "description" }>
 						<ReplacementVariableEditor
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
@@ -246,7 +269,7 @@ class SnippetEditorFields extends React.Component {
 							ref={ ref => this.setRef( "description", ref ) }
 							ariaLabelledBy={ this.uniqueId + "-description" }
 						/>
-					</InputContainer>
+					</InputContainerDescription>
 
 					<ProgressBar
 						max={ descriptionLengthAssessment.max }
