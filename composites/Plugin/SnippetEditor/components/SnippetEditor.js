@@ -62,6 +62,7 @@ class SnippetEditor extends React.Component {
 	 *                                                   assessment.
 	 * @param {Function} props.mapDataToPreview          Function to map the editor
 	 *                                                   data to data for the preview.
+	 * @param {string} props.locale                      The locale of the page.
 	 *
 	 * @returns {void}
 	 */
@@ -299,6 +300,8 @@ class SnippetEditor extends React.Component {
 			data,
 			mode,
 			date,
+			locale,
+			keyword,
 		} = this.props;
 
 		const {
@@ -317,6 +320,7 @@ class SnippetEditor extends React.Component {
 		return (
 			<div>
 				<SnippetPreview
+					keyword={ keyword }
 					mode={ mode }
 					date={ date }
 					activeField={ this.mapFieldToPreview( activeField ) }
@@ -324,6 +328,7 @@ class SnippetEditor extends React.Component {
 					onMouseOver={ this.onMouseOver }
 					onMouseLeave={ this.onMouseLeave }
 					onClick={ this.onClick }
+					locale={ locale }
 					{ ...mappedData }
 				/>
 
@@ -359,6 +364,8 @@ SnippetEditor.propTypes = {
 	titleLengthAssessment: lengthAssessmentShape,
 	descriptionLengthAssessment: lengthAssessmentShape,
 	mapDataToPreview: PropTypes.func,
+	keyword: PropTypes.string,
+	locale: PropTypes.string,
 };
 
 SnippetEditor.defaultProps = {
@@ -376,6 +383,7 @@ SnippetEditor.defaultProps = {
 		score: 0,
 	},
 	mapDataToPreview: null,
+	locale: "en",
 };
 
 export default SnippetEditor;

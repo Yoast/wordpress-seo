@@ -47,7 +47,7 @@ export default class SnippetEditorExample extends Component {
 			" Title Snippet Title Snippet Title Snippet Title Snippet Title",
 			url: "https://local.wordpress.test/welcome-to-the-gutenberg-editor-2/",
 			slug: "welcome-to-the-gutenberg-editor-2",
-			description: "Of Mountains & Printing Presses The goal of this new editor is to make" +
+			description: "Merci, merçi, Of Mountains & Printing Presses The goal of this new editor is to make" +
 			" adding rich content to WordPress simple and enjoyable. This whole post is composed" +
 			" of. Of Mountains & Printing Presses The goal of this new editor is to make adding" +
 			" rich content to WordPress simple and enjoyable. This whole post is composed of. Of" +
@@ -59,9 +59,9 @@ export default class SnippetEditorExample extends Component {
 			" simple and enjoyable. This whole post is composed of. Of Mountains & Printing Presses" +
 			" The goal of this new editor is to make adding rich content to WordPress simple and" +
 			" enjoyable. This whole post is composed of",
-			keyword: "editor",
+			keyword: "merci",
 			date: "Jan 8, 2018",
-			locale: "en_US",
+			locale: "fr",
 			onClick( type ) {
 				// eslint-disable-next-line no-console
 				console.log( "clicked:", type );

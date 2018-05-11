@@ -210,7 +210,7 @@ const Amp = styled.div`
 /**
  * Highlights a keyword with strong React elements.
  *
- * @param {string} locale The locale.
+ * @param {string} locale ISO 639 (2/3 characters) locale.
  * @param {string} keyword The keyword.
  * @param {string} text The text in which to highlight a keyword.
  * @param {string} cleanText Optional. The text in which to highlight a keyword
@@ -754,7 +754,7 @@ SnippetPreview.defaultProps = {
 	keyword: "",
 	breadcrumbs: null,
 	isDescriptionGenerated: false,
-	locale: "en_US",
+	locale: "en",
 	hoveredField: "",
 	activeField: "",
 	mode: DEFAULT_MODE,
