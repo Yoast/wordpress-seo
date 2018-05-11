@@ -60,6 +60,13 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 }
 
 .c8 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -143,7 +150,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           className="c7"
         >
           <div
-            className="c8 c7"
+            className="c8"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -247,6 +254,13 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 }
 
 .c8 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -330,7 +344,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           className="c7"
         >
           <div
-            className="c8 c7"
+            className="c8"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -437,6 +451,13 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 }
 
 .c8 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -520,7 +541,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           className="c7"
         >
           <div
-            className="c8 c7"
+            className="c8"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -629,6 +650,13 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 }
 
 .c8 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -735,7 +763,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         className="c7"
       >
         <div
-          className="c8 c7"
+          className="c8"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -841,6 +869,13 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 }
 
 .c7 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -933,7 +968,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         className="c6"
       >
         <div
-          className="c7 c6"
+          className="c7"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -1039,6 +1074,13 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 }
 
 .c7 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -1131,7 +1173,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         className="c6"
       >
         <div
-          className="c7 c6"
+          className="c7"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -1239,6 +1281,13 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 }
 
 .c8 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -1322,7 +1371,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           className="c7"
         >
           <div
-            className="c8 c7"
+            className="c8"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -1426,6 +1475,13 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 }
 
 .c9 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -1521,7 +1577,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           className="c8"
         >
           <div
-            className="c9 c8"
+            className="c9"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -1625,6 +1681,13 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 }
 
 .c8 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -1720,7 +1783,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           className="c7"
         >
           <div
-            className="c8 c7"
+            className="c8"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -1824,6 +1887,13 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 }
 
 .c9 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -1919,7 +1989,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           className="c7 c8"
         >
           <div
-            className="c9 c8"
+            className="c9"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -2023,6 +2093,13 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 }
 
 .c9 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -2118,7 +2195,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           className="c8"
         >
           <div
-            className="c9 c8"
+            className="c9"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -2222,6 +2299,13 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 }
 
 .c8 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -2317,7 +2401,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           className="c7"
         >
           <div
-            className="c8 c7"
+            className="c8"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -2421,6 +2505,13 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 }
 
 .c9 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -2516,7 +2607,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           className="c7 c8"
         >
           <div
-            className="c9 c8"
+            className="c9"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -2620,6 +2711,13 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 }
 
 .c8 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -2707,7 +2805,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           className="c7"
         >
           <div
-            className="c8 c7"
+            className="c8"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}

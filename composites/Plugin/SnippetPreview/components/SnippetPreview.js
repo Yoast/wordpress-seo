@@ -127,11 +127,13 @@ export const BaseUrl = styled.div`
 	font-size: 14px;
 `;
 
-const BaseUrlOverflowContainer = styled( BaseUrl )`
+const BaseUrlOverflowContainer = BaseUrl.extend`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 100%;
 `;
+
+BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
 export const DesktopDescription = styled.div.attrs( {
 	color: ( props ) => props.isDescriptionGenerated ? colorGeneratedDescription : colorDescription,
@@ -470,15 +472,21 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	getBreadcrumbs( url ) {
 		const { breadcrumbs } = this.props;
-		// Strip out question mark and hash characters from the raw URL.
-		const cleanUrl = url.replace( /\?|#/g, "" );
-		const { protocol, hostname, pathname } = parse( cleanUrl );
+		/*
+		 * Strip out question mark and hash characters from the raw URL and percent-encode
+		 * characters that are not allowed in a URI.
+		 */
+		const cleanEncodedUrl = encodeURI( url.replace( /\?|#/g, "" ) );
+
+		const { protocol, hostname, pathname } = parse( cleanEncodedUrl );
 
 		const hostPart = protocol === "https:" ? protocol + "//" + hostname : hostname;
 
 		const urlParts = breadcrumbs || pathname.split( "/" );
 
-		return [ hostPart, ...urlParts ].filter( part => !! part ).join( " › " );
+		const breadCrumbs = [ hostPart, ...urlParts ].filter( part => !! part ).join( " › " );
+
+		return decodeURI( breadCrumbs );
 	}
 
 	/**
