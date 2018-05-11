@@ -46,6 +46,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Object} props.replacementVariables        The replacement variables
 	 *                                                   for this editor.
 	 * @param {Object} props.data                        The initial editor data.
+	 * @param {string} props.keyword                     The focus keyword.
 	 * @param {string} props.data.title                  The initial title.
 	 * @param {string} props.data.slug                   The initial slug.
 	 * @param {string} props.data.description            The initial description.
@@ -299,6 +300,7 @@ class SnippetEditor extends React.Component {
 			data,
 			mode,
 			date,
+			keyword,
 		} = this.props;
 
 		const {
@@ -324,6 +326,7 @@ class SnippetEditor extends React.Component {
 					onMouseOver={ this.onMouseOver }
 					onMouseLeave={ this.onMouseLeave }
 					onClick={ this.onClick }
+					keyword={ keyword }
 					{ ...mappedData }
 				/>
 
@@ -355,6 +358,7 @@ SnippetEditor.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
+	keyword: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 	titleLengthAssessment: lengthAssessmentShape,
 	descriptionLengthAssessment: lengthAssessmentShape,
