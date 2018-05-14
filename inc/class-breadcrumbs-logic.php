@@ -67,7 +67,7 @@ class WPSEO_Breadcrumbs_Logic {
     /**
      * Get breadcrumb array using the singleton instance of this class.
      *
-     * @return string Returns the breadcrumbs as an array.
+     * @return array Returns the breadcrumbs as an array.
      */
     public static function breadcrumb_array() {
         if ( ! ( self::$instance instanceof self ) ) {
