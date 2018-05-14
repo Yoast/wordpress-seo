@@ -8,9 +8,5 @@ export const lengthAssessmentShape = PropTypes.shape( {
 
 export const replacementVariablesShape = PropTypes.arrayOf( PropTypes.shape( {
 	name: PropTypes.string,
-	value: PropTypes.oneOfType( [
-		PropTypes.string,
-		PropTypes.object,
-		PropTypes.array,
-	] ),
+	value: PropTypes.string,
 } ) );
