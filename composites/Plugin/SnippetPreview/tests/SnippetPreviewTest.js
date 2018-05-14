@@ -88,7 +88,6 @@ describe( "SnippetPreview", () => {
 		const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "https://example.org/this-url/" } );
 
 		expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "https://example.org/this-url/" );
-
 	} );
 
 	describe( "mobile mode", () => {
