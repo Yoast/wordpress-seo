@@ -53,7 +53,7 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 
 		$redirect = $this->get_redirect( $origin );
 
-		if ( false === $redirect ) {
+		if ( $redirect === false ) {
 			WP_CLI::error( "Redirect does not exist for '{$origin}'." );
 		}
 
@@ -79,7 +79,7 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 	private function get_stack( WPSEO_Redirect $redirect, $limit ) {
 		$steps = 0;
 
-		while ( ! $this->detected_loop && false !== $redirect ) {
+		while ( ! $this->detected_loop && $redirect !== false ) {
 			$steps++;
 			if ( $limit > 0 && $steps >= $limit ) {
 				break;

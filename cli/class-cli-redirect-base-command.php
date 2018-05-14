@@ -91,7 +91,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	 * @return bool Whether a redirect for the given origin was found.
 	 */
 	protected function has_redirect( $origin ) {
-		return false !== $this->get_redirect( $origin );
+		return $this->get_redirect( $origin ) !== false;
 	}
 
 	/**
@@ -107,7 +107,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	 */
 	protected function validate( $new_origin, $target, $type, $format, $old_origin = null ) {
 		$new_redirect = new WPSEO_Redirect( $new_origin, $target, $type, $format );
-		$old_redirect = ( null !== $old_origin ) ? $this->get_redirect( $old_origin ) : null;
+		$old_redirect = ( $old_origin !== null ) ? $this->get_redirect( $old_origin ) : null;
 
 		$validator = new WPSEO_Redirect_Validator();
 
