@@ -10,7 +10,6 @@
  */
 class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 
-
 	/**
 	 * Returns the query value this filter uses.
 	 *
@@ -93,6 +92,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	public function filter_posts( $where ) {
 		if ( $this->is_filter_active() ) {
 			$where .= $this->get_where_filter();
+			$where .= $this->filter_published_posts();
 		}
 
 		return $where;
@@ -120,6 +120,17 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 			' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ' ) ',
 			$post_ids
 		);
+	}
+
+	/**
+	 * Adds a published posts filter so we don't show unpublished posts in the orphaned pages results.
+	 *
+	 * @return string A published posts filter.
+	 */
+	protected function filter_published_posts() {
+		global $wpdb;
+
+		return " AND {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_password = ''";
 	}
 
 	/**
@@ -163,6 +174,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 					FROM `{$wpdb->posts}`
 					WHERE ID IN ( " . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ' )
 					AND post_status = "publish"
+					AND post_password = ""
 					AND post_type = %s',
 				$replacements
 			)
