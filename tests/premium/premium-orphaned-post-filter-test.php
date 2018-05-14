@@ -106,7 +106,7 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 				->getMock();
 
 		$class_instance
-			->expects( $this->once() )
+			->expects( $this->any() )
 			->method( 'is_filter_active' )
 			->will( $this->returnValue( true ) );
 
