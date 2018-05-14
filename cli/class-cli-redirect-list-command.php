@@ -13,6 +13,13 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	const ALL_FIELDS = 'origin,target,type,format';
 
 	/**
+	 * Filter to use for filtering the list of redirects.
+	 *
+	 * @var array
+	 */
+	private $filter;
+
+	/**
 	 * Lists Yoast SEO redirects.
 	 *
 	 * ## OPTIONS
@@ -56,7 +63,7 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	 * @return void
 	 */
 	public function __invoke( $args, $assoc_args ) {
-		$filter = $this->get_filter( $assoc_args );
+		$this->filter = $this->get_filter( $assoc_args );
 
 		/*
 		 * By default, WP-CLI uses `--format=<format>` to define the output
@@ -75,16 +82,7 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 
 		$redirects = array_filter(
 			$this->get_redirects(),
-			function ( $redirect ) use ( $filter ) {
-				foreach ( $filter as $key => $value ) {
-					// Loose comparison to ignore type.
-					if ( $value != $redirect[ $key ] ) {
-						return false;
-					}
-				}
-
-				return true;
-			}
+			array( $this, 'filter_redirect' )
 		);
 
 		$formatter->display_items( $redirects );
@@ -102,6 +100,24 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 			array( $this, 'adapt_redirect_data' ),
 			$redirect_objects
 		);
+	}
+
+	/**
+	 * Callback function to filter the redirects.
+	 *
+	 * @param array $redirect Array data for an individual redirect.
+	 *
+	 * @return bool
+	 */
+	private function filter_redirect( $redirect ) {
+		foreach ( $this->filter as $key => $value ) {
+			// Loose comparison to ignore type.
+			if ( $value != $redirect[ $key ] ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
