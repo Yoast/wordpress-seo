@@ -321,6 +321,7 @@ class SnippetEditor extends React.Component {
 		return (
 			<div>
 				<SnippetPreview
+					keyword={ keyword }
 					mode={ mode }
 					date={ date }
 					activeField={ this.mapFieldToPreview( activeField ) }
@@ -328,7 +329,6 @@ class SnippetEditor extends React.Component {
 					onMouseOver={ this.onMouseOver }
 					onMouseLeave={ this.onMouseLeave }
 					onClick={ this.onClick }
-					keyword={ keyword }
 					locale={ locale }
 					{ ...mappedData }
 				/>
@@ -361,11 +361,11 @@ SnippetEditor.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
-	keyword: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 	titleLengthAssessment: lengthAssessmentShape,
 	descriptionLengthAssessment: lengthAssessmentShape,
 	mapDataToPreview: PropTypes.func,
+	keyword: PropTypes.string,
 	locale: PropTypes.string,
 };
 

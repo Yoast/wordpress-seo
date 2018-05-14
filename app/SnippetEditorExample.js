@@ -199,7 +199,6 @@ export default class SnippetEditorExample extends Component {
 				replacementVariables={ replacementVariables }
 				titleLengthAssessment={ titleLengthAssessment }
 				descriptionLengthAssessment={ descriptionLengthAssessment }
-				keyword="keyword"
 			/>
 
 			<h2>Test Sliders</h2>
