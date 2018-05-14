@@ -5,6 +5,7 @@ import {
 } from "../../../src/redux/actions/snippetEditor";
 import snippetEditorReducer from "../../../src/redux/reducers/snippetEditor";
 import { DEFAULT_MODE } from "yoast-components";
+import defaultReplaceVariables from "../../../src/values/defaultReplaceVariables";
 
 describe( "snippet editor reducers", () => {
 	describe( "snippetEditorReducer", () => {
@@ -18,7 +19,7 @@ describe( "snippet editor reducers", () => {
 					slug: "",
 					description: "",
 				},
-				replacementVariables: [],
+				replacementVariables: defaultReplaceVariables,
 			} );
 		} );
 
@@ -49,8 +50,17 @@ describe( "snippet editor reducers", () => {
 		} );
 
 		it( "updates replacement variables", () => {
-			const action = updateReplacementVariable( "title", "Title" );
-			const expected = { replacementVariables: [ { name: "title", value: "Title" } ] };
+			const action = updateReplacementVariable( "title", "New title" );
+			const expected = { replacementVariables: [ { name: "title", value: "New title" } ] };
+
+			const result = snippetEditorReducer( { replacementVariables: [ { name: "title", value: "Old title" } ] }, action );
+
+			expect( result ).toEqual( expected );
+		} );
+
+		it( "adds replacement variables", () => {
+			const action = updateReplacementVariable( "New key", "New value" );
+			const expected = { replacementVariables: [ { name: "New key", value: "New value" } ] };
 
 			const result = snippetEditorReducer( { replacementVariables: [] }, action );
 

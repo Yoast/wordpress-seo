@@ -9358,6 +9358,10 @@ sassdash@^0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/sassdash/-/sassdash-0.8.2.tgz#42d59b4932f13034695604bd8437e2b598afd368"
 
+sassdash@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/sassdash/-/sassdash-0.9.0.tgz#e2114e80af0c01639d1c6b88a3eb350740cb1169"
+
 sax@>=0.6.0, sax@^1.2.1, sax@^1.2.4, sax@~1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
@@ -11204,7 +11208,7 @@ yoast-components@^3.5.1:
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoastseo@^1.28.0, yoastseo@^1.30.2:
+yoastseo@^1.28.0:
   version "1.30.2"
   resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.30.2.tgz#857a622593c8d67784e83748b6a3da9ec0c7dd98"
   dependencies:
@@ -11214,6 +11218,18 @@ yoastseo@^1.28.0, yoastseo@^1.30.2:
     lodash "^4.14.1"
     node-sass "^4.7.2"
     sassdash "^0.8.1"
+    tokenizer2 "^2.0.0"
+
+yoastseo@^1.31.0:
+  version "1.31.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.31.0.tgz#4ff9f37dcefe629ac66676ae4f2afcb1b4e54b2a"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    jest "^22.0.0"
+    lodash "^4.14.1"
+    node-sass "^4.7.2"
+    sassdash "^0.9.0"
     tokenizer2 "^2.0.0"
 
 zip-stream@^1.1.0:
