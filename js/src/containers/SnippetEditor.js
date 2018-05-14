@@ -14,7 +14,10 @@ import {
  * @returns {Object} Data for the `SnippetEditor` component.
  */
 export function mapStateToProps( state ) {
-	return state.snippetEditor;
+	return {
+		...state.snippetEditor,
+		keyword: state.activeKeyword,
+	};
 }
 
 /**
