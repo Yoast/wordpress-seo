@@ -32,7 +32,6 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Premium_Orphaned_Post_Filter::filter_posts
 	 */
 	public function test_filter_posts_unpublished_posts() {
-
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'is_filter_active' )
@@ -60,7 +59,6 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Premium_Orphaned_Post_Filter::filter_posts
 	 */
 	public function test_filter_posts_no_active_filter() {
-
 		$this->class_instance
 			->expects( $this->once() )
 			->method( 'is_filter_active' )
@@ -85,13 +83,12 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Premium_Orphaned_Post_Filter::filter_published_posts
 	 */
 	public function test_filter_published_posts() {
-
 		$class_instance = new WPSEO_Premium_Orphaned_Post_Filter_Double();
 
 		global $wpdb;
 
 		$expected = " AND {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_password = ''";
-		$actual = $class_instance->filter_published_posts();
+		$actual   = $class_instance->filter_published_posts();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -102,7 +99,6 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Premium_Orphaned_Post_Filter::filter_posts
 	 */
 	public function test_filter_posts_from_database() {
-
 		$class_instance =
 			$this
 				->getMockBuilder( 'WPSEO_Premium_Orphaned_Post_Filter_Double' )
@@ -112,22 +108,25 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 		$class_instance->register_hooks();
 
 		// Create 4 posts: only the two published pages without password are expected to be returned.
-		$post_1 = $this->factory->post->create_and_get( array(
+		$post_1 = self::factory()->post->create_and_get( array(
 			'post_title'    => 'A Published page',
 			'post_status'   => 'publish',
 		) );
+
 		// Create a draft page that we expect to be filtered out by filter_published_posts.
-		$this->factory->post->create_and_get( array(
+		self::factory()->post->create( array(
 			'post_title'    => 'Draft Page',
 			'post_status'   => 'draft',
 		) );
+
 		// Create a password protected page that we expect to be filtered out by filter_published_posts.
-		$this->factory->post->create_and_get( array(
+		self::factory()->post->create( array(
 			'post_title'    => 'Secret page',
 			'post_status'   => 'publish',
 			'post_password' => 'verysecretpassword'
 		) );
-		$post_2 = $this->factory->post->create_and_get( array(
+
+		$post_2 = self::factory()->post->create_and_get( array(
 			'post_title'    => 'Another Published page',
 			'post_status'   => 'publish',
 		) );
