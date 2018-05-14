@@ -200,6 +200,13 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -342,7 +349,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
           <svg
             aria-hidden={true}
             className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-            fill="#72777c"
+            fill="#646464"
             focusable="false"
             role="img"
             size="16px"
@@ -433,7 +440,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
           className="c18"
         >
           <div
-            className="c19 c18"
+            className="c19"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -589,7 +596,7 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
     isAmp={false}
     isDescriptionGenerated={false}
     keyword=""
-    locale="en_US"
+    locale="en"
     mode="mobile"
     onClick={[Function]}
     onHover={[Function]}
@@ -860,6 +867,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -1144,6 +1158,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
@@ -1166,7 +1181,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -1280,20 +1295,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                 type="button"
                               >
                                 <HelpTextWrapper__StyledSvg
-                                  color="#72777c"
+                                  color="#646464"
                                   icon="question-circle"
                                   size="16px"
                                 >
                                   <SvgIcon
                                     className="c8"
-                                    color="#72777c"
+                                    color="#646464"
                                     icon="question-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-question-circle c8"
-                                      fill="#72777c"
+                                      fill="#646464"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -1303,7 +1318,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-                                        fill="#72777c"
+                                        fill="#646464"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -1488,21 +1503,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__BaseUrl
+                      <div
                         className="c19"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <div
-                          className="c19 c18"
-                          onClick={[Function]}
-                          onMouseLeave={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          example.org › test-slug
-                        </div>
-                      </SnippetPreview__BaseUrl>
+                        example.org › test-slug
+                      </div>
                     </SnippetPreview__BaseUrlOverflowContainer>
                   </div>
                 </SnippetPreview__BaseUrl>
@@ -2446,6 +2454,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -2730,6 +2745,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
@@ -2752,7 +2768,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -2866,20 +2882,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                 type="button"
                               >
                                 <HelpTextWrapper__StyledSvg
-                                  color="#72777c"
+                                  color="#646464"
                                   icon="question-circle"
                                   size="16px"
                                 >
                                   <SvgIcon
                                     className="c8"
-                                    color="#72777c"
+                                    color="#646464"
                                     icon="question-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-question-circle c8"
-                                      fill="#72777c"
+                                      fill="#646464"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -2889,7 +2905,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-                                        fill="#72777c"
+                                        fill="#646464"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -3074,21 +3090,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__BaseUrl
+                      <div
                         className="c19"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <div
-                          className="c19 c18"
-                          onClick={[Function]}
-                          onMouseLeave={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          example.org › test-slug
-                        </div>
-                      </SnippetPreview__BaseUrl>
+                        example.org › test-slug
+                      </div>
                     </SnippetPreview__BaseUrlOverflowContainer>
                   </div>
                 </SnippetPreview__BaseUrl>
@@ -4032,6 +4041,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -4316,6 +4332,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
@@ -4338,7 +4355,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -4452,20 +4469,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                 type="button"
                               >
                                 <HelpTextWrapper__StyledSvg
-                                  color="#72777c"
+                                  color="#646464"
                                   icon="question-circle"
                                   size="16px"
                                 >
                                   <SvgIcon
                                     className="c8"
-                                    color="#72777c"
+                                    color="#646464"
                                     icon="question-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-question-circle c8"
-                                      fill="#72777c"
+                                      fill="#646464"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -4475,7 +4492,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-                                        fill="#72777c"
+                                        fill="#646464"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -4660,21 +4677,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__BaseUrl
+                      <div
                         className="c19"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <div
-                          className="c19 c18"
-                          onClick={[Function]}
-                          onMouseLeave={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          example.org › test-slug
-                        </div>
-                      </SnippetPreview__BaseUrl>
+                        example.org › test-slug
+                      </div>
                     </SnippetPreview__BaseUrlOverflowContainer>
                   </div>
                 </SnippetPreview__BaseUrl>
@@ -5618,6 +5628,13 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -5902,6 +5919,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -5924,7 +5942,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -6038,20 +6056,20 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                 type="button"
                               >
                                 <HelpTextWrapper__StyledSvg
-                                  color="#72777c"
+                                  color="#646464"
                                   icon="question-circle"
                                   size="16px"
                                 >
                                   <SvgIcon
                                     className="c8"
-                                    color="#72777c"
+                                    color="#646464"
                                     icon="question-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-question-circle c8"
-                                      fill="#72777c"
+                                      fill="#646464"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -6061,7 +6079,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-                                        fill="#72777c"
+                                        fill="#646464"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -6246,21 +6264,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__BaseUrl
+                      <div
                         className="c19"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <div
-                          className="c19 c18"
-                          onClick={[Function]}
-                          onMouseLeave={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          example.org › test-slug
-                        </div>
-                      </SnippetPreview__BaseUrl>
+                        example.org › test-slug
+                      </div>
                     </SnippetPreview__BaseUrlOverflowContainer>
                   </div>
                 </SnippetPreview__BaseUrl>
@@ -7195,6 +7206,13 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -7362,6 +7380,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -7384,7 +7403,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -7498,20 +7517,20 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                 type="button"
                               >
                                 <HelpTextWrapper__StyledSvg
-                                  color="#72777c"
+                                  color="#646464"
                                   icon="question-circle"
                                   size="16px"
                                 >
                                   <SvgIcon
                                     className="c8"
-                                    color="#72777c"
+                                    color="#646464"
                                     icon="question-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-question-circle c8"
-                                      fill="#72777c"
+                                      fill="#646464"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -7521,7 +7540,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-                                        fill="#72777c"
+                                        fill="#646464"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -7706,21 +7725,14 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__BaseUrl
+                      <div
                         className="c19"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <div
-                          className="c19 c18"
-                          onClick={[Function]}
-                          onMouseLeave={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          example.org › test-slug
-                        </div>
-                      </SnippetPreview__BaseUrl>
+                        example.org › test-slug
+                      </div>
                     </SnippetPreview__BaseUrlOverflowContainer>
                   </div>
                 </SnippetPreview__BaseUrl>
@@ -8415,6 +8427,13 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -8731,6 +8750,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -8753,7 +8773,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -8867,20 +8887,20 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                 type="button"
                               >
                                 <HelpTextWrapper__StyledSvg
-                                  color="#72777c"
+                                  color="#646464"
                                   icon="question-circle"
                                   size="16px"
                                 >
                                   <SvgIcon
                                     className="c8"
-                                    color="#72777c"
+                                    color="#646464"
                                     icon="question-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-question-circle c8"
-                                      fill="#72777c"
+                                      fill="#646464"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -8890,7 +8910,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-                                        fill="#72777c"
+                                        fill="#646464"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -9075,21 +9095,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__BaseUrl
+                      <div
                         className="c19"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <div
-                          className="c19 c18"
-                          onClick={[Function]}
-                          onMouseLeave={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          example.org › test-slug
-                        </div>
-                      </SnippetPreview__BaseUrl>
+                        example.org › test-slug
+                      </div>
                     </SnippetPreview__BaseUrlOverflowContainer>
                   </div>
                 </SnippetPreview__BaseUrl>
@@ -10033,6 +10046,13 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -10349,6 +10369,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -10371,7 +10392,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -10485,20 +10506,20 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                 type="button"
                               >
                                 <HelpTextWrapper__StyledSvg
-                                  color="#72777c"
+                                  color="#646464"
                                   icon="question-circle"
                                   size="16px"
                                 >
                                   <SvgIcon
                                     className="c8"
-                                    color="#72777c"
+                                    color="#646464"
                                     icon="question-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-question-circle c8"
-                                      fill="#72777c"
+                                      fill="#646464"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -10508,7 +10529,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-                                        fill="#72777c"
+                                        fill="#646464"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -10693,21 +10714,14 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__BaseUrl
+                      <div
                         className="c19"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <div
-                          className="c19 c18"
-                          onClick={[Function]}
-                          onMouseLeave={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          example.org › test-slug
-                        </div>
-                      </SnippetPreview__BaseUrl>
+                        example.org › test-slug
+                      </div>
                     </SnippetPreview__BaseUrlOverflowContainer>
                   </div>
                 </SnippetPreview__BaseUrl>
@@ -11453,7 +11467,7 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
     isAmp={false}
     isDescriptionGenerated={false}
     keyword=""
-    locale="en_US"
+    locale="en"
     mode="mobile"
     onClick={[Function]}
     onHover={[Function]}
@@ -11715,6 +11729,13 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -11857,7 +11878,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
           <svg
             aria-hidden={true}
             className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-            fill="#72777c"
+            fill="#646464"
             focusable="false"
             role="img"
             size="16px"
@@ -11948,7 +11969,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
           className="c18"
         >
           <div
-            className="c19 c18"
+            className="c19"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -12293,6 +12314,13 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -12435,7 +12463,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
           <svg
             aria-hidden={true}
             className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-            fill="#72777c"
+            fill="#646464"
             focusable="false"
             role="img"
             size="16px"
@@ -12526,7 +12554,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
           className="c18"
         >
           <div
-            className="c19 c18"
+            className="c19"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -12880,6 +12908,13 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -13176,6 +13211,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -13198,7 +13234,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -13312,20 +13348,20 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                 type="button"
                               >
                                 <HelpTextWrapper__StyledSvg
-                                  color="#72777c"
+                                  color="#646464"
                                   icon="question-circle"
                                   size="16px"
                                 >
                                   <SvgIcon
                                     className="c8"
-                                    color="#72777c"
+                                    color="#646464"
                                     icon="question-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-question-circle c8"
-                                      fill="#72777c"
+                                      fill="#646464"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -13335,7 +13371,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-                                        fill="#72777c"
+                                        fill="#646464"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -13520,21 +13556,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__BaseUrl
+                      <div
                         className="c19"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <div
-                          className="c19 c18"
-                          onClick={[Function]}
-                          onMouseLeave={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          example.org › test-slug
-                        </div>
-                      </SnippetPreview__BaseUrl>
+                        example.org › test-slug
+                      </div>
                     </SnippetPreview__BaseUrlOverflowContainer>
                   </div>
                 </SnippetPreview__BaseUrl>
@@ -14486,6 +14515,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -14782,6 +14818,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -14804,7 +14841,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -14918,20 +14955,20 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                                 type="button"
                               >
                                 <HelpTextWrapper__StyledSvg
-                                  color="#72777c"
+                                  color="#646464"
                                   icon="question-circle"
                                   size="16px"
                                 >
                                   <SvgIcon
                                     className="c8"
-                                    color="#72777c"
+                                    color="#646464"
                                     icon="question-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-question-circle c8"
-                                      fill="#72777c"
+                                      fill="#646464"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -14941,7 +14978,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-                                        fill="#72777c"
+                                        fill="#646464"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -15126,21 +15163,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__BaseUrl
+                      <div
                         className="c19"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <div
-                          className="c19 c18"
-                          onClick={[Function]}
-                          onMouseLeave={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          example.org › test-slug
-                        </div>
-                      </SnippetPreview__BaseUrl>
+                        example.org › test-slug
+                      </div>
                     </SnippetPreview__BaseUrlOverflowContainer>
                   </div>
                 </SnippetPreview__BaseUrl>
@@ -16092,6 +16122,13 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -16376,6 +16413,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -16398,7 +16436,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -16512,20 +16550,20 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                 type="button"
                               >
                                 <HelpTextWrapper__StyledSvg
-                                  color="#72777c"
+                                  color="#646464"
                                   icon="question-circle"
                                   size="16px"
                                 >
                                   <SvgIcon
                                     className="c8"
-                                    color="#72777c"
+                                    color="#646464"
                                     icon="question-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-question-circle c8"
-                                      fill="#72777c"
+                                      fill="#646464"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -16535,7 +16573,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-                                        fill="#72777c"
+                                        fill="#646464"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -16720,21 +16758,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__BaseUrl
+                      <div
                         className="c19"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <div
-                          className="c19 c18"
-                          onClick={[Function]}
-                          onMouseLeave={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          example.org › test-slug
-                        </div>
-                      </SnippetPreview__BaseUrl>
+                        example.org › test-slug
+                      </div>
                     </SnippetPreview__BaseUrlOverflowContainer>
                   </div>
                 </SnippetPreview__BaseUrl>
@@ -17678,6 +17709,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -17962,6 +18000,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -17995,7 +18034,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -18109,20 +18148,20 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                 type="button"
                               >
                                 <HelpTextWrapper__StyledSvg
-                                  color="#72777c"
+                                  color="#646464"
                                   icon="question-circle"
                                   size="16px"
                                 >
                                   <SvgIcon
                                     className="c8"
-                                    color="#72777c"
+                                    color="#646464"
                                     icon="question-circle"
                                     size="16px"
                                   >
                                     <SvgIcon__StyledSvg
                                       aria-hidden={true}
                                       className="yoast-svg-icon yoast-svg-icon-question-circle c8"
-                                      fill="#72777c"
+                                      fill="#646464"
                                       focusable="false"
                                       role="img"
                                       size="16px"
@@ -18132,7 +18171,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                       <svg
                                         aria-hidden={true}
                                         className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-                                        fill="#72777c"
+                                        fill="#646464"
                                         focusable="false"
                                         role="img"
                                         size="16px"
@@ -18317,21 +18356,14 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__BaseUrl
+                      <div
                         className="c19"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <div
-                          className="c19 c18"
-                          onClick={[Function]}
-                          onMouseLeave={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          example.org › test-slug
-                        </div>
-                      </SnippetPreview__BaseUrl>
+                        example.org › test-slug
+                      </div>
                     </SnippetPreview__BaseUrlOverflowContainer>
                   </div>
                 </SnippetPreview__BaseUrl>
@@ -19299,6 +19331,13 @@ exports[`SnippetEditor passes the date prop 1`] = `
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -19445,7 +19484,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
           <svg
             aria-hidden={true}
             className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-            fill="#72777c"
+            fill="#646464"
             focusable="false"
             role="img"
             size="16px"
@@ -19536,7 +19575,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
           className="c18"
         >
           <div
-            className="c19 c18"
+            className="c19"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -19698,7 +19737,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
     isAmp={false}
     isDescriptionGenerated={false}
     keyword=""
-    locale="en_US"
+    locale="en"
     mode="mobile"
     onClick={[Function]}
     onHover={[Function]}
@@ -19962,6 +20001,13 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 }
 
 .c20 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -20092,7 +20138,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
           <svg
             aria-hidden={true}
             className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-            fill="#72777c"
+            fill="#646464"
             focusable="false"
             role="img"
             size="16px"
@@ -20186,7 +20232,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
             className="c19"
           >
             <div
-              className="c20 c19"
+              className="c20"
               onClick={[Function]}
               onMouseLeave={[Function]}
               onMouseOver={[Function]}
@@ -20527,6 +20573,13 @@ exports[`SnippetEditor shows and editor 1`] = `
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -20669,7 +20722,7 @@ exports[`SnippetEditor shows and editor 1`] = `
           <svg
             aria-hidden={true}
             className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-            fill="#72777c"
+            fill="#646464"
             focusable="false"
             role="img"
             size="16px"
@@ -20760,7 +20813,7 @@ exports[`SnippetEditor shows and editor 1`] = `
           className="c18"
         >
           <div
-            className="c19 c18"
+            className="c19"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}

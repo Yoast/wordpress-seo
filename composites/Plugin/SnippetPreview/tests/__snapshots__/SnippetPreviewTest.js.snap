@@ -187,6 +187,13 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 }
 
 .c20 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -242,7 +249,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -336,7 +343,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           className="c19"
         >
           <div
-            className="c20 c19"
+            className="c20"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -567,6 +574,13 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 }
 
 .c20 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -622,7 +636,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -716,7 +730,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           className="c19"
         >
           <div
-            className="c20 c19"
+            className="c20"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -950,6 +964,13 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 }
 
 .c20 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -1005,7 +1026,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -1099,7 +1120,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           className="c19"
         >
           <div
-            className="c20 c19"
+            className="c20"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -1335,6 +1356,13 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 }
 
 .c20 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -1413,7 +1441,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -1507,7 +1535,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         className="c19"
       >
         <div
-          className="c20 c19"
+          className="c20"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -1740,6 +1768,13 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -1807,7 +1842,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -1898,7 +1933,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         className="c18"
       >
         <div
-          className="c19 c18"
+          className="c19"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -2131,6 +2166,13 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 }
 
 .c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -2198,7 +2240,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -2289,7 +2331,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         className="c18"
       >
         <div
-          className="c19 c18"
+          className="c19"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -2524,6 +2566,13 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 }
 
 .c20 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -2579,7 +2628,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -2673,7 +2722,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           className="c19"
         >
           <div
-            className="c20 c19"
+            className="c20"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -2904,6 +2953,13 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 }
 
 .c21 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -2971,7 +3027,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -3065,7 +3121,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           className="c20"
         >
           <div
-            className="c21 c20"
+            className="c21"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -3296,6 +3352,13 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 }
 
 .c20 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -3363,7 +3426,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -3457,7 +3520,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           className="c19"
         >
           <div
-            className="c20 c19"
+            className="c20"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -3688,6 +3751,13 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 }
 
 .c21 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -3755,7 +3825,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -3849,7 +3919,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           className="c19 c20"
         >
           <div
-            className="c21 c20"
+            className="c21"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -4080,6 +4150,13 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 }
 
 .c21 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -4147,7 +4224,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -4241,7 +4318,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           className="c20"
         >
           <div
-            className="c21 c20"
+            className="c21"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -4472,6 +4549,13 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 }
 
 .c20 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -4539,7 +4623,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -4633,7 +4717,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           className="c19"
         >
           <div
-            className="c20 c19"
+            className="c20"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -4864,6 +4948,13 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 }
 
 .c21 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -4931,7 +5022,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -5025,7 +5116,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           className="c19 c20"
         >
           <div
-            className="c21 c20"
+            className="c21"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -5256,6 +5347,13 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 }
 
 .c20 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -5315,7 +5413,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
         <svg
           aria-hidden={true}
           className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#72777c"
+          fill="#646464"
           focusable="false"
           role="img"
           size="16px"
@@ -5409,7 +5507,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           className="c19"
         >
           <div
-            className="c20 c19"
+            className="c20"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
