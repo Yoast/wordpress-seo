@@ -102,6 +102,8 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	 * @param int         $type       Type of the redirect.
 	 * @param string      $format     Format of the redirect.
 	 * @param string|null $old_origin Optional. Old origin of the redirect to update.
+	 *
+	 * @return void
 	 */
 	protected function validate( $new_origin, $target, $type, $format, $old_origin = null ) {
 		$new_redirect = new WPSEO_Redirect( $new_origin, $target, $type, $format );

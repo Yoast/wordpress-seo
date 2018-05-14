@@ -43,6 +43,8 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 	 *
 	 * @param array $args Array of positional arguments.
 	 * @param array $assoc_args Associative array of associative arguments.
+	 *
+	 * @return void
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		list( $origin ) = $args;
@@ -97,6 +99,8 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 	 * Adds a new target to the stack.
 	 *
 	 * @param string $target Target to add to the stack.
+	 *
+	 * @return void
 	 */
 	private function add_to_stack( $target ) {
 		if ( array_key_exists( $target, $this->stack ) ) {

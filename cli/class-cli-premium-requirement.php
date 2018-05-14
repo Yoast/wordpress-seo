@@ -13,6 +13,8 @@ final class WPSEO_CLI_Premium_Requirement {
 	/**
 	 * Enforces license requirements for commands representing premium
 	 * functionality.
+	 *
+	 * @return void
 	 */
 	public static function enforce() {
 		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
