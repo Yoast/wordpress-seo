@@ -66,7 +66,9 @@ final class WPSEO_CLI_Redirect_Create_Command extends WPSEO_CLI_Redirect_Base_Co
 			WP_CLI::error( "Redirect already exists for '{$origin}'." );
 		}
 
-		$force || $this->validate( $origin, $target, $type, $format );
+		if ( ! $force ) {
+			$this->validate( $origin, $target, $type, $format );
+		}
 
 		if ( $exists ) {
 			$success = $this->update_redirect( $origin, $origin, $target, $type, $format );

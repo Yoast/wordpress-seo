@@ -69,7 +69,9 @@ final class WPSEO_CLI_Redirect_Update_Command extends WPSEO_CLI_Redirect_Base_Co
 			WP_CLI::error( "Redirect does not exist for '{$origin}'." );
 		}
 
-		$force || $this->validate( $new_origin, $target, $type, $format, $origin );
+		if ( ! $force ) {
+			$this->validate( $new_origin, $target, $type, $format, $origin );
+		}
 
 		$success = $this->update_redirect( $origin, $new_origin, $target, $type, $format );
 
