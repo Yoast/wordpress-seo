@@ -76,7 +76,7 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 	 * @param WPSEO_Redirect $redirect Redirect to get the stack for.
 	 * @param int            $limit    Number of steps to limit the stack to.
 	 *
-	 * @return array<string> Array of target URL steps.
+	 * @return array Array of target URL steps.
 	 */
 	private function get_stack( WPSEO_Redirect $redirect, $limit ) {
 		$steps = 0;
