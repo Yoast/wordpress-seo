@@ -260,7 +260,7 @@ function highlightKeyword( locale, keyword, text, cleanText ) {
  * @returns {boolean} Whether or not the url contains a trailing slash.
  */
 function hasTrailingSlash( url ) {
-	return url.indexOf( "/" ) === ( url.length - 1 );
+	return url.lastIndexOf( "/" ) === ( url.length - 1 );
 }
 
 export default class SnippetPreview extends PureComponent {
@@ -521,25 +521,18 @@ export default class SnippetPreview extends PureComponent {
 		 * returns an array of strings plus a strong React element, and replace()
 		 * can't run on an array.
 		 */
-		console.log( "Raw url: " + url );
 		let cleanUrl = replaceSpecialCharactersAndDiacritics( url );
-		console.log( "cleanUrl: " + cleanUrl );
-		console.log( "this.props.mode: " + this.props.mode );
 
 		if ( this.props.mode === MODE_MOBILE ) {
 			urlContent = this.getBreadcrumbs( cleanUrl );
 		} else {
 			urlContent = highlightKeyword( locale, keyword, url, cleanUrl );
+			if ( ! hasTrailingSlash( urlContent ) ) {
+				urlContent = urlContent + "/";
+			}
 		}
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
-
-		console.log( "First: " + urlContent );
-		if ( ! hasTrailingSlash( urlContent ) ) {
-			urlContent = urlContent + "/";
-		}
-		console.log( "Then: " + urlContent );
-
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
 		 * However this is not relevant in this case, because the url is not focusable.
