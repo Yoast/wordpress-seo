@@ -1,3 +1,6 @@
+import some from "lodash/some";
+import forEach from "lodash/forEach";
+
 const ENTITY_FORMAT = /%%([a-zA-Z_]+)%%/;
 
 /**
@@ -86,39 +89,62 @@ export function unserializeEntity( key, name, offset ) {
 }
 
 /**
+ * Find all indices of a search term in a string.
+ *
+ * @param {string} searchTerm The term to search for.
+ * @param {string} text       The text to search in.
+ *
+ * @returns {Array} Array of found indices.
+ */
+const getIndicesOf = ( searchTerm, text ) => {
+	let temp = text;
+	let tempSearch = searchTerm;
+	const searchStrLen = tempSearch.length;
+	if ( searchStrLen === 0 ) {
+		return [];
+	}
+	let startIndex = 0;
+	let index;
+	const indices = [];
+
+	while ( ( index = temp.indexOf( tempSearch, startIndex ) ) > -1 ) {
+		indices.push( index );
+		startIndex = index + searchStrLen;
+	}
+	return indices;
+};
+
+/**
  * Unserializes a piece of content into DraftJS data.
  *
  * @param {string} content The content to unserialize.
+ * @param {Array} tags The tags for the DraftJS mention plugin.
+ *
  * @returns {Object} The raw data ready for convertFromRaw.
  */
-export function unserializeEditor( content ) {
+export function unserializeEditor( content, tags ) {
 	const entityRanges = [];
 	const entityMap = {};
-	let entity, entityName, fullEntity;
 
-	do {
-		entity = ENTITY_FORMAT.exec( content );
+	forEach( tags, tag => {
+		const tagValue = serializeEntity( tag.name );
+		const indices = getIndicesOf( tagValue, content );
 
-		if ( entity ) {
-			fullEntity = entity[ 0 ];
-			entityName = entity[ 1 ];
+		forEach( indices, offset => {
+			const before = content.substr( 0, offset );
+			const between = content.substr( offset, tagValue.length ).replace( /%%/g, "" );
+			const after = content.substr( offset + tagValue.length );
 
-			let offset = entity.index;
+			content = before + between + after;
 
 			let key = entityRanges.length;
 
-			const { entityRange, mappedEntity } = unserializeEntity( key, entityName, offset );
+			const { entityRange, mappedEntity } = unserializeEntity( key, tag.name, offset );
 
 			entityRanges.push( entityRange );
 			entityMap[ key ] = mappedEntity;
-
-			const before = content.substr( 0, offset );
-			const between = content.substr( offset, fullEntity.length ).replace( /%%/g, "" );
-			const after = content.substr( offset + fullEntity.length );
-
-			content = before + between + after;
-		}
-	} while ( entity );
+		} );
+	} );
 
 	const blocks = [
 		{
