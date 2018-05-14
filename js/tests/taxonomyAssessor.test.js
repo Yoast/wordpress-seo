@@ -4,7 +4,7 @@ let factory = require( "./helpers/factory.js" );
 let i18n = factory.buildJed();
 let assessor = new Assessor( i18n );
 
-let getResults = function ( Results ) {
+let getResults = function( Results ) {
 	let assessments = [];
 
 	for ( let Result of Results ) {
@@ -14,7 +14,7 @@ let getResults = function ( Results ) {
 	return assessments;
 };
 
-describe ( "running assessments in the assessor", function() {
+describe( "running assessments in the assessor", function() {
 	it( "runs assessments without any specific requirements", function() {
 		assessor.assess( new Paper( "" ) );
 		let AssessmentResults = assessor.getValidResults();
@@ -24,7 +24,7 @@ describe ( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textLength"
+			"textLength",
 		] );
 	} );
 
@@ -37,7 +37,7 @@ describe ( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textLength"
+			"textLength",
 		] );
 	} );
 
@@ -48,12 +48,26 @@ describe ( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
+			"metaDescriptionKeyword",
+			"metaDescriptionLength",
+			"titleWidth",
+			"textLength",
+		] );
+	} );
+
+	it( "additionally runs assessments that require a keyword and a title", function() {
+		assessor.assess( new Paper( "text", { keyword: "keyword", title: "title" } ) );
+		let AssessmentResults = assessor.getValidResults();
+		let assessments = getResults( AssessmentResults );
+
+		expect( assessments ).toEqual( [
+			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
 			"titleKeyword",
 			"titleWidth",
-			"textLength"
+			"textLength",
 		] );
 	} );
 
@@ -66,7 +80,7 @@ describe ( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textLength"
+			"textLength",
 		] );
 	} );
 
@@ -80,10 +94,9 @@ describe ( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
-			"titleKeyword",
 			"titleWidth",
 			"urlKeyword",
-			"textLength"
+			"textLength",
 		] );
 	} );
 
@@ -98,9 +111,8 @@ describe ( "running assessments in the assessor", function() {
 			"keywordDensity",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
-			"titleKeyword",
 			"titleWidth",
-			"textLength"
+			"textLength",
 		] );
 	} );
 
@@ -114,9 +126,8 @@ describe ( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionKeyword",
 			"metaDescriptionLength",
-			"titleKeyword",
 			"titleWidth",
-			"textLength"
+			"textLength",
 		] );
 	} );
 } );
