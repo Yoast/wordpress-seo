@@ -40,7 +40,7 @@ class WPSEO_Premium_Benefits_List {
 		$translations = $this->get_translations();
 		return array(
 			'locale' => WPSEO_Utils::get_user_locale(),
-			'intl' => $translations,
+			'intl'   => $translations,
 		);
 	}
 
