@@ -4612,9 +4612,9 @@ grunt-phplint@^0.1.0:
     cache-swap "~0.3.0"
     grunt "~0.4.1"
 
-"grunt-po2json@git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471":
+grunt-po2json@^0.3.0:
   version "0.3.0"
-  resolved "git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471"
+  resolved "https://registry.yarnpkg.com/grunt-po2json/-/grunt-po2json-0.3.0.tgz#cb8859384ad4cc5a244c77cc026f38eac6b284c3"
   dependencies:
     po2json "*"
 
