@@ -138,7 +138,7 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	}
 
 	/**
-	 * Gets Formatter object based on supplied parameters.
+	 * Get the array of field names to use for formatting the table columns.
 	 *
 	 * @param array $assoc_args Parameters passed to command. Determines
 	 *                          formatting.
