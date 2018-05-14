@@ -490,7 +490,7 @@ import { updateData } from "./redux/actions/snippetEditor";
 
 		postDataCollector.app = app;
 
-		const replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 		const shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {

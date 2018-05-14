@@ -1,4 +1,6 @@
 /* global wpseoReplaceVarsL10n, require */
+import { updateReplacementVariable } from "./redux/actions/snippetEditor";
+
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -21,13 +23,16 @@ var ReplaceVar = require( "./values/replaceVar" );
 	/**
 	 * Variable replacement plugin for WordPress.
 	 *
-	 * @param {app} app The app object.
+	 * @param {app}    app   The app object.
+	 * @param {Object} store The redux store.
 	 *
 	 * @returns {void}
 	 */
-	var YoastReplaceVarPlugin = function( app ) {
+	var YoastReplaceVarPlugin = function( app, store ) {
 		this._app = app;
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
+
+		this._store = store;
 
 		this.registerReplacements();
 		this.registerModifications();
@@ -266,15 +271,28 @@ var ReplaceVar = require( "./values/replaceVar" );
 			taxonomyElements[ taxonomyName ] = {};
 		}
 
+		let checkedCategories = [];
+
 		forEach( checkboxes, function( checkbox ) {
 			checkbox = jQuery( checkbox );
 			var taxonomyID = checkbox.val();
 
+			let categoryName = this.getCategoryName( checkbox );
 			taxonomyElements[ taxonomyName ][ taxonomyID ] = {
-				label: this.getCategoryName( checkbox ),
+				label: categoryName,
 				checked: checkbox.prop( "checked" ),
 			};
 		}.bind( this ) );
+
+		forEach( taxonomyElements, ( taxonomyElement ) => {
+			forEach( taxonomyElement, ( checkbox ) => {
+				if ( checkbox.checked ) {
+					checkedCategories.push( checkbox.label );
+				}
+			} );
+		} );
+
+		this._store.dispatch( updateReplacementVariable( taxonomyName, checkedCategories.join( ", " ) ) );
 	};
 
 	/**
@@ -357,7 +375,6 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 			filtered.push( item.label );
 		} );
-
 		return jQuery.unique( filtered ).join( ", " );
 	};
 
