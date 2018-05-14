@@ -68,6 +68,13 @@ class WPSEO_Redirect_Handler_Double extends WPSEO_Redirect_Handler {
 	/**
 	 * @inheritdoc
 	 */
+	public function get_request_uri() {
+		return parent::get_request_uri();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function get_redirects( $option ) {
 		return parent::get_redirects( $option );
 	}
@@ -165,6 +172,13 @@ class WPSEO_Redirect_Handler_Double extends WPSEO_Redirect_Handler {
 	 */
 	public function handle_redirect_without_target( $redirect_type ) {
 		parent::handle_redirect_without_target( $redirect_type );
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function strip_subdirectory( $url ) {
+		return parent::strip_subdirectory( $url );
 	}
 
 	/**

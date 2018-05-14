@@ -161,4 +161,41 @@ class WPSEO_Redirect_Util_Test extends PHPUnit_Framework_TestCase {
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '/relative/' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '/relative' ) );
 	}
+
+	/**
+	 * Tests the removal base url path from the given url.
+	 *
+	 * @dataProvider ase_url_path_from_url_provider
+	 *
+	 * @covers       WPSEO_Redirect_Util::strip_base_url_path_from_url()
+	 *
+	 * @param string $expected The expected value.
+	 * @param string $base_url The base url.
+	 * @param string $url      The url to remove directory from.
+	 */
+	public function test_strip_base_url_path_from_url( $expected, $base_url, $url ) {
+		$this->assertEquals( $expected, WPSEO_Redirect_Util::strip_base_url_path_from_url( $base_url, $url ) );
+	}
+
+	/**
+	 * Returns a list of values to use for the installation directory test.
+	 *
+	 * @return array The test values.
+	 */
+	public function ase_url_path_from_url_provider() {
+		return array(
+			array( 'page', 'http://example.com', 'page' ),
+			array( '/page', 'http://example.com', '/page' ),
+			array( 'page', 'http://example.com/blog', 'page' ),
+			array( 'page', 'http://example.com/blog/', 'page' ),
+			array( '/page/', 'http://example.com/blog', 'blog/page/' ),
+			array( '/blog/page/', 'http://example.com/blog', 'blog/blog/page/' ),
+			array( 'blog-about-this', 'http://example.com/blog', 'blog-about-this' ),
+			array( '/blog-about-this', 'http://example.com/blog', 'blog/blog-about-this' ),
+			array( '/blog-about-this', 'http://example.com/blog', 'blog/blog-about-this' ),
+			array( '', 'http://example.com/blog', 'blog' ),
+			array( '/page', 'http://example.com/blog', 'BLOG/page' ),
+		);
+	}
+
 }

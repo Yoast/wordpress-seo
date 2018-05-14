@@ -5,7 +5,6 @@ import RaisedButton from "material-ui/RaisedButton";
 import { localize } from "yoast-components/utils/i18n";
 import IconMailOutline from "material-ui/svg-icons/communication/mail-outline";
 import LoadingIndicator from "yoast-components/composites/OnboardingWizard/LoadingIndicator";
-import colors from "yoast-components/style-guide/colors.json";
 
 /**
  * @summary Mailchimp signup component.
@@ -27,6 +26,9 @@ class MailchimpSignup extends React.Component {
 			successfulSignup: this.props.value,
 			isLoading: false,
 		};
+
+		this.setNameInputRef = this.setNameInputRef.bind( this );
+		this.setEmailInputRef = this.setEmailInputRef.bind( this );
 	}
 
 	/**
@@ -60,9 +62,9 @@ class MailchimpSignup extends React.Component {
 	 * @returns {void}
 	 */
 	signup() {
-		let email = this.refs.emailInput.value;
+		let email = this._emailInput.value;
 		let data = `EMAIL=${email}`;
-		let name = this.refs.nameInput.value.trim();
+		let name = this._nameInput.value.trim();
 
 		if ( name !== "" ) {
 			data = data + `&NAME=${encodeURIComponent( name )}`;
@@ -173,6 +175,28 @@ class MailchimpSignup extends React.Component {
 	}
 
 	/**
+	 * Set the name input reference.
+	 *
+	 * @param {Object} ref The name input element.
+	 *
+	 * @returns {void}
+	 */
+	setNameInputRef( ref ) {
+		this._nameInput = ref;
+	}
+
+	/**
+	 * Set the email input reference.
+	 *
+	 * @param {Object} ref The email input element.
+	 *
+	 * @returns {void}
+	 */
+	setEmailInputRef( ref ) {
+		this._emailInput = ref;
+	}
+
+	/**
 	 * @summary Renders the Mailchimp component.
 	 *
 	 * @returns {JSX.Element} Rendered Mailchimp Component.
@@ -187,7 +211,7 @@ class MailchimpSignup extends React.Component {
 		let input = <input
 			id="mailchimpEmail"
 			className="yoast-wizard-text-input-field"
-			ref="emailInput"
+			ref={this.setEmailInputRef}
 			type="text"
 			name={this.props.name}
 			defaultValue={this.props.properties.currentUserEmail}
@@ -196,7 +220,7 @@ class MailchimpSignup extends React.Component {
 			primary={true}
 			label={this.props.translate( "Sign Up!" )}
 			onClick={this.signup.bind( this )}
-			icon={ <IconMailOutline color="#ffffff" viewBox="0 0 28 28"/> }
+			icon={<IconMailOutline color="#ffffff" viewBox="0 0 28 28"/>}
 		/>;
 		let message = this.getSignupMessage();
 		let loader = this.getLoadingIndicator();
@@ -204,24 +228,10 @@ class MailchimpSignup extends React.Component {
 		return (
 			<div className="yoast-wizard--columns yoast-wizard-newsletter">
 				<div>
-					<h2 className="yoast-wizard-newsletter--header"><IconMailOutline
-						color={ colors.$palette_pink_dark }/>{this.props.properties.title}</h2>
+					<h2 className="yoast-wizard-newsletter--header">{this.props.properties.title}</h2>
 					<p>{this.props.properties.label}</p>
+					{this.props.properties.freeAccountNotice && <strong>{ this.props.properties.freeAccountNotice }</strong>}
 					<div className="yoast-wizard--columns yoast-wizard--columns__even">
-						<div className="yoast-wizard-text-input">
-							<label
-								htmlFor="mailchimpName"
-								className="yoast-wizard-text-input-label">
-								{this.props.translate( "Name" )}
-							</label>
-							<input
-								id="mailchimpName"
-								className="yoast-wizard-text-input-field"
-								ref="nameInput"
-								type="text"
-								name="name"
-								defaultValue={this.props.properties.userName}/>
-						</div>
 						<div className="yoast-wizard-text-input">
 							<label
 								htmlFor="mailchimpEmail"
@@ -231,9 +241,12 @@ class MailchimpSignup extends React.Component {
 							{input}
 						</div>
 					</div>
+
 					{button}
 					{message}
 					{loader}
+
+					{this.props.properties.GDPRNotice && <div dangerouslySetInnerHTML={{ __html: this.props.properties.GDPRNotice }}></div>}
 				</div>
 				<div className="hide-on-tablet yoast-wizard-newsletter--decoration">
 					<img src={this.props.properties.decoration}/>

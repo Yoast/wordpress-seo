@@ -52,7 +52,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 				'jquery',
 				'wp-util',
 				'underscore',
-				WPSEO_Admin_Asset_Manager::PREFIX . 'react-dependencies',
+				WPSEO_Admin_Asset_Manager::PREFIX . 'wp-globals-backport',
 			),
 			WPSEO_VERSION
 		);

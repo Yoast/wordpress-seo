@@ -6,6 +6,12 @@ module.exports = {
 			maxWarnings: 100,
 		},
 	},
+	tests: {
+		src: [ "<%= files.jsTests %>" ],
+		options: {
+			fix: true,
+		}
+	},
 	grunt: {
 		src: [ "<%= files.grunt %>", "<%= files.config %>" ],
 		options: {

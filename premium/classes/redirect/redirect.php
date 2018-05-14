@@ -53,8 +53,8 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @param string $format The format of the redirect.
 	 */
 	public function __construct( $origin, $target = '', $type = self::PERMANENT, $format = self::FORMAT_PLAIN ) {
-		$this->origin = ( $format === WPSEO_Redirect::FORMAT_PLAIN ) ? $this->sanitize_url( $origin ) : $origin;
-		$this->target = $this->sanitize_url( $target );
+		$this->origin = ( $format === self::FORMAT_PLAIN ) ? $this->sanitize_origin_url( $origin ) : $origin;
+		$this->target = $this->sanitize_target_url( $target );
 		$this->format = $format;
 		$this->type   = (int) $type;
 	}
@@ -62,7 +62,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Returns the origin.
 	 *
-	 * @return string
+	 * @return string The set origin.
 	 */
 	public function get_origin() {
 		return $this->origin;
@@ -71,7 +71,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Returns the target
 	 *
-	 * @return string
+	 * @return string The set target.
 	 */
 	public function get_target() {
 		return $this->target;
@@ -80,7 +80,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Returns the type
 	 *
-	 * @return int
+	 * @return int The set type.
 	 */
 	public function get_type() {
 		return $this->type;
@@ -89,7 +89,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Returns the format
 	 *
-	 * @return string
+	 * @return string The set format.
 	 */
 	public function get_format() {
 		return $this->format;
@@ -141,6 +141,8 @@ class WPSEO_Redirect implements ArrayAccess {
 	 *
 	 * @param string $offset The offset to assign the value to.
 	 * @param string $value  The value to set.
+	 *
+	 * @return void
 	 */
 	public function offsetSet( $offset, $value ) {
 		switch ( $offset ) {
@@ -158,7 +160,11 @@ class WPSEO_Redirect implements ArrayAccess {
 	 *
 	 * @link http://php.net/manual/en/arrayaccess.offsetunset.php
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $offset The offset to unset.
+	 *
+	 * @return void
 	 */
 	public function offsetUnset( $offset ) {
 
@@ -169,11 +175,11 @@ class WPSEO_Redirect implements ArrayAccess {
 	 *
 	 * @param string $url The URL to compare.
 	 *
-	 * @return bool
+	 * @return bool True when url matches the origin.
 	 */
 	public function origin_is( $url ) {
 		// Sanitize the slash in case of plain redirect.
-		if ( $this->format === WPSEO_Redirect::FORMAT_PLAIN ) {
+		if ( $this->format === self::FORMAT_PLAIN ) {
 			$url = $this->sanitize_slash( $url );
 		}
 
@@ -185,11 +191,11 @@ class WPSEO_Redirect implements ArrayAccess {
 	 *
 	 * @param string $url_to_sanitize The URL to sanitize.
 	 *
-	 * @return string
+	 * @return string The sanitized url.
 	 */
 	private function sanitize_slash( $url_to_sanitize ) {
 		$url = $url_to_sanitize;
-		if ( WPSEO_Redirect_Util::is_relative_url( $url_to_sanitize ) && $url !== '/' ) {
+		if ( $url !== '/' && WPSEO_Redirect_Util::is_relative_url( $url_to_sanitize ) ) {
 			$url = trim( $url_to_sanitize, '/' );
 		}
 
@@ -199,67 +205,71 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Strip the protocol from the URL.
 	 *
-	 * @param string $url The URL to remove the protocol from.
+	 * @param string $scheme The scheme to strip.
+	 * @param string $url    The URL to remove the scheme from.
 	 *
-	 * @return string
+	 * @return string The url without the scheme.
 	 */
-	private function strip_protocol( $url ) {
-		return preg_replace( '(^https?://)', '', $url );
+	private function strip_scheme_from_url( $scheme, $url ) {
+		return str_replace( $scheme . '://', '', $url );
 	}
 
 	/**
-	 * Remove the blog's base URL from the redirect to ensure that relative URLs are created.
+	 * Remove the home URL from the redirect to ensure that relative URLs are created.
 	 *
 	 * @param string $url The URL to sanitize.
 	 *
-	 * @return string
+	 * @return string The sanitized url.
 	 */
-	private function sanitize_blog_url( $url ) {
-		$blog_url     = $this->strip_protocol( get_home_url() );
-		$stripped_url = $this->strip_protocol( $url );
+	private function sanitize_origin_url( $url ) {
+		$home_url        = get_home_url();
+		$home_url_pieces = wp_parse_url( $home_url );
+		$url_pieces      = wp_parse_url( $url );
 
-		// Match against the stripped URL for easier matching.
-		if ( ! $this->contains_blog_url( $stripped_url, $blog_url ) || $this->is_subdomain( $stripped_url, $blog_url ) ) {
-			return $url;
+		if ( $this->match_home_url( $home_url_pieces, $url_pieces ) ) {
+			$url = str_replace(
+				$this->strip_scheme_from_url( $home_url_pieces['scheme'], $home_url ),
+				'',
+				$this->strip_scheme_from_url( $url_pieces['scheme'], $url )
+			);
 		}
-
-		return str_replace( $blog_url, '', $stripped_url );
-	}
-
-	/**
-	 * Sanitize the URL to remove both the blog's base URL and potential trailing slashes.
-	 *
-	 * @param string $url The URL to sanitize.
-	 *
-	 * @return string
-	 */
-	private function sanitize_url( $url ) {
-		$url = $this->sanitize_blog_url( $url );
 
 		return $this->sanitize_slash( $url );
 	}
 
 	/**
-	 * Checks whether or not the blog url is present in the string.
+	 * Sanitizes the target url.
 	 *
-	 * @param string $url The URL to check against.
-	 * @param string $blog_url The blog URL.
+	 * @param string $url The url to sanitize.
 	 *
-	 * @return bool
+	 * @return string The sanitized url.
 	 */
-	private function contains_blog_url( $url, $blog_url ) {
-		return strpos( $url, $blog_url ) !== false;
+	private function sanitize_target_url( $url ) {
+		$home_url        = get_home_url();
+		$home_url_pieces = wp_parse_url( $home_url );
+		$url_pieces      = wp_parse_url( $url );
+
+		if ( $this->match_home_url( $home_url_pieces, $url_pieces ) ) {
+			$url = str_replace(
+				$home_url_pieces['host'],
+				'',
+				$this->strip_scheme_from_url( $url_pieces['scheme'], $url )
+			);
+		}
+
+		return $this->sanitize_slash( $url );
 	}
 
 	/**
-	 * Checks whether or not the URL is a subdomain of the blog URL.
+	 * Checks if the URL matches the home URL by comparing their host.
 	 *
-	 * @param string $url The URL to check against.
-	 * @param string $blog_url The blog URL.
+	 * @param array $home_url_pieces The pieces (wp_parse_url) from the home_url.
+	 * @param array $url_pieces      The pieces (wp_parse_url) from the url to match.
 	 *
-	 * @return bool
+	 * @return bool True when both hosts are equal.
 	 */
-	private function is_subdomain( $url, $blog_url ) {
-		return strpos( $url, $blog_url ) > 0;
+	private function match_home_url( $home_url_pieces, $url_pieces ) {
+		return ( isset( $url_pieces['scheme'], $url_pieces['host'] ) && $url_pieces['host'] === $home_url_pieces['host'] );
 	}
+
 }

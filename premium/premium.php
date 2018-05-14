@@ -27,7 +27,7 @@ class WPSEO_Premium {
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
 	/** @var string */
-	const PLUGIN_VERSION_NAME = '7.3';
+	const PLUGIN_VERSION_NAME = '7.5-RC3';
 
 	/** @var string */
 	const PLUGIN_VERSION_CODE = '16';
@@ -400,12 +400,7 @@ class WPSEO_Premium {
 			return;
 		}
 
-		$old_url = $parsed_url['path'];
-
-		$home_url_path = wp_parse_url( home_url() );
-		if ( $home_url_path !== null ) {
-			$old_url = substr( $old_url, strlen( $home_url_path ) );
-		}
+		$old_url = WPSEO_Redirect_Util::strip_base_url_path_from_url( home_url(), $parsed_url['path'] );
 
 		if ( isset( $parsed_url['query'] ) && $parsed_url['query'] !== '' ) {
 			$old_url .= '?' . $parsed_url['query'];

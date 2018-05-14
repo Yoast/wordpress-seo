@@ -98,4 +98,30 @@ class WPSEO_Redirect_Util {
 			! self::has_fragment_identifier( $target_url ) &&
 			! self::has_extension( $target_url );
 	}
+
+	/**
+	 * Removes the base url path from the given URL.
+	 *
+	 * @param string $base_url The base URL that will be stripped.
+	 * @param string $url      URL to remove the path from.
+	 *
+	 * @return string The URL without the base url
+	 */
+	public static function strip_base_url_path_from_url( $base_url, $url ) {
+		$base_url_path = wp_parse_url( $base_url, PHP_URL_PATH );
+		$base_url_path = ltrim( $base_url_path, '/' );
+
+		if ( empty( $base_url_path ) ) {
+			return $url;
+		}
+
+		$url = ltrim( $url, '/' );
+
+		// When the url doesn't begin with the base url path.
+		if ( stripos( trailingslashit( $url ), trailingslashit( $base_url_path ) ) !== 0 ) {
+			return $url;
+		}
+
+		return substr( $url, strlen( $base_url_path ) );
+	}
 }
