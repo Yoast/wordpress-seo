@@ -58,9 +58,11 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 		}
 
 		$stack = $this->get_stack( $redirect, $limit );
+
 		if ( ! $trace ) {
 			$stack = (array) array_pop( $stack );
 		}
+
 		array_map( 'WP_CLI::line', $stack );
 
 		if ( $this->detected_loop ) {

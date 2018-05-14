@@ -109,6 +109,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 		$new_redirect = new WPSEO_Redirect( $new_origin, $target, $type, $format );
 
 		$old_redirect = null;
+
 		if ( $old_origin !== null ) {
 			$old_redirect = $this->get_redirect( $old_origin );
 		}
