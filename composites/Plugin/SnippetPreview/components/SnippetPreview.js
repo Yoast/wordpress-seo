@@ -526,10 +526,14 @@ export default class SnippetPreview extends PureComponent {
 		if ( this.props.mode === MODE_MOBILE ) {
 			urlContent = this.getBreadcrumbs( cleanUrl );
 		} else {
-			urlContent = highlightKeyword( locale, keyword, url, cleanUrl );
-			if ( ! hasTrailingSlash( urlContent ) ) {
-				urlContent = urlContent + "/";
+			/*
+			* Check if the url in desktop mode has a trailing slash before
+			* highlighting any keywords in it.
+			*/
+			if ( ! hasTrailingSlash( cleanUrl ) ) {
+				cleanUrl = cleanUrl + "/";
 			}
+			urlContent = highlightKeyword( locale, keyword, url, cleanUrl );
 		}
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
