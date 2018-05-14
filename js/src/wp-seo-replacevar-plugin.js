@@ -289,6 +289,11 @@ var ReplaceVar = require( "./values/replaceVar" );
 			}
 		}.bind( this ) );
 
+		// Custom taxonomies (ie. taxonomies that are not "category") should be prefixed with ct_.
+		if ( taxonomyName !== "category" ) {
+			taxonomyName = "ct_" + taxonomyName;
+		}
+
 		this._store.dispatch( updateReplacementVariable( taxonomyName, checkedCategories.join( ", " ) ) );
 	};
 
