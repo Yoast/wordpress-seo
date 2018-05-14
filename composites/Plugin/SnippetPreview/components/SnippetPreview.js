@@ -515,6 +515,7 @@ export default class SnippetPreview extends PureComponent {
 		} = this.props;
 
 		let urlContent;
+		let defaultUrl = url;
 		/*
 		 * We need to replace special characters and diacritics only on the url
 		 * string because when highlightKeyword kicks in, interpolateComponents
@@ -528,12 +529,14 @@ export default class SnippetPreview extends PureComponent {
 		} else {
 			/*
 			* Check if the url in desktop mode has a trailing slash before
-			* highlighting any keywords in it.
+			* highlighting any keywords in it. Adds it for both the clean
+			* and the default url in case no keyword is defined.
 			*/
 			if ( ! hasTrailingSlash( cleanUrl ) ) {
 				cleanUrl = cleanUrl + "/";
+				defaultUrl = defaultUrl + "/";
 			}
-			urlContent = highlightKeyword( locale, keyword, url, cleanUrl );
+			urlContent = highlightKeyword( locale, keyword, defaultUrl, cleanUrl );
 		}
 
 		const Url = this.addCaretStyles( "url", BaseUrl );

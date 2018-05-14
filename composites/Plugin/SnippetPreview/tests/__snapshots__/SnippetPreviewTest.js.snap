@@ -546,7 +546,11 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            https://example.org/this,[object Object],url/
+            https://example.org/this
+            <strong>
+              -keyword-
+            </strong>
+            url/
           </div>
         </div>
         <div
