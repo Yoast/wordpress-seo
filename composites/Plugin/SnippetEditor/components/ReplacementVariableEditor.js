@@ -4,7 +4,10 @@ import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import createMentionPlugin, { defaultSuggestionsFilter } from "draft-js-mention-plugin";
 import flow from "lodash/flow";
+import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
+import { speak as a11ySpeak } from "@wordpress/a11y";
+import { __, _n, sprintf } from "@wordpress/i18n";
 
 // Internal dependencies.
 import { replacementVariablesShape } from "../constants";
@@ -82,6 +85,7 @@ class ReplacementVariableEditor extends React.Component {
 		this.onChange = this.onChange.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
+		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
 
 		/*
 		 * The mentions plugin is used to autocomplete the replacement variable
@@ -137,6 +141,43 @@ class ReplacementVariableEditor extends React.Component {
 		this.setState( {
 			replacementVariables: defaultSuggestionsFilter( value, this.props.replacementVariables ),
 		} );
+
+		/*
+		 * Because of the particular way this component re-renders, on `componentDidUpdate`
+		 * the `replacementVariables` in the state are the initial ones. See `onChange`
+		 * which runs after `onSearchChange` and re-renders the component. We need to
+		 * make sure to get the correct count of the filtered replacementVariables
+		 * after the state is updated and before the component is re-rendered again.
+		 */
+		setTimeout( () => {
+			this.announceSearchResults();
+		} );
+	}
+
+	/**
+	 * Announces the search results to assistive technologies using an ARIA live region.
+	 *
+	 * @returns {void}
+	 */
+	announceSearchResults() {
+		const { replacementVariables } = this.state;
+
+		if ( replacementVariables.length ) {
+			this.debouncedA11ySpeak(
+				sprintf(
+					_n(
+						"%d result found, use up and down arrow keys to navigate",
+						"%d results found, use up and down arrow keys to navigate",
+						replacementVariables.length
+					),
+					replacementVariables.length,
+					"yoast-components"
+				),
+				"assertive"
+			);
+		} else {
+			this.debouncedA11ySpeak( __( "No results", "yoast-components" ), "assertive" );
+		}
 	}
 
 	/**
@@ -174,6 +215,15 @@ class ReplacementVariableEditor extends React.Component {
 				editorState: createEditorState( nextProps.content ),
 			} );
 		}
+	}
+
+	/**
+	 * Cancels the debounced call to A11ySpeak.
+	 *
+	 * @returns {void}
+	 */
+	componentWillUnmount() {
+		this.debouncedA11ySpeak.cancel();
 	}
 
 	/**
