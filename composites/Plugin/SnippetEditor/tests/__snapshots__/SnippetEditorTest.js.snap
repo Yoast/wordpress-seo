@@ -483,7 +483,7 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
     isAmp={false}
     isDescriptionGenerated={false}
     keyword=""
-    locale="en_US"
+    locale="en"
     mode="mobile"
     onClick={[Function]}
     onHover={[Function]}
@@ -982,6 +982,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
@@ -1004,7 +1005,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -2304,6 +2305,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
@@ -2326,7 +2328,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -3626,6 +3628,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
@@ -3648,7 +3651,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -4948,6 +4951,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -4970,7 +4974,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -6144,6 +6148,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -6166,7 +6171,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -7249,6 +7254,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -7271,7 +7277,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -8603,6 +8609,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -8625,7 +8632,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -9499,7 +9506,7 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
     isAmp={false}
     isDescriptionGenerated={false}
     keyword=""
-    locale="en_US"
+    locale="en"
     mode="mobile"
     onClick={[Function]}
     onHover={[Function]}
@@ -10954,6 +10961,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -10976,7 +10984,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -12296,6 +12304,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -12318,7 +12327,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -13626,6 +13635,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -13648,7 +13658,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -14948,6 +14958,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       "textComponent": "span",
     }
   }
+  locale="en"
   mapDataToPreview={null}
   mode="mobile"
   onChange={[Function]}
@@ -14981,7 +14992,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       isAmp={false}
       isDescriptionGenerated={false}
       keyword=""
-      locale="en_US"
+      locale="en"
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
@@ -16370,7 +16381,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
     isAmp={false}
     isDescriptionGenerated={false}
     keyword=""
-    locale="en_US"
+    locale="en"
     mode="mobile"
     onClick={[Function]}
     onHover={[Function]}
