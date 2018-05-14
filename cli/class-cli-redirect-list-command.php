@@ -89,7 +89,7 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	}
 
 	/**
-	 * Get the filtered list of redirects.
+	 * Gets the filtered list of redirects.
 	 *
 	 * @return array Associative array of redirects.
 	 */
@@ -103,7 +103,7 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	}
 
 	/**
-	 * Adapt redirect data fetched from the redirect manager to fit WP_CLI
+	 * Adapts redirect data fetched from the redirect manager to fit WP_CLI
 	 * requirements.
 	 *
 	 * @param WPSEO_Redirect $redirect Redirection value object.
@@ -120,7 +120,7 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	}
 
 	/**
-	 * Get Formatter object based on supplied parameters.
+	 * Gets Formatter object based on supplied parameters.
 	 *
 	 * @param array $assoc_args Parameters passed to command. Determines
 	 *                          formatting.
@@ -140,7 +140,7 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	}
 
 	/**
-	 * Get the filter array to filter values against.
+	 * Gets the filter array to filter values against.
 	 *
 	 * @param array $assoc_args Parameters passed to command. Determines
 	 *                          formatting.

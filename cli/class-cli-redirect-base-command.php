@@ -18,7 +18,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	protected $redirect_manager;
 
 	/**
-	 * Instantiate a WPSEO_CLI_Redirect_Create_Command object.
+	 * Instantiates a WPSEO_CLI_Redirect_Create_Command object.
 	 */
 	public function __construct() {
 		// This could potentially have the Redirect Manager injected.
@@ -26,7 +26,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	}
 
 	/**
-	 * Create a new redirect.
+	 * Creates a new redirect.
 	 *
 	 * @param string $origin Origin of the redirect.
 	 * @param string $target Target of the redirect.
@@ -42,7 +42,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	}
 
 	/**
-	 * Update an existing redirect.
+	 * Updates an existing redirect.
 	 *
 	 * @param string $old_origin Origin of the redirect.
 	 * @param string $new_origin Origin of the redirect.
@@ -60,7 +60,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	}
 
 	/**
-	 * Delete an existing redirect.
+	 * Deletes an existing redirect.
 	 *
 	 * @param string $origin Origin of the redirect.
 	 *
@@ -73,7 +73,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	}
 
 	/**
-	 * Get the redirect for a given origin.
+	 * Gets the redirect for a given origin.
 	 *
 	 * @param string $origin Origin to check for.
 	 *
@@ -84,7 +84,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	}
 
 	/**
-	 * Check whether a redirect for a given origin already exists.
+	 * Checks whether a redirect for a given origin already exists.
 	 *
 	 * @param string $origin Origin to check for.
 	 *
@@ -95,7 +95,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	}
 
 	/**
-	 * Check whether a given redirect is valid.
+	 * Checks whether a given redirect is valid.
 	 *
 	 * @param string      $new_origin New origin of the redirect.
 	 * @param string      $target     Target of the redirect.
@@ -132,7 +132,7 @@ class WPSEO_CLI_Redirect_Base_Command extends WP_CLI_Command {
 	}
 
 	/**
-	 * Reformat error messages by removing excessive whitespace.
+	 * Reformats error messages by removing excessive whitespace.
 	 *
 	 * @param string $message Error message to reformat.
 	 *

@@ -11,7 +11,7 @@
 final class WPSEO_CLI_Premium_Requirement {
 
 	/**
-	 * Enforce license requirements for commands representing premium
+	 * Enforces license requirements for commands representing premium
 	 * functionality.
 	 */
 	public static function enforce() {

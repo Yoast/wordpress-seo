@@ -67,7 +67,7 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 	}
 
 	/**
-	 * Get the stack of redirect targets for a given starting redirect.
+	 * Gets the stack of redirect targets for a given starting redirect.
 	 *
 	 * @param WPSEO_Redirect $redirect Redirect to get the stack for.
 	 * @param int            $limit    Number of steps to limit the stack to.
@@ -94,7 +94,7 @@ final class WPSEO_CLI_Redirect_Follow_Command extends WPSEO_CLI_Redirect_Base_Co
 	}
 
 	/**
-	 * Add a new target to the stack.
+	 * Adds a new target to the stack.
 	 *
 	 * @param string $target Target to add to the stack.
 	 */
