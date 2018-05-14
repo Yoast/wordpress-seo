@@ -105,6 +105,11 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 				->setMethods( array( 'is_filter_active' ) )
 				->getMock();
 
+		$class_instance
+			->expects( $this->once() )
+			->method( 'is_filter_active' )
+			->will( $this->returnValue( true ) );
+
 		$class_instance->register_hooks();
 
 		// Create 4 posts: only the two published pages without password are expected to be returned.
@@ -130,10 +135,6 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 			'post_title'    => 'Another Published page',
 			'post_status'   => 'publish',
 		) );
-
-		$class_instance
-			->method( 'is_filter_active' )
-			->will( $this->returnValue( true ) );
 
 		// As 1 post is a draft and 1 is password protected, we expect only the two published posts to be returned.
 		$expected = array(
