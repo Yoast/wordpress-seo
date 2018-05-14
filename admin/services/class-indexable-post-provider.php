@@ -66,7 +66,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 */
 	public function is_indexable( $object_id ) {
 		if ( get_post( $object_id ) === null ) {
-		 	return false;
+			return false;
 		}
 
 		if ( wp_is_post_autosave( $object_id ) ) {

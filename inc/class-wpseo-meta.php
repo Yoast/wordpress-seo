@@ -364,7 +364,7 @@ class WPSEO_Meta {
 				 * @deprecated use the 'wpseo_metabox_entries_general' filter instead
 				 * @see        WPSEO_Meta::get_meta_field_defs()
 				 *
-				 * @param      array $field_defs Metabox orm definitions.
+				 * @param      array $field_defs Metabox form field definitions.
 				 *
 				 * @return     array
 				 */
@@ -418,7 +418,7 @@ class WPSEO_Meta {
 		 * Filter the WPSEO metabox form field definitions for a tab
 		 * {tab} can be 'general', 'advanced' or 'social'
 		 *
-		 * @param  array  $field_defs Metabox form definitions.
+		 * @param  array  $field_defs Metabox form field definitions.
 		 * @param  string $post_type  Post type of the post the metabox is for, defaults to 'post'.
 		 *
 		 * @return array

@@ -7,7 +7,7 @@ import { tmceId } from "../wp-seo-tinymce";
 import getIndicatorForScore from "./getIndicatorForScore";
 
 import { update as updateTrafficLight } from "../ui/trafficLight";
-import { update as updateAdminBar }from "../ui/adminBar";
+import { update as updateAdminBar } from "../ui/adminBar";
 
 import publishBox from "../ui/publishBox";
 

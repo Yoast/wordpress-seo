@@ -19,7 +19,7 @@ class WPSEO_Indexable_Service {
 	 */
 	public function get_indexable( WP_REST_Request $request ) {
 		$object_type = $request->get_param( 'object_type' );
-		$provider = $this->get_provider( strtolower( $object_type ) );
+		$provider    = $this->get_provider( strtolower( $object_type ) );
 
 		if ( $provider === null ) {
 			return new WP_REST_Response(
