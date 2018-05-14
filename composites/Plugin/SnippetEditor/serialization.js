@@ -28,7 +28,7 @@ export function serializeBlock( entityMap, block ) {
 		const beforeEntityLength = offset - previousEntityEnd;
 
 		const beforeEntity = text.substr( previousEntityEnd, beforeEntityLength );
-		const serializedEntity = serializeEntity( entityMap[ key ].data.mention.get( "name" ) );
+		const serializedEntity = serializeEntity( entityMap[ key ].data.mention.name );
 
 		previousEntityEnd = offset + length;
 		return serialized + beforeEntity + serializedEntity;
@@ -74,13 +74,12 @@ export function unserializeEntity( key, name, offset ) {
 
 	const mappedEntity = {
 		data: {
-			mention: new Map( [
-				[ "name", name ],
-				[ "description", "%%" + name + "%%" ],
-			] ),
+			mention: {
+				name,
+			},
 		},
 		mutability: "IMMUTABLE",
-		type: "%%mention",
+		type: "%mention",
 	};
 
 	return { entityRange, mappedEntity };
