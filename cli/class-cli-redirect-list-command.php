@@ -103,7 +103,8 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	}
 
 	/**
-	 * Callback function to filter the redirects.
+	 * Filters the redirects based on whether they match the provided filter
+	 * array.
 	 *
 	 * @param array $redirect Array data for an individual redirect.
 	 *
@@ -111,7 +112,8 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	 */
 	private function filter_redirect( $redirect ) {
 		foreach ( $this->filter as $key => $value ) {
-			// Loose comparison to ignore type.
+			// Loose comparison to ignore type, as CLI arguments are always
+			// strings.
 			if ( $value != $redirect[ $key ] ) {
 				return false;
 			}
@@ -138,7 +140,7 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	}
 
 	/**
-	 * Get the array of field names to use for formatting the table columns.
+	 * Gets the array of field names to use for formatting the table columns.
 	 *
 	 * @param array $assoc_args Parameters passed to command. Determines
 	 *                          formatting.
