@@ -278,19 +278,16 @@ var ReplaceVar = require( "./values/replaceVar" );
 			var taxonomyID = checkbox.val();
 
 			let categoryName = this.getCategoryName( checkbox );
+			let isChecked = checkbox.prop( "checked" );
 			taxonomyElements[ taxonomyName ][ taxonomyID ] = {
 				label: categoryName,
-				checked: checkbox.prop( "checked" ),
+				checked: isChecked,
 			};
+			if( isChecked && checkedCategories.indexOf( categoryName ) === -1 ) {
+				// Only push the categoryName to the checkedCategories array if it's not already in there.
+				checkedCategories.push( categoryName );
+			}
 		}.bind( this ) );
-
-		forEach( taxonomyElements, ( taxonomyElement ) => {
-			forEach( taxonomyElement, ( checkbox ) => {
-				if ( checkbox.checked ) {
-					checkedCategories.push( checkbox.label );
-				}
-			} );
-		} );
 
 		this._store.dispatch( updateReplacementVariable( taxonomyName, checkedCategories.join( ", " ) ) );
 	};
