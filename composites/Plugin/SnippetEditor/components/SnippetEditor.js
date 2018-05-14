@@ -46,6 +46,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Object} props.replacementVariables        The replacement variables
 	 *                                                   for this editor.
 	 * @param {Object} props.data                        The initial editor data.
+	 * @param {string} props.keyword                     The focus keyword.
 	 * @param {string} props.data.title                  The initial title.
 	 * @param {string} props.data.slug                   The initial slug.
 	 * @param {string} props.data.description            The initial description.

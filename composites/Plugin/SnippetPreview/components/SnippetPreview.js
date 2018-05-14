@@ -219,7 +219,7 @@ const Amp = styled.div`
  * @returns {ReactElement} React elements to be rendered.
  */
 function highlightKeyword( locale, keyword, text, cleanText ) {
-	if ( keyword === "" ) {
+	if ( ! keyword ) {
 		return text;
 	}
 
