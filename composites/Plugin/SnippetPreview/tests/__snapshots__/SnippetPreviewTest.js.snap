@@ -348,7 +348,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            https://example.org
+            https://example.org/
           </div>
         </div>
         <div
@@ -735,7 +735,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            https://example.org
+            https://example.org/
           </div>
         </div>
         <div
@@ -1129,7 +1129,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
             <strong>
               -keyword-
             </strong>
-            url
+            url/
           </div>
         </div>
         <div
@@ -2727,7 +2727,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            https://example.org
+            https://example.org/
           </div>
         </div>
         <div
@@ -3126,7 +3126,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            https://example.org
+            https://example.org/
           </div>
         </div>
         <div
@@ -3525,7 +3525,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            https://example.org
+            https://example.org/
           </div>
         </div>
         <div
@@ -3924,7 +3924,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            https://example.org
+            https://example.org/
           </div>
         </div>
         <div
@@ -4323,7 +4323,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            https://example.org
+            https://example.org/
           </div>
         </div>
         <div
@@ -4722,7 +4722,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            https://example.org
+            https://example.org/
           </div>
         </div>
         <div
@@ -5121,7 +5121,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            https://example.org
+            https://example.org/
           </div>
         </div>
         <div
@@ -5512,7 +5512,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
           >
-            https://example.org
+            https://example.org/
           </div>
         </div>
         <div

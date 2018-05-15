@@ -78,6 +78,18 @@ describe( "SnippetPreview", () => {
 		} );
 	} );
 
+	it( "adds a trailing slash to the url", () => {
+		const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "https://example.org/this-url" } );
+
+		expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "https://example.org/this-url/" );
+	} );
+
+	it( "does not add a trailing slash to the url", () => {
+		const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "https://example.org/this-url/" } );
+
+		expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "https://example.org/this-url/" );
+	} );
+
 	describe( "mobile mode", () => {
 		it( "renders differently than desktop", () => {
 			renderSnapshotWithArgs( { mode: MODE_MOBILE } );
