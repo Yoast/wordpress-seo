@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import { SnippetEditor } from "yoast-components";
+import forEach from "lodash/forEach";
 import {
 	switchMode,
 	updateData,
@@ -14,6 +15,15 @@ import {
  * @returns {Object} Data for the `SnippetEditor` component.
  */
 export function mapStateToProps( state ) {
+	let replacementVariables = state.snippetEditor.replacementVariables;
+
+	// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
+	replacementVariables.forEach( ( replaceVariable ) => {
+		if( replaceVariable.value === "" ) {
+			replaceVariable.value = "%%" + replaceVariable.name + "%%";
+		}
+	} );
+
 	return {
 		...state.snippetEditor,
 		keyword: state.activeKeyword,

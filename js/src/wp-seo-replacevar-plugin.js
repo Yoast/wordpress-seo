@@ -25,9 +25,13 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 *
 	 * @returns {void}
 	 */
-	var YoastReplaceVarPlugin = function( app ) {
+	var YoastReplaceVarPlugin = function( app, store ) {
 		this._app = app;
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
+
+		this._store = store;
+
+		this.replaceVariables = this.replaceVariables.bind( this );
 
 		this.registerReplacements();
 		this.registerModifications();
@@ -229,6 +233,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 */
 	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
 		this._app.pluginReloaded( "replaceVariablePlugin" );
+		this._store.dispatch( { type: "REFRESH_SNIPPET_EDITOR" } )
 	};
 
 	/*

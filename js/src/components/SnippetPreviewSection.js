@@ -2,7 +2,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import identity from "lodash/identity";
+import get from "lodash/get";
 import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
+import { stripFullTags } from "yoastseo/js/stringProcessing/stripHTMLTags";
 
 // Internal dependencies.
 import SnippetEditor from "../containers/SnippetEditor";
@@ -21,6 +24,16 @@ const Section = styled( StyledSection )`
 	}
 `;
 
+const legacyReplaceUsingPlugin = function( data ) {
+	let replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
+
+	return  {
+		...data,
+		title: stripFullTags( replaceVariables( data.title ) ),
+		description: stripFullTags( replaceVariables( data.description ) ),
+	}
+};
+
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
  *
@@ -35,7 +48,7 @@ const mapEditorDataToPreview = function( data ) {
 	// Replace whitespaces in the url with dashes.
 	data.url = data.url.replace( /\s/g, "-" );
 
-	return data;
+	return legacyReplaceUsingPlugin( data );
 };
 
 /**
