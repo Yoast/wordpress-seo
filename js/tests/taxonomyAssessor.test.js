@@ -48,7 +48,6 @@ describe( "running assessments in the assessor", function() {
 
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
-			"metaDescriptionKeyword",
 			"metaDescriptionLength",
 			"titleWidth",
 			"textLength",
@@ -63,7 +62,6 @@ describe( "running assessments in the assessor", function() {
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
 			"keyphraseLength",
-			"metaDescriptionKeyword",
 			"metaDescriptionLength",
 			"titleKeyword",
 			"titleWidth",
@@ -92,11 +90,27 @@ describe( "running assessments in the assessor", function() {
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
 			"keyphraseLength",
-			"metaDescriptionKeyword",
 			"metaDescriptionLength",
 			"titleWidth",
 			"urlKeyword",
 			"textLength",
+		] );
+	} );
+
+	it( "additionally runs assessments that require a meta description and a keyword", function() {
+		assessor.assess( new Paper( "text", { keyword: "keyword", description: "meta description" } ) );
+		let assessments = getResults( assessor.getValidResults() );
+
+		expect( assessments ).toEqual( [
+			"introductionKeyword",
+			"keyphraseLength",
+			"metaDescriptionKeyword",
+			"metaDescriptionLength",
+			"textImages",
+			"textLength",
+			"externalLinks",
+			"internalLinks",
+			"titleWidth",
 		] );
 	} );
 
@@ -109,7 +123,6 @@ describe( "running assessments in the assessor", function() {
 			"introductionKeyword",
 			"keyphraseLength",
 			"keywordDensity",
-			"metaDescriptionKeyword",
 			"metaDescriptionLength",
 			"titleWidth",
 			"textLength",
@@ -124,7 +137,6 @@ describe( "running assessments in the assessor", function() {
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
 			"keyphraseLength",
-			"metaDescriptionKeyword",
 			"metaDescriptionLength",
 			"titleWidth",
 			"textLength",
