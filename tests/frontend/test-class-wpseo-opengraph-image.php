@@ -384,10 +384,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 		$class_instance = $this->setup_class();
 
+		// We only expect the image in our local image to appear in the results.
 		$expected = $this->sample_full_file_array( $attached_image, $attach_id );
-		$expected['https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg'] = array(
-			'url' => 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg',
-		);
 
 		$this->assertEquals( $expected, $class_instance->get_images() );
 	}

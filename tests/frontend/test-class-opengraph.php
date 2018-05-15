@@ -401,7 +401,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$expected_output = '<meta property="og:image" content="' . get_home_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
 
-		$this->assertContains( $expected_output, $output );
+		// As of 7.6 we do not include external images in the og tags anymore, so this test should not contain the image.
+		$this->assertNotContains( $expected_output, $output );
 	}
 
 	/**
