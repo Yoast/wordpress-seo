@@ -108,7 +108,7 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	 *
 	 * @param array $redirect Array data for an individual redirect.
 	 *
-	 * @return bool
+	 * @return bool Whether to include the redirect or not.
 	 */
 	private function filter_redirect( $redirect ) {
 		foreach ( $this->filter as $key => $value ) {
