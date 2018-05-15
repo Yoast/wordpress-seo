@@ -2,7 +2,7 @@ import forEach from "lodash/forEach";
 import sortedIndexBy from "lodash/sortedIndexBy";
 import trim from "lodash/trim";
 
-const AFFIX = "%%";
+const CIRCUMFIX = "%%";
 
 /**
  * Serializes a tag into a string.
@@ -12,7 +12,7 @@ const AFFIX = "%%";
  * @returns {string} Serialized tag.
  */
 export function serializeTag( name ) {
-	return AFFIX + name + AFFIX;
+	return CIRCUMFIX + name + CIRCUMFIX;
 }
 
 /**
@@ -68,7 +68,7 @@ export function serializeEditor( rawContent ) {
  * @returns {string} Unserialized tag.
  */
 export function unserializeTag( serializedTag ) {
-	return trim( serializedTag, AFFIX );
+	return trim( serializedTag, CIRCUMFIX );
 }
 
 /**
@@ -167,7 +167,7 @@ export function unserializeEditor( content, tags ) {
 		content = before + between + after;
 
 		// Decrease the offset by twice the length of the affix for every index we replace.
-		const offset = index - i * AFFIX.length * 2;
+		const offset = index - i * CIRCUMFIX.length * 2;
 		const key = entityRanges.length;
 
 		// Create the DraftJS data.
