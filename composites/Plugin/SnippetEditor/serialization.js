@@ -1,4 +1,6 @@
 import forEach from "lodash/forEach";
+import reduce from "lodash/reduce";
+import sortBy from "lodash/sortBy";
 import sortedIndexBy from "lodash/sortedIndexBy";
 import trim from "lodash/trim";
 
@@ -26,19 +28,20 @@ export function serializeTag( name ) {
 export function serializeBlock( entityMap, block ) {
 	const { text, entityRanges } = block;
 	let previousEntityEnd = 0;
-	let serialized = "";
 
-	// Loop from high to low to ensure the index is still correct.
-	for( let i = entityRanges.length - 1; i >= 0; i-- ) {
-		const { key, length, offset } = entityRanges[ i ];
+	// Ensure the entityRanges are in order from low to high offset.
+	const sortedEntityRanges = sortBy( entityRanges, "offset" );
+	let serialized = reduce( sortedEntityRanges, ( serialized, entityRange ) => {
+		const { key, length, offset } = entityRange;
 		const beforeEntityLength = offset - previousEntityEnd;
 
 		const beforeEntity = text.substr( previousEntityEnd, beforeEntityLength );
 		const serializedEntity = serializeTag( entityMap[ key ].data.mention.name );
 
 		previousEntityEnd = offset + length;
-		serialized += beforeEntity + serializedEntity;
-	}
+
+		return serialized + beforeEntity + serializedEntity;
+	}, "" );
 
 	serialized += text.substr( previousEntityEnd );
 
@@ -55,7 +58,7 @@ export function serializeBlock( entityMap, block ) {
 export function serializeEditor( rawContent ) {
 	const { blocks, entityMap } = rawContent;
 
-	return blocks.reduce( ( serialized, block ) => {
+	return reduce( blocks, ( serialized, block ) => {
 		return serialized + serializeBlock( entityMap, block );
 	}, "" );
 }
@@ -166,19 +169,21 @@ export function unserializeEditor( content, tags ) {
 		const after = content.substr( index + tagValue.length );
 		content = before + between + after;
 
-		// Decrease the offset by twice the length of the affix for every index we replace.
+		// Decrease the offset by twice the length of the circumfix for every index we replace.
 		const offset = index - i * CIRCUMFIX.length * 2;
 		const key = entityRanges.length;
 
 		// Create the DraftJS data.
 		const { entityRange, mappedEntity } = unserializeEntity( key, tag.name, offset );
 		entityRanges.push( entityRange );
+
 		entityMap[ key ] = mappedEntity;
 	}
 
 	const blocks = [ {
 		entityRanges,
 		text: content,
+
 	} ];
 
 	return {
