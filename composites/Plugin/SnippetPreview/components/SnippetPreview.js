@@ -524,9 +524,7 @@ export default class SnippetPreview extends PureComponent {
 			urlContent = this.getBreadcrumbs( urlContent );
 		} else {
 			/*
-			 * Check if the url in desktop mode has a trailing slash before
-			 * highlighting any keywords in it. Adds it for both the clean
-			 * and the default url in case no keyword is defined.
+			 * If the url doesn,t have a trailing slash, add it.
 			 */
 			if ( ! hasTrailingSlash( urlContent ) ) {
 				urlContent = urlContent + "/";
