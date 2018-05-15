@@ -70,10 +70,9 @@ class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
 		foreach ( $this->get_img_tags_from_content( $content ) as $img ) {
 			$url = $this->get_img_tag_source( $img );
 			if ( $url ) {
-				$images[ $url ] = WPSEO_Image_Utils::get_attachment_by_url( $url );
+				$images[ $url ] = $url;
 			}
 		}
-
 		return $images;
 	}
 
