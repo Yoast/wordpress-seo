@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import partial from "lodash/partial";
 import { parse } from "url";
+import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
@@ -54,8 +55,10 @@ const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 	"</svg>"
 );
 
-export const helpText = [ "This is a rendering of what this post might look like in Google's search results. ",
-	<a key="1" href="https://yoa.st/snippet-preview" rel="noopener norefferer">Learn more about the Snippet Preview.</a> ];
+export const helpText = [ __( "This is a rendering of what this post might look like in Google's search results.", "yoast-components" ),
+	<a key="1" href="https://yoa.st/snippet-preview" rel="noopener norefferer">
+		{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
+	</a> ];
 
 export const BaseTitle = styled.div`
 	cursor: pointer;
@@ -223,6 +226,7 @@ const Amp = styled.div`
  * @returns {ReactElement} React elements to be rendered.
  */
 function highlightKeyword( locale, keyword, text, cleanText ) {
+	console.log( "text: " + text );
 	if ( keyword === "" ) {
 		return text;
 	}

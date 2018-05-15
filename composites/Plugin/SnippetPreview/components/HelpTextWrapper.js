@@ -1,7 +1,9 @@
+// External dependencies
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+// Internal dependencies
 import HelpText from "../../Shared/components/HelpText";
 import colors from "../../../../style-guide/colors.json";
 import { Button } from "../../Shared/components/Button";
@@ -10,10 +12,10 @@ import { rgba } from "../../../../style-guide/helpers";
 
 
 const HelpTextContainer = styled.div`
-	max-width: 600px;
+    max-width: 600px;
     padding: 1 0 3 1em;
     font-weight: normal;
-    margin: 0px 20px 10px 25px
+    margin: 0 20px 10px 25px
 `;
 
 let HelpTextDiv = styled.div`
@@ -32,13 +34,13 @@ const HelpTextButton = styled( Button )`
 	border-radius: 50%;
 	border: none;
 	clip: rect(1px 1px 1px 1px);
-	box-shadow: 0 0 0 0px #5b9dd9;
+	box-shadow: 0 0 0 0 ${ colors.$color_snippet_focus };
 	position: relative;
 	display: block;
-	margin: -44px -10px 10px 0px;
+	margin: -44px -10px 10px 0;
 	background-color: transparent;
 	float: right;
-	padding: 2px 0px 2px 6px;
+	padding: 2px 0 2px 6px;
 	&:hover {
 		color: ${ colors.$color_blue };
 	}
@@ -64,10 +66,11 @@ const StyledSvg = styled( SvgIcon )`
 
 class HelpTextWrapper extends React.Component {
 	/**
-	 * Renders the HelpTextWrapper component
+	 * Renders the HelpTextWrapper component.
 	 *
-	 * @param {Object} props The passed props.
-	 * @param {string} props.className   The class name.
+	 * @param {Object}       props               The passed props.
+	 * @param {string}       props.className     The class name.
+	 * @oaram {String|Array} props.helpText      The help text to be displayed.
 	 *
 	 * @returns {ReactComponent} The HelpTextWrapper component.
 	 */
@@ -82,7 +85,7 @@ class HelpTextWrapper extends React.Component {
 	/**
 	 * Handles the onButtonClick event.
 	 *
-	 * Toggles the boolean isExpanded in the state
+	 * Toggles the boolean isExpanded in the state.
 	 *
 	 * @returns {void}
 	 */
