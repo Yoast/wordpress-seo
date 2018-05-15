@@ -524,7 +524,7 @@ export default class SnippetPreview extends PureComponent {
 			urlContent = this.getBreadcrumbs( urlContent );
 		} else {
 			/*
-			 * If the url doesn,t have a trailing slash, add it.
+			 * If the url doesn't have a trailing slash, add it.
 			 */
 			if ( ! hasTrailingSlash( urlContent ) ) {
 				urlContent = urlContent + "/";
