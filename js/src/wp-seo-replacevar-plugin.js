@@ -271,21 +271,21 @@ var ReplaceVar = require( "./values/replaceVar" );
 			taxonomyElements[ taxonomyName ] = {};
 		}
 
-		let checkedCategories = [];
+		const checkHierarchicalTerm = [];
 
 		forEach( checkboxes, function( checkbox ) {
 			checkbox = jQuery( checkbox );
-			var taxonomyID = checkbox.val();
+			const taxonomyID = checkbox.val();
 
-			let categoryName = this.getCategoryName( checkbox );
-			let isChecked = checkbox.prop( "checked" );
+			const hierarchicalTermName = this.getCategoryName( checkbox );
+			const isChecked = checkbox.prop( "checked" );
 			taxonomyElements[ taxonomyName ][ taxonomyID ] = {
-				label: categoryName,
+				label: hierarchicalTermName,
 				checked: isChecked,
 			};
-			if( isChecked && checkedCategories.indexOf( categoryName ) === -1 ) {
+			if( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
 				// Only push the categoryName to the checkedCategories array if it's not already in there.
-				checkedCategories.push( categoryName );
+				checkHierarchicalTerm.push( hierarchicalTermName );
 			}
 		}.bind( this ) );
 
@@ -294,7 +294,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 			taxonomyName = "ct_" + taxonomyName;
 		}
 
-		this._store.dispatch( updateReplacementVariable( taxonomyName, checkedCategories.join( ", " ) ) );
+		this._store.dispatch( updateReplacementVariable( taxonomyName, checkHierarchicalTerm.join( ", " ) ) );
 	};
 
 	/**
