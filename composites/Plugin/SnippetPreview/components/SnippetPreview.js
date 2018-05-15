@@ -523,11 +523,6 @@ export default class SnippetPreview extends PureComponent {
 		if ( this.props.mode === MODE_MOBILE ) {
 			urlContent = this.getBreadcrumbs( urlContent );
 		} else {
-			/*
-			 * Check if the url in desktop mode has a trailing slash before
-			 * highlighting any keywords in it. Adds it for both the clean
-			 * and the default url in case no keyword is defined.
-			 */
 			if ( ! hasTrailingSlash( urlContent ) ) {
 				urlContent = urlContent + "/";
 			}
