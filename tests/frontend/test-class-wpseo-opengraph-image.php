@@ -345,6 +345,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * Test getting the image from post content.
 	 */
 	public function test_get_images_from_content() {
+		
 		// Create our post.
 		$post_id = $this->create_post();
 
@@ -384,7 +385,58 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 		$class_instance = $this->setup_class();
 
-		// We only expect the image in our local image to appear in the results.
+		// We only expect our attachment image to appear in the results.
+		$expected = $this->sample_full_file_array( $attached_image, $attach_id );
+
+		$this->assertEquals( $expected, $class_instance->get_images() );
+	}
+
+	/**
+	 * Test getting the image from post content.
+	 */
+	public function test_get_images_from_content_cdn_first() {
+
+		// Create our post.
+		$post_id = $this->create_post();
+
+		// Upload an image to it.
+		$image          = '/assets/yoast.png';
+		$upload_dir     = wp_upload_dir();
+		$basename       = basename( $image );
+		$source_image   = dirname( __FILE__ ) . '/..' . $image;
+		$featured_image = $upload_dir['path'] . '/' . $basename;
+		copy( $source_image, $featured_image ); // Prevent original from deletion.
+
+		$file_array = array(
+			'name'     => $basename,
+			'tmp_name' => $featured_image,
+		);
+		$attach_id  = media_handle_sideload( $file_array, $post_id );
+
+		// Get the image URL so we can add it in the post content.
+		$file           = get_attached_file( $attach_id );
+		$attached_image = $upload_dir['url'] . '/' . basename( $file );
+		$image2_url     = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';
+
+		// Update the post content.
+		$post_content = '<p>This is a post. It has an image hosted on a cdn:</p>
+<img src="' . $image2_url . '"/>
+<p>It also has an image that is attached to this post:</p>
+<img src="' . $attached_image . '"/>
+<p>End of post</p>';
+
+		wp_update_post(
+			array(
+				'ID'           => $post_id,
+				'post_content' => $post_content,
+			)
+		);
+
+		// Run our test.
+		$this->go_to( get_permalink( $post_id ) );
+		$class_instance = $this->setup_class();
+
+		// We only expect our attachment image to appear in the results.
 		$expected = $this->sample_full_file_array( $attached_image, $attach_id );
 
 		$this->assertEquals( $expected, $class_instance->get_images() );
@@ -396,6 +448,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph_Image::add_content_images()
 	 */
 	public function test_get_only_one_image_from_content() {
+
 		// Create our post.
 		$post_id = $this->create_post();
 
@@ -415,7 +468,6 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$featured_image_two = $upload_dir['path'] . '/' . $basename_two;
 		copy( $source_image_two, $featured_image_two ); // Prevent original from deletion.
 
-		//eerst alles samen in de file array
 		$file_array = array(
 			'name'          => $basename,
 			'tmp_name'      => $featured_image,
@@ -435,9 +487,6 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$attached_image     = $upload_dir['url'] . '/' . basename( $file );
 		$attached_image_two = $upload_dir['url'] . '/' . basename( $file_two );
 
-		var_dump($attached_image);
-		var_dump("Halloooooo");
-
 		// Update the post content.
 		$post_content = '<p>This is a post. It has an image:</p>
 <img src="' . $attached_image . '"/>
@@ -455,7 +504,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 		$class_instance = $this->setup_class();
 
-		// We only expect the image in our local image to appear in the results.
+		// We only expect one image to appear in the results.
 		$expected = $this->sample_full_file_array( $attached_image, $attach_id );
 
 		$this->assertEquals( $expected, $class_instance->get_images() );
