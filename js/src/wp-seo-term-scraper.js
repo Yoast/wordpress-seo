@@ -1,27 +1,29 @@
 /* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
-var isUndefined = require( "lodash/isUndefined" );
-
-var getIndicatorForScore = require( "./analysis/getIndicatorForScore" );
-var TabManager = require( "./analysis/tabManager" );
-
-var updateTrafficLight = require( "./ui/trafficLight" ).update;
-var updateAdminBar = require( "./ui/adminBar" ).update;
-
-var getTranslations = require( "./analysis/getTranslations" );
-var isKeywordAnalysisActive = require( "./analysis/isKeywordAnalysisActive" );
-var isContentAnalysisActive = require( "./analysis/isContentAnalysisActive" );
-var snippetPreviewHelpers = require( "./analysis/snippetPreview" );
-
-var App = require( "yoastseo" ).App;
-var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
-var UsedKeywords = require( "./analysis/usedKeywords" );
-
-import TermDataCollector from "./analysis/TermDataCollector";
-import { termsTmceId as tmceId } from "./wp-seo-tinymce";
-import initializeEdit from "./edit";
-import { setActiveKeyword } from "./redux/actions/activeKeyword";
+// External dependencies.
+import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import isEqual from "lodash/isEqual";
+import isFunction from "lodash/isFunction";
+import isUndefined from "lodash/isUndefined";
+
+// Internal dependencies.
+import initializeEdit from "./edit";
+import { termsTmceId as tmceId } from "./wp-seo-tinymce";
+import { update as updateTrafficLight } from "./ui/trafficLight";
+import { update as updateAdminBar } from "./ui/adminBar";
+import getIndicatorForScore from "./analysis/getIndicatorForScore";
+import TabManager from "./analysis/tabManager";
+import getTranslations from "./analysis/getTranslations";
+import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
+import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
+import snippetPreviewHelpers from "./analysis/snippetPreview";
+import snippetEditorHelpers from "./analysis/snippetEditor";
+import TermDataCollector from "./analysis/TermDataCollector";
+import UsedKeywords from "./analysis/usedKeywords";
+import TaxonomyAssessor from "./assessors/taxonomyAssessor";
+import { setActiveKeyword } from "./redux/actions/activeKeyword";
+import { updateData } from "./redux/actions/snippetEditor";
 
 window.yoastHideMarkers = true;
 
@@ -77,18 +79,85 @@ window.yoastHideMarkers = true;
 	};
 
 	/**
+	 * Dispatches an action to the store that updates the snippet editor.
+	 *
+	 * @param {Object} data The data from the legacy snippet editor.
+	 *
+	 * @returns {void}
+	 */
+	const dispatchUpdateSnippetEditor = function( data ) {
+		/*
+		 * The setTimeout makes sure the React component is only updated on the next
+		 * frame. This is to prevent input lag.
+		 */
+		setTimeout( () => {
+			store.dispatch( updateData( {
+				title: data.title,
+				slug: data.urlPath,
+				description: data.metaDesc,
+			} ) );
+		}, 0 );
+	};
+
+	/**
+	 * Update the legacy snippet preview based on the passed data from the redux
+	 * store.
+	 *
+	 * @param {Object} data The data from the store.
+	 *
+	 * @returns {void}
+	 */
+	function updateLegacySnippetEditor( data ) {
+		if ( isFunction( snippetPreview.refresh ) ) {
+			let isDataChanged = false;
+
+			if ( snippetPreview.data.title !== data.title ) {
+				snippetPreview.element.input.title.value = data.title;
+
+				isDataChanged = true;
+			}
+
+			if ( snippetPreview.data.urlPath !== data.slug ) {
+				snippetPreview.element.input.urlPath.value = data.slug;
+
+				isDataChanged = true;
+			}
+
+			if ( snippetPreview.data.metaDesc !== data.description ) {
+				snippetPreview.element.input.metaDesc.value = data.description;
+
+				isDataChanged = true;
+			}
+
+			if ( isDataChanged ) {
+				snippetPreview.changedInput();
+			}
+		}
+	}
+
+	/**
 	 * Initializes the snippet preview.
 	 *
-	 * @param {TermDataCollector} termScraper Object for getting term data.
+	 * @param {Object} snippetEditorData The snippet editor data.
 	 *
 	 * @returns {SnippetPreview} Instance of snippetpreview.
 	 */
-	function initSnippetPreview( termScraper ) {
+	function initSnippetPreview( snippetEditorData ) {
 		return snippetPreviewHelpers.create( snippetContainer, {
-			title: termScraper.getSnippetTitle(),
-			urlPath: termScraper.getSnippetCite(),
-			metaDesc: termScraper.getSnippetMeta(),
-		}, termScraper.saveSnippetData.bind( termScraper ) );
+			title: snippetEditorData.title,
+			urlPath: snippetEditorData.slug,
+			metaDesc: snippetEditorData.description,
+		}, ( data ) => {
+			const previousData = snippetEditorHelpers.getDataFromStore( store );
+
+			if (
+				previousData.title !== data.title ||
+				previousData.description !== data.metaDesc ||
+				previousData.slug !== data.urlPath
+			) {
+				dispatchUpdateSnippetEditor( data );
+			}
+		} );
 	}
 
 	/**
@@ -186,6 +255,8 @@ window.yoastHideMarkers = true;
 
 		const editArgs = {
 			analysisSection: "pageanalysis",
+			shouldRenderSnippetPreview: !! wpseoTermScraperL10n.reactSnippetPreview,
+			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
 		};
 		store = initializeEdit( editArgs ).store;
 
@@ -203,7 +274,13 @@ window.yoastHideMarkers = true;
 		tabManager.init();
 
 		termScraper = new TermDataCollector( { tabManager } );
-		snippetPreview = initSnippetPreview( termScraper );
+
+		// Initialize the snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoTermScraperL10n );
+		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+
+		snippetPreview = initSnippetPreview( snippetEditorData );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
@@ -298,6 +375,26 @@ window.yoastHideMarkers = true;
 		 */
 		jQuery( document ).on( "wp-collapse-menu wp-menu-state-set", function() {
 			app.snippetPreview.handleWindowResizing();
+		} );
+
+		// Set the initial snippet editor data.
+		store.dispatch( updateData( snippetEditorData ) );
+
+		// Subscribe to the store to save the snippet editor data.
+		store.subscribe( () => {
+			const data = snippetEditorHelpers.getDataFromStore( store );
+
+			if ( ! isEqual( snippetEditorData, data ) ) {
+				snippetEditorData = data;
+				const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
+				termScraper.saveSnippetData( {
+					title: dataWithoutTemplates.title,
+					urlPath: dataWithoutTemplates.slug,
+					metaDesc: dataWithoutTemplates.description,
+				} );
+
+				updateLegacySnippetEditor( data );
+			}
 		} );
 	} );
 }( jQuery, window ) );

@@ -1,6 +1,4 @@
 /* global wpseoReplaceVarsL10n, require */
-import { updateReplacementVariable } from "./redux/actions/snippetEditor";
-
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -24,14 +22,12 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 * Variable replacement plugin for WordPress.
 	 *
 	 * @param {app} app The app object.
-	 * @param {Object} store The redux store.
 	 *
 	 * @returns {void}
 	 */
-	var YoastReplaceVarPlugin = function( app, store ) {
+	var YoastReplaceVarPlugin = function( app ) {
 		this._app = app;
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
-		this._store = store;
 
 		this.registerReplacements();
 		this.registerModifications();
@@ -127,7 +123,6 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 */
 	YoastReplaceVarPlugin.prototype.addReplacement = function( replacement ) {
 		placeholders[ replacement.placeholder ] = replacement;
-		this._store.dispatch( updateReplacementVariable( replacement.replacement, "" ) );
 	};
 
 	/**

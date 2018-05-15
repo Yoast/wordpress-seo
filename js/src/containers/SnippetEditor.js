@@ -67,6 +67,7 @@ export function mapStateToProps( state ) {
 		...state.snippetEditor,
 		titleLengthProgress,
 		descriptionLengthProgress,
+		keyword: state.activeKeyword,
 	};
 }
 

@@ -165,7 +165,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 
 		$data = $this->provider->get( $post->ID );
 
-		$this->assertEquals( $expected, $data[ 'is_robots_noindex' ], $description );
+		$this->assertEquals( $expected, $data['is_robots_noindex'], $description );
 	}
 
 	/**
