@@ -330,10 +330,9 @@ class WPSEO_OpenGraph_Image {
 				continue;
 			}
 
-			// Verify if locally hosted image meets the requirements and if so, set it as the OG image.
+			// If locally hosted image meets the requirements add it as OG image, return when verified.
 			$this->add_image_by_id( $attachment_id );
 
-			// Verify if image has been added.
 			if ( $this->has_images() ) {
 				return;
 			}
