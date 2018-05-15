@@ -686,7 +686,7 @@ export default class SnippetPreview extends PureComponent {
 		return (
 			<section>
 				<div>
-					<HelpTextWrapper helpText = { helpText } />
+					<HelpTextWrapper helpText={ helpText } />
 				</div>
 				<Container onMouseLeave={ this.onMouseLeave }
 				           width={ MAX_WIDTH + 2 * WIDTH_PADDING }
