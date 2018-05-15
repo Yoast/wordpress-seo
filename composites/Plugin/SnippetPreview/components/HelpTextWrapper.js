@@ -13,7 +13,6 @@ import { rgba } from "../../../../style-guide/helpers";
 
 const HelpTextContainer = styled.div`
     max-width: 600px;
-    padding: 1 0 3 1em;
     font-weight: normal;
     margin: 0 20px 10px 25px
 `;

@@ -84,7 +84,6 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -471,7 +470,6 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -861,7 +859,6 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -1243,7 +1240,6 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -1655,7 +1651,6 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -2053,7 +2048,6 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -2463,7 +2457,6 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -2850,7 +2843,6 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -3249,7 +3241,6 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -3648,7 +3639,6 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -4047,7 +4037,6 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -4446,7 +4435,6 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -4845,7 +4833,6 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
@@ -5244,7 +5231,6 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }

@@ -72,7 +72,6 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
 
 .c0 {
   max-width: 600px;
-  padding: 1 0 3 1em;
   font-weight: normal;
   margin: 0 20px 10px 25px;
 }
