@@ -1,17 +1,18 @@
-import some from "lodash/some";
 import forEach from "lodash/forEach";
+import sortedIndexBy from "lodash/sortedIndexBy";
+import trim from "lodash/trim";
 
-const ENTITY_FORMAT = /%%([a-zA-Z_]+)%%/;
+const AFFIX = "%%";
 
 /**
- * Serializes an entity into a string.
+ * Serializes a tag into a string.
  *
- * @param {string} name The name of the entity.
+ * @param {string} name The name of the tag.
  *
- * @returns {string} Serialized entity.
+ * @returns {string} Serialized tag.
  */
-export function serializeEntity( name ) {
-	return "%%" + name + "%%";
+export function serializeTag( name ) {
+	return AFFIX + name + AFFIX;
 }
 
 /**
@@ -25,17 +26,19 @@ export function serializeEntity( name ) {
 export function serializeBlock( entityMap, block ) {
 	const { text, entityRanges } = block;
 	let previousEntityEnd = 0;
+	let serialized = "";
 
-	let serialized = entityRanges.reduce( ( serialized, entityRange ) => {
-		const { key, length, offset } = entityRange;
+	// Loop from high to low to ensure the index is still correct.
+	for( let i = entityRanges.length - 1; i >= 0; i-- ) {
+		const { key, length, offset } = entityRanges[ i ];
 		const beforeEntityLength = offset - previousEntityEnd;
 
 		const beforeEntity = text.substr( previousEntityEnd, beforeEntityLength );
-		const serializedEntity = serializeEntity( entityMap[ key ].data.mention.name );
+		const serializedEntity = serializeTag( entityMap[ key ].data.mention.name );
 
 		previousEntityEnd = offset + length;
-		return serialized + beforeEntity + serializedEntity;
-	}, "" );
+		serialized += beforeEntity + serializedEntity;
+	}
 
 	serialized += text.substr( previousEntityEnd );
 
@@ -58,6 +61,17 @@ export function serializeEditor( rawContent ) {
 }
 
 /**
+ * Unserializes a tag into a string.
+ *
+ * @param {string} serializedTag The serialized tag.
+ *
+ * @returns {string} Unserialized tag.
+ */
+export function unserializeTag( serializedTag ) {
+	return trim( serializedTag, AFFIX );
+}
+
+/**
  * Unserializes an entity to DraftJS data.
  *
  * @param {number} key The key the new entity should use.
@@ -67,12 +81,10 @@ export function serializeEditor( rawContent ) {
  * @returns {Object} The serialized entity.
  */
 export function unserializeEntity( key, name, offset ) {
-	const length = name.length;
-
 	const entityRange = {
 		key,
 		offset,
-		length,
+		length: name.length,
 	};
 
 	const mappedEntity = {
@@ -97,20 +109,19 @@ export function unserializeEntity( key, name, offset ) {
  * @returns {Array} Array of found indices.
  */
 const getIndicesOf = ( searchTerm, text ) => {
-	let temp = text;
-	let tempSearch = searchTerm;
-	const searchStrLen = tempSearch.length;
-	if ( searchStrLen === 0 ) {
+	if ( searchTerm.length === 0 ) {
 		return [];
 	}
+
 	let startIndex = 0;
 	let index;
 	const indices = [];
 
-	while ( ( index = temp.indexOf( tempSearch, startIndex ) ) > -1 ) {
+	while ( ( index = text.indexOf( searchTerm, startIndex ) ) > -1 ) {
 		indices.push( index );
-		startIndex = index + searchStrLen;
+		startIndex = index + searchTerm.length;
 	}
+
 	return indices;
 };
 
@@ -125,33 +136,50 @@ const getIndicesOf = ( searchTerm, text ) => {
 export function unserializeEditor( content, tags ) {
 	const entityRanges = [];
 	const entityMap = {};
+	const replaceIndices = [];
 
+	// Collect the replace indices for each tag.
 	forEach( tags, tag => {
-		const tagValue = serializeEntity( tag.name );
+		const tagValue = serializeTag( tag.name );
 		const indices = getIndicesOf( tagValue, content );
 
-		forEach( indices, offset => {
-			const before = content.substr( 0, offset );
-			const between = content.substr( offset, tagValue.length ).replace( /%%/g, "" );
-			const after = content.substr( offset + tagValue.length );
+		forEach( indices, index => {
+			const replaceIndex = {
+				index,
+				tag,
+				tagValue,
+			};
 
-			content = before + between + after;
-
-			let key = entityRanges.length;
-
-			const { entityRange, mappedEntity } = unserializeEntity( key, tag.name, offset );
-
-			entityRanges.push( entityRange );
-			entityMap[ key ] = mappedEntity;
+			// Add the replace index in order.
+			const insertAt = sortedIndexBy( replaceIndices, replaceIndex, "index" );
+			replaceIndices.splice( insertAt, 0, replaceIndex );
 		} );
 	} );
 
-	const blocks = [
-		{
-			entityRanges,
-			text: content,
-		},
-	];
+	// Loop from high to low to ensure the index is still correct.
+	for( let i = replaceIndices.length - 1; i >= 0; i-- ) {
+		const { index, tag, tagValue } = replaceIndices[ i ];
+
+		// Replace the serialized tag with the unserialized tag.
+		const before = content.substr( 0, index );
+		const between = unserializeTag( content.substr( index, tagValue.length ) );
+		const after = content.substr( index + tagValue.length );
+		content = before + between + after;
+
+		// Decrease the offset by twice the length of the affix for every index we replace.
+		const offset = index - i * AFFIX.length * 2;
+		const key = entityRanges.length;
+
+		// Create the DraftJS data.
+		const { entityRange, mappedEntity } = unserializeEntity( key, tag.name, offset );
+		entityRanges.push( entityRange );
+		entityMap[ key ] = mappedEntity;
+	}
+
+	const blocks = [ {
+		entityRanges,
+		text: content,
+	} ];
 
 	return {
 		blocks,
