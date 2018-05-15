@@ -64,7 +64,7 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Constructor.
 	 *
-	 * @param null|string     $image     Optional. The Image to use.
+	 * @param null|string     $image Optional. The Image to use.
 	 * @param WPSEO_OpenGraph $opengraph Optional. The OpenGraph object.
 	 */
 	public function __construct( $image = null, WPSEO_OpenGraph $opengraph = null ) {
@@ -196,21 +196,22 @@ class WPSEO_OpenGraph_Image {
 	 * If the frontpage image exists, call add_image.
 	 */
 	private function set_front_page_image() {
-	    
-        $show_on_front = get_option( 'show_on_front' );
-        
-        // if frontpage is a simple page, call the set_singular_image function
-        if( $show_on_front !== 'posts' ){
-            $this->set_singular_image();
-            return;
-        }
-        
+
+		$show_on_front = get_option( 'show_on_front' );
+
+		// If frontpage is a simple page, call the set_singular_image function.
+		if ( $show_on_front !== 'posts' ) {
+			$this->set_singular_image();
+
+			return;
+		}
+
 		// If no frontpage image is found, don't add anything.
 		if ( WPSEO_Options::get( 'og_frontpage_image', '' ) === '' ) {
 			return;
 		}
-        
-        // if posts are showing in frontpage, add image set in options
+
+		// If posts are showing in frontpage, add image set in options.
 		$this->add_image_by_url( WPSEO_Options::get( 'og_frontpage_image' ) );
 	}
 
@@ -357,6 +358,7 @@ class WPSEO_OpenGraph_Image {
 		$attachment_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
 		if ( $attachment_id > 0 ) {
 			$this->add_image_by_id( $attachment_id );
+
 			return;
 		}
 
@@ -425,6 +427,7 @@ class WPSEO_OpenGraph_Image {
 
 		if ( $this->is_size_overridden() ) {
 			$this->get_overridden_image( $attachment_id );
+
 			return;
 		}
 
