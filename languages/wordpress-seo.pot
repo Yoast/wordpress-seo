@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO Premium 7.5-RC3\n"
+"Project-Id-Version: Yoast SEO 7.5\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-05-14 11:21:16+00:00\n"
+"POT-Creation-Date: 2018-05-15 08:37:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -202,7 +202,7 @@ msgstr ""
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
-#: admin/capabilities/class-capability-manager-integration.php:68
+#. Plugin Name of the plugin/theme
 msgid "Yoast SEO"
 msgstr ""
 
@@ -378,44 +378,44 @@ msgstr ""
 msgid "Scroll to see the table content."
 msgstr ""
 
-#: admin/class-admin.php:363 vendor/yoast/whip/src/facades/wordpress.php:29
+#: admin/class-admin.php:362 vendor/yoast/whip/src/facades/wordpress.php:29
 msgid "Remind me again in 4 weeks."
 msgstr ""
 
-#: admin/class-admin.php:530
+#: admin/class-admin.php:529
 msgid "For more information:"
 msgstr ""
 
-#: admin/class-admin.php:531
+#: admin/class-admin.php:530
 msgid "Title optimization"
 msgstr ""
 
-#: admin/class-admin.php:532
+#: admin/class-admin.php:531
 msgid "Why Google won't display the right page title"
 msgstr ""
 
-#: admin/class-admin.php:538 admin/class-admin.php:539 admin/pages/metas.php:42
+#: admin/class-admin.php:537 admin/class-admin.php:538 admin/pages/metas.php:42
 #: admin/pages/metas.php:63
 msgid "Template explanation"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO.
-#: admin/class-admin.php:542
+#: admin/class-admin.php:541
 msgid ""
 "The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
 "tabs on the left explain the available variables."
 msgstr ""
 
-#: admin/class-admin.php:545 admin/pages/metas.php:65
+#: admin/class-admin.php:544 admin/pages/metas.php:65
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:552 admin/class-admin.php:553 admin/pages/metas.php:70
+#: admin/class-admin.php:551 admin/class-admin.php:552 admin/pages/metas.php:70
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:560 admin/class-admin.php:561 admin/pages/metas.php:76
+#: admin/class-admin.php:559 admin/class-admin.php:560 admin/pages/metas.php:76
 msgid "Advanced Variables"
 msgstr ""
 
@@ -1145,7 +1145,7 @@ msgstr ""
 
 #. translators: 1: The link tag to email examples page; 2: The link closing
 #. tag; 3: The link tag for the list of recommended WordPress hosting partners;
-#: admin/class-unsupported-php-message.php:61
+#: admin/class-unsupported-php-message.php:60
 msgid ""
 "If you cannot update your PHP yourself, you can send an email to your host. "
 "We have %1$sexamples%2$s here. If they don't want to upgrade your PHP "
@@ -1257,11 +1257,11 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: admin/class-yoast-modal.php:81
+#: admin/class-yoast-modal.php:82
 msgid "Open"
 msgstr ""
 
-#: admin/class-yoast-modal.php:84
+#: admin/class-yoast-modal.php:85
 #: admin/google_search_console/views/gsc-redirect-nopremium.php:25
 msgid "Close"
 msgstr ""
@@ -4981,97 +4981,6 @@ msgid ""
 "provide."
 msgstr ""
 
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:92
-msgid ""
-"Please explain what you're trying to find or do. If something isn't working, "
-"please explain what you expect to happen. If you can make a screenshot, "
-"please attach it."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:94
-msgid "Note: submitting this form also sends us debug info about your server."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:106
-msgid "What can we help you with?"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:107
-msgid ""
-"Your search timed out. Please double-check your internet connection and try "
-"again."
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:108
-msgid "No results found for"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:109
-msgid "Send a Message"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:110
-msgid "Attach a file"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:111
-msgid "The maximum file size is 10 MB"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:112
-msgid "Your Name"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:113
-msgid "Please enter your name"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:114
-msgid "Email address"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:115
-msgid "Please enter a valid email address"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:116
-msgid "Select a topic"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:117
-msgid "Please select a topic from the list"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:118
-msgid "Subject"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:119
-msgid "Please enter a subject"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:120
-msgid "How can we help you?"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:121
-msgid "Please enter a message"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:122
-msgid "Send"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:123
-msgid "Message sent, thank you!"
-msgstr ""
-
-#: vendor/yoast/wp-helpscout/src/class-helpscout-beacon.php:124
-msgid ""
-"Someone from Team Yoast will get back to you soon, normally within a couple "
-"of hours."
-msgstr ""
-
 #: wp-seo-main.php:468
 msgid ""
 "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask "
@@ -5097,12 +5006,8 @@ msgstr ""
 msgid "Activation failed:"
 msgstr ""
 
-#. Plugin Name of the plugin/theme
-msgid "Yoast SEO Premium"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://yoa.st/2jc"
+#. Plugin URI of the plugin/theme
+msgid "https://yoa.st/1uj"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -5113,6 +5018,10 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "Team Yoast"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://yoa.st/1uk"
 msgstr ""
 
 #. translators: %s expands to the number of posts in localized format.
