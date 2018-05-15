@@ -112,8 +112,10 @@ final class WPSEO_CLI_Redirect_List_Command extends WPSEO_CLI_Redirect_Base_Comm
 	 */
 	private function filter_redirect( $redirect ) {
 		foreach ( $this->filter as $key => $value ) {
-			// Loose comparison to ignore type, as CLI arguments are always
-			// strings.
+			/*
+			 * Loose comparison to ignore type, as CLI arguments are always
+			 * strings.
+			 */
 			if ( $value != $redirect[ $key ] ) {
 				return false;
 			}
