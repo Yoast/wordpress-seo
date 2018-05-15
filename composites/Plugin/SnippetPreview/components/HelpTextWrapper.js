@@ -95,7 +95,7 @@ class HelpTextWrapper extends React.Component {
 	/**
 	 * Renders the help text wrapper.
 	 *
-	 * @returns {ReactElement} The rendered help text wrapper .
+	 * @returns {ReactElement} The rendered help text wrapper.
 	 */
 	render() {
 		return (
