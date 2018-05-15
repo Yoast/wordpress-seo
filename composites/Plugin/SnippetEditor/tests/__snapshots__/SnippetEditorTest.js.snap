@@ -2,8 +2,8 @@
 
 exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -115,7 +115,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -375,7 +375,8 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
             This is a rendering of what this post might look like in Google's search results. 
             <a
               href="https://yoa.st/snippet-preview"
-              rel="noopener norefferer"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Learn more about the Snippet Preview.
             </a>
@@ -659,8 +660,8 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
 
 exports[`SnippetEditor calls callbacks when the editors are focused or changed 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -781,7 +782,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -1197,7 +1198,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 "This is a rendering of what this post might look like in Google's search results. ",
                 <a
                   href="https://yoa.st/snippet-preview"
-                  rel="noopener norefferer"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Learn more about the Snippet Preview.
                 </a>,
@@ -1362,7 +1364,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           "This is a rendering of what this post might look like in Google's search results. ",
                           <a
                             href="https://yoa.st/snippet-preview"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>,
@@ -1377,7 +1380,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           <a
                             href="https://yoa.st/snippet-preview"
                             key="1"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>
@@ -2245,8 +2249,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 
 exports[`SnippetEditor calls callbacks when the editors are focused or changed 2`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -2367,7 +2371,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -2783,7 +2787,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 "This is a rendering of what this post might look like in Google's search results. ",
                 <a
                   href="https://yoa.st/snippet-preview"
-                  rel="noopener norefferer"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Learn more about the Snippet Preview.
                 </a>,
@@ -2948,7 +2953,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           "This is a rendering of what this post might look like in Google's search results. ",
                           <a
                             href="https://yoa.st/snippet-preview"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>,
@@ -2963,7 +2969,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           <a
                             href="https://yoa.st/snippet-preview"
                             key="1"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>
@@ -3831,8 +3838,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 
 exports[`SnippetEditor calls callbacks when the editors are focused or changed 3`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -3953,7 +3960,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -4369,7 +4376,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 "This is a rendering of what this post might look like in Google's search results. ",
                 <a
                   href="https://yoa.st/snippet-preview"
-                  rel="noopener norefferer"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Learn more about the Snippet Preview.
                 </a>,
@@ -4534,7 +4542,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           "This is a rendering of what this post might look like in Google's search results. ",
                           <a
                             href="https://yoa.st/snippet-preview"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>,
@@ -4549,7 +4558,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           <a
                             href="https://yoa.st/snippet-preview"
                             key="1"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>
@@ -5417,8 +5427,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 
 exports[`SnippetEditor closes when calling close() 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -5539,7 +5549,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -5955,7 +5965,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 "This is a rendering of what this post might look like in Google's search results. ",
                 <a
                   href="https://yoa.st/snippet-preview"
-                  rel="noopener norefferer"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Learn more about the Snippet Preview.
                 </a>,
@@ -6120,7 +6131,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           "This is a rendering of what this post might look like in Google's search results. ",
                           <a
                             href="https://yoa.st/snippet-preview"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>,
@@ -6135,7 +6147,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           <a
                             href="https://yoa.st/snippet-preview"
                             key="1"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>
@@ -7003,8 +7016,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 
 exports[`SnippetEditor closes when calling close() 2`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -7116,7 +7129,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -7415,7 +7428,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 "This is a rendering of what this post might look like in Google's search results. ",
                 <a
                   href="https://yoa.st/snippet-preview"
-                  rel="noopener norefferer"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Learn more about the Snippet Preview.
                 </a>,
@@ -7580,7 +7594,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           "This is a rendering of what this post might look like in Google's search results. ",
                           <a
                             href="https://yoa.st/snippet-preview"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>,
@@ -7595,7 +7610,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           <a
                             href="https://yoa.st/snippet-preview"
                             key="1"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>
@@ -8214,8 +8230,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 
 exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -8336,7 +8352,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -8784,7 +8800,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 "This is a rendering of what this post might look like in Google's search results. ",
                 <a
                   href="https://yoa.st/snippet-preview"
-                  rel="noopener norefferer"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Learn more about the Snippet Preview.
                 </a>,
@@ -8949,7 +8966,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           "This is a rendering of what this post might look like in Google's search results. ",
                           <a
                             href="https://yoa.st/snippet-preview"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>,
@@ -8964,7 +8982,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           <a
                             href="https://yoa.st/snippet-preview"
                             key="1"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>
@@ -9832,8 +9851,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 
 exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -9954,7 +9973,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -10402,7 +10421,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 "This is a rendering of what this post might look like in Google's search results. ",
                 <a
                   href="https://yoa.st/snippet-preview"
-                  rel="noopener norefferer"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Learn more about the Snippet Preview.
                 </a>,
@@ -10567,7 +10587,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           "This is a rendering of what this post might look like in Google's search results. ",
                           <a
                             href="https://yoa.st/snippet-preview"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>,
@@ -10582,7 +10603,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           <a
                             href="https://yoa.st/snippet-preview"
                             key="1"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>
@@ -11523,8 +11545,8 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
 
 exports[`SnippetEditor highlights a focused field 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -11636,7 +11658,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -11896,7 +11918,8 @@ exports[`SnippetEditor highlights a focused field 1`] = `
             This is a rendering of what this post might look like in Google's search results. 
             <a
               href="https://yoa.st/snippet-preview"
-              rel="noopener norefferer"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Learn more about the Snippet Preview.
             </a>
@@ -12107,8 +12130,8 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 
 exports[`SnippetEditor highlights a hovered field 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -12220,7 +12243,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -12480,7 +12503,8 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
             This is a rendering of what this post might look like in Google's search results. 
             <a
               href="https://yoa.st/snippet-preview"
-              rel="noopener norefferer"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Learn more about the Snippet Preview.
             </a>
@@ -12691,8 +12715,8 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 
 exports[`SnippetEditor highlights the active ReplacementVariableEditor when calling setFieldFocus 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -12813,7 +12837,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -13241,7 +13265,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 "This is a rendering of what this post might look like in Google's search results. ",
                 <a
                   href="https://yoa.st/snippet-preview"
-                  rel="noopener norefferer"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Learn more about the Snippet Preview.
                 </a>,
@@ -13406,7 +13431,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           "This is a rendering of what this post might look like in Google's search results. ",
                           <a
                             href="https://yoa.st/snippet-preview"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>,
@@ -13421,7 +13447,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           <a
                             href="https://yoa.st/snippet-preview"
                             key="1"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>
@@ -14297,8 +14324,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 
 exports[`SnippetEditor highlights the hovered field when onMouseOver() is called 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -14419,7 +14446,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -14847,7 +14874,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 "This is a rendering of what this post might look like in Google's search results. ",
                 <a
                   href="https://yoa.st/snippet-preview"
-                  rel="noopener norefferer"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Learn more about the Snippet Preview.
                 </a>,
@@ -15012,7 +15040,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                           "This is a rendering of what this post might look like in Google's search results. ",
                           <a
                             href="https://yoa.st/snippet-preview"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>,
@@ -15027,7 +15056,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                           <a
                             href="https://yoa.st/snippet-preview"
                             key="1"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>
@@ -15903,8 +15933,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 
 exports[`SnippetEditor opens when calling open() 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -16025,7 +16055,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -16441,7 +16471,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 "This is a rendering of what this post might look like in Google's search results. ",
                 <a
                   href="https://yoa.st/snippet-preview"
-                  rel="noopener norefferer"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Learn more about the Snippet Preview.
                 </a>,
@@ -16606,7 +16637,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           "This is a rendering of what this post might look like in Google's search results. ",
                           <a
                             href="https://yoa.st/snippet-preview"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>,
@@ -16621,7 +16653,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           <a
                             href="https://yoa.st/snippet-preview"
                             key="1"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>
@@ -17489,8 +17522,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 
 exports[`SnippetEditor passes replacement variables to the title and description editor 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -17611,7 +17644,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -18038,7 +18071,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 "This is a rendering of what this post might look like in Google's search results. ",
                 <a
                   href="https://yoa.st/snippet-preview"
-                  rel="noopener norefferer"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Learn more about the Snippet Preview.
                 </a>,
@@ -18203,7 +18237,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           "This is a rendering of what this post might look like in Google's search results. ",
                           <a
                             href="https://yoa.st/snippet-preview"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>,
@@ -18218,7 +18253,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           <a
                             href="https://yoa.st/snippet-preview"
                             key="1"
-                            rel="noopener norefferer"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
                             Learn more about the Snippet Preview.
                           </a>
@@ -19119,8 +19155,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
 
 exports[`SnippetEditor passes the date prop 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -19232,7 +19268,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -19496,7 +19532,8 @@ exports[`SnippetEditor passes the date prop 1`] = `
             This is a rendering of what this post might look like in Google's search results. 
             <a
               href="https://yoa.st/snippet-preview"
-              rel="noopener norefferer"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Learn more about the Snippet Preview.
             </a>
@@ -19798,8 +19835,8 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -19911,7 +19948,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -20149,7 +20186,8 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
             This is a rendering of what this post might look like in Google's search results. 
             <a
               href="https://yoa.st/snippet-preview"
-              rel="noopener norefferer"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Learn more about the Snippet Preview.
             </a>
@@ -20359,8 +20397,8 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 
 exports[`SnippetEditor shows and editor 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -20472,7 +20510,7 @@ exports[`SnippetEditor shows and editor 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -20732,7 +20770,8 @@ exports[`SnippetEditor shows and editor 1`] = `
             This is a rendering of what this post might look like in Google's search results. 
             <a
               href="https://yoa.st/snippet-preview"
-              rel="noopener norefferer"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Learn more about the Snippet Preview.
             </a>

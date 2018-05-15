@@ -39,7 +39,7 @@ const HelpTextButton = styled( Button )`
 	margin: -44px -10px 10px 0;
 	background-color: transparent;
 	float: right;
-	padding: 2px 0 2px 6px;
+	padding: 3px 0 0 6px;
 	&:hover {
 		color: ${ colors.$color_blue };
 	}

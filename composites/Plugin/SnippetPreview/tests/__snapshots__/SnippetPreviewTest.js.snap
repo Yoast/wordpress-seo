@@ -14,8 +14,8 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -112,7 +112,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -275,7 +275,8 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -400,8 +401,8 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -498,7 +499,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -661,7 +662,8 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -789,8 +791,8 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -887,7 +889,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -1050,7 +1052,8 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -1170,8 +1173,8 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 
 exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -1268,7 +1271,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -1464,7 +1467,8 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -1581,8 +1585,8 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 
 exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -1679,7 +1683,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -1864,7 +1868,8 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -1978,8 +1983,8 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 
 exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -2076,7 +2081,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -2261,7 +2266,8 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -2387,8 +2393,8 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -2485,7 +2491,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -2648,7 +2654,8 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -2773,8 +2780,8 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -2871,7 +2878,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -3046,7 +3053,8 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -3171,8 +3179,8 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -3269,7 +3277,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -3444,7 +3452,8 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -3569,8 +3578,8 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -3667,7 +3676,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -3842,7 +3851,8 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -3967,8 +3977,8 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -4065,7 +4075,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -4240,7 +4250,8 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -4365,8 +4376,8 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -4463,7 +4474,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -4638,7 +4649,8 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -4763,8 +4775,8 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -4861,7 +4873,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -5036,7 +5048,8 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>
@@ -5161,8 +5174,8 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 }
 
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -5259,7 +5272,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
@@ -5426,7 +5439,8 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           This is a rendering of what this post might look like in Google's search results. 
           <a
             href="https://yoa.st/snippet-preview"
-            rel="noopener norefferer"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             Learn more about the Snippet Preview.
           </a>

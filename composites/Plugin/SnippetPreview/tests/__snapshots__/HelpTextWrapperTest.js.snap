@@ -2,8 +2,8 @@
 
 exports[`HelpTextWrapper matches the snapshot by default 1`] = `
 .c11 {
-  color: #646464;
-  font-size: 0.9em;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
 }
 
 .c7 {
@@ -100,7 +100,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0 2px 6px;
+  padding: 3px 0 0 6px;
 }
 
 .c1:hover {
