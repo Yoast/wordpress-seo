@@ -12,9 +12,9 @@ msgstr ""
 "Last-Translator: Yoast Translate Team <translations@yoast.com>\n"
 "Language-Team: Yoast Translate <translations@yoast.com>\n"
 "X-Generator: grunt-wp-i18n 0.4.9\n"
-"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
-"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
-"esc_html_x:1,2c;\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Country: United States\n"
@@ -56,47 +56,47 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#. translators: %s expands to Yoast
 #: classes/metabox-link-suggestions.php:140
+#. translators: %s expands to Yoast
 msgid "%s internal linking"
 msgstr ""
 
+#: classes/post-watcher.php:202
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
 #. href=''>, %4$s: </a>, %5$s: Slug to post
-#: classes/post-watcher.php:202
 msgid ""
 "%1$s detected that you moved a post (%5$s) to the trash. You can either: "
 "%2$s Don't know what to do? %3$sRead this post%4$s."
 msgstr ""
 
+#: classes/post-watcher.php:230
 #. translators: %1$s: Yoast SEO Premium, %2$s: <a href='{undo_redirect_url}'>,
 #. %3$s: </a>, %4$s: Slug to post
-#: classes/post-watcher.php:230
 msgid ""
 "%1$s detected that you restored a post (%4$s) from the trash, for which a "
 "redirect was created. %2$sClick here to remove the redirect%3$s"
 msgstr ""
 
+#: classes/post-watcher.php:393
 #. translators: %1$s: Yoast SEO Premium, %2$s and %3$s expand to a link to the
 #. admin page, %4$s: Old slug of the post, %5$s: New slug of the post, the text
 #. surrounded by %6$s and %7$s is placed in a button that can undo the created
 #. redirect
-#: classes/post-watcher.php:393
 msgid ""
 "%1$s created a %2$sredirect%3$s from the old post URL to the new post URL. "
 "%6$sClick here to undo this%7$s <br> Old URL: %4$s <br> New URL: %5$s"
 msgstr ""
 
+#: classes/post-watcher.php:406
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
 #. href='{post_with_explaination.}'>, %4$s: </a>
-#: classes/post-watcher.php:406
 msgid ""
 "%1$s detected that you deleted a post. You can either: %2$s Don't know what "
 "to do? %3$sRead this post %4$s."
 msgstr ""
 
-#. translators: %s: '.htaccess' file name
 #: classes/premium-import-manager.php:67 classes/views/import-redirects.php:31
+#. translators: %s: '.htaccess' file name
 msgid "Import redirects"
 msgstr ""
 
@@ -124,19 +124,18 @@ msgstr ""
 msgid "Redirect import failed: No redirects found."
 msgstr ""
 
-#. translators: %s: '.htaccess' file name
 #: classes/premium-import-manager.php:111
+#. translators: %s: '.htaccess' file name
 msgid "%s redirects have been imported."
 msgstr ""
 
-#. translators: %s: '.htaccess' file name
 #: classes/premium-import-manager.php:119
+#. translators: %s: '.htaccess' file name
 msgid "%s import failed: No redirects found."
 msgstr ""
 
 #: classes/premium-import-manager.php:126
-msgid ""
-"CSV import failed: The provided file could not be parsed using a CSV parser."
+msgid "CSV import failed: The provided file could not be parsed using a CSV parser."
 msgstr ""
 
 #: classes/premium-javascript-strings.php:23
@@ -167,18 +166,18 @@ msgstr ""
 msgid "You have unsaved redirects, are you sure you want to leave?"
 msgstr ""
 
-#. translators: %s is replaced with the URL that will be deleted.
 #: classes/premium-javascript-strings.php:32
+#. translators: %s is replaced with the URL that will be deleted.
 msgid "Please enter the new URL for %s"
 msgstr ""
 
-#. translators: variables will be replaced with from and to URLs.
 #: classes/premium-javascript-strings.php:34
+#. translators: variables will be replaced with from and to URLs.
 msgid "Redirect created from %1$s to %2$s!"
 msgstr ""
 
-#. translators: %1$s will be replaced with the from URL.
 #: classes/premium-javascript-strings.php:36
+#. translators: %1$s will be replaced with the from URL.
 msgid "410 Redirect created from %1$s!"
 msgstr ""
 
@@ -253,32 +252,32 @@ msgstr ""
 msgid "(no title)"
 msgstr ""
 
+#: classes/premium-orphaned-post-filter.php:53
 #. translators: %1$s expands to the link to an article to read more about
 #. orphaned content, %2$s expands to </a>
-#: classes/premium-orphaned-post-filter.php:53
 msgid "%1$sLearn more about orphaned content%2$s."
 msgstr ""
 
+#: classes/premium-orphaned-post-filter.php:61
 #. translators: %1$s: plural form of the current post type, %2$s: a Learn more
 #. about link
-#: classes/premium-orphaned-post-filter.php:61
 msgid ""
 "Ask your SEO Manager or Site Administrator to count links in all texts, so "
 "we can identify orphaned %1$s. %2$s"
 msgstr ""
 
+#: classes/premium-orphaned-post-filter.php:70
 #. translators: %1$s expands to link to the recalculation option, %2$s: anchor
 #. closing, %3$s: plural form of the current post type, %4$s: a Learn more
 #. about link
-#: classes/premium-orphaned-post-filter.php:70
 msgid ""
 "%1$sClick here%2$s to index your links, so we can identify orphaned %3$s. "
 "%4$s"
 msgstr ""
 
+#: classes/premium-orphaned-post-filter.php:80
 #. translators: %1$s: plural form of the current post type, %2$s: a Learn more
 #. about link
-#: classes/premium-orphaned-post-filter.php:80
 msgid ""
 "'Orphaned content' refers to %1$s that have no inbound links, consider "
 "adding links towards these %1$s. %2$s"
@@ -288,9 +287,9 @@ msgstr ""
 msgid "Orphaned content"
 msgstr ""
 
+#: classes/premium-orphaned-post-notifier.php:143
 #. translators: %1$s: Link to the filter page, %2$d: amount of orphaned items,
 #. %3$s: plural/singular form of post type, %4$s closing tag.
-#: classes/premium-orphaned-post-notifier.php:143
 msgid ""
 "We've detected %1$s%2$d 'orphaned' %3$s%4$s (no inbound links). Consider "
 "adding links towards this %3$s."
@@ -308,9 +307,9 @@ msgstr ""
 msgid "The terms saved successfully for the given post."
 msgstr ""
 
+#: classes/premium-prominent-words-recalculation-notifier.php:110
 #. translators: 1: link to yoast.com post about internal linking suggestion. 2:
 #. is anchor closing. 3: button to the recalculation option. 4: closing button
-#: classes/premium-prominent-words-recalculation-notifier.php:110
 msgid ""
 "You need to analyze your posts and/or pages in order to receive the best "
 "%1$slink suggestions%2$s.\n"
@@ -338,21 +337,20 @@ msgstr ""
 msgid "Analyze your content"
 msgstr ""
 
+#: classes/premium-prominent-words-recalculation.php:170
 #. translators: 1: expands to a <span> containing the number of items
 #. recalculated. 2: expands to a <strong> containing the total number of items.
-#: classes/premium-prominent-words-recalculation.php:170
 msgid "Item %1$s of %2$s analyzed."
 msgstr ""
 
+#: classes/premium-prominent-words-recalculation.php:183
 #. translators: 1: expands to a list of supported post type labels that are
 #. being recalculated.
-#: classes/premium-prominent-words-recalculation.php:183
 msgid "Generating suggestions for %1$s..."
 msgstr ""
 
 #: classes/premium-prominent-words-recalculation.php:193
-msgid ""
-"Everything is already indexed. There is no need to recalculate anything."
+msgid "Everything is already indexed. There is no need to recalculate anything."
 msgstr ""
 
 #: classes/premium-prominent-words-recalculation.php:197
@@ -451,11 +449,11 @@ msgstr ""
 msgid "The URL you entered could not be resolved."
 msgstr ""
 
-#. translators: %1$s expands to the returned http code
 #: classes/redirect/redirect-accessible-validation.php:50
+#. translators: %1$s expands to the returned http code
 msgid ""
-"The URL you are redirecting to seems to return a %1$s status. You might want "
-"to check if the target can be reached manually before saving."
+"The URL you are redirecting to seems to return a %1$s status. You might "
+"want to check if the target can be reached manually before saving."
 msgstr ""
 
 #: classes/redirect/redirect-accessible-validation.php:60
@@ -464,8 +462,8 @@ msgid ""
 "moved). Make sure the target you specify is directly reachable."
 msgstr ""
 
-#. translators: %1$s expands to the returned http code
 #: classes/redirect/redirect-accessible-validation.php:70
+#. translators: %1$s expands to the returned http code
 msgid ""
 "The URL you entered returned a HTTP code different than 200(OK). The "
 "received HTTP code is %1$s."
@@ -502,20 +500,20 @@ msgid ""
 "redirect you are trying to save"
 msgstr ""
 
-#. translators: %1$s: will be the target, %2$s: will be the found endpoint.
 #: classes/redirect/redirect-endpoint-validation.php:55
+#. translators: %1$s: will be the target, %2$s: will be the found endpoint.
 msgid ""
 "%1$s will be redirected to %2$s. Maybe it's worth considering to create a "
 "direct redirect to %2$s."
 msgstr ""
 
-#. translators: %s expands to the file path that we tried to write to
 #: classes/redirect/redirect-file-util.php:44
+#. translators: %s expands to the file path that we tried to write to
 msgid "We're unable to create the directory %s"
 msgstr ""
 
-#. translators: %s expands to the file path that we tried to write to
 #: classes/redirect/redirect-file-util.php:86
+#. translators: %s expands to the file path that we tried to write to
 msgid "We're unable to write data to the file %s"
 msgstr ""
 
@@ -545,8 +543,8 @@ msgid ""
 "\t\t\t\t\tPlease choose a different URL to redirect to."
 msgstr ""
 
-#. translators: %1$s expands to the subdirectory WordPress is installed.
 #: classes/redirect/redirect-subdirectory-validation.php:45
+#. translators: %1$s expands to the subdirectory WordPress is installed.
 msgid ""
 "Your redirect is missing the subdirectory where WordPress is installed in. "
 "This will result in a redirect that won't work. Make sure the redirect "
@@ -605,13 +603,13 @@ msgstr ""
 msgid "The old URL already exists as a redirect."
 msgstr ""
 
+#: classes/redirect/views/redirects-form.php:34
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
 #. the link.
-#: classes/redirect/views/redirects-form.php:34
 msgid ""
 "The redirect type is the HTTP response code sent to the browser telling the "
-"browser what type of redirect is served. %1$sLearn more about redirect types"
-"%2$s."
+"browser what type of redirect is served. %1$sLearn more about redirect "
+"types%2$s."
 msgstr ""
 
 #: classes/redirect/views/redirects-form.php:51
@@ -640,9 +638,9 @@ msgstr ""
 msgid "Regular Expression redirects"
 msgstr ""
 
+#: classes/redirect/views/redirects-tab-regex.php:22
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
 #. the link.
-#: classes/redirect/views/redirects-tab-regex.php:22
 msgid ""
 "Regular Expression (regex) Redirects are extremely powerful redirects. You "
 "should only use them if you know what you are doing. %1$sRead more about "
@@ -655,8 +653,8 @@ msgid ""
 "httpd config file:"
 msgstr ""
 
-#. translators: %s: '.htaccess' file name.
 #: classes/redirect/views/redirects-tab-settings.php:27
+#. translators: %s: '.htaccess' file name.
 msgid ""
 "We're unable to save the redirects to your %s file. Please make the file "
 "writable."
@@ -664,13 +662,13 @@ msgstr ""
 
 #: classes/redirect/views/redirects-tab-settings.php:40
 msgid ""
-"As you're on Nginx, you should add the following include to the Nginx config "
-"file:"
+"As you're on Nginx, you should add the following include to the Nginx "
+"config file:"
 msgstr ""
 
+#: classes/redirect/views/redirects-tab-settings.php:53
 #. translators: %s expands to the folder location where the redirects fill will
 #. be saved.
-#: classes/redirect/views/redirects-tab-settings.php:53
 msgid "We're unable to save the redirect file to %s"
 msgstr ""
 
@@ -686,8 +684,8 @@ msgstr ""
 msgid "Redirect method"
 msgstr ""
 
-#. translators: 1: '.htaccess' file name
 #: classes/redirect/views/redirects-tab-settings.php:82
+#. translators: 1: '.htaccess' file name
 msgid "Write redirects to the %1$s file. Make sure the %1$s file is writable."
 msgstr ""
 
@@ -695,16 +693,16 @@ msgstr ""
 msgid "Generate a separate redirect file"
 msgstr ""
 
-#. translators: %s: '.htaccess' file name
 #: classes/redirect/views/redirects-tab-settings.php:87
+#. translators: %s: '.htaccess' file name
 msgid ""
 "By default we write the redirects to your %s file, check this if you want "
-"the redirects written to a separate file. Only check this option if you know "
-"what you are doing!"
+"the redirects written to a separate file. Only check this option if you "
+"know what you are doing!"
 msgstr ""
 
-#. translators: %s: 'Yoast SEO Premium'
 #: classes/redirect/views/redirects-tab-settings.php:91
+#. translators: %s: 'Yoast SEO Premium'
 msgid ""
 "%s can generate redirect files that can be included in your website web "
 "server configuration. If you choose this option the PHP redirects will be "
@@ -751,26 +749,26 @@ msgstr ""
 msgid "Show information about Twitter image"
 msgstr ""
 
+#: classes/term-watcher.php:225
 #. translators: %1$s: Yoast SEO Premium, %2$s and %3$s expand to a link to the
 #. admin page, %4$s: Old slug of the term, %5$s: New slug of the term, the text
 #. surrounded by %6$s and %7$s is placed in a button that can undo the created
 #. redirect
-#: classes/term-watcher.php:225
 msgid ""
 "%1$s created a %2$sredirect%3$s from the old term URL to the new term URL. "
 "%6$sClick here to undo this%7$s  <br> Old URL: %4$s <br> New URL: %5$s"
 msgstr ""
 
+#: classes/term-watcher.php:238
 #. translators: %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a
 #. href='{post_with_explaination.}'>, %4$s: </a>
-#: classes/term-watcher.php:238
 msgid ""
 "%1$s detected that you deleted a term. You can either: %2$s Don't know what "
 "to do? %3$sRead this post %4$s."
 msgstr ""
 
-#. translators: %s resolves to the button label translation.
 #: classes/views/export-keywords.php:12
+#. translators: %s resolves to the button label translation.
 msgid ""
 "If you need a list of all public posts, terms and related keywords, you can "
 "generate a CSV file using the %s button below."
@@ -822,8 +820,8 @@ msgstr ""
 
 #: classes/views/export-keywords.php:53
 msgid ""
-"Exporting data can take a long time when there are many posts, pages, public "
-"custom post types or terms."
+"Exporting data can take a long time when there are many posts, pages, "
+"public custom post types or terms."
 msgstr ""
 
 #: classes/views/export-redirects.php:10
@@ -842,8 +840,8 @@ msgid ""
 "ignored when parsing or importing the data from the export."
 msgstr ""
 
-#. Translators: %1$s: expands to 'Google Search Console'.
 #: classes/views/gsc-redirect-create.php:19
+#. Translators: %1$s: expands to 'Google Search Console'.
 msgid "Mark this issue as fixed in %1$s."
 msgstr ""
 
@@ -871,35 +869,35 @@ msgstr ""
 msgid "Error: a redirect for this URL already exists"
 msgstr ""
 
-#. Translators: %1$s: expands to the current URL.
 #: classes/views/gsc-redirect-exists.php:22
+#. Translators: %1$s: expands to the current URL.
 msgid ""
-"You do not have to create a redirect for URL %1$s because a redirect already "
-"exists. If this is fine you can mark this issue as fixed. If not, please go "
-"to the redirects page and change the redirect."
+"You do not have to create a redirect for URL %1$s because a redirect "
+"already exists. If this is fine you can mark this issue as fixed. If not, "
+"please go to the redirects page and change the redirect."
 msgstr ""
 
+#: classes/views/gsc-redirect-exists.php:29
 #. Translators: %1$s: expands to the current URL and %2$s expands to URL the
 #. redirects points to.
-#: classes/views/gsc-redirect-exists.php:29
 msgid ""
-"You do not have to create a redirect for URL %1$s because a redirect already "
-"exists. The existing redirect points to %2$s. If this is fine you can mark "
-"this issue as fixed. If not, please go to the redirects page and change the "
-"target URL."
+"You do not have to create a redirect for URL %1$s because a redirect "
+"already exists. The existing redirect points to %2$s. If this is fine you "
+"can mark this issue as fixed. If not, please go to the redirects page and "
+"change the target URL."
 msgstr ""
 
 #: classes/views/gsc-redirect-exists.php:36
 msgid "Close"
 msgstr ""
 
-#. translators: %s: '.htaccess' file name
 #: classes/views/import-redirects.php:10
+#. translators: %s: '.htaccess' file name
 msgid "Import redirects from %s"
 msgstr ""
 
-#. translators: %1$s: '.htaccess' file name, %2$s plugin name
 #: classes/views/import-redirects.php:16
+#. translators: %1$s: '.htaccess' file name, %2$s plugin name
 msgid ""
 "You can copy the contents of any %1$s file in here, and it will import the "
 "redirects into %2$s."
@@ -997,108 +995,4 @@ msgstr ""
 #: classes/views/gsc-redirect-create.php:31
 msgctxt "noun"
 msgid "Type"
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/facebookPreview.js:136
-#: node_modules/yoast-social-previews/js/twitterPreview.js:129
-msgid "This is an example title - edit by clicking here"
-msgstr ""
-
-#. translators: %1$s expands to Facebook
-#. translators: %1$s expands to Twitter
-#: node_modules/yoast-social-previews/js/facebookPreview.js:139
-#: node_modules/yoast-social-previews/js/twitterPreview.js:132
-#, javascript-format
-msgid "Modify your %1$s description by editing it right here"
-msgstr ""
-
-#. translators: %1$s expands to Facebook
-#. translators: %1$s expands to Twitter
-#: node_modules/yoast-social-previews/js/facebookPreview.js:214
-#: node_modules/yoast-social-previews/js/twitterPreview.js:207
-#, javascript-format
-msgid "Edit %1$s preview"
-msgstr ""
-
-#. translators: %1$s expands to Facebook
-#. translators: %1$s expands to Twitter
-#: node_modules/yoast-social-previews/js/facebookPreview.js:216
-#: node_modules/yoast-social-previews/js/twitterPreview.js:209
-#, javascript-format
-msgid "%1$s preview"
-msgstr ""
-
-#. translators: %1$s expands to Facebook
-#. translators: %1$s expands to Twitter
-#: node_modules/yoast-social-previews/js/facebookPreview.js:218
-#: node_modules/yoast-social-previews/js/twitterPreview.js:211
-#, javascript-format
-msgid "%1$s editor"
-msgstr ""
-
-#. translators: %1$s expands to Facebook
-#. translators: %1$s expands to Twitter
-#: node_modules/yoast-social-previews/js/facebookPreview.js:275
-#: node_modules/yoast-social-previews/js/twitterPreview.js:269
-#, javascript-format
-msgid "%1$s title"
-msgstr ""
-
-#. translators: %1$s expands to Facebook
-#. translators: %1$s expands to Twitter
-#: node_modules/yoast-social-previews/js/facebookPreview.js:284
-#: node_modules/yoast-social-previews/js/twitterPreview.js:281
-#, javascript-format
-msgid "%1$s description"
-msgstr ""
-
-#. translators: %1$s expands to Facebook
-#. translators: %1$s expands to Twitter
-#: node_modules/yoast-social-previews/js/facebookPreview.js:293
-#: node_modules/yoast-social-previews/js/twitterPreview.js:293
-#, javascript-format
-msgid "%1$s image"
-msgstr ""
-
-#. translators: %1$s expands to Facebook
-#. translators: %1$s expands to Twitter
-#: node_modules/yoast-social-previews/js/facebookPreview.js:316
-#: node_modules/yoast-social-previews/js/twitterPreview.js:318
-#, javascript-format
-msgid "Please provide a %1$s title by editing the snippet below."
-msgstr ""
-
-#. translators: %1$s expands to Facebook
-#. translators: %1$s expands to Twitter
-#: node_modules/yoast-social-previews/js/facebookPreview.js:330
-#: node_modules/yoast-social-previews/js/twitterPreview.js:332
-#, javascript-format
-msgid "Please provide a %1$s description by editing the snippet below."
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/facebookPreview.js:457
-msgid "Please select an image by clicking here"
-msgstr ""
-
-#. translators: %1$s expands to Facebook
-#: node_modules/yoast-social-previews/js/facebookPreview.js:477
-#, javascript-format
-msgid ""
-"We are unable to detect an image in your post that is large enough to be "
-"displayed on Facebook. We advise you to select a %1$s image that fits the "
-"recommended image size."
-msgstr ""
-
-#. translators: %1$s expands to Facebook
-#: node_modules/yoast-social-previews/js/facebookPreview.js:485
-#, javascript-format
-msgid "The image you selected is too small for %1$s"
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/facebookPreview.js:510
-msgid "The given image url cannot be loaded"
-msgstr ""
-
-#: node_modules/yoast-social-previews/js/facebookPreview.js:725
-msgid "By"
 msgstr ""
