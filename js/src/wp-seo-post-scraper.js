@@ -31,6 +31,10 @@ import UsedKeywords from "./analysis/usedKeywords";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
+import { setYoastComponentsI18n } from "./helpers/i18n";
+
+setYoastComponentsI18n();
+
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
