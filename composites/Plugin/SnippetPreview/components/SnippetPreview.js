@@ -253,6 +253,16 @@ function highlightKeyword( locale, keyword, text, cleanText ) {
 	} );
 }
 
+/**
+ * Returns if a url has a trailing slash or not.
+ *
+ * @param {string} url The url to check for a trailing slash.
+ * @returns {boolean} Whether or not the url contains a trailing slash.
+ */
+function hasTrailingSlash( url ) {
+	return url.lastIndexOf( "/" ) === ( url.length - 1 );
+}
+
 export default class SnippetPreview extends PureComponent {
 	/**
 	 * Renders the SnippetPreview component.
@@ -505,6 +515,7 @@ export default class SnippetPreview extends PureComponent {
 		} = this.props;
 
 		let urlContent;
+		let defaultUrl = url;
 		/*
 		 * We need to replace special characters and diacritics only on the url
 		 * string because when highlightKeyword kicks in, interpolateComponents
@@ -516,11 +527,19 @@ export default class SnippetPreview extends PureComponent {
 		if ( this.props.mode === MODE_MOBILE ) {
 			urlContent = this.getBreadcrumbs( cleanUrl );
 		} else {
-			urlContent = highlightKeyword( locale, keyword, url, cleanUrl );
+			/*
+			 * Check if the url in desktop mode has a trailing slash before
+			 * highlighting any keywords in it. Adds it for both the clean
+			 * and the default url in case no keyword is defined.
+			 */
+			if ( ! hasTrailingSlash( cleanUrl ) ) {
+				cleanUrl = cleanUrl + "/";
+				defaultUrl = defaultUrl + "/";
+			}
+			urlContent = highlightKeyword( locale, keyword, defaultUrl, cleanUrl );
 		}
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
-
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
 		 * However this is not relevant in this case, because the url is not focusable.
@@ -716,7 +735,6 @@ export default class SnippetPreview extends PureComponent {
 		const PartContainer = mode === MODE_DESKTOP ? DesktopPartContainer : MobilePartContainer;
 		const Container = mode === MODE_DESKTOP ? DesktopContainer : MobileContainer;
 		const TitleUnbounded = mode === MODE_DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
-
 		const Title = this.addCaretStyles( "title", BaseTitle );
 
 		return {

@@ -16768,7 +16768,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
               onMouseLeave={[Function]}
               onMouseOver={[Function]}
             >
-              example.org/test-slug
+              example.org/test-slug/
             </div>
           </div>
           <div
