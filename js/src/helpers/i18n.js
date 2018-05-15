@@ -17,7 +17,8 @@ export function setYoastComponentsI18n() {
 		const translations = get( window, [ "wpseoYoastComponentsL10n", "locale_data", "yoast-components" ], false );
 
 		if ( translations === false ) {
-			console.error( "Cannot load translations for yoast-components" );
+			// Jed needs to have meta information in the object keyed by an empty string.
+			setLocaleData( { "": {} }, "yoast-components" );
 		} else {
 			setLocaleData( translations, "yoast-components" );
 		}

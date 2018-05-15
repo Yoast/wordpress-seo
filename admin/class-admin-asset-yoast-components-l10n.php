@@ -34,6 +34,6 @@ final class WPSEO_Admin_Asset_Yoast_Components_l10n {
 			}
 		}
 
-		return $file;
+		return null;
 	}
 }
