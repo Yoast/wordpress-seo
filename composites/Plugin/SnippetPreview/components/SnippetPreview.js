@@ -55,7 +55,7 @@ const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 	"</svg>"
 );
 
-export const helpText = [ __( "This is a rendering of what this post might look like in Google's search results.", "yoast-components" ),
+export const helpText = [ __( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
 	<a key="1" href="https://yoa.st/snippet-preview" rel="noopener norefferer">
 		{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
 	</a> ];
