@@ -3,7 +3,6 @@
 // External dependencies.
 import { App } from "yoastseo";
 import isEqual from "lodash/isEqual";
-import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
@@ -35,7 +34,6 @@ import { setYoastComponentsI18n } from "./helpers/i18n";
 
 setYoastComponentsI18n();
 
-
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
 	if ( typeof wpseoPostScraperL10n === "undefined" ) {
@@ -44,7 +42,7 @@ setYoastComponentsI18n();
 
 	let snippetContainer;
 	let titleElement;
-	let app, snippetPreview;
+	let app;
 	let decorator = null;
 	let tabManager, postDataCollector;
 
@@ -87,51 +85,6 @@ setYoastComponentsI18n();
 		}
 	} );
 
-	/**
-	 * Dispatches an action to the store that updates the snippet editor.
-	 *
-	 * @param {Object} data The data from the legacy snippet editor.
-	 *
-	 * @returns {void}
-	 */
-	const dispatchUpdateSnippetEditor = function( data ) {
-		/*
-		 * The setTimeout makes sure the React component is only rendered on the next
-		 * frame.
-		 */
-		setTimeout( () => {
-			editStore.dispatch( updateData( {
-				title: data.title,
-				slug: data.urlPath,
-				description: data.metaDesc,
-			} ) );
-		}, 0 );
-	};
-
-	/**
-	 * Initializes the snippet preview.
-	 *
-	 * @param {Object} snippetEditorData The snippet editor data.
-	 *
-	 * @returns {SnippetPreview} The created snippetpreview element.
-	 */
-	function initSnippetPreview( snippetEditorData ) {
-		return snippetPreviewHelpers.create( snippetContainer, {
-			title: snippetEditorData.title,
-			urlPath: snippetEditorData.slug,
-			metaDesc: snippetEditorData.description,
-		}, ( data ) => {
-			const previousData = snippetEditorHelpers.getDataFromStore( editStore );
-
-			if (
-				previousData.title !== data.title ||
-				previousData.description !== data.metaDesc ||
-				previousData.slug !== data.urlPath
-			) {
-				dispatchUpdateSnippetEditor( data );
-			}
-		} );
-	}
 	/**
 	 * Determines if markers should be shown.
 	 *
@@ -287,6 +240,7 @@ setYoastComponentsI18n();
 		let postDataCollector = new PostDataCollector( {
 			tabManager,
 			data,
+			store: editStore,
 		} );
 		postDataCollector.leavePostNameUntouched = false;
 
@@ -319,7 +273,7 @@ setYoastComponentsI18n();
 			marker: getMarker(),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			snippetPreview: snippetPreview,
+			hasSnippetPreview: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
@@ -419,51 +373,15 @@ setYoastComponentsI18n();
 	}
 
 	/**
-	 * Update the legacy snippet preview based on the passed data from the redux
-	 * store.
-	 *
-	 * @param {Object} data The data from the store.
-	 *
-	 * @returns {void}
-	 */
-	function updateLegacySnippetEditor( data ) {
-		if ( isFunction( snippetPreview.refresh ) ) {
-			let isDataChanged = false;
-
-			if ( snippetPreview.data.title !== data.title ) {
-				snippetPreview.element.input.title.value = data.title;
-
-				isDataChanged = true;
-			}
-
-			if ( snippetPreview.data.urlPath !== data.slug ) {
-				snippetPreview.element.input.urlPath.value = data.slug;
-
-				isDataChanged = true;
-			}
-
-			if ( snippetPreview.data.metaDesc !== data.description ) {
-				snippetPreview.element.input.metaDesc.value = data.description;
-
-				isDataChanged = true;
-			}
-
-			if ( isDataChanged ) {
-				snippetPreview.changedInput();
-			}
-		}
-	}
-
-	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
 	 */
-	function initializePostAnalysis() {
+	 function initializePostAnalysis() {
 		const editArgs = {
 			analysisSection: "pageanalysis",
 			onRefreshRequest: () => {},
-			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
+			shouldRenderSnippetPreview: true,
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
 			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
@@ -481,13 +399,6 @@ setYoastComponentsI18n();
 		tabManager = initializeTabManager();
 		postDataCollector = initializePostDataCollector( data );
 		publishBox.initalise();
-
-		// Initialize the snippet editor data.
-		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
-		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoPostScraperL10n );
-		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
-
-		snippetPreview = initSnippetPreview( snippetEditorData );
 
 		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
@@ -510,15 +421,6 @@ setYoastComponentsI18n();
 		activateEnabledAnalysis( tabManager );
 
 		jQuery( window ).trigger( "YoastSEO:ready" );
-
-		/*
-		 * Checks the snippet preview size and toggles views when the WP admin menu state changes.
-		 * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
-		 * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
-		 */
-		jQuery( document ).on( "wp-collapse-menu wp-menu-state-set", function() {
-			app.snippetPreview.handleWindowResizing();
-		} );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
@@ -553,6 +455,11 @@ setYoastComponentsI18n();
 			data.setRefresh( app.refresh );
 		}
 
+		// Initialize the snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoPostScraperL10n );
+		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
@@ -568,8 +475,6 @@ setYoastComponentsI18n();
 					urlPath: dataWithoutTemplates.slug,
 					metaDesc: dataWithoutTemplates.description,
 				} );
-
-				updateLegacySnippetEditor( data );
 			}
 		} );
 	}
