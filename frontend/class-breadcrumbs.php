@@ -219,12 +219,14 @@ class WPSEO_Breadcrumbs {
 			) {
 				if ( $i === 0 ) {
 					$link_output .= '<' . $this->element . ' typeof="v:Breadcrumb">';
-				} else {
+				}
+				else {
 					$link_output .= '<' . $this->element . ' rel="v:child" typeof="v:Breadcrumb">';
 				}
 				$title_attr  = isset( $link['title'] ) ? ' title="' . esc_attr( $link['title'] ) . '"' : '';
 				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title"' . $title_attr . '>' . $link['text'] . '</a>';
-			} else {
+			}
+			else {
 				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last">' . $link['text'] . '</' . $inner_elm . '>';
 				// This is the last element, now close all previous elements.
 				while ( $i > 0 ) {

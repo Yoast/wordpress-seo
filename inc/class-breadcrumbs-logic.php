@@ -187,10 +187,12 @@ class WPSEO_Breadcrumbs_Logic {
 		if ( isset( $this->post->ancestors ) ) {
 			if ( is_array( $this->post->ancestors ) ) {
 				$ancestors = array_values( $this->post->ancestors );
-			} else {
+			}
+			else {
 				$ancestors = array( $this->post->ancestors );
 			}
-		} elseif ( isset( $this->post->post_parent ) ) {
+		}
+		elseif ( isset( $this->post->post_parent ) ) {
 			$ancestors = array( $this->post->post_parent );
 		}
 
@@ -202,8 +204,8 @@ class WPSEO_Breadcrumbs_Logic {
 		$ancestors = apply_filters( 'wp_seo_get_bc_ancestors', $ancestors );
 
 		if ( ! is_array( $ancestors ) ) {
-			trigger_error('The return value for the "wp_seo_get_bc_ancestors" filter should be an array.',
-				E_USER_WARNING);
+			trigger_error( 'The return value for the "wp_seo_get_bc_ancestors" filter should be an array.',
+				E_USER_WARNING );
 			$ancestors = (array) $ancestors;
 		}
 
@@ -228,9 +230,11 @@ class WPSEO_Breadcrumbs_Logic {
 		if ( $this->is_front_page() ) {
 			// Do nothing.
 			// @codingStandardsIgnoreEnd
-		} elseif ( $this->show_on_front === 'page' && is_home() ) {
+		}
+		elseif ( $this->show_on_front === 'page' && is_home() ) {
 			$this->add_blog_crumb();
-		} elseif ( is_singular() ) {
+		}
+		elseif ( is_singular() ) {
 			$this->maybe_add_pt_archive_crumb_for_post();
 
 			if ( isset( $this->post->post_parent ) && 0 === $this->post->post_parent ) {
@@ -243,24 +247,30 @@ class WPSEO_Breadcrumbs_Logic {
 			if ( isset( $this->post->ID ) ) {
 				$this->add_single_post_crumb( $this->post->ID );
 			}
-		} elseif ( is_post_type_archive() ) {
+		}
+		elseif ( is_post_type_archive() ) {
 			$post_type = $wp_query->get( 'post_type' );
 
 			if ( $post_type && is_string( $post_type ) ) {
 				$this->add_ptarchive_crumb( $post_type );
 			}
-		} elseif ( is_tax() || is_tag() || is_category() ) {
+		}
+		elseif ( is_tax() || is_tag() || is_category() ) {
 			$this->add_crumbs_for_taxonomy();
-		} elseif ( is_date() ) {
+		}
+		elseif ( is_date() ) {
 			if ( is_day() ) {
 				$this->add_linked_month_year_crumb();
 				$this->add_date_crumb();
-			} elseif ( is_month() ) {
+			}
+			elseif ( is_month() ) {
 				$this->add_month_crumb();
-			} elseif ( is_year() ) {
+			}
+			elseif ( is_year() ) {
 				$this->add_year_crumb();
 			}
-		} elseif ( is_author() ) {
+		}
+		elseif ( is_author() ) {
 			$user         = $wp_query->get_queried_object();
 			$display_name = get_the_author_meta( 'display_name', $user->ID );
 			$this->add_predefined_crumb(
@@ -268,13 +278,15 @@ class WPSEO_Breadcrumbs_Logic {
 				null,
 				true
 			);
-		} elseif ( is_search() ) {
+		}
+		elseif ( is_search() ) {
 			$this->add_predefined_crumb(
 				WPSEO_Options::get( 'breadcrumbs-searchprefix' ) . ' "' . esc_html( get_search_query() ) . '"',
 				null,
 				true
 			);
-		} elseif ( is_404() ) {
+		}
+		elseif ( is_404() ) {
 			$this->add_predefined_crumb(
 				WPSEO_Options::get( 'breadcrumbs-404crumb' ),
 				null,
@@ -415,7 +427,8 @@ class WPSEO_Breadcrumbs_Logic {
 					$primary_term = new WPSEO_Primary_Term( $main_tax, $this->post->ID );
 					if ( $primary_term->get_primary_term() ) {
 						$breadcrumb_term = get_term( $primary_term->get_primary_term(), $main_tax );
-					} else {
+					}
+					else {
 						$breadcrumb_term = $this->find_deepest_term( $terms );
 					}
 
@@ -529,7 +542,8 @@ class WPSEO_Breadcrumbs_Logic {
 	private function add_date_crumb( $date = null ) {
 		if ( is_null( $date ) ) {
 			$date = get_the_date();
-		} else {
+		}
+		else {
 			$date = mysql2date( get_option( 'date_format' ), $date, true );
 			$date = apply_filters( 'get_the_date', $date, '' );
 		}
@@ -603,8 +617,8 @@ class WPSEO_Breadcrumbs_Logic {
 		 *
 		 * @param int $link_id The post ID.
 		 */
-		$link['text'] = apply_filters_deprecated('wp_seo_get_bc_title', array( $link['text'], $id ), 'WPSEO 5.8',
-			'wpseo_breadcrumb_single_link_info');
+		$link['text'] = apply_filters_deprecated( 'wp_seo_get_bc_title', array( $link['text'], $id ), 'WPSEO 5.8',
+			'wpseo_breadcrumb_single_link_info' );
 
 		return $link;
 	}
@@ -644,14 +658,17 @@ class WPSEO_Breadcrumbs_Logic {
 		if ( WPSEO_Options::get( 'bctitle-ptarchive-' . $pt, '' ) !== '' ) {
 
 			$archive_title = WPSEO_Options::get( 'bctitle-ptarchive-' . $pt );
-		} else {
+		}
+		else {
 			$post_type_obj = get_post_type_object( $pt );
 			if ( is_object( $post_type_obj ) ) {
 				if ( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
 					$archive_title = $post_type_obj->label;
-				} elseif ( isset( $post_type_obj->labels->menu_name ) && $post_type_obj->labels->menu_name !== '' ) {
+				}
+				elseif ( isset( $post_type_obj->labels->menu_name ) && $post_type_obj->labels->menu_name !== '' ) {
 					$archive_title = $post_type_obj->labels->menu_name;
-				} else {
+				}
+				else {
 					$archive_title = $post_type_obj->name;
 				}
 			}
