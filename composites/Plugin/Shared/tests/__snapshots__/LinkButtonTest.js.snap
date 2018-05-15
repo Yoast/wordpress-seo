@@ -55,6 +55,7 @@ exports[`the BaseLinkButton matches the snapshot 1`] = `
 }
 
 .c4 {
+  -webkit-text-decoration: none;
   text-decoration: none;
   color: #555;
   border-color: #ccc;
@@ -136,6 +137,7 @@ exports[`the LinkButton matches the snapshot 1`] = `
 }
 
 .c5 {
+  -webkit-text-decoration: none;
   text-decoration: none;
   color: #555;
   border-color: #ccc;

@@ -155,18 +155,17 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "highlights the active field when calling setFieldFocus", () => {
+	it( "highlights the active ReplacementVariableEditor when calling setFieldFocus", () => {
 		focus.mockClear();
 
 		const editor = mountWithArgs( {} );
 
 		editor.instance().open();
-		editor.instance().setFieldFocus( "url" );
+		editor.instance().setFieldFocus( "title" );
 		editor.instance().setFieldFocus( "description" );
-		editor.instance().setFieldFocus( "slug" );
 		editor.update();
 
-		expect( focus ).toHaveBeenCalledTimes( 3 );
+		expect( focus ).toHaveBeenCalledTimes( 2 );
 		expect( editor ).toMatchSnapshot();
 	} );
 
@@ -202,8 +201,8 @@ describe( "SnippetEditor", () => {
 		editor.update();
 
 		const titleEditor = editor.find( "ReplacementVariableEditor" ).get( 0 );
-		const slugEditor = editor.find( "ReplacementVariableEditor" ).get( 1 );
-		const descriptionEditor = editor.find( "ReplacementVariableEditor" ).get( 2 );
+		const slugEditor = editor.find( "ControlledInput" ).get( 0 );
+		const descriptionEditor = editor.find( "ReplacementVariableEditor" ).get( 1 );
 
 		titleEditor.props.onFocus();
 		expect( editor ).toMatchSnapshot();

@@ -1,7 +1,7 @@
 // External dependencies.
 import React from "react";
-import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -14,14 +14,19 @@ import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
+import colors from "../../../../style-guide/colors";
 
 const SnippetEditorButton = Button.extend`
+	height: 33px;
 	border: 1px solid #dbdbdb;
 	box-shadow: none;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 `;
 
 const EditSnippetButton = SnippetEditorButton.extend`
-	margin: 10px 0 0 9px;
+	margin: 10px 0 0 4px;
+	fill: ${ colors.$color_grey_dark };
+	padding-left: 8px;
 	
 	& svg {
 		margin-right: 7px;
@@ -41,6 +46,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Object} props.replacementVariables        The replacement variables
 	 *                                                   for this editor.
 	 * @param {Object} props.data                        The initial editor data.
+	 * @param {string} props.keyword                     The focus keyword.
 	 * @param {string} props.data.title                  The initial title.
 	 * @param {string} props.data.slug                   The initial slug.
 	 * @param {string} props.data.description            The initial description.
@@ -57,6 +63,7 @@ class SnippetEditor extends React.Component {
 	 *                                                   assessment.
 	 * @param {Function} props.mapDataToPreview          Function to map the editor
 	 *                                                   data to data for the preview.
+	 * @param {string} props.locale                      The locale of the page.
 	 *
 	 * @returns {void}
 	 */
@@ -109,10 +116,7 @@ class SnippetEditor extends React.Component {
 				descriptionLengthProgress={ descriptionLengthProgress }
 			/>
 			<CloseEditorButton onClick={ this.close }>
-				<FormattedMessage
-					id="snippet-editor.close-editor"
-					defaultMessage="Close snippet editor"
-				/>
+				{ __( "Close snippet editor", "yoast-components" ) }
 			</CloseEditorButton>
 		</React.Fragment>;
 	}
@@ -297,6 +301,8 @@ class SnippetEditor extends React.Component {
 			data,
 			mode,
 			date,
+			locale,
+			keyword,
 		} = this.props;
 
 		const {
@@ -315,6 +321,7 @@ class SnippetEditor extends React.Component {
 		return (
 			<div>
 				<SnippetPreview
+					keyword={ keyword }
 					mode={ mode }
 					date={ date }
 					activeField={ this.mapFieldToPreview( activeField ) }
@@ -322,6 +329,7 @@ class SnippetEditor extends React.Component {
 					onMouseOver={ this.onMouseOver }
 					onMouseLeave={ this.onMouseLeave }
 					onClick={ this.onClick }
+					locale={ locale }
 					{ ...mappedData }
 				/>
 
@@ -333,10 +341,7 @@ class SnippetEditor extends React.Component {
 					innerRef={ this.setEditButtonRef }
 				>
 					<SvgIcon icon="edit" />
-					<FormattedMessage
-						id="snippetEditor.editSnippet"
-						defaultMessage="Edit snippet"
-					/>
+					{ __( "Edit snippet", "yoast-components" ) }
 				</EditSnippetButton>
 
 				{ this.renderEditor() }
@@ -360,6 +365,8 @@ SnippetEditor.propTypes = {
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
 	mapDataToPreview: PropTypes.func,
+	keyword: PropTypes.string,
+	locale: PropTypes.string,
 };
 
 SnippetEditor.defaultProps = {
@@ -377,6 +384,7 @@ SnippetEditor.defaultProps = {
 		score: 0,
 	},
 	mapDataToPreview: null,
+	locale: "en",
 };
 
 export default SnippetEditor;
