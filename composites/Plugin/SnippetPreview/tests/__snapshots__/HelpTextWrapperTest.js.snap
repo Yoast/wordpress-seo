@@ -74,7 +74,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -95,13 +95,13 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {

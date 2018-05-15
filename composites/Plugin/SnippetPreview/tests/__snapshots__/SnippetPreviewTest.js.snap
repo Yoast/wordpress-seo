@@ -86,7 +86,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -107,13 +107,13 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -473,7 +473,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -494,13 +494,13 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -863,7 +863,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -884,13 +884,13 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -1245,7 +1245,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -1266,13 +1266,13 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -1657,7 +1657,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -1678,13 +1678,13 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -2055,7 +2055,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -2076,13 +2076,13 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -2465,7 +2465,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -2486,13 +2486,13 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -2852,7 +2852,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -2873,13 +2873,13 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -3251,7 +3251,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -3272,13 +3272,13 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -3650,7 +3650,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -3671,13 +3671,13 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -4049,7 +4049,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -4070,13 +4070,13 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -4448,7 +4448,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -4469,13 +4469,13 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -4847,7 +4847,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -4868,13 +4868,13 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -5246,7 +5246,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -5267,13 +5267,13 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {

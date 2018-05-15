@@ -18,7 +18,7 @@ const HelpTextContainer = styled.div`
     margin: 0 20px 10px 25px
 `;
 
-let HelpTextDiv = styled.div`
+const HelpTextDiv = styled.div`
 	max-width: 400px;
 	display: block;
 	transition: all 0.5s ease;

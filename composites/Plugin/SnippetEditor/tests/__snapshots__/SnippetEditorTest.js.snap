@@ -89,7 +89,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -110,13 +110,13 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -756,7 +756,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -777,13 +777,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -2343,7 +2343,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -2364,13 +2364,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -3930,7 +3930,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -3951,13 +3951,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -5517,7 +5517,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -5538,13 +5538,13 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -7095,7 +7095,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -7116,13 +7116,13 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -8316,7 +8316,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -8337,13 +8337,13 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -9935,7 +9935,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -9956,13 +9956,13 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -11618,7 +11618,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -11639,13 +11639,13 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -12203,7 +12203,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -12224,13 +12224,13 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -12797,7 +12797,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -12818,13 +12818,13 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -14404,7 +14404,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -14425,13 +14425,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -16011,7 +16011,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -16032,13 +16032,13 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -17598,7 +17598,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -17619,13 +17619,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -19220,7 +19220,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -19241,13 +19241,13 @@ exports[`SnippetEditor passes the date prop 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -19900,7 +19900,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -19921,13 +19921,13 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
@@ -20462,7 +20462,7 @@ exports[`SnippetEditor shows and editor 1`] = `
   max-width: 600px;
   padding: 1 0 3 1em;
   font-weight: normal;
-  margin: 0px 20px 10px 25px;
+  margin: 0 20px 10px 25px;
 }
 
 .c10 {
@@ -20483,13 +20483,13 @@ exports[`SnippetEditor shows and editor 1`] = `
   border: none;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0px #5b9dd9;
+  box-shadow: 0 0 0 0 #1e8cbe;
   position: relative;
   display: block;
-  margin: -44px -10px 10px 0px;
+  margin: -44px -10px 10px 0;
   background-color: transparent;
   float: right;
-  padding: 2px 0px 2px 6px;
+  padding: 2px 0 2px 6px;
 }
 
 .c1:hover {
