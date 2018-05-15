@@ -8,7 +8,7 @@
 /**
  * Test Helper Class.
  */
-class WPSEO_Breadcrumbs_Double extends WPSEO_Breadcrumbs {
+class WPSEO_Breadcrumbs_Double extends WPSEO_Breadcrumbs_Logic {
 
 	/**
 	 * Overrides the protected constructor in the parent.
