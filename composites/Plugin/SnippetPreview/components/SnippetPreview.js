@@ -510,33 +510,27 @@ export default class SnippetPreview extends PureComponent {
 			onClick,
 			onMouseOver,
 			onMouseLeave,
-			locale,
-			keyword,
 		} = this.props;
 
-		let urlContent;
-		let defaultUrl = url;
 		/*
 		 * We need to replace special characters and diacritics only on the url
 		 * string because when highlightKeyword kicks in, interpolateComponents
 		 * returns an array of strings plus a strong React element, and replace()
 		 * can't run on an array.
 		 */
-		let cleanUrl = replaceSpecialCharactersAndDiacritics( url );
+		let urlContent = replaceSpecialCharactersAndDiacritics( url );
 
 		if ( this.props.mode === MODE_MOBILE ) {
-			urlContent = this.getBreadcrumbs( cleanUrl );
+			urlContent = this.getBreadcrumbs( urlContent );
 		} else {
 			/*
 			 * Check if the url in desktop mode has a trailing slash before
 			 * highlighting any keywords in it. Adds it for both the clean
 			 * and the default url in case no keyword is defined.
 			 */
-			if ( ! hasTrailingSlash( cleanUrl ) ) {
-				cleanUrl = cleanUrl + "/";
-				defaultUrl = defaultUrl + "/";
+			if ( ! hasTrailingSlash( urlContent ) ) {
+				urlContent = urlContent + "/";
 			}
-			urlContent = highlightKeyword( locale, keyword, defaultUrl, cleanUrl );
 		}
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
