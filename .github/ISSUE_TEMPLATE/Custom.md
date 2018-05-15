@@ -30,3 +30,5 @@ _Where in the plugin will this link be?_
 - [ ] `post-overview`
 - [ ] `settings`
 - [ ] `wordpress-dashboard`
+
+cc: @Yoast/marketing
