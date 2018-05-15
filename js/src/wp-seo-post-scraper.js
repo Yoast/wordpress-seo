@@ -1,4 +1,4 @@
-/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, tinyMCE, wpseoReplaceVarsL10n, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
 // External dependencies.
 import { App } from "yoastseo";
@@ -462,6 +462,7 @@ import { updateData } from "./redux/actions/snippetEditor";
 			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
 			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
+			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;
