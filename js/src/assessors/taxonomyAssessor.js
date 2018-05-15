@@ -1,14 +1,15 @@
-var Assessor = require( "yoastseo/js/assessor.js" );
+const Assessor = require( "yoastseo/js/assessor.js" );
 
-var introductionKeyword = require( "yoastseo/js/assessments/seo/introductionKeywordAssessment.js" );
-var KeyphraseLength = require( "yoastseo/js/assessments/seo/keyphraseLengthAssessment.js" );
-var keywordDensity = require( "yoastseo/js/assessments/seo/keywordDensityAssessment.js" );
-var metaDescriptionKeyword = require( "yoastseo/js/assessments/seo/metaDescriptionKeywordAssessment.js" );
-var MetaDescriptionLength = require( "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js" );
-var TitleKeyword = require( "yoastseo/js/assessments/seo/titleKeywordAssessment.js" );
-var TitleWidth = require( "yoastseo/js/assessments/seo/pageTitleWidthAssessment.js" );
-var UrlKeyword = require( "yoastseo/js/assessments/seo/urlKeywordAssessment.js" );
-var TextLength = require( "yoastseo/js/assessments/seo/textLengthAssessment.js" );
+const IntroductionKeyword = require( "yoastseo/js/assessments/seo/introductionKeywordAssessment.js" );
+const KeyphraseLength = require( "yoastseo/js/assessments/seo/keyphraseLengthAssessment.js" );
+const KeywordDensity = require( "yoastseo/js/assessments/seo/keywordDensityAssessment.js" );
+const MetaDescriptionKeyword = require( "yoastseo/js/assessments/seo/metaDescriptionKeywordAssessment.js" );
+const MetaDescriptionLength = require( "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment.js" );
+const TitleKeyword = require( "yoastseo/js/assessments/seo/titleKeywordAssessment.js" );
+const TitleWidth = require( "yoastseo/js/assessments/seo/pageTitleWidthAssessment.js" );
+const UrlKeyword = require( "yoastseo/js/assessments/seo/urlKeywordAssessment.js" );
+const TextLength = require( "yoastseo/js/assessments/seo/textLengthAssessment.js" );
+const InternalLinks = require( "yoastseo/js/assessments/seo/internalLinksAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -16,14 +17,14 @@ var TextLength = require( "yoastseo/js/assessments/seo/textLengthAssessment.js" 
  * @param {object} i18n The i18n object used for translations.
  * @constructor
  */
-var TaxonomyAssessor = function( i18n ) {
+const TaxonomyAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 
 	this._assessments = [
-		introductionKeyword,
+		new IntroductionKeyword(),
 		new KeyphraseLength(),
-		new keywordDensity(),
-		new metaDescriptionKeyword(),
+		new KeywordDensity(),
+		new MetaDescriptionKeyword(),
 		new MetaDescriptionLength(),
 		new TitleKeyword(),
 		new TitleWidth(),
@@ -34,6 +35,7 @@ var TaxonomyAssessor = function( i18n ) {
 			belowMinimum: 150,
 			veryFarBelowMinimum: 100,
 		} ),
+		new InternalLinks(),
 	];
 };
 
