@@ -176,14 +176,12 @@ export function unserializeEditor( content, tags ) {
 		// Create the DraftJS data.
 		const { entityRange, mappedEntity } = unserializeEntity( key, tag.name, offset );
 		entityRanges.push( entityRange );
-
 		entityMap[ key ] = mappedEntity;
 	}
 
 	const blocks = [ {
 		entityRanges,
 		text: content,
-
 	} ];
 
 	return {
