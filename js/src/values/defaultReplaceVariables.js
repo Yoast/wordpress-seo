@@ -76,6 +76,22 @@ const defaultReplaceVariables = [
 		name: "sep",
 		value: "",
 	},
+	{
+		name: "excerpt_only",
+		value: "",
+	},
+	{
+		name: "category_description",
+		value: "",
+	},
+	{
+		name: "tag_description",
+		value: "",
+	},
+	{
+		name: "term_description",
+		value: "",
+	},
 ];
 
 export default defaultReplaceVariables;

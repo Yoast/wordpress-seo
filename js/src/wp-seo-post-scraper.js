@@ -1,4 +1,4 @@
-/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, tinyMCE, wpseoReplaceVarsL10n, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
 // External dependencies.
 import { App } from "yoastseo";
@@ -31,6 +31,10 @@ import UsedKeywords from "./analysis/usedKeywords";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
+import { setYoastComponentsI18n } from "./helpers/i18n";
+
+setYoastComponentsI18n();
+
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
@@ -462,6 +466,7 @@ import { updateData } from "./redux/actions/snippetEditor";
 			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
 			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
+			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;
@@ -489,7 +494,7 @@ import { updateData } from "./redux/actions/snippetEditor";
 
 		postDataCollector.app = app;
 
-		const replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 		const shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
