@@ -114,11 +114,11 @@ Enhancements:
 * Improves accessibility.
 
 Bugfixes:
+* Fixes a bug where images with specific aspect ratios where removed from OpenGraph consideration. This was causing unexpected results with Facebook sharing. The aspect ratio check has been removed completely.
 * Fixes a bug where sentences ending in multiple sentence marks, exclamation marks or ellipses were treated as multiple sentences.
 * Fixes a bug where attempting to get Yoast SEO options in multi-site, would result in wrong values being returned.
 * Fixes a bug where the sitemap styling could not be loaded when the Site domain differs from the Admin domain.
-* Fixes a bug where images with specific aspect ratios where removed from OpenGraph consideration, this was causing unexpected results with Facebook sharing. The aspect ratio check has been removed completely for now.
-* Fixes a bug where the admin bar still used old copy. Dashboard has now been renamed to General.
+* Fixes a bug where the admin bar still used old copy: Dashboard has been renamed to General.
 
 = 7.4.2 =
 Release Date: May 3rd, 2018
