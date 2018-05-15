@@ -21,7 +21,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @var array Holds the data to put out
 	 */
 	private $data = array();
-	
+
 	/**
 	 * Registers the hooks.
 	 */
@@ -31,7 +31,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		add_action( 'wpseo_json_ld', array( $this, 'organization_or_person' ), 20 );
 		add_action( 'wpseo_json_ld', array( $this, 'breadcrumb' ), 20 );
 	}
-	
+
 	/**
 	 * JSON LD output function that the functions for specific code can hook into.
 	 *
@@ -40,7 +40,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	public function json_ld() {
 		do_action( 'wpseo_json_ld' );
 	}
-	
+
 	/**
 	 * Outputs code to allow Google to recognize social profiles for use in the Knowledge graph.
 	 *
@@ -51,9 +51,9 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		if ( '' === $company_or_person ) {
 			return;
 		}
-		
+
 		$this->prepare_organization_person_markup();
-		
+
 		switch ( $company_or_person ) {
 			case 'company':
 				$this->organization();
@@ -62,10 +62,10 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 				$this->person();
 				break;
 		}
-		
+
 		$this->output( $company_or_person );
 	}
-	
+
 	/**
 	 * Outputs code to allow recognition of the internal search engine.
 	 *
@@ -84,13 +84,13 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			'url'      => $this->get_home_url(),
 			'name'     => $this->get_website_name(),
 		);
-		
+
 		$this->add_alternate_name();
 		$this->internal_search_section();
-		
+
 		$this->output( 'website' );
 	}
-	
+
 	/**
 	 * Outputs code to allow recognition of page's position in the site hierarchy
 	 *
@@ -115,13 +115,13 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 				$broken = true;
 				break;
 			}
-			$position                          = $index + 1;
-			$this->data[ 'itemListElement' ][] = array(
+			$position                          = ($index + 1);
+			$this->data['itemListElement'][] = array(
 				'@type'    => 'ListItem',
 				'position' => $position,
 				'item'     => array(
-					'@id'  => $bc[ 'url' ],
-					'name' => $bc[ 'text' ],
+					'@id'  => $bc['url'],
+					'name' => $bc['text'],
 				),
 			);
 		}
@@ -132,7 +132,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			$this->output( 'breadcrumb' );
 		}
 	}
-	
+
 	/**
 	 * Outputs the JSON LD code in a valid JSON+LD wrapper.
 	 *
@@ -149,50 +149,50 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		 * @param string $context The context of the output, useful to determine whether to filter or not.
 		 */
 		$this->data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
-		
+
 		if ( is_array( $this->data ) && ! empty( $this->data ) ) {
 			echo "<script type='application/ld+json'>", wp_json_encode( $this->data ), '</script>', "\n";
 		}
-		
+
 		// Empty the $data array so we don't output it twice.
 		$this->data = array();
 	}
-	
+
 	/**
 	 * Schema for Organization.
 	 */
 	private function organization() {
 		if ( '' !== WPSEO_Options::get( 'company_name', '' ) ) {
-			$this->data[ '@type' ] = 'Organization';
-			$this->data[ '@id' ]   = $this->get_home_url() . '#organization';
-			$this->data[ 'name' ]  = WPSEO_Options::get( 'company_name' );
-			$this->data[ 'logo' ]  = WPSEO_Options::get( 'company_logo', '' );
-			
+			$this->data['@type'] = 'Organization';
+			$this->data['@id']   = $this->get_home_url() . '#organization';
+			$this->data['name']  = WPSEO_Options::get( 'company_name' );
+			$this->data['logo']  = WPSEO_Options::get( 'company_logo', '' );
+
 			return;
 		}
 		$this->data = false;
 	}
-	
+
 	/**
 	 * Schema for Person.
 	 */
 	private function person() {
 		if ( '' !== WPSEO_Options::get( 'person_name', '' ) ) {
-			$this->data[ '@type' ] = 'Person';
-			$this->data[ '@id' ]   = '#person';
-			$this->data[ 'name' ]  = WPSEO_Options::get( 'person_name' );
-			
+			$this->data['@type'] = 'Person';
+			$this->data['@id']   = '#person';
+			$this->data['name']  = WPSEO_Options::get( 'person_name' );
+
 			return;
 		}
 		$this->data = false;
 	}
-	
+
 	/**
 	 * Prepares the organization or person markup.
 	 */
 	private function prepare_organization_person_markup() {
 		$this->fetch_social_profiles();
-		
+
 		$this->data = array(
 			'@context' => 'https://schema.org',
 			'@type'    => '',
@@ -200,7 +200,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			'sameAs'   => $this->profiles,
 		);
 	}
-	
+
 	/**
 	 * Retrieve the social profiles to display in the organization output.
 	 *
@@ -223,12 +223,12 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 				$this->profiles[] = WPSEO_Options::get( $profile );
 			}
 		}
-		
+
 		if ( WPSEO_Options::get( 'twitter_site', '' ) !== '' ) {
 			$this->profiles[] = 'https://twitter.com/' . WPSEO_Options::get( 'twitter_site' );
 		}
 	}
-	
+
 	/**
 	 * Retrieves the home URL.
 	 *
@@ -242,16 +242,16 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		 */
 		return apply_filters( 'wpseo_json_home_url', WPSEO_Utils::home_url() );
 	}
-	
+
 	/**
 	 * Returns an alternate name if one was specified in the Yoast SEO settings.
 	 */
 	private function add_alternate_name() {
 		if ( '' !== WPSEO_Options::get( 'alternate_website_name', '' ) ) {
-			$this->data[ 'alternateName' ] = WPSEO_Options::get( 'alternate_website_name' );
+			$this->data['alternateName'] = WPSEO_Options::get( 'alternate_website_name' );
 		}
 	}
-	
+
 	/**
 	 * Adds the internal search JSON LD code to the homepage if it's not disabled.
 	 *
@@ -273,15 +273,15 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			 */
 			$search_url = apply_filters( 'wpseo_json_ld_search_url',
 				$this->get_home_url() . '?s={search_term_string}' );
-			
-			$this->data[ 'potentialAction' ] = array(
+
+			$this->data['potentialAction'] = array(
 				'@type'       => 'SearchAction',
 				'target'      => $search_url,
 				'query-input' => 'required name=search_term_string',
 			);
 		}
 	}
-	
+
 	/**
 	 * Returns the website name either from Yoast SEO's options or from the site settings.
 	 *
@@ -293,7 +293,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		if ( '' !== WPSEO_Options::get( 'website_name', '' ) ) {
 			return WPSEO_Options::get( 'website_name' );
 		}
-		
+
 		return get_bloginfo( 'name' );
 	}
 }
