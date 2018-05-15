@@ -10,6 +10,7 @@ import flowRight from "lodash/flowRight";
 
 import IntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
+import snippetEditor from "./redux/reducers/snippetEditor";
 import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 import activeKeyword from "./redux/reducers/activeKeyword";
 import activeTab from "./redux/reducers/activeTab";
@@ -53,6 +54,7 @@ function configureStore() {
 		analysis: analysis,
 		activeKeyword: activeKeyword,
 		activeTab,
+		snippetEditor,
 	} );
 
 	return createStore( rootReducer, {}, flowRight( enhancers ) );
@@ -104,11 +106,12 @@ function renderReactApp( target, component, store ) {
 /**
  * Renders the snippet preview for display.
  *
- * @param {Object} store Redux store.
+ * @param {Object} store   Redux store.
+ * @param {string} baseUrl The base URL of the site the user is editing.
  *
  * @returns {void}
  */
-function renderSnippetPreview( store ) {
+function renderSnippetPreview( store, baseUrl ) {
 	const targetElement = document.getElementById( "wpseosnippet" );
 
 	if ( ! targetElement ) {
@@ -119,7 +122,9 @@ function renderSnippetPreview( store ) {
 	targetElement.parentNode.insertBefore( container, targetElement );
 
 	ReactDOM.render(
-		wrapInTopLevelComponents( SnippetPreviewSection, store ),
+		wrapInTopLevelComponents( SnippetPreviewSection, store, {
+			baseUrl,
+		} ),
 		container,
 	);
 }
@@ -165,7 +170,7 @@ export function initialize( args ) {
 	renderReactApps( store, args );
 
 	if ( args.shouldRenderSnippetPreview ) {
-		renderSnippetPreview( store );
+		renderSnippetPreview( store, args.snippetEditorBaseUrl );
 	}
 
 	return {

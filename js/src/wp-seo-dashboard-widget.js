@@ -31,7 +31,7 @@ class DashboardWidget extends React.Component {
 	/**
 	 * Returns a color to be used for a given score.
 	 *
-	 * @param {string} score The score, expected to be 'na', 'bad', 'ok', 'good'.
+	 * @param {string} score The score, expected to be 'na', 'bad', 'ok', 'good' or 'noindex'.
 	 *
 	 * @returns {string} The color to use for this score. Defaults to grey if no such color exists.
 	 */

@@ -7,6 +7,22 @@
       ]
     }
   } ] ],
-  "plugins": [ "transform-react-jsx", "dynamic-import-webpack" ],
+  "plugins": [
+    [
+      "transform-react-jsx",
+      {
+        "pragma": "yoast._wp.element.createElement"
+      }
+    ],
+    "dynamic-import-webpack",
+    "transform-object-rest-spread"
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-react-jsx"
+      ]
+    }
+  },
   "comments": true
 }
