@@ -77,7 +77,7 @@ class Yoast_Form {
 		if ( $form === true ) {
 			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';
 
-			if ( is_network_admin() ) {
+			if ( Yoast_Network_Settings_API::check_requirements() ) {
 				$action_url       = network_admin_url( 'settings.php' );
 				$hidden_fields_cb = array( Yoast_Network_Settings_API::get(), 'settings_fields' );
 			} else {
