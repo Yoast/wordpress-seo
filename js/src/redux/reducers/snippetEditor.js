@@ -71,7 +71,7 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				uniqueRefreshValue: action.time,
-			}
+			};
 		}
 	}
 

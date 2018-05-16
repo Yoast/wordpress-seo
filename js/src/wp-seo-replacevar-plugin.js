@@ -236,7 +236,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 */
 	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
 		this._app.pluginReloaded( "replaceVariablePlugin" );
-		this._store.dispatch( { type: "REFRESH_SNIPPET_EDITOR" } )
+		this._store.dispatch( { type: "REFRESH_SNIPPET_EDITOR" } );
 	};
 
 	/*

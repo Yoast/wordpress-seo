@@ -50,9 +50,14 @@ export function updateReplacementVariable( name, value ) {
 	};
 }
 
+/**
+ * Sets the time in redux, so that the snippet editor will refresh.
+ *
+ * @returns {Object} An action for redux.
+ */
 export function refreshSnippetEditor() {
 	return {
 		type: REFRESH,
 		time: ( new Date() ).getMilliseconds(),
-	}
+	};
 }
