@@ -31,9 +31,9 @@ const HelpTextButton = styled( Button )`
 	width: 30px;
 	height: 30px;
 	border-radius: 50%;
-	border: none;
+	border: 1px solid transparent;
 	clip: rect(1px 1px 1px 1px);
-	box-shadow: 0 0 0 0 ${ colors.$color_snippet_focus };
+	box-shadow: none;
 	position: relative;
 	display: block;
 	margin: -44px -10px 10px 0;
@@ -52,6 +52,9 @@ const HelpTextButton = styled( Button )`
 			fill: ${ colors.$color_blue };
 			color: ${ colors.$color_blue };
 		}
+	}
+	&:active {
+		box-shadow: none;
 	}
 `;
 
