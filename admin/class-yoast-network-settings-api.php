@@ -19,9 +19,6 @@ class Yoast_Network_Settings_API {
 	/** @var array Options whitelist, keyed by option group. */
 	private $whitelist_options = array();
 
-	/** @var array Sanitize callbacks for each network option. */
-	private $sanitize_callbacks = array();
-
 	/** @var bool Internal flag for whether the necessary hooks have been added. */
 	private $hooks_registered = false;
 
@@ -67,7 +64,7 @@ class Yoast_Network_Settings_API {
 		$this->whitelist_options[ $option_group ][] = $option_name;
 
 		if ( ! empty( $args['sanitize_callback'] ) ) {
-			add_filter( "sanitize_option_{$option_name}", $this->wrap_sanitize_callback( $option_name, $args['sanitize_callback'] ), 10, 2 );
+			add_filter( "sanitize_option_{$option_name}", array( $this, 'filter_sanitize_option' ), 10, 2 );
 		}
 		if ( array_key_exists( 'default', $args ) ) {
 			add_filter( "default_site_option_{$option_name}", array( $this, 'filter_default_option' ), 10, 2 );
@@ -114,25 +111,6 @@ class Yoast_Network_Settings_API {
 	}
 
 	/**
-	 * Wraps a network setting sanitization callback so that it only executes in the network admin.
-	 *
-	 * This callback can be added as a filter to `sanitize_option_{$option}` instead of the actual callback.
-	 *
-	 * @see Yoast_Network_Settings_API::filter_sanitize_option()
-	 *
-	 * @param string   $option            The option name.
-	 * @param callable $sanitize_callback The sanitize callback for the option.
-	 *
-	 * @return callable Wrapped sanitize callback.
-	 */
-	public function wrap_sanitize_callback( $option, $sanitize_callback ) {
-
-		$this->sanitize_callbacks[ $option ] = $sanitize_callback;
-
-		return array( $this, 'filter_sanitize_option' );
-	}
-
-	/**
 	 * Sanitization callback to use instead of the actual callback to the `register_setting()` method.
 	 *
 	 * This callback will ensure validation only happens in the network admin, to prevent conflicts.
@@ -144,18 +122,11 @@ class Yoast_Network_Settings_API {
 	 */
 	public function filter_sanitize_option( $value, $option ) {
 
-		if ( empty( $this->sanitize_callbacks[ $option ] ) ) {
+		if ( empty( $this->registered_settings[ $option ] ) ) {
 			return $value;
 		}
 
-		$sanitize_callback = $this->sanitize_callbacks[ $option ];
-
-		// Only run network option sanitization if in the network admin to prevent conflicts.
-		if ( empty( $sanitize_callback ) || ! is_network_admin() ) {
-			return $value;
-		}
-
-		return call_user_func( $sanitize_callback, $value );
+		return call_user_func( $this->registered_settings[ $option ]['santize_callback'], $value );
 	}
 
 	/**
