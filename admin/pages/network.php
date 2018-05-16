@@ -11,6 +11,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+/**
+ * Gets the available sites as choices for a dropdown.
+ *
+ * @param bool $include_empty Optional. Whether to include an initial placeholder choice.
+ *
+ * @return array Choices as $site_id => $site_label pairs.
+ */
 function wpseo_ms_get_site_dropdown_choices( $include_empty = false ) {
 	$choices = array();
 
@@ -44,27 +51,41 @@ function wpseo_ms_get_site_dropdown_choices( $include_empty = false ) {
 	return $choices;
 }
 
+/**
+ * Restores a site with its default settings.
+ *
+ * @return void
+ */
 function wpseo_ms_maybe_restore_site() {
-	if ( isset( $_POST['wpseo_restore_blog'] ) ) {
-		check_admin_referer( 'wpseo-network-restore' );
-		if ( isset( $_POST['wpseo_ms']['restoreblog'] ) && is_numeric( $_POST['wpseo_ms']['restoreblog'] ) ) {
-			$restoreblog = (int) WPSEO_Utils::validate_int( $_POST['wpseo_ms']['restoreblog'] );
-			$blog        = get_blog_details( $restoreblog );
+	if ( ! isset( $_POST['wpseo_restore_blog'] ) ) {
+		return;
+	}
 
-			if ( $blog ) {
-				WPSEO_Options::reset_ms_blog( $restoreblog );
-				/* translators: %s expands to the name of a blog within a multi-site network. */
-				add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $blog->blogname ) ), 'updated' );
-			}
-			else {
-				/* translators: %s expands to the ID of a blog within a multi-site network. */
-				add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( 'Blog %s not found.', 'wordpress-seo' ), esc_html( $restoreblog ) ), 'error' );
-			}
-			unset( $restoreblog, $blog );
-		}
+	check_admin_referer( 'wpseo-network-restore' );
+
+	if ( ! isset( $_POST['wpseo_ms']['restoreblog'] ) || ! is_numeric( $_POST['wpseo_ms']['restoreblog'] ) ) {
+		return;
+	}
+
+	$restoreblog = (int) WPSEO_Utils::validate_int( $_POST['wpseo_ms']['restoreblog'] );
+	$blog        = get_blog_details( $restoreblog );
+
+	if ( $blog ) {
+		WPSEO_Options::reset_ms_blog( $restoreblog );
+		/* translators: %s expands to the name of a blog within a multi-site network. */
+		add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $blog->blogname ) ), 'updated' );
+	}
+	else {
+		/* translators: %s expands to the ID of a blog within a multi-site network. */
+		add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( 'Blog %s not found.', 'wordpress-seo' ), esc_html( $restoreblog ) ), 'error' );
 	}
 }
 
+/**
+ * Prints the form for restoring a site with its default settings.
+ *
+ * @return void
+ */
 function wpseo_ms_print_restore_form() {
 	$yform = Yoast_Form::get_instance();
 
