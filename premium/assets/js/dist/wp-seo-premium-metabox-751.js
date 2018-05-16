@@ -34466,6 +34466,11 @@ var SvgIcon = function (_React$Component) {
 	}
 
 	/* eslint-disable complexity */
+	/**
+  * Renders an SVG icon.
+  *
+  * @returns {ReactElement} The rendered SVG icon.
+  */
 
 
 	_createClass(SvgIcon, [{
@@ -34493,6 +34498,18 @@ var SvgIcon = function (_React$Component) {
 				case "angle-up":
 					path = "M1395 1184q0 13-10 23l-50 50q-10 10-23 10t-23-10l-393-393-393 393q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l466 466q10 10 10 23z";
 					break;
+				case "arrow-down":
+					path = "M896 1791L120.91 448.5L1671.09 448.5z";
+					break;
+				case "arrow-left":
+					path = "M1343.5 1671.09L1 896L1343.5 120.91z";
+					break;
+				case "arrow-right":
+					path = "M1791 896L448.5 1671.09L448.5 120.91z";
+					break;
+				case "arrow-up":
+					path = "M1671.09 1343.5L120.91 1343.5L896 1z";
+					break;
 				case "circle":
 					path = "M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z";
 					break;
@@ -34511,6 +34528,9 @@ var SvgIcon = function (_React$Component) {
 				case "list":
 					path = "M384 1408q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm0-512q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm-1408-928q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm0-512v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5z";
 					break;
+				case "plus":
+					path = "M1600 736v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z";
+					break;
 				case "question-circle":
 					path = "M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z";
 					break;
@@ -34519,6 +34539,12 @@ var SvgIcon = function (_React$Component) {
 					break;
 				case "times":
 					path = "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z";
+					break;
+				case "desktop":
+					path = "M1728 992v-832q0-13-9.5-22.5t-22.5-9.5h-1600q-13 0-22.5 9.5t-9.5 22.5v832q0 13 9.5 22.5t22.5 9.5h1600q13 0 22.5-9.5t9.5-22.5zm128-832v1088q0 66-47 113t-113 47h-544q0 37 16 77.5t32 71 16 43.5q0 26-19 45t-45 19h-512q-26 0-45-19t-19-45q0-14 16-44t32-70 16-78h-544q-66 0-113-47t-47-113v-1088q0-66 47-113t113-47h1600q66 0 113 47t47 113z";
+					break;
+				case "mobile":
+					path = "M976 1408q0-33-23.5-56.5t-56.5-23.5-56.5 23.5-23.5 56.5 23.5 56.5 56.5 23.5 56.5-23.5 23.5-56.5zm208-160v-704q0-13-9.5-22.5t-22.5-9.5h-512q-13 0-22.5 9.5t-9.5 22.5v704q0 13 9.5 22.5t22.5 9.5h512q13 0 22.5-9.5t9.5-22.5zm-192-848q0-16-16-16h-160q-16 0-16 16t16 16h160q16 0 16-16zm288-16v1024q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-1024q0-52 38-90t90-38h512q52 0 90 38t38 90z";
 					break;
 			}
 			/* eslint-enable max-len */
@@ -34769,7 +34795,7 @@ exports.default = Section;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.StyledHeading = undefined;
+exports.StyledSectionBase = exports.StyledIcon = exports.StyledHeading = undefined;
 
 var _templateObject = _taggedTemplateLiteral([""], [""]),
     _templateObject2 = _taggedTemplateLiteral(["\n\tbox-shadow: 0 1px 2px ", ";\n\tbackground-color: ", ";\n\tpadding: 0 20px 16px;\n\n\t*, & {\n\t\tbox-sizing: border-box;\n\n\t\t&:before, &:after {\n\t\t\tbox-sizing: border-box;\n\t\t}\n\t}\n\n\t& ", " {\n\t\tdisplay: flex;\n\t\talign-items: center;\n\t\tpadding: 8px 0 0;\n\t\tfont-size: 1rem;\n\t\tline-height: 1.5;\n\t\tmargin: 0 0 16px;\n\t\tfont-family: \"Open Sans\", sans-serif;\n\t\tfont-weight: 300;\n\t\tcolor: ", ";\n\t}\n\n\t& ", " {\n\t\tflex: 0 0 auto;\n\t\tmargin-right: 8px;\n\t}\n"], ["\n\tbox-shadow: 0 1px 2px ", ";\n\tbackground-color: ", ";\n\tpadding: 0 20px 16px;\n\n\t*, & {\n\t\tbox-sizing: border-box;\n\n\t\t&:before, &:after {\n\t\t\tbox-sizing: border-box;\n\t\t}\n\t}\n\n\t& ", " {\n\t\tdisplay: flex;\n\t\talign-items: center;\n\t\tpadding: 8px 0 0;\n\t\tfont-size: 1rem;\n\t\tline-height: 1.5;\n\t\tmargin: 0 0 16px;\n\t\tfont-family: \"Open Sans\", sans-serif;\n\t\tfont-weight: 300;\n\t\tcolor: ", ";\n\t}\n\n\t& ", " {\n\t\tflex: 0 0 auto;\n\t\tmargin-right: 8px;\n\t}\n"]);
@@ -34810,9 +34836,9 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 var StyledHeading = exports.StyledHeading = (0, _styledComponents2.default)(_Heading2.default)(_templateObject);
 
-var StyledIcon = (0, _styledComponents2.default)(_SvgIcon2.default)(_templateObject);
+var StyledIcon = exports.StyledIcon = (0, _styledComponents2.default)(_SvgIcon2.default)(_templateObject);
 
-var StyledSectionBase = (0, _styledComponents2.default)(_Section2.default)(_templateObject2, (0, _helpers.rgba)(_colors2.default.$color_black, 0.2), _colors2.default.$color_white, StyledHeading, function (props) {
+var StyledSectionBase = exports.StyledSectionBase = (0, _styledComponents2.default)(_Section2.default)(_templateObject2, (0, _helpers.rgba)(_colors2.default.$color_black, 0.2), _colors2.default.$color_white, StyledHeading, function (props) {
 	return props.headingColor ? props.headingColor : "" + _colors2.default.$color_grey_dark;
 }, StyledIcon);
 
@@ -35049,7 +35075,7 @@ arguments[4][177][0].apply(exports,arguments)
 },{"./_arrayLikeKeys":390,"./_baseKeys":397,"./isArrayLike":429,"dup":177}],437:[function(require,module,exports){
 arguments[4][180][0].apply(exports,arguments)
 },{"dup":180}],438:[function(require,module,exports){
-module.exports={"$palette_white":"#fff","$palette_grey_ultra_light":"#f7f7f7","$palette_grey_light":"#f1f1f1","$palette_grey":"#ddd","$palette_grey_medium":"#ccc","$palette_grey_disabled":"#a0a5aa","$palette_grey_medium_dark":"#888","$palette_grey_text":"#646464","$palette_grey_dark":"#555","$palette_black":"#000","$palette_purple":"#5d237a","$palette_purple_dark":"#6c2548","$palette_pink":"#d73763","$palette_pink_light":"#e1bee7","$palette_pink_dark":"#a4286a","$palette_blue":"#0066cd","$palette_blue_light":"#a9a9ce","$palette_blue_dark":"#084a67","$palette_green":"#77b227","$palette_green_light":"#7ad03a","$palette_green_medium_light":"#64a60a","$palette_green_medium":"#008a00","$palette_green_blue":"#009288","$palette_orange":"#dc5c04","$palette_orange_light":"#ee7c1b","$palette_red":"#dc3232","$palette_red_light":"#f9bdbd","$palette_yellow":"#ffeb3b","$color_bad":"#dc3232","$color_ok":"#ee7c1b","$color_good":"#7ad03a","$color_score_icon":"#888","$color_white":"#fff","$color_black":"#000","$color_green":"#77b227","$color_green_medium":"#008a00","$color_green_blue":"#009288","$color_grey":"#ddd","$color_grey_dark":"#555","$color_purple":"#5d237a","$color_purple_dark":"#6c2548","$color_pink":"#d73763","$color_pink_light":"#e1bee7","$color_pink_dark":"#a4286a","$color_blue":"#0066cd","$color_blue_light":"#a9a9ce","$color_blue_dark":"#084a67","$color_red":"#dc3232","$color_border_light":"#f7f7f7","$color_border":"#ccc","$color_input_border":"#ddd","$color_background_light":"#f7f7f7","$color_button":"#f7f7f7","$color_button_text":"#555","$color_button_border":"#ccc","$color_button_hover":"#fff","$color_button_border_hover":"#888","$color_button_text_hover":"#000","$color_button_border_active":"#000","$color_headings":"#555","$color_marker_inactive":"#555","$color_marker_active":"#fff","$color_marker_disabled":"#a0a5aa","$color_error":"#dc3232","$color_orange":"#dc5c04","$color_orange_hover":"#c35204","$color_grey_hover":"#cecece","$color_pink_hover":"#cc2956","$color_grey_cta":"#ddd","$color_grey_line":"#ddd","$color_grey_quote":"#646464","$color_grey_text":"#646464","$color_grey_medium_dark":"#888","$color_green_medium_light":"#64a60a","$color_grey_disabled":"#a0a5aa","$color_grey_medium":"#ccc","$color_grey_light":"#f1f1f1","$color_yellow":"#ffeb3b","$color_error_message":"#f9bdbd"}
+module.exports={"$palette_white":"#fff","$palette_grey_ultra_light":"#f7f7f7","$palette_grey_light":"#f1f1f1","$palette_grey":"#ddd","$palette_grey_medium":"#ccc","$palette_grey_disabled":"#a0a5aa","$palette_grey_medium_dark":"#888","$palette_grey_text":"#646464","$palette_grey_dark":"#555","$palette_black":"#000","$palette_purple":"#5d237a","$palette_purple_dark":"#6c2548","$palette_pink":"#d73763","$palette_pink_light":"#e1bee7","$palette_pink_dark":"#a4286a","$palette_blue":"#0066cd","$palette_blue_light":"#a9a9ce","$palette_blue_medium":"#1e8cbe","$palette_blue_dark":"#084a67","$palette_green":"#77b227","$palette_green_light":"#7ad03a","$palette_green_medium_light":"#64a60a","$palette_green_medium":"#008a00","$palette_green_blue":"#009288","$palette_orange":"#dc5c04","$palette_orange_light":"#ee7c1b","$palette_red":"#dc3232","$palette_red_light":"#f9bdbd","$palette_yellow":"#ffeb3b","$color_bad":"#dc3232","$color_ok":"#ee7c1b","$color_good":"#7ad03a","$color_noindex":"#1e8cbe","$color_score_icon":"#888","$color_white":"#fff","$color_black":"#000","$color_green":"#77b227","$color_green_medium":"#008a00","$color_green_blue":"#009288","$color_grey":"#ddd","$color_grey_dark":"#555","$color_purple":"#5d237a","$color_purple_dark":"#6c2548","$color_pink":"#d73763","$color_pink_light":"#e1bee7","$color_pink_dark":"#a4286a","$color_blue":"#0066cd","$color_blue_light":"#a9a9ce","$color_blue_dark":"#084a67","$color_red":"#dc3232","$color_border_light":"#f7f7f7","$color_border":"#ccc","$color_input_border":"#ddd","$color_background_light":"#f7f7f7","$color_button":"#f7f7f7","$color_button_text":"#555","$color_button_border":"#ccc","$color_button_hover":"#fff","$color_button_border_hover":"#888","$color_button_text_hover":"#000","$color_button_border_active":"#000","$color_headings":"#555","$color_marker_inactive":"#555","$color_marker_active":"#fff","$color_marker_disabled":"#a0a5aa","$color_error":"#dc3232","$color_orange":"#dc5c04","$color_orange_hover":"#c35204","$color_grey_hover":"#cecece","$color_pink_hover":"#cc2956","$color_grey_cta":"#ddd","$color_grey_line":"#ddd","$color_grey_quote":"#646464","$color_grey_text":"#646464","$color_snippet_focus":"#1e8cbe","$color_snippet_hover":"#ccc","$color_snippet_active":"#555","$color_grey_medium_dark":"#888","$color_green_medium_light":"#64a60a","$color_grey_disabled":"#a0a5aa","$color_grey_medium":"#ccc","$color_grey_light":"#f1f1f1","$color_yellow":"#ffeb3b","$color_error_message":"#f9bdbd"}
 },{}],439:[function(require,module,exports){
 "use strict";
 
