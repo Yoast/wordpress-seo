@@ -18,7 +18,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
