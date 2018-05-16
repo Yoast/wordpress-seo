@@ -97,7 +97,10 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @Link https://developers.google.com/search/docs/data-types/breadcrumb
 	 */
 	public function breadcrumb() {
-		if ( is_front_page() ) {
+		if (
+			is_front_page() ||
+			! WPSEO_Options::get( 'breadcrumbs-enable', false )
+		) {
 			return;
 		}
 		$this->data = array(
