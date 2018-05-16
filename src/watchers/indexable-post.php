@@ -8,6 +8,7 @@
 namespace Yoast\YoastSEO\Watchers;
 
 use Yoast\YoastSEO\Exceptions\No_Indexable_Found;
+use Yoast\YoastSEO\Models\Indexable_Meta;
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\Yoast_Model;
 use Yoast\YoastSEO\Models\Indexable;
@@ -83,6 +84,12 @@ class Indexable_Post implements Integration {
 		$indexable = $this->set_link_count( $post_id, $indexable );
 
 		$indexable->save();
+
+		$indexable_post_meta = new Indexable_Post_Meta( $indexable->id );
+
+		foreach ( $this->social_meta_lookup() as $meta_key => $indexable_key ) {
+			$indexable_post_meta->set_meta( $meta_key, $this->get_meta_value( $meta_key, $post_id ) );
+		}
 	}
 
 	/**
@@ -256,14 +263,6 @@ class Indexable_Post implements Integration {
 			'bctitle'              => 'breadcrumb_title',
 
 			'is_cornerstone' => 'is_cornerstone',
-
-			'opengraph-title'       => 'og_title',
-			'opengraph-image'       => 'og_image',
-			'opengraph-description' => 'og_description',
-
-			'twitter-title'       => 'twitter_title',
-			'twitter-image'       => 'twitter_image',
-			'twitter-description' => 'twitter_description',
 		);
 	}
 
@@ -290,5 +289,22 @@ class Indexable_Post implements Integration {
 		}
 
 		return $score;
+	}
+
+	/**
+	 * Lookup table for the social meta fields.
+	 *
+	 * @return array The social meta fields.
+	 */
+	protected function social_meta_lookup() {
+		return array(
+			'opengraph-title'       => 'og_title',
+			'opengraph-image'       => 'og_image',
+			'opengraph-description' => 'og_description',
+
+			'twitter-title'       => 'twitter_title',
+			'twitter-image'       => 'twitter_image',
+			'twitter-description' => 'twitter_description',
+		);
 	}
 }

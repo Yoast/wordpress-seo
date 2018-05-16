@@ -58,4 +58,17 @@ class No_Indexable_Found extends \OutOfRangeException {
 		return new self( 'No indexable found for supplied arguments' );
 	}
 
+	/**
+	 * Returns an exception when an indexable meta for an indexable is not found.
+	 *
+	 * @param string $meta_key     The meta key.
+	 * @param int    $indexable_id The id of the indexable.
+	 *
+	 * @return No_Indexable_Found The exception.
+	 */
+	public static function from_meta_key( $meta_key, $indexable_id ) {
+		return new self( 'No indexable found for supplied arguments' );
+
+	}
+
 }
