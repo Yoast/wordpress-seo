@@ -85,10 +85,13 @@ class Indexable_Post implements Integration {
 
 		$indexable->save();
 
-		$indexable_post_meta = new Indexable_Post_Meta( $indexable->id );
+		if ( ! empty( $indexable->id ) ) {
+			$indexable_post_meta = new Indexable_Post_Meta( $indexable->id );
 
-		foreach ( $this->social_meta_lookup() as $meta_key => $indexable_key ) {
-			$indexable_post_meta->set_meta( $meta_key, $this->get_meta_value( $meta_key, $post_id ) );
+			foreach ( $this->social_meta_lookup() as $meta_key => $indexable_key ) {
+				$indexable_post_meta->set_meta( $meta_key, $this->get_meta_value( $meta_key, $post_id ) );
+
+			}
 		}
 	}
 
