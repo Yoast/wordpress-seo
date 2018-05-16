@@ -68,4 +68,52 @@ class Yoast_Model extends Model {
 
 		return $wpdb->prefix . strtolower( $table_name );
 	}
+
+	/**
+	 * Helper method to manage one-to-many relations where the foreign
+	 * key is on the associated table.
+	 *
+	 * @param  string      $associated_class_name                    Associated class name.
+	 * @param  null|string $foreign_key_name                         Associated class name.
+	 * @param  null|string $foreign_key_name_in_current_models_table Foreign key name in the current model.
+	 * @param  null|string $connection_name                          Name of the connection.
+	 *
+	 * @return ORMWrapper The ORM object.
+	 */
+	protected function has_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
+		$this->set_table_name( $associated_class_name );
+
+		return parent::has_many( $associated_class_name, $foreign_key_name, $foreign_key_name_in_current_models_table, $connection_name );
+	}
+
+	/**
+	 * Helper method to manage one-to-one and one-to-many relations where
+	 * the foreign key is on the base table.
+	 *
+	 * @param  string      $associated_class_name                       Associated class name.
+	 * @param  null|string $foreign_key_name                            Foreign key name.
+	 * @param  null|string $foreign_key_name_in_associated_models_table Foreign key name in the associated model.
+	 * @param  null|string $connection_name                             Name of the connection.
+	 *
+	 * @return $this|null Current object or null.
+	 */
+	protected function belongs_to( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_associated_models_table = null, $connection_name = null ) {
+		$this->set_table_name( $associated_class_name );
+
+		return parent::belongs_to( $associated_class_name, $foreign_key_name, $foreign_key_name_in_associated_models_table, $connection_name );
+	}
+
+	/**
+	 * Sets the table name for the given class name.
+	 *
+	 * @param string $class_name The class to set the table name for.
+	 *
+	 * @return void
+	 */
+	protected function set_table_name( $class_name ) {
+		// Prepend namespace to the class name.
+		$class = self::$auto_prefix_models . $class_name;
+
+		$class::$_table = self::get_table_name( $class_name );
+	}
 }
