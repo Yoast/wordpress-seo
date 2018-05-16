@@ -871,7 +871,7 @@ class WPSEO_Breadcrumbs {
 				return $this->crumb_to_link( $link_info, $index );
 			}, array_keys( $this->links ), $this->links );
 			// Remove any effectively empty links.
-			$links = array_map( 'trim', $this->links );
+			$links = array_map( 'trim', $links );
 			$links = array_filter( $links );
 
 			$this->output = implode( $this->separator, $links );
