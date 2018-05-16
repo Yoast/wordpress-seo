@@ -29,6 +29,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		add_action( 'wpseo_head', array( $this, 'json_ld' ), 90 );
 		add_action( 'wpseo_json_ld', array( $this, 'website' ), 10 );
 		add_action( 'wpseo_json_ld', array( $this, 'organization_or_person' ), 20 );
+		add_action( 'wpseo_json_ld', array( $this, 'breadcrumb' ), 20 );
 	}
 
 	/**
@@ -88,6 +89,50 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$this->internal_search_section();
 
 		$this->output( 'website' );
+	}
+
+	/**
+	 * Outputs code to allow recognition of page's position in the site hierarchy
+	 *
+	 * @Link https://developers.google.com/search/docs/data-types/breadcrumb
+	 */
+	public function breadcrumb() {
+		if ( is_front_page() ) {
+			return;
+		}
+		$this->data = array(
+			'@context'        => 'https://schema.org',
+			'@type'           => 'BreadcrumbList',
+			'itemListElement' => array(),
+		);
+		$wpseo_bc   = WPSEO_Breadcrumbs::get_instance();
+		$bc_array   = $wpseo_bc->get_links();
+		$broken     = false;
+		foreach ( $bc_array as $index => $bc ) {
+			if (
+				! array_key_exists( 'url', $bc ) ||
+				! array_key_exists( 'text', $bc )
+			) {
+				$broken = true;
+				break;
+			}
+			$position                          = ($index + 1);
+			$this->data['itemListElement'][] = array(
+				'@type'    => 'ListItem',
+				'position' => $position,
+				'item'     => array(
+					'@id'  => $bc['url'],
+					'name' => $bc['text'],
+				),
+			);
+		}
+
+		/*
+		 * Output this only if json is formatted correctly, with all data requested by Big G
+		 */
+		if ( ! $broken ) {
+			$this->output( 'breadcrumb' );
+		}
 	}
 
 	/**

@@ -139,6 +139,28 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
+	 * Retrieves an instance of the class.
+	 *
+	 * @return WPSEO_Breadcrumb The instance.
+	 */
+	public static function get_instance() {
+		if ( ! ( self::$instance instanceof self ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Returns the collected links for the breadcrumbs.
+	 *
+	 * @return array The collected links.
+	 */
+	public function get_links() {
+		return $this->links;
+	}
+
+	/**
 	 * Returns the link url for a single id.
 	 *
 	 * When the target is private and the user isn't allowed to access it, just return an empty string.
@@ -682,7 +704,7 @@ class WPSEO_Breadcrumbs {
 			 */
 			$link_info = apply_filters( 'wpseo_breadcrumb_single_link_info', $link_info, $index, $this->crumbs );
 
-			$this->links[] = $this->crumb_to_link( $link_info, $index );
+			$this->links[ $index ] = $link_info;
 		}
 	}
 
@@ -844,6 +866,10 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function links_to_string() {
 		if ( is_array( $this->links ) && $this->links !== array() ) {
+			// Covert info to an effective link.
+			$links = array_map( function ( $index, $link_info ) {
+				return $this->crumb_to_link( $link_info, $index );
+			}, array_keys( $this->links ), $this->links );
 			// Remove any effectively empty links.
 			$links = array_map( 'trim', $this->links );
 			$links = array_filter( $links );
