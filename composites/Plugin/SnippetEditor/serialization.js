@@ -1,14 +1,20 @@
-const ENTITY_FORMAT = /%%([a-zA-Z_]+)%%/;
+import forEach from "lodash/forEach";
+import reduce from "lodash/reduce";
+import sortBy from "lodash/sortBy";
+import sortedIndexBy from "lodash/sortedIndexBy";
+import trim from "lodash/trim";
+
+const CIRCUMFIX = "%%";
 
 /**
- * Serializes an entity into a string.
+ * Serializes a tag into a string.
  *
- * @param {string} name The name of the entity.
+ * @param {string} name The name of the tag.
  *
- * @returns {string} Serialized entity.
+ * @returns {string} Serialized tag.
  */
-export function serializeEntity( name ) {
-	return "%%" + name + "%%";
+export function serializeTag( name ) {
+	return CIRCUMFIX + name + CIRCUMFIX;
 }
 
 /**
@@ -23,14 +29,17 @@ export function serializeBlock( entityMap, block ) {
 	const { text, entityRanges } = block;
 	let previousEntityEnd = 0;
 
-	let serialized = entityRanges.reduce( ( serialized, entityRange ) => {
+	// Ensure the entityRanges are in order from low to high offset.
+	const sortedEntityRanges = sortBy( entityRanges, "offset" );
+	let serialized = reduce( sortedEntityRanges, ( serialized, entityRange ) => {
 		const { key, length, offset } = entityRange;
 		const beforeEntityLength = offset - previousEntityEnd;
 
 		const beforeEntity = text.substr( previousEntityEnd, beforeEntityLength );
-		const serializedEntity = serializeEntity( entityMap[ key ].data.mention.get( "name" ) );
+		const serializedEntity = serializeTag( entityMap[ key ].data.mention.name );
 
 		previousEntityEnd = offset + length;
+
 		return serialized + beforeEntity + serializedEntity;
 	}, "" );
 
@@ -49,9 +58,20 @@ export function serializeBlock( entityMap, block ) {
 export function serializeEditor( rawContent ) {
 	const { blocks, entityMap } = rawContent;
 
-	return blocks.reduce( ( serialized, block ) => {
+	return reduce( blocks, ( serialized, block ) => {
 		return serialized + serializeBlock( entityMap, block );
 	}, "" );
+}
+
+/**
+ * Unserializes a tag into a string.
+ *
+ * @param {string} serializedTag The serialized tag.
+ *
+ * @returns {string} Unserialized tag.
+ */
+export function unserializeTag( serializedTag ) {
+	return trim( serializedTag, CIRCUMFIX );
 }
 
 /**
@@ -64,69 +84,105 @@ export function serializeEditor( rawContent ) {
  * @returns {Object} The serialized entity.
  */
 export function unserializeEntity( key, name, offset ) {
-	const length = name.length;
-
 	const entityRange = {
 		key,
 		offset,
-		length,
+		length: name.length,
 	};
 
 	const mappedEntity = {
 		data: {
-			mention: new Map( [
-				[ "name", name ],
-				[ "description", "%%" + name + "%%" ],
-			] ),
+			mention: {
+				name,
+			},
 		},
 		mutability: "IMMUTABLE",
-		type: "%%mention",
+		type: "%mention",
 	};
 
 	return { entityRange, mappedEntity };
 }
 
 /**
+ * Find all indices of a search term in a string.
+ *
+ * @param {string} searchTerm The term to search for.
+ * @param {string} text       The text to search in.
+ *
+ * @returns {Array} Array of found indices.
+ */
+const getIndicesOf = ( searchTerm, text ) => {
+	if ( searchTerm.length === 0 ) {
+		return [];
+	}
+
+	let startIndex = 0;
+	let index;
+	const indices = [];
+
+	while ( ( index = text.indexOf( searchTerm, startIndex ) ) > -1 ) {
+		indices.push( index );
+		startIndex = index + searchTerm.length;
+	}
+
+	return indices;
+};
+
+/**
  * Unserializes a piece of content into DraftJS data.
  *
  * @param {string} content The content to unserialize.
+ * @param {Array} tags The tags for the DraftJS mention plugin.
+ *
  * @returns {Object} The raw data ready for convertFromRaw.
  */
-export function unserializeEditor( content ) {
+export function unserializeEditor( content, tags ) {
 	const entityRanges = [];
 	const entityMap = {};
-	let entity, entityName, fullEntity;
+	const replaceIndices = [];
 
-	do {
-		entity = ENTITY_FORMAT.exec( content );
+	// Collect the replace indices for each tag.
+	forEach( tags, tag => {
+		const tagValue = serializeTag( tag.name );
+		const indices = getIndicesOf( tagValue, content );
 
-		if ( entity ) {
-			fullEntity = entity[ 0 ];
-			entityName = entity[ 1 ];
+		forEach( indices, index => {
+			const replaceIndex = {
+				index,
+				tag,
+				tagValue,
+			};
 
-			let offset = entity.index;
+			// Add the replace index in order.
+			const insertAt = sortedIndexBy( replaceIndices, replaceIndex, "index" );
+			replaceIndices.splice( insertAt, 0, replaceIndex );
+		} );
+	} );
 
-			let key = entityRanges.length;
+	// Loop from high to low to ensure the index is still correct.
+	for( let i = replaceIndices.length - 1; i >= 0; i-- ) {
+		const { index, tag, tagValue } = replaceIndices[ i ];
 
-			const { entityRange, mappedEntity } = unserializeEntity( key, entityName, offset );
+		// Replace the serialized tag with the unserialized tag.
+		const before = content.substr( 0, index );
+		const between = unserializeTag( content.substr( index, tagValue.length ) );
+		const after = content.substr( index + tagValue.length );
+		content = before + between + after;
 
-			entityRanges.push( entityRange );
-			entityMap[ key ] = mappedEntity;
+		// Decrease the offset by twice the length of the circumfix for every index we replace.
+		const offset = index - i * CIRCUMFIX.length * 2;
+		const key = entityRanges.length;
 
-			const before = content.substr( 0, offset );
-			const between = content.substr( offset, fullEntity.length ).replace( /%%/g, "" );
-			const after = content.substr( offset + fullEntity.length );
+		// Create the DraftJS data.
+		const { entityRange, mappedEntity } = unserializeEntity( key, tag.name, offset );
+		entityRanges.push( entityRange );
+		entityMap[ key ] = mappedEntity;
+	}
 
-			content = before + between + after;
-		}
-	} while ( entity );
-
-	const blocks = [
-		{
-			entityRanges,
-			text: content,
-		},
-	];
+	const blocks = [ {
+		entityRanges,
+		text: content,
+	} ];
 
 	return {
 		blocks,

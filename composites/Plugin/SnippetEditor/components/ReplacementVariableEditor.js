@@ -21,7 +21,6 @@ import { serializeEditor, unserializeEditor } from "../serialization";
  * @returns {EditorState} The editor state.
  */
 const createEditorState = flow( [
-	unserializeEditor,
 	convertFromRaw,
 	EditorState.createWithContent,
 ] );
@@ -67,11 +66,12 @@ class ReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		const { content: rawContent } = this.props;
+		const { content: rawContent, replacementVariables } = this.props;
+		const unserialized = unserializeEditor( rawContent, replacementVariables );
 
 		this.state = {
-			editorState: createEditorState( rawContent ),
-			replacementVariables: props.replacementVariables,
+			editorState: createEditorState( unserialized ),
+			replacementVariables,
 		};
 
 		/*

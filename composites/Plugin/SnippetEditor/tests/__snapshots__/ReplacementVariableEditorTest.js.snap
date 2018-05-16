@@ -161,7 +161,7 @@ exports[`ReplacementVariableEditor wraps a DraftJS editor instance 1`] = `
     }
     stripPastedStyles={true}
   />
-  <Decorated(Component)
+  <Decorated(MentionSuggestions)
     onSearchChange={[Function]}
   />
 </React.Fragment>
