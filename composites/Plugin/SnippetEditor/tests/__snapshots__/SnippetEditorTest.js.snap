@@ -106,10 +106,10 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -131,6 +131,10 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -773,10 +777,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -798,6 +802,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -2362,10 +2370,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -2387,6 +2395,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -3951,10 +3963,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -3976,6 +3988,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -5540,10 +5556,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -5565,6 +5581,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -7120,10 +7140,10 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -7145,6 +7165,10 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -8343,10 +8367,10 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -8368,6 +8392,10 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -9964,10 +9992,10 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -9989,6 +10017,10 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -11649,10 +11681,10 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -11674,6 +11706,10 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -12234,10 +12270,10 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -12259,6 +12295,10 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -12828,10 +12868,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -12853,6 +12893,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -14437,10 +14481,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -14462,6 +14506,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -16046,10 +16094,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -16071,6 +16119,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -17635,10 +17687,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -17660,6 +17712,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -19259,10 +19315,10 @@ exports[`SnippetEditor passes the date prop 1`] = `
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -19284,6 +19340,10 @@ exports[`SnippetEditor passes the date prop 1`] = `
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -19939,10 +19999,10 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -19964,6 +20024,10 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
@@ -20501,10 +20565,10 @@ exports[`SnippetEditor shows and editor 1`] = `
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -20526,6 +20590,10 @@ exports[`SnippetEditor shows and editor 1`] = `
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {

@@ -91,10 +91,10 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid transparent;
   -webkit-clip: rect(1px 1px 1px 1px);
   clip: rect(1px 1px 1px 1px);
-  box-shadow: 0 0 0 0 #1e8cbe;
+  box-shadow: none;
   position: relative;
   display: block;
   margin: -44px -10px 10px 0;
@@ -116,6 +116,10 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
 .c1:focus svg {
   fill: #0066cd;
   color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
 }
 
 .c8 {
