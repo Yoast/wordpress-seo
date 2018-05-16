@@ -53,6 +53,16 @@ use Yoast\YoastSEO\Yoast_Model;
  * @property int     $incoming_link_count
  */
 class Indexable extends Yoast_Model {
+
+	/**
+	 * Returns the related meta model.
+	 *
+	 * @return Indexable_Meta[]
+	 */
+	public function meta() {
+		return $this->has_many( 'Indexable_Meta', 'indexable_id', 'id' );
+	}
+
 	/**
 	 * Enhances the save method.
 	 *
