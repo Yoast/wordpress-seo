@@ -28,11 +28,11 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 	 *
 	 * @group ms-required
 	 *
-	 * @dataProvider data_maybe_revoke_wpseo_manage_options_cap
+	 * @dataProvider data_filter_user_has_wpseo_manage_options_cap
 	 *
-	 * @covers WPSEO_Register_Capabilities::maybe_revoke_wpseo_manage_options_cap()
+	 * @covers WPSEO_Register_Capabilities::filter_user_has_wpseo_manage_options_cap()
 	 */
-	public function test_maybe_revoke_wpseo_manage_options_cap( $role, $access, $expected_has_cap ) {
+	public function test_filter_user_has_wpseo_manage_options_cap( $role, $access, $expected_has_cap ) {
 		WPSEO_Options::get_instance();
 
 		$options           = get_site_option( 'wpseo_ms', array() );
@@ -49,7 +49,7 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 			$user = self::factory()->user->create_and_get( array( 'role' => $role ) );
 		}
 
-		$allcaps = $register->maybe_revoke_wpseo_manage_options_cap( $user->allcaps, array( 'wpseo_manage_options' ), array(), $user );
+		$allcaps = $register->filter_user_has_wpseo_manage_options_cap( $user->allcaps, array( 'wpseo_manage_options' ), array(), $user );
 
 		$has_cap = ! empty( $allcaps['wpseo_manage_options'] );
 		if ( $expected_has_cap ) {
@@ -59,7 +59,7 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 		}
 	}
 
-	public function data_maybe_revoke_wpseo_manage_options_cap() {
+	public function data_filter_user_has_wpseo_manage_options_cap() {
 		return array(
 			array( 'wpseo_manager', 'superadmin', true ),
 			array( 'administrator', 'superadmin', false ),

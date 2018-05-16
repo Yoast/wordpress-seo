@@ -18,7 +18,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		add_action( 'wpseo_register_capabilities', array( $this, 'register' ) );
 
 		if ( is_multisite() ) {
-			add_action( 'user_has_cap', array( $this, 'maybe_revoke_wpseo_manage_options_cap' ), 10, 4 );
+			add_action( 'user_has_cap', array( $this, 'filter_user_has_wpseo_manage_options_cap' ), 10, 4 );
 		}
 	}
 
@@ -47,7 +47,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 	 *
 	 * @return array Possibly modified array of the user's capabilities.
 	 */
-	public function maybe_revoke_wpseo_manage_options_cap( $allcaps, $caps, $args, $user ) {
+	public function filter_user_has_wpseo_manage_options_cap( $allcaps, $caps, $args, $user ) {
 
 		// We only need to do something if 'wpseo_manage_options' is being checked.
 		if ( ! in_array( 'wpseo_manage_options', $caps, true ) ) {
