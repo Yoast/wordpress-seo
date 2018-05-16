@@ -15,7 +15,7 @@ var blockElementEndRegex = new RegExp( "</(" + blockElements.join( "|" ) + ")[^>
  */
 var stripIncompleteTags = function( text ) {
 	text = text.replace( /^(<\/([^>]+)>)+/i, "" );
-	text = text.replace( /(<([^\/>]+)>)+$/i, "" );
+	text = text.replace( /(<([^/>]+)>)+$/i, "" );
 	return text;
 };
 

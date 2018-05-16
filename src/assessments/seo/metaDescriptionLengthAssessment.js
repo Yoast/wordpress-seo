@@ -2,6 +2,8 @@ let AssessmentResult = require( "../../values/AssessmentResult.js" );
 let Assessment = require( "../../assessment.js" );
 let merge = require( "lodash/merge" );
 
+const maximumLength = 320;
+
 /**
  * Assessment for calculating the length of the meta description.
  */
@@ -18,7 +20,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 
 		let defaultConfig = {
 			recommendedMaximumLength: 120,
-			maximumLength: 320,
+			maximumLength: maximumLength,
 			scores: {
 				noMetaDescription: 1,
 				tooLong: 6,
@@ -29,6 +31,15 @@ class MetaDescriptionLengthAssessment extends Assessment {
 
 		this.identifier = "metaDescriptionLength";
 		this._config = merge( defaultConfig, config );
+	}
+
+	/**
+	 * Returns the maximum length.
+	 *
+	 * @returns {number} The maximum length.
+	 */
+	getMaximumLength() {
+		return maximumLength;
 	}
 
 	/**
@@ -46,6 +57,10 @@ class MetaDescriptionLengthAssessment extends Assessment {
 
 		assessmentResult.setScore( this.calculateScore( descriptionLength ) );
 		assessmentResult.setText( this.translateScore( descriptionLength, i18n ) );
+
+		// Max and actual are used in the snippet editor progress bar.
+		assessmentResult.max = this._config.maximumLength;
+		assessmentResult.actual = descriptionLength;
 
 		return assessmentResult;
 	}
