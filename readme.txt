@@ -110,7 +110,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: May 16th, 2018
 
 Bugfixes:
-* Fixes a bug where the slug of a draft would not be updated to a new title when published.
+* Fixes a bug where the auto-generating of the slug did not work as expected due to persisting of the post name too agressively.
 
 = 7.5.0 =
 Release Date: May 15th, 2018
