@@ -326,6 +326,7 @@ setYoastComponentsI18n();
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
 				let keyword = tabManager.getKeywordTab().getKeyWord();
+				store.dispatch( setActiveKeyword( keyword ) );
 
 				/*
 				 * The results from the main App callback are always for the first keyword. So
