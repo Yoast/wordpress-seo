@@ -93,6 +93,7 @@ class ClassicEditorData {
 	subscribeToElements() {
 		this.subscribeToInputElement( "title", "title" );
 		this.subscribeToInputElement( "excerpt", "excerpt" );
+		this.subscribeToInputElement( "excerpt", "excerpt_only" );
 	}
 
 	/**
@@ -145,6 +146,8 @@ class ClassicEditorData {
 			...replaceVars,
 			title: this.getTitle(),
 			excerpt: this.getExcerpt(),
+			// eslint-disable-next-line
+			excerpt_only: this.getExcerpt(),
 			slug: this.getSlug(),
 			content: this.getContent(),
 		};
