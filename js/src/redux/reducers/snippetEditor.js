@@ -74,10 +74,10 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 				replacementVariables: state.replacementVariables.filter( replacementVariable => {
 					return replacementVariable.name !== action.name;
 				} ),
-      };
-    }
+			};
+		}
 
-    case REFRESH: {
+		case REFRESH: {
 			return {
 				...state,
 				uniqueRefreshValue: action.time,

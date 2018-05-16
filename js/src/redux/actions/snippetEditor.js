@@ -62,7 +62,7 @@ export function removeReplacementVariable( name ) {
 	return {
 		type: REMOVE_REPLACEMENT_VARIABLE,
 		name,
-  };
+	};
 }
 
 /**
