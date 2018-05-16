@@ -24,11 +24,21 @@ const Section = styled( StyledSection )`
 	}
 `;
 
+/**
+ * Runs the legacy replaceVariables function on the data in the snippet preview.
+ *
+ * @param {Object} data             The snippet preview data object.
+ * @param {string} data.title       The snippet preview title.
+ * @param {string} data.url         The snippet preview url: baseUrl with the slug.
+ * @param {string} data.description The snippet preview description.
+ *
+ * @returns {Object}
+ */
 const legacyReplaceUsingPlugin = function( data ) {
 	let replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
 
 	return  {
-		...data,
+		url: data.url,
 		title: stripFullTags( replaceVariables( data.title ) ),
 		description: stripFullTags( replaceVariables( data.description ) ),
 	}

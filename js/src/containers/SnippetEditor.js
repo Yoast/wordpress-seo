@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import { SnippetEditor } from "yoast-components";
-import forEach from "lodash/forEach";
 import {
 	switchMode,
 	updateData,
