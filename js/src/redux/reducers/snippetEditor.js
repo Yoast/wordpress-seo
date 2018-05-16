@@ -5,6 +5,7 @@ import {
 	UPDATE_DATA,
 	UPDATE_REPLACEMENT_VARIABLE,
 	REMOVE_REPLACEMENT_VARIABLE,
+	REFRESH,
 } from "../actions/snippetEditor";
 
 const INITIAL_STATE = {
@@ -15,6 +16,7 @@ const INITIAL_STATE = {
 		description: "",
 	},
 	replacementVariables: defaultReplaceVariables,
+	uniqueRefreshValue: "",
 };
 
 /**
@@ -72,6 +74,13 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 				replacementVariables: state.replacementVariables.filter( replacementVariable => {
 					return replacementVariable.name !== action.name;
 				} ),
+      };
+    }
+
+    case REFRESH: {
+			return {
+				...state,
+				uniqueRefreshValue: action.time,
 			};
 		}
 	}

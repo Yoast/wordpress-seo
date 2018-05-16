@@ -38,6 +38,8 @@ import {
 
 		this._store = store;
 
+		this.replaceVariables = this.replaceVariables.bind( this );
+
 		this.registerReplacements();
 		this.registerModifications();
 		this.registerEvents();
@@ -238,6 +240,7 @@ import {
 	 */
 	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
 		this._app.pluginReloaded( "replaceVariablePlugin" );
+		this._store.dispatch( { type: "REFRESH_SNIPPET_EDITOR" } );
 	};
 
 	/*

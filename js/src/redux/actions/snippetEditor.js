@@ -2,6 +2,7 @@ export const SWITCH_MODE = "SNIPPET_EDITOR_SWITCH_MODE";
 export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
 export const UPDATE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE";
 export const REMOVE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_REMOVE_REPLACEMENT_VARIABLE";
+export const REFRESH = "SNIPPET_EDITOR_REFRESH";
 
 /**
  * Switches mode of the snippet editor.
@@ -61,5 +62,17 @@ export function removeReplacementVariable( name ) {
 	return {
 		type: REMOVE_REPLACEMENT_VARIABLE,
 		name,
+  };
+}
+
+/**
+ * Sets the time in redux, so that the snippet editor will refresh.
+ *
+ * @returns {Object} An action for redux.
+ */
+export function refreshSnippetEditor() {
+	return {
+		type: REFRESH,
+		time: ( new Date() ).getMilliseconds(),
 	};
 }
