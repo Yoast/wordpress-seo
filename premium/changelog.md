@@ -1,3 +1,6 @@
+### 7.5.1: May 16th, 2018
+* Includes every change in Yoast SEO core 7.5.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.5.0: May 15th, 2018
 Enhancements:
 * Adds Russian Insights and Linking Suggestions.
