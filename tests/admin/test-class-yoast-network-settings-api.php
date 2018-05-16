@@ -114,11 +114,11 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests checking requirements for the network settings API.
 	 *
-	 * @covers Yoast_Network_Settings_API::check_requirements()
+	 * @covers Yoast_Network_Settings_API::meets_requirements()
 	 */
-	public function test_check_requirements() {
+	public function test_meets_requirements() {
 
 		// It's impossible to simulate `is_network_admin()` to be true in tests.
-		$this->assertFalse( Yoast_Network_Settings_API::check_requirements() );
+		$this->assertFalse( Yoast_Network_Settings_API::meets_requirements() );
 	}
 }

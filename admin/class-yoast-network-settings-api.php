@@ -10,25 +10,37 @@
  */
 class Yoast_Network_Settings_API {
 
-	/** Action identifier for updating plugin network options. */
+	/**
+	 * Action identifier for updating plugin network options.
+	 */
 	const UPDATE_ACTION = 'yoast_handle_network_options';
 
-	/** @var array Registered network settings. */
+	/**
+	 * @var array Registered network settings.
+	 */
 	private $registered_settings = array();
 
-	/** @var array Options whitelist, keyed by option group. */
+	/**
+	 * @var array Options whitelist, keyed by option group.
+	 */
 	private $whitelist_options = array();
 
-	/** @var bool Internal flag for whether the necessary hooks have been added. */
+	/**
+	 * @var bool Internal flag for whether the necessary hooks have been added.
+	 */
 	private $hooks_registered = false;
 
-	/** @var Yoast_Network_Settings_API The singleton instance of this class. */
+	/**
+	 * @var Yoast_Network_Settings_API The singleton instance of this class.
+	 */
 	private static $instance = null;
 
 	/**
 	 * Outputs nonce, action and option group fields for a network settings page in the plugin.
 	 *
 	 * @param string $option_group Option group name for the current page.
+	 *
+	 * @return void
 	 */
 	public function settings_fields( $option_group ) {
 		?>
@@ -49,6 +61,8 @@ class Yoast_Network_Settings_API {
 	 *     @type callable $sanitize_callback A callback function that sanitizes the network option's value.
 	 *     @type mixed    $default           Default value when calling `get_network_option()`.
 	 * }
+	 *
+	 * @return void
 	 */
 	public function register_setting( $option_group, $option_name, $args = array() ) {
 
@@ -66,6 +80,7 @@ class Yoast_Network_Settings_API {
 		if ( ! empty( $args['sanitize_callback'] ) ) {
 			add_filter( "sanitize_option_{$option_name}", array( $this, 'filter_sanitize_option' ), 10, 2 );
 		}
+
 		if ( array_key_exists( 'default', $args ) ) {
 			add_filter( "default_site_option_{$option_name}", array( $this, 'filter_default_option' ), 10, 2 );
 		}
@@ -78,6 +93,8 @@ class Yoast_Network_Settings_API {
 	 *
 	 * This method works similar to how option updates are handled in `wp-admin/options.php` and
 	 * `wp-admin/network/settings.php`.
+	 *
+	 * @return void
 	 */
 	public function handle_update_options_request() {
 		$option_group = filter_input( INPUT_POST, 'network_option_group', FILTER_SANITIZE_STRING );
@@ -89,8 +106,10 @@ class Yoast_Network_Settings_API {
 		}
 
 		foreach ( $this->whitelist_options[ $option_group ] as $option_name ) {
-			$value = isset( $_POST[ $option_name ] ) ? $_POST[ $option_name ] : null;
-			$value = wp_unslash( $value );
+			$value = null;
+			if ( isset( $_POST[ $option_name ] ) ) {
+				$value = wp_unslash( $_POST[ $option_name ] );
+			}
 
 			WPSEO_Options::update_site_option( $option_name, $value );
 		}
@@ -111,9 +130,10 @@ class Yoast_Network_Settings_API {
 	}
 
 	/**
-	 * Sanitization callback to use instead of the actual callback to the `register_setting()` method.
+	 * Filters sanitization for a network option value.
 	 *
-	 * This callback will ensure validation only happens in the network admin, to prevent conflicts.
+	 * This method is added as a filter to `sanitize_option_{$option}` for network options that are
+	 * registered with a sanitize callback.
 	 *
 	 * @param string $value  The sanitized option value.
 	 * @param string $option The option name.
@@ -156,6 +176,8 @@ class Yoast_Network_Settings_API {
 
 	/**
 	 * Hooks in the necessary actions and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 
@@ -183,13 +205,11 @@ class Yoast_Network_Settings_API {
 	}
 
 	/**
-	 * Checks the requirements for this class to be used.
-	 *
-	 * If these requirements are not met, this class should not be initialized.
+	 * Checks whether the requirements to use this class are met.
 	 *
 	 * @return bool True if requirements are met, false otherwise.
 	 */
-	public static function check_requirements() {
+	public static function meets_requirements() {
 		return is_multisite() && is_network_admin();
 	}
 }
