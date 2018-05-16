@@ -43,6 +43,7 @@ const CloseEditorButton = SnippetEditorButton.extend`
 /**
  * Gets the title progress.
  * @param {string} title The title.
+ *
  * @returns {Object} The title progress.
  */
 function getTitleProgress( title ) {
@@ -127,7 +128,7 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Updates the state when the component receives new props.
 	 *
-	 * @param {Object} nextProps The new props
+	 * @param {Object} nextProps The new props.
 	 * @returns {void}
 	 */
 	componentWillReceiveProps( nextProps ) {
@@ -143,7 +144,7 @@ class SnippetEditor extends React.Component {
 	 * Handles the onChange event.
 	 *
 	 * First updates the description progress and title progress.
-	 * Then calls the onChange function that is paased through the props.
+	 * Then calls the onChange function that is passed through the props.
 	 *
 	 * @param {string} type The type of change.
 	 * @param {string} content The content of the changed field.

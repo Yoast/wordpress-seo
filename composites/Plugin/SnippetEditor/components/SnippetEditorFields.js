@@ -233,7 +233,6 @@ class SnippetEditorFields extends React.Component {
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ this.uniqueId + "-title" }
-							titleLengthProgress={ titleLengthProgress }
 						/>
 					</InputContainer>
 

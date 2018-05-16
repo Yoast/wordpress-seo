@@ -266,7 +266,6 @@ ReplacementVariableEditor.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
-	className: PropTypes.string,
 };
 
 ReplacementVariableEditor.defaultProps = {
