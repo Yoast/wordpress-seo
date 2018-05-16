@@ -565,8 +565,28 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( $dismissed );
 
-		// Ensure the old data has been migrated on-the-fly.
+		// Ensure the old user metadata has been migrated on-the-fly.
 		$this->assertSame( 'seen', get_user_option( $dismissal_key, $this->user_id ) );
 		$this->assertEmpty( get_user_meta( $this->user_id, $dismissal_key, true ) );
+	}
+
+	/**
+	 * Tests that restoring a notification also clears old user metadata.
+	 *
+	 * @covers Yoast_Notification_Center::restore_notification()
+	 */
+	public function test_restore_notification_clears_user_meta() {
+
+		$notification  = new Yoast_Notification( 'notification', array(
+			'id'            => 'some_id',
+			'dismissal_key' => 'notification_dismissal',
+		) );
+		$dismissal_key = $notification->get_dismissal_key();
+
+		// Set notification dismissed in both user option and old user meta way.
+		update_user_option( $this->user_id, $dismissal_key, 'seen' );
+		update_user_meta( $this->user_id, $dismissal_key, 'seen' );
+
+		$this->assertTrue( Yoast_Notification_Center::restore_notification( $notification ) );
 	}
 }
