@@ -189,7 +189,7 @@ class Yoast_Notification_Center {
 			$restored = delete_user_meta( $user_id, $dismissal_key ) && $restored;
 		}
 
-		return $restored !== false;
+		return $restored;
 	}
 
 	/**
