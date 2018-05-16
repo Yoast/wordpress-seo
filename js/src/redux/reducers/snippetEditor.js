@@ -4,6 +4,7 @@ import {
 	SWITCH_MODE,
 	UPDATE_DATA,
 	UPDATE_REPLACEMENT_VARIABLE,
+	REFRESH,
 } from "../actions/snippetEditor";
 
 const INITIAL_STATE = {
@@ -14,6 +15,7 @@ const INITIAL_STATE = {
 		description: "",
 	},
 	replacementVariables: defaultReplaceVariables,
+	uniqueRefreshValue: "",
 };
 
 /**
@@ -62,6 +64,13 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				replacementVariables: nextReplacementVariables,
+			};
+		}
+
+		case REFRESH: {
+			return {
+				...state,
+				uniqueRefreshValue: action.time,
 			};
 		}
 	}

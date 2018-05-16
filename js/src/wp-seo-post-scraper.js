@@ -6,6 +6,7 @@ import isEqual from "lodash/isEqual";
 import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 
 // Internal dependencies.
 import initializeEdit from "./edit";
@@ -344,6 +345,7 @@ setYoastComponentsI18n();
 				 */
 				if ( tabManager.isMainKeyword( keyword ) ) {
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+					store.dispatch( refreshSnippetEditor() );
 				}
 			};
 		}
@@ -352,6 +354,7 @@ setYoastComponentsI18n();
 			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
 			args.callbacks.updatedContentResults = function( results ) {
 				store.dispatch( setReadabilityResults( results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
