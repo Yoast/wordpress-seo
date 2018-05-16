@@ -62,6 +62,14 @@ export function mapStateToProps( state ) {
 
 	let titleLengthProgress = getProgress( titleLengthResult );
 	let descriptionLengthProgress = getProgress( descriptionLengthResult );
+	let replacementVariables = state.snippetEditor.replacementVariables;
+
+	// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
+	replacementVariables.forEach( ( replaceVariable ) => {
+		if( replaceVariable.value === "" ) {
+			replaceVariable.value = "%%" + replaceVariable.name + "%%";
+		}
+	} );
 
 	return {
 		...state.snippetEditor,
