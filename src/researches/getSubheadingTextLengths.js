@@ -1,5 +1,4 @@
 const getSubheadingTexts = require( "../stringProcessing/getSubheadingTexts" );
-const getIntroParagraphOutsideSubheadings = require( "../stringProcessing/getIntroParagraphOutsideSubheadings" );
 const countWords = require( "../stringProcessing/countWords" );
 const forEach = require( "lodash/forEach" );
 
@@ -11,11 +10,6 @@ const forEach = require( "lodash/forEach" );
 module.exports = function( paper ) {
 	const text = paper.getText();
 	let matches = getSubheadingTexts( text );
-	const introText = getIntroParagraphOutsideSubheadings( text );
-
-	if ( introText.length > 0 ) {
-		matches.unshift( introText );
-	}
 
 	let subHeadingTexts = [];
 	forEach( matches, function( subHeading ) {

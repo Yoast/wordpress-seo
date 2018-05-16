@@ -35,13 +35,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 			goodShortTextNoSubheadings: {
 				score: 9,
 				resultText: "You are not using any %1$ssubheadings%2$s, but your text is short enough and probably doesn't need them.",
-				resultTextPlural: "",
 				requiresMaxAndNum: false,
 			},
 			goodSubheadings: {
 				score: 9,
 				resultText: "Great job with using %1$ssubheadings%2$s!",
-				resultTextPlural: "",
 				requiresMaxAndNum: false,
 			},
 			okSubheadings: {
@@ -66,7 +64,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 				score: 2,
 				resultText: "You are not using any subheadings, although your text is rather long. " +
 				"Try and add  some %1$ssubheadings%2$s.",
-				resultTextPlural: "",
 				requiresMaxAndNum: false,
 			},
 		};
@@ -97,21 +94,21 @@ class SubheadingsDistributionTooLong extends Assessment {
 		let assessmentResult = new AssessmentResult();
 		assessmentResult.setIdentifier( this.identifier );
 
-		if ( this.isApplicable( paper ) ) {
-			this._hasSubheadings = this.hasSubheadings( paper );
+		this._hasSubheadings = this.hasSubheadings( paper );
 
-			this._textLength = getWords( paper.getText() ).length;
+		this._textLength = getWords( paper.getText() ).length;
 
-			const calculatedResult = this.calculateResult();
-			assessmentResult.setScore( calculatedResult.score );
-			assessmentResult.setText( this.translateScore( calculatedResult.resultText, calculatedResult.resultTextPlural,
-				calculatedResult.requiresMaxAndNum, i18n ) );
+		const calculatedResult = this.calculateResult();
+		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( this.translateScore( calculatedResult.resultText, calculatedResult.resultTextPlural,
+			calculatedResult.requiresMaxAndNum, i18n ) );
 
-			if ( calculatedResult.score > 2 && calculatedResult.score < 7 ) {
-				assessmentResult.setHasMarks( true );
-				assessmentResult.setMarker( this.getMarks() );
-			}
+		if ( calculatedResult.score > 2 && calculatedResult.score < 7 ) {
+			assessmentResult.setHasMarks( true );
+			assessmentResult.setMarker( this.getMarks() );
 		}
+
 		return assessmentResult;
 	}
 
