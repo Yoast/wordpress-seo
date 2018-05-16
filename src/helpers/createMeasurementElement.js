@@ -1,12 +1,14 @@
 const elementId = "yoast-measurement-element";
 
 /**
- * Creates an hidden element with the purpose to calculate the sizes of elements and puts these elements to the body.
+ * Creates an hidden element with the purpose to calculate the sizes of elements and adds these elements to the body.
  *
  * @returns {HTMLElement} The created hidden element.
  */
 const createMeasurementElement = function() {
 	const hiddenElement = document.createElement( "div" );
+
+	hiddenElement.id = elementId;
 
 	// Styles to prevent unintended scrolling in Gutenberg.
 	hiddenElement.style.position = "absolute";
@@ -14,8 +16,6 @@ const createMeasurementElement = function() {
 	hiddenElement.style.top = 0;
 	hiddenElement.style.height = 0;
 	hiddenElement.style.overflow = "hidden";
-
-	hiddenElement.id = elementId;
 
 	document.body.appendChild( hiddenElement );
 	return hiddenElement;
