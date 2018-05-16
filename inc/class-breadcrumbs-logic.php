@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Inc
+ * @package WPSEO\Frontend
  */
 
 /**
