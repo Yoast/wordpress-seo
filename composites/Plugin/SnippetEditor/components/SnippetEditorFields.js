@@ -19,11 +19,6 @@ const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 	"</svg>"
 );
 
-// When the title length score is < 5, the title should turn red.
-let TitleReplacementVariableEditor = styled( ReplacementVariableEditor )`
-	color: ${ ( props ) => props.titleLengthProgress.score < 5 ? colors.$color_bad : colors.$color_black };
-`;
-
 /**
  * Returns the color of the caret for an InputContainer based on the props.
  *
@@ -231,12 +226,12 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "title" ) }
 					>{ __( "SEO title", "yoast-components" ) }</SimulatedLabel>
 					<InputContainer isActive={ activeField === "title" } isHovered={ hoveredField === "title" }>
-						<TitleReplacementVariableEditor
+						<ReplacementVariableEditor
 							content={ title }
 							onChange={ content => onChange( "title", content ) }
 							onFocus={ () => onFocus( "title" ) }
 							replacementVariables={ replacementVariables }
-							innerRef={ ( ref ) => this.setRef( "title", ref ) }
+							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ this.uniqueId + "-title" }
 							titleLengthProgress={ titleLengthProgress }
 						/>

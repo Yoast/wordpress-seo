@@ -85,7 +85,6 @@ class ReplacementVariableEditor extends React.Component {
 		this.onChange = this.onChange.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
-		this.getBlockClassName = this.getBlockClassName.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
 
 		/*
@@ -219,15 +218,6 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
-	 * Returns the class name to add custom styles in Draft.js.
-	 *
-	 * @returns {String} The block's class name.
-	 */
-	getBlockClassName() {
-		return this.props.className;
-	}
-
-	/**
 	 * Renders the editor including Draft.js and the mentions plugin.
 	 * Cancels the debounced call to A11ySpeak.
 	 *
@@ -258,7 +248,6 @@ class ReplacementVariableEditor extends React.Component {
 					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
-					blockStyleFn={ this.getBlockClassName }
 				/>
 				<MentionSuggestions
 					onSearchChange={ this.onSearchChange }

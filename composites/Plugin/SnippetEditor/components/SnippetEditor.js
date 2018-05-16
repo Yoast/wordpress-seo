@@ -2,6 +2,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
+import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
+import createMeasurementElements from "yoastseo/js/helpers/createMeasurementElements";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -36,6 +39,25 @@ const EditSnippetButton = SnippetEditorButton.extend`
 const CloseEditorButton = SnippetEditorButton.extend`
 	margin-left: 20px;
 `;
+
+function getTitleScore() {
+	createMeasurementElements();
+	const hiddenElement = document.getElementsByClassName( "yoast-measurement-elements-holder" );
+	console.log(hiddenElement)
+	const PageTitleWidthAssessment = new PageTitleWidthAssesment();
+	return PageTitleWidthAssessment.calculateScore();
+}
+
+function getDescriptionProgress( descriptionLength ) {
+	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
+	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
+	return {
+		max: maximumLength,
+		actual: descriptionLength,
+		score: score,
+	};
+}
 
 class SnippetEditor extends React.Component {
 	/**
@@ -74,15 +96,29 @@ class SnippetEditor extends React.Component {
 			isOpen: false,
 			activeField: null,
 			hoveredField: null,
+			titleLengthProgress: {},
+			descriptionLengthProgress: {},
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
+		this.handleChange = this.handleChange.bind( this );
 		this.onClick = this.onClick.bind( this );
 		this.onMouseOver = this.onMouseOver.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
 		this.open = this.open.bind( this );
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
+	}
+
+	handleChange( type, content ) {
+		switch( type ) {
+			case "description":
+				let descriptionProgress = getDescriptionProgress( content.length );
+				this.setState( { descriptionLengthProgress: descriptionProgress } );
+			case "title":
+				let titleScore = getTitleScore();
+		}
+		this.props.onChange( type, content );
 	}
 
 	/**
@@ -93,9 +129,6 @@ class SnippetEditor extends React.Component {
 	renderEditor() {
 		const {
 			data,
-			onChange,
-			titleLengthProgress,
-			descriptionLengthProgress,
 			replacementVariables,
 		} = this.props;
 		const { activeField, hoveredField, isOpen } = this.state;
@@ -109,11 +142,11 @@ class SnippetEditor extends React.Component {
 				data={ data }
 				activeField={ activeField }
 				hoveredField={ hoveredField }
-				onChange={ onChange }
+				onChange={ this.handleChange }
 				onFocus={ this.setFieldFocus }
 				replacementVariables={ replacementVariables }
-				titleLengthProgress={ titleLengthProgress }
-				descriptionLengthProgress={ descriptionLengthProgress }
+				titleLengthProgress={ this.state.titleLengthProgress }
+				descriptionLengthProgress={ this.state.descriptionLengthProgress }
 			/>
 			<CloseEditorButton onClick={ this.close }>
 				{ __( "Close snippet editor", "yoast-components" ) }
@@ -123,8 +156,8 @@ class SnippetEditor extends React.Component {
 
 	/**
 	 * Focuses the preview on the given field.
-	 *
-	 * @param {String} field the name of the field to focus
+	 *SnippetEditorFields
+	 * @param {String} field the name of the field to focuSnippetEditorFieldss
 	 *
 	 * @returns {void}
 	 */
