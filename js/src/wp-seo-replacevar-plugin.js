@@ -283,7 +283,6 @@ var ReplaceVar = require( "./values/replaceVar" );
 				label: hierarchicalTermName,
 				checked: isChecked,
 			};
-			console.log( taxonomyName, taxonomyID );
 			if( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
 				// Only push the categoryName to the checkedCategories array if it's not already in there.
 				checkHierarchicalTerm.push( hierarchicalTermName );

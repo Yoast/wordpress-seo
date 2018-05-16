@@ -167,7 +167,6 @@ class ClassicEditorData {
 	 * @returns {Object}                 The restructured replacevars object without custom_taxonomies.
 	 */
 	mapCustomTaxonomies( replaceVars ) {
-		console.log( replaceVars );
 		if( ! replaceVars.custom_taxonomies ) {
 			return replaceVars;
 		}
