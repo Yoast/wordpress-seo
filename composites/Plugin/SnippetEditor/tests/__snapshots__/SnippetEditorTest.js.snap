@@ -2095,13 +2095,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
-                    titleLengthProgress={
-                      Object {
-                        "actual": 0,
-                        "max": 600,
-                        "score": 1,
-                      }
-                    }
                   >
                     <div />
                   </ReplacementVariableEditor>
@@ -3727,13 +3720,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
-                    titleLengthProgress={
-                      Object {
-                        "actual": 0,
-                        "max": 600,
-                        "score": 1,
-                      }
-                    }
                   >
                     <div />
                   </ReplacementVariableEditor>
@@ -5359,13 +5345,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
-                    titleLengthProgress={
-                      Object {
-                        "actual": 0,
-                        "max": 600,
-                        "score": 1,
-                      }
-                    }
                   >
                     <div />
                   </ReplacementVariableEditor>
@@ -6991,13 +6970,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
-                    titleLengthProgress={
-                      Object {
-                        "actual": 0,
-                        "max": 600,
-                        "score": 1,
-                      }
-                    }
                   >
                     <div />
                   </ReplacementVariableEditor>
@@ -9841,13 +9813,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
-                    titleLengthProgress={
-                      Object {
-                        "actual": 0,
-                        "max": 600,
-                        "score": 1,
-                      }
-                    }
                   >
                     <div />
                   </ReplacementVariableEditor>
@@ -11473,13 +11438,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
-                    titleLengthProgress={
-                      Object {
-                        "actual": 0,
-                        "max": 600,
-                        "score": 1,
-                      }
-                    }
                   >
                     <div />
                   </ReplacementVariableEditor>
@@ -14376,13 +14334,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
-                    titleLengthProgress={
-                      Object {
-                        "actual": 0,
-                        "max": 600,
-                        "score": 1,
-                      }
-                    }
                   >
                     <div />
                   </ReplacementVariableEditor>
@@ -16028,13 +15979,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
-                    titleLengthProgress={
-                      Object {
-                        "actual": 0,
-                        "max": 600,
-                        "score": 1,
-                      }
-                    }
                   >
                     <div />
                   </ReplacementVariableEditor>
@@ -17660,13 +17604,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
-                    titleLengthProgress={
-                      Object {
-                        "actual": 0,
-                        "max": 600,
-                        "score": 1,
-                      }
-                    }
                   >
                     <div />
                   </ReplacementVariableEditor>
@@ -19324,13 +19261,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           "value": "Excerpt!!!",
                         },
                       ]
-                    }
-                    titleLengthProgress={
-                      Object {
-                        "actual": 0,
-                        "max": 600,
-                        "score": 1,
-                      }
                     }
                   >
                     <div />
