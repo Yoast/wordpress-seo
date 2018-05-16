@@ -96,16 +96,14 @@ class Yoast_Notification_Center {
 		$user_id       = ( ! is_null( $user_id ) ? $user_id : get_current_user_id() );
 		$dismissal_key = $notification->get_dismissal_key();
 
+		// This checks both the site-specific user option and the meta value.
 		$current_value = get_user_option( $dismissal_key, $user_id );
 
-		// Check unprefixed user meta for backward-compatibility.
-		if ( empty( $current_value ) ) {
-			$current_value = get_user_meta( $user_id, $dismissal_key, true );
-
-			// Migrate old user meta to user option on-the-fly.
-			if ( ! empty( $current_value ) && update_user_option( $user_id, $dismissal_key, $current_value ) !== false ) {
-				delete_user_meta( $user_id, $dismissal_key );
-			}
+		// Migrate old user meta to user option on-the-fly.
+		if ( ! empty( $current_value )
+			&& metadata_exists( 'user', $user_id, $dismissal_key )
+			&& update_user_option( $user_id, $dismissal_key, $current_value ) ) {
+			delete_user_meta( $user_id, $dismissal_key );
 		}
 
 		return ! empty( $current_value );
