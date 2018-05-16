@@ -3,6 +3,7 @@
 /* External dependencies */
 import removeMarks from "yoastseo/js/markers/removeMarks";
 import get from "lodash/get";
+import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
@@ -58,6 +59,7 @@ PostDataCollector.prototype.getData = function() {
 		searchUrl: this.getSearchUrl(),
 		postUrl: this.getPostUrl(),
 		permalink: this.getPermalink(),
+		titleWidth: measureTextWidth( data.title ),
 	};
 
 	const state = this._store.getState();

@@ -7,6 +7,7 @@ import { update as updateAdminBar } from "../ui/adminBar";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import { termsTmceId as tmceId } from "../wp-seo-tinymce";
 import get from "lodash/get";
+import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 
 let $ = jQuery;
 
@@ -46,6 +47,7 @@ TermDataCollector.prototype.getData = function() {
 		name: this.getName(),
 		baseUrl: this.getBaseUrl(),
 		pageTitle: this.getPageTitle(),
+		titleWidth: measureTextWidth( this.getTitle() ),
 	};
 
 	const state = this._store.getState();
