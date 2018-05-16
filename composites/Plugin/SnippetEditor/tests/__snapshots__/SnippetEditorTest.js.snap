@@ -519,9 +519,9 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField={null}
@@ -532,7 +532,7 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     />
@@ -645,7 +645,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   margin: 0;
 }
 
-.c30 {
+.c29 {
   box-sizing: border-box;
   width: 100%;
   height: 8px;
@@ -658,27 +658,55 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   border: 1px solid #ddd;
 }
 
-.c30::-webkit-progress-bar {
+.c29::-webkit-progress-bar {
   background-color: #f7f7f7;
 }
 
-.c30::-webkit-progress-value {
+.c29::-webkit-progress-value {
   background-color: #dc3232;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
-.c30::-moz-progress-bar {
+.c29::-moz-progress-bar {
   background-color: #dc3232;
 }
 
-.c30::-ms-fill {
+.c29::-ms-fill {
   background-color: #dc3232;
   border: 0;
 }
 
-.c29 {
-  color: #dc3232;
+.c32 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c32::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c32::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c32::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c32::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c28 {
@@ -708,7 +736,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   content: "";
 }
 
-.c32 {
+.c31 {
   padding: 3px 5px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
@@ -726,7 +754,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   line-height: 19.6px;
 }
 
-.c32::before {
+.c31::before {
   display: block;
   position: absolute;
   top: -1px;
@@ -738,7 +766,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   content: "";
 }
 
-.c31 {
+.c30 {
   border: none;
   width: 100%;
   height: inherit;
@@ -748,7 +776,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   color: inherit;
 }
 
-.c31:focus {
+.c30:focus {
   outline: 0;
 }
 
@@ -1630,20 +1658,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField={null}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -1674,10 +1702,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 <div
                   className="c28"
                 >
-                  <SnippetEditorFields__TitleReplacementVariableEditor
+                  <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-title"
                     content="Test title"
-                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -1685,28 +1712,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       Object {
                         "actual": 0,
                         "max": 600,
-                        "score": 0,
+                        "score": 1,
                       }
                     }
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-title"
-                      className="c29"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                      titleLengthProgress={
-                        Object {
-                          "actual": 0,
-                          "max": 600,
-                          "score": 0,
-                        }
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </SnippetEditorFields__TitleReplacementVariableEditor>
+                    <div />
+                  </ReplacementVariableEditor>
                 </div>
               </SnippetEditorFields__InputContainer>
               <ProgressBar
@@ -1719,7 +1730,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c29"
                   max={600}
                   value={0}
                 />
@@ -1758,7 +1769,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-5-slug"
-                      className="c31"
+                      className="c30"
                       initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -1766,7 +1777,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     >
                       <input
                         aria-labelledby="snippet-editor-field-5-slug"
-                        className="c31"
+                        className="c30"
                         onChange={[Function]}
                         onFocus={[Function]}
                         value="test-slug"
@@ -1798,7 +1809,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 isHovered={false}
               >
                 <div
-                  className="c32"
+                  className="c31"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-description"
@@ -1816,14 +1827,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={320}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c32"
                   max={320}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -1996,7 +2007,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   margin: 0;
 }
 
-.c30 {
+.c29 {
   box-sizing: border-box;
   width: 100%;
   height: 8px;
@@ -2009,27 +2020,55 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   border: 1px solid #ddd;
 }
 
-.c30::-webkit-progress-bar {
+.c29::-webkit-progress-bar {
   background-color: #f7f7f7;
 }
 
-.c30::-webkit-progress-value {
+.c29::-webkit-progress-value {
   background-color: #dc3232;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
-.c30::-moz-progress-bar {
+.c29::-moz-progress-bar {
   background-color: #dc3232;
 }
 
-.c30::-ms-fill {
+.c29::-ms-fill {
   background-color: #dc3232;
   border: 0;
 }
 
-.c29 {
-  color: #dc3232;
+.c32 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c32::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c32::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c32::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c32::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c28 {
@@ -2059,7 +2098,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   content: "";
 }
 
-.c32 {
+.c31 {
   padding: 3px 5px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
@@ -2077,7 +2116,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   line-height: 19.6px;
 }
 
-.c32::before {
+.c31::before {
   display: block;
   position: absolute;
   top: -1px;
@@ -2089,7 +2128,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   content: "";
 }
 
-.c31 {
+.c30 {
   border: none;
   width: 100%;
   height: inherit;
@@ -2099,7 +2138,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   color: inherit;
 }
 
-.c31:focus {
+.c30:focus {
   outline: 0;
 }
 
@@ -2981,20 +3020,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField={null}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -3025,10 +3064,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 <div
                   className="c28"
                 >
-                  <SnippetEditorFields__TitleReplacementVariableEditor
+                  <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-title"
                     content="Test title"
-                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -3036,28 +3074,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       Object {
                         "actual": 0,
                         "max": 600,
-                        "score": 0,
+                        "score": 1,
                       }
                     }
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-title"
-                      className="c29"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                      titleLengthProgress={
-                        Object {
-                          "actual": 0,
-                          "max": 600,
-                          "score": 0,
-                        }
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </SnippetEditorFields__TitleReplacementVariableEditor>
+                    <div />
+                  </ReplacementVariableEditor>
                 </div>
               </SnippetEditorFields__InputContainer>
               <ProgressBar
@@ -3070,7 +3092,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c29"
                   max={600}
                   value={0}
                 />
@@ -3109,7 +3131,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-5-slug"
-                      className="c31"
+                      className="c30"
                       initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -3117,7 +3139,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     >
                       <input
                         aria-labelledby="snippet-editor-field-5-slug"
-                        className="c31"
+                        className="c30"
                         onChange={[Function]}
                         onFocus={[Function]}
                         value="test-slug"
@@ -3149,7 +3171,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 isHovered={false}
               >
                 <div
-                  className="c32"
+                  className="c31"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-description"
@@ -3167,14 +3189,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={320}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c32"
                   max={320}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -3347,7 +3369,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   margin: 0;
 }
 
-.c30 {
+.c29 {
   box-sizing: border-box;
   width: 100%;
   height: 8px;
@@ -3360,27 +3382,55 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   border: 1px solid #ddd;
 }
 
-.c30::-webkit-progress-bar {
+.c29::-webkit-progress-bar {
   background-color: #f7f7f7;
 }
 
-.c30::-webkit-progress-value {
+.c29::-webkit-progress-value {
   background-color: #dc3232;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
-.c30::-moz-progress-bar {
+.c29::-moz-progress-bar {
   background-color: #dc3232;
 }
 
-.c30::-ms-fill {
+.c29::-ms-fill {
   background-color: #dc3232;
   border: 0;
 }
 
-.c29 {
-  color: #dc3232;
+.c32 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c32::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c32::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c32::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c32::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c28 {
@@ -3410,7 +3460,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   content: "";
 }
 
-.c32 {
+.c31 {
   padding: 3px 5px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
@@ -3428,7 +3478,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   line-height: 19.6px;
 }
 
-.c32::before {
+.c31::before {
   display: block;
   position: absolute;
   top: -1px;
@@ -3440,7 +3490,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   content: "";
 }
 
-.c31 {
+.c30 {
   border: none;
   width: 100%;
   height: inherit;
@@ -3450,7 +3500,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   color: inherit;
 }
 
-.c31:focus {
+.c30:focus {
   outline: 0;
 }
 
@@ -4332,20 +4382,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField={null}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -4376,10 +4426,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 <div
                   className="c28"
                 >
-                  <SnippetEditorFields__TitleReplacementVariableEditor
+                  <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-title"
                     content="Test title"
-                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -4387,28 +4436,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       Object {
                         "actual": 0,
                         "max": 600,
-                        "score": 0,
+                        "score": 1,
                       }
                     }
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-5-title"
-                      className="c29"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                      titleLengthProgress={
-                        Object {
-                          "actual": 0,
-                          "max": 600,
-                          "score": 0,
-                        }
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </SnippetEditorFields__TitleReplacementVariableEditor>
+                    <div />
+                  </ReplacementVariableEditor>
                 </div>
               </SnippetEditorFields__InputContainer>
               <ProgressBar
@@ -4421,7 +4454,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c29"
                   max={600}
                   value={0}
                 />
@@ -4460,7 +4493,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-5-slug"
-                      className="c31"
+                      className="c30"
                       initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -4468,7 +4501,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     >
                       <input
                         aria-labelledby="snippet-editor-field-5-slug"
-                        className="c31"
+                        className="c30"
                         onChange={[Function]}
                         onFocus={[Function]}
                         value="test-slug"
@@ -4500,7 +4533,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 isHovered={false}
               >
                 <div
-                  className="c32"
+                  className="c31"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-description"
@@ -4518,14 +4551,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={320}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c32"
                   max={320}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -4698,7 +4731,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   margin: 0;
 }
 
-.c30 {
+.c29 {
   box-sizing: border-box;
   width: 100%;
   height: 8px;
@@ -4711,27 +4744,55 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   border: 1px solid #ddd;
 }
 
-.c30::-webkit-progress-bar {
+.c29::-webkit-progress-bar {
   background-color: #f7f7f7;
 }
 
-.c30::-webkit-progress-value {
+.c29::-webkit-progress-value {
   background-color: #dc3232;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
-.c30::-moz-progress-bar {
+.c29::-moz-progress-bar {
   background-color: #dc3232;
 }
 
-.c30::-ms-fill {
+.c29::-ms-fill {
   background-color: #dc3232;
   border: 0;
 }
 
-.c29 {
-  color: #dc3232;
+.c32 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c32::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c32::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c32::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c32::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c28 {
@@ -4761,7 +4822,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   content: "";
 }
 
-.c32 {
+.c31 {
   padding: 3px 5px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
@@ -4779,7 +4840,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   line-height: 19.6px;
 }
 
-.c32::before {
+.c31::before {
   display: block;
   position: absolute;
   top: -1px;
@@ -4791,7 +4852,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   content: "";
 }
 
-.c31 {
+.c30 {
   border: none;
   width: 100%;
   height: inherit;
@@ -4801,7 +4862,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   color: inherit;
 }
 
-.c31:focus {
+.c30:focus {
   outline: 0;
 }
 
@@ -5683,9 +5744,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField={null}
@@ -5696,7 +5757,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -5727,10 +5788,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 <div
                   className="c28"
                 >
-                  <SnippetEditorFields__TitleReplacementVariableEditor
+                  <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-2-title"
                     content="Test title"
-                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -5738,28 +5798,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       Object {
                         "actual": 0,
                         "max": 600,
-                        "score": 0,
+                        "score": 1,
                       }
                     }
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-2-title"
-                      className="c29"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                      titleLengthProgress={
-                        Object {
-                          "actual": 0,
-                          "max": 600,
-                          "score": 0,
-                        }
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </SnippetEditorFields__TitleReplacementVariableEditor>
+                    <div />
+                  </ReplacementVariableEditor>
                 </div>
               </SnippetEditorFields__InputContainer>
               <ProgressBar
@@ -5772,7 +5816,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c29"
                   max={600}
                   value={0}
                 />
@@ -5811,7 +5855,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-2-slug"
-                      className="c31"
+                      className="c30"
                       initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -5819,7 +5863,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     >
                       <input
                         aria-labelledby="snippet-editor-field-2-slug"
-                        className="c31"
+                        className="c30"
                         onChange={[Function]}
                         onFocus={[Function]}
                         value="test-slug"
@@ -5851,7 +5895,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 isHovered={false}
               >
                 <div
-                  className="c32"
+                  className="c31"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-2-description"
@@ -5869,14 +5913,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={320}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c32"
                   max={320}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -6997,72 +7041,68 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   margin: 0;
 }
 
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c33::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c30 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c30::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c30::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c30::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c30::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c29 {
-  color: #000;
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c29::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c29::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c29::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c29::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c32 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c32::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c32::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c32::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c32::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c28 {
@@ -7092,7 +7132,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   content: "";
 }
 
-.c32 {
+.c31 {
   padding: 3px 5px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
@@ -7110,7 +7150,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   line-height: 19.6px;
 }
 
-.c32::before {
+.c31::before {
   display: block;
   position: absolute;
   top: -1px;
@@ -7122,7 +7162,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   content: "";
 }
 
-.c31 {
+.c30 {
   border: none;
   width: 100%;
   height: inherit;
@@ -7132,7 +7172,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   color: inherit;
 }
 
-.c31:focus {
+.c30:focus {
   outline: 0;
 }
 
@@ -7229,7 +7269,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   margin-right: 7px;
 }
 
-.c34 {
+.c33 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -8014,9 +8054,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField={null}
@@ -8025,9 +8065,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
-          "actual": 361,
-          "max": 550,
-          "score": 6,
+          "actual": 0,
+          "max": 600,
+          "score": 1,
         }
       }
     >
@@ -8058,54 +8098,37 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 <div
                   className="c28"
                 >
-                  <SnippetEditorFields__TitleReplacementVariableEditor
+                  <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-8-title"
                     content="Test title"
-                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
                     titleLengthProgress={
                       Object {
-                        "actual": 361,
-                        "max": 550,
-                        "score": 6,
+                        "actual": 0,
+                        "max": 600,
+                        "score": 1,
                       }
                     }
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-8-title"
-                      className="c29"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                      titleLengthProgress={
-                        Object {
-                          "actual": 361,
-                          "max": 550,
-                          "score": 6,
-                        }
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </SnippetEditorFields__TitleReplacementVariableEditor>
+                    <div />
+                  </ReplacementVariableEditor>
                 </div>
               </SnippetEditorFields__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
-                max={550}
-                progressColor="#ee7c1b"
-                value={361}
+                max={600}
+                progressColor="#dc3232"
+                value={0}
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
-                  max={550}
-                  value={361}
+                  className="c29"
+                  max={600}
+                  value={0}
                 />
               </ProgressBar>
             </div>
@@ -8142,7 +8165,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-8-slug"
-                      className="c31"
+                      className="c30"
                       initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -8150,7 +8173,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     >
                       <input
                         aria-labelledby="snippet-editor-field-8-slug"
-                        className="c31"
+                        className="c30"
                         onChange={[Function]}
                         onFocus={[Function]}
                         value="test-slug"
@@ -8182,7 +8205,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 isHovered={false}
               >
                 <div
-                  className="c32"
+                  className="c31"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-8-description"
@@ -8200,14 +8223,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={320}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c33"
+                  className="c32"
                   max={320}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -8222,7 +8245,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c34"
+        className="c33"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -8231,7 +8254,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c34 Button-kDSBcD c15"
+          className="c33 Button-kDSBcD c15"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -8240,7 +8263,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c34 Button-kDSBcD c15 Button-kDSBcD c16"
+            className="c33 Button-kDSBcD c15 Button-kDSBcD c16"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -8249,7 +8272,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c34 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17"
+              className="c33 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -8258,13 +8281,13 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c34 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 Button-kDSBcD c18"
+                className="c33 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 Button-kDSBcD c18"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c34 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 Button-kDSBcD c18 c19"
+                  className="c33 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 Button-kDSBcD c18 c19"
                   onClick={[Function]}
                   type="button"
                 >
@@ -8380,72 +8403,68 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   margin: 0;
 }
 
-.c30 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c30::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c30::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c30::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c30::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #7ad03a;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #7ad03a;
-}
-
-.c33::-ms-fill {
-  background-color: #7ad03a;
-  border: 0;
-}
-
 .c29 {
-  color: #dc3232;
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c29::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c29::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c29::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c29::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c32 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c32::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c32::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c32::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c32::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c28 {
@@ -8475,7 +8494,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   content: "";
 }
 
-.c32 {
+.c31 {
   padding: 3px 5px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
@@ -8493,7 +8512,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   line-height: 19.6px;
 }
 
-.c32::before {
+.c31::before {
   display: block;
   position: absolute;
   top: -1px;
@@ -8505,7 +8524,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   content: "";
 }
 
-.c31 {
+.c30 {
   border: none;
   width: 100%;
   height: inherit;
@@ -8515,7 +8534,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   color: inherit;
 }
 
-.c31:focus {
+.c30:focus {
   outline: 0;
 }
 
@@ -8612,7 +8631,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   margin-right: 7px;
 }
 
-.c34 {
+.c33 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -9397,9 +9416,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       }
       descriptionLengthProgress={
         Object {
-          "actual": 330,
-          "max": 650,
-          "score": 9,
+          "actual": 42,
+          "max": 320,
+          "score": 6,
         }
       }
       hoveredField={null}
@@ -9408,9 +9427,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
-          "actual": 100,
-          "max": 550,
-          "score": 3,
+          "actual": 0,
+          "max": 600,
+          "score": 1,
         }
       }
     >
@@ -9441,54 +9460,37 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 <div
                   className="c28"
                 >
-                  <SnippetEditorFields__TitleReplacementVariableEditor
+                  <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-7-title"
                     content="Test title"
-                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
                     titleLengthProgress={
                       Object {
-                        "actual": 100,
-                        "max": 550,
-                        "score": 3,
+                        "actual": 0,
+                        "max": 600,
+                        "score": 1,
                       }
                     }
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-7-title"
-                      className="c29"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                      titleLengthProgress={
-                        Object {
-                          "actual": 100,
-                          "max": 550,
-                          "score": 3,
-                        }
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </SnippetEditorFields__TitleReplacementVariableEditor>
+                    <div />
+                  </ReplacementVariableEditor>
                 </div>
               </SnippetEditorFields__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
-                max={550}
+                max={600}
                 progressColor="#dc3232"
-                value={100}
+                value={0}
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
-                  max={550}
-                  value={100}
+                  className="c29"
+                  max={600}
+                  value={0}
                 />
               </ProgressBar>
             </div>
@@ -9525,7 +9527,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-7-slug"
-                      className="c31"
+                      className="c30"
                       initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -9533,7 +9535,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     >
                       <input
                         aria-labelledby="snippet-editor-field-7-slug"
-                        className="c31"
+                        className="c30"
                         onChange={[Function]}
                         onFocus={[Function]}
                         value="test-slug"
@@ -9565,7 +9567,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 isHovered={false}
               >
                 <div
-                  className="c32"
+                  className="c31"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-7-description"
@@ -9582,15 +9584,15 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
-                max={650}
-                progressColor="#7ad03a"
-                value={330}
+                max={320}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c33"
-                  max={650}
-                  value={330}
+                  className="c32"
+                  max={320}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -9605,7 +9607,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c34"
+        className="c33"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -9614,7 +9616,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c34 Button-kDSBcD c15"
+          className="c33 Button-kDSBcD c15"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -9623,7 +9625,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c34 Button-kDSBcD c15 Button-kDSBcD c16"
+            className="c33 Button-kDSBcD c15 Button-kDSBcD c16"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -9632,7 +9634,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c34 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17"
+              className="c33 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -9641,13 +9643,13 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c34 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 Button-kDSBcD c18"
+                className="c33 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 Button-kDSBcD c18"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c34 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 Button-kDSBcD c18 c19"
+                  className="c33 Button-kDSBcD c15 Button-kDSBcD c16 Button-kDSBcD c17 Button-kDSBcD c18 c19"
                   onClick={[Function]}
                   type="button"
                 >
@@ -9710,9 +9712,9 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField="description"
@@ -9723,7 +9725,7 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     />
@@ -10780,7 +10782,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   margin: 0;
 }
 
-.c31 {
+.c30 {
   box-sizing: border-box;
   width: 100%;
   height: 8px;
@@ -10793,27 +10795,55 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   border: 1px solid #ddd;
 }
 
-.c31::-webkit-progress-bar {
+.c30::-webkit-progress-bar {
   background-color: #f7f7f7;
 }
 
-.c31::-webkit-progress-value {
+.c30::-webkit-progress-value {
   background-color: #dc3232;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
-.c31::-moz-progress-bar {
+.c30::-moz-progress-bar {
   background-color: #dc3232;
 }
 
-.c31::-ms-fill {
+.c30::-ms-fill {
   background-color: #dc3232;
   border: 0;
 }
 
-.c30 {
-  color: #dc3232;
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c33::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c29 {
@@ -10843,7 +10873,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   content: "";
 }
 
-.c33 {
+.c32 {
   padding: 3px 5px;
   border: 1px solid #5b9dd9;
   box-shadow: 0 0 2px rgba(30,140,190,.8);
@@ -10861,7 +10891,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   line-height: 19.6px;
 }
 
-.c33::before {
+.c32::before {
   display: block;
   position: absolute;
   top: -1px;
@@ -10873,7 +10903,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   content: "";
 }
 
-.c32 {
+.c31 {
   border: none;
   width: 100%;
   height: inherit;
@@ -10883,7 +10913,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   color: inherit;
 }
 
-.c32:focus {
+.c31:focus {
   outline: 0;
 }
 
@@ -11785,9 +11815,9 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField={null}
@@ -11798,7 +11828,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -11829,10 +11859,9 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 <div
                   className="c29"
                 >
-                  <SnippetEditorFields__TitleReplacementVariableEditor
+                  <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-title"
                     content="Test title"
-                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -11840,28 +11869,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       Object {
                         "actual": 0,
                         "max": 600,
-                        "score": 0,
+                        "score": 1,
                       }
                     }
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-4-title"
-                      className="c30"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                      titleLengthProgress={
-                        Object {
-                          "actual": 0,
-                          "max": 600,
-                          "score": 0,
-                        }
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </SnippetEditorFields__TitleReplacementVariableEditor>
+                    <div />
+                  </ReplacementVariableEditor>
                 </div>
               </SnippetEditorFields__InputContainer>
               <ProgressBar
@@ -11874,7 +11887,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               >
                 <progress
                   aria-hidden="true"
-                  className="c31"
+                  className="c30"
                   max={600}
                   value={0}
                 />
@@ -11913,7 +11926,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-4-slug"
-                      className="c32"
+                      className="c31"
                       initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -11921,7 +11934,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     >
                       <input
                         aria-labelledby="snippet-editor-field-4-slug"
-                        className="c32"
+                        className="c31"
                         onChange={[Function]}
                         onFocus={[Function]}
                         value="test-slug"
@@ -11953,7 +11966,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 isHovered={false}
               >
                 <div
-                  className="c33"
+                  className="c32"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-description"
@@ -11971,14 +11984,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={320}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c31"
+                  className="c33"
                   max={320}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -12151,7 +12164,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   margin: 0;
 }
 
-.c31 {
+.c30 {
   box-sizing: border-box;
   width: 100%;
   height: 8px;
@@ -12164,27 +12177,55 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   border: 1px solid #ddd;
 }
 
-.c31::-webkit-progress-bar {
+.c30::-webkit-progress-bar {
   background-color: #f7f7f7;
 }
 
-.c31::-webkit-progress-value {
+.c30::-webkit-progress-value {
   background-color: #dc3232;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
-.c31::-moz-progress-bar {
+.c30::-moz-progress-bar {
   background-color: #dc3232;
 }
 
-.c31::-ms-fill {
+.c30::-ms-fill {
   background-color: #dc3232;
   border: 0;
 }
 
-.c30 {
-  color: #dc3232;
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c33::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c29 {
@@ -12214,7 +12255,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   content: "";
 }
 
-.c33 {
+.c32 {
   padding: 3px 5px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
@@ -12232,7 +12273,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   line-height: 19.6px;
 }
 
-.c33::before {
+.c32::before {
   display: block;
   position: absolute;
   top: -1px;
@@ -12244,7 +12285,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   content: "";
 }
 
-.c32 {
+.c31 {
   border: none;
   width: 100%;
   height: inherit;
@@ -12254,7 +12295,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   color: inherit;
 }
 
-.c32:focus {
+.c31:focus {
   outline: 0;
 }
 
@@ -13156,9 +13197,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField="description"
@@ -13169,7 +13210,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -13200,10 +13241,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 <div
                   className="c29"
                 >
-                  <SnippetEditorFields__TitleReplacementVariableEditor
+                  <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-title"
                     content="Test title"
-                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -13211,28 +13251,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                       Object {
                         "actual": 0,
                         "max": 600,
-                        "score": 0,
+                        "score": 1,
                       }
                     }
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-3-title"
-                      className="c30"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                      titleLengthProgress={
-                        Object {
-                          "actual": 0,
-                          "max": 600,
-                          "score": 0,
-                        }
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </SnippetEditorFields__TitleReplacementVariableEditor>
+                    <div />
+                  </ReplacementVariableEditor>
                 </div>
               </SnippetEditorFields__InputContainer>
               <ProgressBar
@@ -13245,7 +13269,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
               >
                 <progress
                   aria-hidden="true"
-                  className="c31"
+                  className="c30"
                   max={600}
                   value={0}
                 />
@@ -13284,7 +13308,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-3-slug"
-                      className="c32"
+                      className="c31"
                       initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -13292,7 +13316,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                     >
                       <input
                         aria-labelledby="snippet-editor-field-3-slug"
-                        className="c32"
+                        className="c31"
                         onChange={[Function]}
                         onFocus={[Function]}
                         value="test-slug"
@@ -13324,7 +13348,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 isHovered={true}
               >
                 <div
-                  className="c33"
+                  className="c32"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-description"
@@ -13342,14 +13366,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={320}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c31"
+                  className="c33"
                   max={320}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -13522,7 +13546,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   margin: 0;
 }
 
-.c30 {
+.c29 {
   box-sizing: border-box;
   width: 100%;
   height: 8px;
@@ -13535,27 +13559,55 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   border: 1px solid #ddd;
 }
 
-.c30::-webkit-progress-bar {
+.c29::-webkit-progress-bar {
   background-color: #f7f7f7;
 }
 
-.c30::-webkit-progress-value {
+.c29::-webkit-progress-value {
   background-color: #dc3232;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
-.c30::-moz-progress-bar {
+.c29::-moz-progress-bar {
   background-color: #dc3232;
 }
 
-.c30::-ms-fill {
+.c29::-ms-fill {
   background-color: #dc3232;
   border: 0;
 }
 
-.c29 {
-  color: #dc3232;
+.c32 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c32::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c32::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c32::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c32::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c28 {
@@ -13585,7 +13637,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   content: "";
 }
 
-.c32 {
+.c31 {
   padding: 3px 5px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
@@ -13603,7 +13655,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   line-height: 19.6px;
 }
 
-.c32::before {
+.c31::before {
   display: block;
   position: absolute;
   top: -1px;
@@ -13615,7 +13667,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   content: "";
 }
 
-.c31 {
+.c30 {
   border: none;
   width: 100%;
   height: inherit;
@@ -13625,7 +13677,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   color: inherit;
 }
 
-.c31:focus {
+.c30:focus {
   outline: 0;
 }
 
@@ -14507,9 +14559,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField={null}
@@ -14520,7 +14572,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -14551,10 +14603,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 <div
                   className="c28"
                 >
-                  <SnippetEditorFields__TitleReplacementVariableEditor
+                  <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-1-title"
                     content="Test title"
-                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -14562,28 +14613,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       Object {
                         "actual": 0,
                         "max": 600,
-                        "score": 0,
+                        "score": 1,
                       }
                     }
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-1-title"
-                      className="c29"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={Array []}
-                      titleLengthProgress={
-                        Object {
-                          "actual": 0,
-                          "max": 600,
-                          "score": 0,
-                        }
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </SnippetEditorFields__TitleReplacementVariableEditor>
+                    <div />
+                  </ReplacementVariableEditor>
                 </div>
               </SnippetEditorFields__InputContainer>
               <ProgressBar
@@ -14596,7 +14631,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c29"
                   max={600}
                   value={0}
                 />
@@ -14635,7 +14670,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-1-slug"
-                      className="c31"
+                      className="c30"
                       initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -14643,7 +14678,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     >
                       <input
                         aria-labelledby="snippet-editor-field-1-slug"
-                        className="c31"
+                        className="c30"
                         onChange={[Function]}
                         onFocus={[Function]}
                         value="test-slug"
@@ -14675,7 +14710,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 isHovered={false}
               >
                 <div
-                  className="c32"
+                  className="c31"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-1-description"
@@ -14693,14 +14728,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={320}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c32"
                   max={320}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -14873,7 +14908,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   margin: 0;
 }
 
-.c30 {
+.c29 {
   box-sizing: border-box;
   width: 100%;
   height: 8px;
@@ -14886,27 +14921,55 @@ exports[`SnippetEditor passes replacement variables to the title and description
   border: 1px solid #ddd;
 }
 
-.c30::-webkit-progress-bar {
+.c29::-webkit-progress-bar {
   background-color: #f7f7f7;
 }
 
-.c30::-webkit-progress-value {
+.c29::-webkit-progress-value {
   background-color: #dc3232;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
-.c30::-moz-progress-bar {
+.c29::-moz-progress-bar {
   background-color: #dc3232;
 }
 
-.c30::-ms-fill {
+.c29::-ms-fill {
   background-color: #dc3232;
   border: 0;
 }
 
-.c29 {
-  color: #dc3232;
+.c32 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c32::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c32::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c32::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c32::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c28 {
@@ -14936,7 +14999,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   content: "";
 }
 
-.c32 {
+.c31 {
   padding: 3px 5px;
   border: 1px solid #ddd;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
@@ -14954,7 +15017,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   line-height: 19.6px;
 }
 
-.c32::before {
+.c31::before {
   display: block;
   position: absolute;
   top: -1px;
@@ -14966,7 +15029,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   content: "";
 }
 
-.c31 {
+.c30 {
   border: none;
   width: 100%;
   height: inherit;
@@ -14976,7 +15039,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   color: inherit;
 }
 
-.c31:focus {
+.c30:focus {
   outline: 0;
 }
 
@@ -15869,9 +15932,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField={null}
@@ -15893,7 +15956,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -15924,10 +15987,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 <div
                   className="c28"
                 >
-                  <SnippetEditorFields__TitleReplacementVariableEditor
+                  <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-title"
                     content="Test title"
-                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={
@@ -15946,39 +16008,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       Object {
                         "actual": 0,
                         "max": 600,
-                        "score": 0,
+                        "score": 1,
                       }
                     }
                   >
-                    <ReplacementVariableEditor
-                      ariaLabelledBy="snippet-editor-field-6-title"
-                      className="c29"
-                      content="Test title"
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      replacementVariables={
-                        Array [
-                          Object {
-                            "name": "title",
-                            "value": "Title!!!",
-                          },
-                          Object {
-                            "name": "excerpt",
-                            "value": "Excerpt!!!",
-                          },
-                        ]
-                      }
-                      titleLengthProgress={
-                        Object {
-                          "actual": 0,
-                          "max": 600,
-                          "score": 0,
-                        }
-                      }
-                    >
-                      <div />
-                    </ReplacementVariableEditor>
-                  </SnippetEditorFields__TitleReplacementVariableEditor>
+                    <div />
+                  </ReplacementVariableEditor>
                 </div>
               </SnippetEditorFields__InputContainer>
               <ProgressBar
@@ -15991,7 +16026,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c29"
                   max={600}
                   value={0}
                 />
@@ -16030,7 +16065,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-6-slug"
-                      className="c31"
+                      className="c30"
                       initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -16038,7 +16073,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     >
                       <input
                         aria-labelledby="snippet-editor-field-6-slug"
-                        className="c31"
+                        className="c30"
                         onChange={[Function]}
                         onFocus={[Function]}
                         value="test-slug"
@@ -16070,7 +16105,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 isHovered={false}
               >
                 <div
-                  className="c32"
+                  className="c31"
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-description"
@@ -16099,14 +16134,14 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={320}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c30"
+                  className="c32"
                   max={320}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -16708,9 +16743,9 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       }
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 320,
-          "score": 0,
+          "score": 6,
         }
       }
       hoveredField={null}
@@ -16721,7 +16756,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     />

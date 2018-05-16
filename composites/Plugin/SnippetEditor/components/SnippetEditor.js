@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
 import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
-import createMeasurementElements from "yoastseo/js/helpers/createMeasurementElements";
+import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -40,14 +40,28 @@ const CloseEditorButton = SnippetEditorButton.extend`
 	margin-left: 20px;
 `;
 
-function getTitleScore() {
-	createMeasurementElements();
-	const hiddenElement = document.getElementsByClassName( "yoast-measurement-elements-holder" );
-	console.log(hiddenElement)
-	const PageTitleWidthAssessment = new PageTitleWidthAssesment();
-	return PageTitleWidthAssessment.calculateScore();
+/**
+ * Gets the title progress.
+ * @param {string} title The title.
+ * @returns {Object} The title progress.
+ */
+function getTitleProgress( title ) {
+	const titleWidth = measureTextWidth( title );
+	const pageTitleWidthAssessment = new PageTitleWidthAssesment();
+	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
+	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
+	return {
+		max: maximumLength,
+		actual: titleWidth,
+		score: score,
+	};
 }
 
+/**
+ * Gets the description progress.
+ * @param {number} descriptionLength The length of the description.
+ * @returns {Object} The description progress.
+ */
 function getDescriptionProgress( descriptionLength ) {
 	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
 	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
@@ -96,8 +110,8 @@ class SnippetEditor extends React.Component {
 			isOpen: false,
 			activeField: null,
 			hoveredField: null,
-			titleLengthProgress: {},
-			descriptionLengthProgress: {},
+			titleLengthProgress: getTitleProgress( props.data.title ),
+			descriptionLengthProgress: getDescriptionProgress( props.data.description.length ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
@@ -110,13 +124,43 @@ class SnippetEditor extends React.Component {
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
 	}
 
+	/**
+	 * Updates the state when the component receives new props.
+	 *
+	 * @param {Object} nextProps The new props
+	 * @returns {void}
+	 */
+	componentWillReceiveProps( nextProps ) {
+		this.setState(
+			{
+				titleLengthProgress: getTitleProgress( nextProps.data.title ),
+				descriptionLengthProgress: getDescriptionProgress( nextProps.data.description.length ),
+			}
+		);
+	}
+
+	/**
+	 * Handles the onChange event.
+	 *
+	 * First updates the description progress and title progress.
+	 * Then calls the onChange function that is paased through the props.
+	 *
+	 * @param {string} type The type of change.
+	 * @param {string} content The content of the changed field.
+	 *
+	 * @returns {void}
+	 */
 	handleChange( type, content ) {
+		let descriptionProgress, titleProgress;
 		switch( type ) {
 			case "description":
-				let descriptionProgress = getDescriptionProgress( content.length );
+				descriptionProgress = getDescriptionProgress( content.length );
 				this.setState( { descriptionLengthProgress: descriptionProgress } );
+				break;
 			case "title":
-				let titleScore = getTitleScore();
+				titleProgress = getTitleProgress( content );
+				this.setState( { titleLengthProgress: titleProgress } );
+				break;
 		}
 		this.props.onChange( type, content );
 	}
