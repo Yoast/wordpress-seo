@@ -417,12 +417,12 @@ abstract class WPSEO_Option {
 	 */
 	public function register_setting() {
 		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
-			if ( $this->multisite_only !== true ) {
-				register_setting( $this->group_name, $this->option_name );
-			}
-			elseif ( is_multisite() ) {
+			if ( $this->multisite_only === true ) {
 				Yoast_Network_Settings_API::get()->register_setting( $this->group_name, $this->option_name );
+				return;
 			}
+
+			register_setting( $this->group_name, $this->option_name );
 		}
 	}
 
