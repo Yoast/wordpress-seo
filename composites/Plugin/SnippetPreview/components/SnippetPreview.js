@@ -9,12 +9,14 @@ import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import partial from "lodash/partial";
 import { parse } from "url";
+import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
 import colors from "../../../../style-guide/colors";
 import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
+import HelpTextWrapper from "../components/HelpTextWrapper";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -52,6 +54,11 @@ const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
 		'<path fill="' + color + '" d="M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z" />' +
 	"</svg>"
 );
+
+export const helpText = [ __( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
+	<a key="1" href="https://yoa.st/snippet-preview" rel="noopener noreferrer" target="_blank">
+		{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
+	</a> ];
 
 export const BaseTitle = styled.div`
 	cursor: pointer;
@@ -251,6 +258,16 @@ function highlightKeyword( locale, keyword, text, cleanText ) {
 		mixedString: text,
 		components: { strong: <strong /> },
 	} );
+}
+
+/**
+ * Returns if a url has a trailing slash or not.
+ *
+ * @param {string} url The url to check for a trailing slash.
+ * @returns {boolean} Whether or not the url contains a trailing slash.
+ */
+function hasTrailingSlash( url ) {
+	return url.lastIndexOf( "/" ) === ( url.length - 1 );
 }
 
 export default class SnippetPreview extends PureComponent {
@@ -500,27 +517,25 @@ export default class SnippetPreview extends PureComponent {
 			onClick,
 			onMouseOver,
 			onMouseLeave,
-			locale,
-			keyword,
 		} = this.props;
 
-		let urlContent;
 		/*
 		 * We need to replace special characters and diacritics only on the url
 		 * string because when highlightKeyword kicks in, interpolateComponents
 		 * returns an array of strings plus a strong React element, and replace()
 		 * can't run on an array.
 		 */
-		let cleanUrl = replaceSpecialCharactersAndDiacritics( url );
+		let urlContent = replaceSpecialCharactersAndDiacritics( url );
 
 		if ( this.props.mode === MODE_MOBILE ) {
-			urlContent = this.getBreadcrumbs( cleanUrl );
+			urlContent = this.getBreadcrumbs( urlContent );
 		} else {
-			urlContent = highlightKeyword( locale, keyword, url, cleanUrl );
+			if ( ! hasTrailingSlash( urlContent ) ) {
+				urlContent = urlContent + "/";
+			}
 		}
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
-
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
 		 * However this is not relevant in this case, because the url is not focusable.
@@ -659,6 +674,9 @@ export default class SnippetPreview extends PureComponent {
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return (
 			<section>
+				<div>
+					<HelpTextWrapper helpText={ helpText } />
+				</div>
 				<Container onMouseLeave={ this.onMouseLeave }
 				           width={ MAX_WIDTH + 2 * WIDTH_PADDING }
 				           padding={ WIDTH_PADDING }>
@@ -716,7 +734,6 @@ export default class SnippetPreview extends PureComponent {
 		const PartContainer = mode === MODE_DESKTOP ? DesktopPartContainer : MobilePartContainer;
 		const Container = mode === MODE_DESKTOP ? DesktopContainer : MobileContainer;
 		const TitleUnbounded = mode === MODE_DESKTOP ? TitleUnboundedDesktop : TitleUnboundedMobile;
-
 		const Title = this.addCaretStyles( "title", BaseTitle );
 
 		return {
@@ -742,6 +759,7 @@ SnippetPreview.propTypes = {
 	locale: PropTypes.string,
 	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
+	helpText: PropTypes.string,
 
 	onClick: PropTypes.func.isRequired,
 	onHover: PropTypes.func,

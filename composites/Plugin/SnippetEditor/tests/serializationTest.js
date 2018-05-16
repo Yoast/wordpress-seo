@@ -1,5 +1,11 @@
 import { serializeEditor, unserializeEditor } from "../serialization";
 
+const TAGS = [
+	{ name: "title", value: "Title" },
+	{ name: "post_type", value: "Gallery" },
+];
+
+
 describe( "editor serialization", () => {
 	it( "transforms the deep structure to a plain string", () => {
 		const structure = {
@@ -10,22 +16,26 @@ describe( "editor serialization", () => {
 				depth: 0,
 				inlineStyleRanges: [],
 				entityRanges: [ {
+					offset: 6,
+					length: 9,
+					key: 0,
+				}, {
 					offset: 0,
 					length: 5,
-					key: 0,
-				}, { offset: 6, length: 9, key: 1 } ],
+					key: 1,
+				} ],
 				data: {},
 			} ],
 			entityMap: {
 				0: {
-					type: "%%mention",
+					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: new Map( [ [ "name", "title" ], [ "description", "%%title%%" ] ] ) },
+					data: { mention: { name: "post_type" } },
 				},
 				1: {
-					type: "%%mention",
+					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: new Map( [ [ "name", "post_type" ], [ "description", "%%post_type%%" ] ] ) },
+					data: { mention: { name: "title" } },
 				},
 			},
 		};
@@ -44,26 +54,30 @@ describe( "editor unserialization", () => {
 			blocks: [ {
 				text: "title post_type test test123",
 				entityRanges: [ {
+					offset: 6,
+					length: 9,
+					key: 0,
+				}, {
 					offset: 0,
 					length: 5,
-					key: 0,
-				}, { offset: 6, length: 9, key: 1 } ],
+					key: 1,
+				} ],
 			} ],
 			entityMap: {
 				0: {
-					type: "%%mention",
+					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: new Map( [ [ "name", "title" ], [ "description", "%%title%%" ] ] ) },
+					data: { mention: { name: "post_type" } },
 				},
 				1: {
-					type: "%%mention",
+					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: new Map( [ [ "name", "post_type" ], [ "description", "%%post_type%%" ] ] ) },
+					data: { mention: { name: "title" } },
 				},
 			},
 		};
 
-		const actual = unserializeEditor( input );
+		const actual = unserializeEditor( input, TAGS );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -72,7 +86,7 @@ describe( "editor unserialization", () => {
 		const input = "The first thing, %%title%%, %%post_type%% type.";
 		const expected = input;
 
-		const actual = serializeEditor( unserializeEditor( input ) );
+		const actual = serializeEditor( unserializeEditor( input, TAGS ) );
 
 		expect( actual ).toBe( expected );
 	} );
