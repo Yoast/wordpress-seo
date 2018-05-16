@@ -1,4 +1,6 @@
 /* global wpseoReplaceVarsL10n, require */
+import { updateReplacementVariable } from "./redux/actions/snippetEditor";
+
 var forEach = require( "lodash/forEach" );
 var filter = require( "lodash/filter" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -21,14 +23,16 @@ var ReplaceVar = require( "./values/replaceVar" );
 	/**
 	 * Variable replacement plugin for WordPress.
 	 *
-	 * @param {app} app The app object.
+	 * @param {app}    app   The app object.
 	 * @param {Object} store The redux store.
 	 *
 	 * @returns {void}
 	 */
-	var YoastReplaceVarPlugin = function( app ) {
+	var YoastReplaceVarPlugin = function( app, store ) {
 		this._app = app;
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
+
+		this._store = store;
 
 		this.registerReplacements();
 		this.registerModifications();
@@ -267,15 +271,30 @@ var ReplaceVar = require( "./values/replaceVar" );
 			taxonomyElements[ taxonomyName ] = {};
 		}
 
+		const checkHierarchicalTerm = [];
+
 		forEach( checkboxes, function( checkbox ) {
 			checkbox = jQuery( checkbox );
-			var taxonomyID = checkbox.val();
+			const taxonomyID = checkbox.val();
 
+			const hierarchicalTermName = this.getCategoryName( checkbox );
+			const isChecked = checkbox.prop( "checked" );
 			taxonomyElements[ taxonomyName ][ taxonomyID ] = {
-				label: this.getCategoryName( checkbox ),
-				checked: checkbox.prop( "checked" ),
+				label: hierarchicalTermName,
+				checked: isChecked,
 			};
+			if( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
+				// Only push the categoryName to the checkedCategories array if it's not already in there.
+				checkHierarchicalTerm.push( hierarchicalTermName );
+			}
 		}.bind( this ) );
+
+		// Custom taxonomies (ie. taxonomies that are not "category") should be prefixed with ct_.
+		if ( taxonomyName !== "category" ) {
+			taxonomyName = "ct_" + taxonomyName;
+		}
+
+		this._store.dispatch( updateReplacementVariable( taxonomyName, checkHierarchicalTerm.join( ", " ) ) );
 	};
 
 	/**
@@ -358,7 +377,6 @@ var ReplaceVar = require( "./values/replaceVar" );
 
 			filtered.push( item.label );
 		} );
-
 		return jQuery.unique( filtered ).join( ", " );
 	};
 
