@@ -118,7 +118,7 @@ describe( "refreshYoastSEO", () => {
 
 describe( "getData", () => {
 	it( "returns the data", () => {
-		data.data = { content: "this is the content" };
+		data._data = { content: "this is the content" };
 		const actual = data.getData();
 		const expected = { content: "this is the content" };
 		expect( actual ).toEqual( expected );
