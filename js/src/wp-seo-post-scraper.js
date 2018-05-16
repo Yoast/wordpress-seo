@@ -280,6 +280,15 @@ import isFunction from "lodash/isFunction";
 			tabManager,
 			data,
 		} );
+
+		/*
+		 * Initially any change on the slug needs to be persisted as post name.
+		 *
+		 * This value will change whenever an AJAX call is being detected that
+		 * populates the slug with a generated value based on the Title (or ID if no title is set).
+		 *
+		 * See bind event on "ajaxComplete" in this file.
+		 */
 		postDataCollector.leavePostNameUntouched = false;
 
 		return postDataCollector;
@@ -549,11 +558,21 @@ import isFunction from "lodash/isFunction";
 			const state = store.getState();
 			const data = state.snippetEditor.data;
 
-			postDataCollector.saveSnippetData( {
-				title: data.title,
-				urlPath: data.slug,
-				metaDesc: data.description,
-			} );
+			if ( snippetEditorData.title !== data.title ) {
+				postDataCollector.setDataFromSnippet( data.title, "snippet_title" );
+			}
+
+			if ( snippetEditorData.slug !== data.slug ) {
+				postDataCollector.setDataFromSnippet( data.slug, "snippet_cite" );
+			}
+
+			if ( snippetEditorData.description !== data.description ) {
+				postDataCollector.setDataFromSnippet( data.description, "snippet_meta" );
+			}
+
+			snippetEditorData.title = data.title;
+			snippetEditorData.slug = data.slug;
+			snippetEditorData.description = data.description;
 
 			renderLegacySnippetEditor( data );
 		} );
