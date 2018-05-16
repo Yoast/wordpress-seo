@@ -101,6 +101,11 @@ class Yoast_Notification_Center {
 		// Check unprefixed user meta for backward-compatibility.
 		if ( empty( $current_value ) ) {
 			$current_value = get_user_meta( $user_id, $dismissal_key, true );
+
+			// Migrate old user meta to user option on-the-fly.
+			if ( ! empty( $current_value ) && update_user_option( $user_id, $dismissal_key, $current_value ) !== false ) {
+				delete_user_meta( $user_id, $dismissal_key );
+			}
 		}
 
 		return ! empty( $current_value );

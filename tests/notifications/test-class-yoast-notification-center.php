@@ -558,11 +558,15 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		) );
 		$dismissal_key = $notification->get_dismissal_key();
 
-		// Dismiss notification for the current site.
+		// Dismiss notification in the old incorrect way.
 		update_user_meta( $this->user_id, $dismissal_key, 'seen' );
 
 		$dismissed = Yoast_Notification_Center::is_notification_dismissed( $notification );
 
 		$this->assertTrue( $dismissed );
+
+		// Ensure the old data has been migrated on-the-fly.
+		$this->assertSame( 'seen', get_user_option( $dismissal_key, $this->user_id ) );
+		$this->assertEmpty( get_user_meta( $this->user_id, $dismissal_key, true ) );
 	}
 }
