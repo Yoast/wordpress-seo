@@ -125,7 +125,6 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 				),
 			);
 		}
-
 		/*
 		 * Output this only if json is formatted correctly, with all data requested by Big G
 		 */
