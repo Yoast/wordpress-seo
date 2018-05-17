@@ -215,7 +215,7 @@ class ReplacementVariableEditor extends React.Component {
 
 		if (
 			( nextProps.content !== this._serializedContent && nextProps.content !== content ) ||
-		    nextProps.replacementVariables !== replacementVariables
+			nextProps.replacementVariables !== replacementVariables
 		) {
 			this._serializedContent = nextProps.content;
 			const unserialized = unserializeEditor( nextProps.content, nextProps.replacementVariables );
