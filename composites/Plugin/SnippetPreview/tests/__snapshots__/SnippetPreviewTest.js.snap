@@ -1349,11 +1349,11 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 
 .c17 {
   display: inline-block;
+  font-size: 16px;
   line-height: 1.2em;
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
 }
 
 .c19 {
@@ -1379,7 +1379,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   max-width: 100%;
 }
 
-.c23 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1387,16 +1387,12 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 13px;
 }
 
-.c22 {
-  max-height: 4em;
-  padding-bottom: 3px;
-}
-
-.c24 {
-  overflow: hidden;
+.c23 {
   font-size: 14px;
   line-height: 20px;
-  max-height: calc( 4em + 3px );
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -1577,14 +1573,14 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Meta description preview:
       </span>
       <div
-        className="c22 c23"
+        className="c22"
         color="#545454"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c24 c22 c23"
+          className="c23 c22"
           color="#545454"
         >
           Description
@@ -1765,11 +1761,11 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 
 .c17 {
   display: inline-block;
+  font-size: 16px;
   line-height: 1.2em;
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
 }
 
 .c18 {
@@ -1795,7 +1791,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c21 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1803,16 +1799,12 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 13px;
 }
 
-.c21 {
-  max-height: 4em;
-  padding-bottom: 3px;
-}
-
-.c23 {
-  overflow: hidden;
+.c22 {
   font-size: 14px;
   line-height: 20px;
-  max-height: calc( 4em + 3px );
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -1979,14 +1971,14 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21 c22"
+        className="c21"
         color="#545454"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c23 c21 c22"
+          className="c22 c21"
           color="#545454"
         >
           Description
@@ -2167,11 +2159,11 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 
 .c17 {
   display: inline-block;
+  font-size: 16px;
   line-height: 1.2em;
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
 }
 
 .c18 {
@@ -2197,7 +2189,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c21 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2205,16 +2197,12 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 13px;
 }
 
-.c21 {
-  max-height: 4em;
-  padding-bottom: 3px;
-}
-
-.c23 {
-  overflow: hidden;
+.c22 {
   font-size: 14px;
   line-height: 20px;
-  max-height: calc( 4em + 3px );
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -2381,14 +2369,14 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21 c22"
+        className="c21"
         color="#545454"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c23 c21 c22"
+          className="c22 c21"
           color="#545454"
         >
           Description
