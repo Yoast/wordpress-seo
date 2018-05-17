@@ -2,6 +2,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import identity from "lodash/identity";
+import get from "lodash/get";
 import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
 import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
 import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
@@ -47,7 +49,11 @@ const CloseEditorButton = SnippetEditorButton.extend`
  * @returns {Object} The title progress.
  */
 function getTitleProgress( title ) {
-	const titleWidth = measureTextWidth( title );
+	const replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
+
+	// Replace all replacevalues to get the actual title.
+	const replacedTitle = replaceVariables( title );
+	const titleWidth = measureTextWidth( replacedTitle );
 	const pageTitleWidthAssessment = new PageTitleWidthAssesment();
 	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
 	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
@@ -60,16 +66,22 @@ function getTitleProgress( title ) {
 
 /**
  * Gets the description progress.
- * @param {number} descriptionLength The length of the description.
+ * @param {number} description The description.
  * @returns {Object} The description progress.
  */
-function getDescriptionProgress( descriptionLength ) {
+function getDescriptionProgress( description ) {
+	const replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
+
+	// Replace all replacevalues to get the actual description.
+	const replacedDescription = replaceVariables( description );
+	const replacedDescriptionLength = replacedDescription.length;
+
 	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
-	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
+	const score = metaDescriptionLengthAssessment.calculateScore( replacedDescriptionLength );
 	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
 	return {
 		max: maximumLength,
-		actual: descriptionLength,
+		actual: replacedDescriptionLength,
 		score: score,
 	};
 }
@@ -112,7 +124,7 @@ class SnippetEditor extends React.Component {
 			activeField: null,
 			hoveredField: null,
 			titleLengthProgress: getTitleProgress( props.data.title ),
-			descriptionLengthProgress: getDescriptionProgress( props.data.description.length ),
+			descriptionLengthProgress: getDescriptionProgress( props.data.description ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
@@ -135,7 +147,7 @@ class SnippetEditor extends React.Component {
 		this.setState(
 			{
 				titleLengthProgress: getTitleProgress( nextProps.data.title ),
-				descriptionLengthProgress: getDescriptionProgress( nextProps.data.description.length ),
+				descriptionLengthProgress: getDescriptionProgress( nextProps.data.description ),
 			}
 		);
 	}
@@ -155,7 +167,7 @@ class SnippetEditor extends React.Component {
 		let descriptionProgress, titleProgress;
 		switch( type ) {
 			case "description":
-				descriptionProgress = getDescriptionProgress( content.length );
+				descriptionProgress = getDescriptionProgress( content );
 				this.setState( { descriptionLengthProgress: descriptionProgress } );
 				break;
 			case "title":
@@ -377,6 +389,7 @@ class SnippetEditor extends React.Component {
 		const {
 			onChange,
 			data,
+			descriptionPlaceholder,
 			mode,
 			date,
 			locale,
@@ -408,6 +421,7 @@ class SnippetEditor extends React.Component {
 					onMouseLeave={ this.onMouseLeave }
 					onClick={ this.onClick }
 					locale={ locale }
+					descriptionPlaceholder={ descriptionPlaceholder }
 					{ ...mappedData }
 				/>
 
@@ -436,6 +450,7 @@ SnippetEditor.propTypes = {
 		slug: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
+	descriptionPlaceholder: PropTypes.string,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
