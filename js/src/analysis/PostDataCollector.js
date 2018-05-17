@@ -59,7 +59,7 @@ PostDataCollector.prototype.getData = function() {
 		searchUrl: this.getSearchUrl(),
 		postUrl: this.getPostUrl(),
 		permalink: this.getPermalink(),
-		titleWidth: measureTextWidth( data.title ),
+		titleWidth: measureTextWidth( this.getSnippetTitle() ),
 	};
 
 	const state = this._store.getState();
