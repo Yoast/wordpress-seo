@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
 // External dependencies.
 import { App } from "yoastseo";
@@ -260,6 +260,7 @@ window.yoastHideMarkers = true;
 			analysisSection: "pageanalysis",
 			shouldRenderSnippetPreview: !! wpseoTermScraperL10n.reactSnippetPreview,
 			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
+			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 		};
 		store = initializeEdit( editArgs ).store;
 

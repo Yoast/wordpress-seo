@@ -2,7 +2,6 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import isEqual from "lodash/isEqual";
 import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
@@ -569,28 +568,28 @@ setYoastComponentsI18n();
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
-        store.subscribe( () => {
-            const data = snippetEditorHelpers.getDataFromStore( store );
-            const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
+		store.subscribe( () => {
+			const data = snippetEditorHelpers.getDataFromStore( store );
+			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
 
-            if ( snippetEditorData.title !== data.title ) {
-                postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
-            }
+			if ( snippetEditorData.title !== data.title ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
+			}
 
-            if ( snippetEditorData.slug !== data.slug ) {
-                postDataCollector.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
-            }
+			if ( snippetEditorData.slug !== data.slug ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
+			}
 
-            if ( snippetEditorData.description !== data.description ) {
-                postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
-            }
+			if ( snippetEditorData.description !== data.description ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+			}
 
-            snippetEditorData.title = data.title;
-            snippetEditorData.slug = data.slug;
-            snippetEditorData.description = data.description;
+			snippetEditorData.title = data.title;
+			snippetEditorData.slug = data.slug;
+			snippetEditorData.description = data.description;
 
-            updateLegacySnippetEditor( data );
-        } );
+			updateLegacySnippetEditor( data );
+		} );
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );
