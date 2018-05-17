@@ -5,6 +5,40 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.0.1 May 17th, 2018
+
+### Fixes
+
+* Fixes progress bars in `SnippetEditor`.
+
+## 4.0.0 May 16th, 2018
+
+### Breaking changes
+
+* Changed library used for translation from `react-intl` to `@wordpress/i18n`. [#494](https://github.com/Yoast/yoast-components/pull/494), [#469](https://github.com/Yoast/yoast-components/pull/496), [#497](https://github.com/Yoast/yoast-components/pull/497), [#498](https://github.com/Yoast/yoast-components/pull/498), [#500](https://github.com/Yoast/yoast-components/pull/500), [#505](https://github.com/Yoast/yoast-components/pull/505), [#506](https://github.com/Yoast/yoast-components/pull/506), [#507](https://github.com/Yoast/yoast-components/pull/507), [#508](https://github.com/Yoast/yoast-components/pull/508)
+
+### Added
+
+* Added `HelpText` component. [#480](https://github.com/Yoast/yoast-components/pull/480)
+* Added `KeywordInput` component. [#482](https://github.com/Yoast/yoast-components/pull/482)
+* Added help text drop down to `SnippetEditor`. [#517](https://github.com/Yoast/yoast-components/pull/517)
+
+### Changed
+
+* Added trailing slashes to `SnippetPreview` url desktop preview. [#526](https://github.com/Yoast/yoast-components/pull/526)
+* Improved `SnippetEditor` mentions suggestions accessibility. [#525](https://github.com/Yoast/yoast-components/pull/525)
+* URL safe characters are preserved in the `SnippetPreview`. [#520](https://github.com/Yoast/yoast-components/pull/520)
+* Transliterated keywords are highlighted in title and description in `SnippetPreview`. [#519](https://github.com/Yoast/yoast-components/pull/519), [#521](https://github.com/Yoast/yoast-components/pull/521), [#522](https://github.com/Yoast/yoast-components/pull/522)
+* The `SnippetEditor` slug input field has been changed from a `DraftJS` editor to a regular input field. [#515](https://github.com/Yoast/yoast-components/pull/515)
+* Dashes and question marks get stripped from the `SnippetEditor` url preview. [#495](https://github.com/Yoast/yoast-components/pull/495)
+* Allow optional help text to be passed to the `ContentAnalysis` component. [#480](https://github.com/Yoast/yoast-components/pull/480)
+* Upgraded webpack to version `4.7` in the development environment. [#501](https://github.com/Yoast/yoast-components/pull/501)
+
+### Fixed
+
+* Replace vars in description and title are converted to mentions on load. [#529](https://github.com/Yoast/yoast-components/pull/529)
+* Implemented various styling fixes for the `SnippetEditor` component. [#491](https://github.com/Yoast/yoast-components/pull/491), [#513](https://github.com/Yoast/yoast-components/pull/513), [#513](https://github.com/Yoast/yoast-components/pull/513)
+
 ## 3.5.1 April 25th, 2018
 
 ### Fixed

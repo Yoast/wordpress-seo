@@ -18,9 +18,9 @@ export function serializeTag( name ) {
 }
 
 /**
- * Serializes a DraftJS block into a string.
+ * Serializes a Draft.js block into a string.
  *
- * @param {Object} entityMap Contains all the entities in the DraftJS editor.
+ * @param {Object} entityMap Contains all the entities in the Draft.js editor.
  * @param {Object} block The block to serialize.
  *
  * @returns {string} The serialized block.
@@ -49,7 +49,7 @@ export function serializeBlock( entityMap, block ) {
 }
 
 /**
- * Serializes the content inside a DraftJS editor.
+ * Serializes the content inside a Draft.js editor.
  *
  * @param {Object} rawContent The content as returned by convertToRaw.
  *
@@ -75,7 +75,7 @@ export function unserializeTag( serializedTag ) {
 }
 
 /**
- * Unserializes an entity to DraftJS data.
+ * Unserializes an entity to Draft.js data.
  *
  * @param {number} key The key the new entity should use.
  * @param {string} name The name of this entity.
@@ -129,10 +129,10 @@ const getIndicesOf = ( searchTerm, text ) => {
 };
 
 /**
- * Unserializes a piece of content into DraftJS data.
+ * Unserializes a piece of content into Draft.js data.
  *
  * @param {string} content The content to unserialize.
- * @param {Array} tags The tags for the DraftJS mention plugin.
+ * @param {Array} tags The tags for the Draft.js mention plugin.
  *
  * @returns {Object} The raw data ready for convertFromRaw.
  */

@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "3.5.1",
+  "version": "4.0.1",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "main": "index.js",
@@ -63,7 +63,7 @@
     "striptags": "^3.1.0",
     "styled-components": "^2.1.2",
     "whatwg-fetch": "^1.0.0",
-    "yoastseo": "^1.28.0"
+    "yoastseo": "^1.32.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

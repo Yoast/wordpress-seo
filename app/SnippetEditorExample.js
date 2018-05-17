@@ -178,13 +178,13 @@ export default class SnippetEditorExample extends Component {
 			slug: this.state.slug,
 		};
 
-		let titleLengthAssessment = {
+		let titleLengthProgress = {
 			max: 600,
 			actual: this.state.currentTitleLength,
 			score: this.state.currentTitleLength > 300 ? 9 : 6,
 		};
 
-		let descriptionLengthAssessment = {
+		let descriptionLengthProgress = {
 			max: 320,
 			actual: this.state.currentDescriptionLength,
 			score: this.state.currentDescriptionLength > 160 ? 9 : 3,
@@ -197,11 +197,11 @@ export default class SnippetEditorExample extends Component {
 				baseUrl="https://local.wordpress.test/"
 				onChange={ this.onChangedData }
 				replacementVariables={ replacementVariables }
-				titleLengthAssessment={ titleLengthAssessment }
-				descriptionLengthAssessment={ descriptionLengthAssessment }
+				titleLengthProgress={ titleLengthProgress }
+				descriptionLengthProgress={ descriptionLengthProgress }
 			/>
 
-			<h2>Test Sliders</h2>
+			<h2>Test sliders for progress bars</h2>
 			<input
 				type="range"
 				min={ 0 }
