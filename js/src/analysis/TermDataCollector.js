@@ -25,7 +25,7 @@ var TermDataCollector = function( args ) {
 	}
 
 	this._tabManager = args.tabManager;
-	this._store = args.store
+	this._store = args.store;
 };
 
 /**

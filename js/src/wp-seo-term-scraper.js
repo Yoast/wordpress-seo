@@ -3,7 +3,6 @@
 // External dependencies.
 import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
-import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
 
 // Internal dependencies.
@@ -311,8 +310,6 @@ window.yoastHideMarkers = true;
 			snippetEditorData.title = data.title;
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
-
-			updateLegacySnippetEditor( data );
 		} );
 	} );
 }( jQuery, window ) );
