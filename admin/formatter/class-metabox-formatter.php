@@ -64,7 +64,6 @@ class WPSEO_Metabox_Formatter {
 			'contentAnalysisActive' => $analysis_readability->is_enabled() ? 1 : 0,
 			'keywordAnalysisActive' => $analysis_seo->is_enabled() ? 1 : 0,
 			'intl'                  => $this->get_content_analysis_component_translations(),
-			'reactSnippetPreview'   => defined( 'YOAST_FEATURE_SNIPPET_PREVIEW' ) && YOAST_FEATURE_SNIPPET_PREVIEW,
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
