@@ -52,7 +52,7 @@ describe( "The SnippetPreview format functions", function() {
 		} );
 
 		expect( snippetPreview.formatTitle() ).toBe( "snippetTitle keyword" );
-		expect( snippetPreview.formatMeta() ).toBe( "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia eget neque ut porttitor. Quisque semper ligula leo. Nullam convallis ligula et d" );
+		expect( snippetPreview.formatMeta() ).toBe( "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia eget neque ut porttitor. Quisque semper ligula leo. Nullam convallis ligula et da" );
 		expect( snippetPreview.formatCite() ).toBe( "homeurl/" );
 		expect( snippetPreview.formatKeyword( "a string with keyword" ) ).toBe( "a string with<strong> keyword</strong>" );
 

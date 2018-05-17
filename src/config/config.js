@@ -4,7 +4,7 @@ const analyzerConfig = {
 	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
 	maxSlugLength: 20,
 	maxUrlLength: 40,
-	maxMeta: 155,
+	maxMeta: 156,
 };
 
 export default analyzerConfig;
