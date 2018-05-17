@@ -7,10 +7,9 @@ import { tmceId } from "../wp-seo-tinymce";
 import getIndicatorForScore from "./getIndicatorForScore";
 
 import { update as updateTrafficLight } from "../ui/trafficLight";
-import { update as updateAdminBar }from "../ui/adminBar";
+import { update as updateAdminBar } from "../ui/adminBar";
 
 import publishBox from "../ui/publishBox";
-import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 
 let $ = jQuery;
 let currentKeyword = "";
@@ -40,20 +39,15 @@ let PostDataCollector = function( args ) {
  * @returns {Object} The data.
  */
 PostDataCollector.prototype.getData = function() {
-	let gutenbergData;
-
-	// Only use data from Gutenberg if Gutenberg is available.
-	if ( isGutenbergDataAvailable() ) {
-		gutenbergData = this._data.getData();
-	}
+	const data = this._data.getData();
 
 	return {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		meta: this.getMeta(),
-		text: gutenbergData && gutenbergData.content ? gutenbergData.content : this.getText(),
-		title: gutenbergData && gutenbergData.title ? gutenbergData.title : this.getTitle(),
-		url: gutenbergData && gutenbergData.slug ? gutenbergData.slug : this.getUrl(),
-		excerpt: gutenbergData && gutenbergData.excerpt ? gutenbergData.excerpt : this.getExcerpt(),
+		text: data.content,
+		title: data.title,
+		url: data.slug,
+		excerpt: data.excerpt,
 		snippetTitle: this.getSnippetTitle(),
 		snippetMeta: this.getSnippetMeta(),
 		snippetCite: this.getSnippetCite(),
