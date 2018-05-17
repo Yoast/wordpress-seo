@@ -109,6 +109,8 @@ function renderReactApp( target, component, store ) {
  *
  * @param {Object} store Redux store.
  * @param {Object} props Props to be passed to the snippet preview.
+ * @param {string} props.baseUrl The base URL of the site the user is editing.
+ * @param {string} props.date The date.
  *
  * @returns {void}
  */

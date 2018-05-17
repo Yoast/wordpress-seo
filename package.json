@@ -123,10 +123,10 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "^3.5.1",
-    "yoastseo": "^1.31.0"
+    "yoast-components": "^4.0.1",
+    "yoastseo": "^1.32.0"
   },
   "yoast": {
-    "pluginVersion": "7.5-RC2"
+    "pluginVersion": "7.5.1"
   }
 }

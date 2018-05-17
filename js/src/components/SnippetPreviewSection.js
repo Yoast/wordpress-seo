@@ -2,7 +2,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import identity from "lodash/identity";
+import get from "lodash/get";
 import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
+import { stripFullTags } from "yoastseo/js/stringProcessing/stripHTMLTags";
 
 // Internal dependencies.
 import SnippetEditor from "../containers/SnippetEditor";
@@ -22,6 +25,26 @@ const Section = styled( StyledSection )`
 `;
 
 /**
+ * Runs the legacy replaceVariables function on the data in the snippet preview.
+ *
+ * @param {Object} data             The snippet preview data object.
+ * @param {string} data.title       The snippet preview title.
+ * @param {string} data.url         The snippet preview url: baseUrl with the slug.
+ * @param {string} data.description The snippet preview description.
+ *
+ * @returns {Object} Returns the data object win which the placeholders have been replaced.
+ */
+const legacyReplaceUsingPlugin = function( data ) {
+	let replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
+
+	return  {
+		url: data.url,
+		title: stripFullTags( replaceVariables( data.title ) ),
+		description: stripFullTags( replaceVariables( data.description ) ),
+	};
+};
+
+/**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
  *
  * @param {Object} data             The snippet preview data object.
@@ -35,7 +58,7 @@ const mapEditorDataToPreview = function( data ) {
 	// Replace whitespaces in the url with dashes.
 	data.url = data.url.replace( /\s/g, "-" );
 
-	return data;
+	return legacyReplaceUsingPlugin( data );
 };
 
 /**

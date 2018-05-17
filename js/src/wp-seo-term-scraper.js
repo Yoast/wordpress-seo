@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
 // External dependencies.
 import { App } from "yoastseo";
@@ -23,7 +23,7 @@ import TermDataCollector from "./analysis/TermDataCollector";
 import UsedKeywords from "./analysis/usedKeywords";
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
-import { updateData } from "./redux/actions/snippetEditor";
+import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setYoastComponentsI18n } from "./helpers/i18n";
 
 setYoastComponentsI18n();
@@ -177,6 +177,7 @@ window.yoastHideMarkers = true;
 		const editArgs = {
 			analysisSection: "pageanalysis",
 			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
+			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 		};
 		store = initializeEdit( editArgs ).store;
 
@@ -219,6 +220,7 @@ window.yoastHideMarkers = true;
 					}
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
 					store.dispatch( setActiveKeyword( keyword ) );
+					store.dispatch( refreshSnippetEditor() );
 				}
 			};
 		}
@@ -227,6 +229,7 @@ window.yoastHideMarkers = true;
 			args.callbacks.saveContentScore = termScraper.saveContentScore.bind( termScraper );
 			args.callbacks.updatedContentResults = function( results ) {
 				store.dispatch( setReadabilityResults( results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 

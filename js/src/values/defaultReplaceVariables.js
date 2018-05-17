@@ -53,10 +53,6 @@ const defaultReplaceVariables = [
 		value: "",
 	},
 	{
-		name: "term_description",
-		value: "",
-	},
-	{
 		name: "title",
 		value: "",
 	},
