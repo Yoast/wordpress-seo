@@ -48,12 +48,12 @@ $form_presenter->display(
 	<p class='desc'>&nbsp;</p>
 
 	<?php
-		$quick_edit_table->display(
-			array(
-				'form_presenter' => $form_presenter,
-				'total_columns'  => $redirect_table->count_columns(),
-			)
-		);
+	$quick_edit_table->display(
+		array(
+			'form_presenter' => $form_presenter,
+			'total_columns'  => $redirect_table->count_columns(),
+		)
+	);
 	?>
 
 	<form id='regex' class='wpseo-redirects-table-form' method='post'>

@@ -1,4 +1,5 @@
 import debounce from "lodash/debounce";
+import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 
 /**
  * Represents the data.
@@ -7,13 +8,15 @@ class Data {
 	/**
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
-	 * @param {Object} wpData The Gutenberg data API.
+	 * @param {Object} wpData    The Gutenberg data API.
 	 * @param {Function} refresh The YoastSEO refresh function.
+	 * @param {Object} store     The YoastSEO Redux store.
 	 * @returns {void}
 	 */
-	constructor( wpData, refresh ) {
+	constructor( wpData, refresh, store ) {
 		this._wpData = wpData;
 		this._refresh = refresh;
+		this.store = store;
 		this.data = {};
 		this.getPostAttribute = this.getPostAttribute.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
@@ -78,6 +81,39 @@ class Data {
 	}
 
 	/**
+	 * Fills the redux store with the newly acquired data.
+	 *
+	 * @param {Object} newData The newly aquired data.
+	 *
+	 * @returns {void}
+	 */
+	fillReplacementValues( newData ) {
+		// Fill title
+		this.store.dispatch( updateReplacementVariable( "title", newData.title ) );
+
+		// Fill excerpt
+		this.store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
+	}
+
+	/**
+	 * Updates the redux store with the changed data.
+	 *
+	 * @param {Object} newData The changed data.
+	 *
+	 * @returns {void}
+	 */
+	handleEditorChange( newData ) {
+		// Handle title change
+		if ( this.data.title !== newData.title ) {
+			this.store.dispatch( updateReplacementVariable( "title", newData.title ) );
+		}
+		// Handle excerpt change
+		if ( this.data.excerpt !== newData.excerpt ) {
+			this.store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
+		}
+	}
+
+	/**
 	 * Refreshes YoastSEO's app when the Gutenberg data is dirty.
 	 *
 	 * @returns {void}
@@ -89,6 +125,7 @@ class Data {
 		let isDirty = ! this.isShallowEqual( this.data, gutenbergData );
 
 		if ( isDirty ) {
+			this.handleEditorChange( gutenbergData );
 			this.data = gutenbergData;
 			this._refresh();
 		}
@@ -102,6 +139,7 @@ class Data {
 	subscribeToGutenberg() {
 		// Fill data object on page load.
 		this.data = this.collectGutenbergData( this.getPostAttribute );
+		this.fillReplacementValues( this.data );
 		this.subscriber = debounce( this.refreshYoastSEO, 500 );
 		this._wpData.subscribe(
 			this.subscriber

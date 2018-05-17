@@ -322,6 +322,16 @@ class WPSEO_Admin_Banner_Sidebar {
 			)
 		);
 
+		$courses_spot->add_banner(
+			new WPSEO_Admin_Banner(
+				WPSEO_Shortlinker::get( 'https://yoa.st/2oi' ),
+				'seo-for-beginners-training.png',
+				261,
+				152,
+				__( 'Get the FREE SEO for beginners training course and learn the SEO basics to make your site rank higher.', 'wordpress-seo' )
+			)
+		);
+
 		return $courses_spot;
 	}
 

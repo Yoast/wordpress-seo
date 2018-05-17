@@ -45,8 +45,8 @@ artifact:
 
 # Get the project ready for release
 release:
+  - 'clean:build-assets'
   - 'build:css'
-  - 'build:images'
   - 'release:js'
 'release:js':
   - 'browserify:build'

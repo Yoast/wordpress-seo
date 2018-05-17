@@ -890,7 +890,6 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 * [3] string: Message for PHPUnit.
 	 *
 	 * @returns array The test data.
-	 *
 	 */
 	public function strip_directory_provider() {
 		return array(

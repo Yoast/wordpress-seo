@@ -41,7 +41,7 @@ class WPSEO_Premium_Orphaned_Post_Query_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		WPSEO_Meta::set_value( 'meta-robots-noindex', '0', $post_id );  // Post set to default
+		WPSEO_Meta::set_value( 'meta-robots-noindex', '0', $post_id );  // Post set to default.
 		WPSEO_Options::set( 'noindex-test_post_type', true );           // Default set to noindex.
 
 		$this->update_link_count( $post_id );
@@ -119,7 +119,7 @@ class WPSEO_Premium_Orphaned_Post_Query_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Updates the link count in storage, so changed values can be tested.
 	 *
-	 * @param int $post_id
+	 * @param int $post_id Post ID.
 	 */
 	protected function update_link_count( $post_id ) {
 		$storage = new WPSEO_Meta_Storage();

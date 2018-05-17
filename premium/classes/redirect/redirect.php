@@ -253,7 +253,8 @@ class WPSEO_Redirect implements ArrayAccess {
 			$url = str_replace(
 				$home_url_pieces['host'],
 				'',
-				$this->strip_scheme_from_url( $url_pieces['scheme'], $url ) );
+				$this->strip_scheme_from_url( $url_pieces['scheme'], $url )
+			);
 		}
 
 		return $this->sanitize_slash( $url );

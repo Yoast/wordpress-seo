@@ -12,6 +12,11 @@
  */
 class WPSEO_Redirect_Handler_Subdirectory_Test extends WPSEO_UnitTestCase {
 
+	/**
+	 * Original value of the `home` option.
+	 *
+	 * @var string
+	 */
 	protected $old_home;
 
 	/**
@@ -31,7 +36,7 @@ class WPSEO_Redirect_Handler_Subdirectory_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown(  ) {
+	public function tearDown() {
 		parent::tearDown();
 
 		update_option( 'home', $this->old_home );
@@ -41,10 +46,10 @@ class WPSEO_Redirect_Handler_Subdirectory_Test extends WPSEO_UnitTestCase {
 	 * Tests if the subdirectory is stripped from the request uri.
 	 */
 	public function test_get_request_uri() {
-		$old_request_uri = $_SERVER['REQUEST_URI'];
+		$old_request_uri        = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
 		$_SERVER['REQUEST_URI'] = 'blog/page';
 
-		$handler  = new WPSEO_Redirect_Handler_Double();
+		$handler = new WPSEO_Redirect_Handler_Double();
 		$this->assertEquals( '/page', $handler->get_request_uri() );
 
 		$_SERVER['REQUEST_URI'] = $old_request_uri;

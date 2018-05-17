@@ -41,7 +41,7 @@ class WPSEO_Database_Proxy {
 
 		// If the table prefix was provided, strip it as it's handled automatically.
 		$table_prefix = $this->get_table_prefix();
-		if ( strpos( $this->table_name, $table_prefix ) === 0 ) {
+		if ( ! empty( $table_prefix ) && strpos( $this->table_name, $table_prefix ) === 0 ) {
 			$this->table_prefix = substr( $this->table_name, strlen( $table_prefix ) );
 		}
 

@@ -10,7 +10,6 @@
  */
 class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 
-
 	/**
 	 * Returns the query value this filter uses.
 	 *
@@ -68,7 +67,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 			return sprintf(
 				/* translators: %1$s expands to link to the recalculation option, %2$s: anchor closing, %3$s: plural form of the current post type, %4$s: a Learn more about link */
 				__( '%1$sClick here%2$s to index your links, so we can identify orphaned %3$s. %4$s', 'wordpress-seo-premium' ),
-				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&reIndexLinks=1' ) ) . '">',
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&reIndexLinks=1' ) ) . '">',
 				'</a>',
 				strtolower( $post_type_object->labels->name ),
 				$learn_more
@@ -93,6 +92,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 	public function filter_posts( $where ) {
 		if ( $this->is_filter_active() ) {
 			$where .= $this->get_where_filter();
+			$where .= $this->filter_published_posts();
 		}
 
 		return $where;
@@ -120,6 +120,17 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 			' AND ' . $wpdb->posts . '.ID IN ( ' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ' ) ',
 			$post_ids
 		);
+	}
+
+	/**
+	 * Adds a published posts filter so we don't show unpublished posts in the orphaned pages results.
+	 *
+	 * @return string A published posts filter.
+	 */
+	protected function filter_published_posts() {
+		global $wpdb;
+
+		return " AND {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_password = ''";
 	}
 
 	/**
@@ -163,6 +174,7 @@ class WPSEO_Premium_Orphaned_Post_Filter extends WPSEO_Abstract_Post_Filter {
 					FROM `{$wpdb->posts}`
 					WHERE ID IN ( " . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . ' )
 					AND post_status = "publish"
+					AND post_password = ""
 					AND post_type = %s',
 				$replacements
 			)
