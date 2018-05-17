@@ -20,6 +20,8 @@ var SnippetPreviewToggler = require( "./snippetPreviewToggler" );
 
 var domManipulation = require( "./helpers/domManipulation.js" );
 
+import Config from "./config/config";
+
 var defaults = {
 	data: {
 		title: "",
@@ -48,7 +50,7 @@ var defaults = {
 };
 
 var titleMaxLength = 600;
-var metadescriptionMaxLength = 320;
+const MAXIMUM_META_DESCRIPTION_LENGTH = Config.maxMeta;
 
 var inputPreviewBindings = [
 	{
@@ -435,7 +437,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 
 	if ( this.hasProgressSupport ) {
 		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.metaDesc.max = metadescriptionMaxLength;
+		this.element.progress.metaDesc.max = MAXIMUM_META_DESCRIPTION_LENGTH;
 	} else {
 		forEach( this.element.progress, function( progressElement ) {
 			domManipulation.addClass( progressElement, "snippet-editor__progress--fallback" );
@@ -674,7 +676,7 @@ SnippetPreview.prototype.formatMeta = function() {
 	meta = stripHTMLTags( meta );
 
 	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, metadescriptionMaxLength );
+	meta = meta.substring( 0, MAXIMUM_META_DESCRIPTION_LENGTH );
 
 	if ( this.hasApp() && ! isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
@@ -712,7 +714,7 @@ SnippetPreview.prototype.getMetaText = function() {
 
 	metaText = stripHTMLTags( metaText );
 
-	return metaText.substring( 0, metadescriptionMaxLength );
+	return metaText.substring( 0, MAXIMUM_META_DESCRIPTION_LENGTH );
 };
 
 /**
@@ -864,13 +866,13 @@ SnippetPreview.prototype.checkTextLength = function( event ) {
 	switch ( event.currentTarget.id ) {
 		case "snippet_meta":
 			event.currentTarget.className = "desc";
-			if ( text.length > metadescriptionMaxLength ) {
+			if ( text.length > MAXIMUM_META_DESCRIPTION_LENGTH ) {
 				/* eslint-disable */
 				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = event.currentTarget.textContent;
 				/* eslint-enable */
 				event.currentTarget.textContent = text.substring(
 					0,
-					metadescriptionMaxLength
+					MAXIMUM_META_DESCRIPTION_LENGTH
 				);
 			}
 			break;
@@ -929,7 +931,7 @@ SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
 	var title = getAnalyzerTitle.call( this );
 
-	if ( metaDescription.length > metadescriptionMaxLength ) {
+	if ( metaDescription.length > MAXIMUM_META_DESCRIPTION_LENGTH ) {
 		domManipulation.addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
 		domManipulation.removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -967,7 +969,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
 		this,
 		this.element.progress.metaDesc,
 		metaDescription.length,
-		metadescriptionMaxLength,
+		MAXIMUM_META_DESCRIPTION_LENGTH,
 		metaDescriptionRating
 	);
 };
