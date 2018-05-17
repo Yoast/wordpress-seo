@@ -3,7 +3,6 @@
 // External dependencies.
 import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
-import isEqual from "lodash/isEqual";
 import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
 
@@ -74,7 +73,7 @@ window.yoastHideMarkers = true;
 		 */
 		descriptionTd.append( newEditor ).append( text );
 
-		// Populate the editor textarea with the original content,
+		// Populate the editor textarea with the original content.
 		document.getElementById( "description" ).value = textNode;
 
 		// Make the description textarea label plain text removing the label tag.
@@ -295,16 +294,25 @@ window.yoastHideMarkers = true;
 		// Subscribe to the store to save the snippet editor data.
 		store.subscribe( () => {
 			const data = snippetEditorHelpers.getDataFromStore( store );
+			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
 
-			if ( ! isEqual( snippetEditorData, data ) ) {
-				snippetEditorData = data;
-				const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
-				termScraper.saveSnippetData( {
-					title: dataWithoutTemplates.title,
-					urlPath: dataWithoutTemplates.slug,
-					metaDesc: dataWithoutTemplates.description,
-				} );
+			if ( snippetEditorData.title !== data.title ) {
+				termScraper.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
 			}
+
+			if ( snippetEditorData.slug !== data.slug ) {
+				termScraper.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
+			}
+
+			if ( snippetEditorData.description !== data.description ) {
+				termScraper.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+			}
+
+			snippetEditorData.title = data.title;
+			snippetEditorData.slug = data.slug;
+			snippetEditorData.description = data.description;
+
+			updateLegacySnippetEditor( data );
 		} );
 	} );
 }( jQuery, window ) );
