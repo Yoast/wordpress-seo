@@ -867,9 +867,10 @@ class WPSEO_Breadcrumbs {
 	private function links_to_string() {
 		if ( is_array( $this->links ) && $this->links !== array() ) {
 			// Covert info to an effective link.
-			$links = array_map( function ( $index, $link_info ) {
-				return $this->crumb_to_link( $link_info, $index );
-			}, array_keys( $this->links ), $this->links );
+			$links = $this->links;
+			foreach ( $links as $key => &$link ) {
+				$link = $this->crumb_to_link( $link,$key );
+			}
 			// Remove any effectively empty links.
 			$links = array_map( 'trim', $links );
 			$links = array_filter( $links );
