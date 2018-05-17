@@ -211,7 +211,7 @@ class Yoast_Notification_Center {
 
 		$callback = array( $this, __METHOD__ );
 		$args     = func_get_args();
-		if ( $this->maybe_queue_transaction( $callback, $args ) ) {
+		if ( $this->queue_transaction( $callback, $args ) ) {
 			return;
 		}
 
@@ -307,7 +307,7 @@ class Yoast_Notification_Center {
 
 		$callback = array( $this, __METHOD__ );
 		$args     = func_get_args();
-		if ( $this->maybe_queue_transaction( $callback, $args ) ) {
+		if ( $this->queue_transaction( $callback, $args ) ) {
 			return;
 		}
 
@@ -651,23 +651,23 @@ class Yoast_Notification_Center {
 	 *
 	 * @return bool True if transaction was queued, false if it can be performed immediately.
 	 */
-	private function maybe_queue_transaction( $callback, $args ) {
+	private function queue_transaction( $callback, $args ) {
 		if ( $this->notifications_retrieved ) {
 			return false;
 		}
 
-		$this->queue_transaction( $callback, $args );
+		$this->add_transaction_to_queue( $callback, $args );
 
 		return true;
 	}
 
 	/**
-	 * Queues a notification transaction for later execution.
+	 * Adds a notification transaction to the queue for later execution.
 	 *
 	 * @param callable $callback Callback that performs the transaction.
 	 * @param array    $args     Arguments to pass to the callback.
 	 */
-	private function queue_transaction( $callback, $args ) {
+	private function add_transaction_to_queue( $callback, $args ) {
 		$this->queued_transactions[] = array( $callback, $args );
 	}
 }
