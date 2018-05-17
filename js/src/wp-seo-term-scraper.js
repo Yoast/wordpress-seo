@@ -73,7 +73,7 @@ window.yoastHideMarkers = true;
 		 */
 		descriptionTd.append( newEditor ).append( text );
 
-		// Populate the editor textarea with the original content,
+		// Populate the editor textarea with the original content.
 		document.getElementById( "description" ).value = textNode;
 
 		// Make the description textarea label plain text removing the label tag.
