@@ -14,7 +14,7 @@ import { replacementVariablesShape } from "../constants";
 import { serializeEditor, unserializeEditor } from "../serialization";
 
 /**
- * Creates a DraftJS editor state from a string.
+ * Creates a Draft.js editor state from a string.
  *
  * @param {string} content The content to turn into editor state.
  *
@@ -26,7 +26,7 @@ const createEditorState = flow( [
 ] );
 
 /**
- * Serializes the DraftJS editor state into a string.
+ * Serializes the Draft.js editor state into a string.
  *
  * @param {EditorState} The current editor state.
  *
@@ -39,7 +39,7 @@ const serializeEditorState = flow( [
 
 /**
  * A replacement variable editor. It allows replacements variables as tokens in
- * its editor. It's a small shell on top of DraftJS.
+ * its editor. It's a small shell on top of Draft.js.
  */
 class ReplacementVariableEditor extends React.Component {
 	/**
@@ -116,9 +116,9 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
-	 * Handlers changes to the underlying DraftJS editor.
+	 * Handlers changes to the underlying Draft.js editor.
 	 *
-	 * @param {EditorState} editorState The DraftJS state.
+	 * @param {EditorState} editorState The Draft.js state.
 	 *
 	 * @returns {void}
 	 */
@@ -218,6 +218,7 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
+	 * Renders the editor including Draft.js and the mentions plugin.
 	 * Cancels the debounced call to A11ySpeak.
 	 *
 	 * @returns {void}
@@ -270,6 +271,7 @@ ReplacementVariableEditor.propTypes = {
 ReplacementVariableEditor.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
+	className: "",
 };
 
 export default ReplacementVariableEditor;

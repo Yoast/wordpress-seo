@@ -48,7 +48,7 @@ describe( "editor serialization", () => {
 } );
 
 describe( "editor unserialization", () => {
-	it( "transforms a string into a draftJS editor structure", () => {
+	it( "transforms a string into a Draft.js editor structure", () => {
 		const input = "%%title%% %%post_type%% test test123";
 		const expected = {
 			blocks: [ {

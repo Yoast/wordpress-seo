@@ -8,8 +8,9 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
+import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import ControlledInput from "./ControlledInput";
-import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
+
 import colors from "../../../../style-guide/colors";
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
@@ -38,11 +39,11 @@ function getCaretColor( props ) {
 }
 
 /*
- * The caret is defined in this CSS because we cannot mount/unmount DraftJS.
+ * The caret is defined in this CSS because we cannot mount/unmount Draft.js.
  *
  * For some reason if you wrap the InputContainer with `.extend` or `styled()`
  * the ReplacementVariableEditor in the children will unmount and mount on every focus.
- * This means that DraftJS cannot keep track of the browser selection. Which
+ * This means that Draft.js cannot keep track of the browser selection. Which
  * breaks the editor completely. We circumvent this by settings the caret styles
  * conditionally.
  */
@@ -123,9 +124,9 @@ class SnippetEditorFields extends React.Component {
 	 *                                                     changes.
 	 * @param {Function} props.onFocus                     Called when a field is
 	 *                                                     focused.
-	 * @param {Object}   props.titleLengthAssessment       The values for the title
+	 * @param {Object}   props.titleLengthProgress       The values for the title
 	 *                                                     length assessment.
-	 * @param {Object}   props.descriptionLengthAssessment The values for the
+	 * @param {Object}   props.descriptionLengthProgress The values for the
 	 *                                                     description length
 	 *                                                     assessment.
 	 * @param {string}   props.activeField                 The field that is
@@ -154,7 +155,7 @@ class SnippetEditorFields extends React.Component {
 	 * Sets ref for field editor.
 	 *
 	 * @param {string} field The field for this ref.
-	 * @param {Object} ref The DraftJS react element.
+	 * @param {Object} ref The Draft.js react element.
 	 *
 	 * @returns {void}
 	 */
@@ -211,8 +212,8 @@ class SnippetEditorFields extends React.Component {
 			data,
 			activeField,
 			hoveredField,
-			titleLengthAssessment,
-			descriptionLengthAssessment,
+			titleLengthProgress,
+			descriptionLengthProgress,
 		} = this.props;
 
 		const { title, slug, description } = data;
@@ -236,9 +237,9 @@ class SnippetEditorFields extends React.Component {
 					</InputContainer>
 
 					<ProgressBar
-						max={ titleLengthAssessment.max }
-						value={ titleLengthAssessment.actual }
-						progressColor={ this.getProgressColor( titleLengthAssessment.score ) }
+						max={ titleLengthProgress.max }
+						value={ titleLengthProgress.actual }
+						progressColor={ this.getProgressColor( titleLengthProgress.score ) }
 					/>
 				</FormSection>
 				<FormSection>
@@ -272,9 +273,9 @@ class SnippetEditorFields extends React.Component {
 					</InputContainerDescription>
 
 					<ProgressBar
-						max={ descriptionLengthAssessment.max }
-						value={ descriptionLengthAssessment.actual }
-						progressColor={ this.getProgressColor( descriptionLengthAssessment.score ) }
+						max={ descriptionLengthProgress.max }
+						value={ descriptionLengthProgress.actual }
+						progressColor={ this.getProgressColor( descriptionLengthProgress.score ) }
 					/>
 				</FormSection>
 			</StyledEditor>
@@ -312,19 +313,19 @@ SnippetEditorFields.propTypes = {
 	} ).isRequired,
 	activeField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
 	hoveredField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
-	titleLengthAssessment: lengthAssessmentShape,
-	descriptionLengthAssessment: lengthAssessmentShape,
+	titleLengthProgress: lengthProgressShape,
+	descriptionLengthProgress: lengthProgressShape,
 };
 
 SnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
-	titleLengthAssessment: {
+	titleLengthProgress: {
 		max: 600,
 		actual: 0,
 		score: 0,
 	},
-	descriptionLengthAssessment: {
+	descriptionLengthProgress: {
 		max: 320,
 		actual: 0,
 		score: 0,

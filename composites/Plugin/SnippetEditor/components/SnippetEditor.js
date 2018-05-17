@@ -2,6 +2,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
+import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
+import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -12,7 +15,7 @@ import {
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
-import { lengthAssessmentShape, replacementVariablesShape } from "../constants";
+import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
 import colors from "../../../../style-guide/colors";
 
@@ -37,6 +40,40 @@ const CloseEditorButton = SnippetEditorButton.extend`
 	margin-left: 20px;
 `;
 
+/**
+ * Gets the title progress.
+ * @param {string} title The title.
+ *
+ * @returns {Object} The title progress.
+ */
+function getTitleProgress( title ) {
+	const titleWidth = measureTextWidth( title );
+	const pageTitleWidthAssessment = new PageTitleWidthAssesment();
+	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
+	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
+	return {
+		max: maximumLength,
+		actual: titleWidth,
+		score: score,
+	};
+}
+
+/**
+ * Gets the description progress.
+ * @param {number} descriptionLength The length of the description.
+ * @returns {Object} The description progress.
+ */
+function getDescriptionProgress( descriptionLength ) {
+	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
+	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
+	return {
+		max: maximumLength,
+		actual: descriptionLength,
+		score: score,
+	};
+}
+
 class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
@@ -56,9 +93,9 @@ class SnippetEditor extends React.Component {
 	 *                                                   be in.
 	 * @param {Function} props.onChange                  Called when the data
 	 *                                                   changes.
-	 * @param {Object} props.titleLengthAssessment       The values for the title
+	 * @param {Object} props.titleLengthProgress       The values for the title
 	 *                                                   length assessment.
-	 * @param {Object} props.descriptionLengthAssessment The values for the
+	 * @param {Object} props.descriptionLengthProgress The values for the
 	 *                                                   description length
 	 *                                                   assessment.
 	 * @param {Function} props.mapDataToPreview          Function to map the editor
@@ -74,15 +111,59 @@ class SnippetEditor extends React.Component {
 			isOpen: false,
 			activeField: null,
 			hoveredField: null,
+			titleLengthProgress: getTitleProgress( props.data.title ),
+			descriptionLengthProgress: getDescriptionProgress( props.data.description.length ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
+		this.handleChange = this.handleChange.bind( this );
 		this.onClick = this.onClick.bind( this );
 		this.onMouseOver = this.onMouseOver.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
 		this.open = this.open.bind( this );
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
+	}
+
+	/**
+	 * Updates the state when the component receives new props.
+	 *
+	 * @param {Object} nextProps The new props.
+	 * @returns {void}
+	 */
+	componentWillReceiveProps( nextProps ) {
+		this.setState(
+			{
+				titleLengthProgress: getTitleProgress( nextProps.data.title ),
+				descriptionLengthProgress: getDescriptionProgress( nextProps.data.description.length ),
+			}
+		);
+	}
+
+	/**
+	 * Handles the onChange event.
+	 *
+	 * First updates the description progress and title progress.
+	 * Then calls the onChange function that is passed through the props.
+	 *
+	 * @param {string} type The type of change.
+	 * @param {string} content The content of the changed field.
+	 *
+	 * @returns {void}
+	 */
+	handleChange( type, content ) {
+		let descriptionProgress, titleProgress;
+		switch( type ) {
+			case "description":
+				descriptionProgress = getDescriptionProgress( content.length );
+				this.setState( { descriptionLengthProgress: descriptionProgress } );
+				break;
+			case "title":
+				titleProgress = getTitleProgress( content );
+				this.setState( { titleLengthProgress: titleProgress } );
+				break;
+		}
+		this.props.onChange( type, content );
 	}
 
 	/**
@@ -93,9 +174,6 @@ class SnippetEditor extends React.Component {
 	renderEditor() {
 		const {
 			data,
-			onChange,
-			titleLengthAssessment,
-			descriptionLengthAssessment,
 			replacementVariables,
 		} = this.props;
 		const { activeField, hoveredField, isOpen } = this.state;
@@ -109,11 +187,11 @@ class SnippetEditor extends React.Component {
 				data={ data }
 				activeField={ activeField }
 				hoveredField={ hoveredField }
-				onChange={ onChange }
+				onChange={ this.handleChange }
 				onFocus={ this.setFieldFocus }
 				replacementVariables={ replacementVariables }
-				titleLengthAssessment={ titleLengthAssessment }
-				descriptionLengthAssessment={ descriptionLengthAssessment }
+				titleLengthProgress={ this.state.titleLengthProgress }
+				descriptionLengthProgress={ this.state.descriptionLengthProgress }
 			/>
 			<CloseEditorButton onClick={ this.close }>
 				{ __( "Close snippet editor", "yoast-components" ) }
@@ -123,8 +201,8 @@ class SnippetEditor extends React.Component {
 
 	/**
 	 * Focuses the preview on the given field.
-	 *
-	 * @param {String} field the name of the field to focus
+	 *SnippetEditorFields
+	 * @param {String} field the name of the field to focuSnippetEditorFieldss
 	 *
 	 * @returns {void}
 	 */
@@ -362,8 +440,8 @@ SnippetEditor.propTypes = {
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
-	titleLengthAssessment: lengthAssessmentShape,
-	descriptionLengthAssessment: lengthAssessmentShape,
+	titleLengthProgress: lengthProgressShape,
+	descriptionLengthProgress: lengthProgressShape,
 	mapDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
 	locale: PropTypes.string,
@@ -373,12 +451,12 @@ SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
 	date: "",
 	replacementVariables: [],
-	titleLengthAssessment: {
+	titleLengthProgress: {
 		max: 600,
 		actual: 0,
 		score: 0,
 	},
-	descriptionLengthAssessment: {
+	descriptionLengthProgress: {
 		max: 320,
 		actual: 0,
 		score: 0,

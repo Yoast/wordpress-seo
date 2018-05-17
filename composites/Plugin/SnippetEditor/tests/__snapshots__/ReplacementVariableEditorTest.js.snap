@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ReplacementVariableEditor wraps a DraftJS editor instance 1`] = `
+exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
 <React.Fragment>
   <PluginEditor
     ariaLabelledBy="id"
