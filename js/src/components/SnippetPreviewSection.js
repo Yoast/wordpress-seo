@@ -81,6 +81,7 @@ const SnippetPreviewSection = ( { baseUrl, date } ) => {
 			baseUrl={ baseUrl }
 			mapDataToPreview={ mapEditorDataToPreview }
 			date={ date }
+			descriptionPlaceholder="Please provide a meta description by editing the snippet below."
 		/>
 	</Section>;
 };
