@@ -389,18 +389,25 @@ window.yoastHideMarkers = true;
 		// Subscribe to the store to save the snippet editor data.
 		store.subscribe( () => {
 			const data = snippetEditorHelpers.getDataFromStore( store );
+			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
 
-			if ( ! isEqual( snippetEditorData, data ) ) {
-				snippetEditorData = data;
-				const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
-				termScraper.saveSnippetData( {
-					title: dataWithoutTemplates.title,
-					urlPath: dataWithoutTemplates.slug,
-					metaDesc: dataWithoutTemplates.description,
-				} );
-
-				updateLegacySnippetEditor( data );
+			if ( snippetEditorData.title !== data.title ) {
+				termScraper.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
 			}
+
+			if ( snippetEditorData.slug !== data.slug ) {
+				termScraper.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
+			}
+
+			if ( snippetEditorData.description !== data.description ) {
+				termScraper.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+			}
+
+			snippetEditorData.title = data.title;
+			snippetEditorData.slug = data.slug;
+			snippetEditorData.description = data.description;
+
+			updateLegacySnippetEditor( data );
 		} );
 	} );
 }( jQuery, window ) );
