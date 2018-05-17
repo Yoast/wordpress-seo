@@ -1,10 +1,14 @@
 /* global wpseoReplaceVarsL10n, require */
-import { updateReplacementVariable } from "./redux/actions/snippetEditor";
+import forEach from "lodash/forEach";
+import filter from "lodash/filter";
+import trim from "lodash/trim";
+import isUndefined from "lodash/isUndefined";
 
-var forEach = require( "lodash/forEach" );
-var filter = require( "lodash/filter" );
-var isUndefined = require( "lodash/isUndefined" );
 var ReplaceVar = require( "./values/replaceVar" );
+import {
+	removeReplacementVariable,
+	updateReplacementVariable,
+} from "./redux/actions/snippetEditor";
 
 ( function() {
 	var modifiableFields = [
@@ -33,6 +37,8 @@ var ReplaceVar = require( "./values/replaceVar" );
 		this._app.registerPlugin( "replaceVariablePlugin", { status: "ready" } );
 
 		this._store = store;
+
+		this.replaceVariables = this.replaceVariables.bind( this );
 
 		this.registerReplacements();
 		this.registerModifications();
@@ -234,6 +240,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 	 */
 	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
 		this._app.pluginReloaded( "replaceVariablePlugin" );
+		this._store.dispatch( { type: "REFRESH_SNIPPET_EDITOR" } );
 	};
 
 	/*
@@ -395,9 +402,11 @@ var ReplaceVar = require( "./values/replaceVar" );
 		jQuery( customFields ).each( function( i, customField ) {
 			var customFieldName = jQuery( "#" + customField.id + "-key" ).val();
 			var customValue = jQuery( "#" + customField.id + "-value" ).val();
+			const sanitizedFieldName = "cf_" + this.sanitizeCustomFieldNames( customFieldName );
 
 			// Register these as new replacevars. The replacement text will be a literal string.
-			this.addReplacement( new ReplaceVar( "%%cf_" + this.sanitizeCustomFieldNames( customFieldName ) + "%%",
+			this._store.dispatch( updateReplacementVariable( sanitizedFieldName, customValue ) );
+			this.addReplacement( new ReplaceVar( `%%${ sanitizedFieldName }%%`,
 				customValue,
 				{ source: "direct" }
 			) );
@@ -481,6 +490,7 @@ var ReplaceVar = require( "./values/replaceVar" );
 		} );
 
 		forEach( customFields, function( item ) {
+			this._store.dispatch( removeReplacementVariable( trim( item.placeholder, "%%" ) ) );
 			this.removeReplacement( item );
 		}.bind( this ) );
 	};
