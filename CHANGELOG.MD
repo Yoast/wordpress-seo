@@ -5,6 +5,17 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.0.2 May 17th, 2018
+
+### Added
+
+* Added metadescription placeholder to `SnippetEditor`.
+* Replace the replace vars before measuring the title and description length to get the correct length.
+
+### Fixes
+
+* Fixes a problem with the Snippet Editor where it would crash when receiving new content.
+
 ## 4.0.1 May 17th, 2018
 
 ### Fixes
