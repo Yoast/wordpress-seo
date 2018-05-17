@@ -2,10 +2,10 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import isEqual from "lodash/isEqual";
 import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 
 // Internal dependencies.
 import initializeEdit from "./edit";
@@ -288,6 +288,15 @@ setYoastComponentsI18n();
 			tabManager,
 			data,
 		} );
+
+		/*
+		 * Initially any change on the slug needs to be persisted as post name.
+		 *
+		 * This value will change whenever an AJAX call is being detected that
+		 * populates the slug with a generated value based on the Title (or ID if no title is set).
+		 *
+		 * See bind event on "ajaxComplete" in this file.
+		 */
 		postDataCollector.leavePostNameUntouched = false;
 
 		return postDataCollector;
@@ -326,6 +335,7 @@ setYoastComponentsI18n();
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
 				let keyword = tabManager.getKeywordTab().getKeyWord();
+				store.dispatch( setActiveKeyword( keyword ) );
 
 				/*
 				 * The results from the main App callback are always for the first keyword. So
@@ -334,6 +344,7 @@ setYoastComponentsI18n();
 				 */
 				if ( tabManager.isMainKeyword( keyword ) ) {
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+					store.dispatch( refreshSnippetEditor() );
 				}
 			};
 		}
@@ -342,6 +353,7 @@ setYoastComponentsI18n();
 			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
 			args.callbacks.updatedContentResults = function( results ) {
 				store.dispatch( setReadabilityResults( results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -556,21 +568,27 @@ setYoastComponentsI18n();
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
-		// Subscribe to the store to save the snippet editor data.
 		store.subscribe( () => {
 			const data = snippetEditorHelpers.getDataFromStore( store );
+			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
 
-			if ( ! isEqual( snippetEditorData, data ) ) {
-				snippetEditorData = data;
-				const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
-				postDataCollector.saveSnippetData( {
-					title: dataWithoutTemplates.title,
-					urlPath: dataWithoutTemplates.slug,
-					metaDesc: dataWithoutTemplates.description,
-				} );
-
-				updateLegacySnippetEditor( data );
+			if ( snippetEditorData.title !== data.title ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
 			}
+
+			if ( snippetEditorData.slug !== data.slug ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
+			}
+
+			if ( snippetEditorData.description !== data.description ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+			}
+
+			snippetEditorData.title = data.title;
+			snippetEditorData.slug = data.slug;
+			snippetEditorData.description = data.description;
+
+			updateLegacySnippetEditor( data );
 		} );
 	}
 

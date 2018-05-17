@@ -20,6 +20,7 @@ describe( "snippet editor reducers", () => {
 					description: "",
 				},
 				replacementVariables: defaultReplaceVariables,
+				uniqueRefreshValue: "",
 			} );
 		} );
 
