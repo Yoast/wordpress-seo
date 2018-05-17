@@ -136,4 +136,5 @@ SvgIcon.propTypes = {
 
 SvgIcon.defaultProps = {
 	size: "16px",
+	color: "currentColor",
 };
