@@ -429,6 +429,10 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {string} The description to render.
 	 */
 	getDescription() {
+		if ( ! this.props.description && this.props.descriptionPlaceholder ) {
+			return this.props.descriptionPlaceholder;
+		}
+
 		if ( this.props.mode === MODE_MOBILE && this.props.description !== this.state.description ) {
 			return this.state.description + " ...";
 		}
@@ -756,6 +760,7 @@ SnippetPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
+	descriptionPlaceholder: PropTypes.string,
 	date: PropTypes.string,
 	breadcrumbs: PropTypes.array,
 
