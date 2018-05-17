@@ -3,7 +3,6 @@
 // External dependencies.
 import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
-import isEqual from "lodash/isEqual";
 import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
 
