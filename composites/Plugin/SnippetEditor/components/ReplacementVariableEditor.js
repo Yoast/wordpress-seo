@@ -71,6 +71,7 @@ class ReplacementVariableEditor extends React.Component {
 
 		this.state = {
 			editorState: createEditorState( unserialized ),
+			searchValue: "",
 			replacementVariables,
 		};
 
@@ -125,9 +126,9 @@ class ReplacementVariableEditor extends React.Component {
 	onChange( editorState ) {
 		this.setState( {
 			editorState,
+		}, () => {
+			this.serializeContent( editorState );
 		} );
-
-		this.serializeContent( editorState );
 	}
 
 	/**
@@ -139,6 +140,7 @@ class ReplacementVariableEditor extends React.Component {
 	 */
 	onSearchChange( { value } ) {
 		this.setState( {
+			searchValue: value,
 			replacementVariables: defaultSuggestionsFilter( value, this.props.replacementVariables ),
 		} );
 
@@ -208,11 +210,19 @@ class ReplacementVariableEditor extends React.Component {
 	 * @returns {void}
 	 */
 	componentWillReceiveProps( nextProps ) {
-		if ( nextProps.content !== this._serializedContent ) {
+		const { content, replacementVariables } = this.props;
+		const { searchValue } = this.state;
+
+		if (
+			( nextProps.content !== this._serializedContent && nextProps.content !== content ) ||
+		    nextProps.replacementVariables !== replacementVariables
+		) {
 			this._serializedContent = nextProps.content;
+			const unserialized = unserializeEditor( nextProps.content, nextProps.replacementVariables );
 
 			this.setState( {
-				editorState: createEditorState( nextProps.content ),
+				editorState: createEditorState( unserialized ),
+				replacementVariables: defaultSuggestionsFilter( searchValue, nextProps.replacementVariables ),
 			} );
 		}
 	}
