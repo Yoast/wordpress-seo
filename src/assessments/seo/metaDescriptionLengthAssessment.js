@@ -4,7 +4,7 @@ let merge = require( "lodash/merge" );
 
 import Config from "../../config/config";
 
-const MAXIMUM_META_DESCRIPTION_LENGTH = Config.maxMeta;
+const maximumMetaDescriptionLength = Config.maxMeta;
 
 /**
  * Assessment for calculating the length of the meta description.
@@ -22,7 +22,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 
 		let defaultConfig = {
 			recommendedMaximumLength: 120,
-			maximumLength: MAXIMUM_META_DESCRIPTION_LENGTH,
+			maximumLength: maximumMetaDescriptionLength,
 			scores: {
 				noMetaDescription: 1,
 				tooLong: 6,

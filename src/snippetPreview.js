@@ -50,7 +50,7 @@ var defaults = {
 };
 
 var titleMaxLength = 600;
-const MAXIMUM_META_DESCRIPTION_LENGTH = Config.maxMeta;
+const maximumMetaDescriptionLength = Config.maxMeta;
 
 var inputPreviewBindings = [
 	{
@@ -437,7 +437,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 
 	if ( this.hasProgressSupport ) {
 		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.metaDesc.max = MAXIMUM_META_DESCRIPTION_LENGTH;
+		this.element.progress.metaDesc.max = maximumMetaDescriptionLength;
 	} else {
 		forEach( this.element.progress, function( progressElement ) {
 			domManipulation.addClass( progressElement, "snippet-editor__progress--fallback" );
@@ -676,7 +676,7 @@ SnippetPreview.prototype.formatMeta = function() {
 	meta = stripHTMLTags( meta );
 
 	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, MAXIMUM_META_DESCRIPTION_LENGTH );
+	meta = meta.substring( 0, maximumMetaDescriptionLength );
 
 	if ( this.hasApp() && ! isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
@@ -714,7 +714,7 @@ SnippetPreview.prototype.getMetaText = function() {
 
 	metaText = stripHTMLTags( metaText );
 
-	return metaText.substring( 0, MAXIMUM_META_DESCRIPTION_LENGTH );
+	return metaText.substring( 0, maximumMetaDescriptionLength );
 };
 
 /**
@@ -866,13 +866,13 @@ SnippetPreview.prototype.checkTextLength = function( event ) {
 	switch ( event.currentTarget.id ) {
 		case "snippet_meta":
 			event.currentTarget.className = "desc";
-			if ( text.length > MAXIMUM_META_DESCRIPTION_LENGTH ) {
+			if ( text.length > maximumMetaDescriptionLength ) {
 				/* eslint-disable */
 				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = event.currentTarget.textContent;
 				/* eslint-enable */
 				event.currentTarget.textContent = text.substring(
 					0,
-					MAXIMUM_META_DESCRIPTION_LENGTH
+					maximumMetaDescriptionLength
 				);
 			}
 			break;
@@ -931,7 +931,7 @@ SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
 	var title = getAnalyzerTitle.call( this );
 
-	if ( metaDescription.length > MAXIMUM_META_DESCRIPTION_LENGTH ) {
+	if ( metaDescription.length > maximumMetaDescriptionLength ) {
 		domManipulation.addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
 		domManipulation.removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -969,7 +969,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
 		this,
 		this.element.progress.metaDesc,
 		metaDescription.length,
-		MAXIMUM_META_DESCRIPTION_LENGTH,
+		maximumMetaDescriptionLength,
 		metaDescriptionRating
 	);
 };
