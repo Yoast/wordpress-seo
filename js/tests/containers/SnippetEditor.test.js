@@ -33,6 +33,7 @@ describe( "SnippetEditor container", () => {
 		};
 		const expected = {
 			mode: "desktop",
+			keyword: "active",
 			descriptionLengthProgress: {
 				max: 320,
 				actual: 153,
