@@ -111,14 +111,12 @@ class WPSEO_Breadcrumbs {
 	 * @return string Returns the breadcrumbs as a string.
 	 */
 	public static function breadcrumb( $before = '', $after = '', $display = true ) {
-		if ( ! ( self::$instance instanceof self ) ) {
-			self::$instance = new self();
-		}
 		// Remember the last used before/after for use in case the object goes __toString().
 		self::$before = $before;
 		self::$after  = $after;
 
-		$output = $before . self::$instance->output . $after;
+		$instance = self::get_instance();
+		$output = $before . $instance->output . $after;
 
 		if ( $display === true ) {
 			echo $output;
@@ -141,7 +139,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Retrieves an instance of the class.
 	 *
-	 * @return WPSEO_Breadcrumb The instance.
+	 * @return WPSEO_Breadcrumbs The instance.
 	 */
 	public static function get_instance() {
 		if ( ! ( self::$instance instanceof self ) ) {
@@ -866,12 +864,13 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function links_to_string() {
 		if ( is_array( $this->links ) && $this->links !== array() ) {
-			// Covert info to an effective link.
+			// Converts info to an effective link.
 			$links = $this->links;
-			foreach ( $links as $key => &$link ) {
-				$link = $this->crumb_to_link( $link,$key );
+			foreach ( $links as $key => $link ) {
+				$links[ $key ] = $this->crumb_to_link( $link, $key );
 			}
-			// Remove any effectively empty links.
+
+			// Removes any effectively empty links.
 			$links = array_map( 'trim', $links );
 			$links = array_filter( $links );
 
