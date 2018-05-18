@@ -1,3 +1,9 @@
+### 7.6.0: May 29th, 2018
+Bugfixes:
+* Fixes a bug where the link to run the internal linking count for orphaned content did not work.
+* Fixes a bug where unpublished posts and password protected posts where taken into account in the orphaned content overview and notifications.
+* Includes every change in Yoast SEO core 7.6.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.5.1: May 16th, 2018
 * Includes every change in Yoast SEO core 7.5.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 
