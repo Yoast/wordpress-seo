@@ -49,6 +49,8 @@ module.exports = function( grunt ) {
 			pot: {
 				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
 				yoastComponents: "<%= paths.languages %>yoast-components.pot",
+				yoastComponentsConfigurationWizard: "<%= paths.languages %>yoast-components1.pot",
+				yoastComponentsRemaining: "gettext.pot",
 
 				php: {
 					yoastseojs: "<%= paths.languages %>yoast-seo-js.php",

@@ -60,9 +60,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public static function translate_meta_boxes() {
 		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet editor', 'wordpress-seo' );
-		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %1$sLearn more about the Snippet Preview%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/snippet-preview' ) . '">', '</a>' );
-		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
 
 		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Analysis', 'wordpress-seo' );
 		/* translators: 1: link open tag; 2: link close tag. */
@@ -889,6 +886,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
+			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
+			$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' );
+
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 

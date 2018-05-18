@@ -156,6 +156,9 @@ script:
 - |
   if [[ "$PHPLINT" == "1" ]]; then
     travis_fold start "PHP.check" && travis_time_start
+    if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
+      SKIP_CLI="-o -path ./cli -prune"
+    fi
     find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -path ./premium/node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     travis_time_finish && travis_fold end "PHP.check"
   fi

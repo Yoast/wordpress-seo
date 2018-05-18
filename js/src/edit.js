@@ -16,6 +16,7 @@ import activeKeyword from "./redux/reducers/activeKeyword";
 import activeTab from "./redux/reducers/activeTab";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
+import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
 
@@ -108,6 +109,8 @@ function renderReactApp( target, component, store ) {
  *
  * @param {Object} store Redux store.
  * @param {Object} props Props to be passed to the snippet preview.
+ * @param {string} props.baseUrl The base URL of the site the user is editing.
+ * @param {string} props.date The date.
  *
  * @returns {void}
  */
@@ -118,12 +121,9 @@ function renderSnippetPreview( store, props ) {
 		return;
 	}
 
-	const container = document.createElement( "div" );
-	targetElement.parentNode.insertBefore( container, targetElement );
-
 	ReactDOM.render(
 		wrapInTopLevelComponents( SnippetPreviewSection, store, props ),
-		container,
+		targetElement,
 	);
 }
 
@@ -137,6 +137,29 @@ function renderSnippetPreview( store, props ) {
  */
 function renderReactApps( store, args ) {
 	renderReactApp( args.analysisSection, AnalysisSection, store );
+}
+
+/**
+ * Initialize the appropriate data class.
+ *
+ * @param {Object}   data                   The data from the editor.
+ * @param {Object}   args                   The args.
+ * @param {Function} args.onRefreshRequest  The function to call on refresh request.
+ * @param {Object}   args.replaceVars       The replaceVars object.
+ * @param {Object}   store                  The redux store.
+ *
+ * @returns {Object} The instantiated data class.
+ */
+export function initializeData( data, args, store ) {
+	// Only use Gutenberg's data if Gutenberg is available.
+	if ( isGutenbergDataAvailable() ) {
+		const gutenbergData = new Data( data, args.onRefreshRequest, store );
+		gutenbergData.initialize( args.replaceVars );
+		return gutenbergData;
+	}
+	const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store );
+	classicEditorData.initialize( args.replaceVars );
+	return classicEditorData;
 }
 
 /**
@@ -156,23 +179,15 @@ function renderReactApps( store, args ) {
  */
 export function initialize( args ) {
 	const store = configureStore();
-	let data = {};
 
-	// Only use Gutenberg's data if Gutenberg is available.
-	if ( isGutenbergDataAvailable() ) {
-		const gutenbergData = new Data( wp.data, args.onRefreshRequest, store );
-		gutenbergData.subscribeToGutenberg();
-		data = gutenbergData;
-	}
+	const data = initializeData( wp.data, args, store );
 
 	renderReactApps( store, args );
 
-	if ( args.shouldRenderSnippetPreview ) {
-		renderSnippetPreview( store, {
-			baseUrl: args.snippetEditorBaseUrl,
-			date: args.snippetEditorDate,
-		} );
-	}
+	renderSnippetPreview( store, {
+		baseUrl: args.snippetEditorBaseUrl,
+		date: args.snippetEditorDate,
+	} );
 
 	return {
 		store,
