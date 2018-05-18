@@ -23,6 +23,7 @@ use YoastSEO_Vendor\ParisMethodMissingException;
  *
  * The methods documented below are magic methods that conform to PSR-1.
  * This documentation exposes these methods to doc generators and IDEs.
+ *
  * @see http://www.php-fig.org/psr/psr-1/
  *
  * @method void setOrm($orm)
@@ -32,11 +33,13 @@ use YoastSEO_Vendor\ParisMethodMissingException;
  * @method Array asArray()
  */
 class Yoast_Model {
-
-	// Default ID column for all models. Can be overridden by adding
-	// a public static _id_column property to your model classes.
+	/*
+	 * Default ID column for all models. Can be overridden by adding
+	 * a public static _id_column property to your model classes.
+	 */
 	const DEFAULT_ID_COLUMN = 'id';
-	// Default foreign key suffix used by relationship methods
+
+	// Default foreign key suffix used by relationship methods.
 	const DEFAULT_FOREIGN_KEY_SUFFIX = '_id';
 
 	/**
@@ -142,11 +145,11 @@ class Yoast_Model {
 	 * class or the property does not exist, returns the default
 	 * value supplied as the third argument (which defaults to null).
 	 *
-	 * @param  string      $class_name
-	 * @param  string      $property
-	 * @param  null|string $default
+	 * @param  string      $class_name The target class name.
+	 * @param  string      $property   The property to get the value for.
+	 * @param  null|string $default    Default value when property does not exist.
 	 *
-	 * @return string
+	 * @return string The value of the property.
 	 */
 	protected static function _get_static_property( $class_name, $property, $default = null ) {
 		if ( ! \class_exists( $class_name ) || ! \property_exists( $class_name, $property ) ) {
@@ -195,9 +198,9 @@ class Yoast_Model {
 	 *
 	 * $class_property overrides $global_option, unless $class_property is null
 	 *
-	 * @param string $class_name
+	 * @param string $class_name The class name to get short name for.
 	 *
-	 * @return bool
+	 * @return bool True when short table name should be used.
 	 */
 	protected static function _use_short_table_name( $class_name ) {
 		$class_property = static::_get_static_property( $class_name, '_table_use_short_name' );
@@ -220,15 +223,15 @@ class Yoast_Model {
 	 * For example, CarTyre would be converted to car_tyre. And
 	 * Project\Models\CarTyre would be project_models_car_tyre.
 	 *
-	 * @param  string $class_name
+	 * @param  string $class_name The class name to get the table name for.
 	 *
-	 * @return string
+	 * @return string The table name.
 	 */
 	protected static function _class_name_to_table_name( $class_name ) {
 		return \strtolower( \preg_replace( array( '/\\\\/', '/(?<=[a-z])([A-Z])/', '/__/' ), array(
 			'_',
 			'_$1',
-			'_'
+			'_',
 		), \ltrim( $class_name, '\\' ) ) );
 	}
 
@@ -236,9 +239,9 @@ class Yoast_Model {
 	 * Return the ID column name to use for this class. If it is
 	 * not set on the class, returns null.
 	 *
-	 * @param  string $class_name
+	 * @param  string $class_name The class name to get the ID column for.
 	 *
-	 * @return string|null
+	 * @return string|null The ID column name.
 	 */
 	protected static function _get_id_column_name( $class_name ) {
 		return static::_get_static_property( $class_name, '_id_column', static::DEFAULT_ID_COLUMN );
@@ -250,10 +253,10 @@ class Yoast_Model {
 	 * argument (the name of the table) with the default foreign key column
 	 * suffix appended.
 	 *
-	 * @param  string $specified_foreign_key_name
-	 * @param  string $table_name
+	 * @param  string $specified_foreign_key_name The keyname to build.
+	 * @param  string $table_name                 The table name to build the key name for.
 	 *
-	 * @return string
+	 * @return string The built foreign key name.
 	 */
 	protected static function _build_foreign_key_name( $specified_foreign_key_name, $table_name ) {
 		if ( $specified_foreign_key_name !== null ) {
@@ -272,10 +275,10 @@ class Yoast_Model {
 	 * responsible for returning instances of the correct class when
 	 * its find_one or find_many methods are called.
 	 *
-	 * @param  string      $class_name
-	 * @param  null|string $connection_name
+	 * @param  string      $class_name      The target class name.
+	 * @param  null|string $connection_name The name of the connection.
 	 *
-	 * @return ORMWrapper
+	 * @return ORMWrapper Instance of the ORM wrapper.
 	 */
 	public static function factory( $class_name, $connection_name = null ) {
 		$class_name = static::$auto_prefix_models . $class_name;
@@ -296,27 +299,28 @@ class Yoast_Model {
 	 * only difference is whether find_one or find_many is used to complete
 	 * the method chain.
 	 *
-	 * @param  string      $associated_class_name
-	 * @param  null|string $foreign_key_name
-	 * @param  null|string $foreign_key_name_in_current_models_table
-	 * @param  null|string $connection_name
+	 * @param  string      $associated_class_name                    The associated class name.
+	 * @param  null|string $foreign_key_name                         The foreign key name in the associated table.
+	 * @param  null|string $foreign_key_name_in_current_models_table The foreign key in the current models table.
+	 * @param  null|string $connection_name                          The name of the connection.
 	 *
 	 * @return ORMWrapper
-	 * @throws \Exception
+	 * @throws \Exception When ID of urrent model has a null value.
 	 */
 	protected function _has_one_or_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
 		$base_table_name  = static::_get_table_name( \get_class( $this ) );
 		$foreign_key_name = static::_build_foreign_key_name( $foreign_key_name, $base_table_name );
 
-		// Value of foreign_table.{$foreign_key_name} we're looking for. Where foreign_table is the actual
-		// database table in the associated model.
+		/*
+		 * Value of foreign_table.{$foreign_key_name} we're looking for. Where foreign_table is the actual
+		 * database table in the associated model.
+		 */
 		if ( $foreign_key_name_in_current_models_table === null ) {
-			//Match foreign_table.{$foreign_key_name} with the value of
-			//{$this->_table}.{$this->id()}
+			// Matches foreign_table.{$foreign_key_name} with the value of "{$this->_table}.{$this->id()}".
 			$where_value = $this->id();
-		} else {
-			//Match foreign_table.{$foreign_key_name} with the value of
-			//{$this->_table}.{$foreign_key_name_in_current_models_table}
+		}
+		else {
+			// Matches foreign_table.{$foreign_key_name} with "{$this->_table}.{$foreign_key_name_in_current_models_table}".
 			$where_value = $this->{$foreign_key_name_in_current_models_table};
 		}
 
@@ -327,13 +331,13 @@ class Yoast_Model {
 	 * Helper method to manage one-to-one relations where the foreign
 	 * key is on the associated table.
 	 *
-	 * @param  string      $associated_class_name
-	 * @param  null|string $foreign_key_name
-	 * @param  null|string $foreign_key_name_in_current_models_table
-	 * @param  null|string $connection_name
+	 * @param  string      $associated_class_name                    The associated class name.
+	 * @param  null|string $foreign_key_name                         The foreign key name in the associated table.
+	 * @param  null|string $foreign_key_name_in_current_models_table The foreign key in the current models table.
+	 * @param  null|string $connection_name                          The name of the connection.
 	 *
-	 * @return ORMWrapper
-	 * @throws \Exception
+	 * @return ORMWrapper Instance of the ORM.
+	 * @throws \Exception  When ID of urrent model has a null value.
 	 */
 	protected function has_one( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
 		return $this->_has_one_or_many( $associated_class_name, $foreign_key_name, $foreign_key_name_in_current_models_table, $connection_name );
@@ -343,13 +347,13 @@ class Yoast_Model {
 	 * Helper method to manage one-to-many relations where the foreign
 	 * key is on the associated table.
 	 *
-	 * @param  string      $associated_class_name
-	 * @param  null|string $foreign_key_name
-	 * @param  null|string $foreign_key_name_in_current_models_table
-	 * @param  null|string $connection_name
+	 * @param  string      $associated_class_name                    The associated class name.
+	 * @param  null|string $foreign_key_name                         The foreign key name in the associated table.
+	 * @param  null|string $foreign_key_name_in_current_models_table The foreign key in the current models table.
+	 * @param  null|string $connection_name                          The name of the connection.
 	 *
-	 * @return ORMWrapper
-	 * @throws \Exception
+	 * @return ORMWrapper Instance of the ORM.
+	 * @throws \Exception When ID has a null value.
 	 */
 	protected function has_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
 		$this->set_table_name( $associated_class_name );
@@ -361,12 +365,12 @@ class Yoast_Model {
 	 * Helper method to manage one-to-one and one-to-many relations where
 	 * the foreign key is on the base table.
 	 *
-	 * @param  string      $associated_class_name
-	 * @param  null|string $foreign_key_name
-	 * @param  null|string $foreign_key_name_in_associated_models_table
-	 * @param  null|string $connection_name
+	 * @param  string      $associated_class_name                       The associated class name.
+	 * @param  null|string $foreign_key_name                            The foreign key in the current models table.
+	 * @param  null|string $foreign_key_name_in_associated_models_table The foreign key in the associated table.
+	 * @param  null|string $connection_name                             The name of the connection.
 	 *
-	 * @return $this|null
+	 * @return $this|null Instance of the foreign model.
 	 */
 	protected function belongs_to( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_associated_models_table = null, $connection_name = null ) {
 		$this->set_table_name( $associated_class_name );
@@ -376,13 +380,15 @@ class Yoast_Model {
 		$associated_object_id  = $this->{$foreign_key_name};
 		$desired_record        = null;
 		if ( $foreign_key_name_in_associated_models_table === null ) {
-			//"{$associated_table_name}.primary_key = {$associated_object_id}"
-			//NOTE: primary_key is a placeholder for the actual primary key column's name
-			//in $associated_table_name
+			/*
+			 * Comparison: "{$associated_table_name}.primary_key = {$associated_object_id}".
+			 *
+			 * NOTE: primary_key is a placeholder for the actual primary key column's name in $associated_table_name.
+			 */
 			return static::factory( $associated_class_name, $connection_name )->where_id_is( $associated_object_id );
 		}
 
-		//"{$associated_table_name}.{$foreign_key_name_in_associated_models_table} = {$associated_object_id}"
+		// Comparison: "{$associated_table_name}.{$foreign_key_name_in_associated_models_table} = {$associated_object_id}".
 		return static::factory( $associated_class_name, $connection_name )->where( $foreign_key_name_in_associated_models_table, $associated_object_id );
 	}
 
@@ -390,15 +396,15 @@ class Yoast_Model {
 	 * Helper method to manage many-to-many relationships via an intermediate model. See
 	 * README for a full explanation of the parameters.
 	 *
-	 * @param  string      $associated_class_name
-	 * @param  null|string $join_class_name
-	 * @param  null|string $key_to_base_table
-	 * @param  null|string $key_to_associated_table
-	 * @param  null|string $key_in_base_table
-	 * @param  null|string $key_in_associated_table
-	 * @param  null|string $connection_name
+	 * @param  string      $associated_class_name   The associated class name.
+	 * @param  null|string $join_class_name         The class name to join.
+	 * @param  null|string $key_to_base_table       The key to the the current models table.
+	 * @param  null|string $key_to_associated_table The key to the associated table.
+	 * @param  null|string $key_in_base_table       The key in the current models table.
+	 * @param  null|string $key_in_associated_table The key in the associated table.
+	 * @param  null|string $connection_name         The name of the connection.
 	 *
-	 * @return ORMWrapper
+	 * @return ORMWrapper Instance of the ORM.
 	 */
 	protected function has_many_through( $associated_class_name, $join_class_name = null, $key_to_base_table = null, $key_to_associated_table = null, $key_in_base_table = null, $key_in_associated_table = null, $connection_name = null ) {
 		$base_class_name = \get_class( $this );
@@ -422,14 +428,16 @@ class Yoast_Model {
 			$join_class_name = \implode( '', $class_names );
 		}
 
-		// Get table names for each class
+		// Get table names for each class.
 		$base_table_name       = static::_get_table_name( $base_class_name );
 		$associated_table_name = static::_get_table_name( static::$auto_prefix_models . $associated_class_name );
 		$join_table_name       = static::_get_table_name( static::$auto_prefix_models . $join_class_name );
-		// Get ID column names
+
+		// Get ID column names.
 		$base_table_id_column       = ( $key_in_base_table === null ) ? static::_get_id_column_name( $base_class_name ) : $key_in_base_table;
 		$associated_table_id_column = ( $key_in_associated_table === null ) ? static::_get_id_column_name( static::$auto_prefix_models . $associated_class_name ) : $key_in_associated_table;
-		// Get the column names for each side of the join table
+
+		// Get the column names for each side of the join table.
 		$key_to_base_table       = static::_build_foreign_key_name( $key_to_base_table, $base_table_name );
 		$key_to_associated_table = static::_build_foreign_key_name( $key_to_associated_table, $associated_table_name );
 
@@ -440,22 +448,22 @@ class Yoast_Model {
 				 WHERE {$join_table_name}.{$key_to_base_table} = {$this->$base_table_id_column} ;"
 		*/
 		return static::factory( $associated_class_name, $connection_name )
-             ->select( "{$associated_table_name}.*" )
-             ->join(
-             	$join_table_name,
-                array(
+			->select( "{$associated_table_name}.*" )
+			->join(
+				$join_table_name,
+				array(
 					"{$associated_table_name}.{$associated_table_id_column}",
 					'=',
 					"{$join_table_name}.{$key_to_associated_table}",
 				)
-             )
-             ->where( "{$join_table_name}.{$key_to_base_table}", $this->{$base_table_id_column} );
+			)
+			->where( "{$join_table_name}.{$key_to_base_table}", $this->{$base_table_id_column} );
 	}
 
 	/**
 	 * Set the wrapped ORM instance associated with this Model instance.
 	 *
-	 * @param  ORM $orm
+	 * @param  ORM $orm The ORM instance to set.
 	 *
 	 * @return void
 	 */
@@ -466,9 +474,9 @@ class Yoast_Model {
 	/**
 	 * Magic getter method, allows $model->property access to data.
 	 *
-	 * @param  string $property
+	 * @param  string $property The property to get.
 	 *
-	 * @return null|string
+	 * @return null|string The value of the property
 	 */
 	public function __get( $property ) {
 		return $this->orm->get( $property );
@@ -477,8 +485,8 @@ class Yoast_Model {
 	/**
 	 * Magic setter method, allows $model->property = 'value' access to data.
 	 *
-	 * @param  string $property
-	 * @param  string $value
+	 * @param  string $property The property to set.
+	 * @param  string $value    The value to set.
 	 *
 	 * @return void
 	 */
@@ -489,7 +497,7 @@ class Yoast_Model {
 	/**
 	 * Magic unset method, allows unset($model->property)
 	 *
-	 * @param  string $property
+	 * @param  string $property The property to unset.
 	 *
 	 * @return void
 	 */
@@ -500,9 +508,9 @@ class Yoast_Model {
 	/**
 	 * Magic isset method, allows isset($model->property) to work correctly.
 	 *
-	 * @param  string $property
+	 * @param  string $property The property to check.
 	 *
-	 * @return bool
+	 * @return bool True when value is set.
 	 */
 	public function __isset( $property ) {
 		return $this->orm->__isset( $property );
@@ -511,9 +519,9 @@ class Yoast_Model {
 	/**
 	 * Getter method, allows $model->get('property') access to data
 	 *
-	 * @param  string $property
+	 * @param  string $property The property to get.
 	 *
-	 * @return string
+	 * @return string The value of a property.
 	 */
 	public function get( $property ) {
 		return $this->orm->get( $property );
@@ -522,10 +530,10 @@ class Yoast_Model {
 	/**
 	 * Setter method, allows $model->set('property', 'value') access to data.
 	 *
-	 * @param  string|array $property
-	 * @param  string|null  $value
+	 * @param  string|array $property The property to set.
+	 * @param  string|null  $value    The value to give.
 	 *
-	 * @return static
+	 * @return static Current object.
 	 */
 	public function set( $property, $value = null ) {
 		$this->orm->set( $property, $value );
@@ -536,10 +544,10 @@ class Yoast_Model {
 	/**
 	 * Setter method, allows $model->set_expr('property', 'value') access to data.
 	 *
-	 * @param  string|array $property
-	 * @param  string|null  $value
+	 * @param  string|array $property The property to set.
+	 * @param  string|null  $value    The value to give.
 	 *
-	 * @return static
+	 * @return static Current object.
 	 */
 	public function set_expr( $property, $value = null ) {
 		$this->orm->set_expr( $property, $value );
@@ -548,11 +556,11 @@ class Yoast_Model {
 	}
 
 	/**
-	 * Check whether the given field has changed since the object was created or saved
+	 * Check whether the given property has changed since the object was created or saved
 	 *
-	 * @param  string $property
+	 * @param string $property The property to check.
 	 *
-	 * @return bool
+	 * @return bool True when field is changed.
 	 */
 	public function is_dirty( $property ) {
 		return $this->orm->is_dirty( $property );
@@ -561,7 +569,7 @@ class Yoast_Model {
 	/**
 	 * Check whether the model was the result of a call to create() or not
 	 *
-	 * @return bool
+	 * @return bool True when is new.
 	 */
 	public function is_new() {
 		return $this->orm->is_new();
@@ -570,7 +578,7 @@ class Yoast_Model {
 	/**
 	 * Wrapper for Idiorm's as_array method.
 	 *
-	 * @return array
+	 * @return array The models data as array.
 	 */
 	public function as_array() {
 		$args = \func_get_args();
@@ -581,7 +589,7 @@ class Yoast_Model {
 	/**
 	 * Save the data associated with this model instance to the database.
 	 *
-	 * @return null
+	 * @return null Nothing.
 	 */
 	public function save() {
 		return $this->orm->save();
@@ -590,7 +598,7 @@ class Yoast_Model {
 	/**
 	 * Delete the database row associated with this model instance.
 	 *
-	 * @return null
+	 * @return null Nothing.
 	 */
 	public function delete() {
 		return $this->orm->delete();
@@ -599,8 +607,8 @@ class Yoast_Model {
 	/**
 	 * Get the database ID of this model instance.
 	 *
-	 * @return int
-	 * @throws \Exception
+	 * @return int The database id of the models instance.
+	 * @throws \Exception When the ID is a null value.
 	 */
 	public function id() {
 		return $this->orm->id();
@@ -612,7 +620,7 @@ class Yoast_Model {
 	 * corresponding database table. If any keys are supplied which
 	 * do not match up with columns, the database will throw an error.
 	 *
-	 * @param array $data
+	 * @param array $data The data to pass to the ORM.
 	 *
 	 * @return void
 	 */
@@ -623,19 +631,19 @@ class Yoast_Model {
 	/**
 	 * Calls static methods directly on the ORMWrapper
 	 *
-	 * @param  string $method
-	 * @param  array  $parameters
+	 * @param  string $method    The method to call.
+	 * @param  array  $arguments The arguments to use.
 	 *
-	 * @return array
+	 * @return array Result of the static call.
 	 */
-	public static function __callStatic( $method, $parameters ) {
+	public static function __callStatic( $method, $arguments ) {
 		if ( ! \function_exists( 'get_called_class' ) ) {
 			return array();
 		}
 
 		$model = static::factory( \get_called_class() );
 
-		return \call_user_func_array( array( $model, $method ), $parameters );
+		return \call_user_func_array( array( $model, $method ), $arguments );
 	}
 
 	/**
@@ -646,11 +654,11 @@ class Yoast_Model {
 	 * This allows us to call methods using camel case and remain
 	 * backwards compatible.
 	 *
-	 * @param  string $name
-	 * @param  array  $arguments
+	 * @param  string $name      The method to call.
+	 * @param  array  $arguments The arguments to use.
 	 *
-	 * @throws ParisMethodMissingException
-	 * @return bool|ORMWrapper
+	 * @throws \YoastSEO_Vendor\ParisMethodMissingException When the method does not exist.
+	 * @return bool|ORMWrapper Result of the call.
 	 */
 	public function __call( $name, $arguments ) {
 		$method = \strtolower( \preg_replace( '/([a-z])([A-Z])/', '$1_$2', $name ) );
