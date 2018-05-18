@@ -829,13 +829,13 @@ class WPSEO_Breadcrumbs {
 				&& ( $i < ( $this->crumb_count - 1 ) )
 			) {
 				if ( $i === 0 ) {
-					$link_output .= '<' . $this->element . ' typeof="v:Breadcrumb">';
+					$link_output .= '<' . $this->element . '>';
 				}
 				else {
-					$link_output .= '<' . $this->element . ' rel="v:child" typeof="v:Breadcrumb">';
+					$link_output .= '<' . $this->element . '>';
 				}
 				$title_attr   = isset( $link['title'] ) ? ' title="' . esc_attr( $link['title'] ) . '"' : '';
-				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title"' . $title_attr . '>' . $link['text'] . '</a>';
+				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" ' . $title_attr . '>' . $link['text'] . '</a>';
 			}
 			else {
 				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last">' . $link['text'] . '</' . $inner_elm . '>';
@@ -883,7 +883,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function wrap_breadcrumb() {
 		if ( is_string( $this->output ) && $this->output !== '' ) {
-			$output = '<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $this->output . '</' . $this->wrapper . '>';
+			$output = '<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . '>' . $this->output . '</' . $this->wrapper . '>';
 
 			/**
 			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class.
