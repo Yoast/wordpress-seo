@@ -130,7 +130,7 @@ class SnippetEditor extends React.Component {
 		this.setFieldFocus = this.setFieldFocus.bind( this );
 		this.handleChange = this.handleChange.bind( this );
 		this.onClick = this.onClick.bind( this );
-		this.onMouseOver = this.onMouseOver.bind( this );
+		this.onMouseEnter = this.onMouseEnter.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
 		this.open = this.open.bind( this );
 		this.close = this.close.bind( this );
@@ -249,7 +249,7 @@ class SnippetEditor extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	onMouseOver( field ) {
+	onMouseEnter( field ) {
 		this.setState( {
 			hoveredField: this.mapFieldToEditor( field ),
 		} );
@@ -417,7 +417,7 @@ class SnippetEditor extends React.Component {
 					date={ date }
 					activeField={ this.mapFieldToPreview( activeField ) }
 					hoveredField={ this.mapFieldToPreview( hoveredField ) }
-					onMouseOver={ this.onMouseOver }
+					onMouseEnter={ this.onMouseEnter }
 					onMouseLeave={ this.onMouseLeave }
 					onClick={ this.onClick }
 					locale={ locale }

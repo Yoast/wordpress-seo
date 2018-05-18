@@ -409,8 +409,8 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
         <div
           className="c14"
           onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
         >
           <div
             className="c15 c16"
@@ -442,8 +442,8 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
           <div
             className="c19"
             onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
           >
             example.org › totally-different-url
           </div>
@@ -473,8 +473,8 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
           className="c21"
           color="#545454"
           onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
         >
           <div
             className="c22 c21"
@@ -600,8 +600,8 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
     mode="mobile"
     onClick={[Function]}
     onHover={[Function]}
+    onMouseEnter={[Function]}
     onMouseLeave={[Function]}
-    onMouseOver={[Function]}
     title="Test title"
     url="example.org/test-slug"
   />
@@ -1218,8 +1218,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -1471,14 +1471,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <div
                     className="c14"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -1536,14 +1536,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c19"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -1593,22 +1593,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className=""
                     isDescriptionGenerated={false}
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <div
                       className="c21"
                       color="#545454"
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <SnippetPreview__MobileDescriptionOverflowContainer
                         innerRef={[Function]}
@@ -2838,8 +2838,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -3091,14 +3091,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <div
                     className="c14"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -3156,14 +3156,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c19"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -3213,22 +3213,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className=""
                     isDescriptionGenerated={false}
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <div
                       className="c21"
                       color="#545454"
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <SnippetPreview__MobileDescriptionOverflowContainer
                         innerRef={[Function]}
@@ -4458,8 +4458,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -4711,14 +4711,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <div
                     className="c14"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -4776,14 +4776,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c19"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -4833,22 +4833,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className=""
                     isDescriptionGenerated={false}
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <div
                       className="c21"
                       color="#545454"
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <SnippetPreview__MobileDescriptionOverflowContainer
                         innerRef={[Function]}
@@ -6078,8 +6078,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -6331,14 +6331,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <div
                     className="c14"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -6396,14 +6396,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c19"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -6453,22 +6453,22 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className=""
                     isDescriptionGenerated={false}
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <div
                       className="c21"
                       color="#545454"
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <SnippetPreview__MobileDescriptionOverflowContainer
                         innerRef={[Function]}
@@ -7538,8 +7538,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -7791,14 +7791,14 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <div
                     className="c14"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -7856,14 +7856,14 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c19"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -7913,22 +7913,22 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className=""
                     isDescriptionGenerated={false}
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <div
                       className="c21"
                       color="#545454"
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <SnippetPreview__MobileDescriptionOverflowContainer
                         innerRef={[Function]}
@@ -8912,8 +8912,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -9165,14 +9165,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <div
                     className="c14"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -9230,14 +9230,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c19"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -9287,22 +9287,22 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className=""
                     isDescriptionGenerated={false}
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <div
                       className="c21"
                       color="#545454"
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <SnippetPreview__MobileDescriptionOverflowContainer
                         innerRef={[Function]}
@@ -10532,8 +10532,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -10785,14 +10785,14 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <div
                     className="c14"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -10850,14 +10850,14 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c19"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -10907,22 +10907,22 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className=""
                     isDescriptionGenerated={false}
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <div
                       className="c21"
                       color="#545454"
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <SnippetPreview__MobileDescriptionOverflowContainer
                         innerRef={[Function]}
@@ -11607,8 +11607,8 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
     mode="mobile"
     onClick={[Function]}
     onHover={[Function]}
+    onMouseEnter={[Function]}
     onMouseLeave={[Function]}
-    onMouseOver={[Function]}
     title="Test title"
     url="example.org/test-slug"
   />
@@ -12074,8 +12074,8 @@ exports[`SnippetEditor highlights a focused field 1`] = `
         <div
           className="c14"
           onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
         >
           <div
             className="c15 c16"
@@ -12107,8 +12107,8 @@ exports[`SnippetEditor highlights a focused field 1`] = `
           <div
             className="c19"
             onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
           >
             example.org › test-slug
           </div>
@@ -12138,8 +12138,8 @@ exports[`SnippetEditor highlights a focused field 1`] = `
           className="c21"
           color="#545454"
           onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
         >
           <div
             className="c22 c21"
@@ -12659,8 +12659,8 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
         <div
           className="c14"
           onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
         >
           <div
             className="c15 c16"
@@ -12692,8 +12692,8 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
           <div
             className="c19"
             onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
           >
             example.org › test-slug
           </div>
@@ -12723,8 +12723,8 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
           className="c21"
           color="#545454"
           onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
         >
           <div
             className="c22 c21"
@@ -13407,8 +13407,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -13660,14 +13660,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <div
                     className="c14"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -13725,14 +13725,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c19"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -13782,29 +13782,29 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 <SnippetPreview
                   isDescriptionGenerated={false}
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <SnippetPreview__MobileDescription
                     className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__DesktopDescription
                       className="c21 "
                       isDescriptionGenerated={false}
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c21 c22"
                         color="#545454"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         <SnippetPreview__MobileDescriptionOverflowContainer
                           innerRef={[Function]}
@@ -14475,7 +14475,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 </SnippetEditor>
 `;
 
-exports[`SnippetEditor highlights the hovered field when onMouseOver() is called 1`] = `
+exports[`SnippetEditor highlights the hovered field when onMouseEnter() is called 1`] = `
 .c11 {
   font-family: Arial,Helvetica,sans-serif;
   font-size: 13px;
@@ -15047,8 +15047,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -15300,14 +15300,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <div
                     className="c14"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -15365,14 +15365,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c19"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -15422,29 +15422,29 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 <SnippetPreview
                   isDescriptionGenerated={false}
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <SnippetPreview__MobileDescription
                     className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__DesktopDescription
                       className="c21 "
                       isDescriptionGenerated={false}
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c21 c22"
                         color="#545454"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         <SnippetPreview__MobileDescriptionOverflowContainer
                           innerRef={[Function]}
@@ -16675,8 +16675,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -16928,14 +16928,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <div
                     className="c14"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -16993,14 +16993,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c19"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -17050,22 +17050,22 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className=""
                     isDescriptionGenerated={false}
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <div
                       className="c21"
                       color="#545454"
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <SnippetPreview__MobileDescriptionOverflowContainer
                         innerRef={[Function]}
@@ -18306,8 +18306,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
       mode="mobile"
       onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -18559,14 +18559,14 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <div
                     className="c14"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -18624,14 +18624,14 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <div
                         className="c19"
                         onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -18681,22 +18681,22 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className=""
                     isDescriptionGenerated={false}
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
                   >
                     <div
                       className="c21"
                       color="#545454"
                       onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
                     >
                       <SnippetPreview__MobileDescriptionOverflowContainer
                         innerRef={[Function]}
@@ -19812,8 +19812,8 @@ exports[`SnippetEditor passes the date prop 1`] = `
         <div
           className="c14"
           onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
         >
           <div
             className="c15 c16"
@@ -19845,8 +19845,8 @@ exports[`SnippetEditor passes the date prop 1`] = `
           <div
             className="c19"
             onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
           >
             example.org › test-slug
           </div>
@@ -19876,8 +19876,8 @@ exports[`SnippetEditor passes the date prop 1`] = `
           className="c21"
           color="#545454"
           onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
         >
           <div
             className="c22 c21"
@@ -20009,8 +20009,8 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
     mode="mobile"
     onClick={[Function]}
     onHover={[Function]}
+    onMouseEnter={[Function]}
     onMouseLeave={[Function]}
-    onMouseOver={[Function]}
     title="Test title"
     url="example.org/test-slug"
   />
@@ -20473,8 +20473,8 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
           <div
             className="c15"
             onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
           >
             <div
               className="c16 c17"
@@ -20506,8 +20506,8 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
             <div
               className="c20"
               onClick={[Function]}
+              onMouseEnter={[Function]}
               onMouseLeave={[Function]}
-              onMouseOver={[Function]}
             >
               example.org/test-slug/
             </div>
@@ -20537,8 +20537,8 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
             className="c22"
             color="#545454"
             onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
           >
             Test description, %%replacement_variable%%
           </div>
@@ -21054,8 +21054,8 @@ exports[`SnippetEditor shows and editor 1`] = `
         <div
           className="c14"
           onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
         >
           <div
             className="c15 c16"
@@ -21087,8 +21087,8 @@ exports[`SnippetEditor shows and editor 1`] = `
           <div
             className="c19"
             onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
           >
             example.org › test-slug
           </div>
@@ -21118,8 +21118,8 @@ exports[`SnippetEditor shows and editor 1`] = `
           className="c21"
           color="#545454"
           onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
         >
           <div
             className="c22 c21"

@@ -119,11 +119,11 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "highlights the hovered field when onMouseOver() is called", () => {
+	it( "highlights the hovered field when onMouseEnter() is called", () => {
 		const editor = mountWithArgs( {} );
 
 		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
+		editor.instance().onMouseEnter( "description" );
 		editor.update();
 
 		expect( editor ).toMatchSnapshot();
@@ -133,7 +133,7 @@ describe( "SnippetEditor", () => {
 		const editor = shallowWithArgs( {} );
 
 		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
+		editor.instance().onMouseEnter( "description" );
 		editor.update();
 
 		editor.instance().onMouseLeave( "description" );
@@ -146,7 +146,7 @@ describe( "SnippetEditor", () => {
 		const editor = shallowWithArgs( {} );
 
 		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
+		editor.instance().onMouseEnter( "description" );
 		editor.update();
 
 		editor.instance().onMouseLeave( "title" );

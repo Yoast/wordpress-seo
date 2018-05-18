@@ -513,7 +513,7 @@ export default class SnippetPreview extends PureComponent {
 		const {
 			url,
 			onClick,
-			onMouseOver,
+			onMouseEnter,
 			onMouseLeave,
 		} = this.props;
 
@@ -535,14 +535,14 @@ export default class SnippetPreview extends PureComponent {
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
 		/*
-		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
+		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
 		 * However this is not relevant in this case, because the url is not focusable.
 		 */
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return <Url>
 			<BaseUrlOverflowContainer
 				onClick={ onClick.bind( null, "url" ) }
-				onMouseOver={ partial( onMouseOver, "url" ) }
+				onMouseEnter={ partial( onMouseEnter, "url" ) }
 				onMouseLeave={ partial( onMouseLeave, "url" ) }>
 				{ urlContent }
 			</BaseUrlOverflowContainer>
@@ -601,7 +601,7 @@ export default class SnippetPreview extends PureComponent {
 			locale,
 			onClick,
 			onMouseLeave,
-			onMouseOver,
+			onMouseEnter,
 			mode,
 		} = this.props;
 
@@ -610,7 +610,7 @@ export default class SnippetPreview extends PureComponent {
 		const outerContainerProps = {
 			isDescriptionGenerated: isDescriptionGenerated,
 			onClick: onClick.bind( null, "description" ),
-			onMouseOver: partial( onMouseOver, "description" ),
+			onMouseEnter: partial( onMouseEnter, "description" ),
 			onMouseLeave: partial( onMouseLeave, "description" ),
 		};
 
@@ -652,7 +652,7 @@ export default class SnippetPreview extends PureComponent {
 		const {
 			onClick,
 			onMouseLeave,
-			onMouseOver,
+			onMouseEnter,
 			mode,
 			isAmp,
 		} = this.props;
@@ -674,7 +674,7 @@ export default class SnippetPreview extends PureComponent {
 			</a> ];
 
 		/*
-		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
+		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
 		 * However this is not relevant in this case, because the title and description are
 		 * not focusable.
 		 */
@@ -697,7 +697,7 @@ export default class SnippetPreview extends PureComponent {
 						/>
 						<Title
 							onClick={ onClick.bind( null, "title" ) }
-							onMouseOver={ partial( onMouseOver, "title" ) }
+							onMouseEnter={ partial( onMouseEnter, "title" ) }
 							onMouseLeave={ partial( onMouseLeave, "title" ) }
 						>
 							<TitleBounded>
@@ -775,7 +775,7 @@ SnippetPreview.propTypes = {
 
 	onClick: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
-	onMouseOver: PropTypes.func,
+	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
 };
 
@@ -791,6 +791,6 @@ SnippetPreview.defaultProps = {
 	isAmp: false,
 
 	onHover: () => {},
-	onMouseOver: () => {},
+	onMouseEnter: () => {},
 	onMouseLeave: () => {},
 };

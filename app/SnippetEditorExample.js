@@ -68,61 +68,12 @@ export default class SnippetEditorExample extends Component {
 			},
 			breadcrumbs: [ "hallo", "is", "it", "me", "you" ],
 			isAmp: true,
-			isEditorOpen: false,
+			isOpen: false,
 			currentTitleLength: 0,
 			currentDescriptionLength: 0,
 		};
 
-		this.onMouseOver = this.onMouseOver.bind( this );
-		this.onMouseLeave = this.onMouseLeave.bind( this );
 		this.onChangedData = debounce( this.onChangedData.bind( this ), 150 );
-	}
-
-	/**
-	 * Handles the on mouse over for a field.
-	 *
-	 * @param {string} field The field that is hovered over.
-	 *
-	 * @returns {void}
-	 */
-	onMouseOver( field ) {
-		if ( this.state.hoveredField === field ) {
-			return;
-		}
-
-		this.setState( {
-			hoveredField: field,
-		} );
-	}
-
-	/**
-	 * Handles the on mouse leave for a field.
-	 *
-	 * @param {string} field The field that is left.
-	 *
-	 * @returns {void}
-	 */
-	onMouseLeave( field ) {
-		if ( field && this.state.hoveredField !== field ) {
-			return;
-		}
-
-		this.setState( {
-			hoveredField: "",
-		} );
-	}
-
-	/**
-	 * Handles switching the mode.
-	 *
-	 * @param {string} mode The mode to switch to.
-	 *
-	 * @returns {void}
-	 */
-	switch( mode ) {
-		this.setState( {
-			mode,
-		} );
 	}
 
 	/**
