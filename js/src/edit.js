@@ -19,6 +19,9 @@ import Data from "./analysis/data.js";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
+import documentDataReducer from "./redux/reducers/documentData";
+import { setDocumentData, setText } from "./redux/actions/documentData";
+import { setDisplayDescription } from "./redux/actions/snippetEditor";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -56,6 +59,7 @@ function configureStore() {
 		activeKeyword: activeKeyword,
 		activeTab,
 		snippetEditor,
+		documentData: documentDataReducer,
 	} );
 
 	return createStore( rootReducer, {}, flowRight( enhancers ) );
@@ -162,6 +166,34 @@ export function initializeData( data, args, store ) {
 	return classicEditorData;
 }
 
+function mapDataToStore( data, store ) {
+	const newData = data.getData();
+
+	// Map content
+	store.dispatch( setDocumentData( {
+		title: newData.title,
+		content: newData.content,
+		excerpt: newData.excerpt,
+	} ) );
+}
+
+export function mapDocumentToDisplayData( store ) {
+	let state = store.getState();
+	let snippetEditorData = state.snippetEditor.data;
+	let documentData = state.documentData;
+
+	// Set the description to display
+	if( snippetEditorData.description !== "" ) {
+		store.dispatch( setDisplayDescription( snippetEditorData.description ) );
+	} else if ( documentData.excerpt !== "" ) {
+		store.dispatch( setDisplayDescription( documentData.excerpt ) );
+	} else if ( documentData.content !== "" ) {
+		store.dispatch( setDisplayDescription( documentData.content ) );
+	} else {
+		store.dispatch( setDisplayDescription( "" ) );
+	}
+}
+
 /**
  * Initializes all functionality on the edit screen.
  *
@@ -181,6 +213,9 @@ export function initialize( args ) {
 	const store = configureStore();
 
 	const data = initializeData( wp.data, args, store );
+	mapDataToStore( data, store );
+
+	mapDocumentToDisplayData( store );
 
 	renderReactApps( store, args );
 
