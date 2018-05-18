@@ -49,7 +49,7 @@ const MobileContainer = styled.div`
 	font-size: 14px;
 `;
 
-const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
+const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
 	'<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">' +
 		'<path fill="' + color + '" d="M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z" />' +
 	"</svg>"
