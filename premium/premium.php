@@ -110,6 +110,7 @@ class WPSEO_Premium {
 			'keyword-export-manager'                 => new WPSEO_Premium_Keyword_Export_Manager(),
 			'orphaned-post-filter'                   => new WPSEO_Premium_Orphaned_Post_Filter(),
 			'orphaned-post-notifier'                 => new WPSEO_Premium_Orphaned_Post_Notifier( array( 'post', 'page' ), Yoast_Notification_Center::get() ),
+			'request-free-translations'              => new WPSEO_Premium_Free_Translations(),
 		);
 
 		$this->setup();
