@@ -85,10 +85,10 @@ class Yoast_Model {
 	 */
 	public static function of_type( $class_name, $yoast_prefix = true ) {
 		// Prepend namespace to the class name.
-		$class = self::$auto_prefix_models . $class_name;
+		$class = static::$auto_prefix_models . $class_name;
 
 		// Set the class variable to the custom value based on the WPDB prefix.
-		$class::$_table = self::get_table_name( $class_name, $yoast_prefix );
+		$class::$_table = static::get_table_name( $class_name, $yoast_prefix );
 
 		return static::factory( $class_name, null );
 	}
@@ -101,7 +101,7 @@ class Yoast_Model {
 	 * @return ORMWrapper
 	 */
 	public static function of_wp_type( $class_name ) {
-		return self::of_type( $class_name, false );
+		return static::of_type( $class_name, false );
 	}
 
 	/**
@@ -132,9 +132,9 @@ class Yoast_Model {
 	 */
 	protected function set_table_name( $class_name ) {
 		// Prepend namespace to the class name.
-		$class = self::$auto_prefix_models . $class_name;
+		$class = static::$auto_prefix_models . $class_name;
 
-		$class::$_table = self::get_table_name( $class_name );
+		$class::$_table = static::get_table_name( $class_name );
 	}
 
 	/**
@@ -176,15 +176,15 @@ class Yoast_Model {
 	 * @return string
 	 */
 	protected static function _get_table_name( $class_name ) {
-		$specified_table_name = self::_get_static_property( $class_name, '_table' );
-		$use_short_class_name = self::_use_short_table_name( $class_name );
+		$specified_table_name = static::_get_static_property( $class_name, '_table' );
+		$use_short_class_name = static::_use_short_table_name( $class_name );
 		if ( $use_short_class_name ) {
 			$exploded_class_name = \explode( '\\', $class_name );
 			$class_name          = \end( $exploded_class_name );
 		}
 
 		if ( $specified_table_name === null ) {
-			return self::_class_name_to_table_name( $class_name );
+			return static::_class_name_to_table_name( $class_name );
 		}
 
 		return $specified_table_name;
@@ -200,10 +200,10 @@ class Yoast_Model {
 	 * @return bool
 	 */
 	protected static function _use_short_table_name( $class_name ) {
-		$class_property = self::_get_static_property( $class_name, '_table_use_short_name' );
+		$class_property = static::_get_static_property( $class_name, '_table_use_short_name' );
 
 		if ( $class_property === null ) {
-			return self::$short_table_names;
+			return static::$short_table_names;
 		}
 
 		return $class_property;
@@ -241,7 +241,7 @@ class Yoast_Model {
 	 * @return string|null
 	 */
 	protected static function _get_id_column_name( $class_name ) {
-		return self::_get_static_property( $class_name, '_id_column', self::DEFAULT_ID_COLUMN );
+		return static::_get_static_property( $class_name, '_id_column', static::DEFAULT_ID_COLUMN );
 	}
 
 	/**
@@ -260,7 +260,7 @@ class Yoast_Model {
 			return $specified_foreign_key_name;
 		}
 
-		return $table_name . self::DEFAULT_FOREIGN_KEY_SUFFIX;
+		return $table_name . static::DEFAULT_FOREIGN_KEY_SUFFIX;
 	}
 
 	/**
@@ -278,14 +278,14 @@ class Yoast_Model {
 	 * @return ORMWrapper
 	 */
 	public static function factory( $class_name, $connection_name = null ) {
-		$class_name = self::$auto_prefix_models . $class_name;
-		$table_name = self::_get_table_name( $class_name );
+		$class_name = static::$auto_prefix_models . $class_name;
+		$table_name = static::_get_table_name( $class_name );
 		if ( $connection_name === null ) {
-			$connection_name = self::_get_static_property( $class_name, '_connection_name', \YoastSEO_Vendor\ORMWrapper::DEFAULT_CONNECTION );
+			$connection_name = static::_get_static_property( $class_name, '_connection_name', \YoastSEO_Vendor\ORMWrapper::DEFAULT_CONNECTION );
 		}
 		$wrapper = ORMWrapper::for_table( $table_name, $connection_name );
 		$wrapper->set_class_name( $class_name );
-		$wrapper->use_id_column( self::_get_id_column_name( $class_name ) );
+		$wrapper->use_id_column( static::_get_id_column_name( $class_name ) );
 
 		return $wrapper;
 	}
@@ -305,8 +305,8 @@ class Yoast_Model {
 	 * @throws \Exception
 	 */
 	protected function _has_one_or_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
-		$base_table_name  = self::_get_table_name( \get_class( $this ) );
-		$foreign_key_name = self::_build_foreign_key_name( $foreign_key_name, $base_table_name );
+		$base_table_name  = static::_get_table_name( \get_class( $this ) );
+		$foreign_key_name = static::_build_foreign_key_name( $foreign_key_name, $base_table_name );
 
 		// Value of foreign_table.{$foreign_key_name} we're looking for. Where foreign_table is the actual
 		// database table in the associated model.
@@ -320,7 +320,7 @@ class Yoast_Model {
 			$where_value = $this->{$foreign_key_name_in_current_models_table};
 		}
 
-		return self::factory( $associated_class_name, $connection_name )->where( $foreign_key_name, $where_value );
+		return static::factory( $associated_class_name, $connection_name )->where( $foreign_key_name, $where_value );
 	}
 
 	/**
@@ -371,18 +371,18 @@ class Yoast_Model {
 	protected function belongs_to( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_associated_models_table = null, $connection_name = null ) {
 		$this->set_table_name( $associated_class_name );
 
-		$associated_table_name = self::_get_table_name( self::$auto_prefix_models . $associated_class_name );
-		$foreign_key_name      = self::_build_foreign_key_name( $foreign_key_name, $associated_table_name );
+		$associated_table_name = static::_get_table_name( static::$auto_prefix_models . $associated_class_name );
+		$foreign_key_name      = static::_build_foreign_key_name( $foreign_key_name, $associated_table_name );
 		$associated_object_id  = $this->{$foreign_key_name};
 		$desired_record        = null;
 		if ( $foreign_key_name_in_associated_models_table === null ) {
 			//"{$associated_table_name}.primary_key = {$associated_object_id}"
 			//NOTE: primary_key is a placeholder for the actual primary key column's name
 			//in $associated_table_name
-			$desired_record = self::factory( $associated_class_name, $connection_name )->where_id_is( $associated_object_id );
+			$desired_record = static::factory( $associated_class_name, $connection_name )->where_id_is( $associated_object_id );
 		} else {
 			//"{$associated_table_name}.{$foreign_key_name_in_associated_models_table} = {$associated_object_id}"
-			$desired_record = self::factory( $associated_class_name, $connection_name )->where( $foreign_key_name_in_associated_models_table, $associated_object_id );
+			$desired_record = static::factory( $associated_class_name, $connection_name )->where( $foreign_key_name_in_associated_models_table, $associated_object_id );
 		}
 
 		return $desired_record;
@@ -410,29 +410,29 @@ class Yoast_Model {
 		if ( $join_class_name === null ) {
 			$base_model      = \explode( '\\', $base_class_name );
 			$base_model_name = \end( $base_model );
-			if ( \substr( $base_model_name, 0, \strlen( self::$auto_prefix_models ) ) === self::$auto_prefix_models ) {
-				$base_model_name = \substr( $base_model_name, \strlen( self::$auto_prefix_models ), \strlen( $base_model_name ) );
+			if ( \substr( $base_model_name, 0, \strlen( static::$auto_prefix_models ) ) === static::$auto_prefix_models ) {
+				$base_model_name = \substr( $base_model_name, \strlen( static::$auto_prefix_models ), \strlen( $base_model_name ) );
 			}
 			// Paris wasn't checking the name settings for the associated class.
 			$associated_model      = \explode( '\\', $associated_class_name );
 			$associated_model_name = \end( $associated_model );
-			if ( \substr( $associated_model_name, 0, \strlen( self::$auto_prefix_models ) ) === self::$auto_prefix_models ) {
-				$associated_model_name = \substr( $associated_model_name, \strlen( self::$auto_prefix_models ), \strlen( $associated_model_name ) );
+			if ( \substr( $associated_model_name, 0, \strlen( static::$auto_prefix_models ) ) === static::$auto_prefix_models ) {
+				$associated_model_name = \substr( $associated_model_name, \strlen( static::$auto_prefix_models ), \strlen( $associated_model_name ) );
 			}
 			$class_names = array( $base_model_name, $associated_model_name );
 			\sort( $class_names, \SORT_STRING );
 			$join_class_name = \implode( "", $class_names );
 		}
 		// Get table names for each class
-		$base_table_name       = self::_get_table_name( $base_class_name );
-		$associated_table_name = self::_get_table_name( self::$auto_prefix_models . $associated_class_name );
-		$join_table_name       = self::_get_table_name( self::$auto_prefix_models . $join_class_name );
+		$base_table_name       = static::_get_table_name( $base_class_name );
+		$associated_table_name = static::_get_table_name( static::$auto_prefix_models . $associated_class_name );
+		$join_table_name       = static::_get_table_name( static::$auto_prefix_models . $join_class_name );
 		// Get ID column names
-		$base_table_id_column       = ( $key_in_base_table === null ) ? self::_get_id_column_name( $base_class_name ) : $key_in_base_table;
-		$associated_table_id_column = ( $key_in_associated_table === null ) ? self::_get_id_column_name( self::$auto_prefix_models . $associated_class_name ) : $key_in_associated_table;
+		$base_table_id_column       = ( $key_in_base_table === null ) ? static::_get_id_column_name( $base_class_name ) : $key_in_base_table;
+		$associated_table_id_column = ( $key_in_associated_table === null ) ? static::_get_id_column_name( static::$auto_prefix_models . $associated_class_name ) : $key_in_associated_table;
 		// Get the column names for each side of the join table
-		$key_to_base_table       = self::_build_foreign_key_name( $key_to_base_table, $base_table_name );
-		$key_to_associated_table = self::_build_foreign_key_name( $key_to_associated_table, $associated_table_name );
+		$key_to_base_table       = static::_build_foreign_key_name( $key_to_base_table, $base_table_name );
+		$key_to_associated_table = static::_build_foreign_key_name( $key_to_associated_table, $associated_table_name );
 
 		/*
 			"   SELECT {$associated_table_name}.*
@@ -441,7 +441,7 @@ class Yoast_Model {
 				 WHERE {$join_table_name}.{$key_to_base_table} = {$this->$base_table_id_column} ;"
 		*/
 
-		return self::factory( $associated_class_name, $connection_name )->select( "{$associated_table_name}.*" )->join( $join_table_name, array(
+		return static::factory( $associated_class_name, $connection_name )->select( "{$associated_table_name}.*" )->join( $join_table_name, array(
 			"{$associated_table_name}.{$associated_table_id_column}",
 			'=',
 			"{$join_table_name}.{$key_to_associated_table}"
@@ -629,7 +629,7 @@ class Yoast_Model {
 			return array();
 		}
 
-		$model = self::factory( \get_called_class() );
+		$model = static::factory( \get_called_class() );
 
 		return \call_user_func_array( array( $model, $method ), $parameters );
 	}
