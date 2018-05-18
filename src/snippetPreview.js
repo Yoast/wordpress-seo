@@ -647,6 +647,8 @@ SnippetPreview.prototype.formatCite = function() {
 
 	// URL's cannot contain whitespace so replace it by dashes.
 	cite = cite.replace( /\s/g, "-" );
+	// Strip out question mark and hash characters from the raw URL.
+	cite = cite.replace( /\?|#/g, "" );
 
 	return cite;
 };
@@ -1218,7 +1220,7 @@ SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
 };
 
 /**
- * Creates elements with the purpose to calculate the sizes of elements and puts these elemenents to the body.
+ * Creates elements with the purpose to calculate the sizes of elements and puts these elements to the body.
  *
  * @returns {void}
  */

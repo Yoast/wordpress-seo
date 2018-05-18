@@ -5,6 +5,15 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.32.0 May 16th, 2018
+### Added
+* Adds Flesh Reading Ease for Russian.
+
+### Changed
+* Sequences of symbols which do not contain a single letter or digit are no longer considered a valid keyword.
+* Question marks and hashes are stripped from the snippet preview URL.
+* Makes the snippetPreview optional in the App. This can be enabled by putting the hasSnippetPreview argument to false.
+
 ## 1.31.0 April 26th, 2018
 ### Added
 * Adds readability analysis for Russian.
