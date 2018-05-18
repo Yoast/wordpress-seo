@@ -107,6 +107,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_74();
 		}
 
+		if ( version_compare( $version, '7.6-RC0', '<' ) ) {
+			$this->upgrade_76();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -554,6 +558,18 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_74() {
 		$this->remove_sitemap_validators();
+	}
+
+	/**
+	 * Performs the 7.6 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_76() {
+		global $wpdb;
+
+		// Remove all OpenGraph content image cache.
+		$wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_key = '_yoast_wpseo_post_image_cache'" );
 	}
 
 	/**
