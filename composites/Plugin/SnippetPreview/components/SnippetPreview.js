@@ -117,11 +117,11 @@ export const TitleUnboundedDesktop = styled.span`
 
 export const TitleUnboundedMobile = styled.span`
 	display: inline-block;
+	font-size: 16px;
 	line-height: 1.2em;
-	max-height: 2.4em;
+	max-height: 2.4em; // max two lines of text
 	overflow: hidden;
 	text-overflow: ellipsis;
-	font-size: 16px;
 `;
 
 export const BaseUrl = styled.div`
@@ -153,15 +153,14 @@ export const DesktopDescription = styled.div.attrs( {
 `;
 
 const MobileDescription = styled( DesktopDescription )`
-	max-height: 4em;
-	padding-bottom: 3px;
 `;
 
 const MobileDescriptionOverflowContainer = styled( MobileDescription )`
-	overflow: hidden;
 	font-size: 14px;
 	line-height: 20px;
-	max-height: calc( 4em + 3px );
+	max-height: 80px; // max four lines of text
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const MobilePartContainer = styled.div`
@@ -623,8 +622,10 @@ export default class SnippetPreview extends PureComponent {
 		if ( mode === MODE_DESKTOP ) {
 			const DesktopDescriptionWithCaret = this.addCaretStyles( "description", DesktopDescription );
 			return (
-				<DesktopDescriptionWithCaret { ...outerContainerProps }
-											  innerRef={ this.setDescriptionRef }>
+				<DesktopDescriptionWithCaret
+					{ ...outerContainerProps }
+					innerRef={ this.setDescriptionRef }
+				>
 					{ renderedDate }
 					{ highlightKeyword( locale, keyword, this.getDescription() ) }
 				</DesktopDescriptionWithCaret>
@@ -633,9 +634,11 @@ export default class SnippetPreview extends PureComponent {
 			const MobileDescriptionWithCaret = this.addCaretStyles( "description", MobileDescription );
 			return (
 				<MobileDescriptionWithCaret
-					{ ...outerContainerProps } >
+					{ ...outerContainerProps }
+				>
 					<MobileDescriptionOverflowContainer
-						innerRef={ this.setDescriptionRef } >
+						innerRef={ this.setDescriptionRef }
+					>
 						{ renderedDate }
 						{ highlightKeyword( locale, keyword, this.getDescription() ) }
 					</MobileDescriptionOverflowContainer>
@@ -681,18 +684,22 @@ export default class SnippetPreview extends PureComponent {
 				<div>
 					<HelpTextWrapper helpText={ helpText } />
 				</div>
-				<Container onMouseLeave={ this.onMouseLeave }
-				           width={ MAX_WIDTH + 2 * WIDTH_PADDING }
-				           padding={ WIDTH_PADDING }>
+				<Container
+					onMouseLeave={ this.onMouseLeave }
+					width={ MAX_WIDTH + 2 * WIDTH_PADDING }
+					padding={ WIDTH_PADDING }
+				>
 					<PartContainer>
 						<FormattedScreenReaderMessage
 							id="snippetPreview.seoTitlePreview"
 							defaultMessage="SEO title preview"
 							after=":"
 						/>
-						<Title onClick={ onClick.bind( null, "title" ) }
-						       onMouseOver={ partial( onMouseOver, "title" ) }
-						       onMouseLeave={ partial( onMouseLeave, "title" ) }>
+						<Title
+							onClick={ onClick.bind( null, "title" ) }
+							onMouseOver={ partial( onMouseOver, "title" ) }
+							onMouseLeave={ partial( onMouseLeave, "title" ) }
+						>
 							<TitleBounded>
 								<TitleUnbounded innerRef={ this.setTitleRef } >
 									{ this.getTitle() }
