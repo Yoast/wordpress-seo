@@ -9,7 +9,7 @@ namespace Yoast\YoastSEO\Config;
 
 use Yoast\YoastSEO\WordPress\Integration;
 use Yoast\YoastSEO\WordPress\Integration_Group;
-use YoastSEO_Vendor\Model;
+use Yoast\YoastSEO\Yoast_Model;
 use YoastSEO_Vendor\ORM;
 
 /**
@@ -166,7 +166,7 @@ class Plugin implements Integration {
 		ORM::configure( 'username', DB_USER );
 		ORM::configure( 'password', DB_PASSWORD );
 
-		Model::$auto_prefix_models = '\\Yoast\\YoastSEO\\Models\\';
+		Yoast_Model::$auto_prefix_models = '\\Yoast\\YoastSEO\\Models\\';
 	}
 
 	/**
