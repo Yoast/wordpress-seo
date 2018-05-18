@@ -828,12 +828,7 @@ class WPSEO_Breadcrumbs {
 			if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) )
 				&& ( $i < ( $this->crumb_count - 1 ) )
 			) {
-				if ( $i === 0 ) {
-					$link_output .= '<' . $this->element . '>';
-				}
-				else {
-					$link_output .= '<' . $this->element . '>';
-				}
+				$link_output .= '<' . $this->element . '>';
 				$title_attr   = isset( $link['title'] ) ? ' title="' . esc_attr( $link['title'] ) . '"' : '';
 				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" ' . $title_attr . '>' . $link['text'] . '</a>';
 			}
