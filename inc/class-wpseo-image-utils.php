@@ -49,12 +49,12 @@ class WPSEO_Image_Utils {
 
 			if ( ! empty( $id ) ) {
 				// Id is found, set cache with different data.
-				wp_cache_set( $cache_key, $id, '', 24 * HOUR_IN_SECONDS + mt_rand( 0, 12 * HOUR_IN_SECONDS ) );
+				wp_cache_set( $cache_key, $id, '', ( 24 * HOUR_IN_SECONDS + mt_rand( 0, ( 12 * HOUR_IN_SECONDS ) ) ) );
 			}
 
 			// If id is still empty set wp_cache with some weird data.
 			if ( empty( $id ) ) {
-				wp_cache_set( $cache_key, 'not_found', '', 12 * HOUR_IN_SECONDS + mt_rand( 0, 4 * HOUR_IN_SECONDS ) );
+				wp_cache_set( $cache_key, 'not_found', '', ( 12 * HOUR_IN_SECONDS + mt_rand( 0, ( 4 * HOUR_IN_SECONDS ) ) ) );
 				$id = 'not_found';
 			}
 		}
