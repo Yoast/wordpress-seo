@@ -32,7 +32,7 @@ const EditSnippetButton = SnippetEditorButton.extend`
 	margin: 10px 0 0 4px;
 	fill: ${ colors.$color_grey_dark };
 	padding-left: 8px;
-	
+
 	& svg {
 		margin-right: 7px;
 	}
@@ -213,8 +213,8 @@ class SnippetEditor extends React.Component {
 
 	/**
 	 * Focuses the preview on the given field.
-	 *SnippetEditorFields
-	 * @param {String} field the name of the field to focuSnippetEditorFieldss
+	 *
+	 * @param {String} field the name of the field to focus.
 	 *
 	 * @returns {void}
 	 */
