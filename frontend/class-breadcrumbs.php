@@ -820,19 +820,18 @@ class WPSEO_Breadcrumbs {
 				$link['text'] = esc_html( $link['text'] );
 			}
 
-			$inner_elm = 'span';
-			if ( WPSEO_Options::get( 'breadcrumbs-boldlast' ) === true && $i === ( $this->crumb_count - 1 ) ) {
-				$inner_elm = 'strong';
-			}
-
-			if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) )
-				&& ( $i < ( $this->crumb_count - 1 ) )
+			if ( ( $i < ( $this->crumb_count - 1 ) && ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) )
 			) {
 				$link_output .= '<' . $this->element . '>';
 				$title_attr   = isset( $link['title'] ) ? ' title="' . esc_attr( $link['title'] ) . '"' : '';
 				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" ' . $title_attr . '>' . $link['text'] . '</a>';
 			}
 			else {
+				$inner_elm = 'span';
+				if ( $i === ( $this->crumb_count - 1 ) && WPSEO_Options::get( 'breadcrumbs-boldlast' ) === true ) {
+					$inner_elm = 'strong';
+				}
+
 				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last">' . $link['text'] . '</' . $inner_elm . '>';
 				// This is the last element, now close all previous elements.
 				while ( $i > 0 ) {
@@ -852,7 +851,6 @@ class WPSEO_Breadcrumbs {
 
 		return apply_filters( 'wpseo_breadcrumb_single_link', $link_output, $link );
 	}
-
 
 	/**
 	 * Create a complete breadcrumb string from an array of breadcrumb element strings.
