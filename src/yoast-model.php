@@ -171,9 +171,9 @@ class Yoast_Model {
 	 * property $_table_use_short_name == true then $class_name passed
 	 * to _class_name_to_table_name is stripped of namespace information.
 	 *
-	 * @param  string $class_name
+	 * @param  string $class_name The class name to get the table name for.
 	 *
-	 * @return string
+	 * @return string The table name.
 	 */
 	protected static function _get_table_name( $class_name ) {
 		$specified_table_name = static::_get_static_property( $class_name, '_table' );
@@ -379,13 +379,11 @@ class Yoast_Model {
 			//"{$associated_table_name}.primary_key = {$associated_object_id}"
 			//NOTE: primary_key is a placeholder for the actual primary key column's name
 			//in $associated_table_name
-			$desired_record = static::factory( $associated_class_name, $connection_name )->where_id_is( $associated_object_id );
-		} else {
-			//"{$associated_table_name}.{$foreign_key_name_in_associated_models_table} = {$associated_object_id}"
-			$desired_record = static::factory( $associated_class_name, $connection_name )->where( $foreign_key_name_in_associated_models_table, $associated_object_id );
+			return static::factory( $associated_class_name, $connection_name )->where_id_is( $associated_object_id );
 		}
 
-		return $desired_record;
+		//"{$associated_table_name}.{$foreign_key_name_in_associated_models_table} = {$associated_object_id}"
+		return static::factory( $associated_class_name, $connection_name )->where( $foreign_key_name_in_associated_models_table, $associated_object_id );
 	}
 
 	/**
@@ -410,19 +408,20 @@ class Yoast_Model {
 		if ( $join_class_name === null ) {
 			$base_model      = \explode( '\\', $base_class_name );
 			$base_model_name = \end( $base_model );
-			if ( \substr( $base_model_name, 0, \strlen( static::$auto_prefix_models ) ) === static::$auto_prefix_models ) {
+			if ( 0 === strpos( $base_model_name, static::$auto_prefix_models ) ) {
 				$base_model_name = \substr( $base_model_name, \strlen( static::$auto_prefix_models ), \strlen( $base_model_name ) );
 			}
 			// Paris wasn't checking the name settings for the associated class.
 			$associated_model      = \explode( '\\', $associated_class_name );
 			$associated_model_name = \end( $associated_model );
-			if ( \substr( $associated_model_name, 0, \strlen( static::$auto_prefix_models ) ) === static::$auto_prefix_models ) {
+			if ( 0 === strpos( $associated_model_name, static::$auto_prefix_models ) ) {
 				$associated_model_name = \substr( $associated_model_name, \strlen( static::$auto_prefix_models ), \strlen( $associated_model_name ) );
 			}
 			$class_names = array( $base_model_name, $associated_model_name );
 			\sort( $class_names, \SORT_STRING );
-			$join_class_name = \implode( "", $class_names );
+			$join_class_name = \implode( '', $class_names );
 		}
+
 		// Get table names for each class
 		$base_table_name       = static::_get_table_name( $base_class_name );
 		$associated_table_name = static::_get_table_name( static::$auto_prefix_models . $associated_class_name );
@@ -440,12 +439,17 @@ class Yoast_Model {
 					ON {$associated_table_name}.{$associated_table_id_column} = {$join_table_name}.{$key_to_associated_table}
 				 WHERE {$join_table_name}.{$key_to_base_table} = {$this->$base_table_id_column} ;"
 		*/
-
-		return static::factory( $associated_class_name, $connection_name )->select( "{$associated_table_name}.*" )->join( $join_table_name, array(
-			"{$associated_table_name}.{$associated_table_id_column}",
-			'=',
-			"{$join_table_name}.{$key_to_associated_table}"
-		) )->where( "{$join_table_name}.{$key_to_base_table}", $this->{$base_table_id_column} );
+		return static::factory( $associated_class_name, $connection_name )
+             ->select( "{$associated_table_name}.*" )
+             ->join(
+             	$join_table_name,
+                array(
+					"{$associated_table_name}.{$associated_table_id_column}",
+					'=',
+					"{$join_table_name}.{$key_to_associated_table}",
+				)
+             )
+             ->where( "{$join_table_name}.{$key_to_base_table}", $this->{$base_table_id_column} );
 	}
 
 	/**
@@ -647,14 +651,13 @@ class Yoast_Model {
 	 *
 	 * @throws ParisMethodMissingException
 	 * @return bool|ORMWrapper
-	 * @throws \YoastSEO_Vendor\ParisMethodMissingException
 	 */
 	public function __call( $name, $arguments ) {
 		$method = \strtolower( \preg_replace( '/([a-z])([A-Z])/', '$1_$2', $name ) );
-		if ( \method_exists( $this, $method ) ) {
-			return \call_user_func_array( array( $this, $method ), $arguments );
+		if ( ! \method_exists( $this, $method ) ) {
+			throw new \YoastSEO_Vendor\ParisMethodMissingException( "Method {$name}() does not exist in class " . \get_class( $this ) );
 		}
 
-		throw new \YoastSEO_Vendor\ParisMethodMissingException( "Method {$name}() does not exist in class " . \get_class( $this ) );
+		return \call_user_func_array( array( $this, $method ), $arguments );
 	}
 }
