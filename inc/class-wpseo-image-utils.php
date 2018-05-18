@@ -26,8 +26,44 @@ class WPSEO_Image_Utils {
 			// @codeCoverageIgnoreEnd -- The rest we _can_ test.
 		}
 
-		// phpcs:ignore WordPress.VIP.RestrictedFunctions -- We use the WP COM version if we can, see above.
-		return (int) attachment_url_to_postid( $url );
+		return self::attachment_url_to_postid( $url );
+	}
+
+	/**
+	 * Implements the attachment_url_to_postid with use of WP Cache.
+	 *
+	 * @param string $url The attachment URL for which we want to know the Post ID.
+	 *
+	 * @return int The Post ID belonging to the attachment, 0 if not found.
+	 */
+	protected static function attachment_url_to_postid( $url ) {
+		$cache_key = sprintf( 'yoast_attachment_url_post_id_%s', md5( $url ) );
+
+		// Set the id based on the hashed url in the cache. If that works immediately just return the id.
+		$id = wp_cache_get( $cache_key );
+
+		// If the url is not found, first simply get the post id based on the url.
+		if ( $id === false ) {
+			// phpcs:ignore WordPress.VIP.RestrictedFunctions -- We use the WP COM version if we can, see above.
+			$id = attachment_url_to_postid( $url );
+
+			if ( ! empty( $id ) ) {
+				// Id is found, set cache with different data.
+				wp_cache_set( $cache_key, $id, '', 24 * HOUR_IN_SECONDS + mt_rand( 0, 12 * HOUR_IN_SECONDS ) );
+			}
+
+			// If id is still empty set wp_cache with some weird data.
+			if ( empty( $id ) ) {
+				wp_cache_set( $cache_key, 'not_found', '', 12 * HOUR_IN_SECONDS + mt_rand( 0, 4 * HOUR_IN_SECONDS ) );
+				$id = 'not_found';
+			}
+		}
+
+		if ( $id === 'not_found' ) {
+			return 0;
+		}
+
+		return $id;
 	}
 
 	/**
