@@ -20,7 +20,7 @@ class ClassicEditorData {
 	 * @param {Object} store     The YoastSEO Redux store.
 	 * @returns {void}
 	 */
-	constructor( refresh, store ) {
+	constructor( refresh, store, onChange ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._data = {};

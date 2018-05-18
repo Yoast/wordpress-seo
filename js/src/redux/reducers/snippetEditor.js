@@ -6,11 +6,17 @@ import {
 	UPDATE_REPLACEMENT_VARIABLE,
 	REMOVE_REPLACEMENT_VARIABLE,
 	REFRESH,
+	SET_DISPLAY_DESCRIPTION,
 } from "../actions/snippetEditor";
 
 const INITIAL_STATE = {
 	mode: DEFAULT_MODE,
 	data: {
+		title: "",
+		slug: "",
+		description: "",
+	},
+	displayData: {
 		title: "",
 		slug: "",
 		description: "",
@@ -74,6 +80,16 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 				replacementVariables: state.replacementVariables.filter( replacementVariable => {
 					return replacementVariable.name !== action.name;
 				} ),
+			};
+		}
+
+		case SET_DISPLAY_DESCRIPTION: {
+			return {
+				...state,
+				displayData: {
+					...state.displayData,
+					description: action.text,
+				},
 			};
 		}
 
