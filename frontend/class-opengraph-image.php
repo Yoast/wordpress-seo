@@ -64,7 +64,7 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Constructor.
 	 *
-	 * @param null|string     $image Optional. The Image to use.
+	 * @param null|string     $image     Optional. The Image to use.
 	 * @param WPSEO_OpenGraph $opengraph Optional. The OpenGraph object.
 	 */
 	public function __construct( $image = null, WPSEO_OpenGraph $opengraph = null ) {
