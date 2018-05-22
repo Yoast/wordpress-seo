@@ -392,6 +392,7 @@ class SnippetEditor extends React.Component {
 			data,
 			displayData,
 			descriptionPlaceholder,
+			isDescriptionGenerated,
 			mode,
 			date,
 			locale,
@@ -424,6 +425,7 @@ class SnippetEditor extends React.Component {
 					onClick={ this.onClick }
 					locale={ locale }
 					descriptionPlaceholder={ descriptionPlaceholder }
+					isDescriptionGenerated={ isDescriptionGenerated }
 					{ ...mappedData }
 				/>
 
@@ -458,6 +460,7 @@ SnippetEditor.propTypes = {
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
 	descriptionPlaceholder: PropTypes.string,
+	isDescriptionGenerated: PropTypes.bool,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
@@ -483,6 +486,7 @@ SnippetEditor.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
+	isDescriptionGenerated: false,
 	mapDataToPreview: null,
 	locale: "en",
 };

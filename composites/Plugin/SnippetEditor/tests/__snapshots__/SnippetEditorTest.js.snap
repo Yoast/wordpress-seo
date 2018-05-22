@@ -1196,6 +1196,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
@@ -2824,6 +2825,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
@@ -4452,6 +4454,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
@@ -6080,6 +6083,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
@@ -7550,6 +7554,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
@@ -8929,6 +8934,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
@@ -10557,6 +10563,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
@@ -13440,6 +13447,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
@@ -15088,6 +15096,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
@@ -16724,6 +16733,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
@@ -18352,6 +18362,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
