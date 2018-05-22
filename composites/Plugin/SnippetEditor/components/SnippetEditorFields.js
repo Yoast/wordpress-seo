@@ -89,6 +89,7 @@ const SlugInput = styled( ControlledInput )`
 `;
 
 const InputContainerDescription = InputContainer.extend`
+	cursor: text;
 	min-height: 60px;
 	padding: 2px 6px;
 	line-height: 19.6px;
@@ -261,7 +262,10 @@ class SnippetEditorFields extends React.Component {
 						id={ this.uniqueId + "-description" }
 						onClick={ () => onFocus( "description" ) }
 					>{ __( "Meta description", "yoast-components" ) }</SimulatedLabel>
-					<InputContainerDescription isActive={ activeField === "description" } isHovered={ hoveredField === "description" }>
+					<InputContainerDescription
+						onClick={ () => this.elements.description.focus() }
+						isActive={ activeField === "description" }
+						isHovered={ hoveredField === "description" }>
 						<ReplacementVariableEditor
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
