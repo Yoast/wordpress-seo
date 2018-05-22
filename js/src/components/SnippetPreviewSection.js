@@ -56,7 +56,7 @@ const legacyReplaceUsingPlugin = function( data ) {
  */
 const mapEditorDataToPreview = function( data ) {
 	// Replace whitespaces in the url with dashes.
-	data.url = data.url.replace( /\s/g, "-" );
+	data.url = data.url.replace( /\s+/g, "-" );
 
 	return legacyReplaceUsingPlugin( data );
 };
