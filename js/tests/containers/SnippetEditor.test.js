@@ -23,6 +23,11 @@ describe( "SnippetEditor container", () => {
 					slug: "slug",
 					description: "Description",
 				},
+				displayData: {
+					title: "Title",
+					slug: "slug",
+					description: "Description",
+				},
 				replacementVariables: [
 					{
 						name: "variable",
@@ -49,6 +54,12 @@ describe( "SnippetEditor container", () => {
 				slug: "slug",
 				description: "Description",
 			},
+			displayData: {
+				title: "Title",
+				slug: "slug",
+				description: "Description",
+			},
+			isDescriptionGenerated: false,
 			replacementVariables: [
 				{
 					name: "variable",
