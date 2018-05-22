@@ -185,11 +185,11 @@ function rateMetaDescLength( metaDescLength ) {
 
 	switch ( true ) {
 		case metaDescLength > 0 && metaDescLength < 120:
-		case metaDescLength > 320:
+		case metaDescLength > maximumMetaDescriptionLength:
 			rating = "ok";
 			break;
 
-		case metaDescLength >= 120 && metaDescLength <= 320:
+		case metaDescLength >= 120 && metaDescLength <= maximumMetaDescriptionLength:
 			rating = "good";
 			break;
 
@@ -692,8 +692,9 @@ SnippetPreview.prototype.formatMeta = function() {
 
 /**
  * Generates a meta description with an educated guess based on the passed text and excerpt.
- * It uses the keyword to select an appropriate part of the text. If the keyword isn't present it takes the first
- * 320 characters of the text. If both the keyword, text and excerpt are empty this function returns the sample text.
+ * It uses the keyword to select an appropriate part of the text. If the keyword isn't present it takes the maximum
+ * meta description length of the text. If both the keyword, text and excerpt are empty this function returns the
+ * sample text.
  *
  * @returns {string} A generated meta description.
  */
