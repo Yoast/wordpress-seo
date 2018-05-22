@@ -256,6 +256,7 @@ class ReplacementVariableEditor extends React.Component {
 					onBlur={ onBlur }
 					plugins={ [ this.mentionsPlugin ] }
 					ref={ this.setEditorRef }
+					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
 				/>
 				<MentionSuggestions
