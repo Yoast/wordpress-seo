@@ -27,7 +27,9 @@ class WPSEO_Help_Center_Template_Variables_Tab implements WPSEO_WordPress_Integr
 	}
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_filter( 'wpseo_help_center_items', array( $this, 'add_meta_options_help_center_tabs' ), $this->priority );
@@ -36,6 +38,8 @@ class WPSEO_Help_Center_Template_Variables_Tab implements WPSEO_WordPress_Integr
 
 	/**
 	 * Enqueues the styles needed in the Help Center tab.
+	 *
+	 * @return void
 	 */
 	public function enqueue() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
