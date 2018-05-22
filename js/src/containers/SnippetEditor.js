@@ -71,8 +71,12 @@ export function mapStateToProps( state ) {
 		}
 	} );
 
+	// If the displayData field is empty, a description will be generated, so this boolean should be set to true.
+	let isDescriptionGenerated = state.snippetEditor.displayData.description === "";
+
 	return {
 		...state.snippetEditor,
+		isDescriptionGenerated,
 		titleLengthProgress,
 		descriptionLengthProgress,
 		keyword: state.activeKeyword,
