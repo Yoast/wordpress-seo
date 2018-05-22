@@ -159,6 +159,7 @@ exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
         },
       ]
     }
+    stripPastedStyles={true}
   />
   <Decorated(MentionSuggestions)
     onSearchChange={[Function]}
