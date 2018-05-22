@@ -56,7 +56,8 @@ class ControlledInput extends React.Component {
 				{ ...otherProps }
 				ref={ passedRef }
 				onChange={ this.onChange.bind( this ) }
-				value={ this.state.value } />
+				value={ initialValue }
+			/>
 		);
 	}
 }
