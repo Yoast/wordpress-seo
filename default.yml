@@ -156,6 +156,7 @@ rules:
   indent: [1, tab, {"SwitchCase": 1}]
   jsx-quotes: [1, "prefer-double"]
   key-spacing: [1, {"beforeColon": false, "afterColon": true}]
+  keyword-spacing: [1, {"before": true, "after": true}]
   linebreak-style: [2, unix]
   lines-around-comment: 0
   max-depth: 2
