@@ -8,7 +8,6 @@ import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import styled from "styled-components";
 
 // Internal dependencies.
 import { replacementVariablesShape } from "../constants";
