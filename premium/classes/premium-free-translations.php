@@ -38,7 +38,7 @@ class WPSEO_Premium_Free_Translations implements WPSEO_WordPress_Integration {
 		 */
 		$plugins = json_decode( $args['body']['plugins'], true );
 		foreach ( $plugins['plugins'] as $slug => $data ) {
-			if ( $data['name'] === 'Yoast SEO' ) {
+			if ( isset( $data['name'] ) && $data['name'] === 'Yoast SEO' ) {
 				return $args;
 			}
 		}
