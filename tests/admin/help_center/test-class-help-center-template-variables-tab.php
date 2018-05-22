@@ -9,6 +9,8 @@ class WPSEO_Help_Center_Template_Variables_Tab_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests expected hooks and filters being added.
+	 *
+	 * @covers WPSEO_Help_Center_Template_Variables_Tab::register_hooks
 	 */
 	public function test_register_hooks() {
 		$instance = new WPSEO_Help_Center_Template_Variables_Tab();
@@ -23,6 +25,9 @@ class WPSEO_Help_Center_Template_Variables_Tab_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests priority application on filter.
+	 *
+	 * @covers WPSEO_Help_Center_Template_Variables_Tab::__construct
+	 * @covers WPSEO_Help_Center_Template_Variables_Tab::register_hooks
 	 */
 	public function test_register_hooks_priority() {
 		$instance = new WPSEO_Help_Center_Template_Variables_Tab( 20 );
@@ -36,6 +41,8 @@ class WPSEO_Help_Center_Template_Variables_Tab_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the addition of the tab to the list.
+	 *
+	 * @covers WPSEO_Help_Center_Template_Variables_Tab::add_meta_options_help_center_tabs
 	 */
 	public function test_add_meta_options_help_center_tabs() {
 		$instance = new WPSEO_Help_Center_Template_Variables_Tab();
