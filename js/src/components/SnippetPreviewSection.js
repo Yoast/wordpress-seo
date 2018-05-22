@@ -32,7 +32,7 @@ const Section = styled( StyledSection )`
  * @param {string} data.url         The snippet preview url: baseUrl with the slug.
  * @param {string} data.description The snippet preview description.
  *
- * @returns {Object} Returns the data object win which the placeholders have been replaced.
+ * @returns {Object} Returns the data object in which the placeholders have been replaced.
  */
 const legacyReplaceUsingPlugin = function( data ) {
 	const replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
@@ -52,7 +52,7 @@ const legacyReplaceUsingPlugin = function( data ) {
  * @param {string} data.url         The snippet preview url: baseUrl with the slug.
  * @param {string} data.description The snippet preview description.
  *
- * @returns {Object} Returns the data object win which the placeholders have been replaced.
+ * @returns {Object} Returns the data object in which the placeholders have been replaced.
  */
 const applyReplaceUsingPlugin = function( data ) {
 	// If we do not have pluggable loaded, apply just our own replace variables.
