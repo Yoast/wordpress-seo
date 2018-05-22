@@ -2,6 +2,7 @@ import {
 	switchMode,
 	updateData,
 	updateReplacementVariable,
+	removeReplacementVariable,
 } from "../../../src/redux/actions/snippetEditor";
 import snippetEditorReducer from "../../../src/redux/reducers/snippetEditor";
 import { DEFAULT_MODE } from "yoast-components";
@@ -64,6 +65,15 @@ describe( "snippet editor reducers", () => {
 			const expected = { replacementVariables: [ { name: "New key", value: "New value" } ] };
 
 			const result = snippetEditorReducer( { replacementVariables: [] }, action );
+
+			expect( result ).toEqual( expected );
+		} );
+
+		it( "removes replacement variables", () => {
+			const action = removeReplacementVariable( "title" );
+			const expected = { replacementVariables: [ ] };
+
+			const result = snippetEditorReducer( { replacementVariables: [ { name: "title", value: "value" } ] }, action );
 
 			expect( result ).toEqual( expected );
 		} );
