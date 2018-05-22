@@ -8,6 +8,8 @@ import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import updateReplacementVariables from "../helpers/updateReplacementVariables";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
 import debounce from "lodash/debounce";
+import { setDocumentExcerpt, setDocumentText, setDocumentTitle } from "../redux/actions/documentData";
+import { mapDocumentToDisplayData } from "../edit";
 
 /**
  * Represents the classic editor data.
@@ -20,13 +22,14 @@ class ClassicEditorData {
 	 * @param {Object} store     The YoastSEO Redux store.
 	 * @returns {void}
 	 */
-	constructor( refresh, store, onChange ) {
+	constructor( refresh, store ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._data = {};
 		// This will be used for the comparison whether the title, description and slug are dirty.
 		this._previousData = {};
-		this.updateData = this.updateData.bind( this );
+		this.subscribeToInputElement = this.subscribeToInputElement.bind( this );
+		this.updateReplacementData = this.updateReplacementData.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
 
@@ -100,18 +103,25 @@ class ClassicEditorData {
 	subscribeToElements() {
 		this.subscribeToInputElement( "title", "title" );
 		this.subscribeToInputElement( "excerpt", "excerpt" );
+		this.subscribeToInputElement( "excerpt", "excerpt", false );
 		this.subscribeToInputElement( "excerpt", "excerpt_only" );
+		let cb = () => {
+			this._store.dispatch( setDocumentText( this.getContent() ) );
+			mapDocumentToDisplayData( this._store );
+		};
+		tmceHelper.addEventHandler( tmceId, [ "input", "change", "cut", "paste" ], cb );
 	}
 
 	/**
 	 * Subscribes to an element via its id, and sets a callback.
 	 *
-	 * @param {string} elementId          The id of the element to subscribe to.
-	 * @param {string} targetReplaceVar   The name of the replacevar the value should be sent to.
+	 * @param {string}  elementId            The id of the element to subscribe to.
+	 * @param {string}  targetField          The name of the field the value should be sent to.
+	 * @param {boolean} forReplaceVariable   Whether this is a subscription for the replaceVariables.
 	 *
 	 * @returns {void}
 	 */
-	subscribeToInputElement( elementId, targetReplaceVar ) {
+	subscribeToInputElement( elementId, targetField, forReplaceVariable = true ) {
 		const element = document.getElementById( elementId );
 
 		/*
@@ -122,8 +132,27 @@ class ClassicEditorData {
 			return;
 		}
 
+		if ( ! forReplaceVariable ) {
+			switch( targetField ) {
+				case "excerpt":
+					element.addEventListener( "input", ( event ) => {
+						this._store.dispatch( setDocumentExcerpt( event.target.value ) );
+						mapDocumentToDisplayData( this._store );
+					} );
+					break;
+				case "title":
+					element.addEventListener( "input", ( event ) => {
+						this._store.dispatch( setDocumentTitle( event.target.value ) );
+						mapDocumentToDisplayData( this._store );
+					} );
+					break;
+				default:
+					return;
+			}
+		}
+
 		element.addEventListener( "input", ( event ) => {
-			this.updateData( event, targetReplaceVar );
+			this.updateReplacementData( event, targetField );
 		} );
 	}
 
@@ -135,7 +164,7 @@ class ClassicEditorData {
 	 *
 	 * @returns {void}
 	 */
-	updateData( event, targetReplaceVar ) {
+	updateReplacementData( event, targetReplaceVar ) {
 		const replaceValue = event.target.value;
 		this._data[ targetReplaceVar ] = replaceValue;
 		this._store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );

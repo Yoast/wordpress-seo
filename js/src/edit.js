@@ -20,7 +20,7 @@ import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
 import documentDataReducer from "./redux/reducers/documentData";
-import { setDocumentData, setText } from "./redux/actions/documentData";
+import { setDocumentData } from "./redux/actions/documentData";
 import { setDisplayDescription } from "./redux/actions/snippetEditor";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
@@ -166,6 +166,14 @@ export function initializeData( data, args, store ) {
 	return classicEditorData;
 }
 
+/**
+ * Maps the data to the correct fields in the store.
+ *
+ * @param {Object} data   The data object.
+ * @param {Object} store  The redux store.
+ *
+ * @returns {void}
+ */
 function mapDataToStore( data, store ) {
 	const newData = data.getData();
 
@@ -177,6 +185,13 @@ function mapDataToStore( data, store ) {
 	} ) );
 }
 
+/**
+ * Maps the correct document data to the display description data in the store.
+ *
+ * @param {Object} store   The redux store.
+ *
+ * @returns {void}
+ */
 export function mapDocumentToDisplayData( store ) {
 	let state = store.getState();
 	let snippetEditorData = state.snippetEditor.data;

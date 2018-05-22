@@ -52,11 +52,18 @@ export function updateReplacementVariable( name, value ) {
 	};
 }
 
+/**
+ * Sets display description.
+ *
+ * @param {string} text The description to be displayed.
+ *
+ * @returns {Object} An action for redux.
+ */
 export function setDisplayDescription( text ) {
 	return {
 		type: SET_DISPLAY_DESCRIPTION,
 		text,
-	}
+	};
 }
 
 /**

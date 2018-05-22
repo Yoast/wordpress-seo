@@ -1,6 +1,6 @@
 import {
 	SET_DOCUMENT_TEXT,
-	SET_DOCUMENT_DATA,
+	SET_DOCUMENT_DATA, SET_DOCUMENT_TITLE, SET_DOCUMENT_EXCERPT,
 } from "../actions/documentData";
 
 const INITIAL_STATE = {
@@ -26,6 +26,14 @@ function documentDataReducer( state = INITIAL_STATE, action ) {
 		case SET_DOCUMENT_TEXT:
 			return Object.assign( {}, state, {
 				content: action.text,
+			} );
+		case SET_DOCUMENT_EXCERPT:
+			return Object.assign( {}, state, {
+				excerpt: action.excerpt,
+			} );
+		case SET_DOCUMENT_TITLE:
+			return Object.assign( {}, state, {
+				title: action.title,
 			} );
 	}
 
