@@ -985,6 +985,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
 }
 
 .c32::before {
@@ -2072,15 +2073,17 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   id="snippet-editor-field-5-title"
                   onClick={[Function]}
                 >
-                  SEO title
+                  SEO Title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-title"
@@ -2129,31 +2132,34 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-5-slug"
-                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
                     passedRef={[Function]}
+                    value="test-slug"
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-5-slug"
                       className="c34"
-                      initialValue="test-slug"
+                      initialValue=""
                       onChange={[Function]}
                       onFocus={[Function]}
                       passedRef={[Function]}
+                      value="test-slug"
                     >
                       <input
                         aria-labelledby="snippet-editor-field-5-slug"
                         className="c34"
                         onChange={[Function]}
                         onFocus={[Function]}
-                        value="test-slug"
+                        value=""
                       />
                     </ControlledInput>
                   </SnippetEditorFields__SlugInput>
@@ -2609,6 +2615,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
 }
 
 .c32::before {
@@ -3696,15 +3703,17 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   id="snippet-editor-field-5-title"
                   onClick={[Function]}
                 >
-                  SEO title
+                  SEO Title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-title"
@@ -3753,31 +3762,34 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-5-slug"
-                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
                     passedRef={[Function]}
+                    value="test-slug"
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-5-slug"
                       className="c34"
-                      initialValue="test-slug"
+                      initialValue=""
                       onChange={[Function]}
                       onFocus={[Function]}
                       passedRef={[Function]}
+                      value="test-slug"
                     >
                       <input
                         aria-labelledby="snippet-editor-field-5-slug"
                         className="c34"
                         onChange={[Function]}
                         onFocus={[Function]}
-                        value="test-slug"
+                        value=""
                       />
                     </ControlledInput>
                   </SnippetEditorFields__SlugInput>
@@ -4233,6 +4245,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
 }
 
 .c32::before {
@@ -5320,15 +5333,17 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   id="snippet-editor-field-5-title"
                   onClick={[Function]}
                 >
-                  SEO title
+                  SEO Title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-title"
@@ -5377,31 +5392,34 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-5-slug"
-                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
                     passedRef={[Function]}
+                    value="test-slug"
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-5-slug"
                       className="c34"
-                      initialValue="test-slug"
+                      initialValue=""
                       onChange={[Function]}
                       onFocus={[Function]}
                       passedRef={[Function]}
+                      value="test-slug"
                     >
                       <input
                         aria-labelledby="snippet-editor-field-5-slug"
                         className="c34"
                         onChange={[Function]}
                         onFocus={[Function]}
-                        value="test-slug"
+                        value=""
                       />
                     </ControlledInput>
                   </SnippetEditorFields__SlugInput>
@@ -5857,6 +5875,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
 }
 
 .c32::before {
@@ -6944,15 +6963,17 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   id="snippet-editor-field-2-title"
                   onClick={[Function]}
                 >
-                  SEO title
+                  SEO Title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-2-title"
@@ -7001,31 +7022,34 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-2-slug"
-                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
                     passedRef={[Function]}
+                    value="test-slug"
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-2-slug"
                       className="c34"
-                      initialValue="test-slug"
+                      initialValue=""
                       onChange={[Function]}
                       onFocus={[Function]}
                       passedRef={[Function]}
+                      value="test-slug"
                     >
                       <input
                         aria-labelledby="snippet-editor-field-2-slug"
                         className="c34"
                         onChange={[Function]}
                         onFocus={[Function]}
-                        value="test-slug"
+                        value=""
                       />
                     </ControlledInput>
                   </SnippetEditorFields__SlugInput>
@@ -8695,6 +8719,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
 }
 
 .c32::before {
@@ -9782,15 +9807,17 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   id="snippet-editor-field-8-title"
                   onClick={[Function]}
                 >
-                  SEO title
+                  SEO Title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-8-title"
@@ -9839,31 +9866,34 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-8-slug"
-                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
                     passedRef={[Function]}
+                    value="test-slug"
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-8-slug"
                       className="c34"
-                      initialValue="test-slug"
+                      initialValue=""
                       onChange={[Function]}
                       onFocus={[Function]}
                       passedRef={[Function]}
+                      value="test-slug"
                     >
                       <input
                         aria-labelledby="snippet-editor-field-8-slug"
                         className="c34"
                         onChange={[Function]}
                         onFocus={[Function]}
-                        value="test-slug"
+                        value=""
                       />
                     </ControlledInput>
                   </SnippetEditorFields__SlugInput>
@@ -10319,6 +10349,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
 }
 
 .c32::before {
@@ -11406,15 +11437,17 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   id="snippet-editor-field-7-title"
                   onClick={[Function]}
                 >
-                  SEO title
+                  SEO Title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-7-title"
@@ -11463,31 +11496,34 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-7-slug"
-                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
                     passedRef={[Function]}
+                    value="test-slug"
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-7-slug"
                       className="c34"
-                      initialValue="test-slug"
+                      initialValue=""
                       onChange={[Function]}
                       onFocus={[Function]}
                       passedRef={[Function]}
+                      value="test-slug"
                     >
                       <input
                         aria-labelledby="snippet-editor-field-7-slug"
                         className="c34"
                         onChange={[Function]}
                         onFocus={[Function]}
-                        value="test-slug"
+                        value=""
                       />
                     </ControlledInput>
                   </SnippetEditorFields__SlugInput>
@@ -13186,6 +13222,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
 }
 
 .c33::before {
@@ -14293,15 +14330,17 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   id="snippet-editor-field-4-title"
                   onClick={[Function]}
                 >
-                  SEO title
+                  SEO Title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c33"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-title"
@@ -14350,31 +14389,34 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c33"
+                  onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-4-slug"
-                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
                     passedRef={[Function]}
+                    value="test-slug"
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-4-slug"
                       className="c35"
-                      initialValue="test-slug"
+                      initialValue=""
                       onChange={[Function]}
                       onFocus={[Function]}
                       passedRef={[Function]}
+                      value="test-slug"
                     >
                       <input
                         aria-labelledby="snippet-editor-field-4-slug"
                         className="c35"
                         onChange={[Function]}
                         onFocus={[Function]}
-                        value="test-slug"
+                        value=""
                       />
                     </ControlledInput>
                   </SnippetEditorFields__SlugInput>
@@ -14830,6 +14872,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
 }
 
 .c33::before {
@@ -15937,15 +15980,17 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   id="snippet-editor-field-3-title"
                   onClick={[Function]}
                 >
-                  SEO title
+                  SEO Title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c33"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-title"
@@ -15994,31 +16039,34 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c33"
+                  onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-3-slug"
-                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
                     passedRef={[Function]}
+                    value="test-slug"
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-3-slug"
                       className="c35"
-                      initialValue="test-slug"
+                      initialValue=""
                       onChange={[Function]}
                       onFocus={[Function]}
                       passedRef={[Function]}
+                      value="test-slug"
                     >
                       <input
                         aria-labelledby="snippet-editor-field-3-slug"
                         className="c35"
                         onChange={[Function]}
                         onFocus={[Function]}
-                        value="test-slug"
+                        value=""
                       />
                     </ControlledInput>
                   </SnippetEditorFields__SlugInput>
@@ -16474,6 +16522,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
 }
 
 .c32::before {
@@ -17561,15 +17610,17 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   id="snippet-editor-field-1-title"
                   onClick={[Function]}
                 >
-                  SEO title
+                  SEO Title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-1-title"
@@ -17618,31 +17669,34 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-1-slug"
-                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
                     passedRef={[Function]}
+                    value="test-slug"
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-1-slug"
                       className="c34"
-                      initialValue="test-slug"
+                      initialValue=""
                       onChange={[Function]}
                       onFocus={[Function]}
                       passedRef={[Function]}
+                      value="test-slug"
                     >
                       <input
                         aria-labelledby="snippet-editor-field-1-slug"
                         className="c34"
                         onChange={[Function]}
                         onFocus={[Function]}
-                        value="test-slug"
+                        value=""
                       />
                     </ControlledInput>
                   </SnippetEditorFields__SlugInput>
@@ -18098,6 +18152,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
 }
 
 .c32::before {
@@ -19207,15 +19262,17 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   id="snippet-editor-field-6-title"
                   onClick={[Function]}
                 >
-                  SEO title
+                  SEO Title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-title"
@@ -19275,31 +19332,34 @@ exports[`SnippetEditor passes replacement variables to the title and description
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-6-slug"
-                    initialValue="test-slug"
                     onChange={[Function]}
                     onFocus={[Function]}
                     passedRef={[Function]}
+                    value="test-slug"
                   >
                     <ControlledInput
                       aria-labelledby="snippet-editor-field-6-slug"
                       className="c34"
-                      initialValue="test-slug"
+                      initialValue=""
                       onChange={[Function]}
                       onFocus={[Function]}
                       passedRef={[Function]}
+                      value="test-slug"
                     >
                       <input
                         aria-labelledby="snippet-editor-field-6-slug"
                         className="c34"
                         onChange={[Function]}
                         onFocus={[Function]}
-                        value="test-slug"
+                        value=""
                       />
                     </ControlledInput>
                   </SnippetEditorFields__SlugInput>
