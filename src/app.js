@@ -22,6 +22,7 @@ var Researcher = require( "./researcher.js" );
 var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
 var Pluggable = require( "./pluggable.js" );
 var Paper = require( "./values/Paper.js" );
+import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
 var removeHtmlBlocks = require( "./stringProcessing/htmlParser.js" );
 
@@ -485,6 +486,8 @@ App.prototype.getData = function() {
 		this.rawData.metaTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.metaTitle );
 		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
 	}
+
+	this.rawData.titleWidth = measureTextWidth( this.rawData.metaTitle );
 
 	this.rawData.locale = this.config.locale;
 };
