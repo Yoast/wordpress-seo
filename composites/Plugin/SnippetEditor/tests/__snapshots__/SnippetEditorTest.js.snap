@@ -1164,6 +1164,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       "score": 0,
     }
   }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
+    }
+  }
   intl={
     Object {
       "defaultFormats": Object {},
@@ -2783,6 +2790,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       "actual": 0,
       "max": 320,
       "score": 0,
+    }
+  }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
     }
   }
   intl={
@@ -4406,6 +4420,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       "score": 0,
     }
   }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
+    }
+  }
   intl={
     Object {
       "defaultFormats": Object {},
@@ -6027,6 +6048,13 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       "score": 0,
     }
   }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
+    }
+  }
   intl={
     Object {
       "defaultFormats": Object {},
@@ -7490,6 +7518,13 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       "score": 0,
     }
   }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
+    }
+  }
   intl={
     Object {
       "defaultFormats": Object {},
@@ -8860,6 +8895,13 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       "actual": 0,
       "max": 320,
       "score": 0,
+    }
+  }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
     }
   }
   intl={
@@ -10481,6 +10523,13 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       "actual": 330,
       "max": 650,
       "score": 9,
+    }
+  }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
     }
   }
   intl={
@@ -13359,6 +13408,13 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       "score": 0,
     }
   }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
+    }
+  }
   intl={
     Object {
       "defaultFormats": Object {},
@@ -15000,6 +15056,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
       "score": 0,
     }
   }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
+    }
+  }
   intl={
     Object {
       "defaultFormats": Object {},
@@ -16629,6 +16692,13 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       "score": 0,
     }
   }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
+    }
+  }
   intl={
     Object {
       "defaultFormats": Object {},
@@ -18248,6 +18318,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
       "actual": 0,
       "max": 320,
       "score": 0,
+    }
+  }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
     }
   }
   intl={

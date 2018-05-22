@@ -325,13 +325,13 @@ class SnippetEditor extends React.Component {
 	 *
 	 * @returns {Object} The data for the preview.
 	 */
-	mapDataToPreview( originalData ) {
+	mapDataToPreview( originalData, displayData ) {
 		const { baseUrl, mapDataToPreview } = this.props;
 
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title ),
 			url: baseUrl.replace( "https://", "" ) + originalData.slug,
-			description: this.processReplacementVariables( originalData.description ),
+			description: this.processReplacementVariables( originalData.description || displayData.description ),
 		};
 
 		if ( mapDataToPreview ) {
@@ -389,6 +389,7 @@ class SnippetEditor extends React.Component {
 		const {
 			onChange,
 			data,
+			displayData,
 			descriptionPlaceholder,
 			mode,
 			date,
@@ -402,7 +403,7 @@ class SnippetEditor extends React.Component {
 			isOpen,
 		} = this.state;
 
-		const mappedData = this.mapDataToPreview( data );
+		const mappedData = this.mapDataToPreview( data, displayData );
 
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
@@ -446,6 +447,11 @@ class SnippetEditor extends React.Component {
 SnippetEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	data: PropTypes.shape( {
+		title: PropTypes.string.isRequired,
+		slug: PropTypes.string.isRequired,
+		description: PropTypes.string.isRequired,
+	} ).isRequired,
+	displayData: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
