@@ -1,10 +1,13 @@
 /* External dependencies */
 import removeMarks from "yoastseo/js/markers/removeMarks";
+import forEach from "lodash/forEach";
+import omit from "lodash/omit";
 
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import updateReplacementVariables from "../helpers/updateReplacementVariables";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
+import debounce from "lodash/debounce";
 
 /**
  * Represents the classic editor data.
@@ -21,7 +24,10 @@ class ClassicEditorData {
 		this._refresh = refresh;
 		this._store = store;
 		this._data = {};
+		// This will be used for the comparison whether the title, description and slug are dirty.
+		this._previousData = {};
 		this.updateData = this.updateData.bind( this );
+		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
 
 	/**
@@ -35,6 +41,7 @@ class ClassicEditorData {
 		this._data = this.getInitialData( replaceVars );
 		updateReplacementVariables( this._data, this._store );
 		this.subscribeToElements();
+		this.subscribeToStore();
 	}
 
 	/**
@@ -93,6 +100,7 @@ class ClassicEditorData {
 	subscribeToElements() {
 		this.subscribeToInputElement( "title", "title" );
 		this.subscribeToInputElement( "excerpt", "excerpt" );
+		this.subscribeToInputElement( "excerpt", "excerpt_only" );
 	}
 
 	/**
@@ -134,6 +142,106 @@ class ClassicEditorData {
 	}
 
 	/**
+	 * Checks whether the current data and the data from the updated state are the same.
+	 *
+	 * @param {Object} currentData The current data.
+	 * @param {Object} newData The data from the updated state.
+	 * @returns {boolean} Whether the current data and the newData is the same.
+	 */
+	isShallowEqual( currentData, newData ) {
+		if ( Object.keys( currentData ).length !== Object.keys( newData ).length ) {
+			return false;
+		}
+
+		for( let dataPoint in currentData ) {
+			if ( currentData.hasOwnProperty( dataPoint ) ) {
+				if( ! ( dataPoint in newData ) || currentData[ dataPoint ] !== newData[ dataPoint ] ) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Refreshes YoastSEO's app when the data is dirty.
+	 *
+	 * @returns {void}
+	 */
+	refreshYoastSEO() {
+		let newData = this._store.getState().snippetEditor.data;
+
+		// Set isDirty to true if the current data and Gutenberg data are unequal.
+		let isDirty = ! this.isShallowEqual( this._previousData, newData );
+
+		if ( isDirty ) {
+			this._previousData = newData;
+			if ( window.YoastSEO && window.YoastSEO.app ) {
+				window.YoastSEO.app.refresh();
+			}
+		}
+	}
+
+	/**
+	 * Listens to the store.
+	 *
+	 * @returns {void}
+	 */
+	subscribeToStore() {
+		this.subscriber = debounce( this.refreshYoastSEO, 500 );
+		this._store.subscribe(
+			this.subscriber
+		);
+	}
+
+	/**
+	 * Map the custom_fields field in the replacevars to a format suited for redux.
+	 *
+	 * @param {Object} replaceVars       The original replacevars.
+	 *
+	 * @returns {Object}                 The restructured replacevars object without custom_fields.
+	 */
+	mapCustomFields( replaceVars ) {
+		if( ! replaceVars.custom_fields ) {
+			return replaceVars;
+		}
+
+		let customFieldReplaceVars = {};
+		forEach( replaceVars.custom_fields, ( value, key ) => {
+			customFieldReplaceVars[ `cf_${ key }` ] = value;
+		} );
+
+		return omit( {
+			...replaceVars,
+			...customFieldReplaceVars,
+		}, "custom_fields" );
+	}
+
+	/**
+	 * Map the custom_taxonomies field in the replacevars to a format suited for redux.
+	 *
+	 * @param {Object} replaceVars       The original replacevars.
+	 *
+	 * @returns {Object}                 The restructured replacevars object without custom_taxonomies.
+	 */
+	mapCustomTaxonomies( replaceVars ) {
+		if( ! replaceVars.custom_taxonomies ) {
+			return replaceVars;
+		}
+
+		let customTaxonomyReplaceVars = {};
+		forEach( replaceVars.custom_taxonomies, ( value, key ) => {
+			customTaxonomyReplaceVars[ `ct_${ key }` ] = value.name;
+			customTaxonomyReplaceVars[ `ct_desc_${ key }` ] = value.description;
+		} );
+
+		return omit( {
+			...replaceVars,
+			...customTaxonomyReplaceVars,
+		}, "custom_taxonomies" );
+	}
+
+	/**
 	 * Gets the initial data from the replacevars and document.
 	 *
 	 * @param {Object} replaceVars The replaceVars object.
@@ -141,10 +249,14 @@ class ClassicEditorData {
 	 * @returns {Object} The data.
 	 */
 	getInitialData( replaceVars ) {
+		replaceVars = this.mapCustomFields( replaceVars );
+		replaceVars = this.mapCustomTaxonomies( replaceVars );
 		return {
 			...replaceVars,
 			title: this.getTitle(),
 			excerpt: this.getExcerpt(),
+			// eslint-disable-next-line
+			excerpt_only: this.getExcerpt(),
 			slug: this.getSlug(),
 			content: this.getContent(),
 		};

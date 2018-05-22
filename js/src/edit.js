@@ -109,6 +109,8 @@ function renderReactApp( target, component, store ) {
  *
  * @param {Object} store Redux store.
  * @param {Object} props Props to be passed to the snippet preview.
+ * @param {string} props.baseUrl The base URL of the site the user is editing.
+ * @param {string} props.date The date.
  *
  * @returns {void}
  */
@@ -119,12 +121,9 @@ function renderSnippetPreview( store, props ) {
 		return;
 	}
 
-	const container = document.createElement( "div" );
-	targetElement.parentNode.insertBefore( container, targetElement );
-
 	ReactDOM.render(
 		wrapInTopLevelComponents( SnippetPreviewSection, store, props ),
-		container,
+		targetElement,
 	);
 }
 
@@ -185,12 +184,10 @@ export function initialize( args ) {
 
 	renderReactApps( store, args );
 
-	if ( args.shouldRenderSnippetPreview ) {
-		renderSnippetPreview( store, {
-			baseUrl: args.snippetEditorBaseUrl,
-			date: args.snippetEditorDate,
-		} );
-	}
+	renderSnippetPreview( store, {
+		baseUrl: args.snippetEditorBaseUrl,
+		date: args.snippetEditorDate,
+	} );
 
 	return {
 		store,

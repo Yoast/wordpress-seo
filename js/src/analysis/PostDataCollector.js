@@ -1,14 +1,17 @@
 /* global jQuery, YoastSEO, wpseoPostScraperL10n */
 
-import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
+/* External dependencies */
 import removeMarks from "yoastseo/js/markers/removeMarks";
+import get from "lodash/get";
+import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
+
+/* Internal dependencies */
+import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import tmceHelper from "../wp-seo-tinymce";
 import { tmceId } from "../wp-seo-tinymce";
 import getIndicatorForScore from "./getIndicatorForScore";
-
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
-
 import publishBox from "../ui/publishBox";
 
 let $ = jQuery;
@@ -30,6 +33,7 @@ let PostDataCollector = function( args ) {
 
 	this._data = args.data;
 	this._tabManager = args.tabManager;
+	this._store = args.store;
 };
 
 /**
@@ -41,7 +45,7 @@ let PostDataCollector = function( args ) {
 PostDataCollector.prototype.getData = function() {
 	const data = this._data.getData();
 
-	return {
+	const otherData = {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		meta: this.getMeta(),
 		text: data.content,
@@ -55,6 +59,19 @@ PostDataCollector.prototype.getData = function() {
 		searchUrl: this.getSearchUrl(),
 		postUrl: this.getPostUrl(),
 		permalink: this.getPermalink(),
+		titleWidth: measureTextWidth( this.getSnippetTitle() ),
+	};
+
+	const state = this._store.getState();
+	const snippetData = {
+		metaTitle: get( state, [ "snippetEditor", "data", "title" ], "" ),
+		url: get( state, [ "snippetEditor", "data", "slug" ], "" ),
+		meta: get( state, [ "snippetEditor", "data", "description" ], "" ),
+	};
+
+	return {
+		...otherData,
+		...snippetData,
 	};
 };
 
