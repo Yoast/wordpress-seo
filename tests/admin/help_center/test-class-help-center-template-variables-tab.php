@@ -20,7 +20,7 @@ class WPSEO_Help_Center_Template_Variables_Tab_Test extends WPSEO_UnitTestCase {
 			$instance,
 			'add_meta_options_help_center_tabs'
 		) ) );
-		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', array( $instance, 'enqueue' ) ) );
+		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', array( $instance, 'enqueue_assets' ) ) );
 	}
 
 	/**
