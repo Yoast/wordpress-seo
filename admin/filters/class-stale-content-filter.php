@@ -20,7 +20,7 @@ class WPSEO_Stale_Content_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
-	 * Modify the query based on the seo_filter variable in $_GET.
+	 * Modifies the query based on the seo_filter variable in $_GET.
 	 *
 	 * @param string $where The where statement.
 	 *
