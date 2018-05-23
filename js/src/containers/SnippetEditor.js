@@ -4,7 +4,12 @@ import {
 	switchMode,
 	updateData,
 } from "../redux/actions/snippetEditor";
+import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
+import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
+import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
 import isUndefined from "lodash/isUndefined";
+import get from "lodash/get";
+import identity from "lodash/identity";
 import { getResultsForKeyword, getActiveKeyword } from "../redux/selectors/results";
 
 /**
@@ -46,6 +51,52 @@ function getProgress( result ) {
 }
 
 /**
+ * Gets the title progress.
+ *
+ * @param {string} title The title.
+ * @param {function} replaceVariables Function that replaces replacement variables.
+ *
+ * @returns {Object} The title progress.
+ */
+function getTitleProgress( title, replaceVariables ) {
+	// Replace all replacevalues to get the actual title.
+	const replacedTitle = replaceVariables( title );
+	const titleWidth = measureTextWidth( replacedTitle );
+	const pageTitleWidthAssessment = new PageTitleWidthAssesment();
+	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
+	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
+	return {
+		max: maximumLength,
+		actual: titleWidth,
+		score: score,
+	};
+}
+
+/**
+ * Gets the description progress.
+ *
+ * @param {number}   description      The description.
+ * @param {function} replaceVariables Function that replaces replacement variables.
+ *
+ * @returns {Object} The description progress.
+ */
+function getDescriptionProgress( description, replaceVariables ) {
+	// Replace all replacevalues to get the actual description.
+	const replacedDescription = replaceVariables( description );
+	const replacedDescriptionLength = replacedDescription.length;
+
+	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+	const score = metaDescriptionLengthAssessment.calculateScore( replacedDescriptionLength );
+	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
+
+	return {
+		max: maximumLength,
+		actual: replacedDescriptionLength,
+		score: score,
+	};
+}
+
+/**
  * Maps the redux state to the snippet editor component.
  *
  * @param {Object} state The current state.
@@ -54,16 +105,11 @@ function getProgress( result ) {
  * @returns {Object} Data for the `SnippetEditor` component.
  */
 export function mapStateToProps( state ) {
-	let activeKeyword = getActiveKeyword( state );
-	let seoResults = getResultsForKeyword( state, activeKeyword );
+	const replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
+	let titleLengthProgress = getTitleProgress( state.snippetEditor.data.title, replaceVariables );
+	let descriptionLengthProgress = getDescriptionProgress( state.snippetEditor.data.description, replaceVariables );
 
-	let titleLengthResult = seoResults.find( isTitleLengthResult );
-	let descriptionLengthResult = seoResults.find( isDescriptionLengthResult );
-
-	let titleLengthProgress = getProgress( titleLengthResult );
-	let descriptionLengthProgress = getProgress( descriptionLengthResult );
-	let replacementVariables = state.snippetEditor.replacementVariables;
-
+	const replacementVariables = state.snippetEditor.replacementVariables;
 	// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
 	replacementVariables.forEach( ( replaceVariable ) => {
 		if( replaceVariable.value === "" ) {
