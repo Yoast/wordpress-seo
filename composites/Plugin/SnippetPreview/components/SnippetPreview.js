@@ -55,11 +55,6 @@ const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURICo
 	"</svg>"
 );
 
-export const helpText = [ __( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
-	<a key="1" href="https://yoa.st/snippet-preview" rel="noopener noreferrer" target="_blank">
-		{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
-	</a> ];
-
 export const BaseTitle = styled.div`
 	cursor: pointer;
 	position: relative;
@@ -672,6 +667,11 @@ export default class SnippetPreview extends PureComponent {
 		const separator = mode === MODE_DESKTOP ? null : <Separator/>;
 		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow/> : null;
 		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp/>;
+
+		const helpText = [ __( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
+			<a key="1" href="https://yoa.st/snippet-preview" rel="noopener noreferrer" target="_blank">
+				{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
+			</a> ];
 
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
