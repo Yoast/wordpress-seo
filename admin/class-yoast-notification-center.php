@@ -189,6 +189,8 @@ class Yoast_Notification_Center {
 	 * sometimes needs to add or remove notifications before that. In such cases, the transactions
 	 * are not actually executed, but added to a queue. That queue is then handled in this method,
 	 * after notifications for the current user have been set up.
+	 *
+	 * @return void
 	 */
 	public function setup_current_notifications() {
 		$this->retrieve_notifications_from_storage();
