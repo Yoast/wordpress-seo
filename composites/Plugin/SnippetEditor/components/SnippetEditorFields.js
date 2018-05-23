@@ -217,8 +217,6 @@ class SnippetEditorFields extends React.Component {
 
 		const { title, slug, description } = data;
 
-		console.log( descriptionLengthProgress );
-
 		return (
 			<StyledEditor>
 				<FormSection>
