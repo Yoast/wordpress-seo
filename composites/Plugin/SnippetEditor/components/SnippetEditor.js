@@ -127,7 +127,6 @@ class SnippetEditor extends React.Component {
 			titleLengthProgress: getTitleProgress( props.data.title ),
 			descriptionLengthProgress: getDescriptionProgress( props.data.description ),
 		};
-		this.replaceVariables = this.props.replacementVariables;
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
 		this.handleChange = this.handleChange.bind( this );
