@@ -9,7 +9,6 @@ import { __ } from "@wordpress/i18n";
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
-import ControlledInput from "./ControlledInput";
 
 import colors from "../../../../style-guide/colors";
 
@@ -74,7 +73,7 @@ const InputContainer = styled.div.attrs( {
 	}
 `;
 
-const SlugInput = styled( ControlledInput )`
+const SlugInput = styled.input`
 	border: none;
 	width: 100%;
 	height: inherit;
@@ -249,10 +248,10 @@ class SnippetEditorFields extends React.Component {
 					>{ __( "Slug", "yoast-components" ) }</SimulatedLabel>
 					<InputContainer isActive={ activeField === "slug" } isHovered={ hoveredField === "slug" }>
 						<SlugInput
-							initialValue={ slug }
-							onChange={ value => onChange( "slug", value ) }
+							value={ slug }
+							onChange={ event => onChange( "slug", event.target.value ) }
 							onFocus={ () => onFocus( "slug" ) }
-							passedRef={ ref => this.setRef( "slug", ref ) }
+							innerRef={ ref => this.setRef( "slug", ref ) }
 							aria-labelledby={ this.uniqueId + "-slug" } />
 					</InputContainer>
 				</FormSection>
