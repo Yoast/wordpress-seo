@@ -11,7 +11,7 @@ describe( "SnippetEditor container", () => {
 			activeKeyword: "active",
 			analysis: {
 				seo: {
-					"active": [
+					active: [
 						{ _identifier: "metaDescriptionLength", max: 320, actual: 153, score: 7 },
 						{ _identifier: "titleWidth", max: 600, actual: 400, score: 7 } ],
 				},
