@@ -11,6 +11,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+$tab = new WPSEO_Help_Center_Template_Variables_Tab();
+$tab->register_hooks();
+
 $yform = Yoast_Form::get_instance();
 $yform->admin_header( true, 'wpseo_titles' );
 
@@ -25,6 +28,3 @@ $tabs->add_tab( new WPSEO_Option_Tab( 'rss', __( 'RSS', 'wordpress-seo' ), array
 $tabs->display( $yform );
 
 $yform->admin_footer();
-
-$tab = new WPSEO_Help_Center_Template_Variables_Tab();
-$tab->register_hooks();
