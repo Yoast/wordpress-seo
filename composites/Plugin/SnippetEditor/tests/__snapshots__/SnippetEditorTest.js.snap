@@ -9773,9 +9773,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-9-title"
@@ -9824,33 +9826,26 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c32"
+                  onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-9-slug"
-                    initialValue="test-slug"
+                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    passedRef={[Function]}
+                    value="test-slug"
                   >
-                    <ControlledInput
+                    <input
                       aria-labelledby="snippet-editor-field-9-slug"
                       className="c34"
-                      initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
-                      passedRef={[Function]}
-                    >
-                      <input
-                        aria-labelledby="snippet-editor-field-9-slug"
-                        className="c34"
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="test-slug"
-                      />
-                    </ControlledInput>
+                      value="test-slug"
+                    />
                   </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
@@ -9875,9 +9870,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               <SnippetEditorFields__InputContainer
                 isActive={false}
                 isHovered={false}
+                onClick={[Function]}
               >
                 <div
                   className="c35"
+                  onClick={[Function]}
                 >
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-9-description"
@@ -10302,6 +10299,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
 }
 
 .c32::before {
@@ -10329,6 +10327,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   font-size: 14px;
   margin-top: 5px;
+  cursor: text;
   min-height: 60px;
   padding: 2px 6px;
   line-height: 19.6px;
