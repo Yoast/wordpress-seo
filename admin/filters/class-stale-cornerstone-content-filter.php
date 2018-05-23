@@ -6,9 +6,9 @@
  */
 
 /**
- * Registers the filter for filtering posts by cornerstone content.
+ * Registers the filter for filtering stale cornerstone content.
  */
-class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
+class WPSEO_Stale_Cornerstone_Content_Filter extends WPSEO_Abstract_Post_Filter {
 
 	/**
 	 * Returns the query value this filter uses.
@@ -16,25 +16,28 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	 * @return string The query value this filter uses.
 	 */
 	public function get_query_val() {
-		return 'cornerstone';
+		return 'stale-cornerstone-content';
 	}
 
 	/**
-	 * Modify the query based on the seo_filter variable in $_GET
+	 * Modifies the query based on the seo_filter variable in $_GET.
 	 *
-	 * @param string $where Query variables.
+	 * @param string $where The where statement.
 	 *
 	 * @return string The modified query.
 	 */
 	public function filter_posts( $where ) {
-		if ( $this->is_filter_active() ) {
-			global $wpdb;
-
-			$where .= sprintf(
-				' AND ' . $wpdb->posts . '.ID IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "1" ) ',
-				WPSEO_Meta::$meta_prefix . WPSEO_Cornerstone::META_NAME
-			);
+		if ( ! $this->is_filter_active() ) {
+			return $where;
 		}
+
+		global $wpdb;
+
+		$where .= sprintf(
+			' AND ' . $wpdb->posts . '.ID IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "1" ) AND ' . $wpdb->posts . '.post_modified < "%s" ',
+			WPSEO_Meta::$meta_prefix . WPSEO_Cornerstone::META_NAME,
+			$this->date_threshold()
+		);
 
 		return $where;
 	}
@@ -45,13 +48,13 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	 * @return string The label for this filter.
 	 */
 	protected function get_label() {
-		return __( 'Cornerstone content', 'wordpress-seo' );
+		return __( 'Stale cornerstone content', 'wordpress-seo' );
 	}
 
 	/**
 	 * Returns a text explaining this filter.
 	 *
-	 * @return string The explanation.
+	 * @return string The explanation for this filter.
 	 */
 	protected function get_explanation() {
 		$post_type_object = get_post_type_object( $this->get_current_post_type() );
@@ -61,8 +64,8 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 		}
 
 		return sprintf(
-			/* translators: %1$s expands to the posttype label, %2$s expands anchor to blog post about cornerstone content, %3$s expands to </a> */
-			__( 'Mark the most important %1$s as \'cornerstone content\' to improve your site structure. %2$sLearn more about cornerstone content%3$s.', 'wordpress-seo' ),
+		/* translators: %1$s expands to the posttype label, %2$s expands anchor to blog post about cornerstone content, %3$s expands to </a> */
+			__( 'Stale cornerstone content refers to cornerstone content that hasn’t been updated in the last 6 months. Make sure to keep these %s up-to-date. %2$sLearn more about cornerstone content%3$s.', 'wordpress-seo' ),
 			strtolower( $post_type_object->labels->name ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1i9' ) . '" target="_blank">',
 			'</a>'
@@ -70,9 +73,9 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
-	 * Returns the total amount of articles marked as cornerstone content.
+	 * Returns the total amount of stale cornerstone content.
 	 *
-	 * @return integer
+	 * @return integer The total amount of stale cornerstone content.
 	 */
 	protected function get_post_total() {
 		global $wpdb;
@@ -81,10 +84,11 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 			$wpdb->prepare( '
 				SELECT COUNT( 1 )
 				FROM ' . $wpdb->postmeta . '
-				WHERE post_id IN( SELECT ID FROM ' . $wpdb->posts . ' WHERE post_type = %s ) &&
+				WHERE post_id IN( SELECT ID FROM ' . $wpdb->posts . ' WHERE post_type = %s && post_modified < %s ) &&
 				meta_value = "1" AND meta_key = %s
 				',
 				$this->get_current_post_type(),
+				$this->date_threshold(),
 				WPSEO_Meta::$meta_prefix . WPSEO_Cornerstone::META_NAME
 			)
 		);
@@ -102,5 +106,14 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 		}
 
 		return $post_types;
+	}
+
+	/**
+	 * Returns the date 6 months ago.
+	 *
+	 * @return string The formatted date.
+	 */
+	protected function date_threshold() {
+		return gmdate( 'Y-m-d', strtotime( '-6months' ) );
 	}
 }
