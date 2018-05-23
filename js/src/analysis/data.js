@@ -30,7 +30,6 @@ class Data {
 	initialize( replaceVars ) {
 		// Fill data object on page load.
 		this._data = this.getInitialData( replaceVars );
-		console.log( this._data );
 		fillReplacementVariables( this._data, this._store );
 		this.subscribeToGutenberg();
 	}
