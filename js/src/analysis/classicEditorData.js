@@ -45,6 +45,7 @@ class ClassicEditorData {
 		updateReplacementVariables( this._data, this._store );
 		this.subscribeToElements();
 		this.subscribeToStore();
+		this.subscribeToSnippetEditorData();
 	}
 
 	/**
@@ -221,6 +222,28 @@ class ClassicEditorData {
 		this._store.subscribe(
 			this.subscriber
 		);
+	}
+
+	/**
+	 * Listens to the store, currently only for changes to the snippet editor data object.
+	 *
+	 * @returns {void}
+	 */
+	subscribeToSnippetEditorData() {
+		let selectSnippetData = ( state ) => {
+			return state.snippetEditor.data;
+		};
+		let currentSnippetEditorData  = selectSnippetData( this._store.getState() );
+
+		this._store.subscribe(
+			() => {
+				let previousSnippetEditorData = currentSnippetEditorData;
+				currentSnippetEditorData =  selectSnippetData( this._store.getState() );
+				if ( previousSnippetEditorData !== currentSnippetEditorData ) {
+					mapDocumentToDisplayData( this._store );
+				}
+			}
+		)
 	}
 
 	/**

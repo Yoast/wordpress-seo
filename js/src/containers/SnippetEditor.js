@@ -6,6 +6,7 @@ import {
 } from "../redux/actions/snippetEditor";
 import isUndefined from "lodash/isUndefined";
 import { getResultsForKeyword, getActiveKeyword } from "../redux/selectors/results";
+import { mapDocumentToDisplayData } from "../edit";
 
 /**
  * Returns true for the title length result.

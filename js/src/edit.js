@@ -200,7 +200,7 @@ export function mapDocumentToDisplayData( store ) {
 	// Set the description to display
 	if( snippetEditorData.description !== "" ) {
 		store.dispatch( setDisplayDescription( snippetEditorData.description ) );
-	} else if ( documentData.excerpt !== "" ) {
+	} else if ( documentData.excerpt !== "" && documentData.excerpt !== undefined ) {
 		store.dispatch( setDisplayDescription( documentData.excerpt ) );
 	} else if ( documentData.content !== "" ) {
 		store.dispatch( setDisplayDescription( documentData.content ) );

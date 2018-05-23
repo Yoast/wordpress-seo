@@ -1,6 +1,12 @@
 import debounce from "lodash/debounce";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import fillReplacementValues from "../helpers/updateReplacementVariables";
+import {
+	setDocumentExcerpt,
+	setDocumentText,
+	setDocumentTitle,
+} from "../redux/actions/documentData";
+import { mapDocumentToDisplayData } from "../edit";
 
 /**
  * Represents the data.
@@ -28,6 +34,7 @@ class Data {
 		this._data = this.getInitialData( replaceVars );
 		fillReplacementValues( this._data, this._store );
 		this.subscribeToGutenberg();
+		this.subscribeToStore();
 	}
 
 	getInitialData( replaceVars ) {
@@ -107,10 +114,17 @@ class Data {
 		// Handle title change
 		if ( this._data.title !== newData.title ) {
 			this._store.dispatch( updateReplacementVariable( "title", newData.title ) );
+			this._store.dispatch( setDocumentTitle( newData.title ) );
 		}
 		// Handle excerpt change
 		if ( this._data.excerpt !== newData.excerpt ) {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
+			this._store.dispatch( setDocumentExcerpt( newData.excerpt ) );
+		}
+
+		// Handle content change
+		if ( this._data.content !== newData.content ) {
+			this._store.dispatch( setDocumentText( newData.content ) );
 		}
 	}
 
@@ -128,6 +142,7 @@ class Data {
 		if ( isDirty ) {
 			this.handleEditorChange( gutenbergData );
 			this._data = gutenbergData;
+			mapDocumentToDisplayData( this._store );
 			this._refresh();
 		}
 	}
@@ -142,6 +157,28 @@ class Data {
 		this._wpData.subscribe(
 			this.subscriber
 		);
+	}
+
+	/**
+	 * Listens to the store, currently only for changes to the snippet editor data object.
+	 *
+	 * @returns {void}
+	 */
+	subscribeToStore() {
+		let selectSnippetData = ( state ) => {
+			return state.snippetEditor.data;
+		};
+		let currentSnippetEditorData  = selectSnippetData( this._store.getState() );
+
+		this._store.subscribe(
+			() => {
+				let previousSnippetEditorData = currentSnippetEditorData;
+				currentSnippetEditorData =  selectSnippetData( this._store.getState() );
+				if ( previousSnippetEditorData !== currentSnippetEditorData ) {
+					mapDocumentToDisplayData( this._store );
+				}
+			}
+		)
 	}
 
 	/**
