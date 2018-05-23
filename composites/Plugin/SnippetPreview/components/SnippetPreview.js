@@ -49,16 +49,11 @@ const MobileContainer = styled.div`
 	font-size: 14px;
 `;
 
-const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURI(
+const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
 	'<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">' +
 		'<path fill="' + color + '" d="M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z" />' +
 	"</svg>"
 );
-
-export const helpText = [ __( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
-	<a key="1" href="https://yoa.st/snippet-preview" rel="noopener noreferrer" target="_blank">
-		{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
-	</a> ];
 
 export const BaseTitle = styled.div`
 	cursor: pointer;
@@ -117,11 +112,11 @@ export const TitleUnboundedDesktop = styled.span`
 
 export const TitleUnboundedMobile = styled.span`
 	display: inline-block;
+	font-size: 16px;
 	line-height: 1.2em;
-	max-height: 2.4em;
+	max-height: 2.4em; // max two lines of text
 	overflow: hidden;
 	text-overflow: ellipsis;
-	font-size: 16px;
 `;
 
 export const BaseUrl = styled.div`
@@ -153,15 +148,14 @@ export const DesktopDescription = styled.div.attrs( {
 `;
 
 const MobileDescription = styled( DesktopDescription )`
-	max-height: 4em;
-	padding-bottom: 3px;
 `;
 
 const MobileDescriptionOverflowContainer = styled( MobileDescription )`
-	overflow: hidden;
 	font-size: 14px;
 	line-height: 20px;
-	max-height: calc( 4em + 3px );
+	max-height: 80px; // max four lines of text
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const MobilePartContainer = styled.div`
@@ -623,8 +617,10 @@ export default class SnippetPreview extends PureComponent {
 		if ( mode === MODE_DESKTOP ) {
 			const DesktopDescriptionWithCaret = this.addCaretStyles( "description", DesktopDescription );
 			return (
-				<DesktopDescriptionWithCaret { ...outerContainerProps }
-											  innerRef={ this.setDescriptionRef }>
+				<DesktopDescriptionWithCaret
+					{ ...outerContainerProps }
+					innerRef={ this.setDescriptionRef }
+				>
 					{ renderedDate }
 					{ highlightKeyword( locale, keyword, this.getDescription() ) }
 				</DesktopDescriptionWithCaret>
@@ -633,9 +629,11 @@ export default class SnippetPreview extends PureComponent {
 			const MobileDescriptionWithCaret = this.addCaretStyles( "description", MobileDescription );
 			return (
 				<MobileDescriptionWithCaret
-					{ ...outerContainerProps } >
+					{ ...outerContainerProps }
+				>
 					<MobileDescriptionOverflowContainer
-						innerRef={ this.setDescriptionRef } >
+						innerRef={ this.setDescriptionRef }
+					>
 						{ renderedDate }
 						{ highlightKeyword( locale, keyword, this.getDescription() ) }
 					</MobileDescriptionOverflowContainer>
@@ -670,6 +668,11 @@ export default class SnippetPreview extends PureComponent {
 		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow/> : null;
 		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp/>;
 
+		const helpText = [ __( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
+			<a key="1" href="https://yoa.st/snippet-preview" rel="noopener noreferrer" target="_blank">
+				{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
+			</a> ];
+
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
 		 * However this is not relevant in this case, because the title and description are
@@ -681,18 +684,22 @@ export default class SnippetPreview extends PureComponent {
 				<div>
 					<HelpTextWrapper helpText={ helpText } />
 				</div>
-				<Container onMouseLeave={ this.onMouseLeave }
-				           width={ MAX_WIDTH + 2 * WIDTH_PADDING }
-				           padding={ WIDTH_PADDING }>
+				<Container
+					onMouseLeave={ this.onMouseLeave }
+					width={ MAX_WIDTH + 2 * WIDTH_PADDING }
+					padding={ WIDTH_PADDING }
+				>
 					<PartContainer>
 						<FormattedScreenReaderMessage
 							id="snippetPreview.seoTitlePreview"
 							defaultMessage="SEO title preview"
 							after=":"
 						/>
-						<Title onClick={ onClick.bind( null, "title" ) }
-						       onMouseOver={ partial( onMouseOver, "title" ) }
-						       onMouseLeave={ partial( onMouseLeave, "title" ) }>
+						<Title
+							onClick={ onClick.bind( null, "title" ) }
+							onMouseOver={ partial( onMouseOver, "title" ) }
+							onMouseLeave={ partial( onMouseLeave, "title" ) }
+						>
 							<TitleBounded>
 								<TitleUnbounded innerRef={ this.setTitleRef } >
 									{ this.getTitle() }

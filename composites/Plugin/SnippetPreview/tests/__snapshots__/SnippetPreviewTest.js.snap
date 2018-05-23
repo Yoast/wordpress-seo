@@ -1349,11 +1349,11 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 
 .c17 {
   display: inline-block;
+  font-size: 16px;
   line-height: 1.2em;
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
 }
 
 .c19 {
@@ -1379,7 +1379,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   max-width: 100%;
 }
 
-.c23 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1387,16 +1387,12 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 13px;
 }
 
-.c22 {
-  max-height: 4em;
-  padding-bottom: 3px;
-}
-
-.c24 {
-  overflow: hidden;
+.c23 {
   font-size: 14px;
   line-height: 20px;
-  max-height: calc( 4em + 3px );
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -1577,14 +1573,14 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Meta description preview:
       </span>
       <div
-        className="c22 c23"
+        className="c22"
         color="#545454"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c24 c22 c23"
+          className="c23 c22"
           color="#545454"
         >
           Description
@@ -1765,11 +1761,11 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 
 .c17 {
   display: inline-block;
+  font-size: 16px;
   line-height: 1.2em;
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
 }
 
 .c18 {
@@ -1795,7 +1791,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c21 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1803,16 +1799,12 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 13px;
 }
 
-.c21 {
-  max-height: 4em;
-  padding-bottom: 3px;
-}
-
-.c23 {
-  overflow: hidden;
+.c22 {
   font-size: 14px;
   line-height: 20px;
-  max-height: calc( 4em + 3px );
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -1979,14 +1971,14 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21 c22"
+        className="c21"
         color="#545454"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c23 c21 c22"
+          className="c22 c21"
           color="#545454"
         >
           Description
@@ -2167,11 +2159,11 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 
 .c17 {
   display: inline-block;
+  font-size: 16px;
   line-height: 1.2em;
   max-height: 2.4em;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
 }
 
 .c18 {
@@ -2197,7 +2189,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c21 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2205,16 +2197,12 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 13px;
 }
 
-.c21 {
-  max-height: 4em;
-  padding-bottom: 3px;
-}
-
-.c23 {
-  overflow: hidden;
+.c22 {
   font-size: 14px;
   line-height: 20px;
-  max-height: calc( 4em + 3px );
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -2381,14 +2369,14 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21 c22"
+        className="c21"
         color="#545454"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c23 c21 c22"
+          className="c22 c21"
           color="#545454"
         >
           Description
@@ -3025,7 +3013,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
@@ -3428,7 +3416,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
@@ -3831,7 +3819,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#555%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
@@ -4234,7 +4222,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
@@ -4637,7 +4625,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
@@ -5040,7 +5028,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   left: -22px;
   width: 24px;
   height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width=%221792%22%20height=%221792%22%20viewBox=%220%200%201792%201792%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath%20fill=%22#ccc%22%20d=%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20/%3E%3C/svg%3E );
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
   background-size: 25px;
   content: "";
 }
