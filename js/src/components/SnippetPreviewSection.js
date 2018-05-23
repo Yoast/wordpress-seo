@@ -32,15 +32,41 @@ const Section = styled( StyledSection )`
  * @param {string} data.url         The snippet preview url: baseUrl with the slug.
  * @param {string} data.description The snippet preview description.
  *
- * @returns {Object} Returns the data object win which the placeholders have been replaced.
+ * @returns {Object} Returns the data object in which the placeholders have been replaced.
  */
 const legacyReplaceUsingPlugin = function( data ) {
-	let replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
+	const replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
 
-	return  {
+	return {
 		url: data.url,
 		title: stripFullTags( replaceVariables( data.title ) ),
 		description: stripFullTags( replaceVariables( data.description ) ),
+	};
+};
+
+/**
+ * Apply replaceVariables function on the data in the snippet preview.
+ *
+ * @param {Object} data             The snippet preview data object.
+ * @param {string} data.title       The snippet preview title.
+ * @param {string} data.url         The snippet preview url: baseUrl with the slug.
+ * @param {string} data.description The snippet preview description.
+ *
+ * @returns {Object} Returns the data object in which the placeholders have been replaced.
+ */
+const applyReplaceUsingPlugin = function( data ) {
+	// If we do not have pluggable loaded, apply just our own replace variables.
+	const pluggable = get( window, [ "YoastSEO", "app", "pluggable" ], false );
+	if ( ! pluggable || ! get( window, [ "YoastSEO", "app", "pluggable", "loaded" ], false ) ) {
+		return legacyReplaceUsingPlugin( data );
+	}
+
+	const applyModifications = pluggable._applyModifications.bind( pluggable );
+
+	return  {
+		url: data.url,
+		title: stripFullTags( applyModifications( "data_page_title", data.title ) ),
+		description: stripFullTags( applyModifications( "data_meta_desc", data.description ) ),
 	};
 };
 
@@ -58,7 +84,7 @@ const mapEditorDataToPreview = function( data ) {
 	// Replace whitespaces in the url with dashes.
 	data.url = data.url.replace( /\s+/g, "-" );
 
-	return legacyReplaceUsingPlugin( data );
+	return applyReplaceUsingPlugin( data );
 };
 
 /**
