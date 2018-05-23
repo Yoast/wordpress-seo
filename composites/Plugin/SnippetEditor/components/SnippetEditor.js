@@ -322,7 +322,7 @@ class SnippetEditor extends React.Component {
 	 * Maps the data from to be suitable for the preview.
 	 *
 	 * @param {Object} originalData The data from the form.
-	 * @param {Object} displayData  The data from the redux store.
+	 * @param {Object} displayData  The displayData from the redux store, which contains the description to be displayed.
 	 *
 	 * @returns {Object} The data for the preview.
 	 */
