@@ -2073,7 +2073,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   id="snippet-editor-field-5-title"
                   onClick={[Function]}
                 >
-                  SEO Title
+                  SEO title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
@@ -3693,7 +3693,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   id="snippet-editor-field-5-title"
                   onClick={[Function]}
                 >
-                  SEO Title
+                  SEO title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
@@ -5313,7 +5313,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   id="snippet-editor-field-5-title"
                   onClick={[Function]}
                 >
-                  SEO Title
+                  SEO title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
@@ -6933,7 +6933,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   id="snippet-editor-field-2-title"
                   onClick={[Function]}
                 >
-                  SEO Title
+                  SEO title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
@@ -9767,7 +9767,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   id="snippet-editor-field-8-title"
                   onClick={[Function]}
                 >
-                  SEO Title
+                  SEO title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
@@ -11387,7 +11387,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   id="snippet-editor-field-7-title"
                   onClick={[Function]}
                 >
-                  SEO Title
+                  SEO title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
@@ -14270,7 +14270,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   id="snippet-editor-field-4-title"
                   onClick={[Function]}
                 >
-                  SEO Title
+                  SEO title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
@@ -15910,7 +15910,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   id="snippet-editor-field-3-title"
                   onClick={[Function]}
                 >
-                  SEO Title
+                  SEO title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
@@ -17530,7 +17530,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   id="snippet-editor-field-1-title"
                   onClick={[Function]}
                 >
-                  SEO Title
+                  SEO title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer
@@ -19172,7 +19172,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   id="snippet-editor-field-6-title"
                   onClick={[Function]}
                 >
-                  SEO Title
+                  SEO title
                 </div>
               </SnippetEditorFields__SimulatedLabel>
               <SnippetEditorFields__InputContainer

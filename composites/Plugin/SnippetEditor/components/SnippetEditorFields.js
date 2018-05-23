@@ -229,7 +229,7 @@ class SnippetEditorFields extends React.Component {
 					<SimulatedLabel
 						id={ titleLabelId }
 						onClick={ () => onFocus( "title" ) } >
-						{ __( "SEO Title", "yoast-components" ) }
+						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
 					<InputContainer
 						onClick={ () => this.elements.title.focus() }
