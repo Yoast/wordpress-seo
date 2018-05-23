@@ -217,6 +217,8 @@ class SnippetEditorFields extends React.Component {
 
 		const { title, slug, description } = data;
 
+		console.log( descriptionLengthProgress );
+
 		return (
 			<StyledEditor>
 				<FormSection>
@@ -325,7 +327,7 @@ SnippetEditorFields.defaultProps = {
 		score: 0,
 	},
 	descriptionLengthProgress: {
-		max: 320,
+		max: 156,
 		actual: 0,
 		score: 0,
 	},
