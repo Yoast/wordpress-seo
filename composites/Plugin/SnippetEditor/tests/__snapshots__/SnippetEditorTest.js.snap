@@ -9666,15 +9666,15 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
-                max={600}
-                progressColor="#dc3232"
-                value={0}
+                max={550}
+                progressColor="#ee7c1b"
+                value={361}
               >
                 <progress
                   aria-hidden="true"
                   className="c33"
-                  max={600}
-                  value={0}
+                  max={550}
+                  value={361}
                 />
               </ProgressBar>
             </div>
@@ -9763,15 +9763,15 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
-                max={320}
-                progressColor="#ee7c1b"
-                value={42}
+                max={156}
+                progressColor="#dc3232"
+                value={0}
               >
                 <progress
                   aria-hidden="true"
                   className="c36"
-                  max={320}
-                  value={42}
+                  max={156}
+                  value={0}
                 />
               </ProgressBar>
             </div>
@@ -10144,17 +10144,17 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c36::-webkit-progress-value {
-  background-color: #ee7c1b;
+  background-color: #7ad03a;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
 .c36::-moz-progress-bar {
-  background-color: #ee7c1b;
+  background-color: #7ad03a;
 }
 
 .c36::-ms-fill {
-  background-color: #ee7c1b;
+  background-color: #7ad03a;
   border: 0;
 }
 
@@ -11225,9 +11225,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       }
       descriptionLengthProgress={
         Object {
-          "actual": 42,
-          "max": 320,
-          "score": 6,
+          "actual": 330,
+          "max": 650,
+          "score": 9,
         }
       }
       hoveredField={null}
@@ -11236,9 +11236,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
-          "actual": 0,
-          "max": 600,
-          "score": 1,
+          "actual": 100,
+          "max": 550,
+          "score": 3,
         }
       }
     >
@@ -11287,14 +11287,14 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={550}
-                progressColor="#ee7c1b"
-                value={361}
+                progressColor="#dc3232"
+                value={100}
               >
                 <progress
                   aria-hidden="true"
                   className="c33"
                   max={550}
-                  value={361}
+                  value={100}
                 />
               </ProgressBar>
             </div>
@@ -11383,15 +11383,15 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
-                max={156}
-                progressColor="#dc3232"
-                value={0}
+                max={650}
+                progressColor="#7ad03a"
+                value={330}
               >
                 <progress
                   aria-hidden="true"
                   className="c36"
-                  max={156}
-                  value={0}
+                  max={650}
+                  value={330}
                 />
               </ProgressBar>
             </div>
@@ -11549,7 +11549,7 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
   margin-right: 7px;
 }
 
-.c37 {
+.c36 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -11746,38 +11746,6 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
   border: 0;
 }
 
-.c36 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c36::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c36::-webkit-progress-value {
-  background-color: #7ad03a;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c36::-moz-progress-bar {
-  background-color: #7ad03a;
-}
-
-.c36::-ms-fill {
-  background-color: #7ad03a;
-  border: 0;
-}
-
 .c32 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -11968,7 +11936,7 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
   descriptionLengthProgress={
     Object {
       "actual": 0,
-      "max": 320,
+      "max": 156,
       "score": 0,
     }
   }
@@ -12856,9 +12824,9 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
       }
       descriptionLengthProgress={
         Object {
-          "actual": 330,
-          "max": 650,
-          "score": 9,
+          "actual": 0,
+          "max": 156,
+          "score": 0,
         }
       }
       hoveredField={null}
@@ -12878,9 +12846,9 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
       }
       titleLengthProgress={
         Object {
-          "actual": 100,
-          "max": 550,
-          "score": 3,
+          "actual": 0,
+          "max": 600,
+          "score": 0,
         }
       }
     >
@@ -12939,15 +12907,15 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
-                max={550}
+                max={600}
                 progressColor="#dc3232"
-                value={100}
+                value={0}
               >
                 <progress
                   aria-hidden="true"
                   className="c33"
-                  max={550}
-                  value={100}
+                  max={600}
+                  value={0}
                 />
               </ProgressBar>
             </div>
@@ -13047,15 +13015,15 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
-                max={650}
-                progressColor="#7ad03a"
-                value={330}
+                max={156}
+                progressColor="#dc3232"
+                value={0}
               >
                 <progress
                   aria-hidden="true"
-                  className="c36"
-                  max={650}
-                  value={330}
+                  className="c33"
+                  max={156}
+                  value={0}
                 />
               </ProgressBar>
             </div>
@@ -13070,7 +13038,7 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c37"
+        className="c36"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -13079,7 +13047,7 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c37 Button-kDSBcD c3"
+          className="c36 Button-kDSBcD c3"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -13088,7 +13056,7 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c37 Button-kDSBcD c3 Button-kDSBcD c4"
+            className="c36 Button-kDSBcD c3 Button-kDSBcD c4"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -13097,7 +13065,7 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              className="c36 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -13106,13 +13074,13 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                className="c36 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  className="c36 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                   onClick={[Function]}
                   type="button"
                 >
