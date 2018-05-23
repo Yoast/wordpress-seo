@@ -86,6 +86,8 @@ class WPSEO_Admin {
 
 		$this->set_upsell_notice();
 
+		$this->check_php_version();
+
 		$this->initialize_cornerstone_content();
 
 		new Yoast_Modal();
@@ -101,7 +103,7 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Admin_Media_Purge_Notification();
 		$integrations[] = new WPSEO_Admin_Gutenberg_Compatibility_Notification();
 		$integrations[] = new WPSEO_Expose_Shortlinks();
-		$integrations   = array_merge( $integrations, $this->initialize_seo_links() );
+		$integrations   = array_merge( $integrations, $this->initialize_seo_links(), $this->initialize_cornerstone_content() );
 
 		/** @var WPSEO_WordPress_Integration $integration */
 		foreach ( $integrations as $integration ) {
@@ -329,14 +331,18 @@ class WPSEO_Admin {
 
 	/**
 	 * Loads the cornerstone filter.
+	 *
+	 * @return WPSEO_WordPress_Integration[] The integrations to initialize.
 	 */
 	protected function initialize_cornerstone_content() {
 		if ( ! WPSEO_Options::get( 'enable_cornerstone_content' ) ) {
-			return;
+			return array();
 		}
 
-		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
-		$cornerstone_filter->register_hooks();
+		return array(
+			'cornerstone_filter'   => new WPSEO_Cornerstone_Filter(),
+			'stale_content_filter' => new WPSEO_Stale_Content_Filter(),
+		);
 	}
 
 	/**
