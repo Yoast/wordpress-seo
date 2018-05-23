@@ -11996,6 +11996,13 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
       "score": 0,
     }
   }
+  displayData={
+    Object {
+      "description": "Test display description, %%replacement_variable%%",
+      "slug": "test-display-slug",
+      "title": "Test displaytitle",
+    }
+  }
   intl={
     Object {
       "defaultFormats": Object {},
@@ -12021,6 +12028,7 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
       "textComponent": "span",
     }
   }
+  isDescriptionGenerated={false}
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
