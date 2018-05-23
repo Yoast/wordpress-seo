@@ -123,7 +123,7 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "^4.0.1",
+    "yoast-components": "^4.0.2",
     "yoastseo": "^1.32.0"
   },
   "yoast": {
