@@ -7,48 +7,8 @@ import {
 import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
 import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
-import isUndefined from "lodash/isUndefined";
 import get from "lodash/get";
 import identity from "lodash/identity";
-import { getResultsForKeyword, getActiveKeyword } from "../redux/selectors/results";
-
-/**
- * Returns true for the title length result.
- *
- * @param {array} results The SEO results.
- * @returns {boolean} True if it's the title length result.
- */
-function isTitleLengthResult( results ) {
-	return results._identifier === "titleWidth";
-}
-
-/**
- * Returns true for the description length result.
- *
- * @param {array} results The SEO results.
- * @returns {boolean} True if it's the description length result.
- */
-function isDescriptionLengthResult( results ) {
-	return results._identifier === "metaDescriptionLength";
-}
-
-/**
- *	Gets the data needed for calculating the length progress.
- *
- * @param {Object} result The assessment result.
- * @returns {Object} The data needed for calculating the length progress.
- */
-function getProgress( result ) {
-	let progress = {};
-	if ( ! isUndefined( result ) ) {
-		progress = {
-			max: result.max,
-			actual: result.actual,
-			score: result.score,
-		};
-	}
-	return progress;
-}
 
 /**
  * Gets the title progress.
