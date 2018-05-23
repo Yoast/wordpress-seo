@@ -249,7 +249,7 @@ class SnippetEditorFields extends React.Component {
 					<InputContainer isActive={ activeField === "slug" } isHovered={ hoveredField === "slug" }>
 						<SlugInput
 							value={ slug }
-							onChange={ value => onChange( "slug", value ) }
+							onChange={ event => onChange( "slug", event.target.value ) }
 							onFocus={ () => onFocus( "slug" ) }
 							innerRef={ ref => this.setRef( "slug", ref ) }
 							aria-labelledby={ this.uniqueId + "-slug" } />

@@ -2134,27 +2134,18 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-5-slug"
-                    initialValue="test-slug"
+                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    passedRef={[Function]}
+                    value="test-slug"
                   >
-                    <ControlledInput
+                    <input
                       aria-labelledby="snippet-editor-field-5-slug"
                       className="c34"
-                      initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
-                      passedRef={[Function]}
-                    >
-                      <input
-                        aria-labelledby="snippet-editor-field-5-slug"
-                        className="c34"
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="test-slug"
-                      />
-                    </ControlledInput>
+                      value="test-slug"
+                    />
                   </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
@@ -3755,27 +3746,18 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-5-slug"
-                    initialValue="test-slug"
+                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    passedRef={[Function]}
+                    value="test-slug"
                   >
-                    <ControlledInput
+                    <input
                       aria-labelledby="snippet-editor-field-5-slug"
                       className="c34"
-                      initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
-                      passedRef={[Function]}
-                    >
-                      <input
-                        aria-labelledby="snippet-editor-field-5-slug"
-                        className="c34"
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="test-slug"
-                      />
-                    </ControlledInput>
+                      value="test-slug"
+                    />
                   </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
@@ -5376,27 +5358,18 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-5-slug"
-                    initialValue="test-slug"
+                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    passedRef={[Function]}
+                    value="test-slug"
                   >
-                    <ControlledInput
+                    <input
                       aria-labelledby="snippet-editor-field-5-slug"
                       className="c34"
-                      initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
-                      passedRef={[Function]}
-                    >
-                      <input
-                        aria-labelledby="snippet-editor-field-5-slug"
-                        className="c34"
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="test-slug"
-                      />
-                    </ControlledInput>
+                      value="test-slug"
+                    />
                   </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
@@ -6997,27 +6970,18 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-2-slug"
-                    initialValue="test-slug"
+                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    passedRef={[Function]}
+                    value="test-slug"
                   >
-                    <ControlledInput
+                    <input
                       aria-labelledby="snippet-editor-field-2-slug"
                       className="c34"
-                      initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
-                      passedRef={[Function]}
-                    >
-                      <input
-                        aria-labelledby="snippet-editor-field-2-slug"
-                        className="c34"
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="test-slug"
-                      />
-                    </ControlledInput>
+                      value="test-slug"
+                    />
                   </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
@@ -9832,27 +9796,18 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-8-slug"
-                    initialValue="test-slug"
+                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    passedRef={[Function]}
+                    value="test-slug"
                   >
-                    <ControlledInput
+                    <input
                       aria-labelledby="snippet-editor-field-8-slug"
                       className="c34"
-                      initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
-                      passedRef={[Function]}
-                    >
-                      <input
-                        aria-labelledby="snippet-editor-field-8-slug"
-                        className="c34"
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="test-slug"
-                      />
-                    </ControlledInput>
+                      value="test-slug"
+                    />
                   </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
@@ -11453,27 +11408,18 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-7-slug"
-                    initialValue="test-slug"
+                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    passedRef={[Function]}
+                    value="test-slug"
                   >
-                    <ControlledInput
+                    <input
                       aria-labelledby="snippet-editor-field-7-slug"
                       className="c34"
-                      initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
-                      passedRef={[Function]}
-                    >
-                      <input
-                        aria-labelledby="snippet-editor-field-7-slug"
-                        className="c34"
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="test-slug"
-                      />
-                    </ControlledInput>
+                      value="test-slug"
+                    />
                   </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
@@ -14337,27 +14283,18 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-4-slug"
-                    initialValue="test-slug"
+                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    passedRef={[Function]}
+                    value="test-slug"
                   >
-                    <ControlledInput
+                    <input
                       aria-labelledby="snippet-editor-field-4-slug"
                       className="c35"
-                      initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
-                      passedRef={[Function]}
-                    >
-                      <input
-                        aria-labelledby="snippet-editor-field-4-slug"
-                        className="c35"
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="test-slug"
-                      />
-                    </ControlledInput>
+                      value="test-slug"
+                    />
                   </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
@@ -15978,27 +15915,18 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-3-slug"
-                    initialValue="test-slug"
+                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    passedRef={[Function]}
+                    value="test-slug"
                   >
-                    <ControlledInput
+                    <input
                       aria-labelledby="snippet-editor-field-3-slug"
                       className="c35"
-                      initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
-                      passedRef={[Function]}
-                    >
-                      <input
-                        aria-labelledby="snippet-editor-field-3-slug"
-                        className="c35"
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="test-slug"
-                      />
-                    </ControlledInput>
+                      value="test-slug"
+                    />
                   </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
@@ -17599,27 +17527,18 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-1-slug"
-                    initialValue="test-slug"
+                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    passedRef={[Function]}
+                    value="test-slug"
                   >
-                    <ControlledInput
+                    <input
                       aria-labelledby="snippet-editor-field-1-slug"
                       className="c34"
-                      initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
-                      passedRef={[Function]}
-                    >
-                      <input
-                        aria-labelledby="snippet-editor-field-1-slug"
-                        className="c34"
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="test-slug"
-                      />
-                    </ControlledInput>
+                      value="test-slug"
+                    />
                   </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
@@ -19253,27 +19172,18 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 >
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-6-slug"
-                    initialValue="test-slug"
+                    innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    passedRef={[Function]}
+                    value="test-slug"
                   >
-                    <ControlledInput
+                    <input
                       aria-labelledby="snippet-editor-field-6-slug"
                       className="c34"
-                      initialValue="test-slug"
                       onChange={[Function]}
                       onFocus={[Function]}
-                      passedRef={[Function]}
-                    >
-                      <input
-                        aria-labelledby="snippet-editor-field-6-slug"
-                        className="c34"
-                        onChange={[Function]}
-                        onFocus={[Function]}
-                        value="test-slug"
-                      />
-                    </ControlledInput>
+                      value="test-slug"
+                    />
                   </SnippetEditorFields__SlugInput>
                 </div>
               </SnippetEditorFields__InputContainer>
