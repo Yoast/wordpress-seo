@@ -20,9 +20,9 @@ class WPSEO_Stale_Content_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
-	 * Modify the query based on the seo_filter variable in $_GET
+	 * Modify the query based on the seo_filter variable in $_GET.
 	 *
-	 * @param string $where Query variables.
+	 * @param string $where The where statement.
 	 *
 	 * @return string The modified query.
 	 */
@@ -33,10 +33,10 @@ class WPSEO_Stale_Content_Filter extends WPSEO_Abstract_Post_Filter {
 
 		global $wpdb;
 
-		$where .= sprintf( ' AND ' . $wpdb->posts . '.post_modified < "%s" ', $this->date_threshold() );
 		$where .= sprintf(
-			' AND ' . $wpdb->posts . '.ID IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "1" ) ',
-			WPSEO_Meta::$meta_prefix . WPSEO_Cornerstone::META_NAME
+			' AND ' . $wpdb->posts . '.ID IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "1" ) AND ' . $wpdb->posts . '.post_modified < "%s" ',
+			WPSEO_Meta::$meta_prefix . WPSEO_Cornerstone::META_NAME,
+			$this->date_threshold()
 		);
 
 		return $where;
@@ -54,7 +54,7 @@ class WPSEO_Stale_Content_Filter extends WPSEO_Abstract_Post_Filter {
 	/**
 	 * Returns a text explaining this filter.
 	 *
-	 * @return string The explanation.
+	 * @return string The explanation for this filter.
 	 */
 	protected function get_explanation() {
 		$post_type_object = get_post_type_object( $this->get_current_post_type() );
@@ -75,7 +75,7 @@ class WPSEO_Stale_Content_Filter extends WPSEO_Abstract_Post_Filter {
 	/**
 	 * Returns the total amount of stale content.
 	 *
-	 * @return integer The total amount.
+	 * @return integer The total amount of stale content.
 	 */
 	protected function get_post_total() {
 		global $wpdb;
@@ -114,12 +114,6 @@ class WPSEO_Stale_Content_Filter extends WPSEO_Abstract_Post_Filter {
 	 * @return string The formatted date.
 	 */
 	protected function date_threshold() {
-		$timestamp = strtotime( '-6months' );
-		$formatted_date_gmt = gmdate( 'Y-m-d', $timestamp );
-		if ( $formatted_date_gmt ) {
-			return $formatted_date_gmt;
-		}
-
-		return date( 'Y-m-d', $timestamp );
+		return gmdate( 'Y-m-d', strtotime( '-6months' ) );
 	}
 }
