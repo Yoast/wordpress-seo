@@ -7,7 +7,6 @@ import createWordRegex from "yoastseo/js/stringProcessing/createWordRegex";
 import replaceSpecialCharactersAndDiacritics from "yoastseo/js/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
-import partial from "lodash/partial";
 import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
@@ -542,8 +541,8 @@ export default class SnippetPreview extends PureComponent {
 		return <Url>
 			<BaseUrlOverflowContainer
 				onClick={ onClick.bind( null, "url" ) }
-				onMouseEnter={ partial( onMouseEnter, "url" ) }
-				onMouseLeave={ partial( onMouseLeave, "url" ) }>
+				onMouseEnter={ onMouseEnter.bind( null, "url" ) }
+				onMouseLeave={ onMouseLeave.bind( null, "url" ) }>
 				{ urlContent }
 			</BaseUrlOverflowContainer>
 		</Url>;
@@ -610,8 +609,8 @@ export default class SnippetPreview extends PureComponent {
 		const outerContainerProps = {
 			isDescriptionGenerated: isDescriptionGenerated,
 			onClick: onClick.bind( null, "description" ),
-			onMouseEnter: partial( onMouseEnter, "description" ),
-			onMouseLeave: partial( onMouseLeave, "description" ),
+			onMouseEnter: onMouseEnter.bind( null, "description" ),
+			onMouseLeave: onMouseLeave.bind( null, "description" ),
 		};
 
 		if ( mode === MODE_DESKTOP ) {
@@ -697,8 +696,8 @@ export default class SnippetPreview extends PureComponent {
 						/>
 						<Title
 							onClick={ onClick.bind( null, "title" ) }
-							onMouseEnter={ partial( onMouseEnter, "title" ) }
-							onMouseLeave={ partial( onMouseLeave, "title" ) }
+							onMouseEnter={ onMouseEnter.bind( null, "title" ) }
+							onMouseLeave={ onMouseLeave.bind( null, "title" ) }
 						>
 							<TitleBounded>
 								<TitleUnbounded innerRef={ this.setTitleRef } >
