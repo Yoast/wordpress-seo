@@ -197,11 +197,17 @@ describe( "SnippetEditor", () => {
 		const onChange = jest.fn();
 		const editor = mountWithArgs( { onChange } );
 
+		const changedSlugEvent = {
+			target: {
+				value: "changedSlug",
+			},
+		};
+
 		editor.instance().open();
 		editor.update();
 
 		const titleEditor = editor.find( "ReplacementVariableEditor" ).get( 0 );
-		const slugEditor = editor.find( "ControlledInput" ).get( 0 );
+		const slugEditor = editor.find( "input" ).get( 0 );
 		const descriptionEditor = editor.find( "ReplacementVariableEditor" ).get( 1 );
 
 		titleEditor.props.onFocus();
@@ -212,7 +218,7 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 
 		titleEditor.props.onChange( "changedTitle" );
-		slugEditor.props.onChange( "changedSlug" );
+		slugEditor.props.onChange( changedSlugEvent );
 		descriptionEditor.props.onChange( "changedDescription" );
 
 		expect( onChange.mock.calls ).toEqual( [

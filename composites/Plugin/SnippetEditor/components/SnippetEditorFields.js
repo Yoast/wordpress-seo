@@ -9,8 +9,6 @@ import { __ } from "@wordpress/i18n";
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
-import ControlledInput from "./ControlledInput";
-
 import colors from "../../../../style-guide/colors";
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
@@ -60,6 +58,7 @@ const InputContainer = styled.div.attrs( {
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	font-size: 14px;
 	margin-top: 5px;
+	cursor: text;
 
 	&::before {
 		display: block;
@@ -74,7 +73,7 @@ const InputContainer = styled.div.attrs( {
 	}
 `;
 
-const SlugInput = styled( ControlledInput )`
+const SlugInput = styled.input`
 	border: none;
 	width: 100%;
 	height: inherit;
@@ -206,36 +205,45 @@ class SnippetEditorFields extends React.Component {
 	 */
 	render() {
 		const {
-			replacementVariables,
-			onChange,
-			onFocus,
-			data,
 			activeField,
 			hoveredField,
+			replacementVariables,
 			titleLengthProgress,
 			descriptionLengthProgress,
+			onFocus,
+			onChange,
+			data: {
+				title,
+				slug,
+				description,
+			},
 		} = this.props;
 
-		const { title, slug, description } = data;
+		const titleLabelId = `${ this.uniqueId }-title`;
+		const slugLabelId = `${ this.uniqueId }-slug`;
+		const descriptionLabelId = `${ this.uniqueId }-description`;
 
 		return (
 			<StyledEditor>
 				<FormSection>
 					<SimulatedLabel
-						id={ this.uniqueId + "-title" }
-						onClick={ () => onFocus( "title" ) }
-					>{ __( "SEO title", "yoast-components" ) }</SimulatedLabel>
-					<InputContainer isActive={ activeField === "title" } isHovered={ hoveredField === "title" }>
+						id={ titleLabelId }
+						onClick={ () => onFocus( "title" ) } >
+						{ __( "SEO title", "yoast-components" ) }
+					</SimulatedLabel>
+					<InputContainer
+						onClick={ () => this.elements.title.focus() }
+						isActive={ activeField === "title" }
+						isHovered={ hoveredField === "title" }>
 						<ReplacementVariableEditor
 							content={ title }
 							onChange={ content => onChange( "title", content ) }
 							onFocus={ () => onFocus( "title" ) }
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "title", ref ) }
-							ariaLabelledBy={ this.uniqueId + "-title" }
+							ariaLabelledBy={ titleLabelId }
 						/>
 					</InputContainer>
-
 					<ProgressBar
 						max={ titleLengthProgress.max }
 						value={ titleLengthProgress.actual }
@@ -244,34 +252,42 @@ class SnippetEditorFields extends React.Component {
 				</FormSection>
 				<FormSection>
 					<SimulatedLabel
-						id={ this.uniqueId + "-slug" }
-						onClick={ () => onFocus( "slug" ) }
-					>{ __( "Slug", "yoast-components" ) }</SimulatedLabel>
-					<InputContainer isActive={ activeField === "slug" } isHovered={ hoveredField === "slug" }>
+						id={ slugLabelId }
+						onClick={ () => onFocus( "slug" ) } >
+						{ __( "Slug", "yoast-components" ) }
+					</SimulatedLabel>
+					<InputContainer
+						onClick={ () => this.elements.slug.focus() }
+						isActive={ activeField === "slug" }
+						isHovered={ hoveredField === "slug" }>
 						<SlugInput
-							initialValue={ slug }
-							onChange={ value => onChange( "slug", value ) }
+							value={ slug }
+							onChange={ event => onChange( "slug", event.target.value ) }
 							onFocus={ () => onFocus( "slug" ) }
-							passedRef={ ref => this.setRef( "slug", ref ) }
-							aria-labelledby={ this.uniqueId + "-slug" } />
+							innerRef={ ref => this.setRef( "slug", ref ) }
+							aria-labelledby={ this.uniqueId + "-slug" }
+						/>
 					</InputContainer>
 				</FormSection>
 				<FormSection>
 					<SimulatedLabel
-						id={ this.uniqueId + "-description" }
-						onClick={ () => onFocus( "description" ) }
-					>{ __( "Meta description", "yoast-components" ) }</SimulatedLabel>
-					<InputContainerDescription isActive={ activeField === "description" } isHovered={ hoveredField === "description" }>
+						id={ descriptionLabelId }
+						onClick={ () => onFocus( "description" ) } >
+						{ __( "Meta description", "yoast-components" ) }
+					</SimulatedLabel>
+					<InputContainerDescription
+						onClick={ () => this.elements.description.focus() }
+						isActive={ activeField === "description" }
+						isHovered={ hoveredField === "description" }>
 						<ReplacementVariableEditor
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
 							onFocus={ () => onFocus( "description" ) }
 							replacementVariables={ replacementVariables }
-							ref={ ref => this.setRef( "description", ref ) }
-							ariaLabelledBy={ this.uniqueId + "-description" }
+							ref={ ( ref ) => this.setRef( "description", ref ) }
+							ariaLabelledBy={ descriptionLabelId }
 						/>
 					</InputContainerDescription>
-
 					<ProgressBar
 						max={ descriptionLengthProgress.max }
 						value={ descriptionLengthProgress.actual }
