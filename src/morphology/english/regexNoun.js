@@ -1,12 +1,25 @@
 const singularize = [
 	[ /([^v])ies$/i, "$1y" ],
-	[ /ises$/i, "isis" ],
+	[ /([^aeiouy]|qu)ies$/i, "$1y" ],
+
 	[ /(kn|[^o]l|w)ives$/i, "$1ife" ],
 	[ /^((?:ca|e|ha|(?:our|them|your)?se|she|wo)l|lea|loa|shea|thie)ves$/i, "$1f" ],
 	[ /^(dwar|handkerchie|hoo|scar|whar)ves$/i, "$1f" ],
+
 	[ /i$/i, "us" ],
-	[ /(analy|diagno|parenthe|progno|synop|the)ses$/i, "$1sis" ],
+	[ /([ilrt])a$/i, "$1um" ],
+
+	[ /(acido|analy|arthro|ato|bio|calcino|cardio|cataly|cente|cly|co|cyano|diagno|dialy|dyaly)ses$/i, "$1sis" ],
+	[ /(ellip|empha|ep|ge|gene|gnos|go|hetero|hidro|hypno|kine|lipido|me|melano|metrio|mio)ses$/i, "$1sis" ],
+	[ /(morpho|narco|necro|nephrit|nephro|neuro|oly|op|pare|pha|phimo|phone|phra)ses$/i, "$1sis" ],
+	[ /(phy|progno|psycho|pto|re|ria|sclero|steno|symphy|synap|synize|synop|ta|the|thelio|thrombo|to|typo)ses$/i, "$1sis" ],
+	[ /ises$/i, "isis" ],
+	[ /itides$/i, "itis" ],
+	[ /([aeiuy]x)es$/i, "$1is" ],
+	[ /yzes$/i, "yzis" ],
 	[ /(..[aeiou]s)es$/i, "$1" ],
+	[ /yges$/i, "yx" ],
+	[ /([iy]n)ges$/i, "$1x" ],
 
 	[ /(ap|caud|cod|col|cul|cort|ib|imbr|ind|lat|narth|orthopl|pontif|sympl|vert|vib|vort)(ices)$/i, "$1ex" ],
 	[ /(append|cerv|forn|phoen|hel|r|red|scol|spad)(ices)$/i, "$1ix" ],
@@ -15,14 +28,9 @@ const singularize = [
 	[ /(cr|d|hall)(uces)$/i, "$1ux" ],
 
 	[ /(x|ch|ss|sh|z|o)es$/i, "$1" ],
+
 	[ /men$/i, "man" ],
-	[ /(n)ews$/i, "$1ews" ],
-	[ /([ti])a$/i, "$1um" ],
-	[ /([^aeiouy]|qu)ies$/i, "$1y" ],
-	[ /(s)eries$/i, "$1eries" ],
-	[ /([m|l])ice$/i, "$1ouse" ],
-	[ /(alias|status)es$/i, "$1" ],
-	[ /(cris|ax|test)es$/i, "$1is" ],
+
 	[ /(ss)$/i, "$1" ],
 	[ /(ics)$/i, "$1" ],
 	[ /s$/i, "" ],
@@ -34,27 +42,31 @@ const singularize = [
 } );
 
 const pluralize = [
-	[ /(ax|test)is$/i, "$1es" ],
 	[ /us$/i, "i" ],
+	[ /itis$/i, "itides" ],
+
 	[ /(kn|l|w)ife$/i, "$1ives" ],
 	[ /^((?:ca|e|ha|(?:our|them|your)?se|she|wo)l|lea|loa|shea|thie)f$/i, "$1ves" ],
 	[ /^(dwar|handkerchie|hoo|scar|whar)f$/i, "$1ves" ],
-	[ /(alias|status)$/i, "$1es" ],
+
 	[ /(bu)s$/i, "$1ses" ],
-	[ /([ti])um$/i, "$1a" ],
-	[ /([ti])a$/i, "$1a" ],
 	[ /sis$/i, "ses" ],
-	[ /(hive)$/i, "$1s" ],
+
+	[ /([ilrt])um$/i, "$1a" ],
+
 	[ /([^aeiouy]|qu)y$/i, "$1ies" ],
+
 	[ /(ap|caud|cod|col|cul|cort|ib|imbr|ind|lat|narth|orthopl|pontif|sympl|vert|vib|vort|append|cerv|forn|phoen|hel|r|red|scol|spad)(ix|ex)$/i,
 		"$1ices" ],
 	[ /((cal|thor|hyr|pin|cr|d|hall)[yau])x$/i, "$1ces" ],
-	[ /(x|ch|ss|sh|s|z)$/i, "$1es" ],
-	[ /([m|l])ouse$/i, "$1ice" ],
-	// [ /([ m|l ])ice$/i, "$1ice" ],
-	[ /^(ox)$/i, "$1en" ],
-	[ /^(oxen)$/i, "$1" ],
+	[ /yzis$/i, "yzes" ],
 	[ /(sis)$/i, "ses" ],
+	[ /([aeiuy]x)is$/i, "$1es" ],
+	[ /([iy]n?)x$/i, "$1ges" ],
+
+	[ /(ics)$/i, "$1" ],
+	[ /(x|ch|ss|sh|s|z)$/i, "$1es" ],
+
 	[ /^(?!talis|.*hu)(.*)man$/i, "$1men" ],
 	[ /(.*)/i, "$1s" ],
 ].map( function( a ) {
