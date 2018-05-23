@@ -9,8 +9,6 @@ import { __ } from "@wordpress/i18n";
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
-import ControlledInput from "./ControlledInput";
-
 import colors from "../../../../style-guide/colors";
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
@@ -75,7 +73,7 @@ const InputContainer = styled.div.attrs( {
 	}
 `;
 
-const SlugInput = styled( ControlledInput )`
+const SlugInput = styled.input`
 	border: none;
 	width: 100%;
 	height: inherit;
@@ -264,10 +262,10 @@ class SnippetEditorFields extends React.Component {
 						isHovered={ hoveredField === "slug" }>
 						<SlugInput
 							value={ slug }
-							onChange={ value => onChange( "slug", value ) }
+							onChange={ event => onChange( "slug", event.target.value ) }
 							onFocus={ () => onFocus( "slug" ) }
-							passedRef={ ( ref ) => this.setRef( "slug", ref ) }
-							aria-labelledby={ slugLabelId }
+							innerRef={ ref => this.setRef( "slug", ref ) }
+							aria-labelledby={ this.uniqueId + "-slug" }
 						/>
 					</InputContainer>
 				</FormSection>
