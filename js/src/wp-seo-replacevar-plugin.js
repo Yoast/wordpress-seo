@@ -449,7 +449,7 @@ import {
 		// Remove all the custom fields prior. This ensures that deleted fields don't show up anymore.
 		this.removeCustomFields();
 
-		var textFields = jQuery( targetMetaBox ).find( "#the-list > tr:visible" );
+		var textFields = jQuery( targetMetaBox ).find( "#the-list > tr:visible[id]" );
 
 		if ( textFields.length > 0 ) {
 			this.parseFields( textFields );

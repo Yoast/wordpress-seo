@@ -7,6 +7,7 @@ import omit from "lodash/omit";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import updateReplacementVariables from "../helpers/updateReplacementVariables";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
+import debounce from "lodash/debounce";
 
 /**
  * Represents the classic editor data.
@@ -23,7 +24,10 @@ class ClassicEditorData {
 		this._refresh = refresh;
 		this._store = store;
 		this._data = {};
+		// This will be used for the comparison whether the title, description and slug are dirty.
+		this._previousData = {};
 		this.updateData = this.updateData.bind( this );
+		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
 
 	/**
@@ -37,6 +41,7 @@ class ClassicEditorData {
 		this._data = this.getInitialData( replaceVars );
 		updateReplacementVariables( this._data, this._store );
 		this.subscribeToElements();
+		this.subscribeToStore();
 	}
 
 	/**
@@ -134,6 +139,59 @@ class ClassicEditorData {
 		const replaceValue = event.target.value;
 		this._data[ targetReplaceVar ] = replaceValue;
 		this._store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
+	}
+
+	/**
+	 * Checks whether the current data and the data from the updated state are the same.
+	 *
+	 * @param {Object} currentData The current data.
+	 * @param {Object} newData The data from the updated state.
+	 * @returns {boolean} Whether the current data and the newData is the same.
+	 */
+	isShallowEqual( currentData, newData ) {
+		if ( Object.keys( currentData ).length !== Object.keys( newData ).length ) {
+			return false;
+		}
+
+		for( let dataPoint in currentData ) {
+			if ( currentData.hasOwnProperty( dataPoint ) ) {
+				if( ! ( dataPoint in newData ) || currentData[ dataPoint ] !== newData[ dataPoint ] ) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Refreshes YoastSEO's app when the data is dirty.
+	 *
+	 * @returns {void}
+	 */
+	refreshYoastSEO() {
+		let newData = this._store.getState().snippetEditor.data;
+
+		// Set isDirty to true if the current data and Gutenberg data are unequal.
+		let isDirty = ! this.isShallowEqual( this._previousData, newData );
+
+		if ( isDirty ) {
+			this._previousData = newData;
+			if ( window.YoastSEO && window.YoastSEO.app ) {
+				window.YoastSEO.app.refresh();
+			}
+		}
+	}
+
+	/**
+	 * Listens to the store.
+	 *
+	 * @returns {void}
+	 */
+	subscribeToStore() {
+		this.subscriber = debounce( this.refreshYoastSEO, 500 );
+		this._store.subscribe(
+			this.subscriber
+		);
 	}
 
 	/**
