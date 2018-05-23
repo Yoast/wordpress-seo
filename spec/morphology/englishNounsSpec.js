@@ -33,8 +33,8 @@ const regularNounsToTest = [
 	[ "zoo", "zoos" ],
 	[ "embryo", "embryos" ],
 	[ "roof", "roofs" ],
-	[ "proof", "proofs"],
-	[ "chief", "chiefs"],
+	[ "proof", "proofs" ],
+	[ "chief", "chiefs" ],
 	[ "leaf", "leaves" ],
 	[ "loaf", "loaves" ],
 	[ "thief", "thieves" ],
@@ -93,26 +93,14 @@ const hispanicNounsToTest = [
 	[ "volcano", "volcanos", "volcanoes" ],
 ];
 
-const latinAeNounsToTest = [
-	[ "antenna", "antennae", "antennas" ],
-	[ "formula" ,"formulae" ,"formulas" ],
-	[ "alga", "algae", "algas" ],
-	[ "alumna", "alumnae", "alumnas" ],
-	[ "larva", "larvae", "larvas" ],
-	[ "vita", "vitae", "vitas" ],
-];
-
-
-let expectedForms = [];
 let receivedForms = [];
 
 describe( "Test for getting all possible word forms for regular words", function() {
-	regularNounsToTest.forEach( function ( paradigm ) {
-
+	regularNounsToTest.forEach( function( paradigm ) {
 		it( "returns an array of word forms for a regular singular", function() {
 			receivedForms = getNounForms( paradigm[ 0 ] );
 
-			paradigm.forEach( function ( form ) {
+			paradigm.forEach( function( form ) {
 				expect( receivedForms ).toContain( form );
 			} );
 		} );
@@ -120,7 +108,7 @@ describe( "Test for getting all possible word forms for regular words", function
 		it( "returns an array of word forms for a regular plural", function() {
 			receivedForms = getNounForms( paradigm[ 1 ] );
 
-			paradigm.forEach( function ( form ) {
+			paradigm.forEach( function( form ) {
 				expect( receivedForms ).toContain( form );
 			} );
 		} );
@@ -128,12 +116,11 @@ describe( "Test for getting all possible word forms for regular words", function
 } );
 
 describe( "Test for getting all possible word forms for hispanic words", function() {
-	hispanicNounsToTest.forEach( function ( paradigm ) {
-
+	hispanicNounsToTest.forEach( function( paradigm ) {
 		it( "returns an array of word forms for a hispanic singular", function() {
 			receivedForms = getNounForms( paradigm[ 0 ] );
 
-			paradigm.forEach( function ( form ) {
+			paradigm.forEach( function( form ) {
 				expect( receivedForms ).toContain( form );
 			} );
 		} );
@@ -141,7 +128,7 @@ describe( "Test for getting all possible word forms for hispanic words", functio
 		it( "returns an array of word forms for a hispanic plural with -os", function() {
 			receivedForms = getNounForms( paradigm[ 1 ] );
 
-			paradigm.forEach( function ( form ) {
+			paradigm.forEach( function( form ) {
 				expect( receivedForms ).toContain( form );
 			} );
 		} );
@@ -149,7 +136,7 @@ describe( "Test for getting all possible word forms for hispanic words", functio
 		it( "returns an array of word forms for a hispanic plural with -oes", function() {
 			receivedForms = getNounForms( paradigm[ 2 ] );
 
-			paradigm.forEach( function ( form ) {
+			paradigm.forEach( function( form ) {
 				expect( receivedForms ).toContain( form );
 			} );
 		} );
@@ -157,11 +144,11 @@ describe( "Test for getting all possible word forms for hispanic words", functio
 } );
 
 describe( "Test for getting all possible word forms for irregular words", function() {
-	irregularNounsToTest.forEach( function ( paradigm ) {
-		paradigm.forEach (function( wordInParadigm ) {
+	irregularNounsToTest.forEach( function( paradigm ) {
+		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for an irregular word", function() {
 				receivedForms = getNounForms( wordInParadigm );
-				paradigm.forEach (function( form ) {
+				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );
 			} );

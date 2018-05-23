@@ -1,6 +1,6 @@
 module.exports = [
 	// Latin: um - a, on - a
-	[ "addendum", "addenda"],
+	[ "addendum", "addenda" ],
 	[ "curriculum", "curricula" ],
 	[ "criterion", "criteria" ],
 	[ "memorandum", "memoranda" ],
@@ -133,15 +133,15 @@ module.exports = [
 	[ "cicatrix", "cicatrice", "cicatrices" ],
 	[ "complex", "complexes", "complices", "complice" ],
 	[ "curriculum", "curricula", "curriculums" ],
-	[ "index" ,"indices", "indexes" ],
-	[ "millennium", "millennia" ,"millenniums" ],
+	[ "index", "indices", "indexes" ],
+	[ "millennium", "millennia", "millenniums" ],
 	[ "postfix", "postfices", "postfixes" ],
 	[ "prefix", "prefices", "prefixes" ],
-	[ "referendum", "referenda" ,"referendums" ],
-	[ "stadium", "stadia" ,"stadiums" ],
+	[ "referendum", "referenda", "referendums" ],
+	[ "stadium", "stadia", "stadiums" ],
 	[ "suffix", "suffices", "suffixes" ],
 	[ "terminus", "termini", "terminuses" ],
-	[ "thesaurus", "thesauri" ,"thesauruses" ],
+	[ "thesaurus", "thesauri", "thesauruses" ],
 
 	// French
 	[ "beau", "beaux" ],
