@@ -201,6 +201,7 @@ class SnippetEditorFields extends React.Component {
 			titleLengthProgress,
 			descriptionLengthProgress,
 			onFocus,
+			onBlur,
 			onChange,
 			data: {
 				title,
@@ -229,6 +230,7 @@ class SnippetEditorFields extends React.Component {
 							content={ title }
 							onChange={ content => onChange( "title", content ) }
 							onFocus={ () => onFocus( "title" ) }
+							onBlur={ () => onBlur() }
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ titleLabelId }
@@ -254,6 +256,7 @@ class SnippetEditorFields extends React.Component {
 							value={ slug }
 							onChange={ event => onChange( "slug", event.target.value ) }
 							onFocus={ () => onFocus( "slug" ) }
+							onBlur={ () => onBlur() }
 							innerRef={ ref => this.setRef( "slug", ref ) }
 							aria-labelledby={ this.uniqueId + "-slug" }
 						/>
@@ -273,6 +276,7 @@ class SnippetEditorFields extends React.Component {
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
 							onFocus={ () => onFocus( "description" ) }
+							onBlur={ () => onBlur() }
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "description", ref ) }
 							ariaLabelledBy={ descriptionLabelId }
@@ -312,6 +316,7 @@ SnippetEditorFields.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
+	onBlur: PropTypes.func,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
@@ -326,6 +331,7 @@ SnippetEditorFields.propTypes = {
 SnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
+	onBlur: () => {},
 	titleLengthProgress: {
 		max: 600,
 		actual: 0,

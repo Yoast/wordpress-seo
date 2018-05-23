@@ -128,6 +128,7 @@ class SnippetEditor extends React.Component {
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
+		this.unsetFieldFocus = this.unsetFieldFocus.bind( this );
 		this.handleChange = this.handleChange.bind( this );
 		this.onClick = this.onClick.bind( this );
 		this.onMouseEnter = this.onMouseEnter.bind( this );
@@ -201,6 +202,7 @@ class SnippetEditor extends React.Component {
 				hoveredField={ hoveredField }
 				onChange={ this.handleChange }
 				onFocus={ this.setFieldFocus }
+				onBlur={ this.unsetFieldFocus }
 				replacementVariables={ replacementVariables }
 				titleLengthProgress={ this.state.titleLengthProgress }
 				descriptionLengthProgress={ this.state.descriptionLengthProgress }
@@ -227,6 +229,17 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
+	 * Blurs a field in the snippet editor.
+	 *
+	 * @returns {void}
+	 */
+	unsetFieldFocus() {
+		this.setState( {
+			activeField: null,
+		} );
+	}
+
+	/**
 	 * Handles click event on a certain field in the snippet preview.
 	 *
 	 * @param {string} field The field that was clicked on.
@@ -234,6 +247,10 @@ class SnippetEditor extends React.Component {
 	 * @returns {void}
 	 */
 	onClick( field ) {
+		if ( this.state.isOpen ) {
+			this.setFieldFocus( field );
+			return;
+		}
 		/*
 		 * We have to wait for the form to be mounted before we can actually focus
 		 * the correct input field.

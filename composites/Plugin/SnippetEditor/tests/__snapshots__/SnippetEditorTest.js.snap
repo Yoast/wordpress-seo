@@ -638,6 +638,7 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -2045,6 +2046,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -2088,6 +2090,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -2141,6 +2144,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-5-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -2148,6 +2152,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     <input
                       aria-labelledby="snippet-editor-field-5-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -2185,6 +2190,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -3665,6 +3671,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -3708,6 +3715,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -3761,6 +3769,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-5-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -3768,6 +3777,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     <input
                       aria-labelledby="snippet-editor-field-5-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -3805,6 +3815,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -5285,6 +5296,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -5328,6 +5340,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -5381,6 +5394,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-5-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -5388,6 +5402,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     <input
                       aria-labelledby="snippet-editor-field-5-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -5425,6 +5440,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -6905,6 +6921,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -6948,6 +6965,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-2-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -7001,6 +7019,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-2-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -7008,6 +7027,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     <input
                       aria-labelledby="snippet-editor-field-2-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -7045,6 +7065,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-2-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -9739,6 +9760,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -9782,6 +9804,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-8-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -9835,6 +9858,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-8-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -9842,6 +9866,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     <input
                       aria-labelledby="snippet-editor-field-8-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -9879,6 +9904,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-8-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -11359,6 +11385,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -11402,6 +11429,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-7-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -11455,6 +11483,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-7-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -11462,6 +11491,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     <input
                       aria-labelledby="snippet-editor-field-7-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -11499,6 +11529,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-7-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -11645,6 +11676,7 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
         }
       }
       hoveredField="description"
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -14242,6 +14274,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -14285,6 +14318,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -14338,6 +14372,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-4-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -14345,6 +14380,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     <input
                       aria-labelledby="snippet-editor-field-4-slug"
                       className="c35"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -14382,6 +14418,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -15882,6 +15919,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         }
       }
       hoveredField="description"
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -15925,6 +15963,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -15978,6 +16017,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-3-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -15985,6 +16025,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     <input
                       aria-labelledby="snippet-editor-field-3-slug"
                       className="c35"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -16022,6 +16063,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -17502,6 +17544,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -17545,6 +17588,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-1-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -17598,6 +17642,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-1-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -17605,6 +17650,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     <input
                       aria-labelledby="snippet-editor-field-1-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -17642,6 +17688,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-1-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -19133,6 +19180,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={
@@ -19187,6 +19235,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={
@@ -19251,6 +19300,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-6-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -19258,6 +19308,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     <input
                       aria-labelledby="snippet-editor-field-6-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -19295,6 +19346,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={
@@ -20047,6 +20099,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
