@@ -31,6 +31,10 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 	 * @dataProvider data_filter_user_has_wpseo_manage_options_cap
 	 *
 	 * @covers WPSEO_Register_Capabilities::filter_user_has_wpseo_manage_options_cap()
+	 *
+	 * @param string $role             Which role to test. 'network_administrator' is also allowed.
+	 * @param string $access           Access setting value to test. Either 'admin' or 'superadmin'.
+	 * @param bool   $expected_has_cap Whether the expected capability check result is true or false.
 	 */
 	public function test_filter_user_has_wpseo_manage_options_cap( $role, $access, $expected_has_cap ) {
 		WPSEO_Options::get_instance();
@@ -45,20 +49,26 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 		if ( $role === 'network_administrator' ) {
 			$user = self::factory()->user->create_and_get( array( 'role' => 'administrator' ) );
 			grant_super_admin( $user->ID );
-		} else {
+		}
+		else {
 			$user = self::factory()->user->create_and_get( array( 'role' => $role ) );
 		}
 
 		$allcaps = $register->filter_user_has_wpseo_manage_options_cap( $user->allcaps, array( 'wpseo_manage_options' ), array(), $user );
 
-		$has_cap = ! empty( $allcaps['wpseo_manage_options'] );
-		if ( $expected_has_cap ) {
-			$this->assertTrue( $has_cap );
-		} else {
-			$this->assertFalse( $has_cap );
-		}
+		$this->assertSame( $expected_has_cap, ! empty( $allcaps['wpseo_manage_options'] ) );
 	}
 
+	/**
+	 * Provides test data for the `test_filter_user_has_wpseo_manage_options_cap()` test.
+	 *
+	 * The format for each record is:
+	 * [0] string: The role to test.
+	 * [1] string: The access setting value to test.
+	 * [2] bool:   The expected test result.
+	 *
+	 * @return array The test data.
+	 */
 	public function data_filter_user_has_wpseo_manage_options_cap() {
 		return array(
 			array( 'wpseo_manager', 'superadmin', true ),
