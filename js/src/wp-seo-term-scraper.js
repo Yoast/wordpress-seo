@@ -31,7 +31,7 @@ window.yoastHideMarkers = true;
 ( function( $, window ) {
 	var snippetContainer;
 
-	var app, snippetPreview;
+	var app;
 
 	var termSlugInput;
 
@@ -85,7 +85,11 @@ window.yoastHideMarkers = true;
 	 * @returns {void}
 	 */
 	function updatedTermSlug() {
-		snippetPreview.setUrlPath( termSlugInput.val() );
+		const snippetEditorData = {
+			slug: termSlugInput.val(),
+		};
+
+		store.dispatch( updateData( snippetEditorData ) );
 	}
 
 	/**
