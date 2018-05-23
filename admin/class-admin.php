@@ -341,7 +341,7 @@ class WPSEO_Admin {
 
 		return array(
 			'cornerstone_filter'   => new WPSEO_Cornerstone_Filter(),
-			'stale_content_filter' => new WPSEO_Stale_Content_Filter(),
+			'stale_cornerstone_content_filter' => new WPSEO_Stale_Cornerstone_Content_Filter(),
 		);
 	}
 

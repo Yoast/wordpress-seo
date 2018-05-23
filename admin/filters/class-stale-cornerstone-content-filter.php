@@ -6,9 +6,9 @@
  */
 
 /**
- * Registers the filter for filtering stale content.
+ * Registers the filter for filtering stale cornerstone content.
  */
-class WPSEO_Stale_Content_Filter extends WPSEO_Abstract_Post_Filter {
+class WPSEO_Stale_Cornerstone_Content_Filter extends WPSEO_Abstract_Post_Filter {
 
 	/**
 	 * Returns the query value this filter uses.
@@ -16,7 +16,7 @@ class WPSEO_Stale_Content_Filter extends WPSEO_Abstract_Post_Filter {
 	 * @return string The query value this filter uses.
 	 */
 	public function get_query_val() {
-		return 'stale-content';
+		return 'stale-cornerstone-content';
 	}
 
 	/**
@@ -48,7 +48,7 @@ class WPSEO_Stale_Content_Filter extends WPSEO_Abstract_Post_Filter {
 	 * @return string The label for this filter.
 	 */
 	protected function get_label() {
-		return __( 'Stale content', 'wordpress-seo' );
+		return __( 'Stale cornerstone content', 'wordpress-seo' );
 	}
 
 	/**
@@ -65,7 +65,7 @@ class WPSEO_Stale_Content_Filter extends WPSEO_Abstract_Post_Filter {
 
 		return sprintf(
 		/* translators: %1$s expands to the posttype label, %2$s expands anchor to blog post about cornerstone content, %3$s expands to </a> */
-			__( 'Stale content refers to cornerstone content that hasn’t been updated in the last 6 months. Make sure to keep these %s up-to-date. %2$sLearn more about cornerstone content%3$s.', 'wordpress-seo' ),
+			__( 'Stale cornerstone content refers to cornerstone content that hasn’t been updated in the last 6 months. Make sure to keep these %s up-to-date. %2$sLearn more about cornerstone content%3$s.', 'wordpress-seo' ),
 			strtolower( $post_type_object->labels->name ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1i9' ) . '" target="_blank">',
 			'</a>'
@@ -73,9 +73,9 @@ class WPSEO_Stale_Content_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
-	 * Returns the total amount of stale content.
+	 * Returns the total amount of stale cornerstone content.
 	 *
-	 * @return integer The total amount of stale content.
+	 * @return integer The total amount of stale cornerstone content.
 	 */
 	protected function get_post_total() {
 		global $wpdb;
