@@ -33,7 +33,7 @@ class WPSEO_Help_Center_Template_Variables_Tab implements WPSEO_WordPress_Integr
 	 */
 	public function register_hooks() {
 		add_filter( 'wpseo_help_center_items', array( $this, 'add_meta_options_help_center_tabs' ), $this->priority );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 	}
 
 	/**
@@ -41,7 +41,7 @@ class WPSEO_Help_Center_Template_Variables_Tab implements WPSEO_WordPress_Integr
 	 *
 	 * @return void
 	 */
-	public function enqueue() {
+	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'admin-css' );
 	}
