@@ -186,30 +186,6 @@ function mapDataToStore( data, store ) {
 }
 
 /**
- * Maps the correct document data to the display description data in the store.
- *
- * @param {Object} store   The redux store.
- *
- * @returns {void}
- */
-export function mapDocumentToDisplayData( store ) {
-	let state = store.getState();
-	let snippetEditorData = state.snippetEditor.data;
-	let documentData = state.documentData;
-
-	// Set the description to display
-	if( snippetEditorData.description !== "" ) {
-		store.dispatch( setDisplayDescription( snippetEditorData.description ) );
-	} else if ( documentData.excerpt !== "" && documentData.excerpt !== undefined ) {
-		store.dispatch( setDisplayDescription( documentData.excerpt ) );
-	} else if ( documentData.content !== "" ) {
-		store.dispatch( setDisplayDescription( documentData.content ) );
-	} else {
-		store.dispatch( setDisplayDescription( "" ) );
-	}
-}
-
-/**
  * Initializes all functionality on the edit screen.
  *
  * This can be a post or a term edit screen.
@@ -229,8 +205,6 @@ export function initialize( args ) {
 
 	const data = initializeData( wp.data, args, store );
 	mapDataToStore( data, store );
-
-	mapDocumentToDisplayData( store );
 
 	renderReactApps( store, args );
 

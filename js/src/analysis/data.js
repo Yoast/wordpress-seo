@@ -5,7 +5,6 @@ import {
 	setDocumentText,
 	setDocumentTitle,
 } from "../redux/actions/documentData";
-import { mapDocumentToDisplayData } from "../edit";
 import {
 	fillReplacementVariables,
 	mapCustomFields,
@@ -39,7 +38,6 @@ class Data {
 		this._data = this.getInitialData( replaceVars );
 		fillReplacementVariables( this._data, this._store );
 		this.subscribeToGutenberg();
-		this.subscribeToStore();
 	}
 
 	getInitialData( replaceVars ) {
@@ -152,7 +150,6 @@ class Data {
 		if ( isDirty ) {
 			this.handleEditorChange( gutenbergData );
 			this._data = gutenbergData;
-			mapDocumentToDisplayData( this._store );
 			this._refresh();
 		}
 	}
@@ -167,28 +164,6 @@ class Data {
 		this._wpData.subscribe(
 			this.subscriber
 		);
-	}
-
-	/**
-	 * Listens to the store, currently only for changes to the snippet editor data object.
-	 *
-	 * @returns {void}
-	 */
-	subscribeToStore() {
-		let selectSnippetData = ( state ) => {
-			return state.snippetEditor.data;
-		};
-		let currentSnippetEditorData  = selectSnippetData( this._store.getState() );
-
-		this._store.subscribe(
-			() => {
-				let previousSnippetEditorData = currentSnippetEditorData;
-				currentSnippetEditorData =  selectSnippetData( this._store.getState() );
-				if ( previousSnippetEditorData !== currentSnippetEditorData ) {
-					mapDocumentToDisplayData( this._store );
-				}
-			}
-		)
 	}
 
 	/**

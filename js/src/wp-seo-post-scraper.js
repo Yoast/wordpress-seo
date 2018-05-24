@@ -7,7 +7,7 @@ import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 
 // Internal dependencies.
-import initializeEdit, { mapDocumentToDisplayData } from "./edit";
+import initializeEdit from "./edit";
 import { tmceId, setStore } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
