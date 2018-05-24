@@ -7,7 +7,6 @@
 
 namespace Yoast\YoastSEO;
 
-use YoastSEO_Vendor\ORMWrapper;
 use YoastSEO_Vendor\ORM;
 use YoastSEO_Vendor\ParisMethodMissingException;
 
@@ -284,7 +283,7 @@ class Yoast_Model {
 		$class_name = static::$auto_prefix_models . $class_name;
 		$table_name = static::_get_table_name( $class_name );
 		if ( $connection_name === null ) {
-			$connection_name = static::_get_static_property( $class_name, '_connection_name', \YoastSEO_Vendor\ORMWrapper::DEFAULT_CONNECTION );
+			$connection_name = static::_get_static_property( $class_name, '_connection_name', ORMWrapper::DEFAULT_CONNECTION );
 		}
 		$wrapper = ORMWrapper::for_table( $table_name, $connection_name );
 		$wrapper->set_class_name( $class_name );
