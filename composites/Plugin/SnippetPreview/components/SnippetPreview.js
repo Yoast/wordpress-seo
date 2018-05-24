@@ -592,6 +592,11 @@ export default class SnippetPreview extends PureComponent {
 		}
 	}
 
+	/**
+	 * After a component has mounted, we need to set the state depending on the props provided.
+	 *
+	 * @returns {void}
+	 */
 	componentDidMount() {
 		this.setState( {
 			isDescriptionGenerated: ( ! this.props.description && this.props.descriptionPlaceholder ),
