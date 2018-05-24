@@ -16,14 +16,14 @@ describe( "SnippetEditor container", () => {
 						{ _identifier: "titleWidth", max: 600, actual: 400, score: 7 } ],
 				},
 			},
+			documentData: {
+				content: "",
+				excerpt: "",
+				title: "",
+			},
 			snippetEditor: {
 				mode: "desktop",
 				data: {
-					title: "Title",
-					slug: "slug",
-					description: "Description",
-				},
-				displayData: {
 					title: "Title",
 					slug: "slug",
 					description: "Description",
@@ -54,12 +54,7 @@ describe( "SnippetEditor container", () => {
 				slug: "slug",
 				description: "Description",
 			},
-			displayData: {
-				title: "Title",
-				slug: "slug",
-				description: "Description",
-			},
-			isDescriptionGenerated: false,
+			generatedDescription: "Description",
 			replacementVariables: [
 				{
 					name: "variable",
