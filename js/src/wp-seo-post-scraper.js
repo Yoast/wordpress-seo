@@ -81,7 +81,12 @@ setYoastComponentsI18n();
 			 */
 			postDataCollector.leavePostNameUntouched = true;
 
-			app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
+
+			const snippetEditorData = {
+				slug: getUrlPathFromResponse( response ),
+			};
+
+			editStore.dispatch( updateData( snippetEditorData ) );
 		}
 	} );
 

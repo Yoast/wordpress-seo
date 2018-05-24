@@ -4,10 +4,11 @@ import filter from "lodash/filter";
 import trim from "lodash/trim";
 import isUndefined from "lodash/isUndefined";
 
-var ReplaceVar = require( "./values/replaceVar" );
+import ReplaceVar from "./values/replaceVar";
 import {
 	removeReplacementVariable,
 	updateReplacementVariable,
+	refreshSnippetEditor,
 } from "./redux/actions/snippetEditor";
 
 ( function() {
@@ -240,7 +241,7 @@ import {
 	 */
 	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
 		this._app.pluginReloaded( "replaceVariablePlugin" );
-		this._store.dispatch( { type: "REFRESH_SNIPPET_EDITOR" } );
+		this._store.dispatch( refreshSnippetEditor() );
 	};
 
 	/*

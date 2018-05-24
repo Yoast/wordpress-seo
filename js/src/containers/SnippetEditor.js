@@ -4,45 +4,56 @@ import {
 	switchMode,
 	updateData,
 } from "../redux/actions/snippetEditor";
-import isUndefined from "lodash/isUndefined";
-import { getResultsForKeyword, getActiveKeyword } from "../redux/selectors/results";
+import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
+import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
+import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
+import get from "lodash/get";
+import identity from "lodash/identity";
 
 /**
- * Returns true for the title length result.
+ * Gets the title progress.
  *
- * @param {array} results The SEO results.
- * @returns {boolean} True if it's the title length result.
+ * @param {string} title The title.
+ * @param {function} replaceVariables Function that replaces replacement variables.
+ *
+ * @returns {Object} The title progress.
  */
-function isTitleLengthResult( results ) {
-	return results._identifier === "titleWidth";
+function getTitleProgress( title, replaceVariables ) {
+	// Replace all replacevalues to get the actual title.
+	const replacedTitle = replaceVariables( title );
+	const titleWidth = measureTextWidth( replacedTitle );
+	const pageTitleWidthAssessment = new PageTitleWidthAssesment();
+	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
+	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
+	return {
+		max: maximumLength,
+		actual: titleWidth,
+		score: score,
+	};
 }
 
 /**
- * Returns true for the description length result.
+ * Gets the description progress.
  *
- * @param {array} results The SEO results.
- * @returns {boolean} True if it's the description length result.
+ * @param {number}   description      The description.
+ * @param {function} replaceVariables Function that replaces replacement variables.
+ *
+ * @returns {Object} The description progress.
  */
-function isDescriptionLengthResult( results ) {
-	return results._identifier === "metaDescriptionLength";
-}
+function getDescriptionProgress( description, replaceVariables ) {
+	// Replace all replacevalues to get the actual description.
+	const replacedDescription = replaceVariables( description );
+	const replacedDescriptionLength = replacedDescription.length;
 
-/**
- *	Gets the data needed for calculating the length progress.
- *
- * @param {Object} result The assessment result.
- * @returns {Object} The data needed for calculating the length progress.
- */
-function getProgress( result ) {
-	let progress = {};
-	if ( ! isUndefined( result ) ) {
-		progress = {
-			max: result.max,
-			actual: result.actual,
-			score: result.score,
-		};
-	}
-	return progress;
+	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+	const score = metaDescriptionLengthAssessment.calculateScore( replacedDescriptionLength );
+	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
+
+	return {
+		max: maximumLength,
+		actual: replacedDescriptionLength,
+		score: score,
+	};
 }
 
 /**
@@ -54,16 +65,11 @@ function getProgress( result ) {
  * @returns {Object} Data for the `SnippetEditor` component.
  */
 export function mapStateToProps( state ) {
-	let activeKeyword = getActiveKeyword( state );
-	let seoResults = getResultsForKeyword( state, activeKeyword );
+	const replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
+	let titleLengthProgress = getTitleProgress( state.snippetEditor.data.title, replaceVariables );
+	let descriptionLengthProgress = getDescriptionProgress( state.snippetEditor.data.description, replaceVariables );
 
-	let titleLengthResult = seoResults.find( isTitleLengthResult );
-	let descriptionLengthResult = seoResults.find( isDescriptionLengthResult );
-
-	let titleLengthProgress = getProgress( titleLengthResult );
-	let descriptionLengthProgress = getProgress( descriptionLengthResult );
-	let replacementVariables = state.snippetEditor.replacementVariables;
-
+	const replacementVariables = state.snippetEditor.replacementVariables;
 	// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
 	replacementVariables.forEach( ( replaceVariable ) => {
 		if( replaceVariable.value === "" ) {
