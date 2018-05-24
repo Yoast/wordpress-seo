@@ -169,10 +169,10 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "activates a field on onClick() and opens the editor", () => {
+	it( "activates a field on onMouseUp() and opens the editor", () => {
 		const editor = shallowWithArgs( {} );
 
-		editor.instance().onClick( "title" );
+		editor.instance().onMouseUp( "title" );
 		editor.update();
 
 		expect( editor ).toMatchSnapshot();

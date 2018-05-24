@@ -165,7 +165,7 @@ class SnippetEditorFields extends React.Component {
 	/**
 	 * Makes sure the focus is correct after updating the editor fields.
 	 *
-	 * For example, the componet will update when clicking on the field labels.
+	 * For example, the component will update when clicking on the field labels.
 	 * In this case, we need to focus again the field.
 	 *
 	 * @param {Object} prevProps The previous props.
@@ -185,7 +185,6 @@ class SnippetEditorFields extends React.Component {
 	 */
 	focusOnActiveFieldChange() {
 		const { activeField } = this.props;
-
 		if ( activeField ) {
 			const activeElement = this.elements[ activeField ];
 			activeElement.focus();
