@@ -2,7 +2,6 @@ export const SWITCH_MODE = "SNIPPET_EDITOR_SWITCH_MODE";
 export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
 export const UPDATE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE";
 export const REMOVE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_REMOVE_REPLACEMENT_VARIABLE";
-export const SET_DISPLAY_DESCRIPTION = "SET_DISPLAY_DESCRIPTION";
 export const REFRESH = "SNIPPET_EDITOR_REFRESH";
 
 /**
@@ -49,20 +48,6 @@ export function updateReplacementVariable( name, value ) {
 		type: UPDATE_REPLACEMENT_VARIABLE,
 		name,
 		value,
-	};
-}
-
-/**
- * Sets display description.
- *
- * @param {string} text The description to be displayed.
- *
- * @returns {Object} An action for redux.
- */
-export function setDisplayDescription( text ) {
-	return {
-		type: SET_DISPLAY_DESCRIPTION,
-		text,
 	};
 }
 

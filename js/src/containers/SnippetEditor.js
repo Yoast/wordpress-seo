@@ -6,7 +6,6 @@ import {
 } from "../redux/actions/snippetEditor";
 import isUndefined from "lodash/isUndefined";
 import { getResultsForKeyword, getActiveKeyword } from "../redux/selectors/results";
-import { mapDocumentToDisplayData } from "../edit";
 
 /**
  * Returns true for the title length result.
@@ -47,6 +46,29 @@ function getProgress( result ) {
 }
 
 /**
+ * Returns either the text in the meta description field, the excerpt, or the content.
+ *
+ * @param {Object} state The redux state.
+ *
+ * @return {string} The description to be displayed in the SnippetPreview.
+ */
+function getDescription( state ) {
+	const { excerpt, content } = state.documentData;
+	const { description } = state.snippetEditor.data;
+
+	// Set the description to display (empty string will be turned into a placeholder in the SnippetPreview).
+	if( description !== "" ) {
+		return description;
+	} else if ( excerpt !== "" && excerpt !== undefined ) {
+		return excerpt;
+	} else if ( content !== "" ) {
+		return content;
+	} else {
+		return "";
+	}
+}
+
+/**
  * Maps the redux state to the snippet editor component.
  *
  * @param {Object} state The current state.
@@ -72,12 +94,11 @@ export function mapStateToProps( state ) {
 		}
 	} );
 
-	// If the displayData field is empty, a description will be generated, so this boolean should be set to true.
-	let isDescriptionGenerated = state.snippetEditor.displayData.description === "";
+	let generatedDescription = getDescription( state );
 
 	return {
 		...state.snippetEditor,
-		isDescriptionGenerated,
+		generatedDescription,
 		titleLengthProgress,
 		descriptionLengthProgress,
 		keyword: state.activeKeyword,
