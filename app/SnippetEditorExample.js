@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import debounce from "lodash/debounce";
+import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
 
 // Internal dependencies.
 import SnippetEditor from "../composites/Plugin/SnippetEditor/components/SnippetEditor";
@@ -40,6 +41,9 @@ export default class SnippetEditorExample extends Component {
 	 */
 	constructor( props ) {
 		super( props );
+
+		const descriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+		this.maximumMetaDescriptionLength = descriptionLengthAssessment.getMaximumLength();
 
 		this.state = {
 			title: "Welcome to the Gutenberg Editor - Local WordPress Dev. Snippet Title Snippet" +
@@ -136,9 +140,9 @@ export default class SnippetEditorExample extends Component {
 		};
 
 		let descriptionLengthProgress = {
-			max: 320,
+			max: this.maximumMetaDescriptionLength,
 			actual: this.state.currentDescriptionLength,
-			score: this.state.currentDescriptionLength > 160 ? 9 : 3,
+			score: this.state.currentDescriptionLength > 120 ? 9 : 3,
 		};
 
 		return <Container>
@@ -156,13 +160,13 @@ export default class SnippetEditorExample extends Component {
 			<input
 				type="range"
 				min={ 0 }
-				max={ 600 }
+				max={ titleLengthProgress.max }
 				onChange={ ( event ) => this.onChangedData( "currentTitleLength", parseInt( event.target.value, 10 ) ) }
 			/>
 			<input
 				type="range"
 				min={ 0 }
-				max={ 320 }
+				max={ descriptionLengthProgress.max }
 				onChange={ ( event ) => this.onChangedData( "currentDescriptionLength", parseInt( event.target.value, 10 ) ) }
 			/>
 		</Container>;

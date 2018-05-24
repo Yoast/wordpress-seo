@@ -5,6 +5,17 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.1.0 May 23rd, 2018
+
+### Changes
+* Maximum meta description length now retrieved from `yoastseo`.
+* Improve the Snippet Preview rendering with long text.
+* Better encode SVG images used as CSS background.
+* Snippet editor no longer manages the slug in local state.
+* Entire meta description field can now be clicked to focus the editor.
+* Removed `react-intl` remnants, which was removed in `v4.0.0`.
+* Snippet preview now decodes the separator replacement variable before it is passed along to the renderer.
+
 ## 4.0.2 May 17th, 2018
 
 ### Added
