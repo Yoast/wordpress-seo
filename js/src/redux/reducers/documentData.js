@@ -23,7 +23,7 @@ function documentDataReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case SET_DOCUMENT_DATA:
 			return Object.assign( {}, state, {
-				...action.data
+				...action.data,
 			} );
 		case SET_DOCUMENT_TEXT:
 			return Object.assign( {}, state, {
@@ -37,9 +37,8 @@ function documentDataReducer( state = INITIAL_STATE, action ) {
 			return Object.assign( {}, state, {
 				title: action.title,
 			} );
+		default: return state;
 	}
-
-	return state;
 }
 
 export default documentDataReducer;

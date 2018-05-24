@@ -4,7 +4,7 @@ export const SET_DOCUMENT_EXCERPT = "SET_DOCUMENT_EXCERPT";
 export const SET_DOCUMENT_TITLE = "SET_DOCUMENT_TITLE";
 
 /**
- * The set data action for the documentDataReducer
+ * The set data action for the documentDataReducer.
  *
  * @param {Object} data The data from the document.
  *

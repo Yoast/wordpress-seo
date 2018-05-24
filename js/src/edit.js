@@ -168,15 +168,14 @@ export function initializeData( data, args, store ) {
 /**
  * Maps the data to the correct fields in the store.
  *
- * @param {Object} data   The data object.
- * @param {Object} store  The redux store.
+ * @param {Object} data  The data object.
+ * @param {Object} store The redux store.
  *
  * @returns {void}
  */
 function mapDataToStore( data, store ) {
 	const newData = data.getData();
 
-	// Map content
 	store.dispatch( setDocumentData( {
 		title: newData.title,
 		content: newData.content,

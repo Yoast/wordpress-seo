@@ -106,18 +106,20 @@ class ClassicEditorData {
 		this.subscribeToInputElement( "excerpt", "excerpt" );
 		this.subscribeToInputElement( "excerpt", "excerpt", false );
 		this.subscribeToInputElement( "excerpt", "excerpt_only" );
-		let cb = () => {
+
+		let dispatchContentToStore = () => {
 			this._store.dispatch( setDocumentText( this.getContent() ) );
 		};
-		tmceHelper.addEventHandler( tmceId, [ "input", "change", "cut", "paste" ], cb );
+
+		tmceHelper.addEventHandler( tmceId, [ "input", "change", "cut", "paste" ], dispatchContentToStore );
 	}
 
 	/**
 	 * Subscribes to an element via its id, and sets a callback.
 	 *
-	 * @param {string}  elementId            The id of the element to subscribe to.
-	 * @param {string}  targetField          The name of the field the value should be sent to.
-	 * @param {boolean} forReplaceVariable   Whether this is a subscription for the replaceVariables.
+	 * @param {string}  elementId          The id of the element to subscribe to.
+	 * @param {string}  targetField        The name of the field the value should be sent to.
+	 * @param {boolean} forReplaceVariable Whether this is a subscription for the replaceVariables.
 	 *
 	 * @returns {void}
 	 */
@@ -133,7 +135,7 @@ class ClassicEditorData {
 		}
 
 		if ( ! forReplaceVariable ) {
-			switch( targetField ) {
+			switch ( targetField ) {
 				case "excerpt":
 					element.addEventListener( "input", ( event ) => {
 						this._store.dispatch( setDocumentExcerpt( event.target.value ) );
@@ -172,8 +174,8 @@ class ClassicEditorData {
 	 * Checks whether the current data and the data from the updated state are the same.
 	 *
 	 * @param {Object} currentData The current data.
-	 * @param {Object} newData The data from the updated state.
-	 * @returns {boolean} Whether the current data and the newData is the same.
+	 * @param {Object} newData     The data from the updated state.
+	 * @returns {boolean}          Whether the current data and the newData is the same.
 	 */
 	isShallowEqual( currentData, newData ) {
 		if ( Object.keys( currentData ).length !== Object.keys( newData ).length ) {
