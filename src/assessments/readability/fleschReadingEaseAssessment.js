@@ -5,7 +5,7 @@ const isEmpty = require( "lodash/isEmpty" );
 
 const getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 
-const availableLanguages = [ "en", "nl", "de", "it", "ru" ];
+const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr" ];
 
 class FleschReadingEaseAssessment extends Assessment {
 	/**

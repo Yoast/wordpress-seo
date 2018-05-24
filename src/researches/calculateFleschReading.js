@@ -62,6 +62,9 @@ module.exports = function( paper ) {
 		case "ru":
 			score = 206.835 - ( 1.3 * numberOfWords / numberOfSentences ) - ( 60.1 * numberOfSyllables / numberOfWords );
 			break;
+		case "fr":
+			score = 207 - ( 1.015 * numberOfWords / numberOfSentences ) - ( 73.6 * numberOfSyllables / numberOfWords );
+			break;
 		case "en":
 		default:
 			score = 206.835 - ( 1.015 * ( averageWordsPerSentence ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
