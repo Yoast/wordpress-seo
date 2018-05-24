@@ -8,8 +8,9 @@ let en = require( './syllables/en.json' );
 let nl = require( './syllables/nl.json' );
 let it = require( './syllables/it.json' );
 let ru = require( './syllables/ru.json' );
+let es = require( './syllables/es.json' );
 
-let languages = { de, nl, en, it, ru };
+let languages = { de, nl, en, it, ru, es };
 
 module.exports = function( locale = "en_US" ) {
 	let language = getLanguage( locale );

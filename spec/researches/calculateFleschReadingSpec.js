@@ -59,6 +59,13 @@ describe( "A test that uses the Russian Flesch Reading", function() {
 	} );
 } );
 
+describe( "A test that uses the Spanish Flesch Reading", function() {
+	it( "returns a score", function() {
+		var mockPaper = new Paper( "Existen seis subespecies de tigre, de las cuales la de Bengala es la más numerosa.", { locale: "es_ES" } );
+		expect( fleschFunction( mockPaper ) ).toBe( 83.5 );
+	} );
+} );
+
 describe( "A test that returns 0 after sentence formatting", function() {
 	it( "returns a score of 0", function() {
 		var mockPaper = new Paper( "()" );

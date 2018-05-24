@@ -173,6 +173,7 @@ var countSyllablesInText = function( text, locale ) {
 		return countSyllablesInWord( word, locale );
 	} );
 
+	console.log( sum(syllableCounts) );
 	return sum( syllableCounts );
 };
 
