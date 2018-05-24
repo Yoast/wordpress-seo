@@ -21,7 +21,6 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
 import documentDataReducer from "./redux/reducers/documentData";
 import { setDocumentData } from "./redux/actions/documentData";
-import { setDisplayDescription } from "./redux/actions/snippetEditor";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };

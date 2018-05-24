@@ -50,7 +50,7 @@ function getProgress( result ) {
  *
  * @param {Object} state The redux state.
  *
- * @return {string} The description to be displayed in the SnippetPreview.
+ * @returns {string} The description to be displayed in the SnippetPreview.
  */
 function getDescription( state ) {
 	const { excerpt, content } = state.documentData;
@@ -59,13 +59,12 @@ function getDescription( state ) {
 	// Set the description to display (empty string will be turned into a placeholder in the SnippetPreview).
 	if( description !== "" ) {
 		return description;
-	} else if ( excerpt !== "" && excerpt !== undefined ) {
+	} else if ( excerpt !== "" ) {
 		return excerpt;
 	} else if ( content !== "" ) {
 		return content;
-	} else {
-		return "";
 	}
+	return "";
 }
 
 /**
