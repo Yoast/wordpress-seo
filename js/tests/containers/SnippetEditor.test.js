@@ -12,8 +12,8 @@ describe( "SnippetEditor container", () => {
 			analysis: {
 				seo: {
 					active: [
-						{ _identifier: "metaDescriptionLength", max: 320, actual: 153, score: 7 },
-						{ _identifier: "titleWidth", max: 600, actual: 400, score: 7 } ],
+						{ _identifier: "metaDescriptionLength", max: 156, actual: 11, score: 6 },
+						{ _identifier: "titleWidth", max: 600, actual: 400, score: 6 } ],
 				},
 			},
 			snippetEditor: {
@@ -35,14 +35,14 @@ describe( "SnippetEditor container", () => {
 			mode: "desktop",
 			keyword: "active",
 			descriptionLengthProgress: {
-				max: 320,
-				actual: 153,
-				score: 7,
+				max: 156,
+				actual: 11,
+				score: 6,
 			},
 			titleLengthProgress: {
 				max: 600,
-				actual: 400,
-				score: 7,
+				actual: 0,
+				score: 1,
 			},
 			data: {
 				title: "Title",

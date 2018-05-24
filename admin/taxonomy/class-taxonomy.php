@@ -69,6 +69,9 @@ class WPSEO_Taxonomy {
 	 * @param stdClass|WP_Term $term Term to show the edit boxes for.
 	 */
 	public function term_metabox( $term ) {
+		$tab = new WPSEO_Help_Center_Template_Variables_Tab();
+		$tab->register_hooks();
+
 		$metabox = new WPSEO_Taxonomy_Metabox( $this->taxonomy, $term );
 		$metabox->display();
 	}
@@ -88,6 +91,8 @@ class WPSEO_Taxonomy {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'scoring' );
 
+		$tab = new WPSEO_Help_Center_Template_Variables_Tab();
+		$tab->enqueue_assets();
 
 		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
 		if (
