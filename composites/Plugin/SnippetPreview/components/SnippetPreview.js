@@ -142,10 +142,8 @@ const BaseUrlOverflowContainer = BaseUrl.extend`
 
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
-export const DesktopDescription = styled.div.attrs( {
-	color: ( props ) => props.isDescriptionGenerated ? colorGeneratedDescription : colorDescription,
-} )`
-	color: ${ props => props.color };
+export const DesktopDescription = styled.div`
+	color: ${ props => props.isDescriptionGenerated ? colorGeneratedDescription : colorDescription };
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
@@ -290,6 +288,7 @@ export default class SnippetPreview extends PureComponent {
 		this.state = {
 			title: props.title,
 			description: props.description,
+			isDescriptionGenerated: true,
 		};
 
 		this.setTitleRef       = this.setTitleRef.bind( this );
@@ -583,6 +582,10 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {void}
 	 */
 	componentDidUpdate() {
+		this.setState( {
+			isDescriptionGenerated: ( ! this.props.description && this.props.descriptionPlaceholder ),
+		} );
+
 		if ( this.props.mode === MODE_MOBILE ) {
 			clearTimeout( this.fitTitleTimeout );
 
@@ -594,6 +597,12 @@ export default class SnippetPreview extends PureComponent {
 		}
 	}
 
+	componentDidMount() {
+		this.setState( {
+			isDescriptionGenerated: ( ! this.props.description && this.props.descriptionPlaceholder ),
+		} );
+	}
+
 	/**
 	 * Renders the snippet preview description, based on the mode.
 	 *
@@ -602,7 +611,6 @@ export default class SnippetPreview extends PureComponent {
 	renderDescription() {
 		const {
 			keyword,
-			isDescriptionGenerated,
 			locale,
 			onClick,
 			onMouseLeave,
@@ -613,7 +621,7 @@ export default class SnippetPreview extends PureComponent {
 		const renderedDate = this.renderDate();
 
 		const outerContainerProps = {
-			isDescriptionGenerated: isDescriptionGenerated,
+			isDescriptionGenerated: this.state.isDescriptionGenerated,
 			onClick: onClick.bind( null, "description" ),
 			onMouseOver: partial( onMouseOver, "description" ),
 			onMouseLeave: partial( onMouseLeave, "description" ),
@@ -637,6 +645,7 @@ export default class SnippetPreview extends PureComponent {
 					{ ...outerContainerProps }
 				>
 					<MobileDescriptionOverflowContainer
+						isDescriptionGenerated={ this.state.isDescriptionGenerated }
 						innerRef={ this.setDescriptionRef }
 					>
 						{ renderedDate }
@@ -767,7 +776,6 @@ SnippetPreview.propTypes = {
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
 	keyword: PropTypes.string,
-	isDescriptionGenerated: PropTypes.bool.isRequired,
 	locale: PropTypes.string,
 	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,

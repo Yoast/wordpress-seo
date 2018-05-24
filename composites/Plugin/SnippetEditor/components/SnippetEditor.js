@@ -322,17 +322,16 @@ class SnippetEditor extends React.Component {
 	 * Maps the data from to be suitable for the preview.
 	 *
 	 * @param {Object} originalData The data from the form.
-	 * @param {Object} displayData  The data from the redux store.
 	 *
 	 * @returns {Object} The data for the preview.
 	 */
-	mapDataToPreview( originalData, displayData ) {
+	mapDataToPreview( originalData, generatedDescription ) {
 		const { baseUrl, mapDataToPreview } = this.props;
 
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title ),
 			url: baseUrl.replace( "https://", "" ) + originalData.slug,
-			description: this.processReplacementVariables( originalData.description || displayData.description ),
+			description: this.processReplacementVariables( originalData.description || generatedDescription ),
 		};
 
 		if ( mapDataToPreview ) {
@@ -390,9 +389,8 @@ class SnippetEditor extends React.Component {
 		const {
 			onChange,
 			data,
-			displayData,
 			descriptionPlaceholder,
-			isDescriptionGenerated,
+			generatedDescription,
 			mode,
 			date,
 			locale,
@@ -405,7 +403,7 @@ class SnippetEditor extends React.Component {
 			isOpen,
 		} = this.state;
 
-		const mappedData = this.mapDataToPreview( data, displayData );
+		const mappedData = this.mapDataToPreview( data, generatedDescription );
 
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
@@ -425,7 +423,6 @@ class SnippetEditor extends React.Component {
 					onClick={ this.onClick }
 					locale={ locale }
 					descriptionPlaceholder={ descriptionPlaceholder }
-					isDescriptionGenerated={ isDescriptionGenerated }
 					{ ...mappedData }
 				/>
 
@@ -454,13 +451,8 @@ SnippetEditor.propTypes = {
 		slug: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
-	displayData: PropTypes.shape( {
-		title: PropTypes.string.isRequired,
-		slug: PropTypes.string.isRequired,
-		description: PropTypes.string.isRequired,
-	} ).isRequired,
 	descriptionPlaceholder: PropTypes.string,
-	isDescriptionGenerated: PropTypes.bool,
+	generatedDescription: PropTypes.string,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
@@ -486,8 +478,8 @@ SnippetEditor.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
-	isDescriptionGenerated: false,
 	mapDataToPreview: null,
+	generatedDescription: "",
 	locale: "en",
 };
 

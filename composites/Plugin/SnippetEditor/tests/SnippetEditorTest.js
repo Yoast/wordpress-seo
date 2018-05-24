@@ -20,16 +20,9 @@ const defaultData = {
 	description: "Test description, %%replacement_variable%%",
 };
 
-const defaultDisplay = {
-	title: "Test displaytitle",
-	slug: "test-display-slug",
-	description: "Test display description, %%replacement_variable%%",
-};
-
 const defaultArgs = {
 	baseUrl: "https://example.org/",
 	data: defaultData,
-	displayData: defaultDisplay,
 	onChange: () => {},
 };
 
