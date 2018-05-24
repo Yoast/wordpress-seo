@@ -1,6 +1,10 @@
 import debounce from "lodash/debounce";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
-import fillReplacementValues from "../helpers/updateReplacementVariables";
+import {
+	fillReplacementVariables,
+	mapCustomFields,
+	mapCustomTaxonomies,
+} from "../helpers/replacementVariableHelpers";
 
 /**
  * Represents the data.
@@ -26,12 +30,17 @@ class Data {
 	initialize( replaceVars ) {
 		// Fill data object on page load.
 		this._data = this.getInitialData( replaceVars );
-		fillReplacementValues( this._data, this._store );
+		fillReplacementVariables( this._data, this._store );
 		this.subscribeToGutenberg();
 	}
 
 	getInitialData( replaceVars ) {
 		const gutenbergData = this.collectGutenbergData( this.getPostAttribute );
+
+		// Custom_fields and custom_taxonomies are objects instead of strings, which causes console errors.
+		replaceVars = mapCustomFields( replaceVars );
+		replaceVars = mapCustomTaxonomies( replaceVars );
+
 		return {
 			...replaceVars,
 			...gutenbergData,
