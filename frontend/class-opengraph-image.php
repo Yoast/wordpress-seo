@@ -324,12 +324,12 @@ class WPSEO_OpenGraph_Image {
 		foreach ( $images as $image_url ) {
 			$attachment_id = WPSEO_Image_Utils::get_attachment_by_url( $image_url );
 
-			// If image is hosted externally skip it and continue to the next image.
+			// If image is hosted externally, skip it and continue to the next image.
 			if ( $attachment_id === 0 ) {
 				continue;
 			}
 
-			// If locally hosted image meets the requirements add it as OG image.
+			// If locally hosted image meets the requirements, add it as OG image.
 			$this->add_image_by_id( $attachment_id );
 
 			// If an image has been added, we're done.

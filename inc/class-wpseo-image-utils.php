@@ -46,7 +46,7 @@ class WPSEO_Image_Utils {
 			return 0;
 		}
 
-		// Id is found in cache, return.
+		// ID is found in cache, return.
 		if ( $id !== false ) {
 			return $id;
 		}
@@ -63,7 +63,6 @@ class WPSEO_Image_Utils {
 		return $id;
 
 	}
-
 
 	/**
 	 * Retrieves the image data.

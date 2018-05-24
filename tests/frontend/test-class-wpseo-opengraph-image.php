@@ -342,7 +342,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Upload an image and set it as an attachment to a post.
+	 * Uploads an image and sets it as an attachment to a post.
 	 *
 	 * @param string $image    The url to the image to upload.
 	 * @param string $post_id  The post to add the image to.
@@ -379,6 +379,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test getting the image from post content.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::get_images()
 	 */
 	public function test_get_images_from_content() {
 
@@ -419,6 +421,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test getting the image from post content.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::add_first_usable_content_image()
 	 */
 	public function test_get_images_from_content_cdn_first() {
 
