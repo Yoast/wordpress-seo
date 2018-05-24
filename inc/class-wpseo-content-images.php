@@ -47,11 +47,11 @@ class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
 	 *
 	 * @return array An array of image URLs.
 	 */
-	private function get_images_from_content( $content ) {
+	protected function get_images_from_content( $content ) {
 		$content_images = $this->get_img_tags_from_content( $content );
 		$images = array_map( array( $this, 'get_img_tag_source' ), $content_images );
-		$images = array_filter( $images ); // removes empty urls
-		$images = array_unique( $images ); // removes double urls
+		$images = array_filter( $images );
+		$images = array_unique( $images );
 
 		return $images;
 	}
