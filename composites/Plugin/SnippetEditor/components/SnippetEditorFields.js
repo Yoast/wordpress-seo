@@ -204,6 +204,7 @@ class SnippetEditorFields extends React.Component {
 	 * @returns {ReactElement} The snippet editor element.
 	 */
 	render() {
+		console.log( "PROPS: ", this.props );
 		const {
 			activeField,
 			hoveredField,
@@ -212,12 +213,15 @@ class SnippetEditorFields extends React.Component {
 			descriptionLengthProgress,
 			onFocus,
 			onChange,
+			descriptionEditorFieldPlaceholder,
 			data: {
 				title,
 				slug,
 				description,
 			},
 		} = this.props;
+
+		console.log( "SnippetEditorFields placeholder: ", descriptionEditorFieldPlaceholder );
 
 		const titleLabelId = `${ this.uniqueId }-title`;
 		const slugLabelId = `${ this.uniqueId }-slug`;
@@ -286,6 +290,7 @@ class SnippetEditorFields extends React.Component {
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "description", ref ) }
 							ariaLabelledBy={ descriptionLabelId }
+							descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
 						/>
 					</InputContainerDescription>
 					<ProgressBar
@@ -331,6 +336,7 @@ SnippetEditorFields.propTypes = {
 	hoveredField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
+	descriptionEditorFieldPlaceholder: PropTypes.string,
 };
 
 SnippetEditorFields.defaultProps = {
