@@ -6,6 +6,7 @@ import identity from "lodash/identity";
 import get from "lodash/get";
 import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
 import { stripFullTags } from "yoastseo/js/stringProcessing/stripHTMLTags";
+import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
 
 // Internal dependencies.
 import SnippetEditor from "../containers/SnippetEditor";
@@ -80,10 +81,15 @@ const applyReplaceUsingPlugin = function( data ) {
  *
  * @returns {Object} The snippet preview data object.
  */
-const mapEditorDataToPreview = function( data ) {
+export const mapEditorDataToPreview = function( data ) {
 	// Replace whitespaces in the url with dashes.
 	data.url = data.url.replace( /\s+/g, "-" );
 
+	// Replace newlines by spaces.
+	data.description = data.description.replace( /\n/g, " " );
+
+	// Strip multiple spaces and spaces at the beginning and end.
+	data.description = stripSpaces( data.description );
 	return applyReplaceUsingPlugin( data );
 };
 
