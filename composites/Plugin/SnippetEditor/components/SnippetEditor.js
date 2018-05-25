@@ -119,8 +119,6 @@ class SnippetEditor extends React.Component {
 			return null;
 		}
 
-		console.log( "De replacementVariables als ontvangen in components", replacementVariables );
-
 		return (
 			<React.Fragment>
 				<SnippetEditorFields
