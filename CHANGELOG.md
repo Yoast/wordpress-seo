@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.33.1 May 25th, 2018
+### Fixed
+* Fixes a bug where Flesch Reading Ease translation strings were not fully translated.
+
 ## 1.33.0 May 23rd, 2018
 ### Added
 * Adds Catalan transition words.
