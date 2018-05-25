@@ -46,7 +46,7 @@ const shallowWithArgs = ( changedArgs ) => {
 
 
 describe( "SnippetEditor", () => {
-	it( "shows and editor", () => {
+	it( "shows the editor", () => {
 		renderSnapshotWithArgs( {} );
 	} );
 
@@ -169,6 +169,21 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
+	it( "removes the highlight when calling unsetFieldFocus", () => {
+		focus.mockClear();
+
+		const editor = mountWithArgs( {} );
+
+		editor.instance().open();
+		editor.instance().setFieldFocus( "title" );
+		editor.update();
+
+		editor.instance().unsetFieldFocus();
+		editor.update();
+
+		expect( editor ).toMatchSnapshot();
+	} );
+
 	it( "activates a field on onMouseUp() and opens the editor", () => {
 		const editor = shallowWithArgs( {} );
 
@@ -247,6 +262,7 @@ describe( "SnippetEditor", () => {
 
 		expect( editor ).toMatchSnapshot();
 	} );
+
 	it( "decodes separator replacement variables in the ", () => {
 		const editor = mountWithArgs( {
 			replacementVariables: [
