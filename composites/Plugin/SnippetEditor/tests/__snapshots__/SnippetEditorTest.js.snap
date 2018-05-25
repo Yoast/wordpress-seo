@@ -215,7 +215,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -223,12 +223,9 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -470,14 +467,14 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c21"
+          className="c21 c22"
           color="#545454"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c22 c21"
+            className="c21 c22"
             color="#545454"
           >
             Totally different description
@@ -882,7 +879,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -890,12 +887,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -1565,39 +1559,34 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
-                    className=""
+                    className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
                     <div
-                      className="c21"
+                      className="c21 c22"
                       color="#545454"
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__MobileDescriptionOverflowContainer
+                      <SnippetPreview__MobileDescription
                         innerRef={[Function]}
                       >
-                        <SnippetPreview__MobileDescription
-                          className="c22"
+                        <SnippetPreview__DesktopDescription
+                          className="c21"
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__DesktopDescription
-                            className="c22 "
-                            innerRef={[Function]}
+                          <div
+                            className="c21 c22"
+                            color="#545454"
                           >
-                            <div
-                              className="c22 c21"
-                              color="#545454"
-                            >
-                              Test description, %%replacement_variable%%
-                            </div>
-                          </SnippetPreview__DesktopDescription>
-                        </SnippetPreview__MobileDescription>
-                      </SnippetPreview__MobileDescriptionOverflowContainer>
+                            Test description, %%replacement_variable%%
+                          </div>
+                        </SnippetPreview__DesktopDescription>
+                      </SnippetPreview__MobileDescription>
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -2470,7 +2459,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2478,12 +2467,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -3153,39 +3139,34 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
-                    className=""
+                    className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
                     <div
-                      className="c21"
+                      className="c21 c22"
                       color="#545454"
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__MobileDescriptionOverflowContainer
+                      <SnippetPreview__MobileDescription
                         innerRef={[Function]}
                       >
-                        <SnippetPreview__MobileDescription
-                          className="c22"
+                        <SnippetPreview__DesktopDescription
+                          className="c21"
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__DesktopDescription
-                            className="c22 "
-                            innerRef={[Function]}
+                          <div
+                            className="c21 c22"
+                            color="#545454"
                           >
-                            <div
-                              className="c22 c21"
-                              color="#545454"
-                            >
-                              Test description, %%replacement_variable%%
-                            </div>
-                          </SnippetPreview__DesktopDescription>
-                        </SnippetPreview__MobileDescription>
-                      </SnippetPreview__MobileDescriptionOverflowContainer>
+                            Test description, %%replacement_variable%%
+                          </div>
+                        </SnippetPreview__DesktopDescription>
+                      </SnippetPreview__MobileDescription>
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -4058,7 +4039,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -4066,12 +4047,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -4741,39 +4719,34 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
-                    className=""
+                    className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
                     <div
-                      className="c21"
+                      className="c21 c22"
                       color="#545454"
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__MobileDescriptionOverflowContainer
+                      <SnippetPreview__MobileDescription
                         innerRef={[Function]}
                       >
-                        <SnippetPreview__MobileDescription
-                          className="c22"
+                        <SnippetPreview__DesktopDescription
+                          className="c21"
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__DesktopDescription
-                            className="c22 "
-                            innerRef={[Function]}
+                          <div
+                            className="c21 c22"
+                            color="#545454"
                           >
-                            <div
-                              className="c22 c21"
-                              color="#545454"
-                            >
-                              Test description, %%replacement_variable%%
-                            </div>
-                          </SnippetPreview__DesktopDescription>
-                        </SnippetPreview__MobileDescription>
-                      </SnippetPreview__MobileDescriptionOverflowContainer>
+                            Test description, %%replacement_variable%%
+                          </div>
+                        </SnippetPreview__DesktopDescription>
+                      </SnippetPreview__MobileDescription>
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -5646,7 +5619,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -5654,12 +5627,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -6329,39 +6299,34 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
-                    className=""
+                    className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
                     <div
-                      className="c21"
+                      className="c21 c22"
                       color="#545454"
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__MobileDescriptionOverflowContainer
+                      <SnippetPreview__MobileDescription
                         innerRef={[Function]}
                       >
-                        <SnippetPreview__MobileDescription
-                          className="c22"
+                        <SnippetPreview__DesktopDescription
+                          className="c21"
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__DesktopDescription
-                            className="c22 "
-                            innerRef={[Function]}
+                          <div
+                            className="c21 c22"
+                            color="#545454"
                           >
-                            <div
-                              className="c22 c21"
-                              color="#545454"
-                            >
-                              Test description, %%replacement_variable%%
-                            </div>
-                          </SnippetPreview__DesktopDescription>
-                        </SnippetPreview__MobileDescription>
-                      </SnippetPreview__MobileDescriptionOverflowContainer>
+                            Test description, %%replacement_variable%%
+                          </div>
+                        </SnippetPreview__DesktopDescription>
+                      </SnippetPreview__MobileDescription>
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -7225,7 +7190,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -7233,12 +7198,9 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -7789,39 +7751,34 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
-                    className=""
+                    className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
                     <div
-                      className="c21"
+                      className="c21 c22"
                       color="#545454"
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__MobileDescriptionOverflowContainer
+                      <SnippetPreview__MobileDescription
                         innerRef={[Function]}
                       >
-                        <SnippetPreview__MobileDescription
-                          className="c22"
+                        <SnippetPreview__DesktopDescription
+                          className="c21"
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__DesktopDescription
-                            className="c22 "
-                            innerRef={[Function]}
+                          <div
+                            className="c21 c22"
+                            color="#545454"
                           >
-                            <div
-                              className="c22 c21"
-                              color="#545454"
-                            >
-                              Test description, %%replacement_variable%%
-                            </div>
-                          </SnippetPreview__DesktopDescription>
-                        </SnippetPreview__MobileDescription>
-                      </SnippetPreview__MobileDescriptionOverflowContainer>
+                            Test description, %%replacement_variable%%
+                          </div>
+                        </SnippetPreview__DesktopDescription>
+                      </SnippetPreview__MobileDescription>
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -8448,7 +8405,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -8456,12 +8413,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -9163,39 +9117,34 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
-                    className=""
+                    className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
                     <div
-                      className="c21"
+                      className="c21 c22"
                       color="#545454"
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__MobileDescriptionOverflowContainer
+                      <SnippetPreview__MobileDescription
                         innerRef={[Function]}
                       >
-                        <SnippetPreview__MobileDescription
-                          className="c22"
+                        <SnippetPreview__DesktopDescription
+                          className="c21"
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__DesktopDescription
-                            className="c22 "
-                            innerRef={[Function]}
+                          <div
+                            className="c21 c22"
+                            color="#545454"
                           >
-                            <div
-                              className="c22 c21"
-                              color="#545454"
-                            >
-                              Test description, %%replacement_variable%%
-                            </div>
-                          </SnippetPreview__DesktopDescription>
-                        </SnippetPreview__MobileDescription>
-                      </SnippetPreview__MobileDescriptionOverflowContainer>
+                            Test description, %%replacement_variable%%
+                          </div>
+                        </SnippetPreview__DesktopDescription>
+                      </SnippetPreview__MobileDescription>
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -10068,7 +10017,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -10076,12 +10025,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -10783,39 +10729,34 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
-                    className=""
+                    className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
                     <div
-                      className="c21"
+                      className="c21 c22"
                       color="#545454"
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__MobileDescriptionOverflowContainer
+                      <SnippetPreview__MobileDescription
                         innerRef={[Function]}
                       >
-                        <SnippetPreview__MobileDescription
-                          className="c22"
+                        <SnippetPreview__DesktopDescription
+                          className="c21"
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__DesktopDescription
-                            className="c22 "
-                            innerRef={[Function]}
+                          <div
+                            className="c21 c22"
+                            color="#545454"
                           >
-                            <div
-                              className="c22 c21"
-                              color="#545454"
-                            >
-                              Test description, %%replacement_variable%%
-                            </div>
-                          </SnippetPreview__DesktopDescription>
-                        </SnippetPreview__MobileDescription>
-                      </SnippetPreview__MobileDescriptionOverflowContainer>
+                            Test description, %%replacement_variable%%
+                          </div>
+                        </SnippetPreview__DesktopDescription>
+                      </SnippetPreview__MobileDescription>
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -11688,7 +11629,7 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -11696,12 +11637,9 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -12382,39 +12320,34 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
                   onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
-                    className=""
+                    className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
                     <div
-                      className="c21"
+                      className="c21 c22"
                       color="#545454"
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__MobileDescriptionOverflowContainer
+                      <SnippetPreview__MobileDescription
                         innerRef={[Function]}
                       >
-                        <SnippetPreview__MobileDescription
-                          className="c22"
+                        <SnippetPreview__DesktopDescription
+                          className="c21"
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__DesktopDescription
-                            className="c22 "
-                            innerRef={[Function]}
+                          <div
+                            className="c21 c22"
+                            color="#545454"
                           >
-                            <div
-                              className="c22 c21"
-                              color="#545454"
-                            >
-                              Test description, %%replacement_variable%%
-                            </div>
-                          </SnippetPreview__DesktopDescription>
-                        </SnippetPreview__MobileDescription>
-                      </SnippetPreview__MobileDescriptionOverflowContainer>
+                            Test description, %%replacement_variable%%
+                          </div>
+                        </SnippetPreview__DesktopDescription>
+                      </SnippetPreview__MobileDescription>
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -13384,7 +13317,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -13392,12 +13325,9 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -13639,14 +13569,14 @@ exports[`SnippetEditor highlights a focused field 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c21"
+          className="c21 c22"
           color="#545454"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c22 c21"
+            className="c21 c22"
             color="#545454"
           >
             Test description, %%replacement_variable%%
@@ -13969,7 +13899,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -13977,12 +13907,9 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -14224,14 +14151,14 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c21"
+          className="c21 c22"
           color="#545454"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c22 c21"
+            className="c21 c22"
             color="#545454"
           >
             Test description, %%replacement_variable%%
@@ -14563,7 +14490,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   max-width: 100%;
 }
 
-.c22 {
+.c23 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -14571,12 +14498,9 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   font-size: 13px;
 }
 
-.c23 {
+.c22 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -15265,39 +15189,34 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     onMouseOver={[Function]}
                   >
                     <SnippetPreview__DesktopDescription
-                      className="c21 "
+                      className="c21 c22"
                       isDescriptionGenerated={false}
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
                       <div
-                        className="c21 c22"
+                        className="c21 c22 c23"
                         color="#545454"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <SnippetPreview__MobileDescriptionOverflowContainer
+                        <SnippetPreview__MobileDescription
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__MobileDescription
-                            className="c23"
+                          <SnippetPreview__DesktopDescription
+                            className="c22"
                             innerRef={[Function]}
                           >
-                            <SnippetPreview__DesktopDescription
-                              className="c23 "
-                              innerRef={[Function]}
+                            <div
+                              className="c22 c23"
+                              color="#545454"
                             >
-                              <div
-                                className="c23 c22"
-                                color="#545454"
-                              >
-                                Test description, %%replacement_variable%%
-                              </div>
-                            </SnippetPreview__DesktopDescription>
-                          </SnippetPreview__MobileDescription>
-                        </SnippetPreview__MobileDescriptionOverflowContainer>
+                              Test description, %%replacement_variable%%
+                            </div>
+                          </SnippetPreview__DesktopDescription>
+                        </SnippetPreview__MobileDescription>
                       </div>
                     </SnippetPreview__DesktopDescription>
                   </SnippetPreview__MobileDescription>
@@ -16171,7 +16090,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   max-width: 100%;
 }
 
-.c22 {
+.c23 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -16179,12 +16098,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   font-size: 13px;
 }
 
-.c23 {
+.c22 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -16873,39 +16789,34 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                     onMouseOver={[Function]}
                   >
                     <SnippetPreview__DesktopDescription
-                      className="c21 "
+                      className="c21 c22"
                       isDescriptionGenerated={false}
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
                       <div
-                        className="c21 c22"
+                        className="c21 c22 c23"
                         color="#545454"
                         onClick={[Function]}
                         onMouseLeave={[Function]}
                         onMouseOver={[Function]}
                       >
-                        <SnippetPreview__MobileDescriptionOverflowContainer
+                        <SnippetPreview__MobileDescription
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__MobileDescription
-                            className="c23"
+                          <SnippetPreview__DesktopDescription
+                            className="c22"
                             innerRef={[Function]}
                           >
-                            <SnippetPreview__DesktopDescription
-                              className="c23 "
-                              innerRef={[Function]}
+                            <div
+                              className="c22 c23"
+                              color="#545454"
                             >
-                              <div
-                                className="c23 c22"
-                                color="#545454"
-                              >
-                                Test description, %%replacement_variable%%
-                              </div>
-                            </SnippetPreview__DesktopDescription>
-                          </SnippetPreview__MobileDescription>
-                        </SnippetPreview__MobileDescriptionOverflowContainer>
+                              Test description, %%replacement_variable%%
+                            </div>
+                          </SnippetPreview__DesktopDescription>
+                        </SnippetPreview__MobileDescription>
                       </div>
                     </SnippetPreview__DesktopDescription>
                   </SnippetPreview__MobileDescription>
@@ -17779,7 +17690,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -17787,12 +17698,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -18462,39 +18370,34 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
-                    className=""
+                    className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
                     <div
-                      className="c21"
+                      className="c21 c22"
                       color="#545454"
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__MobileDescriptionOverflowContainer
+                      <SnippetPreview__MobileDescription
                         innerRef={[Function]}
                       >
-                        <SnippetPreview__MobileDescription
-                          className="c22"
+                        <SnippetPreview__DesktopDescription
+                          className="c21"
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__DesktopDescription
-                            className="c22 "
-                            innerRef={[Function]}
+                          <div
+                            className="c21 c22"
+                            color="#545454"
                           >
-                            <div
-                              className="c22 c21"
-                              color="#545454"
-                            >
-                              Test description, %%replacement_variable%%
-                            </div>
-                          </SnippetPreview__DesktopDescription>
-                        </SnippetPreview__MobileDescription>
-                      </SnippetPreview__MobileDescriptionOverflowContainer>
+                            Test description, %%replacement_variable%%
+                          </div>
+                        </SnippetPreview__DesktopDescription>
+                      </SnippetPreview__MobileDescription>
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -19367,7 +19270,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -19375,12 +19278,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -20061,39 +19961,34 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   onMouseOver={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
-                    className=""
+                    className="c21"
                     isDescriptionGenerated={false}
                     onClick={[Function]}
                     onMouseLeave={[Function]}
                     onMouseOver={[Function]}
                   >
                     <div
-                      className="c21"
+                      className="c21 c22"
                       color="#545454"
                       onClick={[Function]}
                       onMouseLeave={[Function]}
                       onMouseOver={[Function]}
                     >
-                      <SnippetPreview__MobileDescriptionOverflowContainer
+                      <SnippetPreview__MobileDescription
                         innerRef={[Function]}
                       >
-                        <SnippetPreview__MobileDescription
-                          className="c22"
+                        <SnippetPreview__DesktopDescription
+                          className="c21"
                           innerRef={[Function]}
                         >
-                          <SnippetPreview__DesktopDescription
-                            className="c22 "
-                            innerRef={[Function]}
+                          <div
+                            className="c21 c22"
+                            color="#545454"
                           >
-                            <div
-                              className="c22 c21"
-                              color="#545454"
-                            >
-                              Test description, %%replacement_variable%%
-                            </div>
-                          </SnippetPreview__DesktopDescription>
-                        </SnippetPreview__MobileDescription>
-                      </SnippetPreview__MobileDescriptionOverflowContainer>
+                            Test description, %%replacement_variable%%
+                          </div>
+                        </SnippetPreview__DesktopDescription>
+                      </SnippetPreview__MobileDescription>
                     </div>
                   </SnippetPreview__DesktopDescription>
                 </SnippetPreview__MobileDescription>
@@ -20990,7 +20885,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -20998,12 +20893,9 @@ exports[`SnippetEditor passes the date prop 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -21249,14 +21141,14 @@ exports[`SnippetEditor passes the date prop 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c21"
+          className="c21 c22"
           color="#545454"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c22 c21"
+            className="c21 c22"
             color="#545454"
           >
             <span
@@ -22236,7 +22128,7 @@ exports[`SnippetEditor shows and editor 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -22244,12 +22136,9 @@ exports[`SnippetEditor shows and editor 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -22491,14 +22380,14 @@ exports[`SnippetEditor shows and editor 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c21"
+          className="c21 c22"
           color="#545454"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c22 c21"
+            className="c21 c22"
             color="#545454"
           >
             Test description, %%replacement_variable%%
