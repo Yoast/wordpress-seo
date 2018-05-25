@@ -121,9 +121,12 @@ function renderSnippetPreview( store, props ) {
 		return;
 	}
 
+	const container = document.createElement( "div" );
+	targetElement.parentNode.insertBefore( container, targetElement );
+
 	ReactDOM.render(
 		wrapInTopLevelComponents( SnippetPreviewSection, store, props ),
-		targetElement,
+		container,
 	);
 }
 
@@ -184,10 +187,12 @@ export function initialize( args ) {
 
 	renderReactApps( store, args );
 
-	renderSnippetPreview( store, {
-		baseUrl: args.snippetEditorBaseUrl,
-		date: args.snippetEditorDate,
-	} );
+	if ( args.shouldRenderSnippetPreview ) {
+		renderSnippetPreview( store, {
+			baseUrl: args.snippetEditorBaseUrl,
+			date: args.snippetEditorDate,
+		} );
+	}
 
 	return {
 		store,
