@@ -1,4 +1,4 @@
-const FleschReadingAssessment = require ( "../../js/assessments/readability/fleschReadingEaseAssessment.js" );
+const FleschReadingAssessment = require( "../../js/assessments/readability/fleschReadingEaseAssessment.js" );
 let Paper = require( "../../js/values/Paper.js" );
 
 const factory = require( "../helpers/factory.js" );
