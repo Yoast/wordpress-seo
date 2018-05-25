@@ -7,6 +7,7 @@ import {
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
+	decodeSeparatorVariable,
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
 import debounce from "lodash/debounce";
@@ -41,7 +42,7 @@ class ClassicEditorData {
 	 */
 	initialize( replaceVars ) {
 		this._data = this.getInitialData( replaceVars );
-		fillReplacementVariables( this._data, this._store );
+		fillReplacementVariables( decodeSeparatorVariable( this._data ), this._store );
 		this.subscribeToElements();
 		this.subscribeToStore();
 	}

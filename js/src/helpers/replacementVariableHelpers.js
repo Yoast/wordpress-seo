@@ -1,6 +1,10 @@
+/* External dependencies */
 import forEach from "lodash/forEach";
-import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import omit from "lodash/omit";
+
+/* Internal dependencies */
+import { updateReplacementVariable } from "../redux/actions/snippetEditor";
+import decodeHTML from "yoast-components/composites/OnboardingWizard/helpers/htmlDecoder";
 
 export const nonReplaceVars = [ "slug", "content" ];
 
@@ -19,6 +23,21 @@ export function fillReplacementVariables( data, store ) {
 		}
 		store.dispatch( updateReplacementVariable( name, value ) );
 	} );
+}
+
+/**
+ * Decodes the separator replacement variable to a displayable symbol.
+ *
+ * @param {array} replacementVariables   The array of replacement variable objects.
+ *
+ * @returns {array} replacementVariables The array of replacement variable objects with the updated separator variable.
+ */
+export function decodeSeparatorVariable( replacementVariables ) {
+	if( replacementVariables[ "sep" ] ) {
+		replacementVariables[ "sep" ] = decodeHTML( replacementVariables[ "sep" ] );
+	}
+
+	return replacementVariables;
 }
 
 /**
