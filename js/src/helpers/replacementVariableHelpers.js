@@ -28,9 +28,9 @@ export function fillReplacementVariables( data, store ) {
 /**
  * Decodes the separator replacement variable to a displayable symbol.
  *
- * @param {array} replacementVariables   The array of replacement variable objects.
+ * @param {Object} replacementVariables   The object with replacement variables.
  *
- * @returns {array} replacementVariables The array of replacement variable objects with the updated separator variable.
+ * @returns {Object} replacementVariables The object with replacement variables with a decoded separator.
  */
 export function decodeSeparatorVariable( replacementVariables ) {
 	if( replacementVariables[ "sep" ] ) {
