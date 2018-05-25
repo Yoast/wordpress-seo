@@ -15,7 +15,6 @@ import SvgIcon from "../../Shared/components/SvgIcon";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
 import colors from "../../../../style-guide/colors";
-import decodeHTML from "../../../OnboardingWizard/helpers/htmlDecoder";
 
 const SnippetEditorButton = Button.extend`
 	height: 33px;
@@ -85,7 +84,6 @@ class SnippetEditor extends React.Component {
 		this.open = this.open.bind( this );
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
-		this.decodeSeparatorVariable = this.decodeSeparatorVariable.bind( this );
 	}
 
 	/**
@@ -113,13 +111,15 @@ class SnippetEditor extends React.Component {
 			data,
 			titleLengthProgress,
 			descriptionLengthProgress,
+			replacementVariables,
 		} = this.props;
-		const replacementVariables = this.decodeSeparatorVariable( this.props.replacementVariables );
 		const { activeField, hoveredField, isOpen } = this.state;
 
 		if ( ! isOpen ) {
 			return null;
 		}
+
+		console.log( "De replacementVariables als ontvangen in components", replacementVariables );
 
 		return (
 			<React.Fragment>
@@ -142,8 +142,8 @@ class SnippetEditor extends React.Component {
 
 	/**
 	 * Focuses the preview on the given field.
-	 *SnippetEditorFields
-	 * @param {String} field the name of the field to focuSnippetEditorFieldss
+	 *
+	 * @param {String} field the name of the field to focusSnippetEditorFields
 	 *
 	 * @returns {void}
 	 */
@@ -245,21 +245,6 @@ class SnippetEditor extends React.Component {
 		}
 
 		return content;
-	}
-
-	/**
-	 * Decodes the separator replacement variable to a displayable symbol.
-	 *
-	 * @param {array} replacementVariables   The array of replacement variable objects.
-	 *
-	 * @returns {array} replacementVariables The array of replacement variable objects with the updated separator variable.
-	 */
-	decodeSeparatorVariable( replacementVariables ) {
-		let sepIndex = replacementVariables.findIndex( x => x.name === "sep" );
-		if( sepIndex !== -1 ) {
-			replacementVariables[ sepIndex ].value = decodeHTML( replacementVariables[ sepIndex ].value );
-		}
-		return replacementVariables;
 	}
 
 	/**
