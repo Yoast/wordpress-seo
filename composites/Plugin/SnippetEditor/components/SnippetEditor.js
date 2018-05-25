@@ -210,17 +210,9 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Unsets the hovered field on mouse leave.
 	 *
-	 * @param {string} field The field that is not hovered any longer.
-	 *
 	 * @returns {void}
 	 */
-	onMouseLeave( field ) {
-		field = this.mapFieldToEditor( field );
-
-		if ( field && this.state.hoveredField !== field ) {
-			return;
-		}
-
+	onMouseLeave() {
 		this.setState( {
 			hoveredField: null,
 		} );

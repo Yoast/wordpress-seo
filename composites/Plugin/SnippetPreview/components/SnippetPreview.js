@@ -542,7 +542,7 @@ export default class SnippetPreview extends PureComponent {
 			<BaseUrlOverflowContainer
 				onMouseUp={ onMouseUp.bind( null, "url" ) }
 				onMouseEnter={ onMouseEnter.bind( null, "url" ) }
-				onMouseLeave={ onMouseLeave.bind( null, "url" ) }>
+				onMouseLeave={ onMouseLeave.bind( null ) }>
 				{ urlContent }
 			</BaseUrlOverflowContainer>
 		</Url>;
@@ -610,7 +610,7 @@ export default class SnippetPreview extends PureComponent {
 			isDescriptionGenerated: isDescriptionGenerated,
 			onMouseUp: onMouseUp.bind( null, "description" ),
 			onMouseEnter: onMouseEnter.bind( null, "description" ),
-			onMouseLeave: onMouseLeave.bind( null, "description" ),
+			onMouseLeave: onMouseLeave.bind( null ),
 		};
 
 		if ( mode === MODE_DESKTOP ) {
@@ -697,7 +697,7 @@ export default class SnippetPreview extends PureComponent {
 						<Title
 							onMouseUp={ onMouseUp.bind( null, "title" ) }
 							onMouseEnter={ onMouseEnter.bind( null, "title" ) }
-							onMouseLeave={ onMouseLeave.bind( null, "title" ) }
+							onMouseLeave={ onMouseLeave.bind( null ) }
 						>
 							<TitleBounded>
 								<TitleUnbounded innerRef={ this.setTitleRef } >

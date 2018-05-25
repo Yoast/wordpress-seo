@@ -142,19 +142,6 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "doesn't remove the highlight if the wrong field is left", () => {
-		const editor = shallowWithArgs( {} );
-
-		editor.instance().open();
-		editor.instance().onMouseEnter( "description" );
-		editor.update();
-
-		editor.instance().onMouseLeave( "title" );
-		editor.update();
-
-		expect( editor ).toMatchSnapshot();
-	} );
-
 	it( "highlights the active ReplacementVariableEditor when calling setFieldFocus", () => {
 		focus.mockClear();
 
