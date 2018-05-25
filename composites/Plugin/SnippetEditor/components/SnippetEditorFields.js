@@ -172,10 +172,9 @@ class SnippetEditorFields extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidUpdate( prevProps ) {
-		if ( prevProps.activeField === this.props.activeField ) {
-			return;
+		if ( prevProps.activeField !== this.props.activeField ) {
+			this.focusOnActiveFieldChange();
 		}
-		this.focusOnActiveFieldChange();
 	}
 
 	/**
