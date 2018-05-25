@@ -58,8 +58,9 @@ export function serializeBlock( entityMap, block ) {
 export function serializeEditor( rawContent ) {
 	const { blocks, entityMap } = rawContent;
 
-	// Every line is a block. Join the lines with a space between them.
-	return blocks.map( block => serializeBlock( entityMap, block ) ).join( " " );
+	return reduce( blocks, ( serialized, block ) => {
+		return serialized + serializeBlock( entityMap, block );
+	}, "" );
 }
 
 /**

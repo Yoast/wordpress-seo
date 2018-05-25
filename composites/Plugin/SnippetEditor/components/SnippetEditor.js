@@ -2,9 +2,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
-import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
-import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -40,46 +37,6 @@ const EditSnippetButton = SnippetEditorButton.extend`
 const CloseEditorButton = SnippetEditorButton.extend`
 	margin-left: 20px;
 `;
-
-/**
- * Gets the title progress.
- *
- * @param {string} title The title.
- *
- * @returns {Object} The title progress.
- */
-function getTitleProgress( title ) {
-	const titleWidth = measureTextWidth( title );
-	const pageTitleWidthAssessment = new PageTitleWidthAssesment();
-	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
-	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
-
-	return {
-		max: maximumLength,
-		actual: titleWidth,
-		score: score,
-	};
-}
-
-/**
- * Gets the description progress.
- *
- * @param {string} description The description.
- *
- * @returns {Object} The description progress.
- */
-function getDescriptionProgress( description ) {
-	const descriptionLength = description.length;
-	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
-	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
-	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
-
-	return {
-		max: maximumLength,
-		actual: descriptionLength,
-		score: score,
-	};
-}
 
 class SnippetEditor extends React.Component {
 	/**
@@ -118,8 +75,6 @@ class SnippetEditor extends React.Component {
 			isOpen: false,
 			activeField: null,
 			hoveredField: null,
-			titleLengthProgress: getTitleProgress( props.data.title ),
-			descriptionLengthProgress: getDescriptionProgress( props.data.description ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
@@ -134,21 +89,6 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Updates the state when the component receives new props.
-	 *
-	 * @param {Object} nextProps The new props.
-	 * @returns {void}
-	 */
-	componentWillReceiveProps( nextProps ) {
-		this.setState(
-			{
-				titleLengthProgress: getTitleProgress( nextProps.data.title ),
-				descriptionLengthProgress: getDescriptionProgress( nextProps.data.description ),
-			}
-		);
-	}
-
-	/**
 	 * Handles the onChange event.
 	 *
 	 * First updates the description progress and title progress.
@@ -160,17 +100,6 @@ class SnippetEditor extends React.Component {
 	 * @returns {void}
 	 */
 	handleChange( type, content ) {
-		let descriptionProgress, titleProgress;
-		switch( type ) {
-			case "description":
-				descriptionProgress = getDescriptionProgress( content );
-				this.setState( { descriptionLengthProgress: descriptionProgress } );
-				break;
-			case "title":
-				titleProgress = getTitleProgress( content );
-				this.setState( { titleLengthProgress: titleProgress } );
-				break;
-		}
 		this.props.onChange( type, content );
 	}
 
@@ -182,10 +111,11 @@ class SnippetEditor extends React.Component {
 	renderEditor() {
 		const {
 			data,
-
+			titleLengthProgress,
+			descriptionLengthProgress,
 		} = this.props;
 		const replacementVariables = this.decodeSeparatorVariable( this.props.replacementVariables );
-		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
+		const { activeField, hoveredField, isOpen } = this.state;
 
 		if ( ! isOpen ) {
 			return null;
