@@ -40,6 +40,8 @@ window.yoastHideMarkers = true;
 
 	let store;
 
+	let snippetPreview;
+
 	/**
 	 * Get the editor created via wp_editor() and append it to the term-description-wrap
 	 * table cell. This way we can use the wp tinyMCE editor on the description field.
