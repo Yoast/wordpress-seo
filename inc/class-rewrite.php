@@ -131,7 +131,7 @@ class WPSEO_Rewrite {
 		$categories = get_categories( array( 'hide_empty' => false ) );
 		if ( is_array( $categories ) && $categories !== array() ) {
 			foreach ( $categories as $category ) {
-				$category_nicename = $category->slug;
+				$category_nicename = $category_nicename_filtered = $category->slug;
 				if ( $category->parent == $category->cat_ID ) {
 					// Recursive recursion.
 					$category->parent = 0;
@@ -139,7 +139,9 @@ class WPSEO_Rewrite {
 				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent !== 0 ) {
 					$parents = get_category_parents( $category->parent, false, '/', true );
 					if ( ! is_wp_error( $parents ) ) {
-						$category_nicename = $parents . $category_nicename;
+						$category_nicename          = $parents . $category_nicename;
+						//Convert encoded parts of the URI to Uppercase.
+						$category_nicename_filtered = $this->filteredNicename( $category_nicename );
 					}
 					unset( $parents );
 				}
@@ -147,8 +149,17 @@ class WPSEO_Rewrite {
 				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' ]                = 'index.php?category_name=$matches[1]&feed=$matches[2]';
 				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$' ] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
 				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/?$' ] = 'index.php?category_name=$matches[1]';
+				
+				//Add rules for the uppercase encoded URIs.
+				if ( $category_nicename_filtered !== $category_nicename ) {
+
+					$category_rewrite[ $blog_prefix . '(' . $category_nicename_filtered . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' ]                = 'index.php?category_name=$matches[1]&feed=$matches[2]';
+					$category_rewrite[ $blog_prefix . '(' . $category_nicename_filtered . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$' ] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
+					$category_rewrite[ $blog_prefix . '(' . $category_nicename_filtered . ')/?$' ] = 'index.php?category_name=$matches[1]';
+				
+				}
 			}
-			unset( $categories, $category, $category_nicename );
+			unset( $categories, $category, $category_nicename, $category_nicename_filtered );
 		}
 
 		// Redirect support from Old Category Base.
@@ -158,5 +169,35 @@ class WPSEO_Rewrite {
 		$category_rewrite[ $old_base . '$' ] = 'index.php?wpseo_category_redirect=$matches[1]';
 
 		return $category_rewrite;
+	}
+	/**
+	 * Convert encoded URI string to uppercase.
+	 * 
+	 * @return string
+	 */
+	public function encodedToUpper( &$encoded ) {
+
+		if ( strpos( $encoded, '%' ) !== false  ) {
+	
+			$encoded = strtoupper( $encoded );
+	
+		}
+	
+		return $encoded;
+	
+	}
+	/**
+	 * Walk through category nicename and convert encoded parts
+	 * into uppercase using $this->encodedToUpper().
+	 * 
+	 * @return string
+	 */
+	public function filteredNicename( $name ) {
+    
+		$name = explode( '/', $name );
+	
+		array_walk( $name, [ $this, 'encodedToUpper'] );
+	
+		return implode( '/', $name );
 	}
 } /* End of class */
