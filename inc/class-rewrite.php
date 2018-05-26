@@ -131,7 +131,8 @@ class WPSEO_Rewrite {
 		$categories = get_categories( array( 'hide_empty' => false ) );
 		if ( is_array( $categories ) && $categories !== array() ) {
 			foreach ( $categories as $category ) {
-				$category_nicename = $category_nicename_filtered = $category->slug;
+				$category_nicename          = $category->slug;
+				$category_nicename_filtered = $this->filteredNicename( $category_nicename );
 				if ( $category->parent == $category->cat_ID ) {
 					// Recursive recursion.
 					$category->parent = 0;
