@@ -7,7 +7,6 @@ import createWordRegex from "yoastseo/js/stringProcessing/createWordRegex";
 import replaceSpecialCharactersAndDiacritics from "yoastseo/js/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
-import partial from "lodash/partial";
 import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
@@ -30,7 +29,7 @@ const colorDate = "#808080";
 
 const MAX_WIDTH = 600;
 const WIDTH_PADDING = 20;
-const DESCRIPTION_LIMIT = 280;
+const DESCRIPTION_LIMIT = 156;
 
 export const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: white;
@@ -148,14 +147,8 @@ export const DesktopDescription = styled.div.attrs( {
 `;
 
 const MobileDescription = styled( DesktopDescription )`
-`;
-
-const MobileDescriptionOverflowContainer = styled( MobileDescription )`
 	font-size: 14px;
 	line-height: 20px;
-	max-height: 80px; // max four lines of text
-	overflow: hidden;
-	text-overflow: ellipsis;
 `;
 
 const MobilePartContainer = styled.div`
@@ -361,38 +354,6 @@ export default class SnippetPreview extends PureComponent {
 	}
 
 	/**
-	 * Set the description in the state so it fits in four lines.
-	 *
-	 * @returns {void}
-	 */
-	fitDescription() {
-		const descriptionElement = this._descriptionElement;
-
-		/*
-		 * See the logic for TWO_LINES_OF_CHARACTERS_PER_WIDTH. We've determined that
-		 * 1.75 is a good amount as a heuristic.
-		 */
-		const PIXELS_PER_CHARACTER_FOR_FOUR_LINES = 1.75;
-
-		if ( this.hasOverflowedContent( descriptionElement ) ) {
-			let prevDescription = this.state.description;
-
-			// Heuristic to prevent too many re-renders.
-			const maxCharacterCount = descriptionElement.clientWidth / PIXELS_PER_CHARACTER_FOR_FOUR_LINES;
-
-			if ( prevDescription.length > maxCharacterCount ) {
-				prevDescription = prevDescription.substring( 0, maxCharacterCount );
-			}
-
-			const newDescription = this.dropLastWord( prevDescription );
-
-			this.setState( {
-				description: newDescription,
-			} );
-		}
-	}
-
-	/**
 	 * Removes the last word of a sentence.
 	 *
 	 * @param {string} sentence The sentence to drop a word of.
@@ -428,18 +389,11 @@ export default class SnippetPreview extends PureComponent {
 			return this.props.descriptionPlaceholder;
 		}
 
-		if ( this.props.mode === MODE_MOBILE && this.props.description !== this.state.description ) {
-			return this.state.description + " ...";
-		}
-
-		if ( this.props.mode === MODE_DESKTOP ) {
-			return truncate( this.props.description, {
-				length: DESCRIPTION_LIMIT,
-				omission: "",
-			} );
-		}
-
-		return this.props.description;
+		return truncate( this.props.description, {
+			length: DESCRIPTION_LIMIT,
+			separator: " ",
+			omission: " ...",
+		} );
 	}
 
 	/**
@@ -512,8 +466,8 @@ export default class SnippetPreview extends PureComponent {
 	renderUrl() {
 		const {
 			url,
-			onClick,
-			onMouseOver,
+			onMouseUp,
+			onMouseEnter,
 			onMouseLeave,
 		} = this.props;
 
@@ -535,15 +489,15 @@ export default class SnippetPreview extends PureComponent {
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
 		/*
-		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
+		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
 		 * However this is not relevant in this case, because the url is not focusable.
 		 */
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return <Url>
 			<BaseUrlOverflowContainer
-				onClick={ onClick.bind( null, "url" ) }
-				onMouseOver={ partial( onMouseOver, "url" ) }
-				onMouseLeave={ partial( onMouseLeave, "url" ) }>
+				onMouseUp={ onMouseUp.bind( null, "url" ) }
+				onMouseEnter={ onMouseEnter.bind( null, "url" ) }
+				onMouseLeave={ onMouseLeave.bind( null ) }>
 				{ urlContent }
 			</BaseUrlOverflowContainer>
 		</Url>;
@@ -584,7 +538,6 @@ export default class SnippetPreview extends PureComponent {
 			// Make sure that fitting the title doesn't block other rendering.
 			this.fitTitleTimeout = setTimeout( () => {
 				this.fitTitle();
-				this.fitDescription();
 			}, 10 );
 		}
 	}
@@ -599,9 +552,9 @@ export default class SnippetPreview extends PureComponent {
 			keyword,
 			isDescriptionGenerated,
 			locale,
-			onClick,
+			onMouseUp,
 			onMouseLeave,
-			onMouseOver,
+			onMouseEnter,
 			mode,
 		} = this.props;
 
@@ -609,9 +562,9 @@ export default class SnippetPreview extends PureComponent {
 
 		const outerContainerProps = {
 			isDescriptionGenerated: isDescriptionGenerated,
-			onClick: onClick.bind( null, "description" ),
-			onMouseOver: partial( onMouseOver, "description" ),
-			onMouseLeave: partial( onMouseLeave, "description" ),
+			onMouseUp: onMouseUp.bind( null, "description" ),
+			onMouseEnter: onMouseEnter.bind( null, "description" ),
+			onMouseLeave: onMouseLeave.bind( null ),
 		};
 
 		if ( mode === MODE_DESKTOP ) {
@@ -631,12 +584,12 @@ export default class SnippetPreview extends PureComponent {
 				<MobileDescriptionWithCaret
 					{ ...outerContainerProps }
 				>
-					<MobileDescriptionOverflowContainer
+					<MobileDescription
 						innerRef={ this.setDescriptionRef }
 					>
 						{ renderedDate }
 						{ highlightKeyword( locale, keyword, this.getDescription() ) }
-					</MobileDescriptionOverflowContainer>
+					</MobileDescription>
 				</MobileDescriptionWithCaret>
 			);
 		}
@@ -650,9 +603,9 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	render() {
 		const {
-			onClick,
+			onMouseUp,
 			onMouseLeave,
-			onMouseOver,
+			onMouseEnter,
 			mode,
 			isAmp,
 		} = this.props;
@@ -674,7 +627,7 @@ export default class SnippetPreview extends PureComponent {
 			</a> ];
 
 		/*
-		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
+		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
 		 * However this is not relevant in this case, because the title and description are
 		 * not focusable.
 		 */
@@ -696,9 +649,9 @@ export default class SnippetPreview extends PureComponent {
 							after=":"
 						/>
 						<Title
-							onClick={ onClick.bind( null, "title" ) }
-							onMouseOver={ partial( onMouseOver, "title" ) }
-							onMouseLeave={ partial( onMouseLeave, "title" ) }
+							onMouseUp={ onMouseUp.bind( null, "title" ) }
+							onMouseEnter={ onMouseEnter.bind( null, "title" ) }
+							onMouseLeave={ onMouseLeave.bind( null ) }
 						>
 							<TitleBounded>
 								<TitleUnbounded innerRef={ this.setTitleRef } >
@@ -773,9 +726,9 @@ SnippetPreview.propTypes = {
 	isAmp: PropTypes.bool,
 	helpText: PropTypes.string,
 
-	onClick: PropTypes.func.isRequired,
+	onMouseUp: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
-	onMouseOver: PropTypes.func,
+	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
 };
 
@@ -791,6 +744,6 @@ SnippetPreview.defaultProps = {
 	isAmp: false,
 
 	onHover: () => {},
-	onMouseOver: () => {},
+	onMouseEnter: () => {},
 	onMouseLeave: () => {},
 };

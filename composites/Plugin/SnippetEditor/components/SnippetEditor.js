@@ -15,7 +15,6 @@ import SvgIcon from "../../Shared/components/SvgIcon";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
 import colors from "../../../../style-guide/colors";
-import decodeHTML from "../../../OnboardingWizard/helpers/htmlDecoder";
 
 const SnippetEditorButton = Button.extend`
 	height: 33px;
@@ -28,7 +27,7 @@ const EditSnippetButton = SnippetEditorButton.extend`
 	margin: 10px 0 0 4px;
 	fill: ${ colors.$color_grey_dark };
 	padding-left: 8px;
-	
+
 	& svg {
 		margin-right: 7px;
 	}
@@ -80,14 +79,14 @@ class SnippetEditor extends React.Component {
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
+		this.unsetFieldFocus = this.unsetFieldFocus.bind( this );
 		this.handleChange = this.handleChange.bind( this );
-		this.onClick = this.onClick.bind( this );
-		this.onMouseOver = this.onMouseOver.bind( this );
+		this.onMouseUp = this.onMouseUp.bind( this );
+		this.onMouseEnter = this.onMouseEnter.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
 		this.open = this.open.bind( this );
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
-		this.decodeSeparatorVariable = this.decodeSeparatorVariable.bind( this );
 	}
 
 	/**
@@ -115,8 +114,8 @@ class SnippetEditor extends React.Component {
 			data,
 			titleLengthProgress,
 			descriptionLengthProgress,
+			replacementVariables,
 		} = this.props;
-		const replacementVariables = this.decodeSeparatorVariable( this.props.replacementVariables );
 		const { activeField, hoveredField, isOpen } = this.state;
 
 		if ( ! isOpen ) {
@@ -131,6 +130,7 @@ class SnippetEditor extends React.Component {
 					hoveredField={ hoveredField }
 					onChange={ this.handleChange }
 					onFocus={ this.setFieldFocus }
+					onBlur={ this.unsetFieldFocus }
 					replacementVariables={ replacementVariables }
 					titleLengthProgress={ titleLengthProgress }
 					descriptionLengthProgress={ descriptionLengthProgress }
@@ -144,9 +144,9 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Focuses the preview on the given field.
-	 *SnippetEditorFields
-	 * @param {String} field the name of the field to focuSnippetEditorFieldss
+	 * Sets the active field.
+	 *
+	 * @param {String} field The active field.
 	 *
 	 * @returns {void}
 	 */
@@ -159,13 +159,34 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Handles click event on a certain field in the snippet preview.
-	 *
-	 * @param {string} field The field that was clicked on.
+	 * Unsets the active field.
 	 *
 	 * @returns {void}
 	 */
-	onClick( field ) {
+	unsetFieldFocus() {
+		this.setState( {
+			activeField: null,
+		} );
+	}
+
+	/**
+	 * Handles mouse up event on a certain field in the snippet preview.
+	 *
+	 * We're using onMouseUp instead of onClick because the SnippetPreview re-renders
+	 * when onBlur occurs. Click events fire when both a mousedown *and* a mouseup
+	 * events occur. When onBlur occurs, new onClick functions would be passed via
+	 * props and bounded, so the SnippetPreview would "see" just a mouseup event
+	 * and the click event wouldn't fire at all.
+	 *
+	 * @param {string} field The field that was moused up.
+	 *
+	 * @returns {void}
+	 */
+	onMouseUp( field ) {
+		if ( this.state.isOpen ) {
+			this.setFieldFocus( field );
+			return;
+		}
 		/*
 		 * We have to wait for the form to be mounted before we can actually focus
 		 * the correct input field.
@@ -175,32 +196,24 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Sets the hovered field on mouse over.
+	 * Sets the hovered field on mouse enter.
 	 *
-	 * @param {string} field The field that was moused over.
+	 * @param {string} field The field that was hovered.
 	 *
 	 * @returns {void}
 	 */
-	onMouseOver( field ) {
+	onMouseEnter( field ) {
 		this.setState( {
 			hoveredField: this.mapFieldToEditor( field ),
 		} );
 	}
 
 	/**
-	 * Sets the hovered field on mouse leave.
-	 *
-	 * @param {string} field The field that was the mouse left.
+	 * Unsets the hovered field on mouse leave.
 	 *
 	 * @returns {void}
 	 */
-	onMouseLeave( field ) {
-		field = this.mapFieldToEditor( field );
-
-		if ( field && this.state.hoveredField !== field ) {
-			return;
-		}
-
+	onMouseLeave() {
 		this.setState( {
 			hoveredField: null,
 		} );
@@ -248,21 +261,6 @@ class SnippetEditor extends React.Component {
 		}
 
 		return content;
-	}
-
-	/**
-	 * Decodes the separator replacement variable to a displayable symbol.
-	 *
-	 * @param {array} replacementVariables   The array of replacement variable objects.
-	 *
-	 * @returns {array} replacementVariables The array of replacement variable objects with the updated separator variable.
-	 */
-	decodeSeparatorVariable( replacementVariables ) {
-		let sepIndex = replacementVariables.findIndex( x => x.name === "sep" );
-		if( sepIndex !== -1 ) {
-			replacementVariables[ sepIndex ].value = decodeHTML( replacementVariables[ sepIndex ].value );
-		}
-		return replacementVariables;
 	}
 
 	/**
@@ -364,9 +362,9 @@ class SnippetEditor extends React.Component {
 					date={ date }
 					activeField={ this.mapFieldToPreview( activeField ) }
 					hoveredField={ this.mapFieldToPreview( hoveredField ) }
-					onMouseOver={ this.onMouseOver }
+					onMouseEnter={ this.onMouseEnter }
 					onMouseLeave={ this.onMouseLeave }
-					onClick={ this.onClick }
+					onMouseUp={ this.onMouseUp }
 					locale={ locale }
 					descriptionPlaceholder={ descriptionPlaceholder }
 					{ ...mappedData }

@@ -315,9 +315,9 @@ exports[`SnippetPreview changes the colors of the description if it was generate
         </span>
         <div
           className="c15"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c16 c17"
@@ -348,9 +348,9 @@ exports[`SnippetPreview changes the colors of the description if it was generate
         >
           <div
             className="c20"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
@@ -379,9 +379,9 @@ exports[`SnippetPreview changes the colors of the description if it was generate
         <div
           className="c22"
           color="#777"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -706,9 +706,9 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
         </span>
         <div
           className="c15"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c16 c17"
@@ -739,9 +739,9 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
         >
           <div
             className="c20"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
@@ -770,9 +770,9 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
         <div
           className="c22"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Something with a transliterated
           <strong>
@@ -1100,9 +1100,9 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
         </span>
         <div
           className="c15"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c16 c17"
@@ -1133,9 +1133,9 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
         >
           <div
             className="c20"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/this-keyword-url/
           </div>
@@ -1164,9 +1164,9 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
         <div
           className="c22"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Something with a
           <strong>
@@ -1379,7 +1379,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   max-width: 100%;
 }
 
-.c22 {
+.c23 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1387,12 +1387,9 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 13px;
 }
 
-.c23 {
+.c22 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -1508,9 +1505,9 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
       </span>
       <div
         className="c14"
-        onClick={[Function]}
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
           className="c15 c16"
@@ -1544,9 +1541,9 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
       >
         <div
           className="c20"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           https://example.org
         </div>
@@ -1573,14 +1570,14 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Meta description preview:
       </span>
       <div
-        className="c22"
+        className="c22 c23"
         color="#545454"
-        onClick={[Function]}
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
-          className="c23 c22"
+          className="c22 c23"
           color="#545454"
         >
           Description
@@ -1791,7 +1788,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1799,12 +1796,9 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -1909,9 +1903,9 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
       </span>
       <div
         className="c14"
-        onClick={[Function]}
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
           className="c15 c16"
@@ -1942,9 +1936,9 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
       >
         <div
           className="c19"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           https://example.org
         </div>
@@ -1971,14 +1965,14 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21"
+        className="c21 c22"
         color="#545454"
-        onClick={[Function]}
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
-          className="c22 c21"
+          className="c21 c22"
           color="#545454"
         >
           Description
@@ -2189,7 +2183,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2197,12 +2191,9 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -2307,9 +2298,9 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
       </span>
       <div
         className="c14"
-        onClick={[Function]}
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
           className="c15 c16"
@@ -2340,9 +2331,9 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
       >
         <div
           className="c19"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           https://example.org
         </div>
@@ -2369,14 +2360,14 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21"
+        className="c21 c22"
         color="#545454"
-        onClick={[Function]}
+        onMouseEnter={[Function]}
         onMouseLeave={[Function]}
-        onMouseOver={[Function]}
+        onMouseUp={[Function]}
       >
         <div
-          className="c22 c21"
+          className="c21 c22"
           color="#545454"
         >
           Description
@@ -2702,9 +2693,9 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
         </span>
         <div
           className="c15"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c16 c17"
@@ -2735,9 +2726,9 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
         >
           <div
             className="c20"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
@@ -2766,9 +2757,9 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
         <div
           className="c22"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -3105,9 +3096,9 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
         </span>
         <div
           className="c15 c16"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c17 c18"
@@ -3138,9 +3129,9 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
         >
           <div
             className="c21"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
@@ -3169,9 +3160,9 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
         <div
           className="c23"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -3508,9 +3499,9 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
         </span>
         <div
           className="c15"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c16 c17"
@@ -3541,9 +3532,9 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
         >
           <div
             className="c20"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
@@ -3572,9 +3563,9 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
         <div
           className="c22 c23"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -3911,9 +3902,9 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
         </span>
         <div
           className="c15"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c16 c17"
@@ -3944,9 +3935,9 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
         >
           <div
             className="c21"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
@@ -3975,9 +3966,9 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
         <div
           className="c23"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -4314,9 +4305,9 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
         </span>
         <div
           className="c15 c16"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c17 c18"
@@ -4347,9 +4338,9 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
         >
           <div
             className="c21"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
@@ -4378,9 +4369,9 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
         <div
           className="c23"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -4717,9 +4708,9 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
         </span>
         <div
           className="c15"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c16 c17"
@@ -4750,9 +4741,9 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
         >
           <div
             className="c20"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
@@ -4781,9 +4772,9 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
         <div
           className="c22 c23"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -5120,9 +5111,9 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
         </span>
         <div
           className="c15"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c16 c17"
@@ -5153,9 +5144,9 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
         >
           <div
             className="c21"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
@@ -5184,9 +5175,9 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
         <div
           className="c23"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           Description
         </div>
@@ -5515,9 +5506,9 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
         </span>
         <div
           className="c15"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c16 c17"
@@ -5548,9 +5539,9 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
         >
           <div
             className="c20"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             https://example.org/
           </div>
@@ -5579,9 +5570,9 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
         <div
           className="c22"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <span
             className="c23"
