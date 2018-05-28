@@ -136,10 +136,8 @@ const BaseUrlOverflowContainer = BaseUrl.extend`
 
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
-export const DesktopDescription = styled.div.attrs( {
-	color: ( props ) => props.isDescriptionGenerated ? colorGeneratedDescription : colorDescription,
-} )`
-	color: ${ props => props.color };
+export const DesktopDescription = styled.div`
+	color: ${ props => props.isDescriptionGenerated ? colorGeneratedDescription : colorDescription };
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
@@ -278,6 +276,7 @@ export default class SnippetPreview extends PureComponent {
 		this.state = {
 			title: props.title,
 			description: props.description,
+			isDescriptionGenerated: true,
 		};
 
 		this.setTitleRef       = this.setTitleRef.bind( this );
@@ -532,6 +531,10 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {void}
 	 */
 	componentDidUpdate() {
+		this.setState( {
+			isDescriptionGenerated: ( ! this.props.description && this.props.descriptionPlaceholder ),
+		} );
+
 		if ( this.props.mode === MODE_MOBILE ) {
 			clearTimeout( this.fitTitleTimeout );
 
@@ -543,6 +546,17 @@ export default class SnippetPreview extends PureComponent {
 	}
 
 	/**
+	 * After a component has mounted, we need to set the state depending on the props provided.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		this.setState( {
+			isDescriptionGenerated: ( ! this.props.description && this.props.descriptionPlaceholder ),
+		} );
+	}
+
+	/**
 	 * Renders the snippet preview description, based on the mode.
 	 *
 	 * @returns {ReactElement} The rendered description.
@@ -550,7 +564,6 @@ export default class SnippetPreview extends PureComponent {
 	renderDescription() {
 		const {
 			keyword,
-			isDescriptionGenerated,
 			locale,
 			onMouseUp,
 			onMouseLeave,
@@ -561,7 +574,7 @@ export default class SnippetPreview extends PureComponent {
 		const renderedDate = this.renderDate();
 
 		const outerContainerProps = {
-			isDescriptionGenerated: isDescriptionGenerated,
+			isDescriptionGenerated: this.state.isDescriptionGenerated,
 			onMouseUp: onMouseUp.bind( null, "description" ),
 			onMouseEnter: onMouseEnter.bind( null, "description" ),
 			onMouseLeave: onMouseLeave.bind( null ),
@@ -585,6 +598,7 @@ export default class SnippetPreview extends PureComponent {
 					{ ...outerContainerProps }
 				>
 					<MobileDescription
+						isDescriptionGenerated={ this.state.isDescriptionGenerated }
 						innerRef={ this.setDescriptionRef }
 					>
 						{ renderedDate }
@@ -720,7 +734,6 @@ SnippetPreview.propTypes = {
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
 	keyword: PropTypes.string,
-	isDescriptionGenerated: PropTypes.bool,
 	locale: PropTypes.string,
 	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
@@ -736,7 +749,6 @@ SnippetPreview.defaultProps = {
 	date: "",
 	keyword: "",
 	breadcrumbs: null,
-	isDescriptionGenerated: false,
 	locale: "en",
 	hoveredField: "",
 	activeField: "",
