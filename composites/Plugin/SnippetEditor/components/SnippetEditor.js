@@ -368,7 +368,6 @@ class SnippetEditor extends React.Component {
 					onMouseLeave={ this.onMouseLeave }
 					onMouseUp={ this.onMouseUp }
 					locale={ locale }
-					descriptionPlaceholder={ descriptionPlaceholder }
 					{ ...mappedData }
 				/>
 
