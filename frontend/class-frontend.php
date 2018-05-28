@@ -1418,7 +1418,7 @@ class WPSEO_Frontend {
 			return false;
 		}
 
-		$url = wp_get_attachment_url( get_queried_object_id() );
+		$url = apply_filters( 'wpseo_attachment_redirect_url', wp_get_attachment_url( get_queried_object_id() ), get_queried_object() );
 
 		if ( ! empty( $url ) ) {
 			$this->redirect( $url, 301 );
