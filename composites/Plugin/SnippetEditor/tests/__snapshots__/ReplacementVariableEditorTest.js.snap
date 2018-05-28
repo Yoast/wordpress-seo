@@ -134,6 +134,7 @@ exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
+    placeholder=""
     plugins={
       Array [
         Object {

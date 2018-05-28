@@ -630,6 +630,7 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -968,6 +969,19 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   content: "";
 }
 
+.c32::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c32::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c32::ms-input-placeholder {
+  color: #72777c ! important;
+}
+
 .c35 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -997,6 +1011,19 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c35::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c35::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c35::ms-input-placeholder {
+  color: #72777c ! important;
 }
 
 .c34 {
@@ -2005,6 +2032,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -2153,6 +2181,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -2556,6 +2585,19 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   content: "";
 }
 
+.c32::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c32::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c32::ms-input-placeholder {
+  color: #72777c ! important;
+}
+
 .c35 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -2585,6 +2627,19 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c35::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c35::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c35::ms-input-placeholder {
+  color: #72777c ! important;
 }
 
 .c34 {
@@ -3593,6 +3648,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -3741,6 +3797,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -4144,6 +4201,19 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   content: "";
 }
 
+.c32::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c32::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c32::ms-input-placeholder {
+  color: #72777c ! important;
+}
+
 .c35 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -4173,6 +4243,19 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c35::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c35::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c35::ms-input-placeholder {
+  color: #72777c ! important;
 }
 
 .c34 {
@@ -5181,6 +5264,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -5329,6 +5413,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -5732,6 +5817,19 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   content: "";
 }
 
+.c32::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c32::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c32::ms-input-placeholder {
+  color: #72777c ! important;
+}
+
 .c35 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -5761,6 +5859,19 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c35::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c35::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c35::ms-input-placeholder {
+  color: #72777c ! important;
 }
 
 .c34 {
@@ -6769,6 +6880,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -6917,6 +7029,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-2-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -8566,6 +8679,19 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   content: "";
 }
 
+.c32::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c32::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c32::ms-input-placeholder {
+  color: #72777c ! important;
+}
+
 .c35 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -8595,6 +8721,19 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c35::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c35::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c35::ms-input-placeholder {
+  color: #72777c ! important;
 }
 
 .c34 {
@@ -9603,6 +9742,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -9751,6 +9891,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-9-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -10186,6 +10327,19 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   content: "";
 }
 
+.c32::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c32::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c32::ms-input-placeholder {
+  color: #72777c ! important;
+}
+
 .c35 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -10215,6 +10369,19 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c35::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c35::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c35::ms-input-placeholder {
+  color: #72777c ! important;
 }
 
 .c34 {
@@ -11223,6 +11390,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 330,
@@ -11371,6 +11539,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-8-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -11774,6 +11943,19 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
   content: "";
 }
 
+.c32::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c32::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c32::ms-input-placeholder {
+  color: #72777c ! important;
+}
+
 .c35 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -11803,6 +11985,19 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c35::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c35::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c35::ms-input-placeholder {
+  color: #72777c ! important;
 }
 
 .c34 {
@@ -12822,6 +13017,7 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -12992,6 +13188,7 @@ exports[`SnippetEditor decodes separator replacement variables in the  1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-7-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={
@@ -13141,6 +13338,7 @@ exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -14649,6 +14847,19 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   content: "";
 }
 
+.c33::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c33::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c33::ms-input-placeholder {
+  color: #72777c ! important;
+}
+
 .c36 {
   padding: 3px 5px;
   border: 1px solid #5b9dd9;
@@ -14678,6 +14889,19 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231e8cbe%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c36::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c36::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c36::ms-input-placeholder {
+  color: #72777c ! important;
 }
 
 .c35 {
@@ -15706,6 +15930,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -15854,6 +16079,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -16257,6 +16483,19 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   content: "";
 }
 
+.c33::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c33::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c33::ms-input-placeholder {
+  color: #72777c ! important;
+}
+
 .c36 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -16286,6 +16525,19 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c36::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c36::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c36::ms-input-placeholder {
+  color: #72777c ! important;
 }
 
 .c35 {
@@ -17314,6 +17566,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -17462,6 +17715,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -17865,6 +18119,19 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   content: "";
 }
 
+.c32::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c32::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c32::ms-input-placeholder {
+  color: #72777c ! important;
+}
+
 .c35 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -17894,6 +18161,19 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c35::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c35::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c35::ms-input-placeholder {
+  color: #72777c ! important;
 }
 
 .c34 {
@@ -18902,6 +19182,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -19050,6 +19331,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-1-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -19453,6 +19735,19 @@ exports[`SnippetEditor passes replacement variables to the title and description
   content: "";
 }
 
+.c32::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c32::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c32::ms-input-placeholder {
+  color: #72777c ! important;
+}
+
 .c35 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -19482,6 +19777,19 @@ exports[`SnippetEditor passes replacement variables to the title and description
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
+}
+
+.c35::webkit-input-placeholder {
+  color: #72777c ! important;
+}
+
+.c35::moz-placeholder {
+  color: #72777c ! important;
+  opacity: 1;
+}
+
+.c35::ms-input-placeholder {
+  color: #72777c ! important;
 }
 
 .c34 {
@@ -20501,6 +20809,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -20671,6 +20980,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={
@@ -21415,6 +21725,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
