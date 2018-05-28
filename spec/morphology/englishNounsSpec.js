@@ -6,6 +6,8 @@ const regularNounsToTest = [
 	[ "horse", "horses" ],
 	[ "knife", "knives" ],
 	[ "lolly", "lollies" ],
+	[ "fly", "flies" ],
+	[ "buy", "buys" ],
 	[ "half", "halves" ],
 	[ "scarf", "scarves" ],
 	[ "handkerchief", "handkerchieves" ],

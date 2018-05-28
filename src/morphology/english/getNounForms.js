@@ -79,8 +79,6 @@ const getNounForms = function( word ) {
 		forms.push( plural );
 	}
 
-	console.log( "Here are all forms of the word '", word, "': ", unique( forms ) );
-
 	return unique( forms );
 };
 

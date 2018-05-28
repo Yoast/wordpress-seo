@@ -1,6 +1,7 @@
 /** @module analyses/findKeywordInPageTitle */
 
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+const matchTextWithArray = require( "../stringProcessing/matchTextWithArray.js" );
+const getForms = require( "../morphology/english/getForms.js" );
 
 var escapeRegExp = require( "lodash/escapeRegExp" );
 
@@ -13,12 +14,29 @@ var escapeRegExp = require( "lodash/escapeRegExp" );
  */
 
 module.exports = function( paper ) {
-	var title = paper.getTitle();
-	var keyword = escapeRegExp( paper.getKeyword() );
-	var locale = paper.getLocale();
-	var result = { matches: 0, position: -1 };
-	result.matches = wordMatch( title, keyword, locale );
-	result.position = title.toLocaleLowerCase().indexOf( keyword );
+	const title = paper.getTitle();
+	// const locale = paper.getLocale();
+
+	const keyword = escapeRegExp( paper.getKeyword() );
+	const keywordForms = getForms( keyword );
+
+	let result = { matches: 0, position: -1 };
+	result.matches = matchTextWithArray( title, keywordForms ).length;
+
+	let positions = [];
+	const titleLowerCase = title.toLocaleLowerCase();
+
+	keywordForms.forEach( function( form ) {
+		const formToLowerCase = form.toLocaleLowerCase();
+		const keywordFormIndex = titleLowerCase.indexOf( formToLowerCase );
+
+		if ( keywordFormIndex > -1 ) {
+			positions = positions.concat( keywordFormIndex );
+		}
+		}
+	);
+
+	result.position = Math.min( ... positions );
 
 	return result;
 };
