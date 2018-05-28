@@ -1,5 +1,5 @@
 export const SET_DOCUMENT_DATA = "SET_DOCUMENT_DATA";
-export const SET_DOCUMENT_TEXT = "SET_DOCUMENT_TEXT";
+export const SET_DOCUMENT_CONTENT = "SET_DOCUMENT_CONTENT";
 export const SET_DOCUMENT_EXCERPT = "SET_DOCUMENT_EXCERPT";
 export const SET_DOCUMENT_TITLE = "SET_DOCUMENT_TITLE";
 
@@ -26,7 +26,7 @@ export function setDocumentData( data ) {
  */
 export function setDocumentContent( content ) {
 	return {
-		type: SET_DOCUMENT_TEXT,
+		type: SET_DOCUMENT_CONTENT,
 		content,
 	};
 }

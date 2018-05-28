@@ -1,5 +1,5 @@
 import {
-	SET_DOCUMENT_TEXT,
+	SET_DOCUMENT_CONTENT,
 	SET_DOCUMENT_DATA,
 	SET_DOCUMENT_TITLE,
 	SET_DOCUMENT_EXCERPT,
@@ -25,9 +25,9 @@ function documentDataReducer( state = INITIAL_STATE, action ) {
 			return Object.assign( {}, state, {
 				...action.data,
 			} );
-		case SET_DOCUMENT_TEXT:
+		case SET_DOCUMENT_CONTENT:
 			return Object.assign( {}, state, {
-				content: action.text,
+				content: action.content,
 			} );
 		case SET_DOCUMENT_EXCERPT:
 			return Object.assign( {}, state, {
