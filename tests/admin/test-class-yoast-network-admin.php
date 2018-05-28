@@ -46,8 +46,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( (bool) strpos( $output, 'name="network_option_group" value="' . $group . '"' ) );
 		$this->assertTrue( (bool) strpos( $output, 'name="action" value="' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION . '"' ) );
-		$this->assertTrue( preg_match( '/name="_wpnonce" value="([a-z0-9]+)"/', $output, $matches ) );
-		$this->assertTrue( wp_verify_nonce( $matches[1], $group . '-network-options' ) );
+		$this->assertTrue( (bool) preg_match( '/name="_wpnonce" value="([a-z0-9]+)"/', $output, $matches ) );
+		$this->assertTrue( (bool) wp_verify_nonce( $matches[1], $group . '-network-options' ) );
 	}
 
 	/**
