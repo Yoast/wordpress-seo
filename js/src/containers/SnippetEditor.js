@@ -76,15 +76,15 @@ function getDescription( state ) {
  * @returns {Object} Data for the `SnippetEditor` component.
  */
 export function mapStateToProps( state ) {
-	let activeKeyword = getActiveKeyword( state );
-	let seoResults = getResultsForKeyword( state, activeKeyword );
+	const activeKeyword = getActiveKeyword( state );
+	const seoResults = getResultsForKeyword( state, activeKeyword );
 
-	let titleLengthResult = seoResults.find( isTitleLengthResult );
-	let descriptionLengthResult = seoResults.find( isDescriptionLengthResult );
+	const titleLengthResult = seoResults.find( isTitleLengthResult );
+	const descriptionLengthResult = seoResults.find( isDescriptionLengthResult );
 
-	let titleLengthProgress = getProgress( titleLengthResult );
-	let descriptionLengthProgress = getProgress( descriptionLengthResult );
-	let replacementVariables = state.snippetEditor.replacementVariables;
+	const titleLengthProgress = getProgress( titleLengthResult );
+	const descriptionLengthProgress = getProgress( descriptionLengthResult );
+	const replacementVariables = state.snippetEditor.replacementVariables;
 
 	// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
 	replacementVariables.forEach( ( replaceVariable ) => {
@@ -93,7 +93,7 @@ export function mapStateToProps( state ) {
 		}
 	} );
 
-	let generatedDescription = getDescription( state );
+	const generatedDescription = getDescription( state );
 
 	return {
 		...state.snippetEditor,

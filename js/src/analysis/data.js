@@ -2,7 +2,7 @@ import debounce from "lodash/debounce";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import {
 	setDocumentExcerpt,
-	setDocumentText,
+	setDocumentContent,
 	setDocumentTitle,
 } from "../redux/actions/documentData";
 import {
@@ -132,7 +132,7 @@ class Data {
 
 		// Handle content change
 		if ( this._data.content !== newData.content ) {
-			this._store.dispatch( setDocumentText( newData.content ) );
+			this._store.dispatch( setDocumentContent( newData.content ) );
 		}
 	}
 

@@ -6,7 +6,7 @@ export const SET_DOCUMENT_TITLE = "SET_DOCUMENT_TITLE";
 /**
  * The set data action for the documentDataReducer.
  *
- * @param {Object} data The data from the document.
+ * @param {Object} data The data (title, content, and excerpt) from the document.
  *
  * @returns {Object} An action for redux.
  */
@@ -18,16 +18,16 @@ export function setDocumentData( data ) {
 }
 
 /**
- * The set text action for the documentDataReducer.
+ * The set content action for the documentDataReducer.
  *
- * @param {string} text The text from the document.
+ * @param {string} content The content from the document.
  *
  * @returns {Object} An action for redux.
  */
-export function setDocumentText( text ) {
+export function setDocumentContent( content ) {
 	return {
 		type: SET_DOCUMENT_TEXT,
-		text,
+		content,
 	};
 }
 
