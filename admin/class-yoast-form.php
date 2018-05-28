@@ -77,9 +77,9 @@ class Yoast_Form {
 		if ( $form === true ) {
 			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';
 
-			if ( Yoast_Network_Settings_API::meets_requirements() ) {
+			if ( Yoast_Network_Admin::meets_requirements() ) {
 				$action_url       = network_admin_url( 'settings.php' );
-				$hidden_fields_cb = array( Yoast_Network_Settings_API::get(), 'settings_fields' );
+				$hidden_fields_cb = array( Yoast_Network_Admin::get(), 'settings_fields' );
 			} else {
 				$action_url       = admin_url( 'options.php' );
 				$hidden_fields_cb = 'settings_fields';

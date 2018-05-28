@@ -11,11 +11,6 @@
 class Yoast_Network_Settings_API {
 
 	/**
-	 * Action identifier for updating plugin network options.
-	 */
-	const UPDATE_ACTION = 'yoast_handle_network_options';
-
-	/**
 	 * @var array Registered network settings.
 	 */
 	private $registered_settings = array();
@@ -26,29 +21,9 @@ class Yoast_Network_Settings_API {
 	private $whitelist_options = array();
 
 	/**
-	 * @var bool Internal flag for whether the necessary hooks have been added.
-	 */
-	private $hooks_registered = false;
-
-	/**
 	 * @var Yoast_Network_Settings_API The singleton instance of this class.
 	 */
 	private static $instance = null;
-
-	/**
-	 * Outputs nonce, action and option group fields for a network settings page in the plugin.
-	 *
-	 * @param string $option_group Option group name for the current page.
-	 *
-	 * @return void
-	 */
-	public function settings_fields( $option_group ) {
-		?>
-		<input type="hidden" name="network_option_group" value="<?php echo esc_attr( $option_group ); ?>" />
-		<input type="hidden" name="action" value="<?php echo esc_attr( self::UPDATE_ACTION ); ?>" />
-		<?php
-		wp_nonce_field( "$option_group-network-options" );
-	}
 
 	/**
 	 * Registers a network setting and its data.
@@ -89,44 +64,27 @@ class Yoast_Network_Settings_API {
 	}
 
 	/**
-	 * Handles a request in which plugin network options should be updated.
+	 * Gets the registered settings and their data.
 	 *
-	 * This method works similar to how option updates are handled in `wp-admin/options.php` and
-	 * `wp-admin/network/settings.php`.
-	 *
-	 * @return void
+	 * @return array Array of $option_name => $data pairs.
 	 */
-	public function handle_update_options_request() {
-		$option_group = filter_input( INPUT_POST, 'network_option_group', FILTER_SANITIZE_STRING );
+	public function get_registered_settings() {
+		return $this->registered_settings;
+	}
 
-		check_admin_referer( "$option_group-network-options" );
-
+	/**
+	 * Gets the whitelisted options for a given option group.
+	 *
+	 * @param string $option_group Option group.
+	 *
+	 * @return array List of option names, or empty array if unknown option group.
+	 */
+	public function get_whitelist_options( $option_group ) {
 		if ( ! isset( $this->whitelist_options[ $option_group ] ) ) {
-			wp_die( __( 'Sorry, you are not allowed to modify unregistered network settings.', 'wordpress-seo' ), '', 403 );
+			return array();
 		}
 
-		foreach ( $this->whitelist_options[ $option_group ] as $option_name ) {
-			$value = null;
-			if ( isset( $_POST[ $option_name ] ) ) {
-				$value = wp_unslash( $_POST[ $option_name ] );
-			}
-
-			WPSEO_Options::update_site_option( $option_name, $value );
-		}
-
-		$settings_errors = get_settings_errors();
-		if ( empty( $settings_errors ) ) {
-			add_settings_error( $option_group, 'settings_updated', __( 'Settings Updated.', 'wordpress-seo' ), 'updated' );
-		}
-
-		// Use a regular transient here, since it is automatically cleared right after the redirect.
-		// A network transient would be cleaner, but would require a lot of copied code from core for
-		// just a minor adjustment when displaying settings errors.
-		set_transient( 'settings_errors', get_settings_errors(), 30 );
-
-		$sendback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );
-		wp_safe_redirect( $sendback );
-		exit;
+		return $this->whitelist_options[ $option_group ];
 	}
 
 	/**
@@ -175,22 +133,6 @@ class Yoast_Network_Settings_API {
 	}
 
 	/**
-	 * Hooks in the necessary actions and filters.
-	 *
-	 * @return void
-	 */
-	public function register_hooks() {
-
-		if ( $this->hooks_registered ) {
-			return;
-		}
-
-		$this->hooks_registered = true;
-
-		add_action( 'admin_action_' . self::UPDATE_ACTION, array( $this, 'handle_update_options_request' ) );
-	}
-
-	/**
 	 * Gets the singleton instance of this class.
 	 *
 	 * @return Yoast_Network_Settings_API The singleton instance.
@@ -210,6 +152,6 @@ class Yoast_Network_Settings_API {
 	 * @return bool True if requirements are met, false otherwise.
 	 */
 	public static function meets_requirements() {
-		return is_multisite() && is_network_admin();
+		return is_multisite();
 	}
 }

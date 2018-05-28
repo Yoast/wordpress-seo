@@ -89,10 +89,6 @@ class WPSEO_Admin {
 		$this->check_php_version();
 		$this->initialize_cornerstone_content();
 
-		if ( Yoast_Network_Settings_API::meets_requirements() ) {
-			Yoast_Network_Settings_API::get()->register_hooks();
-		}
-
 		if ( Yoast_Network_Admin::meets_requirements() ) {
 			Yoast_Network_Admin::get()->register_hooks();
 		}

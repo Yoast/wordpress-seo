@@ -11,6 +11,11 @@
 class Yoast_Network_Admin {
 
 	/**
+	 * Action identifier for updating plugin network options.
+	 */
+	const UPDATE_OPTIONS_ACTION = 'yoast_handle_network_options';
+
+	/**
 	 * Action identifier for restoring a site.
 	 */
 	const RESTORE_SITE_ACTION = 'yoast_restore_site';
@@ -66,6 +71,49 @@ class Yoast_Network_Admin {
 	}
 
 	/**
+	 * Handles a request in which plugin network options should be updated.
+	 *
+	 * This method works similar to how option updates are handled in `wp-admin/options.php` and
+	 * `wp-admin/network/settings.php`.
+	 *
+	 * @return void
+	 */
+	public function handle_update_options_request() {
+		$option_group = filter_input( INPUT_POST, 'network_option_group', FILTER_SANITIZE_STRING );
+
+		check_admin_referer( "$option_group-network-options" );
+
+		$whitelist_options = Yoast_Network_Settings_API::get()->get_whitelist_options( $option_group );
+
+		if ( empty( $whitelist_options ) ) {
+			wp_die( __( 'Sorry, you are not allowed to modify unregistered network settings.', 'wordpress-seo' ), '', 403 );
+		}
+
+		foreach ( $whitelist_options as $option_name ) {
+			$value = null;
+			if ( isset( $_POST[ $option_name ] ) ) {
+				$value = wp_unslash( $_POST[ $option_name ] );
+			}
+
+			WPSEO_Options::update_site_option( $option_name, $value );
+		}
+
+		$settings_errors = get_settings_errors();
+		if ( empty( $settings_errors ) ) {
+			add_settings_error( $option_group, 'settings_updated', __( 'Settings Updated.', 'wordpress-seo' ), 'updated' );
+		}
+
+		// Use a regular transient here, since it is automatically cleared right after the redirect.
+		// A network transient would be cleaner, but would require a lot of copied code from core for
+		// just a minor adjustment when displaying settings errors.
+		set_transient( 'settings_errors', get_settings_errors(), 30 );
+
+		$sendback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );
+		wp_safe_redirect( $sendback );
+		exit;
+	}
+
+	/**
 	 * Handles a request in which a site's default settings should be restored.
 	 *
 	 * @return void
@@ -92,6 +140,21 @@ class Yoast_Network_Admin {
 
 		/* translators: %s expands to the name of a site within a multisite network. */
 		add_settings_error( $option_group, 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $site->blogname ) ), 'updated' );
+	}
+
+	/**
+	 * Outputs nonce, action and option group fields for a network settings page in the plugin.
+	 *
+	 * @param string $option_group Option group name for the current page.
+	 *
+	 * @return void
+	 */
+	public function settings_fields( $option_group ) {
+		?>
+		<input type="hidden" name="network_option_group" value="<?php echo esc_attr( $option_group ); ?>" />
+		<input type="hidden" name="action" value="<?php echo esc_attr( self::UPDATE_OPTIONS_ACTION ); ?>" />
+		<?php
+		wp_nonce_field( "$option_group-network-options" );
 	}
 
 	/**
@@ -137,6 +200,7 @@ class Yoast_Network_Admin {
 
 		$this->hooks_registered = true;
 
+		add_action( 'admin_action_' . self::UPDATE_OPTIONS_ACTION, array( $this, 'handle_update_options_request' ) );
 		add_action( 'admin_action_' . self::RESTORE_SITE_ACTION, array( $this, 'handle_restore_site_request' ) );
 		add_action( 'wpseo_admin_footer', array( $this, 'print_restore_form' ) );
 	}
