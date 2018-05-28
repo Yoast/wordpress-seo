@@ -10,6 +10,8 @@ const TitleWidth = require( "yoastseo/js/assessments/seo/pageTitleWidthAssessmen
 const UrlKeyword = require( "yoastseo/js/assessments/seo/urlKeywordAssessment.js" );
 const TextLength = require( "yoastseo/js/assessments/seo/textLengthAssessment.js" );
 const InternalLinks = require( "yoastseo/js/assessments/seo/internalLinksAssessment.js" );
+const TextImages = require( "yoastseo/js/assessments/seo/textImagesAssessment.js" );
+const SubheadingsKeyword = require( "yoastseo/js/assessments/seo/subheadingsKeywordAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -36,6 +38,8 @@ const TaxonomyAssessor = function( i18n ) {
 			veryFarBelowMinimum: 100,
 		} ),
 		new InternalLinks(),
+		new TextImages(),
+		new SubheadingsKeyword(),
 	];
 };
 
