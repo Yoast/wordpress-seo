@@ -46,7 +46,7 @@ const shallowWithArgs = ( changedArgs ) => {
 
 
 describe( "SnippetEditor", () => {
-	it( "shows and editor", () => {
+	it( "shows the editor", () => {
 		renderSnapshotWithArgs( {} );
 	} );
 
@@ -120,11 +120,11 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "highlights the hovered field when onMouseOver() is called", () => {
+	it( "highlights the hovered field when onMouseEnter() is called", () => {
 		const editor = mountWithArgs( {} );
 
 		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
+		editor.instance().onMouseEnter( "description" );
 		editor.update();
 
 		expect( editor ).toMatchSnapshot();
@@ -134,23 +134,10 @@ describe( "SnippetEditor", () => {
 		const editor = shallowWithArgs( {} );
 
 		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
+		editor.instance().onMouseEnter( "description" );
 		editor.update();
 
 		editor.instance().onMouseLeave( "description" );
-		editor.update();
-
-		expect( editor ).toMatchSnapshot();
-	} );
-
-	it( "doesn't remove the highlight if the wrong field is left", () => {
-		const editor = shallowWithArgs( {} );
-
-		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
-		editor.update();
-
-		editor.instance().onMouseLeave( "title" );
 		editor.update();
 
 		expect( editor ).toMatchSnapshot();
@@ -170,10 +157,25 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "activates a field on onClick() and opens the editor", () => {
+	it( "removes the highlight when calling unsetFieldFocus", () => {
+		focus.mockClear();
+
+		const editor = mountWithArgs( {} );
+
+		editor.instance().open();
+		editor.instance().setFieldFocus( "title" );
+		editor.update();
+
+		editor.instance().unsetFieldFocus();
+		editor.update();
+
+		expect( editor ).toMatchSnapshot();
+	} );
+
+	it( "activates a field on onMouseUp() and opens the editor", () => {
 		const editor = shallowWithArgs( {} );
 
-		editor.instance().onClick( "title" );
+		editor.instance().onMouseUp( "title" );
 		editor.update();
 
 		expect( editor ).toMatchSnapshot();

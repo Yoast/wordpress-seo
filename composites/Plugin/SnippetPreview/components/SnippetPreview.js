@@ -7,7 +7,6 @@ import createWordRegex from "yoastseo/js/stringProcessing/createWordRegex";
 import replaceSpecialCharactersAndDiacritics from "yoastseo/js/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
-import partial from "lodash/partial";
 import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
@@ -467,8 +466,8 @@ export default class SnippetPreview extends PureComponent {
 	renderUrl() {
 		const {
 			url,
-			onClick,
-			onMouseOver,
+			onMouseUp,
+			onMouseEnter,
 			onMouseLeave,
 		} = this.props;
 
@@ -490,15 +489,15 @@ export default class SnippetPreview extends PureComponent {
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
 		/*
-		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
+		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
 		 * However this is not relevant in this case, because the url is not focusable.
 		 */
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return <Url>
 			<BaseUrlOverflowContainer
-				onClick={ onClick.bind( null, "url" ) }
-				onMouseOver={ partial( onMouseOver, "url" ) }
-				onMouseLeave={ partial( onMouseLeave, "url" ) }>
+				onMouseUp={ onMouseUp.bind( null, "url" ) }
+				onMouseEnter={ onMouseEnter.bind( null, "url" ) }
+				onMouseLeave={ onMouseLeave.bind( null ) }>
 				{ urlContent }
 			</BaseUrlOverflowContainer>
 		</Url>;
@@ -553,9 +552,9 @@ export default class SnippetPreview extends PureComponent {
 			keyword,
 			isDescriptionGenerated,
 			locale,
-			onClick,
+			onMouseUp,
 			onMouseLeave,
-			onMouseOver,
+			onMouseEnter,
 			mode,
 		} = this.props;
 
@@ -563,9 +562,9 @@ export default class SnippetPreview extends PureComponent {
 
 		const outerContainerProps = {
 			isDescriptionGenerated: isDescriptionGenerated,
-			onClick: onClick.bind( null, "description" ),
-			onMouseOver: partial( onMouseOver, "description" ),
-			onMouseLeave: partial( onMouseLeave, "description" ),
+			onMouseUp: onMouseUp.bind( null, "description" ),
+			onMouseEnter: onMouseEnter.bind( null, "description" ),
+			onMouseLeave: onMouseLeave.bind( null ),
 		};
 
 		if ( mode === MODE_DESKTOP ) {
@@ -604,9 +603,9 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	render() {
 		const {
-			onClick,
+			onMouseUp,
 			onMouseLeave,
-			onMouseOver,
+			onMouseEnter,
 			mode,
 			isAmp,
 		} = this.props;
@@ -628,7 +627,7 @@ export default class SnippetPreview extends PureComponent {
 			</a> ];
 
 		/*
-		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
+		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
 		 * However this is not relevant in this case, because the title and description are
 		 * not focusable.
 		 */
@@ -650,9 +649,9 @@ export default class SnippetPreview extends PureComponent {
 							after=":"
 						/>
 						<Title
-							onClick={ onClick.bind( null, "title" ) }
-							onMouseOver={ partial( onMouseOver, "title" ) }
-							onMouseLeave={ partial( onMouseLeave, "title" ) }
+							onMouseUp={ onMouseUp.bind( null, "title" ) }
+							onMouseEnter={ onMouseEnter.bind( null, "title" ) }
+							onMouseLeave={ onMouseLeave.bind( null ) }
 						>
 							<TitleBounded>
 								<TitleUnbounded innerRef={ this.setTitleRef } >
@@ -727,9 +726,9 @@ SnippetPreview.propTypes = {
 	isAmp: PropTypes.bool,
 	helpText: PropTypes.string,
 
-	onClick: PropTypes.func.isRequired,
+	onMouseUp: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
-	onMouseOver: PropTypes.func,
+	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
 };
 
@@ -745,6 +744,6 @@ SnippetPreview.defaultProps = {
 	isAmp: false,
 
 	onHover: () => {},
-	onMouseOver: () => {},
+	onMouseEnter: () => {},
 	onMouseLeave: () => {},
 };

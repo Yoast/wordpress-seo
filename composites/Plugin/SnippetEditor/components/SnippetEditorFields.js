@@ -163,36 +163,28 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Makes sure the focus is correct after mounting the editor fields.
-	 *
-	 * @returns {void}
-	 */
-	componentDidMount() {
-		this.focusOnActiveFieldChange( null );
-	}
-
-	/**
 	 * Makes sure the focus is correct after updating the editor fields.
 	 *
-	 * @param {Object} prevProps The previously received props.
+	 * For example, the component will update when clicking on the field labels.
+	 * In this case, we need to focus again the field.
 	 *
+	 * @param {Object} prevProps The previous props.
 	 * @returns {void}
 	 */
 	componentDidUpdate( prevProps ) {
-		this.focusOnActiveFieldChange( prevProps.activeField );
+		if ( prevProps.activeField !== this.props.activeField ) {
+			this.focusOnActiveFieldChange();
+		}
 	}
 
 	/**
 	 * Focuses the currently active field if it wasn't previously active.
 	 *
-	 * @param {string} prevActiveField The previously active field.
-	 *
 	 * @returns {void}
 	 */
-	focusOnActiveFieldChange( prevActiveField ) {
+	focusOnActiveFieldChange() {
 		const { activeField } = this.props;
-
-		if ( activeField !== prevActiveField ) {
+		if ( activeField ) {
 			const activeElement = this.elements[ activeField ];
 			activeElement.focus();
 		}
@@ -211,6 +203,7 @@ class SnippetEditorFields extends React.Component {
 			titleLengthProgress,
 			descriptionLengthProgress,
 			onFocus,
+			onBlur,
 			onChange,
 			data: {
 				title,
@@ -239,6 +232,7 @@ class SnippetEditorFields extends React.Component {
 							content={ title }
 							onChange={ content => onChange( "title", content ) }
 							onFocus={ () => onFocus( "title" ) }
+							onBlur={ () => onBlur() }
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ titleLabelId }
@@ -264,6 +258,7 @@ class SnippetEditorFields extends React.Component {
 							value={ slug }
 							onChange={ event => onChange( "slug", event.target.value ) }
 							onFocus={ () => onFocus( "slug" ) }
+							onBlur={ () => onBlur() }
 							innerRef={ ref => this.setRef( "slug", ref ) }
 							aria-labelledby={ this.uniqueId + "-slug" }
 						/>
@@ -283,6 +278,7 @@ class SnippetEditorFields extends React.Component {
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
 							onFocus={ () => onFocus( "description" ) }
+							onBlur={ () => onBlur() }
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "description", ref ) }
 							ariaLabelledBy={ descriptionLabelId }
@@ -322,6 +318,7 @@ SnippetEditorFields.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
+	onBlur: PropTypes.func,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
@@ -336,6 +333,7 @@ SnippetEditorFields.propTypes = {
 SnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
+	onBlur: () => {},
 	titleLengthProgress: {
 		max: 600,
 		actual: 0,
