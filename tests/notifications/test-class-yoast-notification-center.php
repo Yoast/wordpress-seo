@@ -79,7 +79,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * Only one should be in the list.
 	 */
 	public function test_add_notification_twice_persistent() {
-		$notification = new Yoast_Notification( 'notification', array( 'id' => 'id' ) );
+		$notification = new Yoast_Notification( 'notification', array( 'id' => 'some_id' ) );
 
 		$subject = Yoast_Notification_Center::get();
 		$subject->add_notification( $notification );
@@ -107,7 +107,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * Clearing dismissal after it was set
 	 */
 	public function test_clear_dismissal() {
-		$notification = new Yoast_Notification( 'notification', array( 'id' => 'id' ) );
+		$notification = new Yoast_Notification( 'notification', array( 'id' => 'some_id' ) );
 
 		$subject = Yoast_Notification_Center::get();
 
@@ -124,7 +124,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * Clearing dismissal after it was set as string
 	 */
 	public function test_clear_dismissal_as_string() {
-		$notification = new Yoast_Notification( 'notification', array( 'id' => 'id' ) );
+		$notification = new Yoast_Notification( 'notification', array( 'id' => 'some_id' ) );
 
 		$subject = Yoast_Notification_Center::get();
 
@@ -150,10 +150,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_update_storage() {
 
-		wp_set_current_user( 1 );
-
 		$message = 'b';
-		$options = array( 'id' => 'id' );
+		$options = array( 'id' => 'some_id' );
 
 		$notification = new Yoast_Notification(
 			$message,
@@ -165,7 +163,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$subject->update_storage();
 
-		$stored_notifications = get_user_option( Yoast_Notification_Center::STORAGE_KEY, get_current_user_id() );
+		$stored_notifications = get_user_option( Yoast_Notification_Center::STORAGE_KEY, $this->user_id );
 
 		$test = array( $notification->to_array() );
 
@@ -449,5 +447,146 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 1, $notification_center->get_notification_count() );
 		$this->assertEquals( 1, $notification_center->get_notification_count( true ) );
+	}
+
+	/**
+	 * Tests that dismissing a notification only affects the current site in multisite.
+	 *
+	 * @group ms-required
+	 *
+	 * @covers Yoast_Notification_Center::dismiss_notification()
+	 */
+	public function test_dismiss_notification_is_per_site() {
+
+		$site2 = self::factory()->blog->create();
+
+		$notification  = new Yoast_Notification( 'notification', array(
+			'id'            => 'some_id',
+			'dismissal_key' => 'notification_dismissal',
+		) );
+		$dismissal_key = $notification->get_dismissal_key();
+
+		// Dismiss notification for the current site.
+		Yoast_Notification_Center::dismiss_notification( $notification );
+
+		$site1_dismissed = (bool) get_user_option( $dismissal_key, $this->user_id );
+
+		switch_to_blog( $site2 );
+		$site2_dismissed = (bool) get_user_option( $dismissal_key, $this->user_id );
+		restore_current_blog();
+
+		$this->assertTrue( $site1_dismissed );
+		$this->assertFalse( $site2_dismissed );
+	}
+
+	/**
+	 * Tests that restoring a notification only affects the current site in multisite.
+	 *
+	 * @group ms-required
+	 *
+	 * @covers Yoast_Notification_Center::restore_notification()
+	 */
+	public function test_restore_notification_is_per_site() {
+
+		$site2 = self::factory()->blog->create();
+
+		$notification  = new Yoast_Notification( 'notification', array(
+			'id'            => 'some_id',
+			'dismissal_key' => 'notification_dismissal',
+		) );
+		$dismissal_key = $notification->get_dismissal_key();
+
+		// Dismiss notification for both sites.
+		update_user_option( $this->user_id, $dismissal_key, 'seen' );
+		switch_to_blog( $site2 );
+		update_user_option( $this->user_id, $dismissal_key, 'seen' );
+		restore_current_blog();
+
+		// Restore notification for the current site.
+		Yoast_Notification_Center::restore_notification( $notification );
+
+		$site1_dismissed = (bool) get_user_option( $dismissal_key, $this->user_id );
+
+		switch_to_blog( $site2 );
+		$site2_dismissed = (bool) get_user_option( $dismissal_key, $this->user_id );
+		restore_current_blog();
+
+		$this->assertFalse( $site1_dismissed );
+		$this->assertTrue( $site2_dismissed );
+	}
+
+	/**
+	 * Tests that checking for dismissed notifications applies only to the current site in multisite.
+	 *
+	 * @group ms-required
+	 *
+	 * @covers Yoast_Notification_Center::is_notification_dismissed()
+	 */
+	public function test_is_notification_dismissed_is_per_site() {
+
+		$site2 = self::factory()->blog->create();
+
+		$notification  = new Yoast_Notification( 'notification', array(
+			'id'            => 'some_id',
+			'dismissal_key' => 'notification_dismissal',
+		) );
+		$dismissal_key = $notification->get_dismissal_key();
+
+		// Dismiss notification for the current site.
+		update_user_option( $this->user_id, $dismissal_key, 'seen' );
+
+		$site1_dismissed = Yoast_Notification_Center::is_notification_dismissed( $notification );
+
+		switch_to_blog( $site2 );
+		$site2_dismissed = Yoast_Notification_Center::is_notification_dismissed( $notification );
+		restore_current_blog();
+
+		$this->assertTrue( $site1_dismissed );
+		$this->assertFalse( $site2_dismissed );
+	}
+
+	/**
+	 * Tests that checking for dismissed notifications falls back to user meta if no user options.
+	 *
+	 * @covers Yoast_Notification_Center::is_notification_dismissed()
+	 */
+	public function test_is_notification_dismissed_falls_back_to_user_meta() {
+
+		$notification  = new Yoast_Notification( 'notification', array(
+			'id'            => 'some_id',
+			'dismissal_key' => 'notification_dismissal',
+		) );
+		$dismissal_key = $notification->get_dismissal_key();
+
+		// Dismiss notification in the old incorrect way.
+		update_user_meta( $this->user_id, $dismissal_key, 'seen' );
+
+		$dismissed = Yoast_Notification_Center::is_notification_dismissed( $notification );
+
+		$this->assertTrue( $dismissed );
+
+		// Ensure the old user metadata has been migrated on-the-fly.
+		$this->assertSame( 'seen', get_user_option( $dismissal_key, $this->user_id ) );
+		$this->assertEmpty( get_user_meta( $this->user_id, $dismissal_key, true ) );
+	}
+
+	/**
+	 * Tests that restoring a notification also clears old user metadata.
+	 *
+	 * @covers Yoast_Notification_Center::restore_notification()
+	 */
+	public function test_restore_notification_clears_user_meta() {
+
+		$notification  = new Yoast_Notification( 'notification', array(
+			'id'            => 'some_id',
+			'dismissal_key' => 'notification_dismissal',
+		) );
+		$dismissal_key = $notification->get_dismissal_key();
+
+		// Set notification dismissed in both user option and old user meta way.
+		update_user_option( $this->user_id, $dismissal_key, 'seen' );
+		update_user_meta( $this->user_id, $dismissal_key, 'seen' );
+
+		$this->assertTrue( Yoast_Notification_Center::restore_notification( $notification ) );
 	}
 }
