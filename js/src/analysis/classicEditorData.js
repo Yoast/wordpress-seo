@@ -11,6 +11,7 @@ import {
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
 import debounce from "lodash/debounce";
+import { setDocumentExcerpt, setDocumentContent, setDocumentTitle } from "../redux/actions/documentData";
 
 /**
  * Represents the classic editor data.
@@ -29,7 +30,8 @@ class ClassicEditorData {
 		this._data = {};
 		// This will be used for the comparison whether the title, description and slug are dirty.
 		this._previousData = {};
-		this.updateData = this.updateData.bind( this );
+		this.subscribeToInputElement = this.subscribeToInputElement.bind( this );
+		this.updateReplacementData = this.updateReplacementData.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
 
@@ -104,17 +106,23 @@ class ClassicEditorData {
 		this.subscribeToInputElement( "title", "title" );
 		this.subscribeToInputElement( "excerpt", "excerpt" );
 		this.subscribeToInputElement( "excerpt", "excerpt_only" );
+
+		let dispatchContentToStore = () => {
+			this._store.dispatch( setDocumentContent( this.getContent() ) );
+		};
+
+		tmceHelper.addEventHandler( tmceId, [ "input", "change", "cut", "paste" ], dispatchContentToStore );
 	}
 
 	/**
 	 * Subscribes to an element via its id, and sets a callback.
 	 *
-	 * @param {string} elementId          The id of the element to subscribe to.
-	 * @param {string} targetReplaceVar   The name of the replacevar the value should be sent to.
+	 * @param {string}  elementId       The id of the element to subscribe to.
+	 * @param {string}  targetField     The name of the field the value should be sent to.
 	 *
 	 * @returns {void}
 	 */
-	subscribeToInputElement( elementId, targetReplaceVar ) {
+	subscribeToInputElement( elementId, targetField ) {
 		const element = document.getElementById( elementId );
 
 		/*
@@ -125,9 +133,26 @@ class ClassicEditorData {
 			return;
 		}
 
-		element.addEventListener( "input", ( event ) => {
-			this.updateData( event, targetReplaceVar );
-		} );
+		// Title and excerpt also need to be sent to the DocumentData in the Redux store.
+		switch ( targetField ) {
+			case "excerpt":
+				element.addEventListener( "input", ( event ) => {
+					this._store.dispatch( setDocumentExcerpt( event.target.value ) );
+					this.updateReplacementData( event, targetField );
+				} );
+				break;
+			case "title":
+				element.addEventListener( "input", ( event ) => {
+					this._store.dispatch( setDocumentTitle( event.target.value ) );
+					this.updateReplacementData( event, targetField );
+				} );
+				break;
+			default:
+				element.addEventListener( "input", ( event ) => {
+					this.updateReplacementData( event, targetField );
+				} );
+				break;
+		}
 	}
 
 	/**
@@ -138,7 +163,7 @@ class ClassicEditorData {
 	 *
 	 * @returns {void}
 	 */
-	updateData( event, targetReplaceVar ) {
+	updateReplacementData( event, targetReplaceVar ) {
 		const replaceValue = event.target.value;
 		this._data[ targetReplaceVar ] = replaceValue;
 		this._store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
@@ -148,8 +173,8 @@ class ClassicEditorData {
 	 * Checks whether the current data and the data from the updated state are the same.
 	 *
 	 * @param {Object} currentData The current data.
-	 * @param {Object} newData The data from the updated state.
-	 * @returns {boolean} Whether the current data and the newData is the same.
+	 * @param {Object} newData     The data from the updated state.
+	 * @returns {boolean}          Whether the current data and the newData is the same.
 	 */
 	isShallowEqual( currentData, newData ) {
 		if ( Object.keys( currentData ).length !== Object.keys( newData ).length ) {
