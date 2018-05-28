@@ -44,9 +44,9 @@ class WPSEO_Network_Admin_Menu implements WPSEO_WordPress_Integration {
 		$page_callback = array( $this->menu, 'load_page' );
 
 		add_menu_page(
-			'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ),
+			__( 'Network Settings', 'wordpress-seo' ) . ' - Yoast SEO',
 			__( 'SEO', 'wordpress-seo' ),
-			'delete_users',
+			'wpseo_manage_network_options',
 			$this->menu->get_page_identifier(),
 			array( $this, 'network_config_page' ),
 			WPSEO_Utils::get_icon_svg()
@@ -55,9 +55,10 @@ class WPSEO_Network_Admin_Menu implements WPSEO_WordPress_Integration {
 		if ( WPSEO_Utils::allow_system_file_edit() === true ) {
 			add_submenu_page(
 				$this->menu->get_page_identifier(),
-				'Yoast SEO: ' . __( 'Edit Files', 'wordpress-seo' ),
+				__( 'Edit Files', 'wordpress-seo' ) . ' - Yoast SEO',
 				__( 'Edit Files', 'wordpress-seo' ),
-				'delete_users', 'wpseo_files',
+				'wpseo_manage_network_options',
+				'wpseo_files',
 				$page_callback
 			);
 		}
@@ -65,12 +66,18 @@ class WPSEO_Network_Admin_Menu implements WPSEO_WordPress_Integration {
 		// Add Extension submenu page.
 		add_submenu_page(
 			$this->menu->get_page_identifier(),
-			'Yoast SEO: ' . __( 'Extensions', 'wordpress-seo' ),
+			__( 'Extensions', 'wordpress-seo' ) . ' - Yoast SEO',
 			__( 'Extensions', 'wordpress-seo' ),
-			'delete_users',
+			'wpseo_manage_network_options',
 			'wpseo_licenses',
 			$page_callback
 		);
+
+		// Use WordPress global $submenu to directly access its properties.
+		global $submenu;
+		if ( isset( $submenu[ $this->menu->get_page_identifier() ] ) ) {
+			$submenu[ $this->menu->get_page_identifier() ][0][0] = __( 'General', 'wordpress-seo' );
+		}
 	}
 
 	/**
