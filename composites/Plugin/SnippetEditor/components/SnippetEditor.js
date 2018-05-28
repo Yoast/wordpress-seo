@@ -38,7 +38,7 @@ const CloseEditorButton = SnippetEditorButton.extend`
 	margin-left: 20px;
 `;
 
-const MetaDescriptionPlaceholder = "Modify your meta description by editing right here";
+const MetaDescriptionPlaceholder = "Modify your meta description by editing it right here";
 
 class SnippetEditor extends React.Component {
 	/**
