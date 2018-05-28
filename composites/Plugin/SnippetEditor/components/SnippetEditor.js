@@ -138,20 +138,41 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
+	 * Returns whether the old and the new data are the same.
+	 *
+	 * @param {Object} oldData The old data.
+	 * @param {Object} newData The new data.
+	 * @returns {boolean} True if any of the data points has changed.
+	 */
+	shallowCompareData( oldData, newData ) {
+		let isDirty = false;
+		if (
+			oldData.description !== newData.description ||
+			oldData.slug !== newData.slug ||
+			oldData.title !== newData.title
+		) {
+			isDirty = true;
+		}
+		return isDirty;
+	}
+
+	/**
 	 * Updates the state when the component receives new props.
 	 *
 	 * @param {Object} nextProps The new props.
 	 * @returns {void}
 	 */
 	componentWillReceiveProps( nextProps ) {
-		console.log(nextProps)
-		const data = this.mapDataToPreview( nextProps.data );
-		this.setState(
-			{
-				titleLengthProgress: getTitleProgress( data.title ),
-				descriptionLengthProgress: getDescriptionProgress( data.description ),
-			}
-		);
+		// Only set a new state when the data is dirty.
+		if ( this.shallowCompareData( this.props.data, nextProps.data ) ) {
+			const data = this.mapDataToPreview( nextProps.data );
+			this.setState(
+				{
+					titleLengthProgress: getTitleProgress( data.title ),
+					descriptionLengthProgress: getDescriptionProgress( data.description ),
+				}
+			);
+		}
 	}
 
 	/**
