@@ -115,12 +115,15 @@ class SnippetEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
+		const mappedData = this.mapDataToPreview( props.data );
+
 		this.state = {
 			isOpen: false,
 			activeField: null,
 			hoveredField: null,
-			titleLengthProgress: getTitleProgress( props.data.title ),
-			descriptionLengthProgress: getDescriptionProgress( props.data.description ),
+			mappedData: mappedData,
+			titleLengthProgress: getTitleProgress( mappedData.title ),
+			descriptionLengthProgress: getDescriptionProgress( mappedData.description ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
@@ -141,10 +144,12 @@ class SnippetEditor extends React.Component {
 	 * @returns {void}
 	 */
 	componentWillReceiveProps( nextProps ) {
+		console.log(nextProps)
+		const data = this.mapDataToPreview( nextProps.data );
 		this.setState(
 			{
-				titleLengthProgress: getTitleProgress( nextProps.data.title ),
-				descriptionLengthProgress: getDescriptionProgress( nextProps.data.description ),
+				titleLengthProgress: getTitleProgress( data.title ),
+				descriptionLengthProgress: getDescriptionProgress( data.description ),
 			}
 		);
 	}

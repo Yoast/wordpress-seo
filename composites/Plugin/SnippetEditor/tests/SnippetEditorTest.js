@@ -88,7 +88,8 @@ describe( "SnippetEditor", () => {
 
 		renderSnapshotWithArgs( { mapDataToPreview: mapper, replacementVariables } );
 
-		expect( mapper ).toHaveBeenCalledTimes( 1 );
+		// The mapper is called both in the constructor, as well as the render function.
+		expect( mapper ).toHaveBeenCalledTimes( 2 );
 		expect( mapper ).toHaveBeenCalledWith( defaultMappedData, defaultData );
 	} );
 
