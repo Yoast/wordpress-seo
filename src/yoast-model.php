@@ -7,8 +7,8 @@
 
 namespace Yoast\YoastSEO;
 
+use Yoast\YoastSEO\Exceptions\Missing_Method;
 use YoastSEO_Vendor\ORM;
-use YoastSEO_Vendor\ParisMethodMissingException;
 
 /**
  * Make Model compatible with WordPress.
@@ -656,13 +656,14 @@ class Yoast_Model {
 	 * @param  string $name      The method to call.
 	 * @param  array  $arguments The arguments to use.
 	 *
-	 * @throws \YoastSEO_Vendor\ParisMethodMissingException When the method does not exist.
+	 * @throws Missing_Method When the method does not exist.
+	 *
 	 * @return bool|ORMWrapper Result of the call.
 	 */
 	public function __call( $name, $arguments ) {
 		$method = \strtolower( \preg_replace( '/([a-z])([A-Z])/', '$1_$2', $name ) );
 		if ( ! \method_exists( $this, $method ) ) {
-			throw new \YoastSEO_Vendor\ParisMethodMissingException( "Method {$name}() does not exist in class " . \get_class( $this ) );
+			throw Missing_Method::for_class( \get_class( $this ), $name );
 		}
 
 		return \call_user_func_array( array( $this, $method ), $arguments );
