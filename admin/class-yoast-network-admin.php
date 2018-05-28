@@ -103,10 +103,7 @@ class Yoast_Network_Admin {
 			add_settings_error( $option_group, 'settings_updated', __( 'Settings Updated.', 'wordpress-seo' ), 'updated' );
 		}
 
-		// Use a regular transient here, since it is automatically cleared right after the redirect.
-		// A network transient would be cleaner, but would require a lot of copied code from core for
-		// just a minor adjustment when displaying settings errors.
-		set_transient( 'settings_errors', get_settings_errors(), 30 );
+		$this->persist_settings_errors();
 
 		$sendback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );
 		wp_safe_redirect( $sendback );
@@ -126,20 +123,26 @@ class Yoast_Network_Admin {
 		$site_id = (int) filter_input( INPUT_POST, 'site_id', FILTER_SANITIZE_NUMBER_INT );
 		if ( ! $site_id ) {
 			add_settings_error( $option_group, 'settings_updated', __( 'No site has been selected to restore.', 'wordpress-seo' ), 'error' );
-			return;
+		}
+		else {
+			$site = get_site( $site_id );
+			if ( ! $site ) {
+				/* translators: %s expands to the ID of a site within a multisite network. */
+				add_settings_error( $option_group, 'settings_updated', sprintf( __( 'Site %d not found.', 'wordpress-seo' ), $site_id ), 'error' );
+			}
+			else {
+				WPSEO_Options::reset_ms_blog( $site_id );
+
+				/* translators: %s expands to the name of a site within a multisite network. */
+				add_settings_error( $option_group, 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $site->blogname ) ), 'updated' );
+			}
 		}
 
-		$site = get_site( $site_id );
-		if ( ! $site ) {
-			/* translators: %s expands to the ID of a site within a multisite network. */
-			add_settings_error( $option_group, 'settings_updated', sprintf( __( 'Site %d not found.', 'wordpress-seo' ), $site_id ), 'error' );
-			return;
-		}
+		$this->persist_settings_errors();
 
-		WPSEO_Options::reset_ms_blog( $site_id );
-
-		/* translators: %s expands to the name of a site within a multisite network. */
-		add_settings_error( $option_group, 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $site->blogname ) ), 'updated' );
+		$sendback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );
+		wp_safe_redirect( $sendback );
+		exit;
 	}
 
 	/**
@@ -166,7 +169,7 @@ class Yoast_Network_Admin {
 		$yform = Yoast_Form::get_instance();
 
 		echo '<h2>' . esc_html__( 'Restore site to default settings', 'wordpress-seo' ) . '</h2>';
-		echo '<form method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+		echo '<form action="' . esc_url( network_admin_url( 'admin.php' ) ) . '" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 		wp_nonce_field( 'wpseo-network-restore' );
 		echo '<p>' . esc_html__( 'Using this form you can reset a site to the default SEO settings.', 'wordpress-seo' ) . '</p>';
 
@@ -203,6 +206,22 @@ class Yoast_Network_Admin {
 		add_action( 'admin_action_' . self::UPDATE_OPTIONS_ACTION, array( $this, 'handle_update_options_request' ) );
 		add_action( 'admin_action_' . self::RESTORE_SITE_ACTION, array( $this, 'handle_restore_site_request' ) );
 		add_action( 'wpseo_admin_footer', array( $this, 'print_restore_form' ) );
+	}
+
+	/**
+	 * Persists settings errors.
+	 *
+	 * Settings errors are stored in a transient for 30 seconds so that this transient
+	 * can be retrieved on the next page load.
+	 *
+	 * @return void
+	 */
+	private function persist_settings_errors() {
+
+		// Use a regular transient here, since it is automatically cleared right after the redirect.
+		// A network transient would be cleaner, but would require a lot of copied code from core for
+		// just a minor adjustment when displaying settings errors.
+		set_transient( 'settings_errors', get_settings_errors(), 30 );
 	}
 
 	/**
