@@ -1,9 +1,8 @@
 /** @module analyses/findKeywordInPageTitle */
 
 const matchTextWithArray = require( "../stringProcessing/matchTextWithArray.js" );
-const getForms = require( "../morphology/english/getForms.js" );
+const buildKeywordForms = require( "./buildKeywordForms.js" );
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
 
 /**
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
@@ -17,8 +16,7 @@ module.exports = function( paper ) {
 	const title = paper.getTitle();
 	// const locale = paper.getLocale();
 
-	const keyword = escapeRegExp( paper.getKeyword() );
-	const keywordForms = getForms( keyword );
+	const keywordForms = buildKeywordForms( paper );
 
 	let result = { matches: 0, position: -1 };
 	result.matches = matchTextWithArray( title, keywordForms ).length;

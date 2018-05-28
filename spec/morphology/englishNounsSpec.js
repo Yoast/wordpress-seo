@@ -200,7 +200,6 @@ const regularNounsToTest = [
 	[ "parenthesis", "parentheses" ],
 	[ "penis", "penes" ],
 	[ "periegesis", "periegeses" ],
-	[ "periphrasis", "periphrases" ],
 	[ "phaeohyphomycosis", "phaeohyphomycoses" ],
 	[ "phagocytosis", "phagocytoses" ],
 	[ "phakomatosis", "phakomatoses" ],
