@@ -93,6 +93,10 @@ class WPSEO_Admin {
 			Yoast_Network_Settings_API::get()->register_hooks();
 		}
 
+		if ( Yoast_Network_Admin::meets_requirements() ) {
+			Yoast_Network_Admin::get()->register_hooks();
+		}
+
 		new Yoast_Modal();
 
 		$integrations[] = new WPSEO_Yoast_Columns();
