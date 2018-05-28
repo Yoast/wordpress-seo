@@ -120,7 +120,7 @@ class Yoast_Network_Admin {
 
 		$option_group = 'wpseo_ms';
 
-		$site_id = (int) filter_input( INPUT_POST, 'site_id', FILTER_SANITIZE_NUMBER_INT );
+		$site_id = ! empty( $_POST[ $option_group ]['site_id'] ) ? (int) $_POST[ $option_group ]['site_id'] : 0;
 		if ( ! $site_id ) {
 			add_settings_error( $option_group, 'settings_updated', __( 'No site has been selected to restore.', 'wordpress-seo' ), 'error' );
 		}
@@ -177,12 +177,11 @@ class Yoast_Network_Admin {
 			$yform->select(
 				'site_id',
 				__( 'Site ID', 'wordpress-seo' ),
-				$this->get_site_choices(),
-				'wpseo_ms'
+				$this->get_site_choices()
 			);
 		}
 		else {
-			$yform->textinput( 'site_id', __( 'Blog ID', 'wordpress-seo' ), 'wpseo_ms' );
+			$yform->textinput( 'site_id', __( 'Blog ID', 'wordpress-seo' ) );
 		}
 
 		echo '<input type="hidden" name="action" value="' . esc_attr( self::RESTORE_SITE_ACTION ) . '" />';
