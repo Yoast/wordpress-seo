@@ -248,25 +248,6 @@ describe( "SnippetEditor", () => {
 
 		expect( editor ).toMatchSnapshot();
 	} );
-	it( "decodes separator replacement variables in the ", () => {
-		const editor = mountWithArgs( {
-			replacementVariables: [
-				{
-					name: "title",
-					value: "Title: %sep%",
-				},
-				{
-					name: "sep",
-					value: "&ndash;",
-				},
-			],
-		} );
-
-		editor.instance().open();
-		editor.update();
-
-		expect( editor ).toMatchSnapshot();
-	} );
 
 	describe( "colored progress bars", () => {
 		it( "can handle scores of 3 and 9", () => {
