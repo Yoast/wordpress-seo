@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.5
-Stable tag: 7.5
+Stable tag: 7.5.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,6 +106,18 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.6.0 =
+Release Date: May 29th, 2018
+
+Enhancements:
+* Changes the Search Preview-box to be completely rendered by React. This will give us the possibility to add new features to it and use it on different pages.
+
+= 7.5.1 =
+Release Date: May 16th, 2018
+
+Bugfixes:
+* Fixes a bug where the auto-generating of the slug did not work as expected due to persisting of the post name too agressively.
+
 = 7.5.0 =
 Release Date: May 15th, 2018
 
@@ -157,4 +169,4 @@ Other:
 
 = Earlier versions =
 
-For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog
+For the changelog of earlier versions, please refer to [https://yoa.st/yoast-seo-changelog](https://yoa.st/yoast-seo-changelog).

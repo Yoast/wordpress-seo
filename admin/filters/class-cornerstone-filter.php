@@ -13,7 +13,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	/**
 	 * Returns the query value this filter uses.
 	 *
-	 * @return {string} The query value this filter uses.
+	 * @return string The query value this filter uses.
 	 */
 	public function get_query_val() {
 		return 'cornerstone';
