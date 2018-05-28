@@ -468,14 +468,12 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
         </span>
         <div
           className="c21 c22"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
             className="c21 c22"
-            color="#545454"
           >
             Totally different description
           </div>
@@ -591,7 +589,6 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
     description="Test description, %%replacement_variable%%"
     hoveredField={null}
     isAmp={false}
-    isDescriptionGenerated={false}
     keyword=""
     locale="en"
     mode="mobile"
@@ -1156,6 +1153,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       "score": 0,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -1202,7 +1200,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       description="Test description, %%replacement_variable%%"
       hoveredField={null}
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -1595,21 +1592,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   >
                     <div
                       className="c21 c22"
-                      color="#545454"
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
+                        isDescriptionGenerated={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <div
                             className="c21 c22"
-                            color="#545454"
                           >
                             Test description, %%replacement_variable%%
                           </div>
@@ -2769,6 +2766,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       "score": 0,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -2815,7 +2813,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       description="Test description, %%replacement_variable%%"
       hoveredField={null}
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -3208,21 +3205,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   >
                     <div
                       className="c21 c22"
-                      color="#545454"
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
+                        isDescriptionGenerated={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <div
                             className="c21 c22"
-                            color="#545454"
                           >
                             Test description, %%replacement_variable%%
                           </div>
@@ -4382,6 +4379,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       "score": 0,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -4428,7 +4426,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       description="Test description, %%replacement_variable%%"
       hoveredField={null}
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -4821,21 +4818,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   >
                     <div
                       className="c21 c22"
-                      color="#545454"
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
+                        isDescriptionGenerated={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <div
                             className="c21 c22"
-                            color="#545454"
                           >
                             Test description, %%replacement_variable%%
                           </div>
@@ -5995,6 +5992,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       "score": 0,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -6041,7 +6039,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       description="Test description, %%replacement_variable%%"
       hoveredField={null}
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -6434,21 +6431,21 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   >
                     <div
                       className="c21 c22"
-                      color="#545454"
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
+                        isDescriptionGenerated={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <div
                             className="c21 c22"
-                            color="#545454"
                           >
                             Test description, %%replacement_variable%%
                           </div>
@@ -7454,6 +7451,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       "score": 0,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -7500,7 +7498,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       description="Test description, %%replacement_variable%%"
       hoveredField={null}
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -7893,21 +7890,21 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   >
                     <div
                       className="c21 c22"
-                      color="#545454"
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
+                        isDescriptionGenerated={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <div
                             className="c21 c22"
-                            color="#545454"
                           >
                             Test description, %%replacement_variable%%
                           </div>
@@ -8846,6 +8843,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       "score": 0,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -8892,7 +8890,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       description="Test description, %%replacement_variable%%"
       hoveredField={null}
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -9285,21 +9282,21 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   >
                     <div
                       className="c21 c22"
-                      color="#545454"
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
+                        isDescriptionGenerated={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <div
                             className="c21 c22"
-                            color="#545454"
                           >
                             Test description, %%replacement_variable%%
                           </div>
@@ -10491,6 +10488,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       "score": 9,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -10537,7 +10535,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       description="Test description, %%replacement_variable%%"
       hoveredField={null}
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -10930,21 +10927,21 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   >
                     <div
                       className="c21 c22"
-                      color="#545454"
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
+                        isDescriptionGenerated={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <div
                             className="c21 c22"
-                            color="#545454"
                           >
                             Test description, %%replacement_variable%%
                           </div>
@@ -12073,14 +12070,12 @@ exports[`SnippetEditor highlights a focused field 1`] = `
         </span>
         <div
           className="c21 c22"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
             className="c21 c22"
-            color="#545454"
           >
             Test description, %%replacement_variable%%
           </div>
@@ -12655,14 +12650,12 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
         </span>
         <div
           className="c21 c22"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
             className="c21 c22"
-            color="#545454"
           >
             Test description, %%replacement_variable%%
           </div>
@@ -13280,6 +13273,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       "score": 0,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -13326,7 +13320,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       description="Test description, %%replacement_variable%%"
       hoveredField={null}
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -13726,21 +13719,21 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     >
                       <div
                         className="c21 c22 c23"
-                        color="#545454"
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
                         onMouseUp={[Function]}
                       >
                         <SnippetPreview__MobileDescription
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <SnippetPreview__DesktopDescription
                             className="c22"
                             innerRef={[Function]}
+                            isDescriptionGenerated={false}
                           >
                             <div
                               className="c22 c23"
-                              color="#545454"
                             >
                               Test description, %%replacement_variable%%
                             </div>
@@ -14913,6 +14906,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       "score": 0,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -14959,7 +14953,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       description="Test description, %%replacement_variable%%"
       hoveredField="description"
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -15359,21 +15352,21 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     >
                       <div
                         className="c21 c22 c23"
-                        color="#545454"
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
                         onMouseUp={[Function]}
                       >
                         <SnippetPreview__MobileDescription
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <SnippetPreview__DesktopDescription
                             className="c22"
                             innerRef={[Function]}
+                            isDescriptionGenerated={false}
                           >
                             <div
                               className="c22 c23"
-                              color="#545454"
                             >
                               Test description, %%replacement_variable%%
                             </div>
@@ -16534,6 +16527,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       "score": 0,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -16580,7 +16574,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       description="Test description, %%replacement_variable%%"
       hoveredField={null}
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -16973,21 +16966,21 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   >
                     <div
                       className="c21 c22"
-                      color="#545454"
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
+                        isDescriptionGenerated={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <div
                             className="c21 c22"
-                            color="#545454"
                           >
                             Test description, %%replacement_variable%%
                           </div>
@@ -18147,6 +18140,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       "score": 0,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -18204,7 +18198,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
       description="Test description, %%replacement_variable%%"
       hoveredField={null}
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -18597,21 +18590,21 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   >
                     <div
                       className="c21 c22"
-                      color="#545454"
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
+                        isDescriptionGenerated={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <div
                             className="c21 c22"
-                            color="#545454"
                           >
                             Test description, %%replacement_variable%%
                           </div>
@@ -19777,14 +19770,12 @@ exports[`SnippetEditor passes the date prop 1`] = `
         </span>
         <div
           className="c21 c22"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
             className="c21 c22"
-            color="#545454"
           >
             <span
               className="c23"
@@ -19906,7 +19897,6 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
     description="Test description, %%replacement_variable%%"
     hoveredField={null}
     isAmp={false}
-    isDescriptionGenerated={false}
     keyword=""
     locale="en"
     mode="mobile"
@@ -20471,6 +20461,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       "score": 0,
     }
   }
+  generatedDescription=""
   intl={
     Object {
       "defaultFormats": Object {},
@@ -20517,7 +20508,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       description="Test description, %%replacement_variable%%"
       hoveredField={null}
       isAmp={false}
-      isDescriptionGenerated={false}
       keyword=""
       locale="en"
       mode="mobile"
@@ -20910,21 +20900,21 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   >
                     <div
                       className="c21 c22"
-                      color="#545454"
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
+                        isDescriptionGenerated={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
+                          isDescriptionGenerated={false}
                         >
                           <div
                             className="c21 c22"
-                            color="#545454"
                           >
                             Test description, %%replacement_variable%%
                           </div>
@@ -22053,7 +22043,6 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
           </span>
           <div
             className="c22"
-            color="#545454"
             onMouseEnter={[Function]}
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
@@ -22631,14 +22620,12 @@ exports[`SnippetEditor shows the editor 1`] = `
         </span>
         <div
           className="c21 c22"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
             className="c21 c22"
-            color="#545454"
           >
             Test description, %%replacement_variable%%
           </div>

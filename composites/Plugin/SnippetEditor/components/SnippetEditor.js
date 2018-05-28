@@ -266,17 +266,18 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Maps the data from to be suitable for the preview.
 	 *
-	 * @param {Object} originalData The data from the form.
+	 * @param {Object} originalData         The data from the form.
+	 * @param {string} generatedDescription The description that should be displayed, or an empty string.
 	 *
 	 * @returns {Object} The data for the preview.
 	 */
-	mapDataToPreview( originalData ) {
+	mapDataToPreview( originalData, generatedDescription ) {
 		const { baseUrl, mapDataToPreview } = this.props;
 
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title ),
 			url: baseUrl.replace( "https://", "" ) + originalData.slug,
-			description: this.processReplacementVariables( originalData.description ),
+			description: this.processReplacementVariables( originalData.description || generatedDescription ),
 		};
 
 		if ( mapDataToPreview ) {
@@ -335,6 +336,7 @@ class SnippetEditor extends React.Component {
 			onChange,
 			data,
 			descriptionPlaceholder,
+			generatedDescription,
 			mode,
 			date,
 			locale,
@@ -347,7 +349,7 @@ class SnippetEditor extends React.Component {
 			isOpen,
 		} = this.state;
 
-		const mappedData = this.mapDataToPreview( data );
+		const mappedData = this.mapDataToPreview( data, generatedDescription );
 
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
@@ -397,6 +399,7 @@ SnippetEditor.propTypes = {
 	} ).isRequired,
 	descriptionPlaceholder: PropTypes.string,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
+	generatedDescription: PropTypes.string,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
@@ -423,6 +426,7 @@ SnippetEditor.defaultProps = {
 		score: 0,
 	},
 	mapDataToPreview: null,
+	generatedDescription: "",
 	locale: "en",
 };
 
