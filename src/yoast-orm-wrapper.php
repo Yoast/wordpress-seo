@@ -82,7 +82,7 @@ class ORMWrapper extends ORM {
 	 * @return ORMWrapper
 	 */
 	public static function for_table( $table_name, $connection_name = parent::DEFAULT_CONNECTION ) {
-		self::_setup_db( $connection_name );
+		static::_setup_db( $connection_name );
 
 		return new self( $table_name, array(), $connection_name );
 	}
