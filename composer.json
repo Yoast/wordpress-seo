@@ -29,7 +29,7 @@
 		"yoast/api-libs": "^2.0",
 		"xrstf/composer-php52": "^1.0.20",
 		"yoast/whip": "^1.1.0",
-		"j4mie/paris": "^1.5",
+		"j4mie/idiorm": "^1.5",
 		"pimple/pimple": "^3.2",
 		"ruckusing/ruckusing-migrations": "^1.1"
 	},
@@ -73,7 +73,6 @@
 		"prefix-dependencies": [
 			"composer prefix-ruckusing",
 			"composer prefix-idiorm",
-			"composer prefix-paris",
 			"touch ./vendor_prefixed/dependencies-prefixed.txt",
 			"composer du"
 		],
@@ -82,9 +81,6 @@
 		],
 		"prefix-idiorm": [
 			"./vendor/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/j4mie/idiorm --config=config/php-scoper/idiorm.inc.php --force --quiet"
-		],
-		"prefix-paris": [
-			"./vendor/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/j4mie/paris --config=config/php-scoper/paris.inc.php --force --quiet"
 		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd",
