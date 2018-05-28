@@ -29,7 +29,7 @@ const colorDate = "#808080";
 
 const MAX_WIDTH = 600;
 const WIDTH_PADDING = 20;
-const DESCRIPTION_LIMIT = 280;
+const DESCRIPTION_LIMIT = 156;
 
 export const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: white;
@@ -147,14 +147,8 @@ export const DesktopDescription = styled.div.attrs( {
 `;
 
 const MobileDescription = styled( DesktopDescription )`
-`;
-
-const MobileDescriptionOverflowContainer = styled( MobileDescription )`
 	font-size: 14px;
 	line-height: 20px;
-	max-height: 80px; // max four lines of text
-	overflow: hidden;
-	text-overflow: ellipsis;
 `;
 
 const MobilePartContainer = styled.div`
@@ -360,38 +354,6 @@ export default class SnippetPreview extends PureComponent {
 	}
 
 	/**
-	 * Set the description in the state so it fits in four lines.
-	 *
-	 * @returns {void}
-	 */
-	fitDescription() {
-		const descriptionElement = this._descriptionElement;
-
-		/*
-		 * See the logic for TWO_LINES_OF_CHARACTERS_PER_WIDTH. We've determined that
-		 * 1.75 is a good amount as a heuristic.
-		 */
-		const PIXELS_PER_CHARACTER_FOR_FOUR_LINES = 1.75;
-
-		if ( this.hasOverflowedContent( descriptionElement ) ) {
-			let prevDescription = this.state.description;
-
-			// Heuristic to prevent too many re-renders.
-			const maxCharacterCount = descriptionElement.clientWidth / PIXELS_PER_CHARACTER_FOR_FOUR_LINES;
-
-			if ( prevDescription.length > maxCharacterCount ) {
-				prevDescription = prevDescription.substring( 0, maxCharacterCount );
-			}
-
-			const newDescription = this.dropLastWord( prevDescription );
-
-			this.setState( {
-				description: newDescription,
-			} );
-		}
-	}
-
-	/**
 	 * Removes the last word of a sentence.
 	 *
 	 * @param {string} sentence The sentence to drop a word of.
@@ -427,18 +389,11 @@ export default class SnippetPreview extends PureComponent {
 			return this.props.descriptionPlaceholder;
 		}
 
-		if ( this.props.mode === MODE_MOBILE && this.props.description !== this.state.description ) {
-			return this.state.description + " ...";
-		}
-
-		if ( this.props.mode === MODE_DESKTOP ) {
-			return truncate( this.props.description, {
-				length: DESCRIPTION_LIMIT,
-				omission: "",
-			} );
-		}
-
-		return this.props.description;
+		return truncate( this.props.description, {
+			length: DESCRIPTION_LIMIT,
+			separator: " ",
+			omission: " ...",
+		} );
 	}
 
 	/**
@@ -583,7 +538,6 @@ export default class SnippetPreview extends PureComponent {
 			// Make sure that fitting the title doesn't block other rendering.
 			this.fitTitleTimeout = setTimeout( () => {
 				this.fitTitle();
-				this.fitDescription();
 			}, 10 );
 		}
 	}
@@ -630,12 +584,12 @@ export default class SnippetPreview extends PureComponent {
 				<MobileDescriptionWithCaret
 					{ ...outerContainerProps }
 				>
-					<MobileDescriptionOverflowContainer
+					<MobileDescription
 						innerRef={ this.setDescriptionRef }
 					>
 						{ renderedDate }
 						{ highlightKeyword( locale, keyword, this.getDescription() ) }
-					</MobileDescriptionOverflowContainer>
+					</MobileDescription>
 				</MobileDescriptionWithCaret>
 			);
 		}

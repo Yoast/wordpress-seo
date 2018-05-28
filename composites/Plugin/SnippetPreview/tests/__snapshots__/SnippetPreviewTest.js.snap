@@ -1379,7 +1379,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   max-width: 100%;
 }
 
-.c22 {
+.c23 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1387,12 +1387,9 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 13px;
 }
 
-.c23 {
+.c22 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -1573,14 +1570,14 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Meta description preview:
       </span>
       <div
-        className="c22"
+        className="c22 c23"
         color="#545454"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c23 c22"
+          className="c22 c23"
           color="#545454"
         >
           Description
@@ -1791,7 +1788,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1799,12 +1796,9 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -1971,14 +1965,14 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21"
+        className="c21 c22"
         color="#545454"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c22 c21"
+          className="c21 c22"
           color="#545454"
         >
           Description
@@ -2189,7 +2183,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2197,12 +2191,9 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c21 {
   font-size: 14px;
   line-height: 20px;
-  max-height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .c13 {
@@ -2369,14 +2360,14 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21"
+        className="c21 c22"
         color="#545454"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c22 c21"
+          className="c21 c22"
           color="#545454"
         >
           Description
