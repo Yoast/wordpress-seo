@@ -5,6 +5,7 @@ import { __ } from "@wordpress/i18n";
 import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
 import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
 import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
+import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -342,10 +343,15 @@ class SnippetEditor extends React.Component {
 	mapDataToPreview( originalData ) {
 		const { baseUrl, mapDataToPreview } = this.props;
 
+		let description = this.processReplacementVariables( originalData.description );
+
+		// Strip multiple spaces and spaces at the beginning and end.
+		description = stripSpaces( description );
+
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title ),
 			url: baseUrl.replace( "https://", "" ) + originalData.slug,
-			description: this.processReplacementVariables( originalData.description ),
+			description: description,
 		};
 
 		if ( mapDataToPreview ) {
