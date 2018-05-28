@@ -115,12 +115,9 @@ class SnippetEditor extends React.Component {
 			data,
 			titleLengthProgress,
 			descriptionLengthProgress,
-			descriptionFieldPlaceholder,
 		} = this.props;
 		const replacementVariables = this.decodeSeparatorVariable( this.props.replacementVariables );
 		const { activeField, hoveredField, isOpen } = this.state;
-
-		console.log( "SnippetEditorFields placeholder: ", descriptionFieldPlaceholder );
 
 		if ( ! isOpen ) {
 			return null;

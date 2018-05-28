@@ -82,7 +82,6 @@ class ReplacementVariableEditor extends React.Component {
 		 * `rawContent === serialize( unserialize( rawContent ) )`
 		 */
 		this._serializedContent = rawContent;
-		this.styleDraftEditor = styleDraftEditor;
 
 		this.onChange = this.onChange.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
@@ -244,12 +243,9 @@ class ReplacementVariableEditor extends React.Component {
 	 * @returns {ReactElement} The rendered element.
 	 */
 	render() {
-		console.log( "placeholder: ", this.props.descriptionEditorFieldPlaceholder );
-		console.log( "blockStyleFn: ", this.props.blockStyleFn );
 		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy, descriptionEditorFieldPlaceholder, blockStyleFn } = this.props;
+		const { onFocus, onBlur, ariaLabelledBy, descriptionEditorFieldPlaceholder } = this.props;
 		const { editorState, replacementVariables } = this.state;
-		const styleDraftEditor = this.styleDraftEditor;
 
 		return (
 			<React.Fragment>
@@ -262,7 +258,6 @@ class ReplacementVariableEditor extends React.Component {
 					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
-					customStyleMap={ styleDraftEditor }
 					placeholder={ descriptionEditorFieldPlaceholder }
 				/>
 				<MentionSuggestions

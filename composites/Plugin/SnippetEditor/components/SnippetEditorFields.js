@@ -217,7 +217,6 @@ class SnippetEditorFields extends React.Component {
 	 * @returns {ReactElement} The snippet editor element.
 	 */
 	render() {
-		console.log( "PROPS: ", this.props );
 		const {
 			activeField,
 			hoveredField,
@@ -233,8 +232,6 @@ class SnippetEditorFields extends React.Component {
 				description,
 			},
 		} = this.props;
-
-		console.log( "SnippetEditorFields placeholder: ", descriptionEditorFieldPlaceholder );
 
 		const titleLabelId = `${ this.uniqueId }-title`;
 		const slugLabelId = `${ this.uniqueId }-slug`;
