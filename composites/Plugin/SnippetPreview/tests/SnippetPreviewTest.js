@@ -11,7 +11,7 @@ const defaultArgs = {
 	title: "Title",
 	url: "https://example.org",
 	mode: MODE_DESKTOP,
-	onClick: jest.fn(),
+	onMouseUp: jest.fn(),
 };
 
 const renderSnapshotWithArgs = ( changedArgs ) => {

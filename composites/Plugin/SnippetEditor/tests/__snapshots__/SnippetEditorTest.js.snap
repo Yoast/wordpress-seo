@@ -405,9 +405,9 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
         </span>
         <div
           className="c14"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c15 c16"
@@ -438,9 +438,9 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
         >
           <div
             className="c19"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             example.org › totally-different-url
           </div>
@@ -469,9 +469,9 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
         <div
           className="c21 c22"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c21 c22"
@@ -582,7 +582,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 </div>
 `;
 
-exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] = `
+exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`] = `
 <div>
   <SnippetPreview
     activeField={null}
@@ -595,10 +595,10 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
     keyword=""
     locale="en"
     mode="mobile"
-    onClick={[Function]}
     onHover={[Function]}
+    onMouseEnter={[Function]}
     onMouseLeave={[Function]}
-    onMouseOver={[Function]}
+    onMouseUp={[Function]}
     title="Test title"
     url="example.org/test-slug"
   />
@@ -635,6 +635,7 @@ exports[`SnippetEditor activates a field on onClick() and opens the editor 1`] =
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -1178,10 +1179,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       keyword=""
       locale="en"
       mode="mobile"
-      onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
+      onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -1432,15 +1433,15 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <div
                     className="c14"
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -1497,15 +1498,15 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     className="c18"
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c19"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -1554,23 +1555,23 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
                     isDescriptionGenerated={false}
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <div
                       className="c21 c22"
                       color="#545454"
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
@@ -2002,6 +2003,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -2022,12 +2024,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-title"
+                id="snippet-editor-field-6-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-title"
+                  id="snippet-editor-field-6-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -2043,8 +2045,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-title"
+                    ariaLabelledBy="snippet-editor-field-6-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -2075,12 +2078,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-slug"
+                id="snippet-editor-field-6-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-slug"
+                  id="snippet-editor-field-6-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -2096,15 +2099,17 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-5-slug"
+                    aria-labelledby="snippet-editor-field-6-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-5-slug"
+                      aria-labelledby="snippet-editor-field-6-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -2119,12 +2124,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-description"
+                id="snippet-editor-field-6-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-description"
+                  id="snippet-editor-field-6-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -2140,8 +2145,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-description"
+                    ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -2758,10 +2764,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       keyword=""
       locale="en"
       mode="mobile"
-      onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
+      onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -3012,15 +3018,15 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <div
                     className="c14"
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -3077,15 +3083,15 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     className="c18"
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c19"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -3134,23 +3140,23 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
                     isDescriptionGenerated={false}
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <div
                       className="c21 c22"
                       color="#545454"
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
@@ -3582,6 +3588,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -3602,12 +3609,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-title"
+                id="snippet-editor-field-6-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-title"
+                  id="snippet-editor-field-6-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -3623,8 +3630,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-title"
+                    ariaLabelledBy="snippet-editor-field-6-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -3655,12 +3663,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-slug"
+                id="snippet-editor-field-6-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-slug"
+                  id="snippet-editor-field-6-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -3676,15 +3684,17 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-5-slug"
+                    aria-labelledby="snippet-editor-field-6-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-5-slug"
+                      aria-labelledby="snippet-editor-field-6-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -3699,12 +3709,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-description"
+                id="snippet-editor-field-6-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-description"
+                  id="snippet-editor-field-6-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -3720,8 +3730,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-description"
+                    ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -4338,10 +4349,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       keyword=""
       locale="en"
       mode="mobile"
-      onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
+      onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -4592,15 +4603,15 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <div
                     className="c14"
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -4657,15 +4668,15 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     className="c18"
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c19"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -4714,23 +4725,23 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
                     isDescriptionGenerated={false}
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <div
                       className="c21 c22"
                       color="#545454"
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
@@ -5162,6 +5173,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -5182,12 +5194,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-title"
+                id="snippet-editor-field-6-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-title"
+                  id="snippet-editor-field-6-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -5203,8 +5215,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-title"
+                    ariaLabelledBy="snippet-editor-field-6-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -5235,12 +5248,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-slug"
+                id="snippet-editor-field-6-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-slug"
+                  id="snippet-editor-field-6-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -5256,15 +5269,17 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-5-slug"
+                    aria-labelledby="snippet-editor-field-6-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-5-slug"
+                      aria-labelledby="snippet-editor-field-6-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -5279,12 +5294,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-description"
+                id="snippet-editor-field-6-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-description"
+                  id="snippet-editor-field-6-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -5300,8 +5315,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-description"
+                    ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -5918,10 +5934,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       keyword=""
       locale="en"
       mode="mobile"
-      onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
+      onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -6172,15 +6188,15 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <div
                     className="c14"
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -6237,15 +6253,15 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     className="c18"
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c19"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -6294,23 +6310,23 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
                     isDescriptionGenerated={false}
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <div
                       className="c21 c22"
                       color="#545454"
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
@@ -6742,6 +6758,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -6785,6 +6802,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-2-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -6838,6 +6856,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-2-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -6845,6 +6864,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     <input
                       aria-labelledby="snippet-editor-field-2-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -6882,6 +6902,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-2-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -7370,10 +7391,10 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       keyword=""
       locale="en"
       mode="mobile"
-      onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
+      onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -7624,15 +7645,15 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <div
                     className="c14"
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -7689,15 +7710,15 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     className="c18"
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c19"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -7746,23 +7767,23 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
                     isDescriptionGenerated={false}
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <div
                       className="c21 c22"
                       color="#545454"
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
@@ -8736,10 +8757,10 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       keyword=""
       locale="en"
       mode="mobile"
-      onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
+      onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -8990,15 +9011,15 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <div
                     className="c14"
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -9055,15 +9076,15 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     className="c18"
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c19"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -9112,23 +9133,23 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
                     isDescriptionGenerated={false}
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <div
                       className="c21 c22"
                       color="#545454"
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
@@ -9560,6 +9581,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -9580,12 +9602,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-8-title"
+                id="snippet-editor-field-9-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-8-title"
+                  id="snippet-editor-field-9-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -9601,8 +9623,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-8-title"
+                    ariaLabelledBy="snippet-editor-field-9-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -9633,12 +9656,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-8-slug"
+                id="snippet-editor-field-9-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-8-slug"
+                  id="snippet-editor-field-9-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -9654,15 +9677,17 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-8-slug"
+                    aria-labelledby="snippet-editor-field-9-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-8-slug"
+                      aria-labelledby="snippet-editor-field-9-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -9677,12 +9702,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-8-description"
+                id="snippet-editor-field-9-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-8-description"
+                  id="snippet-editor-field-9-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -9698,8 +9723,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-8-description"
+                    ariaLabelledBy="snippet-editor-field-9-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -10348,10 +10374,10 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       keyword=""
       locale="en"
       mode="mobile"
-      onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
+      onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -10602,15 +10628,15 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <div
                     className="c14"
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -10667,15 +10693,15 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     className="c18"
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c19"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -10724,23 +10750,23 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
                     isDescriptionGenerated={false}
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <div
                       className="c21 c22"
                       color="#545454"
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
@@ -11172,6 +11198,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -11192,12 +11219,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-7-title"
+                id="snippet-editor-field-8-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-7-title"
+                  id="snippet-editor-field-8-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -11213,8 +11240,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-7-title"
+                    ariaLabelledBy="snippet-editor-field-8-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -11245,12 +11273,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-7-slug"
+                id="snippet-editor-field-8-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-7-slug"
+                  id="snippet-editor-field-8-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -11266,15 +11294,17 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-7-slug"
+                    aria-labelledby="snippet-editor-field-8-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-7-slug"
+                      aria-labelledby="snippet-editor-field-8-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -11289,12 +11319,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-7-description"
+                id="snippet-editor-field-8-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-7-description"
+                  id="snippet-editor-field-8-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -11310,8 +11340,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-7-description"
+                    ariaLabelledBy="snippet-editor-field-8-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -11403,79 +11434,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
     </Button>
   </div>
 </SnippetEditor>
-`;
-
-exports[`SnippetEditor doesn't remove the highlight if the wrong field is left 1`] = `
-<div>
-  <SnippetPreview
-    activeField={null}
-    breadcrumbs={null}
-    date=""
-    description="Test description, %%replacement_variable%%"
-    hoveredField="description"
-    isAmp={false}
-    isDescriptionGenerated={false}
-    keyword=""
-    locale="en"
-    mode="mobile"
-    onClick={[Function]}
-    onHover={[Function]}
-    onMouseLeave={[Function]}
-    onMouseOver={[Function]}
-    title="Test title"
-    url="example.org/test-slug"
-  />
-  <ModeSwitcher
-    active="mobile"
-    onChange={[Function]}
-  />
-  <Button
-    aria-expanded={true}
-    innerRef={[Function]}
-    onClick={[Function]}
-  >
-    <SvgIcon
-      icon="edit"
-      size="16px"
-    />
-    Edit snippet
-  </Button>
-  <React.Fragment>
-    <SnippetEditorFields
-      activeField={null}
-      data={
-        Object {
-          "description": "Test description, %%replacement_variable%%",
-          "slug": "test-slug",
-          "title": "Test title",
-        }
-      }
-      descriptionLengthProgress={
-        Object {
-          "actual": 0,
-          "max": 156,
-          "score": 0,
-        }
-      }
-      hoveredField="description"
-      onChange={[Function]}
-      onFocus={[Function]}
-      replacementVariables={Array []}
-      titleLengthProgress={
-        Object {
-          "actual": 0,
-          "max": 600,
-          "score": 0,
-        }
-      }
-    />
-    <Button
-      onClick={[Function]}
-    >
-      Close snippet editor
-    </Button>
-  </React.Fragment>
-</div>
 `;
 
 exports[`SnippetEditor highlights a focused field 1`] = `
@@ -11883,9 +11841,9 @@ exports[`SnippetEditor highlights a focused field 1`] = `
         </span>
         <div
           className="c14"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c15 c16"
@@ -11916,9 +11874,9 @@ exports[`SnippetEditor highlights a focused field 1`] = `
         >
           <div
             className="c19"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             example.org › test-slug
           </div>
@@ -11947,9 +11905,9 @@ exports[`SnippetEditor highlights a focused field 1`] = `
         <div
           className="c21 c22"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c21 c22"
@@ -12465,9 +12423,9 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
         </span>
         <div
           className="c14"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c15 c16"
@@ -12498,9 +12456,9 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
         >
           <div
             className="c19"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             example.org › test-slug
           </div>
@@ -12529,9 +12487,9 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
         <div
           className="c21 c22"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c21 c22"
@@ -13177,10 +13135,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       keyword=""
       locale="en"
       mode="mobile"
-      onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
+      onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -13431,15 +13389,15 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <div
                     className="c14"
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -13496,15 +13454,15 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     className="c18"
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c19"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -13553,30 +13511,30 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 </FormattedScreenReaderMessage>
                 <SnippetPreview
                   isDescriptionGenerated={false}
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <SnippetPreview__MobileDescription
                     className="c21"
                     isDescriptionGenerated={false}
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__DesktopDescription
                       className="c21 c22"
                       isDescriptionGenerated={false}
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c21 c22 c23"
                         color="#545454"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         <SnippetPreview__MobileDescription
                           innerRef={[Function]}
@@ -14009,6 +13967,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -14052,6 +14011,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -14105,6 +14065,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-4-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -14112,6 +14073,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     <input
                       aria-labelledby="snippet-editor-field-4-slug"
                       className="c35"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -14149,6 +14111,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -14242,7 +14205,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 </SnippetEditor>
 `;
 
-exports[`SnippetEditor highlights the hovered field when onMouseOver() is called 1`] = `
+exports[`SnippetEditor highlights the hovered field when onMouseEnter() is called 1`] = `
 .c11 {
   font-family: Arial,Helvetica,sans-serif;
   font-size: 13px;
@@ -14777,10 +14740,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
       keyword=""
       locale="en"
       mode="mobile"
-      onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
+      onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -15031,15 +14994,15 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <div
                     className="c14"
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -15096,15 +15059,15 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                     className="c18"
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c19"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -15153,30 +15116,30 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 </FormattedScreenReaderMessage>
                 <SnippetPreview
                   isDescriptionGenerated={false}
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <SnippetPreview__MobileDescription
                     className="c21"
                     isDescriptionGenerated={false}
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__DesktopDescription
                       className="c21 c22"
                       isDescriptionGenerated={false}
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c21 c22 c23"
                         color="#545454"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         <SnippetPreview__MobileDescription
                           innerRef={[Function]}
@@ -15609,6 +15572,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
         }
       }
       hoveredField="description"
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -15652,6 +15616,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -15705,6 +15670,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-3-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -15712,6 +15678,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                     <input
                       aria-labelledby="snippet-editor-field-3-slug"
                       className="c35"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -15749,6 +15716,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -16365,10 +16333,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       keyword=""
       locale="en"
       mode="mobile"
-      onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
+      onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -16619,15 +16587,15 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <div
                     className="c14"
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -16684,15 +16652,15 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     className="c18"
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c19"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -16741,23 +16709,23 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
                     isDescriptionGenerated={false}
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <div
                       className="c21 c22"
                       color="#545454"
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
@@ -17189,6 +17157,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -17232,6 +17201,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-1-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -17285,6 +17255,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <SnippetEditorFields__SlugInput
                     aria-labelledby="snippet-editor-field-1-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
@@ -17292,6 +17263,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     <input
                       aria-labelledby="snippet-editor-field-1-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -17329,6 +17301,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-1-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={Array []}
@@ -17956,10 +17929,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
       keyword=""
       locale="en"
       mode="mobile"
-      onClick={[Function]}
       onHover={[Function]}
+      onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      onMouseOver={[Function]}
+      onMouseUp={[Function]}
       title="Test title"
       url="example.org/test-slug"
     >
@@ -18210,15 +18183,15 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__BaseTitle
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <div
                     className="c14"
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <SnippetPreview__TitleBounded>
                       <SnippetPreview__Title
@@ -18275,15 +18248,15 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     className="c18"
                   >
                     <SnippetPreview__BaseUrlOverflowContainer
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <div
                         className="c19"
-                        onClick={[Function]}
+                        onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
-                        onMouseOver={[Function]}
+                        onMouseUp={[Function]}
                       >
                         example.org › test-slug
                       </div>
@@ -18332,23 +18305,23 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
-                  onClick={[Function]}
+                  onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
-                  onMouseOver={[Function]}
+                  onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
                     isDescriptionGenerated={false}
-                    onClick={[Function]}
+                    onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
-                    onMouseOver={[Function]}
+                    onMouseUp={[Function]}
                   >
                     <div
                       className="c21 c22"
                       color="#545454"
-                      onClick={[Function]}
+                      onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
-                      onMouseOver={[Function]}
+                      onMouseUp={[Function]}
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
@@ -18780,6 +18753,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={
@@ -18811,12 +18785,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-6-title"
+                id="snippet-editor-field-7-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-6-title"
+                  id="snippet-editor-field-7-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -18832,8 +18806,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-6-title"
+                    ariaLabelledBy="snippet-editor-field-7-title"
                     content="Test title"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={
@@ -18875,12 +18850,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-6-slug"
+                id="snippet-editor-field-7-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-6-slug"
+                  id="snippet-editor-field-7-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -18896,15 +18871,17 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-6-slug"
+                    aria-labelledby="snippet-editor-field-7-slug"
                     innerRef={[Function]}
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-6-slug"
+                      aria-labelledby="snippet-editor-field-7-slug"
                       className="c34"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       value="test-slug"
@@ -18919,12 +18896,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-6-description"
+                id="snippet-editor-field-7-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-6-description"
+                  id="snippet-editor-field-7-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -18940,8 +18917,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-6-description"
+                    ariaLabelledBy="snippet-editor-field-7-description"
                     content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     replacementVariables={
@@ -19455,9 +19433,9 @@ exports[`SnippetEditor passes the date prop 1`] = `
         </span>
         <div
           className="c14"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c15 c16"
@@ -19488,9 +19466,9 @@ exports[`SnippetEditor passes the date prop 1`] = `
         >
           <div
             className="c19"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             example.org › test-slug
           </div>
@@ -19519,9 +19497,9 @@ exports[`SnippetEditor passes the date prop 1`] = `
         <div
           className="c21 c22"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c21 c22"
@@ -19651,10 +19629,10 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
     keyword=""
     locale="en"
     mode="mobile"
-    onClick={[Function]}
     onHover={[Function]}
+    onMouseEnter={[Function]}
     onMouseLeave={[Function]}
-    onMouseOver={[Function]}
+    onMouseUp={[Function]}
     title="Test title"
     url="example.org/test-slug"
   />
@@ -19691,6 +19669,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
         }
       }
       hoveredField={null}
+      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
@@ -19709,6 +19688,1591 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
     </Button>
   </React.Fragment>
 </div>
+`;
+
+exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = `
+.c11 {
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
+}
+
+.c7 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c2 {
+  font-size: 0.8rem;
+}
+
+.c3:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4:hover {
+  color: #000;
+}
+
+.c5::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c5:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c28 {
+  font-size: 0.8rem;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 10px 0 0 4px;
+  fill: #555;
+  padding-left: 8px;
+}
+
+.c28 svg {
+  margin-right: 7px;
+}
+
+.c36 {
+  font-size: 0.8rem;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-left: 20px;
+}
+
+.c0 {
+  max-width: 600px;
+  font-weight: normal;
+  margin: 0 20px 10px 25px;
+}
+
+.c10 {
+  max-width: 400px;
+  display: block;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  max-height: 0;
+}
+
+.c1 {
+  min-width: 14px;
+  min-height: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  -webkit-clip: rect(1px 1px 1px 1px);
+  clip: rect(1px 1px 1px 1px);
+  box-shadow: none;
+  position: relative;
+  display: block;
+  margin: -44px -10px 10px 0;
+  background-color: transparent;
+  float: right;
+  padding: 3px 0 0 6px;
+}
+
+.c1:hover {
+  color: #0066cd;
+}
+
+.c1:focus {
+  border: 1px solid #0066cd;
+  outline: none;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:focus svg {
+  fill: #0066cd;
+  color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
+}
+
+.c8 {
+  vertical-align: center;
+  position: relative;
+}
+
+.c8:hover {
+  fill: #0066cd;
+}
+
+.c12 {
+  border-bottom: 1px hidden #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  margin: 0 20px 10px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  max-width: 600px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.c14 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c16 {
+  color: #1e0fbe;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c15 {
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c17 {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1.2em;
+  max-height: 2.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c18 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.c19 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.c22 {
+  color: #545454;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  font-size: 13px;
+}
+
+.c21 {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.c13 {
+  padding: 8px 16px;
+}
+
+.c20 {
+  border: 0;
+  border-bottom: 1px solid #DFE1E5;
+  margin: 0;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c33::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c32 {
+  padding: 3px 5px;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
+  cursor: text;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
+  background-size: 25px;
+  content: "";
+}
+
+.c35 {
+  padding: 3px 5px;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
+  cursor: text;
+  min-height: 60px;
+  padding: 2px 6px;
+  line-height: 19.6px;
+}
+
+.c35::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c34:focus {
+  outline: 0;
+}
+
+.c30 {
+  margin: 32px 0;
+}
+
+.c29 {
+  padding: 10px 20px 20px 20px;
+}
+
+.c31 {
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
+.c24 {
+  border: none;
+  border-bottom: 4px solid transparent;
+  width: 31px;
+  height: 31px;
+  border-color: #555;
+  color: #555;
+  -webkit-transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  -webkit-transition-property: border-color;
+  transition-property: border-color;
+  border-radius: 3px 0 0 3px;
+}
+
+.c24:hover,
+.c24:focus {
+  background-color: #fff;
+  border: none;
+  border-bottom: 4px solid transparent;
+  border-color: #1e8cbe;
+  color: #1e8cbe;
+  box-shadow: none;
+}
+
+.c26 {
+  border: none;
+  border-bottom: 4px solid transparent;
+  width: 31px;
+  height: 31px;
+  border-color: transparent;
+  color: #555;
+  -webkit-transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
+  -webkit-transition-property: border-color;
+  transition-property: border-color;
+  border-radius: 0 3px 3px 0;
+}
+
+.c26:hover,
+.c26:focus {
+  background-color: #fff;
+  border: none;
+  border-bottom: 4px solid transparent;
+  border-color: #1e8cbe;
+  color: #1e8cbe;
+  box-shadow: none;
+}
+
+.c23 {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 20px;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  vertical-align: top;
+}
+
+.c9 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c25 {
+  width: 22px;
+  height: 22px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c27 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<SnippetEditor
+  baseUrl="https://example.org/"
+  data={
+    Object {
+      "description": "Test description, %%replacement_variable%%",
+      "slug": "test-slug",
+      "title": "Test title",
+    }
+  }
+  date=""
+  descriptionLengthProgress={
+    Object {
+      "actual": 0,
+      "max": 156,
+      "score": 0,
+    }
+  }
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  locale="en"
+  mapDataToPreview={null}
+  mode="mobile"
+  onChange={[Function]}
+  replacementVariables={Array []}
+  titleLengthProgress={
+    Object {
+      "actual": 0,
+      "max": 600,
+      "score": 0,
+    }
+  }
+>
+  <div>
+    <SnippetPreview
+      activeField={null}
+      breadcrumbs={null}
+      date=""
+      description="Test description, %%replacement_variable%%"
+      hoveredField={null}
+      isAmp={false}
+      isDescriptionGenerated={false}
+      keyword=""
+      locale="en"
+      mode="mobile"
+      onHover={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      title="Test title"
+      url="example.org/test-slug"
+    >
+      <section>
+        <div>
+          <HelpTextWrapper
+            className="yoast-help-button"
+            helpText={
+              Array [
+                "This is a rendering of what this post might look like in Google's search results. ",
+                <a
+                  href="https://yoa.st/snippet-preview"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Learn more about the Snippet Preview.
+                </a>,
+              ]
+            }
+          >
+            <HelpTextWrapper__HelpTextContainer
+              className="yoast-help-button"
+            >
+              <div
+                className="yoast-help-button c0"
+              >
+                <HelpTextWrapper__HelpTextButton
+                  aria-controls="yoast-help-button__helpDiv"
+                  aria-expanded={false}
+                  aria-label="yoast-help-text"
+                  className="yoast-help-button__yoast-help-button"
+                  onClick={[Function]}
+                >
+                  <Button
+                    aria-controls="yoast-help-button__helpDiv"
+                    aria-expanded={false}
+                    aria-label="yoast-help-text"
+                    className="yoast-help-button__yoast-help-button c1"
+                    onClick={[Function]}
+                  >
+                    <Button
+                      aria-controls="yoast-help-button__helpDiv"
+                      aria-expanded={false}
+                      aria-label="yoast-help-text"
+                      backgroundColor="#f7f7f7"
+                      borderColor="#ccc"
+                      boxShadowColor="#ccc"
+                      className="yoast-help-button__yoast-help-button c1 c2"
+                      onClick={[Function]}
+                      textColor="#555"
+                      type="button"
+                    >
+                      <Button
+                        aria-controls="yoast-help-button__helpDiv"
+                        aria-expanded={false}
+                        aria-label="yoast-help-text"
+                        backgroundColor="#f7f7f7"
+                        borderColor="#ccc"
+                        boxShadowColor="#ccc"
+                        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3"
+                        onClick={[Function]}
+                        textColor="#555"
+                        type="button"
+                      >
+                        <Button
+                          aria-controls="yoast-help-button__helpDiv"
+                          aria-expanded={false}
+                          aria-label="yoast-help-text"
+                          backgroundColor="#f7f7f7"
+                          borderColor="#ccc"
+                          boxShadowColor="#ccc"
+                          className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4"
+                          onClick={[Function]}
+                          textColor="#555"
+                          type="button"
+                        >
+                          <Button
+                            aria-controls="yoast-help-button__helpDiv"
+                            aria-expanded={false}
+                            aria-label="yoast-help-text"
+                            backgroundColor="#f7f7f7"
+                            borderColor="#ccc"
+                            boxShadowColor="#ccc"
+                            className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                            onClick={[Function]}
+                            textColor="#555"
+                            type="button"
+                          >
+                            <Button__BaseButton
+                              aria-controls="yoast-help-button__helpDiv"
+                              aria-expanded={false}
+                              aria-label="yoast-help-text"
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              onClick={[Function]}
+                              textColor="#555"
+                              type="button"
+                            >
+                              <button
+                                aria-controls="yoast-help-button__helpDiv"
+                                aria-expanded={false}
+                                aria-label="yoast-help-text"
+                                className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
+                              >
+                                <HelpTextWrapper__StyledSvg
+                                  color="#646464"
+                                  icon="question-circle"
+                                  size="16px"
+                                >
+                                  <SvgIcon
+                                    className="c8"
+                                    color="#646464"
+                                    icon="question-circle"
+                                    size="16px"
+                                  >
+                                    <SvgIcon__StyledSvg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-question-circle c8"
+                                      fill="#646464"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <svg
+                                        aria-hidden={true}
+                                        className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
+                                        fill="#646464"
+                                        focusable="false"
+                                        role="img"
+                                        size="16px"
+                                        viewBox="0 0 1792 1792"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                        />
+                                      </svg>
+                                    </SvgIcon__StyledSvg>
+                                  </SvgIcon>
+                                </HelpTextWrapper__StyledSvg>
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
+                        </Button>
+                      </Button>
+                    </Button>
+                  </Button>
+                </HelpTextWrapper__HelpTextButton>
+                <HelpTextWrapper__HelpTextDiv
+                  aria-hidden={true}
+                  className="yoast-help-button__helpDiv"
+                  style={
+                    Object {
+                      "maxHeight": "0",
+                    }
+                  }
+                >
+                  <div
+                    aria-hidden={true}
+                    className="yoast-help-button__helpDiv c10"
+                    style={
+                      Object {
+                        "maxHeight": "0",
+                      }
+                    }
+                  >
+                    <HelpText
+                      text={
+                        Array [
+                          "This is a rendering of what this post might look like in Google's search results. ",
+                          <a
+                            href="https://yoa.st/snippet-preview"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                            Learn more about the Snippet Preview.
+                          </a>,
+                        ]
+                      }
+                    >
+                      <HelpText__YoastHelpText>
+                        <p
+                          className="c11"
+                        >
+                          This is a rendering of what this post might look like in Google's search results. 
+                          <a
+                            href="https://yoa.st/snippet-preview"
+                            key="1"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                            Learn more about the Snippet Preview.
+                          </a>
+                        </p>
+                      </HelpText__YoastHelpText>
+                    </HelpText>
+                  </div>
+                </HelpTextWrapper__HelpTextDiv>
+              </div>
+            </HelpTextWrapper__HelpTextContainer>
+          </HelpTextWrapper>
+        </div>
+        <SnippetPreview__MobileContainer
+          padding={20}
+          width={640}
+        >
+          <div
+            className="c12"
+            width={640}
+          >
+            <SnippetPreview__MobilePartContainer>
+              <div
+                className="c13"
+              >
+                <FormattedScreenReaderMessage
+                  after=":"
+                  defaultMessage="SEO title preview"
+                  id="snippetPreview.seoTitlePreview"
+                >
+                  <FormattedMessage
+                    after=":"
+                    defaultMessage="SEO title preview"
+                    id="snippetPreview.seoTitlePreview"
+                    values={Object {}}
+                  >
+                    <ScreenReaderText>
+                      <span
+                        className="screen-reader-text"
+                        style={
+                          Object {
+                            "clip": "rect(1px, 1px, 1px, 1px)",
+                            "height": "1px",
+                            "overflow": "hidden",
+                            "position": "absolute",
+                            "width": "1px",
+                          }
+                        }
+                      >
+                        SEO title preview:
+                      </span>
+                    </ScreenReaderText>
+                  </FormattedMessage>
+                </FormattedScreenReaderMessage>
+                <SnippetPreview__BaseTitle
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                >
+                  <div
+                    className="c14"
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                    onMouseUp={[Function]}
+                  >
+                    <SnippetPreview__TitleBounded>
+                      <SnippetPreview__Title
+                        className="c15"
+                      >
+                        <div
+                          className="c15 c16"
+                        >
+                          <SnippetPreview__TitleUnboundedMobile
+                            innerRef={[Function]}
+                          >
+                            <span
+                              className="c17"
+                            >
+                              Test title
+                            </span>
+                          </SnippetPreview__TitleUnboundedMobile>
+                        </div>
+                      </SnippetPreview__Title>
+                    </SnippetPreview__TitleBounded>
+                  </div>
+                </SnippetPreview__BaseTitle>
+                <FormattedScreenReaderMessage
+                  after=":"
+                  defaultMessage="Url preview"
+                  id="snippetPreview.urlPreview"
+                >
+                  <FormattedMessage
+                    after=":"
+                    defaultMessage="Url preview"
+                    id="snippetPreview.urlPreview"
+                    values={Object {}}
+                  >
+                    <ScreenReaderText>
+                      <span
+                        className="screen-reader-text"
+                        style={
+                          Object {
+                            "clip": "rect(1px, 1px, 1px, 1px)",
+                            "height": "1px",
+                            "overflow": "hidden",
+                            "position": "absolute",
+                            "width": "1px",
+                          }
+                        }
+                      >
+                        Url preview:
+                      </span>
+                    </ScreenReaderText>
+                  </FormattedMessage>
+                </FormattedScreenReaderMessage>
+                <SnippetPreview__BaseUrl>
+                  <div
+                    className="c18"
+                  >
+                    <SnippetPreview__BaseUrlOverflowContainer
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                      onMouseUp={[Function]}
+                    >
+                      <div
+                        className="c19"
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        onMouseUp={[Function]}
+                      >
+                        example.org › test-slug
+                      </div>
+                    </SnippetPreview__BaseUrlOverflowContainer>
+                  </div>
+                </SnippetPreview__BaseUrl>
+              </div>
+            </SnippetPreview__MobilePartContainer>
+            <SnippetPreview__Separator>
+              <hr
+                className="c20"
+              />
+            </SnippetPreview__Separator>
+            <SnippetPreview__MobilePartContainer>
+              <div
+                className="c13"
+              >
+                <FormattedScreenReaderMessage
+                  after=":"
+                  defaultMessage="Meta description preview"
+                  id="snippetPreview.metaDescriptionPreview"
+                >
+                  <FormattedMessage
+                    after=":"
+                    defaultMessage="Meta description preview"
+                    id="snippetPreview.metaDescriptionPreview"
+                    values={Object {}}
+                  >
+                    <ScreenReaderText>
+                      <span
+                        className="screen-reader-text"
+                        style={
+                          Object {
+                            "clip": "rect(1px, 1px, 1px, 1px)",
+                            "height": "1px",
+                            "overflow": "hidden",
+                            "position": "absolute",
+                            "width": "1px",
+                          }
+                        }
+                      >
+                        Meta description preview:
+                      </span>
+                    </ScreenReaderText>
+                  </FormattedMessage>
+                </FormattedScreenReaderMessage>
+                <SnippetPreview__MobileDescription
+                  isDescriptionGenerated={false}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                >
+                  <SnippetPreview__DesktopDescription
+                    className="c21"
+                    isDescriptionGenerated={false}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                    onMouseUp={[Function]}
+                  >
+                    <div
+                      className="c21 c22"
+                      color="#545454"
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                      onMouseUp={[Function]}
+                    >
+                      <SnippetPreview__MobileDescription
+                        innerRef={[Function]}
+                      >
+                        <SnippetPreview__DesktopDescription
+                          className="c21"
+                          innerRef={[Function]}
+                        >
+                          <div
+                            className="c21 c22"
+                            color="#545454"
+                          >
+                            Test description, %%replacement_variable%%
+                          </div>
+                        </SnippetPreview__DesktopDescription>
+                      </SnippetPreview__MobileDescription>
+                    </div>
+                  </SnippetPreview__DesktopDescription>
+                </SnippetPreview__MobileDescription>
+              </div>
+            </SnippetPreview__MobilePartContainer>
+          </div>
+        </SnippetPreview__MobileContainer>
+      </section>
+    </SnippetPreview>
+    <ModeSwitcher
+      active="mobile"
+      onChange={[Function]}
+    >
+      <ModeSwitcher__Switcher>
+        <div
+          className="c23"
+        >
+          <ModeSwitcher__SwitcherButton
+            aria-pressed={true}
+            isActive={true}
+            onClick={[Function]}
+          >
+            <Button
+              aria-pressed={true}
+              className="c24"
+              isActive={true}
+              onClick={[Function]}
+            >
+              <Button
+                aria-pressed={true}
+                backgroundColor="#f7f7f7"
+                borderColor="#ccc"
+                boxShadowColor="#ccc"
+                className="c24 c2"
+                isActive={true}
+                onClick={[Function]}
+                textColor="#555"
+                type="button"
+              >
+                <Button
+                  aria-pressed={true}
+                  backgroundColor="#f7f7f7"
+                  borderColor="#ccc"
+                  boxShadowColor="#ccc"
+                  className="c24 c2 Button-kDSBcD c3"
+                  isActive={true}
+                  onClick={[Function]}
+                  textColor="#555"
+                  type="button"
+                >
+                  <Button
+                    aria-pressed={true}
+                    backgroundColor="#f7f7f7"
+                    borderColor="#ccc"
+                    boxShadowColor="#ccc"
+                    className="c24 c2 Button-kDSBcD c3 Button-kDSBcD c4"
+                    isActive={true}
+                    onClick={[Function]}
+                    textColor="#555"
+                    type="button"
+                  >
+                    <Button
+                      aria-pressed={true}
+                      backgroundColor="#f7f7f7"
+                      borderColor="#ccc"
+                      boxShadowColor="#ccc"
+                      className="c24 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                      isActive={true}
+                      onClick={[Function]}
+                      textColor="#555"
+                      type="button"
+                    >
+                      <Button__BaseButton
+                        aria-pressed={true}
+                        backgroundColor="#f7f7f7"
+                        borderColor="#ccc"
+                        boxShadowColor="#ccc"
+                        className="c24 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                        isActive={true}
+                        onClick={[Function]}
+                        textColor="#555"
+                        type="button"
+                      >
+                        <button
+                          aria-pressed={true}
+                          className="c24 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <SvgIcon
+                            color="currentColor"
+                            icon="mobile"
+                            size="22px"
+                          >
+                            <SvgIcon__StyledSvg
+                              aria-hidden={true}
+                              className="yoast-svg-icon yoast-svg-icon-mobile"
+                              fill="currentColor"
+                              focusable="false"
+                              role="img"
+                              size="22px"
+                              viewBox="0 0 1792 1792"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <svg
+                                aria-hidden={true}
+                                className="yoast-svg-icon yoast-svg-icon-mobile c25"
+                                fill="currentColor"
+                                focusable="false"
+                                role="img"
+                                size="22px"
+                                viewBox="0 0 1792 1792"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M976 1408q0-33-23.5-56.5t-56.5-23.5-56.5 23.5-23.5 56.5 23.5 56.5 56.5 23.5 56.5-23.5 23.5-56.5zm208-160v-704q0-13-9.5-22.5t-22.5-9.5h-512q-13 0-22.5 9.5t-9.5 22.5v704q0 13 9.5 22.5t22.5 9.5h512q13 0 22.5-9.5t9.5-22.5zm-192-848q0-16-16-16h-160q-16 0-16 16t16 16h160q16 0 16-16zm288-16v1024q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-1024q0-52 38-90t90-38h512q52 0 90 38t38 90z"
+                                />
+                              </svg>
+                            </SvgIcon__StyledSvg>
+                          </SvgIcon>
+                          <FormattedScreenReaderMessage
+                            defaultMessage="Mobile preview"
+                            id="snippetEditor.desktopPreview"
+                          >
+                            <FormattedMessage
+                              defaultMessage="Mobile preview"
+                              id="snippetEditor.desktopPreview"
+                              values={Object {}}
+                            >
+                              <ScreenReaderText>
+                                <span
+                                  className="screen-reader-text"
+                                  style={
+                                    Object {
+                                      "clip": "rect(1px, 1px, 1px, 1px)",
+                                      "height": "1px",
+                                      "overflow": "hidden",
+                                      "position": "absolute",
+                                      "width": "1px",
+                                    }
+                                  }
+                                >
+                                  Mobile preview
+                                </span>
+                              </ScreenReaderText>
+                            </FormattedMessage>
+                          </FormattedScreenReaderMessage>
+                        </button>
+                      </Button__BaseButton>
+                    </Button>
+                  </Button>
+                </Button>
+              </Button>
+            </Button>
+          </ModeSwitcher__SwitcherButton>
+          <ModeSwitcher__SwitcherButton
+            aria-pressed={false}
+            isActive={false}
+            onClick={[Function]}
+          >
+            <Button
+              aria-pressed={false}
+              className="c26"
+              isActive={false}
+              onClick={[Function]}
+            >
+              <Button
+                aria-pressed={false}
+                backgroundColor="#f7f7f7"
+                borderColor="#ccc"
+                boxShadowColor="#ccc"
+                className="c26 c2"
+                isActive={false}
+                onClick={[Function]}
+                textColor="#555"
+                type="button"
+              >
+                <Button
+                  aria-pressed={false}
+                  backgroundColor="#f7f7f7"
+                  borderColor="#ccc"
+                  boxShadowColor="#ccc"
+                  className="c26 c2 Button-kDSBcD c3"
+                  isActive={false}
+                  onClick={[Function]}
+                  textColor="#555"
+                  type="button"
+                >
+                  <Button
+                    aria-pressed={false}
+                    backgroundColor="#f7f7f7"
+                    borderColor="#ccc"
+                    boxShadowColor="#ccc"
+                    className="c26 c2 Button-kDSBcD c3 Button-kDSBcD c4"
+                    isActive={false}
+                    onClick={[Function]}
+                    textColor="#555"
+                    type="button"
+                  >
+                    <Button
+                      aria-pressed={false}
+                      backgroundColor="#f7f7f7"
+                      borderColor="#ccc"
+                      boxShadowColor="#ccc"
+                      className="c26 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                      isActive={false}
+                      onClick={[Function]}
+                      textColor="#555"
+                      type="button"
+                    >
+                      <Button__BaseButton
+                        aria-pressed={false}
+                        backgroundColor="#f7f7f7"
+                        borderColor="#ccc"
+                        boxShadowColor="#ccc"
+                        className="c26 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                        isActive={false}
+                        onClick={[Function]}
+                        textColor="#555"
+                        type="button"
+                      >
+                        <button
+                          aria-pressed={false}
+                          className="c26 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <SvgIcon
+                            color="currentColor"
+                            icon="desktop"
+                            size="18px"
+                          >
+                            <SvgIcon__StyledSvg
+                              aria-hidden={true}
+                              className="yoast-svg-icon yoast-svg-icon-desktop"
+                              fill="currentColor"
+                              focusable="false"
+                              role="img"
+                              size="18px"
+                              viewBox="0 0 1792 1792"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <svg
+                                aria-hidden={true}
+                                className="yoast-svg-icon yoast-svg-icon-desktop c27"
+                                fill="currentColor"
+                                focusable="false"
+                                role="img"
+                                size="18px"
+                                viewBox="0 0 1792 1792"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M1728 992v-832q0-13-9.5-22.5t-22.5-9.5h-1600q-13 0-22.5 9.5t-9.5 22.5v832q0 13 9.5 22.5t22.5 9.5h1600q13 0 22.5-9.5t9.5-22.5zm128-832v1088q0 66-47 113t-113 47h-544q0 37 16 77.5t32 71 16 43.5q0 26-19 45t-45 19h-512q-26 0-45-19t-19-45q0-14 16-44t32-70 16-78h-544q-66 0-113-47t-47-113v-1088q0-66 47-113t113-47h1600q66 0 113 47t47 113z"
+                                />
+                              </svg>
+                            </SvgIcon__StyledSvg>
+                          </SvgIcon>
+                          <FormattedScreenReaderMessage
+                            defaultMessage="Desktop preview"
+                            id="snippetEditor.desktopPreview"
+                          >
+                            <FormattedMessage
+                              defaultMessage="Desktop preview"
+                              id="snippetEditor.desktopPreview"
+                              values={Object {}}
+                            >
+                              <ScreenReaderText>
+                                <span
+                                  className="screen-reader-text"
+                                  style={
+                                    Object {
+                                      "clip": "rect(1px, 1px, 1px, 1px)",
+                                      "height": "1px",
+                                      "overflow": "hidden",
+                                      "position": "absolute",
+                                      "width": "1px",
+                                    }
+                                  }
+                                >
+                                  Desktop preview
+                                </span>
+                              </ScreenReaderText>
+                            </FormattedMessage>
+                          </FormattedScreenReaderMessage>
+                        </button>
+                      </Button__BaseButton>
+                    </Button>
+                  </Button>
+                </Button>
+              </Button>
+            </Button>
+          </ModeSwitcher__SwitcherButton>
+        </div>
+      </ModeSwitcher__Switcher>
+    </ModeSwitcher>
+    <Button
+      aria-expanded={true}
+      innerRef={[Function]}
+      onClick={[Function]}
+    >
+      <Button
+        aria-expanded={true}
+        backgroundColor="#f7f7f7"
+        borderColor="#ccc"
+        boxShadowColor="#ccc"
+        className="c28"
+        innerRef={[Function]}
+        onClick={[Function]}
+        textColor="#555"
+        type="button"
+      >
+        <Button
+          aria-expanded={true}
+          backgroundColor="#f7f7f7"
+          borderColor="#ccc"
+          boxShadowColor="#ccc"
+          className="c28 Button-kDSBcD c3"
+          innerRef={[Function]}
+          onClick={[Function]}
+          textColor="#555"
+          type="button"
+        >
+          <Button
+            aria-expanded={true}
+            backgroundColor="#f7f7f7"
+            borderColor="#ccc"
+            boxShadowColor="#ccc"
+            className="c28 Button-kDSBcD c3 Button-kDSBcD c4"
+            innerRef={[Function]}
+            onClick={[Function]}
+            textColor="#555"
+            type="button"
+          >
+            <Button
+              aria-expanded={true}
+              backgroundColor="#f7f7f7"
+              borderColor="#ccc"
+              boxShadowColor="#ccc"
+              className="c28 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              innerRef={[Function]}
+              onClick={[Function]}
+              textColor="#555"
+              type="button"
+            >
+              <Button__BaseButton
+                aria-expanded={true}
+                backgroundColor="#f7f7f7"
+                borderColor="#ccc"
+                boxShadowColor="#ccc"
+                className="c28 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                innerRef={[Function]}
+                onClick={[Function]}
+                textColor="#555"
+                type="button"
+              >
+                <button
+                  aria-expanded={true}
+                  className="c28 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <SvgIcon
+                    icon="edit"
+                    size="16px"
+                  >
+                    <SvgIcon__StyledSvg
+                      aria-hidden={true}
+                      className="yoast-svg-icon yoast-svg-icon-edit"
+                      focusable="false"
+                      role="img"
+                      size="16px"
+                      viewBox="0 0 1792 1792"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <svg
+                        aria-hidden={true}
+                        className="yoast-svg-icon yoast-svg-icon-edit c9"
+                        focusable="false"
+                        role="img"
+                        size="16px"
+                        viewBox="0 0 1792 1792"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+                        />
+                      </svg>
+                    </SvgIcon__StyledSvg>
+                  </SvgIcon>
+                  Edit snippet
+                </button>
+              </Button__BaseButton>
+            </Button>
+          </Button>
+        </Button>
+      </Button>
+    </Button>
+    <SnippetEditorFields
+      activeField={null}
+      data={
+        Object {
+          "description": "Test description, %%replacement_variable%%",
+          "slug": "test-slug",
+          "title": "Test title",
+        }
+      }
+      descriptionLengthProgress={
+        Object {
+          "actual": 0,
+          "max": 156,
+          "score": 0,
+        }
+      }
+      hoveredField={null}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      replacementVariables={Array []}
+      titleLengthProgress={
+        Object {
+          "actual": 0,
+          "max": 600,
+          "score": 0,
+        }
+      }
+    >
+      <SnippetEditorFields__StyledEditor>
+        <section
+          className="c29"
+        >
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c30"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-title"
+                onClick={[Function]}
+              >
+                <div
+                  className="c31"
+                  id="snippet-editor-field-5-title"
+                  onClick={[Function]}
+                >
+                  SEO title
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+                onClick={[Function]}
+              >
+                <div
+                  className="c32"
+                  onClick={[Function]}
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-5-title"
+                    content="Test title"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={600}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c33"
+                  max={600}
+                  value={0}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c30"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-slug"
+                onClick={[Function]}
+              >
+                <div
+                  className="c31"
+                  id="snippet-editor-field-5-slug"
+                  onClick={[Function]}
+                >
+                  Slug
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+                onClick={[Function]}
+              >
+                <div
+                  className="c32"
+                  onClick={[Function]}
+                >
+                  <SnippetEditorFields__SlugInput
+                    aria-labelledby="snippet-editor-field-5-slug"
+                    innerRef={[Function]}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    value="test-slug"
+                  >
+                    <input
+                      aria-labelledby="snippet-editor-field-5-slug"
+                      className="c34"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      value="test-slug"
+                    />
+                  </SnippetEditorFields__SlugInput>
+                </div>
+              </SnippetEditorFields__InputContainer>
+            </div>
+          </SnippetEditorFields__FormSection>
+          <SnippetEditorFields__FormSection>
+            <div
+              className="c30"
+            >
+              <SnippetEditorFields__SimulatedLabel
+                id="snippet-editor-field-5-description"
+                onClick={[Function]}
+              >
+                <div
+                  className="c31"
+                  id="snippet-editor-field-5-description"
+                  onClick={[Function]}
+                >
+                  Meta description
+                </div>
+              </SnippetEditorFields__SimulatedLabel>
+              <SnippetEditorFields__InputContainer
+                isActive={false}
+                isHovered={false}
+                onClick={[Function]}
+              >
+                <div
+                  className="c35"
+                  onClick={[Function]}
+                >
+                  <ReplacementVariableEditor
+                    ariaLabelledBy="snippet-editor-field-5-description"
+                    content="Test description, %%replacement_variable%%"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    replacementVariables={Array []}
+                  >
+                    <div />
+                  </ReplacementVariableEditor>
+                </div>
+              </SnippetEditorFields__InputContainer>
+              <ProgressBar
+                aria-hidden="true"
+                backgroundColor="#f7f7f7"
+                borderColor="#ddd"
+                max={156}
+                progressColor="#dc3232"
+                value={0}
+              >
+                <progress
+                  aria-hidden="true"
+                  className="c33"
+                  max={156}
+                  value={0}
+                />
+              </ProgressBar>
+            </div>
+          </SnippetEditorFields__FormSection>
+        </section>
+      </SnippetEditorFields__StyledEditor>
+    </SnippetEditorFields>
+    <Button
+      onClick={[Function]}
+    >
+      <Button
+        backgroundColor="#f7f7f7"
+        borderColor="#ccc"
+        boxShadowColor="#ccc"
+        className="c36"
+        onClick={[Function]}
+        textColor="#555"
+        type="button"
+      >
+        <Button
+          backgroundColor="#f7f7f7"
+          borderColor="#ccc"
+          boxShadowColor="#ccc"
+          className="c36 Button-kDSBcD c3"
+          onClick={[Function]}
+          textColor="#555"
+          type="button"
+        >
+          <Button
+            backgroundColor="#f7f7f7"
+            borderColor="#ccc"
+            boxShadowColor="#ccc"
+            className="c36 Button-kDSBcD c3 Button-kDSBcD c4"
+            onClick={[Function]}
+            textColor="#555"
+            type="button"
+          >
+            <Button
+              backgroundColor="#f7f7f7"
+              borderColor="#ccc"
+              boxShadowColor="#ccc"
+              className="c36 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              onClick={[Function]}
+              textColor="#555"
+              type="button"
+            >
+              <Button__BaseButton
+                backgroundColor="#f7f7f7"
+                borderColor="#ccc"
+                boxShadowColor="#ccc"
+                className="c36 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                onClick={[Function]}
+                textColor="#555"
+                type="button"
+              >
+                <button
+                  className="c36 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Close snippet editor
+                </button>
+              </Button__BaseButton>
+            </Button>
+          </Button>
+        </Button>
+      </Button>
+    </Button>
+  </div>
+</SnippetEditor>
 `;
 
 exports[`SnippetEditor renders in desktop mode 1`] = `
@@ -20116,9 +21680,9 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
           </span>
           <div
             className="c15"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             <div
               className="c16 c17"
@@ -20149,9 +21713,9 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
           >
             <div
               className="c20"
-              onClick={[Function]}
+              onMouseEnter={[Function]}
               onMouseLeave={[Function]}
-              onMouseOver={[Function]}
+              onMouseUp={[Function]}
             >
               example.org/test-slug/
             </div>
@@ -20180,9 +21744,9 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
           <div
             className="c22"
             color="#545454"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             Test description, %%replacement_variable%%
           </div>
@@ -20289,7 +21853,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 </div>
 `;
 
-exports[`SnippetEditor shows and editor 1`] = `
+exports[`SnippetEditor shows the editor 1`] = `
 .c11 {
   font-family: Arial,Helvetica,sans-serif;
   font-size: 13px;
@@ -20694,9 +22258,9 @@ exports[`SnippetEditor shows and editor 1`] = `
         </span>
         <div
           className="c14"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c15 c16"
@@ -20727,9 +22291,9 @@ exports[`SnippetEditor shows and editor 1`] = `
         >
           <div
             className="c19"
-            onClick={[Function]}
+            onMouseEnter={[Function]}
             onMouseLeave={[Function]}
-            onMouseOver={[Function]}
+            onMouseUp={[Function]}
           >
             example.org › test-slug
           </div>
@@ -20758,9 +22322,9 @@ exports[`SnippetEditor shows and editor 1`] = `
         <div
           className="c21 c22"
           color="#545454"
-          onClick={[Function]}
+          onMouseEnter={[Function]}
           onMouseLeave={[Function]}
-          onMouseOver={[Function]}
+          onMouseUp={[Function]}
         >
           <div
             className="c21 c22"
