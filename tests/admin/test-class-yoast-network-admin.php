@@ -13,6 +13,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests getting site choices.
 	 *
+	 * @group ms-required
 	 * @covers Yoast_Network_Admin::get_site_choices()
 	 */
 	public function test_get_site_choices() {
