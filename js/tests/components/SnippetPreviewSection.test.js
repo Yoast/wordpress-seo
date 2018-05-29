@@ -1,7 +1,6 @@
 import { mount } from "enzyme";
-import SnippetPreviewSection from "../../src/components/SnippetPreviewSection";
+import SnippetPreviewSection, { mapEditorDataToPreview } from "../../src/components/SnippetPreviewSection";
 import React from "react";
-import { mapEditorDataToPreview } from "../../src/components/SnippetPreviewSection";
 
 jest.mock( "../../src/containers/SnippetEditor", () => {
 	return () => {
