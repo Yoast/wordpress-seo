@@ -8,7 +8,7 @@
 /**
  * Multisite utility class for network admin functionality.
  */
-class Yoast_Network_Admin {
+class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Action identifier for updating plugin network options.
