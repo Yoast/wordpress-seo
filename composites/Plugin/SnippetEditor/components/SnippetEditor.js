@@ -37,8 +37,6 @@ const CloseEditorButton = SnippetEditorButton.extend`
 	margin-left: 20px;
 `;
 
-const MetaDescriptionPlaceholder = "Modify your meta description by editing it right here";
-
 class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
@@ -115,6 +113,7 @@ class SnippetEditor extends React.Component {
 			titleLengthProgress,
 			descriptionLengthProgress,
 			replacementVariables,
+			descriptionEditorFieldPlaceholder,
 		} = this.props;
 		const { activeField, hoveredField, isOpen } = this.state;
 
@@ -134,7 +133,7 @@ class SnippetEditor extends React.Component {
 					replacementVariables={ replacementVariables }
 					titleLengthProgress={ titleLengthProgress }
 					descriptionLengthProgress={ descriptionLengthProgress }
-					descriptionEditorFieldPlaceholder={ MetaDescriptionPlaceholder }
+					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
 				/>
 				<CloseEditorButton onClick={ this.close }>
 					{ __( "Close snippet editor", "yoast-components" ) }
@@ -428,6 +427,7 @@ SnippetEditor.defaultProps = {
 	mapDataToPreview: null,
 	generatedDescription: "",
 	locale: "en",
+	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
 };
 
 export default SnippetEditor;

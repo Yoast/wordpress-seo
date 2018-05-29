@@ -71,19 +71,6 @@ const InputContainer = styled.div.attrs( {
 		background-size: 25px;
 		content: "";
 	}
-	
-	&::webkit-input-placeholder {
-		color: #72777c ! important;
-	}
-
-	&::moz-placeholder {
-		color: #72777c ! important;
-		opacity: 1;
-	}
-	
-	&::ms-input-placeholder {
-		color: #72777c ! important;
-	}
 `;
 
 const SlugInput = styled.input`
