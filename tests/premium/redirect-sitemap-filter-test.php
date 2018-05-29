@@ -30,7 +30,7 @@ class WPSEO_Redirect_Sitemap_Filter_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( false ) );
 
 		$sitemap_entry = array(
-			'loc' => 'http://example.domain/not-present'
+			'loc' => 'http://example.domain/not-present',
 		);
 
 		$instance = new WPSEO_Redirect_Sitemap_Filter( 'http://example.domain', $option );
@@ -54,7 +54,7 @@ class WPSEO_Redirect_Sitemap_Filter_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( true ) );
 
 		$sitemap_entry = array(
-			'loc' => 'http://example.domain/present'
+			'loc' => 'http://example.domain/present',
 		);
 
 		$instance = new WPSEO_Redirect_Sitemap_Filter( 'http://example.domain', $option );
@@ -77,7 +77,7 @@ class WPSEO_Redirect_Sitemap_Filter_Test extends WPSEO_UnitTestCase {
 			->method( 'search' );
 
 		$sitemap_entry = array(
-			'entry' => 'http://example.domain/present'
+			'entry' => 'http://example.domain/present',
 		);
 
 		$instance = new WPSEO_Redirect_Sitemap_Filter( 'http://example.domain', $option );

@@ -49,7 +49,7 @@ class WPSEO_Premium_Free_Translations implements WPSEO_WordPress_Integration {
 		 * This entry is based on the currently present data from this plugin, to make sure the version and textdomain
 		 * settings are as expected.
 		 */
-		$plugins['plugins']['wordpress-seo/wp-seo.php']         = $plugins['plugins'][ plugin_basename( WPSEO_PREMIUM_PLUGIN_FILE ) ];
+		$plugins['plugins']['wordpress-seo/wp-seo.php'] = $plugins['plugins'][ plugin_basename( WPSEO_PREMIUM_PLUGIN_FILE ) ];
 		// Override the name of the plugin.
 		$plugins['plugins']['wordpress-seo/wp-seo.php']['name'] = 'Yoast SEO';
 
