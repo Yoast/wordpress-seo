@@ -34,30 +34,43 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 			$choices['-'] = __( 'None', 'wordpress-seo' );
 		}
 
-		$available_states = array(
-			'public'   => __( 'public', 'wordpress-seo' ),
-			'archived' => __( 'archived', 'wordpress-seo' ),
-			'mature'   => __( 'mature', 'wordpress-seo' ),
-			'spam'     => __( 'spam', 'wordpress-seo' ),
-		);
-
 		$sites = get_sites( array( 'deleted' => 0 ) );
 		foreach ( $sites as $site ) {
 			$choices[ $site->blog_id ] = $site->blog_id . ': ' . $site->domain;
 
-			$site_states = array();
-			foreach ( $available_states as $state_slug => $state_label ) {
-				if ( $site->$state_slug === '1' ) {
-					$site_states[] = $state_label;
-				}
-			}
-
+			$site_states = $this->get_site_states( $site );
 			if ( ! empty( $site_states ) ) {
 				$choices[ $site->blog_id ] .= ' [' . implode( ', ', $site_states ) . ']';
 			}
 		}
 
 		return $choices;
+	}
+
+	/**
+	 * Gets the states of a site.
+	 *
+	 * @param WP_Site $site Site object.
+	 *
+	 * @return array Array of $state_slug => $state_label pairs.
+	 */
+	public function get_site_states( $site ) {
+		$available_states = array(
+			'public'   => __( 'public', 'wordpress-seo' ),
+			'archived' => __( 'archived', 'wordpress-seo' ),
+			'mature'   => __( 'mature', 'wordpress-seo' ),
+			'spam'     => __( 'spam', 'wordpress-seo' ),
+			'deleted'  => __( 'deleted', 'wordpress-seo' ),
+		);
+
+		$site_states = array();
+		foreach ( $available_states as $state_slug => $state_label ) {
+			if ( $site->$state_slug === '1' ) {
+				$site_states[ $state_slug ] = $state_label;
+			}
+		}
+
+		return $site_states;
 	}
 
 	/**

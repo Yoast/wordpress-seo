@@ -31,6 +31,28 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests getting a site's states.
+	 *
+	 * @group ms-required
+	 * @covers Yoast_Network_Admin::get_site_states()
+	 */
+	public function test_get_site_states() {
+		$admin = new Yoast_Network_Admin();
+
+		$active_states = array(
+			'public' => '1',
+			'mature' => '1',
+			'spam'   => '1',
+		);
+
+		$site_id = self::factory()->blog->create();
+		update_blog_details( $site_id, $active_states );
+
+		$site_states = $admin->get_site_states( get_site( $site_id ) );
+		$this->assertSame( array_keys( $active_states ), array_keys( $site_states ) );
+	}
+
+	/**
 	 * Tests output for hidden settings fields.
 	 *
 	 * @covers Yoast_Network_Admin::settings_fields()
