@@ -77,10 +77,12 @@ class Yoast_Form {
 		if ( $form === true ) {
 			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';
 
-			if ( Yoast_Network_Admin::meets_requirements() ) {
+			$network_admin = Yoast_Network_Admin::get();
+			if ( $network_admin->meets_requirements() ) {
 				$action_url       = network_admin_url( 'settings.php' );
-				$hidden_fields_cb = array( Yoast_Network_Admin::get(), 'settings_fields' );
-			} else {
+				$hidden_fields_cb = array( $network_admin, 'settings_fields' );
+			}
+			else {
 				$action_url       = admin_url( 'options.php' );
 				$hidden_fields_cb = 'settings_fields';
 			}

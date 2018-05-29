@@ -191,9 +191,22 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 
+		if ( ! $this->meets_requirements() ) {
+			return;
+		}
+
 		add_action( 'admin_action_' . self::UPDATE_OPTIONS_ACTION, array( $this, 'handle_update_options_request' ) );
 		add_action( 'admin_action_' . self::RESTORE_SITE_ACTION, array( $this, 'handle_restore_site_request' ) );
 		add_action( 'wpseo_admin_footer', array( $this, 'print_restore_form' ) );
+	}
+
+	/**
+	 * Checks whether the requirements to use this class are met.
+	 *
+	 * @return bool True if requirements are met, false otherwise.
+	 */
+	public function meets_requirements() {
+		return is_multisite() && is_network_admin();
 	}
 
 	/**
@@ -224,14 +237,5 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * Checks whether the requirements to use this class are met.
-	 *
-	 * @return bool True if requirements are met, false otherwise.
-	 */
-	public static function meets_requirements() {
-		return is_multisite() && is_network_admin();
 	}
 }

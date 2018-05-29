@@ -56,7 +56,14 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Admin::register_hooks()
 	 */
 	public function test_register_hooks() {
-		$admin = new Yoast_Network_Admin();
+		$admin = $this->getMockBuilder( 'Yoast_Network_Admin' )
+			->setMethods( array( 'meets_requirements' ) )
+			->getMock();
+
+		$admin
+			->expects( $this->once() )
+			->method( 'meets_requirements' )
+			->willReturn( true );
 
 		$admin->register_hooks();
 		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, array( $admin, 'handle_update_options_request' ) ) );
@@ -78,8 +85,9 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Admin::meets_requirements()
 	 */
 	public function test_meets_requirements() {
+		$admin = new Yoast_Network_Admin();
 
 		// It's impossible to simulate `is_network_admin()` to be true in tests.
-		$this->assertFalse( Yoast_Network_Admin::meets_requirements() );
+		$this->assertFalse( $admin->meets_requirements() );
 	}
 }
