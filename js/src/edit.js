@@ -19,6 +19,8 @@ import Data from "./analysis/data.js";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
+import documentDataReducer from "./redux/reducers/documentData";
+import { setDocumentData } from "./redux/actions/documentData";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -56,6 +58,7 @@ function configureStore() {
 		activeKeyword: activeKeyword,
 		activeTab,
 		snippetEditor,
+		documentData: documentDataReducer,
 	} );
 
 	return createStore( rootReducer, {}, flowRight( enhancers ) );
@@ -163,6 +166,24 @@ export function initializeData( data, args, store ) {
 }
 
 /**
+ * Maps the data to the correct fields in the store.
+ *
+ * @param {Object} data  The data object.
+ * @param {Object} store The redux store.
+ *
+ * @returns {void}
+ */
+function mapDataToStore( data, store ) {
+	const newData = data.getData();
+
+	store.dispatch( setDocumentData( {
+		title: newData.title,
+		content: newData.content,
+		excerpt: newData.excerpt,
+	} ) );
+}
+
+/**
  * Initializes all functionality on the edit screen.
  *
  * This can be a post or a term edit screen.
@@ -181,6 +202,7 @@ export function initialize( args ) {
 	const store = configureStore();
 
 	const data = initializeData( wp.data, args, store );
+	mapDataToStore( data, store );
 
 	renderReactApps( store, args );
 

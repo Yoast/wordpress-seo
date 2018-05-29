@@ -33,6 +33,7 @@ describe( "SnippetEditor container", () => {
 				slug: "slug",
 				description: "Description",
 			},
+			generatedDescription: "Description",
 			replacementVariables: [
 				{
 					name: "variable",

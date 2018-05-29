@@ -6,6 +6,28 @@ import {
 } from "../redux/actions/snippetEditor";
 
 /**
+ * Returns either the text in the meta description field, the excerpt, or the content.
+ *
+ * @param {Object} state The redux state.
+ *
+ * @returns {string} The description to be displayed in the SnippetPreview.
+ */
+function getDescription( state ) {
+	const { excerpt, content } = state.documentData;
+	const { description } = state.snippetEditor.data;
+
+	// Set the description to display (empty string will be turned into a placeholder in the SnippetPreview).
+	if( description !== "" ) {
+		return description;
+	} else if ( excerpt !== "" ) {
+		return excerpt;
+	} else if ( content !== "" ) {
+		return content;
+	}
+	return "";
+}
+
+/**
  * Maps the redux state to the snippet editor component.
  *
  * @param {Object} state The current state.
@@ -23,8 +45,11 @@ export function mapStateToProps( state ) {
 		}
 	} );
 
+	const generatedDescription = getDescription( state );
+
 	return {
 		...state.snippetEditor,
+		generatedDescription,
 		keyword: state.activeKeyword,
 	};
 }

@@ -1,10 +1,16 @@
 import debounce from "lodash/debounce";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import {
+	setDocumentExcerpt,
+	setDocumentContent,
+	setDocumentTitle,
+} from "../redux/actions/documentData";
+import {
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
+
 
 /**
  * Represents the data.
@@ -116,10 +122,17 @@ class Data {
 		// Handle title change
 		if ( this._data.title !== newData.title ) {
 			this._store.dispatch( updateReplacementVariable( "title", newData.title ) );
+			this._store.dispatch( setDocumentTitle( newData.title ) );
 		}
 		// Handle excerpt change
 		if ( this._data.excerpt !== newData.excerpt ) {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
+			this._store.dispatch( setDocumentExcerpt( newData.excerpt ) );
+		}
+
+		// Handle content change
+		if ( this._data.content !== newData.content ) {
+			this._store.dispatch( setDocumentContent( newData.content ) );
 		}
 	}
 
