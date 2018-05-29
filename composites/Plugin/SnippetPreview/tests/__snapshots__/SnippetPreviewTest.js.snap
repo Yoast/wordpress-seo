@@ -203,7 +203,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 }
 
 .c22 {
-  color: #777;
+  color: #545454;
   cursor: pointer;
   position: relative;
   max-width: 600px;
@@ -378,7 +378,6 @@ exports[`SnippetPreview changes the colors of the description if it was generate
         </span>
         <div
           className="c22"
-          color="#777"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -769,7 +768,6 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
         </span>
         <div
           className="c22"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -1163,7 +1161,6 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
         </span>
         <div
           className="c22"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -1571,14 +1568,12 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
       </span>
       <div
         className="c22 c23"
-        color="#545454"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
           className="c22 c23"
-          color="#545454"
         >
           Description
         </div>
@@ -1966,14 +1961,12 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
       </span>
       <div
         className="c21 c22"
-        color="#545454"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
           className="c21 c22"
-          color="#545454"
         >
           Description
         </div>
@@ -2361,14 +2354,12 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
       </span>
       <div
         className="c21 c22"
-        color="#545454"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
           className="c21 c22"
-          color="#545454"
         >
           Description
         </div>
@@ -2756,7 +2747,6 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
         </span>
         <div
           className="c22"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -3159,7 +3149,6 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
         </span>
         <div
           className="c23"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -3562,7 +3551,6 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
         </span>
         <div
           className="c22 c23"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -3965,7 +3953,6 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
         </span>
         <div
           className="c23"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -4368,7 +4355,6 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
         </span>
         <div
           className="c23"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -4771,7 +4757,6 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
         </span>
         <div
           className="c22 c23"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -5174,7 +5159,6 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
         </span>
         <div
           className="c23"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -5569,7 +5553,6 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
         </span>
         <div
           className="c22"
-          color="#545454"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
