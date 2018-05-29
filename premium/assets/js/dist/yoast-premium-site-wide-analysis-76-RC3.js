@@ -953,7 +953,7 @@ function init() {
 jQuery(init);
 
 },{"./helpers/restApi":1,"./keywordSuggestions/ProminentWordCache":2,"./keywordSuggestions/ProminentWordCachePopulator":3,"./keywordSuggestions/siteWideCalculation":5,"a11y-speak":7}],7:[function(require,module,exports){
-var containerPolite, containerAssertive, previousMessage = "";
+var containerPolite, containerAssertive;
 
 /**
  * Build the live regions markup.
@@ -969,7 +969,7 @@ var addContainer = function( ariaLive ) {
 	container.id = "a11y-speak-" + ariaLive;
 	container.className = "a11y-speak-region";
 
-	var screenReaderTextStyle = "clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden; word-wrap: normal;";
+	var screenReaderTextStyle = "clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;";
 	container.setAttribute( "style", screenReaderTextStyle );
 
 	container.setAttribute( "aria-live", ariaLive );
@@ -1039,12 +1039,6 @@ var A11ySpeak = function( message, ariaLive ) {
 	 * spaces natively.
 	 */
 	message = message.replace( /<[^<>]+>/g, " " );
-
-	if ( previousMessage === message ) {
-		message = message + "\u00A0";
-	}
-
-	previousMessage = message;
 
 	if ( containerAssertive && "assertive" === ariaLive ) {
 		containerAssertive.textContent = message;
