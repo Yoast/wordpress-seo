@@ -71,15 +71,6 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the singleton getter.
-	 *
-	 * @covers Yoast_Network_Admin::get()
-	 */
-	public function test_get() {
-		$this->assertInstanceOf( 'Yoast_Network_Admin', Yoast_Network_Admin::get() );
-	}
-
-	/**
 	 * Tests checking requirements for the network settings API.
 	 *
 	 * @covers Yoast_Network_Admin::meets_requirements()

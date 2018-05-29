@@ -21,11 +21,6 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	const RESTORE_SITE_ACTION = 'yoast_restore_site';
 
 	/**
-	 * @var Yoast_Network_Admin The singleton instance of this class.
-	 */
-	private static $instance = null;
-
-	/**
 	 * Gets the available sites as choices, e.g. for a dropdown.
 	 *
 	 * @param bool $include_empty Optional. Whether to include an initial placeholder choice.
@@ -223,19 +218,5 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 		// A network transient would be cleaner, but would require a lot of copied code from core for
 		// just a minor adjustment when displaying settings errors.
 		set_transient( 'settings_errors', get_settings_errors(), 30 );
-	}
-
-	/**
-	 * Gets the singleton instance of this class.
-	 *
-	 * @return Yoast_Network_Admin The singleton instance.
-	 */
-	public static function get() {
-
-		if ( self::$instance === null ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
 	}
 }
