@@ -3,7 +3,7 @@ import React from "react";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import createMentionPlugin, { defaultSuggestionsFilter } from "draft-js-mention-plugin";
-import createSingleLinePlugin from 'draft-js-single-line-plugin'
+import createSingleLinePlugin from "draft-js-single-line-plugin";
 import flow from "lodash/flow";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
