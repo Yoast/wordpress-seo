@@ -12,6 +12,7 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 // Internal dependencies.
 import { replacementVariablesShape } from "../constants";
 import { serializeEditor, unserializeEditor } from "../serialization";
+import { positionSuggestions } from "../positionSuggestions";
 
 /**
  * Creates a Draft.js editor state from a string.
@@ -95,6 +96,7 @@ class ReplacementVariableEditor extends React.Component {
 		this.mentionsPlugin = createMentionPlugin( {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
+			positionSuggestions,
 		} );
 	}
 
