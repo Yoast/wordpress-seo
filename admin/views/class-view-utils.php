@@ -89,10 +89,9 @@ To add value to your website, they should contain useful information, or they mi
 negative impact on your ranking. So please carefully consider this and %1$read this post%2$s if
 you want more information about the impact of showing media in search results.'
 					),
-					'<a href="' . esc_url( WPSEO_Shortlinker::get( '' ) ) . '" rel="noopener nofollow" target="_blank">',
+					'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2r8' ) ) . '" rel="noopener nofollow" target="_blank">',
 					'</a>'
 				);
-				// @todo add shortlink
 
 				echo '<div style="clear:both; background-color: #ffeb3b; color: #000000; padding: 16px; max-width: 450px; margin-bottom: 32px;">' . $description . '</div>';
 			}
