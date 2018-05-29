@@ -47,7 +47,18 @@ class WPSEO_Option_Tabs_Formatter {
 			printf( '<div id="%1$s" class="%2$s">', esc_attr( $identifier ), esc_attr( $class ) );
 
 			$tab_filter_name    = sprintf( '%s_%s', $option_tabs->get_base(), $tab->get_name() );
-			$option_tab_content = apply_filters( 'wpseo_option_tab-' . $tab_filter_name, null );
+
+			/**
+			 * Allows to override the content that is display on the specific option tab.
+			 *
+			 * @internal For internal Yoast SEO use only.
+			 *
+			 * @api      string|null The content that should be displayed for this tab. Leave empty for default behaviour.
+			 *
+			 * @param WPSEO_Option_Tabs $option_tabs The registered option tabs.
+			 * @param WPSEO_Option_Tab  $tab         The tab that is being displayed.
+			 */
+			$option_tab_content = apply_filters( 'wpseo_option_tab-' . $tab_filter_name, null, $option_tabs, $tab );
 			if ( ! empty( $option_tab_content ) ) {
 				echo $option_tab_content;
 			}
