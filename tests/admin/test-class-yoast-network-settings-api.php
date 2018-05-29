@@ -119,6 +119,8 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Settings_API::meets_requirements()
 	 */
 	public function test_meets_requirements() {
-		$this->assertSame( is_multisite(), Yoast_Network_Settings_API::meets_requirements() );
+		$api = new Yoast_Network_Settings_API();
+
+		$this->assertSame( is_multisite(), $api->meets_requirements() );
 	}
 }

@@ -133,6 +133,15 @@ class Yoast_Network_Settings_API {
 	}
 
 	/**
+	 * Checks whether the requirements to use this class are met.
+	 *
+	 * @return bool True if requirements are met, false otherwise.
+	 */
+	public function meets_requirements() {
+		return is_multisite();
+	}
+
+	/**
 	 * Gets the singleton instance of this class.
 	 *
 	 * @return Yoast_Network_Settings_API The singleton instance.
@@ -144,14 +153,5 @@ class Yoast_Network_Settings_API {
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * Checks whether the requirements to use this class are met.
-	 *
-	 * @return bool True if requirements are met, false otherwise.
-	 */
-	public static function meets_requirements() {
-		return is_multisite();
 	}
 }
