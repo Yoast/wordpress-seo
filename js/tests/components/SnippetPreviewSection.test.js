@@ -21,7 +21,7 @@ describe( "SnippetPreviewSection", () => {
 } );
 
 describe( "mapEditorDataToPreview", () => {
-	it( "hyphenates a space in the URL", () => {
+	it( "Hyphenates a space in the URL.", () => {
 		const exampleURL = "my URL";
 		const expected = "my-URL";
 
@@ -36,7 +36,7 @@ describe( "mapEditorDataToPreview", () => {
 		expect( actual.url ).toEqual( expected );
 	} );
 
-	it( "hyphenates all spaces in the URL", () => {
+	it( "Hyphenates all spaces in the URL.", () => {
 		const exampleURL = "my URL is awesome";
 		const expected = "my-URL-is-awesome";
 
@@ -51,7 +51,7 @@ describe( "mapEditorDataToPreview", () => {
 		expect( actual.url ).toEqual( expected );
 	} );
 
-	it( "Doesn't hyphenate a trailing space", () => {
+	it( "Doesn't hyphenate a trailing space.", () => {
 		const exampleURL = "my URL is awesome ";
 		const expected = "my-URL-is-awesome";
 
@@ -66,7 +66,7 @@ describe( "mapEditorDataToPreview", () => {
 		expect( actual.url ).toEqual( expected );
 	} );
 
-	it( "Doesn't hyphenate trailing spaces", () => {
+	it( "Doesn't hyphenate trailing spaces.", () => {
 		const exampleURL = "my URL is awesome    ";
 		const expected = "my-URL-is-awesome";
 
