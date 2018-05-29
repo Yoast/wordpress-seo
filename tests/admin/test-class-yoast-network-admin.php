@@ -58,19 +58,9 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	public function test_register_hooks() {
 		$admin = new Yoast_Network_Admin();
 
-		// Hooks should be present after first call.
 		$admin->register_hooks();
 		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, array( $admin, 'handle_update_options_request' ) ) );
 		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, array( $admin, 'handle_restore_site_request' ) ) );
-
-		// Remove the hooks again manually.
-		remove_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, array( $admin, 'handle_update_options_request' ) );
-		remove_action( 'admin_action_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, array( $admin, 'handle_restore_site_request' ) );
-
-		// Hooks should not be added again because of restriction.
-		$admin->register_hooks();
-		$this->assertFalse( has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, array( $admin, 'handle_update_options_request' ) ) );
-		$this->assertFalse( has_action( 'admin_action_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, array( $admin, 'handle_restore_site_request' ) ) );
 	}
 
 	/**

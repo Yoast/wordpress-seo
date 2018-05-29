@@ -21,11 +21,6 @@ class Yoast_Network_Admin {
 	const RESTORE_SITE_ACTION = 'yoast_restore_site';
 
 	/**
-	 * @var bool Internal flag for whether the necessary hooks have been added.
-	 */
-	private $hooks_registered = false;
-
-	/**
 	 * @var Yoast_Network_Admin The singleton instance of this class.
 	 */
 	private static $instance = null;
@@ -195,12 +190,6 @@ class Yoast_Network_Admin {
 	 * @return void
 	 */
 	public function register_hooks() {
-
-		if ( $this->hooks_registered ) {
-			return;
-		}
-
-		$this->hooks_registered = true;
 
 		add_action( 'admin_action_' . self::UPDATE_OPTIONS_ACTION, array( $this, 'handle_update_options_request' ) );
 		add_action( 'admin_action_' . self::RESTORE_SITE_ACTION, array( $this, 'handle_restore_site_request' ) );
