@@ -104,7 +104,7 @@ class Yoast_Network_Settings_API {
 			return $value;
 		}
 
-		return call_user_func( $this->registered_settings[ $option ]['santize_callback'], $value );
+		return call_user_func( $this->registered_settings[ $option ]['sanitize_callback'], $value );
 	}
 
 	/**
