@@ -46,7 +46,7 @@ class WPSEO_Option_Tabs_Formatter {
 			$class = 'wpseotab ' . ( $tab->has_save_button() ? 'save' : 'nosave' );
 			printf( '<div id="%1$s" class="%2$s">', esc_attr( $identifier ), esc_attr( $class ) );
 
-			$tab_filter_name    = sprintf( '%s_%s', $option_tabs->get_base(), $tab->get_name() );
+			$tab_filter_name = sprintf( '%s_%s', $option_tabs->get_base(), $tab->get_name() );
 
 			/**
 			 * Allows to override the content that is display on the specific option tab.
