@@ -157,6 +157,15 @@ exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
           "onTab": [Function],
           "onUpArrow": [Function],
         },
+        Object {
+          "blockRenderMap": Immutable.Map {
+            "unstyled": Object {
+              "element": "div",
+            },
+          },
+          "handleReturn": [Function],
+          "onChange": [Function],
+        },
       ]
     }
     stripPastedStyles={true}
