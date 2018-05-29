@@ -13,7 +13,8 @@ describe( "SnippetEditor container", () => {
 				seo: {
 					active: [
 						{ _identifier: "metaDescriptionLength", max: 156, actual: 11, score: 6 },
-						{ _identifier: "titleWidth", max: 600, actual: 400, score: 6 } ],
+						{ _identifier: "titleWidth", max: 600, actual: 400, score: 6 },
+					],
 				},
 			},
 			snippetEditor: {
