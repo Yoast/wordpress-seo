@@ -315,6 +315,37 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
+	it( "returns 1 when a transition word is found in a sentence (Catalan)", function() {
+		// Transition word: en primer lloc
+		mockPaper = new Paper( "En primer lloc, permetin-me presentar-me.", { locale: "ca_ES" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 1 when a transition word with an apostrophe is found in a sentence (Catalan)", function() {
+		// Transition word: a tall d'exemple.
+		mockPaper = new Paper( "A tall d'exemple, pensem en aquest gat.", { locale: "ca_ES" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 1 when a two-part transition word is found in a sentence (Catalan)", function() {
+		// Transition word: ni...ni
+		mockPaper = new Paper( "No era ni un gat ni un gos.", { locale: "ca_ES" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 0 when no transition words are present in a sentence (Catalan)", function() {
+		mockPaper = new Paper( "Anem a la platja.", { locale: "ca_ES" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
 	it( "defaults to English in case of a bogus locale", function() {
 		// Transition word: because.
 		mockPaper = new Paper( "Because of a bogus locale.", { locale: "xx_YY" } );
