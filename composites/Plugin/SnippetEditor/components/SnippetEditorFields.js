@@ -73,6 +73,15 @@ const InputContainer = styled.div.attrs( {
 	}
 `;
 
+const InputContainerTitle = InputContainer.extend`
+	.public-DraftStyleDefault-block {
+		line-height: 24px;
+		height: 24px;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+`;
+
 const SlugInput = styled.input`
 	border: none;
 	width: 100%;
@@ -224,7 +233,7 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "title" ) } >
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
-					<InputContainer
+					<InputContainerTitle
 						onClick={ () => this.elements.title.focus() }
 						isActive={ activeField === "title" }
 						isHovered={ hoveredField === "title" }>
@@ -237,7 +246,7 @@ class SnippetEditorFields extends React.Component {
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ titleLabelId }
 						/>
-					</InputContainer>
+					</InputContainerTitle>
 					<ProgressBar
 						max={ titleLengthProgress.max }
 						value={ titleLengthProgress.actual }
