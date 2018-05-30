@@ -73,6 +73,15 @@ const InputContainer = styled.div.attrs( {
 	}
 `;
 
+const TitleInputContainer = InputContainer.extend`
+	.public-DraftStyleDefault-block {
+		line-height: 24px;
+		height: 24px;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+`;
+
 const SlugInput = styled.input`
 	border: none;
 	width: 100%;
@@ -87,7 +96,7 @@ const SlugInput = styled.input`
 	}
 `;
 
-const InputContainerDescription = InputContainer.extend`
+const DescriptionInputContainer = InputContainer.extend`
 	min-height: 60px;
 	padding: 2px 6px;
 	line-height: 19.6px;
@@ -205,6 +214,7 @@ class SnippetEditorFields extends React.Component {
 			onFocus,
 			onBlur,
 			onChange,
+			descriptionEditorFieldPlaceholder,
 			data: {
 				title,
 				slug,
@@ -224,7 +234,7 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "title" ) } >
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
-					<InputContainer
+					<TitleInputContainer
 						onClick={ () => this.elements.title.focus() }
 						isActive={ activeField === "title" }
 						isHovered={ hoveredField === "title" }>
@@ -237,7 +247,7 @@ class SnippetEditorFields extends React.Component {
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ titleLabelId }
 						/>
-					</InputContainer>
+					</TitleInputContainer>
 					<ProgressBar
 						max={ titleLengthProgress.max }
 						value={ titleLengthProgress.actual }
@@ -270,7 +280,7 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "description" ) } >
 						{ __( "Meta description", "yoast-components" ) }
 					</SimulatedLabel>
-					<InputContainerDescription
+					<DescriptionInputContainer
 						onClick={ () => this.elements.description.focus() }
 						isActive={ activeField === "description" }
 						isHovered={ hoveredField === "description" }>
@@ -282,8 +292,9 @@ class SnippetEditorFields extends React.Component {
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "description", ref ) }
 							ariaLabelledBy={ descriptionLabelId }
+							descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
 						/>
-					</InputContainerDescription>
+					</DescriptionInputContainer>
 					<ProgressBar
 						max={ descriptionLengthProgress.max }
 						value={ descriptionLengthProgress.actual }
@@ -328,6 +339,7 @@ SnippetEditorFields.propTypes = {
 	hoveredField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
+	descriptionEditorFieldPlaceholder: PropTypes.string,
 };
 
 SnippetEditorFields.defaultProps = {
