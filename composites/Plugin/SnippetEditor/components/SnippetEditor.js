@@ -127,7 +127,6 @@ class SnippetEditor extends React.Component {
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
 		this.unsetFieldFocus = this.unsetFieldFocus.bind( this );
-		this.handleChange = this.handleChange.bind( this );
 		this.onMouseUp = this.onMouseUp.bind( this );
 		this.onMouseEnter = this.onMouseEnter.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
@@ -175,34 +174,6 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Handles the onChange event.
-	 *
-	 * First updates the description progress and title progress.
-	 * Then calls the onChange function that is passed through the props.
-	 *
-	 * @param {string} type The type of change.
-	 * @param {string} content The content of the changed field.
-	 *
-	 * @returns {void}
-	 */
-	handleChange( type, content ) {
-		let descriptionProgress, titleProgress;
-		let processedContent = this.processReplacementVariables( content );
-
-		switch( type ) {
-			case "description":
-				descriptionProgress = getDescriptionProgress( processedContent );
-				this.setState( { descriptionLengthProgress: descriptionProgress } );
-				break;
-			case "title":
-				titleProgress = getTitleProgress( processedContent );
-				this.setState( { titleLengthProgress: titleProgress } );
-				break;
-		}
-		this.props.onChange( type, content );
-	}
-
-	/**
 	 * Renders the editor fields if the editor is open.
 	 *
 	 * @returns {ReactElement} The rendered react element.
@@ -212,6 +183,7 @@ class SnippetEditor extends React.Component {
 			data,
 			replacementVariables,
 			descriptionEditorFieldPlaceholder,
+			onChange,
 		} = this.props;
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
@@ -225,7 +197,7 @@ class SnippetEditor extends React.Component {
 					data={ data }
 					activeField={ activeField }
 					hoveredField={ hoveredField }
-					onChange={ this.handleChange }
+					onChange={ onChange }
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
 					replacementVariables={ replacementVariables }

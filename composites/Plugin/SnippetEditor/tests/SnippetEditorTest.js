@@ -23,7 +23,7 @@ const defaultData = {
 const defaultArgs = {
 	baseUrl: "https://example.org/",
 	data: defaultData,
-	onChange: () => {},
+	onChange: jest.fn(),
 };
 
 const renderSnapshotWithArgs = ( changedArgs ) => {
