@@ -47,6 +47,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'disable-date'                  => false,
 		'disable-post_format'           => false,
 		'disable-attachment'            => true,
+		'is-media-purge-relevant'       => false,
 
 		'breadcrumbs-404crumb'          => '', // Text field.
 		'breadcrumbs-display-blog-page' => true,
@@ -532,6 +533,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'breadcrumbs-boldlast'
 				 *  'breadcrumbs-enable'
 				 *  'stripcategorybase'
+				 *  'is-media-purge-relevant'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
