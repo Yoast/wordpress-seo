@@ -110,7 +110,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: May 29th, 2018
 
 Enhancements:
-* Changes the Search Preview-box to be completely rendered by React. This will give us the possibility to add new features to it and use it on different pages.
+* Adds Flesch Reading Ease for Russian
+* Adds Catalan transition words.
+
+Bugfixes:
+* Fixes a bug where sequences of symbols which do not contain a single letter or digit were considered as valid keywords.
+
+Other:
+* Changes the maximum meta description length from 320 to 156 characters.
 
 = 7.5.1 =
 Release Date: May 16th, 2018
