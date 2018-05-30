@@ -39,7 +39,7 @@ class WPSEO_Image_Utils {
 	protected static function attachment_url_to_postid( $url ) {
 		$cache_key = sprintf( 'yoast_attachment_url_post_id_%s', md5( $url ) );
 
-		// Set the id based on the hashed url in the cache.
+		// Set the ID based on the hashed url in the cache.
 		$id = wp_cache_get( $cache_key );
 
 		if ( $id === 'not_found' ) {
@@ -51,6 +51,7 @@ class WPSEO_Image_Utils {
 			return $id;
 		}
 
+		// phpcs:ignore WordPress.VIP.RestrictedFunctions -- We use the WP COM version if we can, see above.
 		$id = attachment_url_to_postid( $url );
 
 		if ( empty( $id ) ) {

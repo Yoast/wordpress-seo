@@ -566,10 +566,8 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_76() {
-		global $wpdb;
-
 		// Remove all OpenGraph content image cache.
-		$wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_key = '_yoast_wpseo_post_image_cache'" );
+		delete_post_meta_by_key( '_yoast_wpseo_post_image_cache' );
 	}
 
 	/**

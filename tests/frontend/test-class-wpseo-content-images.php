@@ -38,11 +38,4 @@ class WPSEO_Content_Images_Test extends WPSEO_UnitTestCase {
 		$expected = array ( $external_image, $non_attachment_image );
 		$this->assertEquals( $expected, $result );
 	}
-
-
-
-
-
-
-
 }
