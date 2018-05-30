@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 7.5.1\n"
+"Project-Id-Version: Yoast SEO 7.5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2018-05-16 11:32:06+00:00\n"
+"POT-Creation-Date: 2018-05-30 07:48:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -338,11 +338,26 @@ msgid ""
 "update your PHP yourself."
 msgstr ""
 
-#: admin/class-admin.php:166
+#. translators: %1$s expands to the link to the article, %2$s closes the link
+#. tag.
+#: admin/class-admin-media-purge-notification.php:87
+msgid ""
+"Your site's settings currently allow attachment URLs on your site to exist. "
+"Please read %1$sthis post about a potential issue%2$s with attachment URLs "
+"and check whether you have the correct setting for your site."
+msgstr ""
+
+#: admin/class-admin-media-purge-notification.php:94
+msgid ""
+"If you know what this means and you do not want to see this message anymore, "
+"you can %1$sdismiss this message%2$s."
+msgstr ""
+
+#: admin/class-admin.php:167
 msgid "Posts"
 msgstr ""
 
-#: admin/class-admin.php:202
+#: admin/class-admin.php:203
 #: admin/google_search_console/class-gsc-platform-tabs.php:42
 #: admin/taxonomy/class-taxonomy-metabox.php:163
 #: admin/taxonomy/class-taxonomy-metabox.php:171
@@ -350,72 +365,72 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin.php:216
+#: admin/class-admin.php:217
 msgid "Premium Support"
 msgstr ""
 
-#: admin/class-admin.php:220
+#: admin/class-admin.php:221
 msgid "FAQ"
 msgstr ""
 
-#: admin/class-admin.php:255 admin/pages/social.php:22
+#: admin/class-admin.php:256 admin/pages/social.php:22
 msgid "Google+"
 msgstr ""
 
-#: admin/class-admin.php:257
+#: admin/class-admin.php:258
 msgid "Twitter username (without @)"
 msgstr ""
 
-#: admin/class-admin.php:259
+#: admin/class-admin.php:260
 msgid "Facebook profile URL"
 msgstr ""
 
-#: admin/class-admin.php:285
+#: admin/class-admin.php:286
 msgid "Yoast SEO video tutorial"
 msgstr ""
 
-#: admin/class-admin.php:286
+#: admin/class-admin.php:287
 msgid "Scroll to see the table content."
 msgstr ""
 
-#: admin/class-admin.php:362 vendor/yoast/whip/src/facades/wordpress.php:29
+#: admin/class-admin.php:363 vendor/yoast/whip/src/facades/wordpress.php:29
 msgid "Remind me again in 4 weeks."
 msgstr ""
 
-#: admin/class-admin.php:529
+#: admin/class-admin.php:530
 msgid "For more information:"
 msgstr ""
 
-#: admin/class-admin.php:530
+#: admin/class-admin.php:531
 msgid "Title optimization"
 msgstr ""
 
-#: admin/class-admin.php:531
+#: admin/class-admin.php:532
 msgid "Why Google won't display the right page title"
 msgstr ""
 
-#: admin/class-admin.php:537 admin/class-admin.php:538 admin/pages/metas.php:42
+#: admin/class-admin.php:538 admin/class-admin.php:539 admin/pages/metas.php:42
 #: admin/pages/metas.php:63
 msgid "Template explanation"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO.
-#: admin/class-admin.php:541
+#: admin/class-admin.php:542
 msgid ""
 "The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
 "tabs on the left explain the available variables."
 msgstr ""
 
-#: admin/class-admin.php:544 admin/pages/metas.php:65
+#: admin/class-admin.php:545 admin/pages/metas.php:65
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:551 admin/class-admin.php:552 admin/pages/metas.php:70
+#: admin/class-admin.php:552 admin/class-admin.php:553 admin/pages/metas.php:70
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:559 admin/class-admin.php:560 admin/pages/metas.php:76
+#: admin/class-admin.php:560 admin/class-admin.php:561 admin/pages/metas.php:76
 msgid "Advanced Variables"
 msgstr ""
 
@@ -3036,7 +3051,21 @@ msgstr ""
 msgid "Help on this search results setting"
 msgstr ""
 
-#: admin/views/class-view-utils.php:84 admin/views/tabs/metas/archives.php:90
+#. translators: %1$s expands to the link to the article, %2$s closes the link
+#. to the article
+#: admin/views/class-view-utils.php:87
+msgid ""
+"By enabling this option, attachment URLs become visible to both your "
+"visitors and Google.\n"
+"To add value to your website, they should contain useful information, or "
+"they might have a\n"
+"negative impact on your ranking. Please carefully consider this and %1$sread "
+"this post%2$s if\n"
+"you want more information about the impact of showing media in search "
+"results."
+msgstr ""
+
+#: admin/views/class-view-utils.php:102 admin/views/tabs/metas/archives.php:90
 #: admin/views/tabs/metas/archives.php:122
 #: admin/views/tabs/metas/archives.php:143
 #: admin/views/tabs/metas/archives.php:146
@@ -3044,18 +3073,18 @@ msgstr ""
 msgid "Title template"
 msgstr ""
 
-#: admin/views/class-view-utils.php:90 admin/views/tabs/metas/archives.php:91
+#: admin/views/class-view-utils.php:108 admin/views/tabs/metas/archives.php:91
 #: admin/views/tabs/metas/archives.php:123
 #: admin/views/tabs/metas/taxonomies.php:48
 msgid "Meta description template"
 msgstr ""
 
-#: admin/views/class-view-utils.php:96
+#: admin/views/class-view-utils.php:114
 msgid "Date in Snippet Preview"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/views/class-view-utils.php:102
+#: admin/views/class-view-utils.php:120
 #: admin/views/tabs/metas/taxonomies.php:51
 msgid "%1$s Meta Box"
 msgstr ""
@@ -4244,12 +4273,12 @@ msgstr ""
 #. translators: %s expands to the variable used for term title.
 #: frontend/class-frontend.php:516 frontend/class-frontend.php:520
 #: frontend/class-frontend.php:524
-#: inc/options/class-wpseo-option-titles.php:265
+#: inc/options/class-wpseo-option-titles.php:266
 msgid "%s Archives"
 msgstr ""
 
 #: frontend/class-frontend.php:539
-#: inc/options/class-wpseo-option-titles.php:200
+#: inc/options/class-wpseo-option-titles.php:201
 msgid "Page not found"
 msgstr ""
 
@@ -4538,48 +4567,48 @@ msgid "%s does not seem to be a valid Twitter user-id. Please correct."
 msgstr ""
 
 #. translators: 1: Author name; 2: Site name.
-#: inc/options/class-wpseo-option-titles.php:197
+#: inc/options/class-wpseo-option-titles.php:198
 msgid "%1$s, Author at %2$s"
 msgstr ""
 
 #. translators: %s expands to the search phrase.
-#: inc/options/class-wpseo-option-titles.php:199
+#: inc/options/class-wpseo-option-titles.php:200
 msgid "You searched for %s"
 msgstr ""
 
 #. translators: 1: link to post; 2: link to blog.
-#: inc/options/class-wpseo-option-titles.php:202
+#: inc/options/class-wpseo-option-titles.php:203
 msgid "The post %1$s appeared first on %2$s."
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:204
+#: inc/options/class-wpseo-option-titles.php:205
 msgid "Error 404: Page not found"
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:205
+#: inc/options/class-wpseo-option-titles.php:206
 msgid "Archives for"
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:206
+#: inc/options/class-wpseo-option-titles.php:207
 msgid "Home"
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:207
+#: inc/options/class-wpseo-option-titles.php:208
 msgid "You searched for"
 msgstr ""
 
 #. translators: %s expands to the name of a post type (plural).
-#: inc/options/class-wpseo-option-titles.php:249
+#: inc/options/class-wpseo-option-titles.php:250
 msgid "%s Archive"
 msgstr ""
 
 #. translators: %s expands to a post type.
-#: inc/options/class-wpseo-option-titles.php:430
+#: inc/options/class-wpseo-option-titles.php:431
 msgid "Please select a valid taxonomy for post type \"%s\""
 msgstr ""
 
 #. translators: %s expands to a taxonomy slug.
-#: inc/options/class-wpseo-option-titles.php:467
+#: inc/options/class-wpseo-option-titles.php:468
 msgid "Please select a valid post type for taxonomy \"%s\""
 msgstr ""
 
