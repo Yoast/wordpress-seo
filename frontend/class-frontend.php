@@ -1675,7 +1675,7 @@ class WPSEO_Frontend {
 	 * @param int    $status   Status code to use.
 	 */
 	public function redirect( $location, $status = 302 ) {
-		wp_safe_redirect( $location, $status );
+		wp_redirect( $location, $status );
 		exit;
 	}
 
