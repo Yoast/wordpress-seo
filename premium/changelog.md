@@ -1,3 +1,6 @@
+### 7.5.3: May 30th, 2018
+* Includes every change in Yoast SEO core 7.5.3 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.5.2: May 28th, 2018
 * Fixes a bug where the determination of "Orphaned content" tries to account for `noindex` items, resulting in a lot of additional database querying.
 
