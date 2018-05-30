@@ -38,6 +38,8 @@ describe( "running assessments in the assessor", function() {
 			"metaDescriptionLength",
 			"titleWidth",
 			"textLength",
+			"internalLinks",
+			"textImages",
 		] );
 	} );
 
@@ -52,6 +54,25 @@ describe( "running assessments in the assessor", function() {
 			"metaDescriptionLength",
 			"titleWidth",
 			"textLength",
+			"internalLinks",
+			"textImages",
+		] );
+	} );
+
+	it( "additionally runs assessments that require a keyword and subheadings in the text", function() {
+		assessor.assess( new Paper( "text <h2> subheading </h2> more text", { keyword: "keyword" } ) );
+		let AssessmentResults = assessor.getValidResults();
+		let assessments = getResults( AssessmentResults );
+
+		expect( assessments ).toEqual( [
+			"introductionKeyword",
+			"keyphraseLength",
+			"metaDescriptionLength",
+			"titleWidth",
+			"textLength",
+			"internalLinks",
+			"textImages",
+			"subheadingsKeyword",
 		] );
 	} );
 
@@ -67,6 +88,8 @@ describe( "running assessments in the assessor", function() {
 			"titleKeyword",
 			"titleWidth",
 			"textLength",
+			"internalLinks",
+			"textImages",
 		] );
 	} );
 
@@ -80,6 +103,8 @@ describe( "running assessments in the assessor", function() {
 			"metaDescriptionLength",
 			"titleWidth",
 			"textLength",
+			"internalLinks",
+			"textImages",
 		] );
 	} );
 
@@ -95,6 +120,8 @@ describe( "running assessments in the assessor", function() {
 			"titleWidth",
 			"urlKeyword",
 			"textLength",
+			"internalLinks",
+			"textImages",
 		] );
 	} );
 
@@ -110,6 +137,8 @@ describe( "running assessments in the assessor", function() {
 			"metaDescriptionLength",
 			"titleWidth",
 			"textLength",
+			"internalLinks",
+			"textImages",
 		] );
 	} );
 
@@ -125,6 +154,8 @@ describe( "running assessments in the assessor", function() {
 			"metaDescriptionLength",
 			"titleWidth",
 			"textLength",
+			"internalLinks",
+			"textImages",
 		] );
 	} );
 } );
