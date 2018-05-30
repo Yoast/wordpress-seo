@@ -1425,9 +1425,10 @@ class WPSEO_Frontend {
 		 * @api   string $attachment_url The attachment URL for the queried object.
 		 * @api   object $queried_object The queried object.
 		 *
-		 * @since 7.7
+		 * @since 7.5.3
 		 */
 		$url = apply_filters( 'wpseo_attachment_redirect_url', wp_get_attachment_url( get_queried_object_id() ), get_queried_object() );
+
 
 		if ( ! empty( $url ) ) {
 			$this->redirect( $url, 301 );
