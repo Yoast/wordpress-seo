@@ -106,6 +106,11 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.5.3 =
+Release Date: May 30th, 2018
+
+* Added hooks and filters to allow our new [search index purge](https://wordpress.org/plugins/yoast-seo-search-index-purge/) plugin to work. You’re encouraged to read [this post about an attachment URL problem](https://yoa.st/2r8) for more info.
+
 = 7.5.1 =
 Release Date: May 16th, 2018
 
