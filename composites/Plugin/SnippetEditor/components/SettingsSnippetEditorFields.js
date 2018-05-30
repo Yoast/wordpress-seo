@@ -1,12 +1,12 @@
 /* External dependencies */
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
+import { replacementVariablesShape } from "../constants";
 import {
 	InputContainer,
 	DescriptionInputContainer,
@@ -14,25 +14,8 @@ import {
 	SimulatedLabel,
 	StyledEditor,
 } from "./Shared";
-import ProgressBar from "../../SnippetPreview/components/ProgressBar";
-import { lengthProgressShape, replacementVariablesShape } from "../constants";
-import colors from "../../../../style-guide/colors";
 
-const SlugInput = styled.input`
-	border: none;
-	width: 100%;
-	height: inherit;
-	line-height: inherit;
-	font-family: inherit;
-	font-size: inherit;
-	color: inherit;
-
-	&:focus {
-		outline: 0;
-	}
-`;
-
-class SnippetEditorFields extends React.Component {
+class SettingsSnippetEditorFields extends React.Component {
 	/**
 	 * Constructs the snippet editor fields.
 	 *
@@ -42,17 +25,11 @@ class SnippetEditorFields extends React.Component {
 	 *                                                     for this editor.
 	 * @param {Object}   props.data                        The initial editor data.
 	 * @param {string}   props.data.title                  The initial title.
-	 * @param {string}   props.data.slug                   The initial slug.
 	 * @param {string}   props.data.description            The initial description.
 	 * @param {Function} props.onChange                    Called when the data
 	 *                                                     changes.
 	 * @param {Function} props.onFocus                     Called when a field is
 	 *                                                     focused.
-	 * @param {Object}   props.titleLengthProgress       The values for the title
-	 *                                                     length assessment.
-	 * @param {Object}   props.descriptionLengthProgress The values for the
-	 *                                                     description length
-	 *                                                     assessment.
 	 * @param {string}   props.activeField                 The field that is
 	 *                                                     currently active.
 	 * @param {string}   props.hoveredField                The field that is
@@ -117,7 +94,7 @@ class SnippetEditorFields extends React.Component {
 	focusOnActiveFieldChange( prevActiveField ) {
 		const { activeField } = this.props;
 
-		if ( activeField !== prevActiveField ) {
+		if ( activeField && activeField !== prevActiveField ) {
 			const activeElement = this.elements[ activeField ];
 			activeElement.focus();
 		}
@@ -133,19 +110,15 @@ class SnippetEditorFields extends React.Component {
 			activeField,
 			hoveredField,
 			replacementVariables,
-			titleLengthProgress,
-			descriptionLengthProgress,
 			onFocus,
 			onChange,
 			data: {
 				title,
-				slug,
 				description,
 			},
 		} = this.props;
 
 		const titleLabelId = `${ this.uniqueId }-title`;
-		const slugLabelId = `${ this.uniqueId }-slug`;
 		const descriptionLabelId = `${ this.uniqueId }-description`;
 
 		return (
@@ -169,30 +142,6 @@ class SnippetEditorFields extends React.Component {
 							ariaLabelledBy={ titleLabelId }
 						/>
 					</InputContainer>
-					<ProgressBar
-						max={ titleLengthProgress.max }
-						value={ titleLengthProgress.actual }
-						progressColor={ this.getProgressColor( titleLengthProgress.score ) }
-					/>
-				</FormSection>
-				<FormSection>
-					<SimulatedLabel
-						id={ slugLabelId }
-						onClick={ () => onFocus( "slug" ) } >
-						{ __( "Slug", "yoast-components" ) }
-					</SimulatedLabel>
-					<InputContainer
-						onClick={ () => this.elements.slug.focus() }
-						isActive={ activeField === "slug" }
-						isHovered={ hoveredField === "slug" }>
-						<SlugInput
-							value={ slug }
-							onChange={ event => onChange( "slug", event.target.value ) }
-							onFocus={ () => onFocus( "slug" ) }
-							innerRef={ ref => this.setRef( "slug", ref ) }
-							aria-labelledby={ this.uniqueId + "-slug" }
-						/>
-					</InputContainer>
 				</FormSection>
 				<FormSection>
 					<SimulatedLabel
@@ -213,64 +162,27 @@ class SnippetEditorFields extends React.Component {
 							ariaLabelledBy={ descriptionLabelId }
 						/>
 					</DescriptionInputContainer>
-					<ProgressBar
-						max={ descriptionLengthProgress.max }
-						value={ descriptionLengthProgress.actual }
-						progressColor={ this.getProgressColor( descriptionLengthProgress.score ) }
-					/>
 				</FormSection>
 			</StyledEditor>
 		);
 	}
-
-	/**
-	 * Returns the progress color for a given score.
-	 *
-	 * @param {number} score The score to determine a color for.
-	 *
-	 * @returns {string} A hex color.
-	 */
-	getProgressColor( score ) {
-		if ( score >= 7 ) {
-			return colors.$color_good;
-		}
-
-		if ( score >= 5 ) {
-			return colors.$color_ok;
-		}
-
-		return colors.$color_bad;
-	}
 }
 
-SnippetEditorFields.propTypes = {
+SettingsSnippetEditorFields.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
-		slug: PropTypes.string.isRequired,
-		description: PropTypes.string.isRequired,
+		description: PropTypes.string,
 	} ).isRequired,
-	activeField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
-	hoveredField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
-	titleLengthProgress: lengthProgressShape,
-	descriptionLengthProgress: lengthProgressShape,
+	activeField: PropTypes.oneOf( [ "title", "description" ] ),
+	hoveredField: PropTypes.oneOf( [ "title", "description" ] ),
 };
 
-SnippetEditorFields.defaultProps = {
+SettingsSnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
-	titleLengthProgress: {
-		max: 600,
-		actual: 0,
-		score: 0,
-	},
-	descriptionLengthProgress: {
-		max: 156,
-		actual: 0,
-		score: 0,
-	},
 };
 
-export default SnippetEditorFields;
+export default SettingsSnippetEditorFields;
