@@ -40,9 +40,11 @@ class WPSEO_Admin_Media_Purge_Notification implements WPSEO_WordPress_Integratio
 	 *
 	 * @return void
 	 */
-	public function output_hidden_setting() {
+	public function output_hidden_setting( $input ) {
 		$form = Yoast_Form::get_instance();
 		$form->hidden( 'is-media-purge-relevant' );
+
+		return $input;
 	}
 
 	/**
