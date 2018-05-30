@@ -168,10 +168,18 @@ class WPSEO_Redirect_Handler {
 
 		// Get the URL and doing the redirect.
 		$redirect_url = $this->find_url( $request_url );
-		if ( ! empty( $redirect_url ) ) {
-			$this->is_redirected = true;
-			$this->do_redirect( $redirect_url['url'], $redirect_url['type'] );
+
+		if ( empty( $redirect_url ) ) {
+			return;
 		}
+
+		// Trim the slashes, to match the variants of a request URL (Like: url, /url, /url/, url/).
+		if ( $redirect_url['url'] !== '/' && trim( $redirect_url['url'], '/' ) === $request_url  ) {
+			return;
+		}
+
+		$this->is_redirected = true;
+		$this->do_redirect( $redirect_url['url'], $redirect_url['type'] );
 	}
 
 	/**
