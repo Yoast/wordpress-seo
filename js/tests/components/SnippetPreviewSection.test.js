@@ -1,5 +1,5 @@
 import { mount } from "enzyme";
-import SnippetPreviewSection from "../../src/components/SnippetPreviewSection";
+import SnippetPreviewSection, { mapEditorDataToPreview } from "../../src/components/SnippetPreviewSection";
 import React from "react";
 
 jest.mock( "../../src/containers/SnippetEditor", () => {
@@ -17,5 +17,37 @@ describe( "SnippetPreviewSection", () => {
 		const tree = mount( <SnippetPreviewSection baseUrl="http://example.org" /> );
 
 		expect( tree ).toMatchSnapshot();
+	} );
+} );
+
+describe( "mapEditorDataToPreview", () => {
+	it( "Hyphenates spaces between words of the URL.", () => {
+		const exampleURL = "my URL is awesome";
+		const expected = "my-URL-is-awesome";
+
+		const dataObject = {
+			title: "",
+			url: exampleURL,
+			description: "",
+		};
+
+		const actual = mapEditorDataToPreview( dataObject );
+
+		expect( actual.url ).toEqual( expected );
+	} );
+
+	it( "Doesn't hyphenate trailing spaces.", () => {
+		const exampleURL = "my URL is awesome    ";
+		const expected = "my-URL-is-awesome";
+
+		const dataObject = {
+			title: "",
+			url: exampleURL,
+			description: "",
+		};
+
+		const actual = mapEditorDataToPreview( dataObject );
+
+		expect( actual.url ).toEqual( expected );
 	} );
 } );
