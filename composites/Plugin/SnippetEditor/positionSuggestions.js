@@ -23,6 +23,7 @@ const MENTION_PLUGIN_BOTTOM_EDGE_OFFSET = 25;
  *
  * @returns {Object} The mention plugin suggestions position object.
  */
+// eslint-disable-next-line complexity
 export const positionSuggestions = ( { decoratorRect, popover, state, props } ) => {
 	const rightEdge = ( decoratorRect.x || decoratorRect.left ) + popover.offsetWidth + MENTION_PLUGIN_RIGHT_EDGE_OFFSET;
 	const bottomEdge = ( decoratorRect.y || decoratorRect.top ) + popover.offsetHeight + MENTION_PLUGIN_BOTTOM_EDGE_OFFSET;
