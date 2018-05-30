@@ -263,12 +263,16 @@ function filterFunctionWords( combinations, functionWords ) {
  *
  * @param {Array} combinations The list of word combination objects.
  * @param {Function} functionWords The function containing the lists of function words.
+ * @param {string} language The language for which specific filters should be applied.
  * @returns {Array} The filtered list of word combination objects.
  */
-function filterCombinations( combinations, functionWords ) {
+function filterCombinations( combinations, functionWords, language ) {
 	combinations = filterFunctionWordsAnywhere( combinations, specialCharacters );
 	combinations = filterOneCharacterWordCombinations( combinations );
 	combinations = filterFunctionWords( combinations, functionWords );
+	if( language === "en" ) {
+		combinations = filterEndingWith( combinations, "'s", [] );
+	}
 	return combinations;
 }
 /**
@@ -314,13 +318,13 @@ function getRelevantWords( text, locale ) {
 		fiveWordCombinations
 	);
 
-	combinations = filterCombinations( combinations, functionWords );
+	combinations = filterCombinations( combinations, functionWords, language );
 
 	forEach( combinations, function( combination ) {
 		combination.setRelevantWords( oneWordRelevanceMap );
 	} );
 
-	combinations = getRelevantCombinations( combinations, wordCount );
+	combinations = getRelevantCombinations( combinations );
 	sortCombinations( combinations );
 
 	if ( wordCount >= wordCountLowerLimit ) {
