@@ -3,6 +3,7 @@ import React from "react";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import createMentionPlugin, { defaultSuggestionsFilter } from "draft-js-mention-plugin";
+import createSingleLinePlugin from "draft-js-single-line-plugin";
 import flow from "lodash/flow";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
@@ -95,6 +96,10 @@ class ReplacementVariableEditor extends React.Component {
 		this.mentionsPlugin = createMentionPlugin( {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
+		} );
+
+		this.singleLinePlugin = createSingleLinePlugin( {
+			stripEntities: false,
 		} );
 	}
 
@@ -254,7 +259,7 @@ class ReplacementVariableEditor extends React.Component {
 					onChange={ this.onChange }
 					onFocus={ onFocus }
 					onBlur={ onBlur }
-					plugins={ [ this.mentionsPlugin ] }
+					plugins={ [ this.mentionsPlugin, this.singleLinePlugin ] }
 					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
