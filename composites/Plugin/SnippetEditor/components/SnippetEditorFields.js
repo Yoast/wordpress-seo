@@ -73,7 +73,7 @@ const InputContainer = styled.div.attrs( {
 	}
 `;
 
-const InputContainerTitle = InputContainer.extend`
+const TitleInputContainer = InputContainer.extend`
 	.public-DraftStyleDefault-block {
 		line-height: 24px;
 		height: 24px;
@@ -96,7 +96,7 @@ const SlugInput = styled.input`
 	}
 `;
 
-const InputContainerDescription = InputContainer.extend`
+const DescriptionInputContainer = InputContainer.extend`
 	min-height: 60px;
 	padding: 2px 6px;
 	line-height: 19.6px;
@@ -233,7 +233,7 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "title" ) } >
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
-					<InputContainerTitle
+					<TitleInputContainer
 						onClick={ () => this.elements.title.focus() }
 						isActive={ activeField === "title" }
 						isHovered={ hoveredField === "title" }>
@@ -246,7 +246,7 @@ class SnippetEditorFields extends React.Component {
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ titleLabelId }
 						/>
-					</InputContainerTitle>
+					</TitleInputContainer>
 					<ProgressBar
 						max={ titleLengthProgress.max }
 						value={ titleLengthProgress.actual }
@@ -279,7 +279,7 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "description" ) } >
 						{ __( "Meta description", "yoast-components" ) }
 					</SimulatedLabel>
-					<InputContainerDescription
+					<DescriptionInputContainer
 						onClick={ () => this.elements.description.focus() }
 						isActive={ activeField === "description" }
 						isHovered={ hoveredField === "description" }>
@@ -292,7 +292,7 @@ class SnippetEditorFields extends React.Component {
 							ref={ ( ref ) => this.setRef( "description", ref ) }
 							ariaLabelledBy={ descriptionLabelId }
 						/>
-					</InputContainerDescription>
+					</DescriptionInputContainer>
 					<ProgressBar
 						max={ descriptionLengthProgress.max }
 						value={ descriptionLengthProgress.actual }
