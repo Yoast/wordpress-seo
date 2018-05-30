@@ -73,6 +73,10 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager->enqueue_style( 'admin-css' );
 	}
 
+	public function get_example_replace_vars() {
+		return array( array( 'value' => 'Title', 'name' => 'title' ) );
+	}
+
 	/**
 	 * Loads the required scripts for the config page.
 	 */
@@ -83,6 +87,10 @@ class WPSEO_Admin_Pages {
 		$page = filter_input( INPUT_GET, 'page' );
 
 		if ( $page === 'wpseo_titles' ) {
+			wp_localize_script(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance',
+				'wpseoReplaceVarsL10n',
+				$this->get_example_replace_vars() );
 			$this->asset_manager->enqueue_script( 'search-appearance' );
 			$this->asset_manager->enqueue_style( 'search-appearance' );
 		}

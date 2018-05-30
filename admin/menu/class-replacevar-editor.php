@@ -13,6 +13,8 @@ class WPSEO_Replacevar_Editor {
 	private $title;
 	private $description;
 
+	static $counter = 0;
+
 	public function __construct( $yform, $title, $description ) {
 		$this->yform = $yform;
 		$this->title = $title;

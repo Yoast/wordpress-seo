@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import map from "lodash/map";
-import SnippetEditor from "yoast-components/composites/Plugin/SnippetEditor/components/SnippetEditor";
+import SettingsSnippetEditor from "yoast-components/composites/Plugin/SnippetEditor/components/SettingsSnippetEditor";
 import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
 import styled from "styled-components";
 
@@ -66,21 +66,16 @@ class EditorWrapper extends React.Component {
 				headingText="Snippet preview"
 				headingIcon="eye"
 				headingIconColor="#555" >
-				<SnippetEditor
+				<SettingsSnippetEditor
 					onChange={ this.onChange.bind( this ) }
-					replacementVariable={ [] }
+					replacementVariables={ window.wpseoReplaceVarsL10n }
 					baseUrl="http://local.wordpress.test"
 					data={ {
 						title: this.state.title,
 						slug: "",
 						description: this.state.description,
 					} }
-					mode={ this.state.mode }
-					disableTitleEditorProgressBar={ true }
-					disableSlugEditor={ true }
-					disableDescriptionEditorProgressBar={ true }
-					initialEditorIsOpen={ true }
-					canToggleEditor={ false } />
+					mode={ this.state.mode } />
 			</Section>
 		);
 	}
