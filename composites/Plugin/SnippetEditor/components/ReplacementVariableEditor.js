@@ -13,6 +13,14 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 // Internal dependencies.
 import { replacementVariablesShape } from "../constants";
 import { serializeEditor, unserializeEditor } from "../serialization";
+import {
+	hasWhitespaceAt,
+	getCaretOffset,
+	getAnchorBlock,
+	insertText,
+	removeSelection,
+	moveCaret,
+} from "../text";
 
 /**
  * Creates a Draft.js editor state from a string.
@@ -37,6 +45,26 @@ const serializeEditorState = flow( [
 	convertToRaw,
 	serializeEditor,
 ] );
+
+/**
+ * Creates the trigger string.
+ *
+ * @param {boolean} needsPrefix When true a space is prepended.
+ * @param {boolean} needsSuffix When true a space is appended.
+ *
+ * @returns {string} The trigger string.
+ */
+const getTrigger = ( needsPrefix, needsSuffix ) => {
+	let trigger = "%";
+
+	if ( needsPrefix ) {
+		trigger = " " + trigger;
+	}
+	if ( needsSuffix ) {
+		trigger += " ";
+	}
+	return trigger;
+};
 
 /**
  * A replacement variable editor. It allows replacements variables as tokens in
@@ -126,14 +154,18 @@ class ReplacementVariableEditor extends React.Component {
 	 *
 	 * @param {EditorState} editorState The Draft.js state.
 	 *
-	 * @returns {void}
+	 * @returns {Promise} A promise for when the state is set.
 	 */
 	onChange( editorState ) {
-		this.setState( {
-			editorState,
-		}, () => {
-			this.serializeContent( editorState );
+		return new Promise( ( resolve ) => {
+			this.setState( {
+				editorState,
+			}, () => {
+				this.serializeContent( editorState );
+				resolve();
+			} );
 		} );
+
 	}
 
 	/**
@@ -205,6 +237,43 @@ class ReplacementVariableEditor extends React.Component {
 	 */
 	setEditorRef( editor ) {
 		this.editor = editor;
+	}
+
+	/**
+	 * Triggers the Draft.js mention plugin suggestions autocomplete.
+	 *
+	 * It does this by inserting the trigger (%) into the editor; replacing the current selection.
+	 * Ensuring the autocomplete shows by adding spaces around the trigger if needed.
+	 *
+	 * @returns {void}
+	 */
+	triggerReplacementVariableSuggestions() {
+		// First remove any selection.
+		let editorState = removeSelection( this.state.editorState );
+
+		// Get the current block text.
+		const selection = editorState.getSelection();
+		const content = editorState.getCurrentContent();
+		const text = getAnchorBlock( content, selection ).getText();
+		const index = getCaretOffset( selection );
+
+		// Determine the trigger text.
+		const needsPrefix = ! hasWhitespaceAt( text, index - 1 );
+		const needsSuffix = ! hasWhitespaceAt( text, index );
+		const trigger = getTrigger( needsPrefix, needsSuffix );
+
+		// Insert the trigger.
+		editorState = insertText( editorState, trigger );
+
+		// Move the caret if needed.
+		if ( needsSuffix ) {
+			// The new caret index plus the trigger length, minus the suffix.
+			const newIndex = index + trigger.length - 1;
+			editorState = moveCaret( editorState, newIndex );
+		}
+
+		// Save the editor state and then focus it.
+		this.onChange( editorState ).then( () => this.focus() );
 	}
 
 	/**

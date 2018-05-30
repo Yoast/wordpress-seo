@@ -10,6 +10,8 @@ import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import colors from "../../../../style-guide/colors";
+import { Button } from "../../Shared/components/Button";
+import SvgIcon from "../../Shared/components/SvgIcon";
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
 	'<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">' +
@@ -57,7 +59,6 @@ const InputContainer = styled.div.attrs( {
 	position: relative;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	font-size: 14px;
-	margin-top: 5px;
 	cursor: text;
 
 	&::before {
@@ -114,6 +115,22 @@ const SimulatedLabel = styled.div`
 	cursor: pointer;
 	font-size: 16px;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+	margin-bottom: 5px;
+`;
+
+const InsertVariableButton = Button.extend`
+	height: 33px;
+	border: 1px solid #dbdbdb;
+	box-shadow: none;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+	fill: ${ colors.$color_grey_dark };
+	padding-left: 8px;
+	float: right;
+	margin-top: -33px;
+
+	& svg {
+		margin-right: 7px;
+	}
 `;
 
 class SnippetEditorFields extends React.Component {
@@ -157,6 +174,7 @@ class SnippetEditorFields extends React.Component {
 		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
 		this.setRef = this.setRef.bind( this );
+		this.insertReplacementVariable = this.insertReplacementVariable.bind( this );
 	}
 
 	/**
@@ -200,6 +218,24 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
+	 * Insert a % into a ReplacementVariableEditor to trigger the autocomplete.
+	 *
+	 * @param {string} field The field name to get the ref of the ReplacementVariableEditor.
+	 *
+	 * @returns {void}
+	 */
+	insertReplacementVariable( field ) {
+		const element = this.elements[ field ];
+		if ( ! element ) {
+			return;
+		}
+
+		window.editor = element.editor;
+
+		element.triggerReplacementVariableSuggestions();
+	}
+
+	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -233,6 +269,10 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "title" ) } >
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
+					<InsertVariableButton onClick={ () => this.insertReplacementVariable( "title" ) }>
+						<SvgIcon icon="plus-circle" />
+						{ __( "Insert snippet variable", "yoast-components" ) }
+					</InsertVariableButton>
 					<TitleInputContainer
 						onClick={ () => this.elements.title.focus() }
 						isActive={ activeField === "title" }
@@ -279,6 +319,10 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "description" ) } >
 						{ __( "Meta description", "yoast-components" ) }
 					</SimulatedLabel>
+					<InsertVariableButton onClick={ () => this.insertReplacementVariable( "description" ) }>
+						<SvgIcon icon="plus-circle" />
+						{ __( "Insert snippet variable", "yoast-components" ) }
+					</InsertVariableButton>
 					<DescriptionInputContainer
 						onClick={ () => this.elements.description.focus() }
 						isActive={ activeField === "description" }
