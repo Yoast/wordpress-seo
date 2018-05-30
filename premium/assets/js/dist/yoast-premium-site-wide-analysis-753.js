@@ -6406,7 +6406,7 @@ var blockElementStartRegex = new RegExp("^<(" + blockElements.join("|") + ")[^>]
 var blockElementEndRegex = new RegExp("^</(" + blockElements.join("|") + ")[^>]*?>$", "i");
 var inlineElementStartRegex = new RegExp("^<(" + inlineElements.join("|") + ")[^>]*>$", "i");
 var inlineElementEndRegex = new RegExp("^</(" + inlineElements.join("|") + ")[^>]*>$", "i");
-var otherElementStartRegex = /^<([^>\s/]+)[^>]*>$/;
+var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/;
 var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
 var contentRegex = /^[^<]+$/;
 var greaterThanContentRegex = /^<[^><]*$/;
@@ -7451,11 +7451,11 @@ var newLines = "\n\r|\n|\r";
 var fullStopRegex = new RegExp("^[" + fullStop + "]$");
 var sentenceDelimiterRegex = new RegExp("^[" + sentenceDelimiters + "]$");
 var sentenceRegex = new RegExp("^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$");
-var htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
+var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp(newLines);
-var blockStartRegex = /^\s*[[({]\s*$/;
-var blockEndRegex = /^\s*[\])}]\s*$/;
+var blockStartRegex = /^\s*[\[\(\{]\s*$/;
+var blockEndRegex = /^\s*[\]\)}]\s*$/;
 var tokens = [];
 var sentenceTokenizer;
 /**
@@ -8064,7 +8064,7 @@ var blockElementEndRegex = new RegExp("</(" + blockElements.join("|") + ")[^>]*?
  */
 var stripIncompleteTags = function stripIncompleteTags(text) {
     text = text.replace(/^(<\/([^>]+)>)+/i, "");
-    text = text.replace(/(<([^/>]+)>)+$/i, "");
+    text = text.replace(/(<([^\/>]+)>)+$/i, "");
     return text;
 };
 /**

@@ -10655,7 +10655,7 @@ var blockElementStartRegex = new RegExp("^<(" + blockElements.join("|") + ")[^>]
 var blockElementEndRegex = new RegExp("^</(" + blockElements.join("|") + ")[^>]*?>$", "i");
 var inlineElementStartRegex = new RegExp("^<(" + inlineElements.join("|") + ")[^>]*>$", "i");
 var inlineElementEndRegex = new RegExp("^</(" + inlineElements.join("|") + ")[^>]*>$", "i");
-var otherElementStartRegex = /^<([^>\s/]+)[^>]*>$/;
+var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/;
 var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
 var contentRegex = /^[^<]+$/;
 var greaterThanContentRegex = /^<[^><]*$/;
@@ -10840,7 +10840,7 @@ var blockElementEndRegex = new RegExp("</(" + blockElements.join("|") + ")[^>]*?
  */
 var stripIncompleteTags = function stripIncompleteTags(text) {
     text = text.replace(/^(<\/([^>]+)>)+/i, "");
-    text = text.replace(/(<([^/>]+)>)+$/i, "");
+    text = text.replace(/(<([^\/>]+)>)+$/i, "");
     return text;
 };
 /**
