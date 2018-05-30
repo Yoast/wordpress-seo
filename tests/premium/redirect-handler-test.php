@@ -612,6 +612,38 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the handling of normal redirects when a 'found' target is the
+	 * same as the request url.
+	 *
+	 * @covers WPSEO_Redirect_Handler::handle_normal_redirects
+	 */
+	public function test_handle_normal_redirects_when_target_is_request_url() {
+		$request_uri  = '/cart/';
+		$redirect_url = '/cart/';
+
+		$class_instance = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'get_redirects', 'do_redirect', 'find_url' ) )
+			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'get_redirects' )
+			->will( $this->returnValue( array() ) );
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'find_url' )
+			->will( $this->returnValue( array( 'url' => $redirect_url, 'type' => 301 ) ) );
+
+		$class_instance
+			->expects( $this->never() )
+			->method( 'do_redirect' );
+
+		$class_instance->handle_normal_redirects( rawurldecode( $request_uri ) );
+	}
+
+	/**
 	 * Tests the handling of regex redirects.
 	 *
 	 * @dataProvider regex_redirect_provider
