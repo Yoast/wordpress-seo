@@ -23,6 +23,7 @@ describe( "SnippetEditor container", () => {
 					},
 				],
 			},
+			documentData: { excerpt: "myExcerpt" }
 		};
 		const expected = {
 			mode: "desktop",

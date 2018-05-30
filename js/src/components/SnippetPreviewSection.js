@@ -83,6 +83,9 @@ const applyReplaceUsingPlugin = function( data ) {
 export const mapEditorDataToPreview = function( data ) {
 	// Replace whitespaces in the url with dashes.
 	data.url = data.url.replace( /\s+/g, "-" );
+	if ( data.url[ data.url.length - 1 ] === "-" ) {
+		data.url = data.url.slice( 0, -1 );
+	}
 
 	return applyReplaceUsingPlugin( data );
 };
