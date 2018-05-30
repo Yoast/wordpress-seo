@@ -107,10 +107,13 @@ class ClassicEditorData {
 		this.subscribeToInputElement( "excerpt", "excerpt" );
 		this.subscribeToInputElement( "excerpt", "excerpt_only" );
 
+		// Register a listener for content changes in the "text" editor.
+		this.subscribeToInputElement( "content", "content" );
+
+		// Register a listener for content changes in the "visual" (TinyMCE) editor.
 		let dispatchContentToStore = () => {
 			this._store.dispatch( setDocumentContent( this.getContent() ) );
 		};
-
 		tmceHelper.addEventHandler( tmceId, [ "input", "change", "cut", "paste" ], dispatchContentToStore );
 	}
 
@@ -133,7 +136,7 @@ class ClassicEditorData {
 			return;
 		}
 
-		// Title and excerpt also need to be sent to the DocumentData in the Redux store.
+		// Title, content, and excerpt also need to be sent to the DocumentData in the Redux store.
 		switch ( targetField ) {
 			case "excerpt":
 				element.addEventListener( "input", ( event ) => {
@@ -145,6 +148,11 @@ class ClassicEditorData {
 				element.addEventListener( "input", ( event ) => {
 					this._store.dispatch( setDocumentTitle( event.target.value ) );
 					this.updateReplacementData( event, targetField );
+				} );
+				break;
+			case "content":
+				element.addEventListener( "input", ( event ) => {
+					this._store.dispatch( setDocumentContent( event.target.value ) );
 				} );
 				break;
 			default:
