@@ -187,13 +187,15 @@ class SnippetEditor extends React.Component {
 	 */
 	handleChange( type, content ) {
 		let descriptionProgress, titleProgress;
+		let processedContent = this.processReplacementVariables( content );
+
 		switch( type ) {
 			case "description":
-				descriptionProgress = getDescriptionProgress( content );
+				descriptionProgress = getDescriptionProgress( processedContent );
 				this.setState( { descriptionLengthProgress: descriptionProgress } );
 				break;
 			case "title":
-				titleProgress = getTitleProgress( content );
+				titleProgress = getTitleProgress( processedContent );
 				this.setState( { titleLengthProgress: titleProgress } );
 				break;
 		}
