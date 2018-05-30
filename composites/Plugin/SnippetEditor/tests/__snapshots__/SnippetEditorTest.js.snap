@@ -908,38 +908,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   margin: 0;
 }
 
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c33::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
 .c32 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -999,20 +967,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   content: "";
 }
 
-.c34 {
-  border: none;
-  width: 100%;
-  height: inherit;
-  line-height: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
-
-.c34:focus {
-  outline: 0;
-}
-
 .c30 {
   margin: 32px 0;
 }
@@ -1025,6 +979,52 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c33::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c34 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c34:focus {
+  outline: 0;
 }
 
 .c24 {
@@ -1408,35 +1408,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="SEO title preview"
-                  id="snippetPreview.seoTitlePreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="SEO title preview"
-                    id="snippetPreview.seoTitlePreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        SEO title preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    SEO title preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
                   onMouseLeave={[Function]}
@@ -1469,35 +1456,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     </SnippetPreview__TitleBounded>
                   </div>
                 </SnippetPreview__BaseTitle>
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Url preview"
-                  id="snippetPreview.urlPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Url preview"
-                    id="snippetPreview.urlPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Url preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Url preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseUrl>
                   <div
                     className="c18"
@@ -1529,35 +1503,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Meta description preview"
-                  id="snippetPreview.metaDescriptionPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Meta description preview"
-                    id="snippetPreview.metaDescriptionPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Meta description preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Meta description preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
@@ -1718,33 +1679,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Mobile preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Mobile preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Mobile preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Mobile preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -1856,33 +1806,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Desktop preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Desktop preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Desktop preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Desktop preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -2024,15 +1963,15 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         }
       }
     >
-      <SnippetEditorFields__StyledEditor>
+      <Shared__StyledEditor>
         <section
           className="c29"
         >
-          <SnippetEditorFields__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-5-title"
                 onClick={[Function]}
               >
@@ -2043,8 +1982,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 >
                   SEO title
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -2063,7 +2002,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -2080,12 +2019,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-5-slug"
                 onClick={[Function]}
               >
@@ -2096,8 +2035,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 >
                   Slug
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -2122,14 +2061,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     />
                   </SnippetEditorFields__SlugInput>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-5-description"
                 onClick={[Function]}
               >
@@ -2140,8 +2079,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 >
                   Meta description
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -2160,7 +2099,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -2177,9 +2116,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
+          </Shared__FormSection>
         </section>
-      </SnippetEditorFields__StyledEditor>
+      </Shared__StyledEditor>
     </SnippetEditorFields>
     <Button
       onClick={[Function]}
@@ -2496,38 +2435,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   margin: 0;
 }
 
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c33::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
 .c32 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -2587,20 +2494,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   content: "";
 }
 
-.c34 {
-  border: none;
-  width: 100%;
-  height: inherit;
-  line-height: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
-
-.c34:focus {
-  outline: 0;
-}
-
 .c30 {
   margin: 32px 0;
 }
@@ -2613,6 +2506,52 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c33::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c34 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c34:focus {
+  outline: 0;
 }
 
 .c24 {
@@ -2996,35 +2935,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="SEO title preview"
-                  id="snippetPreview.seoTitlePreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="SEO title preview"
-                    id="snippetPreview.seoTitlePreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        SEO title preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    SEO title preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
                   onMouseLeave={[Function]}
@@ -3057,35 +2983,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     </SnippetPreview__TitleBounded>
                   </div>
                 </SnippetPreview__BaseTitle>
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Url preview"
-                  id="snippetPreview.urlPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Url preview"
-                    id="snippetPreview.urlPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Url preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Url preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseUrl>
                   <div
                     className="c18"
@@ -3117,35 +3030,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Meta description preview"
-                  id="snippetPreview.metaDescriptionPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Meta description preview"
-                    id="snippetPreview.metaDescriptionPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Meta description preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Meta description preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
@@ -3306,33 +3206,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Mobile preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Mobile preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Mobile preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Mobile preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -3444,33 +3333,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Desktop preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Desktop preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Desktop preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Desktop preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -3612,15 +3490,15 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         }
       }
     >
-      <SnippetEditorFields__StyledEditor>
+      <Shared__StyledEditor>
         <section
           className="c29"
         >
-          <SnippetEditorFields__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-5-title"
                 onClick={[Function]}
               >
@@ -3631,8 +3509,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 >
                   SEO title
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -3651,7 +3529,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -3668,12 +3546,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-5-slug"
                 onClick={[Function]}
               >
@@ -3684,8 +3562,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 >
                   Slug
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -3710,14 +3588,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     />
                   </SnippetEditorFields__SlugInput>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-5-description"
                 onClick={[Function]}
               >
@@ -3728,8 +3606,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 >
                   Meta description
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -3748,7 +3626,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -3765,9 +3643,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
+          </Shared__FormSection>
         </section>
-      </SnippetEditorFields__StyledEditor>
+      </Shared__StyledEditor>
     </SnippetEditorFields>
     <Button
       onClick={[Function]}
@@ -4084,38 +3962,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   margin: 0;
 }
 
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c33::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
 .c32 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -4175,20 +4021,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   content: "";
 }
 
-.c34 {
-  border: none;
-  width: 100%;
-  height: inherit;
-  line-height: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
-
-.c34:focus {
-  outline: 0;
-}
-
 .c30 {
   margin: 32px 0;
 }
@@ -4201,6 +4033,52 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c33::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c34 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c34:focus {
+  outline: 0;
 }
 
 .c24 {
@@ -4584,35 +4462,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="SEO title preview"
-                  id="snippetPreview.seoTitlePreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="SEO title preview"
-                    id="snippetPreview.seoTitlePreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        SEO title preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    SEO title preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
                   onMouseLeave={[Function]}
@@ -4645,35 +4510,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     </SnippetPreview__TitleBounded>
                   </div>
                 </SnippetPreview__BaseTitle>
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Url preview"
-                  id="snippetPreview.urlPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Url preview"
-                    id="snippetPreview.urlPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Url preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Url preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseUrl>
                   <div
                     className="c18"
@@ -4705,35 +4557,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Meta description preview"
-                  id="snippetPreview.metaDescriptionPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Meta description preview"
-                    id="snippetPreview.metaDescriptionPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Meta description preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Meta description preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
@@ -4894,33 +4733,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Mobile preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Mobile preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Mobile preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Mobile preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -5032,33 +4860,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Desktop preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Desktop preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Desktop preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Desktop preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -5200,15 +5017,15 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         }
       }
     >
-      <SnippetEditorFields__StyledEditor>
+      <Shared__StyledEditor>
         <section
           className="c29"
         >
-          <SnippetEditorFields__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-5-title"
                 onClick={[Function]}
               >
@@ -5219,8 +5036,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 >
                   SEO title
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -5239,7 +5056,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -5256,12 +5073,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-5-slug"
                 onClick={[Function]}
               >
@@ -5272,8 +5089,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 >
                   Slug
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -5298,14 +5115,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     />
                   </SnippetEditorFields__SlugInput>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-5-description"
                 onClick={[Function]}
               >
@@ -5316,8 +5133,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 >
                   Meta description
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -5336,7 +5153,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -5353,9 +5170,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
+          </Shared__FormSection>
         </section>
-      </SnippetEditorFields__StyledEditor>
+      </Shared__StyledEditor>
     </SnippetEditorFields>
     <Button
       onClick={[Function]}
@@ -5672,38 +5489,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   margin: 0;
 }
 
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c33::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
 .c32 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -5763,20 +5548,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   content: "";
 }
 
-.c34 {
-  border: none;
-  width: 100%;
-  height: inherit;
-  line-height: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
-
-.c34:focus {
-  outline: 0;
-}
-
 .c30 {
   margin: 32px 0;
 }
@@ -5789,6 +5560,52 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c33::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c34 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c34:focus {
+  outline: 0;
 }
 
 .c24 {
@@ -6172,35 +5989,22 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="SEO title preview"
-                  id="snippetPreview.seoTitlePreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="SEO title preview"
-                    id="snippetPreview.seoTitlePreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        SEO title preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    SEO title preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
                   onMouseLeave={[Function]}
@@ -6233,35 +6037,22 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     </SnippetPreview__TitleBounded>
                   </div>
                 </SnippetPreview__BaseTitle>
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Url preview"
-                  id="snippetPreview.urlPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Url preview"
-                    id="snippetPreview.urlPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Url preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Url preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseUrl>
                   <div
                     className="c18"
@@ -6293,35 +6084,22 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Meta description preview"
-                  id="snippetPreview.metaDescriptionPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Meta description preview"
-                    id="snippetPreview.metaDescriptionPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Meta description preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Meta description preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
@@ -6482,33 +6260,22 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Mobile preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Mobile preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Mobile preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Mobile preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -6620,33 +6387,22 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Desktop preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Desktop preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Desktop preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Desktop preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -6788,15 +6544,15 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         }
       }
     >
-      <SnippetEditorFields__StyledEditor>
+      <Shared__StyledEditor>
         <section
           className="c29"
         >
-          <SnippetEditorFields__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-2-title"
                 onClick={[Function]}
               >
@@ -6807,8 +6563,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 >
                   SEO title
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -6827,7 +6583,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -6844,12 +6600,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-2-slug"
                 onClick={[Function]}
               >
@@ -6860,8 +6616,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 >
                   Slug
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -6886,14 +6642,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     />
                   </SnippetEditorFields__SlugInput>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-2-description"
                 onClick={[Function]}
               >
@@ -6904,8 +6660,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 >
                   Meta description
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -6924,7 +6680,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -6941,9 +6697,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
+          </Shared__FormSection>
         </section>
-      </SnippetEditorFields__StyledEditor>
+      </Shared__StyledEditor>
     </SnippetEditorFields>
     <Button
       onClick={[Function]}
@@ -7632,35 +7388,22 @@ exports[`SnippetEditor closes when calling close() 2`] = `
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="SEO title preview"
-                  id="snippetPreview.seoTitlePreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="SEO title preview"
-                    id="snippetPreview.seoTitlePreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        SEO title preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    SEO title preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
                   onMouseLeave={[Function]}
@@ -7693,35 +7436,22 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     </SnippetPreview__TitleBounded>
                   </div>
                 </SnippetPreview__BaseTitle>
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Url preview"
-                  id="snippetPreview.urlPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Url preview"
-                    id="snippetPreview.urlPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Url preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Url preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseUrl>
                   <div
                     className="c18"
@@ -7753,35 +7483,22 @@ exports[`SnippetEditor closes when calling close() 2`] = `
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Meta description preview"
-                  id="snippetPreview.metaDescriptionPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Meta description preview"
-                    id="snippetPreview.metaDescriptionPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Meta description preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Meta description preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
@@ -7942,33 +7659,22 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Mobile preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Mobile preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Mobile preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Mobile preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -8080,33 +7786,22 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Desktop preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Desktop preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Desktop preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Desktop preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -8474,6 +8169,79 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   margin: 0;
 }
 
+.c32 {
+  padding: 3px 5px;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
+  cursor: text;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
+  background-size: 25px;
+  content: "";
+}
+
+.c35 {
+  padding: 3px 5px;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
+  cursor: text;
+  min-height: 60px;
+  padding: 2px 6px;
+  line-height: 19.6px;
+}
+
+.c35::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
+  background-size: 25px;
+  content: "";
+}
+
+.c30 {
+  margin: 32px 0;
+}
+
+.c29 {
+  padding: 10px 20px 20px 20px;
+}
+
+.c31 {
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
 .c36 {
   box-sizing: border-box;
   width: 100%;
@@ -8538,65 +8306,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border: 0;
 }
 
-.c32 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  margin-top: 5px;
-  cursor: text;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c35 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  margin-top: 5px;
-  cursor: text;
-  min-height: 60px;
-  padding: 2px 6px;
-  line-height: 19.6px;
-}
-
-.c35::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
 .c34 {
   border: none;
   width: 100%;
@@ -8609,20 +8318,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 
 .c34:focus {
   outline: 0;
-}
-
-.c30 {
-  margin: 32px 0;
-}
-
-.c29 {
-  padding: 10px 20px 20px 20px;
-}
-
-.c31 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c24 {
@@ -9006,35 +8701,22 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="SEO title preview"
-                  id="snippetPreview.seoTitlePreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="SEO title preview"
-                    id="snippetPreview.seoTitlePreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        SEO title preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    SEO title preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
                   onMouseLeave={[Function]}
@@ -9067,35 +8749,22 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     </SnippetPreview__TitleBounded>
                   </div>
                 </SnippetPreview__BaseTitle>
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Url preview"
-                  id="snippetPreview.urlPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Url preview"
-                    id="snippetPreview.urlPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Url preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Url preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseUrl>
                   <div
                     className="c18"
@@ -9127,35 +8796,22 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Meta description preview"
-                  id="snippetPreview.metaDescriptionPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Meta description preview"
-                    id="snippetPreview.metaDescriptionPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Meta description preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Meta description preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
@@ -9316,33 +8972,22 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Mobile preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Mobile preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Mobile preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Mobile preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -9454,33 +9099,22 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Desktop preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Desktop preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Desktop preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Desktop preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -9622,15 +9256,15 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         }
       }
     >
-      <SnippetEditorFields__StyledEditor>
+      <Shared__StyledEditor>
         <section
           className="c29"
         >
-          <SnippetEditorFields__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-8-title"
                 onClick={[Function]}
               >
@@ -9641,8 +9275,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 >
                   SEO title
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -9661,7 +9295,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -9678,12 +9312,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-8-slug"
                 onClick={[Function]}
               >
@@ -9694,8 +9328,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 >
                   Slug
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -9720,14 +9354,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     />
                   </SnippetEditorFields__SlugInput>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-8-description"
                 onClick={[Function]}
               >
@@ -9738,8 +9372,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 >
                   Meta description
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -9758,7 +9392,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -9775,9 +9409,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
+          </Shared__FormSection>
         </section>
-      </SnippetEditorFields__StyledEditor>
+      </Shared__StyledEditor>
     </SnippetEditorFields>
     <Button
       onClick={[Function]}
@@ -10094,6 +9728,79 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   margin: 0;
 }
 
+.c32 {
+  padding: 3px 5px;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
+  cursor: text;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
+  background-size: 25px;
+  content: "";
+}
+
+.c35 {
+  padding: 3px 5px;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
+  cursor: text;
+  min-height: 60px;
+  padding: 2px 6px;
+  line-height: 19.6px;
+}
+
+.c35::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
+  background-size: 25px;
+  content: "";
+}
+
+.c30 {
+  margin: 32px 0;
+}
+
+.c29 {
+  padding: 10px 20px 20px 20px;
+}
+
+.c31 {
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
 .c33 {
   box-sizing: border-box;
   width: 100%;
@@ -10158,65 +9865,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border: 0;
 }
 
-.c32 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  margin-top: 5px;
-  cursor: text;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c35 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  margin-top: 5px;
-  cursor: text;
-  min-height: 60px;
-  padding: 2px 6px;
-  line-height: 19.6px;
-}
-
-.c35::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
 .c34 {
   border: none;
   width: 100%;
@@ -10229,20 +9877,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 
 .c34:focus {
   outline: 0;
-}
-
-.c30 {
-  margin: 32px 0;
-}
-
-.c29 {
-  padding: 10px 20px 20px 20px;
-}
-
-.c31 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
 }
 
 .c24 {
@@ -10626,35 +10260,22 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="SEO title preview"
-                  id="snippetPreview.seoTitlePreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="SEO title preview"
-                    id="snippetPreview.seoTitlePreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        SEO title preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    SEO title preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
                   onMouseLeave={[Function]}
@@ -10687,35 +10308,22 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     </SnippetPreview__TitleBounded>
                   </div>
                 </SnippetPreview__BaseTitle>
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Url preview"
-                  id="snippetPreview.urlPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Url preview"
-                    id="snippetPreview.urlPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Url preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Url preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseUrl>
                   <div
                     className="c18"
@@ -10747,35 +10355,22 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Meta description preview"
-                  id="snippetPreview.metaDescriptionPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Meta description preview"
-                    id="snippetPreview.metaDescriptionPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Meta description preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Meta description preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
@@ -10936,33 +10531,22 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Mobile preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Mobile preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Mobile preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Mobile preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -11074,33 +10658,22 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Desktop preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Desktop preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Desktop preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Desktop preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -11242,15 +10815,15 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         }
       }
     >
-      <SnippetEditorFields__StyledEditor>
+      <Shared__StyledEditor>
         <section
           className="c29"
         >
-          <SnippetEditorFields__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-7-title"
                 onClick={[Function]}
               >
@@ -11261,8 +10834,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 >
                   SEO title
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -11281,7 +10854,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -11298,12 +10871,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-7-slug"
                 onClick={[Function]}
               >
@@ -11314,8 +10887,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 >
                   Slug
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -11340,14 +10913,14 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     />
                   </SnippetEditorFields__SlugInput>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-7-description"
                 onClick={[Function]}
               >
@@ -11358,8 +10931,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 >
                   Meta description
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -11378,7 +10951,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -11395,9 +10968,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
+          </Shared__FormSection>
         </section>
-      </SnippetEditorFields__StyledEditor>
+      </Shared__StyledEditor>
     </SnippetEditorFields>
     <Button
       onClick={[Function]}
@@ -12957,38 +12530,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   margin: 0;
 }
 
-.c34 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c34::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c34::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c34::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c34::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
 .c33 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -13048,20 +12589,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   content: "";
 }
 
-.c35 {
-  border: none;
-  width: 100%;
-  height: inherit;
-  line-height: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
-
-.c35:focus {
-  outline: 0;
-}
-
 .c31 {
   margin: 32px 0;
 }
@@ -13074,6 +12601,52 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
+.c34 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c34::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c34::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c34::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c34::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c35 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c35:focus {
+  outline: 0;
 }
 
 .c25 {
@@ -13469,35 +13042,22 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="SEO title preview"
-                  id="snippetPreview.seoTitlePreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="SEO title preview"
-                    id="snippetPreview.seoTitlePreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        SEO title preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    SEO title preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
                   onMouseLeave={[Function]}
@@ -13530,35 +13090,22 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     </SnippetPreview__TitleBounded>
                   </div>
                 </SnippetPreview__BaseTitle>
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Url preview"
-                  id="snippetPreview.urlPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Url preview"
-                    id="snippetPreview.urlPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Url preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Url preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseUrl>
                   <div
                     className="c18"
@@ -13590,35 +13137,22 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Meta description preview"
-                  id="snippetPreview.metaDescriptionPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Meta description preview"
-                    id="snippetPreview.metaDescriptionPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Meta description preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Meta description preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview
                   isDescriptionGenerated={false}
                   onClick={[Function]}
@@ -13787,33 +13321,22 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Mobile preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Mobile preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Mobile preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Mobile preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -13925,33 +13448,22 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Desktop preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Desktop preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Desktop preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Desktop preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -14093,15 +13605,15 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         }
       }
     >
-      <SnippetEditorFields__StyledEditor>
+      <Shared__StyledEditor>
         <section
           className="c30"
         >
-          <SnippetEditorFields__FormSection>
+          <Shared__FormSection>
             <div
               className="c31"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-4-title"
                 onClick={[Function]}
               >
@@ -14112,8 +13624,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 >
                   SEO title
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -14132,7 +13644,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -14149,12 +13661,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c31"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-4-slug"
                 onClick={[Function]}
               >
@@ -14165,8 +13677,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 >
                   Slug
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -14191,14 +13703,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     />
                   </SnippetEditorFields__SlugInput>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c31"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-4-description"
                 onClick={[Function]}
               >
@@ -14209,8 +13721,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 >
                   Meta description
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={true}
                 isHovered={false}
                 onClick={[Function]}
@@ -14229,7 +13741,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -14246,9 +13758,9 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
+          </Shared__FormSection>
         </section>
-      </SnippetEditorFields__StyledEditor>
+      </Shared__StyledEditor>
     </SnippetEditorFields>
     <Button
       onClick={[Function]}
@@ -14565,38 +14077,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   margin: 0;
 }
 
-.c34 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c34::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c34::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c34::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c34::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
 .c33 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -14656,20 +14136,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   content: "";
 }
 
-.c35 {
-  border: none;
-  width: 100%;
-  height: inherit;
-  line-height: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
-
-.c35:focus {
-  outline: 0;
-}
-
 .c31 {
   margin: 32px 0;
 }
@@ -14682,6 +14148,52 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
+.c34 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c34::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c34::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c34::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c34::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c35 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c35:focus {
+  outline: 0;
 }
 
 .c25 {
@@ -15077,35 +14589,22 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="SEO title preview"
-                  id="snippetPreview.seoTitlePreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="SEO title preview"
-                    id="snippetPreview.seoTitlePreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        SEO title preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    SEO title preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
                   onMouseLeave={[Function]}
@@ -15138,35 +14637,22 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                     </SnippetPreview__TitleBounded>
                   </div>
                 </SnippetPreview__BaseTitle>
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Url preview"
-                  id="snippetPreview.urlPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Url preview"
-                    id="snippetPreview.urlPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Url preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Url preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseUrl>
                   <div
                     className="c18"
@@ -15198,35 +14684,22 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Meta description preview"
-                  id="snippetPreview.metaDescriptionPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Meta description preview"
-                    id="snippetPreview.metaDescriptionPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Meta description preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Meta description preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview
                   isDescriptionGenerated={false}
                   onClick={[Function]}
@@ -15395,33 +14868,22 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Mobile preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Mobile preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Mobile preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Mobile preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -15533,33 +14995,22 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Desktop preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Desktop preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Desktop preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Desktop preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -15701,15 +15152,15 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
         }
       }
     >
-      <SnippetEditorFields__StyledEditor>
+      <Shared__StyledEditor>
         <section
           className="c30"
         >
-          <SnippetEditorFields__FormSection>
+          <Shared__FormSection>
             <div
               className="c31"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-3-title"
                 onClick={[Function]}
               >
@@ -15720,8 +15171,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 >
                   SEO title
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -15740,7 +15191,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -15757,12 +15208,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c31"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-3-slug"
                 onClick={[Function]}
               >
@@ -15773,8 +15224,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 >
                   Slug
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -15799,14 +15250,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                     />
                   </SnippetEditorFields__SlugInput>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c31"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-3-description"
                 onClick={[Function]}
               >
@@ -15817,8 +15268,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 >
                   Meta description
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={true}
                 onClick={[Function]}
@@ -15837,7 +15288,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -15854,9 +15305,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
+          </Shared__FormSection>
         </section>
-      </SnippetEditorFields__StyledEditor>
+      </Shared__StyledEditor>
     </SnippetEditorFields>
     <Button
       onClick={[Function]}
@@ -16173,38 +15624,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   margin: 0;
 }
 
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c33::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
 .c32 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -16264,20 +15683,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   content: "";
 }
 
-.c34 {
-  border: none;
-  width: 100%;
-  height: inherit;
-  line-height: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
-
-.c34:focus {
-  outline: 0;
-}
-
 .c30 {
   margin: 32px 0;
 }
@@ -16290,6 +15695,52 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c33::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c34 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c34:focus {
+  outline: 0;
 }
 
 .c24 {
@@ -16673,35 +16124,22 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="SEO title preview"
-                  id="snippetPreview.seoTitlePreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="SEO title preview"
-                    id="snippetPreview.seoTitlePreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        SEO title preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    SEO title preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
                   onMouseLeave={[Function]}
@@ -16734,35 +16172,22 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     </SnippetPreview__TitleBounded>
                   </div>
                 </SnippetPreview__BaseTitle>
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Url preview"
-                  id="snippetPreview.urlPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Url preview"
-                    id="snippetPreview.urlPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Url preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Url preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseUrl>
                   <div
                     className="c18"
@@ -16794,35 +16219,22 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Meta description preview"
-                  id="snippetPreview.metaDescriptionPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Meta description preview"
-                    id="snippetPreview.metaDescriptionPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Meta description preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Meta description preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
@@ -16983,33 +16395,22 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Mobile preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Mobile preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Mobile preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Mobile preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -17121,33 +16522,22 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Desktop preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Desktop preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Desktop preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Desktop preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -17289,15 +16679,15 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         }
       }
     >
-      <SnippetEditorFields__StyledEditor>
+      <Shared__StyledEditor>
         <section
           className="c29"
         >
-          <SnippetEditorFields__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-1-title"
                 onClick={[Function]}
               >
@@ -17308,8 +16698,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 >
                   SEO title
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -17328,7 +16718,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -17345,12 +16735,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-1-slug"
                 onClick={[Function]}
               >
@@ -17361,8 +16751,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 >
                   Slug
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -17387,14 +16777,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     />
                   </SnippetEditorFields__SlugInput>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-1-description"
                 onClick={[Function]}
               >
@@ -17405,8 +16795,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 >
                   Meta description
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -17425,7 +16815,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -17442,9 +16832,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
+          </Shared__FormSection>
         </section>
-      </SnippetEditorFields__StyledEditor>
+      </Shared__StyledEditor>
     </SnippetEditorFields>
     <Button
       onClick={[Function]}
@@ -17761,38 +17151,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   margin: 0;
 }
 
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c33::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
 .c32 {
   padding: 3px 5px;
   border: 1px solid #ddd;
@@ -17852,20 +17210,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   content: "";
 }
 
-.c34 {
-  border: none;
-  width: 100%;
-  height: inherit;
-  line-height: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
-
-.c34:focus {
-  outline: 0;
-}
-
 .c30 {
   margin: 32px 0;
 }
@@ -17878,6 +17222,52 @@ exports[`SnippetEditor passes replacement variables to the title and description
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c33::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c34 {
+  border: none;
+  width: 100%;
+  height: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.c34:focus {
+  outline: 0;
 }
 
 .c24 {
@@ -18272,35 +17662,22 @@ exports[`SnippetEditor passes replacement variables to the title and description
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="SEO title preview"
-                  id="snippetPreview.seoTitlePreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="SEO title preview"
-                    id="snippetPreview.seoTitlePreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        SEO title preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    SEO title preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseTitle
                   onClick={[Function]}
                   onMouseLeave={[Function]}
@@ -18333,35 +17710,22 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     </SnippetPreview__TitleBounded>
                   </div>
                 </SnippetPreview__BaseTitle>
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Url preview"
-                  id="snippetPreview.urlPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Url preview"
-                    id="snippetPreview.urlPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Url preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Url preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__BaseUrl>
                   <div
                     className="c18"
@@ -18393,35 +17757,22 @@ exports[`SnippetEditor passes replacement variables to the title and description
               <div
                 className="c13"
               >
-                <FormattedScreenReaderMessage
-                  after=":"
-                  defaultMessage="Meta description preview"
-                  id="snippetPreview.metaDescriptionPreview"
-                >
-                  <FormattedMessage
-                    after=":"
-                    defaultMessage="Meta description preview"
-                    id="snippetPreview.metaDescriptionPreview"
-                    values={Object {}}
+                <ScreenReaderText>
+                  <span
+                    className="screen-reader-text"
+                    style={
+                      Object {
+                        "clip": "rect(1px, 1px, 1px, 1px)",
+                        "height": "1px",
+                        "overflow": "hidden",
+                        "position": "absolute",
+                        "width": "1px",
+                      }
+                    }
                   >
-                    <ScreenReaderText>
-                      <span
-                        className="screen-reader-text"
-                        style={
-                          Object {
-                            "clip": "rect(1px, 1px, 1px, 1px)",
-                            "height": "1px",
-                            "overflow": "hidden",
-                            "position": "absolute",
-                            "width": "1px",
-                          }
-                        }
-                      >
-                        Meta description preview:
-                      </span>
-                    </ScreenReaderText>
-                  </FormattedMessage>
-                </FormattedScreenReaderMessage>
+                    Meta description preview:
+                  </span>
+                </ScreenReaderText>
                 <SnippetPreview__MobileDescription
                   isDescriptionGenerated={false}
                   onClick={[Function]}
@@ -18582,33 +17933,22 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Mobile preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Mobile preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Mobile preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Mobile preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -18720,33 +18060,22 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               </svg>
                             </SvgIcon__StyledSvg>
                           </SvgIcon>
-                          <FormattedScreenReaderMessage
-                            defaultMessage="Desktop preview"
-                            id="snippetEditor.desktopPreview"
-                          >
-                            <FormattedMessage
-                              defaultMessage="Desktop preview"
-                              id="snippetEditor.desktopPreview"
-                              values={Object {}}
+                          <ScreenReaderText>
+                            <span
+                              className="screen-reader-text"
+                              style={
+                                Object {
+                                  "clip": "rect(1px, 1px, 1px, 1px)",
+                                  "height": "1px",
+                                  "overflow": "hidden",
+                                  "position": "absolute",
+                                  "width": "1px",
+                                }
+                              }
                             >
-                              <ScreenReaderText>
-                                <span
-                                  className="screen-reader-text"
-                                  style={
-                                    Object {
-                                      "clip": "rect(1px, 1px, 1px, 1px)",
-                                      "height": "1px",
-                                      "overflow": "hidden",
-                                      "position": "absolute",
-                                      "width": "1px",
-                                    }
-                                  }
-                                >
-                                  Desktop preview
-                                </span>
-                              </ScreenReaderText>
-                            </FormattedMessage>
-                          </FormattedScreenReaderMessage>
+                              Desktop preview
+                            </span>
+                          </ScreenReaderText>
                         </button>
                       </Button__BaseButton>
                     </Button>
@@ -18899,15 +18228,15 @@ exports[`SnippetEditor passes replacement variables to the title and description
         }
       }
     >
-      <SnippetEditorFields__StyledEditor>
+      <Shared__StyledEditor>
         <section
           className="c29"
         >
-          <SnippetEditorFields__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-6-title"
                 onClick={[Function]}
               >
@@ -18918,8 +18247,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 >
                   SEO title
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -18949,7 +18278,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -18966,12 +18295,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-6-slug"
                 onClick={[Function]}
               >
@@ -18982,8 +18311,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 >
                   Slug
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -19008,14 +18337,14 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     />
                   </SnippetEditorFields__SlugInput>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
             </div>
-          </SnippetEditorFields__FormSection>
-          <SnippetEditorFields__FormSection>
+          </Shared__FormSection>
+          <Shared__FormSection>
             <div
               className="c30"
             >
-              <SnippetEditorFields__SimulatedLabel
+              <Shared__SimulatedLabel
                 id="snippet-editor-field-6-description"
                 onClick={[Function]}
               >
@@ -19026,8 +18355,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 >
                   Meta description
                 </div>
-              </SnippetEditorFields__SimulatedLabel>
-              <SnippetEditorFields__InputContainer
+              </Shared__SimulatedLabel>
+              <Shared__InputContainer
                 isActive={false}
                 isHovered={false}
                 onClick={[Function]}
@@ -19057,7 +18386,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     <div />
                   </ReplacementVariableEditor>
                 </div>
-              </SnippetEditorFields__InputContainer>
+              </Shared__InputContainer>
               <ProgressBar
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
@@ -19074,9 +18403,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 />
               </ProgressBar>
             </div>
-          </SnippetEditorFields__FormSection>
+          </Shared__FormSection>
         </section>
-      </SnippetEditorFields__StyledEditor>
+      </Shared__StyledEditor>
     </SnippetEditorFields>
     <Button
       onClick={[Function]}
