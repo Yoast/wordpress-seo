@@ -107,6 +107,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_74();
 		}
 
+		if ( version_compare( $version, '7.5.3', '<' ) ) {
+			$this->upgrade_753();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -554,6 +558,28 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_74() {
 		$this->remove_sitemap_validators();
+	}
+
+	/**
+	 * Performs the 7.5.3 upgrade.
+	 *
+	 * When upgrading purging media is potentially relevant.
+	 *
+	 * @return void
+	 */
+	private function upgrade_753() {
+		// Only when attachments are not disabled.
+		if ( WPSEO_Options::get( 'disable-attachment' ) === true ) {
+			return;
+		}
+
+		// Only when attachments are not no-indexed.
+		if ( WPSEO_Options::get( 'noindex-attachment' ) === true ) {
+			return;
+		}
+
+		// Set purging relevancy.
+		WPSEO_Options::set( 'is-media-purge-relevant', true );
 	}
 
 	/**
