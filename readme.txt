@@ -110,7 +110,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: May 29th, 2018
 
 Enhancements:
-* Adds Flesch Reading Ease for Russian
+* Adds Flesch Reading Ease for Russian.
 * Adds Catalan transition words.
 
 Bugfixes:
