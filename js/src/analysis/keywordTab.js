@@ -126,10 +126,10 @@ module.exports = ( function() {
 	/**
 	 * Returns the keyword for this keyword tab
 	 *
-	 * @returns {void}
+	 * @returns {string} The keyword
 	 */
 	KeywordTab.prototype.getKeywordFromElement = function() {
-		return this.element.find( ".wpseo_tablink" ).data( "keyword" );
+		return String( this.element.find( ".wpseo_tablink" ).data( "keyword" ) );
 	};
 
 	return KeywordTab;
