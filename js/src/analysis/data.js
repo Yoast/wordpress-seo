@@ -1,5 +1,10 @@
 import debounce from "lodash/debounce";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
+import {
+	fillReplacementVariables,
+	mapCustomFields,
+	mapCustomTaxonomies,
+} from "../helpers/replacementVariableHelpers";
 
 /**
  * Represents the data.
@@ -16,10 +21,30 @@ class Data {
 	constructor( wpData, refresh, store ) {
 		this._wpData = wpData;
 		this._refresh = refresh;
-		this.store = store;
-		this.data = {};
+		this._store = store;
+		this._data = {};
 		this.getPostAttribute = this.getPostAttribute.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
+	}
+
+	initialize( replaceVars ) {
+		// Fill data object on page load.
+		this._data = this.getInitialData( replaceVars );
+		fillReplacementVariables( this._data, this._store );
+		this.subscribeToGutenberg();
+	}
+
+	getInitialData( replaceVars ) {
+		const gutenbergData = this.collectGutenbergData( this.getPostAttribute );
+
+		// Custom_fields and custom_taxonomies are objects instead of strings, which causes console errors.
+		replaceVars = mapCustomFields( replaceVars );
+		replaceVars = mapCustomTaxonomies( replaceVars );
+
+		return {
+			...replaceVars,
+			...gutenbergData,
+		};
 	}
 
 	/**
@@ -81,21 +106,6 @@ class Data {
 	}
 
 	/**
-	 * Fills the redux store with the newly acquired data.
-	 *
-	 * @param {Object} newData The newly aquired data.
-	 *
-	 * @returns {void}
-	 */
-	fillReplacementValues( newData ) {
-		// Fill title
-		this.store.dispatch( updateReplacementVariable( "title", newData.title ) );
-
-		// Fill excerpt
-		this.store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
-	}
-
-	/**
 	 * Updates the redux store with the changed data.
 	 *
 	 * @param {Object} newData The changed data.
@@ -104,12 +114,12 @@ class Data {
 	 */
 	handleEditorChange( newData ) {
 		// Handle title change
-		if ( this.data.title !== newData.title ) {
-			this.store.dispatch( updateReplacementVariable( "title", newData.title ) );
+		if ( this._data.title !== newData.title ) {
+			this._store.dispatch( updateReplacementVariable( "title", newData.title ) );
 		}
 		// Handle excerpt change
-		if ( this.data.excerpt !== newData.excerpt ) {
-			this.store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
+		if ( this._data.excerpt !== newData.excerpt ) {
+			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 		}
 	}
 
@@ -122,11 +132,11 @@ class Data {
 		let gutenbergData = this.collectGutenbergData( this.getPostAttribute );
 
 		// Set isDirty to true if the current data and Gutenberg data are unequal.
-		let isDirty = ! this.isShallowEqual( this.data, gutenbergData );
+		let isDirty = ! this.isShallowEqual( this._data, gutenbergData );
 
 		if ( isDirty ) {
 			this.handleEditorChange( gutenbergData );
-			this.data = gutenbergData;
+			this._data = gutenbergData;
 			this._refresh();
 		}
 	}
@@ -137,9 +147,6 @@ class Data {
 	 * @returns {void}
 	 */
 	subscribeToGutenberg() {
-		// Fill data object on page load.
-		this.data = this.collectGutenbergData( this.getPostAttribute );
-		this.fillReplacementValues( this.data );
 		this.subscriber = debounce( this.refreshYoastSEO, 500 );
 		this._wpData.subscribe(
 			this.subscriber
@@ -152,7 +159,7 @@ class Data {
 	 * @returns {Object} The data and whether the data is dirty.
 	 */
 	getData() {
-		return this.data;
+		return this._data;
 	}
 }
 module.exports = Data;

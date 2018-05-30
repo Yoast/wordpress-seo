@@ -103,6 +103,7 @@ class WPSEO_Rewrite {
 		if ( isset( $query_vars['wpseo_category_redirect'] ) ) {
 			$catlink = trailingslashit( get_option( 'home' ) ) . user_trailingslashit( $query_vars['wpseo_category_redirect'], 'category' );
 
+			header( 'X-Redirect-By: Yoast SEO' );
 			wp_redirect( $catlink, 301 );
 			exit;
 		}

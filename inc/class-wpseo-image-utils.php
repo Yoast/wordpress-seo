@@ -191,8 +191,9 @@ class WPSEO_Image_Utils {
 			$uploads = wp_get_upload_dir();
 		}
 
-		if ( empty( $uploads['error'] ) ) {
-			return $uploads['basedir'] . "/$path";
+		// Add the uploads basedir if the path does not start with it.
+		if ( empty( $uploads['error'] ) && strpos( $path, $uploads['basedir'] . DIRECTORY_SEPARATOR ) !== 0 ) {
+			return $uploads['basedir'] . DIRECTORY_SEPARATOR . ltrim( $path, DIRECTORY_SEPARATOR );
 		}
 
 		return $path;

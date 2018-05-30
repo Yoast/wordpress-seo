@@ -69,6 +69,9 @@ class WPSEO_Taxonomy {
 	 * @param stdClass|WP_Term $term Term to show the edit boxes for.
 	 */
 	public function term_metabox( $term ) {
+		$tab = new WPSEO_Help_Center_Template_Variables_Tab();
+		$tab->register_hooks();
+
 		$metabox = new WPSEO_Taxonomy_Metabox( $this->taxonomy, $term );
 		$metabox->display();
 	}
@@ -88,6 +91,8 @@ class WPSEO_Taxonomy {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'scoring' );
 
+		$tab = new WPSEO_Help_Center_Template_Variables_Tab();
+		$tab->enqueue_assets();
 
 		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
 		if (
@@ -103,6 +108,9 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_script( 'term-scraper' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
+			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
+			$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' );
+
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
