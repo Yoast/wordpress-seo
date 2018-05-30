@@ -59,6 +59,13 @@ describe( "A test that uses the Russian Flesch Reading", function() {
 	} );
 } );
 
+describe( "A test that uses the French Flesch Reading", function() {
+	it( "returns a score", function() {
+		var mockPaper = new Paper( "Comme la plupart des grands herbivores, le cheval dort peu, de trois à cinq heures par jour, en raison de sa vulnérabilité aux prédateurs", { locale: "fr_FR" } );
+		expect( fleschFunction( mockPaper ) ).toBe( 72.2 );
+	} );
+} );
+
 describe( "A test that returns 0 after sentence formatting", function() {
 	it( "returns a score of 0", function() {
 		var mockPaper = new Paper( "()" );
