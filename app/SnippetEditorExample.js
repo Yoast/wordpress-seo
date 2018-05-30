@@ -15,19 +15,21 @@ const Container = styled.div`
 const replacementVariables = [
 	{
 		name: "title",
+		title: "Title",
 		value: "Title",
+		description: "This is the title of your post",
 	},
 	{
 		name: "post_type",
+		title: "Post type",
 		value: "Gallery",
+		description: "This is the post type of your post",
 	},
 	{
-		name: "snippet",
-		value: "The snippet of your post.",
-	},
-	{
-		name: "snippet_manual",
-		value: "The manual snippet of your post.",
+		name: "sep",
+		title: "Separator",
+		value: " - ",
+		description: "A separator that clarifies your search result snippet",
 	},
 ];
 
