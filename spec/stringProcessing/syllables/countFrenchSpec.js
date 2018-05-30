@@ -2,7 +2,7 @@ let countSyllableFunction = require( "../../../js/stringProcessing/syllables/cou
 let forEach = require( "lodash/forEach" );
 
 /**
- * Helper to tests syllable count.
+ * Helper to test syllable count.
  *
  * @param {array}  testCases List of cases to test.
  * @param {string} locale    Locale to use.
