@@ -624,6 +624,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -1154,6 +1155,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -2027,6 +2029,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -2179,6 +2182,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -2774,6 +2778,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -3647,6 +3652,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -3799,6 +3805,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -4394,6 +4401,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -5267,6 +5275,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -5419,6 +5428,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -6014,6 +6024,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -6887,6 +6898,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -7039,6 +7051,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-2-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -7471,6 +7484,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -8872,6 +8886,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -9745,6 +9760,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -9897,6 +9913,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-9-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -10524,6 +10541,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 330,
@@ -11397,6 +11415,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 330,
@@ -11549,6 +11568,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-8-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -13316,6 +13336,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -14197,6 +14218,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -14349,6 +14371,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -14956,6 +14979,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -15837,6 +15861,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -15989,6 +16014,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -16584,6 +16610,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -17457,6 +17484,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -17609,6 +17637,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-1-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -18204,6 +18233,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -19088,6 +19118,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -19262,6 +19293,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-7-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -20001,6 +20033,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -20531,6 +20564,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
     }
   }
   date=""
+  descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
   descriptionLengthProgress={
     Object {
       "actual": 0,
@@ -21404,6 +21438,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           "title": "Test title",
         }
       }
+      descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
           "actual": 0,
@@ -21556,6 +21591,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-description"
                     content="Test description, %%replacement_variable%%"
+                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
