@@ -107,10 +107,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 		}
 
 		$this->persist_settings_errors();
-
-		$sendback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );
-		wp_safe_redirect( $sendback );
-		exit;
+		$this->redirect_back( array( 'settings-updated' => 'true' ) );
 	}
 
 	/**
@@ -126,26 +123,26 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 		$site_id = ! empty( $_POST[ $option_group ]['site_id'] ) ? (int) $_POST[ $option_group ]['site_id'] : 0;
 		if ( ! $site_id ) {
 			add_settings_error( $option_group, 'settings_updated', __( 'No site has been selected to restore.', 'wordpress-seo' ), 'error' );
+
+			$this->persist_settings_errors();
+			$this->redirect_back( array( 'settings-updated' => 'true' ) );
+			return;
+		}
+
+		$site = get_site( $site_id );
+		if ( ! $site ) {
+			/* translators: %s expands to the ID of a site within a multisite network. */
+			add_settings_error( $option_group, 'settings_updated', sprintf( __( 'Site %d not found.', 'wordpress-seo' ), $site_id ), 'error' );
 		}
 		else {
-			$site = get_site( $site_id );
-			if ( ! $site ) {
-				/* translators: %s expands to the ID of a site within a multisite network. */
-				add_settings_error( $option_group, 'settings_updated', sprintf( __( 'Site %d not found.', 'wordpress-seo' ), $site_id ), 'error' );
-			}
-			else {
-				WPSEO_Options::reset_ms_blog( $site_id );
+			WPSEO_Options::reset_ms_blog( $site_id );
 
-				/* translators: %s expands to the name of a site within a multisite network. */
-				add_settings_error( $option_group, 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $site->blogname ) ), 'updated' );
-			}
+			/* translators: %s expands to the name of a site within a multisite network. */
+			add_settings_error( $option_group, 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $site->blogname ) ), 'updated' );
 		}
 
 		$this->persist_settings_errors();
-
-		$sendback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );
-		wp_safe_redirect( $sendback );
-		exit;
+		$this->redirect_back( array( 'settings-updated' => 'true' ) );
 	}
 
 	/**
@@ -198,7 +195,6 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-
 		if ( ! $this->meets_requirements() ) {
 			return;
 		}
@@ -233,5 +229,23 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 		 * just a minor adjustment when displaying settings errors.
 		 */
 		set_transient( 'settings_errors', get_settings_errors(), 30 );
+	}
+
+	/**
+	 * Redirects back to the referer URL, with optional query arguments.
+	 *
+	 * @param array $query_args Optional. Query arguments to add to the redirect URL. Default none.
+	 *
+	 * @return void
+	 */
+	private function redirect_back( $query_args = array() ) {
+		$sendback = wp_get_referer();
+
+		if ( ! empty( $query_args ) ) {
+			$sendback = add_query_arg( $query_args, $sendback );
+		}
+
+		wp_safe_redirect( $sendback );
+		exit;
 	}
 }
