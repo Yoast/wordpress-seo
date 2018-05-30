@@ -74,7 +74,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Handles a request in which plugin network options should be updated.
+	 * Handles a request to update plugin network options.
 	 *
 	 * This method works similar to how option updates are handled in `wp-admin/options.php` and
 	 * `wp-admin/network/settings.php`.
@@ -114,7 +114,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Handles a request in which a site's default settings should be restored.
+	 * Handles a request to restore a site's default settings.
 	 *
 	 * @return void
 	 */
@@ -227,9 +227,11 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	 */
 	private function persist_settings_errors() {
 
-		// Use a regular transient here, since it is automatically cleared right after the redirect.
-		// A network transient would be cleaner, but would require a lot of copied code from core for
-		// just a minor adjustment when displaying settings errors.
+		/*
+		 * A regular transient is used here, since it is automatically cleared right after the redirect.
+		 * A network transient would be cleaner, but would require a lot of copied code from core for
+		 * just a minor adjustment when displaying settings errors.
+		 */
 		set_transient( 'settings_errors', get_settings_errors(), 30 );
 	}
 }
