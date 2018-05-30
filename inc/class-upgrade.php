@@ -563,14 +563,23 @@ class WPSEO_Upgrade {
 	/**
 	 * Performs the 7.5.3 upgrade.
 	 *
+	 * When upgrading purging media is potentially relevant.
+	 *
 	 * @return void
 	 */
 	private function upgrade_753() {
-		// Only when upgrading potentially purging media is relevant.
-		if ( WPSEO_Options::get( 'disable-attachment' ) === false ) {
-			// Only when attachments are not disabled.
-			WPSEO_Options::set( 'is-media-purge-relevant', true );
+		// Only when attachments are not disabled.
+		if ( WPSEO_Options::get( 'disable-attachment' ) === true ) {
+			return;
 		}
+
+		// Only when attachments are not no-indexed.
+		if ( WPSEO_Options::get( 'noindex-attachment' ) === true ) {
+			return;
+		}
+
+		// Set purging relevancy.
+		WPSEO_Options::set( 'is-media-purge-relevant', true );
 	}
 
 	/**
