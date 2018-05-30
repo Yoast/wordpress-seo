@@ -347,5 +347,5 @@ module.exports = {
 	filterOnDensity: filterOnDensity,
 	filterOneCharacterWordCombinations: filterOneCharacterWordCombinations,
 	filterStartingWith: filterStartingWith,
-	filterEndingWith: filterEndingWith
+	filterEndingWith: filterEndingWith,
 };
