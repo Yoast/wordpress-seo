@@ -104,7 +104,7 @@ export const removeSelection = ( editorState ) => {
  * @param {EditorState} editorState The Draft.js editor state,
  * @param {int}         index       The index of the caret to be.
  *
- * @return {EditorState} The new editor state.
+ * @returns {EditorState} The new editor state.
  */
 export const moveCaret = ( editorState, index ) => {
 	const content = editorState.getCurrentContent();

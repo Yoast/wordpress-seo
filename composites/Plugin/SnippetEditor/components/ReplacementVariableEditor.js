@@ -165,7 +165,6 @@ class ReplacementVariableEditor extends React.Component {
 				resolve();
 			} );
 		} );
-
 	}
 
 	/**
