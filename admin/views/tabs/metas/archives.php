@@ -119,8 +119,8 @@ $yform->index_switch(
 	$date_archives_help->get_button_html() . $date_archives_help->get_panel_html()
 );
 
-$yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
-$yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
+$editor = new WPSEO_Replacevar_Editor( $yform, 'title-archive-wpseo', 'metadesc-archive-wpseo' );
+$editor->render();
 echo '</div>';
 echo '</div>';
 

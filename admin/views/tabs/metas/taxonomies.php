@@ -44,8 +44,9 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			$taxonomies_help->get_button_html() . $taxonomies_help->get_panel_html()
 		);
 
-		$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
-		$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
+		$editor = new WPSEO_Replacevar_Editor( $yform, 'title-tax-' . $tax->name, 'metadesc-tax-' . $tax->name );
+		$editor->render();
+
 		if ( $tax->name !== 'post_format' ) {
 			/* translators: %1$s expands to Yoast SEO */
 			$yform->show_hide_switch( 'display-metabox-tax-' . $tax->name, sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );

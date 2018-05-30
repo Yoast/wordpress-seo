@@ -80,10 +80,15 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager->enqueue_script( 'admin-script' );
 		$this->asset_manager->enqueue_script( 'help-center' );
 
+		$page = filter_input( INPUT_GET, 'page' );
+
+		if ( $page === 'wpseo_titles' ) {
+			$this->asset_manager->enqueue_script( 'search-appearance' );
+			$this->asset_manager->enqueue_style( 'search-appearance' );
+		}
+
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
-
-		$page = filter_input( INPUT_GET, 'page' );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
 
