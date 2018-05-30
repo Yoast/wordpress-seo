@@ -1,16 +1,18 @@
 /* global jQuery, YoastSEO, wpseoPostScraperL10n */
 
-import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
+/* External dependencies */
 import removeMarks from "yoastseo/js/markers/removeMarks";
+import get from "lodash/get";
+import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
+
+/* Internal dependencies */
+import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 import tmceHelper from "../wp-seo-tinymce";
 import { tmceId } from "../wp-seo-tinymce";
 import getIndicatorForScore from "./getIndicatorForScore";
-
 import { update as updateTrafficLight } from "../ui/trafficLight";
-import { update as updateAdminBar }from "../ui/adminBar";
-
+import { update as updateAdminBar } from "../ui/adminBar";
 import publishBox from "../ui/publishBox";
-import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 
 let $ = jQuery;
 let currentKeyword = "";
@@ -31,6 +33,7 @@ let PostDataCollector = function( args ) {
 
 	this._data = args.data;
 	this._tabManager = args.tabManager;
+	this._store = args.store;
 };
 
 /**
@@ -40,20 +43,15 @@ let PostDataCollector = function( args ) {
  * @returns {Object} The data.
  */
 PostDataCollector.prototype.getData = function() {
-	let gutenbergData;
+	const data = this._data.getData();
 
-	// Only use data from Gutenberg if Gutenberg is available.
-	if ( isGutenbergDataAvailable() ) {
-		gutenbergData = this._data.getData();
-	}
-
-	return {
+	const otherData = {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		meta: this.getMeta(),
-		text: gutenbergData && gutenbergData.content ? gutenbergData.content : this.getText(),
-		title: gutenbergData && gutenbergData.title ? gutenbergData.title : this.getTitle(),
-		url: gutenbergData && gutenbergData.slug ? gutenbergData.slug : this.getUrl(),
-		excerpt: gutenbergData && gutenbergData.excerpt ? gutenbergData.excerpt : this.getExcerpt(),
+		text: data.content,
+		title: data.title,
+		url: data.slug,
+		excerpt: data.excerpt,
 		snippetTitle: this.getSnippetTitle(),
 		snippetMeta: this.getSnippetMeta(),
 		snippetCite: this.getSnippetCite(),
@@ -61,6 +59,19 @@ PostDataCollector.prototype.getData = function() {
 		searchUrl: this.getSearchUrl(),
 		postUrl: this.getPostUrl(),
 		permalink: this.getPermalink(),
+		titleWidth: measureTextWidth( this.getSnippetTitle() ),
+	};
+
+	const state = this._store.getState();
+	const snippetData = {
+		metaTitle: get( state, [ "snippetEditor", "data", "title" ], "" ),
+		url: get( state, [ "snippetEditor", "data", "slug" ], "" ),
+		meta: get( state, [ "snippetEditor", "data", "description" ], "" ),
+	};
+
+	return {
+		...otherData,
+		...snippetData,
 	};
 };
 

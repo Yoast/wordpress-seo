@@ -6,6 +6,8 @@ module.exports = {
 		"<%= paths.languages %>yoast-seo.json",
 
 		"<%= files.pot.yoastComponents %>",
+		"<%= files.pot.yoastComponentsConfigurationWizard %>",
+		"<%= files.pot.yoastComponentsRemaining %>",
 		"<%= paths.languages %>yoast-components.pot",
 		"<%= paths.languages %>yoast-components.json",
 
@@ -14,7 +16,7 @@ module.exports = {
 	"build-assets": [
 		"<%= paths.css %>/*.css",
 		"js/dist/*.js",
-		"!js/dist/jquery.tablesorter.min.js"
+		"!js/dist/jquery.tablesorter.min.js",
 	],
 	"before-rtlcss": [
 		"css/dist/*-rtl*",
