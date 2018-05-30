@@ -52,7 +52,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	public function test_add_notification() {
 		$notification = new Yoast_Notification( 'notification' );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification );
 
 		$this->assertEquals( array( $notification ), $subject->get_notifications() );
@@ -64,7 +64,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	public function test_add_notification_twice() {
 		$notification = new Yoast_Notification( 'notification' );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification );
 		$subject->add_notification( $notification );
 
@@ -81,7 +81,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	public function test_add_notification_twice_persistent() {
 		$notification = new Yoast_Notification( 'notification', array( 'id' => 'some_id' ) );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification );
 		$subject->add_notification( $notification );
 
@@ -99,7 +99,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		update_user_meta( $this->user_id, $notification_dismissal_key, '1' );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$this->assertTrue( $subject->is_notification_dismissed( $notification ) );
 	}
 
@@ -109,7 +109,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	public function test_clear_dismissal() {
 		$notification = new Yoast_Notification( 'notification', array( 'id' => 'some_id' ) );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 
 		update_user_meta( $this->user_id, $notification->get_dismissal_key(), '1' );
 
@@ -126,7 +126,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	public function test_clear_dismissal_as_string() {
 		$notification = new Yoast_Notification( 'notification', array( 'id' => 'some_id' ) );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 
 		update_user_meta( $this->user_id, $notification->get_dismissal_key(), '1' );
 
@@ -141,7 +141,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * Clear dismissal with empty key
 	 */
 	public function test_clear_dismissal_empty_key() {
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$this->assertFalse( $subject->clear_dismissal( '' ) );
 	}
 
@@ -158,7 +158,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 			$options
 		);
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification );
 
 		$subject->update_storage();
@@ -177,7 +177,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	public function test_update_storage_non_persistent() {
 		$notification = new Yoast_Notification( 'b' );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification );
 
 		$subject->update_storage();
@@ -193,7 +193,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	public function test_get_sorted_notifications() {
 		$notification = new Yoast_Notification( 'c' );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification );
 
 		$sorted = $subject->get_sorted_notifications();
@@ -206,7 +206,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * No notification to sort, still an array
 	 */
 	public function test_get_sorted_notifications_empty() {
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 
 		$sorted = $subject->get_sorted_notifications();
 
@@ -227,7 +227,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_1 = new Yoast_Notification( $message_1, $options_1 );
 		$notification_2 = new Yoast_Notification( $message_2, $options_2 );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification_1 );
 		$subject->add_notification( $notification_2 );
 
@@ -255,7 +255,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_1 = new Yoast_Notification( $message_1, $options_1 );
 		$notification_2 = new Yoast_Notification( $message_2, $options_2 );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification_1 );
 		$subject->add_notification( $notification_2 );
 
@@ -289,7 +289,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 			->method( '__toString' )
 			->will( $this->returnValue( 'a' ) );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification );
 		$subject->display_notifications();
 
@@ -322,7 +322,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 			->method( '__toString' )
 			->will( $this->returnValue( 'a' ) );
 
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification );
 		$subject->display_notifications();
 
@@ -350,7 +350,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		update_user_meta( $this->user_id, $notification_dismissal_key, '1' );
 
 		// Add the notification.
-		$subject = Yoast_Notification_Center::get();
+		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification );
 		$subject->display_notifications();
 
@@ -365,7 +365,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_update_nonce_on_re_add_notification() {
 		// Put outdated notification in storage / notification center list.
-		$notification_center = Yoast_Notification_Center::get();
+		$notification_center = $this->get_notification_center();
 
 		$old_nonce = 'outdated';
 
@@ -396,7 +396,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	public function test_notification_is_new() {
 		$id = 'my_id';
 
-		$notification_center = Yoast_Notification_Center::get();
+		$notification_center = $this->get_notification_center();
 
 		$notification = new Yoast_Notification( 'notification', array( 'id' => $id ) );
 		$notification_center->add_notification( $notification );
@@ -414,7 +414,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_resolved_notifications() {
 
-		$notification_center = Yoast_Notification_Center::get();
+		$notification_center = $this->get_notification_center();
 		$count               = $notification_center->get_resolved_notification_count();
 
 		// Apply max for static test problems.
@@ -439,7 +439,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_notification_count() {
 
-		$notification_center = Yoast_Notification_Center::get();
+		$notification_center = $this->get_notification_center();
 
 		$this->assertEquals( 0, $notification_center->get_notification_count() );
 
@@ -588,5 +588,17 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		update_user_meta( $this->user_id, $dismissal_key, 'seen' );
 
 		$this->assertTrue( Yoast_Notification_Center::restore_notification( $notification ) );
+	}
+
+	/**
+	 * Gets the initialized notification center.
+	 *
+	 * @return Yoast_Notification_Center Notification center instance.
+	 */
+	private function get_notification_center() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->setup_current_notifications();
+
+		return $notification_center;
 	}
 }
