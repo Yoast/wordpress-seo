@@ -194,30 +194,6 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
 }
 
 /**
- * Filters combinations based on whether they start with a specified string or not.
- *
- * @param {WordCombination[]} wordCombinations The array of WordCombinations to filter.
- * @param {string} str The string the WordCombinations that need to be filtered out start with.
- * @param {string[]} exceptions The array of strings containing exceptions to not filter.
- * @returns {WordCombination[]} The filtered array of WordCombinations.
- */
-function filterStartingWith( wordCombinations, str, exceptions ) {
-	wordCombinations = wordCombinations.filter( function( combination ) {
-		let combinationstr = combination.getCombination();
-		for ( let i = 0; i < exceptions.length; i++ ) {
-			if ( combinationstr.startsWith( exceptions[ i ] ) ) {
-				return true;
-			}
-		}
-		if ( combinationstr.startsWith( str ) ) {
-			return false;
-		}
-		return true;
-	} );
-	return wordCombinations;
-}
-
-/**
  * Filters combinations based on whether they end with a specified string or not.
  *
  * @param {WordCombination[]} wordCombinations The array of WordCombinations to filter.
@@ -346,6 +322,5 @@ module.exports = {
 	filterFunctionWordsAnywhere: filterFunctionWordsAnywhere,
 	filterOnDensity: filterOnDensity,
 	filterOneCharacterWordCombinations: filterOneCharacterWordCombinations,
-	filterStartingWith: filterStartingWith,
 	filterEndingWith: filterEndingWith,
 };
