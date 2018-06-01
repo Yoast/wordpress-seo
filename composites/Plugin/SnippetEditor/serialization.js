@@ -4,7 +4,7 @@ import { EditorState, Modifier, SelectionState, ContentState } from "draft-js";
 
 const CIRCUMFIX = "%%";
 
-const ENTITY_FORMAT = /%%(\w+)%%/g;
+const ENTITY_FORMAT = /%%([A-Za-z0-9_]+)%%/g;
 const ENTITY_TYPE = "%mention";
 const ENTITY_MUTABILITY = "IMMUTABLE";
 
