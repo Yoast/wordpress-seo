@@ -24,10 +24,7 @@ describe( "ReplacementVariableEditor", () => {
 } );
 
 describe( "replacementVariablesFilter", () => {
-	let searchValue;
-	let replacementVariables;
-	let replacementVariablesEditor;
-	let expected;
+	let searchValue, replacementVariables, replacementVariablesEditor, expected;
 
 	beforeEach( () => {
 		searchValue = "cat";
@@ -70,14 +67,13 @@ describe( "replacementVariablesFilter", () => {
 		];
 	} );
 
-	it( "Returns only the replacement variables where the start of the name matches with the search value", () => {
-
+	it( "Returns only the replacement variables where the start of the name matches with the search value.", () => {
 		const actual = replacementVariablesEditor.replacementVariablesFilter( searchValue, replacementVariables );
 
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "Returns the matching replacement vars, regardless of upper- or lowercase in the search value.", () => {
+	it( "Returns the matching replacement variables, regardless of upper- or lowercase in the search value.", () => {
 		searchValue = "Cat";
 
 		const actual = replacementVariablesEditor.replacementVariablesFilter( searchValue, replacementVariables );
