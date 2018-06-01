@@ -94,13 +94,16 @@ class WPSEO_Database_Proxy {
 	 * Performs an insert into and if key is duplicate it will update the existing record.
 	 *
 	 * @param array $data         Data to update on the table.
-	 * @param array $where        Where condition as key => value array.
-	 * @param null  $format       Optional. data prepare format.
-	 * @param null  $where_format Optional. Where prepare format.
+	 * @param array $where        Optional. Unused. Where condition as key => value array.
+	 * @param null  $format       Optional. Data prepare format.
+	 * @param null  $where_format Deprecated. Where prepare format.
 	 *
 	 * @return false|int False when the upsert request is invalid, int on number of rows changed.
 	 */
-	public function upsert( array $data, array $where, $format = null, $where_format = null ) {
+	public function upsert( array $data, array $where = null, $format = null, $where_format = null ) {
+		if ( $where_format !== null ) {
+			_deprecated_argument( __METHOD__, '7.7.0', 'The where_format argument is deprecated' );
+		}
 
 		$this->pre_execution();
 
