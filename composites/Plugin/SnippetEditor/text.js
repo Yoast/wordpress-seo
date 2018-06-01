@@ -103,20 +103,24 @@ export const removeSelectedText = ( editorState ) => {
  *
  * @param {EditorState} editorState The Draft.js editor state,
  * @param {int}         index       The index of the caret to be.
+ * @param {string}      blockKey    The key for the block to move the caret too. Defaults to current.
  *
  * @returns {EditorState} The new editor state.
  */
-export const moveCaret = ( editorState, index ) => {
+export const moveCaret = ( editorState, index, blockKey = "" ) => {
 	const content = editorState.getCurrentContent();
 	const selection = editorState.getSelection();
 
-	const key = getAnchorBlock( content, selection ).getKey();
-	const newSelection = new SelectionState( {
-		anchorKey: key,
-		anchorOffset: index,
-		focusOffset: index,
-		focusKey: key,
-	} );
+	// Default to the block where the anchor is currently at.
+	if ( blockKey === "" ) {
+		blockKey = getAnchorBlock( content, selection ).getKey();
+	}
+
+	const newSelection = SelectionState.createEmpty( blockKey )
+	                                   .merge( {
+		                                   anchorOffset: index,
+		                                   focusOffset: index,
+	                                   } );
 
 	return EditorState.acceptSelection( editorState, newSelection );
 };
