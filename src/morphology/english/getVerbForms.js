@@ -1,5 +1,6 @@
 // "use strict";
 const irregularVerbs = require( "./irregularVerbs.js" );
+const verbPrefixesRegex = require( "./regexVerb.js" ).verbPrefixes;
 const sFormToInfinitiveRegex = require( "./regexVerb.js" ).sFormToInfinitive;
 const ingFormToInfinitiveRegex = require( "./regexVerb.js" ).ingFormToInfinitive;
 const edFormToInfinitiveRegex = require( "./regexVerb.js" ).edFormToInfinitive;
@@ -9,6 +10,53 @@ const infinitiveToEdFormRegex = require( "./regexVerb.js" ).infinitiveToEdForm;
 
 const isUndefined = require( "lodash/isUndefined.js" );
 const unique = require( "lodash/uniqBy" );
+
+const normalizePrefixed = function( word ) {
+	const sixLetterPrefixes = verbPrefixesRegex.sixLetterPrefixes;
+	const fiveLetterPrefixes = verbPrefixesRegex.fiveLetterPrefixes;
+	const fourLetterPrefixes = verbPrefixesRegex.fourLetterPrefixes;
+	const threeLetterPrefixes = verbPrefixesRegex.threeLetterPrefixes;
+	const twoLetterPrefixes = verbPrefixesRegex.twoLetterPrefixes;
+	const oneLetterPrefixes = verbPrefixesRegex.oneLetterPrefixes;
+
+	if ( sixLetterPrefixes.test( word ) === true ) {
+		return {
+			normalizedWord: word.replace( sixLetterPrefixes, "" ),
+			prefix: word.substring( 0, 6 ),
+		};
+	}
+	if ( fiveLetterPrefixes.test( word ) === true ) {
+		return {
+			normalizedWord: word.replace( fiveLetterPrefixes, "" ),
+			prefix: word.substring( 0, 5 ),
+		};
+	}
+	if ( fourLetterPrefixes.test( word ) === true ) {
+		return {
+			normalizedWord: word.replace( fourLetterPrefixes, "" ),
+			prefix: word.substring( 0, 4 ),
+		};
+	}
+	if ( threeLetterPrefixes.test( word ) === true ) {
+		return {
+			normalizedWord: word.replace( threeLetterPrefixes, "" ),
+			prefix: word.substring( 0, 3 ),
+		};
+	}
+	if ( twoLetterPrefixes.test( word ) === true ) {
+		return {
+			normalizedWord: word.replace( twoLetterPrefixes, "" ),
+			prefix: word.substring( 0, 2 ),
+		};
+	}
+	if ( oneLetterPrefixes.test( word ) === true ) {
+		return {
+			normalizedWord: word.replace( oneLetterPrefixes, "" ),
+			prefix: word.substring( 0, 1 ),
+		};
+	}
+};
+
 
 const checkIrregulars = function( word ) {
 	let irregulars;
@@ -20,6 +68,20 @@ const checkIrregulars = function( word ) {
 			}
 		} );
 	} );
+
+	const normalizedIrregular = normalizePrefixed( word );
+
+	if ( ! isUndefined( normalizedIrregular ) ) {
+		irregularVerbs.forEach( function( paradigm ) {
+			paradigm.forEach( function( wordInParadigm ) {
+				if ( wordInParadigm === normalizedIrregular.normalizedWord ) {
+					irregulars = paradigm.map( function( verb ) {
+						return normalizedIrregular.prefix.concat( verb );
+					} );
+				}
+			} );
+		} );
+	}
 	return irregulars;
 };
 
@@ -93,7 +155,6 @@ const getInfinitive = function( word ) {
 
 const getVerbForms = function( word ) {
 	let forms = [];
-	let isIrregular = false;
 
 	const irregular = checkIrregulars( word );
 	if ( ! isUndefined( irregular ) ) {
@@ -102,7 +163,7 @@ const getVerbForms = function( word ) {
 	}
 
 	const infinitive = getInfinitive( word ).infinitive;
-	const guessedForm = getInfinitive( word ).guessedForm;
+	// const guessedForm = getInfinitive( word ).guessedForm; //Meant to be used to check if the newly built forms are built correctly.
 	forms = forms.concat( word );
 
 	forms.push( infinitive );
