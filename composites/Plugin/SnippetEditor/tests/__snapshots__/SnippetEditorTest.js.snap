@@ -340,7 +340,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
         <button
           aria-controls="yoast-help-6-text"
           aria-expanded={false}
-          aria-label="yoast-help-text"
+          aria-label="Help on the Snippet Preview"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
           onClick={[Function]}
           type="button"
@@ -1208,6 +1208,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 </a>,
               ]
             }
+            helpTextButtonLabel="Help on the Snippet Preview"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help-button"
@@ -1218,21 +1219,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 <HelpTextWrapper__HelpTextButton
                   aria-controls="yoast-help-16-text"
                   aria-expanded={false}
-                  aria-label="yoast-help-text"
+                  aria-label="Help on the Snippet Preview"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
                     aria-controls="yoast-help-16-text"
                     aria-expanded={false}
-                    aria-label="yoast-help-text"
+                    aria-label="Help on the Snippet Preview"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
                       aria-controls="yoast-help-16-text"
                       aria-expanded={false}
-                      aria-label="yoast-help-text"
+                      aria-label="Help on the Snippet Preview"
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -1244,7 +1245,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       <Button
                         aria-controls="yoast-help-16-text"
                         aria-expanded={false}
-                        aria-label="yoast-help-text"
+                        aria-label="Help on the Snippet Preview"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -1256,7 +1257,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         <Button
                           aria-controls="yoast-help-16-text"
                           aria-expanded={false}
-                          aria-label="yoast-help-text"
+                          aria-label="Help on the Snippet Preview"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -1268,7 +1269,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           <Button
                             aria-controls="yoast-help-16-text"
                             aria-expanded={false}
-                            aria-label="yoast-help-text"
+                            aria-label="Help on the Snippet Preview"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -1280,7 +1281,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             <Button__BaseButton
                               aria-controls="yoast-help-16-text"
                               aria-expanded={false}
-                              aria-label="yoast-help-text"
+                              aria-label="Help on the Snippet Preview"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -1292,7 +1293,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               <button
                                 aria-controls="yoast-help-16-text"
                                 aria-expanded={false}
-                                aria-label="yoast-help-text"
+                                aria-label="Help on the Snippet Preview"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                                 onClick={[Function]}
                                 type="button"
@@ -2798,6 +2799,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 </a>,
               ]
             }
+            helpTextButtonLabel="Help on the Snippet Preview"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help-button"
@@ -2808,21 +2810,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 <HelpTextWrapper__HelpTextButton
                   aria-controls="yoast-help-16-text"
                   aria-expanded={false}
-                  aria-label="yoast-help-text"
+                  aria-label="Help on the Snippet Preview"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
                     aria-controls="yoast-help-16-text"
                     aria-expanded={false}
-                    aria-label="yoast-help-text"
+                    aria-label="Help on the Snippet Preview"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
                       aria-controls="yoast-help-16-text"
                       aria-expanded={false}
-                      aria-label="yoast-help-text"
+                      aria-label="Help on the Snippet Preview"
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -2834,7 +2836,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       <Button
                         aria-controls="yoast-help-16-text"
                         aria-expanded={false}
-                        aria-label="yoast-help-text"
+                        aria-label="Help on the Snippet Preview"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -2846,7 +2848,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         <Button
                           aria-controls="yoast-help-16-text"
                           aria-expanded={false}
-                          aria-label="yoast-help-text"
+                          aria-label="Help on the Snippet Preview"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -2858,7 +2860,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           <Button
                             aria-controls="yoast-help-16-text"
                             aria-expanded={false}
-                            aria-label="yoast-help-text"
+                            aria-label="Help on the Snippet Preview"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -2870,7 +2872,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             <Button__BaseButton
                               aria-controls="yoast-help-16-text"
                               aria-expanded={false}
-                              aria-label="yoast-help-text"
+                              aria-label="Help on the Snippet Preview"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -2882,7 +2884,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               <button
                                 aria-controls="yoast-help-16-text"
                                 aria-expanded={false}
-                                aria-label="yoast-help-text"
+                                aria-label="Help on the Snippet Preview"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                                 onClick={[Function]}
                                 type="button"
@@ -4388,6 +4390,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 </a>,
               ]
             }
+            helpTextButtonLabel="Help on the Snippet Preview"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help-button"
@@ -4398,21 +4401,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 <HelpTextWrapper__HelpTextButton
                   aria-controls="yoast-help-16-text"
                   aria-expanded={false}
-                  aria-label="yoast-help-text"
+                  aria-label="Help on the Snippet Preview"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
                     aria-controls="yoast-help-16-text"
                     aria-expanded={false}
-                    aria-label="yoast-help-text"
+                    aria-label="Help on the Snippet Preview"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
                       aria-controls="yoast-help-16-text"
                       aria-expanded={false}
-                      aria-label="yoast-help-text"
+                      aria-label="Help on the Snippet Preview"
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -4424,7 +4427,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       <Button
                         aria-controls="yoast-help-16-text"
                         aria-expanded={false}
-                        aria-label="yoast-help-text"
+                        aria-label="Help on the Snippet Preview"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -4436,7 +4439,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         <Button
                           aria-controls="yoast-help-16-text"
                           aria-expanded={false}
-                          aria-label="yoast-help-text"
+                          aria-label="Help on the Snippet Preview"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -4448,7 +4451,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           <Button
                             aria-controls="yoast-help-16-text"
                             aria-expanded={false}
-                            aria-label="yoast-help-text"
+                            aria-label="Help on the Snippet Preview"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -4460,7 +4463,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             <Button__BaseButton
                               aria-controls="yoast-help-16-text"
                               aria-expanded={false}
-                              aria-label="yoast-help-text"
+                              aria-label="Help on the Snippet Preview"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -4472,7 +4475,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               <button
                                 aria-controls="yoast-help-16-text"
                                 aria-expanded={false}
-                                aria-label="yoast-help-text"
+                                aria-label="Help on the Snippet Preview"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                                 onClick={[Function]}
                                 type="button"
@@ -5978,6 +5981,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 </a>,
               ]
             }
+            helpTextButtonLabel="Help on the Snippet Preview"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help-button"
@@ -5988,21 +5992,21 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 <HelpTextWrapper__HelpTextButton
                   aria-controls="yoast-help-9-text"
                   aria-expanded={false}
-                  aria-label="yoast-help-text"
+                  aria-label="Help on the Snippet Preview"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
                     aria-controls="yoast-help-9-text"
                     aria-expanded={false}
-                    aria-label="yoast-help-text"
+                    aria-label="Help on the Snippet Preview"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
                       aria-controls="yoast-help-9-text"
                       aria-expanded={false}
-                      aria-label="yoast-help-text"
+                      aria-label="Help on the Snippet Preview"
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -6014,7 +6018,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       <Button
                         aria-controls="yoast-help-9-text"
                         aria-expanded={false}
-                        aria-label="yoast-help-text"
+                        aria-label="Help on the Snippet Preview"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -6026,7 +6030,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         <Button
                           aria-controls="yoast-help-9-text"
                           aria-expanded={false}
-                          aria-label="yoast-help-text"
+                          aria-label="Help on the Snippet Preview"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -6038,7 +6042,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           <Button
                             aria-controls="yoast-help-9-text"
                             aria-expanded={false}
-                            aria-label="yoast-help-text"
+                            aria-label="Help on the Snippet Preview"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -6050,7 +6054,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             <Button__BaseButton
                               aria-controls="yoast-help-9-text"
                               aria-expanded={false}
-                              aria-label="yoast-help-text"
+                              aria-label="Help on the Snippet Preview"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -6062,7 +6066,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               <button
                                 aria-controls="yoast-help-9-text"
                                 aria-expanded={false}
-                                aria-label="yoast-help-text"
+                                aria-label="Help on the Snippet Preview"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                                 onClick={[Function]}
                                 type="button"
@@ -7440,6 +7444,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 </a>,
               ]
             }
+            helpTextButtonLabel="Help on the Snippet Preview"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help-button"
@@ -7450,21 +7455,21 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 <HelpTextWrapper__HelpTextButton
                   aria-controls="yoast-help-9-text"
                   aria-expanded={false}
-                  aria-label="yoast-help-text"
+                  aria-label="Help on the Snippet Preview"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
                     aria-controls="yoast-help-9-text"
                     aria-expanded={false}
-                    aria-label="yoast-help-text"
+                    aria-label="Help on the Snippet Preview"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
                       aria-controls="yoast-help-9-text"
                       aria-expanded={false}
-                      aria-label="yoast-help-text"
+                      aria-label="Help on the Snippet Preview"
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -7476,7 +7481,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       <Button
                         aria-controls="yoast-help-9-text"
                         aria-expanded={false}
-                        aria-label="yoast-help-text"
+                        aria-label="Help on the Snippet Preview"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -7488,7 +7493,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                         <Button
                           aria-controls="yoast-help-9-text"
                           aria-expanded={false}
-                          aria-label="yoast-help-text"
+                          aria-label="Help on the Snippet Preview"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -7500,7 +7505,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           <Button
                             aria-controls="yoast-help-9-text"
                             aria-expanded={false}
-                            aria-label="yoast-help-text"
+                            aria-label="Help on the Snippet Preview"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -7512,7 +7517,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                             <Button__BaseButton
                               aria-controls="yoast-help-9-text"
                               aria-expanded={false}
-                              aria-label="yoast-help-text"
+                              aria-label="Help on the Snippet Preview"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -7524,7 +7529,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                               <button
                                 aria-controls="yoast-help-9-text"
                                 aria-expanded={false}
-                                aria-label="yoast-help-text"
+                                aria-label="Help on the Snippet Preview"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                                 onClick={[Function]}
                                 type="button"
@@ -8816,6 +8821,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 </a>,
               ]
             }
+            helpTextButtonLabel="Help on the Snippet Preview"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help-button"
@@ -8826,21 +8832,21 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 <HelpTextWrapper__HelpTextButton
                   aria-controls="yoast-help-22-text"
                   aria-expanded={false}
-                  aria-label="yoast-help-text"
+                  aria-label="Help on the Snippet Preview"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
                     aria-controls="yoast-help-22-text"
                     aria-expanded={false}
-                    aria-label="yoast-help-text"
+                    aria-label="Help on the Snippet Preview"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
                       aria-controls="yoast-help-22-text"
                       aria-expanded={false}
-                      aria-label="yoast-help-text"
+                      aria-label="Help on the Snippet Preview"
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -8852,7 +8858,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       <Button
                         aria-controls="yoast-help-22-text"
                         aria-expanded={false}
-                        aria-label="yoast-help-text"
+                        aria-label="Help on the Snippet Preview"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -8864,7 +8870,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         <Button
                           aria-controls="yoast-help-22-text"
                           aria-expanded={false}
-                          aria-label="yoast-help-text"
+                          aria-label="Help on the Snippet Preview"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -8876,7 +8882,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           <Button
                             aria-controls="yoast-help-22-text"
                             aria-expanded={false}
-                            aria-label="yoast-help-text"
+                            aria-label="Help on the Snippet Preview"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -8888,7 +8894,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             <Button__BaseButton
                               aria-controls="yoast-help-22-text"
                               aria-expanded={false}
-                              aria-label="yoast-help-text"
+                              aria-label="Help on the Snippet Preview"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -8900,7 +8906,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               <button
                                 aria-controls="yoast-help-22-text"
                                 aria-expanded={false}
-                                aria-label="yoast-help-text"
+                                aria-label="Help on the Snippet Preview"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                                 onClick={[Function]}
                                 type="button"
@@ -10438,6 +10444,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 </a>,
               ]
             }
+            helpTextButtonLabel="Help on the Snippet Preview"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help-button"
@@ -10448,21 +10455,21 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 <HelpTextWrapper__HelpTextButton
                   aria-controls="yoast-help-20-text"
                   aria-expanded={false}
-                  aria-label="yoast-help-text"
+                  aria-label="Help on the Snippet Preview"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
                     aria-controls="yoast-help-20-text"
                     aria-expanded={false}
-                    aria-label="yoast-help-text"
+                    aria-label="Help on the Snippet Preview"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
                       aria-controls="yoast-help-20-text"
                       aria-expanded={false}
-                      aria-label="yoast-help-text"
+                      aria-label="Help on the Snippet Preview"
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -10474,7 +10481,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       <Button
                         aria-controls="yoast-help-20-text"
                         aria-expanded={false}
-                        aria-label="yoast-help-text"
+                        aria-label="Help on the Snippet Preview"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -10486,7 +10493,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         <Button
                           aria-controls="yoast-help-20-text"
                           aria-expanded={false}
-                          aria-label="yoast-help-text"
+                          aria-label="Help on the Snippet Preview"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -10498,7 +10505,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           <Button
                             aria-controls="yoast-help-20-text"
                             aria-expanded={false}
-                            aria-label="yoast-help-text"
+                            aria-label="Help on the Snippet Preview"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -10510,7 +10517,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             <Button__BaseButton
                               aria-controls="yoast-help-20-text"
                               aria-expanded={false}
-                              aria-label="yoast-help-text"
+                              aria-label="Help on the Snippet Preview"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -10522,7 +10529,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               <button
                                 aria-controls="yoast-help-20-text"
                                 aria-expanded={false}
-                                aria-label="yoast-help-text"
+                                aria-label="Help on the Snippet Preview"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                                 onClick={[Function]}
                                 type="button"
@@ -11892,7 +11899,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
         <button
           aria-controls="yoast-help-3-text"
           aria-expanded={false}
-          aria-label="yoast-help-text"
+          aria-label="Help on the Snippet Preview"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
           onClick={[Function]}
           type="button"
@@ -12478,7 +12485,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
         <button
           aria-controls="yoast-help-2-text"
           aria-expanded={false}
-          aria-label="yoast-help-text"
+          aria-label="Help on the Snippet Preview"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
           onClick={[Function]}
           type="button"
@@ -13285,6 +13292,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 </a>,
               ]
             }
+            helpTextButtonLabel="Help on the Snippet Preview"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help-button"
@@ -13295,21 +13303,21 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 <HelpTextWrapper__HelpTextButton
                   aria-controls="yoast-help-13-text"
                   aria-expanded={false}
-                  aria-label="yoast-help-text"
+                  aria-label="Help on the Snippet Preview"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
                     aria-controls="yoast-help-13-text"
                     aria-expanded={false}
-                    aria-label="yoast-help-text"
+                    aria-label="Help on the Snippet Preview"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
                       aria-controls="yoast-help-13-text"
                       aria-expanded={false}
-                      aria-label="yoast-help-text"
+                      aria-label="Help on the Snippet Preview"
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -13321,7 +13329,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       <Button
                         aria-controls="yoast-help-13-text"
                         aria-expanded={false}
-                        aria-label="yoast-help-text"
+                        aria-label="Help on the Snippet Preview"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -13333,7 +13341,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         <Button
                           aria-controls="yoast-help-13-text"
                           aria-expanded={false}
-                          aria-label="yoast-help-text"
+                          aria-label="Help on the Snippet Preview"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -13345,7 +13353,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           <Button
                             aria-controls="yoast-help-13-text"
                             aria-expanded={false}
-                            aria-label="yoast-help-text"
+                            aria-label="Help on the Snippet Preview"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -13357,7 +13365,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             <Button__BaseButton
                               aria-controls="yoast-help-13-text"
                               aria-expanded={false}
-                              aria-label="yoast-help-text"
+                              aria-label="Help on the Snippet Preview"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -13369,7 +13377,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               <button
                                 aria-controls="yoast-help-13-text"
                                 aria-expanded={false}
-                                aria-label="yoast-help-text"
+                                aria-label="Help on the Snippet Preview"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                                 onClick={[Function]}
                                 type="button"
@@ -14895,6 +14903,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 </a>,
               ]
             }
+            helpTextButtonLabel="Help on the Snippet Preview"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help-button"
@@ -14905,21 +14914,21 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 <HelpTextWrapper__HelpTextButton
                   aria-controls="yoast-help-11-text"
                   aria-expanded={false}
-                  aria-label="yoast-help-text"
+                  aria-label="Help on the Snippet Preview"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
                     aria-controls="yoast-help-11-text"
                     aria-expanded={false}
-                    aria-label="yoast-help-text"
+                    aria-label="Help on the Snippet Preview"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
                       aria-controls="yoast-help-11-text"
                       aria-expanded={false}
-                      aria-label="yoast-help-text"
+                      aria-label="Help on the Snippet Preview"
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -14931,7 +14940,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                       <Button
                         aria-controls="yoast-help-11-text"
                         aria-expanded={false}
-                        aria-label="yoast-help-text"
+                        aria-label="Help on the Snippet Preview"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -14943,7 +14952,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                         <Button
                           aria-controls="yoast-help-11-text"
                           aria-expanded={false}
-                          aria-label="yoast-help-text"
+                          aria-label="Help on the Snippet Preview"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -14955,7 +14964,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                           <Button
                             aria-controls="yoast-help-11-text"
                             aria-expanded={false}
-                            aria-label="yoast-help-text"
+                            aria-label="Help on the Snippet Preview"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -14967,7 +14976,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                             <Button__BaseButton
                               aria-controls="yoast-help-11-text"
                               aria-expanded={false}
-                              aria-label="yoast-help-text"
+                              aria-label="Help on the Snippet Preview"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -14979,7 +14988,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                               <button
                                 aria-controls="yoast-help-11-text"
                                 aria-expanded={false}
-                                aria-label="yoast-help-text"
+                                aria-label="Help on the Snippet Preview"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                                 onClick={[Function]}
                                 type="button"
@@ -16493,6 +16502,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 </a>,
               ]
             }
+            helpTextButtonLabel="Help on the Snippet Preview"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help-button"
@@ -16503,21 +16513,21 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 <HelpTextWrapper__HelpTextButton
                   aria-controls="yoast-help-7-text"
                   aria-expanded={false}
-                  aria-label="yoast-help-text"
+                  aria-label="Help on the Snippet Preview"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
                     aria-controls="yoast-help-7-text"
                     aria-expanded={false}
-                    aria-label="yoast-help-text"
+                    aria-label="Help on the Snippet Preview"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
                       aria-controls="yoast-help-7-text"
                       aria-expanded={false}
-                      aria-label="yoast-help-text"
+                      aria-label="Help on the Snippet Preview"
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -16529,7 +16539,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       <Button
                         aria-controls="yoast-help-7-text"
                         aria-expanded={false}
-                        aria-label="yoast-help-text"
+                        aria-label="Help on the Snippet Preview"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -16541,7 +16551,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         <Button
                           aria-controls="yoast-help-7-text"
                           aria-expanded={false}
-                          aria-label="yoast-help-text"
+                          aria-label="Help on the Snippet Preview"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -16553,7 +16563,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           <Button
                             aria-controls="yoast-help-7-text"
                             aria-expanded={false}
-                            aria-label="yoast-help-text"
+                            aria-label="Help on the Snippet Preview"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -16565,7 +16575,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             <Button__BaseButton
                               aria-controls="yoast-help-7-text"
                               aria-expanded={false}
-                              aria-label="yoast-help-text"
+                              aria-label="Help on the Snippet Preview"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -16577,7 +16587,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               <button
                                 aria-controls="yoast-help-7-text"
                                 aria-expanded={false}
-                                aria-label="yoast-help-text"
+                                aria-label="Help on the Snippet Preview"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                                 onClick={[Function]}
                                 type="button"
@@ -18094,6 +18104,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 </a>,
               ]
             }
+            helpTextButtonLabel="Help on the Snippet Preview"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help-button"
@@ -18104,21 +18115,21 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 <HelpTextWrapper__HelpTextButton
                   aria-controls="yoast-help-18-text"
                   aria-expanded={false}
-                  aria-label="yoast-help-text"
+                  aria-label="Help on the Snippet Preview"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
                     aria-controls="yoast-help-18-text"
                     aria-expanded={false}
-                    aria-label="yoast-help-text"
+                    aria-label="Help on the Snippet Preview"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
                       aria-controls="yoast-help-18-text"
                       aria-expanded={false}
-                      aria-label="yoast-help-text"
+                      aria-label="Help on the Snippet Preview"
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
@@ -18130,7 +18141,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       <Button
                         aria-controls="yoast-help-18-text"
                         aria-expanded={false}
-                        aria-label="yoast-help-text"
+                        aria-label="Help on the Snippet Preview"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -18142,7 +18153,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         <Button
                           aria-controls="yoast-help-18-text"
                           aria-expanded={false}
-                          aria-label="yoast-help-text"
+                          aria-label="Help on the Snippet Preview"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -18154,7 +18165,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           <Button
                             aria-controls="yoast-help-18-text"
                             aria-expanded={false}
-                            aria-label="yoast-help-text"
+                            aria-label="Help on the Snippet Preview"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -18166,7 +18177,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             <Button__BaseButton
                               aria-controls="yoast-help-18-text"
                               aria-expanded={false}
-                              aria-label="yoast-help-text"
+                              aria-label="Help on the Snippet Preview"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -18178,7 +18189,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               <button
                                 aria-controls="yoast-help-18-text"
                                 aria-expanded={false}
-                                aria-label="yoast-help-text"
+                                aria-label="Help on the Snippet Preview"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                                 onClick={[Function]}
                                 type="button"
@@ -19512,7 +19523,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
         <button
           aria-controls="yoast-help-5-text"
           aria-expanded={false}
-          aria-label="yoast-help-text"
+          aria-label="Help on the Snippet Preview"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
           onClick={[Function]}
           type="button"
@@ -20171,7 +20182,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
         <button
           aria-controls="yoast-help-4-text"
           aria-expanded={false}
-          aria-label="yoast-help-text"
+          aria-label="Help on the Snippet Preview"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
           onClick={[Function]}
           type="button"
@@ -20756,7 +20767,7 @@ exports[`SnippetEditor shows and editor 1`] = `
         <button
           aria-controls="yoast-help-1-text"
           aria-expanded={false}
-          aria-label="yoast-help-text"
+          aria-label="Help on the Snippet Preview"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
           onClick={[Function]}
           type="button"

@@ -244,7 +244,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
       <button
         aria-controls="yoast-help-4-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -636,7 +636,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
       <button
         aria-controls="yoast-help-12-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -1031,7 +1031,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
       <button
         aria-controls="yoast-help-11-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -1443,7 +1443,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
       <button
         aria-controls="yoast-help-16-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -1845,7 +1845,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
       <button
         aria-controls="yoast-help-15-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -2244,7 +2244,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
       <button
         aria-controls="yoast-help-1-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -2637,7 +2637,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
       <button
         aria-controls="yoast-help-2-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -3041,7 +3041,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
       <button
         aria-controls="yoast-help-8-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -3445,7 +3445,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
       <button
         aria-controls="yoast-help-9-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -3849,7 +3849,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
       <button
         aria-controls="yoast-help-10-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -4253,7 +4253,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
       <button
         aria-controls="yoast-help-5-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -4657,7 +4657,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
       <button
         aria-controls="yoast-help-6-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -5061,7 +5061,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
       <button
         aria-controls="yoast-help-7-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"
@@ -5457,7 +5457,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
       <button
         aria-controls="yoast-help-3-text"
         aria-expanded={false}
-        aria-label="yoast-help-text"
+        aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
         onClick={[Function]}
         type="button"

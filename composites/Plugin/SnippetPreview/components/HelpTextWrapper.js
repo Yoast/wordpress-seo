@@ -109,7 +109,7 @@ class HelpTextWrapper extends React.Component {
 					onClick={ this.onButtonClick.bind( this ) }
 					aria-expanded={ this.state.isExpanded }
 					aria-controls={ helpTextId }
-					aria-label={ "yoast-help-text" }
+					aria-label={ this.props.helpTextButtonLabel }
 				>
 					<StyledSvg
 						size="16px"
@@ -132,6 +132,7 @@ class HelpTextWrapper extends React.Component {
 
 HelpTextWrapper.propTypes = {
 	className: PropTypes.string,
+	helpTextButtonLabel: PropTypes.string.isRequired,
 	helpText: PropTypes.oneOfType( [
 		PropTypes.string,
 		PropTypes.array,

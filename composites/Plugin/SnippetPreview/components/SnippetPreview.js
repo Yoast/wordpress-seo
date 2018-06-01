@@ -672,6 +672,7 @@ export default class SnippetPreview extends PureComponent {
 			<a key="1" href="https://yoa.st/snippet-preview" rel="noopener noreferrer" target="_blank">
 				{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
 			</a> ];
+		const helpTextLabel = __( "Help on the Snippet Preview", "yoast-components" );
 
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
@@ -682,7 +683,10 @@ export default class SnippetPreview extends PureComponent {
 		return (
 			<section>
 				<div>
-					<HelpTextWrapper helpText={ helpText } />
+					<HelpTextWrapper
+						helpText={ helpText }
+						helpTextButtonLabel={ helpTextLabel }
+					/>
 				</div>
 				<Container
 					onMouseLeave={ this.onMouseLeave }
