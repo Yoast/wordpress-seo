@@ -7,6 +7,7 @@ import {
 	getCaretOffset,
 	getAnchorBlock,
 	insertText,
+	replaceText,
 	removeSelectedText,
 	moveCaret,
 } from "../text";
@@ -99,8 +100,8 @@ describe( "SnippetEditor text utilities", () => {
 	} );
 
 	describe( "getAnchorBlock", () => {
-		it( "to contain the same text as we input", () => {
-			const expected = "testing anchor block";
+		it( "returns the text that it is created with", () => {
+			const expected = "The text of this block.";
 			const content = ContentState.createFromText( expected );
 			const editor = EditorState.createWithContent( content );
 			const block = getAnchorBlock( editor.getCurrentContent(), editor.getSelection() );
@@ -110,11 +111,207 @@ describe( "SnippetEditor text utilities", () => {
 		} );
 	} );
 
-	describe( "insertText", () => {} );
+	describe( "insertText", () => {
+		it( "equals the inserted text", () => {
+			let editor = EditorState.createEmpty();
+			const expected = "The text to insert.";
 
-	describe( "replaceText", () => {} );
+			editor = insertText( editor, expected );
 
-	describe( "removeSelectedText", () => {} );
+			const content = editor.getCurrentContent();
+			const actual = content.getPlainText();
 
-	describe( "moveCaret", () => {} );
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "inserts the text at the caret", () => {
+			const expected = "This is a slightly more complicated text.\n" +
+			                 "With just another line.";
+			let content = ContentState.createFromText(
+				"This is a slightly more complicated text.\n" +
+				"With another line."
+			);
+			let editor = EditorState.createWithContent( content );
+			const block = content.getLastBlock();
+			const blockKey = block.getKey();
+
+			editor = moveCaret( editor, 5, blockKey );
+			editor = insertText( editor, "just " );
+
+			content = editor.getCurrentContent();
+			const actual = content.getPlainText();
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "ignores a request when the selection is not collapsed", () => {
+			const expected = "This is the content.";
+			let content = ContentState.createFromText( expected );
+			let editor = EditorState.createWithContent( content );
+			const block = content.getFirstBlock();
+			const blockKey = block.getKey();
+			const selection = SelectionState.createEmpty( blockKey )
+			                                .merge( {
+				                                anchorOffset: 8,
+				                                focusOffset: 19,
+			                                } );
+
+			editor = EditorState.acceptSelection( editor, selection );
+			editor = insertText( editor, "Text that will not get inserted" );
+
+			content = editor.getCurrentContent();
+			const actual = content.getPlainText();
+
+			expect( actual ).toBe( expected );
+		} );
+	} );
+
+	describe( "replaceText", () => {
+		it( "inserts the text if the selection is a caret", () => {
+			const expected = "This is a slightly more complicated text.\n" +
+			                 "With just another line.";
+			let content = ContentState.createFromText(
+				"This is a slightly more complicated text.\n" +
+				"With another line."
+			);
+			let editor = EditorState.createWithContent( content );
+			const block = content.getLastBlock();
+			const blockKey = block.getKey();
+
+			editor = moveCaret( editor, 5, blockKey );
+			editor = replaceText( editor, "just " );
+
+			content = editor.getCurrentContent();
+			const actual = content.getPlainText();
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "replaces the text", () => {
+			let content = ContentState.createFromText( "This is the content." );
+			let editor = EditorState.createWithContent( content );
+			const block = content.getFirstBlock();
+			const blockKey = block.getKey();
+			const selection = SelectionState.createEmpty( blockKey )
+			                                .merge( {
+				                                anchorOffset: 8,
+				                                focusOffset: 19,
+			                                } );
+
+			editor = EditorState.acceptSelection( editor, selection );
+			editor = replaceText( editor, "freshly replaced text" );
+
+			const expected = "This is freshly replaced text.";
+			content = editor.getCurrentContent();
+			const actual = content.getPlainText();
+
+			expect( actual ).toBe( expected );
+		} );
+	} );
+
+	describe( "removeSelectedText", () => {
+		it( "removes the selected text", () => {
+			let content = ContentState.createFromText( "This is the content." );
+			let editor = EditorState.createWithContent( content );
+			const block = content.getFirstBlock();
+			const blockKey = block.getKey();
+			const selection = SelectionState.createEmpty( blockKey )
+			                                .merge( {
+				                                anchorOffset: 8,
+				                                focusOffset: 19,
+			                                } );
+
+			editor = EditorState.acceptSelection( editor, selection );
+			editor = removeSelectedText( editor );
+
+			const expected = "This is .";
+			content = editor.getCurrentContent();
+			const actual = content.getPlainText();
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "removes the selected text spanning over multiple blocks", () => {
+			let content = ContentState.createFromText(
+				"This is a longer text.\n" +
+				"With multiple lines.\n" +
+				"In which we will expand the selection.\n" +
+				"To just remove the selected text again."
+			);
+			let editor = EditorState.createWithContent( content );
+
+			const blocks = content.getBlockMap().toArray();
+			const anchorBlockKey = blocks[ 1 ].getKey();
+			const focusBlockKey = blocks[ 3 ].getKey();
+			const selection = SelectionState.createEmpty( anchorBlockKey )
+			                                .merge( {
+				                                anchorOffset: 5,
+				                                focusKey: focusBlockKey,
+				                                focusOffset: 28,
+			                                } );
+
+			editor = EditorState.acceptSelection( editor, selection );
+			editor = removeSelectedText( editor );
+
+			const expected = "This is a longer text.\n" +
+			                 "With text again.";
+			content = editor.getCurrentContent();
+			const actual = content.getPlainText();
+
+			expect( actual ).toBe( expected );
+		} );
+	} );
+
+	describe( "moveCaret", () => {
+		it( "moves the caret to the index", () => {
+			const content = ContentState.createFromText(
+				"This is a longer text.\n" +
+				"With multiple lines.\n" +
+				"To move the caret in."
+			);
+			let editor = EditorState.createWithContent( content );
+
+			const blocks = content.getBlockMap().toArray();
+			const blockKey = blocks[ 1 ].getKey();
+			const selection = SelectionState.createEmpty( blockKey );
+			const index = 5;
+
+			editor = EditorState.acceptSelection( editor, selection );
+			editor = moveCaret( editor, index );
+
+			const expected = SelectionState.createEmpty( blockKey ).merge( {
+				anchorOffset: index,
+				focusOffset: index,
+			} );
+			const actual = editor.getSelection();
+
+			expect( actual ).toEqual( expected );
+		} );
+
+		it( "moves the caret to the index of another block", () => {
+			const content = ContentState.createFromText(
+				"This is a longer text.\n" +
+				"With multiple lines.\n" +
+				"To move the caret in."
+			);
+			let editor = EditorState.createWithContent( content );
+
+			const blocks = content.getBlockMap().toArray();
+			const originalBlockKey = blocks[ 1 ].getKey();
+			const selection = SelectionState.createEmpty( originalBlockKey );
+			const moveToBlockKey = blocks[ 2 ].getKey();
+			const index = 5;
+
+			editor = EditorState.acceptSelection( editor, selection );
+			editor = moveCaret( editor, index, moveToBlockKey );
+
+			const expected = SelectionState.createEmpty( moveToBlockKey ).merge( {
+				anchorOffset: index,
+				focusOffset: index,
+			} );
+			const actual = editor.getSelection();
+
+			expect( actual ).toEqual( expected );
+		} );
+	} );
 } );
