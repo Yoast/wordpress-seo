@@ -213,7 +213,12 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 			array( '%d' )
 		);
 
-		$this->assertSame( 1, $result );
+		/**
+		 * You would think the expected result will be 1, but it will be 2. For more context:
+		 * @see https://dev.mysql.com/doc/refman/8.0/en/insert-on-duplicate.html
+		 * "With ON DUPLICATE KEY UPDATE, the affected-rows value per row is 1 if the row is inserted as a new row and 2 if an existing row is updated."
+		 */
+		$this->assertSame( 2, $result );
 	}
 
 	/**
