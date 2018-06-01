@@ -187,8 +187,7 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 			array(
 				'id' => 2,
 			),
-			array( '%d', '%s', '%s' ),
-			array( '%d' )
+			array( '%d', '%s', '%s' )
 		);
 
 		$this->assertSame( 1, $result );
@@ -209,8 +208,7 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 			array(
 				'id' => 1,
 			),
-			array( '%d', '%s', '%s' ),
-			array( '%d' )
+			array( '%d', '%s', '%s' )
 		);
 
 		/**
