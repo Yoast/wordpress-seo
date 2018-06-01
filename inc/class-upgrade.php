@@ -106,15 +106,15 @@ class WPSEO_Upgrade {
 		if ( version_compare( $version, '7.4-RC0', '<' ) ) {
 			$this->upgrade_74();
 		}
-    
+
 		if ( version_compare( $version, '7.5.3', '<' ) ) {
 			$this->upgrade_753();
 		}
-    
-	    if ( version_compare( $version, '7.6-RC0', '<' ) ) {
+
+		if ( version_compare( $version, '7.6-RC0', '<' ) ) {
 			$this->upgrade_76();
-	    }
-    
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -586,8 +586,8 @@ class WPSEO_Upgrade {
 		WPSEO_Options::set( 'is-media-purge-relevant', true );
 	}
 
-  /** 
-   * Performs the 7.6 upgrade.
+	/**
+	 * Performs the 7.6 upgrade.
 	 *
 	 * @return void
 	 */
