@@ -153,7 +153,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   <button
     aria-controls="yoast-help-1-text"
     aria-expanded={false}
-    aria-label={undefined}
+    aria-label="Open help"
     className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
     onClick={[Function]}
     type="button"

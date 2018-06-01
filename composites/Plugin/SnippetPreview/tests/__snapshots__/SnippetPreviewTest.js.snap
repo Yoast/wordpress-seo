@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SnippetPreview changes the colors of the description if it was generated 1`] = `
-.c13 {
+.c14 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -9,7 +9,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   box-sizing: border-box;
 }
 
-.c14 {
+.c15 {
   width: 600px;
 }
 
@@ -144,17 +144,35 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 }
 
 .c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c16 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c18 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -169,17 +187,17 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c17 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c19 {
   white-space: nowrap;
 }
 
-.c19 {
+.c20 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -189,7 +207,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   font-size: 14px;
 }
 
-.c20 {
+.c21 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -202,7 +220,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   max-width: 100%;
 }
 
-.c22 {
+.c23 {
   color: #777;
   cursor: pointer;
   position: relative;
@@ -210,7 +228,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   font-size: 13px;
 }
 
-.c21 {
+.c22 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -284,17 +302,22 @@ exports[`SnippetPreview changes the colors of the description if it was generate
             target="_blank"
           >
             Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
           </a>
         </p>
       </div>
     </div>
   </div>
   <div
-    className="c12 c13"
+    className="c13 c14"
     width={640}
   >
     <div
-      className="c14"
+      className="c15"
       width={600}
     >
       <div
@@ -315,16 +338,16 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           SEO title preview:
         </span>
         <div
-          className="c15"
+          className="c16"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c17 c18"
           >
             <span
-              className="c18"
+              className="c19"
             >
               Title
             </span>
@@ -345,10 +368,10 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c20"
         >
           <div
-            className="c20"
+            className="c21"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -357,7 +380,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           </div>
         </div>
         <div
-          className="c21"
+          className="c22"
         />
       </div>
       <div
@@ -378,7 +401,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           Meta description preview:
         </span>
         <div
-          className="c22"
+          className="c23"
           color="#777"
           onClick={[Function]}
           onMouseLeave={[Function]}
@@ -393,7 +416,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 `;
 
 exports[`SnippetPreview highlights keywords even if they are transliterated 1`] = `
-.c13 {
+.c14 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -401,7 +424,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   box-sizing: border-box;
 }
 
-.c14 {
+.c15 {
   width: 600px;
 }
 
@@ -536,17 +559,35 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 }
 
 .c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c16 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c18 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -561,17 +602,17 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c17 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c19 {
   white-space: nowrap;
 }
 
-.c19 {
+.c20 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -581,7 +622,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   font-size: 14px;
 }
 
-.c20 {
+.c21 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -594,7 +635,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   max-width: 100%;
 }
 
-.c22 {
+.c23 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -602,7 +643,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   font-size: 13px;
 }
 
-.c21 {
+.c22 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -676,17 +717,22 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
             target="_blank"
           >
             Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
           </a>
         </p>
       </div>
     </div>
   </div>
   <div
-    className="c12 c13"
+    className="c13 c14"
     width={640}
   >
     <div
-      className="c14"
+      className="c15"
       width={600}
     >
       <div
@@ -707,16 +753,16 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           SEO title preview:
         </span>
         <div
-          className="c15"
+          className="c16"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c17 c18"
           >
             <span
-              className="c18"
+              className="c19"
             >
               Title
             </span>
@@ -737,10 +783,10 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c20"
         >
           <div
-            className="c20"
+            className="c21"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -749,7 +795,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           </div>
         </div>
         <div
-          className="c21"
+          className="c22"
         />
       </div>
       <div
@@ -770,7 +816,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           Meta description preview:
         </span>
         <div
-          className="c22"
+          className="c23"
           color="#545454"
           onClick={[Function]}
           onMouseLeave={[Function]}
@@ -788,7 +834,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 `;
 
 exports[`SnippetPreview highlights keywords inside the description and url 1`] = `
-.c13 {
+.c14 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -796,7 +842,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   box-sizing: border-box;
 }
 
-.c14 {
+.c15 {
   width: 600px;
 }
 
@@ -931,17 +977,35 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 }
 
 .c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c16 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c18 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -956,17 +1020,17 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c17 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c19 {
   white-space: nowrap;
 }
 
-.c19 {
+.c20 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -976,7 +1040,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   font-size: 14px;
 }
 
-.c20 {
+.c21 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -989,7 +1053,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   max-width: 100%;
 }
 
-.c22 {
+.c23 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -997,7 +1061,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   font-size: 13px;
 }
 
-.c21 {
+.c22 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -1071,17 +1135,22 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
             target="_blank"
           >
             Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
           </a>
         </p>
       </div>
     </div>
   </div>
   <div
-    className="c12 c13"
+    className="c13 c14"
     width={640}
   >
     <div
-      className="c14"
+      className="c15"
       width={600}
     >
       <div
@@ -1102,16 +1171,16 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           SEO title preview:
         </span>
         <div
-          className="c15"
+          className="c16"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c17 c18"
           >
             <span
-              className="c18"
+              className="c19"
             >
               Title
             </span>
@@ -1132,10 +1201,10 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c20"
         >
           <div
-            className="c20"
+            className="c21"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -1144,7 +1213,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           </div>
         </div>
         <div
-          className="c21"
+          className="c22"
         />
       </div>
       <div
@@ -1165,7 +1234,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           Meta description preview:
         </span>
         <div
-          className="c22"
+          className="c23"
           color="#545454"
           onClick={[Function]}
           onMouseLeave={[Function]}
@@ -1314,6 +1383,24 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 }
 
 .c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
@@ -1324,12 +1411,12 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 14px;
 }
 
-.c14 {
+.c15 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c17 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -1344,13 +1431,13 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c16 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c18 {
   display: inline-block;
   font-size: 16px;
   line-height: 1.2em;
@@ -1359,7 +1446,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   text-overflow: ellipsis;
 }
 
-.c19 {
+.c20 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1369,7 +1456,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 14px;
 }
 
-.c20 {
+.c21 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1382,7 +1469,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   max-width: 100%;
 }
 
-.c22 {
+.c23 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1390,7 +1477,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 13px;
 }
 
-.c23 {
+.c24 {
   font-size: 14px;
   line-height: 20px;
   max-height: 80px;
@@ -1398,17 +1485,17 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   text-overflow: ellipsis;
 }
 
-.c13 {
+.c14 {
   padding: 8px 16px;
 }
 
-.c21 {
+.c22 {
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
 }
 
-.c18 {
+.c19 {
   background-size: 100% 100%;
   display: inline-block;
   height: 12px;
@@ -1483,18 +1570,23 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
             target="_blank"
           >
             Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
           </a>
         </p>
       </div>
     </div>
   </div>
   <div
-    className="c12"
+    className="c13"
     onMouseLeave={undefined}
     width={640}
   >
     <div
-      className="c13"
+      className="c14"
     >
       <span
         className="screen-reader-text"
@@ -1511,16 +1603,16 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         SEO title preview:
       </span>
       <div
-        className="c14"
+        className="c15"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c15 c16"
+          className="c16 c17"
         >
           <span
-            className="c17"
+            className="c18"
           >
             Title
           </span>
@@ -1541,13 +1633,13 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Url preview:
       </span>
       <div
-        className="c18"
+        className="c19"
       />
       <div
-        className="c19"
+        className="c20"
       >
         <div
-          className="c20"
+          className="c21"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -1557,10 +1649,10 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
       </div>
     </div>
     <hr
-      className="c21"
+      className="c22"
     />
     <div
-      className="c13"
+      className="c14"
     >
       <span
         className="screen-reader-text"
@@ -1577,14 +1669,14 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Meta description preview:
       </span>
       <div
-        className="c22"
+        className="c23"
         color="#545454"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c23 c22"
+          className="c24 c23"
           color="#545454"
         >
           Description
@@ -1727,6 +1819,24 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 }
 
 .c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
@@ -1737,12 +1847,12 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 14px;
 }
 
-.c14 {
+.c15 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c17 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -1757,13 +1867,13 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c16 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c18 {
   display: inline-block;
   font-size: 16px;
   line-height: 1.2em;
@@ -1772,7 +1882,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c19 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1782,7 +1892,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 14px;
 }
 
-.c19 {
+.c20 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -1795,7 +1905,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1803,7 +1913,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c23 {
   font-size: 14px;
   line-height: 20px;
   max-height: 80px;
@@ -1811,11 +1921,11 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   text-overflow: ellipsis;
 }
 
-.c13 {
+.c14 {
   padding: 8px 16px;
 }
 
-.c20 {
+.c21 {
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
@@ -1885,18 +1995,23 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
             target="_blank"
           >
             Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
           </a>
         </p>
       </div>
     </div>
   </div>
   <div
-    className="c12"
+    className="c13"
     onMouseLeave={undefined}
     width={640}
   >
     <div
-      className="c13"
+      className="c14"
     >
       <span
         className="screen-reader-text"
@@ -1913,16 +2028,16 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         SEO title preview:
       </span>
       <div
-        className="c14"
+        className="c15"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c15 c16"
+          className="c16 c17"
         >
           <span
-            className="c17"
+            className="c18"
           >
             Title
           </span>
@@ -1943,10 +2058,10 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         Url preview:
       </span>
       <div
-        className="c18"
+        className="c19"
       >
         <div
-          className="c19"
+          className="c20"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -1956,10 +2071,10 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
       </div>
     </div>
     <hr
-      className="c20"
+      className="c21"
     />
     <div
-      className="c13"
+      className="c14"
     >
       <span
         className="screen-reader-text"
@@ -1976,14 +2091,14 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21"
+        className="c22"
         color="#545454"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c22 c21"
+          className="c23 c22"
           color="#545454"
         >
           Description
@@ -2126,6 +2241,24 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 }
 
 .c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
@@ -2136,12 +2269,12 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 14px;
 }
 
-.c14 {
+.c15 {
   cursor: pointer;
   position: relative;
 }
 
-.c16 {
+.c17 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2156,13 +2289,13 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   text-overflow: ellipsis;
 }
 
-.c15 {
+.c16 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c18 {
   display: inline-block;
   font-size: 16px;
   line-height: 1.2em;
@@ -2171,7 +2304,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c19 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2181,7 +2314,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 14px;
 }
 
-.c19 {
+.c20 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2194,7 +2327,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   max-width: 100%;
 }
 
-.c21 {
+.c22 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2202,7 +2335,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c23 {
   font-size: 14px;
   line-height: 20px;
   max-height: 80px;
@@ -2210,11 +2343,11 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   text-overflow: ellipsis;
 }
 
-.c13 {
+.c14 {
   padding: 8px 16px;
 }
 
-.c20 {
+.c21 {
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
@@ -2284,18 +2417,23 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
             target="_blank"
           >
             Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
           </a>
         </p>
       </div>
     </div>
   </div>
   <div
-    className="c12"
+    className="c13"
     onMouseLeave={undefined}
     width={640}
   >
     <div
-      className="c13"
+      className="c14"
     >
       <span
         className="screen-reader-text"
@@ -2312,16 +2450,16 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         SEO title preview:
       </span>
       <div
-        className="c14"
+        className="c15"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c15 c16"
+          className="c16 c17"
         >
           <span
-            className="c17"
+            className="c18"
           >
             Title
           </span>
@@ -2342,10 +2480,10 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Url preview:
       </span>
       <div
-        className="c18"
+        className="c19"
       >
         <div
-          className="c19"
+          className="c20"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -2355,10 +2493,10 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
       </div>
     </div>
     <hr
-      className="c20"
+      className="c21"
     />
     <div
-      className="c13"
+      className="c14"
     >
       <span
         className="screen-reader-text"
@@ -2375,14 +2513,14 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c21"
+        className="c22"
         color="#545454"
         onClick={[Function]}
         onMouseLeave={[Function]}
         onMouseOver={[Function]}
       >
         <div
-          className="c22 c21"
+          className="c23 c22"
           color="#545454"
         >
           Description
@@ -2394,7 +2532,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 `;
 
 exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
-.c13 {
+.c14 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -2402,7 +2540,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c15 {
   width: 600px;
 }
 
@@ -2537,17 +2675,35 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 }
 
 .c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c16 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c18 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2562,17 +2718,17 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c17 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c19 {
   white-space: nowrap;
 }
 
-.c19 {
+.c20 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2582,7 +2738,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   font-size: 14px;
 }
 
-.c20 {
+.c21 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2595,7 +2751,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   max-width: 100%;
 }
 
-.c22 {
+.c23 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2603,7 +2759,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   font-size: 13px;
 }
 
-.c21 {
+.c22 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -2677,17 +2833,22 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
             target="_blank"
           >
             Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
           </a>
         </p>
       </div>
     </div>
   </div>
   <div
-    className="c12 c13"
+    className="c13 c14"
     width={640}
   >
     <div
-      className="c14"
+      className="c15"
       width={600}
     >
       <div
@@ -2708,16 +2869,16 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c15"
+          className="c16"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c17 c18"
           >
             <span
-              className="c18"
+              className="c19"
             >
               Title
             </span>
@@ -2738,10 +2899,10 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c20"
         >
           <div
-            className="c20"
+            className="c21"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -2750,7 +2911,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           </div>
         </div>
         <div
-          className="c21"
+          className="c22"
         />
       </div>
       <div
@@ -2771,7 +2932,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c22"
+          className="c23"
           color="#545454"
           onClick={[Function]}
           onMouseLeave={[Function]}
@@ -2786,7 +2947,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 `;
 
 exports[`SnippetPreview renders a caret on activation 1`] = `
-.c13 {
+.c14 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -2794,7 +2955,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c15 {
   width: 600px;
 }
 
@@ -2929,17 +3090,35 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 }
 
 .c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c16 {
+.c17 {
   cursor: pointer;
   position: relative;
 }
 
-.c18 {
+.c19 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2954,17 +3133,17 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   text-overflow: ellipsis;
 }
 
-.c17 {
+.c18 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c19 {
+.c20 {
   white-space: nowrap;
 }
 
-.c20 {
+.c21 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2974,7 +3153,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   font-size: 14px;
 }
 
-.c21 {
+.c22 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -2987,7 +3166,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   max-width: 100%;
 }
 
-.c23 {
+.c24 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2995,7 +3174,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c23 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -3013,7 +3192,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   flex: none;
 }
 
-.c15::before {
+.c16::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -3081,17 +3260,22 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
             target="_blank"
           >
             Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
           </a>
         </p>
       </div>
     </div>
   </div>
   <div
-    className="c12 c13"
+    className="c13 c14"
     width={640}
   >
     <div
-      className="c14"
+      className="c15"
       width={600}
     >
       <div
@@ -3112,16 +3296,16 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c15 c16"
+          className="c16 c17"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c17 c18"
+            className="c18 c19"
           >
             <span
-              className="c19"
+              className="c20"
             >
               Title
             </span>
@@ -3142,10 +3326,10 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           Url preview:
         </span>
         <div
-          className="c20"
+          className="c21"
         >
           <div
-            className="c21"
+            className="c22"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -3154,7 +3338,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           </div>
         </div>
         <div
-          className="c22"
+          className="c23"
         />
       </div>
       <div
@@ -3175,7 +3359,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c23"
+          className="c24"
           color="#545454"
           onClick={[Function]}
           onMouseLeave={[Function]}
@@ -3190,7 +3374,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 `;
 
 exports[`SnippetPreview renders a caret on activation 2`] = `
-.c13 {
+.c14 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -3198,7 +3382,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c15 {
   width: 600px;
 }
 
@@ -3333,17 +3517,35 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 }
 
 .c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c16 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c18 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -3358,17 +3560,17 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c17 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c19 {
   white-space: nowrap;
 }
 
-.c19 {
+.c20 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3378,7 +3580,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   font-size: 14px;
 }
 
-.c20 {
+.c21 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3391,7 +3593,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   max-width: 100%;
 }
 
-.c23 {
+.c24 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -3399,7 +3601,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   font-size: 13px;
 }
 
-.c21 {
+.c22 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -3417,7 +3619,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   flex: none;
 }
 
-.c22::before {
+.c23::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -3485,17 +3687,22 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
             target="_blank"
           >
             Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
           </a>
         </p>
       </div>
     </div>
   </div>
   <div
-    className="c12 c13"
+    className="c13 c14"
     width={640}
   >
     <div
-      className="c14"
+      className="c15"
       width={600}
     >
       <div
@@ -3516,16 +3723,16 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           SEO title preview:
         </span>
         <div
-          className="c15"
+          className="c16"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c17 c18"
           >
             <span
-              className="c18"
+              className="c19"
             >
               Title
             </span>
@@ -3546,10 +3753,10 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           Url preview:
         </span>
         <div
-          className="c19"
+          className="c20"
         >
           <div
-            className="c20"
+            className="c21"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -3558,7 +3765,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           </div>
         </div>
         <div
-          className="c21"
+          className="c22"
         />
       </div>
       <div
@@ -3579,7 +3786,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           Meta description preview:
         </span>
         <div
-          className="c22 c23"
+          className="c23 c24"
           color="#545454"
           onClick={[Function]}
           onMouseLeave={[Function]}
@@ -3594,7 +3801,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 `;
 
 exports[`SnippetPreview renders a caret on activation 3`] = `
-.c13 {
+.c14 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -3602,7 +3809,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c15 {
   width: 600px;
 }
 
@@ -3737,17 +3944,35 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 }
 
 .c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
 
-.c15 {
+.c16 {
   cursor: pointer;
   position: relative;
 }
 
-.c17 {
+.c18 {
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -3762,17 +3987,17 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   text-overflow: ellipsis;
 }
 
-.c16 {
+.c17 {
   max-width: 600px;
   vertical-align: top;
   text-overflow: ellipsis;
 }
 
-.c18 {
+.c19 {
   white-space: nowrap;
 }
 
-.c20 {
+.c21 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3782,7 +4007,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   font-size: 14px;
 }
 
-.c21 {
+.c22 {
   display: inline-block;
   color: #006621;
   cursor: pointer;
@@ -3795,7 +4020,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   max-width: 100%;
 }
 
-.c23 {
+.c24 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -3803,7 +4028,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   font-size: 13px;
 }
 
-.c22 {
+.c23 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -3821,7 +4046,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   flex: none;
 }
 
-.c19::before {
+.c20::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -3889,17 +4114,22 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
             target="_blank"
           >
             Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
           </a>
         </p>
       </div>
     </div>
   </div>
   <div
-    className="c12 c13"
+    className="c13 c14"
     width={640}
   >
     <div
-      className="c14"
+      className="c15"
       width={600}
     >
       <div
@@ -3920,16 +4150,16 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           SEO title preview:
         </span>
         <div
-          className="c15"
+          className="c16"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
           <div
-            className="c16 c17"
+            className="c17 c18"
           >
             <span
-              className="c18"
+              className="c19"
             >
               Title
             </span>
@@ -3950,10 +4180,10 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           Url preview:
         </span>
         <div
-          className="c19 c20"
+          className="c20 c21"
         >
           <div
-            className="c21"
+            className="c22"
             onClick={[Function]}
             onMouseLeave={[Function]}
             onMouseOver={[Function]}
@@ -3962,7 +4192,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           </div>
         </div>
         <div
-          className="c22"
+          className="c23"
         />
       </div>
       <div
@@ -3983,7 +4213,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           Meta description preview:
         </span>
         <div
-          className="c23"
+          className="c24"
           color="#545454"
           onClick={[Function]}
           onMouseLeave={[Function]}
@@ -3998,7 +4228,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 `;
 
 exports[`SnippetPreview renders a caret on hover 1`] = `
-.c13 {
+.c14 {
   overflow: auto;
   width: 640px;
   padding: 0 20px;
@@ -4006,7 +4236,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   box-sizing: border-box;
 }
 
-.c14 {
+.c15 {
   width: 600px;
 }
 
@@ -4141,6 +4371,1305 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 }
 
 .c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
+  background-color: white;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c17 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c19 {
+  color: #1e0fbe;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c18 {
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c20 {
+  white-space: nowrap;
+}
+
+.c21 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.c22 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.c24 {
+  color: #545454;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  font-size: 13px;
+}
+
+.c23 {
+  display: inline-block;
+  margin-top: 6px;
+  margin-left: 6px;
+  border-top: 5px solid #006621;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+.c9 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c16::before {
+  display: block;
+  position: absolute;
+  top: -3px;
+  left: -22px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<section>
+  <div>
+    <div
+      className="yoast-help-button c0"
+    >
+      <button
+        aria-controls="yoast-help-5-text"
+        aria-expanded={false}
+        aria-label="Help on the Snippet Preview"
+        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
+          fill="#646464"
+          focusable="false"
+          role="img"
+          size="16px"
+          viewBox="0 0 1792 1792"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
+      </button>
+      <div
+        aria-hidden={true}
+        className="yoast-help-button__helpDiv c10"
+        id="yoast-help-5-text"
+        style={
+          Object {
+            "maxHeight": "0",
+          }
+        }
+      >
+        <p
+          className="c11"
+        >
+          This is a rendering of what this post might look like in Google's search results. 
+          <a
+            href="https://yoa.st/snippet-preview"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
+    className="c13 c14"
+    width={640}
+  >
+    <div
+      className="c15"
+      width={600}
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c16 c17"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          <div
+            className="c18 c19"
+          >
+            <span
+              className="c20"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c21"
+        >
+          <div
+            className="c22"
+            onClick={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+          >
+            https://example.org/
+          </div>
+        </div>
+        <div
+          className="c23"
+        />
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c24"
+          color="#545454"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview renders a caret on hover 2`] = `
+.c14 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c15 {
+  width: 600px;
+}
+
+.c11 {
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
+}
+
+.c7 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c2 {
+  font-size: 0.8rem;
+}
+
+.c3:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4:hover {
+  color: #000;
+}
+
+.c5::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c5:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c0 {
+  max-width: 600px;
+  font-weight: normal;
+  margin: 0 20px 10px 25px;
+}
+
+.c10 {
+  max-width: 400px;
+  display: block;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  max-height: 0;
+}
+
+.c1 {
+  min-width: 14px;
+  min-height: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  -webkit-clip: rect(1px 1px 1px 1px);
+  clip: rect(1px 1px 1px 1px);
+  box-shadow: none;
+  position: relative;
+  display: block;
+  margin: -44px -10px 10px 0;
+  background-color: transparent;
+  float: right;
+  padding: 3px 0 0 6px;
+}
+
+.c1:hover {
+  color: #0066cd;
+}
+
+.c1:focus {
+  border: 1px solid #0066cd;
+  outline: none;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:focus svg {
+  fill: #0066cd;
+  color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
+}
+
+.c8 {
+  vertical-align: center;
+  position: relative;
+}
+
+.c8:hover {
+  fill: #0066cd;
+}
+
+.c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
+  background-color: white;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c16 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c18 {
+  color: #1e0fbe;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c17 {
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c19 {
+  white-space: nowrap;
+}
+
+.c20 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.c21 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.c24 {
+  color: #545454;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  font-size: 13px;
+}
+
+.c22 {
+  display: inline-block;
+  margin-top: 6px;
+  margin-left: 6px;
+  border-top: 5px solid #006621;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+.c9 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c23::before {
+  display: block;
+  position: absolute;
+  top: -3px;
+  left: -22px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<section>
+  <div>
+    <div
+      className="yoast-help-button c0"
+    >
+      <button
+        aria-controls="yoast-help-6-text"
+        aria-expanded={false}
+        aria-label="Help on the Snippet Preview"
+        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
+          fill="#646464"
+          focusable="false"
+          role="img"
+          size="16px"
+          viewBox="0 0 1792 1792"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
+      </button>
+      <div
+        aria-hidden={true}
+        className="yoast-help-button__helpDiv c10"
+        id="yoast-help-6-text"
+        style={
+          Object {
+            "maxHeight": "0",
+          }
+        }
+      >
+        <p
+          className="c11"
+        >
+          This is a rendering of what this post might look like in Google's search results. 
+          <a
+            href="https://yoa.st/snippet-preview"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
+    className="c13 c14"
+    width={640}
+  >
+    <div
+      className="c15"
+      width={600}
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c16"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          <div
+            className="c17 c18"
+          >
+            <span
+              className="c19"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c20"
+        >
+          <div
+            className="c21"
+            onClick={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+          >
+            https://example.org/
+          </div>
+        </div>
+        <div
+          className="c22"
+        />
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c23 c24"
+          color="#545454"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview renders a caret on hover 3`] = `
+.c14 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c15 {
+  width: 600px;
+}
+
+.c11 {
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
+}
+
+.c7 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c2 {
+  font-size: 0.8rem;
+}
+
+.c3:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4:hover {
+  color: #000;
+}
+
+.c5::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c5:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c0 {
+  max-width: 600px;
+  font-weight: normal;
+  margin: 0 20px 10px 25px;
+}
+
+.c10 {
+  max-width: 400px;
+  display: block;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  max-height: 0;
+}
+
+.c1 {
+  min-width: 14px;
+  min-height: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  -webkit-clip: rect(1px 1px 1px 1px);
+  clip: rect(1px 1px 1px 1px);
+  box-shadow: none;
+  position: relative;
+  display: block;
+  margin: -44px -10px 10px 0;
+  background-color: transparent;
+  float: right;
+  padding: 3px 0 0 6px;
+}
+
+.c1:hover {
+  color: #0066cd;
+}
+
+.c1:focus {
+  border: 1px solid #0066cd;
+  outline: none;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:focus svg {
+  fill: #0066cd;
+  color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
+}
+
+.c8 {
+  vertical-align: center;
+  position: relative;
+}
+
+.c8:hover {
+  fill: #0066cd;
+}
+
+.c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
+  background-color: white;
+  font-family: arial,sans-serif;
+  box-sizing: border-box;
+}
+
+.c16 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c18 {
+  color: #1e0fbe;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c17 {
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c19 {
+  white-space: nowrap;
+}
+
+.c21 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.c22 {
+  display: inline-block;
+  color: #006621;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.c24 {
+  color: #545454;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+  font-size: 13px;
+}
+
+.c23 {
+  display: inline-block;
+  margin-top: 6px;
+  margin-left: 6px;
+  border-top: 5px solid #006621;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  vertical-align: top;
+}
+
+.c9 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c20::before {
+  display: block;
+  position: absolute;
+  top: -3px;
+  left: -22px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<section>
+  <div>
+    <div
+      className="yoast-help-button c0"
+    >
+      <button
+        aria-controls="yoast-help-7-text"
+        aria-expanded={false}
+        aria-label="Help on the Snippet Preview"
+        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
+          fill="#646464"
+          focusable="false"
+          role="img"
+          size="16px"
+          viewBox="0 0 1792 1792"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+          />
+        </svg>
+      </button>
+      <div
+        aria-hidden={true}
+        className="yoast-help-button__helpDiv c10"
+        id="yoast-help-7-text"
+        style={
+          Object {
+            "maxHeight": "0",
+          }
+        }
+      >
+        <p
+          className="c11"
+        >
+          This is a rendering of what this post might look like in Google's search results. 
+          <a
+            href="https://yoa.st/snippet-preview"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
+    className="c13 c14"
+    width={640}
+  >
+    <div
+      className="c15"
+      width={600}
+    >
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
+        <div
+          className="c16"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          <div
+            className="c17 c18"
+          >
+            <span
+              className="c19"
+            >
+              Title
+            </span>
+          </div>
+        </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Url preview:
+        </span>
+        <div
+          className="c20 c21"
+        >
+          <div
+            className="c22"
+            onClick={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+          >
+            https://example.org/
+          </div>
+        </div>
+        <div
+          className="c23"
+        />
+      </div>
+      <div
+        className=""
+      >
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Meta description preview:
+        </span>
+        <div
+          className="c24"
+          color="#545454"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+        >
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview shows the date if a date is passed 1`] = `
+.c14 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c15 {
+  width: 600px;
+}
+
+.c11 {
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
+}
+
+.c7 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c2 {
+  font-size: 0.8rem;
+}
+
+.c3:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4:hover {
+  color: #000;
+}
+
+.c5::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c5:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c0 {
+  max-width: 600px;
+  font-weight: normal;
+  margin: 0 20px 10px 25px;
+}
+
+.c10 {
+  max-width: 400px;
+  display: block;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  max-height: 0;
+}
+
+.c1 {
+  min-width: 14px;
+  min-height: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  -webkit-clip: rect(1px 1px 1px 1px);
+  clip: rect(1px 1px 1px 1px);
+  box-shadow: none;
+  position: relative;
+  display: block;
+  margin: -44px -10px 10px 0;
+  background-color: transparent;
+  float: right;
+  padding: 3px 0 0 6px;
+}
+
+.c1:hover {
+  color: #0066cd;
+}
+
+.c1:focus {
+  border: 1px solid #0066cd;
+  outline: none;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:focus svg {
+  fill: #0066cd;
+  color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
+}
+
+.c8 {
+  vertical-align: center;
+  position: relative;
+}
+
+.c8:hover {
+  fill: #0066cd;
+}
+
+.c12 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+.c13 {
   background-color: white;
   font-family: arial,sans-serif;
   box-sizing: border-box;
@@ -4217,24 +5746,16 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   vertical-align: top;
 }
 
+.c24 {
+  color: #808080;
+}
+
 .c9 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
-}
-
-.c15::before {
-  display: block;
-  position: absolute;
-  top: -3px;
-  left: -22px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
-  background-size: 25px;
-  content: "";
 }
 
 @media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
@@ -4251,7 +5772,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
       className="yoast-help-button c0"
     >
       <button
-        aria-controls="yoast-help-5-text"
+        aria-controls="yoast-help-3-text"
         aria-expanded={false}
         aria-label="Help on the Snippet Preview"
         className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -4276,7 +5797,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
       <div
         aria-hidden={true}
         className="yoast-help-button__helpDiv c10"
-        id="yoast-help-5-text"
+        id="yoast-help-3-text"
         style={
           Object {
             "maxHeight": "0",
@@ -4293,17 +5814,22 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
             target="_blank"
           >
             Learn more about the Snippet Preview.
+            <span
+              className="c12"
+            >
+              (Opens in a new browser tab)
+            </span>
           </a>
         </p>
       </div>
     </div>
   </div>
   <div
-    className="c12 c13"
+    className="c13 c14"
     width={640}
   >
     <div
-      className="c14"
+      className="c15"
       width={600}
     >
       <div
@@ -4324,7 +5850,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c15 c16"
+          className="c16"
           onClick={[Function]}
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -4393,1212 +5919,8 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
         >
-          Description
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-`;
-
-exports[`SnippetPreview renders a caret on hover 2`] = `
-.c13 {
-  overflow: auto;
-  width: 640px;
-  padding: 0 20px;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.c14 {
-  width: 600px;
-}
-
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
-  background-color: white;
-  font-family: arial,sans-serif;
-  box-sizing: border-box;
-}
-
-.c15 {
-  cursor: pointer;
-  position: relative;
-}
-
-.c17 {
-  color: #1e0fbe;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
-  font-weight: normal;
-  margin: 0;
-  display: inline-block;
-  overflow: hidden;
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-}
-
-.c16 {
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-}
-
-.c18 {
-  white-space: nowrap;
-}
-
-.c19 {
-  display: inline-block;
-  color: #006621;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-}
-
-.c20 {
-  display: inline-block;
-  color: #006621;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-.c23 {
-  color: #545454;
-  cursor: pointer;
-  position: relative;
-  max-width: 600px;
-  font-size: 13px;
-}
-
-.c21 {
-  display: inline-block;
-  margin-top: 6px;
-  margin-left: 6px;
-  border-top: 5px solid #006621;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
-  vertical-align: top;
-}
-
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c22::before {
-  display: block;
-  position: absolute;
-  top: -3px;
-  left: -22px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
-  background-size: 25px;
-  content: "";
-}
-
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
-<section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-6-text"
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        id="yoast-help-6-text"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div
-    className="c12 c13"
-    width={640}
-  >
-    <div
-      className="c14"
-      width={600}
-    >
-      <div
-        className=""
-      >
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          SEO title preview:
-        </span>
-        <div
-          className="c15"
-          onClick={[Function]}
-          onMouseLeave={[Function]}
-          onMouseOver={[Function]}
-        >
-          <div
-            className="c16 c17"
-          >
-            <span
-              className="c18"
-            >
-              Title
-            </span>
-          </div>
-        </div>
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Url preview:
-        </span>
-        <div
-          className="c19"
-        >
-          <div
-            className="c20"
-            onClick={[Function]}
-            onMouseLeave={[Function]}
-            onMouseOver={[Function]}
-          >
-            https://example.org/
-          </div>
-        </div>
-        <div
-          className="c21"
-        />
-      </div>
-      <div
-        className=""
-      >
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Meta description preview:
-        </span>
-        <div
-          className="c22 c23"
-          color="#545454"
-          onClick={[Function]}
-          onMouseLeave={[Function]}
-          onMouseOver={[Function]}
-        >
-          Description
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-`;
-
-exports[`SnippetPreview renders a caret on hover 3`] = `
-.c13 {
-  overflow: auto;
-  width: 640px;
-  padding: 0 20px;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.c14 {
-  width: 600px;
-}
-
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
-  background-color: white;
-  font-family: arial,sans-serif;
-  box-sizing: border-box;
-}
-
-.c15 {
-  cursor: pointer;
-  position: relative;
-}
-
-.c17 {
-  color: #1e0fbe;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
-  font-weight: normal;
-  margin: 0;
-  display: inline-block;
-  overflow: hidden;
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-}
-
-.c16 {
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-}
-
-.c18 {
-  white-space: nowrap;
-}
-
-.c20 {
-  display: inline-block;
-  color: #006621;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-}
-
-.c21 {
-  display: inline-block;
-  color: #006621;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-.c23 {
-  color: #545454;
-  cursor: pointer;
-  position: relative;
-  max-width: 600px;
-  font-size: 13px;
-}
-
-.c22 {
-  display: inline-block;
-  margin-top: 6px;
-  margin-left: 6px;
-  border-top: 5px solid #006621;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
-  vertical-align: top;
-}
-
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c19::before {
-  display: block;
-  position: absolute;
-  top: -3px;
-  left: -22px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
-  background-size: 25px;
-  content: "";
-}
-
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
-<section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-7-text"
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        id="yoast-help-7-text"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div
-    className="c12 c13"
-    width={640}
-  >
-    <div
-      className="c14"
-      width={600}
-    >
-      <div
-        className=""
-      >
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          SEO title preview:
-        </span>
-        <div
-          className="c15"
-          onClick={[Function]}
-          onMouseLeave={[Function]}
-          onMouseOver={[Function]}
-        >
-          <div
-            className="c16 c17"
-          >
-            <span
-              className="c18"
-            >
-              Title
-            </span>
-          </div>
-        </div>
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Url preview:
-        </span>
-        <div
-          className="c19 c20"
-        >
-          <div
-            className="c21"
-            onClick={[Function]}
-            onMouseLeave={[Function]}
-            onMouseOver={[Function]}
-          >
-            https://example.org/
-          </div>
-        </div>
-        <div
-          className="c22"
-        />
-      </div>
-      <div
-        className=""
-      >
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Meta description preview:
-        </span>
-        <div
-          className="c23"
-          color="#545454"
-          onClick={[Function]}
-          onMouseLeave={[Function]}
-          onMouseOver={[Function]}
-        >
-          Description
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-`;
-
-exports[`SnippetPreview shows the date if a date is passed 1`] = `
-.c13 {
-  overflow: auto;
-  width: 640px;
-  padding: 0 20px;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.c14 {
-  width: 600px;
-}
-
-.c11 {
-  font-family: Arial,Helvetica,sans-serif;
-  font-size: 13px;
-}
-
-.c7 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c3:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c4:hover {
-  color: #000;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-}
-
-.c6 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 10px 25px;
-}
-
-.c10 {
-  max-width: 400px;
-  display: block;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-  max-height: 0;
-}
-
-.c1 {
-  min-width: 14px;
-  min-height: 14px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
-  box-shadow: none;
-  position: relative;
-  display: block;
-  margin: -44px -10px 10px 0;
-  background-color: transparent;
-  float: right;
-  padding: 3px 0 0 6px;
-}
-
-.c1:hover {
-  color: #0066cd;
-}
-
-.c1:focus {
-  border: 1px solid #0066cd;
-  outline: none;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:focus svg {
-  fill: #0066cd;
-  color: #0066cd;
-}
-
-.c1:active {
-  box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
-}
-
-.c8:hover {
-  fill: #0066cd;
-}
-
-.c12 {
-  background-color: white;
-  font-family: arial,sans-serif;
-  box-sizing: border-box;
-}
-
-.c15 {
-  cursor: pointer;
-  position: relative;
-}
-
-.c17 {
-  color: #1e0fbe;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
-  font-weight: normal;
-  margin: 0;
-  display: inline-block;
-  overflow: hidden;
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-}
-
-.c16 {
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-}
-
-.c18 {
-  white-space: nowrap;
-}
-
-.c19 {
-  display: inline-block;
-  color: #006621;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-}
-
-.c20 {
-  display: inline-block;
-  color: #006621;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-.c22 {
-  color: #545454;
-  cursor: pointer;
-  position: relative;
-  max-width: 600px;
-  font-size: 13px;
-}
-
-.c21 {
-  display: inline-block;
-  margin-top: 6px;
-  margin-left: 6px;
-  border-top: 5px solid #006621;
-  border-right: 4px solid transparent;
-  border-left: 4px solid transparent;
-  vertical-align: top;
-}
-
-.c23 {
-  color: #808080;
-}
-
-.c9 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
-<section>
-  <div>
-    <div
-      className="yoast-help-button c0"
-    >
-      <button
-        aria-controls="yoast-help-3-text"
-        aria-expanded={false}
-        aria-label="Help on the Snippet Preview"
-        className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
-        onClick={[Function]}
-        type="button"
-      >
-        <svg
-          aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
-          fill="#646464"
-          focusable="false"
-          role="img"
-          size="16px"
-          viewBox="0 0 1792 1792"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-          />
-        </svg>
-      </button>
-      <div
-        aria-hidden={true}
-        className="yoast-help-button__helpDiv c10"
-        id="yoast-help-3-text"
-        style={
-          Object {
-            "maxHeight": "0",
-          }
-        }
-      >
-        <p
-          className="c11"
-        >
-          This is a rendering of what this post might look like in Google's search results. 
-          <a
-            href="https://yoa.st/snippet-preview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more about the Snippet Preview.
-          </a>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div
-    className="c12 c13"
-    width={640}
-  >
-    <div
-      className="c14"
-      width={600}
-    >
-      <div
-        className=""
-      >
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          SEO title preview:
-        </span>
-        <div
-          className="c15"
-          onClick={[Function]}
-          onMouseLeave={[Function]}
-          onMouseOver={[Function]}
-        >
-          <div
-            className="c16 c17"
-          >
-            <span
-              className="c18"
-            >
-              Title
-            </span>
-          </div>
-        </div>
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Url preview:
-        </span>
-        <div
-          className="c19"
-        >
-          <div
-            className="c20"
-            onClick={[Function]}
-            onMouseLeave={[Function]}
-            onMouseOver={[Function]}
-          >
-            https://example.org/
-          </div>
-        </div>
-        <div
-          className="c21"
-        />
-      </div>
-      <div
-        className=""
-      >
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Meta description preview:
-        </span>
-        <div
-          className="c22"
-          color="#545454"
-          onClick={[Function]}
-          onMouseLeave={[Function]}
-          onMouseOver={[Function]}
-        >
           <span
-            className="c23"
+            className="c24"
           >
             Today
              - 
