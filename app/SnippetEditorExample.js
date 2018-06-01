@@ -31,6 +31,12 @@ const replacementVariables = [
 		value: " - ",
 		description: "A separator that clarifies your search result snippet",
 	},
+	{
+		name: "term404",
+		label: "Error 404 slug",
+		value: "Error 404 slug",
+		description: "The slug which caused the error 404",
+	},
 ];
 
 export default class SnippetEditorExample extends Component {
