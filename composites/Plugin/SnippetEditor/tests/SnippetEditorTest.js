@@ -250,6 +250,20 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
+	it( "detects mobile view width", () => {
+		const editor = mountWithArgs( {} );
+
+		editor.instance().open();
+		editor.update();
+
+		const fields = editor.find( "SnippetEditorFields" ).instance();
+
+		// 356 is the default mobileWidth value.
+		expect( fields.props.mobileWidth ).toBe( 356 );
+		// Because the client innerWidth is 0 it is expected that hasMobileWidth is true.
+		expect( fields.state.hasMobileWidth ).toBe( true );
+	} );
+
 	describe( "colored progress bars", () => {
 		it( "can handle scores of 3 and 9", () => {
 			const editor = mountWithArgs( {

@@ -2,6 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import debounce from "lodash/debounce";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
@@ -126,7 +127,13 @@ const InsertVariableButton = Button.extend`
 	fill: ${ colors.$color_grey_dark };
 	padding-left: 8px;
 	float: right;
-	margin-top: -33px;
+	margin-top: -35px; // +2 for spacing
+	
+	${ props => props.hasMobileWidth && `
+		float: none;
+		margin-top: 0;
+		margin-bottom: 2px;
+	` }
 
 	& svg {
 		margin-right: 7px;
@@ -173,8 +180,25 @@ class SnippetEditorFields extends React.Component {
 
 		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
+		this.state = {
+			hasMobileWidth: false,
+		};
+
 		this.setRef = this.setRef.bind( this );
+		this.setEditorRef = this.setEditorRef.bind( this );
 		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
+		this.debouncedUpdateMobileWidth = debounce( this.updateMobileWidth.bind( this ), 500 );
+	}
+
+	/**
+	 * Sets the ref for the editor fields.
+	 *
+	 * @param {Object} editor The editor fields React reference.
+	 *
+	 * @returns {void}
+	 */
+	setEditorRef( editor ) {
+		this.editor = editor;
 	}
 
 	/**
@@ -205,6 +229,27 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
+	 * Ensure hasMobileWidth is accurate.
+	 *
+	 * By running it once and binding it to the window resize event.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		this.updateMobileWidth();
+		window.addEventListener( "resize", this.debouncedUpdateMobileWidth );
+	}
+
+	/**
+	 * Removes the event listeners.
+	 *
+	 * @returns {void}
+	 */
+	componentWillUnmount() {
+		window.removeEventListener( "resize", this.debouncedUpdateMobileWidth );
+	}
+
+	/**
 	 * Focuses the currently active field if it wasn't previously active.
 	 *
 	 * @returns {void}
@@ -218,7 +263,7 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Insert a % into a ReplacementVariableEditor to trigger the autocomplete.
+	 * Inserts a % into a ReplacementVariableEditor to trigger the autocomplete.
 	 *
 	 * @param {string} field The field name to get the ref of the ReplacementVariableEditor.
 	 *
@@ -228,6 +273,20 @@ class SnippetEditorFields extends React.Component {
 		const element = this.elements[ field ];
 
 		element.triggerReplacementVariableSuggestions();
+	}
+
+	/**
+	 * Updates hasMobileWidth when changed.
+	 *
+	 * hasMobileWidth is true if the editor's client width is smaller than the mobile width prop.
+	 *
+	 * @returns {void}
+	 */
+	updateMobileWidth() {
+		const hasMobileWidth = this.editor.clientWidth < this.props.mobileWidth;
+		if ( this.state.hasMobileWidth !== hasMobileWidth ) {
+			this.setState( { hasMobileWidth } );
+		}
 	}
 
 	/**
@@ -251,27 +310,36 @@ class SnippetEditorFields extends React.Component {
 				description,
 			},
 		} = this.props;
+		const { hasMobileWidth } = this.state;
+
 
 		const titleLabelId = `${ this.uniqueId }-title`;
 		const slugLabelId = `${ this.uniqueId }-slug`;
 		const descriptionLabelId = `${ this.uniqueId }-description`;
 
 		return (
-			<StyledEditor>
+			<StyledEditor
+				innerRef={ this.setEditorRef }
+			>
 				<FormSection>
 					<SimulatedLabel
 						id={ titleLabelId }
-						onClick={ () => onFocus( "title" ) } >
+						onClick={ () => onFocus( "title" ) }
+					>
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
-					<InsertVariableButton onClick={ () => this.triggerReplacementVariableSuggestions( "title" ) }>
+					<InsertVariableButton
+						onClick={ () => this.triggerReplacementVariableSuggestions( "title" ) }
+						hasMobileWidth={ hasMobileWidth }
+					>
 						<SvgIcon icon="plus-circle" />
 						{ __( "Insert snippet variable", "yoast-components" ) }
 					</InsertVariableButton>
 					<TitleInputContainer
 						onClick={ () => this.elements.title.focus() }
 						isActive={ activeField === "title" }
-						isHovered={ hoveredField === "title" }>
+						isHovered={ hoveredField === "title" }
+					>
 						<ReplacementVariableEditor
 							content={ title }
 							onChange={ content => onChange( "title", content ) }
@@ -291,13 +359,15 @@ class SnippetEditorFields extends React.Component {
 				<FormSection>
 					<SimulatedLabel
 						id={ slugLabelId }
-						onClick={ () => onFocus( "slug" ) } >
+						onClick={ () => onFocus( "slug" ) }
+					>
 						{ __( "Slug", "yoast-components" ) }
 					</SimulatedLabel>
 					<InputContainer
 						onClick={ () => this.elements.slug.focus() }
 						isActive={ activeField === "slug" }
-						isHovered={ hoveredField === "slug" }>
+						isHovered={ hoveredField === "slug" }
+					>
 						<SlugInput
 							value={ slug }
 							onChange={ event => onChange( "slug", event.target.value ) }
@@ -314,14 +384,18 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "description" ) } >
 						{ __( "Meta description", "yoast-components" ) }
 					</SimulatedLabel>
-					<InsertVariableButton onClick={ () => this.triggerReplacementVariableSuggestions( "description" ) }>
+					<InsertVariableButton
+						onClick={ () => this.triggerReplacementVariableSuggestions( "description" ) }
+						hasMobileWidth={ hasMobileWidth }
+					>
 						<SvgIcon icon="plus-circle" />
 						{ __( "Insert snippet variable", "yoast-components" ) }
 					</InsertVariableButton>
 					<DescriptionInputContainer
 						onClick={ () => this.elements.description.focus() }
 						isActive={ activeField === "description" }
-						isHovered={ hoveredField === "description" }>
+						isHovered={ hoveredField === "description" }
+					>
 						<ReplacementVariableEditor
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
@@ -376,6 +450,7 @@ SnippetEditorFields.propTypes = {
 	hoveredField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
+	mobileWidth: PropTypes.number,
 };
 
 SnippetEditorFields.defaultProps = {
@@ -392,6 +467,7 @@ SnippetEditorFields.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
+	mobileWidth: 356,
 };
 
 export default SnippetEditorFields;
