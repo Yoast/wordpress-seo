@@ -163,7 +163,7 @@ class SnippetEditor extends React.Component {
 	componentWillReceiveProps( nextProps ) {
 		// Only set a new state when the data is dirty.
 		if ( this.shallowCompareData( this.props.data, nextProps.data ) ) {
-			const data = this.mapDataToPreview( nextProps.data, nextProps.generatedDescription );
+			const data = this.mapDataToPreview( nextProps.data, "" );
 			this.setState(
 				{
 					titleLengthProgress: getTitleProgress( data.title ),
