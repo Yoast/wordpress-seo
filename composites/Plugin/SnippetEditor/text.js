@@ -84,13 +84,13 @@ export const insertText = ( editorState, text ) => {
 };
 
 /**
- * Removes the selection in the editor state.
+ * Removes the selected text in the editor state.
  *
  * @param {EditorState} editorState The Draft.js editor state.
  *
  * @returns {EditorState} The new editor state.
  */
-export const removeSelection = ( editorState ) => {
+export const removeSelectedText = ( editorState ) => {
 	const content = editorState.getCurrentContent();
 	const selection = editorState.getSelection();
 

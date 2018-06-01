@@ -18,7 +18,7 @@ import {
 	getCaretOffset,
 	getAnchorBlock,
 	insertText,
-	removeSelection,
+	removeSelectedText,
 	moveCaret,
 } from "../text";
 
@@ -247,8 +247,8 @@ class ReplacementVariableEditor extends React.Component {
 	 * @returns {void}
 	 */
 	triggerReplacementVariableSuggestions() {
-		// First remove any selection.
-		let editorState = removeSelection( this.state.editorState );
+		// First remove any selected text.
+		let editorState = removeSelectedText( this.state.editorState );
 
 		// Get the current block text.
 		const selection = editorState.getSelection();

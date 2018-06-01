@@ -174,7 +174,7 @@ class SnippetEditorFields extends React.Component {
 		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
 		this.setRef = this.setRef.bind( this );
-		this.insertReplacementVariable = this.insertReplacementVariable.bind( this );
+		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
 	}
 
 	/**
@@ -224,13 +224,8 @@ class SnippetEditorFields extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	insertReplacementVariable( field ) {
+	triggerReplacementVariableSuggestions( field ) {
 		const element = this.elements[ field ];
-		if ( ! element ) {
-			return;
-		}
-
-		window.editor = element.editor;
 
 		element.triggerReplacementVariableSuggestions();
 	}
@@ -269,7 +264,7 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "title" ) } >
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
-					<InsertVariableButton onClick={ () => this.insertReplacementVariable( "title" ) }>
+					<InsertVariableButton onClick={ () => this.triggerReplacementVariableSuggestions( "title" ) }>
 						<SvgIcon icon="plus-circle" />
 						{ __( "Insert snippet variable", "yoast-components" ) }
 					</InsertVariableButton>
@@ -319,7 +314,7 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "description" ) } >
 						{ __( "Meta description", "yoast-components" ) }
 					</SimulatedLabel>
-					<InsertVariableButton onClick={ () => this.insertReplacementVariable( "description" ) }>
+					<InsertVariableButton onClick={ () => this.triggerReplacementVariableSuggestions( "description" ) }>
 						<SvgIcon icon="plus-circle" />
 						{ __( "Insert snippet variable", "yoast-components" ) }
 					</InsertVariableButton>

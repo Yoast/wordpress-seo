@@ -7,7 +7,7 @@ import {
 	getCaretOffset,
 	getAnchorBlock,
 	insertText,
-	removeSelection,
+	removeSelectedText,
 	moveCaret,
 } from "../text";
 
@@ -114,7 +114,7 @@ describe( "SnippetEditor text utilities", () => {
 
 	describe( "replaceText", () => {} );
 
-	describe( "removeSelection", () => {} );
+	describe( "removeSelectedText", () => {} );
 
 	describe( "moveCaret", () => {} );
 } );
