@@ -151,7 +151,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   className="yoast-help-button c0"
 >
   <button
-    aria-controls="yoast-help-button__helpDiv"
+    aria-controls="yoast-help-1-text"
     aria-expanded={false}
     aria-label="yoast-help-text"
     className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -176,6 +176,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   <div
     aria-hidden={true}
     className="yoast-help-button__helpDiv c10"
+    id="yoast-help-1-text"
     style={
       Object {
         "maxHeight": "0",

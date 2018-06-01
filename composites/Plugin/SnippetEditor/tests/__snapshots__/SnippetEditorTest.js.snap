@@ -338,7 +338,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
         className="yoast-help-button c0"
       >
         <button
-          aria-controls="yoast-help-button__helpDiv"
+          aria-controls="yoast-help-6-text"
           aria-expanded={false}
           aria-label="yoast-help-text"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -363,6 +363,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
         <div
           aria-hidden={true}
           className="yoast-help-button__helpDiv c10"
+          id="yoast-help-6-text"
           style={
             Object {
               "maxHeight": "0",
@@ -1215,21 +1216,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 className="yoast-help-button c0"
               >
                 <HelpTextWrapper__HelpTextButton
-                  aria-controls="yoast-help-button__helpDiv"
+                  aria-controls="yoast-help-16-text"
                   aria-expanded={false}
                   aria-label="yoast-help-text"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
-                    aria-controls="yoast-help-button__helpDiv"
+                    aria-controls="yoast-help-16-text"
                     aria-expanded={false}
                     aria-label="yoast-help-text"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
-                      aria-controls="yoast-help-button__helpDiv"
+                      aria-controls="yoast-help-16-text"
                       aria-expanded={false}
                       aria-label="yoast-help-text"
                       backgroundColor="#f7f7f7"
@@ -1241,7 +1242,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       type="button"
                     >
                       <Button
-                        aria-controls="yoast-help-button__helpDiv"
+                        aria-controls="yoast-help-16-text"
                         aria-expanded={false}
                         aria-label="yoast-help-text"
                         backgroundColor="#f7f7f7"
@@ -1253,7 +1254,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         type="button"
                       >
                         <Button
-                          aria-controls="yoast-help-button__helpDiv"
+                          aria-controls="yoast-help-16-text"
                           aria-expanded={false}
                           aria-label="yoast-help-text"
                           backgroundColor="#f7f7f7"
@@ -1265,7 +1266,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           type="button"
                         >
                           <Button
-                            aria-controls="yoast-help-button__helpDiv"
+                            aria-controls="yoast-help-16-text"
                             aria-expanded={false}
                             aria-label="yoast-help-text"
                             backgroundColor="#f7f7f7"
@@ -1277,7 +1278,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             type="button"
                           >
                             <Button__BaseButton
-                              aria-controls="yoast-help-button__helpDiv"
+                              aria-controls="yoast-help-16-text"
                               aria-expanded={false}
                               aria-label="yoast-help-text"
                               backgroundColor="#f7f7f7"
@@ -1289,7 +1290,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               type="button"
                             >
                               <button
-                                aria-controls="yoast-help-button__helpDiv"
+                                aria-controls="yoast-help-16-text"
                                 aria-expanded={false}
                                 aria-label="yoast-help-text"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -1345,6 +1346,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 <HelpTextWrapper__HelpTextDiv
                   aria-hidden={true}
                   className="yoast-help-button__helpDiv"
+                  id="yoast-help-16-text"
                   style={
                     Object {
                       "maxHeight": "0",
@@ -1354,6 +1356,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   <div
                     aria-hidden={true}
                     className="yoast-help-button__helpDiv c10"
+                    id="yoast-help-16-text"
                     style={
                       Object {
                         "maxHeight": "0",
@@ -2033,12 +2036,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-title"
+                id="snippet-editor-field-17-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-title"
+                  id="snippet-editor-field-17-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -2054,7 +2057,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-title"
+                    ariaLabelledBy="snippet-editor-field-17-title"
                     content="Test title"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -2086,12 +2089,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-slug"
+                id="snippet-editor-field-17-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-slug"
+                  id="snippet-editor-field-17-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -2107,14 +2110,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-5-slug"
+                    aria-labelledby="snippet-editor-field-17-slug"
                     innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-5-slug"
+                      aria-labelledby="snippet-editor-field-17-slug"
                       className="c34"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -2130,12 +2133,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-description"
+                id="snippet-editor-field-17-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-description"
+                  id="snippet-editor-field-17-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -2151,7 +2154,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-description"
+                    ariaLabelledBy="snippet-editor-field-17-description"
                     content="Test description, %%replacement_variable%%"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -2803,21 +2806,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 className="yoast-help-button c0"
               >
                 <HelpTextWrapper__HelpTextButton
-                  aria-controls="yoast-help-button__helpDiv"
+                  aria-controls="yoast-help-16-text"
                   aria-expanded={false}
                   aria-label="yoast-help-text"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
-                    aria-controls="yoast-help-button__helpDiv"
+                    aria-controls="yoast-help-16-text"
                     aria-expanded={false}
                     aria-label="yoast-help-text"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
-                      aria-controls="yoast-help-button__helpDiv"
+                      aria-controls="yoast-help-16-text"
                       aria-expanded={false}
                       aria-label="yoast-help-text"
                       backgroundColor="#f7f7f7"
@@ -2829,7 +2832,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       type="button"
                     >
                       <Button
-                        aria-controls="yoast-help-button__helpDiv"
+                        aria-controls="yoast-help-16-text"
                         aria-expanded={false}
                         aria-label="yoast-help-text"
                         backgroundColor="#f7f7f7"
@@ -2841,7 +2844,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         type="button"
                       >
                         <Button
-                          aria-controls="yoast-help-button__helpDiv"
+                          aria-controls="yoast-help-16-text"
                           aria-expanded={false}
                           aria-label="yoast-help-text"
                           backgroundColor="#f7f7f7"
@@ -2853,7 +2856,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           type="button"
                         >
                           <Button
-                            aria-controls="yoast-help-button__helpDiv"
+                            aria-controls="yoast-help-16-text"
                             aria-expanded={false}
                             aria-label="yoast-help-text"
                             backgroundColor="#f7f7f7"
@@ -2865,7 +2868,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             type="button"
                           >
                             <Button__BaseButton
-                              aria-controls="yoast-help-button__helpDiv"
+                              aria-controls="yoast-help-16-text"
                               aria-expanded={false}
                               aria-label="yoast-help-text"
                               backgroundColor="#f7f7f7"
@@ -2877,7 +2880,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               type="button"
                             >
                               <button
-                                aria-controls="yoast-help-button__helpDiv"
+                                aria-controls="yoast-help-16-text"
                                 aria-expanded={false}
                                 aria-label="yoast-help-text"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -2933,6 +2936,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 <HelpTextWrapper__HelpTextDiv
                   aria-hidden={true}
                   className="yoast-help-button__helpDiv"
+                  id="yoast-help-16-text"
                   style={
                     Object {
                       "maxHeight": "0",
@@ -2942,6 +2946,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   <div
                     aria-hidden={true}
                     className="yoast-help-button__helpDiv c10"
+                    id="yoast-help-16-text"
                     style={
                       Object {
                         "maxHeight": "0",
@@ -3621,12 +3626,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-title"
+                id="snippet-editor-field-17-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-title"
+                  id="snippet-editor-field-17-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -3642,7 +3647,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-title"
+                    ariaLabelledBy="snippet-editor-field-17-title"
                     content="Test title"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -3674,12 +3679,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-slug"
+                id="snippet-editor-field-17-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-slug"
+                  id="snippet-editor-field-17-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -3695,14 +3700,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-5-slug"
+                    aria-labelledby="snippet-editor-field-17-slug"
                     innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-5-slug"
+                      aria-labelledby="snippet-editor-field-17-slug"
                       className="c34"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -3718,12 +3723,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-description"
+                id="snippet-editor-field-17-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-description"
+                  id="snippet-editor-field-17-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -3739,7 +3744,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-description"
+                    ariaLabelledBy="snippet-editor-field-17-description"
                     content="Test description, %%replacement_variable%%"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -4391,21 +4396,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 className="yoast-help-button c0"
               >
                 <HelpTextWrapper__HelpTextButton
-                  aria-controls="yoast-help-button__helpDiv"
+                  aria-controls="yoast-help-16-text"
                   aria-expanded={false}
                   aria-label="yoast-help-text"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
-                    aria-controls="yoast-help-button__helpDiv"
+                    aria-controls="yoast-help-16-text"
                     aria-expanded={false}
                     aria-label="yoast-help-text"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
-                      aria-controls="yoast-help-button__helpDiv"
+                      aria-controls="yoast-help-16-text"
                       aria-expanded={false}
                       aria-label="yoast-help-text"
                       backgroundColor="#f7f7f7"
@@ -4417,7 +4422,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       type="button"
                     >
                       <Button
-                        aria-controls="yoast-help-button__helpDiv"
+                        aria-controls="yoast-help-16-text"
                         aria-expanded={false}
                         aria-label="yoast-help-text"
                         backgroundColor="#f7f7f7"
@@ -4429,7 +4434,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         type="button"
                       >
                         <Button
-                          aria-controls="yoast-help-button__helpDiv"
+                          aria-controls="yoast-help-16-text"
                           aria-expanded={false}
                           aria-label="yoast-help-text"
                           backgroundColor="#f7f7f7"
@@ -4441,7 +4446,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           type="button"
                         >
                           <Button
-                            aria-controls="yoast-help-button__helpDiv"
+                            aria-controls="yoast-help-16-text"
                             aria-expanded={false}
                             aria-label="yoast-help-text"
                             backgroundColor="#f7f7f7"
@@ -4453,7 +4458,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             type="button"
                           >
                             <Button__BaseButton
-                              aria-controls="yoast-help-button__helpDiv"
+                              aria-controls="yoast-help-16-text"
                               aria-expanded={false}
                               aria-label="yoast-help-text"
                               backgroundColor="#f7f7f7"
@@ -4465,7 +4470,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               type="button"
                             >
                               <button
-                                aria-controls="yoast-help-button__helpDiv"
+                                aria-controls="yoast-help-16-text"
                                 aria-expanded={false}
                                 aria-label="yoast-help-text"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -4521,6 +4526,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 <HelpTextWrapper__HelpTextDiv
                   aria-hidden={true}
                   className="yoast-help-button__helpDiv"
+                  id="yoast-help-16-text"
                   style={
                     Object {
                       "maxHeight": "0",
@@ -4530,6 +4536,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   <div
                     aria-hidden={true}
                     className="yoast-help-button__helpDiv c10"
+                    id="yoast-help-16-text"
                     style={
                       Object {
                         "maxHeight": "0",
@@ -5209,12 +5216,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-title"
+                id="snippet-editor-field-17-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-title"
+                  id="snippet-editor-field-17-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -5230,7 +5237,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-title"
+                    ariaLabelledBy="snippet-editor-field-17-title"
                     content="Test title"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -5262,12 +5269,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-slug"
+                id="snippet-editor-field-17-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-slug"
+                  id="snippet-editor-field-17-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -5283,14 +5290,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-5-slug"
+                    aria-labelledby="snippet-editor-field-17-slug"
                     innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-5-slug"
+                      aria-labelledby="snippet-editor-field-17-slug"
                       className="c34"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -5306,12 +5313,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-5-description"
+                id="snippet-editor-field-17-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-5-description"
+                  id="snippet-editor-field-17-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -5327,7 +5334,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-5-description"
+                    ariaLabelledBy="snippet-editor-field-17-description"
                     content="Test description, %%replacement_variable%%"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -5979,21 +5986,21 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 className="yoast-help-button c0"
               >
                 <HelpTextWrapper__HelpTextButton
-                  aria-controls="yoast-help-button__helpDiv"
+                  aria-controls="yoast-help-9-text"
                   aria-expanded={false}
                   aria-label="yoast-help-text"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
-                    aria-controls="yoast-help-button__helpDiv"
+                    aria-controls="yoast-help-9-text"
                     aria-expanded={false}
                     aria-label="yoast-help-text"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
-                      aria-controls="yoast-help-button__helpDiv"
+                      aria-controls="yoast-help-9-text"
                       aria-expanded={false}
                       aria-label="yoast-help-text"
                       backgroundColor="#f7f7f7"
@@ -6005,7 +6012,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       type="button"
                     >
                       <Button
-                        aria-controls="yoast-help-button__helpDiv"
+                        aria-controls="yoast-help-9-text"
                         aria-expanded={false}
                         aria-label="yoast-help-text"
                         backgroundColor="#f7f7f7"
@@ -6017,7 +6024,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         type="button"
                       >
                         <Button
-                          aria-controls="yoast-help-button__helpDiv"
+                          aria-controls="yoast-help-9-text"
                           aria-expanded={false}
                           aria-label="yoast-help-text"
                           backgroundColor="#f7f7f7"
@@ -6029,7 +6036,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           type="button"
                         >
                           <Button
-                            aria-controls="yoast-help-button__helpDiv"
+                            aria-controls="yoast-help-9-text"
                             aria-expanded={false}
                             aria-label="yoast-help-text"
                             backgroundColor="#f7f7f7"
@@ -6041,7 +6048,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             type="button"
                           >
                             <Button__BaseButton
-                              aria-controls="yoast-help-button__helpDiv"
+                              aria-controls="yoast-help-9-text"
                               aria-expanded={false}
                               aria-label="yoast-help-text"
                               backgroundColor="#f7f7f7"
@@ -6053,7 +6060,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               type="button"
                             >
                               <button
-                                aria-controls="yoast-help-button__helpDiv"
+                                aria-controls="yoast-help-9-text"
                                 aria-expanded={false}
                                 aria-label="yoast-help-text"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -6109,6 +6116,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 <HelpTextWrapper__HelpTextDiv
                   aria-hidden={true}
                   className="yoast-help-button__helpDiv"
+                  id="yoast-help-9-text"
                   style={
                     Object {
                       "maxHeight": "0",
@@ -6118,6 +6126,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <div
                     aria-hidden={true}
                     className="yoast-help-button__helpDiv c10"
+                    id="yoast-help-9-text"
                     style={
                       Object {
                         "maxHeight": "0",
@@ -6797,12 +6806,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-2-title"
+                id="snippet-editor-field-10-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-2-title"
+                  id="snippet-editor-field-10-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -6818,7 +6827,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-2-title"
+                    ariaLabelledBy="snippet-editor-field-10-title"
                     content="Test title"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -6850,12 +6859,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-2-slug"
+                id="snippet-editor-field-10-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-2-slug"
+                  id="snippet-editor-field-10-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -6871,14 +6880,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-2-slug"
+                    aria-labelledby="snippet-editor-field-10-slug"
                     innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-2-slug"
+                      aria-labelledby="snippet-editor-field-10-slug"
                       className="c34"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -6894,12 +6903,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-2-description"
+                id="snippet-editor-field-10-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-2-description"
+                  id="snippet-editor-field-10-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -6915,7 +6924,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-2-description"
+                    ariaLabelledBy="snippet-editor-field-10-description"
                     content="Test description, %%replacement_variable%%"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -7439,21 +7448,21 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 className="yoast-help-button c0"
               >
                 <HelpTextWrapper__HelpTextButton
-                  aria-controls="yoast-help-button__helpDiv"
+                  aria-controls="yoast-help-9-text"
                   aria-expanded={false}
                   aria-label="yoast-help-text"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
-                    aria-controls="yoast-help-button__helpDiv"
+                    aria-controls="yoast-help-9-text"
                     aria-expanded={false}
                     aria-label="yoast-help-text"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
-                      aria-controls="yoast-help-button__helpDiv"
+                      aria-controls="yoast-help-9-text"
                       aria-expanded={false}
                       aria-label="yoast-help-text"
                       backgroundColor="#f7f7f7"
@@ -7465,7 +7474,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       type="button"
                     >
                       <Button
-                        aria-controls="yoast-help-button__helpDiv"
+                        aria-controls="yoast-help-9-text"
                         aria-expanded={false}
                         aria-label="yoast-help-text"
                         backgroundColor="#f7f7f7"
@@ -7477,7 +7486,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                         type="button"
                       >
                         <Button
-                          aria-controls="yoast-help-button__helpDiv"
+                          aria-controls="yoast-help-9-text"
                           aria-expanded={false}
                           aria-label="yoast-help-text"
                           backgroundColor="#f7f7f7"
@@ -7489,7 +7498,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           type="button"
                         >
                           <Button
-                            aria-controls="yoast-help-button__helpDiv"
+                            aria-controls="yoast-help-9-text"
                             aria-expanded={false}
                             aria-label="yoast-help-text"
                             backgroundColor="#f7f7f7"
@@ -7501,7 +7510,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                             type="button"
                           >
                             <Button__BaseButton
-                              aria-controls="yoast-help-button__helpDiv"
+                              aria-controls="yoast-help-9-text"
                               aria-expanded={false}
                               aria-label="yoast-help-text"
                               backgroundColor="#f7f7f7"
@@ -7513,7 +7522,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                               type="button"
                             >
                               <button
-                                aria-controls="yoast-help-button__helpDiv"
+                                aria-controls="yoast-help-9-text"
                                 aria-expanded={false}
                                 aria-label="yoast-help-text"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -7569,6 +7578,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 <HelpTextWrapper__HelpTextDiv
                   aria-hidden={true}
                   className="yoast-help-button__helpDiv"
+                  id="yoast-help-9-text"
                   style={
                     Object {
                       "maxHeight": "0",
@@ -7578,6 +7588,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   <div
                     aria-hidden={true}
                     className="yoast-help-button__helpDiv c10"
+                    id="yoast-help-9-text"
                     style={
                       Object {
                         "maxHeight": "0",
@@ -8813,21 +8824,21 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 className="yoast-help-button c0"
               >
                 <HelpTextWrapper__HelpTextButton
-                  aria-controls="yoast-help-button__helpDiv"
+                  aria-controls="yoast-help-22-text"
                   aria-expanded={false}
                   aria-label="yoast-help-text"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
-                    aria-controls="yoast-help-button__helpDiv"
+                    aria-controls="yoast-help-22-text"
                     aria-expanded={false}
                     aria-label="yoast-help-text"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
-                      aria-controls="yoast-help-button__helpDiv"
+                      aria-controls="yoast-help-22-text"
                       aria-expanded={false}
                       aria-label="yoast-help-text"
                       backgroundColor="#f7f7f7"
@@ -8839,7 +8850,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       type="button"
                     >
                       <Button
-                        aria-controls="yoast-help-button__helpDiv"
+                        aria-controls="yoast-help-22-text"
                         aria-expanded={false}
                         aria-label="yoast-help-text"
                         backgroundColor="#f7f7f7"
@@ -8851,7 +8862,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         type="button"
                       >
                         <Button
-                          aria-controls="yoast-help-button__helpDiv"
+                          aria-controls="yoast-help-22-text"
                           aria-expanded={false}
                           aria-label="yoast-help-text"
                           backgroundColor="#f7f7f7"
@@ -8863,7 +8874,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           type="button"
                         >
                           <Button
-                            aria-controls="yoast-help-button__helpDiv"
+                            aria-controls="yoast-help-22-text"
                             aria-expanded={false}
                             aria-label="yoast-help-text"
                             backgroundColor="#f7f7f7"
@@ -8875,7 +8886,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             type="button"
                           >
                             <Button__BaseButton
-                              aria-controls="yoast-help-button__helpDiv"
+                              aria-controls="yoast-help-22-text"
                               aria-expanded={false}
                               aria-label="yoast-help-text"
                               backgroundColor="#f7f7f7"
@@ -8887,7 +8898,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               type="button"
                             >
                               <button
-                                aria-controls="yoast-help-button__helpDiv"
+                                aria-controls="yoast-help-22-text"
                                 aria-expanded={false}
                                 aria-label="yoast-help-text"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -8943,6 +8954,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 <HelpTextWrapper__HelpTextDiv
                   aria-hidden={true}
                   className="yoast-help-button__helpDiv"
+                  id="yoast-help-22-text"
                   style={
                     Object {
                       "maxHeight": "0",
@@ -8952,6 +8964,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   <div
                     aria-hidden={true}
                     className="yoast-help-button__helpDiv c10"
+                    id="yoast-help-22-text"
                     style={
                       Object {
                         "maxHeight": "0",
@@ -9631,12 +9644,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-8-title"
+                id="snippet-editor-field-23-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-8-title"
+                  id="snippet-editor-field-23-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -9652,7 +9665,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-8-title"
+                    ariaLabelledBy="snippet-editor-field-23-title"
                     content="Test title"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -9684,12 +9697,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-8-slug"
+                id="snippet-editor-field-23-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-8-slug"
+                  id="snippet-editor-field-23-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -9705,14 +9718,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-8-slug"
+                    aria-labelledby="snippet-editor-field-23-slug"
                     innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-8-slug"
+                      aria-labelledby="snippet-editor-field-23-slug"
                       className="c34"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -9728,12 +9741,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-8-description"
+                id="snippet-editor-field-23-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-8-description"
+                  id="snippet-editor-field-23-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -9749,7 +9762,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-8-description"
+                    ariaLabelledBy="snippet-editor-field-23-description"
                     content="Test description, %%replacement_variable%%"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -10433,21 +10446,21 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 className="yoast-help-button c0"
               >
                 <HelpTextWrapper__HelpTextButton
-                  aria-controls="yoast-help-button__helpDiv"
+                  aria-controls="yoast-help-20-text"
                   aria-expanded={false}
                   aria-label="yoast-help-text"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
-                    aria-controls="yoast-help-button__helpDiv"
+                    aria-controls="yoast-help-20-text"
                     aria-expanded={false}
                     aria-label="yoast-help-text"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
-                      aria-controls="yoast-help-button__helpDiv"
+                      aria-controls="yoast-help-20-text"
                       aria-expanded={false}
                       aria-label="yoast-help-text"
                       backgroundColor="#f7f7f7"
@@ -10459,7 +10472,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       type="button"
                     >
                       <Button
-                        aria-controls="yoast-help-button__helpDiv"
+                        aria-controls="yoast-help-20-text"
                         aria-expanded={false}
                         aria-label="yoast-help-text"
                         backgroundColor="#f7f7f7"
@@ -10471,7 +10484,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         type="button"
                       >
                         <Button
-                          aria-controls="yoast-help-button__helpDiv"
+                          aria-controls="yoast-help-20-text"
                           aria-expanded={false}
                           aria-label="yoast-help-text"
                           backgroundColor="#f7f7f7"
@@ -10483,7 +10496,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           type="button"
                         >
                           <Button
-                            aria-controls="yoast-help-button__helpDiv"
+                            aria-controls="yoast-help-20-text"
                             aria-expanded={false}
                             aria-label="yoast-help-text"
                             backgroundColor="#f7f7f7"
@@ -10495,7 +10508,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             type="button"
                           >
                             <Button__BaseButton
-                              aria-controls="yoast-help-button__helpDiv"
+                              aria-controls="yoast-help-20-text"
                               aria-expanded={false}
                               aria-label="yoast-help-text"
                               backgroundColor="#f7f7f7"
@@ -10507,7 +10520,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               type="button"
                             >
                               <button
-                                aria-controls="yoast-help-button__helpDiv"
+                                aria-controls="yoast-help-20-text"
                                 aria-expanded={false}
                                 aria-label="yoast-help-text"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -10563,6 +10576,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 <HelpTextWrapper__HelpTextDiv
                   aria-hidden={true}
                   className="yoast-help-button__helpDiv"
+                  id="yoast-help-20-text"
                   style={
                     Object {
                       "maxHeight": "0",
@@ -10572,6 +10586,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   <div
                     aria-hidden={true}
                     className="yoast-help-button__helpDiv c10"
+                    id="yoast-help-20-text"
                     style={
                       Object {
                         "maxHeight": "0",
@@ -11251,12 +11266,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-7-title"
+                id="snippet-editor-field-21-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-7-title"
+                  id="snippet-editor-field-21-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -11272,7 +11287,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-7-title"
+                    ariaLabelledBy="snippet-editor-field-21-title"
                     content="Test title"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -11304,12 +11319,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-7-slug"
+                id="snippet-editor-field-21-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-7-slug"
+                  id="snippet-editor-field-21-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -11325,14 +11340,14 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-7-slug"
+                    aria-labelledby="snippet-editor-field-21-slug"
                     innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-7-slug"
+                      aria-labelledby="snippet-editor-field-21-slug"
                       className="c34"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -11348,12 +11363,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-7-description"
+                id="snippet-editor-field-21-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-7-description"
+                  id="snippet-editor-field-21-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -11369,7 +11384,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-7-description"
+                    ariaLabelledBy="snippet-editor-field-21-description"
                     content="Test description, %%replacement_variable%%"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -11875,7 +11890,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
         className="yoast-help-button c0"
       >
         <button
-          aria-controls="yoast-help-button__helpDiv"
+          aria-controls="yoast-help-3-text"
           aria-expanded={false}
           aria-label="yoast-help-text"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -11900,6 +11915,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
         <div
           aria-hidden={true}
           className="yoast-help-button__helpDiv c10"
+          id="yoast-help-3-text"
           style={
             Object {
               "maxHeight": "0",
@@ -12460,7 +12476,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
         className="yoast-help-button c0"
       >
         <button
-          aria-controls="yoast-help-button__helpDiv"
+          aria-controls="yoast-help-2-text"
           aria-expanded={false}
           aria-label="yoast-help-text"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -12485,6 +12501,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
         <div
           aria-hidden={true}
           className="yoast-help-button__helpDiv c10"
+          id="yoast-help-2-text"
           style={
             Object {
               "maxHeight": "0",
@@ -13276,21 +13293,21 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 className="yoast-help-button c0"
               >
                 <HelpTextWrapper__HelpTextButton
-                  aria-controls="yoast-help-button__helpDiv"
+                  aria-controls="yoast-help-13-text"
                   aria-expanded={false}
                   aria-label="yoast-help-text"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
-                    aria-controls="yoast-help-button__helpDiv"
+                    aria-controls="yoast-help-13-text"
                     aria-expanded={false}
                     aria-label="yoast-help-text"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
-                      aria-controls="yoast-help-button__helpDiv"
+                      aria-controls="yoast-help-13-text"
                       aria-expanded={false}
                       aria-label="yoast-help-text"
                       backgroundColor="#f7f7f7"
@@ -13302,7 +13319,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       type="button"
                     >
                       <Button
-                        aria-controls="yoast-help-button__helpDiv"
+                        aria-controls="yoast-help-13-text"
                         aria-expanded={false}
                         aria-label="yoast-help-text"
                         backgroundColor="#f7f7f7"
@@ -13314,7 +13331,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         type="button"
                       >
                         <Button
-                          aria-controls="yoast-help-button__helpDiv"
+                          aria-controls="yoast-help-13-text"
                           aria-expanded={false}
                           aria-label="yoast-help-text"
                           backgroundColor="#f7f7f7"
@@ -13326,7 +13343,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           type="button"
                         >
                           <Button
-                            aria-controls="yoast-help-button__helpDiv"
+                            aria-controls="yoast-help-13-text"
                             aria-expanded={false}
                             aria-label="yoast-help-text"
                             backgroundColor="#f7f7f7"
@@ -13338,7 +13355,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             type="button"
                           >
                             <Button__BaseButton
-                              aria-controls="yoast-help-button__helpDiv"
+                              aria-controls="yoast-help-13-text"
                               aria-expanded={false}
                               aria-label="yoast-help-text"
                               backgroundColor="#f7f7f7"
@@ -13350,7 +13367,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               type="button"
                             >
                               <button
-                                aria-controls="yoast-help-button__helpDiv"
+                                aria-controls="yoast-help-13-text"
                                 aria-expanded={false}
                                 aria-label="yoast-help-text"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -13406,6 +13423,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 <HelpTextWrapper__HelpTextDiv
                   aria-hidden={true}
                   className="yoast-help-button__helpDiv"
+                  id="yoast-help-13-text"
                   style={
                     Object {
                       "maxHeight": "0",
@@ -13415,6 +13433,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <div
                     aria-hidden={true}
                     className="yoast-help-button__helpDiv c10"
+                    id="yoast-help-13-text"
                     style={
                       Object {
                         "maxHeight": "0",
@@ -14102,12 +14121,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               className="c31"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-4-title"
+                id="snippet-editor-field-14-title"
                 onClick={[Function]}
               >
                 <div
                   className="c32"
-                  id="snippet-editor-field-4-title"
+                  id="snippet-editor-field-14-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -14123,7 +14142,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-4-title"
+                    ariaLabelledBy="snippet-editor-field-14-title"
                     content="Test title"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -14155,12 +14174,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               className="c31"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-4-slug"
+                id="snippet-editor-field-14-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c32"
-                  id="snippet-editor-field-4-slug"
+                  id="snippet-editor-field-14-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -14176,14 +14195,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-4-slug"
+                    aria-labelledby="snippet-editor-field-14-slug"
                     innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-4-slug"
+                      aria-labelledby="snippet-editor-field-14-slug"
                       className="c35"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -14199,12 +14218,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               className="c31"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-4-description"
+                id="snippet-editor-field-14-description"
                 onClick={[Function]}
               >
                 <div
                   className="c32"
-                  id="snippet-editor-field-4-description"
+                  id="snippet-editor-field-14-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -14220,7 +14239,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-4-description"
+                    ariaLabelledBy="snippet-editor-field-14-description"
                     content="Test description, %%replacement_variable%%"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -14884,21 +14903,21 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 className="yoast-help-button c0"
               >
                 <HelpTextWrapper__HelpTextButton
-                  aria-controls="yoast-help-button__helpDiv"
+                  aria-controls="yoast-help-11-text"
                   aria-expanded={false}
                   aria-label="yoast-help-text"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
-                    aria-controls="yoast-help-button__helpDiv"
+                    aria-controls="yoast-help-11-text"
                     aria-expanded={false}
                     aria-label="yoast-help-text"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
-                      aria-controls="yoast-help-button__helpDiv"
+                      aria-controls="yoast-help-11-text"
                       aria-expanded={false}
                       aria-label="yoast-help-text"
                       backgroundColor="#f7f7f7"
@@ -14910,7 +14929,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                       type="button"
                     >
                       <Button
-                        aria-controls="yoast-help-button__helpDiv"
+                        aria-controls="yoast-help-11-text"
                         aria-expanded={false}
                         aria-label="yoast-help-text"
                         backgroundColor="#f7f7f7"
@@ -14922,7 +14941,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                         type="button"
                       >
                         <Button
-                          aria-controls="yoast-help-button__helpDiv"
+                          aria-controls="yoast-help-11-text"
                           aria-expanded={false}
                           aria-label="yoast-help-text"
                           backgroundColor="#f7f7f7"
@@ -14934,7 +14953,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                           type="button"
                         >
                           <Button
-                            aria-controls="yoast-help-button__helpDiv"
+                            aria-controls="yoast-help-11-text"
                             aria-expanded={false}
                             aria-label="yoast-help-text"
                             backgroundColor="#f7f7f7"
@@ -14946,7 +14965,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                             type="button"
                           >
                             <Button__BaseButton
-                              aria-controls="yoast-help-button__helpDiv"
+                              aria-controls="yoast-help-11-text"
                               aria-expanded={false}
                               aria-label="yoast-help-text"
                               backgroundColor="#f7f7f7"
@@ -14958,7 +14977,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                               type="button"
                             >
                               <button
-                                aria-controls="yoast-help-button__helpDiv"
+                                aria-controls="yoast-help-11-text"
                                 aria-expanded={false}
                                 aria-label="yoast-help-text"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -15014,6 +15033,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                 <HelpTextWrapper__HelpTextDiv
                   aria-hidden={true}
                   className="yoast-help-button__helpDiv"
+                  id="yoast-help-11-text"
                   style={
                     Object {
                       "maxHeight": "0",
@@ -15023,6 +15043,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   <div
                     aria-hidden={true}
                     className="yoast-help-button__helpDiv c10"
+                    id="yoast-help-11-text"
                     style={
                       Object {
                         "maxHeight": "0",
@@ -15710,12 +15731,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
               className="c31"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-3-title"
+                id="snippet-editor-field-12-title"
                 onClick={[Function]}
               >
                 <div
                   className="c32"
-                  id="snippet-editor-field-3-title"
+                  id="snippet-editor-field-12-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -15731,7 +15752,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-3-title"
+                    ariaLabelledBy="snippet-editor-field-12-title"
                     content="Test title"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -15763,12 +15784,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
               className="c31"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-3-slug"
+                id="snippet-editor-field-12-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c32"
-                  id="snippet-editor-field-3-slug"
+                  id="snippet-editor-field-12-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -15784,14 +15805,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-3-slug"
+                    aria-labelledby="snippet-editor-field-12-slug"
                     innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-3-slug"
+                      aria-labelledby="snippet-editor-field-12-slug"
                       className="c35"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -15807,12 +15828,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
               className="c31"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-3-description"
+                id="snippet-editor-field-12-description"
                 onClick={[Function]}
               >
                 <div
                   className="c32"
-                  id="snippet-editor-field-3-description"
+                  id="snippet-editor-field-12-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -15828,7 +15849,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-3-description"
+                    ariaLabelledBy="snippet-editor-field-12-description"
                     content="Test description, %%replacement_variable%%"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -16480,21 +16501,21 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 className="yoast-help-button c0"
               >
                 <HelpTextWrapper__HelpTextButton
-                  aria-controls="yoast-help-button__helpDiv"
+                  aria-controls="yoast-help-7-text"
                   aria-expanded={false}
                   aria-label="yoast-help-text"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
-                    aria-controls="yoast-help-button__helpDiv"
+                    aria-controls="yoast-help-7-text"
                     aria-expanded={false}
                     aria-label="yoast-help-text"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
-                      aria-controls="yoast-help-button__helpDiv"
+                      aria-controls="yoast-help-7-text"
                       aria-expanded={false}
                       aria-label="yoast-help-text"
                       backgroundColor="#f7f7f7"
@@ -16506,7 +16527,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       type="button"
                     >
                       <Button
-                        aria-controls="yoast-help-button__helpDiv"
+                        aria-controls="yoast-help-7-text"
                         aria-expanded={false}
                         aria-label="yoast-help-text"
                         backgroundColor="#f7f7f7"
@@ -16518,7 +16539,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         type="button"
                       >
                         <Button
-                          aria-controls="yoast-help-button__helpDiv"
+                          aria-controls="yoast-help-7-text"
                           aria-expanded={false}
                           aria-label="yoast-help-text"
                           backgroundColor="#f7f7f7"
@@ -16530,7 +16551,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           type="button"
                         >
                           <Button
-                            aria-controls="yoast-help-button__helpDiv"
+                            aria-controls="yoast-help-7-text"
                             aria-expanded={false}
                             aria-label="yoast-help-text"
                             backgroundColor="#f7f7f7"
@@ -16542,7 +16563,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             type="button"
                           >
                             <Button__BaseButton
-                              aria-controls="yoast-help-button__helpDiv"
+                              aria-controls="yoast-help-7-text"
                               aria-expanded={false}
                               aria-label="yoast-help-text"
                               backgroundColor="#f7f7f7"
@@ -16554,7 +16575,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               type="button"
                             >
                               <button
-                                aria-controls="yoast-help-button__helpDiv"
+                                aria-controls="yoast-help-7-text"
                                 aria-expanded={false}
                                 aria-label="yoast-help-text"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -16610,6 +16631,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 <HelpTextWrapper__HelpTextDiv
                   aria-hidden={true}
                   className="yoast-help-button__helpDiv"
+                  id="yoast-help-7-text"
                   style={
                     Object {
                       "maxHeight": "0",
@@ -16619,6 +16641,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <div
                     aria-hidden={true}
                     className="yoast-help-button__helpDiv c10"
+                    id="yoast-help-7-text"
                     style={
                       Object {
                         "maxHeight": "0",
@@ -17298,12 +17321,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-1-title"
+                id="snippet-editor-field-8-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-1-title"
+                  id="snippet-editor-field-8-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -17319,7 +17342,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-1-title"
+                    ariaLabelledBy="snippet-editor-field-8-title"
                     content="Test title"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -17351,12 +17374,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-1-slug"
+                id="snippet-editor-field-8-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-1-slug"
+                  id="snippet-editor-field-8-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -17372,14 +17395,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-1-slug"
+                    aria-labelledby="snippet-editor-field-8-slug"
                     innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-1-slug"
+                      aria-labelledby="snippet-editor-field-8-slug"
                       className="c34"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -17395,12 +17418,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-1-description"
+                id="snippet-editor-field-8-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-1-description"
+                  id="snippet-editor-field-8-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -17416,7 +17439,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-1-description"
+                    ariaLabelledBy="snippet-editor-field-8-description"
                     content="Test description, %%replacement_variable%%"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -18079,21 +18102,21 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 className="yoast-help-button c0"
               >
                 <HelpTextWrapper__HelpTextButton
-                  aria-controls="yoast-help-button__helpDiv"
+                  aria-controls="yoast-help-18-text"
                   aria-expanded={false}
                   aria-label="yoast-help-text"
                   className="yoast-help-button__yoast-help-button"
                   onClick={[Function]}
                 >
                   <Button
-                    aria-controls="yoast-help-button__helpDiv"
+                    aria-controls="yoast-help-18-text"
                     aria-expanded={false}
                     aria-label="yoast-help-text"
                     className="yoast-help-button__yoast-help-button c1"
                     onClick={[Function]}
                   >
                     <Button
-                      aria-controls="yoast-help-button__helpDiv"
+                      aria-controls="yoast-help-18-text"
                       aria-expanded={false}
                       aria-label="yoast-help-text"
                       backgroundColor="#f7f7f7"
@@ -18105,7 +18128,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       type="button"
                     >
                       <Button
-                        aria-controls="yoast-help-button__helpDiv"
+                        aria-controls="yoast-help-18-text"
                         aria-expanded={false}
                         aria-label="yoast-help-text"
                         backgroundColor="#f7f7f7"
@@ -18117,7 +18140,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         type="button"
                       >
                         <Button
-                          aria-controls="yoast-help-button__helpDiv"
+                          aria-controls="yoast-help-18-text"
                           aria-expanded={false}
                           aria-label="yoast-help-text"
                           backgroundColor="#f7f7f7"
@@ -18129,7 +18152,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           type="button"
                         >
                           <Button
-                            aria-controls="yoast-help-button__helpDiv"
+                            aria-controls="yoast-help-18-text"
                             aria-expanded={false}
                             aria-label="yoast-help-text"
                             backgroundColor="#f7f7f7"
@@ -18141,7 +18164,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             type="button"
                           >
                             <Button__BaseButton
-                              aria-controls="yoast-help-button__helpDiv"
+                              aria-controls="yoast-help-18-text"
                               aria-expanded={false}
                               aria-label="yoast-help-text"
                               backgroundColor="#f7f7f7"
@@ -18153,7 +18176,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               type="button"
                             >
                               <button
-                                aria-controls="yoast-help-button__helpDiv"
+                                aria-controls="yoast-help-18-text"
                                 aria-expanded={false}
                                 aria-label="yoast-help-text"
                                 className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -18209,6 +18232,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 <HelpTextWrapper__HelpTextDiv
                   aria-hidden={true}
                   className="yoast-help-button__helpDiv"
+                  id="yoast-help-18-text"
                   style={
                     Object {
                       "maxHeight": "0",
@@ -18218,6 +18242,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   <div
                     aria-hidden={true}
                     className="yoast-help-button__helpDiv c10"
+                    id="yoast-help-18-text"
                     style={
                       Object {
                         "maxHeight": "0",
@@ -18908,12 +18933,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-6-title"
+                id="snippet-editor-field-19-title"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-6-title"
+                  id="snippet-editor-field-19-title"
                   onClick={[Function]}
                 >
                   SEO title
@@ -18929,7 +18954,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-6-title"
+                    ariaLabelledBy="snippet-editor-field-19-title"
                     content="Test title"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -18972,12 +18997,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-6-slug"
+                id="snippet-editor-field-19-slug"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-6-slug"
+                  id="snippet-editor-field-19-slug"
                   onClick={[Function]}
                 >
                   Slug
@@ -18993,14 +19018,14 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   onClick={[Function]}
                 >
                   <SnippetEditorFields__SlugInput
-                    aria-labelledby="snippet-editor-field-6-slug"
+                    aria-labelledby="snippet-editor-field-19-slug"
                     innerRef={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
                     value="test-slug"
                   >
                     <input
-                      aria-labelledby="snippet-editor-field-6-slug"
+                      aria-labelledby="snippet-editor-field-19-slug"
                       className="c34"
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -19016,12 +19041,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
               className="c30"
             >
               <SnippetEditorFields__SimulatedLabel
-                id="snippet-editor-field-6-description"
+                id="snippet-editor-field-19-description"
                 onClick={[Function]}
               >
                 <div
                   className="c31"
-                  id="snippet-editor-field-6-description"
+                  id="snippet-editor-field-19-description"
                   onClick={[Function]}
                 >
                   Meta description
@@ -19037,7 +19062,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   onClick={[Function]}
                 >
                   <ReplacementVariableEditor
-                    ariaLabelledBy="snippet-editor-field-6-description"
+                    ariaLabelledBy="snippet-editor-field-19-description"
                     content="Test description, %%replacement_variable%%"
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -19485,7 +19510,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
         className="yoast-help-button c0"
       >
         <button
-          aria-controls="yoast-help-button__helpDiv"
+          aria-controls="yoast-help-5-text"
           aria-expanded={false}
           aria-label="yoast-help-text"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -19510,6 +19535,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
         <div
           aria-hidden={true}
           className="yoast-help-button__helpDiv c10"
+          id="yoast-help-5-text"
           style={
             Object {
               "maxHeight": "0",
@@ -20143,7 +20169,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
         className="yoast-help-button c0"
       >
         <button
-          aria-controls="yoast-help-button__helpDiv"
+          aria-controls="yoast-help-4-text"
           aria-expanded={false}
           aria-label="yoast-help-text"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -20168,6 +20194,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
         <div
           aria-hidden={true}
           className="yoast-help-button__helpDiv c10"
+          id="yoast-help-4-text"
           style={
             Object {
               "maxHeight": "0",
@@ -20727,7 +20754,7 @@ exports[`SnippetEditor shows and editor 1`] = `
         className="yoast-help-button c0"
       >
         <button
-          aria-controls="yoast-help-button__helpDiv"
+          aria-controls="yoast-help-1-text"
           aria-expanded={false}
           aria-label="yoast-help-text"
           className="yoast-help-button__yoast-help-button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
@@ -20752,6 +20779,7 @@ exports[`SnippetEditor shows and editor 1`] = `
         <div
           aria-hidden={true}
           className="yoast-help-button__helpDiv c10"
+          id="yoast-help-1-text"
           style={
             Object {
               "maxHeight": "0",

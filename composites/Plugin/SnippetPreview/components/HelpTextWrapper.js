@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import uniqueId from "lodash/uniqueId";
 
 // Internal dependencies
 import HelpText from "../../Shared/components/HelpText";
@@ -12,9 +13,9 @@ import { rgba } from "../../../../style-guide/helpers";
 
 
 const HelpTextContainer = styled.div`
-    max-width: 600px;
-    font-weight: normal;
-    margin: 0 20px 10px 25px
+	max-width: 600px;
+	font-weight: normal;
+	margin: 0 20px 10px 25px;
 `;
 
 const HelpTextDiv = styled.div`
@@ -70,9 +71,9 @@ class HelpTextWrapper extends React.Component {
 	/**
 	 * Renders the HelpTextWrapper component.
 	 *
-	 * @param {Object}       props               The passed props.
-	 * @param {string}       props.className     The class name.
-	 * @oaram {String|Array} props.helpText      The help text to be displayed.
+	 * @param {Object}       props           The passed props.
+	 * @param {string}       props.className The class name.
+	 * @param {String|Array} props.helpText  The help text to be displayed.
 	 *
 	 * @returns {ReactComponent} The HelpTextWrapper component.
 	 */
@@ -82,12 +83,12 @@ class HelpTextWrapper extends React.Component {
 		this.state = {
 			isExpanded: false,
 		};
+
+		this.uniqueId = uniqueId( "yoast-help-" );
 	}
 
 	/**
-	 * Handles the onButtonClick event.
-	 *
-	 * Toggles the boolean isExpanded in the state.
+	 * Toggles the help text expanded state.
 	 *
 	 * @returns {void}
 	 */
@@ -101,6 +102,8 @@ class HelpTextWrapper extends React.Component {
 	 * @returns {ReactElement} The rendered help text wrapper.
 	 */
 	render() {
+		const helpTextId = `${ this.uniqueId }-text`;
+
 		return (
 			<HelpTextContainer
 				className={ this.props.className }>
@@ -108,7 +111,7 @@ class HelpTextWrapper extends React.Component {
 					className={ this.props.className + "__yoast-help-button" }
 					onClick={ this.onButtonClick.bind( this ) }
 					aria-expanded={ this.state.isExpanded }
-					aria-controls={ this.props.className + "__helpDiv" }
+					aria-controls={ helpTextId }
 					aria-label={ "yoast-help-text" }
 				>
 					<StyledSvg
@@ -117,9 +120,11 @@ class HelpTextWrapper extends React.Component {
 						icon="question-circle"
 					/>
 				</HelpTextButton>
-				<HelpTextDiv className={  this.props.className + "__helpDiv" }
-							 aria-hidden={ ! this.state.isExpanded }
-							 style={{ maxHeight: this.state.isExpanded ? "200px" : "0" }}
+				<HelpTextDiv
+					id={ helpTextId }
+					className={ this.props.className + "__helpDiv" }
+					aria-hidden={ ! this.state.isExpanded }
+					style={ { maxHeight: this.state.isExpanded ? "200px" : "0" } }
 				>
 					<HelpText text={ this.props.helpText } />
 				</HelpTextDiv>
