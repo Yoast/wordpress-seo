@@ -380,31 +380,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if image in content is added to open graph.
-	 *
-	 * @covers WPSEO_OpenGraph::image
-	 */
-	public function test_image_get_content_image() {
-		$post_id = $this->factory->post->create(
-			array(
-				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_home_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />',
-			)
-		);
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		$class_instance = new WPSEO_OpenGraph();
-
-		ob_start();
-		$class_instance->opengraph();
-		$output = ob_get_clean();
-
-		$expected_output = '<meta property="og:image" content="' . get_home_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
-
-		$this->assertContains( $expected_output, $output );
-	}
-
-	/**
 	 * @covers WPSEO_OpenGraph::description
 	 */
 	public function test_description_frontpage() {
@@ -414,7 +389,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$expected_frontpage_description = self::$class_instance->description( false );
 
 		$this->assertEquals( get_bloginfo( 'description' ), $expected_frontpage_description );
-
 	}
 
 	/**
@@ -494,9 +468,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 <meta property="og:image:secure_url" content="{$image_url}" />
 EXPECTED;
 		WPSEO_Meta::set_value( 'opengraph-image', $image_url, $post_id );
+
 		ob_start();
 		self::$class_instance->image( false );
-		$this->assertEquals( $expected_output, trim( ob_get_clean() ) );
+		$result = trim( ob_get_clean() );
+
+		$this->assertEquals( $expected_output, $result );
 	}
 
 	/**
