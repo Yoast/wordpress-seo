@@ -69,13 +69,9 @@ const StyledSvg = styled( SvgIcon )`
 
 class HelpTextWrapper extends React.Component {
 	/**
-	 * Renders the HelpTextWrapper component.
+	 * Constructs the component and sets its initial state.
 	 *
-	 * @param {Object}       props           The passed props.
-	 * @param {string}       props.className The class name.
-	 * @param {String|Array} props.helpText  The help text to be displayed.
-	 *
-	 * @returns {ReactComponent} The HelpTextWrapper component.
+	 * @param {Object} props The props to use for this component.
 	 */
 	constructor( props ) {
 		super( props );
@@ -106,7 +102,8 @@ class HelpTextWrapper extends React.Component {
 
 		return (
 			<HelpTextContainer
-				className={ this.props.className }>
+				className={ this.props.className }
+			>
 				<HelpTextButton
 					className={ this.props.className + "__yoast-help-button" }
 					onClick={ this.onButtonClick.bind( this ) }
