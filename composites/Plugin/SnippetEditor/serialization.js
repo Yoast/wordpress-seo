@@ -9,13 +9,13 @@ const ENTITY_TYPE = "%mention";
 const ENTITY_MUTABILITY = "IMMUTABLE";
 
 /**
- * Serializes a tag into a string.
+ * Serializes a replacement variable into a string.
  *
- * @param {string} name The name of the tag.
+ * @param {string} name The name of the replacement variable.
  *
- * @returns {string} Serialized tag.
+ * @returns {string} Serialized replacement variable.
  */
-export function serializeTag( name ) {
+export function serializeVariable( name ) {
 	return CIRCUMFIX + name + CIRCUMFIX;
 }
 
@@ -38,7 +38,7 @@ export function serializeBlock( entityMap, block ) {
 		const beforeEntityLength = offset - previousEntityEnd;
 
 		const beforeEntity = text.substr( previousEntityEnd, beforeEntityLength );
-		const serializedEntity = serializeTag( entityMap[ key ].data.mention.name );
+		const serializedEntity = serializeVariable( entityMap[ key ].data.mention.name );
 
 		previousEntityEnd = offset + length;
 
@@ -66,29 +66,29 @@ export function serializeEditor( rawContent ) {
 }
 
 /**
- * Determines the title for a given name.
+ * Determines the variable label for a given variable name.
  *
  * @param {Array} replacementVariables All the available replacment variables.
- * @param {string} name The name to find the title for.
+ * @param {string} name The name to find the label for.
  *
- * @returns {string} The title for this replacement variable.
+ * @returns {string} The label for this replacement variable.
  */
-export function getReplacementVariableTitle( replacementVariables, name ) {
-	let title = name;
+export function getReplacementVariableLabel( replacementVariables, name ) {
+	let label = name;
 
 	replacementVariables.forEach( ( replacementVariable ) => {
-		if ( replacementVariable.name === name && replacementVariable.title ) {
-			title = replacementVariable.title;
+		if ( replacementVariable.name === name && replacementVariable.label ) {
+			label = replacementVariable.label;
 		}
 	} );
 
-	return title;
+	return label;
 }
 
 /**
  * Finds replacement variables in a piece of content.
  *
- * Returns an array with all strings that match `%%[tag]%%`.
+ * Returns an array with all strings that match `%%replacement_variable%%`.
  *
  * @param {string} content The content to find replacement variables in.
  *
@@ -112,17 +112,17 @@ export function findReplacementVariables( content ) {
 }
 
 /**
- * Adds title to a variable.
+ * Adds a human-readable label to a variable.
  *
  * @param {Object} variable Details about the variable we are replacing.
  * @param {Array} replacementVariables All the available replacement variables.
  *
- * @returns {Object} The variable with its title.
+ * @returns {Object} The variable with its label.
  */
-export function addTitle( variable, replacementVariables ) {
+export function addLabel( variable, replacementVariables ) {
 	return {
 		...variable,
-		title: getReplacementVariableTitle( replacementVariables, variable.name ),
+		label: getReplacementVariableLabel( replacementVariables, variable.name ),
 	};
 }
 
@@ -139,7 +139,7 @@ export function addPositionInformation( variable, offset ) {
 		...variable,
 		start: variable.start + offset,
 		end: variable.start + variable.length + offset,
-		delta: variable.title.length - variable.length,
+		delta: variable.label.length - variable.length,
 	};
 }
 
@@ -156,11 +156,8 @@ export function moveSelectionAfterReplacement( selection, blockKey, variable ) {
 	const { start, end, delta } = variable;
 
 	/*
-	 * If the selection touches the replacement we are doing we always move the
-	 * cursor to the end of the entity once it is replaced.
-	 *
-	 * This is probably not always correct, but it works easy and it feels right
-	 * when using the editor.
+	 * If the selection touches the replacement we are doing, we always move the
+	 * cursor to the end of the entity once it has been replaced.
 	 */
 	if ( selection.hasEdgeWithin( blockKey, start, end ) ) {
 		const newEnd = end + delta;
@@ -170,10 +167,10 @@ export function moveSelectionAfterReplacement( selection, blockKey, variable ) {
 			focusOffset: newEnd,
 		} );
 
-		/*
-		 * If the selection is after the thing we are replacing, we need to move the
-		 * selection the same amount
-		 */
+	/*
+	 * If the selection is after the thing we are replacing, we need to move the
+	 * selection the same amount.
+	 */
 	} else if ( selection.focusOffset > end ) {
 		selection = selection.merge( {
 			anchorOffset: selection.anchorOffset + delta,
@@ -234,7 +231,7 @@ export function replaceVariableWithEntity( editorState, variable, blockKey ) {
 	const newContentState = Modifier.replaceText(
 		contentState,
 		variableTextSelection,
-		variable.title,
+		variable.label,
 		// No inline style needed.
 		null,
 		contentState.getLastCreatedEntityKey(),
@@ -245,11 +242,11 @@ export function replaceVariableWithEntity( editorState, variable, blockKey ) {
 }
 
 /**
- * Replaces replacement variables (%%tags%%) in an editor state with entities.
+ * Replaces replacement variables (%%replacement_variable%%) in an editor state with entities.
  *
- * @param {EditorState} editorState          The editor state to find the variables in.
+ * @param {EditorState} editorState The editor state to find the variables in.
  * @param {Array}       replacementVariables The available replacement variables, used
- *                                           to determine the title in the entities.
+ *                                           to determine the label in the entities.
  *
  * @returns {EditorState} The new editor state with entities.
  */
@@ -267,14 +264,16 @@ export function replaceReplacementVariables( editorState, replacementVariables )
 		const foundReplacementVariables = findReplacementVariables( text );
 
 		/*
-		 * Offset keeps track of the amount of shifting that occured by replacing
+		 * Offset keeps track of the amount of shifting that occurred by replacing
 		 * replacement variables with entities. This makes sure multiple replacement
-		 * variables are replaced correctly.
+		 * variables are replaced correctly. This is only relevant on initial
+		 * entity conversion on first rendering and when pasting content that
+		 * contains multiple replacement variables.
 		 */
 		let offset = 0;
 
 		foundReplacementVariables.forEach( ( variable ) => {
-			variable = addTitle( variable, replacementVariables );
+			variable = addLabel( variable, replacementVariables );
 			variable = addPositionInformation( variable, offset );
 
 			let selection = newEditorState.getSelection();
@@ -283,6 +282,11 @@ export function replaceReplacementVariables( editorState, replacementVariables )
 			newEditorState = replaceVariableWithEntity( newEditorState, variable, blockKey );
 			newEditorState = EditorState.acceptSelection( newEditorState, selection );
 
+			/*
+			 * The variable.delta is the difference between the variable human-readable
+			 * label length e.g. `Separator` and the variable length including `%%`
+			 * e.g. `%%sep%%`. See `addPositionInformation()`.
+			 */
 			offset = offset + variable.delta;
 		} );
 	} );
@@ -294,12 +298,12 @@ export function replaceReplacementVariables( editorState, replacementVariables )
  * Unserializes a piece of content into Draft.js data.
  *
  * @param {string} content The content to unserialize.
- * @param {Array} tags The tags for the Draft.js mention plugin.
+ * @param {Array} replacementVariables The replacement variables for the Draft.js mention plugin.
  *
  * @returns {EditorState} The raw data ready for convertFromRaw.
  */
-export function unserializeEditor( content, tags ) {
+export function unserializeEditor( content, replacementVariables ) {
 	const editorState = EditorState.createWithContent( ContentState.createFromText( content ) );
 
-	return replaceReplacementVariables( editorState, tags );
+	return replaceReplacementVariables( editorState, replacementVariables );
 }

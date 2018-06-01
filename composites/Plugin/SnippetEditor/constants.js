@@ -9,6 +9,6 @@ export const lengthProgressShape = PropTypes.shape( {
 export const replacementVariablesShape = PropTypes.arrayOf( PropTypes.shape( {
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
-	title: PropTypes.string,
+	label: PropTypes.string,
 	description: PropTypes.string,
 } ) );
