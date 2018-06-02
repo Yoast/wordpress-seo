@@ -87,7 +87,9 @@ class ReplacementVariableEditor extends React.Component {
 		this.onChange = this.onChange.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
+		this.setMentionRef = this.setMentionRef.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
+		this.debouncedUpdateMention = debounce( this.updateMention.bind( this ), 100 );
 
 		/*
 		 * The mentions plugin is used to autocomplete the replacement variable
@@ -185,6 +187,15 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
+	 * Update the mention suggestions to trigger the repositioning of the popover.
+	 *
+	 * @returns {void}
+	 */
+	updateMention() {
+		this.mention.forceUpdate();
+	}
+
+	/**
 	 * Focuses the editor.
 	 *
 	 * @returns {void}
@@ -202,6 +213,17 @@ class ReplacementVariableEditor extends React.Component {
 	 */
 	setEditorRef( editor ) {
 		this.editor = editor;
+	}
+
+	/**
+	 * Sets the mention reference on this component instance.
+	 *
+	 * @param {Object} mention The mention React reference.
+	 *
+	 * @returns {void}
+	 */
+	setMentionRef( mention ) {
+		this.mention = mention;
 	}
 
 	/**
@@ -230,13 +252,22 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
-	 * Renders the editor including Draft.js and the mentions plugin.
-	 * Cancels the debounced call to A11ySpeak.
+	 * Update the mention for the suggestions position.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		window.addEventListener( "scroll", this.debouncedUpdateMention );
+	}
+
+	/**
+	 * Cancels the debounced call to A11ySpeak. And removes event listeners.
 	 *
 	 * @returns {void}
 	 */
 	componentWillUnmount() {
 		this.debouncedA11ySpeak.cancel();
+		window.removeEventListener( "scroll", this.debouncedUpdateMention );
 	}
 
 	/**
@@ -264,7 +295,7 @@ class ReplacementVariableEditor extends React.Component {
 				<MentionSuggestions
 					onSearchChange={ this.onSearchChange }
 					suggestions={ replacementVariables }
-					onAddMention={ this.onAddMention }
+					ref={ this.setMentionRef }
 				/>
 			</React.Fragment>
 		);
