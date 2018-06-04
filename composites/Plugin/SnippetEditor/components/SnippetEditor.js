@@ -432,7 +432,7 @@ SnippetEditor.defaultProps = {
 	locale: "en",
 	excludeReplaceVars: [
 		"currentyear", "currentmonth", "currentday", "currenttime",
-		"currentdate", "userid", "searchphrase", "archivetitle"
+		"currentdate", "userid", "searchphrase", "archivetitle",
 	],
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
 };
