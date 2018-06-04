@@ -78,10 +78,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -106,11 +103,6 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {

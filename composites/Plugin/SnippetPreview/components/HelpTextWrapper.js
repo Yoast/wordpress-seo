@@ -18,7 +18,7 @@ const HelpTextContainer = styled.div`
 `;
 
 const HelpTextPanel = styled.div`
-	max-width: ${ props => props.maxWidth };
+	max-width: ${ props => props.panelMaxWidth };
 `;
 
 const HelpTextButton = styled( Button )`
@@ -28,9 +28,7 @@ const HelpTextButton = styled( Button )`
 	height: 30px;
 	border-radius: 50%;
 	border: 1px solid transparent;
-	clip: rect(1px 1px 1px 1px);
 	box-shadow: none;
-	position: relative;
 	display: block;
 	margin: -44px -10px 10px 0;
 	background-color: transparent;
@@ -55,8 +53,6 @@ const HelpTextButton = styled( Button )`
 `;
 
 const StyledSvg = styled( SvgIcon )`
-	vertical-align: center;
-	position: relative;
 	&:hover {
 		fill: ${ colors.$color_blue };
 	}
@@ -117,7 +113,7 @@ class HelpTextWrapper extends React.Component {
 					<HelpTextPanel
 						id={ helpPanelId }
 						className={ this.props.className + "__panel" }
-						maxWidth={ this.props.maxWidth }
+						panelMaxWidth={ this.props.panelMaxWidth }
 					>
 						<HelpText text={ this.props.helpText } />
 					</HelpTextPanel>
@@ -130,7 +126,7 @@ class HelpTextWrapper extends React.Component {
 HelpTextWrapper.propTypes = {
 	className: PropTypes.string,
 	helpTextButtonLabel: PropTypes.string.isRequired,
-	maxWidth: PropTypes.string,
+	panelMaxWidth: PropTypes.string,
 	helpText: PropTypes.oneOfType( [
 		PropTypes.string,
 		PropTypes.array,
@@ -139,7 +135,7 @@ HelpTextWrapper.propTypes = {
 
 HelpTextWrapper.defaultProps = {
 	className: "yoast-help",
-	maxWidth: null,
+	panelMaxWidth: null,
 	helpText: "",
 };
 

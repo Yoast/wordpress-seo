@@ -93,10 +93,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -121,11 +118,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -724,10 +716,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -752,11 +741,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -1156,7 +1140,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               ]
             }
             helpTextButtonLabel="Help on the Snippet Preview"
-            maxWidth="400px"
+            panelMaxWidth="400px"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help"
@@ -2248,10 +2232,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -2276,11 +2257,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -2680,7 +2656,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               ]
             }
             helpTextButtonLabel="Help on the Snippet Preview"
-            maxWidth="400px"
+            panelMaxWidth="400px"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help"
@@ -3772,10 +3748,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -3800,11 +3773,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -4204,7 +4172,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               ]
             }
             helpTextButtonLabel="Help on the Snippet Preview"
-            maxWidth="400px"
+            panelMaxWidth="400px"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help"
@@ -5296,10 +5264,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -5324,11 +5289,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -5728,7 +5688,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               ]
             }
             helpTextButtonLabel="Help on the Snippet Preview"
-            maxWidth="400px"
+            panelMaxWidth="400px"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help"
@@ -6811,10 +6771,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -6839,11 +6796,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -7124,7 +7076,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
               ]
             }
             helpTextButtonLabel="Help on the Snippet Preview"
-            maxWidth="400px"
+            panelMaxWidth="400px"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help"
@@ -7970,10 +7922,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -7998,11 +7947,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -8434,7 +8378,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               ]
             }
             helpTextButtonLabel="Help on the Snippet Preview"
-            maxWidth="400px"
+            panelMaxWidth="400px"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help"
@@ -9526,10 +9470,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -9554,11 +9495,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -9990,7 +9926,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               ]
             }
             helpTextButtonLabel="Help on the Snippet Preview"
-            maxWidth="400px"
+            panelMaxWidth="400px"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help"
@@ -11146,10 +11082,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -11174,11 +11107,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -11695,10 +11623,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -11723,11 +11648,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -12253,10 +12173,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -12281,11 +12198,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -12697,7 +12609,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               ]
             }
             helpTextButtonLabel="Help on the Snippet Preview"
-            maxWidth="400px"
+            panelMaxWidth="400px"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help"
@@ -13797,10 +13709,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -13825,11 +13734,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -14241,7 +14145,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseOver() is called
               ]
             }
             helpTextButtonLabel="Help on the Snippet Preview"
-            maxWidth="400px"
+            panelMaxWidth="400px"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help"
@@ -15341,10 +15245,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -15369,11 +15270,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -15773,7 +15669,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               ]
             }
             helpTextButtonLabel="Help on the Snippet Preview"
-            maxWidth="400px"
+            panelMaxWidth="400px"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help"
@@ -16865,10 +16761,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -16893,11 +16786,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -17308,7 +17196,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               ]
             }
             helpTextButtonLabel="Help on the Snippet Preview"
-            maxWidth="400px"
+            panelMaxWidth="400px"
           >
             <HelpTextWrapper__HelpTextContainer
               className="yoast-help"
@@ -18424,10 +18312,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -18452,11 +18337,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -19068,10 +18948,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -19096,11 +18973,6 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {
@@ -19598,10 +19470,7 @@ exports[`SnippetEditor shows and editor 1`] = `
   height: 30px;
   border-radius: 50%;
   border: 1px solid transparent;
-  -webkit-clip: rect(1px 1px 1px 1px);
-  clip: rect(1px 1px 1px 1px);
   box-shadow: none;
-  position: relative;
   display: block;
   margin: -44px -10px 10px 0;
   background-color: transparent;
@@ -19626,11 +19495,6 @@ exports[`SnippetEditor shows and editor 1`] = `
 
 .c1:active {
   box-shadow: none;
-}
-
-.c8 {
-  vertical-align: center;
-  position: relative;
 }
 
 .c8:hover {

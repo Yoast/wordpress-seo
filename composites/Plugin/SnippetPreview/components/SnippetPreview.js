@@ -691,7 +691,7 @@ export default class SnippetPreview extends PureComponent {
 					<HelpTextWrapper
 						helpText={ helpText }
 						helpTextButtonLabel={ helpTextLabel }
-						maxWidth="400px"
+						panelMaxWidth="400px"
 					/>
 				</div>
 				<Container
