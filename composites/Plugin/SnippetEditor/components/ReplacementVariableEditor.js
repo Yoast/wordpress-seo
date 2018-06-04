@@ -67,8 +67,8 @@ class ReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		const { content: rawContent, excludeReplaceVars } = this.props;
-		const replacementVariables = this.excludeReplaceVars( this.props.replacementVariables, excludeReplaceVars );
+		const { content: rawContent } = this.props;
+		const replacementVariables = this.excludeReplaceVars( this.props.replacementVariables, this.props.excludeReplaceVars );
 		const unserialized = unserializeEditor( rawContent, replacementVariables );
 
 		this.state = {
