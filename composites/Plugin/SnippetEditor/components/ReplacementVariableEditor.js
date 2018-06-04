@@ -131,14 +131,14 @@ class ReplacementVariableEditor extends React.Component {
 	 * @returns {array} The new array of replacement variables.
 	 */
 	excludeReplaceVars( replaceVars, excludeReplaceVars ) {
-		let defaultSuggestions = replaceVars;
+		let suggestions = replaceVars;
 		for ( let removeVar of excludeReplaceVars ) {
 			let currentIndex = replaceVars.findIndex( x => x.name === removeVar );
 			if ( currentIndex !== -1 ) {
-				defaultSuggestions = replaceVars.splice( currentIndex, 1 );
+				suggestions = replaceVars.splice( currentIndex, 1 );
 			}
 		}
-		return defaultSuggestions;
+		return suggestions;
 	}
 
 	/**
