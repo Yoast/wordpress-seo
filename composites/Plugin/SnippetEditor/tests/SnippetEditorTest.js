@@ -70,13 +70,13 @@ describe( "SnippetEditor", () => {
 		const mapper = jest.fn( () => {
 			return {
 				title: "Totally different title",
-				url: "http://example.org/totally-different-url",
+				url: "totally-different-url",
 				description: "Totally different description",
 			};
 		} );
 		const defaultMappedData = {
 			title: "Test title",
-			url: "example.org/test-slug",
+			url: "test-slug",
 			description: "Test description, replacement value",
 		};
 		const replacementVariables = [
