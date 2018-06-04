@@ -627,9 +627,9 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -646,14 +646,14 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     />
@@ -751,7 +751,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   margin-right: 7px;
 }
 
-.c37 {
+.c38 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -942,6 +942,38 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 
 .c33::-ms-fill {
   background-color: #dc3232;
+  border: 0;
+}
+
+.c37 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c37::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c37::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c37::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c37::-ms-fill {
+  background-color: #ee7c1b;
   border: 0;
 }
 
@@ -2056,9 +2088,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -2075,14 +2107,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -2257,14 +2289,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={156}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c33"
+                  className="c37"
                   max={156}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -2279,7 +2311,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c37"
+        className="c38"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -2288,7 +2320,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c37 Button-kDSBcD c3"
+          className="c38 Button-kDSBcD c3"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -2297,7 +2329,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c37 Button-kDSBcD c3 Button-kDSBcD c4"
+            className="c38 Button-kDSBcD c3 Button-kDSBcD c4"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -2306,7 +2338,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -2315,13 +2347,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                   onClick={[Function]}
                   type="button"
                 >
@@ -2422,7 +2454,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   margin-right: 7px;
 }
 
-.c37 {
+.c38 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -2613,6 +2645,38 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 
 .c33::-ms-fill {
   background-color: #dc3232;
+  border: 0;
+}
+
+.c37 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c37::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c37::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c37::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c37::-ms-fill {
+  background-color: #ee7c1b;
   border: 0;
 }
 
@@ -3727,9 +3791,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -3746,14 +3810,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -3928,14 +3992,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={156}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c33"
+                  className="c37"
                   max={156}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -3950,7 +4014,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c37"
+        className="c38"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -3959,7 +4023,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c37 Button-kDSBcD c3"
+          className="c38 Button-kDSBcD c3"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -3968,7 +4032,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c37 Button-kDSBcD c3 Button-kDSBcD c4"
+            className="c38 Button-kDSBcD c3 Button-kDSBcD c4"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -3977,7 +4041,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -3986,13 +4050,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                   onClick={[Function]}
                   type="button"
                 >
@@ -4093,7 +4157,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   margin-right: 7px;
 }
 
-.c37 {
+.c38 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -4284,6 +4348,38 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 
 .c33::-ms-fill {
   background-color: #dc3232;
+  border: 0;
+}
+
+.c37 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c37::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c37::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c37::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c37::-ms-fill {
+  background-color: #ee7c1b;
   border: 0;
 }
 
@@ -5398,9 +5494,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -5417,14 +5513,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -5599,14 +5695,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={156}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c33"
+                  className="c37"
                   max={156}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -5621,7 +5717,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c37"
+        className="c38"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -5630,7 +5726,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c37 Button-kDSBcD c3"
+          className="c38 Button-kDSBcD c3"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -5639,7 +5735,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c37 Button-kDSBcD c3 Button-kDSBcD c4"
+            className="c38 Button-kDSBcD c3 Button-kDSBcD c4"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -5648,7 +5744,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -5657,13 +5753,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                   onClick={[Function]}
                   type="button"
                 >
@@ -5764,7 +5860,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   margin-right: 7px;
 }
 
-.c37 {
+.c38 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -5955,6 +6051,38 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 
 .c33::-ms-fill {
   background-color: #dc3232;
+  border: 0;
+}
+
+.c37 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c37::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c37::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c37::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c37::-ms-fill {
+  background-color: #ee7c1b;
   border: 0;
 }
 
@@ -6229,7 +6357,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
-  onChange={[Function]}
+  onChange={[MockFunction]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -7069,9 +7197,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -7088,14 +7216,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -7270,14 +7398,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={156}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c33"
+                  className="c37"
                   max={156}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -7292,7 +7420,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c37"
+        className="c38"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -7301,7 +7429,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c37 Button-kDSBcD c3"
+          className="c38 Button-kDSBcD c3"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -7310,7 +7438,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c37 Button-kDSBcD c3 Button-kDSBcD c4"
+            className="c38 Button-kDSBcD c3 Button-kDSBcD c4"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -7319,7 +7447,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -7328,13 +7456,13 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                   onClick={[Function]}
                   type="button"
                 >
@@ -7737,7 +7865,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
-  onChange={[Function]}
+  onChange={[MockFunction]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -8816,38 +8944,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   margin: 0;
 }
 
-.c37 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c37::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c37::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c37::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c37::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
 .c33 {
   box-sizing: border-box;
   width: 100%;
@@ -8866,16 +8962,48 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c33::-webkit-progress-value {
-  background-color: #ee7c1b;
+  background-color: #dc3232;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
 .c33::-moz-progress-bar {
-  background-color: #ee7c1b;
+  background-color: #dc3232;
 }
 
 .c33::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c37 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c37::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c37::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c37::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c37::-ms-fill {
   background-color: #ee7c1b;
   border: 0;
 }
@@ -9151,7 +9279,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
-  onChange={[Function]}
+  onChange={[MockFunction]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -9991,9 +10119,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -10010,14 +10138,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
-          "actual": 361,
-          "max": 550,
-          "score": 6,
+          "actual": 0,
+          "max": 600,
+          "score": 1,
         }
       }
     >
@@ -10078,15 +10206,15 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
-                max={550}
-                progressColor="#ee7c1b"
-                value={361}
+                max={600}
+                progressColor="#dc3232"
+                value={0}
               >
                 <progress
                   aria-hidden="true"
                   className="c33"
-                  max={550}
-                  value={361}
+                  max={600}
+                  value={0}
                 />
               </ProgressBar>
             </div>
@@ -10192,14 +10320,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={156}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
                   className="c37"
                   max={156}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -10569,17 +10697,17 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c37::-webkit-progress-value {
-  background-color: #7ad03a;
+  background-color: #ee7c1b;
   -webkit-transition: width 250ms;
   transition: width 250ms;
 }
 
 .c37::-moz-progress-bar {
-  background-color: #7ad03a;
+  background-color: #ee7c1b;
 }
 
 .c37::-ms-fill {
-  background-color: #7ad03a;
+  background-color: #ee7c1b;
   border: 0;
 }
 
@@ -10854,7 +10982,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
-  onChange={[Function]}
+  onChange={[MockFunction]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -11694,9 +11822,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 330,
-          "max": 650,
-          "score": 9,
+          "actual": 42,
+          "max": 156,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -11713,14 +11841,14 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
-          "actual": 100,
-          "max": 550,
-          "score": 3,
+          "actual": 0,
+          "max": 600,
+          "score": 1,
         }
       }
     >
@@ -11781,15 +11909,15 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
-                max={550}
+                max={600}
                 progressColor="#dc3232"
-                value={100}
+                value={0}
               >
                 <progress
                   aria-hidden="true"
                   className="c33"
-                  max={550}
-                  value={100}
+                  max={600}
+                  value={0}
                 />
               </ProgressBar>
             </div>
@@ -11894,15 +12022,15 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 aria-hidden="true"
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
-                max={650}
-                progressColor="#7ad03a"
-                value={330}
+                max={156}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
                   className="c37"
-                  max={650}
-                  value={330}
+                  max={156}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -13220,7 +13348,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   margin-right: 7px;
 }
 
-.c38 {
+.c39 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -13411,6 +13539,38 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 
 .c34::-ms-fill {
   background-color: #dc3232;
+  border: 0;
+}
+
+.c38 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c38::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c38::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c38::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c38::-ms-fill {
+  background-color: #ee7c1b;
   border: 0;
 }
 
@@ -13697,7 +13857,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
-  onChange={[Function]}
+  onChange={[MockFunction]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -14545,9 +14705,9 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -14564,14 +14724,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -14746,14 +14906,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={156}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c34"
+                  className="c38"
                   max={156}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -14768,7 +14928,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c38"
+        className="c39"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -14777,7 +14937,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c38 Button-kDSBcD c3"
+          className="c39 Button-kDSBcD c3"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -14786,7 +14946,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c38 Button-kDSBcD c3 Button-kDSBcD c4"
+            className="c39 Button-kDSBcD c3 Button-kDSBcD c4"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -14795,7 +14955,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              className="c39 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -14804,13 +14964,13 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                className="c39 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  className="c39 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                   onClick={[Function]}
                   type="button"
                 >
@@ -14911,7 +15071,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   margin-right: 7px;
 }
 
-.c38 {
+.c39 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -15102,6 +15262,38 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 
 .c34::-ms-fill {
   background-color: #dc3232;
+  border: 0;
+}
+
+.c38 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c38::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c38::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c38::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c38::-ms-fill {
+  background-color: #ee7c1b;
   border: 0;
 }
 
@@ -15388,7 +15580,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
-  onChange={[Function]}
+  onChange={[MockFunction]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -16236,9 +16428,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -16255,14 +16447,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       }
       hoveredField="description"
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -16437,14 +16629,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={156}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c34"
+                  className="c38"
                   max={156}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -16459,7 +16651,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c38"
+        className="c39"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -16468,7 +16660,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c38 Button-kDSBcD c3"
+          className="c39 Button-kDSBcD c3"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -16477,7 +16669,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c38 Button-kDSBcD c3 Button-kDSBcD c4"
+            className="c39 Button-kDSBcD c3 Button-kDSBcD c4"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -16486,7 +16678,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              className="c39 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -16495,13 +16687,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                className="c39 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  className="c39 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                   onClick={[Function]}
                   type="button"
                 >
@@ -16602,7 +16794,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   margin-right: 7px;
 }
 
-.c37 {
+.c38 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -16793,6 +16985,38 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 
 .c33::-ms-fill {
   background-color: #dc3232;
+  border: 0;
+}
+
+.c37 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c37::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c37::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c37::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c37::-ms-fill {
+  background-color: #ee7c1b;
   border: 0;
 }
 
@@ -17067,7 +17291,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
-  onChange={[Function]}
+  onChange={[MockFunction]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -17907,9 +18131,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -17926,14 +18150,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -18108,14 +18332,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={156}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c33"
+                  className="c37"
                   max={156}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -18130,7 +18354,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c37"
+        className="c38"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -18139,7 +18363,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c37 Button-kDSBcD c3"
+          className="c38 Button-kDSBcD c3"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -18148,7 +18372,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c37 Button-kDSBcD c3 Button-kDSBcD c4"
+            className="c38 Button-kDSBcD c3 Button-kDSBcD c4"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -18157,7 +18381,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -18166,13 +18390,13 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                   onClick={[Function]}
                   type="button"
                 >
@@ -18273,7 +18497,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   margin-right: 7px;
 }
 
-.c37 {
+.c38 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -18464,6 +18688,38 @@ exports[`SnippetEditor passes replacement variables to the title and description
 
 .c33::-ms-fill {
   background-color: #dc3232;
+  border: 0;
+}
+
+.c37 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c37::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c37::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c37::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c37::-ms-fill {
+  background-color: #ee7c1b;
   border: 0;
 }
 
@@ -18738,7 +18994,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
-  onChange={[Function]}
+  onChange={[MockFunction]}
   replacementVariables={
     Array [
       Object {
@@ -19589,9 +19845,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -19608,7 +19864,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={
         Array [
@@ -19626,7 +19882,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -19823,14 +20079,14 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={156}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c33"
+                  className="c37"
                   max={156}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -19845,7 +20101,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c37"
+        className="c38"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -19854,7 +20110,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c37 Button-kDSBcD c3"
+          className="c38 Button-kDSBcD c3"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -19863,7 +20119,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c37 Button-kDSBcD c3 Button-kDSBcD c4"
+            className="c38 Button-kDSBcD c3 Button-kDSBcD c4"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -19872,7 +20128,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -19881,13 +20137,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                   onClick={[Function]}
                   type="button"
                 >
@@ -20540,9 +20796,9 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -20559,14 +20815,14 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     />
@@ -20664,7 +20920,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   margin-right: 7px;
 }
 
-.c37 {
+.c38 {
   font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
@@ -20855,6 +21111,38 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 
 .c33::-ms-fill {
   background-color: #dc3232;
+  border: 0;
+}
+
+.c37 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c37::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c37::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c37::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c37::-ms-fill {
+  background-color: #ee7c1b;
   border: 0;
 }
 
@@ -21129,7 +21417,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   locale="en"
   mapDataToPreview={null}
   mode="mobile"
-  onChange={[Function]}
+  onChange={[MockFunction]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -21969,9 +22257,9 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
       descriptionLengthProgress={
         Object {
-          "actual": 0,
+          "actual": 42,
           "max": 156,
-          "score": 0,
+          "score": 6,
         }
       }
       excludeReplaceVars={
@@ -21988,14 +22276,14 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
         Object {
           "actual": 0,
           "max": 600,
-          "score": 0,
+          "score": 1,
         }
       }
     >
@@ -22170,14 +22458,14 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 backgroundColor="#f7f7f7"
                 borderColor="#ddd"
                 max={156}
-                progressColor="#dc3232"
-                value={0}
+                progressColor="#ee7c1b"
+                value={42}
               >
                 <progress
                   aria-hidden="true"
-                  className="c33"
+                  className="c37"
                   max={156}
-                  value={0}
+                  value={42}
                 />
               </ProgressBar>
             </div>
@@ -22192,7 +22480,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         backgroundColor="#f7f7f7"
         borderColor="#ccc"
         boxShadowColor="#ccc"
-        className="c37"
+        className="c38"
         onClick={[Function]}
         textColor="#555"
         type="button"
@@ -22201,7 +22489,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
-          className="c37 Button-kDSBcD c3"
+          className="c38 Button-kDSBcD c3"
           onClick={[Function]}
           textColor="#555"
           type="button"
@@ -22210,7 +22498,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
-            className="c37 Button-kDSBcD c3 Button-kDSBcD c4"
+            className="c38 Button-kDSBcD c3 Button-kDSBcD c4"
             onClick={[Function]}
             textColor="#555"
             type="button"
@@ -22219,7 +22507,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
-              className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+              className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
               onClick={[Function]}
               textColor="#555"
               type="button"
@@ -22228,13 +22516,13 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
-                className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
                 onClick={[Function]}
                 textColor="#555"
                 type="button"
               >
                 <button
-                  className="c37 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                  className="c38 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
                   onClick={[Function]}
                   type="button"
                 >
