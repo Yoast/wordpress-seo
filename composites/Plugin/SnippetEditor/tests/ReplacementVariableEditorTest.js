@@ -83,7 +83,7 @@ describe( "replacementVariablesFilter", () => {
 	} );
 } );
 
-describe( "replacementVariablesFilter", () => {
+describe( "excludeReplaceVars", () => {
 	let searchValue, replacementVariables, replacementVariablesEditor, expected;
 
 	beforeEach( () => {
@@ -117,7 +117,7 @@ describe( "replacementVariablesFilter", () => {
 		];
 	} );
 
-	it( "Returns only the replacement variables where the start of the name matches with the search value.", () => {
+	it( "Returns the replacement variable that is still present in the suggestions.", () => {
 		const actual = replacementVariablesEditor.replacementVariablesFilter( searchValue, replacementVariables );
 
 		expect( actual ).toEqual( expected );
