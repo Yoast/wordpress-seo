@@ -67,7 +67,8 @@ class ReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		const { content: rawContent, replacementVariables } = this.props;
+		const { content: rawContent, excludeReplaceVars } = this.props;
+		const replacementVariables = this.modifyReplaceVars( this.props.replacementVariables, excludeReplaceVars );
 		const unserialized = unserializeEditor( rawContent, replacementVariables );
 
 		this.state = {
@@ -119,6 +120,17 @@ class ReplacementVariableEditor extends React.Component {
 
 			this.props.onChange( this._serializedContent );
 		}
+	}
+
+	modifyReplaceVars( replaceVars, excludeReplaceVars ) {
+		let defaultSuggestions = replaceVars;
+		for ( let removeVar of excludeReplaceVars ) {
+			let currentIndex = replaceVars.findIndex( x => x.name === removeVar );
+			if ( currentIndex !== -1 ) {
+				defaultSuggestions = replaceVars.splice( currentIndex, 1 );
+			}
+		}
+		return defaultSuggestions;
 	}
 
 	/**
@@ -283,6 +295,7 @@ ReplacementVariableEditor.propTypes = {
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
+	excludeReplaceVars: PropTypes.array,
 };
 
 ReplacementVariableEditor.defaultProps = {
