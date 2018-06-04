@@ -65,10 +65,20 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   align-self: center;
 }
 
+.c10 >:first-child {
+  overflow: hidden;
+}
+
+.c10 .slide-enter-active,
+.c10 .slide-exit-active {
+  -webkit-transition: height 300ms ease-out;
+  transition: height 300ms ease-out;
+}
+
 .c0 {
   max-width: 600px;
   font-weight: normal;
-  margin: 0 20px 10px 25px;
+  margin: 0 20px 0 25px;
 }
 
 .c1 {
@@ -151,5 +161,8 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
       />
     </svg>
   </button>
+  <div
+    className="c10"
+  />
 </div>
 `;

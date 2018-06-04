@@ -10,11 +10,13 @@ import colors from "../../../../style-guide/colors.json";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import { rgba } from "../../../../style-guide/helpers";
+import { YoastSlideToggle } from "../../../../utils/animations";
 
 const HelpTextContainer = styled.div`
 	max-width: 600px;
 	font-weight: normal;
-	margin: 0 20px 10px 25px;
+	// Don't apply a bottom margin to avoid "jumpiness".
+	margin: 0 20px 0 25px;
 `;
 
 const HelpTextPanel = styled.div`
@@ -109,7 +111,9 @@ class HelpTextWrapper extends React.Component {
 						icon="question-circle"
 					/>
 				</HelpTextButton>
-				{ isExpanded &&
+				<YoastSlideToggle
+					toggleFlag={ isExpanded }
+				>
 					<HelpTextPanel
 						id={ helpPanelId }
 						className={ this.props.className + "__panel" }
@@ -117,7 +121,7 @@ class HelpTextWrapper extends React.Component {
 					>
 						<HelpText text={ this.props.helpText } />
 					</HelpTextPanel>
-				}
+				</YoastSlideToggle>
 			</HelpTextContainer>
 		);
 	}
