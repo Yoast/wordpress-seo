@@ -86,6 +86,9 @@ export const mapEditorDataToPreview = function( data ) {
 	if ( data.url[ data.url.length - 1 ] === "-" ) {
 		data.url = data.url.slice( 0, -1 );
 	}
+	if ( data.url[ 0 ] === "-" ) {
+		data.url = data.url.slice( 1, data.url.length );
+	}
 
 	return applyReplaceUsingPlugin( data );
 };

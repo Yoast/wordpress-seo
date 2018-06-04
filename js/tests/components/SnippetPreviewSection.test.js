@@ -36,8 +36,8 @@ describe( "mapEditorDataToPreview", () => {
 		expect( actual.url ).toEqual( expected );
 	} );
 
-	it( "Doesn't hyphenate trailing spaces.", () => {
-		const exampleURL = "my URL is awesome    ";
+	it( "Doesn't hyphenate prefixing or trailing spaces.", () => {
+		const exampleURL = "  my URL is awesome  ";
 		const expected = "my-URL-is-awesome";
 
 		const dataObject = {
