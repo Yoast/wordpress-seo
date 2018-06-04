@@ -114,15 +114,16 @@ class SnippetEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		const mappedData = this.mapDataToPreview( props.data, "" );
+		const measurementData = this.mapDataToMeasurements( props.data );
+		const previewData = this.mapDataToPreview( measurementData, props.generatedDescription );
 
 		this.state = {
 			isOpen: false,
 			activeField: null,
 			hoveredField: null,
-			mappedData: mappedData,
-			titleLengthProgress: getTitleProgress( mappedData.title ),
-			descriptionLengthProgress: getDescriptionProgress( mappedData.description ),
+			mappedData: previewData,
+			titleLengthProgress: getTitleProgress( measurementData.title ),
+			descriptionLengthProgress: getDescriptionProgress( measurementData.description ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
@@ -163,7 +164,7 @@ class SnippetEditor extends React.Component {
 	componentWillReceiveProps( nextProps ) {
 		// Only set a new state when the data is dirty.
 		if ( this.shallowCompareData( this.props.data, nextProps.data ) ) {
-			const data = this.mapDataToPreview( nextProps.data, "" );
+			const data = this.mapDataToMeasurements( nextProps.data );
 			this.setState(
 				{
 					titleLengthProgress: getTitleProgress( data.title ),
@@ -333,14 +334,17 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Maps the data from to be suitable for the preview.
+	 * Maps the data from to be suitable for measurement.
+	 *
+	 * The data that is measured is not exactly the same as the data that
+	 * is in the preview, because the metadescription placeholder shouldn't
+	 * be measured.
 	 *
 	 * @param {Object} originalData         The data from the form.
-	 * @param {string} generatedDescription The description that should be displayed, or an empty string.
 	 *
 	 * @returns {Object} The data for the preview.
 	 */
-	mapDataToPreview( originalData, generatedDescription ) {
+	mapDataToMeasurements( originalData ) {
 		const { baseUrl, mapDataToPreview } = this.props;
 
 		let description = this.processReplacementVariables( originalData.description );
@@ -351,14 +355,35 @@ class SnippetEditor extends React.Component {
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title ),
 			url: baseUrl.replace( "https://", "" ) + originalData.slug,
-			description: description || generatedDescription,
+			description: description,
 		};
 
+		// The mapping by the passed mapping function should happen before measuring.
 		if ( mapDataToPreview ) {
 			return mapDataToPreview( mappedData, originalData );
 		}
 
 		return mappedData;
+	}
+
+	/**
+	 * Maps the data from to be suitable for the preview.
+	 *
+	 * The data that is in the preview is not exactly the same as the data
+	 * that is measured (see above), because the metadescription placeholder
+	 * shouldn't be measured.
+	 *
+	 * @param {Object} originalData         The data from the form.
+	 * @param {string} generatedDescription The description that should be displayed, or an empty string.
+	 *
+	 * @returns {Object} The data for the preview.
+	 */
+	mapDataToPreview( originalData, generatedDescription ) {
+		return {
+			title: originalData.title,
+			url: originalData.url,
+			description: originalData.description || generatedDescription,
+		};
 	}
 
 	/**
@@ -423,7 +448,8 @@ class SnippetEditor extends React.Component {
 			isOpen,
 		} = this.state;
 
-		const mappedData = this.mapDataToPreview( data, generatedDescription );
+		const measurementData = this.mapDataToMeasurements( data );
+		const mappedData = this.mapDataToPreview( measurementData, generatedDescription );
 
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
