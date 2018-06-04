@@ -10,6 +10,7 @@ import SnippetEditor from "../composites/Plugin/SnippetEditor/components/Snippet
 const Container = styled.div`
 	background-color: white;
 	margin: 5em auto 0;
+	padding: 0 0 10px;
 `;
 
 const replacementVariables = [
@@ -154,20 +155,6 @@ export default class SnippetEditorExample extends Component {
 				replacementVariables={ replacementVariables }
 				titleLengthProgress={ titleLengthProgress }
 				descriptionLengthProgress={ descriptionLengthProgress }
-			/>
-
-			<h2>Test sliders for progress bars</h2>
-			<input
-				type="range"
-				min={ 0 }
-				max={ titleLengthProgress.max }
-				onChange={ ( event ) => this.onChangedData( "currentTitleLength", parseInt( event.target.value, 10 ) ) }
-			/>
-			<input
-				type="range"
-				min={ 0 }
-				max={ descriptionLengthProgress.max }
-				onChange={ ( event ) => this.onChangedData( "currentDescriptionLength", parseInt( event.target.value, 10 ) ) }
 			/>
 		</Container>;
 	}

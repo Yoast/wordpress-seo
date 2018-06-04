@@ -2,6 +2,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
+import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
+import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
+import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -37,6 +41,46 @@ const CloseEditorButton = SnippetEditorButton.extend`
 	margin-left: 20px;
 `;
 
+/**
+ * Gets the title progress.
+ *
+ * @param {string} title The title.
+ *
+ * @returns {Object} The title progress.
+ */
+function getTitleProgress( title ) {
+	const titleWidth = measureTextWidth( title );
+	const pageTitleWidthAssessment = new PageTitleWidthAssesment();
+	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
+	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
+
+	return {
+		max: maximumLength,
+		actual: titleWidth,
+		score: score,
+	};
+}
+
+/**
+ * Gets the description progress.
+ *
+ * @param {string} description The description.
+ *
+ * @returns {Object} The description progress.
+ */
+function getDescriptionProgress( description ) {
+	const descriptionLength = description.length;
+	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
+	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
+
+	return {
+		max: maximumLength,
+		actual: descriptionLength,
+		score: score,
+	};
+}
+
 class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
@@ -70,15 +114,20 @@ class SnippetEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
+		const measurementData = this.mapDataToMeasurements( props.data );
+		const previewData = this.mapDataToPreview( measurementData, props.generatedDescription );
+
 		this.state = {
 			isOpen: false,
 			activeField: null,
 			hoveredField: null,
+			mappedData: previewData,
+			titleLengthProgress: getTitleProgress( measurementData.title ),
+			descriptionLengthProgress: getDescriptionProgress( measurementData.description ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
 		this.unsetFieldFocus = this.unsetFieldFocus.bind( this );
-		this.handleChange = this.handleChange.bind( this );
 		this.onMouseUp = this.onMouseUp.bind( this );
 		this.onMouseEnter = this.onMouseEnter.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
@@ -88,18 +137,41 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Handles the onChange event.
+	 * Returns whether the old and the new data are different.
 	 *
-	 * First updates the description progress and title progress.
-	 * Then calls the onChange function that is passed through the props.
+	 * @param {Object} oldData The old data.
+	 * @param {Object} newData The new data.
+	 * @returns {boolean} True if any of the data points has changed.
+	 */
+	shallowCompareData( oldData, newData ) {
+		let isDirty = false;
+		if (
+			oldData.description !== newData.description ||
+			oldData.slug !== newData.slug ||
+			oldData.title !== newData.title
+		) {
+			isDirty = true;
+		}
+		return isDirty;
+	}
+
+	/**
+	 * Updates the state when the component receives new props.
 	 *
-	 * @param {string} type The type of change.
-	 * @param {string} content The content of the changed field.
-	 *
+	 * @param {Object} nextProps The new props.
 	 * @returns {void}
 	 */
-	handleChange( type, content ) {
-		this.props.onChange( type, content );
+	componentWillReceiveProps( nextProps ) {
+		// Only set a new state when the data is dirty.
+		if ( this.shallowCompareData( this.props.data, nextProps.data ) ) {
+			const data = this.mapDataToMeasurements( nextProps.data );
+			this.setState(
+				{
+					titleLengthProgress: getTitleProgress( data.title ),
+					descriptionLengthProgress: getDescriptionProgress( data.description ),
+				}
+			);
+		}
 	}
 
 	/**
@@ -110,12 +182,11 @@ class SnippetEditor extends React.Component {
 	renderEditor() {
 		const {
 			data,
-			titleLengthProgress,
-			descriptionLengthProgress,
 			replacementVariables,
 			descriptionEditorFieldPlaceholder,
+			onChange,
 		} = this.props;
-		const { activeField, hoveredField, isOpen } = this.state;
+		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
 		if ( ! isOpen ) {
 			return null;
@@ -127,7 +198,7 @@ class SnippetEditor extends React.Component {
 					data={ data }
 					activeField={ activeField }
 					hoveredField={ hoveredField }
-					onChange={ this.handleChange }
+					onChange={ onChange }
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
 					replacementVariables={ replacementVariables }
@@ -263,7 +334,44 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
+	 * Maps the data from to be suitable for measurement.
+	 *
+	 * The data that is measured is not exactly the same as the data that
+	 * is in the preview, because the metadescription placeholder shouldn't
+	 * be measured.
+	 *
+	 * @param {Object} originalData         The data from the form.
+	 *
+	 * @returns {Object} The data for the preview.
+	 */
+	mapDataToMeasurements( originalData ) {
+		const { baseUrl, mapDataToPreview } = this.props;
+
+		let description = this.processReplacementVariables( originalData.description );
+
+		// Strip multiple spaces and spaces at the beginning and end.
+		description = stripSpaces( description );
+
+		const mappedData = {
+			title: this.processReplacementVariables( originalData.title ),
+			url: baseUrl.replace( "https://", "" ) + originalData.slug,
+			description: description,
+		};
+
+		// The mapping by the passed mapping function should happen before measuring.
+		if ( mapDataToPreview ) {
+			return mapDataToPreview( mappedData, originalData );
+		}
+
+		return mappedData;
+	}
+
+	/**
 	 * Maps the data from to be suitable for the preview.
+	 *
+	 * The data that is in the preview is not exactly the same as the data
+	 * that is measured (see above), because the metadescription placeholder
+	 * shouldn't be measured.
 	 *
 	 * @param {Object} originalData         The data from the form.
 	 * @param {string} generatedDescription The description that should be displayed, or an empty string.
@@ -271,19 +379,11 @@ class SnippetEditor extends React.Component {
 	 * @returns {Object} The data for the preview.
 	 */
 	mapDataToPreview( originalData, generatedDescription ) {
-		const { baseUrl, mapDataToPreview } = this.props;
-
-		const mappedData = {
-			title: this.processReplacementVariables( originalData.title ),
-			url: baseUrl.replace( "https://", "" ) + originalData.slug,
-			description: this.processReplacementVariables( originalData.description || generatedDescription ),
+		return {
+			title: originalData.title,
+			url: originalData.url,
+			description: originalData.description || generatedDescription,
 		};
-
-		if ( mapDataToPreview ) {
-			return mapDataToPreview( mappedData, originalData );
-		}
-
-		return mappedData;
 	}
 
 	/**
@@ -348,7 +448,8 @@ class SnippetEditor extends React.Component {
 			isOpen,
 		} = this.state;
 
-		const mappedData = this.mapDataToPreview( data, generatedDescription );
+		const measurementData = this.mapDataToMeasurements( data );
+		const mappedData = this.mapDataToPreview( measurementData, generatedDescription );
 
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
