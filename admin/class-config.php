@@ -73,16 +73,6 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager->enqueue_style( 'admin-css' );
 	}
 
-	public function get_example_replace_vars() {
-		$example_replacevars = WPSEO_Replace_Vars::get_example_settings_texts();
-
-		$new = array();
-		foreach( $example_replacevars as $key => $value ) {
-			$new[] = array( 'name' => $key, 'value' => $value );
-		}
-		return $new;
-	}
-
 	/**
 	 * Loads the required scripts for the config page.
 	 */
@@ -93,10 +83,11 @@ class WPSEO_Admin_Pages {
 		$page = filter_input( INPUT_GET, 'page' );
 
 		if ( $page === 'wpseo_titles' ) {
+			$replace_vars = new WPSEO_Replace_Vars();
 			wp_localize_script(
 				WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance',
 				'wpseoReplaceVarsL10n',
-				$this->get_example_replace_vars() );
+				$replace_vars->get_example_settings_texts() );
 			$this->asset_manager->enqueue_script( 'search-appearance' );
 			$this->asset_manager->enqueue_style( 'search-appearance' );
 		}

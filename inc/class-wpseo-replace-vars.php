@@ -757,7 +757,7 @@ class WPSEO_Replace_Vars {
 	 * Retrieve the current date for use as replacement string.
 	 * @return string
 	 */
-	private static function retrieve_currentdate() {
+	private function retrieve_currentdate() {
 		static $replacement;
 
 		if ( ! isset( $replacement ) ) {
@@ -771,7 +771,7 @@ class WPSEO_Replace_Vars {
 	 * Retrieve the current day for use as replacement string.
 	 * @return string
 	 */
-	private static function retrieve_currentday() {
+	private function retrieve_currentday() {
 		static $replacement;
 
 		if ( ! isset( $replacement ) ) {
@@ -785,7 +785,7 @@ class WPSEO_Replace_Vars {
 	 * Retrieve the current month for use as replacement string.
 	 * @return string
 	 */
-	private static function retrieve_currentmonth() {
+	private function retrieve_currentmonth() {
 		static $replacement;
 
 		if ( ! isset( $replacement ) ) {
@@ -799,7 +799,7 @@ class WPSEO_Replace_Vars {
 	 * Retrieve the current time for use as replacement string.
 	 * @return string
 	 */
-	private static function retrieve_currenttime() {
+	private function retrieve_currenttime() {
 		static $replacement;
 
 		if ( ! isset( $replacement ) ) {
@@ -813,7 +813,7 @@ class WPSEO_Replace_Vars {
 	 * Retrieve the current year for use as replacement string.
 	 * @return string
 	 */
-	private static function retrieve_currentyear() {
+	private function retrieve_currentyear() {
 		static $replacement;
 
 		if ( ! isset( $replacement ) ) {
@@ -1109,9 +1109,12 @@ class WPSEO_Replace_Vars {
 		}
 	}
 
-	public static function get_example_settings_texts() {
-		return array(
-			'date' => self::retrieve_currentdate(),
+	/**
+	 * @return array
+	 */
+	public function get_example_settings_texts() {
+		$replacement_variables = array(
+			'date' => $this->retrieve_currentdate(),
 			'title' => __( 'Example post/page title', 'wordpress-seo' ),
 			'parent_title' => __( 'Example parent page title', 'wordpress-seo' ),
 			'archive title' => __( 'Example archives title', 'wordpress-seo' ),
@@ -1129,16 +1132,16 @@ class WPSEO_Replace_Vars {
 			'sep' => WPSEO_Utils::get_title_separator(),
 			'pt_single' => __( 'Post' ),
 			'pt_plural' => __( 'Posts' ),
-			'modified' => self::retrieve_currentdate(),
+			'modified' => $this->retrieve_currentdate(),
 			'id' => '1',
 			'name' => __( 'Author\'s name', 'wordpress-seo' ),
 			'user_description' => __( 'Author\'s description', 'wordpress-seo' ),
 			'userid' => '1',
-			'currenttime' => self::retrieve_currenttime(),
-			'currentdate' => self::retrieve_currentdate(),
-			'currentday' => self::retrieve_currentday(),
-			'currentmonth' => self::retrieve_currentmonth(),
-			'currentyear' => self::retrieve_currentyear(),
+			'currenttime' => $this->retrieve_currenttime(),
+			'currentdate' => $this->retrieve_currentdate(),
+			'currentday' => $this->retrieve_currentday(),
+			'currentmonth' => $this->retrieve_currentmonth(),
+			'currentyear' => $this->retrieve_currentyear(),
 			'page' => __( 'Page 1 of 2', 'wordpress-seo' ),
 			'pagetotal' => '2',
 			'pagenumber' => '1',
@@ -1146,6 +1149,12 @@ class WPSEO_Replace_Vars {
 			'focuskw' => __( 'keyword', 'wordpress-seo' ),
 			'term404' => __( '404 page\'s slug' ),
 		);
+
+		$formatted = array();
+		foreach( $replacement_variables as $key => $value ) {
+			$formatted[] = array( 'name' => $key, 'value' => $value );
+		}
+		return $formatted;
 	}
 
 	/**
