@@ -50,7 +50,7 @@ const getElementLayoutSize = ( element ) => {
  *
  * @returns {number} The vertical position, relative to the parent.
  */
-const getVerticalPosition = ( parentRect, caretRect, popoverHeight ) => {
+export const getVerticalPosition = ( parentRect, caretRect, popoverHeight ) => {
 	const relativeY = caretRect.top - parentRect.top;
 	const caretHeight = caretRect.bottom - caretRect.top;
 
@@ -78,7 +78,7 @@ const getVerticalPosition = ( parentRect, caretRect, popoverHeight ) => {
  *
  * @returns {number} The horizontal position, relative to the parent.
  */
-const getHorizontalPosition = ( parentRect, caretRect, popoverWidth ) => {
+export const getHorizontalPosition = ( parentRect, caretRect, popoverWidth ) => {
 	const relativeX = caretRect.left - parentRect.left;
 
 	const popoverRight = caretRect.left + popoverWidth + EXTRA_OFFSET;
@@ -103,7 +103,7 @@ const getHorizontalPosition = ( parentRect, caretRect, popoverWidth ) => {
  *
  * @returns {Object} The animation styles.
  */
-const getAnimationStyles = ( state, props ) => {
+export const getAnimationStyles = ( state, props ) => {
 	let transform = "scale(0)";
 	let transition = "all 0.35s cubic-bezier(.3,1,.2,1)";
 
