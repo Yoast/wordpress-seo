@@ -74,7 +74,13 @@ class WPSEO_Admin_Pages {
 	}
 
 	public function get_example_replace_vars() {
-		return array( array( 'value' => 'Title', 'name' => 'title' ) );
+		$example_replacevars = WPSEO_Replace_Vars::get_example_settings_texts();
+
+		$new = array();
+		foreach( $example_replacevars as $key => $value ) {
+			$new[] = array( 'name' => $key, 'value' => $value );
+		}
+		return $new;
 	}
 
 	/**
