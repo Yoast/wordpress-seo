@@ -87,9 +87,9 @@ class ReplacementVariableEditor extends React.Component {
 		this.onChange = this.onChange.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
-		this.setMentionRef = this.setMentionRef.bind( this );
+		this.setMentionSuggestionsRef = this.setMentionSuggestionsRef.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
-		this.debouncedUpdateMention = debounce( this.updateMention.bind( this ), 100 );
+		this.debouncedUpdateMentionSuggestions = debounce( this.updateMentionSuggestions.bind( this ), 100 );
 
 		/*
 		 * The mentions plugin is used to autocomplete the replacement variable
@@ -191,8 +191,8 @@ class ReplacementVariableEditor extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	updateMention() {
-		this.mention.forceUpdate();
+	updateMentionSuggestions() {
+		this.mentionSuggestions.forceUpdate();
 	}
 
 	/**
@@ -218,12 +218,12 @@ class ReplacementVariableEditor extends React.Component {
 	/**
 	 * Sets the mention reference on this component instance.
 	 *
-	 * @param {Object} mention The mention React reference.
+	 * @param {Object} mentionSuggestions The mentionSuggestions React reference.
 	 *
 	 * @returns {void}
 	 */
-	setMentionRef( mention ) {
-		this.mention = mention;
+	setMentionSuggestionsRef( mentionSuggestions ) {
+		this.mentionSuggestions = mentionSuggestions;
 	}
 
 	/**
@@ -252,22 +252,22 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
-	 * Update the mention for the suggestions position.
+	 * Update the mention suggestions to trigger the repositioning of the popover.
 	 *
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		window.addEventListener( "scroll", this.debouncedUpdateMention );
+		window.addEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
 	}
 
 	/**
-	 * Cancels the debounced call to A11ySpeak. And removes event listeners.
+	 * Cancels the debounced call to A11ySpeak and removes event listeners.
 	 *
 	 * @returns {void}
 	 */
 	componentWillUnmount() {
 		this.debouncedA11ySpeak.cancel();
-		window.removeEventListener( "scroll", this.debouncedUpdateMention );
+		window.removeEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
 	}
 
 	/**
@@ -295,7 +295,7 @@ class ReplacementVariableEditor extends React.Component {
 				<MentionSuggestions
 					onSearchChange={ this.onSearchChange }
 					suggestions={ replacementVariables }
-					ref={ this.setMentionRef }
+					ref={ this.setMentionSuggestionsRef }
 				/>
 			</React.Fragment>
 		);

@@ -33,6 +33,7 @@ describe( "positionSuggestions", () => {
 
 		it( "returns the vertical position that corresponds with bottom", () => {
 			global.window.innerHeight = 768;
+			// ( Caret top - parent top ) + ( caret bottom - caret top )
 			const expected = 40;
 			const actual = getVerticalPosition( parentRect, caretRect, popoverSize.height );
 
@@ -41,6 +42,7 @@ describe( "positionSuggestions", () => {
 
 		it( "returns the vertical position that corresponds with top", () => {
 			global.window.innerHeight = 500;
+			// ( Caret top - parent top ) - ( caret bottom - caret top ) - popover height
 			const expected = -148;
 			const actual = getVerticalPosition( parentRect, caretRect, popoverSize.height );
 
@@ -49,6 +51,7 @@ describe( "positionSuggestions", () => {
 
 		it( "returns the horizontal position that corresponds with left", () => {
 			global.window.innerWidth = 768;
+			// ( Caret left - parent left )
 			const expected = 525;
 			const actual = getHorizontalPosition( parentRect, caretRect, popoverSize.width );
 
@@ -57,6 +60,7 @@ describe( "positionSuggestions", () => {
 
 		it( "returns the horizontal position that corresponds with right", () => {
 			global.window.innerWidth = 500;
+			// ( Caret left - parent left ) - ( ( caret left + popover width + 3 ) - window.innerWidth )
 			const expected = 257;
 			const actual = getHorizontalPosition( parentRect, caretRect, popoverSize.width );
 

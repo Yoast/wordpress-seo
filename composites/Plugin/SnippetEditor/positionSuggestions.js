@@ -29,7 +29,7 @@ const getRelativeParent = ( element ) => {
  *
  * @param {HTMLElement} element The HTML element.
  *
- * @returns {Object} The width and height.
+ * @returns {Object} The width and height of the HTML element.
  */
 const getElementLayoutSize = ( element ) => {
 	return {
@@ -55,9 +55,8 @@ export const getVerticalPosition = ( parentRect, caretRect, popoverHeight ) => {
 	const caretHeight = caretRect.bottom - caretRect.top;
 
 	const popoverBottom = parentRect.bottom + popoverHeight + EXTRA_OFFSET;
-	const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
-	if ( popoverBottom > viewportHeight ) {
+	if ( popoverBottom > window.innerHeight ) {
 		// The fallback position is above the caret.
 		return relativeY - caretHeight - popoverHeight;
 	}
@@ -82,11 +81,10 @@ export const getHorizontalPosition = ( parentRect, caretRect, popoverWidth ) => 
 	const relativeX = caretRect.left - parentRect.left;
 
 	const popoverRight = caretRect.left + popoverWidth + EXTRA_OFFSET;
-	const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
 
-	if ( popoverRight > viewportWidth ) {
+	if ( popoverRight > window.innerWidth ) {
 		// The fallback position is moving the popover over to the left just enough to make it fit.
-		const overflow = popoverRight - viewportWidth;
+		const overflow = popoverRight - window.innerWidth;
 		return relativeX - overflow;
 	}
 
@@ -104,6 +102,11 @@ export const getHorizontalPosition = ( parentRect, caretRect, popoverWidth ) => 
  * @returns {Object} The animation styles.
  */
 export const getAnimationStyles = ( state, props ) => {
+	/*
+	 * Scale(0) sets the scale of the popover to 1:0. Effectively making it very very small.
+	 * Scale(1) sets the size of the popover to back to 1:1.
+	 * The transition will cause there to be an animation between the two transforms.
+	 */
 	let transform = "scale(0)";
 	let transition = "all 0.35s cubic-bezier(.3,1,.2,1)";
 
