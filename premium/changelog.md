@@ -1,4 +1,7 @@
-### 7.6.0: May 29th, 2018
+### 7.6.0: May 5th, 2018
+Enhancements:
+* Adds WP-CLI commands to manage redirects. Use `wp yoast redirect` to see the list of available commands.
+
 Bugfixes:
 * Fixes a bug where the link to run the internal linking count for orphaned content did not work.
 * Fixes a bug where unpublished posts and password protected posts where taken into account in the orphaned content overview and notifications.

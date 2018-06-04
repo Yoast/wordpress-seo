@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.5
-Stable tag: 7.5.3
+Stable tag: 7.6-RC4
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -107,10 +107,25 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 7.6.0 =
-Release Date: May 29th, 2018
+Release Date: June 5th, 2018
 
 Enhancements:
-* Changes the Search Preview-box to be completely rendered by React. This will give us the possibility to add new features to it and use it on different pages.
+* Adds Flesch Reading Ease for Russian.
+* Adds Catalan transition words.
+* Adds a tab to the Help Center on posts, pages, terms and custom post types which explains which template variables can be used in the Snippet Preview.
+
+Bugfixes:
+* Fixes a bug where sequences of symbols which do not contain a single letter or digit were considered as valid keywords.
+* Fixes a bug where Flesch Reading Ease translation strings were not fully translated.
+* Fixes a bug where numbers-only keywords caused the analysis to fail.
+* Fixes a bug where the active keyword in the state wasn't updated whenever changes were made in the keyword field.
+* Fixes a bug where replacevars based on custom fields would throw an error due to a missing ID.
+
+
+Other:
+* Changes the maximum meta description length from 320 to 156 characters.
+* Fixes typo in $field_defs parameter description for wpseo_metabox_entries filter.
+* Restores the warning for using unsupported replacement variables on the search appearance settings page.
 
 = 7.5.3 =
 Release Date: May 30th, 2018
