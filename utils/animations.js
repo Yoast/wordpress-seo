@@ -14,7 +14,7 @@ const YoastSlideToggleContainer = styled.div`
 
 	& .slide-enter-active,
 	& .slide-exit-active {
-		transition: height ${ props => `${ props.timeout }ms` } ease-out;
+		transition: height ${ props => `${ props.duration }ms` } ease-out;
 	}
 `;
 
@@ -78,10 +78,10 @@ export class YoastSlideToggle extends React.Component {
 	 */
 	render() {
 		return (
-			<YoastSlideToggleContainer timeout={ this.props.timeout }>
+			<YoastSlideToggleContainer duration={ this.props.duration }>
 				<CSSTransition
-					in={ this.props.toggleFlag }
-					timeout={ this.props.timeout }
+					in={ this.props.slideToggleOn }
+					timeout={ this.props.duration }
 					classNames="slide"
 					unmountOnExit
 					onEnter={ this.resetHeight }
@@ -98,11 +98,11 @@ export class YoastSlideToggle extends React.Component {
 }
 
 YoastSlideToggle.propTypes = {
-	toggleFlag: PropTypes.bool.isRequired,
-	timeout: PropTypes.number.isRequired,
+	slideToggleOn: PropTypes.bool.isRequired,
+	duration: PropTypes.number.isRequired,
 	children: PropTypes.node,
 };
 
 YoastSlideToggle.defaultProps = {
-	timeout: 300,
+	duration: 300,
 };
