@@ -173,7 +173,7 @@ class WPSEO_Redirect_Handler {
 			return;
 		}
 
-		// Trim the slashes, to match the variants of a request URL (Like: url, /url, /url/, url/).
+		// Trim the slashes to match the variants of a request URL (Like: url, /url, /url/, url/).
 		if ( $redirect_url['url'] !== '/' && trim( $redirect_url['url'], '/' ) === $request_url  ) {
 			return;
 		}
