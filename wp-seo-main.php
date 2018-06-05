@@ -422,7 +422,8 @@ function wpseo_cli_init() {
 		WP_CLI::add_command( 'yoast', 'WPSEO_CLI_Yoast_Command_Namespace' );
 		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
 			WP_CLI::add_command( 'yoast redirect', 'WPSEO_CLI_Redirect_Command_Namespace' );
-		} else {
+		}
+		else {
 			WP_CLI::add_command( 'yoast redirect', 'WPSEO_CLI_Redirect_Upsell_Command_Namespace' );
 		}
 	}
