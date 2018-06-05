@@ -1705,7 +1705,7 @@ class WPSEO_Frontend {
 	 */
 	public function redirect( $location, $status = 302 ) {
 		header( 'X-Redirect-By: Yoast SEO' );
-		wp_redirect( $location, $status );
+		wp_safe_redirect( $location, $status );
 		exit;
 	}
 
