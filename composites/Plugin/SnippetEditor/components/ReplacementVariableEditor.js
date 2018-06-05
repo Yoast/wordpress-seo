@@ -46,21 +46,24 @@ class ReplacementVariableEditor extends React.Component {
 	/**
 	 * Constructs the replacement variable editor for use.
 	 *
-	 * @param {Object} props                        The props to instantiate this
-	 *                                              editor with.
-	 * @param {string} props.content                The content to instantiate this
-	 *                                              editor with.
-	 * @param {Object[]} props.replacementVariables The replacement variables that
-	 *                                              should be available in the
-	 *                                              editor.
-	 * @param {string}   props.ariaLabelledBy       The ID of the field this is
-	 *                                              labelled by.
-	 * @param {Function} props.onChange             Called when the content inside
-	 *                                              is edited.
-	 * @param {Function} props.onFocus              Called when this editor is
-	 *                                              focused.
-	 * @param {Function} props.onBlur               Called when this editor is
-	 *                                              unfocused.
+	 * @param {Object}   props                                 The props to instantiate this
+	 *                                                         editor with.
+	 * @param {string}   props.content                         The content to instantiate this
+	 *                                                         editor with.
+	 * @param {Object[]} props.replacementVariables            The replacement variables
+	 *                                                         that should be available
+	 *                                                         in the editor.
+	 * @param {Object[]} props.recommendedReplacementVariables The recommended replacement
+	 *                                                         variables that should be
+	 *                                                         available in the editor.
+	 * @param {string}   props.ariaLabelledBy                  The ID of the field this is
+	 *                                                         labelled by.
+	 * @param {Function} props.onChange                        Called when the content inside
+	 *                                                         is edited.
+	 * @param {Function} props.onFocus                         Called when this editor is
+	 *                                                         focused.
+	 * @param {Function} props.onBlur                          Called when this editor is
+	 *                                                         unfocused.
 	 *
 	 * @returns {void}
 	 */
@@ -264,8 +267,17 @@ class ReplacementVariableEditor extends React.Component {
 	 */
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy, descriptionEditorFieldPlaceholder } = this.props;
-		const { editorState, replacementVariables } = this.state;
+		const {
+			onFocus,
+			onBlur,
+			ariaLabelledBy,
+			descriptionEditorFieldPlaceholder,
+			recommendedReplacementVariables,
+		} = this.props;
+		const { editorState, replacementVariables, searchValue } = this.state;
+
+		const currentReplacementVariables = searchValue === "" && recommendedReplacementVariables.length > 0
+			? recommendedReplacementVariables : replacementVariables;
 
 		return (
 			<React.Fragment>
@@ -282,7 +294,7 @@ class ReplacementVariableEditor extends React.Component {
 				/>
 				<MentionSuggestions
 					onSearchChange={ this.onSearchChange }
-					suggestions={ replacementVariables }
+					suggestions={ currentReplacementVariables }
 					onAddMention={ this.onAddMention }
 				/>
 			</React.Fragment>
@@ -293,6 +305,7 @@ class ReplacementVariableEditor extends React.Component {
 ReplacementVariableEditor.propTypes = {
 	content: PropTypes.string.isRequired,
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: replacementVariablesShape,
 	ariaLabelledBy: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,

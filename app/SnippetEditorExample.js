@@ -31,6 +31,10 @@ const replacementVariables = [
 		value: "The manual snippet of your post.",
 	},
 ];
+const recommendedReplacementVariables = [
+	replacementVariables[ 0 ],
+	replacementVariables[ 1 ],
+];
 
 export default class SnippetEditorExample extends Component {
 	/**
@@ -153,6 +157,7 @@ export default class SnippetEditorExample extends Component {
 				baseUrl="https://local.wordpress.test/"
 				onChange={ this.onChangedData }
 				replacementVariables={ replacementVariables }
+				recommendedReplacementVariables={ recommendedReplacementVariables }
 				titleLengthProgress={ titleLengthProgress }
 				descriptionLengthProgress={ descriptionLengthProgress }
 			/>

@@ -85,29 +85,31 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
-	 * @param {Object} props                             The props for the snippet
-	 *                                                   editor.
-	 * @param {Object} props.replacementVariables        The replacement variables
-	 *                                                   for this editor.
-	 * @param {Object} props.data                        The initial editor data.
-	 * @param {string} props.keyword                     The focus keyword.
-	 * @param {string} props.data.title                  The initial title.
-	 * @param {string} props.data.slug                   The initial slug.
-	 * @param {string} props.data.description            The initial description.
-	 * @param {string} props.baseUrl                     The base URL to use for the
-	 *                                                   preview.
-	 * @param {string} props.mode                        The mode the editor should
-	 *                                                   be in.
-	 * @param {Function} props.onChange                  Called when the data
-	 *                                                   changes.
-	 * @param {Object} props.titleLengthProgress       The values for the title
-	 *                                                   length assessment.
-	 * @param {Object} props.descriptionLengthProgress The values for the
-	 *                                                   description length
-	 *                                                   assessment.
-	 * @param {Function} props.mapDataToPreview          Function to map the editor
-	 *                                                   data to data for the preview.
-	 * @param {string} props.locale                      The locale of the page.
+	 * @param {Object}   props                                 The props for the snippet
+	 *                                                         editor.
+	 * @param {Object[]} props.replacementVariables            The replacement variables
+	 *                                                         for this editor.
+	 * @param {Object[]} props.recommendedReplacementVariables The recommended replacement
+	 *                                                         variables for this editor.
+	 * @param {Object}   props.data                            The initial editor data.
+	 * @param {string}   props.keyword                         The focus keyword.
+	 * @param {string}   props.data.title                      The initial title.
+	 * @param {string}   props.data.slug                       The initial slug.
+	 * @param {string}   props.data.description                The initial description.
+	 * @param {string}   props.baseUrl                         The base URL to use for
+	 *                                                         the preview.
+	 * @param {string}   props.mode                            The mode the editor should
+	 *                                                         be in.
+	 * @param {Function} props.onChange                        Called when the data
+	 *                                                         changes.
+	 * @param {Object}   props.titleLengthProgress             The values for the title
+	 *                                                         length assessment.
+	 * @param {Object}   props.descriptionLengthProgress       The values for the
+	 *                                                         description length
+	 *                                                         assessment.
+	 * @param {Function} props.mapDataToPreview                Function to map the editor
+	 *                                                         data to data for the preview.
+	 * @param {string}   props.locale                          The locale of the page.
 	 *
 	 * @returns {void}
 	 */
@@ -183,6 +185,7 @@ class SnippetEditor extends React.Component {
 		const {
 			data,
 			replacementVariables,
+			recommendedReplacementVariables,
 			descriptionEditorFieldPlaceholder,
 			onChange,
 		} = this.props;
@@ -202,6 +205,7 @@ class SnippetEditor extends React.Component {
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
 					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
 					titleLengthProgress={ titleLengthProgress }
 					descriptionLengthProgress={ descriptionLengthProgress }
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
@@ -492,6 +496,7 @@ class SnippetEditor extends React.Component {
 
 SnippetEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: replacementVariablesShape,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
@@ -515,6 +520,7 @@ SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
 	date: "",
 	replacementVariables: [],
+	recommendedReplacementVariables: [],
 	titleLengthProgress: {
 		max: 600,
 		actual: 0,

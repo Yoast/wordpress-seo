@@ -120,27 +120,29 @@ class SnippetEditorFields extends React.Component {
 	/**
 	 * Constructs the snippet editor fields.
 	 *
-	 * @param {Object}   props                             The props for the editor
-	 *                                                     fields.
-	 * @param {Object}   props.replacementVariables        The replacement variables
-	 *                                                     for this editor.
-	 * @param {Object}   props.data                        The initial editor data.
-	 * @param {string}   props.data.title                  The initial title.
-	 * @param {string}   props.data.slug                   The initial slug.
-	 * @param {string}   props.data.description            The initial description.
-	 * @param {Function} props.onChange                    Called when the data
-	 *                                                     changes.
-	 * @param {Function} props.onFocus                     Called when a field is
-	 *                                                     focused.
-	 * @param {Object}   props.titleLengthProgress       The values for the title
-	 *                                                     length assessment.
-	 * @param {Object}   props.descriptionLengthProgress The values for the
-	 *                                                     description length
-	 *                                                     assessment.
-	 * @param {string}   props.activeField                 The field that is
-	 *                                                     currently active.
-	 * @param {string}   props.hoveredField                The field that is
-	 *                                                     currently hovered.
+	 * @param {Object}   props                                 The props for the editor
+	 *                                                         fields.
+	 * @param {Object[]} props.replacementVariables            The replacement variables
+	 *                                                         for this editor.
+	 * @param {Object[]} props.recommendedReplacementVariables The recommended replacement
+	 *                                                         variables for this editor.
+	 * @param {Object}   props.data                            The initial editor data.
+	 * @param {string}   props.data.title                      The initial title.
+	 * @param {string}   props.data.slug                       The initial slug.
+	 * @param {string}   props.data.description                The initial description.
+	 * @param {Function} props.onChange                        Called when the data
+	 *                                                         changes.
+	 * @param {Function} props.onFocus                         Called when a field is
+	 *                                                         focused.
+	 * @param {Object}   props.titleLengthProgress             The values for the title
+	 *                                                         length assessment.
+	 * @param {Object}   props.descriptionLengthProgress       The values for the
+	 *                                                         description length
+	 *                                                         assessment.
+	 * @param {string}   props.activeField                     The field that is
+	 *                                                         currently active.
+	 * @param {string}   props.hoveredField                    The field that is
+	 *                                                         currently hovered.
 	 *
 	 *
 	 * @returns {void}
@@ -209,6 +211,7 @@ class SnippetEditorFields extends React.Component {
 			activeField,
 			hoveredField,
 			replacementVariables,
+			recommendedReplacementVariables,
 			titleLengthProgress,
 			descriptionLengthProgress,
 			onFocus,
@@ -244,6 +247,7 @@ class SnippetEditorFields extends React.Component {
 							onFocus={ () => onFocus( "title" ) }
 							onBlur={ () => onBlur() }
 							replacementVariables={ replacementVariables }
+							recommendedReplacementVariables={ recommendedReplacementVariables }
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ titleLabelId }
 						/>
@@ -290,6 +294,7 @@ class SnippetEditorFields extends React.Component {
 							onFocus={ () => onFocus( "description" ) }
 							onBlur={ () => onBlur() }
 							replacementVariables={ replacementVariables }
+							recommendedReplacementVariables={ recommendedReplacementVariables }
 							ref={ ( ref ) => this.setRef( "description", ref ) }
 							ariaLabelledBy={ descriptionLabelId }
 							descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
@@ -327,6 +332,7 @@ class SnippetEditorFields extends React.Component {
 
 SnippetEditorFields.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: replacementVariablesShape,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
