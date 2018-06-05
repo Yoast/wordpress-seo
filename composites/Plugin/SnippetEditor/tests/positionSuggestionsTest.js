@@ -50,9 +50,10 @@ describe( "positionSuggestions", () => {
 		} );
 
 		it( "returns the horizontal position that corresponds with left", () => {
-			global.window.innerWidth = 768;
+			global.window.innerWidth = 2048;
 			// ( Caret left - parent left )
-			const expected = 525;
+			// ( 730 - 20 )
+			const expected = 710;
 			const actual = getHorizontalPosition( parentRect, caretRect, popoverSize.width );
 
 			expect( actual ).toBe( expected );
@@ -61,6 +62,7 @@ describe( "positionSuggestions", () => {
 		it( "returns the horizontal position that corresponds with right", () => {
 			global.window.innerWidth = 500;
 			// ( Caret left - parent left ) - ( ( caret left + popover width + 3 ) - window.innerWidth )
+			// ( 730 - 20 ) - ( ( 730 + 220 + 3 ) - 500 )
 			const expected = 257;
 			const actual = getHorizontalPosition( parentRect, caretRect, popoverSize.width );
 
