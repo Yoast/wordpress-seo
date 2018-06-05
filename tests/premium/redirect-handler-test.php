@@ -583,6 +583,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 * @param WPSEO_Redirect $redirect    The redirect object.
 	 *
 	 * @covers WPSEO_Redirect_Handler::handle_normal_redirects
+	 * @covers WPSEO_Redirect_Handler::normalize_url
 	 */
 	public function test_handle_normal_redirects( $request_uri, WPSEO_Redirect $redirect ) {
 		$redirects = array(
