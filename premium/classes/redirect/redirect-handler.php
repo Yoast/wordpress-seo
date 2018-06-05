@@ -161,25 +161,36 @@ class WPSEO_Redirect_Handler {
 		$redirects       = $this->get_redirects( $this->normal_option_name );
 		$this->redirects = $this->normalize_redirects( $redirects );
 
-		// Trim the slashes, to match the variants of a request URL (Like: url, /url, /url/, url/).
-		if ( $request_url !== '/' ) {
-			$request_url = trim( $request_url, '/' );
-		}
+		$request_url = $this->trim_slashes( $request_url );
 
-		// Get the URL and doing the redirect.
+		// Gets the URL and doing the redirect.
 		$redirect_url = $this->find_url( $request_url );
 
 		if ( empty( $redirect_url ) ) {
 			return;
 		}
 
-		// Trim the slashes, to match the variants of a request URL (Like: url, /url, /url/, url/).
-		if ( $redirect_url['url'] !== '/' && trim( $redirect_url['url'], '/' ) === $request_url  ) {
+		if ( $this->trim_slashes( $redirect_url['url'] ) === $request_url  ) {
 			return;
 		}
 
 		$this->is_redirected = true;
 		$this->do_redirect( $redirect_url['url'], $redirect_url['type'] );
+	}
+
+	/**
+	 * Removes the slashes, to have a basis for matching multiple variants (Like: url, /url, /url/, url/).
+	 *
+	 * @param string $url The URL to remove slashes from.
+	 *
+	 * @return string The modified url.
+	 */
+	protected function trim_slashes( $url ) {
+		if ( $url === '/' ) {
+			return $url;
+		}
+
+		return trim( $url, '/' );
 	}
 
 	/**
