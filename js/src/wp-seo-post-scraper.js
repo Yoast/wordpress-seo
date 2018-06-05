@@ -1,13 +1,16 @@
-/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
-import { App } from "yoastseo";
-import isUndefined from "lodash/isUndefined";
+/* global YoastSEO: true, tinyMCE, wpseoReplaceVarsL10n, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 
+// External dependencies.
+import { App } from "yoastseo";
+import isFunction from "lodash/isFunction";
+import isUndefined from "lodash/isUndefined";
+import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
+
+// Internal dependencies.
+import initializeEdit from "./edit";
 import { tmceId, setStore } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
-
-import initializeEdit from "./edit";
-import { setActiveKeyword } from "./redux/actions/activeKeyword";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
 
@@ -22,10 +25,16 @@ import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetPreviewHelpers from "./analysis/snippetPreview";
+import snippetEditorHelpers from "./analysis/snippetEditor";
 import UsedKeywords from "./analysis/usedKeywords";
+
+import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
-import isFunction from "lodash/isFunction";
+import { setYoastComponentsI18n } from "./helpers/i18n";
+
+setYoastComponentsI18n();
+
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
@@ -74,7 +83,12 @@ import isFunction from "lodash/isFunction";
 			 */
 			postDataCollector.leavePostNameUntouched = true;
 
-			app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
+
+			const snippetEditorData = {
+				slug: getUrlPathFromResponse( response ),
+			};
+
+			editStore.dispatch( updateData( snippetEditorData ) );
 		}
 	} );
 
@@ -102,18 +116,17 @@ import isFunction from "lodash/isFunction";
 	/**
 	 * Initializes the snippet preview.
 	 *
-	 * @param {PostDataCollector} postScraper Object for getting post data.
+	 * @param {Object} snippetEditorData The snippet editor data.
 	 *
 	 * @returns {SnippetPreview} The created snippetpreview element.
 	 */
-	function initSnippetPreview( postScraper ) {
+	function initSnippetPreview( snippetEditorData ) {
 		return snippetPreviewHelpers.create( snippetContainer, {
-			title: postScraper.getSnippetTitle(),
-			urlPath: postScraper.getSnippetCite(),
-			metaDesc: postScraper.getSnippetMeta(),
+			title: snippetEditorData.title,
+			urlPath: snippetEditorData.slug,
+			metaDesc: snippetEditorData.description,
 		}, ( data ) => {
-			const state = editStore.getState();
-			const previousData = state.snippetEditor.data;
+			const previousData = snippetEditorHelpers.getDataFromStore( editStore );
 
 			if (
 				previousData.title !== data.title ||
@@ -327,6 +340,7 @@ import isFunction from "lodash/isFunction";
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
 				let keyword = tabManager.getKeywordTab().getKeyWord();
+				store.dispatch( setActiveKeyword( keyword ) );
 
 				/*
 				 * The results from the main App callback are always for the first keyword. So
@@ -335,6 +349,7 @@ import isFunction from "lodash/isFunction";
 				 */
 				if ( tabManager.isMainKeyword( keyword ) ) {
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+					store.dispatch( refreshSnippetEditor() );
 				}
 			};
 		}
@@ -343,6 +358,7 @@ import isFunction from "lodash/isFunction";
 			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
 			args.callbacks.updatedContentResults = function( results ) {
 				store.dispatch( setReadabilityResults( results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -420,14 +436,14 @@ import isFunction from "lodash/isFunction";
 	}
 
 	/**
-	 * Renders the legacy snippet preview based on the passed data from the redux
+	 * Update the legacy snippet preview based on the passed data from the redux
 	 * store.
 	 *
 	 * @param {Object} data The data from the store.
 	 *
 	 * @returns {void}
 	 */
-	function renderLegacySnippetEditor( data ) {
+	function updateLegacySnippetEditor( data ) {
 		if ( isFunction( snippetPreview.refresh ) ) {
 			let isDataChanged = false;
 
@@ -466,6 +482,8 @@ import isFunction from "lodash/isFunction";
 			onRefreshRequest: () => {},
 			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
+			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
+			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;
@@ -480,15 +498,21 @@ import isFunction from "lodash/isFunction";
 		tabManager = initializeTabManager();
 		postDataCollector = initializePostDataCollector( data );
 		publishBox.initalise();
-		snippetPreview = initSnippetPreview( postDataCollector );
 
-		let appArgs = getAppArgs( store );
+		// Initialize the snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoPostScraperL10n );
+		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+
+		snippetPreview = initSnippetPreview( snippetEditorData );
+
+		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
 		postDataCollector.app = app;
 
-		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
-		let shortcodePlugin = new YoastShortcodePlugin( app );
+		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		const shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
 			let markdownPlugin = new YoastMarkdownPlugin( app );
@@ -524,7 +548,7 @@ import isFunction from "lodash/isFunction";
 		}
 
 		// Switch between assessors when checkbox has been checked.
-		let cornerstoneCheckbox = jQuery( "#yoast_wpseo_is_cornerstone" );
+		const cornerstoneCheckbox = jQuery( "#yoast_wpseo_is_cornerstone" );
 		app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
 		cornerstoneCheckbox.change( function() {
 			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
@@ -532,7 +556,7 @@ import isFunction from "lodash/isFunction";
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
-		let originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
+		const originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
 		app.initAssessorPresenters = function() {
 			originalInitAssessorPresenters();
 			disableYoastSEORenderers( app );
@@ -546,35 +570,30 @@ import isFunction from "lodash/isFunction";
 			data.setRefresh( app.refresh );
 		}
 
-		const snippetEditorData = {
-			title: postDataCollector.getSnippetTitle(),
-			slug: postDataCollector.getSnippetCite(),
-			description: postDataCollector.getSnippetMeta(),
-		};
-
+		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
 		store.subscribe( () => {
-			const state = store.getState();
-			const data = state.snippetEditor.data;
+			const data = snippetEditorHelpers.getDataFromStore( store );
+			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
 
 			if ( snippetEditorData.title !== data.title ) {
-				postDataCollector.setDataFromSnippet( data.title, "snippet_title" );
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
 			}
 
 			if ( snippetEditorData.slug !== data.slug ) {
-				postDataCollector.setDataFromSnippet( data.slug, "snippet_cite" );
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
 			}
 
 			if ( snippetEditorData.description !== data.description ) {
-				postDataCollector.setDataFromSnippet( data.description, "snippet_meta" );
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
 			}
 
 			snippetEditorData.title = data.title;
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
 
-			renderLegacySnippetEditor( data );
+			updateLegacySnippetEditor( data );
 		} );
 	}
 

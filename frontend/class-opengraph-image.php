@@ -157,7 +157,7 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	public function add_image( $attachment ) {
-		 // In the past `add_image` accepted an image url, so leave this for backwards compatibility.
+		// In the past `add_image` accepted an image url, so leave this for backwards compatibility.
 		if ( is_string( $attachment ) ) {
 			$attachment = array( 'url' => $attachment );
 		}
@@ -548,7 +548,7 @@ class WPSEO_OpenGraph_Image {
 	 */
 	protected function get_extension_from_url( $url ) {
 		$extension = '';
-		$path = $this->get_image_url_path( $url );
+		$path      = $this->get_image_url_path( $url );
 
 		if ( $path === '' ) {
 			return $extension;

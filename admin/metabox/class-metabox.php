@@ -185,6 +185,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
+		$tab_registered = false;
+
 		foreach ( $post_types as $post_type ) {
 			if ( $this->display_metabox( $post_type ) === false ) {
 				continue;
@@ -199,6 +201,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			if ( get_current_screen() !== null ) {
 				$screen_id = get_current_screen()->id;
 				add_filter( "postbox_classes_{$screen_id}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
+			}
+
+			if ( ! $tab_registered ) {
+				// Add template variables tab to the Help Center.
+				$tab = new WPSEO_Help_Center_Template_Variables_Tab();
+				$tab->register_hooks();
+
+				$tab_registered = true;
 			}
 
 			add_meta_box( 'wpseo_meta', $product_title, array(
@@ -293,7 +303,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab <?php echo esc_attr( $id ); ?>">
 			<?php echo $content; ?>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
@@ -867,42 +877,46 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( self::is_post_overview( $pagenow ) ) {
 			$asset_manager->enqueue_style( 'edit-page' );
 			$asset_manager->enqueue_script( 'edit-page-script' );
+
+			return;
 		}
-		else {
 
-			if ( get_queried_object_id() !== 0 ) {
-				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
-			}
+		if ( get_queried_object_id() !== 0 ) {
+			// Enqueue files needed for upload functionality.
+			wp_enqueue_media( array( 'post' => get_queried_object_id() ) );
+		}
 
-			$asset_manager->enqueue_style( 'metabox-css' );
-			$asset_manager->enqueue_style( 'scoring' );
-			$asset_manager->enqueue_style( 'snippet' );
-			$asset_manager->enqueue_style( 'select2' );
+		$asset_manager->enqueue_style( 'metabox-css' );
+		$asset_manager->enqueue_style( 'scoring' );
+		$asset_manager->enqueue_style( 'snippet' );
+		$asset_manager->enqueue_style( 'select2' );
 
-			$asset_manager->enqueue_script( 'metabox' );
-			$asset_manager->enqueue_script( 'help-center' );
-			$asset_manager->enqueue_script( 'admin-media' );
+		$asset_manager->enqueue_script( 'metabox' );
+		$asset_manager->enqueue_script( 'help-center' );
+		$asset_manager->enqueue_script( 'admin-media' );
 
-			$asset_manager->enqueue_script( 'post-scraper' );
-			$asset_manager->enqueue_script( 'replacevar-plugin' );
-			$asset_manager->enqueue_script( 'shortcode-plugin' );
+		$asset_manager->enqueue_script( 'post-scraper' );
+		$asset_manager->enqueue_script( 'replacevar-plugin' );
+		$asset_manager->enqueue_script( 'shortcode-plugin' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
+		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
-			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
-				$asset_manager->enqueue_style( 'featured-image' );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Help_Center::get_translated_texts() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
 
-				$asset_manager->enqueue_script( 'featured-image' );
+		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
+			$asset_manager->enqueue_style( 'featured-image' );
 
-				$featured_image_l10 = array( 'featured_image_notice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
-				wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
-			}
+			$asset_manager->enqueue_script( 'featured-image' );
+
+			$featured_image_l10 = array( 'featured_image_notice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
 		}
 	}
 

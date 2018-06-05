@@ -68,9 +68,9 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph_Image::__construct
 	 */
 	public function test_constructor_with_no_global_wpseo_og_object() {
-		$old_og = $GLOBALS['wpseo_og'];
+		$old_og              = $GLOBALS['wpseo_og'];
 		$GLOBALS['wpseo_og'] = false;
-		$class_instance = new WPSEO_OpenGraph_Image( 'image.jpg' );
+		$class_instance      = new WPSEO_OpenGraph_Image( 'image.jpg' );
 
 		$GLOBALS['wpseo_og'] = $old_og;
 
@@ -320,7 +320,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_set_taxonomy_image() {
 		$post_id = $this->create_post( 'post' );
-		$term_id = $this->factory()->category->create( array(
+		$term_id = $this->factory()->category->create(
+			array(
 				'name' => 'Test Category 1',
 				'slug' => 'test1',
 			)
@@ -345,7 +346,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_images_from_content() {
 		// Create our post.
-		$post_id        = $this->create_post();
+		$post_id = $this->create_post();
 
 		// Upload an image to it.
 		$image          = '/assets/yoast.png';
@@ -355,11 +356,11 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$featured_image = $upload_dir['path'] . '/' . $basename;
 		copy( $source_image, $featured_image ); // Prevent original from deletion.
 
-		$file_array     = array(
+		$file_array = array(
 			'name'     => $basename,
 			'tmp_name' => $featured_image,
 		);
-		$attach_id      = media_handle_sideload( $file_array, $post_id );
+		$attach_id  = media_handle_sideload( $file_array, $post_id );
 
 		// Get the image URL so we can add it in the post content.
 		$file           = get_attached_file( $attach_id );
@@ -372,7 +373,12 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 <p>It also has an image that is not attached to this post:</p>
 <img src="' . $image2_url . '"/>
 <p>End of post</p>';
-		wp_update_post( array( 'ID' => $post_id, 'post_content' => $post_content ) );
+		wp_update_post(
+			array(
+				'ID'           => $post_id,
+				'post_content' => $post_content,
+			)
+		);
 
 		// Run our test.
 		$this->go_to( get_permalink( $post_id ) );
@@ -380,7 +386,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 		$expected = $this->sample_full_file_array( $attached_image, $attach_id );
 		$expected['https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg'] = array(
-			'url' => 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg'
+			'url' => 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg',
 		);
 
 		$this->assertEquals( $expected, $class_instance->get_images() );
@@ -398,7 +404,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$post2_id = $this->create_post();
 		WPSEO_Meta::set_value( 'opengraph-image', $image['url'], $post2_id );
 
-		//		$this->assertEquals( '1', get_post_meta( $post2_id, '_yoast_wpseo_opengraph-image', true ) );
+		// $this->assertEquals( '1', get_post_meta( $post2_id, '_yoast_wpseo_opengraph-image', true ) );
 		$this->assertEquals( $image['url'], WPSEO_Meta::get_value( 'opengraph-image', $post2_id ) );
 		$this->go_to( get_permalink( $post2_id ) );
 		$class_instance = $this->setup_class();
@@ -408,6 +414,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Sets up our test class
+	 *
 	 * @return WPSEO_OpenGraph_Image
 	 */
 	private function setup_class() {
@@ -494,7 +501,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 				'type'   => 'image/png',
 				'path'   => get_attached_file( $id ),
 				'size'   => 'full',
-				'id' 	 => $id,
+				'id'     => $id,
 				'pixels' => 250000,
 			),
 		);

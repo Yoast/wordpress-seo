@@ -16,7 +16,6 @@ const externals = {
 
 // This makes sure the @wordpress dependencies are correctly transformed.
 const wpDependencies = [
-	"i18n",
 	"components",
 	"element",
 	"blocks",
@@ -31,6 +30,9 @@ const alias = {
 	// This prevents loading multiple versions of React:
 	react: path.join( __dirname, "../", "node_modules/react" ),
 	"react-dom": path.join( __dirname, "../", "node_modules/react-dom" ),
+
+	// This prevents loading multiple versions of @wordpress/i18n:
+	"@wordpress/i18n": path.join( __dirname, "../", "node_modules/@wordpress/i18n" ),
 };
 
 wpDependencies.forEach( wpDependency => {
@@ -54,15 +56,25 @@ const defaultWebpackConfig = {
 	resolve: {
 		extensions: [ ".json", ".js", ".jsx" ],
 		alias,
+		symlinks: false,
 	},
 	module: {
 		rules: [
 			{
 				test: /.jsx?$/,
-				exclude: /node_modules\/(?!(yoast-components|gutenberg)\/).*/,
+				exclude: /node_modules\/(?!(yoast-components|gutenberg|yoastseo)\/).*/,
 				use: [
 					{
 						loader: "babel-loader",
+						options: {
+							env: {
+								development: {
+									plugins: [
+										"babel-plugin-styled-components",
+									],
+								},
+							},
+						},
 					},
 				],
 			},
