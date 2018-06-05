@@ -36,7 +36,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 
 		$sites = get_sites( array( 'deleted' => 0 ) );
 		foreach ( $sites as $site ) {
-			$choices[ $site->blog_id ] = $site->blog_id . ': ' . $site->domain;
+			$choices[ $site->blog_id ] = $site->blog_id . ': ' . $site->domain . $site->path;
 
 			$site_states = $this->get_site_states( $site );
 			if ( ! empty( $site_states ) ) {
