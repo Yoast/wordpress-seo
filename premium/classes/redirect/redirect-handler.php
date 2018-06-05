@@ -163,7 +163,7 @@ class WPSEO_Redirect_Handler {
 
 		$request_url = $this->normalize_url( $request_url );
 
-		// Gets the URL and doing the redirect.
+		// Get the URL and doing the redirect.
 		$redirect_url = $this->find_url( $request_url );
 
 		if ( empty( $redirect_url ) ) {
