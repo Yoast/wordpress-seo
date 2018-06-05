@@ -389,7 +389,13 @@ function wpseo_admin_init() {
  * on PHP 5.3+, the constant should only be set when requirements are met.
  */
 function wpseo_cli_init() {
-	// No CLI commands for free functionality yet.
+	// Only add the namespace if the required base class exists (WP-CLI 1.5.0+).
+	// This is optional and only adds the description of the root `yoast`
+	// command.
+	if ( class_exists( 'WP_CLI\Dispatcher\CommandNamespace' ) ) {
+		WP_CLI::add_command( 'yoast', 'WPSEO_CLI_Yoast_Command_Namespace' );
+		WP_CLI::add_command( 'yoast redirect', 'WPSEO_CLI_Redirect_Command_Namespace' );
+	}
 }
 
 /* ***************************** BOOTSTRAP / HOOK INTO WP *************************** */
