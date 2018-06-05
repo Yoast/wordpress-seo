@@ -184,6 +184,7 @@ class SnippetEditor extends React.Component {
 			data,
 			replacementVariables,
 			descriptionEditorFieldPlaceholder,
+			excludeReplaceVars,
 			onChange,
 		} = this.props;
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
@@ -205,6 +206,7 @@ class SnippetEditor extends React.Component {
 					titleLengthProgress={ titleLengthProgress }
 					descriptionLengthProgress={ descriptionLengthProgress }
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
+					excludeReplaceVars={ excludeReplaceVars }
 				/>
 				<CloseEditorButton onClick={ this.close }>
 					{ __( "Close snippet editor", "yoast-components" ) }
@@ -499,6 +501,7 @@ SnippetEditor.propTypes = {
 	} ).isRequired,
 	descriptionPlaceholder: PropTypes.string,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
+	excludeReplaceVars: PropTypes.array,
 	generatedDescription: PropTypes.string,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
@@ -528,6 +531,10 @@ SnippetEditor.defaultProps = {
 	mapDataToPreview: null,
 	generatedDescription: "",
 	locale: "en",
+	excludeReplaceVars: [
+		"currentyear", "currentmonth", "currentday", "currenttime",
+		"currentdate", "userid", "searchphrase", "archivetitle",
+	],
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
 };
 
