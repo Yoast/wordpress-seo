@@ -90,12 +90,9 @@ class WPSEO_Admin {
 
 		$this->initialize_cornerstone_content();
 
-		if ( Yoast_Network_Settings_API::meets_requirements() ) {
-			Yoast_Network_Settings_API::get()->register_hooks();
-		}
-
 		new Yoast_Modal();
 
+		$integrations[] = new Yoast_Network_Admin();
 		$integrations[] = new WPSEO_Yoast_Columns();
 		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();
