@@ -7,7 +7,6 @@ import {
 	getCaretOffset,
 	getAnchorBlock,
 	insertText,
-	replaceText,
 	removeSelectedText,
 	moveCaret,
 } from "../text";
