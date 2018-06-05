@@ -1,0 +1,15 @@
+.wpseo_preview_image_upload_button {
+	margin-right: 3px !important;
+}
+
+/* Hide the default form controls, Premium uses the previews instead. */
+.wpseotab.facebook > label,
+.wpseotab.facebook > input,
+.wpseotab.facebook > textarea,
+.wpseotab.facebook > .yoast-metabox__description,
+.wpseotab.twitter > label,
+.wpseotab.twitter > input,
+.wpseotab.twitter > textarea,
+.wpseotab.twitter > .yoast-metabox__description {
+	display: none;
+}
