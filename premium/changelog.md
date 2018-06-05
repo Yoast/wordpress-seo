@@ -1,4 +1,5 @@
-### 7.6.0: May 5th, 2018
+### 7.6.0: June 5th, 2018
+
 Enhancements:
 * Adds WP-CLI commands to manage redirects. Use `wp yoast redirect` to see the list of available commands.
 
