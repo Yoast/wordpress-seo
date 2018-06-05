@@ -6,6 +6,7 @@ import identity from "lodash/identity";
 import get from "lodash/get";
 import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
 import { stripFullTags } from "yoastseo/js/stringProcessing/stripHTMLTags";
+import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import SnippetEditor from "../containers/SnippetEditor";
@@ -110,7 +111,10 @@ const SnippetPreviewSection = ( { baseUrl, date } ) => {
 			baseUrl={ baseUrl }
 			mapDataToPreview={ mapEditorDataToPreview }
 			date={ date }
-			descriptionPlaceholder="Please provide a meta description by editing the snippet below."
+			descriptionPlaceholder={
+				__( "Please provide a meta description by editing the snippet below. If you don’t, Google will try " +
+					"to find a relevant part of your post to show in the search results. )", "wordpress-seo" )
+			}
 		/>
 	</Section>;
 };
