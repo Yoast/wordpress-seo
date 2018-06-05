@@ -181,7 +181,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 			);
 		}
 		else {
-			$yform->textinput( 'site_id', __( 'Blog ID', 'wordpress-seo' ) );
+			$yform->textinput( 'site_id', __( 'Site ID', 'wordpress-seo' ) );
 		}
 
 		echo '<input type="hidden" name="action" value="' . esc_attr( self::RESTORE_SITE_ACTION ) . '" />';

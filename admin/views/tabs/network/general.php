@@ -48,4 +48,4 @@ else {
 	echo '</p>';
 }
 
-echo '<p><strong>' . esc_html__( 'Take note:', 'wordpress-seo' ) . '</strong> ' . esc_html__( 'Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new blogs.', 'wordpress-seo' ) . '</p>';
+echo '<p><strong>' . esc_html__( 'Take note:', 'wordpress-seo' ) . '</strong> ' . esc_html__( 'Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new sites.', 'wordpress-seo' ) . '</p>';
