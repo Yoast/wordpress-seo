@@ -270,7 +270,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		$courses_spot->add_banner(
 			new WPSEO_Admin_Banner(
 				WPSEO_Shortlinker::get( 'https://yoa.st/jv' ),
-				'yoast-seo-for-wordpress-training.png',
+				'yoast-seo-for-wordpress-training-2018.png',
 				261,
 				152,
 				sprintf(
