@@ -1,20 +1,9 @@
+/* External dependencies */
 import React from "react";
-import styled from "styled-components";
-import { StyledSection, StyledSectionBase, StyledHeading, SettingsSnippetEditor } from "yoast-components";
+import { SettingsSnippetEditor } from "yoast-components";
 
-const Section = styled( StyledSection )`
-	margin-bottom: 2em;
-	max-width: 640px;
-	
-	&${ StyledSectionBase } {
-		padding: 0 0 16px;
-
-		& ${ StyledHeading } {
-			padding-left: 20px;
-			font-size: 14.4px;
-		}
-	}
-`;
+/* Internal dependencies */
+import SnippetPreviewSection from "./SnippetPreviewSection";
 
 class SettingsReplacementVariableEditor extends React.Component {
 	constructor( props ) {
@@ -58,11 +47,7 @@ class SettingsReplacementVariableEditor extends React.Component {
 
 	render() {
 		return (
-			<Section
-				headingLevel={ 3 }
-				headingText="Snippet preview"
-				headingIcon="eye"
-				headingIconColor="#555" >
+			<SnippetPreviewSection>
 				<SettingsSnippetEditor
 					onChange={ this.onChange.bind( this ) }
 					replacementVariables={ this.props.replacementVariables }
@@ -73,7 +58,7 @@ class SettingsReplacementVariableEditor extends React.Component {
 						description: this.state.description,
 					} }
 					mode={ this.state.mode } />
-			</Section>
+			</SnippetPreviewSection>
 		);
 	}
 }

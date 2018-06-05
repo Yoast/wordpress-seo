@@ -18,7 +18,7 @@ import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
-import SnippetPreviewSection from "./components/SnippetPreviewSection";
+import SnippetEditor from "./containers/SnippetEditor";
 import documentDataReducer from "./redux/reducers/documentData";
 import { setDocumentData } from "./redux/actions/documentData";
 
@@ -125,7 +125,7 @@ function renderSnippetPreview( store, props ) {
 	}
 
 	ReactDOM.render(
-		wrapInTopLevelComponents( SnippetPreviewSection, store, props ),
+		wrapInTopLevelComponents( SnippetEditor, store, props ),
 		targetElement,
 	);
 }

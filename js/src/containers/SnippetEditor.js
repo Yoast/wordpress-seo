@@ -1,9 +1,91 @@
+import React from "react";
 import { connect } from "react-redux";
 import { SnippetEditor } from "yoast-components";
+import identity from "lodash/identity";
+import get from "lodash/get";
+import { stripFullTags } from "yoastseo/js/stringProcessing/stripHTMLTags";
+import { __ } from "@wordpress/i18n";
+
 import {
 	switchMode,
 	updateData,
 } from "../redux/actions/snippetEditor";
+import SnippetPreviewSection from "../components/SnippetPreviewSection";
+
+/**
+ * Runs the legacy replaceVariables function on the data in the snippet preview.
+ *
+ * @param {Object} data             The snippet preview data object.
+ * @param {string} data.title       The snippet preview title.
+ * @param {string} data.url         The snippet preview url: baseUrl with the slug.
+ * @param {string} data.description The snippet preview description.
+ *
+ * @returns {Object} Returns the data object in which the placeholders have been replaced.
+ */
+const legacyReplaceUsingPlugin = function( data ) {
+	const replaceVariables = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "replaceVariables" ], identity );
+
+	return {
+		url: data.url,
+		title: stripFullTags( replaceVariables( data.title ) ),
+		description: stripFullTags( replaceVariables( data.description ) ),
+	};
+};
+
+/**
+ * Apply replaceVariables function on the data in the snippet preview.
+ *
+ * @param {Object} data             The snippet preview data object.
+ * @param {string} data.title       The snippet preview title.
+ * @param {string} data.url         The snippet preview url: baseUrl with the slug.
+ * @param {string} data.description The snippet preview description.
+ *
+ * @returns {Object} Returns the data object in which the placeholders have been replaced.
+ */
+const applyReplaceUsingPlugin = function( data ) {
+	// If we do not have pluggable loaded, apply just our own replace variables.
+	const pluggable = get( window, [ "YoastSEO", "app", "pluggable" ], false );
+	if ( ! pluggable || ! get( window, [ "YoastSEO", "app", "pluggable", "loaded" ], false ) ) {
+		return legacyReplaceUsingPlugin( data );
+	}
+
+	const applyModifications = pluggable._applyModifications.bind( pluggable );
+
+	return  {
+		url: data.url,
+		title: stripFullTags( applyModifications( "data_page_title", data.title ) ),
+		description: stripFullTags( applyModifications( "data_meta_desc", data.description ) ),
+	};
+};
+
+/**
+ * Process the snippet editor form data before it's being displayed in the snippet preview.
+ *
+ * @param {Object} data             The snippet preview data object.
+ * @param {string} data.title       The snippet preview title.
+ * @param {string} data.url         The snippet preview url: baseUrl with the slug.
+ * @param {string} data.description The snippet preview description.
+ *
+ * @returns {Object} The snippet preview data object.
+ */
+export const mapEditorDataToPreview = function( data ) {
+	// Replace whitespaces in the url with dashes.
+	data.url = data.url.replace( /\s+/g, "-" );
+	if ( data.url[ data.url.length - 1 ] === "-" ) {
+		data.url = data.url.slice( 0, -1 );
+	}
+
+	return applyReplaceUsingPlugin( data );
+};
+
+const SnippetEditorWrapper = ( props ) => (
+	<SnippetPreviewSection>
+		<SnippetEditor
+			{ ...props }
+			descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below." ) }
+			mapDataToPreview={ mapEditorDataToPreview } />
+	</SnippetPreviewSection>
+);
 
 /**
  * Returns either the text in the meta description field, the excerpt, or the content.
@@ -77,4 +159,4 @@ export function mapDispatchToProps( dispatch ) {
 	};
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( SnippetEditor );
+export default connect( mapStateToProps, mapDispatchToProps )( SnippetEditorWrapper );
