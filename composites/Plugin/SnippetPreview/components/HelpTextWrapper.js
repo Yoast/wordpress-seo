@@ -112,7 +112,7 @@ class HelpTextWrapper extends React.Component {
 					/>
 				</HelpTextButton>
 				<YoastSlideToggle
-					slideToggleOn={ isExpanded }
+					toggleState={ isExpanded }
 				>
 					<HelpTextPanel
 						id={ helpPanelId }

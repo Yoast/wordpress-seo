@@ -26,7 +26,11 @@ const YoastSlideToggleContainer = styled.div`
  * already provides the callbacks we need. For more details, see
  * https://reactjs.org/docs/animation.html
  *
- * @param {Object} props Component props.
+ * @param {Object}   props             Component props.
+ * @param {boolean}  props.toggleState Flag to show the component and trigger the animation.
+ * @param {number}   props.duration    Animation duration. Defaults to 300 ms.
+ * @param {children} props.children    The content of the YoastSlideToggle. Must be
+ *                                     a single child, can wrap multiple components.
  *
  * @returns {ReactElement} YoastSlideToggle component.
  */
@@ -80,7 +84,7 @@ export class YoastSlideToggle extends React.Component {
 		return (
 			<YoastSlideToggleContainer duration={ this.props.duration }>
 				<CSSTransition
-					in={ this.props.slideToggleOn }
+					in={ this.props.toggleState }
 					timeout={ this.props.duration }
 					classNames="slide"
 					unmountOnExit
@@ -98,7 +102,7 @@ export class YoastSlideToggle extends React.Component {
 }
 
 YoastSlideToggle.propTypes = {
-	slideToggleOn: PropTypes.bool.isRequired,
+	toggleState: PropTypes.bool.isRequired,
 	duration: PropTypes.number.isRequired,
 	children: PropTypes.node,
 };
