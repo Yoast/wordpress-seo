@@ -12,9 +12,19 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 /**
- * Adds an SEO admin bar menu with several options. If the current user is an admin he can also go straight to several settings menu's from here.
+ * Adds an SEO admin bar menu to the site admin, with several options.
+ *
+ * If the current user is an admin he can also go straight to several settings menu's from here.
+ *
+ * @return void
  */
 function wpseo_admin_bar_menu() {
+
+	// Only use this admin bar menu for the site admin.
+	if ( is_admin() && ! is_blog_admin() ) {
+		return;
+	}
+
 	// If the current user can't write posts, this is all of no use, so let's not output an admin menu.
 	if ( ! current_user_can( 'edit_posts' ) ) {
 		return;
@@ -107,7 +117,7 @@ function wpseo_admin_bar_menu() {
 		}
 	}
 
-	$title = '<div id="yoast-ab-icon" class="ab-item yoast-logo svg"><span class="screen-reader-text">' . __( 'SEO', 'wordpress-seo' ) . '</span></div>';
+	$title = wpseo_adminbar_title();
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wpseo-menu',
@@ -125,7 +135,7 @@ function wpseo_admin_bar_menu() {
 		) );
 	}
 
-	if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+	if ( $can_manage_seo ) {
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-menu',
 			'id'     => 'wpseo-configuration-wizard',
@@ -133,33 +143,8 @@ function wpseo_admin_bar_menu() {
 			'href'   => admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ),
 		) );
 	}
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'wpseo-menu',
-		'id'     => 'wpseo-kwresearch',
-		'title'  => __( 'Keyword Research', 'wordpress-seo' ),
-		'meta'   => array( 'tabindex' => '0' ),
-	) );
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'wpseo-kwresearch',
-		'id'     => 'wpseo-adwordsexternal',
-		'title'  => __( 'AdWords External', 'wordpress-seo' ),
-		'href'   => 'https://adwords.google.com/keywordplanner',
-		'meta'   => array( 'target' => '_blank' ),
-	) );
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'wpseo-kwresearch',
-		'id'     => 'wpseo-googleinsights',
-		'title'  => __( 'Google Trends', 'wordpress-seo' ),
-		'href'   => 'https://www.google.com/trends/explore#q=' . urlencode( $focuskw ),
-		'meta'   => array( 'target' => '_blank' ),
-	) );
-	$wp_admin_bar->add_menu( array(
-		'parent' => 'wpseo-kwresearch',
-		'id'     => 'wpseo-wordtracker',
-		'title'  => __( 'SEO Book', 'wordpress-seo' ),
-		'href'   => 'http://tools.seobook.com/keyword-tools/seobook/?keyword=' . urlencode( $focuskw ),
-		'meta'   => array( 'target' => '_blank' ),
-	) );
+
+	wpseo_adminbar_add_keyword_research_submenu( $wp_admin_bar, $focuskw, 'wpseo-menu' );
 
 	if ( ! is_admin() ) {
 		$url = WPSEO_Frontend::get_instance()->canonical( false );
@@ -299,6 +284,124 @@ function wpseo_admin_bar_menu() {
 }
 
 /**
+ * Adds an SEO admin bar menu to the network admin, including direct access to the network settings.
+ *
+ * @return void
+ */
+function wpseo_network_admin_bar_menu() {
+
+	// Only use this admin bar menu for the network admin.
+	if ( ! is_network_admin() ) {
+		return;
+	}
+
+	global $wp_admin_bar;
+
+	$can_manage_network_seo = current_user_can( 'wpseo_manage_network_options' );
+
+	$seo_url                 = '';
+	$top_level_link_tabindex = '0';
+
+	if ( $can_manage_network_seo ) {
+		$seo_url                 = network_admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER );
+		$top_level_link_tabindex = false;
+	}
+
+	$wp_admin_bar->add_menu( array(
+		'id'    => 'wpseo-network-menu',
+		'title' => wpseo_adminbar_title(),
+		'href'  => $seo_url,
+		'meta'  => array( 'tabindex' => $top_level_link_tabindex ),
+	) );
+
+	wpseo_adminbar_add_keyword_research_submenu( $wp_admin_bar, '', 'wpseo-network-menu' );
+
+	if ( $can_manage_network_seo ) {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-network-menu',
+			'id'     => 'wpseo-network-settings',
+			'title'  => __( 'SEO Settings', 'wordpress-seo' ),
+			'meta'   => array( 'tabindex' => '0' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-network-settings',
+			'id'     => 'wpseo-network-general',
+			'title'  => __( 'General', 'wordpress-seo' ),
+			'href'   => network_admin_url( 'admin.php?page=wpseo_dashboard' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-network-settings',
+			'id'     => 'wpseo-network-files',
+			'title'  => __( 'Edit Files', 'wordpress-seo' ),
+			'href'   => network_admin_url( 'admin.php?page=wpseo_files' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'wpseo-network-settings',
+			'id'     => 'wpseo-network-licenses',
+			'title'  => __( 'Extensions', 'wordpress-seo' ),
+			'href'   => network_admin_url( 'admin.php?page=wpseo_licenses' ),
+		) );
+	}
+}
+
+/**
+ * Adds a submenu for keyword research to the admin bar.
+ *
+ * @param WP_Admin_Bar $wp_admin_bar  Admin bar instance.
+ * @param string       $focus_keyword Optional. Focus keyword to display links for. Default empty string.
+ * @param string       $parent_menu   Optional. Parent menu to append the submenu to. Default 'wpseo-menu'.
+ *
+ * @return void
+ */
+function wpseo_adminbar_add_keyword_research_submenu( WP_Admin_Bar $wp_admin_bar, $focus_keyword = '', $parent_menu = 'wpseo-menu' ) {
+	$adwords_url = 'https://adwords.google.com/keywordplanner';
+	$trends_url  = 'https://www.google.com/trends/explore';
+	$seobook_url = 'http://tools.seobook.com/keyword-tools/seobook/';
+
+	if ( ! empty( $focus_keyword ) ) {
+		$trends_url  .= '#q=' . urlencode( $focus_keyword );
+		$seobook_url .= '?keyword=' . urlencode( $focus_keyword );
+	}
+
+	$wp_admin_bar->add_menu( array(
+		'parent' => $parent_menu,
+		'id'     => 'wpseo-kwresearch',
+		'title'  => __( 'Keyword Research', 'wordpress-seo' ),
+		'meta'   => array( 'tabindex' => '0' ),
+	) );
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wpseo-kwresearch',
+		'id'     => 'wpseo-adwordsexternal',
+		'title'  => __( 'AdWords External', 'wordpress-seo' ),
+		'href'   => $adwords_url,
+		'meta'   => array( 'target' => '_blank' ),
+	) );
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wpseo-kwresearch',
+		'id'     => 'wpseo-googleinsights',
+		'title'  => __( 'Google Trends', 'wordpress-seo' ),
+		'href'   => $trends_url,
+		'meta'   => array( 'target' => '_blank' ),
+	) );
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'wpseo-kwresearch',
+		'id'     => 'wpseo-wordtracker',
+		'title'  => __( 'SEO Book', 'wordpress-seo' ),
+		'href'   => $seobook_url,
+		'meta'   => array( 'target' => '_blank' ),
+	) );
+}
+
+/**
+ * Returns the markup to use for the admin bar title.
+ *
+ * @return string Admin bar title markup.
+ */
+function wpseo_adminbar_title() {
+	return '<div id="yoast-ab-icon" class="ab-item yoast-logo svg"><span class="screen-reader-text">' . __( 'SEO', 'wordpress-seo' ) . '</span></div>';
+}
+
+/**
  * Returns the SEO score element for the admin bar.
  *
  * @return string
@@ -366,12 +469,17 @@ function wpseo_adminbar_score( $score ) {
 }
 
 add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
+add_action( 'admin_bar_menu', 'wpseo_network_admin_bar_menu', 95 );
 
 /**
  * Enqueue CSS to format the Yoast SEO adminbar item.
  */
 function wpseo_admin_bar_style() {
-	if ( ! is_admin_bar_showing() || WPSEO_Options::get( 'enable_admin_bar_menu' ) !== true ) {
+	if ( ! is_admin_bar_showing() ) {
+		return;
+	}
+
+	if ( WPSEO_Options::get( 'enable_admin_bar_menu' ) !== true && ! is_network_admin() ) {
 		return;
 	}
 
