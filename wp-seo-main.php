@@ -389,36 +389,7 @@ function wpseo_admin_init() {
  * on PHP 5.3+, the constant should only be set when requirements are met.
  */
 function wpseo_cli_init() {
-	WP_CLI::add_command( 'yoast redirect list', 'WPSEO_CLI_Redirect_List_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
-
-	WP_CLI::add_command( 'yoast redirect create', 'WPSEO_CLI_Redirect_Create_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
-
-	WP_CLI::add_command( 'yoast redirect update', 'WPSEO_CLI_Redirect_Update_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
-
-	WP_CLI::add_command( 'yoast redirect delete', 'WPSEO_CLI_Redirect_Delete_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
-
-	WP_CLI::add_command( 'yoast redirect has', 'WPSEO_CLI_Redirect_Has_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
-
-	WP_CLI::add_command( 'yoast redirect follow', 'WPSEO_CLI_Redirect_Follow_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
-
-	// Only add the namespace if the required base class exists (WP-CLI 1.5.0+).
-	// This is optional and only adds the description of the root `redirect`
-	// command.
-	if ( class_exists( 'WP_CLI\Dispatcher\CommandNamespace' ) ) {
-		WP_CLI::add_command( 'yoast', 'WPSEO_CLI_Redirect_Command_Namespace' );
-	}
+	// No CLI commands for free functionality yet.
 }
 
 /* ***************************** BOOTSTRAP / HOOK INTO WP *************************** */
