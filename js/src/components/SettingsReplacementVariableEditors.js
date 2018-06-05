@@ -1,45 +1,21 @@
+/* External dependencies */
 import React from "react";
 import ReactDOM from "react-dom";
 import forEach from "lodash/forEach";
 import debounce from "lodash/debounce";
 import map from "lodash/map";
+import { connect } from "react-redux";
 
+/* Internal dependencies */
 import SettingsReplacementVariableEditor from "./SettingsReplacementVariableEditor";
+import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 
 class SettingsReplacementVariableEditors extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = {
-			replacementVariables: window.wpseoReplaceVarsL10n,
-		};
-
 		this.registerToSeparatorChanges();
-		this.replaceSeparator = debounce( this.replaceSeparator, 500 ).bind( this );
-	}
-
-	replaceSeparator( newSeparator ) {
-		const { replacementVariables } = this.state;
-
-		const index = this.state.replacementVariables.findIndex( replacementVariable => {
-			return replacementVariable.name === "sep";
-		} );
-
-		if( index === -1 ) {
-			return;
-		}
-
-		const name = replacementVariables[ index ].name;
-
-		const newestArray = [ ...replacementVariables ];
-		newestArray[ index ] = {
-			name,
-			value: newSeparator,
-		};
-
-		this.setState( {
-			replacementVariables: newestArray,
-		} );
+		this.replaceSeparator = debounce( this.props.updateReplacementVariable, 500 ).bind( this, "sep" );
 	}
 
 	registerToSeparatorChanges() {
@@ -79,7 +55,7 @@ class SettingsReplacementVariableEditors extends React.Component {
 			} = targetElement.dataset;
 			return ReactDOM.createPortal(
 				<SettingsReplacementVariableEditor
-					replacementVariables={ this.state.replacementVariables }
+					replacementVariables={ this.props.replacementVariables }
 					titleTarget={ reactReplacevarTitle }
 					descriptionTarget={ reactReplacevarMetadesc } />,
 				targetElement
@@ -88,4 +64,8 @@ class SettingsReplacementVariableEditors extends React.Component {
 	}
 }
 
-export default SettingsReplacementVariableEditors;
+export default connect( state => ( {
+	replacementVariables: state.snippetEditor.replacementVariables,
+} ), {
+	updateReplacementVariable,
+} )( SettingsReplacementVariableEditors );
