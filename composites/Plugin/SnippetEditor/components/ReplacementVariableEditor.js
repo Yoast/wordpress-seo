@@ -49,8 +49,8 @@ const serializeEditorState = flow( [
 /**
  * Creates the trigger string.
  *
- * @param {boolean} needsPrefix When true a space is prepended.
- * @param {boolean} needsSuffix When true a space is appended.
+ * @param {boolean} needsPrefix When true, a space is prepended.
+ * @param {boolean} needsSuffix When true, a space is appended.
  *
  * @returns {string} The trigger string.
  */

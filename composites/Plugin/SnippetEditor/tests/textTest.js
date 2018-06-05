@@ -166,49 +166,6 @@ describe( "SnippetEditor text utilities", () => {
 		} );
 	} );
 
-	describe( "replaceText", () => {
-		it( "inserts the text if the selection is a caret", () => {
-			const expected = "This is a slightly more complicated text.\n" +
-			                 "With just another line.";
-			let content = ContentState.createFromText(
-				"This is a slightly more complicated text.\n" +
-				"With another line."
-			);
-			let editor = EditorState.createWithContent( content );
-			const block = content.getLastBlock();
-			const blockKey = block.getKey();
-
-			editor = moveCaret( editor, 5, blockKey );
-			editor = replaceText( editor, "just " );
-
-			content = editor.getCurrentContent();
-			const actual = content.getPlainText();
-
-			expect( actual ).toBe( expected );
-		} );
-
-		it( "replaces the text", () => {
-			let content = ContentState.createFromText( "This is the content." );
-			let editor = EditorState.createWithContent( content );
-			const block = content.getFirstBlock();
-			const blockKey = block.getKey();
-			const selection = SelectionState.createEmpty( blockKey )
-			                                .merge( {
-				                                anchorOffset: 8,
-				                                focusOffset: 19,
-			                                } );
-
-			editor = EditorState.acceptSelection( editor, selection );
-			editor = replaceText( editor, "freshly replaced text" );
-
-			const expected = "This is freshly replaced text.";
-			content = editor.getCurrentContent();
-			const actual = content.getPlainText();
-
-			expect( actual ).toBe( expected );
-		} );
-	} );
-
 	describe( "removeSelectedText", () => {
 		it( "removes the selected text", () => {
 			let content = ContentState.createFromText( "This is the content." );

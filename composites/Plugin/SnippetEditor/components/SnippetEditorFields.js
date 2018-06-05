@@ -119,7 +119,7 @@ const SimulatedLabel = styled.div`
 	margin-bottom: 5px;
 `;
 
-const InsertVariableButton = Button.extend`
+const TriggerReplacementVariableSuggestionsButton = Button.extend`
 	height: 33px;
 	border: 1px solid #dbdbdb;
 	box-shadow: none;
@@ -329,13 +329,13 @@ class SnippetEditorFields extends React.Component {
 					>
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
-					<InsertVariableButton
+					<TriggerReplacementVariableSuggestionsButton
 						onClick={ () => this.triggerReplacementVariableSuggestions( "title" ) }
 						hasMobileWidth={ hasMobileWidth }
 					>
 						<SvgIcon icon="plus-circle" />
 						{ __( "Insert snippet variable", "yoast-components" ) }
-					</InsertVariableButton>
+					</TriggerReplacementVariableSuggestionsButton>
 					<TitleInputContainer
 						onClick={ () => this.elements.title.focus() }
 						isActive={ activeField === "title" }
@@ -385,13 +385,13 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "description" ) } >
 						{ __( "Meta description", "yoast-components" ) }
 					</SimulatedLabel>
-					<InsertVariableButton
+					<TriggerReplacementVariableSuggestionsButton
 						onClick={ () => this.triggerReplacementVariableSuggestions( "description" ) }
 						hasMobileWidth={ hasMobileWidth }
 					>
 						<SvgIcon icon="plus-circle" />
 						{ __( "Insert snippet variable", "yoast-components" ) }
-					</InsertVariableButton>
+					</TriggerReplacementVariableSuggestionsButton>
 					<DescriptionInputContainer
 						onClick={ () => this.elements.description.focus() }
 						isActive={ activeField === "description" }

@@ -34,7 +34,11 @@ export const getCaretOffset = ( selection ) => {
 };
 
 /**
- * Gets the block of the current Draft.js selection.
+ * Gets the block of the start of the current Draft.js selection.
+ *
+ * This is a tiny helper function to get the anchor key and then the block of that key.
+ * Read more about the Draft.js selection state: https://draftjs.org/docs/api-reference-selection-state.html
+ * Read more about the Draft.js content block: https://draftjs.org/docs/api-reference-content-block.html
  *
  * @param {ContentState}   content   The Draft.js content state.
  * @param {SelectionState} selection The Draft.js selection state.
@@ -44,22 +48,6 @@ export const getCaretOffset = ( selection ) => {
 export const getAnchorBlock = ( content, selection ) => {
 	const key = selection.getAnchorKey();
 	return content.getBlockForKey( key );
-};
-
-/**
- * Replaces current selection with text.
- *
- * @param {EditorState} editorState The Draft.js editor state.
- * @param {string}      text        The text to insert.
- *
- * @returns {EditorState} The new editor state.
- */
-export const replaceText = ( editorState, text ) => {
-	const content = editorState.getCurrentContent();
-	const selection = editorState.getSelection();
-
-	const newContent = Modifier.replaceText( content, selection, text );
-	return EditorState.push( editorState, newContent, "insert-characters" );
 };
 
 /**
