@@ -616,6 +616,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 * same as the request url.
 	 *
 	 * @covers WPSEO_Redirect_Handler::handle_normal_redirects
+	 * @covers WPSEO_Redirect_Handler::normalize_url
 	 */
 	public function test_handle_normal_redirects_when_target_is_request_url() {
 		$request_uri  = '/cart/';
