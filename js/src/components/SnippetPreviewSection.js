@@ -99,7 +99,7 @@ const mapEditorDataToPreview = function( data ) {
 const SnippetPreviewSection = ( { baseUrl, date } ) => {
 	return <Section
 		headingLevel={ 3 }
-		headingText="Snippet preview"
+		headingText="React snippet preview"
 		headingIcon="eye"
 		headingIconColor="#555"
 	>

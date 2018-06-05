@@ -1,4 +1,4 @@
-/* global wpseoAdminL10n, ajaxurl, wpseoSelect2Locale */
+/* global wpseoAdminGlobalL10n, ajaxurl, wpseoSelect2Locale */
 
 import a11ySpeak from "a11y-speak";
 
@@ -47,7 +47,7 @@ import a11ySpeak from "a11y-speak";
 			errorId = e.attr( "id" ) + "-" + variable + "-warning";
 			if ( e.val().search( "%%" + variable + "%%" ) !== -1 ) {
 				e.addClass( "wpseo-variable-warning-element" );
-				var msg = wpseoAdminL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
+				var msg = wpseoAdminGlobalL10n.variable_warning.replace( "%s", "%%" + variable + "%%" );
 				if ( jQuery( "#" + errorId ).length ) {
 					jQuery( "#" + errorId ).html( msg );
 				}
@@ -55,7 +55,7 @@ import a11ySpeak from "a11y-speak";
 					e.after( ' <div id="' + errorId + '" class="wpseo-variable-warning">' + msg + "</div>" );
 				}
 
-				a11ySpeak( wpseoAdminL10n.variable_warning.replace( "%s", variable ), "assertive" );
+				a11ySpeak( wpseoAdminGlobalL10n.variable_warning.replace( "%s", variable ), "assertive" );
 
 				warn = true;
 			}
@@ -267,9 +267,9 @@ import a11ySpeak from "a11y-speak";
 		} ).change();
 
 		// Check correct variables usage in title and description templates.
-		jQuery( ".template" ).change( function() {
+		jQuery( ".template" ).on( "input", function() {
 			wpseoDetectWrongVariables( jQuery( this ) );
-		} ).change();
+		} );
 
 		// Prevent form submission when pressing Enter on the switch-toggles.
 		jQuery( ".switch-yoast-seo input" ).on( "keydown", function( event ) {
