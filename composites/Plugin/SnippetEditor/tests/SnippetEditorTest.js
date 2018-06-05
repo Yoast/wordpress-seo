@@ -23,7 +23,7 @@ const defaultData = {
 const defaultArgs = {
 	baseUrl: "https://example.org/",
 	data: defaultData,
-	onChange: () => {},
+	onChange: jest.fn(),
 };
 
 const renderSnapshotWithArgs = ( changedArgs ) => {
@@ -88,7 +88,8 @@ describe( "SnippetEditor", () => {
 
 		renderSnapshotWithArgs( { mapDataToPreview: mapper, replacementVariables } );
 
-		expect( mapper ).toHaveBeenCalledTimes( 1 );
+		// The mapper is called both in the constructor, as well as the render function.
+		expect( mapper ).toHaveBeenCalledTimes( 2 );
 		expect( mapper ).toHaveBeenCalledWith( defaultMappedData, defaultData );
 	} );
 
@@ -298,6 +299,65 @@ describe( "SnippetEditor", () => {
 			editor.update();
 
 			expect( editor ).toMatchSnapshot();
+		} );
+	} );
+
+	describe( "shallowCompareData", () => {
+		it( "returns false when there is no new data", () => {
+			const editor = mountWithArgs( {} );
+
+			const oldData = {
+				title: "old title",
+				description: "old description",
+				slug: "old slug",
+			};
+			const newData = {
+				title: "old title",
+				description: "old description",
+				slug: "old slug",
+			};
+
+			const isDirty = editor.instance().shallowCompareData( oldData, newData );
+
+			expect( isDirty ).toBe( false );
+		} );
+
+		it( "returns true when one data point has changed", () => {
+			const editor = mountWithArgs( {} );
+
+			const oldData = {
+				title: "old title",
+				description: "old description",
+				slug: "old slug",
+			};
+			const newData = {
+				title: "new title",
+				description: "old description",
+				slug: "old slug",
+			};
+
+			const isDirty = editor.instance().shallowCompareData( oldData, newData );
+
+			expect( isDirty ).toBe( true );
+		} );
+
+		it( "returns true when multiple data points have changed", () => {
+			const editor = mountWithArgs( {} );
+
+			const oldData = {
+				title: "old title",
+				description: "old description",
+				slug: "old slug",
+			};
+			const newData = {
+				title: "new title",
+				description: "new description",
+				slug: "old slug",
+			};
+
+			const isDirty = editor.instance().shallowCompareData( oldData, newData );
+
+			expect( isDirty ).toBe( true );
 		} );
 	} );
 } );

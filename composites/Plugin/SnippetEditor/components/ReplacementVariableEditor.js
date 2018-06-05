@@ -2,7 +2,7 @@
 import React from "react";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
-import createMentionPlugin, { defaultSuggestionsFilter } from "draft-js-mention-plugin";
+import createMentionPlugin from "draft-js-mention-plugin";
 import createSingleLinePlugin from "draft-js-single-line-plugin";
 import flow from "lodash/flow";
 import debounce from "lodash/debounce";
@@ -168,6 +168,21 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
+	 * Filters replacement variables values based on the search term typed by the user.
+	 *
+	 * @param {string} searchValue The search value typed after the mentionTrigger by the user.
+	 * @param {Object[]} replacementVariables The replacement variables to filter.
+	 *
+	 * @returns {Object[]} A filtered set of replacement variables to show as suggestions to the user.
+	 */
+	replacementVariablesFilter( searchValue, replacementVariables ) {
+		const value = searchValue.toLowerCase();
+		return replacementVariables.filter( function( suggestion ) {
+			return ! value || suggestion.name.toLowerCase().indexOf( value ) === 0;
+		} );
+	}
+
+	/**
 	 * Handles a search change in the mentions plugin.
 	 *
 	 * @param {string} value The search value.
@@ -177,7 +192,7 @@ class ReplacementVariableEditor extends React.Component {
 	onSearchChange( { value } ) {
 		this.setState( {
 			searchValue: value,
-			replacementVariables: defaultSuggestionsFilter( value, this.props.replacementVariables ),
+			replacementVariables: this.replacementVariablesFilter( value, this.props.replacementVariables ),
 		} );
 
 		/*
@@ -295,7 +310,7 @@ class ReplacementVariableEditor extends React.Component {
 
 			this.setState( {
 				editorState: createEditorState( unserialized ),
-				replacementVariables: defaultSuggestionsFilter( searchValue, nextProps.replacementVariables ),
+				replacementVariables: this.replacementVariablesFilter( searchValue, nextProps.replacementVariables ),
 			} );
 		}
 	}
