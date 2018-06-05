@@ -16,6 +16,7 @@ module.exports = {
 					"premium/premium.php",
 
 					"premium/classes/**",
+					"premium/cli/**",
 					"premium/languages/**",
 					"premium/assets/dist/**",
 					"premium/assets/css/dist/**/*.min.css",
