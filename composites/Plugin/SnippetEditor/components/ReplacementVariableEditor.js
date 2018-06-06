@@ -67,8 +67,7 @@ class ReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		const { content: rawContent } = this.props;
-		const replacementVariables = this.excludeReplaceVars( this.props.replacementVariables, this.props.excludeReplaceVars );
+		const { content: rawContent, replacementVariables } = this.props;
 		const unserialized = unserializeEditor( rawContent, replacementVariables );
 
 		this.state = {
@@ -120,25 +119,6 @@ class ReplacementVariableEditor extends React.Component {
 
 			this.props.onChange( this._serializedContent );
 		}
-	}
-
-	/**
-	 * Excludes entries from the replacement variables used in the suggestions menu.
-	 *
-	 * @param {array} replaceVars        The array of replacement variable objects.
-	 * @param {array} excludeReplaceVars The array of variables to exclude.
-	 *
-	 * @returns {array} The new array of replacement variables.
-	 */
-	excludeReplaceVars( replaceVars, excludeReplaceVars ) {
-		let suggestions = replaceVars;
-		for ( let removeVar of excludeReplaceVars ) {
-			let currentIndex = replaceVars.findIndex( x => x.name === removeVar );
-			if ( currentIndex !== -1 ) {
-				suggestions = replaceVars.splice( currentIndex, 1 );
-			}
-		}
-		return suggestions;
 	}
 
 	/**
@@ -318,7 +298,6 @@ ReplacementVariableEditor.propTypes = {
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
-	excludeReplaceVars: PropTypes.array,
 };
 
 ReplacementVariableEditor.defaultProps = {
@@ -326,7 +305,6 @@ ReplacementVariableEditor.defaultProps = {
 	onBlur: () => {},
 	className: "",
 	descriptionEditorFieldPlaceholder: "",
-	excludeReplaceVars: [],
 };
 
 export default ReplacementVariableEditor;
