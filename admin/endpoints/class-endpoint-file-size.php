@@ -8,10 +8,10 @@
 /**
  * Represents an implementation of the WPSEO_Endpoint interface to register one or multiple endpoints.
  */
-class WPSEO_Endpoint_Image_Size implements WPSEO_Endpoint {
+class WPSEO_Endpoint_File_Size implements WPSEO_Endpoint {
 
 	const REST_NAMESPACE = 'yoast/v1';
-	const ENDPOINT_SINGULAR = 'image_size';
+	const ENDPOINT_SINGULAR = 'file_size';
 
 	const CAPABILITY_RETRIEVE = 'manage_options';
 
@@ -39,7 +39,7 @@ class WPSEO_Endpoint_Image_Size implements WPSEO_Endpoint {
 				'url' => array(
 					'required'    => true,
 					'type'        => 'string',
-					'description' => 'The image url to retrieve',
+					'description' => 'The url to retrieve',
 				),
 			),
 			'callback'            => array(
@@ -59,6 +59,6 @@ class WPSEO_Endpoint_Image_Size implements WPSEO_Endpoint {
 	 * @return bool Whether or not data can be retrieved.
 	 */
 	public function can_retrieve_data() {
-		return current_user_can( self::CAPABILITY_RETRIEVE );
+		return true;// current_user_can( self::CAPABILITY_RETRIEVE );
 	}
 }
