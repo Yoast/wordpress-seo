@@ -76,8 +76,19 @@ class Yoast_Form {
 		<?php
 		if ( $form === true ) {
 			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';
-			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
-			settings_fields( $option_long_name );
+
+			$network_admin = new Yoast_Network_Admin();
+			if ( $network_admin->meets_requirements() ) {
+				$action_url       = network_admin_url( 'settings.php' );
+				$hidden_fields_cb = array( $network_admin, 'settings_fields' );
+			}
+			else {
+				$action_url       = admin_url( 'options.php' );
+				$hidden_fields_cb = 'settings_fields';
+			}
+
+			echo '<form action="' . esc_url( $action_url ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+			call_user_func( $hidden_fields_cb, $option_long_name );
 		}
 		$this->set_option( $option );
 	}
