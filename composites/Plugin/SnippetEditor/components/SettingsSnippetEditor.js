@@ -121,8 +121,7 @@ class SnippetEditor extends React.Component {
 		 * We have to wait for the form to be mounted before we can actually focus
 		 * the correct input field.
 		 */
-		this.open()
-		.then( this.setFieldFocus.bind( this, field ) );
+		this.open().then( this.setFieldFocus.bind( this, field ) );
 	}
 
 	/**

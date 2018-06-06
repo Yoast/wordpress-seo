@@ -127,7 +127,6 @@ export default class FixedWidthContainer extends Component {
 			}
 		</React.Fragment>;
 	}
-
 }
 
 FixedWidthContainer.propTypes = {
