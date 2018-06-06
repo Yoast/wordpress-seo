@@ -42,7 +42,7 @@ class WPSEO_Admin {
 		}
 
 		$this->admin_features = array(
-			// Google Search Console. 
+			// Google Search Console.
 			'google_search_console' => new WPSEO_GSC(),
 			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
 		);

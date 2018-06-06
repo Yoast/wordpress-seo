@@ -755,7 +755,8 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the current date for use as replacement string.
-	 * @return string
+	 *
+	 * @return string The formatted current date.
 	 */
 	private function retrieve_currentdate() {
 		static $replacement;
@@ -769,7 +770,8 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the current day for use as replacement string.
-	 * @return string
+	 *
+	 * @return string The current day.
 	 */
 	private function retrieve_currentday() {
 		static $replacement;
@@ -783,7 +785,8 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the current month for use as replacement string.
-	 * @return string
+	 *
+	 * @return string The current month.
 	 */
 	private function retrieve_currentmonth() {
 		static $replacement;
@@ -797,7 +800,8 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the current time for use as replacement string.
-	 * @return string
+	 *
+	 * @return string The formatted current month.
 	 */
 	private function retrieve_currenttime() {
 		static $replacement;
@@ -811,7 +815,8 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the current year for use as replacement string.
-	 * @return string
+	 *
+	 * @return string The current year.
 	 */
 	private function retrieve_currentyear() {
 		static $replacement;
@@ -1128,10 +1133,10 @@ class WPSEO_Replace_Vars {
 			'category_description' => __( 'Example primary category description', 'wordpress-seo' ),
 			'tag_description' => __( 'Example tag description', 'wordpress-seo' ),
 			'term_description' => __( 'Example term description', 'wordpress-seo' ),
-			'term_title' => __( 'Example term name' ),
+			'term_title' => __( 'Example term name', 'wordpress-seo' ),
 			'sep' => WPSEO_Utils::get_title_separator(),
-			'pt_single' => __( 'Post' ),
-			'pt_plural' => __( 'Posts' ),
+			'pt_single' => __( 'Post', 'wordpress-seo' ),
+			'pt_plural' => __( 'Posts', 'wordpress-seo' ),
 			'modified' => $this->retrieve_currentdate(),
 			'id' => '1',
 			'name' => __( 'Author\'s name', 'wordpress-seo' ),
@@ -1147,11 +1152,11 @@ class WPSEO_Replace_Vars {
 			'pagenumber' => '1',
 			'caption' => __( 'Example caption', 'wordpress-seo' ),
 			'focuskw' => __( 'keyword', 'wordpress-seo' ),
-			'term404' => __( '404 page\'s slug' ),
+			'term404' => __( '404 page\'s slug', 'wordpress-seo' ),
 		);
 
 		$formatted = array();
-		foreach( $replacement_variables as $key => $value ) {
+		foreach ( $replacement_variables as $key => $value ) {
 			$formatted[] = array( 'name' => $key, 'value' => $value );
 		}
 		return $formatted;

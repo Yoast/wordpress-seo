@@ -528,7 +528,7 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'search-appearance',
 				'src' => 'search-appearance-' . $flat_version,
-			)
+			),
 		);
 	}
 }

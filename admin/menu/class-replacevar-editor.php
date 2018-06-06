@@ -6,15 +6,29 @@
  */
 
 /**
- * Registers the regular admin menu and network admin menu implementations.
+ * Renders a replacement variable editor.
  */
 class WPSEO_Replacevar_Editor {
+	/**
+	 * @var Yoast_Form
+	 */
 	private $yform;
+	/**
+	 * @var string
+	 */
 	private $title;
+	/**
+	 * @var string|null
+	 */
 	private $description;
 
-	static $counter = 0;
-
+	/**
+	 * WPSEO_Replacevar_Editor constructor.
+	 *
+	 * @param Yoast_Form $yform       Yoast forms.
+	 * @param string     $title       The title field id.
+	 * @param string     $description The description field id.
+	 */
 	public function __construct( $yform, $title, $description = null ) {
 		$this->yform = $yform;
 		$this->title = $title;
@@ -22,7 +36,7 @@ class WPSEO_Replacevar_Editor {
 	}
 
 	/**
-	 * Registers all hooks to WordPress.
+	 * Renders a div with custom data attributes for the React search appearance editors.
 	 *
 	 * @return void
 	 */
