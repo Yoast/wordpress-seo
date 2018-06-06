@@ -8,22 +8,22 @@
 /**
  * Represents an implementation of the WPSEO_Endpoint interface to register one or multiple endpoints.
  */
-class WPSEO_Endpoint_Image implements WPSEO_Endpoint {
+class WPSEO_Endpoint_Image_Size implements WPSEO_Endpoint {
 
 	const REST_NAMESPACE = 'yoast/v1';
-	const ENDPOINT_SINGULAR = 'image';
+	const ENDPOINT_SINGULAR = 'image_size';
 
 	const CAPABILITY_RETRIEVE = 'manage_options';
 
-	/** @var WPSEO_Indexable_Service */
+	/** @var WPSEO_Image_Size_Service */
 	private $service;
 
 	/**
 	 * Sets the service provider.
 	 *
-	 * @param WPSEO_Image_Service $service The service provider.
+	 * @param WPSEO_Image_Size_Service $service The service provider.
 	 */
-	public function __construct( WPSEO_Image_Service $service ) {
+	public function __construct( WPSEO_Image_Size_Service $service ) {
 		$this->service = $service;
 	}
 
@@ -44,7 +44,7 @@ class WPSEO_Endpoint_Image implements WPSEO_Endpoint {
 			),
 			'callback'            => array(
 				$this->service,
-				'get_image',
+				'get',
 			),
 			'permission_callback' => array(
 				$this,
@@ -59,6 +59,6 @@ class WPSEO_Endpoint_Image implements WPSEO_Endpoint {
 	 * @return bool Whether or not data can be retrieved.
 	 */
 	public function can_retrieve_data() {
-		return true; // current_user_can( self::CAPABILITY_RETRIEVE );
+		return current_user_can( self::CAPABILITY_RETRIEVE );
 	}
 }
