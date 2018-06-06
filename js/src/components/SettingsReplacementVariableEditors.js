@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 
 /* Internal dependencies */
 import SettingsReplacementVariableEditor from "./SettingsReplacementVariableEditor";
+import SettingsTitleReplacementVariableEditor from "./SettingsTitleReplacementVariableEditor";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 
 class SettingsReplacementVariableEditors extends React.Component {
@@ -53,6 +54,10 @@ class SettingsReplacementVariableEditors extends React.Component {
 				reactReplacevarTitle,
 				reactReplacevarMetadesc,
 			} = targetElement.dataset;
+			if ( ! reactReplacevarMetadesc ) {
+				// TODO
+				return null;
+			}
 			return ReactDOM.createPortal(
 				<SettingsReplacementVariableEditor
 					replacementVariables={ this.props.replacementVariables }

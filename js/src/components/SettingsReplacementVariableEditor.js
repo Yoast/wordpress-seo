@@ -4,58 +4,36 @@ import { SettingsSnippetEditor } from "yoast-components";
 
 /* Internal dependencies */
 import SnippetPreviewSection from "./SnippetPreviewSection";
+import linkHiddenFields from "./higherorder/linkHiddenField";
 
 class SettingsReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.setElement( "title", props.titleTarget );
-		this.setElement( "description", props.descriptionTarget );
-	}
-
-	setElement( targetName, targetId ) {
-		if( ! this.elements ) {
-			this.elements = {};
-		}
-		if( ! this.state ) {
-			this.state = {};
-		}
-
-		const element = document.getElementById( targetId );
-
-		this.elements[ targetName ] = document.getElementById( targetId );
-
-		if( element ) {
-			this.elements[ targetName ] = element;
-			this.state = {
-				...this.state,
-				[ targetName ]: element.value,
-			};
-		}
-	}
-
-	onChange( field, value ) {
-		this.setState( {
-			[ field ]: value,
-		}, () => {
-			// Necessary because there is no field for "mode"
-			if ( this.elements[ field ] ) {
-				this.elements[ field ].value = value;
-			}
-		} );
+		this.state = {
+			mode: "mobile",
+		};
 	}
 
 	render() {
 		return (
 			<SnippetPreviewSection>
 				<SettingsSnippetEditor
-					onChange={ this.onChange.bind( this ) }
+					onChange={ ( field, value ) => {
+						switch( field ) {
+							case "title":
+								this.props.title.onChange( value ); break;
+							case "description":
+								this.props.description.onChange( value ); break;
+							case "mode":
+								this.setState( { mode: value } ); break;
+						}
+					} }
 					replacementVariables={ this.props.replacementVariables }
 					baseUrl="http://local.wordpress.test"
 					data={ {
-						title: this.state.title,
-						slug: "",
-						description: this.state.description,
+						title: this.props.title.value,
+						description: this.props.description.value,
 					} }
 					mode={ this.state.mode } />
 			</SnippetPreviewSection>
@@ -63,4 +41,15 @@ class SettingsReplacementVariableEditor extends React.Component {
 	}
 }
 
-export default SettingsReplacementVariableEditor;
+export default linkHiddenFields( props => {
+	return [
+		{
+			name: "title",
+			fieldId: props.titleTarget,
+		},
+		{
+			name: "description",
+			fieldId: props.descriptionTarget,
+		},
+	];
+} )( SettingsReplacementVariableEditor );
