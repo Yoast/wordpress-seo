@@ -53,7 +53,8 @@ class SnippetEditor extends React.Component {
 		this.setFieldFocus = this.setFieldFocus.bind( this );
 		this.handleChange = this.handleChange.bind( this );
 		this.onClick = this.onClick.bind( this );
-		this.onMouseOver = this.onMouseOver.bind( this );
+		this.onMouseUp = this.onMouseUp.bind( this );
+		this.onMouseEnter = this.onMouseEnter.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
 	}
 
@@ -99,32 +100,50 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Sets the hovered field on mouse over.
+	 * Handles mouse up event on a certain field in the snippet preview.
 	 *
-	 * @param {string} field The field that was moused over.
+	 * We're using onMouseUp instead of onClick because the SnippetPreview re-renders
+	 * when onBlur occurs. Click events fire when both a mousedown *and* a mouseup
+	 * events occur. When onBlur occurs, new onClick functions would be passed via
+	 * props and bounded, so the SnippetPreview would "see" just a mouseup event
+	 * and the click event wouldn't fire at all.
+	 *
+	 * @param {string} field The field that was moused up.
 	 *
 	 * @returns {void}
 	 */
-	onMouseOver( field ) {
+	onMouseUp( field ) {
+		if ( this.state.isOpen ) {
+			this.setFieldFocus( field );
+			return;
+		}
+		/*
+		 * We have to wait for the form to be mounted before we can actually focus
+		 * the correct input field.
+		 */
+		this.open()
+		.then( this.setFieldFocus.bind( this, field ) );
+	}
+
+	/**
+	 * Sets the hovered field on mouse enter.
+	 *
+	 * @param {string} field The field that was hovered.
+	 *
+	 * @returns {void}
+	 */
+	onMouseEnter( field ) {
 		this.setState( {
 			hoveredField: this.mapFieldToEditor( field ),
 		} );
 	}
 
 	/**
-	 * Sets the hovered field on mouse leave.
-	 *
-	 * @param {string} field The field that was the mouse left.
+	 * Unsets the hovered field on mouse leave.
 	 *
 	 * @returns {void}
 	 */
-	onMouseLeave( field ) {
-		field = this.mapFieldToEditor( field );
-
-		if ( field && this.state.hoveredField !== field ) {
-			return;
-		}
-
+	onMouseLeave() {
 		this.setState( {
 			hoveredField: null,
 		} );
@@ -241,8 +260,9 @@ class SnippetEditor extends React.Component {
 					date={ date }
 					activeField={ activeField }
 					hoveredField={ hoveredField }
-					onMouseOver={ this.onMouseOver }
+					onMouseEnter={ this.onMouseEnter }
 					onMouseLeave={ this.onMouseLeave }
+					onMouseUp={ this.onMouseUp }
 					onClick={ this.onClick }
 					descriptionPlaceholder={ descriptionPlaceholder }
 					{ ...mappedData }
