@@ -2,7 +2,8 @@
 import React from "react";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
-import createMentionPlugin, { defaultSuggestionsFilter } from "draft-js-mention-plugin";
+import createMentionPlugin from "draft-js-mention-plugin";
+import createSingleLinePlugin from "draft-js-single-line-plugin";
 import flow from "lodash/flow";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
@@ -66,7 +67,8 @@ class ReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		const { content: rawContent, replacementVariables } = this.props;
+		const { content: rawContent } = this.props;
+		const replacementVariables = this.excludeReplaceVars( this.props.replacementVariables, this.props.excludeReplaceVars );
 		const unserialized = unserializeEditor( rawContent, replacementVariables );
 
 		this.state = {
@@ -96,6 +98,10 @@ class ReplacementVariableEditor extends React.Component {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
 		} );
+
+		this.singleLinePlugin = createSingleLinePlugin( {
+			stripEntities: false,
+		} );
 	}
 
 	/**
@@ -117,6 +123,25 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
+	 * Excludes entries from the replacement variables used in the suggestions menu.
+	 *
+	 * @param {array} replaceVars        The array of replacement variable objects.
+	 * @param {array} excludeReplaceVars The array of variables to exclude.
+	 *
+	 * @returns {array} The new array of replacement variables.
+	 */
+	excludeReplaceVars( replaceVars, excludeReplaceVars ) {
+		let suggestions = replaceVars;
+		for ( let removeVar of excludeReplaceVars ) {
+			let currentIndex = replaceVars.findIndex( x => x.name === removeVar );
+			if ( currentIndex !== -1 ) {
+				suggestions = replaceVars.splice( currentIndex, 1 );
+			}
+		}
+		return suggestions;
+	}
+
+	/**
 	 * Handlers changes to the underlying Draft.js editor.
 	 *
 	 * @param {EditorState} editorState The Draft.js state.
@@ -132,6 +157,21 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
+	 * Filters replacement variables values based on the search term typed by the user.
+	 *
+	 * @param {string} searchValue The search value typed after the mentionTrigger by the user.
+	 * @param {Object[]} replacementVariables The replacement variables to filter.
+	 *
+	 * @returns {Object[]} A filtered set of replacement variables to show as suggestions to the user.
+	 */
+	replacementVariablesFilter( searchValue, replacementVariables ) {
+		const value = searchValue.toLowerCase();
+		return replacementVariables.filter( function( suggestion ) {
+			return ! value || suggestion.name.toLowerCase().indexOf( value ) === 0;
+		} );
+	}
+
+	/**
 	 * Handles a search change in the mentions plugin.
 	 *
 	 * @param {string} value The search value.
@@ -141,7 +181,7 @@ class ReplacementVariableEditor extends React.Component {
 	onSearchChange( { value } ) {
 		this.setState( {
 			searchValue: value,
-			replacementVariables: defaultSuggestionsFilter( value, this.props.replacementVariables ),
+			replacementVariables: this.replacementVariablesFilter( value, this.props.replacementVariables ),
 		} );
 
 		/*
@@ -222,7 +262,7 @@ class ReplacementVariableEditor extends React.Component {
 
 			this.setState( {
 				editorState: createEditorState( unserialized ),
-				replacementVariables: defaultSuggestionsFilter( searchValue, nextProps.replacementVariables ),
+				replacementVariables: this.replacementVariablesFilter( searchValue, nextProps.replacementVariables ),
 			} );
 		}
 	}
@@ -244,7 +284,7 @@ class ReplacementVariableEditor extends React.Component {
 	 */
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy } = this.props;
+		const { onFocus, onBlur, ariaLabelledBy, descriptionEditorFieldPlaceholder } = this.props;
 		const { editorState, replacementVariables } = this.state;
 
 		return (
@@ -254,10 +294,11 @@ class ReplacementVariableEditor extends React.Component {
 					onChange={ this.onChange }
 					onFocus={ onFocus }
 					onBlur={ onBlur }
-					plugins={ [ this.mentionsPlugin ] }
+					plugins={ [ this.mentionsPlugin, this.singleLinePlugin ] }
 					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
+					placeholder={ descriptionEditorFieldPlaceholder }
 				/>
 				<MentionSuggestions
 					onSearchChange={ this.onSearchChange }
@@ -276,12 +317,16 @@ ReplacementVariableEditor.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
+	descriptionEditorFieldPlaceholder: PropTypes.string,
+	excludeReplaceVars: PropTypes.array,
 };
 
 ReplacementVariableEditor.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
 	className: "",
+	descriptionEditorFieldPlaceholder: "",
+	excludeReplaceVars: [],
 };
 
 export default ReplacementVariableEditor;

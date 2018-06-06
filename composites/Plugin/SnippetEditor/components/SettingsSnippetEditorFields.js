@@ -8,7 +8,7 @@ import { __ } from "@wordpress/i18n";
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import { replacementVariablesShape } from "../constants";
 import {
-	InputContainer,
+	TitleInputContainer,
 	DescriptionInputContainer,
 	FormSection,
 	SimulatedLabel,
@@ -129,7 +129,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "title" ) } >
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
-					<InputContainer
+					<TitleInputContainer
 						onClick={ () => this.elements.title.focus() }
 						isActive={ activeField === "title" }
 						isHovered={ hoveredField === "title" }>
@@ -141,7 +141,7 @@ class SettingsSnippetEditorFields extends React.Component {
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ titleLabelId }
 						/>
-					</InputContainer>
+					</TitleInputContainer>
 				</FormSection>
 				<FormSection>
 					<SimulatedLabel

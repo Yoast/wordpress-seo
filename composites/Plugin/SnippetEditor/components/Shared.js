@@ -66,6 +66,15 @@ export const InputContainer = styled.div.attrs( {
 	}
 `;
 
+export const TitleInputContainer = InputContainer.extend`
+	.public-DraftStyleDefault-block {
+		line-height: 24px;
+		height: 24px;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+`;
+
 export const DescriptionInputContainer = InputContainer.extend`
 	min-height: 60px;
 	padding: 2px 6px;

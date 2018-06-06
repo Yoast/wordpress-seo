@@ -13,6 +13,7 @@ import {
 	FormSection,
 	SimulatedLabel,
 	StyledEditor,
+	TitleInputContainer,
 } from "./Shared";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
@@ -88,36 +89,28 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Makes sure the focus is correct after mounting the editor fields.
-	 *
-	 * @returns {void}
-	 */
-	componentDidMount() {
-		this.focusOnActiveFieldChange( null );
-	}
-
-	/**
 	 * Makes sure the focus is correct after updating the editor fields.
 	 *
-	 * @param {Object} prevProps The previously received props.
+	 * For example, the component will update when clicking on the field labels.
+	 * In this case, we need to focus again the field.
 	 *
+	 * @param {Object} prevProps The previous props.
 	 * @returns {void}
 	 */
 	componentDidUpdate( prevProps ) {
-		this.focusOnActiveFieldChange( prevProps.activeField );
+		if ( prevProps.activeField !== this.props.activeField ) {
+			this.focusOnActiveFieldChange();
+		}
 	}
 
 	/**
 	 * Focuses the currently active field if it wasn't previously active.
 	 *
-	 * @param {string} prevActiveField The previously active field.
-	 *
 	 * @returns {void}
 	 */
-	focusOnActiveFieldChange( prevActiveField ) {
+	focusOnActiveFieldChange() {
 		const { activeField } = this.props;
-
-		if ( activeField !== prevActiveField ) {
+		if ( activeField ) {
 			const activeElement = this.elements[ activeField ];
 			activeElement.focus();
 		}
@@ -136,7 +129,10 @@ class SnippetEditorFields extends React.Component {
 			titleLengthProgress,
 			descriptionLengthProgress,
 			onFocus,
+			onBlur,
 			onChange,
+			descriptionEditorFieldPlaceholder,
+			excludeReplaceVars,
 			data: {
 				title,
 				slug,
@@ -156,7 +152,7 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "title" ) } >
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
-					<InputContainer
+					<TitleInputContainer
 						onClick={ () => this.elements.title.focus() }
 						isActive={ activeField === "title" }
 						isHovered={ hoveredField === "title" }>
@@ -164,11 +160,13 @@ class SnippetEditorFields extends React.Component {
 							content={ title }
 							onChange={ content => onChange( "title", content ) }
 							onFocus={ () => onFocus( "title" ) }
+							onBlur={ () => onBlur() }
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ titleLabelId }
+							excludeReplaceVars={ excludeReplaceVars }
 						/>
-					</InputContainer>
+					</TitleInputContainer>
 					<ProgressBar
 						max={ titleLengthProgress.max }
 						value={ titleLengthProgress.actual }
@@ -189,6 +187,7 @@ class SnippetEditorFields extends React.Component {
 							value={ slug }
 							onChange={ event => onChange( "slug", event.target.value ) }
 							onFocus={ () => onFocus( "slug" ) }
+							onBlur={ () => onBlur() }
 							innerRef={ ref => this.setRef( "slug", ref ) }
 							aria-labelledby={ this.uniqueId + "-slug" }
 						/>
@@ -208,9 +207,12 @@ class SnippetEditorFields extends React.Component {
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
 							onFocus={ () => onFocus( "description" ) }
+							onBlur={ () => onBlur() }
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "description", ref ) }
 							ariaLabelledBy={ descriptionLabelId }
+							descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
+							excludeReplaceVars={ excludeReplaceVars }
 						/>
 					</DescriptionInputContainer>
 					<ProgressBar
@@ -247,6 +249,7 @@ SnippetEditorFields.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
+	onBlur: PropTypes.func,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
@@ -256,11 +259,14 @@ SnippetEditorFields.propTypes = {
 	hoveredField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
+	descriptionEditorFieldPlaceholder: PropTypes.string,
+	excludeReplaceVars: PropTypes.array,
 };
 
 SnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
+	onBlur: () => {},
 	titleLengthProgress: {
 		max: 600,
 		actual: 0,

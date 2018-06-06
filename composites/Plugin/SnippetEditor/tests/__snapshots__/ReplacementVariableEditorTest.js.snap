@@ -134,6 +134,7 @@ exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
+    placeholder=""
     plugins={
       Array [
         Object {
@@ -156,6 +157,15 @@ exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
           "onEscape": [Function],
           "onTab": [Function],
           "onUpArrow": [Function],
+        },
+        Object {
+          "blockRenderMap": Immutable.Map {
+            "unstyled": Object {
+              "element": "div",
+            },
+          },
+          "handleReturn": [Function],
+          "onChange": [Function],
         },
       ]
     }

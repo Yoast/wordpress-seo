@@ -10,6 +10,7 @@ import SnippetEditor from "../composites/Plugin/SnippetEditor/components/Snippet
 const Container = styled.div`
 	background-color: white;
 	margin: 5em auto 0;
+	padding: 0 0 10px;
 `;
 
 const replacementVariables = [
@@ -72,61 +73,12 @@ export default class SnippetEditorExample extends Component {
 			},
 			breadcrumbs: [ "hallo", "is", "it", "me", "you" ],
 			isAmp: true,
-			isEditorOpen: false,
+			isOpen: false,
 			currentTitleLength: 0,
 			currentDescriptionLength: 0,
 		};
 
-		this.onMouseOver = this.onMouseOver.bind( this );
-		this.onMouseLeave = this.onMouseLeave.bind( this );
 		this.onChangedData = debounce( this.onChangedData.bind( this ), 150 );
-	}
-
-	/**
-	 * Handles the on mouse over for a field.
-	 *
-	 * @param {string} field The field that is hovered over.
-	 *
-	 * @returns {void}
-	 */
-	onMouseOver( field ) {
-		if ( this.state.hoveredField === field ) {
-			return;
-		}
-
-		this.setState( {
-			hoveredField: field,
-		} );
-	}
-
-	/**
-	 * Handles the on mouse leave for a field.
-	 *
-	 * @param {string} field The field that is left.
-	 *
-	 * @returns {void}
-	 */
-	onMouseLeave( field ) {
-		if ( field && this.state.hoveredField !== field ) {
-			return;
-		}
-
-		this.setState( {
-			hoveredField: "",
-		} );
-	}
-
-	/**
-	 * Handles switching the mode.
-	 *
-	 * @param {string} mode The mode to switch to.
-	 *
-	 * @returns {void}
-	 */
-	switch( mode ) {
-		this.setState( {
-			mode,
-		} );
 	}
 
 	/**
@@ -203,20 +155,6 @@ export default class SnippetEditorExample extends Component {
 				replacementVariables={ replacementVariables }
 				titleLengthProgress={ titleLengthProgress }
 				descriptionLengthProgress={ descriptionLengthProgress }
-			/>
-
-			<h2>Test sliders for progress bars</h2>
-			<input
-				type="range"
-				min={ 0 }
-				max={ titleLengthProgress.max }
-				onChange={ ( event ) => this.onChangedData( "currentTitleLength", parseInt( event.target.value, 10 ) ) }
-			/>
-			<input
-				type="range"
-				min={ 0 }
-				max={ descriptionLengthProgress.max }
-				onChange={ ( event ) => this.onChangedData( "currentDescriptionLength", parseInt( event.target.value, 10 ) ) }
 			/>
 		</Container>;
 	}
