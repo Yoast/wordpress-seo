@@ -374,15 +374,14 @@ class SnippetEditor extends React.Component {
 	 * shouldn't be measured.
 	 *
 	 * @param {Object} originalData         The data from the form.
-	 * @param {string} generatedDescription The description that should be displayed, or an empty string.
 	 *
 	 * @returns {Object} The data for the preview.
 	 */
-	mapDataToPreview( originalData, generatedDescription ) {
+	mapDataToPreview( originalData ) {
 		return {
 			title: originalData.title,
 			url: originalData.url,
-			description: originalData.description || generatedDescription,
+			description: originalData.description,
 		};
 	}
 
@@ -435,7 +434,6 @@ class SnippetEditor extends React.Component {
 			onChange,
 			data,
 			descriptionPlaceholder,
-			generatedDescription,
 			mode,
 			date,
 			locale,
@@ -449,7 +447,7 @@ class SnippetEditor extends React.Component {
 		} = this.state;
 
 		const measurementData = this.mapDataToMeasurements( data );
-		const mappedData = this.mapDataToPreview( measurementData, generatedDescription );
+		const mappedData = this.mapDataToPreview( measurementData );
 
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
@@ -499,7 +497,6 @@ SnippetEditor.propTypes = {
 	} ).isRequired,
 	descriptionPlaceholder: PropTypes.string,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
-	generatedDescription: PropTypes.string,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
@@ -526,7 +523,6 @@ SnippetEditor.defaultProps = {
 		score: 0,
 	},
 	mapDataToPreview: null,
-	generatedDescription: "",
 	locale: "en",
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
 };
