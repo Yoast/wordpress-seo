@@ -23,7 +23,6 @@ describe( "SnippetEditor container", () => {
 					},
 				],
 			},
-			documentData: { excerpt: "myExcerpt" }
 		};
 		const expected = {
 			mode: "desktop",
@@ -34,7 +33,6 @@ describe( "SnippetEditor container", () => {
 				slug: "slug",
 				description: "Description",
 			},
-			generatedDescription: "Description",
 			replacementVariables: [
 				{
 					name: "variable",
