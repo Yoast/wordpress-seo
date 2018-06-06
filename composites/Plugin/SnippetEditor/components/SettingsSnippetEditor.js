@@ -212,12 +212,14 @@ class SnippetEditor extends React.Component {
 		const {
 			data,
 			replacementVariables,
+			descriptionEditorFieldPlaceholder,
 		} = this.props;
 
 		const { activeField, hoveredField } = this.state;
 
 		return (
 			<SettingsSnippetEditorFields
+				descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
 				data={ data }
 				activeField={ activeField }
 				hoveredField={ hoveredField }
@@ -289,6 +291,7 @@ SnippetEditor.propTypes = {
 	date: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 	mapDataToPreview: PropTypes.func,
+	descriptionEditorFieldPlaceholder: PropTypes.string,
 };
 
 SnippetEditor.defaultProps = {

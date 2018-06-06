@@ -2201,7 +2201,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
-                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     excludeReplaceVars={
                       Array [
                         "currentyear",
@@ -2217,6 +2216,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
+                    placeholder="Modify your meta description by editing it right here"
                     replacementVariables={Array []}
                   >
                     <div />
@@ -3843,7 +3843,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
-                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     excludeReplaceVars={
                       Array [
                         "currentyear",
@@ -3859,6 +3858,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
+                    placeholder="Modify your meta description by editing it right here"
                     replacementVariables={Array []}
                   >
                     <div />
@@ -5485,7 +5485,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
-                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     excludeReplaceVars={
                       Array [
                         "currentyear",
@@ -5501,6 +5500,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
+                    placeholder="Modify your meta description by editing it right here"
                     replacementVariables={Array []}
                   >
                     <div />
@@ -7127,7 +7127,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-2-description"
                     content="Test description, %%replacement_variable%%"
-                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     excludeReplaceVars={
                       Array [
                         "currentyear",
@@ -7143,6 +7142,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
+                    placeholder="Modify your meta description by editing it right here"
                     replacementVariables={Array []}
                   >
                     <div />
@@ -9927,7 +9927,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-9-description"
                     content="Test description, %%replacement_variable%%"
-                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     excludeReplaceVars={
                       Array [
                         "currentyear",
@@ -9943,6 +9942,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
+                    placeholder="Modify your meta description by editing it right here"
                     replacementVariables={Array []}
                   >
                     <div />
@@ -11569,7 +11569,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-8-description"
                     content="Test description, %%replacement_variable%%"
-                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     excludeReplaceVars={
                       Array [
                         "currentyear",
@@ -11585,6 +11584,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
+                    placeholder="Modify your meta description by editing it right here"
                     replacementVariables={Array []}
                   >
                     <div />
@@ -14391,7 +14391,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-description"
                     content="Test description, %%replacement_variable%%"
-                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     excludeReplaceVars={
                       Array [
                         "currentyear",
@@ -14407,6 +14406,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
+                    placeholder="Modify your meta description by editing it right here"
                     replacementVariables={Array []}
                   >
                     <div />
@@ -16053,7 +16053,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-description"
                     content="Test description, %%replacement_variable%%"
-                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     excludeReplaceVars={
                       Array [
                         "currentyear",
@@ -16069,6 +16068,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
+                    placeholder="Modify your meta description by editing it right here"
                     replacementVariables={Array []}
                   >
                     <div />
@@ -17695,7 +17695,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-1-description"
                     content="Test description, %%replacement_variable%%"
-                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     excludeReplaceVars={
                       Array [
                         "currentyear",
@@ -17711,6 +17710,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
+                    placeholder="Modify your meta description by editing it right here"
                     replacementVariables={Array []}
                   >
                     <div />
@@ -19370,7 +19370,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-7-description"
                     content="Test description, %%replacement_variable%%"
-                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     excludeReplaceVars={
                       Array [
                         "currentyear",
@@ -19386,6 +19385,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
+                    placeholder="Modify your meta description by editing it right here"
                     replacementVariables={
                       Array [
                         Object {
@@ -21699,7 +21699,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-description"
                     content="Test description, %%replacement_variable%%"
-                    descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
                     excludeReplaceVars={
                       Array [
                         "currentyear",
@@ -21715,6 +21714,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
+                    placeholder="Modify your meta description by editing it right here"
                     replacementVariables={Array []}
                   >
                     <div />

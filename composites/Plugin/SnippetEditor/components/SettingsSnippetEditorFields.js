@@ -107,6 +107,7 @@ class SettingsSnippetEditorFields extends React.Component {
 	 */
 	render() {
 		const {
+			descriptionEditorFieldPlaceholder,
 			activeField,
 			hoveredField,
 			replacementVariables,
@@ -154,6 +155,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						isActive={ activeField === "description" }
 						isHovered={ hoveredField === "description" }>
 						<ReplacementVariableEditor
+							placeholder={ descriptionEditorFieldPlaceholder }
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
 							onFocus={ () => onFocus( "description" ) }
@@ -178,6 +180,7 @@ SettingsSnippetEditorFields.propTypes = {
 	} ).isRequired,
 	activeField: PropTypes.oneOf( [ "title", "description" ] ),
 	hoveredField: PropTypes.oneOf( [ "title", "description" ] ),
+	descriptionEditorFieldPlaceholder: PropTypes.string,
 };
 
 SettingsSnippetEditorFields.defaultProps = {

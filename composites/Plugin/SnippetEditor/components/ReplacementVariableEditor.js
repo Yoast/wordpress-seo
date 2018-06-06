@@ -284,7 +284,7 @@ class ReplacementVariableEditor extends React.Component {
 	 */
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy, descriptionEditorFieldPlaceholder } = this.props;
+		const { onFocus, onBlur, ariaLabelledBy, placeholder } = this.props;
 		const { editorState, replacementVariables } = this.state;
 
 		return (
@@ -298,7 +298,7 @@ class ReplacementVariableEditor extends React.Component {
 					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
-					placeholder={ descriptionEditorFieldPlaceholder }
+					placeholder={ placeholder }
 				/>
 				<MentionSuggestions
 					onSearchChange={ this.onSearchChange }
@@ -317,7 +317,7 @@ ReplacementVariableEditor.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
-	descriptionEditorFieldPlaceholder: PropTypes.string,
+	placeholder: PropTypes.string,
 	excludeReplaceVars: PropTypes.array,
 };
 
@@ -325,7 +325,7 @@ ReplacementVariableEditor.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
 	className: "",
-	descriptionEditorFieldPlaceholder: "",
+	placeholder: "",
 	excludeReplaceVars: [],
 };
 

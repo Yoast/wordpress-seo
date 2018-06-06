@@ -211,7 +211,7 @@ class SnippetEditorFields extends React.Component {
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "description", ref ) }
 							ariaLabelledBy={ descriptionLabelId }
-							descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
+							placeholder={ descriptionEditorFieldPlaceholder }
 							excludeReplaceVars={ excludeReplaceVars }
 						/>
 					</DescriptionInputContainer>
