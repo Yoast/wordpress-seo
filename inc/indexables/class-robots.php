@@ -7,27 +7,71 @@
  */
 
 class Robots {
-	private $noindex;
+
+	/**
+	 * @var bool
+	 */
 	private $nofollow;
+
+	/**
+	 * @var bool
+	 */
 	private $noarchive;
+
+	/**
+	 * @var bool
+	 */
 	private $noimageindex;
+
+	/**
+	 * @var bool
+	 */
 	private $nosnippet;
+
+	/**
+	 * @var bool|null
+	 */
+	private $noindex;
 
 	/**
 	 * Robots constructor.
 	 *
-	 * @param bool|null  $noindex
-	 * @param bool 		 $nofollow
-	 * @param bool 		 $noarchive
-	 * @param bool 		 $noimageindex
-	 * @param bool 		 $nosnippet
+	 * @param bool 		 $nofollow		Whether or not to nofollow this indexable.
+	 * @param bool 		 $noarchive		Whether or not to noarchive this indexable.
+	 * @param bool 		 $noimageindex  Whether or not to noimageindex this indexable.
+	 * @param bool 		 $nosnippet		Whether or not to nosnippet this indexable.
+	 * @param bool|null  $noindex		Whether or not to noindex this indexable.
 	 */
-	public function __construct( $noindex, $nofollow, $noarchive, $noimageindex, $nosnippet ) {
-		$this->noindex 		= $noindex;
-		$this->nofollow 	= $nofollow;
-		$this->noarchive 	= $noarchive;
+	public function __construct( $nofollow, $noarchive, $noimageindex, $nosnippet, $noindex = null ) {
+		if ( ! WPSEO_Validator::is_boolean( $nofollow ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $nofollow, 'nofollow', 'boolean' );
+		}
+
+		$this->nofollow = $nofollow;
+
+		if ( ! WPSEO_Validator::is_boolean( $noarchive ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noarchive, 'noarchive', 'boolean' );
+		}
+
+		$this->noarchive = $noarchive;
+
+		if ( ! WPSEO_Validator::is_boolean( $noimageindex ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noimageindex, 'noimageindex', 'boolean' );
+		}
+
 		$this->noimageindex = $noimageindex;
-		$this->nosnippet 	= $nosnippet;
+
+		if ( ! WPSEO_Validator::is_boolean( $nosnippet ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $nosnippet, 'nosnippet', 'boolean' );
+		}
+
+		$this->nosnippet = $nosnippet;
+
+		if ( ! empty( $noindex ) && ! WPSEO_Validator::is_boolean( $noindex ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noindex, 'noindex', 'boolean' );
+		}
+
+		$this->noindex = $noindex;
 	}
 
 	/**

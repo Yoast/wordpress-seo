@@ -20,7 +20,12 @@ class Meta_Values {
 	/**
 	 * @var string
 	 */
-	private $breadcrumb_title;
+	private $permalink;
+
+	/**
+	 * @var int
+	 */
+	private $readability_score;
 
 	/**
 	 * @var string
@@ -28,15 +33,22 @@ class Meta_Values {
 	private $canonical;
 
 	/**
+	 * @var string
+	 */
+	private $breadcrumb_title;
+
+	/**
 	 * Meta Values constructor.
 	 *
-	 * @param string $title            The title.
-	 * @param string $description      The description.
-	 * @param string $canonical		   The canonical URL.
-	 * @param string $breadcrumb_title The breadcrumb title.
-	 *
+	 * @param string $title             The title.
+	 * @param string $description       The description.
+	 * @param string	  $permalink	The permalink.
+	 * @param int 	 $readability_score	The readability score.
+	 * @param string $canonical		    The canonical URL.
+	 * @param bool 	 $is_cornerstone    Whether or not it's a cornerstone article. Defaults to false.
+	 * @param string $breadcrumb_title  The breadcrumb title.
 	 */
-	public function __construct( $title, $description, $canonical = null, $breadcrumb_title = null ) {
+	public function __construct( $title, $description, $permalink, $readability_score, $is_cornerstone = false, $canonical = null, $breadcrumb_title = null ) {
 		if ( ! WPSEO_Validator::is_non_empty_string( $title ) ) {
 			throw new \InvalidArgumentException( 'Title must be a string and cannot be empty' );
 		}
@@ -48,6 +60,19 @@ class Meta_Values {
 		}
 
 		$this->description = $description;
+
+
+		if ( ! WPSEO_Validator::is_non_empty_string( $permalink ) ) {
+			throw new \InvalidArgumentException( 'Permalink must be a string and cannot be empty.' );
+		}
+
+		$this->permalink = $permalink;
+
+		if ( ! empty( $readability_score ) && ! WPSEO_Validator::is_integer( $readability_score ) ) {
+			throw new \InvalidArgumentException( 'Canonical must be a valid string.' );
+		}
+
+		$this->readability_score = $readability_score;
 
 		if ( ! empty( $canonical ) && ! WPSEO_Validator::is_string( $canonical ) ) {
 			throw new \InvalidArgumentException( 'Canonical must be a valid string.' );
@@ -71,6 +96,7 @@ class Meta_Values {
 		return array(
 			'title'	 		   => $this->title,
 			'description' 	   => $this->description,
+			'permalink' 	   => $this->permalink,
 			'canonical' 	   => $this->canonical,
 			'breadcrumb_title' => $this->breadcrumb_title,
 		);
