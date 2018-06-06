@@ -57,6 +57,10 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 		);
 	}
 
+	public function post( Indexable $indexable ) {
+		
+	}
+
 	/**
 	 * Checks if the given object id belongs to an indexable.
 	 *
@@ -109,5 +113,19 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 */
 	protected function get_meta_value( $field, $post_id ) {
 		return WPSEO_Meta::get_value( $field, $post_id );
+	}
+
+	/**
+	 * Sets the meta value for the passed key and post ID.
+	 *
+	 * @param string $key     The key to set.
+	 * @param mixed  $value   The value to set.
+	 * @param int    $post_id The post id.
+	 *
+	 * @return int|bool Meta ID if the key didn't exist, true on successful update,
+	 *                  false on failure.
+	 */
+	protected function set_meta_value( $key, $value, $post_id ) {
+		return WPSEO_Meta::set_value( $key, $value, $post_id );
 	}
 }
