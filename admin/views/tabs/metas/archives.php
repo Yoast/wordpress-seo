@@ -140,7 +140,8 @@ echo '<h2 class="help-button-inline">' . esc_html__( 'Special Pages', 'wordpress
 echo $spcia_pages_help->get_panel_html();
 
 echo '<p><strong>' . esc_html__( 'Search pages', 'wordpress-seo' ) . '</strong><br/>';
-$yform->textinput( 'title-search-wpseo', __( 'Title template', 'wordpress-seo' ), 'template search-template' );
+//$editor = new WPSEO_Replacevar_Editor( $yform, 'title-search-wpseo' );
+//$editor->render();
 echo '</p>';
 echo '<p><strong>' . esc_html__( '404 pages', 'wordpress-seo' ) . '</strong><br/>';
 $yform->textinput( 'title-404-wpseo', __( 'Title template', 'wordpress-seo' ), 'template error404-template' );
