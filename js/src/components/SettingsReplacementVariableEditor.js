@@ -1,6 +1,7 @@
 /* External dependencies */
 import React from "react";
 import { SettingsSnippetEditor } from "yoast-components";
+import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import SnippetPreviewSection from "./SnippetPreviewSection";
@@ -19,6 +20,8 @@ class SettingsReplacementVariableEditor extends React.Component {
 		return (
 			<SnippetPreviewSection>
 				<SettingsSnippetEditor
+					descriptionPlaceholder={ __( "Your meta description", "wordpress-seo" ) }
+					descriptionEditorFieldPlaceholder={ __( "Modify your meta description by editing it right here", "wordpress-seo" ) }
 					onChange={ ( field, value ) => {
 						switch( field ) {
 							case "title":
@@ -30,10 +33,10 @@ class SettingsReplacementVariableEditor extends React.Component {
 						}
 					} }
 					replacementVariables={ this.props.replacementVariables }
-					baseUrl="http://local.wordpress.test"
+					baseUrl="http://example.com/"
 					data={ {
 						title: this.props.title.value,
-						slug: "",
+						slug: "category/example",
 						description: this.props.description.value,
 					} }
 					mode={ this.state.mode } />
