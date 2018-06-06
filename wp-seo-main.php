@@ -372,6 +372,10 @@ function wpseo_init_rest_api() {
 	$indexable_endpoint = new WPSEO_Endpoint_Indexable( $indexable_service );
 	$indexable_endpoint->register();
 
+	$image_service = new WPSEO_File_Size_Service();
+	$image_endpoint = new WPSEO_Endpoint_File_Size( $image_service );
+	$image_endpoint->register();
+
 	$statistics_service  = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 	$statistics_endpoint = new WPSEO_Endpoint_Statistics( $statistics_service );
 	$statistics_endpoint->register();
