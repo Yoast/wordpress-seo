@@ -59,6 +59,6 @@ class WPSEO_Endpoint_File_Size implements WPSEO_Endpoint {
 	 * @return bool Whether or not data can be retrieved.
 	 */
 	public function can_retrieve_data() {
-		return true;// current_user_can( self::CAPABILITY_RETRIEVE );
+		return current_user_can( self::CAPABILITY_RETRIEVE );
 	}
 }
