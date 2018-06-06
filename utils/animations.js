@@ -10,10 +10,6 @@ import { getHeight } from "./dom";
 const YoastSlideToggleContainer = styled.div`
 	& > :first-child {
 		overflow: hidden;
-	}
-
-	& .slide-enter-active,
-	& .slide-exit-active {
 		transition: height ${ props => `${ props.duration }ms` } ease-out;
 	}
 `;

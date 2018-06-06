@@ -67,10 +67,6 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }

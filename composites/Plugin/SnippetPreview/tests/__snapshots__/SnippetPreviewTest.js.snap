@@ -79,10 +79,6 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -439,10 +435,6 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -802,10 +794,6 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -1153,10 +1141,6 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -1534,10 +1518,6 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -1901,10 +1881,6 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -2280,10 +2256,6 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -2640,10 +2612,6 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -3012,10 +2980,6 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -3384,10 +3348,6 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -3756,10 +3716,6 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -4128,10 +4084,6 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -4500,10 +4452,6 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -4872,10 +4820,6 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
