@@ -6,6 +6,7 @@ import createMentionPlugin from "draft-js-mention-plugin";
 import createSingleLinePlugin from "draft-js-single-line-plugin";
 import flow from "lodash/flow";
 import debounce from "lodash/debounce";
+import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import { __, _n, sprintf } from "@wordpress/i18n";
@@ -276,7 +277,7 @@ class ReplacementVariableEditor extends React.Component {
 		} = this.props;
 		const { editorState, replacementVariables, searchValue } = this.state;
 
-		const currentReplacementVariables = searchValue === "" && recommendedReplacementVariables.length > 0
+		const currentReplacementVariables = searchValue === "" && ! isEmpty( recommendedReplacementVariables )
 			? recommendedReplacementVariables : replacementVariables;
 
 		return (
