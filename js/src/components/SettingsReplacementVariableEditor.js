@@ -33,6 +33,7 @@ class SettingsReplacementVariableEditor extends React.Component {
 					baseUrl="http://local.wordpress.test"
 					data={ {
 						title: this.props.title.value,
+						slug: "",
 						description: this.props.description.value,
 					} }
 					mode={ this.state.mode } />
