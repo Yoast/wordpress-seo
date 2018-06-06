@@ -47,20 +47,23 @@ const serializeEditorState = flow( [
 ] );
 
 /**
- * Creates the trigger string.
+ * Creates the trigger string that is needed to show the replacement variable suggestions.
  *
- * @param {boolean} needsPrefix When true, a space is prepended.
- * @param {boolean} needsSuffix When true, a space is appended.
+ * The Draft.js mention plugin trigger is set as %. But the suggestions popover only shows
+ * when the characters before and after the % are whitespace.
+ *
+ * @param {boolean} needsPrependedSpace When true, a space is prepended.
+ * @param {boolean} needsAppendedSpace  When true, a space is appended.
  *
  * @returns {string} The trigger string.
  */
-const getTrigger = ( needsPrefix, needsSuffix ) => {
+const getTrigger = ( needsPrependedSpace, needsAppendedSpace ) => {
 	let trigger = "%";
 
-	if ( needsPrefix ) {
+	if ( needsPrependedSpace ) {
 		trigger = " " + trigger;
 	}
-	if ( needsSuffix ) {
+	if ( needsAppendedSpace ) {
 		trigger += " ";
 	}
 	return trigger;
@@ -266,27 +269,27 @@ class ReplacementVariableEditor extends React.Component {
 		let editorState = removeSelectedText( this.state.editorState );
 
 		// Get the current block text.
-		const selection = editorState.getSelection();
-		const content = editorState.getCurrentContent();
-		const text = getAnchorBlock( content, selection ).getText();
-		const index = getCaretOffset( selection );
+		const selectionState = editorState.getSelection();
+		const contentState = editorState.getCurrentContent();
+		const blockText = getAnchorBlock( contentState, selectionState ).getText();
+		const caretIndex = getCaretOffset( selectionState );
 
-		// Determine the trigger text.
-		const needsPrefix = ! hasWhitespaceAt( text, index - 1 );
-		const needsSuffix = ! hasWhitespaceAt( text, index );
-		const trigger = getTrigger( needsPrefix, needsSuffix );
+		// Determine the trigger text that is needed to show the replacement variable suggestions.
+		const needsPrependedSpace = ! hasWhitespaceAt( blockText, caretIndex - 1 );
+		const needsAppendedSpace = ! hasWhitespaceAt( blockText, caretIndex );
+		const trigger = getTrigger( needsPrependedSpace, needsAppendedSpace );
 
 		// Insert the trigger.
 		editorState = insertText( editorState, trigger );
 
 		// Move the caret if needed.
-		if ( needsSuffix ) {
+		if ( needsAppendedSpace ) {
 			// The new caret index plus the trigger length, minus the suffix.
-			const newIndex = index + trigger.length - 1;
-			editorState = moveCaret( editorState, newIndex );
+			const newCaretIndex = caretIndex + trigger.length - 1;
+			editorState = moveCaret( editorState, newCaretIndex );
 		}
 
-		// Save the editor state and then focus it.
+		// Save the editor state and then focus the editor.
 		this.onChange( editorState ).then( () => this.focus() );
 	}
 

@@ -40,14 +40,14 @@ export const getCaretOffset = ( selection ) => {
  * Read more about the Draft.js selection state: https://draftjs.org/docs/api-reference-selection-state.html
  * Read more about the Draft.js content block: https://draftjs.org/docs/api-reference-content-block.html
  *
- * @param {ContentState}   content   The Draft.js content state.
- * @param {SelectionState} selection The Draft.js selection state.
+ * @param {ContentState}   contentState   The Draft.js content state.
+ * @param {SelectionState} selectionState The Draft.js selection state.
  *
  * @returns {ContentBlock} The Draft.js ContentBlock.
  */
-export const getAnchorBlock = ( content, selection ) => {
-	const key = selection.getAnchorKey();
-	return content.getBlockForKey( key );
+export const getAnchorBlock = ( contentState, selectionState ) => {
+	const key = selectionState.getAnchorKey();
+	return contentState.getBlockForKey( key );
 };
 
 /**
@@ -59,16 +59,16 @@ export const getAnchorBlock = ( content, selection ) => {
  * @returns {EditorState} The new editor state.
  */
 export const insertText = ( editorState, text ) => {
-	const content = editorState.getCurrentContent();
-	const selection = editorState.getSelection();
+	const contentState = editorState.getCurrentContent();
+	const selectionState = editorState.getSelection();
 
 	// If there is a selection instead of a caret do nothing.
-	if ( ! selection.isCollapsed() ) {
+	if ( ! selectionState.isCollapsed() ) {
 		return editorState;
 	}
 
-	const newContent = Modifier.insertText( content, selection, text );
-	return EditorState.push( editorState, newContent, "insert-characters" );
+	const newContentState = Modifier.insertText( contentState, selectionState, text );
+	return EditorState.push( editorState, newContentState, "insert-characters" );
 };
 
 /**
@@ -79,10 +79,10 @@ export const insertText = ( editorState, text ) => {
  * @returns {EditorState} The new editor state.
  */
 export const removeSelectedText = ( editorState ) => {
-	const content = editorState.getCurrentContent();
-	const selection = editorState.getSelection();
+	const contentState = editorState.getCurrentContent();
+	const selectionState = editorState.getSelection();
 
-	const newContent = Modifier.removeRange( content, selection, "backward" );
+	const newContent = Modifier.removeRange( contentState, selectionState, "backward" );
 	return EditorState.push( editorState, newContent, "remove-range" );
 };
 
@@ -90,25 +90,25 @@ export const removeSelectedText = ( editorState ) => {
  * Moves the caret to the index.
  *
  * @param {EditorState} editorState The Draft.js editor state,
- * @param {int}         index       The index of the caret to be.
+ * @param {int}         caretIndex  The index of the caret to be.
  * @param {string}      blockKey    The key for the block to move the caret too. Defaults to current.
  *
  * @returns {EditorState} The new editor state.
  */
-export const moveCaret = ( editorState, index, blockKey = "" ) => {
-	const content = editorState.getCurrentContent();
-	const selection = editorState.getSelection();
+export const moveCaret = ( editorState, caretIndex, blockKey = "" ) => {
+	const contentState = editorState.getCurrentContent();
+	const selectionState = editorState.getSelection();
 
 	// Default to the block where the anchor is currently at.
 	if ( blockKey === "" ) {
-		blockKey = getAnchorBlock( content, selection ).getKey();
+		blockKey = getAnchorBlock( contentState, selectionState ).getKey();
 	}
 
-	const newSelection = SelectionState.createEmpty( blockKey )
+	const newSelectionState = SelectionState.createEmpty( blockKey )
 	                                   .merge( {
-		                                   anchorOffset: index,
-		                                   focusOffset: index,
+		                                   anchorOffset: caretIndex,
+		                                   focusOffset: caretIndex,
 	                                   } );
 
-	return EditorState.acceptSelection( editorState, newSelection );
+	return EditorState.acceptSelection( editorState, newSelectionState );
 };
