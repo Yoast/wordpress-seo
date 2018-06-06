@@ -55,8 +55,13 @@ class SettingsReplacementVariableEditors extends React.Component {
 				reactReplacevarMetadesc,
 			} = targetElement.dataset;
 			if ( ! reactReplacevarMetadesc ) {
-				// TODO
-				return null;
+				return ReactDOM.createPortal(
+					<SettingsTitleReplacementVariableEditor
+						label="SEO title template"
+						replacementVariables={ this.props.replacementVariables }
+						target={ reactReplacevarTitle } />,
+					targetElement
+				);
 			}
 			return ReactDOM.createPortal(
 				<SettingsReplacementVariableEditor

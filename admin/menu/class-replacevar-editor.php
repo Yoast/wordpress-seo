@@ -28,7 +28,9 @@ class WPSEO_Replacevar_Editor {
 	 */
 	public function render() {
 		$this->yform->hidden( $this->title, $this->title );
-		$this->yform->hidden( $this->description, $this->description );
+		if ( ! is_null( $this->description ) ) {
+			$this->yform->hidden( $this->description, $this->description );
+		}
 		?>
 			<div
 				data-react-replacevar

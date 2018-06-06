@@ -13,6 +13,7 @@ const linkHiddenFields = ( mapFieldsFromProps ) => {
 				this.fields.forEach( field => {
 					const { name, fieldId } = field;
 					const element = document.getElementById( fieldId );
+					console.log( fieldId, element );
 
 					if( element ) {
 						this.elements[ name ] = element;
@@ -23,6 +24,7 @@ const linkHiddenFields = ( mapFieldsFromProps ) => {
 					}
 				} );
 
+				console.log( state );
 				this.state = state;
 			}
 
