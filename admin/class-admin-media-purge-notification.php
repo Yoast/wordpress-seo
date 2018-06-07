@@ -38,7 +38,9 @@ class WPSEO_Admin_Media_Purge_Notification implements WPSEO_WordPress_Integratio
 	 * To make sure the setting is not reverted to the default when -anything-
 	 * is saved on the entire page (not just the media tab).
 	 *
-	 * @return void
+	 * @param string|null $input Current filter value.
+	 *
+	 * @return string|null
 	 */
 	public function output_hidden_setting( $input ) {
 		$form = Yoast_Form::get_instance();
