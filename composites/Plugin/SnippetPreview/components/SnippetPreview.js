@@ -137,7 +137,7 @@ const BaseUrlOverflowContainer = BaseUrl.extend`
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
 export const DesktopDescription = styled.div`
-	color: ${ props => props.isDescriptionGenerated ? colorGeneratedDescription : colorDescription };
+	color: ${ props => props.isDescriptionPlaceholder ? colorGeneratedDescription : colorDescription };
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
@@ -264,7 +264,7 @@ export default class SnippetPreview extends PureComponent {
 	 * @param {string} props.url                    The URL of the page for which to generate a snippet.
 	 * @param {string} props.description            The meta description.
 	 * @param {string} props.keyword                The keyword for the page.
-	 * @param {string} props.isDescriptionGenerated Whether the description was generated.
+	 * @param {string} props.isDescriptionPlaceholder Whether the description was generated.
 	 * @param {string} props.locale                 The locale of the page.
 	 * @param {string} props.date                   Optional, the date to display before the meta description.
 	 *
@@ -276,7 +276,7 @@ export default class SnippetPreview extends PureComponent {
 		this.state = {
 			title: props.title,
 			description: props.description,
-			isDescriptionGenerated: true,
+			isDescriptionPlaceholder: true,
 		};
 
 		this.setTitleRef       = this.setTitleRef.bind( this );
@@ -532,7 +532,7 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	componentDidUpdate() {
 		this.setState( {
-			isDescriptionGenerated: ( ! this.props.description && this.props.descriptionPlaceholder ),
+			isDescriptionPlaceholder: ( ! this.props.description && this.props.descriptionPlaceholder ),
 		} );
 
 		if ( this.props.mode === MODE_MOBILE ) {
@@ -552,7 +552,7 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	componentDidMount() {
 		this.setState( {
-			isDescriptionGenerated: ( ! this.props.description && this.props.descriptionPlaceholder ),
+			isDescriptionPlaceholder: ( ! this.props.description && this.props.descriptionPlaceholder ),
 		} );
 	}
 
@@ -574,7 +574,7 @@ export default class SnippetPreview extends PureComponent {
 		const renderedDate = this.renderDate();
 
 		const outerContainerProps = {
-			isDescriptionGenerated: this.state.isDescriptionGenerated,
+			isDescriptionPlaceholder: this.state.isDescriptionPlaceholder,
 			onMouseUp: onMouseUp.bind( null, "description" ),
 			onMouseEnter: onMouseEnter.bind( null, "description" ),
 			onMouseLeave: onMouseLeave.bind( null ),
@@ -598,7 +598,7 @@ export default class SnippetPreview extends PureComponent {
 					{ ...outerContainerProps }
 				>
 					<MobileDescription
-						isDescriptionGenerated={ this.state.isDescriptionGenerated }
+						isDescriptionPlaceholder={ this.state.isDescriptionPlaceholder }
 						innerRef={ this.setDescriptionRef }
 					>
 						{ renderedDate }

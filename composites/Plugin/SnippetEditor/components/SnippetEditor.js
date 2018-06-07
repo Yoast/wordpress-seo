@@ -115,7 +115,7 @@ class SnippetEditor extends React.Component {
 		super( props );
 
 		const measurementData = this.mapDataToMeasurements( props.data );
-		const previewData = this.mapDataToPreview( measurementData, props.generatedDescription );
+		const previewData = this.mapDataToPreview( measurementData );
 
 		this.state = {
 			isOpen: false,
