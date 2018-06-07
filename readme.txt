@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.6.1 =
+Release Date: June 7th, 2018
+
+Bugfixes:
+* Fixes a bug where a JavaScript error was thrown on the post-edit page when certain plugins are active.
+* Fixes a bug where stylesheet definitions would impact form fields of metaboxes on the post-edit pages. The definitions have been contained in a Yoast-selector.
+
 = 7.6.0 =
 Release Date: June 5th, 2018
 
