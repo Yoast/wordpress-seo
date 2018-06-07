@@ -28,6 +28,11 @@ class Meta_Values {
 	private $readability_score;
 
 	/**
+	 * @var bool
+	 */
+	private $is_cornerstone;
+
+	/**
 	 * @var string
 	 */
 	private $canonical;
@@ -42,7 +47,7 @@ class Meta_Values {
 	 *
 	 * @param string $title             The title.
 	 * @param string $description       The description.
-	 * @param string	  $permalink	The permalink.
+	 * @param string $permalink			The permalink.
 	 * @param int 	 $readability_score	The readability score.
 	 * @param string $canonical		    The canonical URL.
 	 * @param bool 	 $is_cornerstone    Whether or not it's a cornerstone article. Defaults to false.
@@ -50,38 +55,43 @@ class Meta_Values {
 	 */
 	public function __construct( $title, $description, $permalink, $readability_score, $is_cornerstone = false, $canonical = null, $breadcrumb_title = null ) {
 		if ( ! WPSEO_Validator::is_non_empty_string( $title ) ) {
-			throw new \InvalidArgumentException( 'Title must be a string and cannot be empty' );
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $title, 'title', 'string' );
 		}
 
 		$this->title = $title;
 
 		if ( ! empty( $description ) && ! WPSEO_Validator::is_string( $description ) ) {
-			throw new \InvalidArgumentException( 'Description must be a valid string.' );
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $description, 'description', 'string' );
 		}
 
 		$this->description = $description;
 
-
 		if ( ! WPSEO_Validator::is_non_empty_string( $permalink ) ) {
-			throw new \InvalidArgumentException( 'Permalink must be a string and cannot be empty.' );
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $permalink, 'permalink', 'string' );
 		}
 
 		$this->permalink = $permalink;
 
 		if ( ! empty( $readability_score ) && ! WPSEO_Validator::is_integer( $readability_score ) ) {
-			throw new \InvalidArgumentException( 'Canonical must be a valid string.' );
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $readability_score, 'readability_score', 'integer' );
 		}
 
 		$this->readability_score = $readability_score;
 
+		if ( ! empty( $is_cornerstone ) && ! WPSEO_Validator::is_boolean( $is_cornerstone ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $is_cornerstone, 'is_cornerstone', 'boolean' );
+		}
+
+		$this->is_cornerstone = $is_cornerstone;
+
 		if ( ! empty( $canonical ) && ! WPSEO_Validator::is_string( $canonical ) ) {
-			throw new \InvalidArgumentException( 'Canonical must be a valid string.' );
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $canonical, 'canonical', 'string' );
 		}
 
 		$this->canonical = $canonical;
 
 		if ( ! empty( $breadcrumb_title ) && ! WPSEO_Validator::is_string( $breadcrumb_title ) ) {
-			throw new \InvalidArgumentException( 'Breadcrumb title must be a valid string.' );
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $breadcrumb_title, 'breadcrumb_title', 'string' );
 		}
 
 		$this->breadcrumb_title = $breadcrumb_title;
@@ -94,11 +104,13 @@ class Meta_Values {
 	 */
 	public function to_array() {
 		return array(
-			'title'	 		   => $this->title,
-			'description' 	   => $this->description,
-			'permalink' 	   => $this->permalink,
-			'canonical' 	   => $this->canonical,
-			'breadcrumb_title' => $this->breadcrumb_title,
+			'title'	 		   	=> $this->title,
+			'description' 	   	=> $this->description,
+			'permalink' 	   	=> $this->permalink,
+			'readability_score' => $this->readability_score,
+			'is_cornerstone' 	=> $this->is_cornerstone,
+			'canonical' 	   	=> $this->canonical,
+			'breadcrumb_title' 	=> $this->breadcrumb_title,
 		);
 	}
 }

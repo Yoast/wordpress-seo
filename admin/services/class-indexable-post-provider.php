@@ -58,11 +58,21 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	public function post( Indexable $indexable ) {
-		$items = $indexable->to_array();
+		$items 	   = $indexable->to_array();
+		$object_id = $items['object_id'];
+
+		$parsed = array();
 
 		foreach ( $items as $key => $item ) {
+			if ( $key === 'object_id' || empty( $item ) ) {
+				continue;
+			}
 
+			$parsed[$key] = $item;
+//			$this->set_meta_value( $key, $item, $object_id );
 		}
+
+		return $parsed;
 	}
 
 	/**

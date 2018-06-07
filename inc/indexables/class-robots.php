@@ -43,32 +43,32 @@ class Robots {
 	 * @param bool|null  $noindex		Whether or not to noindex this indexable.
 	 */
 	public function __construct( $nofollow, $noarchive, $noimageindex, $nosnippet, $noindex = null ) {
-		if ( ! WPSEO_Validator::is_boolean( $nofollow ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $nofollow, 'nofollow', 'boolean' );
+		if ( ! empty( $nofollow ) && ! WPSEO_Validator::is_boolean( $nofollow ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $nofollow, 'is_robots_nofollow', 'boolean' );
 		}
 
 		$this->nofollow = $nofollow;
 
-		if ( ! WPSEO_Validator::is_boolean( $noarchive ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noarchive, 'noarchive', 'boolean' );
+		if ( ! empty( $noarchive ) && ! WPSEO_Validator::is_boolean( $noarchive ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noarchive, 'is_robots_noarchive', 'boolean' );
 		}
 
 		$this->noarchive = $noarchive;
 
-		if ( ! WPSEO_Validator::is_boolean( $noimageindex ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noimageindex, 'noimageindex', 'boolean' );
+		if ( ! empty( $noimageindex ) && ! WPSEO_Validator::is_boolean( $noimageindex ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noimageindex, 'is_robots_noimageindex', 'boolean' );
 		}
 
 		$this->noimageindex = $noimageindex;
 
-		if ( ! WPSEO_Validator::is_boolean( $nosnippet ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $nosnippet, 'nosnippet', 'boolean' );
+		if ( ! empty( $nosnippet ) && ! WPSEO_Validator::is_boolean( $nosnippet ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $nosnippet, 'is_robots_nosnippet', 'boolean' );
 		}
 
 		$this->nosnippet = $nosnippet;
 
-		if ( ! empty( $noindex ) && ! WPSEO_Validator::is_boolean( $noindex ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noindex, 'noindex', 'boolean' );
+		if ( ! empty( $noindex ) && ! empty( $noindex ) && ! WPSEO_Validator::is_boolean( $noindex ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noindex, 'is_robots_noindex', 'boolean' );
 		}
 
 		$this->noindex = $noindex;
@@ -86,6 +86,7 @@ class Robots {
 			return '1';
 		}
 
+		// TODO: This might need to be translated to NULL.
 		return '0';
 	}
 

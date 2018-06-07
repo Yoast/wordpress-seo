@@ -33,20 +33,20 @@ class OpenGraph {
 	 * @throws Exception
 	 */
 	public function __construct( $title, $description, $image ) {
-		if ( ! WPSEO_Validator::is_non_empty_string( $title ) ) {
-			throw new \Exception( "Title must be a valid, non-empty string." );
+		if ( ! empty( $title ) && ! WPSEO_Validator::is_string( $title ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $title, 'title', 'string' );
 		}
 
 		$this->title = $title;
 
-		if ( ! WPSEO_Validator::is_non_empty_string( $description ) ) {
-			throw new \Exception( "Description must be a valid, non-empty string." );
+		if ( ! empty( $description ) && ! WPSEO_Validator::is_string( $description ) ) {
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $description, 'description', 'string' );
 		}
 
 		$this->description = $description;
 
 		if ( ! empty( $image ) && ! WPSEO_Validator::is_string( $image ) ) {
-			throw new \Exception( "Image must be a valid string." );
+			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $image, 'image', 'string' );
 		}
 
 		$this->image = $image;

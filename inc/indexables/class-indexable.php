@@ -76,4 +76,5 @@ class Indexable {
 			$this->robots->to_array()
 		);
 	}
+
 }
