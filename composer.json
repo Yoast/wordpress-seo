@@ -43,7 +43,8 @@
 			"frontend/",
 			"inc/",
 			"deprecated/",
-			"cli/"
+			"cli/",
+			"premium/cli/"
 		]
 	},
 	"autoload-dev": {

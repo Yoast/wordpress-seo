@@ -42,6 +42,7 @@ module.exports = {
 					"frontend/**",
 					"images/**",
 					"inc/**",
+					"cli/**",
 					"js/dist/**/*.min.js",
 					"js/dist/select2/i18n/*.js",
 					"languages/**",

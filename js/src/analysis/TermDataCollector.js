@@ -6,8 +6,6 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import { termsTmceId as tmceId } from "../wp-seo-tinymce";
-import get from "lodash/get";
-import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 
 let $ = jQuery;
 
@@ -25,7 +23,6 @@ var TermDataCollector = function( args ) {
 	}
 
 	this._tabManager = args.tabManager;
-	this._store = args.store;
 };
 
 /**
@@ -34,7 +31,7 @@ var TermDataCollector = function( args ) {
  * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}} The object with data.
  */
 TermDataCollector.prototype.getData = function() {
-	const otherData = {
+	return {
 		title: this.getTitle(),
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
 		text: this.getText(),
@@ -47,19 +44,6 @@ TermDataCollector.prototype.getData = function() {
 		name: this.getName(),
 		baseUrl: this.getBaseUrl(),
 		pageTitle: this.getPageTitle(),
-		titleWidth: measureTextWidth( this.getTitle() ),
-	};
-
-	const state = this._store.getState();
-	const snippetData = {
-		metaTitle: get( state, [ "snippetEditor", "data", "title" ], "" ),
-		url: get( state, [ "snippetEditor", "data", "slug" ], "" ),
-		meta: get( state, [ "snippetEditor", "data", "description" ], "" ),
-	};
-
-	return {
-		...otherData,
-		...snippetData,
 	};
 };
 
