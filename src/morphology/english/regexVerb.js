@@ -1,10 +1,15 @@
 const verbPrefixes = {
 	oneLetterPrefixes: /^a/i,
-	twoLetterPrefixes: /^at|be|co|en|in|on|re|to|un|up/i,
-	threeLetterPrefixes: /^dis|far|ros|mis|off|out|pre|/i,
-	fourLetterPrefixes: /^auto|back|deep|down|fine|fore|free|full|half|hand|heat|over|test|umbe|wind|with/i,
-	fiveLetterPrefixes: /^after|belaw|enter|forth|frost|house|inter|quick|rough|speed|under|/i,
-	sixLetterPrefixes: /^counter|quarter/i,
+	twoLetterPrefixes: /^(at|be|en|in|on|re|to|un|up)/i,
+	threeLetterPrefixes: /^(dis|far|for|mis|off|out|pre)/i,
+	fourLetterPrefixes: /^(auto|back|deep|down|fine|fore|free|full|half|hand|heat|over|test|umbe|wind|with)/i,
+	fiveLetterPrefixes: /^(after|belaw|enter|forth|frost|house|inter|quick|rough|under)/i,
+	sevenLetterPrefixes: /^(counter|quarter)/i,
+	twoLetterHyphenPrefixes: /^(at|be|co|en|in|on|re|to|un|up)-/i,
+	threeLetterHyphenPrefixes: /^(dis|far|for|mis|off|out|pre)-/i,
+	fourLetterHyphenPrefixes: /^(auto|back|deep|down|fine|fore|free|full|half|hand|heat|over|test|umbe|wind|with)-/i,
+	fiveLetterHyphenPrefixes: /^(after|belaw|enter|forth|frost|house|inter|quick|rough|under)-/i,
+	sevenLetterHyphenPrefixes: /^(counter|quarter)-/i,
 };
 
 const sFormToInfinitive = [
@@ -33,11 +38,11 @@ const ingFormToInfinitive = [
 	[ /tting$/i, "t" ],
 	[ /dding$/i, "d" ],
 	[ /ssing$/i, "ss" ],
-	[ /(..)gging$/i, "$1g" ],
+	[ /gging$/i, "g" ],
 	[ /([^aeiou])ying$/i, "$1y" ],
-	[ /([^ae]i.)ing$/i, "$1e" ],
+	[ /([^ae]i[^x])ing$/i, "$1e" ],
 	[ /(ea.)ing$/i, "$1" ],
-	[ /(u[rtcb]|[bdtpkg]l|n[cg]|a[gdkvtc]|[ua]s|[dr]g|yz|o[rlsp]|cre|bath|iev|delet|fil|jok|past|rais|vil|ooth|tast|u)ing$/i, "$1e" ],
+	[ /(u[rtcb]|[bdtpkg]l|n[cg]|a[gdkvtc]|[ua]s|[dr]g|yz|o[rlsp]|cre|bath|iev|delet|fil|jok|past|rais|vil|ooth|tast|u|car)ing$/i, "$1e" ],
 	[ /(ch|sh)ing$/i, "$1" ],
 	[ /(..)ing$/i, "$1" ],
 ].map( function( a ) {
@@ -49,19 +54,21 @@ const ingFormToInfinitive = [
 
 const edFormToInfinitive = [
 	[ /(ued)$/i, "ue" ],
+	[ /(.)(ss|ch|sh|x|z|o)ed$/i, "$1$2" ],
 	[ /a([^aeiouy])ed$/i, "a$1e" ],
 	[ /([aeiou]zz)ed$/i, "$1" ],
 	[ /([ei])lled$/i, "$1ll" ],
-	[ /(.)(ss|ch|sh|x|z|o)ed$/i, "$1$2" ],
 	[ /(tl|gl|th)ed$/i, "$1e" ],
 	[ /(um?pt?)ed$/i, "$1" ],
 	[ /(ss)ed$/i, "$1" ],
 	[ /pped$/i, "p" ],
 	[ /tted$/i, "t" ],
-	[ /(..)gged$/i, "$1g" ],
+	[ /nned$/i, "n" ],
+	[ /gged$/i, "g" ],
 	[ /(..)lked$/i, "$1lk" ],
 	[ /([^aeiouy][aeiou])ked$/i, "$1ke" ],
-	[ /(.[aeiou])led$/i, "$1l" ],
+	[ /([^f][aeiou])led$/i, "$1l" ],
+	[ /asted$/i, "aste" ],
 	[ /(..)(h|ion|n[dt]|ai.|[cs]t|pp|all|ss|tt|int|ail|ld|en|oo.|er|k|w|ou.|rt|ght|rm|ast)ed$/i, "$1$2" ],
 	[ /(.ut)ed$/i, "$1e" ],
 	[ /(us)ed$/i, "$1e" ],
@@ -72,6 +79,7 @@ const edFormToInfinitive = [
 	[ /(.a[^aeiou])ed$/i, "$1" ],
 	[ /([rl])ew$/i, "$1ow" ],
 	[ /([pl])t$/i, "$1t" ],
+	[ /(.[aeiou]y)ed$/i, "$1" ],
 ].map( function( a ) {
 	return {
 		reg: a[ 0 ],

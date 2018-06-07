@@ -12,46 +12,79 @@ const isUndefined = require( "lodash/isUndefined.js" );
 const unique = require( "lodash/uniqBy" );
 
 const normalizePrefixed = function( word ) {
-	const sixLetterPrefixes = verbPrefixesRegex.sixLetterPrefixes;
-	const fiveLetterPrefixes = verbPrefixesRegex.fiveLetterPrefixes;
-	const fourLetterPrefixes = verbPrefixesRegex.fourLetterPrefixes;
-	const threeLetterPrefixes = verbPrefixesRegex.threeLetterPrefixes;
-	const twoLetterPrefixes = verbPrefixesRegex.twoLetterPrefixes;
-	const oneLetterPrefixes = verbPrefixesRegex.oneLetterPrefixes;
-
-	if ( sixLetterPrefixes.test( word ) === true ) {
+	if ( verbPrefixesRegex.sevenLetterHyphenPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( sixLetterPrefixes, "" ),
+			normalizedWord: word.replace( verbPrefixesRegex.sevenLetterHyphenPrefixes, "" ),
+			prefix: word.substring( 0, 8 ),
+		};
+	}
+
+	if ( verbPrefixesRegex.sevenLetterPrefixes.test( word ) === true ) {
+		return {
+			normalizedWord: word.replace( verbPrefixesRegex.sevenLetterPrefixes, "" ),
+			prefix: word.substring( 0, 7 ),
+		};
+	}
+
+	if ( verbPrefixesRegex.fiveLetterHyphenPrefixes.test( word ) === true ) {
+		return {
+			normalizedWord: word.replace( verbPrefixesRegex.fiveLetterHyphenPrefixes, "" ),
 			prefix: word.substring( 0, 6 ),
 		};
 	}
-	if ( fiveLetterPrefixes.test( word ) === true ) {
+
+	if ( verbPrefixesRegex.fiveLetterPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( fiveLetterPrefixes, "" ),
+			normalizedWord: word.replace( verbPrefixesRegex.fiveLetterPrefixes, "" ),
 			prefix: word.substring( 0, 5 ),
 		};
 	}
-	if ( fourLetterPrefixes.test( word ) === true ) {
+
+	if ( verbPrefixesRegex.fourLetterHyphenPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( fourLetterPrefixes, "" ),
+			normalizedWord: word.replace( verbPrefixesRegex.fourLetterHyphenPrefixes, "" ),
+			prefix: word.substring( 0, 5 ),
+		};
+	}
+
+	if ( verbPrefixesRegex.fourLetterPrefixes.test( word ) === true ) {
+		return {
+			normalizedWord: word.replace( verbPrefixesRegex.fourLetterPrefixes, "" ),
 			prefix: word.substring( 0, 4 ),
 		};
 	}
-	if ( threeLetterPrefixes.test( word ) === true ) {
+
+	if ( verbPrefixesRegex.threeLetterHyphenPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( threeLetterPrefixes, "" ),
+			normalizedWord: word.replace( verbPrefixesRegex.threeLetterHyphenPrefixes, "" ),
+			prefix: word.substring( 0, 4 ),
+		};
+	}
+
+	if ( verbPrefixesRegex.threeLetterPrefixes.test( word ) === true ) {
+		return {
+			normalizedWord: word.replace( verbPrefixesRegex.threeLetterPrefixes, "" ),
 			prefix: word.substring( 0, 3 ),
 		};
 	}
-	if ( twoLetterPrefixes.test( word ) === true ) {
+
+	if ( verbPrefixesRegex.twoLetterHyphenPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( twoLetterPrefixes, "" ),
+			normalizedWord: word.replace( verbPrefixesRegex.twoLetterHyphenPrefixes, "" ),
+			prefix: word.substring( 0, 3 ),
+		};
+	}
+
+	if ( verbPrefixesRegex.twoLetterPrefixes.test( word ) === true ) {
+		return {
+			normalizedWord: word.replace( verbPrefixesRegex.twoLetterPrefixes, "" ),
 			prefix: word.substring( 0, 2 ),
 		};
 	}
-	if ( oneLetterPrefixes.test( word ) === true ) {
+
+	if ( verbPrefixesRegex.oneLetterPrefixes.test( word ) === true ) {
 		return {
-			normalizedWord: word.replace( oneLetterPrefixes, "" ),
+			normalizedWord: word.replace( verbPrefixesRegex.oneLetterPrefixes, "" ),
 			prefix: word.substring( 0, 1 ),
 		};
 	}
@@ -69,19 +102,22 @@ const checkIrregulars = function( word ) {
 		} );
 	} );
 
-	const normalizedIrregular = normalizePrefixed( word );
+	if ( isUndefined( irregulars ) ) {
+		const normalizedIrregular = normalizePrefixed( word );
 
-	if ( ! isUndefined( normalizedIrregular ) ) {
-		irregularVerbs.forEach( function( paradigm ) {
-			paradigm.forEach( function( wordInParadigm ) {
-				if ( wordInParadigm === normalizedIrregular.normalizedWord ) {
-					irregulars = paradigm.map( function( verb ) {
-						return normalizedIrregular.prefix.concat( verb );
-					} );
-				}
+		if ( ! isUndefined( normalizedIrregular ) ) {
+			irregularVerbs.forEach( function( paradigm ) {
+				paradigm.forEach( function( wordInParadigm ) {
+					if ( wordInParadigm === normalizedIrregular.normalizedWord ) {
+						irregulars = paradigm.map( function( verb ) {
+							return normalizedIrregular.prefix.concat( verb );
+						} );
+					}
+				} );
 			} );
-		} );
+		}
 	}
+
 	return irregulars;
 };
 
