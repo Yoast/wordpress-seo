@@ -75,7 +75,7 @@ class ClassicEditorData {
 		let newPostSlug = document.getElementById( "new-post-slug" );
 
 		if ( newPostSlug ) {
-			slug = newPostSlug.val();
+			slug = newPostSlug.value;
 		} else if ( document.getElementById( "editable-post-name-full" ) !== null ) {
 			slug = document.getElementById( "editable-post-name-full" ).textContent;
 		}
