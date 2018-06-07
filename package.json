@@ -103,6 +103,7 @@
     "grunt-contrib-imagemin": "^2.0.1"
   },
   "dependencies": {
+    "@wordpress/i18n": "^1.1.1",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
