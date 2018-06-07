@@ -42,36 +42,40 @@ tr.yst_row.even {
 	margin: 10px 10px 0 0;
 }
 
-/* Forms. */
-label.textinput,
-label.select {
-	float: left;
-	width: 200px;
-	margin: 5px 0;
-}
+.wpseo_content_wrapper {
 
-.yoast-inline-label {
-	float: none;
-	margin: 0;
-}
+	/* Forms. */
+	label.textinput,
+	label.select {
+		float:  left;
+		width:  200px;
+		margin: 5px 0;
+	}
 
-input.textinput,
-textarea,
-select {
-	width: 400px;
-}
+	.yoast-inline-label {
+		float:  none;
+		margin: 0;
+	}
 
-input.textinput,
-textarea.textinput,
-select.select {
-	margin: 0 0 15px 0;
-}
+	input.textinput,
+	textarea,
+	select {
+		width: 400px;
+	}
 
-/* @todo: check if the .double class is still used. */
-input.radio,
-input.checkbox,
-input.checkbox.double {
-	margin: 6px 10px 6px 0;
+	input.textinput,
+	textarea.textinput,
+	select.select {
+		margin: 0 0 15px 0;
+	}
+
+	/* @todo: check if the .double class is still used. */
+	input.radio,
+	input.checkbox,
+	input.checkbox.double {
+		margin: 6px 10px 6px 0;
+	}
+
 }
 
 /* @todo: check this. */
