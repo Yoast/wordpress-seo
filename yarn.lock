@@ -141,7 +141,7 @@
     lodash "^4.17.5"
     memize "^1.0.5"
 
-"@wordpress/i18n@^1.1.0":
+"@wordpress/i18n@^1.1.0", "@wordpress/i18n@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-1.1.1.tgz#e97c31879e1f76878cfdd14eb7d7a0ec99a234c3"
   dependencies:
