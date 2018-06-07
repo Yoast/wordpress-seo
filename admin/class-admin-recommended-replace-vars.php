@@ -42,16 +42,16 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	/**
 	 * Determines whether or not a post is the homepage.
 	 *
-	 * @param object $post The WordPress global post variable.
+	 * @param WP_Post $post The WordPress global post variable.
 	 *
 	 * @return bool True if the given post is the homepage.
 	 */
 	private static function is_homepage( $post ) {
-		if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_on_front' ) === $post->ID ) {
-			return true;
+		if ( $post instanceof WP_Post === false ) {
+			return false;
 		}
 
-		return false;
+		return get_option( 'show_on_front' ) === 'page' && get_option( 'page_on_front' ) === $post->ID;
 	}
 
 	/**
@@ -73,11 +73,11 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	/**
 	 * Determines the page type of the current post.
 	 *
-	 * @param object $post The WordPress global post variable.
+	 * @param WP_Post $post The WordPress global post variable.
 	 *
 	 * @return string The page type.
 	 */
-	public static function determine_post( $post ) {
+	public static function determine_post( WP_Post $post ) {
 		$post_type = filter_input( INPUT_GET, 'post_type' );
 		if ( empty( $post_type ) ) {
 			return 'post';
