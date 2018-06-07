@@ -1,5 +1,15 @@
+/* External dependencies */
 import React from "react";
+import PropTypes from "prop-types";
 
+/**
+ * Allows multiple inputs to be mapped to a (hidden) input in the DOM.
+ *
+ * @param {function} mapFieldsFromProps Map the wrapped component's props
+ *                                      to an object the HOC can use.
+ *
+ * @returns {function(*)} A function to pass the component to be wrapped to.
+ */
 const linkHiddenFields = ( mapFieldsFromProps ) => {
 	return ( WrappedComponent ) => {
 		class LinkHiddenFields extends React.Component {
@@ -13,7 +23,6 @@ const linkHiddenFields = ( mapFieldsFromProps ) => {
 				this.fields.forEach( field => {
 					const { name, fieldId } = field;
 					const element = document.getElementById( fieldId );
-					console.log( fieldId, element );
 
 					if( element ) {
 						this.elements[ name ] = element;
@@ -24,8 +33,13 @@ const linkHiddenFields = ( mapFieldsFromProps ) => {
 					}
 				} );
 
-				console.log( state );
 				this.state = state;
+			}
+
+			static get propTypes() {
+				return {
+					children: PropTypes.node,
+				};
 			}
 
 			onChange( name, value ) {
@@ -62,5 +76,10 @@ const linkHiddenFields = ( mapFieldsFromProps ) => {
 		return LinkHiddenFields;
 	};
 };
+
+export const linkFieldsShape = PropTypes.shape( {
+	value: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
+} );
 
 export default linkHiddenFields;

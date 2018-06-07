@@ -1,12 +1,16 @@
+/* External dpendencies */
 import React from "react";
+import PropTypes from "prop-types";
 import {
 	ReplaceVarEditor,
 	TitleInputContainer,
 	SimulatedLabel,
+	replacementVariablesShape,
 } from "yoast-components/composites/Plugin/SnippetEditor";
 import uniqueId from "lodash/uniqueId";
 
-import linkHiddenFields from "./higherorder/linkHiddenField";
+/* Internal dependencies */
+import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
 
 class SettingsTitleReplacementVariableEditor extends React.Component {
 	constructor( props ) {
@@ -32,8 +36,6 @@ class SettingsTitleReplacementVariableEditor extends React.Component {
 			replacementVariables,
 			field,
 		} = this.props;
-
-		console.log( this.props );
 
 		return (
 			<div style={ { maxWidth: 640 } }>
@@ -61,6 +63,12 @@ class SettingsTitleReplacementVariableEditor extends React.Component {
 		);
 	}
 }
+
+SettingsTitleReplacementVariableEditor.propTypes = {
+	replacementVariables: replacementVariablesShape,
+	label: PropTypes.string.isRequired,
+	field: linkFieldsShape,
+};
 
 export default linkHiddenFields( props => {
 	return [

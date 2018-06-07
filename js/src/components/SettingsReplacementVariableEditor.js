@@ -2,10 +2,12 @@
 import React from "react";
 import { SettingsSnippetEditor } from "yoast-components";
 import { __ } from "@wordpress/i18n";
+import { replacementVariablesShape } from "yoast-components/composites/Plugin/SnippetEditor/constants";
+
 
 /* Internal dependencies */
 import SnippetPreviewSection from "./SnippetPreviewSection";
-import linkHiddenFields from "./higherorder/linkHiddenField";
+import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
 
 class SettingsReplacementVariableEditor extends React.Component {
 	constructor( props ) {
@@ -44,6 +46,12 @@ class SettingsReplacementVariableEditor extends React.Component {
 		);
 	}
 }
+
+SettingsReplacementVariableEditor.propTypes = {
+	replacementVariables: replacementVariablesShape,
+	title: linkFieldsShape,
+	description: linkFieldsShape,
+};
 
 export default linkHiddenFields( props => {
 	return [
