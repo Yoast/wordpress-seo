@@ -129,7 +129,7 @@ const TriggerReplacementVariableSuggestionsButton = Button.extend`
 	padding-left: 8px;
 	float: right;
 	margin-top: -35px; // negative height + 2 for spacing
-	
+
 	${ props => props.isSmallerThanMobileWidth && `
 		float: none;
 		margin-top: 0;
@@ -145,28 +145,27 @@ class SnippetEditorFields extends React.Component {
 	/**
 	 * Constructs the snippet editor fields.
 	 *
-	 * @param {Object}   props                             The props for the editor
-	 *                                                     fields.
-	 * @param {Object}   props.replacementVariables        The replacement variables
-	 *                                                     for this editor.
-	 * @param {Object}   props.data                        The initial editor data.
-	 * @param {string}   props.data.title                  The initial title.
-	 * @param {string}   props.data.slug                   The initial slug.
-	 * @param {string}   props.data.description            The initial description.
-	 * @param {Function} props.onChange                    Called when the data
-	 *                                                     changes.
-	 * @param {Function} props.onFocus                     Called when a field is
-	 *                                                     focused.
+	 * @param {Object}   props                           The props for the editor
+	 *                                                   fields.
+	 * @param {Object}   props.replacementVariables      The replacement variables
+	 *                                                   for this editor.
+	 * @param {Object}   props.data                      The initial editor data.
+	 * @param {string}   props.data.title                The initial title.
+	 * @param {string}   props.data.slug                 The initial slug.
+	 * @param {string}   props.data.description          The initial description.
+	 * @param {Function} props.onChange                  Called when the data
+	 *                                                   changes.
+	 * @param {Function} props.onFocus                   Called when a field is
+	 *                                                   focused.
 	 * @param {Object}   props.titleLengthProgress       The values for the title
-	 *                                                     length assessment.
+	 *                                                   length assessment.
 	 * @param {Object}   props.descriptionLengthProgress The values for the
-	 *                                                     description length
-	 *                                                     assessment.
-	 * @param {string}   props.activeField                 The field that is
-	 *                                                     currently active.
-	 * @param {string}   props.hoveredField                The field that is
-	 *                                                     currently hovered.
-	 *
+	 *                                                   description length
+	 *                                                   assessment.
+	 * @param {string}   props.activeField               The field that is
+	 *                                                   currently active.
+	 * @param {string}   props.hoveredField              The field that is
+	 *                                                   currently hovered.
 	 *
 	 * @returns {void}
 	 */
@@ -192,9 +191,9 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Sets the ref for the editor fields.
+	 * Sets the ref for the editor.
 	 *
-	 * @param {Object} editor The editor fields React reference.
+	 * @param {Object} editor The editor React reference.
 	 *
 	 * @returns {void}
 	 */
@@ -203,7 +202,7 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Sets ref for field editor.
+	 * Sets the refs for the editor fields.
 	 *
 	 * @param {string} fieldName The field name for this ref.
 	 * @param {Object} ref       The Draft.js react element.
@@ -230,7 +229,7 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Ensure isSmallerThanMobileWidth is accurate.
+	 * Ensures isSmallerThanMobileWidth is accurate.
 	 *
 	 * By running it once and binding it to the window resize event.
 	 *
@@ -242,7 +241,7 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Removes the event listeners.
+	 * Removes the window resize event listener.
 	 *
 	 * @returns {void}
 	 */

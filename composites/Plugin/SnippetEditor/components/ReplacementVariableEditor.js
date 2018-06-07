@@ -253,8 +253,8 @@ class ReplacementVariableEditor extends React.Component {
 	/**
 	 * Triggers the Draft.js mention plugin suggestions autocomplete.
 	 *
-	 * It does this by inserting the trigger (%) into the editor; replacing the current selection.
-	 * Ensuring the autocomplete shows by adding spaces around the trigger if needed.
+	 * It does this by inserting the trigger (%) into the editor, replacing the current selection.
+	 * Ensures the autocomplete shows by adding spaces around the trigger if needed.
 	 *
 	 * @returns {void}
 	 */

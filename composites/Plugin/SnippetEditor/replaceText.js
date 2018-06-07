@@ -1,7 +1,7 @@
 import { EditorState, SelectionState, Modifier } from "draft-js";
 
 /**
- * Test if a character in a text is whitespace. Out of range index counts as whitespace.
+ * Tests if a character in a text is whitespace. Out of range index counts as whitespace.
  *
  * @param {string} text  The text to get the character from.
  * @param {number} index The index of the character in the text.
@@ -36,7 +36,8 @@ export const getCaretOffset = ( selection ) => {
 /**
  * Gets the block of the start of the current Draft.js selection.
  *
- * This is a tiny helper function to get the anchor key and then the block of that key.
+ * This is a tiny helper function to get the Draft.js selection anchor key and
+ * then the block of that key.
  * Read more about the Draft.js selection state: https://draftjs.org/docs/api-reference-selection-state.html
  * Read more about the Draft.js content block: https://draftjs.org/docs/api-reference-content-block.html
  *
