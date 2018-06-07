@@ -37,10 +37,6 @@ tr.yst_row.even {
 	background-color: #f6f6f6;
 }
 
-/* @todo: check this. */
-.postbox {
-	margin: 10px 10px 0 0;
-}
 
 .wpseo_content_wrapper {
 	/* Forms. */
@@ -100,6 +96,11 @@ tr.yst_row.even {
 	h4 {
 		clear: both;
 		margin: 1.2em 0 0.5em 0;
+	}
+
+	/* @todo: check this. */
+	.postbox {
+		margin: 10px 10px 0 0;
 	}
 
 	/* @todo: check this. */
