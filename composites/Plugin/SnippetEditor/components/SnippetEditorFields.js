@@ -78,7 +78,6 @@ const TitleInputContainer = InputContainer.extend`
 		line-height: 24px;
 		height: 24px;
 		overflow: hidden;
-		white-space: nowrap;
 	}
 `;
 
