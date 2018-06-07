@@ -953,7 +953,7 @@ function init() {
 jQuery(init);
 
 },{"./helpers/restApi":1,"./keywordSuggestions/ProminentWordCache":2,"./keywordSuggestions/ProminentWordCachePopulator":3,"./keywordSuggestions/siteWideCalculation":5,"a11y-speak":7}],7:[function(require,module,exports){
-var containerPolite, containerAssertive;
+var containerPolite, containerAssertive, previousMessage = "";
 
 /**
  * Build the live regions markup.
@@ -969,7 +969,7 @@ var addContainer = function( ariaLive ) {
 	container.id = "a11y-speak-" + ariaLive;
 	container.className = "a11y-speak-region";
 
-	var screenReaderTextStyle = "clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;";
+	var screenReaderTextStyle = "clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden; word-wrap: normal;";
 	container.setAttribute( "style", screenReaderTextStyle );
 
 	container.setAttribute( "aria-live", ariaLive );
@@ -1039,6 +1039,12 @@ var A11ySpeak = function( message, ariaLive ) {
 	 * spaces natively.
 	 */
 	message = message.replace( /<[^<>]+>/g, " " );
+
+	if ( previousMessage === message ) {
+		message = message + "\u00A0";
+	}
+
+	previousMessage = message;
 
 	if ( containerAssertive && "assertive" === ariaLive ) {
 		containerAssertive.textContent = message;
@@ -6400,7 +6406,7 @@ var blockElementStartRegex = new RegExp("^<(" + blockElements.join("|") + ")[^>]
 var blockElementEndRegex = new RegExp("^</(" + blockElements.join("|") + ")[^>]*?>$", "i");
 var inlineElementStartRegex = new RegExp("^<(" + inlineElements.join("|") + ")[^>]*>$", "i");
 var inlineElementEndRegex = new RegExp("^</(" + inlineElements.join("|") + ")[^>]*>$", "i");
-var otherElementStartRegex = /^<([^>\s\/]+)[^>]*>$/;
+var otherElementStartRegex = /^<([^>\s/]+)[^>]*>$/;
 var otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/;
 var contentRegex = /^[^<]+$/;
 var greaterThanContentRegex = /^<[^><]*$/;
@@ -7445,11 +7451,11 @@ var newLines = "\n\r|\n|\r";
 var fullStopRegex = new RegExp("^[" + fullStop + "]$");
 var sentenceDelimiterRegex = new RegExp("^[" + sentenceDelimiters + "]$");
 var sentenceRegex = new RegExp("^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$");
-var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
+var htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp(newLines);
-var blockStartRegex = /^\s*[\[\(\{]\s*$/;
-var blockEndRegex = /^\s*[\]\)}]\s*$/;
+var blockStartRegex = /^\s*[[({]\s*$/;
+var blockEndRegex = /^\s*[\])}]\s*$/;
 var tokens = [];
 var sentenceTokenizer;
 /**
@@ -8058,7 +8064,7 @@ var blockElementEndRegex = new RegExp("</(" + blockElements.join("|") + ")[^>]*?
  */
 var stripIncompleteTags = function stripIncompleteTags(text) {
     text = text.replace(/^(<\/([^>]+)>)+/i, "");
-    text = text.replace(/(<([^\/>]+)>)+$/i, "");
+    text = text.replace(/(<([^/>]+)>)+$/i, "");
     return text;
 };
 /**
