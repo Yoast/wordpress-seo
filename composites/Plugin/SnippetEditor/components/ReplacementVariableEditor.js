@@ -1,6 +1,6 @@
 // External dependencies.
 import React from "react";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import { convertToRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import createMentionPlugin from "draft-js-mention-plugin";
 import createSingleLinePlugin from "draft-js-single-line-plugin";
@@ -12,7 +12,11 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 
 // Internal dependencies.
 import { replacementVariablesShape } from "../constants";
-import { serializeEditor, unserializeEditor } from "../serialization";
+import {
+	serializeEditor,
+	unserializeEditor,
+	replaceReplacementVariables,
+} from "../serialization";
 import {
 	hasWhitespaceAt,
 	getCaretOffset,
@@ -21,18 +25,6 @@ import {
 	removeSelectedText,
 	moveCaret,
 } from "../replaceText";
-
-/**
- * Creates a Draft.js editor state from a string.
- *
- * @param {string} content The content to turn into editor state.
- *
- * @returns {EditorState} The editor state.
- */
-const createEditorState = flow( [
-	convertFromRaw,
-	EditorState.createWithContent,
-] );
 
 /**
  * Serializes the Draft.js editor state into a string.
@@ -99,10 +91,10 @@ class ReplacementVariableEditor extends React.Component {
 		super( props );
 
 		const { content: rawContent, replacementVariables } = this.props;
-		const unserialized = unserializeEditor( rawContent, replacementVariables );
+		const editorState = unserializeEditor( rawContent, replacementVariables );
 
 		this.state = {
-			editorState: createEditorState( unserialized ),
+			editorState,
 			searchValue: "",
 			replacementVariables,
 		};
@@ -161,6 +153,8 @@ class ReplacementVariableEditor extends React.Component {
 	 */
 	onChange( editorState ) {
 		return new Promise( ( resolve ) => {
+			editorState = replaceReplacementVariables( editorState, this.props.replacementVariables );
+
 			this.setState( {
 				editorState,
 			}, () => {
@@ -309,10 +303,10 @@ class ReplacementVariableEditor extends React.Component {
 			nextProps.replacementVariables !== replacementVariables
 		) {
 			this._serializedContent = nextProps.content;
-			const unserialized = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+			const editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
 
 			this.setState( {
-				editorState: createEditorState( unserialized ),
+				editorState,
 				replacementVariables: this.replacementVariablesFilter( searchValue, nextProps.replacementVariables ),
 			} );
 		}
