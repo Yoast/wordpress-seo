@@ -121,7 +121,7 @@ class ClassicEditorData {
 		 * On terms some elements don't exist in the DOM, such as the title element.
 		 * We return early if the element was not found.
 		 */
-		if ( !element ) {
+		if ( ! element ) {
 			return;
 		}
 
