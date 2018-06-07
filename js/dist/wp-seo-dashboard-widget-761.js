@@ -29,7 +29,7 @@ if (false) {
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(295)();
+  module.exports = __webpack_require__(292)();
 }
 
 
@@ -73,7 +73,7 @@ module.exports = isObject;
 
 /***/ }),
 
-/***/ 115:
+/***/ 112:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -81,11 +81,11 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 
-/***/ 116:
+/***/ 113:
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -118,937 +118,7 @@ module.exports = toSource;
 
 /***/ }),
 
-/***/ 1456:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _styledComponents = __webpack_require__(3);
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ScoreAssessmentItem = _styledComponents2.default.li.withConfig({
-	displayName: "ScoreAssessments__ScoreAssessmentItem"
-})(["display:table-row;font-size:14px;"]);
-
-var ScoreAssessmentPart = _styledComponents2.default.span.withConfig({
-	displayName: "ScoreAssessments__ScoreAssessmentPart"
-})(["display:table-cell;padding:2px;"]);
-
-var ScoreAssessmentBullet = (0, _styledComponents2.default)(ScoreAssessmentPart).withConfig({
-	displayName: "ScoreAssessments__ScoreAssessmentBullet"
-})(["position:relative;top:1px;display:inline-block;height:8px;width:8px;border-radius:50%;background-color:", ";"], function (props) {
-	return props.scoreColor;
-});
-
-ScoreAssessmentBullet.propTypes = {
-	scoreColor: _propTypes2.default.string.isRequired
-};
-
-var ScoreAssessmentText = (0, _styledComponents2.default)(ScoreAssessmentPart).withConfig({
-	displayName: "ScoreAssessments__ScoreAssessmentText"
-})(["padding-left:8px;width:100%;"]);
-
-var ScoreAssessmentScore = (0, _styledComponents2.default)(ScoreAssessmentPart).withConfig({
-	displayName: "ScoreAssessments__ScoreAssessmentScore"
-})(["font-weight:600;text-align:right;padding-left:16px;"]);
-
-var ScoreAssessment = function ScoreAssessment(props) {
-	return _react2.default.createElement(
-		ScoreAssessmentItem,
-		{
-			className: "" + props.className },
-		_react2.default.createElement(ScoreAssessmentBullet, {
-			className: props.className + "-bullet",
-			scoreColor: props.scoreColor }),
-		_react2.default.createElement(ScoreAssessmentText, {
-			className: props.className + "-text",
-			dangerouslySetInnerHTML: { __html: props.html } }),
-		props.value && _react2.default.createElement(
-			ScoreAssessmentScore,
-			{
-				className: props.className + "-score" },
-			props.value
-		)
-	);
-};
-
-ScoreAssessment.propTypes = {
-	className: _propTypes2.default.string.isRequired,
-	scoreColor: _propTypes2.default.string.isRequired,
-	html: _propTypes2.default.string.isRequired,
-	value: _propTypes2.default.number
-};
-
-var ScoreAssessmentList = _styledComponents2.default.ul.withConfig({
-	displayName: "ScoreAssessments__ScoreAssessmentList"
-})(["display:table;box-sizing:border-box;list-style:none;max-width:100%;min-width:200px;margin:8px 0;padding:0 8px;"]);
-
-var ScoreAssessments = function ScoreAssessments(props) {
-	return _react2.default.createElement(
-		ScoreAssessmentList,
-		{
-			className: props.className,
-			role: "list" },
-		props.items.map(function (item, index) {
-			return _react2.default.createElement(ScoreAssessment, {
-				className: props.className + "__item",
-				key: index,
-				scoreColor: item.color,
-				html: item.html,
-				value: item.value });
-		})
-	);
-};
-
-ScoreAssessments.propTypes = {
-	className: _propTypes2.default.string,
-	items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-		color: _propTypes2.default.string.isRequired,
-		html: _propTypes2.default.string.isRequired,
-		value: _propTypes2.default.number
-	}))
-};
-
-ScoreAssessments.defaultProps = {
-	className: "score-assessments"
-};
-
-exports.default = ScoreAssessments;
-
-/***/ }),
-
-/***/ 1505:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(37);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _SeoAssessment = __webpack_require__(1506);
-
-var _SeoAssessment2 = _interopRequireDefault(_SeoAssessment);
-
-var _ScoreAssessments = __webpack_require__(1456);
-
-var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
-
-var _getFeed2 = __webpack_require__(1508);
-
-var _getFeed3 = _interopRequireDefault(_getFeed2);
-
-var _WordpressFeed = __webpack_require__(1509);
-
-var _WordpressFeed2 = _interopRequireDefault(_WordpressFeed);
-
-var _colors = __webpack_require__(7);
-
-var _colors2 = _interopRequireDefault(_colors);
-
-var _i18n = __webpack_require__(466);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global wpseoDashboardWidgetL10n, wpseoApi, jQuery */
-
-var DashboardWidget = function (_React$Component) {
-	_inherits(DashboardWidget, _React$Component);
-
-	/**
-  * Creates the components and initializes its state.
-  */
-	function DashboardWidget() {
-		_classCallCheck(this, DashboardWidget);
-
-		var _this = _possibleConstructorReturn(this, (DashboardWidget.__proto__ || Object.getPrototypeOf(DashboardWidget)).call(this));
-
-		_this.state = {
-			statistics: null,
-			ryte: null,
-			feed: null
-		};
-
-		_this.getStatistics();
-		_this.getRyte();
-		_this.getFeed();
-		return _this;
-	}
-
-	/**
-  * Returns a color to be used for a given score.
-  *
-  * @param {string} score The score, expected to be 'na', 'bad', 'ok', 'good' or 'noindex'.
-  *
-  * @returns {string} The color to use for this score. Defaults to grey if no such color exists.
-  */
-
-
-	_createClass(DashboardWidget, [{
-		key: "getStatistics",
-
-
-		/**
-   * Fetches data from the statistics endpoint, parses it and sets it to the state.
-   *
-   * @returns {void}
-   */
-		value: function getStatistics() {
-			var _this2 = this;
-
-			wpseoApi.get("statistics", function (response) {
-				var statistics = {};
-
-				statistics.seoScores = response.seo_scores.map(function (score) {
-					return {
-						value: parseInt(score.count, 10),
-						color: DashboardWidget.getColorFromScore(score.seo_rank),
-						html: "<a href=\"" + score.link + "\">" + score.label + "</a>"
-					};
-				});
-
-				// Wrap in a div and get the text to HTML decode.
-				statistics.header = jQuery("<div>" + response.header + "</div>").text();
-
-				_this2.setState({ statistics: statistics });
-			});
-		}
-
-		/**
-   * Fetches data from the Ryte endpoint, parses it and sets it to the state.
-   *
-   * @returns {void}
-   */
-
-	}, {
-		key: "getRyte",
-		value: function getRyte() {
-			var _this3 = this;
-
-			wpseoApi.get("ryte", function (response) {
-				if (!response.ryte) {
-					return;
-				}
-
-				var ryte = {
-					scores: [{
-						color: DashboardWidget.getColorFromScore(response.ryte.score),
-						html: response.ryte.label
-					}],
-					canFetch: response.ryte.can_fetch
-				};
-
-				_this3.setState({ ryte: ryte });
-			});
-		}
-
-		/**
-   * Fetches data from the yoast.com feed, parses it and sets it to the state.
-   *
-   * @returns {void}
-   */
-
-	}, {
-		key: "getFeed",
-		value: function getFeed() {
-			var _this4 = this;
-
-			// Developer note: this link should -not- be converted to a shortlink.
-			(0, _getFeed3.default)("https://yoast.com/feed/widget/", 2).then(function (feed) {
-				feed.items = feed.items.map(function (item) {
-					item.description = jQuery("<div>" + item.description + "</div>").text();
-					item.description = item.description.replace("The post " + item.title + " appeared first on Yoast.", "").trim();
-					item.content = jQuery("<div>" + item.content + "</div>").text();
-
-					return item;
-				});
-
-				_this4.setState({ feed: feed });
-			}).catch(function (error) {
-				return console.log(error);
-			});
-		}
-
-		/**
-   * Returns the SEO Assessment sub-component.
-   *
-   * @returns {ReactElement} The SEO Assessment component.
-   */
-
-	}, {
-		key: "getSeoAssessment",
-		value: function getSeoAssessment() {
-			if (this.state.statistics === null) {
-				return null;
-			}
-
-			return yoast._wp.element.createElement(_SeoAssessment2.default, { key: "yoast-seo-posts-assessment",
-				seoAssessmentText: this.state.statistics.header,
-				seoAssessmentItems: this.state.statistics.seoScores });
-		}
-
-		/**
-   * Returns the Ryte Assessment sub-component.
-   *
-   * @returns {ReactElement} The Ryte Assessment component.
-   */
-
-	}, {
-		key: "getRyteAssessment",
-		value: function getRyteAssessment() {
-			if (this.state.ryte === null) {
-				return null;
-			}
-
-			return yoast._wp.element.createElement(
-				"div",
-				{ id: "yoast-seo-ryte-assessment", key: "yoast-seo-ryte-assessment" },
-				yoast._wp.element.createElement(
-					"h3",
-					null,
-					wpseoDashboardWidgetL10n.ryte_header
-				),
-				yoast._wp.element.createElement(_ScoreAssessments2.default, { items: this.state.ryte.scores }),
-				yoast._wp.element.createElement(
-					"div",
-					null,
-					this.state.ryte.canFetch && yoast._wp.element.createElement(
-						"a",
-						{ className: "fetch-status button", href: wpseoDashboardWidgetL10n.ryte_fetch_url },
-						wpseoDashboardWidgetL10n.ryte_fetch
-					),
-					yoast._wp.element.createElement(
-						"a",
-						{ className: "landing-page button", href: wpseoDashboardWidgetL10n.ryte_landing_url, target: "_blank" },
-						wpseoDashboardWidgetL10n.ryte_analyze
-					)
-				)
-			);
-		}
-
-		/**
-   * Returns the yoast.com feed sub-component.
-   *
-   * @returns {ReactElement} The yoast.com feed component.
-   */
-
-	}, {
-		key: "getYoastFeed",
-		value: function getYoastFeed() {
-			if (this.state.feed === null) {
-				return null;
-			}
-
-			return yoast._wp.element.createElement(_WordpressFeed2.default, {
-				key: "yoast-seo-blog-feed",
-				title: wpseoDashboardWidgetL10n.feed_header,
-				feed: this.state.feed,
-				footerHtml: wpseoDashboardWidgetL10n.feed_footer });
-		}
-
-		/**
-   * Renders the component.
-   *
-   * @returns {ReactElement} The component.
-   */
-
-	}, {
-		key: "render",
-		value: function render() {
-			var contents = [this.getSeoAssessment(), this.getRyteAssessment(), this.getYoastFeed()].filter(function (item) {
-				return item !== null;
-			});
-
-			if (contents.length === 0) {
-				return null;
-			}
-
-			return yoast._wp.element.createElement(
-				"div",
-				null,
-				contents
-			);
-		}
-	}], [{
-		key: "getColorFromScore",
-		value: function getColorFromScore(score) {
-			return _colors2.default["$color_" + score] || _colors2.default.$color_grey;
-		}
-	}]);
-
-	return DashboardWidget;
-}(_react2.default.Component);
-
-var element = document.getElementById("yoast-seo-dashboard-widget");
-
-if (element) {
-	(0, _i18n.setYoastComponentsI18n)();
-
-	_reactDom2.default.render(yoast._wp.element.createElement(DashboardWidget, null), element);
-}
-
-/***/ }),
-
-/***/ 1506:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _styledComponents = __webpack_require__(3);
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
-var _StackedProgressBar = __webpack_require__(1507);
-
-var _StackedProgressBar2 = _interopRequireDefault(_StackedProgressBar);
-
-var _ScoreAssessments = __webpack_require__(1456);
-
-var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * SeoAssessment container.
- */
-var SeoAssessmentContainer = _styledComponents2.default.div.withConfig({
-	displayName: "SeoAssessment__SeoAssessmentContainer"
-})([""]);
-
-/**
- * SeoAssessment top text.
- */
-var SeoAssessmentText = _styledComponents2.default.p.withConfig({
-	displayName: "SeoAssessment__SeoAssessmentText"
-})(["font-size:14px;"]);
-
-/**
- * The Dashboard Seo Assessment component.
- *
- * @param {object} props The component props.
- *
- * @returns {ReactElement} The react component.
- */
-var SeoAssessment = function SeoAssessment(props) {
-	return _react2.default.createElement(
-		SeoAssessmentContainer,
-		{
-			className: props.className },
-		_react2.default.createElement(
-			SeoAssessmentText,
-			{
-				className: props.className + "__text" },
-			props.seoAssessmentText
-		),
-		_react2.default.createElement(_StackedProgressBar2.default, {
-			className: "progress",
-			items: props.seoAssessmentItems,
-			barHeight: props.barHeight
-		}),
-		_react2.default.createElement(_ScoreAssessments2.default, {
-			className: "assessments",
-			items: props.seoAssessmentItems
-		})
-	);
-};
-
-SeoAssessment.propTypes = {
-	className: _propTypes2.default.string,
-	seoAssessmentText: _propTypes2.default.string,
-	seoAssessmentItems: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-		value: _propTypes2.default.number.isRequired,
-		color: _propTypes2.default.string.isRequired
-	})),
-	barHeight: _propTypes2.default.string
-};
-
-SeoAssessment.defaultProps = {
-	className: "seo-assessment"
-};
-
-exports.default = SeoAssessment;
-
-/***/ }),
-
-/***/ 1507:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _styledComponents = __webpack_require__(3);
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var StackedProgressBarContainer = _styledComponents2.default.div.withConfig({
-	displayName: "StackedProgressBar__StackedProgressBarContainer"
-})(["margin:8px 0;height:", ";overflow:hidden;"], function (props) {
-	return props.barHeight;
-});
-
-var StackedProgressBarProgress = _styledComponents2.default.span.withConfig({
-	displayName: "StackedProgressBar__StackedProgressBarProgress"
-})(["display:inline-block;vertical-align:top;width:", ";background-color:", ";height:100%;"], function (props) {
-	return props.progressWidth + "%";
-}, function (props) {
-	return props.progressColor;
-});
-
-StackedProgressBarProgress.propTypes = {
-	progressWidth: _propTypes2.default.number.isRequired,
-	progressColor: _propTypes2.default.string.isRequired
-};
-
-var StackedProgressBar = function StackedProgressBar(props) {
-	var totalValue = 0;
-	for (var i = 0; i < props.items.length; i++) {
-		props.items[i].value = Math.max(props.items[i].value, 0);
-		totalValue += props.items[i].value;
-	}
-
-	if (totalValue <= 0) {
-		return null;
-	}
-
-	return _react2.default.createElement(
-		StackedProgressBarContainer,
-		{
-			className: props.className,
-			barHeight: props.barHeight },
-		props.items.map(function (item, index) {
-			return _react2.default.createElement(StackedProgressBarProgress, {
-				className: props.className + "__part",
-				key: index,
-				progressColor: item.color,
-				progressWidth: item.value / totalValue * 100 });
-		})
-	);
-};
-
-StackedProgressBar.propTypes = {
-	className: _propTypes2.default.string,
-	items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-		value: _propTypes2.default.number.isRequired,
-		color: _propTypes2.default.string.isRequired
-	})),
-	barHeight: _propTypes2.default.string
-};
-
-StackedProgressBar.defaultProps = {
-	className: "stacked-progress-bar",
-	barHeight: "24px"
-};
-
-exports.default = StackedProgressBar;
-
-/***/ }),
-
-/***/ 1508:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.parseFeed = parseFeed;
-exports.default = getFeed;
-/**
- * @typedef  {Object}     Feed
- * @property {string}     title       The title of the website.
- * @property {string}     description A description of the website.
- * @property {string}     link        A link to the website.
- * @property {FeedItem[]} items     The items in the feed.
- */
-
-/**
- * @typedef  {Object} FeedItem
- * @property {string} title       The title of the item.
- * @property {string} content     The content of the item, will be HTML encoded.
- * @property {string} description A summary of the content, will be HTML encoded.
- * @property {string} link        A link to the item.
- * @property {string} creator     The creator of the item.
- * @property {string} date        The publication date of the item.
- */
-
-/**
- * Parses a RSS Feed.
- *
- * @param {string} raw      The raw XML of the feed.
- * @param {number} maxItems The maximum amount of items to parse, 0 for all items.
- *
- * @returns {Promise.<Feed>} A promise which resolves with the parsed Feed.
- */
-function parseFeed(raw) {
-  var maxItems = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-  return new Promise(function (resolve, reject) {
-    try {
-      var parser = new DOMParser();
-      var parsed = parser.parseFromString(raw, 'application/xml');
-      var nsResolver = parsed.createNSResolver(parsed.documentElement);
-
-      var result = getFeedMeta(parsed);
-      result.items = getFeedItems(parsed, nsResolver, maxItems);
-
-      resolve(result);
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
-
-/**
- * Returns the feed meta from a parsed Feed.
- *
- * @param {Document} parsed A parsed XML document.
- *
- * @returns {Feed} A Feed object containing only the meta attributes.
- */
-function getFeedMeta(parsed) {
-  var result = {};
-
-  result.title = getXPathText('/rss/channel/title', parsed);
-  result.description = getXPathText('/rss/channel/description', parsed);
-  result.link = getXPathText('/rss/channel/link', parsed);
-
-  return result;
-}
-
-/**
- * Returns the feed items from a parsed Feed.
- *
- * @param {Document}        parsed     A parsed XML document.
- * @param {XPathNSResolver} nsResolver A namespace resolver for the parsed document.
- * @param {number}          maxItems   The maximum amount of items to return, 0 for all items.
- *
- * @returns {FeedItem[]} An array of FeedItem objects.
- */
-function getFeedItems(parsed, nsResolver, maxItems) {
-  var snapshots = getXPathSnapshots('/rss/channel/item', parsed);
-  var count = snapshots.snapshotLength;
-  var items = [];
-
-  if (maxItems !== 0) {
-    count = Math.min(count, maxItems);
-  }
-
-  for (var i = 0; i < count; i++) {
-    var snapshot = snapshots.snapshotItem(i);
-    items.push(getFeedItem(parsed, snapshot, nsResolver));
-  }
-
-  return items;
-}
-
-/**
- * Returns a single feed item from a snapshot.
- *
- * @param {Document}        parsed     A parsed XML document.
- * @param {Node}            snapshot   A snapshot returned from the snapshotItem method of a XPathResult.
- * @param {XPathNSResolver} nsResolver A namespace resolver for the parsed document.
- *
- * @returns {FeedItem} The FeedItem representing the provided snapshot.
- */
-function getFeedItem(parsed, snapshot, nsResolver) {
-  var item = {};
-
-  item.title = getXPathText('child::title', parsed, snapshot);
-  item.link = getXPathText('child::link', parsed, snapshot);
-  item.content = getXPathText('child::content:encoded', parsed, snapshot, nsResolver);
-  item.description = getXPathText('child::description', parsed, snapshot);
-  item.creator = getXPathText('child::dc:creator', parsed, snapshot, nsResolver);
-  item.date = getXPathText('child::pubDate', parsed, snapshot);
-
-  return item;
-}
-
-/**
- * Returns the string contents of the given xpath query on the provided document.
- *
- * @param {string}          xpath      The xpath query to run.
- * @param {Document}        document   A parsed XML document.
- * @param {Node}            context    A Node in the document to use as context for the query.
- * @param {XPathNSResolver} nsResolver A namespace resolver for the parsed document.
- *
- * @returns {string|undefined} The string result of the xpath query.
- */
-function getXPathText(xpath, document) {
-  var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  var nsResolver = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-
-  var result = document.evaluate(xpath, context || document, nsResolver, XPathResult.STRING_TYPE, null);
-
-  if (result.stringValue) {
-    return result.stringValue;
-  }
-
-  return undefined;
-}
-
-/**
- * Returns a ORDERED_NODE_SNAPSHOT_TYPE XpathResult for the given xpath query on the provided document.
- *
- * @param {string}          xpath      The xpath query to run.
- * @param {Document}        document   A parsed XML document.
- * @param {Node}            context    A Node in the document to use as context for the query.
- * @param {XPathNSResolver} nsResolver A namespace resolver for the parsed document.
- *
- * @returns {XPathResult} The result of the xpath query.
- */
-function getXPathSnapshots(xpath, document) {
-  var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  var nsResolver = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-
-  return document.evaluate(xpath, context || document, nsResolver, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-}
-
-/**
- * Grabs an RSS feed from the requested URL and parses it.
- *
- * @param {string} url      The URL the feed is located at.
- * @param {int}    maxItems The amount of items you wish returned, 0 for all items.
- *
- * @returns {Promise.<Feed>} The retrieved feed.
- */
-function getFeed(url) {
-  var maxItems = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-  return fetch(url).then(function (response) {
-    return response.text();
-  }).then(function (raw) {
-    return parseFeed(raw, maxItems);
-  });
-}
-
-/***/ }),
-
-/***/ 1509:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _styledComponents = __webpack_require__(3);
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * @typedef  {Object}     Feed
- * @property {string}     title       The title of the website.
- * @property {string}     description A description of the website.
- * @property {string}     link        A link to the website.
- * @property {FeedItem[]} items       The items in the feed.
- */
-
-/**
- * @typedef  {Object} FeedItem
- * @property {string} title       The title of the item.
- * @property {string} content     The content of the item, will be HTML encoded.
- * @property {string} description A summary of the content, will be HTML encoded.
- * @property {string} link        A link to the item.
- * @property {string} creator     The creator of the item.
- * @property {string} date        The publication date of the item.
- */
-
-var WordpressFeedContainer = _styledComponents2.default.div.withConfig({
-	displayName: "WordpressFeed__WordpressFeedContainer"
-})(["box-sizing:border-box;p,a{font-size:14px;margin:0;}"]);
-
-var WordpressFeedHeader = _styledComponents2.default.h3.withConfig({
-	displayName: "WordpressFeed__WordpressFeedHeader"
-})(["margin:8px 0;font-size:1em;"]);
-
-var WordpressFeedList = _styledComponents2.default.ul.withConfig({
-	displayName: "WordpressFeed__WordpressFeedList"
-})(["margin:0;list-style:none;padding:0;"]);
-
-var WordpressFeedLink = _styledComponents2.default.a.withConfig({
-	displayName: "WordpressFeed__WordpressFeedLink"
-})(["display:inline-block;padding-bottom:4px;"]);
-
-var A11yNotice = _styledComponents2.default.span.withConfig({
-	displayName: "WordpressFeed__A11yNotice"
-})(["border:0;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute !important;width:1px;word-wrap:normal !important;"]);
-
-var WordpressFeedListItemContainer = _styledComponents2.default.li.withConfig({
-	displayName: "WordpressFeed__WordpressFeedListItemContainer"
-})(["margin:8px 0;overflow:hidden;"]);
-
-var WordpressFeedFooter = _styledComponents2.default.div.withConfig({
-	displayName: "WordpressFeed__WordpressFeedFooter"
-})(["a{margin:8px 0 0;}"]);
-
-var WordpressFeedListItem = function WordpressFeedListItem(props) {
-	return _react2.default.createElement(
-		WordpressFeedListItemContainer,
-		{
-			className: props.className },
-		_react2.default.createElement(
-			WordpressFeedLink,
-			{
-				className: props.className + "-link",
-				href: props.link,
-				target: "_blank",
-				rel: "noopener noreferrer" },
-			props.title,
-			_react2.default.createElement(
-				A11yNotice,
-				null,
-				"( Opens in a new browser tab )"
-			)
-		),
-		_react2.default.createElement(
-			"p",
-			{ className: props.className + "-description" },
-			props.description
-		)
-	);
-};
-
-WordpressFeedListItem.propTypes = {
-	className: _propTypes2.default.string.isRequired,
-	title: _propTypes2.default.string.isRequired,
-	link: _propTypes2.default.string.isRequired,
-	description: _propTypes2.default.string.isRequired
-};
-
-/**
- * Displays a parsed wordpress feed.
- *
- * @param {Object} props            The component props.
- * @param {Feed} props.feed         The feed object.
- * @param {string} props.title      The title. Defaults to feed title.
- * @param {string} props.footerHtml The footer HTML contents.
- * @param {string} props.feedLink   The footer link. Defaults to feed link.
- *
- * @returns {ReactElement} The WordpressFeed component.
- */
-var WordpressFeed = function WordpressFeed(props) {
-	return _react2.default.createElement(
-		WordpressFeedContainer,
-		{
-			className: props.className },
-		_react2.default.createElement(
-			WordpressFeedHeader,
-			{
-				className: props.className + "__header" },
-			props.title ? props.title : props.feed.title
-		),
-		_react2.default.createElement(
-			WordpressFeedList,
-			{
-				className: props.className + "__posts",
-				role: "list" },
-			props.feed.items.map(function (item) {
-				return _react2.default.createElement(WordpressFeedListItem, {
-					className: props.className + "__post",
-					key: item.link,
-					title: item.title,
-					link: item.link,
-					description: item.description });
-			})
-		),
-		props.footerHtml && _react2.default.createElement(
-			WordpressFeedFooter,
-			{
-				className: props.className + "__footer" },
-			_react2.default.createElement(WordpressFeedLink, {
-				className: props.className + "__footer-link",
-				href: props.feedLink ? props.feedLink : props.feed.link,
-				target: "_blank",
-				rel: "noopener noreferrer",
-				dangerouslySetInnerHTML: { __html: props.footerHtml } })
-		)
-	);
-};
-
-WordpressFeed.propTypes = {
-	className: _propTypes2.default.string,
-	feed: _propTypes2.default.object.isRequired,
-	title: _propTypes2.default.string,
-	footerHtml: _propTypes2.default.string,
-	feedLink: _propTypes2.default.string
-};
-
-WordpressFeed.defaultProps = {
-	className: "wordpress-feed"
-};
-
-exports.default = WordpressFeed;
-
-/***/ }),
-
-/***/ 152:
+/***/ 149:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -2082,7 +1152,937 @@ return parser;
 
 /***/ }),
 
-/***/ 185:
+/***/ 1541:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _styledComponents = __webpack_require__(3);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ScoreAssessmentItem = _styledComponents2.default.li.withConfig({
+	displayName: "ScoreAssessments__ScoreAssessmentItem"
+})(["display:table-row;font-size:14px;"]);
+
+var ScoreAssessmentPart = _styledComponents2.default.span.withConfig({
+	displayName: "ScoreAssessments__ScoreAssessmentPart"
+})(["display:table-cell;padding:2px;"]);
+
+var ScoreAssessmentBullet = (0, _styledComponents2.default)(ScoreAssessmentPart).withConfig({
+	displayName: "ScoreAssessments__ScoreAssessmentBullet"
+})(["position:relative;top:1px;display:inline-block;height:8px;width:8px;border-radius:50%;background-color:", ";"], function (props) {
+	return props.scoreColor;
+});
+
+ScoreAssessmentBullet.propTypes = {
+	scoreColor: _propTypes2.default.string.isRequired
+};
+
+var ScoreAssessmentText = (0, _styledComponents2.default)(ScoreAssessmentPart).withConfig({
+	displayName: "ScoreAssessments__ScoreAssessmentText"
+})(["padding-left:8px;width:100%;"]);
+
+var ScoreAssessmentScore = (0, _styledComponents2.default)(ScoreAssessmentPart).withConfig({
+	displayName: "ScoreAssessments__ScoreAssessmentScore"
+})(["font-weight:600;text-align:right;padding-left:16px;"]);
+
+var ScoreAssessment = function ScoreAssessment(props) {
+	return _react2.default.createElement(
+		ScoreAssessmentItem,
+		{
+			className: "" + props.className },
+		_react2.default.createElement(ScoreAssessmentBullet, {
+			className: props.className + "-bullet",
+			scoreColor: props.scoreColor }),
+		_react2.default.createElement(ScoreAssessmentText, {
+			className: props.className + "-text",
+			dangerouslySetInnerHTML: { __html: props.html } }),
+		props.value && _react2.default.createElement(
+			ScoreAssessmentScore,
+			{
+				className: props.className + "-score" },
+			props.value
+		)
+	);
+};
+
+ScoreAssessment.propTypes = {
+	className: _propTypes2.default.string.isRequired,
+	scoreColor: _propTypes2.default.string.isRequired,
+	html: _propTypes2.default.string.isRequired,
+	value: _propTypes2.default.number
+};
+
+var ScoreAssessmentList = _styledComponents2.default.ul.withConfig({
+	displayName: "ScoreAssessments__ScoreAssessmentList"
+})(["display:table;box-sizing:border-box;list-style:none;max-width:100%;min-width:200px;margin:8px 0;padding:0 8px;"]);
+
+var ScoreAssessments = function ScoreAssessments(props) {
+	return _react2.default.createElement(
+		ScoreAssessmentList,
+		{
+			className: props.className,
+			role: "list" },
+		props.items.map(function (item, index) {
+			return _react2.default.createElement(ScoreAssessment, {
+				className: props.className + "__item",
+				key: index,
+				scoreColor: item.color,
+				html: item.html,
+				value: item.value });
+		})
+	);
+};
+
+ScoreAssessments.propTypes = {
+	className: _propTypes2.default.string,
+	items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+		color: _propTypes2.default.string.isRequired,
+		html: _propTypes2.default.string.isRequired,
+		value: _propTypes2.default.number
+	}))
+};
+
+ScoreAssessments.defaultProps = {
+	className: "score-assessments"
+};
+
+exports.default = ScoreAssessments;
+
+/***/ }),
+
+/***/ 1590:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(36);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _SeoAssessment = __webpack_require__(1591);
+
+var _SeoAssessment2 = _interopRequireDefault(_SeoAssessment);
+
+var _ScoreAssessments = __webpack_require__(1541);
+
+var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
+
+var _getFeed2 = __webpack_require__(1593);
+
+var _getFeed3 = _interopRequireDefault(_getFeed2);
+
+var _WordpressFeed = __webpack_require__(1594);
+
+var _WordpressFeed2 = _interopRequireDefault(_WordpressFeed);
+
+var _colors = __webpack_require__(7);
+
+var _colors2 = _interopRequireDefault(_colors);
+
+var _i18n = __webpack_require__(458);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global wpseoDashboardWidgetL10n, wpseoApi, jQuery */
+
+var DashboardWidget = function (_React$Component) {
+	_inherits(DashboardWidget, _React$Component);
+
+	/**
+  * Creates the components and initializes its state.
+  */
+	function DashboardWidget() {
+		_classCallCheck(this, DashboardWidget);
+
+		var _this = _possibleConstructorReturn(this, (DashboardWidget.__proto__ || Object.getPrototypeOf(DashboardWidget)).call(this));
+
+		_this.state = {
+			statistics: null,
+			ryte: null,
+			feed: null
+		};
+
+		_this.getStatistics();
+		_this.getRyte();
+		_this.getFeed();
+		return _this;
+	}
+
+	/**
+  * Returns a color to be used for a given score.
+  *
+  * @param {string} score The score, expected to be 'na', 'bad', 'ok', 'good' or 'noindex'.
+  *
+  * @returns {string} The color to use for this score. Defaults to grey if no such color exists.
+  */
+
+
+	_createClass(DashboardWidget, [{
+		key: "getStatistics",
+
+
+		/**
+   * Fetches data from the statistics endpoint, parses it and sets it to the state.
+   *
+   * @returns {void}
+   */
+		value: function getStatistics() {
+			var _this2 = this;
+
+			wpseoApi.get("statistics", function (response) {
+				var statistics = {};
+
+				statistics.seoScores = response.seo_scores.map(function (score) {
+					return {
+						value: parseInt(score.count, 10),
+						color: DashboardWidget.getColorFromScore(score.seo_rank),
+						html: "<a href=\"" + score.link + "\">" + score.label + "</a>"
+					};
+				});
+
+				// Wrap in a div and get the text to HTML decode.
+				statistics.header = jQuery("<div>" + response.header + "</div>").text();
+
+				_this2.setState({ statistics: statistics });
+			});
+		}
+
+		/**
+   * Fetches data from the Ryte endpoint, parses it and sets it to the state.
+   *
+   * @returns {void}
+   */
+
+	}, {
+		key: "getRyte",
+		value: function getRyte() {
+			var _this3 = this;
+
+			wpseoApi.get("ryte", function (response) {
+				if (!response.ryte) {
+					return;
+				}
+
+				var ryte = {
+					scores: [{
+						color: DashboardWidget.getColorFromScore(response.ryte.score),
+						html: response.ryte.label
+					}],
+					canFetch: response.ryte.can_fetch
+				};
+
+				_this3.setState({ ryte: ryte });
+			});
+		}
+
+		/**
+   * Fetches data from the yoast.com feed, parses it and sets it to the state.
+   *
+   * @returns {void}
+   */
+
+	}, {
+		key: "getFeed",
+		value: function getFeed() {
+			var _this4 = this;
+
+			// Developer note: this link should -not- be converted to a shortlink.
+			(0, _getFeed3.default)("https://yoast.com/feed/widget/", 2).then(function (feed) {
+				feed.items = feed.items.map(function (item) {
+					item.description = jQuery("<div>" + item.description + "</div>").text();
+					item.description = item.description.replace("The post " + item.title + " appeared first on Yoast.", "").trim();
+					item.content = jQuery("<div>" + item.content + "</div>").text();
+
+					return item;
+				});
+
+				_this4.setState({ feed: feed });
+			}).catch(function (error) {
+				return console.log(error);
+			});
+		}
+
+		/**
+   * Returns the SEO Assessment sub-component.
+   *
+   * @returns {ReactElement} The SEO Assessment component.
+   */
+
+	}, {
+		key: "getSeoAssessment",
+		value: function getSeoAssessment() {
+			if (this.state.statistics === null) {
+				return null;
+			}
+
+			return yoast._wp.element.createElement(_SeoAssessment2.default, { key: "yoast-seo-posts-assessment",
+				seoAssessmentText: this.state.statistics.header,
+				seoAssessmentItems: this.state.statistics.seoScores });
+		}
+
+		/**
+   * Returns the Ryte Assessment sub-component.
+   *
+   * @returns {ReactElement} The Ryte Assessment component.
+   */
+
+	}, {
+		key: "getRyteAssessment",
+		value: function getRyteAssessment() {
+			if (this.state.ryte === null) {
+				return null;
+			}
+
+			return yoast._wp.element.createElement(
+				"div",
+				{ id: "yoast-seo-ryte-assessment", key: "yoast-seo-ryte-assessment" },
+				yoast._wp.element.createElement(
+					"h3",
+					null,
+					wpseoDashboardWidgetL10n.ryte_header
+				),
+				yoast._wp.element.createElement(_ScoreAssessments2.default, { items: this.state.ryte.scores }),
+				yoast._wp.element.createElement(
+					"div",
+					null,
+					this.state.ryte.canFetch && yoast._wp.element.createElement(
+						"a",
+						{ className: "fetch-status button", href: wpseoDashboardWidgetL10n.ryte_fetch_url },
+						wpseoDashboardWidgetL10n.ryte_fetch
+					),
+					yoast._wp.element.createElement(
+						"a",
+						{ className: "landing-page button", href: wpseoDashboardWidgetL10n.ryte_landing_url, target: "_blank" },
+						wpseoDashboardWidgetL10n.ryte_analyze
+					)
+				)
+			);
+		}
+
+		/**
+   * Returns the yoast.com feed sub-component.
+   *
+   * @returns {ReactElement} The yoast.com feed component.
+   */
+
+	}, {
+		key: "getYoastFeed",
+		value: function getYoastFeed() {
+			if (this.state.feed === null) {
+				return null;
+			}
+
+			return yoast._wp.element.createElement(_WordpressFeed2.default, {
+				key: "yoast-seo-blog-feed",
+				title: wpseoDashboardWidgetL10n.feed_header,
+				feed: this.state.feed,
+				footerHtml: wpseoDashboardWidgetL10n.feed_footer });
+		}
+
+		/**
+   * Renders the component.
+   *
+   * @returns {ReactElement} The component.
+   */
+
+	}, {
+		key: "render",
+		value: function render() {
+			var contents = [this.getSeoAssessment(), this.getRyteAssessment(), this.getYoastFeed()].filter(function (item) {
+				return item !== null;
+			});
+
+			if (contents.length === 0) {
+				return null;
+			}
+
+			return yoast._wp.element.createElement(
+				"div",
+				null,
+				contents
+			);
+		}
+	}], [{
+		key: "getColorFromScore",
+		value: function getColorFromScore(score) {
+			return _colors2.default["$color_" + score] || _colors2.default.$color_grey;
+		}
+	}]);
+
+	return DashboardWidget;
+}(_react2.default.Component);
+
+var element = document.getElementById("yoast-seo-dashboard-widget");
+
+if (element) {
+	(0, _i18n.setYoastComponentsI18n)();
+
+	_reactDom2.default.render(yoast._wp.element.createElement(DashboardWidget, null), element);
+}
+
+/***/ }),
+
+/***/ 1591:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _styledComponents = __webpack_require__(3);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+var _StackedProgressBar = __webpack_require__(1592);
+
+var _StackedProgressBar2 = _interopRequireDefault(_StackedProgressBar);
+
+var _ScoreAssessments = __webpack_require__(1541);
+
+var _ScoreAssessments2 = _interopRequireDefault(_ScoreAssessments);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * SeoAssessment container.
+ */
+var SeoAssessmentContainer = _styledComponents2.default.div.withConfig({
+	displayName: "SeoAssessment__SeoAssessmentContainer"
+})([""]);
+
+/**
+ * SeoAssessment top text.
+ */
+var SeoAssessmentText = _styledComponents2.default.p.withConfig({
+	displayName: "SeoAssessment__SeoAssessmentText"
+})(["font-size:14px;"]);
+
+/**
+ * The Dashboard Seo Assessment component.
+ *
+ * @param {object} props The component props.
+ *
+ * @returns {ReactElement} The react component.
+ */
+var SeoAssessment = function SeoAssessment(props) {
+	return _react2.default.createElement(
+		SeoAssessmentContainer,
+		{
+			className: props.className },
+		_react2.default.createElement(
+			SeoAssessmentText,
+			{
+				className: props.className + "__text" },
+			props.seoAssessmentText
+		),
+		_react2.default.createElement(_StackedProgressBar2.default, {
+			className: "progress",
+			items: props.seoAssessmentItems,
+			barHeight: props.barHeight
+		}),
+		_react2.default.createElement(_ScoreAssessments2.default, {
+			className: "assessments",
+			items: props.seoAssessmentItems
+		})
+	);
+};
+
+SeoAssessment.propTypes = {
+	className: _propTypes2.default.string,
+	seoAssessmentText: _propTypes2.default.string,
+	seoAssessmentItems: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+		value: _propTypes2.default.number.isRequired,
+		color: _propTypes2.default.string.isRequired
+	})),
+	barHeight: _propTypes2.default.string
+};
+
+SeoAssessment.defaultProps = {
+	className: "seo-assessment"
+};
+
+exports.default = SeoAssessment;
+
+/***/ }),
+
+/***/ 1592:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _styledComponents = __webpack_require__(3);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var StackedProgressBarContainer = _styledComponents2.default.div.withConfig({
+	displayName: "StackedProgressBar__StackedProgressBarContainer"
+})(["margin:8px 0;height:", ";overflow:hidden;"], function (props) {
+	return props.barHeight;
+});
+
+var StackedProgressBarProgress = _styledComponents2.default.span.withConfig({
+	displayName: "StackedProgressBar__StackedProgressBarProgress"
+})(["display:inline-block;vertical-align:top;width:", ";background-color:", ";height:100%;"], function (props) {
+	return props.progressWidth + "%";
+}, function (props) {
+	return props.progressColor;
+});
+
+StackedProgressBarProgress.propTypes = {
+	progressWidth: _propTypes2.default.number.isRequired,
+	progressColor: _propTypes2.default.string.isRequired
+};
+
+var StackedProgressBar = function StackedProgressBar(props) {
+	var totalValue = 0;
+	for (var i = 0; i < props.items.length; i++) {
+		props.items[i].value = Math.max(props.items[i].value, 0);
+		totalValue += props.items[i].value;
+	}
+
+	if (totalValue <= 0) {
+		return null;
+	}
+
+	return _react2.default.createElement(
+		StackedProgressBarContainer,
+		{
+			className: props.className,
+			barHeight: props.barHeight },
+		props.items.map(function (item, index) {
+			return _react2.default.createElement(StackedProgressBarProgress, {
+				className: props.className + "__part",
+				key: index,
+				progressColor: item.color,
+				progressWidth: item.value / totalValue * 100 });
+		})
+	);
+};
+
+StackedProgressBar.propTypes = {
+	className: _propTypes2.default.string,
+	items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+		value: _propTypes2.default.number.isRequired,
+		color: _propTypes2.default.string.isRequired
+	})),
+	barHeight: _propTypes2.default.string
+};
+
+StackedProgressBar.defaultProps = {
+	className: "stacked-progress-bar",
+	barHeight: "24px"
+};
+
+exports.default = StackedProgressBar;
+
+/***/ }),
+
+/***/ 1593:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.parseFeed = parseFeed;
+exports.default = getFeed;
+/**
+ * @typedef  {Object}     Feed
+ * @property {string}     title       The title of the website.
+ * @property {string}     description A description of the website.
+ * @property {string}     link        A link to the website.
+ * @property {FeedItem[]} items     The items in the feed.
+ */
+
+/**
+ * @typedef  {Object} FeedItem
+ * @property {string} title       The title of the item.
+ * @property {string} content     The content of the item, will be HTML encoded.
+ * @property {string} description A summary of the content, will be HTML encoded.
+ * @property {string} link        A link to the item.
+ * @property {string} creator     The creator of the item.
+ * @property {string} date        The publication date of the item.
+ */
+
+/**
+ * Parses a RSS Feed.
+ *
+ * @param {string} raw      The raw XML of the feed.
+ * @param {number} maxItems The maximum amount of items to parse, 0 for all items.
+ *
+ * @returns {Promise.<Feed>} A promise which resolves with the parsed Feed.
+ */
+function parseFeed(raw) {
+  var maxItems = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+  return new Promise(function (resolve, reject) {
+    try {
+      var parser = new DOMParser();
+      var parsed = parser.parseFromString(raw, 'application/xml');
+      var nsResolver = parsed.createNSResolver(parsed.documentElement);
+
+      var result = getFeedMeta(parsed);
+      result.items = getFeedItems(parsed, nsResolver, maxItems);
+
+      resolve(result);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+/**
+ * Returns the feed meta from a parsed Feed.
+ *
+ * @param {Document} parsed A parsed XML document.
+ *
+ * @returns {Feed} A Feed object containing only the meta attributes.
+ */
+function getFeedMeta(parsed) {
+  var result = {};
+
+  result.title = getXPathText('/rss/channel/title', parsed);
+  result.description = getXPathText('/rss/channel/description', parsed);
+  result.link = getXPathText('/rss/channel/link', parsed);
+
+  return result;
+}
+
+/**
+ * Returns the feed items from a parsed Feed.
+ *
+ * @param {Document}        parsed     A parsed XML document.
+ * @param {XPathNSResolver} nsResolver A namespace resolver for the parsed document.
+ * @param {number}          maxItems   The maximum amount of items to return, 0 for all items.
+ *
+ * @returns {FeedItem[]} An array of FeedItem objects.
+ */
+function getFeedItems(parsed, nsResolver, maxItems) {
+  var snapshots = getXPathSnapshots('/rss/channel/item', parsed);
+  var count = snapshots.snapshotLength;
+  var items = [];
+
+  if (maxItems !== 0) {
+    count = Math.min(count, maxItems);
+  }
+
+  for (var i = 0; i < count; i++) {
+    var snapshot = snapshots.snapshotItem(i);
+    items.push(getFeedItem(parsed, snapshot, nsResolver));
+  }
+
+  return items;
+}
+
+/**
+ * Returns a single feed item from a snapshot.
+ *
+ * @param {Document}        parsed     A parsed XML document.
+ * @param {Node}            snapshot   A snapshot returned from the snapshotItem method of a XPathResult.
+ * @param {XPathNSResolver} nsResolver A namespace resolver for the parsed document.
+ *
+ * @returns {FeedItem} The FeedItem representing the provided snapshot.
+ */
+function getFeedItem(parsed, snapshot, nsResolver) {
+  var item = {};
+
+  item.title = getXPathText('child::title', parsed, snapshot);
+  item.link = getXPathText('child::link', parsed, snapshot);
+  item.content = getXPathText('child::content:encoded', parsed, snapshot, nsResolver);
+  item.description = getXPathText('child::description', parsed, snapshot);
+  item.creator = getXPathText('child::dc:creator', parsed, snapshot, nsResolver);
+  item.date = getXPathText('child::pubDate', parsed, snapshot);
+
+  return item;
+}
+
+/**
+ * Returns the string contents of the given xpath query on the provided document.
+ *
+ * @param {string}          xpath      The xpath query to run.
+ * @param {Document}        document   A parsed XML document.
+ * @param {Node}            context    A Node in the document to use as context for the query.
+ * @param {XPathNSResolver} nsResolver A namespace resolver for the parsed document.
+ *
+ * @returns {string|undefined} The string result of the xpath query.
+ */
+function getXPathText(xpath, document) {
+  var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var nsResolver = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+  var result = document.evaluate(xpath, context || document, nsResolver, XPathResult.STRING_TYPE, null);
+
+  if (result.stringValue) {
+    return result.stringValue;
+  }
+
+  return undefined;
+}
+
+/**
+ * Returns a ORDERED_NODE_SNAPSHOT_TYPE XpathResult for the given xpath query on the provided document.
+ *
+ * @param {string}          xpath      The xpath query to run.
+ * @param {Document}        document   A parsed XML document.
+ * @param {Node}            context    A Node in the document to use as context for the query.
+ * @param {XPathNSResolver} nsResolver A namespace resolver for the parsed document.
+ *
+ * @returns {XPathResult} The result of the xpath query.
+ */
+function getXPathSnapshots(xpath, document) {
+  var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var nsResolver = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+  return document.evaluate(xpath, context || document, nsResolver, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+}
+
+/**
+ * Grabs an RSS feed from the requested URL and parses it.
+ *
+ * @param {string} url      The URL the feed is located at.
+ * @param {int}    maxItems The amount of items you wish returned, 0 for all items.
+ *
+ * @returns {Promise.<Feed>} The retrieved feed.
+ */
+function getFeed(url) {
+  var maxItems = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+  return fetch(url).then(function (response) {
+    return response.text();
+  }).then(function (raw) {
+    return parseFeed(raw, maxItems);
+  });
+}
+
+/***/ }),
+
+/***/ 1594:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _styledComponents = __webpack_require__(3);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * @typedef  {Object}     Feed
+ * @property {string}     title       The title of the website.
+ * @property {string}     description A description of the website.
+ * @property {string}     link        A link to the website.
+ * @property {FeedItem[]} items       The items in the feed.
+ */
+
+/**
+ * @typedef  {Object} FeedItem
+ * @property {string} title       The title of the item.
+ * @property {string} content     The content of the item, will be HTML encoded.
+ * @property {string} description A summary of the content, will be HTML encoded.
+ * @property {string} link        A link to the item.
+ * @property {string} creator     The creator of the item.
+ * @property {string} date        The publication date of the item.
+ */
+
+var WordpressFeedContainer = _styledComponents2.default.div.withConfig({
+	displayName: "WordpressFeed__WordpressFeedContainer"
+})(["box-sizing:border-box;p,a{font-size:14px;margin:0;}"]);
+
+var WordpressFeedHeader = _styledComponents2.default.h3.withConfig({
+	displayName: "WordpressFeed__WordpressFeedHeader"
+})(["margin:8px 0;font-size:1em;"]);
+
+var WordpressFeedList = _styledComponents2.default.ul.withConfig({
+	displayName: "WordpressFeed__WordpressFeedList"
+})(["margin:0;list-style:none;padding:0;"]);
+
+var WordpressFeedLink = _styledComponents2.default.a.withConfig({
+	displayName: "WordpressFeed__WordpressFeedLink"
+})(["display:inline-block;padding-bottom:4px;"]);
+
+var A11yNotice = _styledComponents2.default.span.withConfig({
+	displayName: "WordpressFeed__A11yNotice"
+})(["border:0;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute !important;width:1px;word-wrap:normal !important;"]);
+
+var WordpressFeedListItemContainer = _styledComponents2.default.li.withConfig({
+	displayName: "WordpressFeed__WordpressFeedListItemContainer"
+})(["margin:8px 0;overflow:hidden;"]);
+
+var WordpressFeedFooter = _styledComponents2.default.div.withConfig({
+	displayName: "WordpressFeed__WordpressFeedFooter"
+})(["a{margin:8px 0 0;}"]);
+
+var WordpressFeedListItem = function WordpressFeedListItem(props) {
+	return _react2.default.createElement(
+		WordpressFeedListItemContainer,
+		{
+			className: props.className },
+		_react2.default.createElement(
+			WordpressFeedLink,
+			{
+				className: props.className + "-link",
+				href: props.link,
+				target: "_blank",
+				rel: "noopener noreferrer" },
+			props.title,
+			_react2.default.createElement(
+				A11yNotice,
+				null,
+				"( Opens in a new browser tab )"
+			)
+		),
+		_react2.default.createElement(
+			"p",
+			{ className: props.className + "-description" },
+			props.description
+		)
+	);
+};
+
+WordpressFeedListItem.propTypes = {
+	className: _propTypes2.default.string.isRequired,
+	title: _propTypes2.default.string.isRequired,
+	link: _propTypes2.default.string.isRequired,
+	description: _propTypes2.default.string.isRequired
+};
+
+/**
+ * Displays a parsed wordpress feed.
+ *
+ * @param {Object} props            The component props.
+ * @param {Feed} props.feed         The feed object.
+ * @param {string} props.title      The title. Defaults to feed title.
+ * @param {string} props.footerHtml The footer HTML contents.
+ * @param {string} props.feedLink   The footer link. Defaults to feed link.
+ *
+ * @returns {ReactElement} The WordpressFeed component.
+ */
+var WordpressFeed = function WordpressFeed(props) {
+	return _react2.default.createElement(
+		WordpressFeedContainer,
+		{
+			className: props.className },
+		_react2.default.createElement(
+			WordpressFeedHeader,
+			{
+				className: props.className + "__header" },
+			props.title ? props.title : props.feed.title
+		),
+		_react2.default.createElement(
+			WordpressFeedList,
+			{
+				className: props.className + "__posts",
+				role: "list" },
+			props.feed.items.map(function (item) {
+				return _react2.default.createElement(WordpressFeedListItem, {
+					className: props.className + "__post",
+					key: item.link,
+					title: item.title,
+					link: item.link,
+					description: item.description });
+			})
+		),
+		props.footerHtml && _react2.default.createElement(
+			WordpressFeedFooter,
+			{
+				className: props.className + "__footer" },
+			_react2.default.createElement(WordpressFeedLink, {
+				className: props.className + "__footer-link",
+				href: props.feedLink ? props.feedLink : props.feed.link,
+				target: "_blank",
+				rel: "noopener noreferrer",
+				dangerouslySetInnerHTML: { __html: props.footerHtml } })
+		)
+	);
+};
+
+WordpressFeed.propTypes = {
+	className: _propTypes2.default.string,
+	feed: _propTypes2.default.object.isRequired,
+	title: _propTypes2.default.string,
+	footerHtml: _propTypes2.default.string,
+	feedLink: _propTypes2.default.string
+};
+
+WordpressFeed.defaultProps = {
+	className: "wordpress-feed"
+};
+
+exports.default = WordpressFeed;
+
+/***/ }),
+
+/***/ 178:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(29);
@@ -2135,7 +2135,7 @@ module.exports = getRawTag;
 
 /***/ }),
 
-/***/ 186:
+/***/ 179:
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -2164,13 +2164,13 @@ module.exports = objectToString;
 
 /***/ }),
 
-/***/ 190:
+/***/ 183:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(79),
-    isMasked = __webpack_require__(191),
+var isFunction = __webpack_require__(75),
+    isMasked = __webpack_require__(184),
     isObject = __webpack_require__(11),
-    toSource = __webpack_require__(116);
+    toSource = __webpack_require__(113);
 
 /**
  * Used to match `RegExp`
@@ -2218,10 +2218,10 @@ module.exports = baseIsNative;
 
 /***/ }),
 
-/***/ 191:
+/***/ 184:
 /***/ (function(module, exports, __webpack_require__) {
 
-var coreJsData = __webpack_require__(192);
+var coreJsData = __webpack_require__(185);
 
 /** Used to detect methods masquerading as native. */
 var maskSrcKey = (function() {
@@ -2245,10 +2245,10 @@ module.exports = isMasked;
 
 /***/ }),
 
-/***/ 192:
+/***/ 185:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(8);
+var root = __webpack_require__(9);
 
 /** Used to detect overreaching core-js shims. */
 var coreJsData = root['__core-js_shared__'];
@@ -2258,7 +2258,7 @@ module.exports = coreJsData;
 
 /***/ }),
 
-/***/ 193:
+/***/ 186:
 /***/ (function(module, exports) {
 
 /**
@@ -2278,7 +2278,7 @@ module.exports = getValue;
 
 /***/ }),
 
-/***/ 198:
+/***/ 191:
 /***/ (function(module, exports) {
 
 /**
@@ -2298,10 +2298,10 @@ module.exports = listCacheClear;
 
 /***/ }),
 
-/***/ 199:
+/***/ 192:
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(43);
+var assocIndexOf = __webpack_require__(41);
 
 /** Used for built-in method references. */
 var arrayProto = Array.prototype;
@@ -2340,10 +2340,10 @@ module.exports = listCacheDelete;
 
 /***/ }),
 
-/***/ 200:
+/***/ 193:
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(43);
+var assocIndexOf = __webpack_require__(41);
 
 /**
  * Gets the list cache value for `key`.
@@ -2366,10 +2366,10 @@ module.exports = listCacheGet;
 
 /***/ }),
 
-/***/ 201:
+/***/ 194:
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(43);
+var assocIndexOf = __webpack_require__(41);
 
 /**
  * Checks if a list cache value for `key` exists.
@@ -2389,10 +2389,10 @@ module.exports = listCacheHas;
 
 /***/ }),
 
-/***/ 202:
+/***/ 195:
 /***/ (function(module, exports, __webpack_require__) {
 
-var assocIndexOf = __webpack_require__(43);
+var assocIndexOf = __webpack_require__(41);
 
 /**
  * Sets the list cache `key` to `value`.
@@ -2422,12 +2422,12 @@ module.exports = listCacheSet;
 
 /***/ }),
 
-/***/ 203:
+/***/ 196:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Hash = __webpack_require__(204),
-    ListCache = __webpack_require__(60),
-    Map = __webpack_require__(80);
+var Hash = __webpack_require__(197),
+    ListCache = __webpack_require__(59),
+    Map = __webpack_require__(76);
 
 /**
  * Removes all key-value entries from the map.
@@ -2450,14 +2450,14 @@ module.exports = mapCacheClear;
 
 /***/ }),
 
-/***/ 204:
+/***/ 197:
 /***/ (function(module, exports, __webpack_require__) {
 
-var hashClear = __webpack_require__(205),
-    hashDelete = __webpack_require__(206),
-    hashGet = __webpack_require__(207),
-    hashHas = __webpack_require__(208),
-    hashSet = __webpack_require__(209);
+var hashClear = __webpack_require__(198),
+    hashDelete = __webpack_require__(199),
+    hashGet = __webpack_require__(200),
+    hashHas = __webpack_require__(201),
+    hashSet = __webpack_require__(202);
 
 /**
  * Creates a hash object.
@@ -2489,10 +2489,10 @@ module.exports = Hash;
 
 /***/ }),
 
-/***/ 205:
+/***/ 198:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(44);
+var nativeCreate = __webpack_require__(42);
 
 /**
  * Removes all key-value entries from the hash.
@@ -2511,7 +2511,7 @@ module.exports = hashClear;
 
 /***/ }),
 
-/***/ 206:
+/***/ 199:
 /***/ (function(module, exports) {
 
 /**
@@ -2535,10 +2535,10 @@ module.exports = hashDelete;
 
 /***/ }),
 
-/***/ 207:
+/***/ 200:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(44);
+var nativeCreate = __webpack_require__(42);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -2572,10 +2572,10 @@ module.exports = hashGet;
 
 /***/ }),
 
-/***/ 208:
+/***/ 201:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(44);
+var nativeCreate = __webpack_require__(42);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -2602,10 +2602,10 @@ module.exports = hashHas;
 
 /***/ }),
 
-/***/ 209:
+/***/ 202:
 /***/ (function(module, exports, __webpack_require__) {
 
-var nativeCreate = __webpack_require__(44);
+var nativeCreate = __webpack_require__(42);
 
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -2632,10 +2632,10 @@ module.exports = hashSet;
 
 /***/ }),
 
-/***/ 210:
+/***/ 203:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(45);
+var getMapData = __webpack_require__(43);
 
 /**
  * Removes `key` and its value from the map.
@@ -2657,7 +2657,7 @@ module.exports = mapCacheDelete;
 
 /***/ }),
 
-/***/ 211:
+/***/ 204:
 /***/ (function(module, exports) {
 
 /**
@@ -2679,10 +2679,10 @@ module.exports = isKeyable;
 
 /***/ }),
 
-/***/ 212:
+/***/ 205:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(45);
+var getMapData = __webpack_require__(43);
 
 /**
  * Gets the map value for `key`.
@@ -2702,10 +2702,10 @@ module.exports = mapCacheGet;
 
 /***/ }),
 
-/***/ 213:
+/***/ 206:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(45);
+var getMapData = __webpack_require__(43);
 
 /**
  * Checks if a map value for `key` exists.
@@ -2725,10 +2725,10 @@ module.exports = mapCacheHas;
 
 /***/ }),
 
-/***/ 214:
+/***/ 207:
 /***/ (function(module, exports, __webpack_require__) {
 
-var getMapData = __webpack_require__(45);
+var getMapData = __webpack_require__(43);
 
 /**
  * Sets the map `key` to `value`.
@@ -2754,10 +2754,10 @@ module.exports = mapCacheSet;
 
 /***/ }),
 
-/***/ 220:
+/***/ 213:
 /***/ (function(module, exports, __webpack_require__) {
 
-var memoizeCapped = __webpack_require__(221);
+var memoizeCapped = __webpack_require__(214);
 
 /** Used to match property names within property paths. */
 var reLeadingDot = /^\./,
@@ -2789,10 +2789,10 @@ module.exports = stringToPath;
 
 /***/ }),
 
-/***/ 221:
+/***/ 214:
 /***/ (function(module, exports, __webpack_require__) {
 
-var memoize = __webpack_require__(222);
+var memoize = __webpack_require__(215);
 
 /** Used as the maximum memoize cache size. */
 var MAX_MEMOIZE_SIZE = 500;
@@ -2822,10 +2822,10 @@ module.exports = memoizeCapped;
 
 /***/ }),
 
-/***/ 222:
+/***/ 215:
 /***/ (function(module, exports, __webpack_require__) {
 
-var MapCache = __webpack_require__(87);
+var MapCache = __webpack_require__(84);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -2941,8 +2941,8 @@ module.exports = isObjectLike;
 /***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsNative = __webpack_require__(190),
-    getValue = __webpack_require__(193);
+var baseIsNative = __webpack_require__(183),
+    getValue = __webpack_require__(186);
 
 /**
  * Gets the native function at `key` of `object`.
@@ -2966,8 +2966,8 @@ module.exports = getNative;
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(29),
-    getRawTag = __webpack_require__(185),
-    objectToString = __webpack_require__(186);
+    getRawTag = __webpack_require__(178),
+    objectToString = __webpack_require__(179);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -2997,7 +2997,7 @@ module.exports = baseGetTag;
 
 /***/ }),
 
-/***/ 271:
+/***/ 265:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function memize( fn, options ) {
@@ -3124,7 +3124,7 @@ module.exports = function memize( fn, options ) {
 /***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(8);
+var root = __webpack_require__(9);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -3134,7 +3134,7 @@ module.exports = Symbol;
 
 /***/ }),
 
-/***/ 295:
+/***/ 292:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3147,9 +3147,9 @@ module.exports = Symbol;
 
 
 
-var emptyFunction = __webpack_require__(41);
+var emptyFunction = __webpack_require__(39);
 var invariant = __webpack_require__(2);
-var ReactPropTypesSecret = __webpack_require__(296);
+var ReactPropTypesSecret = __webpack_require__(293);
 
 module.exports = function() {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -3200,7 +3200,7 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 296:
+/***/ 293:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3220,7 +3220,7 @@ module.exports = ReactPropTypesSecret;
 
 /***/ }),
 
-/***/ 297:
+/***/ 294:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3290,15 +3290,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withTheme", function() { return wrapWithTheme; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ServerStyleSheet", function() { return ServerStyleSheet; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StyleSheetManager", function() { return StyleSheetManager; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_is_plain_object__ = __webpack_require__(564);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_is_plain_object__ = __webpack_require__(573);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_is_plain_object___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_is_plain_object__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_stylis__ = __webpack_require__(565);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_stylis__ = __webpack_require__(574);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_stylis___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_stylis__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_hoist_non_react_statics__ = __webpack_require__(297);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_hoist_non_react_statics__ = __webpack_require__(294);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_hoist_non_react_statics__);
 
 
@@ -5025,11 +5025,11 @@ var styled = _styled(StyledComponent, constructWithOptions);
 
 /* harmony default export */ __webpack_exports__["default"] = (styled);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(563)(module)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(572)(module)))
 
 /***/ }),
 
-/***/ 30:
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5042,9 +5042,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["_n"] = _n;
 /* harmony export (immutable) */ __webpack_exports__["_nx"] = _nx;
 /* harmony export (immutable) */ __webpack_exports__["sprintf"] = sprintf;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jed__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jed__ = __webpack_require__(149);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jed___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jed__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(271);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize__ = __webpack_require__(265);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_memize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_memize__);
 /**
  * External dependencies
@@ -5261,10 +5261,10 @@ module.exports = isSymbol;
 
 /***/ }),
 
-/***/ 43:
+/***/ 41:
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(61);
+var eq = __webpack_require__(60);
 
 /**
  * Gets the index at which the `key` is found in `array` of key-value pairs.
@@ -5289,7 +5289,7 @@ module.exports = assocIndexOf;
 
 /***/ }),
 
-/***/ 44:
+/***/ 42:
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(25);
@@ -5302,10 +5302,10 @@ module.exports = nativeCreate;
 
 /***/ }),
 
-/***/ 45:
+/***/ 43:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isKeyable = __webpack_require__(211);
+var isKeyable = __webpack_require__(204);
 
 /**
  * Gets the data for `map`.
@@ -5327,7 +5327,7 @@ module.exports = getMapData;
 
 /***/ }),
 
-/***/ 466:
+/***/ 458:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5338,9 +5338,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setYoastComponentsI18n = setYoastComponentsI18n;
 
-var _i18n = __webpack_require__(30);
+var _i18n = __webpack_require__(31);
 
-var _get = __webpack_require__(95);
+var _get = __webpack_require__(93);
 
 var _get2 = _interopRequireDefault(_get);
 
@@ -5372,7 +5372,7 @@ function setYoastComponentsI18n() {
 
 /***/ }),
 
-/***/ 54:
+/***/ 53:
 /***/ (function(module, exports, __webpack_require__) {
 
 var isSymbol = __webpack_require__(33);
@@ -5396,6 +5396,45 @@ function toKey(value) {
 }
 
 module.exports = toKey;
+
+
+/***/ }),
+
+/***/ 59:
+/***/ (function(module, exports, __webpack_require__) {
+
+var listCacheClear = __webpack_require__(191),
+    listCacheDelete = __webpack_require__(192),
+    listCacheGet = __webpack_require__(193),
+    listCacheHas = __webpack_require__(194),
+    listCacheSet = __webpack_require__(195);
+
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function ListCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+module.exports = ListCache;
 
 
 /***/ }),
@@ -5434,45 +5473,6 @@ module.exports = isArray;
 /***/ }),
 
 /***/ 60:
-/***/ (function(module, exports, __webpack_require__) {
-
-var listCacheClear = __webpack_require__(198),
-    listCacheDelete = __webpack_require__(199),
-    listCacheGet = __webpack_require__(200),
-    listCacheHas = __webpack_require__(201),
-    listCacheSet = __webpack_require__(202);
-
-/**
- * Creates an list cache object.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function ListCache(entries) {
-  var index = -1,
-      length = entries == null ? 0 : entries.length;
-
-  this.clear();
-  while (++index < length) {
-    var entry = entries[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-// Add methods to `ListCache`.
-ListCache.prototype.clear = listCacheClear;
-ListCache.prototype['delete'] = listCacheDelete;
-ListCache.prototype.get = listCacheGet;
-ListCache.prototype.has = listCacheHas;
-ListCache.prototype.set = listCacheSet;
-
-module.exports = ListCache;
-
-
-/***/ }),
-
-/***/ 61:
 /***/ (function(module, exports) {
 
 /**
@@ -5516,10 +5516,10 @@ module.exports = eq;
 
 /***/ }),
 
-/***/ 69:
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseToString = __webpack_require__(96);
+var baseToString = __webpack_require__(94);
 
 /**
  * Converts `value` to a string. An empty string is returned for `null`
@@ -5551,20 +5551,13 @@ module.exports = toString;
 
 /***/ }),
 
-/***/ 7:
-/***/ (function(module, exports) {
-
-module.exports = {"$palette_white":"#fff","$palette_grey_ultra_light":"#f7f7f7","$palette_grey_light":"#f1f1f1","$palette_grey":"#ddd","$palette_grey_medium":"#ccc","$palette_grey_disabled":"#a0a5aa","$palette_grey_medium_dark":"#888","$palette_grey_text":"#646464","$palette_grey_dark":"#555","$palette_black":"#000","$palette_purple":"#5d237a","$palette_purple_dark":"#6c2548","$palette_pink":"#d73763","$palette_pink_light":"#e1bee7","$palette_pink_dark":"#a4286a","$palette_blue":"#0066cd","$palette_blue_light":"#a9a9ce","$palette_blue_medium":"#1e8cbe","$palette_blue_dark":"#084a67","$palette_green":"#77b227","$palette_green_light":"#7ad03a","$palette_green_medium_light":"#64a60a","$palette_green_medium":"#008a00","$palette_green_blue":"#009288","$palette_orange":"#dc5c04","$palette_orange_light":"#ee7c1b","$palette_red":"#dc3232","$palette_red_light":"#f9bdbd","$palette_yellow":"#ffeb3b","$color_bad":"#dc3232","$color_ok":"#ee7c1b","$color_good":"#7ad03a","$color_noindex":"#1e8cbe","$color_score_icon":"#888","$color_white":"#fff","$color_black":"#000","$color_green":"#77b227","$color_green_medium":"#008a00","$color_green_blue":"#009288","$color_grey":"#ddd","$color_grey_dark":"#555","$color_purple":"#5d237a","$color_purple_dark":"#6c2548","$color_pink":"#d73763","$color_pink_light":"#e1bee7","$color_pink_dark":"#a4286a","$color_blue":"#0066cd","$color_blue_light":"#a9a9ce","$color_blue_dark":"#084a67","$color_red":"#dc3232","$color_border_light":"#f7f7f7","$color_border":"#ccc","$color_input_border":"#ddd","$color_background_light":"#f7f7f7","$color_button":"#f7f7f7","$color_button_text":"#555","$color_button_border":"#ccc","$color_button_hover":"#fff","$color_button_border_hover":"#888","$color_button_text_hover":"#000","$color_button_border_active":"#000","$color_headings":"#555","$color_marker_inactive":"#555","$color_marker_active":"#fff","$color_marker_disabled":"#a0a5aa","$color_error":"#dc3232","$color_orange":"#dc5c04","$color_orange_hover":"#c35204","$color_grey_hover":"#cecece","$color_pink_hover":"#cc2956","$color_grey_cta":"#ddd","$color_grey_line":"#ddd","$color_grey_quote":"#646464","$color_grey_text":"#646464","$color_snippet_focus":"#1e8cbe","$color_snippet_hover":"#ccc","$color_snippet_active":"#555","$color_grey_medium_dark":"#888","$color_green_medium_light":"#64a60a","$color_grey_disabled":"#a0a5aa","$color_grey_medium":"#ccc","$color_grey_light":"#f1f1f1","$color_yellow":"#ffeb3b","$color_error_message":"#f9bdbd"}
-
-/***/ }),
-
-/***/ 70:
+/***/ 69:
 /***/ (function(module, exports, __webpack_require__) {
 
 var isArray = __webpack_require__(6),
-    isKey = __webpack_require__(93),
-    stringToPath = __webpack_require__(220),
-    toString = __webpack_require__(69);
+    isKey = __webpack_require__(89),
+    stringToPath = __webpack_require__(213),
+    toString = __webpack_require__(68);
 
 /**
  * Casts `value` to a path array if it's not one.
@@ -5586,7 +5579,14 @@ module.exports = castPath;
 
 /***/ }),
 
-/***/ 79:
+/***/ 7:
+/***/ (function(module, exports) {
+
+module.exports = {"$palette_white":"#fff","$palette_grey_ultra_light":"#f7f7f7","$palette_grey_light":"#f1f1f1","$palette_grey":"#ddd","$palette_grey_medium":"#ccc","$palette_grey_disabled":"#a0a5aa","$palette_grey_medium_dark":"#888","$palette_grey_text":"#646464","$palette_grey_dark":"#555","$palette_black":"#000","$palette_purple":"#5d237a","$palette_purple_dark":"#6c2548","$palette_pink":"#d73763","$palette_pink_light":"#e1bee7","$palette_pink_dark":"#a4286a","$palette_blue":"#0066cd","$palette_blue_light":"#a9a9ce","$palette_blue_medium":"#1e8cbe","$palette_blue_dark":"#084a67","$palette_green":"#77b227","$palette_green_light":"#7ad03a","$palette_green_medium_light":"#64a60a","$palette_green_medium":"#008a00","$palette_green_blue":"#009288","$palette_orange":"#dc5c04","$palette_orange_light":"#ee7c1b","$palette_red":"#dc3232","$palette_red_light":"#f9bdbd","$palette_yellow":"#ffeb3b","$color_bad":"#dc3232","$color_ok":"#ee7c1b","$color_good":"#7ad03a","$color_noindex":"#1e8cbe","$color_score_icon":"#888","$color_white":"#fff","$color_black":"#000","$color_green":"#77b227","$color_green_medium":"#008a00","$color_green_blue":"#009288","$color_grey":"#ddd","$color_grey_dark":"#555","$color_purple":"#5d237a","$color_purple_dark":"#6c2548","$color_pink":"#d73763","$color_pink_light":"#e1bee7","$color_pink_dark":"#a4286a","$color_blue":"#0066cd","$color_blue_light":"#a9a9ce","$color_blue_dark":"#084a67","$color_red":"#dc3232","$color_border_light":"#f7f7f7","$color_border":"#ccc","$color_input_border":"#ddd","$color_background_light":"#f7f7f7","$color_button":"#f7f7f7","$color_button_text":"#555","$color_button_border":"#ccc","$color_button_hover":"#fff","$color_button_border_hover":"#888","$color_button_text_hover":"#000","$color_button_border_active":"#000","$color_headings":"#555","$color_marker_inactive":"#555","$color_marker_active":"#fff","$color_marker_disabled":"#a0a5aa","$color_error":"#dc3232","$color_orange":"#dc5c04","$color_orange_hover":"#c35204","$color_grey_hover":"#cecece","$color_pink_hover":"#cc2956","$color_grey_cta":"#ddd","$color_grey_line":"#ddd","$color_grey_quote":"#646464","$color_grey_text":"#646464","$color_snippet_focus":"#1e8cbe","$color_snippet_hover":"#ccc","$color_snippet_active":"#555","$color_grey_medium_dark":"#888","$color_green_medium_light":"#64a60a","$color_grey_disabled":"#a0a5aa","$color_grey_medium":"#ccc","$color_grey_light":"#f1f1f1","$color_yellow":"#ffeb3b","$color_error_message":"#f9bdbd"}
+
+/***/ }),
+
+/***/ 75:
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(26),
@@ -5630,27 +5630,11 @@ module.exports = isFunction;
 
 /***/ }),
 
-/***/ 8:
-/***/ (function(module, exports, __webpack_require__) {
-
-var freeGlobal = __webpack_require__(115);
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-module.exports = root;
-
-
-/***/ }),
-
-/***/ 80:
+/***/ 76:
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(25),
-    root = __webpack_require__(8);
+    root = __webpack_require__(9);
 
 /* Built-in method references that are verified to be native. */
 var Map = getNative(root, 'Map');
@@ -5660,14 +5644,42 @@ module.exports = Map;
 
 /***/ }),
 
-/***/ 87:
+/***/ 8:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 84:
 /***/ (function(module, exports, __webpack_require__) {
 
-var mapCacheClear = __webpack_require__(203),
-    mapCacheDelete = __webpack_require__(210),
-    mapCacheGet = __webpack_require__(212),
-    mapCacheHas = __webpack_require__(213),
-    mapCacheSet = __webpack_require__(214);
+var mapCacheClear = __webpack_require__(196),
+    mapCacheDelete = __webpack_require__(203),
+    mapCacheGet = __webpack_require__(205),
+    mapCacheHas = __webpack_require__(206),
+    mapCacheSet = __webpack_require__(207);
 
 /**
  * Creates a map cache object to store key-value pairs.
@@ -5699,35 +5711,7 @@ module.exports = MapCache;
 
 /***/ }),
 
-/***/ 9:
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 92:
+/***/ 88:
 /***/ (function(module, exports) {
 
 /**
@@ -5755,7 +5739,7 @@ module.exports = arrayMap;
 
 /***/ }),
 
-/***/ 93:
+/***/ 89:
 /***/ (function(module, exports, __webpack_require__) {
 
 var isArray = __webpack_require__(6),
@@ -5791,11 +5775,27 @@ module.exports = isKey;
 
 /***/ }),
 
-/***/ 94:
+/***/ 9:
 /***/ (function(module, exports, __webpack_require__) {
 
-var castPath = __webpack_require__(70),
-    toKey = __webpack_require__(54);
+var freeGlobal = __webpack_require__(112);
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+
+/***/ }),
+
+/***/ 92:
+/***/ (function(module, exports, __webpack_require__) {
+
+var castPath = __webpack_require__(69),
+    toKey = __webpack_require__(53);
 
 /**
  * The base implementation of `_.get` without support for default values.
@@ -5822,10 +5822,10 @@ module.exports = baseGet;
 
 /***/ }),
 
-/***/ 95:
+/***/ 93:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGet = __webpack_require__(94);
+var baseGet = __webpack_require__(92);
 
 /**
  * Gets the value at `path` of `object`. If the resolved value is
@@ -5862,11 +5862,11 @@ module.exports = get;
 
 /***/ }),
 
-/***/ 96:
+/***/ 94:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(29),
-    arrayMap = __webpack_require__(92),
+    arrayMap = __webpack_require__(88),
     isArray = __webpack_require__(6),
     isSymbol = __webpack_require__(33);
 
@@ -5906,4 +5906,4 @@ module.exports = baseToString;
 
 /***/ })
 
-},[1505]);
+},[1590]);
