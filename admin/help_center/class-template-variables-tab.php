@@ -56,7 +56,7 @@ class WPSEO_Help_Center_Template_Variables_Tab implements WPSEO_WordPress_Integr
 	public function add_meta_options_help_center_tabs( $tabs ) {
 		$tabs[] = new WPSEO_Help_Center_Item(
 			'template-variables',
-			__( 'Template explanation', 'wordpress-seo' ),
+			__( 'Snippet variables', 'wordpress-seo' ),
 			array( 'content' => $this->get_content() )
 		);
 
@@ -76,20 +76,20 @@ class WPSEO_Help_Center_Template_Variables_Tab implements WPSEO_WordPress_Integr
 		);
 
 		$output_explanation = sprintf(
-			'<h2>%s</h2><p>%s</p><p>%s</p>',
-			esc_html( __( 'Template explanation', 'wordpress-seo' ) ),
+			'<h2 class="wpseo-help-center-sub-title">%s</h2><p>%s</p><p>%s</p>',
+			esc_html( __( 'Snippet variables', 'wordpress-seo' ) ),
 			esc_html( $explanation ),
-			esc_html( __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) )
+			esc_html( __( 'Note that not all variables can be used in every field.', 'wordpress-seo' ) )
 		);
 
 		$output_basic = sprintf(
-			'<h2>%s</h2>%s',
+			'<h2 class="wpseo-help-center-sub-title">%s</h2>%s',
 			esc_html( __( 'Basic Variables', 'wordpress-seo' ) ),
 			WPSEO_Replace_Vars::get_basic_help_texts()
 		);
 
 		$output_advanced = sprintf(
-			'<h2>%s</h2>%s',
+			'<h2 class="wpseo-help-center-sub-title">%s</h2>%s',
 			esc_html( __( 'Advanced Variables', 'wordpress-seo' ) ),
 			WPSEO_Replace_Vars::get_advanced_help_texts()
 		);

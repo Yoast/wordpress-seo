@@ -124,9 +124,9 @@
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
     "yoast-components": "^4.1.0",
-    "yoastseo": "^1.33.0"
+    "yoastseo": "^1.33.1"
   },
   "yoast": {
-    "pluginVersion": "7.6-RC1"
+    "pluginVersion": "7.6"
   }
 }
