@@ -380,25 +380,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	box-shadow: none;
 }
 
-/* @todo: remove this, see #6380. */
-.nav-tab .dashicons {
-	width: 18px;
-	height: 18px;
-	font-size: 18px;
-	line-height: 24px;
-}
-
-/* @todo: remove this, see #6380. */
-.nav-tab .pinteresticon {
-	width: 12px;
-	height: 24px;
-	margin-right: 2px;
-	background-image: url(../../images/pinterest-23x30.png);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: contain;
-}
-
 /* Recalculate score progress bar. Note: currently not used. */
 #wpseo_progressbar {
 	height: 25px;
