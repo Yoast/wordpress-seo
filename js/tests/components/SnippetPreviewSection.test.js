@@ -20,33 +20,32 @@ describe( "SnippetPreviewSection", () => {
 	} );
 } );
 
+const context = {
+	shortenedBaseUrl: "local.wordpress.test/",
+};
+
+const dataObject = {
+	title: "",
+	url: "local.wordpress.test/my URL is awesome",
+	description: "",
+};
+
 describe( "mapEditorDataToPreview", () => {
 	it( "Hyphenates spaces between words of the URL.", () => {
-		const exampleURL = "my URL is awesome";
-		const expected = "my-URL-is-awesome";
+		const expected = "local.wordpress.test/my-URL-is-awesome";
 
-		const dataObject = {
-			title: "",
-			url: exampleURL,
-			description: "",
-		};
-
-		const actual = mapEditorDataToPreview( dataObject );
+		const actual = mapEditorDataToPreview( dataObject, context );
 
 		expect( actual.url ).toEqual( expected );
 	} );
 
 	it( "Doesn't hyphenate prefixing or trailing spaces.", () => {
-		const exampleURL = "  my URL is awesome  ";
-		const expected = "my-URL-is-awesome";
+		const exampleURL = "local.wordpress.test/  my URL is awesome  ";
+		const expected = "local.wordpress.test/my-URL-is-awesome";
 
-		const dataObject = {
-			title: "",
-			url: exampleURL,
-			description: "",
-		};
+		dataObject.url = exampleURL;
 
-		const actual = mapEditorDataToPreview( dataObject );
+		const actual = mapEditorDataToPreview( dataObject, context );
 
 		expect( actual.url ).toEqual( expected );
 	} );

@@ -73,21 +73,29 @@ const applyReplaceUsingPlugin = function( data ) {
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
  *
- * @param {Object} data             The snippet preview data object.
- * @param {string} data.title       The snippet preview title.
- * @param {string} data.url         The snippet preview url: baseUrl with the slug.
- * @param {string} data.description The snippet preview description.
+ * @param {Object} data                     The snippet preview data object.
+ * @param {string} data.title               The snippet preview title.
+ * @param {string} data.url                 The snippet preview url: baseUrl with the slug.
+ * @param {string} data.description         The snippet preview description.
+ * @param {Object} context                  The context surrounding the snippet editor form data.
+ * @param {string} context.shortenedBaseUrl The baseUrl of the snippet preview url.
  *
  * @returns {Object} The snippet preview data object.
  */
-export const mapEditorDataToPreview = function( data ) {
+export const mapEditorDataToPreview = function( data, context ) {
+	let baseUrlLength = 0;
+
+	if( typeof( context.shortenedBaseUrl ) === "string" ) {
+		baseUrlLength = context.shortenedBaseUrl.length;
+	}
+
 	// Replace whitespaces in the url with dashes.
 	data.url = data.url.replace( /\s+/g, "-" );
 	if ( data.url[ data.url.length - 1 ] === "-" ) {
 		data.url = data.url.slice( 0, -1 );
 	}
-	if ( data.url[ 0 ] === "-" ) {
-		data.url = data.url.slice( 1, data.url.length );
+	if ( data.url[ baseUrlLength ] === "-" ) {
+		data.url = data.url.slice( 0, baseUrlLength ) + data.url.slice( baseUrlLength + 1 );
 	}
 
 	return applyReplaceUsingPlugin( data );
