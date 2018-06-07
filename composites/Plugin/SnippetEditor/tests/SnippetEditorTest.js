@@ -70,14 +70,17 @@ describe( "SnippetEditor", () => {
 		const mapper = jest.fn( () => {
 			return {
 				title: "Totally different title",
-				url: "totally-different-url",
+				url: "example.org/totally-different-url",
 				description: "Totally different description",
 			};
 		} );
 		const defaultMappedData = {
 			title: "Test title",
-			url: "test-slug",
+			url: "example.org/test-slug",
 			description: "Test description, replacement value",
+		};
+		const context = {
+			shortenedBaseUrl: "example.org/",
 		};
 		const replacementVariables = [
 			{
@@ -90,7 +93,7 @@ describe( "SnippetEditor", () => {
 
 		// The mapper is called both in the constructor, as well as the render function.
 		expect( mapper ).toHaveBeenCalledTimes( 2 );
-		expect( mapper ).toHaveBeenCalledWith( defaultMappedData, defaultData );
+		expect( mapper ).toHaveBeenCalledWith( defaultMappedData, context );
 	} );
 
 	it( "opens when calling open()", () => {

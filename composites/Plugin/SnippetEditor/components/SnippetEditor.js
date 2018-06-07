@@ -352,18 +352,23 @@ class SnippetEditor extends React.Component {
 		// Strip multiple spaces and spaces at the beginning and end.
 		description = stripSpaces( description );
 
+		const shortenedBaseUrl = baseUrl.replace( "https://", "" );
+
 		let mappedData = {
 			title: this.processReplacementVariables( originalData.title ),
-			url: originalData.slug,
+			url: shortenedBaseUrl + originalData.slug,
 			description: description,
+		};
+
+		const context = {
+			shortenedBaseUrl,
 		};
 
 		// The mapping by the passed mapping function should happen before measuring.
 		if ( mapDataToPreview ) {
-			mappedData =  mapDataToPreview( mappedData, originalData );
+			return mapDataToPreview( mappedData, context );
 		}
 
-		mappedData.url = baseUrl.replace( "https://", "" ) + mappedData.url;
 
 		return mappedData;
 	}
