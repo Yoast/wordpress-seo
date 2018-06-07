@@ -254,9 +254,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function localize_replace_vars_script() {
 		return array(
-			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
-			'replace_vars'   => $this->get_replace_vars(),
-			'scope'          => $this->determine_scope(),
+			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'             => $this->get_replace_vars(),
+			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+			'scope'                    => $this->determine_scope(),
 		);
 	}
 
@@ -971,6 +972,38 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array replace vars
 	 */
 	private function get_replace_vars() {
+		$post = $this->get_metabox_post();
+
+		$cached_replacement_vars = array();
+
+		$vars_to_cache = array(
+			'date',
+			'id',
+			'sitename',
+			'sitedesc',
+			'sep',
+			'page',
+			'currenttime',
+			'currentdate',
+			'currentday',
+			'currentmonth',
+			'currentyear',
+		);
+
+		foreach ( $vars_to_cache as $var ) {
+			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
+		}
+
+		// Merge custom replace variables with the WordPress ones.
+		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $post ) );
+	}
+
+	/**
+	 * Prepares the recommended replace vars for localization.
+	 *
+	 * @return array recommended replace vars
+	 */
+	private function get_recommended_replace_vars() {
 		$post = $this->get_metabox_post();
 
 		$cached_replacement_vars = array();
