@@ -128,9 +128,9 @@ const TriggerReplacementVariableSuggestionsButton = Button.extend`
 	fill: ${ colors.$color_grey_dark };
 	padding-left: 8px;
 	float: right;
-	margin-top: -35px; // +2 for spacing
+	margin-top: -35px; // negative height + 2 for spacing
 	
-	${ props => props.hasMobileWidth && `
+	${ props => props.isSmallerThanMobileWidth && `
 		float: none;
 		margin-top: 0;
 		margin-bottom: 2px;
@@ -182,13 +182,13 @@ class SnippetEditorFields extends React.Component {
 		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
 		this.state = {
-			hasMobileWidth: false,
+			isSmallerThanMobileWidth: false,
 		};
 
 		this.setRef = this.setRef.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
 		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
-		this.debouncedUpdateMobileWidth = debounce( this.updateMobileWidth.bind( this ), 500 );
+		this.debouncedUpdateIsSmallerThanMobileWidth = debounce( this.updateIsSmallerThanMobileWidth.bind( this ), 500 );
 	}
 
 	/**
@@ -205,13 +205,13 @@ class SnippetEditorFields extends React.Component {
 	/**
 	 * Sets ref for field editor.
 	 *
-	 * @param {string} field The field for this ref.
-	 * @param {Object} ref The Draft.js react element.
+	 * @param {string} fieldName The field name for this ref.
+	 * @param {Object} ref       The Draft.js react element.
 	 *
 	 * @returns {void}
 	 */
-	setRef( field, ref ) {
-		this.elements[ field ] = ref;
+	setRef( fieldName, ref ) {
+		this.elements[ fieldName ] = ref;
 	}
 
 	/**
@@ -230,15 +230,15 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Ensure hasMobileWidth is accurate.
+	 * Ensure isSmallerThanMobileWidth is accurate.
 	 *
 	 * By running it once and binding it to the window resize event.
 	 *
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		this.updateMobileWidth();
-		window.addEventListener( "resize", this.debouncedUpdateMobileWidth );
+		this.updateIsSmallerThanMobileWidth();
+		window.addEventListener( "resize", this.debouncedUpdateIsSmallerThanMobileWidth );
 	}
 
 	/**
@@ -247,7 +247,7 @@ class SnippetEditorFields extends React.Component {
 	 * @returns {void}
 	 */
 	componentWillUnmount() {
-		window.removeEventListener( "resize", this.debouncedUpdateMobileWidth );
+		window.removeEventListener( "resize", this.debouncedUpdateIsSmallerThanMobileWidth );
 	}
 
 	/**
@@ -264,29 +264,29 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Inserts a % into a ReplacementVariableEditor to trigger the autocomplete.
+	 * Inserts a % into a ReplacementVariableEditor to trigger the replacement variable suggestions.
 	 *
-	 * @param {string} field The field name to get the ref of the ReplacementVariableEditor.
+	 * @param {string} fieldName The field name to get the ref for.
 	 *
 	 * @returns {void}
 	 */
-	triggerReplacementVariableSuggestions( field ) {
-		const element = this.elements[ field ];
+	triggerReplacementVariableSuggestions( fieldName ) {
+		const element = this.elements[ fieldName ];
 
 		element.triggerReplacementVariableSuggestions();
 	}
 
 	/**
-	 * Updates hasMobileWidth when changed.
+	 * Updates isSmallerThanMobileWidth when changed.
 	 *
-	 * hasMobileWidth is true if the editor's client width is smaller than the mobile width prop.
+	 * isSmallerThanMobileWidth is true if the editor's client width is smaller than the mobile width prop.
 	 *
 	 * @returns {void}
 	 */
-	updateMobileWidth() {
-		const hasMobileWidth = this.editor.clientWidth < this.props.mobileWidth;
-		if ( this.state.hasMobileWidth !== hasMobileWidth ) {
-			this.setState( { hasMobileWidth } );
+	updateIsSmallerThanMobileWidth() {
+		const isSmallerThanMobileWidth = this.editor.clientWidth < this.props.mobileWidth;
+		if ( this.state.isSmallerThanMobileWidth !== isSmallerThanMobileWidth ) {
+			this.setState( { isSmallerThanMobileWidth } );
 		}
 	}
 
@@ -312,7 +312,7 @@ class SnippetEditorFields extends React.Component {
 				description,
 			},
 		} = this.props;
-		const { hasMobileWidth } = this.state;
+		const { isSmallerThanMobileWidth } = this.state;
 
 
 		const titleLabelId = `${ this.uniqueId }-title`;
@@ -332,7 +332,7 @@ class SnippetEditorFields extends React.Component {
 					</SimulatedLabel>
 					<TriggerReplacementVariableSuggestionsButton
 						onClick={ () => this.triggerReplacementVariableSuggestions( "title" ) }
-						hasMobileWidth={ hasMobileWidth }
+						hasMobileWidth={ isSmallerThanMobileWidth }
 					>
 						<SvgIcon icon="plus-circle" />
 						{ __( "Insert snippet variable", "yoast-components" ) }
@@ -388,7 +388,7 @@ class SnippetEditorFields extends React.Component {
 					</SimulatedLabel>
 					<TriggerReplacementVariableSuggestionsButton
 						onClick={ () => this.triggerReplacementVariableSuggestions( "description" ) }
-						hasMobileWidth={ hasMobileWidth }
+						hasMobileWidth={ isSmallerThanMobileWidth }
 					>
 						<SvgIcon icon="plus-circle" />
 						{ __( "Insert snippet variable", "yoast-components" ) }

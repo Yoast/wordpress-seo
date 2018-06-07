@@ -261,8 +261,8 @@ describe( "SnippetEditor", () => {
 
 		// 356 is the default mobileWidth value.
 		expect( fields.props.mobileWidth ).toBe( 356 );
-		// Because the client innerWidth is 0 it is expected that hasMobileWidth is true.
-		expect( fields.state.hasMobileWidth ).toBe( true );
+		// Because the client innerWidth is 0 it is expected that isSmallerThanMobileWidth is true.
+		expect( fields.state.isSmallerThanMobileWidth ).toBe( true );
 	} );
 
 	describe( "colored progress bars", () => {

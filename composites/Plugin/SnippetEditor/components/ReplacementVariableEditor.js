@@ -20,7 +20,7 @@ import {
 	insertText,
 	removeSelectedText,
 	moveCaret,
-} from "../text";
+} from "../replaceText";
 
 /**
  * Creates a Draft.js editor state from a string.

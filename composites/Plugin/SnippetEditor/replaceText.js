@@ -4,7 +4,7 @@ import { EditorState, SelectionState, Modifier } from "draft-js";
  * Test if a character in a text is whitespace. Out of range index counts as whitespace.
  *
  * @param {string} text  The text to get the character from.
- * @param {int}    index The index of the character in the text.
+ * @param {number} index The index of the character in the text.
  *
  * @returns {boolean} True if the character is out of bounds or whitespace.
  */
@@ -24,7 +24,7 @@ export const hasWhitespaceAt = ( text, index ) => {
  *
  * @param {SelectionState} selection The Draft.js selection state.
  *
- * @returns {int} The Draft.js caret offset.
+ * @returns {number} The Draft.js caret offset.
  */
 export const getCaretOffset = ( selection ) => {
 	const isBackward = selection.getIsBackward();
@@ -90,7 +90,7 @@ export const removeSelectedText = ( editorState ) => {
  * Moves the caret to the index.
  *
  * @param {EditorState} editorState The Draft.js editor state,
- * @param {int}         caretIndex  The index of the caret to be.
+ * @param {number}      caretIndex  The index of the caret to be.
  * @param {string}      blockKey    The key for the block to move the caret too. Defaults to current.
  *
  * @returns {EditorState} The new editor state.

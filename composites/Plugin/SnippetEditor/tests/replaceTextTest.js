@@ -9,7 +9,7 @@ import {
 	insertText,
 	removeSelectedText,
 	moveCaret,
-} from "../text";
+} from "../replaceText";
 
 describe( "SnippetEditor text utilities", () => {
 	describe( "hasWhitespaceAt", () => {
