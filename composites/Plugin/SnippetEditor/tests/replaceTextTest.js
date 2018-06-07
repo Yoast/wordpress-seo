@@ -149,11 +149,12 @@ describe( "SnippetEditor text utilities", () => {
 			let editor = EditorState.createWithContent( content );
 			const block = content.getFirstBlock();
 			const blockKey = block.getKey();
-			const selection = SelectionState.createEmpty( blockKey )
-			                                .merge( {
-				                                anchorOffset: 8,
-				                                focusOffset: 19,
-			                                } );
+			const selection = SelectionState
+				.createEmpty( blockKey )
+				.merge( {
+					anchorOffset: 8,
+					focusOffset: 19,
+				} );
 
 			editor = EditorState.acceptSelection( editor, selection );
 			editor = insertText( editor, "Text that will not get inserted" );
@@ -171,11 +172,12 @@ describe( "SnippetEditor text utilities", () => {
 			let editor = EditorState.createWithContent( content );
 			const block = content.getFirstBlock();
 			const blockKey = block.getKey();
-			const selection = SelectionState.createEmpty( blockKey )
-			                                .merge( {
-				                                anchorOffset: 8,
-				                                focusOffset: 19,
-			                                } );
+			const selection = SelectionState
+				.createEmpty( blockKey )
+				.merge( {
+					anchorOffset: 8,
+					focusOffset: 19,
+				} );
 
 			editor = EditorState.acceptSelection( editor, selection );
 			editor = removeSelectedText( editor );
@@ -199,12 +201,13 @@ describe( "SnippetEditor text utilities", () => {
 			const blocks = content.getBlockMap().toArray();
 			const anchorBlockKey = blocks[ 1 ].getKey();
 			const focusBlockKey = blocks[ 3 ].getKey();
-			const selection = SelectionState.createEmpty( anchorBlockKey )
-			                                .merge( {
-				                                anchorOffset: 5,
-				                                focusKey: focusBlockKey,
-				                                focusOffset: 28,
-			                                } );
+			const selection = SelectionState
+				.createEmpty( anchorBlockKey )
+				.merge( {
+					anchorOffset: 5,
+					focusKey: focusBlockKey,
+					focusOffset: 28,
+				} );
 
 			editor = EditorState.acceptSelection( editor, selection );
 			editor = removeSelectedText( editor );
@@ -235,10 +238,12 @@ describe( "SnippetEditor text utilities", () => {
 			editor = EditorState.acceptSelection( editor, selection );
 			editor = moveCaret( editor, index );
 
-			const expected = SelectionState.createEmpty( blockKey ).merge( {
-				anchorOffset: index,
-				focusOffset: index,
-			} );
+			const expected = SelectionState
+				.createEmpty( blockKey )
+				.merge( {
+					anchorOffset: index,
+					focusOffset: index,
+				} );
 			const actual = editor.getSelection();
 
 			expect( actual ).toEqual( expected );
@@ -261,10 +266,12 @@ describe( "SnippetEditor text utilities", () => {
 			editor = EditorState.acceptSelection( editor, selection );
 			editor = moveCaret( editor, index, moveToBlockKey );
 
-			const expected = SelectionState.createEmpty( moveToBlockKey ).merge( {
-				anchorOffset: index,
-				focusOffset: index,
-			} );
+			const expected = SelectionState
+				.createEmpty( moveToBlockKey )
+				.merge( {
+					anchorOffset: index,
+					focusOffset: index,
+				} );
 			const actual = editor.getSelection();
 
 			expect( actual ).toEqual( expected );

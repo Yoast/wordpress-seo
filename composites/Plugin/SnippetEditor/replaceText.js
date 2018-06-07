@@ -105,11 +105,12 @@ export const moveCaret = ( editorState, caretIndex, blockKey = "" ) => {
 		blockKey = getAnchorBlock( contentState, selectionState ).getKey();
 	}
 
-	const newSelectionState = SelectionState.createEmpty( blockKey )
-	                                   .merge( {
-		                                   anchorOffset: caretIndex,
-		                                   focusOffset: caretIndex,
-	                                   } );
+	const newSelectionState = SelectionState
+		.createEmpty( blockKey )
+		.merge( {
+			anchorOffset: caretIndex,
+			focusOffset: caretIndex,
+		} );
 
 	return EditorState.acceptSelection( editorState, newSelectionState );
 };

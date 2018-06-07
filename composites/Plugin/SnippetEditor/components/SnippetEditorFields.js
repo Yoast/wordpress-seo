@@ -187,7 +187,7 @@ class SnippetEditorFields extends React.Component {
 		this.setRef = this.setRef.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
 		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
-		this.debouncedUpdateIsSmallerThanMobileWidth = debounce( this.updateIsSmallerThanMobileWidth.bind( this ), 500 );
+		this.debouncedUpdateIsSmallerThanMobileWidth = debounce( this.updateIsSmallerThanMobileWidth.bind( this ), 200 );
 	}
 
 	/**
@@ -331,7 +331,7 @@ class SnippetEditorFields extends React.Component {
 					</SimulatedLabel>
 					<TriggerReplacementVariableSuggestionsButton
 						onClick={ () => this.triggerReplacementVariableSuggestions( "title" ) }
-						hasMobileWidth={ isSmallerThanMobileWidth }
+						isSmallerThanMobileWidth={ isSmallerThanMobileWidth }
 					>
 						<SvgIcon icon="plus-circle" />
 						{ __( "Insert snippet variable", "yoast-components" ) }
@@ -387,7 +387,7 @@ class SnippetEditorFields extends React.Component {
 					</SimulatedLabel>
 					<TriggerReplacementVariableSuggestionsButton
 						onClick={ () => this.triggerReplacementVariableSuggestions( "description" ) }
-						hasMobileWidth={ isSmallerThanMobileWidth }
+						isSmallerThanMobileWidth={ isSmallerThanMobileWidth }
 					>
 						<SvgIcon icon="plus-circle" />
 						{ __( "Insert snippet variable", "yoast-components" ) }
