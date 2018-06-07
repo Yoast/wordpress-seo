@@ -61,7 +61,6 @@ const InputContainer = styled.div.attrs( {
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	font-size: 14px;
 	cursor: text;
-	margin-top: 5px;
 
 	&::before {
 		display: block;
