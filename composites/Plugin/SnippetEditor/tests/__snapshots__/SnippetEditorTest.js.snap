@@ -1619,14 +1619,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
@@ -1639,12 +1639,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
-                        isDescriptionGenerated={false}
+                        isDescriptionPlaceholder={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <div
                             className="c21 c22"
@@ -3273,14 +3273,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
@@ -3293,12 +3293,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
-                        isDescriptionGenerated={false}
+                        isDescriptionPlaceholder={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <div
                             className="c21 c22"
@@ -4927,14 +4927,14 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
@@ -4947,12 +4947,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
-                        isDescriptionGenerated={false}
+                        isDescriptionPlaceholder={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <div
                             className="c21 c22"
@@ -6581,14 +6581,14 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
@@ -6601,12 +6601,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
-                        isDescriptionGenerated={false}
+                        isDescriptionPlaceholder={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <div
                             className="c21 c22"
@@ -8040,14 +8040,14 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
@@ -8060,12 +8060,12 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
-                        isDescriptionGenerated={false}
+                        isDescriptionPlaceholder={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <div
                             className="c21 c22"
@@ -9441,14 +9441,14 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
@@ -9461,12 +9461,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
-                        isDescriptionGenerated={false}
+                        isDescriptionPlaceholder={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <div
                             className="c21 c22"
@@ -11095,14 +11095,14 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
@@ -11115,12 +11115,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
-                        isDescriptionGenerated={false}
+                        isDescriptionPlaceholder={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <div
                             className="c21 c22"
@@ -13921,21 +13921,21 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__MobileDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
                   >
                     <SnippetPreview__DesktopDescription
                       className="c21 c22"
-                      isDescriptionGenerated={false}
+                      isDescriptionPlaceholder={false}
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
@@ -13948,12 +13948,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       >
                         <SnippetPreview__MobileDescription
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <SnippetPreview__DesktopDescription
                             className="c22"
                             innerRef={[Function]}
-                            isDescriptionGenerated={false}
+                            isDescriptionPlaceholder={false}
                           >
                             <div
                               className="c22 c23"
@@ -15595,21 +15595,21 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__MobileDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
                   >
                     <SnippetPreview__DesktopDescription
                       className="c21 c22"
-                      isDescriptionGenerated={false}
+                      isDescriptionPlaceholder={false}
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
                       onMouseUp={[Function]}
@@ -15622,12 +15622,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       >
                         <SnippetPreview__MobileDescription
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <SnippetPreview__DesktopDescription
                             className="c22"
                             innerRef={[Function]}
-                            isDescriptionGenerated={false}
+                            isDescriptionPlaceholder={false}
                           >
                             <div
                               className="c22 c23"
@@ -17257,14 +17257,14 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
@@ -17277,12 +17277,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
-                        isDescriptionGenerated={false}
+                        isDescriptionPlaceholder={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <div
                             className="c21 c22"
@@ -18922,14 +18922,14 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
@@ -18942,12 +18942,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
-                        isDescriptionGenerated={false}
+                        isDescriptionPlaceholder={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <div
                             className="c21 c22"
@@ -21273,14 +21273,14 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   </FormattedMessage>
                 </FormattedScreenReaderMessage>
                 <SnippetPreview__MobileDescription
-                  isDescriptionGenerated={false}
+                  isDescriptionPlaceholder={false}
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   onMouseUp={[Function]}
                 >
                   <SnippetPreview__DesktopDescription
                     className="c21"
-                    isDescriptionGenerated={false}
+                    isDescriptionPlaceholder={false}
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                     onMouseUp={[Function]}
@@ -21293,12 +21293,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     >
                       <SnippetPreview__MobileDescription
                         innerRef={[Function]}
-                        isDescriptionGenerated={false}
+                        isDescriptionPlaceholder={false}
                       >
                         <SnippetPreview__DesktopDescription
                           className="c21"
                           innerRef={[Function]}
-                          isDescriptionGenerated={false}
+                          isDescriptionPlaceholder={false}
                         >
                           <div
                             className="c21 c22"
