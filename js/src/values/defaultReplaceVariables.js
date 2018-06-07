@@ -1,113 +1,115 @@
+import { __ } from "@wordpress/i18n";
+
 // This const was created to populate the redux store with the default replace variables, while keeping the reducer clean.
 const defaultReplaceVariables = [
 	{
 		name: "currentdate",
-		label: "Current date",
+		label: __( "Current date", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "currentday",
-		label: "Current day",
+		label: __( "Current day", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "currentmonth",
-		label: "Current month",
+		label: __( "Current month", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "currenttime",
-		label: "Current time",
+		label: __( "Current time", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "currentyear",
-		label: "Current year",
+		label: __( "Current year", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "date",
-		label: "Date",
+		label: __( "Date", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "id",
-		label: "Post ID",
+		label: __( "Post ID", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "page",
-		label: "Page number",
+		label: __( "Page number", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "searchphrase",
-		label: "Search phrase",
+		label: __( "Search phrase", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "sitedesc",
-		label: "Tagline",
+		label: __( "Tagline", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "sitename",
-		label: "Site name",
+		label: __( "Site title", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "category",
-		label: "Category",
+		label: __( "Category", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "focuskw",
-		label: "Keyword",
+		label: __( "Keyword", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "title",
-		label: "Page name",
+		label: __( "Page title", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "parent_title",
-		label: "Parent title",
+		label: __( "Parent title", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "excerpt",
-		label: "Excerpt",
+		label: __( "Excerpt", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "primary_category",
-		label: "Primary category",
+		label: __( "Primary category", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "sep",
-		label: "Separator",
+		label: __( "Separator", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "excerpt_only",
-		label: "Excerpt only",
+		label: __( "Excerpt only", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "category_description",
-		label: "Category description",
+		label: __( "Category description", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "tag_description",
-		label: "Tag description",
+		label: __( "Tag description", "wordpress-seo" ),
 		value: "",
 	},
 	{
 		name: "term_description",
-		label: "Term description",
+		label: __( "Term description", "wordpress-seo" ),
 		value: "",
 	},
 ];
