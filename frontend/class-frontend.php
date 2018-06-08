@@ -1447,7 +1447,7 @@ class WPSEO_Frontend {
 	 */
 	public function do_attachment_redirect( $attachment_url ) {
 		header( 'X-Redirect-By: Yoast SEO' );
-		wp_safe_redirect( $attachment_url, 301 );
+		wp_redirect( $attachment_url, 301 );
 		exit;
 	}
 
