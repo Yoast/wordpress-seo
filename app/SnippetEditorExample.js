@@ -10,24 +10,33 @@ import SnippetEditor from "../composites/Plugin/SnippetEditor/components/Snippet
 const Container = styled.div`
 	background-color: white;
 	margin: 5em auto 0;
+	padding: 0 0 10px;
 `;
 
 const replacementVariables = [
 	{
 		name: "title",
+		label: "Title",
 		value: "Title",
+		description: "This is the title of your post",
 	},
 	{
 		name: "post_type",
+		label: "Post type",
 		value: "Gallery",
+		description: "This is the post type of your post",
 	},
 	{
-		name: "snippet",
-		value: "The snippet of your post.",
+		name: "sep",
+		label: "Separator",
+		value: " - ",
+		description: "A separator that clarifies your search result snippet",
 	},
 	{
-		name: "snippet_manual",
-		value: "The manual snippet of your post.",
+		name: "term404",
+		label: "Error 404 slug",
+		value: "Error 404 slug",
+		description: "The slug which caused the error 404",
 	},
 ];
 
@@ -154,20 +163,6 @@ export default class SnippetEditorExample extends Component {
 				replacementVariables={ replacementVariables }
 				titleLengthProgress={ titleLengthProgress }
 				descriptionLengthProgress={ descriptionLengthProgress }
-			/>
-
-			<h2>Test sliders for progress bars</h2>
-			<input
-				type="range"
-				min={ 0 }
-				max={ titleLengthProgress.max }
-				onChange={ ( event ) => this.onChangedData( "currentTitleLength", parseInt( event.target.value, 10 ) ) }
-			/>
-			<input
-				type="range"
-				min={ 0 }
-				max={ descriptionLengthProgress.max }
-				onChange={ ( event ) => this.onChangedData( "currentDescriptionLength", parseInt( event.target.value, 10 ) ) }
 			/>
 		</Container>;
 	}

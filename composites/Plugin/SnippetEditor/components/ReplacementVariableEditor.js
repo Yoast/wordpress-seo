@@ -1,8 +1,9 @@
 // External dependencies.
 import React from "react";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import { convertToRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
-import createMentionPlugin, { defaultSuggestionsFilter } from "draft-js-mention-plugin";
+import createMentionPlugin from "draft-js-mention-plugin";
+import createSingleLinePlugin from "draft-js-single-line-plugin";
 import flow from "lodash/flow";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
@@ -11,20 +12,12 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 
 // Internal dependencies.
 import { replacementVariablesShape } from "../constants";
-import { serializeEditor, unserializeEditor } from "../serialization";
 import { positionSuggestions } from "../positionSuggestions";
-
-/**
- * Creates a Draft.js editor state from a string.
- *
- * @param {string} content The content to turn into editor state.
- *
- * @returns {EditorState} The editor state.
- */
-const createEditorState = flow( [
-	convertFromRaw,
-	EditorState.createWithContent,
-] );
+import {
+	serializeEditor,
+	unserializeEditor,
+	replaceReplacementVariables,
+} from "../serialization";
 
 /**
  * Serializes the Draft.js editor state into a string.
@@ -68,10 +61,10 @@ class ReplacementVariableEditor extends React.Component {
 		super( props );
 
 		const { content: rawContent, replacementVariables } = this.props;
-		const unserialized = unserializeEditor( rawContent, replacementVariables );
+		const editorState = unserializeEditor( rawContent, replacementVariables );
 
 		this.state = {
-			editorState: createEditorState( unserialized ),
+			editorState,
 			searchValue: "",
 			replacementVariables,
 		};
@@ -99,6 +92,10 @@ class ReplacementVariableEditor extends React.Component {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
 			positionSuggestions,
+		} );
+
+		this.singleLinePlugin = createSingleLinePlugin( {
+			stripEntities: false,
 		} );
 	}
 
@@ -128,10 +125,27 @@ class ReplacementVariableEditor extends React.Component {
 	 * @returns {void}
 	 */
 	onChange( editorState ) {
+		editorState = replaceReplacementVariables( editorState, this.props.replacementVariables );
+
 		this.setState( {
 			editorState,
 		}, () => {
 			this.serializeContent( editorState );
+		} );
+	}
+
+	/**
+	 * Filters replacement variables values based on the search term typed by the user.
+	 *
+	 * @param {string} searchValue The search value typed after the mentionTrigger by the user.
+	 * @param {Object[]} replacementVariables The replacement variables to filter.
+	 *
+	 * @returns {Object[]} A filtered set of replacement variables to show as suggestions to the user.
+	 */
+	replacementVariablesFilter( searchValue, replacementVariables ) {
+		const value = searchValue.toLowerCase();
+		return replacementVariables.filter( function( suggestion ) {
+			return ! value || suggestion.name.toLowerCase().indexOf( value ) === 0;
 		} );
 	}
 
@@ -145,7 +159,7 @@ class ReplacementVariableEditor extends React.Component {
 	onSearchChange( { value } ) {
 		this.setState( {
 			searchValue: value,
-			replacementVariables: defaultSuggestionsFilter( value, this.props.replacementVariables ),
+			replacementVariables: this.replacementVariablesFilter( value, this.props.replacementVariables ),
 		} );
 
 		/*
@@ -242,11 +256,11 @@ class ReplacementVariableEditor extends React.Component {
 			nextProps.replacementVariables !== replacementVariables
 		) {
 			this._serializedContent = nextProps.content;
-			const unserialized = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+			const editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
 
 			this.setState( {
-				editorState: createEditorState( unserialized ),
-				replacementVariables: defaultSuggestionsFilter( searchValue, nextProps.replacementVariables ),
+				editorState,
+				replacementVariables: this.replacementVariablesFilter( searchValue, nextProps.replacementVariables ),
 			} );
 		}
 	}
@@ -277,7 +291,7 @@ class ReplacementVariableEditor extends React.Component {
 	 */
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy } = this.props;
+		const { onFocus, onBlur, ariaLabelledBy, descriptionEditorFieldPlaceholder } = this.props;
 		const { editorState, replacementVariables } = this.state;
 
 		return (
@@ -287,10 +301,11 @@ class ReplacementVariableEditor extends React.Component {
 					onChange={ this.onChange }
 					onFocus={ onFocus }
 					onBlur={ onBlur }
-					plugins={ [ this.mentionsPlugin ] }
+					plugins={ [ this.mentionsPlugin, this.singleLinePlugin ] }
 					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
+					placeholder={ descriptionEditorFieldPlaceholder }
 				/>
 				<MentionSuggestions
 					onSearchChange={ this.onSearchChange }
@@ -309,12 +324,14 @@ ReplacementVariableEditor.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
+	descriptionEditorFieldPlaceholder: PropTypes.string,
 };
 
 ReplacementVariableEditor.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
 	className: "",
+	descriptionEditorFieldPlaceholder: "",
 };
 
 export default ReplacementVariableEditor;

@@ -1,19 +1,21 @@
-import forEach from "lodash/forEach";
 import reduce from "lodash/reduce";
 import sortBy from "lodash/sortBy";
-import sortedIndexBy from "lodash/sortedIndexBy";
-import trim from "lodash/trim";
+import { EditorState, Modifier, SelectionState, ContentState } from "draft-js";
 
 const CIRCUMFIX = "%%";
 
+const ENTITY_FORMAT = /%%([A-Za-z0-9_]+)%%/g;
+const ENTITY_TYPE = "%mention";
+const ENTITY_MUTABILITY = "IMMUTABLE";
+
 /**
- * Serializes a tag into a string.
+ * Serializes a replacement variable into a string.
  *
- * @param {string} name The name of the tag.
+ * @param {string} name The name of the replacement variable.
  *
- * @returns {string} Serialized tag.
+ * @returns {string} Serialized replacement variable.
  */
-export function serializeTag( name ) {
+export function serializeVariable( name ) {
 	return CIRCUMFIX + name + CIRCUMFIX;
 }
 
@@ -36,7 +38,7 @@ export function serializeBlock( entityMap, block ) {
 		const beforeEntityLength = offset - previousEntityEnd;
 
 		const beforeEntity = text.substr( previousEntityEnd, beforeEntityLength );
-		const serializedEntity = serializeTag( entityMap[ key ].data.mention.name );
+		const serializedEntity = serializeVariable( entityMap[ key ].data.mention.name );
 
 		previousEntityEnd = offset + length;
 
@@ -58,134 +60,249 @@ export function serializeBlock( entityMap, block ) {
 export function serializeEditor( rawContent ) {
 	const { blocks, entityMap } = rawContent;
 
-	return reduce( blocks, ( serialized, block ) => {
-		return serialized + serializeBlock( entityMap, block );
-	}, "" );
+	// Every line is a block. Join the lines with a space between them.
+	return blocks.map( block => serializeBlock( entityMap, block ) ).join( " " );
 }
 
 /**
- * Unserializes a tag into a string.
+ * Determines the variable label for a given variable name.
  *
- * @param {string} serializedTag The serialized tag.
+ * @param {Array} replacementVariables All the available replacment variables.
+ * @param {string} name The name to find the label for.
  *
- * @returns {string} Unserialized tag.
+ * @returns {string} The label for this replacement variable.
  */
-export function unserializeTag( serializedTag ) {
-	return trim( serializedTag, CIRCUMFIX );
+export function getReplacementVariableLabel( replacementVariables, name ) {
+	let label = name;
+
+	replacementVariables.forEach( ( replacementVariable ) => {
+		if ( replacementVariable.name === name && replacementVariable.label ) {
+			label = replacementVariable.label;
+		}
+	} );
+
+	return label;
 }
 
 /**
- * Unserializes an entity to Draft.js data.
+ * Finds replacement variables in a piece of content.
  *
- * @param {number} key The key the new entity should use.
- * @param {string} name The name of this entity.
- * @param {number} offset The offset where this entity starts in the text.
+ * Returns an array with all strings that match `%%replacement_variable%%`.
  *
- * @returns {Object} The serialized entity.
+ * @param {string} content The content to find replacement variables in.
+ *
+ * @returns {Array} The found variables and their positions.
  */
-export function unserializeEntity( key, name, offset ) {
-	const entityRange = {
-		key,
-		offset,
-		length: name.length,
+export function findReplacementVariables( content ) {
+	const variables = [];
+	let replacementVariable;
+
+	while ( ( replacementVariable = ENTITY_FORMAT.exec( content ) ) ) {
+		const [ match, name ] = replacementVariable;
+
+		variables.push( {
+			name,
+			start: replacementVariable.index,
+			length: match.length,
+		} );
+	}
+
+	return variables;
+}
+
+/**
+ * Adds a human-readable label to a variable.
+ *
+ * @param {Object} variable Details about the variable we are replacing.
+ * @param {Array} replacementVariables All the available replacement variables.
+ *
+ * @returns {Object} The variable with its label.
+ */
+export function addLabel( variable, replacementVariables ) {
+	return {
+		...variable,
+		label: getReplacementVariableLabel( replacementVariables, variable.name ),
 	};
+}
 
-	const mappedEntity = {
-		data: {
-			mention: {
-				name,
-			},
+/**
+ * Adds position information about a variable inside a block.
+ *
+ * @param {Object} variable Details about the variable we are replacing.
+ * @param {number} offset The offset we need to add because of other replacements.
+ *
+ * @returns {Object} The variable with position information.
+ */
+export function addPositionInformation( variable, offset ) {
+	return {
+		...variable,
+		start: variable.start + offset,
+		end: variable.start + variable.length + offset,
+		delta: variable.label.length - variable.length,
+	};
+}
+
+/**
+ * Changes a selection object to represent the selection after replacement.
+ *
+ * @param {SelectionState} selection The previous selection state.
+ * @param {string} blockKey The key of the block we are working in.
+ * @param {Object} variable Details about the variable we are replacing.
+ *
+ * @returns {SelectionState} The new selection state.
+ */
+export function moveSelectionAfterReplacement( selection, blockKey, variable ) {
+	const { start, end, delta } = variable;
+
+	/*
+	 * If the selection touches the replacement we are doing, we always move the
+	 * cursor to the end of the entity once it has been replaced.
+	 */
+	if ( selection.hasEdgeWithin( blockKey, start, end ) ) {
+		const newEnd = end + delta;
+
+		selection = selection.merge( {
+			anchorOffset: newEnd,
+			focusOffset: newEnd,
+		} );
+
+	/*
+	 * If the selection is after the thing we are replacing, we need to move the
+	 * selection the same amount.
+	 */
+	} else if ( selection.focusOffset > end ) {
+		selection = selection.merge( {
+			anchorOffset: selection.anchorOffset + delta,
+			focusOffset: selection.focusOffset + delta,
+		} );
+	}
+
+	return selection;
+}
+
+/**
+ * Creates a DraftJS entity in a content state.
+ *
+ * @param {ContentState} contentState The previous content state.
+ * @param {Object} variable Details about the variable we are replacing.
+ *
+ * @returns {ContentState} The new content state.
+ */
+export function createEntityInContent( contentState, variable ) {
+	const entityData = {
+		mention: {
+			name: variable.name,
 		},
-		mutability: "IMMUTABLE",
-		type: "%mention",
 	};
 
-	return { entityRange, mappedEntity };
+	return contentState.createEntity( ENTITY_TYPE, ENTITY_MUTABILITY, entityData );
 }
 
 /**
- * Find all indices of a search term in a string.
+ * Replaces a replacement variable in the editor with an entity representing it.
  *
- * @param {string} searchTerm The term to search for.
- * @param {string} text       The text to search in.
+ * @param {EditorState} editorState The previous editor state.
+ * @param {Object} variable Details about the variable we are replacing.
+ * @param {string} blockKey The key of the block we are working in.
  *
- * @returns {Array} Array of found indices.
+ * @returns {EditorState} The new editor state.
  */
-const getIndicesOf = ( searchTerm, text ) => {
-	if ( searchTerm.length === 0 ) {
-		return [];
-	}
+export function replaceVariableWithEntity( editorState, variable, blockKey ) {
+	let contentState = editorState.getCurrentContent();
 
-	let startIndex = 0;
-	let index;
-	const indices = [];
+	// Create a selection that spans the `%%replacement_variable%%` in the text.
+	const variableTextSelection = SelectionState.createEmpty( blockKey )
+		.merge( {
+			anchorOffset: variable.start,
+			focusOffset: variable.end,
+		} );
 
-	while ( ( index = text.indexOf( searchTerm, startIndex ) ) > -1 ) {
-		indices.push( index );
-		startIndex = index + searchTerm.length;
-	}
+	// We need to create the entity before replacing text with it.
+	contentState = createEntityInContent( contentState, variable );
 
-	return indices;
-};
+	/*
+	 * Do the actual replacement.
+	 *
+	 * We replace `%%replacement_variable%%` with an entity. The entity is already
+	 * created in the content state. So we can refer to it by using
+	 * `contentState.getLastCreatedEntityKey`.
+	 */
+	const newContentState = Modifier.replaceText(
+		contentState,
+		variableTextSelection,
+		variable.label,
+		// No inline style needed.
+		null,
+		contentState.getLastCreatedEntityKey(),
+	);
+
+	// We need to apply the new content state to the editor state.
+	return EditorState.push( editorState, newContentState, "apply-entity" );
+}
+
+/**
+ * Replaces replacement variables (%%replacement_variable%%) in an editor state with entities.
+ *
+ * @param {EditorState} editorState The editor state to find the variables in.
+ * @param {Array}       replacementVariables The available replacement variables, used
+ *                                           to determine the label in the entities.
+ *
+ * @returns {EditorState} The new editor state with entities.
+ */
+export function replaceReplacementVariables( editorState, replacementVariables ) {
+	const contentState = editorState.getCurrentContent();
+	const blockMap = contentState.getBlockMap();
+	let newEditorState = editorState;
+
+	/*
+	 * Because we do this for each block our code will work for multiple blocks even if
+	 * we currently usually only have one block.
+	 */
+	blockMap.forEach( ( block ) => {
+		const { text, key: blockKey } = block;
+		const foundReplacementVariables = findReplacementVariables( text );
+
+		/*
+		 * Offset keeps track of the amount of shifting that occurred by replacing
+		 * replacement variables with entities. This makes sure multiple replacement
+		 * variables are replaced correctly. This is only relevant on initial
+		 * entity conversion on first rendering and when pasting content that
+		 * contains multiple replacement variables.
+		 */
+		let offset = 0;
+
+		foundReplacementVariables.forEach( ( variable ) => {
+			variable = addLabel( variable, replacementVariables );
+			variable = addPositionInformation( variable, offset );
+
+			let selection = newEditorState.getSelection();
+			selection = moveSelectionAfterReplacement( selection, blockKey, variable );
+
+			newEditorState = replaceVariableWithEntity( newEditorState, variable, blockKey );
+			newEditorState = EditorState.acceptSelection( newEditorState, selection );
+
+			/*
+			 * The variable.delta is the difference between the variable human-readable
+			 * label length e.g. `Separator` and the variable length including `%%`
+			 * e.g. `%%sep%%`. See `addPositionInformation()`.
+			 */
+			offset = offset + variable.delta;
+		} );
+	} );
+
+	return newEditorState;
+}
 
 /**
  * Unserializes a piece of content into Draft.js data.
  *
  * @param {string} content The content to unserialize.
- * @param {Array} tags The tags for the Draft.js mention plugin.
+ * @param {Array} replacementVariables The replacement variables for the Draft.js mention plugin.
  *
- * @returns {Object} The raw data ready for convertFromRaw.
+ * @returns {EditorState} The raw data ready for convertFromRaw.
  */
-export function unserializeEditor( content, tags ) {
-	const entityRanges = [];
-	const entityMap = {};
-	const replaceIndices = [];
+export function unserializeEditor( content, replacementVariables ) {
+	const editorState = EditorState.createWithContent( ContentState.createFromText( content ) );
 
-	// Collect the replace indices for each tag.
-	forEach( tags, tag => {
-		const tagValue = serializeTag( tag.name );
-		const indices = getIndicesOf( tagValue, content );
-
-		forEach( indices, index => {
-			const replaceIndex = {
-				index,
-				tag,
-				tagValue,
-			};
-
-			// Add the replace index in order.
-			const insertAt = sortedIndexBy( replaceIndices, replaceIndex, "index" );
-			replaceIndices.splice( insertAt, 0, replaceIndex );
-		} );
-	} );
-
-	// Loop from high to low to ensure the index is still correct.
-	for( let i = replaceIndices.length - 1; i >= 0; i-- ) {
-		const { index, tag, tagValue } = replaceIndices[ i ];
-
-		// Replace the serialized tag with the unserialized tag.
-		const before = content.substr( 0, index );
-		const between = unserializeTag( content.substr( index, tagValue.length ) );
-		const after = content.substr( index + tagValue.length );
-		content = before + between + after;
-
-		// Decrease the offset by twice the length of the circumfix for every index we replace.
-		const offset = index - i * CIRCUMFIX.length * 2;
-		const key = entityRanges.length;
-
-		// Create the DraftJS data.
-		const { entityRange, mappedEntity } = unserializeEntity( key, tag.name, offset );
-		entityRanges.push( entityRange );
-		entityMap[ key ] = mappedEntity;
-	}
-
-	const blocks = [ {
-		entityRanges,
-		text: content,
-	} ];
-
-	return {
-		blocks,
-		entityMap,
-	};
+	return replaceReplacementVariables( editorState, replacementVariables );
 }
