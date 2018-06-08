@@ -1,7 +1,8 @@
 exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
 <SnippetPreviewSection
   baseUrl="http://example.org"
-  date="">
+  date=""
+  recommendedReplacementVariables={Array []}>
   <SnippetPreviewSection__Section
     headingIcon="eye"
     headingIconColor="#555"
