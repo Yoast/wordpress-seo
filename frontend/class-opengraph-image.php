@@ -449,9 +449,6 @@ class WPSEO_OpenGraph_Image {
 		do_action( 'wpseo_add_opengraph_images', $this );
 
 		switch ( true ) {
-			case is_front_page():
-				$this->set_front_page_image();
-				break;
 			case is_home():
 				$this->set_posts_page_image();
 				break;
@@ -460,6 +457,9 @@ class WPSEO_OpenGraph_Image {
 				break;
 			case is_singular():
 				$this->set_singular_image();
+				break;
+			case is_front_page():
+				$this->set_front_page_image();
 				break;
 			case is_category():
 			case is_tag():
