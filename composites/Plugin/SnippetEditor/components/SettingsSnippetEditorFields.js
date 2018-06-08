@@ -7,17 +7,8 @@ import { __ } from "@wordpress/i18n";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import { replacementVariablesShape } from "../constants";
-import {
-	DescriptionInputContainer,
-	SimulatedLabel,
-	TriggerReplacementVariableSuggestionsButton,
-} from "./Shared";
-import SvgIcon from "../../Shared/components/SvgIcon";
-
-
 
 const FormSection = styled.div`
 	margin: 10px 0;
@@ -163,6 +154,7 @@ class SettingsSnippetEditorFields extends React.Component {
 	updateIsSmallerThanMobileWidth() {
 		const isSmallerThanMobileWidth = this.editor.clientWidth < this.props.mobileWidth;
 		if ( this.state.isSmallerThanMobileWidth !== isSmallerThanMobileWidth ) {
+			console.log( "toggle" );
 			this.setState( { isSmallerThanMobileWidth } );
 		}
 	}
@@ -193,6 +185,7 @@ class SettingsSnippetEditorFields extends React.Component {
 				innerRef={ this.setEditorRef }
 			>
 				<FormSection>
+					Known issue, nie zeure.
 					<ReplacementVariableEditor
 						label={ __( "SEO title", "yoast-components" ) }
 						onFocus={ () => onFocus( "title" ) }
@@ -202,7 +195,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						replacementVariables={ replacementVariables }
 						content={ title }
 						onChange={ content => onChange( "title", content ) }
-						styleForMobile={ isSmallerThanMobileWidth }
+						styleForMobile={ true }
 					/>
 				</FormSection>
 				<FormSection>
@@ -217,7 +210,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						replacementVariables={ replacementVariables }
 						content={ description }
 						onChange={ content => onChange( "description", content ) }
-						styleForMobile={ isSmallerThanMobileWidth }
+						styleForMobile={ true }
 					/>
 				</FormSection>
 			</StyledEditor>
