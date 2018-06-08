@@ -2,11 +2,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-	ReplaceVarEditor,
 	TitleInputContainer,
 	SimulatedLabel,
 	replacementVariablesShape,
 } from "yoast-components/composites/Plugin/SnippetEditor";
+import ReplaceVarEditor from "yoast-components/composites/Plugin/SnippetEditor/components/ReplacementVariableEditorStandalone";
 import uniqueId from "lodash/uniqueId";
 
 /* Internal dependencies */
