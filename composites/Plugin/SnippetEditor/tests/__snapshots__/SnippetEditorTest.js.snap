@@ -929,6 +929,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   cursor: text;
 }
 
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+  height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .c32::before {
   display: block;
   position: absolute;
@@ -939,13 +946,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-  height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .c34 {
@@ -2571,6 +2571,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   cursor: text;
 }
 
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+  height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .c32::before {
   display: block;
   position: absolute;
@@ -2581,13 +2588,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-  height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .c34 {
@@ -4213,6 +4213,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   cursor: text;
 }
 
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+  height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .c32::before {
   display: block;
   position: absolute;
@@ -4223,13 +4230,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-  height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .c34 {
@@ -5855,6 +5855,13 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   cursor: text;
 }
 
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+  height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .c32::before {
   display: block;
   position: absolute;
@@ -5865,13 +5872,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-  height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .c34 {
@@ -8655,6 +8655,13 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   cursor: text;
 }
 
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+  height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .c32::before {
   display: block;
   position: absolute;
@@ -8665,13 +8672,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-  height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .c34 {
@@ -10297,6 +10297,13 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   cursor: text;
 }
 
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+  height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .c32::before {
   display: block;
   position: absolute;
@@ -10307,13 +10314,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-  height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .c34 {
@@ -13099,6 +13099,13 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   cursor: text;
 }
 
+.c33 .public-DraftStyleDefault-block {
+  line-height: 24px;
+  height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .c33::before {
   display: block;
   position: absolute;
@@ -13109,13 +13116,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
-}
-
-.c33 .public-DraftStyleDefault-block {
-  line-height: 24px;
-  height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .c35 {
@@ -14761,6 +14761,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   cursor: text;
 }
 
+.c33 .public-DraftStyleDefault-block {
+  line-height: 24px;
+  height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .c33::before {
   display: block;
   position: absolute;
@@ -14771,13 +14778,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
-}
-
-.c33 .public-DraftStyleDefault-block {
-  line-height: 24px;
-  height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .c35 {
@@ -16423,6 +16423,13 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   cursor: text;
 }
 
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+  height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .c32::before {
   display: block;
   position: absolute;
@@ -16433,13 +16440,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-  height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .c34 {
@@ -18065,6 +18065,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
   cursor: text;
 }
 
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+  height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .c32::before {
   display: block;
   position: absolute;
@@ -18075,13 +18082,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-  height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .c34 {
@@ -20427,6 +20427,13 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   cursor: text;
 }
 
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+  height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .c32::before {
   display: block;
   position: absolute;
@@ -20437,13 +20444,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
   background-size: 25px;
   content: "";
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-  height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .c34 {

@@ -52,19 +52,23 @@ export const InputContainer = styled.div.attrs( {
 	font-size: 14px;
 	margin-top: 5px;
 	cursor: text;
-
-	&::before {
-		display: block;
-		position: absolute;
-		top: -1px;
-		left: -25px;
-		width: 24px;
-		height: 24px;
-		background-image: url( ${ ( props ) => angleRight( getCaretColor( props ) ) });
-		background-size: 25px;
-		content: "";
-	}
 `;
+
+export const withCarretStyles = Component => {
+	return Component.extend`
+		&::before {
+			display: block;
+			position: absolute;
+			top: -1px;
+			left: -25px;
+			width: 24px;
+			height: 24px;
+			background-image: url( ${ (props) => angleRight(getCaretColor(props)) });
+			background-size: 25px;
+			content: "";
+		}
+	`;
+};
 
 export const TitleInputContainer = InputContainer.extend`
 	.public-DraftStyleDefault-block {

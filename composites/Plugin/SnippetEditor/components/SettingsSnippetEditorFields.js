@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
@@ -10,10 +11,16 @@ import { replacementVariablesShape } from "../constants";
 import {
 	TitleInputContainer,
 	DescriptionInputContainer,
-	FormSection,
 	SimulatedLabel,
-	StyledEditor,
 } from "./Shared";
+
+const FormSection = styled.div`
+	margin: 10px 0;
+`;
+
+const StyledEditor = styled.div`
+	padding: 0 20px;
+`;
 
 class SettingsSnippetEditorFields extends React.Component {
 	/**
@@ -34,7 +41,6 @@ class SettingsSnippetEditorFields extends React.Component {
 	 *                                                     currently active.
 	 * @param {string}   props.hoveredField                The field that is
 	 *                                                     currently hovered.
-	 *
 	 *
 	 * @returns {void}
 	 */
