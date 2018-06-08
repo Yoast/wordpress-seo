@@ -54,7 +54,7 @@ export const getVerticalPosition = ( parentRect, caretRect, popoverHeight ) => {
 	const relativeY = caretRect.top - parentRect.top;
 	const caretHeight = caretRect.bottom - caretRect.top;
 
-	const popoverBottom = parentRect.bottom + popoverHeight + EXTRA_OFFSET;
+	const popoverBottom = caretRect.bottom + popoverHeight + EXTRA_OFFSET;
 
 	if ( popoverBottom > window.innerHeight ) {
 		// The fallback position is above the caret.
