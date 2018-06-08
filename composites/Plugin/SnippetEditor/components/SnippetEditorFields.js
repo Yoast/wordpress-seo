@@ -10,18 +10,14 @@ import { __ } from "@wordpress/i18n";
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import {
 	InputContainer,
-	DescriptionInputContainer,
 	FormSection,
 	SimulatedLabel,
 	StyledEditor,
-	TitleInputContainer,
 	withCaretStyles,
-	TriggerReplacementVariableSuggestionsButton,
 } from "./Shared";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import colors from "../../../../style-guide/colors";
-import SvgIcon from "../../Shared/components/SvgIcon";
 
 const SlugInput = styled.input`
 	border: none;
@@ -37,8 +33,6 @@ const SlugInput = styled.input`
 	}
 `;
 
-const TitleInputContainerWithCaretStyles = withCaretStyles( TitleInputContainer );
-const DescriptionInputContainerWithCaretStyles = withCaretStyles( DescriptionInputContainer );
 const InputContainerWithCaretStyles = withCaretStyles( InputContainer );
 
 class SnippetEditorFields extends React.Component {
@@ -213,44 +207,25 @@ class SnippetEditorFields extends React.Component {
 		} = this.props;
 		const { isSmallerThanMobileWidth } = this.state;
 
-
-		const titleLabelId = `${ this.uniqueId }-title`;
 		const slugLabelId = `${ this.uniqueId }-slug`;
-		const descriptionLabelId = `${ this.uniqueId }-description`;
 
 		return (
 			<StyledEditor
 				innerRef={ this.setEditorRef }
 			>
 				<FormSection>
-					<SimulatedLabel
-						id={ titleLabelId }
-						onClick={ () => onFocus( "title" ) }
-					>
-						{ __( "SEO title", "yoast-components" ) }
-					</SimulatedLabel>
-					<TriggerReplacementVariableSuggestionsButton
-						onClick={ () => this.triggerReplacementVariableSuggestions( "title" ) }
-						isSmallerThanMobileWidth={ isSmallerThanMobileWidth }
-					>
-						<SvgIcon icon="plus-circle" />
-						{ __( "Insert snippet variable", "yoast-components" ) }
-					</TriggerReplacementVariableSuggestionsButton>
-					<TitleInputContainerWithCaretStyles
-						onClick={ () => this.elements.title.focus() }
+					<ReplacementVariableEditor
+						withCaret={ true }
+						label={ __( "SEO title", "yoast-components" ) }
+						onFocus={ () => onFocus( "title" ) }
 						isActive={ activeField === "title" }
 						isHovered={ hoveredField === "title" }
-					>
-						<ReplacementVariableEditor
-							content={ title }
-							onChange={ content => onChange( "title", content ) }
-							onFocus={ () => onFocus( "title" ) }
-							onBlur={ () => onBlur() }
-							replacementVariables={ replacementVariables }
-							ref={ ( ref ) => this.setRef( "title", ref ) }
-							ariaLabelledBy={ titleLabelId }
-						/>
-					</TitleInputContainerWithCaretStyles>
+						editorRef={ ref => this.setRef( "title", ref ) }
+						replacementVariables={ replacementVariables }
+						content={ title }
+						onChange={ content => onChange( "title", content ) }
+						styleForMobile={ isSmallerThanMobileWidth }
+					/>
 					<ProgressBar
 						max={ titleLengthProgress.max }
 						value={ titleLengthProgress.actual }
@@ -280,34 +255,20 @@ class SnippetEditorFields extends React.Component {
 					</InputContainerWithCaretStyles>
 				</FormSection>
 				<FormSection>
-					<SimulatedLabel
-						id={ descriptionLabelId }
-						onClick={ () => onFocus( "description" ) } >
-						{ __( "Meta description", "yoast-components" ) }
-					</SimulatedLabel>
-					<TriggerReplacementVariableSuggestionsButton
-						onClick={ () => this.triggerReplacementVariableSuggestions( "description" ) }
-						isSmallerThanMobileWidth={ isSmallerThanMobileWidth }
-					>
-						<SvgIcon icon="plus-circle" />
-						{ __( "Insert snippet variable", "yoast-components" ) }
-					</TriggerReplacementVariableSuggestionsButton>
-					<DescriptionInputContainerWithCaretStyles
-						onClick={ () => this.elements.description.focus() }
+					<ReplacementVariableEditor
+						withCaret={ true }
+						type="description"
+						placeholder={ descriptionEditorFieldPlaceholder }
+						label={ __( "Meta description", "yoast-components" ) }
+						onFocus={ () => onFocus( "description" ) }
 						isActive={ activeField === "description" }
 						isHovered={ hoveredField === "description" }
-					>
-						<ReplacementVariableEditor
-							content={ description }
-							onChange={ content => onChange( "description", content ) }
-							onFocus={ () => onFocus( "description" ) }
-							onBlur={ () => onBlur() }
-							replacementVariables={ replacementVariables }
-							ref={ ( ref ) => this.setRef( "description", ref ) }
-							ariaLabelledBy={ descriptionLabelId }
-							placeholder={ descriptionEditorFieldPlaceholder }
-						/>
-					</DescriptionInputContainerWithCaretStyles>
+						editorRef={ ref => this.setRef( "description", ref ) }
+						replacementVariables={ replacementVariables }
+						content={ description }
+						onChange={ content => onChange( "description", content ) }
+						styleForMobile={ isSmallerThanMobileWidth }
+					/>
 					<ProgressBar
 						max={ descriptionLengthProgress.max }
 						value={ descriptionLengthProgress.actual }

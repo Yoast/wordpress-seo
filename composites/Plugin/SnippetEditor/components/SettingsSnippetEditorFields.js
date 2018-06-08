@@ -7,15 +7,17 @@ import { __ } from "@wordpress/i18n";
 import styled from "styled-components";
 
 /* Internal dependencies */
+import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import { replacementVariablesShape } from "../constants";
 import {
-	TitleInputContainer,
 	DescriptionInputContainer,
 	SimulatedLabel,
 	TriggerReplacementVariableSuggestionsButton,
 } from "./Shared";
 import SvgIcon from "../../Shared/components/SvgIcon";
+
+
 
 const FormSection = styled.div`
 	margin: 10px 0;
@@ -186,67 +188,37 @@ class SettingsSnippetEditorFields extends React.Component {
 
 		const isSmallerThanMobileWidth = this.state.isSmallerThanMobileWidth;
 
-		const titleLabelId = `${ this.uniqueId }-title`;
-		const descriptionLabelId = `${ this.uniqueId }-description`;
-
 		return (
 			<StyledEditor
 				innerRef={ this.setEditorRef }
 			>
 				<FormSection>
-					<SimulatedLabel
-						id={ titleLabelId }
-						onClick={ () => onFocus( "title" ) } >
-						{ __( "SEO title", "yoast-components" ) }
-					</SimulatedLabel>
-					<TriggerReplacementVariableSuggestionsButton
-						onClick={ () => this.triggerReplacementVariableSuggestions( "title" ) }
-						isSmallerThanMobileWidth={ isSmallerThanMobileWidth }
-					>
-						<SvgIcon icon="plus-circle" />
-						{ __( "Insert snippet variable", "yoast-components" ) }
-					</TriggerReplacementVariableSuggestionsButton>
-					<TitleInputContainer
-						onClick={ () => this.elements.title.focus() }
+					<ReplacementVariableEditor
+						label={ __( "SEO title", "yoast-components" ) }
+						onFocus={ () => onFocus( "title" ) }
 						isActive={ activeField === "title" }
-						isHovered={ hoveredField === "title" }>
-						<ReplacementVariableEditor
-							content={ title }
-							onChange={ content => onChange( "title", content ) }
-							onFocus={ () => onFocus( "title" ) }
-							replacementVariables={ replacementVariables }
-							ref={ ( ref ) => this.setRef( "title", ref ) }
-							ariaLabelledBy={ titleLabelId }
-						/>
-					</TitleInputContainer>
+						isHovered={ hoveredField === "title" }
+						editorRef={ ref => this.setRef( "title", ref ) }
+						replacementVariables={ replacementVariables }
+						content={ title }
+						onChange={ content => onChange( "title", content ) }
+						styleForMobile={ isSmallerThanMobileWidth }
+					/>
 				</FormSection>
 				<FormSection>
-					<SimulatedLabel
-						id={ descriptionLabelId }
-						onClick={ () => onFocus( "description" ) } >
-						{ __( "Meta description", "yoast-components" ) }
-					</SimulatedLabel>
-					<TriggerReplacementVariableSuggestionsButton
-						onClick={ () => this.triggerReplacementVariableSuggestions( "description" ) }
-						isSmallerThanMobileWidth={ isSmallerThanMobileWidth }
-					>
-						<SvgIcon icon="plus-circle" />
-						{ __( "Insert snippet variable", "yoast-components" ) }
-					</TriggerReplacementVariableSuggestionsButton>
-					<DescriptionInputContainer
-						onClick={ () => this.elements.description.focus() }
+					<ReplacementVariableEditor
+						type="description"
+						placeholder={ descriptionEditorFieldPlaceholder }
+						label={ __( "Meta description", "yoast-components" ) }
+						onFocus={ () => onFocus( "description" ) }
 						isActive={ activeField === "description" }
-						isHovered={ hoveredField === "description" }>
-						<ReplacementVariableEditor
-							placeholder={ descriptionEditorFieldPlaceholder }
-							content={ description }
-							onChange={ content => onChange( "description", content ) }
-							onFocus={ () => onFocus( "description" ) }
-							replacementVariables={ replacementVariables }
-							ref={ ( ref ) => this.setRef( "description", ref ) }
-							ariaLabelledBy={ descriptionLabelId }
-						/>
-					</DescriptionInputContainer>
+						isHovered={ hoveredField === "description" }
+						editorRef={ ref => this.setRef( "description", ref ) }
+						replacementVariables={ replacementVariables }
+						content={ description }
+						onChange={ content => onChange( "description", content ) }
+						styleForMobile={ isSmallerThanMobileWidth }
+					/>
 				</FormSection>
 			</StyledEditor>
 		);
