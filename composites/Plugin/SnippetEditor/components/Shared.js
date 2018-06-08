@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 /* Internal dependencies */
 import colors from "../../../../style-guide/colors";
+import { Button } from "../../Shared/components/Button";
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
 	'<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">' +
@@ -50,7 +51,6 @@ export const InputContainer = styled.div.attrs( {
 	position: relative;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	font-size: 14px;
-	margin-top: 5px;
 	cursor: text;
 `;
 
@@ -63,7 +63,7 @@ export const withCaretStyles = Component => {
 			left: -25px;
 			width: 24px;
 			height: 24px;
-			background-image: url( ${ ( props ) => angleRight( getCaretColor( props ) ) } );
+			background-image: url( ${ ( props ) => angleRight( getCaretColor( props ) ) });
 			background-size: 25px;
 			content: "";
 		}
@@ -100,4 +100,26 @@ export const SimulatedLabel = styled.div`
 	cursor: pointer;
 	font-size: 16px;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+	margin-bottom: 5px;
+`;
+
+export const TriggerReplacementVariableSuggestionsButton = Button.extend`
+	box-shadow: none;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+	fill: ${ colors.$color_grey_dark };
+	padding-left: 8px;
+	float: right;
+	margin-top: -35px; // negative height + 2 for spacing
+	height: 33px;
+	border: 1px solid #dbdbdb;
+
+	${ props => props.isSmallerThanMobileWidth && `
+		float: none;
+		margin-top: 0;
+		margin-bottom: 2px;
+	` }
+
+	& svg {
+		margin-right: 7px;
+	}
 `;

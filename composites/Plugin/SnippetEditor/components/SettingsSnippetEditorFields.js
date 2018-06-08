@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
+import debounce from "lodash/debounce";
 import { __ } from "@wordpress/i18n";
 import styled from "styled-components";
 
@@ -12,7 +13,9 @@ import {
 	TitleInputContainer,
 	DescriptionInputContainer,
 	SimulatedLabel,
+	TriggerReplacementVariableSuggestionsButton,
 } from "./Shared";
+import SvgIcon from "../../Shared/components/SvgIcon";
 
 const FormSection = styled.div`
 	margin: 10px 0;
@@ -52,9 +55,27 @@ class SettingsSnippetEditorFields extends React.Component {
 			description: null,
 		};
 
+		this.state = {
+			isSmallerThanMobileWidth: false,
+		};
+
 		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
 		this.setRef = this.setRef.bind( this );
+		this.setEditorRef = this.setEditorRef.bind( this );
+		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
+		this.debouncedUpdateIsSmallerThanMobileWidth = debounce( this.updateIsSmallerThanMobileWidth.bind( this ), 200 );
+	}
+
+	/**
+	 * Sets the ref for the editor.
+	 *
+	 * @param {Object} editor The editor React reference.
+	 *
+	 * @returns {void}
+	 */
+	setEditorRef( editor ) {
+		this.editor = editor;
 	}
 
 	/**
@@ -70,12 +91,24 @@ class SettingsSnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Makes sure the focus is correct after mounting the editor fields.
+	 * Ensures isSmallerThanMobileWidth is accurate.
+	 *
+	 * By running it once and binding it to the window resize event.
 	 *
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		this.focusOnActiveFieldChange( null );
+		this.updateIsSmallerThanMobileWidth();
+		window.addEventListener( "resize", this.debouncedUpdateIsSmallerThanMobileWidth );
+	}
+
+	/**
+	 * Removes the window resize event listener.
+	 *
+	 * @returns {void}
+	 */
+	componentWillUnmount() {
+		window.removeEventListener( "resize", this.debouncedUpdateIsSmallerThanMobileWidth );
 	}
 
 	/**
@@ -106,6 +139,33 @@ class SettingsSnippetEditorFields extends React.Component {
 	}
 
 	/**
+	 * Inserts a % into a ReplacementVariableEditor to trigger the replacement variable suggestions.
+	 *
+	 * @param {string} fieldName The field name to get the ref for.
+	 *
+	 * @returns {void}
+	 */
+	triggerReplacementVariableSuggestions( fieldName ) {
+		const element = this.elements[ fieldName ];
+
+		element.triggerReplacementVariableSuggestions();
+	}
+
+	/**
+	 * Updates isSmallerThanMobileWidth when changed.
+	 *
+	 * isSmallerThanMobileWidth is true if the editor's client width is smaller than the mobile width prop.
+	 *
+	 * @returns {void}
+	 */
+	updateIsSmallerThanMobileWidth() {
+		const isSmallerThanMobileWidth = this.editor.clientWidth < this.props.mobileWidth;
+		if ( this.state.isSmallerThanMobileWidth !== isSmallerThanMobileWidth ) {
+			this.setState( { isSmallerThanMobileWidth } );
+		}
+	}
+
+	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -124,17 +184,28 @@ class SettingsSnippetEditorFields extends React.Component {
 			},
 		} = this.props;
 
+		const isSmallerThanMobileWidth = this.state.isSmallerThanMobileWidth;
+
 		const titleLabelId = `${ this.uniqueId }-title`;
 		const descriptionLabelId = `${ this.uniqueId }-description`;
 
 		return (
-			<StyledEditor>
+			<StyledEditor
+				innerRef={ this.setEditorRef }
+			>
 				<FormSection>
 					<SimulatedLabel
 						id={ titleLabelId }
 						onClick={ () => onFocus( "title" ) } >
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
+					<TriggerReplacementVariableSuggestionsButton
+						onClick={ () => this.triggerReplacementVariableSuggestions( "title" ) }
+						isSmallerThanMobileWidth={ isSmallerThanMobileWidth }
+					>
+						<SvgIcon icon="plus-circle" />
+						{ __( "Insert snippet variable", "yoast-components" ) }
+					</TriggerReplacementVariableSuggestionsButton>
 					<TitleInputContainer
 						onClick={ () => this.elements.title.focus() }
 						isActive={ activeField === "title" }
@@ -155,6 +226,13 @@ class SettingsSnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "description" ) } >
 						{ __( "Meta description", "yoast-components" ) }
 					</SimulatedLabel>
+					<TriggerReplacementVariableSuggestionsButton
+						onClick={ () => this.triggerReplacementVariableSuggestions( "description" ) }
+						isSmallerThanMobileWidth={ isSmallerThanMobileWidth }
+					>
+						<SvgIcon icon="plus-circle" />
+						{ __( "Insert snippet variable", "yoast-components" ) }
+					</TriggerReplacementVariableSuggestionsButton>
 					<DescriptionInputContainer
 						onClick={ () => this.elements.description.focus() }
 						isActive={ activeField === "description" }
@@ -186,11 +264,13 @@ SettingsSnippetEditorFields.propTypes = {
 	activeField: PropTypes.oneOf( [ "title", "description" ] ),
 	hoveredField: PropTypes.oneOf( [ "title", "description" ] ),
 	descriptionEditorFieldPlaceholder: PropTypes.string,
+	mobileWidth: PropTypes.number,
 };
 
 SettingsSnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
+	mobileWidth: 356,
 };
 
 export default SettingsSnippetEditorFields;
