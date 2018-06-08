@@ -72,8 +72,6 @@ class SnippetEditor extends React.Component {
 	 * @returns {void}
 	 */
 	setFieldFocus( field ) {
-		field = this.mapFieldToEditor( field );
-
 		this.setState( {
 			activeField: field,
 		} );
