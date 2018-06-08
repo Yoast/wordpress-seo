@@ -1178,7 +1178,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",
@@ -2832,7 +2832,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",
@@ -4486,7 +4486,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",
@@ -6140,7 +6140,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",
@@ -7599,7 +7599,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",
@@ -9000,7 +9000,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",
@@ -10654,7 +10654,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",
@@ -13480,7 +13480,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",
@@ -15154,7 +15154,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",
@@ -16816,7 +16816,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",
@@ -18470,7 +18470,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",
@@ -20832,7 +20832,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 }
 
 <SnippetEditor
-  baseUrl="https://example.org/"
+  baseUrl="http://example.org/"
   data={
     Object {
       "description": "Test description, %%replacement_variable%%",

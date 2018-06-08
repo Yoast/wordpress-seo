@@ -354,7 +354,7 @@ class SnippetEditor extends React.Component {
 
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title ),
-			url: baseUrl.replace( "https://", "" ) + originalData.slug,
+			url: baseUrl.replace( /http:\/\//ig, "" ) + originalData.slug,
 			description: description,
 		};
 
@@ -367,7 +367,7 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Maps the data from to be suitable for the preview.
+	 * Maps the passed data to be suitable for the preview.
 	 *
 	 * The data that is in the preview is not exactly the same as the data
 	 * that is measured (see above), because the metadescription placeholder
