@@ -63,7 +63,7 @@ export const withCarretStyles = Component => {
 			left: -25px;
 			width: 24px;
 			height: 24px;
-			background-image: url( ${ (props) => angleRight(getCaretColor(props)) });
+			background-image: url( ${ ( props ) => angleRight( getCaretColor( props ) ) } );
 			background-size: 25px;
 			content: "";
 		}
