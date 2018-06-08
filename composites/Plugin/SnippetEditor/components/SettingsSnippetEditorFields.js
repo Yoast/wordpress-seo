@@ -49,7 +49,6 @@ class SettingsSnippetEditorFields extends React.Component {
 
 		this.elements = {
 			title: null,
-			slug: null,
 			description: null,
 		};
 
@@ -181,7 +180,7 @@ SettingsSnippetEditorFields.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	data: PropTypes.shape( {
-		title: PropTypes.string.isRequired,
+		title: PropTypes.string,
 		description: PropTypes.string,
 	} ).isRequired,
 	activeField: PropTypes.oneOf( [ "title", "description" ] ),

@@ -67,7 +67,7 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Focuses the preview on the given field.
 	 *
-	 * @param {String} field the name of the field to focusSnippetEditorFields
+	 * @param {String} field The name of the field to focus.
 	 *
 	 * @returns {void}
 	 */

@@ -54,7 +54,7 @@ export const InputContainer = styled.div.attrs( {
 	cursor: text;
 `;
 
-export const withCarretStyles = Component => {
+export const withCaretStyles = Component => {
 	return Component.extend`
 		&::before {
 			display: block;
@@ -93,6 +93,9 @@ export const StyledEditor = styled.section`
 	padding: 10px 20px 20px 20px;
 `;
 
+/**
+ * A div element that looks like it can be interacted with like a label.
+ */
 export const SimulatedLabel = styled.div`
 	cursor: pointer;
 	font-size: 16px;

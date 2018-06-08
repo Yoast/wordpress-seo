@@ -14,7 +14,7 @@ import {
 	SimulatedLabel,
 	StyledEditor,
 	TitleInputContainer,
-	withCarretStyles,
+	withCaretStyles,
 } from "./Shared";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
@@ -34,9 +34,9 @@ const SlugInput = styled.input`
 	}
 `;
 
-const TitleInputContainerWithCarretStyles = withCarretStyles( TitleInputContainer );
-const DescriptionInputContainerWithCarretStyles = withCarretStyles( DescriptionInputContainer );
-const InputContainerWithCarretStyles = withCarretStyles( InputContainer );
+const TitleInputContainerWithCaretStyles = withCaretStyles( TitleInputContainer );
+const DescriptionInputContainerWithCaretStyles = withCaretStyles( DescriptionInputContainer );
+const InputContainerWithCaretStyles = withCaretStyles( InputContainer );
 
 
 class SnippetEditorFields extends React.Component {
@@ -157,7 +157,7 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "title" ) } >
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
-					<TitleInputContainerWithCarretStyles
+					<TitleInputContainerWithCaretStyles
 						onClick={ () => this.elements.title.focus() }
 						isActive={ activeField === "title" }
 						isHovered={ hoveredField === "title" }>
@@ -170,7 +170,7 @@ class SnippetEditorFields extends React.Component {
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ titleLabelId }
 						/>
-					</TitleInputContainerWithCarretStyles>
+					</TitleInputContainerWithCaretStyles>
 					<ProgressBar
 						max={ titleLengthProgress.max }
 						value={ titleLengthProgress.actual }
@@ -183,7 +183,7 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "slug" ) } >
 						{ __( "Slug", "yoast-components" ) }
 					</SimulatedLabel>
-					<InputContainerWithCarretStyles
+					<InputContainerWithCaretStyles
 						onClick={ () => this.elements.slug.focus() }
 						isActive={ activeField === "slug" }
 						isHovered={ hoveredField === "slug" }>
@@ -195,7 +195,7 @@ class SnippetEditorFields extends React.Component {
 							innerRef={ ref => this.setRef( "slug", ref ) }
 							aria-labelledby={ this.uniqueId + "-slug" }
 						/>
-					</InputContainerWithCarretStyles>
+					</InputContainerWithCaretStyles>
 				</FormSection>
 				<FormSection>
 					<SimulatedLabel
@@ -203,7 +203,7 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "description" ) } >
 						{ __( "Meta description", "yoast-components" ) }
 					</SimulatedLabel>
-					<DescriptionInputContainerWithCarretStyles
+					<DescriptionInputContainerWithCaretStyles
 						onClick={ () => this.elements.description.focus() }
 						isActive={ activeField === "description" }
 						isHovered={ hoveredField === "description" }>
@@ -217,7 +217,7 @@ class SnippetEditorFields extends React.Component {
 							ariaLabelledBy={ descriptionLabelId }
 							placeholder={ descriptionEditorFieldPlaceholder }
 						/>
-					</DescriptionInputContainerWithCarretStyles>
+					</DescriptionInputContainerWithCaretStyles>
 					<ProgressBar
 						max={ descriptionLengthProgress.max }
 						value={ descriptionLengthProgress.actual }
