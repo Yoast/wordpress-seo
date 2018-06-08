@@ -150,36 +150,4 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
 	}
-
-
-	/**
-	 * Tests the situation where the upload directory refers to an external host. This
-	 * is mostly the case when a CDN is used.
-	 */
-	public function test_attachment_redirect_on_cdn() {
-		// By adding the filter where a faking the CDN.
-		add_filter ( 'upload_dir', array( $this, 'set_cdn_upload_dir' ) );
-		
-		$id = self::factory()->attachment->create_object( 'image.jpg', 0, array(
-			'post_mime_type' => 'image/jpeg',
-			'post_type'      => 'attachment',
-		) );
-
-		$attachment_url = wp_get_attachment_url( $id, get_post( $id ) );
-
-		$this->assertEquals( 'https://cdn.com/uploads/image.jpg', wp_validate_redirect( $attachment_url ) );
-	}
-
-	/**
-	 * Sets a CDN baseurl in the upload directory config.
-	 *
-	 * @param array $upload_directory The upload dir settings.
-	 *
-	 * @return array The modified upload dir settings.
-	 */
-	public function set_cdn_upload_dir( $upload_directory ) {
-		$upload_directory['baseurl'] = 'https://cdn.com/uploads';
-
-		return $upload_directory;
-	}
 }

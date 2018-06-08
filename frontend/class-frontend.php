@@ -101,7 +101,6 @@ class WPSEO_Frontend {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
 		add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
-		add_filter( 'allowed_redirect_hosts' , array( $this, 'add_attachment_host' ) );
 
 		add_filter( 'the_content_feed', array( $this, 'embed_rssfooter' ) );
 		add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
@@ -1431,7 +1430,7 @@ class WPSEO_Frontend {
 		$url = apply_filters( 'wpseo_attachment_redirect_url', wp_get_attachment_url( get_queried_object_id() ), get_queried_object() );
 
 		if ( ! empty( $url ) ) {
-			$this->redirect( $url, 301 );
+			$this->do_attachment_redirect( $url );
 
 			return true;
 		}
@@ -1440,30 +1439,16 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Adds the upload directory host to the allowed redirect hosts to make sure
-	 * wp_safe_redirect works well with a set external url. This is intended
-	 * when a CDN is used.
+	 * Performs the redirect from the attachment page to the image file itself.
 	 *
-	 * @param array $allowed_redirect_hosts Array with allowed redirect hosts.
+	 * @param string $attachment_url The attachment image url.
 	 *
-	 * @return array Modified redirect hosts.
+	 * @return void
 	 */
-	public function add_attachment_host( $allowed_redirect_hosts ) {
-		$site_host   = wp_parse_url( home_url(), PHP_URL_HOST );
-		$upload_dir  = wp_get_upload_dir();
-		$upload_host = wp_parse_url( $upload_dir['baseurl'], PHP_URL_HOST );
-
-		if ( $site_host === $upload_host ) {
-			return $allowed_redirect_hosts;
-		}
-
-		if ( in_array( $upload_host, $allowed_redirect_hosts, true ) ) {
-			return $allowed_redirect_hosts;
-		}
-
-		$allowed_redirect_hosts[] = $upload_host;
-
-		return $allowed_redirect_hosts;
+	public function do_attachment_redirect( $attachment_url ) {
+		header( 'X-Redirect-By: Yoast SEO' );
+		wp_safe_redirect( $attachment_url, 301 );
+		exit;
 	}
 
 	/**
