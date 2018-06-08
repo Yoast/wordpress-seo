@@ -138,7 +138,6 @@ class SnippetEditorFields extends React.Component {
 			onBlur,
 			onChange,
 			descriptionEditorFieldPlaceholder,
-			excludeReplaceVars,
 			data: {
 				title,
 				slug,
@@ -170,7 +169,6 @@ class SnippetEditorFields extends React.Component {
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ titleLabelId }
-							excludeReplaceVars={ excludeReplaceVars }
 						/>
 					</TitleInputContainerWithCarretStyles>
 					<ProgressBar
@@ -218,7 +216,6 @@ class SnippetEditorFields extends React.Component {
 							ref={ ( ref ) => this.setRef( "description", ref ) }
 							ariaLabelledBy={ descriptionLabelId }
 							placeholder={ descriptionEditorFieldPlaceholder }
-							excludeReplaceVars={ excludeReplaceVars }
 						/>
 					</DescriptionInputContainerWithCarretStyles>
 					<ProgressBar
@@ -266,7 +263,6 @@ SnippetEditorFields.propTypes = {
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
-	excludeReplaceVars: PropTypes.array,
 };
 
 SnippetEditorFields.defaultProps = {

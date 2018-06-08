@@ -65,11 +65,17 @@ function getTitleProgress( title ) {
  * Gets the description progress.
  *
  * @param {string} description The description.
+ * @param {string} date        The meta description date
  *
  * @returns {Object} The description progress.
  */
-function getDescriptionProgress( description ) {
-	const descriptionLength = description.length;
+function getDescriptionProgress( description, date ) {
+	let descriptionLength = description.length;
+	/* If the meta description is preceded by a date, two spaces and a hyphen (" - ") are added as well. Therefore,
+	three needs to be added to the total length. */
+	if ( date !== "" ) {
+		descriptionLength += date.length + 3;
+	}
 	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
 	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
 	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
@@ -123,7 +129,7 @@ class SnippetEditor extends React.Component {
 			hoveredField: null,
 			mappedData: previewData,
 			titleLengthProgress: getTitleProgress( measurementData.title ),
-			descriptionLengthProgress: getDescriptionProgress( measurementData.description ),
+			descriptionLengthProgress: getDescriptionProgress( measurementData.description, this.props.date ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
@@ -168,7 +174,7 @@ class SnippetEditor extends React.Component {
 			this.setState(
 				{
 					titleLengthProgress: getTitleProgress( data.title ),
-					descriptionLengthProgress: getDescriptionProgress( data.description ),
+					descriptionLengthProgress: getDescriptionProgress( data.description, nextProps.date ),
 				}
 			);
 		}
@@ -184,7 +190,6 @@ class SnippetEditor extends React.Component {
 			data,
 			replacementVariables,
 			descriptionEditorFieldPlaceholder,
-			excludeReplaceVars,
 			onChange,
 		} = this.props;
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
@@ -206,7 +211,6 @@ class SnippetEditor extends React.Component {
 					titleLengthProgress={ titleLengthProgress }
 					descriptionLengthProgress={ descriptionLengthProgress }
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
-					excludeReplaceVars={ excludeReplaceVars }
 				/>
 				<CloseEditorButton onClick={ this.close }>
 					{ __( "Close snippet editor", "yoast-components" ) }
@@ -501,7 +505,6 @@ SnippetEditor.propTypes = {
 	} ).isRequired,
 	descriptionPlaceholder: PropTypes.string,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
-	excludeReplaceVars: PropTypes.array,
 	generatedDescription: PropTypes.string,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
@@ -531,10 +534,6 @@ SnippetEditor.defaultProps = {
 	mapDataToPreview: null,
 	generatedDescription: "",
 	locale: "en",
-	excludeReplaceVars: [
-		"currentyear", "currentmonth", "currentday", "currenttime",
-		"currentdate", "userid", "searchphrase", "archivetitle",
-	],
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
 };
 
