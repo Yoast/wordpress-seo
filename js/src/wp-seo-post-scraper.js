@@ -394,16 +394,17 @@ setYoastComponentsI18n();
 
 	/**
 	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 *
 	 * @param {Object} store The store.
 	 * @param {Object} app The YoastSEO app.
 	 *
 	 * @returns {void}
 	 */
 	function handleStoreChange( store, app ) {
-		let previousAnalysisData = currentAnalysisData || "";
+		const previousAnalysisData = currentAnalysisData || "";
 		currentAnalysisData = store.getState().analysisData.snippet;
 
-		let isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
+		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
 			app.runAnalyzer();
 		}
