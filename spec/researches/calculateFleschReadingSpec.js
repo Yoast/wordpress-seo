@@ -59,6 +59,13 @@ describe( "A test that uses the Russian Flesch Reading", function() {
 	} );
 } );
 
+describe( "A test that uses the Spanish Flesch Reading", function() {
+	it( "returns a score", function() {
+		var mockPaper = new Paper( "Existen seis subespecies de tigre, de las cuales la de Bengala es la más numerosa.", { locale: "es_ES" } );
+		expect( fleschFunction( mockPaper ) ).toBe( 83.5 );
+	} );
+} );
+
 describe( "A test that uses the French Flesch Reading", function() {
 	it( "returns a score", function() {
 		var mockPaper = new Paper( "Comme la plupart des grands herbivores, le cheval dort peu, de trois à cinq heures par jour, en raison de sa vulnérabilité aux prédateurs", { locale: "fr_FR" } );
