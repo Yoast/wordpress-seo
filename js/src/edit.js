@@ -209,6 +209,7 @@ export function initialize( args ) {
 	renderSnippetPreview( store, {
 		baseUrl: args.snippetEditorBaseUrl,
 		date: args.snippetEditorDate,
+		recommendedReplacementVariables: args.recommendedReplaceVars,
 	} );
 
 	return {

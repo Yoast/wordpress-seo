@@ -93,13 +93,20 @@ export const mapEditorDataToPreview = function( data ) {
 /**
  * Creates the Snippet Preview Section.
  *
- * @param {Object} props         The component props.
- * @param {string} props.baseUrl The base url that the preview uses for the slug.
- * @param {string} props.date    The date that can get prefixed to the meta description.
+ * @param {Object} props                                 The component props.
+ * @param {string} props.baseUrl                         The base url that the
+ *                                                       preview uses for the
+ *                                                       slug.
+ * @param {string} props.date                            The date that can get
+ *                                                       prefixed to the meta
+ *                                                       description.
+ * @param {array}  props.recommendedReplacementVariables The recommended
+ *                                                       replacement variables
+ *                                                       for this context.
  *
  * @returns {ReactElement} Snippet Preview Section.
  */
-const SnippetPreviewSection = ( { baseUrl, date } ) => {
+const SnippetPreviewSection = ( { baseUrl, date, recommendedReplacementVariables } ) => {
 	return <Section
 		headingLevel={ 3 }
 		headingText="Snippet preview"
@@ -111,6 +118,7 @@ const SnippetPreviewSection = ( { baseUrl, date } ) => {
 			mapDataToPreview={ mapEditorDataToPreview }
 			date={ date }
 			descriptionPlaceholder="Please provide a meta description by editing the snippet below."
+			recommendedReplacementVariables={ recommendedReplacementVariables }
 		/>
 	</Section>;
 };
@@ -118,10 +126,12 @@ const SnippetPreviewSection = ( { baseUrl, date } ) => {
 SnippetPreviewSection.propTypes = {
 	baseUrl: PropTypes.string.isRequired,
 	date: PropTypes.string,
+	recommendedReplacementVariables: PropTypes.array,
 };
 
 SnippetPreviewSection.defaultProps = {
 	date: "",
+	recommendedReplacementVariables: [],
 };
 
 export default SnippetPreviewSection;
