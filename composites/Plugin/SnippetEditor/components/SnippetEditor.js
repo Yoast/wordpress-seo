@@ -6,6 +6,7 @@ import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDes
 import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
 import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
+import noop from "lodash/noop";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -140,6 +141,7 @@ class SnippetEditor extends React.Component {
 		this.open = this.open.bind( this );
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
+		this.handleChange = this.handleChange.bind( this );
 	}
 
 	/**
@@ -181,6 +183,39 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
+	 * Calls the onChangeAnalysisData function with the current analysis
+	 * data when the component did update.
+	 *
+	 *  @returns {void}
+	 */
+	componentDidUpdate() {
+		const analysisData = this.mapDataToMeasurements( {
+			...this.props.data,
+		} );
+
+		this.props.onChangeAnalysisData( analysisData );
+	}
+
+	/**
+	 * Calls the onChangeAnalysisData function with the current analysis data.
+	 *
+	 * @param {string} key The key of the changed input.
+	 * @param {string} value The value of the new input.
+	 *
+	 * @returns {void}
+	 */
+	handleChange( key, value ) {
+		this.props.onChange( key, value );
+
+		const analysisData = this.mapDataToMeasurements( {
+			...this.props.data,
+			[ key ]: value,
+		} );
+
+		this.props.onChangeAnalysisData( analysisData );
+	}
+
+	/**
 	 * Renders the editor fields if the editor is open.
 	 *
 	 * @returns {ReactElement} The rendered react element.
@@ -190,7 +225,6 @@ class SnippetEditor extends React.Component {
 			data,
 			replacementVariables,
 			descriptionEditorFieldPlaceholder,
-			onChange,
 		} = this.props;
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
@@ -204,7 +238,7 @@ class SnippetEditor extends React.Component {
 					data={ data }
 					activeField={ activeField }
 					hoveredField={ hoveredField }
-					onChange={ onChange }
+					onChange={ this.handleChange }
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
 					replacementVariables={ replacementVariables }
@@ -510,6 +544,7 @@ SnippetEditor.propTypes = {
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
+	onChangeAnalysisData: PropTypes.func,
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
 	mapDataToPreview: PropTypes.func,
@@ -535,6 +570,7 @@ SnippetEditor.defaultProps = {
 	generatedDescription: "",
 	locale: "en",
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
+	onChangeAnalysisData: noop,
 };
 
 export default SnippetEditor;
