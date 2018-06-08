@@ -39,7 +39,7 @@ describe( "mapEditorDataToPreview", () => {
 		expect( actual.url ).toEqual( expected );
 	} );
 
-	it( "Doesn't hyphenate leading or trailing spaces.", () => {
+	it( "Doesn't hyphenate leading  or trailing spaces.", () => {
 		const exampleURL = "local.wordpress.test/  my URL is awesome  ";
 		const expected = "local.wordpress.test/my-URL-is-awesome";
 
