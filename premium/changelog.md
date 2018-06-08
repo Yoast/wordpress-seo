@@ -1,5 +1,7 @@
-### 7.6.0: June 5th, 2018
+### 7.6.1: June 7th, 2018
+* Includes every change in Yoast SEO core 7.6.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 
+### 7.6.0: June 5th, 2018
 Enhancements:
 * Adds WP-CLI commands to manage redirects. Use `wp yoast redirect` to see the list of available commands.
 
