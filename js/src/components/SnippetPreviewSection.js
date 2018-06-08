@@ -85,7 +85,7 @@ const applyReplaceUsingPlugin = function( data ) {
 export const mapEditorDataToPreview = function( data, context ) {
 	let baseUrlLength = 0;
 
-	if( typeof( context.shortenedBaseUrl ) === "string" ) {
+	if( context.shortenedBaseUrl && typeof( context.shortenedBaseUrl ) === "string" ) {
 		baseUrlLength = context.shortenedBaseUrl.length;
 	}
 
