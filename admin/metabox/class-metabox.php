@@ -1000,34 +1000,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Prepares the recommended replace vars for localization.
-	 *
+     *
 	 * @return array recommended replace vars
 	 */
 	private function get_recommended_replace_vars() {
 		$post = $this->get_metabox_post();
 
-		$cached_replacement_vars = array();
+		$existing_recommended_replace_vars = array();
 
-		$vars_to_cache = array(
-			'date',
-			'id',
-			'sitename',
-			'sitedesc',
-			'sep',
-			'page',
-			'currenttime',
-			'currentdate',
-			'currentday',
-			'currentmonth',
-			'currentyear',
-		);
+		// What is recommended depends on the current context.
+		$page_type = WPSEO_Admin_Recommended_Replace_Vars::determine_for_post( $post );
 
-		foreach ( $vars_to_cache as $var ) {
-			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
-		}
-
-		// Merge custom replace variables with the WordPress ones.
-		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $post ) );
+		return WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars( $page_type );
 	}
 
 	/**

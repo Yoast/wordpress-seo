@@ -234,9 +234,10 @@ class WPSEO_Taxonomy {
 	 */
 	public function localize_replace_vars_script() {
 		return array(
-			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
-			'replace_vars'   => $this->get_replace_vars(),
-			'scope'          => $this->determine_scope(),
+			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'             => $this->get_replace_vars(),
+			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+			'scope'                    => $this->determine_scope(),
 		);
 	}
 
@@ -334,6 +335,20 @@ class WPSEO_Taxonomy {
 		}
 
 		return $cached_replacement_vars;
+	}
+
+	/**
+	 * Prepares the recommended replace vars for localization.
+	 *
+	 * @return array recommended replace vars
+	 */
+	private function get_recommended_replace_vars() {
+		$existing_recommended_replace_vars = array();
+
+		// What is recommended depends on the current context.
+		$page_type = WPSEO_Admin_Recommended_Replace_Vars::determine_for_term();
+
+		return WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars( $page_type );
 	}
 
 	/**
