@@ -1,4 +1,5 @@
 const getNounForms = require( "../../src/morphology/english/getNounForms.js" ).getNounForms;
+const checkHispanic = require( "../../src/morphology/english/getNounForms.js" ).checkHispanic;
 const irregularNounsToTest = require( "../../src/morphology/english/irregularNouns.js" );
 
 const regularNounsToTest = [
@@ -462,6 +463,23 @@ describe( "Test for getting all possible word forms for hispanic words", functio
 				expect( receivedForms ).toContain( form );
 			} );
 		} );
+	} );
+} );
+
+describe( "Test for getting two types of plural word forms for hispanic words", function() {
+	hispanicNounsToTest.forEach( function( paradigm ) {
+		it( "returns two possible plural word forms for a hispanic singular", function() {
+			receivedForms = checkHispanic( paradigm[ 0 ] );
+			expect( receivedForms ).toContain( paradigm[ 1 ] );
+			expect( receivedForms ).toContain( paradigm[ 2 ] );
+		} );
+	} );
+} );
+
+describe( "Test for not getting plural form", function() {
+	it( "returns nothing for a plural form of an empty string", function() {
+		receivedForms = getNounForms( "" );
+		expect( receivedForms ).toEqual( [ "" ] );
 	} );
 } );
 

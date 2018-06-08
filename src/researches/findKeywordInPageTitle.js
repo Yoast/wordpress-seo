@@ -31,8 +31,7 @@ module.exports = function( paper ) {
 		if ( keywordFormIndex > -1 ) {
 			positions = positions.concat( keywordFormIndex );
 		}
-		}
-	);
+	} );
 
 	result.position = Math.min( ... positions );
 

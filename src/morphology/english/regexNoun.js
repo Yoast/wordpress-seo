@@ -68,7 +68,7 @@ const pluralize = [
 	[ /(x|ch|ss|sh|s|z)$/i, "$1es" ],
 
 	[ /^(?!talis|.*hu)(.*)man$/i, "$1men" ],
-	[ /(.*)/i, "$1s" ],
+	[ /(.+)/i, "$1s" ],
 ].map( function( a ) {
 	return {
 		reg: a[ 0 ],
