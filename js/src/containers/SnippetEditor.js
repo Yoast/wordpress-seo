@@ -4,6 +4,7 @@ import {
 	switchMode,
 	updateData,
 } from "../redux/actions/snippetEditor";
+import { updateAnalysisData } from "../redux/actions/analysisData";
 
 /**
  * Returns either the text in the meta description field, the excerpt, or the content.
@@ -73,6 +74,9 @@ export function mapDispatchToProps( dispatch ) {
 			}
 
 			dispatch( action );
+		},
+		onChangeAnalysisData: ( analysisData ) => {
+			dispatch( updateAnalysisData( analysisData ) );
 		},
 	};
 }
