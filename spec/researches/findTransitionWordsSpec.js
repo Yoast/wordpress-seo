@@ -346,6 +346,29 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
+	it( "returns 1 when a transition word is found in a sentence (Polish)", function() {
+		// Transition word: po pierwsze
+		mockPaper = new Paper( "Po pierwsze, nie wszyscy potrafią czytać.", { locale: "pl_PL" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 1 when a two-part transition word is found in a sentence (Polish)", function() {
+		// Transition word: im...tym
+		mockPaper = new Paper( "Im mniejsze dziecko, tym więcej potrzebuje uwagi.", { locale: "pl_PL" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 0 when no transition words are present in a sentence (Polish)", function() {
+		mockPaper = new Paper( "Wszyscy lubią słuchać muzyki.", { locale: "pl_PL" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
 	it( "defaults to English in case of a bogus locale", function() {
 		// Transition word: because.
 		mockPaper = new Paper( "Because of a bogus locale.", { locale: "xx_YY" } );
