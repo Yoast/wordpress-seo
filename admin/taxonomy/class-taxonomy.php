@@ -343,8 +343,6 @@ class WPSEO_Taxonomy {
 	 * @return array recommended replace vars
 	 */
 	private function get_recommended_replace_vars() {
-		$existing_recommended_replace_vars = array();
-
 		// What is recommended depends on the current context.
 		$page_type = WPSEO_Admin_Recommended_Replace_Vars::determine_for_term();
 
