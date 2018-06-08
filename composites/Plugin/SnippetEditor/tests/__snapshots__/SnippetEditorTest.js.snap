@@ -632,18 +632,6 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -1206,18 +1194,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       "max": 156,
       "score": 0,
     }
-  }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
   }
   generatedDescription=""
   intl={
@@ -2094,18 +2070,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -2151,18 +2115,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-title"
                     content="Test title"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -2264,18 +2216,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
                     descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -2911,18 +2851,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       "score": 0,
     }
   }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
-  }
   generatedDescription=""
   intl={
     Object {
@@ -3798,18 +3726,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -3855,18 +3771,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-title"
                     content="Test title"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -3968,18 +3872,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
                     descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -4615,18 +4507,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       "score": 0,
     }
   }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
-  }
   generatedDescription=""
   intl={
     Object {
@@ -5502,18 +5382,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -5559,18 +5427,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-6-title"
                     content="Test title"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -5672,18 +5528,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     ariaLabelledBy="snippet-editor-field-6-description"
                     content="Test description, %%replacement_variable%%"
                     descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -6319,18 +6163,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       "score": 0,
     }
   }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
-  }
   generatedDescription=""
   intl={
     Object {
@@ -7206,18 +7038,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -7263,18 +7083,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-2-title"
                     content="Test title"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -7376,18 +7184,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     ariaLabelledBy="snippet-editor-field-2-description"
                     content="Test description, %%replacement_variable%%"
                     descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -7827,18 +7623,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       "max": 156,
       "score": 0,
     }
-  }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
   }
   generatedDescription=""
   intl={
@@ -9243,18 +9027,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       "score": 0,
     }
   }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
-  }
   generatedDescription=""
   intl={
     Object {
@@ -10130,18 +9902,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -10187,18 +9947,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-9-title"
                     content="Test title"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -10300,18 +10048,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     ariaLabelledBy="snippet-editor-field-9-description"
                     content="Test description, %%replacement_variable%%"
                     descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -10946,18 +10682,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       "max": 650,
       "score": 9,
     }
-  }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
   }
   generatedDescription=""
   intl={
@@ -11834,18 +11558,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -11891,18 +11603,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-8-title"
                     content="Test title"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -12004,18 +11704,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     ariaLabelledBy="snippet-editor-field-8-description"
                     content="Test description, %%replacement_variable%%"
                     descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -13823,18 +13511,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       "score": 0,
     }
   }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
-  }
   generatedDescription=""
   intl={
     Object {
@@ -14718,18 +14394,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -14775,18 +14439,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-4-title"
                     content="Test title"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -14888,18 +14540,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     ariaLabelledBy="snippet-editor-field-4-description"
                     content="Test description, %%replacement_variable%%"
                     descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -15547,18 +15187,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       "score": 0,
     }
   }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
-  }
   generatedDescription=""
   intl={
     Object {
@@ -16442,18 +16070,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField="description"
       onBlur={[Function]}
       onChange={[Function]}
@@ -16499,18 +16115,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-3-title"
                     content="Test title"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -16612,18 +16216,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     ariaLabelledBy="snippet-editor-field-3-description"
                     content="Test description, %%replacement_variable%%"
                     descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -17258,18 +16850,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       "max": 156,
       "score": 0,
     }
-  }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
   }
   generatedDescription=""
   intl={
@@ -18146,18 +17726,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -18203,18 +17771,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-1-title"
                     content="Test title"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -18316,18 +17872,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     ariaLabelledBy="snippet-editor-field-1-description"
                     content="Test description, %%replacement_variable%%"
                     descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -18962,18 +18506,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
       "max": 156,
       "score": 0,
     }
-  }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
   }
   generatedDescription=""
   intl={
@@ -19861,18 +19393,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -19929,18 +19449,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-7-title"
                     content="Test title"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -20053,18 +19561,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     ariaLabelledBy="snippet-editor-field-7-description"
                     content="Test description, %%replacement_variable%%"
                     descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -20812,18 +20308,6 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -21386,18 +20870,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       "max": 156,
       "score": 0,
     }
-  }
-  excludeReplaceVars={
-    Array [
-      "currentyear",
-      "currentmonth",
-      "currentday",
-      "currenttime",
-      "currentdate",
-      "userid",
-      "searchphrase",
-      "archivetitle",
-    ]
   }
   generatedDescription=""
   intl={
@@ -22274,18 +21746,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           "score": 6,
         }
       }
-      excludeReplaceVars={
-        Array [
-          "currentyear",
-          "currentmonth",
-          "currentday",
-          "currenttime",
-          "currentdate",
-          "userid",
-          "searchphrase",
-          "archivetitle",
-        ]
-      }
       hoveredField={null}
       onBlur={[Function]}
       onChange={[Function]}
@@ -22331,18 +21791,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   <ReplacementVariableEditor
                     ariaLabelledBy="snippet-editor-field-5-title"
                     content="Test title"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -22444,18 +21892,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     ariaLabelledBy="snippet-editor-field-5-description"
                     content="Test description, %%replacement_variable%%"
                     descriptionEditorFieldPlaceholder="Modify your meta description by editing it right here"
-                    excludeReplaceVars={
-                      Array [
-                        "currentyear",
-                        "currentmonth",
-                        "currentday",
-                        "currenttime",
-                        "currentdate",
-                        "userid",
-                        "searchphrase",
-                        "archivetitle",
-                      ]
-                    }
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}

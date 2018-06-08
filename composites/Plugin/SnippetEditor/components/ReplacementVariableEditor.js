@@ -1,6 +1,6 @@
 // External dependencies.
 import React from "react";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import { convertToRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import createMentionPlugin from "draft-js-mention-plugin";
 import createSingleLinePlugin from "draft-js-single-line-plugin";
@@ -12,19 +12,11 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 
 // Internal dependencies.
 import { replacementVariablesShape } from "../constants";
-import { serializeEditor, unserializeEditor } from "../serialization";
-
-/**
- * Creates a Draft.js editor state from a string.
- *
- * @param {string} content The content to turn into editor state.
- *
- * @returns {EditorState} The editor state.
- */
-const createEditorState = flow( [
-	convertFromRaw,
-	EditorState.createWithContent,
-] );
+import {
+	serializeEditor,
+	unserializeEditor,
+	replaceReplacementVariables,
+} from "../serialization";
 
 /**
  * Serializes the Draft.js editor state into a string.
@@ -67,12 +59,11 @@ class ReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		const { content: rawContent } = this.props;
-		const replacementVariables = this.excludeReplaceVars( this.props.replacementVariables, this.props.excludeReplaceVars );
-		const unserialized = unserializeEditor( rawContent, replacementVariables );
+		const { content: rawContent, replacementVariables } = this.props;
+		const editorState = unserializeEditor( rawContent, replacementVariables );
 
 		this.state = {
-			editorState: createEditorState( unserialized ),
+			editorState,
 			searchValue: "",
 			replacementVariables,
 		};
@@ -123,25 +114,6 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
-	 * Excludes entries from the replacement variables used in the suggestions menu.
-	 *
-	 * @param {array} replaceVars        The array of replacement variable objects.
-	 * @param {array} excludeReplaceVars The array of variables to exclude.
-	 *
-	 * @returns {array} The new array of replacement variables.
-	 */
-	excludeReplaceVars( replaceVars, excludeReplaceVars ) {
-		let suggestions = replaceVars;
-		for ( let removeVar of excludeReplaceVars ) {
-			let currentIndex = replaceVars.findIndex( x => x.name === removeVar );
-			if ( currentIndex !== -1 ) {
-				suggestions = replaceVars.splice( currentIndex, 1 );
-			}
-		}
-		return suggestions;
-	}
-
-	/**
 	 * Handlers changes to the underlying Draft.js editor.
 	 *
 	 * @param {EditorState} editorState The Draft.js state.
@@ -149,8 +121,10 @@ class ReplacementVariableEditor extends React.Component {
 	 * @returns {void}
 	 */
 	onChange( editorState ) {
+		editorState = replaceReplacementVariables( editorState, this.props.replacementVariables );
+
 		this.setState( {
-			editorState,
+			editorState: editorState,
 		}, () => {
 			this.serializeContent( editorState );
 		} );
@@ -258,10 +232,10 @@ class ReplacementVariableEditor extends React.Component {
 			nextProps.replacementVariables !== replacementVariables
 		) {
 			this._serializedContent = nextProps.content;
-			const unserialized = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+			const editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
 
 			this.setState( {
-				editorState: createEditorState( unserialized ),
+				editorState,
 				replacementVariables: this.replacementVariablesFilter( searchValue, nextProps.replacementVariables ),
 			} );
 		}
@@ -318,7 +292,6 @@ ReplacementVariableEditor.propTypes = {
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
-	excludeReplaceVars: PropTypes.array,
 };
 
 ReplacementVariableEditor.defaultProps = {
@@ -326,7 +299,6 @@ ReplacementVariableEditor.defaultProps = {
 	onBlur: () => {},
 	className: "",
 	descriptionEditorFieldPlaceholder: "",
-	excludeReplaceVars: [],
 };
 
 export default ReplacementVariableEditor;
