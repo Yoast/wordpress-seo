@@ -394,7 +394,7 @@ setYoastComponentsI18n();
 	 *
 	 * @returns {void}
 	 */
-	 function initializePostAnalysis() {
+	function initializePostAnalysis() {
 		const editArgs = {
 			analysisSection: "pageanalysis",
 			onRefreshRequest: () => {},

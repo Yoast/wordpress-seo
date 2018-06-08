@@ -1000,7 +1000,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Prepares the recommended replace vars for localization.
-     *
+	 *
 	 * @return array recommended replace vars
 	 */
 	private function get_recommended_replace_vars() {

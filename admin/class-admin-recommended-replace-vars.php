@@ -61,9 +61,9 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 */
 	public static function determine_for_term() {
 		$taxonomy = filter_input( INPUT_GET, 'taxonomy' );
-		$supported_taxonomies = array( 'category', 'tag', 'post_format', 'product_cat', 'product_tag');
+		$supported_taxonomies = array( 'category', 'tag', 'post_format', 'product_cat', 'product_tag' );
 
-		if ( in_array( $taxonomy, $supported_taxonomies ) ) {
+		if ( in_array( $taxonomy, $supported_taxonomies, true ) ) {
 			return $taxonomy;
 		}
 
@@ -88,7 +88,7 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		}
 
 		$supported_post_types = array( 'post', 'page', 'product' );
-		if ( in_array( $post_type, $supported_post_types ) ) {
+		if ( in_array( $post_type, $supported_post_types, true ) ) {
 			return $post_type;
 		}
 
@@ -103,8 +103,7 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 * @return array The recommended replacement variables.
 	 */
 	public static function get_recommended_replacevars( $page_type ) {
-		echo 'get_recommended_replacevars for ' . $page_type;
-		if( ! isset( self::$recommended_replace_vars[ $page_type ] ) ) {
+		if ( ! isset( self::$recommended_replace_vars[ $page_type ] ) ) {
 			return array();
 		}
 
