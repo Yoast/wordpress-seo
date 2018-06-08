@@ -86,9 +86,8 @@ $yform->index_switch(
 	__( 'archives for authors without posts', 'wordpress-seo' ),
 	$author_archives_no_posts_help->get_button_html() . $author_archives_no_posts_help->get_panel_html()
 );
-
-$yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
-$yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
+$editor = new WPSEO_Replacevar_Editor( $yform, 'title-author-wpseo', 'metadesc-author-wpseo' );
+$editor->render();
 echo '</div>';
 echo '</div>';
 
