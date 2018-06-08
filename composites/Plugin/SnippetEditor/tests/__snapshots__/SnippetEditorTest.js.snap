@@ -646,7 +646,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
@@ -1249,6 +1249,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -2107,7 +2108,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
@@ -2952,6 +2953,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -3810,7 +3812,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
@@ -4655,6 +4657,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -5513,7 +5516,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
@@ -6358,6 +6361,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -7216,7 +7220,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
@@ -7866,6 +7870,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -9280,6 +9285,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -10138,7 +10144,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
@@ -10983,6 +10989,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -11841,7 +11848,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
@@ -13858,6 +13865,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -14724,7 +14732,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
@@ -15581,6 +15589,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -16447,7 +16456,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       }
       hoveredField="description"
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
@@ -17292,6 +17301,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -18150,7 +18160,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
@@ -18995,6 +19005,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={
     Array [
       Object {
@@ -19864,7 +19875,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={
         Array [
@@ -20815,7 +20826,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
@@ -21418,6 +21429,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   mapDataToPreview={null}
   mode="mobile"
   onChange={[MockFunction]}
+  onChangeAnalysisData={[Function]}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -22276,7 +22288,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       }
       hoveredField={null}
       onBlur={[Function]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       onFocus={[Function]}
       replacementVariables={Array []}
       titleLengthProgress={
