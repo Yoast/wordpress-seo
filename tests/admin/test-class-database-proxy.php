@@ -91,6 +91,14 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Database_Proxy::insert()
 	 */
 	public function test_insert_exists() {
+		self::$proxy->insert(
+			array(
+				'testkey' => 'key2',
+				'testval' => 'value2',
+			),
+			array( '%s', '%s' )
+		);
+
 		$result = self::$proxy->insert(
 			array(
 				'id'      => 1,
