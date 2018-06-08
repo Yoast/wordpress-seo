@@ -1117,7 +1117,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * @return array
 	 */
-	public function get_example_settings_texts() {
+	public function get_replacement_variables_list() {
 		$replacement_variables = array(
 			'date',
 			'title',
