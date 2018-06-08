@@ -32,8 +32,8 @@ const replacementVariables = [
 	},
 ];
 const recommendedReplacementVariables = [
-	replacementVariables[ 0 ],
-	replacementVariables[ 1 ],
+	replacementVariables[ 0 ].name,
+	replacementVariables[ 1 ].name,
 ];
 
 export default class SnippetEditorExample extends Component {

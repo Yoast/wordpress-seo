@@ -8,7 +8,11 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
-import { lengthProgressShape, replacementVariablesShape } from "../constants";
+import {
+	lengthProgressShape,
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
 import colors from "../../../../style-guide/colors";
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
@@ -332,7 +336,7 @@ class SnippetEditorFields extends React.Component {
 
 SnippetEditorFields.propTypes = {
 	replacementVariables: replacementVariablesShape,
-	recommendedReplacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,

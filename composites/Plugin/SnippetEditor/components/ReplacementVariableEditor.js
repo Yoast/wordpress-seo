@@ -7,12 +7,17 @@ import createSingleLinePlugin from "draft-js-single-line-plugin";
 import flow from "lodash/flow";
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
+import filter from "lodash/filter";
+import includes from "lodash/includes";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import { __, _n, sprintf } from "@wordpress/i18n";
 
 // Internal dependencies.
-import { replacementVariablesShape } from "../constants";
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
 import { serializeEditor, unserializeEditor } from "../serialization";
 
 /**
@@ -156,6 +161,36 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
+	 * Determines the current replacement variables to be used.
+	 *
+	 * When the search value is empty and there are recommended replacement variables:
+	 * Try to use the recommended replacement variables.
+	 * Otherwise use the normal replacement variables.
+	 *
+	 * @returns {Object[]} The replacement variables to show as suggestions to the user.
+	 */
+	determineCurrentReplacementVariables() {
+		const { recommendedReplacementVariables } = this.props;
+		const { replacementVariables, searchValue } = this.state;
+
+		const useRecommended = searchValue === "" && ! isEmpty( recommendedReplacementVariables );
+
+		if ( useRecommended ) {
+			const recommended = filter(
+				replacementVariables,
+				replaceVar => includes( recommendedReplacementVariables, replaceVar.name ),
+			);
+
+			// Ensure there are replacement variables we recommend before using them.
+			if ( recommended.length !== 0 ) {
+				return recommended;
+			}
+		}
+
+		return replacementVariables;
+	}
+
+	/**
 	 * Handles a search change in the mentions plugin.
 	 *
 	 * @param {string} value The search value.
@@ -273,12 +308,10 @@ class ReplacementVariableEditor extends React.Component {
 			onBlur,
 			ariaLabelledBy,
 			descriptionEditorFieldPlaceholder,
-			recommendedReplacementVariables,
 		} = this.props;
-		const { editorState, replacementVariables, searchValue } = this.state;
+		const { editorState } = this.state;
 
-		const currentReplacementVariables = searchValue === "" && ! isEmpty( recommendedReplacementVariables )
-			? recommendedReplacementVariables : replacementVariables;
+		const currentReplacementVariables = this.determineCurrentReplacementVariables();
 
 		return (
 			<React.Fragment>
@@ -306,7 +339,7 @@ class ReplacementVariableEditor extends React.Component {
 ReplacementVariableEditor.propTypes = {
 	content: PropTypes.string.isRequired,
 	replacementVariables: replacementVariablesShape,
-	recommendedReplacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	ariaLabelledBy: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,

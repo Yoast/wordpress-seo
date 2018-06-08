@@ -16,7 +16,11 @@ import {
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
-import { lengthProgressShape, replacementVariablesShape } from "../constants";
+import {
+	lengthProgressShape,
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
 import colors from "../../../../style-guide/colors";
 
@@ -496,7 +500,7 @@ class SnippetEditor extends React.Component {
 
 SnippetEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
-	recommendedReplacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
