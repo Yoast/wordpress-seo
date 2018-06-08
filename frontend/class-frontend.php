@@ -1431,12 +1431,25 @@ class WPSEO_Frontend {
 
 
 		if ( ! empty( $url ) ) {
-			$this->redirect( $url, 301 );
+			$this->do_attachment_redirect( $url );
 
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Performs the redirect from the attachment page to the image file itself.
+	 *
+	 * @param string $attachment_url The attachment image url.
+	 *
+	 * @return void
+	 */
+	public function do_attachment_redirect( $attachment_url ) {
+		header( 'X-Redirect-By: Yoast SEO' );
+		wp_redirect( $attachment_url, 301 );
+		exit;
 	}
 
 	/**
