@@ -9,7 +9,7 @@ const Section = styled( StyledSection )`
 	max-width: 640px;
 	
 	&${ StyledSectionBase } {
-		padding: 0 0 16px;
+		padding: 0 0 10px;
 
 		& ${ StyledHeading } {
 			padding-left: 20px;
@@ -26,11 +26,11 @@ const Section = styled( StyledSection )`
  *
  * @returns {ReactElement} Snippet Preview Section.
  */
-const SnippetPreviewSection = ( { children } ) => {
+const SnippetPreviewSection = ( { children, title, icon } ) => {
 	return <Section
 		headingLevel={ 3 }
-		headingText="Snippet preview"
-		headingIcon="eye"
+		headingText={ title }
+		headingIcon={ icon }
 		headingIconColor="#555" >
 		{ children }
 	</Section>;
@@ -38,6 +38,8 @@ const SnippetPreviewSection = ( { children } ) => {
 
 SnippetPreviewSection.propTypes = {
 	children: PropTypes.element,
+	title: PropTypes.string.isRequired,
+	icon: PropTypes.string,
 };
 
 export default SnippetPreviewSection;

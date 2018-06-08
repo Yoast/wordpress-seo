@@ -79,7 +79,9 @@ export const mapEditorDataToPreview = function( data ) {
 };
 
 const SnippetEditorWrapper = ( props ) => (
-	<SnippetPreviewSection>
+	<SnippetPreviewSection
+		title={ __( "Snippet preview", "wordpress-seo" ) }
+		icon="eye">
 		<SnippetEditor
 			{ ...props }
 			descriptionPlaceholder={ __( "Please provide a meta description by editing the snippet below." ) }
