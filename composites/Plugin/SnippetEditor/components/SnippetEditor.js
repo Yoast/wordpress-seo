@@ -233,7 +233,6 @@ class SnippetEditor extends React.Component {
 		}
 
 		return (
-      
 			<React.Fragment>
 				<SnippetEditorFields
 					data={ data }
