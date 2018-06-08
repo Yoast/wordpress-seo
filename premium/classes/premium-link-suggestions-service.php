@@ -157,7 +157,8 @@ class WPSEO_Premium_Link_Suggestions_Service {
 	 */
 	private function retrieve_posts( $prominent_word_id ) {
 		$query_args  = array(
-			'tax_query' => $this->get_tax_query( $prominent_word_id ),
+			'tax_query'    => $this->get_tax_query( $prominent_word_id ),
+			'post_status'  => 'publish',
 		);
 		$posts_query = new WP_Query( $query_args );
 
