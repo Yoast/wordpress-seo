@@ -35,7 +35,7 @@ class Object_Type {
 			throw new \Exception( 'Invalid object type passed' );
 		}
 
-		$this->type = $type;
+		$this->type    = $type;
 		$this->subtype = $this->validate_subtype( $subtype );
 	}
 
