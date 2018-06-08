@@ -41,6 +41,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$installer->install();
 	}
 
+	/**
+	 * Truncates the table before each test.
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
