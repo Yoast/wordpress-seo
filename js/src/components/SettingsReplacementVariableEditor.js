@@ -12,10 +12,6 @@ import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField
 class SettingsReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
-
-		this.state = {
-			mode: "mobile",
-		};
 	}
 
 	render() {
@@ -24,7 +20,6 @@ class SettingsReplacementVariableEditor extends React.Component {
 				title={ __( "Edit template", "wordpress-seo" ) }
 				icon="edit">
 				<SettingsSnippetEditor
-					descriptionPlaceholder={ __( "Your meta description", "wordpress-seo" ) }
 					descriptionEditorFieldPlaceholder={ __( "Modify your meta description by editing it right here", "wordpress-seo" ) }
 					onChange={ ( field, value ) => {
 						switch( field ) {
@@ -32,18 +27,13 @@ class SettingsReplacementVariableEditor extends React.Component {
 								this.props.title.onChange( value ); break;
 							case "description":
 								this.props.description.onChange( value ); break;
-							case "mode":
-								this.setState( { mode: value } ); break;
 						}
 					} }
 					replacementVariables={ this.props.replacementVariables }
-					baseUrl="http://example.com/"
 					data={ {
 						title: this.props.title.value,
-						slug: "category/example",
 						description: this.props.description.value,
-					} }
-					mode={ this.state.mode } />
+					} } />
 			</SnippetPreviewSection>
 		);
 	}
