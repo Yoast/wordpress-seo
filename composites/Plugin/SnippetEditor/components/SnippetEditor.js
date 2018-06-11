@@ -122,7 +122,7 @@ class SnippetEditor extends React.Component {
 		super( props );
 
 		const measurementData = this.mapDataToMeasurements( props.data );
-		const previewData = this.mapDataToPreview( measurementData, props.generatedDescription );
+		const previewData = this.mapDataToPreview( measurementData );
 
 		this.state = {
 			isOpen: false,
@@ -407,22 +407,21 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Maps the data from to be suitable for the preview.
+	 * Maps the passed data to be suitable for the preview.
 	 *
 	 * The data that is in the preview is not exactly the same as the data
 	 * that is measured (see above), because the metadescription placeholder
 	 * shouldn't be measured.
 	 *
 	 * @param {Object} originalData         The data from the form.
-	 * @param {string} generatedDescription The description that should be displayed, or an empty string.
 	 *
 	 * @returns {Object} The data for the preview.
 	 */
-	mapDataToPreview( originalData, generatedDescription ) {
+	mapDataToPreview( originalData ) {
 		return {
 			title: originalData.title,
 			url: originalData.url,
-			description: originalData.description || generatedDescription,
+			description: originalData.description,
 		};
 	}
 
@@ -474,8 +473,6 @@ class SnippetEditor extends React.Component {
 		const {
 			onChange,
 			data,
-			descriptionPlaceholder,
-			generatedDescription,
 			mode,
 			date,
 			locale,
@@ -489,7 +486,7 @@ class SnippetEditor extends React.Component {
 		} = this.state;
 
 		const measurementData = this.mapDataToMeasurements( data );
-		const mappedData = this.mapDataToPreview( measurementData, generatedDescription );
+		const mappedData = this.mapDataToPreview( measurementData );
 
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
@@ -508,7 +505,6 @@ class SnippetEditor extends React.Component {
 					onMouseLeave={ this.onMouseLeave }
 					onMouseUp={ this.onMouseUp }
 					locale={ locale }
-					descriptionPlaceholder={ descriptionPlaceholder }
 					{ ...mappedData }
 				/>
 
@@ -537,9 +533,7 @@ SnippetEditor.propTypes = {
 		slug: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
-	descriptionPlaceholder: PropTypes.string,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
-	generatedDescription: PropTypes.string,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
@@ -567,7 +561,6 @@ SnippetEditor.defaultProps = {
 		score: 0,
 	},
 	mapDataToPreview: null,
-	generatedDescription: "",
 	locale: "en",
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
 	onChangeAnalysisData: noop,

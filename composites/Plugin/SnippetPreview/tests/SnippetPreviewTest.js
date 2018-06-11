@@ -47,7 +47,7 @@ describe( "SnippetPreview", () => {
 	} );
 
 	it( "changes the colors of the description if it was generated", () => {
-		renderSnapshotWithArgs( { isDescriptionGenerated: true } );
+		renderSnapshotWithArgs( { isDescriptionPlaceholder: true } );
 	} );
 
 	it( "renders a caret on hover", () => {
