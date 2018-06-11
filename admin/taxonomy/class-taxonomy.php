@@ -343,10 +343,13 @@ class WPSEO_Taxonomy {
 	 * @return array recommended replace vars
 	 */
 	private function get_recommended_replace_vars() {
-		// What is recommended depends on the current context.
-		$page_type = WPSEO_Admin_Recommended_Replace_Vars::determine_for_term();
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$taxonomy = filter_input( INPUT_GET, 'taxonomy' );
 
-		return WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars( $page_type );
+		// What is recommended depends on the current context.
+		$page_type = $recommended_replace_vars->determine_for_term( $taxonomy );
+
+		return $recommended_replace_vars->get_recommended_replacevars( $page_type );
 	}
 
 	/**
