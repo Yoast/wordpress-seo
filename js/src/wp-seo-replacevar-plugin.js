@@ -56,6 +56,11 @@ import {
 	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.registerReplacements = function() {
+		this.addReplacement( new ReplaceVar( "%%currentdate%%",     "currentdate" ) );
+		this.addReplacement( new ReplaceVar( "%%currentday%%",      "currentday" ) );
+		this.addReplacement( new ReplaceVar( "%%currentmonth%%",    "currentmonth" ) );
+		this.addReplacement( new ReplaceVar( "%%currenttime%%",     "currenttime" ) );
+		this.addReplacement( new ReplaceVar( "%%currentyear%%",     "currentyear" ) );
 		this.addReplacement( new ReplaceVar( "%%date%%",            "date" ) );
 		this.addReplacement( new ReplaceVar( "%%id%%",              "id" ) );
 		this.addReplacement( new ReplaceVar( "%%page%%",            "page" ) );
