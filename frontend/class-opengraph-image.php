@@ -247,7 +247,7 @@ class WPSEO_OpenGraph_Image {
 			return;
 		}
 
-		$this->add_content_images( get_post( $post_id ) );
+		$this->add_first_usable_content_image( get_post( $post_id ) );
 	}
 
 	/**
@@ -273,8 +273,6 @@ class WPSEO_OpenGraph_Image {
 		if ( $this->has_images() ) {
 			return;
 		}
-
-		$this->add_first_usable_content_image( get_post( $post_id ) );
 	}
 
 	/**
