@@ -6,6 +6,7 @@ import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDes
 import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
 import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
+import noop from "lodash/noop";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -65,11 +66,17 @@ function getTitleProgress( title ) {
  * Gets the description progress.
  *
  * @param {string} description The description.
+ * @param {string} date        The meta description date
  *
  * @returns {Object} The description progress.
  */
-function getDescriptionProgress( description ) {
-	const descriptionLength = description.length;
+function getDescriptionProgress( description, date ) {
+	let descriptionLength = description.length;
+	/* If the meta description is preceded by a date, two spaces and a hyphen (" - ") are added as well. Therefore,
+	three needs to be added to the total length. */
+	if ( date !== "" ) {
+		descriptionLength += date.length + 3;
+	}
 	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
 	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
 	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
@@ -115,7 +122,7 @@ class SnippetEditor extends React.Component {
 		super( props );
 
 		const measurementData = this.mapDataToMeasurements( props.data );
-		const previewData = this.mapDataToPreview( measurementData, props.generatedDescription );
+		const previewData = this.mapDataToPreview( measurementData );
 
 		this.state = {
 			isOpen: false,
@@ -123,7 +130,7 @@ class SnippetEditor extends React.Component {
 			hoveredField: null,
 			mappedData: previewData,
 			titleLengthProgress: getTitleProgress( measurementData.title ),
-			descriptionLengthProgress: getDescriptionProgress( measurementData.description ),
+			descriptionLengthProgress: getDescriptionProgress( measurementData.description, this.props.date ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
@@ -134,6 +141,7 @@ class SnippetEditor extends React.Component {
 		this.open = this.open.bind( this );
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
+		this.handleChange = this.handleChange.bind( this );
 	}
 
 	/**
@@ -168,10 +176,43 @@ class SnippetEditor extends React.Component {
 			this.setState(
 				{
 					titleLengthProgress: getTitleProgress( data.title ),
-					descriptionLengthProgress: getDescriptionProgress( data.description ),
+					descriptionLengthProgress: getDescriptionProgress( data.description, nextProps.date ),
 				}
 			);
 		}
+	}
+
+	/**
+	 * Calls the onChangeAnalysisData function with the current analysis
+	 * data when the component did update.
+	 *
+	 *  @returns {void}
+	 */
+	componentDidUpdate() {
+		const analysisData = this.mapDataToMeasurements( {
+			...this.props.data,
+		} );
+
+		this.props.onChangeAnalysisData( analysisData );
+	}
+
+	/**
+	 * Calls the onChangeAnalysisData function with the current analysis data.
+	 *
+	 * @param {string} key The key of the changed input.
+	 * @param {string} value The value of the new input.
+	 *
+	 * @returns {void}
+	 */
+	handleChange( key, value ) {
+		this.props.onChange( key, value );
+
+		const analysisData = this.mapDataToMeasurements( {
+			...this.props.data,
+			[ key ]: value,
+		} );
+
+		this.props.onChangeAnalysisData( analysisData );
 	}
 
 	/**
@@ -184,7 +225,6 @@ class SnippetEditor extends React.Component {
 			data,
 			replacementVariables,
 			descriptionEditorFieldPlaceholder,
-			onChange,
 		} = this.props;
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
@@ -198,7 +238,7 @@ class SnippetEditor extends React.Component {
 					data={ data }
 					activeField={ activeField }
 					hoveredField={ hoveredField }
-					onChange={ onChange }
+					onChange={ this.handleChange }
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
 					replacementVariables={ replacementVariables }
@@ -374,22 +414,21 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Maps the data from to be suitable for the preview.
+	 * Maps the passed data to be suitable for the preview.
 	 *
 	 * The data that is in the preview is not exactly the same as the data
 	 * that is measured (see above), because the metadescription placeholder
 	 * shouldn't be measured.
 	 *
 	 * @param {Object} originalData         The data from the form.
-	 * @param {string} generatedDescription The description that should be displayed, or an empty string.
 	 *
 	 * @returns {Object} The data for the preview.
 	 */
-	mapDataToPreview( originalData, generatedDescription ) {
+	mapDataToPreview( originalData ) {
 		return {
 			title: originalData.title,
 			url: originalData.url,
-			description: originalData.description || generatedDescription,
+			description: originalData.description,
 		};
 	}
 
@@ -441,8 +480,6 @@ class SnippetEditor extends React.Component {
 		const {
 			onChange,
 			data,
-			descriptionPlaceholder,
-			generatedDescription,
 			mode,
 			date,
 			locale,
@@ -456,7 +493,7 @@ class SnippetEditor extends React.Component {
 		} = this.state;
 
 		const measurementData = this.mapDataToMeasurements( data );
-		const mappedData = this.mapDataToPreview( measurementData, generatedDescription );
+		const mappedData = this.mapDataToPreview( measurementData );
 
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
@@ -475,7 +512,6 @@ class SnippetEditor extends React.Component {
 					onMouseLeave={ this.onMouseLeave }
 					onMouseUp={ this.onMouseUp }
 					locale={ locale }
-					descriptionPlaceholder={ descriptionPlaceholder }
 					{ ...mappedData }
 				/>
 
@@ -504,13 +540,12 @@ SnippetEditor.propTypes = {
 		slug: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
-	descriptionPlaceholder: PropTypes.string,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
-	generatedDescription: PropTypes.string,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
+	onChangeAnalysisData: PropTypes.func,
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
 	mapEditorDataToPreview: PropTypes.func,
@@ -533,9 +568,9 @@ SnippetEditor.defaultProps = {
 		score: 0,
 	},
 	mapEditorDataToPreview: null,
-	generatedDescription: "",
 	locale: "en",
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
+	onChangeAnalysisData: noop,
 };
 
 export default SnippetEditor;
