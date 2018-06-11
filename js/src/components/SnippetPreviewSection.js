@@ -111,10 +111,6 @@ const SnippetPreviewSection = ( { baseUrl, date } ) => {
 			baseUrl={ baseUrl }
 			mapDataToPreview={ mapEditorDataToPreview }
 			date={ date }
-			descriptionPlaceholder={
-				__( "Please provide a meta description by editing the snippet below. If you don’t, Google will try " +
-					"to find a relevant part of your post to show in the search results.", "wordpress-seo" )
-			}
 		/>
 	</Section>;
 };
