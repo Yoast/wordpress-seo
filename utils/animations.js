@@ -10,11 +10,7 @@ import { getHeight } from "./dom";
 const YoastSlideToggleContainer = styled.div`
 	& > :first-child {
 		overflow: hidden;
-	}
-
-	& .slide-enter-active,
-	& .slide-exit-active {
-		transition: height ${ props => `${ props.timeout }ms` } ease-out;
+		transition: height ${ props => `${ props.duration }ms` } ease-out;
 	}
 `;
 
@@ -26,7 +22,11 @@ const YoastSlideToggleContainer = styled.div`
  * already provides the callbacks we need. For more details, see
  * https://reactjs.org/docs/animation.html
  *
- * @param {Object} props Component props.
+ * @param {Object}   props          Component props.
+ * @param {boolean}  props.isOpen   Whether to show/hide the component and trigger the animation.
+ * @param {number}   props.duration Animation duration. Defaults to 300 ms.
+ * @param {children} props.children The content of the YoastSlideToggle. Must be
+ *                                  a single child, can wrap multiple components.
  *
  * @returns {ReactElement} YoastSlideToggle component.
  */
@@ -78,10 +78,10 @@ export class YoastSlideToggle extends React.Component {
 	 */
 	render() {
 		return (
-			<YoastSlideToggleContainer timeout={ this.props.timeout }>
+			<YoastSlideToggleContainer duration={ this.props.duration }>
 				<CSSTransition
-					in={ this.props.toggleFlag }
-					timeout={ this.props.timeout }
+					in={ this.props.isOpen }
+					timeout={ this.props.duration }
 					classNames="slide"
 					unmountOnExit
 					onEnter={ this.resetHeight }
@@ -98,11 +98,11 @@ export class YoastSlideToggle extends React.Component {
 }
 
 YoastSlideToggle.propTypes = {
-	toggleFlag: PropTypes.bool.isRequired,
-	timeout: PropTypes.number.isRequired,
+	isOpen: PropTypes.bool.isRequired,
+	duration: PropTypes.number.isRequired,
 	children: PropTypes.node,
 };
 
 YoastSlideToggle.defaultProps = {
-	timeout: 300,
+	duration: 300,
 };

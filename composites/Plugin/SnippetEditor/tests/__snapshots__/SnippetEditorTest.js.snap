@@ -82,10 +82,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -734,10 +730,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -1380,11 +1372,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   </Button>
                 </HelpTextWrapper__HelpTextButton>
                 <YoastSlideToggle
-                  timeout={300}
-                  toggleFlag={false}
+                  duration={300}
+                  isOpen={false}
                 >
                   <animations__YoastSlideToggleContainer
-                    timeout={300}
+                    duration={300}
                   >
                     <div
                       className="c10"
@@ -2578,10 +2570,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -3224,11 +3212,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   </Button>
                 </HelpTextWrapper__HelpTextButton>
                 <YoastSlideToggle
-                  timeout={300}
-                  toggleFlag={false}
+                  duration={300}
+                  isOpen={false}
                 >
                   <animations__YoastSlideToggleContainer
-                    timeout={300}
+                    duration={300}
                   >
                     <div
                       className="c10"
@@ -4422,10 +4410,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -5068,11 +5052,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   </Button>
                 </HelpTextWrapper__HelpTextButton>
                 <YoastSlideToggle
-                  timeout={300}
-                  toggleFlag={false}
+                  duration={300}
+                  isOpen={false}
                 >
                   <animations__YoastSlideToggleContainer
-                    timeout={300}
+                    duration={300}
                   >
                     <div
                       className="c10"
@@ -6266,10 +6250,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -6912,11 +6892,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   </Button>
                 </HelpTextWrapper__HelpTextButton>
                 <YoastSlideToggle
-                  timeout={300}
-                  toggleFlag={false}
+                  duration={300}
+                  isOpen={false}
                 >
                   <animations__YoastSlideToggleContainer
-                    timeout={300}
+                    duration={300}
                   >
                     <div
                       className="c10"
@@ -8082,10 +8062,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -8544,11 +8520,11 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   </Button>
                 </HelpTextWrapper__HelpTextButton>
                 <YoastSlideToggle
-                  timeout={300}
-                  toggleFlag={false}
+                  duration={300}
+                  isOpen={false}
                 >
                   <animations__YoastSlideToggleContainer
-                    timeout={300}
+                    duration={300}
                   >
                     <div
                       className="c10"
@@ -9296,10 +9272,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -9942,11 +9914,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   </Button>
                 </HelpTextWrapper__HelpTextButton>
                 <YoastSlideToggle
-                  timeout={300}
-                  toggleFlag={false}
+                  duration={300}
+                  isOpen={false}
                 >
                   <animations__YoastSlideToggleContainer
-                    timeout={300}
+                    duration={300}
                   >
                     <div
                       className="c10"
@@ -11140,10 +11112,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -11786,11 +11754,11 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   </Button>
                 </HelpTextWrapper__HelpTextButton>
                 <YoastSlideToggle
-                  timeout={300}
-                  toggleFlag={false}
+                  duration={300}
+                  isOpen={false}
                 >
                   <animations__YoastSlideToggleContainer
-                    timeout={300}
+                    duration={300}
                   >
                     <div
                       className="c10"
@@ -12956,10 +12924,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -13505,10 +13469,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -14082,10 +14042,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -14740,11 +14696,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   </Button>
                 </HelpTextWrapper__HelpTextButton>
                 <YoastSlideToggle
-                  timeout={300}
-                  toggleFlag={false}
+                  duration={300}
+                  isOpen={false}
                 >
                   <animations__YoastSlideToggleContainer
-                    timeout={300}
+                    duration={300}
                   >
                     <div
                       className="c10"
@@ -15946,10 +15902,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -16604,11 +16556,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   </Button>
                 </HelpTextWrapper__HelpTextButton>
                 <YoastSlideToggle
-                  timeout={300}
-                  toggleFlag={false}
+                  duration={300}
+                  isOpen={false}
                 >
                   <animations__YoastSlideToggleContainer
-                    timeout={300}
+                    duration={300}
                   >
                     <div
                       className="c10"
@@ -17810,10 +17762,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -18456,11 +18404,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   </Button>
                 </HelpTextWrapper__HelpTextButton>
                 <YoastSlideToggle
-                  timeout={300}
-                  toggleFlag={false}
+                  duration={300}
+                  isOpen={false}
                 >
                   <animations__YoastSlideToggleContainer
-                    timeout={300}
+                    duration={300}
                   >
                     <div
                       className="c10"
@@ -19654,10 +19602,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -20311,11 +20255,11 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   </Button>
                 </HelpTextWrapper__HelpTextButton>
                 <YoastSlideToggle
-                  timeout={300}
-                  toggleFlag={false}
+                  duration={300}
+                  isOpen={false}
                 >
                   <animations__YoastSlideToggleContainer
-                    timeout={300}
+                    duration={300}
                   >
                     <div
                       className="c10"
@@ -21514,10 +21458,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -24004,10 +23944,6 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
@@ -24538,10 +24474,6 @@ exports[`SnippetEditor shows the editor 1`] = `
 
 .c10 >:first-child {
   overflow: hidden;
-}
-
-.c10 .slide-enter-active,
-.c10 .slide-exit-active {
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
