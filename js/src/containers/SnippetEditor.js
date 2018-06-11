@@ -4,6 +4,7 @@ import {
 	switchMode,
 	updateData,
 } from "../redux/actions/snippetEditor";
+import { updateAnalysisData } from "../redux/actions/analysisData";
 
 /**
  * Maps the redux state to the snippet editor component.
@@ -48,6 +49,9 @@ export function mapDispatchToProps( dispatch ) {
 			}
 
 			dispatch( action );
+		},
+		onChangeAnalysisData: ( analysisData ) => {
+			dispatch( updateAnalysisData( analysisData ) );
 		},
 	};
 }

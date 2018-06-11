@@ -19,6 +19,7 @@ import Data from "./analysis/data.js";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetPreviewSection from "./components/SnippetPreviewSection";
+import analysisDataReducer from "./redux/reducers/analysisData";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -56,6 +57,7 @@ function configureStore() {
 		activeKeyword: activeKeyword,
 		activeTab,
 		snippetEditor,
+		analysisData: analysisDataReducer,
 	} );
 
 	return createStore( rootReducer, {}, flowRight( enhancers ) );
