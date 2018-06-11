@@ -1,26 +1,6 @@
 // This const was created to populate the redux store with the default replace variables, while keeping the reducer clean.
 const defaultReplaceVariables = [
 	{
-		name: "currentdate",
-		value: "",
-	},
-	{
-		name: "currentday",
-		value: "",
-	},
-	{
-		name: "currentmonth",
-		value: "",
-	},
-	{
-		name: "currenttime",
-		value: "",
-	},
-	{
-		name: "currentyear",
-		value: "",
-	},
-	{
 		name: "date",
 		value: "",
 	},
