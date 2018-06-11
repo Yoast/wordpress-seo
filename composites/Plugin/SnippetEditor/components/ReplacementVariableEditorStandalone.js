@@ -65,7 +65,7 @@ const getTrigger = ( needsPrependedSpace, needsAppendedSpace ) => {
  * A replacement variable editor. It allows replacements variables as tokens in
  * its editor. It's a small shell on top of Draft.js.
  */
-class ReplacementVariableEditor extends React.Component {
+class ReplacementVariableEditorStandalone extends React.Component {
 	/**
 	 * Constructs the replacement variable editor for use.
 	 *
@@ -355,7 +355,7 @@ class ReplacementVariableEditor extends React.Component {
 	}
 }
 
-ReplacementVariableEditor.propTypes = {
+ReplacementVariableEditorStandalone.propTypes = {
 	content: PropTypes.string.isRequired,
 	replacementVariables: replacementVariablesShape,
 	ariaLabelledBy: PropTypes.string.isRequired,
@@ -365,11 +365,11 @@ ReplacementVariableEditor.propTypes = {
 	placeholder: PropTypes.string,
 };
 
-ReplacementVariableEditor.defaultProps = {
+ReplacementVariableEditorStandalone.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
 	className: "",
 	placeholder: "",
 };
 
-export default ReplacementVariableEditor;
+export default ReplacementVariableEditorStandalone;
