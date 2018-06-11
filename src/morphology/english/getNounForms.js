@@ -8,7 +8,7 @@ const isUndefined = require( "lodash/isUndefined.js" );
 const unique = require( "lodash/uniq" );
 
 /**
- * Checks if the input word occurs in the list of exception nouns and if so returns all its irregular forms
+ * Checks if the input word occurs in the list of exception nouns and if so returns all its irregular forms.
  *
  * @param {string} word The word for which to determine its irregular forms.
  *
@@ -62,7 +62,7 @@ const singularize = function( word ) {
 };
 
 /**
- * Checks if the input word qualifies as a singular noun (e.g. student) and returns its singular form (e.g., students).
+ * Checks if the input word qualifies as a singular noun (e.g. student) and returns its plural form (e.g., students).
  *
  * @param {string} word The word for which to determine its forms.
  *

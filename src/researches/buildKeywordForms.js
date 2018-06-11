@@ -9,7 +9,7 @@ const isUndefined = require( "lodash/isUndefined" );
 const escapeRegExp = require( "lodash/escapeRegExp" );
 
 /**
- * Analyses the focus keyword string. Checks if morphology is requested or if the user wants to match exact string.
+ * Analyzes the focus keyword string. Checks if morphology is requested or if the user wants to match exact string.
  * If morphology is required the module builds all word forms for all content words (prepositions, articles, conjunctions).
  *
  * @param {Object} paper The paper to analyze keyword forms for.
