@@ -18,7 +18,7 @@ class WPSEO_Replacevar_Editor {
 	 */
 	private $title;
 	/**
-	 * @var string|null The id for the hidden description field.
+	 * @var string The id for the hidden description field.
 	 */
 	private $description;
 
@@ -29,7 +29,7 @@ class WPSEO_Replacevar_Editor {
 	 * @param string     $title       The title field id.
 	 * @param string     $description The description field id.
 	 */
-	public function __construct( $yform, $title, $description = null ) {
+	public function __construct( $yform, $title, $description ) {
 		$this->yform = $yform;
 		$this->title = $title;
 		$this->description = $description;
@@ -49,9 +49,9 @@ class WPSEO_Replacevar_Editor {
 		}
 		?>
 			<div
-				data-react-replacevar
-				data-react-replacevar-title="<?php echo esc_attr( $this->title ) ?>"
-				data-react-replacevar-metadesc="<?php echo esc_attr( $this->description ) ?>"
+				data-react-replacevar-editor
+				data-react-replacevar-title-field-id="<?php echo esc_attr( $this->title ) ?>"
+				data-react-replacevar-metadesc-field-id="<?php echo esc_attr( $this->description ) ?>"
 			></div>
 		<?php
 	}

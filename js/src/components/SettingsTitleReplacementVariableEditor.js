@@ -74,7 +74,7 @@ export default linkHiddenFields( props => {
 	return [
 		{
 			name: "field",
-			fieldId: props.target,
+			fieldId: props.fieldId,
 		},
 	];
 } )( SettingsTitleReplacementVariableEditor );

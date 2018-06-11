@@ -90,8 +90,6 @@ const SnippetEditorWrapper = ( props ) => (
 	</SnippetPreviewSection>
 );
 
-
-
 /**
  * Returns either the text in the meta description field, the excerpt, or the content.
  *

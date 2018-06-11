@@ -138,12 +138,9 @@ echo '<div class="tab-block" id="special-pages-titles-metas">';
 echo '<h2 class="help-button-inline">' . esc_html__( 'Special Pages', 'wordpress-seo' ) . $spcia_pages_help->get_button_html() . '</h2>';
 echo $spcia_pages_help->get_panel_html();
 
-echo '<p><strong>' . esc_html__( 'Search pages', 'wordpress-seo' ) . '</strong><br/>';
-$editor = new WPSEO_Replacevar_Editor( $yform, 'title-search-wpseo' );
+$editor = new WPSEO_Replacevar_Field( $yform, 'title-search-wpseo', __( 'Search pages', 'wordpress-seo' ) );
 $editor->render();
-echo '</p>';
-echo '<p><strong>' . esc_html__( '404 pages', 'wordpress-seo' ) . '</strong><br/>';
-$editor = new WPSEO_Replacevar_Editor( $yform, 'title-404-wpseo' );
+echo '<br/>';
+$editor = new WPSEO_Replacevar_Field( $yform, 'title-404-wpseo', __( '404 pages', 'wordpress-seo' ) );
 $editor->render();
-echo '</p>';
 echo '</div>';

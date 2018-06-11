@@ -2,8 +2,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
-import forEach from "lodash/forEach";
-import debounce from "lodash/debounce";
 import map from "lodash/map";
 import { connect } from "react-redux";
 import { replacementVariablesShape } from "yoast-components/composites/Plugin/SnippetEditor/constants";
@@ -24,35 +22,58 @@ class SettingsReplacementVariableEditors extends React.Component {
 		super( props );
 	}
 
-	render() {
-		return map( this.props.elements, ( targetElement ) => {
+	renderEditors() {
+		return map( this.props.editorElements, ( targetElement ) => {
 			const {
-				reactReplacevarTitle,
-				reactReplacevarMetadesc,
+				reactReplacevarTitleFieldId,
+				reactReplacevarMetadescFieldId,
 			} = targetElement.dataset;
-			if ( ! reactReplacevarMetadesc ) {
-				return ReactDOM.createPortal(
-					<SettingsTitleReplacementVariableEditor
-						label="SEO title template"
-						replacementVariables={ this.props.replacementVariables }
-						target={ reactReplacevarTitle } />,
-					targetElement
-				);
-			}
 			return ReactDOM.createPortal(
 				<SettingsReplacementVariableEditor
 					replacementVariables={ this.props.replacementVariables }
-					titleTarget={ reactReplacevarTitle }
-					descriptionTarget={ reactReplacevarMetadesc } />,
+					titleTarget={ reactReplacevarTitleFieldId }
+					descriptionTarget={ reactReplacevarMetadescFieldId } />,
 				targetElement
 			);
 		} );
+	}
+
+	renderSingleFields() {
+		return map( this.props.singleFieldElements, ( targetElement ) => {
+			const {
+				reactReplacevarFieldId,
+				reactReplacevarFieldLabel,
+			} = targetElement.dataset;
+			return ReactDOM.createPortal(
+				<SettingsTitleReplacementVariableEditor
+					label={ reactReplacevarFieldLabel }
+					replacementVariables={ this.props.replacementVariables }
+					fieldId={ reactReplacevarFieldId } />,
+				targetElement
+			);
+		} );
+	}
+
+	render() {
+		return (
+			<React.Fragment>
+				{ this.renderEditors() }
+				{ this.renderSingleFields() }
+			</React.Fragment>
+		);
 	}
 }
 
 SettingsReplacementVariableEditors.propTypes = {
 	replacementVariables: replacementVariablesShape,
-	elements: PropTypes.object,
+	editorElements: PropTypes.object,
+	singleFieldElements: PropTypes.object,
+};
+
+SettingsReplacementVariableEditors.defaultProps = {
+	replacementVariables: [],
+	editorElements: [],
+	singleFieldElements: [],
 };
 
 export default connect( state => ( {

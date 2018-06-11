@@ -24,5 +24,4 @@ describe( "Analysis data reducer", () => {
 
 		expect( result ).toEqual( expected );
 	} );
-
 } );

@@ -28,7 +28,8 @@ function configureStore() {
 	);
 }
 
-const editorElements = document.querySelectorAll( "[data-react-replacevar]" );
+const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
+const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
 
 if( editorElements.length ) {
 	const element = document.createElement( "div" );
@@ -39,7 +40,8 @@ if( editorElements.length ) {
 	ReactDOM.render(
 		<Provider store={ store }>
 			<SettingsReplacementVariableEditors
-				elements={ editorElements }
+				singleFieldElements={ singleFieldElements }
+				editorElements={ editorElements }
 			/>
 		</Provider>,
 		element

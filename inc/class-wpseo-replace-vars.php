@@ -1123,9 +1123,9 @@ class WPSEO_Replace_Vars {
 		self::setup_statics_once();
 
 		$replacement_variables = [];
-		foreach( array_merge( self::$help_texts[ 'basic' ], self::$help_texts[ 'advanced' ] ) as $key => $value ) {
+		foreach ( array_merge( self::$help_texts['basic'], self::$help_texts['advanced'] ) as $key => $value ) {
 			$prefixes = array( 'cf_', 'ct_' );
-			if( in_array( substr( $key, 0, 3 ), $prefixes ) ) {
+			if ( in_array( substr( $key, 0, 3 ), $prefixes ) ) {
 				continue;
 			}
 			$replacement_variables[] = $key;
@@ -1133,7 +1133,7 @@ class WPSEO_Replace_Vars {
 
 		$formatted = array();
 		foreach ( $replacement_variables as $replacement_variable ) {
-			$formatted[] = array( 'name' => $replacement_variable, 'value' => "" );
+			$formatted[] = array( 'name' => $replacement_variable, 'value' => '' );
 		}
 		return $formatted;
 	}
