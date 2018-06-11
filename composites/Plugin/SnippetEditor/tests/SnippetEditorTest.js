@@ -21,7 +21,7 @@ const defaultData = {
 };
 
 const defaultArgs = {
-	baseUrl: "http://example.org/",
+	baseUrl: "https://example.org/",
 	data: defaultData,
 	onChange: jest.fn(),
 };

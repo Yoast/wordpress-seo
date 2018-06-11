@@ -260,13 +260,13 @@ export default class SnippetPreview extends PureComponent {
 	 * Renders the SnippetPreview component.
 	 *
 	 * @param {Object} props The passed props.
-	 * @param {string} props.title                  The title tag.
-	 * @param {string} props.url                    The URL of the page for which to generate a snippet.
-	 * @param {string} props.description            The meta description.
-	 * @param {string} props.keyword                The keyword for the page.
-	 * @param {string} props.isDescriptionPlaceholder Whether the description was generated.
-	 * @param {string} props.locale                 The locale of the page.
-	 * @param {string} props.date                   Optional, the date to display before the meta description.
+	 * @param {string} props.title                      The title tag.
+	 * @param {string} props.url                        The URL of the page for which to generate a snippet.
+	 * @param {string} props.description                The meta description.
+	 * @param {string} props.keyword                    The keyword for the page.
+	 * @param {string} props.isDescriptionPlaceholder   Whether the description is the placeholder.
+	 * @param {string} props.locale                     The locale of the page.
+	 * @param {string} props.date                       Optional, the date to display before the meta description.
 	 *
 	 * @returns {ReactElement} The SnippetPreview component.
 	 */
