@@ -119,7 +119,7 @@ const SnippetPreviewSection = ( { baseUrl, date } ) => {
 	>
 		<SnippetEditor
 			baseUrl={ baseUrl }
-			mapDataToPreview={ mapEditorDataToPreview }
+			mapEditorDataToPreview={ mapEditorDataToPreview }
 			date={ date }
 			descriptionPlaceholder="Please provide a meta description by editing the snippet below."
 		/>
