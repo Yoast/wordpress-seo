@@ -2,6 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import debounce from "lodash/debounce";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
@@ -10,6 +11,8 @@ import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import colors from "../../../../style-guide/colors";
+import { Button } from "../../Shared/components/Button";
+import SvgIcon from "../../Shared/components/SvgIcon";
 
 const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
 	'<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">' +
@@ -57,7 +60,6 @@ const InputContainer = styled.div.attrs( {
 	position: relative;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	font-size: 14px;
-	margin-top: 5px;
 	cursor: text;
 
 	&::before {
@@ -70,6 +72,15 @@ const InputContainer = styled.div.attrs( {
 		background-image: url( ${ ( props ) => angleRight( getCaretColor( props ) ) });
 		background-size: 25px;
 		content: "";
+	}
+`;
+
+const TitleInputContainer = InputContainer.extend`
+	.public-DraftStyleDefault-block {
+		line-height: 24px;
+		height: 24px;
+		overflow: hidden;
+		white-space: nowrap;
 	}
 `;
 
@@ -87,7 +98,7 @@ const SlugInput = styled.input`
 	}
 `;
 
-const InputContainerDescription = InputContainer.extend`
+const DescriptionInputContainer = InputContainer.extend`
 	min-height: 60px;
 	padding: 2px 6px;
 	line-height: 19.6px;
@@ -105,34 +116,55 @@ const SimulatedLabel = styled.div`
 	cursor: pointer;
 	font-size: 16px;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+	margin-bottom: 5px;
+`;
+
+const TriggerReplacementVariableSuggestionsButton = Button.extend`
+	height: 33px;
+	border: 1px solid #dbdbdb;
+	box-shadow: none;
+	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+	fill: ${ colors.$color_grey_dark };
+	padding-left: 8px;
+	float: right;
+	margin-top: -35px; // negative height + 2 for spacing
+
+	${ props => props.isSmallerThanMobileWidth && `
+		float: none;
+		margin-top: 0;
+		margin-bottom: 2px;
+	` }
+
+	& svg {
+		margin-right: 7px;
+	}
 `;
 
 class SnippetEditorFields extends React.Component {
 	/**
 	 * Constructs the snippet editor fields.
 	 *
-	 * @param {Object}   props                             The props for the editor
-	 *                                                     fields.
-	 * @param {Object}   props.replacementVariables        The replacement variables
-	 *                                                     for this editor.
-	 * @param {Object}   props.data                        The initial editor data.
-	 * @param {string}   props.data.title                  The initial title.
-	 * @param {string}   props.data.slug                   The initial slug.
-	 * @param {string}   props.data.description            The initial description.
-	 * @param {Function} props.onChange                    Called when the data
-	 *                                                     changes.
-	 * @param {Function} props.onFocus                     Called when a field is
-	 *                                                     focused.
+	 * @param {Object}   props                           The props for the editor
+	 *                                                   fields.
+	 * @param {Object}   props.replacementVariables      The replacement variables
+	 *                                                   for this editor.
+	 * @param {Object}   props.data                      The initial editor data.
+	 * @param {string}   props.data.title                The initial title.
+	 * @param {string}   props.data.slug                 The initial slug.
+	 * @param {string}   props.data.description          The initial description.
+	 * @param {Function} props.onChange                  Called when the data
+	 *                                                   changes.
+	 * @param {Function} props.onFocus                   Called when a field is
+	 *                                                   focused.
 	 * @param {Object}   props.titleLengthProgress       The values for the title
-	 *                                                     length assessment.
+	 *                                                   length assessment.
 	 * @param {Object}   props.descriptionLengthProgress The values for the
-	 *                                                     description length
-	 *                                                     assessment.
-	 * @param {string}   props.activeField                 The field that is
-	 *                                                     currently active.
-	 * @param {string}   props.hoveredField                The field that is
-	 *                                                     currently hovered.
-	 *
+	 *                                                   description length
+	 *                                                   assessment.
+	 * @param {string}   props.activeField               The field that is
+	 *                                                   currently active.
+	 * @param {string}   props.hoveredField              The field that is
+	 *                                                   currently hovered.
 	 *
 	 * @returns {void}
 	 */
@@ -147,54 +179,112 @@ class SnippetEditorFields extends React.Component {
 
 		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
+		this.state = {
+			isSmallerThanMobileWidth: false,
+		};
+
 		this.setRef = this.setRef.bind( this );
+		this.setEditorRef = this.setEditorRef.bind( this );
+		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
+		this.debouncedUpdateIsSmallerThanMobileWidth = debounce( this.updateIsSmallerThanMobileWidth.bind( this ), 200 );
 	}
 
 	/**
-	 * Sets ref for field editor.
+	 * Sets the ref for the editor.
 	 *
-	 * @param {string} field The field for this ref.
-	 * @param {Object} ref The Draft.js react element.
+	 * @param {Object} editor The editor React reference.
 	 *
 	 * @returns {void}
 	 */
-	setRef( field, ref ) {
-		this.elements[ field ] = ref;
+	setEditorRef( editor ) {
+		this.editor = editor;
 	}
 
 	/**
-	 * Makes sure the focus is correct after mounting the editor fields.
+	 * Sets the refs for the editor fields.
+	 *
+	 * @param {string} fieldName The field name for this ref.
+	 * @param {Object} ref       The Draft.js react element.
 	 *
 	 * @returns {void}
 	 */
-	componentDidMount() {
-		this.focusOnActiveFieldChange( null );
+	setRef( fieldName, ref ) {
+		this.elements[ fieldName ] = ref;
 	}
 
 	/**
 	 * Makes sure the focus is correct after updating the editor fields.
 	 *
-	 * @param {Object} prevProps The previously received props.
+	 * For example, the component will update when clicking on the field labels.
+	 * In this case, we need to focus again the field.
 	 *
+	 * @param {Object} prevProps The previous props.
 	 * @returns {void}
 	 */
 	componentDidUpdate( prevProps ) {
-		this.focusOnActiveFieldChange( prevProps.activeField );
+		if ( prevProps.activeField !== this.props.activeField ) {
+			this.focusOnActiveFieldChange();
+		}
+	}
+
+	/**
+	 * Ensures isSmallerThanMobileWidth is accurate.
+	 *
+	 * By running it once and binding it to the window resize event.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		this.updateIsSmallerThanMobileWidth();
+		window.addEventListener( "resize", this.debouncedUpdateIsSmallerThanMobileWidth );
+	}
+
+	/**
+	 * Removes the window resize event listener.
+	 *
+	 * @returns {void}
+	 */
+	componentWillUnmount() {
+		window.removeEventListener( "resize", this.debouncedUpdateIsSmallerThanMobileWidth );
 	}
 
 	/**
 	 * Focuses the currently active field if it wasn't previously active.
 	 *
-	 * @param {string} prevActiveField The previously active field.
+	 * @returns {void}
+	 */
+	focusOnActiveFieldChange() {
+		const { activeField } = this.props;
+		if ( activeField ) {
+			const activeElement = this.elements[ activeField ];
+			activeElement.focus();
+		}
+	}
+
+	/**
+	 * Inserts a % into a ReplacementVariableEditor to trigger the replacement variable suggestions.
+	 *
+	 * @param {string} fieldName The field name to get the ref for.
 	 *
 	 * @returns {void}
 	 */
-	focusOnActiveFieldChange( prevActiveField ) {
-		const { activeField } = this.props;
+	triggerReplacementVariableSuggestions( fieldName ) {
+		const element = this.elements[ fieldName ];
 
-		if ( activeField !== prevActiveField ) {
-			const activeElement = this.elements[ activeField ];
-			activeElement.focus();
+		element.triggerReplacementVariableSuggestions();
+	}
+
+	/**
+	 * Updates isSmallerThanMobileWidth when changed.
+	 *
+	 * isSmallerThanMobileWidth is true if the editor's client width is smaller than the mobile width prop.
+	 *
+	 * @returns {void}
+	 */
+	updateIsSmallerThanMobileWidth() {
+		const isSmallerThanMobileWidth = this.editor.clientWidth < this.props.mobileWidth;
+		if ( this.state.isSmallerThanMobileWidth !== isSmallerThanMobileWidth ) {
+			this.setState( { isSmallerThanMobileWidth } );
 		}
 	}
 
@@ -211,39 +301,55 @@ class SnippetEditorFields extends React.Component {
 			titleLengthProgress,
 			descriptionLengthProgress,
 			onFocus,
+			onBlur,
 			onChange,
+			descriptionEditorFieldPlaceholder,
 			data: {
 				title,
 				slug,
 				description,
 			},
 		} = this.props;
+		const { isSmallerThanMobileWidth } = this.state;
+
 
 		const titleLabelId = `${ this.uniqueId }-title`;
 		const slugLabelId = `${ this.uniqueId }-slug`;
 		const descriptionLabelId = `${ this.uniqueId }-description`;
 
 		return (
-			<StyledEditor>
+			<StyledEditor
+				innerRef={ this.setEditorRef }
+			>
 				<FormSection>
 					<SimulatedLabel
 						id={ titleLabelId }
-						onClick={ () => onFocus( "title" ) } >
+						onClick={ () => onFocus( "title" ) }
+					>
 						{ __( "SEO title", "yoast-components" ) }
 					</SimulatedLabel>
-					<InputContainer
+					<TriggerReplacementVariableSuggestionsButton
+						onClick={ () => this.triggerReplacementVariableSuggestions( "title" ) }
+						isSmallerThanMobileWidth={ isSmallerThanMobileWidth }
+					>
+						<SvgIcon icon="plus-circle" />
+						{ __( "Insert snippet variable", "yoast-components" ) }
+					</TriggerReplacementVariableSuggestionsButton>
+					<TitleInputContainer
 						onClick={ () => this.elements.title.focus() }
 						isActive={ activeField === "title" }
-						isHovered={ hoveredField === "title" }>
+						isHovered={ hoveredField === "title" }
+					>
 						<ReplacementVariableEditor
 							content={ title }
 							onChange={ content => onChange( "title", content ) }
 							onFocus={ () => onFocus( "title" ) }
+							onBlur={ () => onBlur() }
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "title", ref ) }
 							ariaLabelledBy={ titleLabelId }
 						/>
-					</InputContainer>
+					</TitleInputContainer>
 					<ProgressBar
 						max={ titleLengthProgress.max }
 						value={ titleLengthProgress.actual }
@@ -253,17 +359,20 @@ class SnippetEditorFields extends React.Component {
 				<FormSection>
 					<SimulatedLabel
 						id={ slugLabelId }
-						onClick={ () => onFocus( "slug" ) } >
+						onClick={ () => onFocus( "slug" ) }
+					>
 						{ __( "Slug", "yoast-components" ) }
 					</SimulatedLabel>
 					<InputContainer
 						onClick={ () => this.elements.slug.focus() }
 						isActive={ activeField === "slug" }
-						isHovered={ hoveredField === "slug" }>
+						isHovered={ hoveredField === "slug" }
+					>
 						<SlugInput
 							value={ slug }
 							onChange={ event => onChange( "slug", event.target.value ) }
 							onFocus={ () => onFocus( "slug" ) }
+							onBlur={ () => onBlur() }
 							innerRef={ ref => this.setRef( "slug", ref ) }
 							aria-labelledby={ this.uniqueId + "-slug" }
 						/>
@@ -275,19 +384,29 @@ class SnippetEditorFields extends React.Component {
 						onClick={ () => onFocus( "description" ) } >
 						{ __( "Meta description", "yoast-components" ) }
 					</SimulatedLabel>
-					<InputContainerDescription
+					<TriggerReplacementVariableSuggestionsButton
+						onClick={ () => this.triggerReplacementVariableSuggestions( "description" ) }
+						isSmallerThanMobileWidth={ isSmallerThanMobileWidth }
+					>
+						<SvgIcon icon="plus-circle" />
+						{ __( "Insert snippet variable", "yoast-components" ) }
+					</TriggerReplacementVariableSuggestionsButton>
+					<DescriptionInputContainer
 						onClick={ () => this.elements.description.focus() }
 						isActive={ activeField === "description" }
-						isHovered={ hoveredField === "description" }>
+						isHovered={ hoveredField === "description" }
+					>
 						<ReplacementVariableEditor
 							content={ description }
 							onChange={ content => onChange( "description", content ) }
 							onFocus={ () => onFocus( "description" ) }
+							onBlur={ () => onBlur() }
 							replacementVariables={ replacementVariables }
 							ref={ ( ref ) => this.setRef( "description", ref ) }
 							ariaLabelledBy={ descriptionLabelId }
+							descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
 						/>
-					</InputContainerDescription>
+					</DescriptionInputContainer>
 					<ProgressBar
 						max={ descriptionLengthProgress.max }
 						value={ descriptionLengthProgress.actual }
@@ -322,6 +441,7 @@ SnippetEditorFields.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
+	onBlur: PropTypes.func,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
@@ -331,11 +451,14 @@ SnippetEditorFields.propTypes = {
 	hoveredField: PropTypes.oneOf( [ "title", "slug", "description" ] ),
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
+	descriptionEditorFieldPlaceholder: PropTypes.string,
+	mobileWidth: PropTypes.number,
 };
 
 SnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
+	onBlur: () => {},
 	titleLengthProgress: {
 		max: 600,
 		actual: 0,
@@ -346,6 +469,7 @@ SnippetEditorFields.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
+	mobileWidth: 356,
 };
 
 export default SnippetEditorFields;

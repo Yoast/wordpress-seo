@@ -1,8 +1,9 @@
 // External dependencies.
 import React from "react";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import { convertToRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
-import createMentionPlugin, { defaultSuggestionsFilter } from "draft-js-mention-plugin";
+import createMentionPlugin from "draft-js-mention-plugin";
+import createSingleLinePlugin from "draft-js-single-line-plugin";
 import flow from "lodash/flow";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
@@ -11,19 +12,19 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 
 // Internal dependencies.
 import { replacementVariablesShape } from "../constants";
-import { serializeEditor, unserializeEditor } from "../serialization";
-
-/**
- * Creates a Draft.js editor state from a string.
- *
- * @param {string} content The content to turn into editor state.
- *
- * @returns {EditorState} The editor state.
- */
-const createEditorState = flow( [
-	convertFromRaw,
-	EditorState.createWithContent,
-] );
+import {
+	serializeEditor,
+	unserializeEditor,
+	replaceReplacementVariables,
+} from "../serialization";
+import {
+	hasWhitespaceAt,
+	getCaretOffset,
+	getAnchorBlock,
+	insertText,
+	removeSelectedText,
+	moveCaret,
+} from "../replaceText";
 
 /**
  * Serializes the Draft.js editor state into a string.
@@ -36,6 +37,29 @@ const serializeEditorState = flow( [
 	convertToRaw,
 	serializeEditor,
 ] );
+
+/**
+ * Creates the trigger string that is needed to show the replacement variable suggestions.
+ *
+ * The Draft.js mention plugin trigger is set as %. But the suggestions popover only shows
+ * when the characters before and after the % are whitespace.
+ *
+ * @param {boolean} needsPrependedSpace When true, a space is prepended.
+ * @param {boolean} needsAppendedSpace  When true, a space is appended.
+ *
+ * @returns {string} The trigger string.
+ */
+const getTrigger = ( needsPrependedSpace, needsAppendedSpace ) => {
+	let trigger = "%";
+
+	if ( needsPrependedSpace ) {
+		trigger = " " + trigger;
+	}
+	if ( needsAppendedSpace ) {
+		trigger += " ";
+	}
+	return trigger;
+};
 
 /**
  * A replacement variable editor. It allows replacements variables as tokens in
@@ -67,10 +91,10 @@ class ReplacementVariableEditor extends React.Component {
 		super( props );
 
 		const { content: rawContent, replacementVariables } = this.props;
-		const unserialized = unserializeEditor( rawContent, replacementVariables );
+		const editorState = unserializeEditor( rawContent, replacementVariables );
 
 		this.state = {
-			editorState: createEditorState( unserialized ),
+			editorState,
 			searchValue: "",
 			replacementVariables,
 		};
@@ -95,6 +119,10 @@ class ReplacementVariableEditor extends React.Component {
 		this.mentionsPlugin = createMentionPlugin( {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
+		} );
+
+		this.singleLinePlugin = createSingleLinePlugin( {
+			stripEntities: false,
 		} );
 	}
 
@@ -121,13 +149,33 @@ class ReplacementVariableEditor extends React.Component {
 	 *
 	 * @param {EditorState} editorState The Draft.js state.
 	 *
-	 * @returns {void}
+	 * @returns {Promise} A promise for when the state is set.
 	 */
 	onChange( editorState ) {
-		this.setState( {
-			editorState,
-		}, () => {
-			this.serializeContent( editorState );
+		return new Promise( ( resolve ) => {
+			editorState = replaceReplacementVariables( editorState, this.props.replacementVariables );
+
+			this.setState( {
+				editorState,
+			}, () => {
+				this.serializeContent( editorState );
+				resolve();
+			} );
+		} );
+	}
+
+	/**
+	 * Filters replacement variables values based on the search term typed by the user.
+	 *
+	 * @param {string} searchValue The search value typed after the mentionTrigger by the user.
+	 * @param {Object[]} replacementVariables The replacement variables to filter.
+	 *
+	 * @returns {Object[]} A filtered set of replacement variables to show as suggestions to the user.
+	 */
+	replacementVariablesFilter( searchValue, replacementVariables ) {
+		const value = searchValue.toLowerCase();
+		return replacementVariables.filter( function( suggestion ) {
+			return ! value || suggestion.name.toLowerCase().indexOf( value ) === 0;
 		} );
 	}
 
@@ -141,7 +189,7 @@ class ReplacementVariableEditor extends React.Component {
 	onSearchChange( { value } ) {
 		this.setState( {
 			searchValue: value,
-			replacementVariables: defaultSuggestionsFilter( value, this.props.replacementVariables ),
+			replacementVariables: this.replacementVariablesFilter( value, this.props.replacementVariables ),
 		} );
 
 		/*
@@ -203,6 +251,43 @@ class ReplacementVariableEditor extends React.Component {
 	}
 
 	/**
+	 * Triggers the Draft.js mention plugin suggestions autocomplete.
+	 *
+	 * It does this by inserting the trigger (%) into the editor, replacing the current selection.
+	 * Ensures the autocomplete shows by adding spaces around the trigger if needed.
+	 *
+	 * @returns {void}
+	 */
+	triggerReplacementVariableSuggestions() {
+		// First remove any selected text.
+		let editorState = removeSelectedText( this.state.editorState );
+
+		// Get the current block text.
+		const selectionState = editorState.getSelection();
+		const contentState = editorState.getCurrentContent();
+		const blockText = getAnchorBlock( contentState, selectionState ).getText();
+		const caretIndex = getCaretOffset( selectionState );
+
+		// Determine the trigger text that is needed to show the replacement variable suggestions.
+		const needsPrependedSpace = ! hasWhitespaceAt( blockText, caretIndex - 1 );
+		const needsAppendedSpace = ! hasWhitespaceAt( blockText, caretIndex );
+		const trigger = getTrigger( needsPrependedSpace, needsAppendedSpace );
+
+		// Insert the trigger.
+		editorState = insertText( editorState, trigger );
+
+		// Move the caret if needed.
+		if ( needsAppendedSpace ) {
+			// The new caret index plus the trigger length, minus the suffix.
+			const newCaretIndex = caretIndex + trigger.length - 1;
+			editorState = moveCaret( editorState, newCaretIndex );
+		}
+
+		// Save the editor state and then focus the editor.
+		this.onChange( editorState ).then( () => this.focus() );
+	}
+
+	/**
 	 * Sets the state of this editor when the incoming content changes.
 	 *
 	 * @param {Object} nextProps The props this component receives.
@@ -218,11 +303,11 @@ class ReplacementVariableEditor extends React.Component {
 			nextProps.replacementVariables !== replacementVariables
 		) {
 			this._serializedContent = nextProps.content;
-			const unserialized = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+			const editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
 
 			this.setState( {
-				editorState: createEditorState( unserialized ),
-				replacementVariables: defaultSuggestionsFilter( searchValue, nextProps.replacementVariables ),
+				editorState,
+				replacementVariables: this.replacementVariablesFilter( searchValue, nextProps.replacementVariables ),
 			} );
 		}
 	}
@@ -244,7 +329,7 @@ class ReplacementVariableEditor extends React.Component {
 	 */
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy } = this.props;
+		const { onFocus, onBlur, ariaLabelledBy, descriptionEditorFieldPlaceholder } = this.props;
 		const { editorState, replacementVariables } = this.state;
 
 		return (
@@ -254,10 +339,11 @@ class ReplacementVariableEditor extends React.Component {
 					onChange={ this.onChange }
 					onFocus={ onFocus }
 					onBlur={ onBlur }
-					plugins={ [ this.mentionsPlugin ] }
+					plugins={ [ this.mentionsPlugin, this.singleLinePlugin ] }
 					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
+					placeholder={ descriptionEditorFieldPlaceholder }
 				/>
 				<MentionSuggestions
 					onSearchChange={ this.onSearchChange }
@@ -276,12 +362,14 @@ ReplacementVariableEditor.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
+	descriptionEditorFieldPlaceholder: PropTypes.string,
 };
 
 ReplacementVariableEditor.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
 	className: "",
+	descriptionEditorFieldPlaceholder: "",
 };
 
 export default ReplacementVariableEditor;

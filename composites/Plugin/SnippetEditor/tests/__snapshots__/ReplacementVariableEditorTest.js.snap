@@ -13,7 +13,20 @@ exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
         "_immutable": Immutable.Record {
           "allowUndo": true,
           "currentContent": Immutable.Record {
-            "entityMap": Object {},
+            "entityMap": Object {
+              "__add": [Function],
+              "__create": [Function],
+              "__get": [Function],
+              "__getLastCreatedEntityKey": [Function],
+              "__mergeData": [Function],
+              "__replaceData": [Function],
+              "add": [Function],
+              "create": [Function],
+              "get": [Function],
+              "getLastCreatedEntityKey": [Function],
+              "mergeData": [Function],
+              "replaceData": [Function],
+            },
             "blockMap": Immutable.OrderedMap {
               "1": Immutable.Record {
                 "key": "1",
@@ -134,6 +147,7 @@ exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
+    placeholder=""
     plugins={
       Array [
         Object {
@@ -156,6 +170,15 @@ exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
           "onEscape": [Function],
           "onTab": [Function],
           "onUpArrow": [Function],
+        },
+        Object {
+          "blockRenderMap": Immutable.Map {
+            "unstyled": Object {
+              "element": "div",
+            },
+          },
+          "handleReturn": [Function],
+          "onChange": [Function],
         },
       ]
     }

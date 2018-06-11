@@ -23,7 +23,7 @@ const defaultData = {
 const defaultArgs = {
 	baseUrl: "https://example.org/",
 	data: defaultData,
-	onChange: () => {},
+	onChange: jest.fn(),
 };
 
 const renderSnapshotWithArgs = ( changedArgs ) => {
@@ -46,7 +46,7 @@ const shallowWithArgs = ( changedArgs ) => {
 
 
 describe( "SnippetEditor", () => {
-	it( "shows and editor", () => {
+	it( "shows the editor", () => {
 		renderSnapshotWithArgs( {} );
 	} );
 
@@ -88,7 +88,8 @@ describe( "SnippetEditor", () => {
 
 		renderSnapshotWithArgs( { mapDataToPreview: mapper, replacementVariables } );
 
-		expect( mapper ).toHaveBeenCalledTimes( 1 );
+		// The mapper is called both in the constructor, as well as the render function.
+		expect( mapper ).toHaveBeenCalledTimes( 2 );
 		expect( mapper ).toHaveBeenCalledWith( defaultMappedData, defaultData );
 	} );
 
@@ -119,11 +120,11 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "highlights the hovered field when onMouseOver() is called", () => {
+	it( "highlights the hovered field when onMouseEnter() is called", () => {
 		const editor = mountWithArgs( {} );
 
 		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
+		editor.instance().onMouseEnter( "description" );
 		editor.update();
 
 		expect( editor ).toMatchSnapshot();
@@ -133,23 +134,10 @@ describe( "SnippetEditor", () => {
 		const editor = shallowWithArgs( {} );
 
 		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
+		editor.instance().onMouseEnter( "description" );
 		editor.update();
 
 		editor.instance().onMouseLeave( "description" );
-		editor.update();
-
-		expect( editor ).toMatchSnapshot();
-	} );
-
-	it( "doesn't remove the highlight if the wrong field is left", () => {
-		const editor = shallowWithArgs( {} );
-
-		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
-		editor.update();
-
-		editor.instance().onMouseLeave( "title" );
 		editor.update();
 
 		expect( editor ).toMatchSnapshot();
@@ -169,10 +157,25 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "activates a field on onClick() and opens the editor", () => {
+	it( "removes the highlight when calling unsetFieldFocus", () => {
+		focus.mockClear();
+
+		const editor = mountWithArgs( {} );
+
+		editor.instance().open();
+		editor.instance().setFieldFocus( "title" );
+		editor.update();
+
+		editor.instance().unsetFieldFocus();
+		editor.update();
+
+		expect( editor ).toMatchSnapshot();
+	} );
+
+	it( "activates a field on onMouseUp() and opens the editor", () => {
 		const editor = shallowWithArgs( {} );
 
-		editor.instance().onClick( "title" );
+		editor.instance().onMouseUp( "title" );
 		editor.update();
 
 		expect( editor ).toMatchSnapshot();
@@ -248,6 +251,20 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
+	it( "detects mobile view width", () => {
+		const editor = mountWithArgs( {} );
+
+		editor.instance().open();
+		editor.update();
+
+		const fields = editor.find( "SnippetEditorFields" ).instance();
+
+		// 356 is the default mobileWidth value.
+		expect( fields.props.mobileWidth ).toBe( 356 );
+		// Because the client innerWidth is 0 it is expected that isSmallerThanMobileWidth is true.
+		expect( fields.state.isSmallerThanMobileWidth ).toBe( true );
+	} );
+
 	describe( "colored progress bars", () => {
 		it( "can handle scores of 3 and 9", () => {
 			const editor = mountWithArgs( {
@@ -282,6 +299,65 @@ describe( "SnippetEditor", () => {
 			editor.update();
 
 			expect( editor ).toMatchSnapshot();
+		} );
+	} );
+
+	describe( "shallowCompareData", () => {
+		it( "returns false when there is no new data", () => {
+			const editor = mountWithArgs( {} );
+
+			const oldData = {
+				title: "old title",
+				description: "old description",
+				slug: "old slug",
+			};
+			const newData = {
+				title: "old title",
+				description: "old description",
+				slug: "old slug",
+			};
+
+			const isDirty = editor.instance().shallowCompareData( oldData, newData );
+
+			expect( isDirty ).toBe( false );
+		} );
+
+		it( "returns true when one data point has changed", () => {
+			const editor = mountWithArgs( {} );
+
+			const oldData = {
+				title: "old title",
+				description: "old description",
+				slug: "old slug",
+			};
+			const newData = {
+				title: "new title",
+				description: "old description",
+				slug: "old slug",
+			};
+
+			const isDirty = editor.instance().shallowCompareData( oldData, newData );
+
+			expect( isDirty ).toBe( true );
+		} );
+
+		it( "returns true when multiple data points have changed", () => {
+			const editor = mountWithArgs( {} );
+
+			const oldData = {
+				title: "old title",
+				description: "old description",
+				slug: "old slug",
+			};
+			const newData = {
+				title: "new title",
+				description: "new description",
+				slug: "old slug",
+			};
+
+			const isDirty = editor.instance().shallowCompareData( oldData, newData );
+
+			expect( isDirty ).toBe( true );
 		} );
 	} );
 } );
