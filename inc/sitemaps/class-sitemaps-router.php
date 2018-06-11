@@ -69,6 +69,7 @@ class WPSEO_Sitemaps_Router {
 		$current_url .= sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
 		if ( home_url( '/sitemap.xml' ) === $current_url && $wp_query->is_404 ) {
+			header( 'X-Redirect-By: Yoast SEO' );
 			wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
 			exit;
 		}

@@ -17,6 +17,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  */
 define( 'WPSEO_VERSION', '7.6.1' );
 
+
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
 }
@@ -274,7 +275,7 @@ function wpseo_init() {
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
 		if ( function_exists( 'opcache_reset' ) ) {
-			opcache_reset();
+			@opcache_reset();
 		}
 
 		new WPSEO_Upgrade();
