@@ -150,6 +150,10 @@
     lodash "^4.17.5"
     memize "^1.0.5"
 
+"@wordpress/is-shallow-equal@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@wordpress/is-shallow-equal/-/is-shallow-equal-1.0.2.tgz#9368bedc69d5ec08f46ff7b188a0d48c6499818c"
+
 "@wordpress/url@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@wordpress/url/-/url-1.0.3.tgz#1f1bcf63a8e2b4534696541bfdd3108d4edee784"

@@ -19,6 +19,7 @@ import SnippetEditor from "./containers/SnippetEditor";
 import documentDataReducer from "./redux/reducers/documentData";
 import { setDocumentData } from "./redux/actions/documentData";
 import configureEnhancers from "./redux/utils/configureEnhancers";
+import analysisDataReducer from "./redux/reducers/analysisData";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -43,6 +44,7 @@ function configureStore() {
 		activeTab,
 		snippetEditor,
 		documentData: documentDataReducer,
+		analysisData: analysisDataReducer,
 	} );
 
 	return createStore( rootReducer, {}, enhancers );
