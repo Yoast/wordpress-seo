@@ -14,31 +14,31 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 * @var array The recommended replacement variables.
 	 */
 	protected $recommended_replace_vars = array(
-		// Posts
+		// Posts.
 		'page'                    => array( 'sitename', 'title', 'sep', 'primary_category' ),
 		'post'                    => array( 'sitename', 'title', 'sep', 'primary_category' ),
-		// Homepage
+		// Homepage.
 		'homepage'                => array( 'sitename', 'sitedesc', 'sep' ),
-		// Specific custom post
+		// Specific custom post.
 		'product'                 => array( 'sitename', 'title', 'sep', 'primary_category' ),
-		// Custom post
+		// Custom post.
 		'custom_post_type'        => array(),
 
-		// Taxonomies
+		// Taxonomies.
 		'category'                => array( 'sitename', 'title', 'sep' ),
 		'tag'                     => array( 'sitename', 'title', 'sep' ),
-		// Specific custom taxonomies
+		// Specific custom taxonomies.
 		'post_format'             => array( 'sitename', 'title', 'sep', 'page' ),
 		'product_cat'             => array( 'sitename', 'title', 'sep' ),
 		'product_tag'             => array( 'sitename', 'title', 'sep' ),
-		// Custom taxonomy
+		// Custom taxonomy.
 		'term-in-custom-taxomomy' => array( 'sitename', 'title', 'sep' ),
 
-		// Settings
+		// Settings.
 		'search'                  => array( 'sitename', 'searchphrase', 'sep', 'page' ),
 		'404'                     => array( 'sitename', 'sep' ),
 		'shipping_classes'        => array( 'sitename', 'title', 'sep', 'page' ),
-		// Settings - archive pages
+		// Settings - archive pages.
 		'author_archive'          => array( 'sitename', 'title', 'sep', 'page' ),
 		'date_archive'            => array( 'sitename', 'sep', 'date', 'page' ),
 		'custom-taxonomy_archive' => array( 'sitename', 'title', 'sep' ),
