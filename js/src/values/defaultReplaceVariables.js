@@ -34,7 +34,7 @@ const defaultReplaceVariables = [
 	},
 	{
 		name: "id",
-		label: __( "Post ID", "wordpress-seo" ),
+		label: __( "ID", "wordpress-seo" ),
 		value: "",
 	},
 	{
@@ -64,7 +64,7 @@ const defaultReplaceVariables = [
 	},
 	{
 		name: "focuskw",
-		label: __( "Keyword", "wordpress-seo" ),
+		label: __( "Focus keyword", "wordpress-seo" ),
 		value: "",
 	},
 	{
