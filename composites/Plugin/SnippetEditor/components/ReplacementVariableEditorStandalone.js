@@ -9,6 +9,7 @@ import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import { __, _n, sprintf } from "@wordpress/i18n";
+import styled from "styled-components";
 
 // Internal dependencies.
 import { replacementVariablesShape } from "../constants";
@@ -37,6 +38,16 @@ const serializeEditorState = flow( [
 	convertToRaw,
 	serializeEditor,
 ] );
+
+/**
+ * Needed to avoid styling issues on the settings pages iwth the suggestions dropdown,
+ * because the button labels have a z-index of 3.
+ */
+const ZIndexOverride = styled.div`
+	div {
+		z-index: 5;
+	}
+`;
 
 /**
  * Creates the trigger string that is needed to show the replacement variable suggestions.
@@ -345,11 +356,13 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					ariaLabelledBy={ ariaLabelledBy }
 					placeholder={ placeholder }
 				/>
-				<MentionSuggestions
-					onSearchChange={ this.onSearchChange }
-					suggestions={ replacementVariables }
-					onAddMention={ this.onAddMention }
-				/>
+				<ZIndexOverride>
+					<MentionSuggestions
+						onSearchChange={ this.onSearchChange }
+						suggestions={ replacementVariables }
+						onAddMention={ this.onAddMention }
+					/>
+				</ZIndexOverride>
 			</React.Fragment>
 		);
 	}
