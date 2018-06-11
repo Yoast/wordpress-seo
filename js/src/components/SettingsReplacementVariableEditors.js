@@ -22,6 +22,18 @@ class SettingsReplacementVariableEditors extends React.Component {
 		super( props );
 	}
 
+	/**
+	 * Renders all replacement variable editor components.
+	 *
+	 * Renders a settings replacement variable editor in every given element in
+	 * the editorElements props. It requires every element to have a data-react-
+	 * replacevar-title-field-id and data-react-replacevar-metadesc-field-id
+	 * attribute to function properly. These attributes should point to existing
+	 * (hidden) inputs in the DOM.
+	 *
+	 * @returns {Array<ReactElement>} An array of portals to instances of the
+	 *                                settings replacement variable editor.
+	 */
 	renderEditors() {
 		return map( this.props.editorElements, ( targetElement ) => {
 			const {
@@ -38,6 +50,17 @@ class SettingsReplacementVariableEditors extends React.Component {
 		} );
 	}
 
+	/**
+	 * Renders all replacement variable field components.
+	 *
+	 * Renders a settings replacement variable field in every given element in
+	 * the singleFieldElements props. It requires every element to have a data-
+	 * react- replacevar-field-id attribute to function properly. This attribute
+	 * should point to and existing (hidden) input in the DOM.
+	 *
+	 * @returns {Array<ReactElement>} An array of portals to instances of the
+	 *                                settings replacement variable field.
+	 */
 	renderSingleFields() {
 		return map( this.props.singleFieldElements, ( targetElement ) => {
 			const {
@@ -54,6 +77,11 @@ class SettingsReplacementVariableEditors extends React.Component {
 		} );
 	}
 
+	/**
+	 * Renders the SettingsReplacementVariableEditors element.
+	 *
+	 * @returns {ReactElement} A fragment containing all editor instances.
+	 */
 	render() {
 		return (
 			<React.Fragment>
