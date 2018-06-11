@@ -1115,40 +1115,21 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
-	 * @return array
+	 * Generate a list of replacevars based on the help texts.
+	 *
+	 * @return array List of replace vars.
 	 */
 	public function get_replacement_variables_list() {
-		$replacement_variables = array(
-			'date',
-			'title',
-			'parent_title',
-			'archive title',
-			'sitename',
-			'sitedesc',
-			'excerpt',
-			'excerpt_only',
-			'tag',
-			'category',
-			'primary_category',
-			'category_description',
-			'tag_description',
-			'term_description',
-			'term_title',
-			'sep',
-			'pt_single',
-			'pt_plural',
-			'modified',
-			'id',
-			'name',
-			'user_description',
-			'page',
-			'pagetotal',
-			'pagenumber',
-			'caption',
-			'focuskw',
-			'term404',
-			'searchphrase',
-		);
+		self::setup_statics_once();
+
+		$replacement_variables = [];
+		foreach( array_merge( self::$help_texts[ 'basic' ], self::$help_texts[ 'advanced' ] ) as $key => $value ) {
+			$prefixes = array( 'cf_', 'ct_' );
+			if( in_array( substr( $key, 0, 3 ), $prefixes ) ) {
+				continue;
+			}
+			$replacement_variables[] = $key;
+		}
 
 		$formatted = array();
 		foreach ( $replacement_variables as $replacement_variable ) {
