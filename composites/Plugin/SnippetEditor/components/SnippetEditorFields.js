@@ -75,9 +75,8 @@ const InputContainer = styled.div.attrs( {
 
 const TitleInputContainer = InputContainer.extend`
 	.public-DraftStyleDefault-block {
+		// Don't use properties that trigger hasLayout in IE11.
 		line-height: 24px;
-		height: 24px;
-		overflow: hidden;
 	}
 `;
 
