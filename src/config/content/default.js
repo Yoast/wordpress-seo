@@ -1,3 +1,4 @@
+
 module.exports = {
 	sentenceLength: {
 		recommendedWordCount: 20,
@@ -14,40 +15,14 @@ module.exports = {
 			difficult: 30,
 			veryDifficult: 0,
 		},
-		veryEasy: {
-			score: 9,
-			resultText: "very easy",
-			note: "",
-		},
-		easy: {
-			score: 9,
-			resultText: "easy",
-			note: "",
-		},
-		fairlyEasy: {
-			score: 9,
-			resultText: "fairly easy",
-			note: "",
-		},
-		okay: {
-			score: 9,
-			resultText: "ok",
-			note: "",
-		},
-		fairlyDifficult: {
-			score: 6,
-			resultText: "fairly difficult",
-			note: "Try to make shorter sentences to improve readability.",
-		},
-		difficult: {
-			score: 3,
-			resultText: "difficult",
-			note: "Try to make shorter sentences, using less difficult words to improve readability.",
-		},
-		veryDifficult: {
-			score: 3,
-			resultText: "very difficult",
-			note: "Try to make shorter sentences, using less difficult words to improve readability.",
+		scores:{
+			veryEasy: 9,
+			easy: 9,
+			fairlyEasy: 9,
+			okay: 9,
+			fairlyDifficult: 6,
+			difficult: 3,
+			veryDifficult: 3,
 		},
 	},
 };

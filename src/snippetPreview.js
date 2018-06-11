@@ -20,6 +20,8 @@ var SnippetPreviewToggler = require( "./snippetPreviewToggler" );
 
 var domManipulation = require( "./helpers/domManipulation.js" );
 
+import Config from "./config/config";
+
 var defaults = {
 	data: {
 		title: "",
@@ -48,7 +50,7 @@ var defaults = {
 };
 
 var titleMaxLength = 600;
-var metadescriptionMaxLength = 320;
+const maximumMetaDescriptionLength = Config.maxMeta;
 
 var inputPreviewBindings = [
 	{
@@ -183,11 +185,11 @@ function rateMetaDescLength( metaDescLength ) {
 
 	switch ( true ) {
 		case metaDescLength > 0 && metaDescLength < 120:
-		case metaDescLength > 320:
+		case metaDescLength > maximumMetaDescriptionLength:
 			rating = "ok";
 			break;
 
-		case metaDescLength >= 120 && metaDescLength <= 320:
+		case metaDescLength >= 120 && metaDescLength <= maximumMetaDescriptionLength:
 			rating = "good";
 			break;
 
@@ -435,7 +437,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 
 	if ( this.hasProgressSupport ) {
 		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.metaDesc.max = metadescriptionMaxLength;
+		this.element.progress.metaDesc.max = maximumMetaDescriptionLength;
 	} else {
 		forEach( this.element.progress, function( progressElement ) {
 			domManipulation.addClass( progressElement, "snippet-editor__progress--fallback" );
@@ -674,7 +676,7 @@ SnippetPreview.prototype.formatMeta = function() {
 	meta = stripHTMLTags( meta );
 
 	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, metadescriptionMaxLength );
+	meta = meta.substring( 0, maximumMetaDescriptionLength );
 
 	if ( this.hasApp() && ! isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
@@ -690,8 +692,9 @@ SnippetPreview.prototype.formatMeta = function() {
 
 /**
  * Generates a meta description with an educated guess based on the passed text and excerpt.
- * It uses the keyword to select an appropriate part of the text. If the keyword isn't present it takes the first
- * 320 characters of the text. If both the keyword, text and excerpt are empty this function returns the sample text.
+ * It uses the keyword to select an appropriate part of the text. If the keyword isn't present it takes the maximum
+ * meta description length of the text. If both the keyword, text and excerpt are empty this function returns the
+ * sample text.
  *
  * @returns {string} A generated meta description.
  */
@@ -712,7 +715,7 @@ SnippetPreview.prototype.getMetaText = function() {
 
 	metaText = stripHTMLTags( metaText );
 
-	return metaText.substring( 0, metadescriptionMaxLength );
+	return metaText.substring( 0, maximumMetaDescriptionLength );
 };
 
 /**
@@ -864,13 +867,13 @@ SnippetPreview.prototype.checkTextLength = function( event ) {
 	switch ( event.currentTarget.id ) {
 		case "snippet_meta":
 			event.currentTarget.className = "desc";
-			if ( text.length > metadescriptionMaxLength ) {
+			if ( text.length > maximumMetaDescriptionLength ) {
 				/* eslint-disable */
 				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = event.currentTarget.textContent;
 				/* eslint-enable */
 				event.currentTarget.textContent = text.substring(
 					0,
-					metadescriptionMaxLength
+					maximumMetaDescriptionLength
 				);
 			}
 			break;
@@ -929,7 +932,7 @@ SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
 	var title = getAnalyzerTitle.call( this );
 
-	if ( metaDescription.length > metadescriptionMaxLength ) {
+	if ( metaDescription.length > maximumMetaDescriptionLength ) {
 		domManipulation.addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
 		domManipulation.removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -967,7 +970,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
 		this,
 		this.element.progress.metaDesc,
 		metaDescription.length,
-		metadescriptionMaxLength,
+		maximumMetaDescriptionLength,
 		metaDescriptionRating
 	);
 };
@@ -1220,7 +1223,7 @@ SnippetPreview.prototype.setMetaDescription = function( metaDesc ) {
 };
 
 /**
- * Creates elements with the purpose to calculate the sizes of elements and puts these elemenents to the body.
+ * Creates elements with the purpose to calculate the sizes of elements and puts these elements to the body.
  *
  * @returns {void}
  */

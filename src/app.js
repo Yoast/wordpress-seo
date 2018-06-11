@@ -22,6 +22,7 @@ var Researcher = require( "./researcher.js" );
 var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
 var Pluggable = require( "./pluggable.js" );
 var Paper = require( "./values/Paper.js" );
+import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
 var removeHtmlBlocks = require( "./stringProcessing/htmlParser.js" );
 
@@ -83,6 +84,7 @@ var defaults = {
 	marker: function() {},
 	keywordAnalysisActive: true,
 	contentAnalysisActive: true,
+	hasSnippetPreview: true,
 };
 
 /**
@@ -132,7 +134,10 @@ function verifyArguments( args ) {
 	}
 
 	// The args.targets.snippet argument is only required if not SnippetPreview object has been passed.
-	if ( ! isValidSnippetPreview( args.snippetPreview ) && ! isString( args.targets.snippet ) ) {
+	if (
+		args.hasSnippetPreview &&
+		! isValidSnippetPreview( args.snippetPreview ) &&
+		! isString( args.targets.snippet ) ) {
 		throw new MissingArgument( "A snippet preview is required. When no SnippetPreview object isn't passed to " +
 			"the App, the `targets.snippet` is a required App argument. `targets.snippet` is not a string." );
 	}
@@ -276,9 +281,10 @@ var App = function( args ) {
 			this.snippetPreview.refObj = this;
 			this.snippetPreview.i18n = this.i18n;
 		}
-	} else {
+	} else if ( args.hasSnippetPreview ) {
 		this.snippetPreview = createDefaultSnippetPreview.call( this );
 	}
+
 	this.initSnippetPreview();
 	this.initAssessorPresenters();
 };
@@ -467,7 +473,7 @@ App.prototype.constructI18n = function( translations ) {
 App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
 
-	if ( ! isUndefined( this.snippetPreview ) ) {
+	if ( this.hasSnippetPreview() ) {
 		// Gets the data FOR the analyzer
 		var data = this.snippetPreview.getAnalyzerData();
 
@@ -480,6 +486,8 @@ App.prototype.getData = function() {
 		this.rawData.metaTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.metaTitle );
 		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
 	}
+
+	this.rawData.titleWidth = measureTextWidth( this.rawData.metaTitle );
 
 	this.rawData.locale = this.config.locale;
 };
@@ -511,15 +519,26 @@ App.prototype._pureRefresh = function() {
 };
 
 /**
+ * Determines whether or not this app has a snippet preview.
+ *
+ * @returns {boolean} Whether or not this app has a snippet preview.
+ */
+App.prototype.hasSnippetPreview = function() {
+	return this.snippetPreview !== null && ! isUndefined( this.snippetPreview );
+};
+
+/**
  * Initializes the snippet preview for this App.
  *
  * @returns {void}
  */
 App.prototype.initSnippetPreview = function() {
-	this.snippetPreview.renderTemplate();
-	this.snippetPreview.callRegisteredEventBinder();
-	this.snippetPreview.bindEvents();
-	this.snippetPreview.init();
+	if ( this.hasSnippetPreview() ) {
+		this.snippetPreview.renderTemplate();
+		this.snippetPreview.callRegisteredEventBinder();
+		this.snippetPreview.bindEvents();
+		this.snippetPreview.init();
+	}
 };
 
 /**
@@ -569,7 +588,7 @@ App.prototype.bindInputEvent = function() {
  * @returns {void}
  */
 App.prototype.reloadSnippetText = function() {
-	if ( isUndefined( this.snippetPreview ) ) {
+	if ( this.hasSnippetPreview() ) {
 		this.snippetPreview.reRender();
 	}
 };
@@ -614,12 +633,19 @@ App.prototype.runAnalyzer = function() {
 
 	this.analyzerData = this.modifyData( this.rawData );
 
-	this.snippetPreview.refresh();
+	if ( this.hasSnippetPreview() ) {
+		this.snippetPreview.refresh();
+	}
 
 	let text = this.analyzerData.text;
 
 	// Insert HTML stripping code
 	text = removeHtmlBlocks( text );
+
+	let titleWidth = this.analyzerData.titleWidth;
+	if ( this.hasSnippetPreview() ) {
+		titleWidth = this.snippetPreview.getTitleWidth();
+	}
 
 	// Create a paper object for the Researcher
 	this.paper = new Paper( text, {
@@ -627,7 +653,7 @@ App.prototype.runAnalyzer = function() {
 		description: this.analyzerData.meta,
 		url: this.analyzerData.url,
 		title: this.analyzerData.metaTitle,
-		titleWidth: this.snippetPreview.getTitleWidth(),
+		titleWidth: titleWidth,
 		locale: this.config.locale,
 		permalink: this.analyzerData.permalink,
 	} );
@@ -649,7 +675,9 @@ App.prototype.runAnalyzer = function() {
 		this.endTime();
 	}
 
-	this.snippetPreview.reRender();
+	if ( this.hasSnippetPreview() ) {
+		this.snippetPreview.reRender();
+	}
 };
 
 /**

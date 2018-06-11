@@ -5,6 +5,27 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.33.1 May 25th, 2018
+### Fixed
+* Fixes a bug where Flesch Reading Ease translation strings were not fully translated.
+
+## 1.33.0 May 23rd, 2018
+### Added
+* Adds Catalan transition words.
+* Added the title width to rawData in app.js to be used by the title width assessment.
+
+### Changed
+* Changed max meta description length from 320 to 156.
+
+## 1.32.0 May 16th, 2018
+### Added
+* Adds Flesh Reading Ease for Russian.
+
+### Changed
+* Sequences of symbols which do not contain a single letter or digit are no longer considered a valid keyword.
+* Question marks and hashes are stripped from the snippet preview URL.
+* Makes the snippetPreview optional in the App. This can be enabled by putting the hasSnippetPreview argument to false.
+
 ## 1.31.0 April 26th, 2018
 ### Added
 * Adds readability analysis for Russian.
