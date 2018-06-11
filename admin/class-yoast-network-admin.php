@@ -223,7 +223,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 *
 	 * @return void
 	 */
-	private function verify_request( $action, $query_arg = '_wpnonce' ) {
+	protected function verify_request( $action, $query_arg = '_wpnonce' ) {
 		$has_access = current_user_can( 'wpseo_manage_network_options' );
 
 		if ( wp_doing_ajax() ) {
@@ -237,7 +237,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 
 		check_admin_referer( $action, $query_arg );
 
-		if ( ! $has_acccess ) {
+		if ( ! $has_access ) {
 			wp_die( __( 'You are not allowed to perform this action.', 'wordpress-seo' ) );
 		}
 	}
@@ -247,7 +247,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 *
 	 * @return void
 	 */
-	private function terminate_request() {
+	protected function terminate_request() {
 		if ( wp_doing_ajax() ) {
 			$settings_errors = get_settings_errors();
 
@@ -270,7 +270,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 *
 	 * @return void
 	 */
-	private function persist_settings_errors() {
+	protected function persist_settings_errors() {
 
 		/*
 		 * A regular transient is used here, since it is automatically cleared right after the redirect.
@@ -287,7 +287,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 *
 	 * @return void
 	 */
-	private function redirect_back( $query_args = array() ) {
+	protected function redirect_back( $query_args = array() ) {
 		$sendback = wp_get_referer();
 
 		if ( ! empty( $query_args ) ) {
