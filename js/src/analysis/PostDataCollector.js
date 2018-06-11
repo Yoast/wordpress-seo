@@ -44,6 +44,7 @@ let PostDataCollector = function( args ) {
  */
 PostDataCollector.prototype.getData = function() {
 	const data = this._data.getData();
+	const state = this._store.getState();
 
 	const otherData = {
 		keyword: isKeywordAnalysisActive() ? this.getKeyword() : "",
@@ -62,11 +63,10 @@ PostDataCollector.prototype.getData = function() {
 		titleWidth: measureTextWidth( this.getSnippetTitle() ),
 	};
 
-	const state = this._store.getState();
 	const snippetData = {
-		metaTitle: get( state, [ "snippetEditor", "data", "title" ], "" ),
-		url: get( state, [ "snippetEditor", "data", "slug" ], "" ),
-		meta: get( state, [ "snippetEditor", "data", "description" ], "" ),
+		metaTitle: get( state, [ "analysisData", "snippet", "title" ], this.getSnippetTitle() ),
+		url: get( state, [ "snippetEditor", "data", "slug" ], data.slug ),
+		meta: get( state, [ "analysisData", "snippet", "description" ], this.getSnippetMeta() ),
 	};
 
 	return {
