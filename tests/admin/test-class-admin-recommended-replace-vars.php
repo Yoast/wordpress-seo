@@ -23,7 +23,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_term can detect a category.
+	 * Tests that determine_for_term can detect a category.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
 	 */
@@ -32,7 +32,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_term can detect a tag.
+	 * Tests that determine_for_term can detect a tag.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
 	 */
@@ -41,7 +41,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_term can detect a post_format.
+	 * Tests that determine_for_term can detect a post_format.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
 	 */
@@ -50,7 +50,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_term can detect a WooCommerce product category.
+	 * Tests that determine_for_term can detect a WooCommerce product category.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::is_woocommerce_active
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
@@ -62,7 +62,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_term can not detect a WooCommerce product category.
+	 * Tests that determine_for_term can not detect a WooCommerce product category.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::is_woocommerce_active
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
@@ -74,7 +74,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_term can detect a WooCommerce product tag.
+	 * Tests that determine_for_term can detect a WooCommerce product tag.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::is_woocommerce_active
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
@@ -86,7 +86,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_term can not detect a WooCommerce product tag.
+	 * Tests that determine_for_term can not detect a WooCommerce product tag.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::is_woocommerce_active
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
@@ -98,7 +98,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_post defaults to post when no actual post variable is passed along.
+	 * Tests that determine_for_post defaults to post when no actual post variable is passed along.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
 	 */
@@ -107,7 +107,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that a homepage is succesfully determined.
+	 * Tests that a homepage is succesfully determined.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::is_homepage
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
@@ -128,7 +128,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_post can detect a page.
+	 * Tests that determine_for_post can detect a page.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
 	 */
@@ -139,7 +139,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_post can detect a post.
+	 * Tests that determine_for_post can detect a post.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
 	 */
@@ -150,7 +150,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_post can detect a WooCommerce product.
+	 * Tests that determine_for_post can detect a WooCommerce product.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::is_woocommerce_active
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
@@ -163,7 +163,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_post can not detect a WooCommerce product.
+	 * Tests that determine_for_post can not detect a WooCommerce product.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::is_woocommerce_active
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
@@ -176,7 +176,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that determine_for_post can detect a custom post type.
+	 * Tests that determine_for_post can detect a custom post type.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
 	 */
@@ -184,6 +184,69 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 		$post = $this->create_and_get_with_post_type( 'some_plugin_post' );
 
 		$this->assertEquals( 'custom_post_type', $this->class_instance->determine_for_post( $post ) );
+	}
+
+	/**
+	 * Tests that get_recommended_replacevars works for the settings.
+	 *
+	 * @dataProvider get_recommended_replacevars_provider
+	 *
+	 * @param string $page_type The page type to get the recommended replacement variables for.
+	 * @param array  $expected  The expected recommended replacement variables.
+	 *
+	 * @covers       WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars
+	 */
+	public function test_get_recommended_replacevars( $page_type, $expected ) {
+		$this->assertEquals( $expected, $this->class_instance->get_recommended_replacevars( $page_type ) );
+	}
+
+	/**
+	 * Dataprovider function for the test: test_get_recommended_replacevars
+	 *
+	 * @return array With the $page_type and $expected variables.
+	 */
+	public function get_recommended_replacevars_provider() {
+		// This is basically a copy of the $recommended_replace_vars in WPSEO_Admin_Recommended_Replace_Vars.
+		return array(
+			// Posts.
+			array( 'page', array( 'sitename', 'title', 'sep', 'primary_category' ) ),
+			array( 'post', array( 'sitename', 'title', 'sep', 'primary_category' ) ),
+			// Homepage.
+			array( 'homepage', array( 'sitename', 'sitedesc', 'sep' ) ),
+			// Specific custom post.
+			array( 'product', array( 'sitename', 'title', 'sep', 'primary_category' ) ),
+			// Custom post.
+			array( 'custom_post_type', array() ),
+
+			// Taxonomies.
+			array( 'category', array( 'sitename', 'title', 'sep' ) ),
+			array( 'tag', array( 'sitename', 'title', 'sep' ) ),
+			// Specific custom taxonomies.
+			array( 'post_format', array( 'sitename', 'title', 'sep', 'page' ) ),
+			array( 'product_cat', array( 'sitename', 'title', 'sep' ) ),
+			array( 'product_tag', array( 'sitename', 'title', 'sep' ) ),
+			// Custom taxonomy.
+			array( 'term-in-custom-taxomomy', array( 'sitename', 'title', 'sep' ) ),
+
+			// Settings.
+			array( 'search', array( 'sitename', 'searchphrase', 'sep', 'page' ) ),
+			array( '404', array( 'sitename', 'sep' ) ),
+			array( 'shipping_classes', array( 'sitename', 'title', 'sep', 'page' ) ),
+			// Settings - archive pages.
+			array( 'author_archive', array( 'sitename', 'title', 'sep', 'page' ) ),
+			array( 'date_archive', array( 'sitename', 'sep', 'date', 'page' ) ),
+			array( 'custom-taxonomy_archive', array( 'sitename', 'title', 'sep' ) ),
+			array( 'product_archive', array( 'sitename', 'sep', 'page', 'pt_plural' ) ),
+		);
+	}
+
+	/**
+	 * Test that get_recommended_replacevars works when there are no recommendations found.
+	 *
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars
+	 */
+	public function test_get_recommended_replacevars_non_existing() {
+		$this->assertEquals( array(), $this->class_instance->get_recommended_replacevars( 'non-existing-replace-var' ) );
 	}
 
 	/**
@@ -204,12 +267,9 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Mock helper: WPSEO_Admin_Recommended_Replace_Vars mocked for is_woocommerce_active.
 	 *
-	 * @param bool $is_active Whether WooCommerce is active or not
+	 * @param bool $is_active Whether WooCommerce is active or not.
 	 *
-	 * @return WPSEO_Admin_Recommended_Replace_Vars A mocked
-	 *                                              WPSEO_Admin_Recommended_Replace_Vars
-	 *                                              with the requested state of
-	 *                                              is_woocommerce_active
+	 * @return WPSEO_Admin_Recommended_Replace_Vars The mocked object.
 	 */
 	private function mock_is_woocommerce_active( $is_active = true ) {
 		$class_instance = $this

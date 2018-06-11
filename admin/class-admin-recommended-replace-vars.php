@@ -99,7 +99,7 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	}
 
 	/**
-	 * Get the recommended replacement variables for the given page type.
+	 * Retrieves the recommended replacement variables for the given page type.
 	 *
 	 * @param string $page_type The page type.
 	 *
@@ -111,7 +111,6 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		}
 
 		return $this->recommended_replace_vars[ $page_type ];
-
 	}
 
 	/**
