@@ -2,21 +2,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-	TitleInputContainer,
-	SimulatedLabel,
 	replacementVariablesShape,
 } from "yoast-components/composites/Plugin/SnippetEditor";
-import ReplaceVarEditor from "yoast-components/composites/Plugin/SnippetEditor/components/ReplacementVariableEditorStandalone";
-import uniqueId from "lodash/uniqueId";
+import ReplaceVarEditor from "yoast-components/composites/Plugin/SnippetEditor/components/ReplacementVariableEditor";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
 
+const SnippetEditorWidthContainer = styled.div`
+	max-width: 640px;
+`;
+
 class SettingsTitleReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
-
-		this.labelId = `${ uniqueId( "snippet-editor-field-" ) }-title`;
 
 		this.state = {
 			isActive: false,
@@ -38,28 +38,20 @@ class SettingsTitleReplacementVariableEditor extends React.Component {
 		} = this.props;
 
 		return (
-			<div style={ { maxWidth: 640 } }>
-				<SimulatedLabel
-					id={ this.labelId }
-					onClick={ this.focus } >
-					{ label }
-				</SimulatedLabel>
-				<TitleInputContainer
-					onClick={ this.focus }
+			<SnippetEditorWidthContainer>
+				<ReplaceVarEditor
+					label={ label }
 					isActive={ this.state.isActive }
-					isHovered={ this.state.isHovered }>
-					<ReplaceVarEditor
-						content={ field.value }
-						onChange={ field.onChange }
-						onFocus={ this.focus }
-						replacementVariables={ replacementVariables }
-						ref={ ref => {
-							this.inputRef = ref;
-						} }
-						ariaLabelledBy={ this.labelId }
-						/>
-				</TitleInputContainer>
-			</div>
+					isHovered={ this.state.isHovered }
+					content={ field.value }
+					onChange={ field.onChange }
+					onFocus={ this.focus }
+					replacementVariables={ replacementVariables }
+					editorRef={ ref => {
+						this.inputRef = ref;
+					} }
+					/>
+			</SnippetEditorWidthContainer>
 		);
 	}
 }

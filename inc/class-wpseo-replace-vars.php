@@ -801,7 +801,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current time for use as replacement string.
 	 *
-	 * @return string The formatted current month.
+	 * @return string The formatted current time.
 	 */
 	private function retrieve_currenttime() {
 		static $replacement;

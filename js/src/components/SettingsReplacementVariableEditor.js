@@ -4,7 +4,6 @@ import { SettingsSnippetEditor } from "yoast-components";
 import { __ } from "@wordpress/i18n";
 import { replacementVariablesShape } from "yoast-components/composites/Plugin/SnippetEditor/constants";
 
-
 /* Internal dependencies */
 import SnippetPreviewSection from "./SnippetPreviewSection";
 import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
@@ -24,9 +23,11 @@ class SettingsReplacementVariableEditor extends React.Component {
 					onChange={ ( field, value ) => {
 						switch( field ) {
 							case "title":
-								this.props.title.onChange( value ); break;
+								this.props.title.onChange( value );
+								break;
 							case "description":
-								this.props.description.onChange( value ); break;
+								this.props.description.onChange( value );
+								break;
 						}
 					} }
 					replacementVariables={ this.props.replacementVariables }
