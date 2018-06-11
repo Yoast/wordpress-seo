@@ -16,6 +16,7 @@ import colors from "../../../../style-guide/colors";
 import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 import HelpTextWrapper from "../components/HelpTextWrapper";
+import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -58,6 +59,8 @@ export const BaseTitle = styled.div`
 	cursor: pointer;
 	position: relative;
 `;
+
+const HelpTextLink = makeOutboundLink();
 
 /**
  * Adds caret styles to a component.
@@ -636,10 +639,13 @@ export default class SnippetPreview extends PureComponent {
 		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow/> : null;
 		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp/>;
 
-		const helpText = [ __( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
-			<a key="1" href="https://yoa.st/snippet-preview" rel="noopener noreferrer" target="_blank">
+		const helpText = [
+			__( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
+			<HelpTextLink key="1" href="https://yoa.st/snippet-preview">
 				{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
-			</a> ];
+			</HelpTextLink>,
+		];
+		const helpTextLabel = __( "Help on the Snippet Preview", "yoast-components" );
 
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
@@ -650,7 +656,11 @@ export default class SnippetPreview extends PureComponent {
 		return (
 			<section>
 				<div>
-					<HelpTextWrapper helpText={ helpText } />
+					<HelpTextWrapper
+						helpText={ helpText }
+						helpTextButtonLabel={ helpTextLabel }
+						panelMaxWidth="400px"
+					/>
 				</div>
 				<Container
 					onMouseLeave={ this.onMouseLeave }
