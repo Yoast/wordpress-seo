@@ -38,6 +38,16 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests that the network admin class implements the required interfaces.
+	 */
+	public function test_implements_interfaces() {
+		$admin = new Yoast_Network_Admin();
+
+		$this->assertInstanceOf( 'WPSEO_WordPress_Integration', $admin );
+		$this->assertInstanceOf( 'WPSEO_WordPress_AJAX_Integration', $admin );
+	}
+
+	/**
 	 * Tests getting site choices.
 	 *
 	 * @group ms-required
@@ -163,6 +173,19 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$admin->register_hooks();
 		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, array( $admin, 'handle_update_options_request' ) ) );
 		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, array( $admin, 'handle_restore_site_request' ) ) );
+	}
+
+	/**
+	 * Tests registering AJAX hooks.
+	 *
+	 * @covers Yoast_Network_Admin::register_ajax_hooks()
+	 */
+	public function test_register_ajax_hooks() {
+		$admin = new Yoast_Network_Admin();
+
+		$admin->register_ajax_hooks();
+		$this->assertInternalType( 'int', has_action( 'wp_ajax_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, array( $admin, 'handle_update_options_request' ) ) );
+		$this->assertInternalType( 'int', has_action( 'wp_ajax_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, array( $admin, 'handle_restore_site_request' ) ) );
 	}
 
 	/**
