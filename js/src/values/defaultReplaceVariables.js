@@ -69,7 +69,7 @@ const defaultReplaceVariables = [
 	},
 	{
 		name: "title",
-		label: __( "Page title", "wordpress-seo" ),
+		label: __( "Title", "wordpress-seo" ),
 		value: "",
 	},
 	{
