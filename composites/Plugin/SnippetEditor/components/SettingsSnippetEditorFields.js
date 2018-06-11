@@ -91,6 +91,11 @@ class SettingsSnippetEditorFields extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidMount() {
+		/**
+		 * Temporary fix to make sure the initial styling is applied correctly,
+		 * because we manually calculate whether the editor should be styled for
+		 * mobile or not.
+		 */
 		setTimeout( () => {
 			this.updateIsSmallerThanMobileWidth();
 		}, 300 );
