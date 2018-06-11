@@ -4,6 +4,7 @@
 import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import isUndefined from "lodash/isUndefined";
+import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
 import initializeEdit from "./edit";
@@ -173,6 +174,26 @@ window.yoastHideMarkers = true;
 		}
 	}
 
+	let currentAnalysisData;
+
+	/**
+	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 *
+	 * @param {Object} store The store.
+	 * @param {Object} app The YoastSEO app.
+	 *
+	 * @returns {void}
+	 */
+	function handleStoreChange( store, app ) {
+		const previousAnalysisData = currentAnalysisData || "";
+		currentAnalysisData = store.getState().analysisData.snippet;
+
+		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
+		if ( isDirty ) {
+			app.runAnalyzer();
+		}
+	}
+
 	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
@@ -241,6 +262,8 @@ window.yoastHideMarkers = true;
 		}
 
 		app = new App( args );
+
+		store.subscribe( handleStoreChange.bind( null, store, app ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			app.seoAssessor = new TaxonomyAssessor( app.i18n );

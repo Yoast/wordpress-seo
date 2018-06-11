@@ -5,6 +5,7 @@ import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
+import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
 import initializeEdit from "./edit";
@@ -389,6 +390,26 @@ setYoastComponentsI18n();
 		}
 	}
 
+	let currentAnalysisData;
+
+	/**
+	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 *
+	 * @param {Object} store The store.
+	 * @param {Object} app The YoastSEO app.
+	 *
+	 * @returns {void}
+	 */
+	function handleStoreChange( store, app ) {
+		const previousAnalysisData = currentAnalysisData || "";
+		currentAnalysisData = store.getState().analysisData.snippet;
+
+		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
+		if ( isDirty ) {
+			app.runAnalyzer();
+		}
+	}
+
 	/**
 	 * Initializes analysis for the post edit screen.
 	 *
@@ -421,6 +442,8 @@ setYoastComponentsI18n();
 		app = new App( appArgs );
 
 		postDataCollector.app = app;
+
+		editStore.subscribe( handleStoreChange.bind( null, editStore, app ) );
 
 		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 		const shortcodePlugin = new YoastShortcodePlugin( app );
