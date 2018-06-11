@@ -117,7 +117,6 @@ const SnippetPreviewSection = ( { baseUrl, date, recommendedReplacementVariables
 			baseUrl={ baseUrl }
 			mapDataToPreview={ mapEditorDataToPreview }
 			date={ date }
-			descriptionPlaceholder="Please provide a meta description by editing the snippet below."
 			recommendedReplacementVariables={ recommendedReplacementVariables }
 		/>
 	</Section>;
