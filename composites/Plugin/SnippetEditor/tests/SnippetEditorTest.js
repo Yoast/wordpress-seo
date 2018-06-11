@@ -21,7 +21,7 @@ const defaultData = {
 };
 
 const defaultArgs = {
-	baseUrl: "https://example.org/",
+	baseUrl: "http://example.org/",
 	data: defaultData,
 	onChange: jest.fn(),
 };
@@ -89,7 +89,7 @@ describe( "SnippetEditor", () => {
 			},
 		];
 
-		renderSnapshotWithArgs( { mapDataToPreview: mapper, replacementVariables } );
+		renderSnapshotWithArgs( { mapEditorDataToPreview: mapper, replacementVariables } );
 
 		// The mapper is called both in the constructor, as well as the render function.
 		expect( mapper ).toHaveBeenCalledTimes( 2 );

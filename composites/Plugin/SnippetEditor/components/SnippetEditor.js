@@ -105,7 +105,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Object} props.descriptionLengthProgress The values for the
 	 *                                                   description length
 	 *                                                   assessment.
-	 * @param {Function} props.mapDataToPreview          Function to map the editor
+	 * @param {Function} props.mapEditorDataToPreview          Function to map the editor
 	 *                                                   data to data for the preview.
 	 * @param {string} props.locale                      The locale of the page.
 	 *
@@ -345,14 +345,14 @@ class SnippetEditor extends React.Component {
 	 * @returns {Object} The data for the preview.
 	 */
 	mapDataToMeasurements( originalData ) {
-		const { baseUrl, mapDataToPreview } = this.props;
+		const { baseUrl, mapEditorDataToPreview } = this.props;
 
 		let description = this.processReplacementVariables( originalData.description );
 
 		// Strip multiple spaces and spaces at the beginning and end.
 		description = stripSpaces( description );
 
-		const shortenedBaseUrl = baseUrl.replace( "https://", "" );
+		const shortenedBaseUrl = baseUrl.replace( /http:\/\//ig, "" );
 
 		let mappedData = {
 			title: this.processReplacementVariables( originalData.title ),
@@ -365,8 +365,8 @@ class SnippetEditor extends React.Component {
 		};
 
 		// The mapping by the passed mapping function should happen before measuring.
-		if ( mapDataToPreview ) {
-			return mapDataToPreview( mappedData, context );
+		if ( mapEditorDataToPreview ) {
+			return mapEditorDataToPreview( mappedData, context );
 		}
 
 
@@ -513,7 +513,7 @@ SnippetEditor.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
-	mapDataToPreview: PropTypes.func,
+	mapEditorDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
 	locale: PropTypes.string,
 };
@@ -532,7 +532,7 @@ SnippetEditor.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
-	mapDataToPreview: null,
+	mapEditorDataToPreview: null,
 	generatedDescription: "",
 	locale: "en",
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
