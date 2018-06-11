@@ -10,15 +10,15 @@
  */
 class WPSEO_Replacevar_Editor {
 	/**
-	 * @var Yoast_Form
+	 * @var Yoast_Form  Yoast Forms instance.
 	 */
 	private $yform;
 	/**
-	 * @var string
+	 * @var string      The id for the hidden title field.
 	 */
 	private $title;
 	/**
-	 * @var string|null
+	 * @var string|null The id for the hidden description field.
 	 */
 	private $description;
 
@@ -36,7 +36,9 @@ class WPSEO_Replacevar_Editor {
 	}
 
 	/**
-	 * Renders a div with custom data attributes for the React search appearance editors.
+	 * Renders a div for the react application to mount to, and hidden inputs where
+	 * the app should store it's value so they will be properly saved when the form
+	 * is submitted.
 	 *
 	 * @return void
 	 */
