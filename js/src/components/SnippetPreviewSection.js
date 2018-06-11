@@ -6,7 +6,6 @@ import identity from "lodash/identity";
 import get from "lodash/get";
 import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
 import { stripFullTags } from "yoastseo/js/stringProcessing/stripHTMLTags";
-import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import SnippetEditor from "../containers/SnippetEditor";
