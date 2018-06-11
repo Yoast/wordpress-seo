@@ -16,19 +16,27 @@ const Container = styled.div`
 const replacementVariables = [
 	{
 		name: "title",
+		label: "Title",
 		value: "Title",
+		description: "This is the title of your post",
 	},
 	{
 		name: "post_type",
+		label: "Post type",
 		value: "Gallery",
+		description: "This is the post type of your post",
 	},
 	{
-		name: "snippet",
-		value: "The snippet of your post.",
+		name: "sep",
+		label: "Separator",
+		value: " - ",
+		description: "A separator that clarifies your search result snippet",
 	},
 	{
-		name: "snippet_manual",
-		value: "The manual snippet of your post.",
+		name: "term404",
+		label: "Error 404 slug",
+		value: "Error 404 slug",
+		description: "The slug which caused the error 404",
 	},
 ];
 const recommendedReplacementVariables = [

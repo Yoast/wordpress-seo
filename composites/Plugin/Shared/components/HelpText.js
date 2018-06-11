@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const YoastHelpText = styled.p`
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 13px;
 `;
 

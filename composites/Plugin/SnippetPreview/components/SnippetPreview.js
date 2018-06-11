@@ -16,6 +16,7 @@ import colors from "../../../../style-guide/colors";
 import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 import HelpTextWrapper from "../components/HelpTextWrapper";
+import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -58,6 +59,8 @@ export const BaseTitle = styled.div`
 	cursor: pointer;
 	position: relative;
 `;
+
+const HelpTextLink = makeOutboundLink();
 
 /**
  * Adds caret styles to a component.
@@ -137,7 +140,7 @@ const BaseUrlOverflowContainer = BaseUrl.extend`
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
 export const DesktopDescription = styled.div`
-	color: ${ props => props.isDescriptionGenerated ? colorGeneratedDescription : colorDescription };
+	color: ${ props => props.isDescriptionPlaceholder ? colorGeneratedDescription : colorDescription };
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
@@ -260,13 +263,13 @@ export default class SnippetPreview extends PureComponent {
 	 * Renders the SnippetPreview component.
 	 *
 	 * @param {Object} props The passed props.
-	 * @param {string} props.title                  The title tag.
-	 * @param {string} props.url                    The URL of the page for which to generate a snippet.
-	 * @param {string} props.description            The meta description.
-	 * @param {string} props.keyword                The keyword for the page.
-	 * @param {string} props.isDescriptionGenerated Whether the description was generated.
-	 * @param {string} props.locale                 The locale of the page.
-	 * @param {string} props.date                   Optional, the date to display before the meta description.
+	 * @param {string} props.title                      The title tag.
+	 * @param {string} props.url                        The URL of the page for which to generate a snippet.
+	 * @param {string} props.description                The meta description.
+	 * @param {string} props.keyword                    The keyword for the page.
+	 * @param {string} props.isDescriptionPlaceholder   Whether the description is the placeholder.
+	 * @param {string} props.locale                     The locale of the page.
+	 * @param {string} props.date                       Optional, the date to display before the meta description.
 	 *
 	 * @returns {ReactElement} The SnippetPreview component.
 	 */
@@ -276,7 +279,7 @@ export default class SnippetPreview extends PureComponent {
 		this.state = {
 			title: props.title,
 			description: props.description,
-			isDescriptionGenerated: true,
+			isDescriptionPlaceholder: true,
 		};
 
 		this.setTitleRef       = this.setTitleRef.bind( this );
@@ -384,8 +387,9 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {string} The description to render.
 	 */
 	getDescription() {
-		if ( ! this.props.description && this.props.descriptionPlaceholder ) {
-			return this.props.descriptionPlaceholder;
+		if ( ! this.props.description ) {
+			return __( "Please provide a meta description by editing the snippet below. If you don’t, Google will " +
+				"try to find a relevant part of your post to show in the search results.", "yoast-components" );
 		}
 
 		return truncate( this.props.description, {
@@ -532,7 +536,7 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	componentDidUpdate() {
 		this.setState( {
-			isDescriptionGenerated: ( ! this.props.description && this.props.descriptionPlaceholder ),
+			isDescriptionPlaceholder: ( ! this.props.description ),
 		} );
 
 		if ( this.props.mode === MODE_MOBILE ) {
@@ -552,7 +556,7 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	componentDidMount() {
 		this.setState( {
-			isDescriptionGenerated: ( ! this.props.description && this.props.descriptionPlaceholder ),
+			isDescriptionPlaceholder: ( ! this.props.description ),
 		} );
 	}
 
@@ -574,7 +578,7 @@ export default class SnippetPreview extends PureComponent {
 		const renderedDate = this.renderDate();
 
 		const outerContainerProps = {
-			isDescriptionGenerated: this.state.isDescriptionGenerated,
+			isDescriptionPlaceholder: this.state.isDescriptionPlaceholder,
 			onMouseUp: onMouseUp.bind( null, "description" ),
 			onMouseEnter: onMouseEnter.bind( null, "description" ),
 			onMouseLeave: onMouseLeave.bind( null ),
@@ -598,7 +602,7 @@ export default class SnippetPreview extends PureComponent {
 					{ ...outerContainerProps }
 				>
 					<MobileDescription
-						isDescriptionGenerated={ this.state.isDescriptionGenerated }
+						isDescriptionPlaceholder={ this.state.isDescriptionPlaceholder }
 						innerRef={ this.setDescriptionRef }
 					>
 						{ renderedDate }
@@ -635,10 +639,13 @@ export default class SnippetPreview extends PureComponent {
 		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow/> : null;
 		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp/>;
 
-		const helpText = [ __( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
-			<a key="1" href="https://yoa.st/snippet-preview" rel="noopener noreferrer" target="_blank">
+		const helpText = [
+			__( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
+			<HelpTextLink key="1" href="https://yoa.st/snippet-preview">
 				{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
-			</a> ];
+			</HelpTextLink>,
+		];
+		const helpTextLabel = __( "Help on the Snippet Preview", "yoast-components" );
 
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
@@ -649,7 +656,11 @@ export default class SnippetPreview extends PureComponent {
 		return (
 			<section>
 				<div>
-					<HelpTextWrapper helpText={ helpText } />
+					<HelpTextWrapper
+						helpText={ helpText }
+						helpTextButtonLabel={ helpTextLabel }
+						panelMaxWidth="400px"
+					/>
 				</div>
 				<Container
 					onMouseLeave={ this.onMouseLeave }
@@ -727,7 +738,6 @@ SnippetPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
-	descriptionPlaceholder: PropTypes.string,
 	date: PropTypes.string,
 	breadcrumbs: PropTypes.array,
 
