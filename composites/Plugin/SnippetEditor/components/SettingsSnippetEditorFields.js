@@ -154,7 +154,6 @@ class SettingsSnippetEditorFields extends React.Component {
 	updateIsSmallerThanMobileWidth() {
 		const isSmallerThanMobileWidth = this.editor.clientWidth < this.props.mobileWidth;
 		if ( this.state.isSmallerThanMobileWidth !== isSmallerThanMobileWidth ) {
-			console.log( "toggle" );
 			this.setState( { isSmallerThanMobileWidth } );
 		}
 	}
