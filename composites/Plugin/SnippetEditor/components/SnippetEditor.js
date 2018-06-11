@@ -473,7 +473,6 @@ class SnippetEditor extends React.Component {
 		const {
 			onChange,
 			data,
-			descriptionPlaceholder,
 			mode,
 			date,
 			locale,
@@ -506,7 +505,6 @@ class SnippetEditor extends React.Component {
 					onMouseLeave={ this.onMouseLeave }
 					onMouseUp={ this.onMouseUp }
 					locale={ locale }
-					descriptionPlaceholder={ descriptionPlaceholder }
 					{ ...mappedData }
 				/>
 
@@ -535,7 +533,6 @@ SnippetEditor.propTypes = {
 		slug: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
-	descriptionPlaceholder: PropTypes.string,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),

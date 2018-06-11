@@ -384,8 +384,9 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {string} The description to render.
 	 */
 	getDescription() {
-		if ( ! this.props.description && this.props.descriptionPlaceholder ) {
-			return this.props.descriptionPlaceholder;
+		if ( ! this.props.description ) {
+			return __( "Please provide a meta description by editing the snippet below. If you don’t, Google will " +
+				"try to find a relevant part of your post to show in the search results.", "yoast-components" );
 		}
 
 		return truncate( this.props.description, {
@@ -727,7 +728,6 @@ SnippetPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
-	descriptionPlaceholder: PropTypes.string,
 	date: PropTypes.string,
 	breadcrumbs: PropTypes.array,
 
