@@ -533,7 +533,7 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	componentDidUpdate() {
 		this.setState( {
-			isDescriptionPlaceholder: ( ! this.props.description && this.props.descriptionPlaceholder ),
+			isDescriptionPlaceholder: ( ! this.props.description ),
 		} );
 
 		if ( this.props.mode === MODE_MOBILE ) {
@@ -553,7 +553,7 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	componentDidMount() {
 		this.setState( {
-			isDescriptionPlaceholder: ( ! this.props.description && this.props.descriptionPlaceholder ),
+			isDescriptionPlaceholder: ( ! this.props.description ),
 		} );
 	}
 
