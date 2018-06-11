@@ -103,7 +103,7 @@ export const SimulatedLabel = styled.div`
 	margin-bottom: 5px;
 `;
 
-export const TriggerReplacementVariableSuggestionsButton = Button.extend`
+export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
 	box-shadow: none;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	fill: ${ colors.$color_grey_dark };
@@ -112,6 +112,7 @@ export const TriggerReplacementVariableSuggestionsButton = Button.extend`
 	margin-top: -35px; // negative height + 2 for spacing
 	height: 33px;
 	border: 1px solid #dbdbdb;
+	font-size: 13px;
 
 	${ props => props.isSmallerThanMobileWidth && `
 		float: none;

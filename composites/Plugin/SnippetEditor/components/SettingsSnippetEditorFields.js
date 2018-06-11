@@ -91,7 +91,9 @@ class SettingsSnippetEditorFields extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		this.updateIsSmallerThanMobileWidth();
+		setTimeout( () => {
+			this.updateIsSmallerThanMobileWidth();
+		}, 300 );
 		window.addEventListener( "resize", this.debouncedUpdateIsSmallerThanMobileWidth );
 	}
 
@@ -193,7 +195,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						replacementVariables={ replacementVariables }
 						content={ title }
 						onChange={ content => onChange( "title", content ) }
-						styleForMobile={ true }
+						styleForMobile={ isSmallerThanMobileWidth }
 					/>
 				</FormSection>
 				<FormSection>
@@ -208,7 +210,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						replacementVariables={ replacementVariables }
 						content={ description }
 						onChange={ content => onChange( "description", content ) }
-						styleForMobile={ true }
+						styleForMobile={ isSmallerThanMobileWidth }
 					/>
 				</FormSection>
 			</StyledEditor>

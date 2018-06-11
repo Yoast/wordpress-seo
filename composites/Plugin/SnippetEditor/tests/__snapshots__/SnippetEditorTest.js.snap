@@ -749,25 +749,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   margin-left: 20px;
 }
 
-.c32 {
-  font-size: 0.8rem;
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -35px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c32 svg {
-  margin-right: 7px;
-}
-
 .c0 {
   max-width: 600px;
   font-weight: normal;
@@ -1025,6 +1006,25 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-bottom: 5px;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  fill: #555;
+  padding-left: 8px;
+  float: right;
+  margin-top: -35px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.c32 svg {
+  margin-right: 7px;
 }
 
 .c34 {
@@ -2075,25 +2075,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     SEO title
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -2103,7 +2098,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -2113,63 +2108,74 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -2285,25 +2291,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     Meta description
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -2313,7 +2314,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -2323,63 +2324,74 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -2581,25 +2593,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   margin-left: 20px;
 }
 
-.c32 {
-  font-size: 0.8rem;
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -35px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c32 svg {
-  margin-right: 7px;
-}
-
 .c0 {
   max-width: 600px;
   font-weight: normal;
@@ -2857,6 +2850,25 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-bottom: 5px;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  fill: #555;
+  padding-left: 8px;
+  float: right;
+  margin-top: -35px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.c32 svg {
+  margin-right: 7px;
 }
 
 .c34 {
@@ -3907,25 +3919,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     SEO title
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -3935,7 +3942,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -3945,63 +3952,74 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -4117,25 +4135,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     Meta description
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -4145,7 +4158,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -4155,63 +4168,74 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -4413,25 +4437,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   margin-left: 20px;
 }
 
-.c32 {
-  font-size: 0.8rem;
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -35px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c32 svg {
-  margin-right: 7px;
-}
-
 .c0 {
   max-width: 600px;
   font-weight: normal;
@@ -4689,6 +4694,25 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-bottom: 5px;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  fill: #555;
+  padding-left: 8px;
+  float: right;
+  margin-top: -35px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.c32 svg {
+  margin-right: 7px;
 }
 
 .c34 {
@@ -5739,25 +5763,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     SEO title
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -5767,7 +5786,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -5777,63 +5796,74 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -5949,25 +5979,20 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     Meta description
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -5977,7 +6002,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -5987,63 +6012,74 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -6243,25 +6279,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
-}
-
-.c32 {
-  font-size: 0.8rem;
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -35px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c32 svg {
-  margin-right: 7px;
 }
 
 .c0 {
@@ -6521,6 +6538,25 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-bottom: 5px;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  fill: #555;
+  padding-left: 8px;
+  float: right;
+  margin-top: -35px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.c32 svg {
+  margin-right: 7px;
 }
 
 .c34 {
@@ -7571,25 +7607,20 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     SEO title
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -7599,7 +7630,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -7609,63 +7640,74 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -7781,25 +7823,20 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     Meta description
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -7809,7 +7846,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -7819,63 +7856,74 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -9223,25 +9271,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   margin-left: 20px;
 }
 
-.c32 {
-  font-size: 0.8rem;
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -35px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c32 svg {
-  margin-right: 7px;
-}
-
 .c0 {
   max-width: 600px;
   font-weight: normal;
@@ -9499,6 +9528,25 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-bottom: 5px;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  fill: #555;
+  padding-left: 8px;
+  float: right;
+  margin-top: -35px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.c32 svg {
+  margin-right: 7px;
 }
 
 .c34 {
@@ -10549,25 +10597,20 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     SEO title
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -10577,7 +10620,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -10587,63 +10630,74 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -10759,25 +10813,20 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     Meta description
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -10787,7 +10836,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -10797,63 +10846,74 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -11053,25 +11113,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
-}
-
-.c32 {
-  font-size: 0.8rem;
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -35px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c32 svg {
-  margin-right: 7px;
 }
 
 .c0 {
@@ -11331,6 +11372,25 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-bottom: 5px;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  fill: #555;
+  padding-left: 8px;
+  float: right;
+  margin-top: -35px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.c32 svg {
+  margin-right: 7px;
 }
 
 .c34 {
@@ -12381,25 +12441,20 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     SEO title
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -12409,7 +12464,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -12419,63 +12474,74 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -12591,25 +12657,20 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     Meta description
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -12619,7 +12680,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -12629,63 +12690,74 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -14047,25 +14119,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   margin-left: 20px;
 }
 
-.c33 {
-  font-size: 0.8rem;
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -35px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c33 svg {
-  margin-right: 7px;
-}
-
 .c0 {
   max-width: 600px;
   font-weight: normal;
@@ -14323,6 +14376,25 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-bottom: 5px;
+}
+
+.c33 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  fill: #555;
+  padding-left: 8px;
+  float: right;
+  margin-top: -35px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.c33 svg {
+  margin-right: 7px;
 }
 
 .c35 {
@@ -15393,25 +15465,20 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     SEO title
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c33"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c33 Button-kDSBcD c3"
+                      className="c33 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -15421,7 +15488,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c33 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c33 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -15431,63 +15498,74 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -15603,25 +15681,20 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     Meta description
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c33"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c33 Button-kDSBcD c3"
+                      className="c33 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -15631,7 +15704,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c33 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c33 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -15641,63 +15714,74 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={true}
                   isHovered={false}
@@ -15897,25 +15981,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
-}
-
-.c33 {
-  font-size: 0.8rem;
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -35px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c33 svg {
-  margin-right: 7px;
 }
 
 .c0 {
@@ -16175,6 +16240,25 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-bottom: 5px;
+}
+
+.c33 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  fill: #555;
+  padding-left: 8px;
+  float: right;
+  margin-top: -35px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.c33 svg {
+  margin-right: 7px;
 }
 
 .c35 {
@@ -17245,25 +17329,20 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     SEO title
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c33"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c33 Button-kDSBcD c3"
+                      className="c33 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -17273,7 +17352,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c33 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c33 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -17283,63 +17362,74 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -17455,25 +17545,20 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     Meta description
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c33"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c33 Button-kDSBcD c3"
+                      className="c33 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -17483,7 +17568,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c33 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c33 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -17493,63 +17578,74 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c33 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c33 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={true}
@@ -17749,25 +17845,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
-}
-
-.c32 {
-  font-size: 0.8rem;
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -35px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c32 svg {
-  margin-right: 7px;
 }
 
 .c0 {
@@ -18027,6 +18104,25 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-bottom: 5px;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  fill: #555;
+  padding-left: 8px;
+  float: right;
+  margin-top: -35px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.c32 svg {
+  margin-right: 7px;
 }
 
 .c34 {
@@ -19077,25 +19173,20 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     SEO title
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -19105,7 +19196,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -19115,63 +19206,74 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -19287,25 +19389,20 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     Meta description
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -19315,7 +19412,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -19325,63 +19422,74 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -19581,25 +19689,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-left: 20px;
-}
-
-.c32 {
-  font-size: 0.8rem;
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -35px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c32 svg {
-  margin-right: 7px;
 }
 
 .c0 {
@@ -19859,6 +19948,25 @@ exports[`SnippetEditor passes replacement variables to the title and description
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-bottom: 5px;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  fill: #555;
+  padding-left: 8px;
+  float: right;
+  margin-top: -35px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.c32 svg {
+  margin-right: 7px;
 }
 
 .c34 {
@@ -20942,25 +21050,20 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     SEO title
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -20970,7 +21073,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -20980,63 +21083,74 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -21174,25 +21288,20 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     Meta description
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -21202,7 +21311,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -21212,63 +21321,74 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -22146,25 +22266,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   margin-left: 20px;
 }
 
-.c32 {
-  font-size: 0.8rem;
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -35px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c32 svg {
-  margin-right: 7px;
-}
-
 .c0 {
   max-width: 600px;
   font-weight: normal;
@@ -22422,6 +22523,25 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   margin-bottom: 5px;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  fill: #555;
+  padding-left: 8px;
+  float: right;
+  margin-top: -35px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+  float: none;
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+.c32 svg {
+  margin-right: 7px;
 }
 
 .c34 {
@@ -23472,25 +23592,20 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     SEO title
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -23500,7 +23615,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -23510,63 +23625,74 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
@@ -23682,25 +23808,20 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     Meta description
                   </div>
                 </Shared__SimulatedLabel>
-                <Button
+                <Shared__TriggerReplacementVariableSuggestionsButton
                   isSmallerThanMobileWidth={true}
                   onClick={[Function]}
                 >
                   <Button
-                    backgroundColor="#f7f7f7"
-                    borderColor="#ccc"
-                    boxShadowColor="#ccc"
                     className="c32"
                     isSmallerThanMobileWidth={true}
                     onClick={[Function]}
-                    textColor="#555"
-                    type="button"
                   >
                     <Button
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
                       boxShadowColor="#ccc"
-                      className="c32 Button-kDSBcD c3"
+                      className="c32 c2"
                       isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                       textColor="#555"
@@ -23710,7 +23831,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
-                        className="c32 Button-kDSBcD c3 Button-kDSBcD c4"
+                        className="c32 c2 Button-kDSBcD c3"
                         isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
@@ -23720,63 +23841,74 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
-                          className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
+                          className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
                           isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
                         >
-                          <Button__BaseButton
+                          <Button
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
-                            className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                            className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
                             isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
                           >
-                            <button
-                              className="c32 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                            <Button__BaseButton
+                              backgroundColor="#f7f7f7"
+                              borderColor="#ccc"
+                              boxShadowColor="#ccc"
+                              className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
+                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
+                              textColor="#555"
                               type="button"
                             >
-                              <SvgIcon
-                                icon="plus-circle"
-                                size="16px"
+                              <button
+                                className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+                                onClick={[Function]}
+                                type="button"
                               >
-                                <SvgIcon__StyledSvg
-                                  aria-hidden={true}
-                                  className="yoast-svg-icon yoast-svg-icon-plus-circle"
-                                  focusable="false"
-                                  role="img"
+                                <SvgIcon
+                                  icon="plus-circle"
                                   size="16px"
-                                  viewBox="0 0 1792 1792"
-                                  xmlns="http://www.w3.org/2000/svg"
                                 >
-                                  <svg
+                                  <SvgIcon__StyledSvg
                                     aria-hidden={true}
-                                    className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                    className="yoast-svg-icon yoast-svg-icon-plus-circle"
                                     focusable="false"
                                     role="img"
                                     size="16px"
                                     viewBox="0 0 1792 1792"
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <path
-                                      d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
-                                    />
-                                  </svg>
-                                </SvgIcon__StyledSvg>
-                              </SvgIcon>
-                              Insert snippet variable
-                            </button>
-                          </Button__BaseButton>
+                                    <svg
+                                      aria-hidden={true}
+                                      className="yoast-svg-icon yoast-svg-icon-plus-circle c9"
+                                      focusable="false"
+                                      role="img"
+                                      size="16px"
+                                      viewBox="0 0 1792 1792"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M1344 960v-128q0-26-19-45t-45-19h-256v-256q0-26-19-45t-45-19h-128q-26 0-45 19t-19 45v256h-256q-26 0-45 19t-19 45v128q0 26 19 45t45 19h256v256q0 26 19 45t45 19h128q26 0 45-19t19-45v-256h256q26 0 45-19t19-45zm320-64q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+                                      />
+                                    </svg>
+                                  </SvgIcon__StyledSvg>
+                                </SvgIcon>
+                                Insert snippet variable
+                              </button>
+                            </Button__BaseButton>
+                          </Button>
                         </Button>
                       </Button>
                     </Button>
                   </Button>
-                </Button>
+                </Shared__TriggerReplacementVariableSuggestionsButton>
                 <Shared__InputContainer
                   isActive={false}
                   isHovered={false}
