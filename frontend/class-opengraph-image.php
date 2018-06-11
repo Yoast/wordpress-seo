@@ -194,8 +194,16 @@ class WPSEO_OpenGraph_Image {
 
 	/**
 	 * If the frontpage image exists, call add_image.
+	 *
+	 * @return void
 	 */
 	private function set_front_page_image() {
+		$this->set_user_defined_image();
+
+		if ( $this->has_images() ) {
+			return;
+		}
+
 		// If no frontpage image is found, don't add anything.
 		if ( WPSEO_Options::get( 'og_frontpage_image', '' ) === '' ) {
 			return;
@@ -213,6 +221,7 @@ class WPSEO_OpenGraph_Image {
 		$post_id = get_option( 'page_for_posts' );
 
 		$this->set_image_post_meta( $post_id );
+
 		if ( $this->has_images() ) {
 			return;
 		}
@@ -229,7 +238,28 @@ class WPSEO_OpenGraph_Image {
 	 */
 	private function set_singular_image( $post_id = null ) {
 		if ( $post_id === null ) {
-			$post_id = get_queried_object_id();
+			$post_id = $this->get_queried_object_id();
+		}
+
+		$this->set_user_defined_image( $post_id );
+
+		if ( $this->has_images() ) {
+			return;
+		}
+
+		$this->add_content_images( get_post( $post_id ) );
+	}
+
+	/**
+	 * Gets the user-defined image of the post.
+	 *
+	 * @param null|int $post_id The post id to get the images for.
+	 *
+	 * @return void
+	 */
+	private function set_user_defined_image( $post_id = null ) {
+		if ( $post_id === null ) {
+			$post_id = $this->get_queried_object_id();
 		}
 
 		$this->set_image_post_meta( $post_id );
@@ -243,8 +273,6 @@ class WPSEO_OpenGraph_Image {
 		if ( $this->has_images() ) {
 			return;
 		}
-
-		$this->add_content_images( get_post( $post_id ) );
 	}
 
 	/**
@@ -300,7 +328,7 @@ class WPSEO_OpenGraph_Image {
 	 * @return void
 	 */
 	private function set_attachment_page_image() {
-		$post_id = get_queried_object_id();
+		$post_id = $this->get_queried_object_id();
 		if ( wp_attachment_is_image( $post_id ) ) {
 			$this->add_image_by_id( $post_id );
 		}
@@ -345,6 +373,7 @@ class WPSEO_OpenGraph_Image {
 		}
 
 		$attachment_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
+
 		if ( $attachment_id > 0 ) {
 			$this->add_image_by_id( $attachment_id );
 			return;
@@ -449,6 +478,9 @@ class WPSEO_OpenGraph_Image {
 		do_action( 'wpseo_add_opengraph_images', $this );
 
 		switch ( true ) {
+			case is_front_page():
+				$this->set_front_page_image();
+				break;
 			case is_home():
 				$this->set_posts_page_image();
 				break;
@@ -457,9 +489,6 @@ class WPSEO_OpenGraph_Image {
 				break;
 			case is_singular():
 				$this->set_singular_image();
-				break;
-			case is_front_page():
-				$this->set_front_page_image();
 				break;
 			case is_category():
 			case is_tag():
@@ -561,5 +590,14 @@ class WPSEO_OpenGraph_Image {
 		}
 
 		return $extension;
+	}
+
+	/**
+	 * Gets the queried object ID.
+	 *
+	 * @return int The queried object ID.
+	 */
+	protected function get_queried_object_id() {
+		return get_queried_object_id();
 	}
 }
