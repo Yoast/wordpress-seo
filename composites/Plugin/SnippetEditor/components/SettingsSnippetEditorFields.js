@@ -185,7 +185,6 @@ class SettingsSnippetEditorFields extends React.Component {
 				innerRef={ this.setEditorRef }
 			>
 				<FormSection>
-					Known issue, nie zeure.
 					<ReplacementVariableEditor
 						label={ __( "SEO title", "yoast-components" ) }
 						onFocus={ () => onFocus( "title" ) }
