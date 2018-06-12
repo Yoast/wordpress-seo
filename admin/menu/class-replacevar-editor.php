@@ -10,28 +10,30 @@
  */
 class WPSEO_Replacevar_Editor {
 	/**
-	 * @var Yoast_Form  Yoast Forms instance.
+	 * @var Yoast_Form Yoast Forms instance.
 	 */
 	private $yform;
+
 	/**
-	 * @var string      The id for the hidden title field.
+	 * @var string The id for the hidden title field.
 	 */
 	private $title;
+
 	/**
 	 * @var string The id for the hidden description field.
 	 */
 	private $description;
 
 	/**
-	 * WPSEO_Replacevar_Editor constructor.
+	 * Constructs the object.
 	 *
 	 * @param Yoast_Form $yform       Yoast forms.
 	 * @param string     $title       The title field id.
 	 * @param string     $description The description field id.
 	 */
-	public function __construct( $yform, $title, $description ) {
-		$this->yform = $yform;
-		$this->title = $title;
+	public function __construct( Yoast_Form $yform, $title, $description ) {
+		$this->yform       = $yform;
+		$this->title       = $title;
 		$this->description = $description;
 	}
 
@@ -44,15 +46,14 @@ class WPSEO_Replacevar_Editor {
 	 */
 	public function render() {
 		$this->yform->hidden( $this->title, $this->title );
-		if ( ! is_null( $this->description ) ) {
-			$this->yform->hidden( $this->description, $this->description );
-		}
-		?>
-			<div
+		$this->yform->hidden( $this->description, $this->description );
+
+		printf( '<div
 				data-react-replacevar-editor
-				data-react-replacevar-title-field-id="<?php echo esc_attr( $this->title ) ?>"
-				data-react-replacevar-metadesc-field-id="<?php echo esc_attr( $this->description ) ?>"
-			></div>
-		<?php
+				data-react-replacevar-title-field-id="%1$s"
+				data-react-replacevar-metadesc-field-id="%2$s"></div>',
+			esc_attr( $this->title ),
+			esc_attr( $this->description )
+		);
 	}
 }
