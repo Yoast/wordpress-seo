@@ -87,6 +87,13 @@ PostDataCollector.prototype.getKeyword = function() {
 	return val;
 };
 
+/**
+ * Returns the full meta description including any prefixed date.
+ *
+ * @param {Object} state The state containing the meta description
+ *
+ * @returns {string} The full meta description
+ */
 PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
 	let metaDesc = get( state, [ "analysisData", "snippet", "description" ], this.getSnippetMeta() );
 	if ( wpseoPostScraperL10n.metaDescriptionDate !== ""){
