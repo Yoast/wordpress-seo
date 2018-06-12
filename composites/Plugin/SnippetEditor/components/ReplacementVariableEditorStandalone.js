@@ -14,6 +14,7 @@ import styled from "styled-components";
 // Internal dependencies.
 import { replacementVariablesShape } from "../constants";
 import { positionSuggestions } from "../positionSuggestions";
+import { Mention } from "./Mention";
 import {
 	serializeEditor,
 	unserializeEditor,
@@ -134,6 +135,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
 			positionSuggestions,
+			mentionComponent: Mention,
 		} );
 
 		this.singleLinePlugin = createSingleLinePlugin( {
