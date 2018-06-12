@@ -170,10 +170,6 @@
 		jQuery( "#pageanalysis > section.yoast-section" ).find( "h3" ).after(
 			jQuery( "#help-yoast-pageanalysis" ).detach().removeClass( "wpseo_hidden" )
 		);
-
-		var snippetHelp = jQuery( "#help-yoast-snippetpreview" ).detach().removeClass( "wpseo_hidden" );
-		// Post/taxonomy/media meta box.
-		jQuery( "#wpseosnippet" ).find( "h3" ).after( snippetHelp );
 	}
 
 	jQuery( document ).ready( function() {

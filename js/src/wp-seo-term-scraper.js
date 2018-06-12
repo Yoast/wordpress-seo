@@ -3,7 +3,6 @@
 // External dependencies.
 import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
-import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
 
 // Internal dependencies.
@@ -39,8 +38,6 @@ window.yoastHideMarkers = true;
 	var tabManager;
 
 	let store;
-
-	let snippetPreview;
 
 	/**
 	 * Get the editor created via wp_editor() and append it to the term-description-wrap
@@ -81,88 +78,6 @@ window.yoastHideMarkers = true;
 		// Make the description textarea label plain text removing the label tag.
 		descriptionLabel.replaceWith( descriptionLabel.html() );
 	};
-
-	/**
-	 * Dispatches an action to the store that updates the snippet editor.
-	 *
-	 * @param {Object} data The data from the legacy snippet editor.
-	 *
-	 * @returns {void}
-	 */
-	const dispatchUpdateSnippetEditor = function( data ) {
-		/*
-		 * The setTimeout makes sure the React component is only updated on the next
-		 * frame. This is to prevent input lag.
-		 */
-		setTimeout( () => {
-			store.dispatch( updateData( {
-				title: data.title,
-				slug: data.urlPath,
-				description: data.metaDesc,
-			} ) );
-		}, 0 );
-	};
-
-	/**
-	 * Update the legacy snippet preview based on the passed data from the redux
-	 * store.
-	 *
-	 * @param {Object} data The data from the store.
-	 *
-	 * @returns {void}
-	 */
-	function updateLegacySnippetEditor( data ) {
-		if ( isFunction( snippetPreview.refresh ) ) {
-			let isDataChanged = false;
-
-			if ( snippetPreview.data.title !== data.title ) {
-				snippetPreview.element.input.title.value = data.title;
-
-				isDataChanged = true;
-			}
-
-			if ( snippetPreview.data.urlPath !== data.slug ) {
-				snippetPreview.element.input.urlPath.value = data.slug;
-
-				isDataChanged = true;
-			}
-
-			if ( snippetPreview.data.metaDesc !== data.description ) {
-				snippetPreview.element.input.metaDesc.value = data.description;
-
-				isDataChanged = true;
-			}
-
-			if ( isDataChanged ) {
-				snippetPreview.changedInput();
-			}
-		}
-	}
-
-	/**
-	 * Initializes the snippet preview.
-	 *
-	 * @param {Object} snippetEditorData The snippet editor data.
-	 *
-	 * @returns {SnippetPreview} Instance of snippetpreview.
-	 */
-	function initSnippetPreview( snippetEditorData ) {
-		return snippetPreviewHelpers.create( snippetContainer, {
-			title: snippetEditorData.title,
-			urlPath: snippetEditorData.slug,
-			metaDesc: snippetEditorData.description,
-		}, ( data ) => {
-			const previousData = snippetEditorHelpers.getDataFromStore( store );
-
-			if (
-				previousData.title !== data.title ||
-				previousData.description !== data.metaDesc ||
-				previousData.slug !== data.urlPath
-			) {
-				dispatchUpdateSnippetEditor( data );
-			}
-		} );
-	}
 
 	/**
 	 * Function to handle when the user updates the term slug
@@ -263,7 +178,6 @@ window.yoastHideMarkers = true;
 
 		const editArgs = {
 			analysisSection: "pageanalysis",
-			shouldRenderSnippetPreview: !! wpseoTermScraperL10n.reactSnippetPreview,
 			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 		};
@@ -282,14 +196,7 @@ window.yoastHideMarkers = true;
 
 		tabManager.init();
 
-		termScraper = new TermDataCollector( { tabManager } );
-
-		// Initialize the snippet editor data.
-		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
-		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoTermScraperL10n );
-		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
-
-		snippetPreview = initSnippetPreview( snippetEditorData );
+		termScraper = new TermDataCollector( { tabManager, store } );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
@@ -301,7 +208,7 @@ window.yoastHideMarkers = true;
 			locale: wpseoTermScraperL10n.contentLocale,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			snippetPreview: snippetPreview,
+			hasSnippetPreview: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
@@ -379,14 +286,10 @@ window.yoastHideMarkers = true;
 			disableYoastSEORenderers( app );
 		};
 
-		/*
-		 * Checks the snippet preview size and toggles views when the WP admin menu state changes.
-		 * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
-		 * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
-		 */
-		jQuery( document ).on( "wp-collapse-menu wp-menu-state-set", function() {
-			app.snippetPreview.handleWindowResizing();
-		} );
+		// Initialize the snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoTermScraperL10n );
+		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
@@ -411,8 +314,6 @@ window.yoastHideMarkers = true;
 			snippetEditorData.title = data.title;
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
-
-			updateLegacySnippetEditor( data );
 		} );
 	} );
 }( jQuery, window ) );
