@@ -192,7 +192,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	replacementVariablesFilter( searchValue, replacementVariables ) {
 		const value = searchValue.toLowerCase();
 		return replacementVariables.filter( function( suggestion ) {
-			return ! value || suggestion.name.toLowerCase().indexOf( value ) === 0;
+			return ! value || suggestion.label.toLowerCase().indexOf( value ) === 0;
 		} );
 	}
 
