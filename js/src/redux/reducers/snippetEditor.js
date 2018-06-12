@@ -51,6 +51,7 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 					isNewReplaceVar = false;
 					return {
 						name: action.name,
+						label: action.label || replaceVar.label,
 						value: action.value,
 					};
 				}
@@ -59,6 +60,7 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 			if ( isNewReplaceVar ) {
 				nextReplacementVariables.push( {
 					name: action.name,
+					label: action.label || action.name,
 					value: action.value,
 				} );
 			}

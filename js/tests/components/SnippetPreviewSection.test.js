@@ -21,96 +21,79 @@ describe( "SnippetPreviewSection", () => {
 } );
 
 describe( "mapEditorDataToPreview", () => {
-	it( "strips spaces from the description", () => {
-		const data = {
-			description: "        no more spaces        ",
-			url: "",
-			title: "",
-		};
 
-		const actual = mapEditorDataToPreview( data );
+	let context, dataObject;
+
+	beforeEach( () => {
+		dataObject = {
+			title: "",
+			url: "local.wordpress.test/my URL is awesome",
+			description: "",
+		};
+		context = {
+			shortenedBaseUrl: "local.wordpress.test/",
+		};
+	} );
+
+	it( "strips spaces from the description", () => {
+		const exampleDescription = "        no more spaces        ";
 		const expected = {
 			description: "no more spaces",
-			url: "",
 			title: "",
+			url: "local.wordpress.test/my-URL-is-awesome",
 		};
+		dataObject.description = exampleDescription;
 
-		expect( actual ).toEqual( expected );
-	} );
-	it( "replaces a single spaces in the slug with one dash", () => {
-		const data = {
-			description: "",
-			title: "",
-			url: "only one dash",
-		};
-
-		const actual = mapEditorDataToPreview( data );
-		const expected = {
-			description: "",
-			title: "",
-			url: "only-one-dash",
-		};
-
-		expect( actual ).toEqual( expected );
-	} );
-	it( "replaces multiple spaces in the slug with one dash", () => {
-		const data = {
-			description: "",
-			title: "",
-			url: "only      one      dash",
-		};
-
-		const actual = mapEditorDataToPreview( data );
-		const expected = {
-			description: "",
-			title: "",
-			url: "only-one-dash",
-		};
+		const actual = mapEditorDataToPreview( dataObject, context );
 
 		expect( actual ).toEqual( expected );
 	} );
 	it( "replaces newlines in the description by spaces and removes resulting double spaces", () => {
-		const data = {
-			description: "Yay \n for \n spaces",
-			title: "",
-			url: "",
-		};
-
-		const actual = mapEditorDataToPreview( data );
+		const exampleDescription = "Yay \n for \n spaces";
 		const expected = {
 			description: "Yay for spaces",
 			title: "",
-			url: "",
+			url: "local.wordpress.test/my-URL-is-awesome",
 		};
+		dataObject.description = exampleDescription;
+
+		const actual = mapEditorDataToPreview( dataObject, context );
 
 		expect( actual ).toEqual( expected );
 	} );
-	it( "Hyphenates spaces between words of the URL.", () => {
-		const exampleURL = "my URL is awesome";
-		const expected = "my-URL-is-awesome";
-
-		const dataObject = {
-			title: "",
-			url: exampleURL,
+	it( "replaces a single spaces in the slug with one dash", () => {
+		const exampleUrl = "local.wordpress.test/only one dash";
+		const expected = {
 			description: "",
+			title: "",
+			url: "local.wordpress.test/only-one-dash",
 		};
+		dataObject.url = exampleUrl;
 
-		const actual = mapEditorDataToPreview( dataObject );
+		const actual = mapEditorDataToPreview( dataObject, context );
 
-		expect( actual.url ).toEqual( expected );
+		expect( actual ).toEqual( expected );
 	} );
-
-	it( "Doesn't hyphenate trailing spaces.", () => {
-		const exampleURL = "my URL is awesome    ";
-		const expected = "my-URL-is-awesome";
-
-		const dataObject = {
-			title: "",
-			url: exampleURL,
+	it( "replaces multiple spaces in the slug with one dash", () => {
+		const exampleUrl = "local.wordpress.test/only      one      dash";
+		const expected = {
 			description: "",
+			title: "",
+			url: "local.wordpress.test/only-one-dash",
 		};
+		dataObject.url = exampleUrl;
 
-		const actual = mapEditorDataToPreview( dataObject );
+		const actual = mapEditorDataToPreview( dataObject, context );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "Doesn't hyphenate leading  or trailing spaces.", () => {
+		const exampleURL = "local.wordpress.test/  my URL is awesome  ";
+		const expected = "local.wordpress.test/my-URL-is-awesome";
+
+		dataObject.url = exampleURL;
+
+		const actual = mapEditorDataToPreview( dataObject, context );
 
 		expect( actual.url ).toEqual( expected );
 	} );
