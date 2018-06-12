@@ -78,17 +78,17 @@ export const TitleInputContainer = InputContainer.extend`
 `;
 
 export const DescriptionInputContainer = InputContainer.extend`
-	min-height: 60px;
+	min-height: 72px;
 	padding: 2px 6px;
-	line-height: 19.6px;
+	line-height: 24px;
 `;
 
 export const FormSection = styled.div`
-	margin: 32px 0;
+	margin: 24px 0;
 `;
 
 export const StyledEditor = styled.section`
-	padding: 10px 20px 20px 20px;
+	padding: 10px 20px 0px 20px;
 `;
 
 /**
@@ -98,7 +98,7 @@ export const SimulatedLabel = styled.div`
 	cursor: pointer;
 	font-size: 16px;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
-	margin-bottom: 5px;
+	margin-bottom: 9px;
 `;
 
 export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
@@ -107,7 +107,7 @@ export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
 	fill: ${ colors.$color_grey_dark };
 	padding-left: 8px;
 	float: right;
-	margin-top: -35px; // negative height + 2 for spacing
+	margin-top: -33px; // negative height
 	height: 33px;
 	border: 1px solid #dbdbdb;
 	font-size: 13px;

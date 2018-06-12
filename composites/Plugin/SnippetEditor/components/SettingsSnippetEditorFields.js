@@ -12,6 +12,9 @@ import { replacementVariablesShape } from "../constants";
 
 const FormSection = styled.div`
 	margin: 10px 0;
+	&:not(:first-child) {
+		margin-top: 32px; 
+	}
 `;
 
 const StyledEditor = styled.div`
