@@ -1,12 +1,9 @@
 /* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp */
 
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import thunk from "redux-thunk";
-import logger from "redux-logger";
+import { createStore, combineReducers } from "redux";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import flowRight from "lodash/flowRight";
 
 import IntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
@@ -18,7 +15,8 @@ import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
-import SnippetPreviewSection from "./components/SnippetPreviewSection";
+import SnippetEditor from "./containers/SnippetEditor";
+import configureEnhancers from "./redux/utils/configureEnhancers";
 import analysisDataReducer from "./redux/reducers/analysisData";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
@@ -35,21 +33,7 @@ if( window.wpseoPostScraperL10n ) {
  * @returns {Object} Things that need to be exposed, such as the store.
  */
 function configureStore() {
-	const middleware = [
-		thunk,
-	];
-
-	if ( process.env.NODE_ENV !== "production" ) {
-		middleware.push( logger );
-	}
-
-	const enhancers = [
-		applyMiddleware( ...middleware ),
-	];
-
-	if ( window.__REDUX_DEVTOOLS_EXTENSION__ ) {
-		enhancers.push( window.__REDUX_DEVTOOLS_EXTENSION__() );
-	}
+	const enhancers = configureEnhancers();
 
 	const rootReducer = combineReducers( {
 		marksButtonStatus: markerStatusReducer,
@@ -60,7 +44,7 @@ function configureStore() {
 		analysisData: analysisDataReducer,
 	} );
 
-	return createStore( rootReducer, {}, flowRight( enhancers ) );
+	return createStore( rootReducer, {}, enhancers );
 }
 
 /**
@@ -124,7 +108,7 @@ function renderSnippetPreview( store, props ) {
 	}
 
 	ReactDOM.render(
-		wrapInTopLevelComponents( SnippetPreviewSection, store, props ),
+		wrapInTopLevelComponents( SnippetEditor, store, props ),
 		targetElement,
 	);
 }

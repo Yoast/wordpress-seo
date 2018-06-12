@@ -44,7 +44,7 @@ class WPSEO_Replace_Vars {
 	protected $args;
 
 	/**
-	 * @var    array    Help texts for use in WPSEO -> Titles and Meta's help tabs.
+	 * @var    array    Help texts for use in WPSEO -> Search appearance tabs.
 	 */
 	protected static $help_texts = array();
 
@@ -52,7 +52,6 @@ class WPSEO_Replace_Vars {
 	 * @var array    Register of additional variable replacements registered by other plugins/themes.
 	 */
 	protected static $external_replacements = array();
-
 
 	/**
 	 * Constructor.
@@ -752,7 +751,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current date for use as replacement string.
 	 *
-	 * @return string
+	 * @return string The formatted current date.
 	 */
 	private function retrieve_currentdate() {
 		static $replacement;
@@ -767,7 +766,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current day for use as replacement string.
 	 *
-	 * @return string
+	 * @return string The current day.
 	 */
 	private function retrieve_currentday() {
 		static $replacement;
@@ -782,7 +781,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current month for use as replacement string.
 	 *
-	 * @return string
+	 * @return string The current month.
 	 */
 	private function retrieve_currentmonth() {
 		static $replacement;
@@ -797,7 +796,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current time for use as replacement string.
 	 *
-	 * @return string
+	 * @return string The formatted current time.
 	 */
 	private function retrieve_currenttime() {
 		static $replacement;
@@ -812,7 +811,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current year for use as replacement string.
 	 *
-	 * @return string
+	 * @return string The current year.
 	 */
 	private function retrieve_currentyear() {
 		static $replacement;
@@ -1110,6 +1109,102 @@ class WPSEO_Replace_Vars {
 		}
 	}
 
+	/**
+	 * Generates a list of replacement variables based on the help texts.
+	 *
+	 * @return array List of replace vars.
+	 */
+	public function get_replacement_variables_list() {
+		self::setup_statics_once();
+
+		$replacement_variables = array_merge(
+			$this->get_replacement_variables(),
+			$this->get_custom_fields()
+		);
+
+		return array_map( array( $this, 'format_replacement_variable' ), $replacement_variables );
+	}
+
+	/**
+	 * Creates a merged associative array of both the basic and advanced help texts.
+	 *
+	 * @return array Array with the replacement variables.
+	 */
+	private function get_replacement_variables() {
+		$help_texts = array_merge( self::$help_texts['basic'], self::$help_texts['advanced'] );
+
+		return array_filter( array_keys( $help_texts ), array( $this, 'is_not_prefixed' ) );
+	}
+
+	/**
+	 * Checks if the replacement variable contains a prefix.
+	 *
+	 * @param string $replacement_variable The replacement variable.
+	 *
+	 * @return bool True when the replacement variable contains a
+	 */
+	private function is_not_prefixed( $replacement_variable ) {
+		$prefixes = array( 'cf_', 'ct_' );
+		$prefix   = substr( $replacement_variable, 0, 3 );
+
+		return ! in_array( $prefix, $prefixes );
+	}
+
+	/**
+	 * Formats the replacement variables.
+	 *
+	 * @param string $replacement_variable The replacement variable to format.
+	 *
+	 * @return array The formatted replacement variable.
+	 */
+	private function format_replacement_variable( $replacement_variable ) {
+		return array( 'name' => $replacement_variable, 'value' => '' );
+	}
+
+	/**
+	 * Retrieves the custom field names as an array.
+	 *
+	 * @see WordPress core: wp-admin/includes/template.php. Reused query from it.
+	 *
+	 * @return array The custom fields.
+	 */
+	private function get_custom_fields() {
+		global $wpdb;
+
+		/**
+		 * Filters the number of custom fields to retrieve for the drop-down
+		 * in the Custom Fields meta box.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param int $limit Number of custom fields to retrieve. Default 30.
+		 */
+		$limit = apply_filters( 'postmeta_form_limit', 30 );
+		$sql   = "SELECT DISTINCT meta_key
+			FROM $wpdb->postmeta
+			WHERE meta_key NOT BETWEEN '_' AND '_z'
+			HAVING meta_key NOT LIKE %s
+			ORDER BY meta_key
+			LIMIT %d";
+		$fields = $wpdb->get_col( $wpdb->prepare( $sql, $wpdb->esc_like( '_' ) . '%', $limit ) );
+
+		if ( is_array( $fields ) ) {
+			return array_map( array( $this, 'add_custom_field_prefix' ), $fields );
+		}
+
+		return array();
+	}
+
+	/**
+	 * Adds the cf_ prefix to a field.
+	 *
+	 * @param string $field The field to prefix.
+	 *
+	 * @return string The prefixed field.
+	 */
+	private function add_custom_field_prefix( $field ) {
+		return 'cf_' . $field;
+	}
 
 	/**
 	 * Set/translate the help texts for the WPSEO standard basic variables.
