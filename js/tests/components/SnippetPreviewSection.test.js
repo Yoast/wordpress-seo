@@ -24,5 +24,3 @@ describe( "SnippetPreviewSection", () => {
 		expect( tree ).toMatchSnapshot();
 	} );
 } );
-
-
