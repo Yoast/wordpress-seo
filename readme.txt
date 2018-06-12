@@ -115,6 +115,7 @@ Bugfixes:
 * Fixes a bug where dismissing notifications on a single site in a multisite environment, would result in the notification being dismissed on all sites.
 * Fixes a bug where the attachment URL would redirect to `wp-admin` if the attachment was located on a different Site URL domain.
 * Fixes a bug where MySQL would throw a "Duplicate entry 'X'" error into the error log when attempting to upsert a record in the database.
+* Fixes a performance problem where the selecting a fallback Open Graph image would collect the filename for all the images in the content. This has been changed to detecting if an image is usable per image and stopping when a usable image is found.
 
 Enhancements:
 * Sends the user to the proper control in the customizer when clicking the link in the "You still have the default WordPress tagline [...]" warning message.
