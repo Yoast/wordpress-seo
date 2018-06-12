@@ -1,5 +1,5 @@
 const getNounForms = require( "./getNounForms.js" ).getNounForms;
-const unique = require( "lodash/uniqBy" );
+const unique = require( "lodash/uniq" );
 
 const getForms = function( word ) {
 	let forms = [].concat( getNounForms( word ) );

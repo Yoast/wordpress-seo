@@ -1,11 +1,15 @@
 var AssessmentResult = require( "../../values/AssessmentResult.js" );
+const keywordCount = require( "../../researches/keywordCount.js" );
 var countWords = require( "../../stringProcessing/countWords.js" );
 var formatNumber = require( "../../helpers/formatNumber.js" );
 var inRange = require( "../../helpers/inRange.js" );
+const Mark = require( "../../values/Mark.js" );
+const marker = require( "../../markers/addMark.js" );
 
 var inRangeEndInclusive = inRange.inRangeEndInclusive;
 var inRangeStartInclusive = inRange.inRangeStartInclusive;
 var inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
+const map = require( "lodash/map" );
 
 /**
  * Returns the scores and text for keyword density
@@ -71,6 +75,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 	return {
 		score: score,
 		text: text,
+		hasMarks: roundedKeywordDensity > 0,
 	};
 };
 
@@ -84,15 +89,34 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
  */
 var keywordDensityAssessment = function( paper, researcher, i18n ) {
 	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
-	var keywordCount = researcher.getResearch( "keywordCount" );
+	var keywordCount = researcher.getResearch( "keywordCount" ).count;
 
 	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n, keywordCount );
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( keywordDensityResult.score );
 	assessmentResult.setText( keywordDensityResult.text );
+	assessmentResult.setHasMarks( keywordDensityResult.hasMarks );
 
 	return assessmentResult;
+};
+
+/**
+ * Marks keywords in the text for the keyword density assessment.
+ *
+ * @param {Object} paper The paper to use for the assessment.
+ *
+ * @returns {Array<Mark>} A list of marks that should be applied.
+ */
+let getMarks = function( paper ) {
+	const keywordForms = keywordCount( paper ).matches;
+
+	return map( keywordForms, function( keywordForm ) {
+		return new Mark( {
+			original: keywordForm,
+			marked: marker( keywordForm ),
+		} );
+	} );
 };
 
 module.exports = {
@@ -101,4 +125,5 @@ module.exports = {
 	isApplicable: function( paper ) {
 		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
 	},
+	getMarks: getMarks,
 };

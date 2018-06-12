@@ -1,4 +1,4 @@
-const buildKeywordForms = require( "../../js/researches/buildKeywordForms.js" );
+const buildKeywordForms = require( "../../src/researches/buildKeywordForms.js" );
 const includes = require( "lodash/includes" );
 const Paper = require( "../../js/values/Paper.js" );
 let result;
@@ -20,6 +20,11 @@ describe( "Build keyword forms based on the received keyword for English", funct
 		mockPaper = new Paper( "", { keyword: "\"keyword\"", locale: "en_EN" } );
 		result = buildKeywordForms( mockPaper );
 		expect( result ).toEqual( [].concat( "keyword" ) );
+
+		mockPaper = new Paper( "", { keyword: "\"keyword", locale: "en_EN" } );
+		result = buildKeywordForms( mockPaper );
+		expect( result ).toContain( "\"keyword" );
+		expect( result ).toContain( "\"keywords" );
 
 		mockPaper = new Paper( "", { keyword: "\"Keyword\"", locale: "en_EN" } );
 		result = buildKeywordForms( mockPaper );
