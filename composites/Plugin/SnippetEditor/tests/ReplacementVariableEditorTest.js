@@ -39,18 +39,22 @@ describe( "replacementVariablesFilter", () => {
 		replacementVariables = [
 			{
 				name: "category",
+				label: "Category",
 				value: "uncategorized",
 			},
 			{
 				name: "primary_category",
+				label: "Primary category",
 				value: "uncategorized",
 			},
 			{
 				name: "category_description",
+				label: "Category description",
 				value: "uncategorized",
 			},
 			{
 				name: "date",
+				label: "Date",
 				value: "May 30, 2018",
 			},
 		];
@@ -66,10 +70,12 @@ describe( "replacementVariablesFilter", () => {
 		expected = [
 			{
 				name: "category",
+				label: "Category",
 				value: "uncategorized",
 			},
 			{
 				name: "category_description",
+				label: "Category description",
 				value: "uncategorized",
 			},
 		];
