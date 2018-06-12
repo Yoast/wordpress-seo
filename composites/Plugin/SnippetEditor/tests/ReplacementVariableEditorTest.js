@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import ReplacementVariableEditor from "../components/ReplacementVariableEditor";
+import ReplacementVariableEditorStandalone from "../components/ReplacementVariableEditorStandalone";
 import React from "react";
 
 jest.mock( "draft-js/lib/generateRandomKey", () => () => {
@@ -17,7 +17,7 @@ jest.mock( "draft-js/lib/generateRandomKey", () => () => {
 
 describe( "ReplacementVariableEditor", () => {
 	it( "wraps a Draft.js editor instance", () => {
-		const editor = shallow( <ReplacementVariableEditor content="Dummy content" onChange={ () => {} } ariaLabelledBy="id" /> );
+		const editor = shallow( <ReplacementVariableEditorStandalone content="Dummy content" onChange={ () => {} } ariaLabelledBy="id" /> );
 
 		expect( editor ).toMatchSnapshot();
 	} );
@@ -53,7 +53,7 @@ describe( "replacementVariablesFilter", () => {
 			ariaLabelledBy: "id",
 		};
 
-		replacementVariablesEditor = new ReplacementVariableEditor( props );
+		replacementVariablesEditor = new ReplacementVariableEditorStandalone( props );
 
 		expected = [
 			{

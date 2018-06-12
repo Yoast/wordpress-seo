@@ -2,7 +2,7 @@ import React from "react";
 
 let focus = jest.fn();
 
-class ReplacementVariableEditor extends React.Component {
+class ReplacementVariableEditorStandalone extends React.Component {
 	/**
 	 * Constructs the mocked replacement variable editor.
 	 *
@@ -28,6 +28,6 @@ class ReplacementVariableEditor extends React.Component {
 	}
 }
 
-export default ReplacementVariableEditor;
+export default ReplacementVariableEditorStandalone;
 
 export { focus };

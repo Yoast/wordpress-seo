@@ -13,7 +13,7 @@ import { __ } from "@wordpress/i18n";
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
 import colors from "../../../../style-guide/colors";
-import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
+import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 import HelpTextWrapper from "../components/HelpTextWrapper";
 import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
@@ -668,11 +668,9 @@ export default class SnippetPreview extends PureComponent {
 					padding={ WIDTH_PADDING }
 				>
 					<PartContainer>
-						<FormattedScreenReaderMessage
-							id="snippetPreview.seoTitlePreview"
-							defaultMessage="SEO title preview"
-							after=":"
-						/>
+						<ScreenReaderText>
+							{ __( "SEO title preview", "yoast-components" ) + ":" }
+						</ScreenReaderText>
 						<Title
 							onMouseUp={ onMouseUp.bind( null, "title" ) }
 							onMouseEnter={ onMouseEnter.bind( null, "title" ) }
@@ -684,22 +682,18 @@ export default class SnippetPreview extends PureComponent {
 								</TitleUnbounded>
 							</TitleBounded>
 						</Title>
-						<FormattedScreenReaderMessage
-							id="snippetPreview.urlPreview"
-							defaultMessage="Url preview"
-							after=":"
-						/>
+						<ScreenReaderText>
+							{ __( "Url preview", "yoast-components" ) + ":" }
+						</ScreenReaderText>
 						{ amp }
 						{ this.renderUrl() }
 						{ downArrow }
 					</PartContainer>
 					{ separator }
 					<PartContainer>
-						<FormattedScreenReaderMessage
-							id="snippetPreview.metaDescriptionPreview"
-							defaultMessage="Meta description preview"
-							after=":"
-						/>
+						<ScreenReaderText>
+							{ __( "Meta description preview", "yoast-components" ) + ":" }
+						</ScreenReaderText>
 						{ this.renderDescription() }
 					</PartContainer>
 				</Container>
