@@ -25,6 +25,24 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/** The identifier used for the Network Settings submenu. */
 	const NETWORK_SETTINGS_SUBMENU_IDENTIFIER = 'wpseo-network-settings';
 
+	/** @var WPSEO_Admin_Asset_Manager Asset manager instance. */
+	protected $asset_manager;
+
+	/**
+	 * Constructor.
+	 *
+	 * Sets the asset manager to use.
+	 *
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager Optional. Asset manager to use.
+	 */
+	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager = null ) {
+		if ( ! $asset_manager ) {
+			$asset_manager = new WPSEO_Admin_Asset_Manager();
+		}
+
+		$this->asset_manager = $asset_manager;
+	}
+
 	/**
 	 * Adds the admin bar menu.
 	 *
@@ -46,7 +64,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			$this->add_analysis_submenu( $wp_admin_bar );
 		}
 
-		if ( is_blog_admin() ) {
+		if ( ! is_admin() || is_blog_admin() ) {
 			$this->add_settings_submenu( $wp_admin_bar );
 		}
 		elseif ( is_network_admin() ) {
@@ -69,9 +87,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->register_assets();
-		$asset_manager->enqueue_style( 'adminbar' );
+		$this->asset_manager->register_assets();
+		$this->asset_manager->enqueue_style( 'adminbar' );
 	}
 
 	/**
