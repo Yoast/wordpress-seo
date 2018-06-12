@@ -107,10 +107,10 @@ class SnippetEditor extends React.Component {
 	 * @param {string}   props.data.title                      The initial title.
 	 * @param {string}   props.data.slug                       The initial slug.
 	 * @param {string}   props.data.description                The initial description.
-	 * @param {string}   props.baseUrl                         The base URL to use for
-	 *                                                         the preview.
-	 * @param {string}   props.mode                            The mode the editor should
-	 *                                                         be in.
+	 * @param {string}   props.baseUrl                         The base URL to use
+	 *                                                         for the preview.
+	 * @param {string}   props.mode                            The mode the editor
+	 *                                                         should be in.
 	 * @param {Function} props.onChange                        Called when the data
 	 *                                                         changes.
 	 * @param {Object}   props.titleLengthProgress             The values for the title
@@ -118,8 +118,9 @@ class SnippetEditor extends React.Component {
 	 * @param {Object}   props.descriptionLengthProgress       The values for the
 	 *                                                         description length
 	 *                                                         assessment.
-	 * @param {Function} props.mapDataToPreview                Function to map the editor
-	 *                                                         data to data for the preview.
+	 * @param {Function} props.mapEditorDataToPreview          Function to map the
+	 *                                                         editor data to data
+	 *                                                         for the preview.
 	 * @param {string}   props.locale                          The locale of the page.
 	 *
 	 * @returns {void}
@@ -393,23 +394,30 @@ class SnippetEditor extends React.Component {
 	 * @returns {Object} The data for the preview.
 	 */
 	mapDataToMeasurements( originalData ) {
-		const { baseUrl, mapDataToPreview } = this.props;
+		const { baseUrl, mapEditorDataToPreview } = this.props;
 
 		let description = this.processReplacementVariables( originalData.description );
 
 		// Strip multiple spaces and spaces at the beginning and end.
 		description = stripSpaces( description );
 
-		const mappedData = {
+		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
+
+		let mappedData = {
 			title: this.processReplacementVariables( originalData.title ),
-			url: baseUrl.replace( "https://", "" ) + originalData.slug,
+			url: shortenedBaseUrl + originalData.slug,
 			description: description,
 		};
 
+		const context = {
+			shortenedBaseUrl,
+		};
+
 		// The mapping by the passed mapping function should happen before measuring.
-		if ( mapDataToPreview ) {
-			return mapDataToPreview( mappedData, originalData );
+		if ( mapEditorDataToPreview ) {
+			return mapEditorDataToPreview( mappedData, context );
 		}
+
 
 		return mappedData;
 	}
@@ -550,7 +558,7 @@ SnippetEditor.propTypes = {
 	onChangeAnalysisData: PropTypes.func,
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
-	mapDataToPreview: PropTypes.func,
+	mapEditorDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
 	locale: PropTypes.string,
 };
@@ -570,7 +578,7 @@ SnippetEditor.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
-	mapDataToPreview: null,
+	mapEditorDataToPreview: null,
 	locale: "en",
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
 	onChangeAnalysisData: noop,
