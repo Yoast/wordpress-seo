@@ -150,15 +150,6 @@
     lodash "^4.17.5"
     memize "^1.0.5"
 
-"@wordpress/i18n@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-1.1.1.tgz#e97c31879e1f76878cfdd14eb7d7a0ec99a234c3"
-  dependencies:
-    gettext-parser "^1.3.1"
-    jed "^1.1.1"
-    lodash "^4.17.5"
-    memize "^1.0.5"
-
 "@wordpress/is-shallow-equal@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@wordpress/is-shallow-equal/-/is-shallow-equal-1.0.2.tgz#9368bedc69d5ec08f46ff7b188a0d48c6499818c"
@@ -4054,10 +4045,6 @@ find-versions@^1.0.0:
     get-stdin "^4.0.1"
     meow "^3.5.0"
     semver-regex "^1.0.0"
-
-find-with-regex@^1.0.2:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/find-with-regex/-/find-with-regex-1.1.0.tgz#93030ec0f6229708fcc014501d642dc2941e5c6e"
 
 find-with-regex@^1.1.3:
   version "1.1.3"
@@ -11636,9 +11623,9 @@ yoastseo@^1.33.0:
     sassdash "^0.9.0"
     tokenizer2 "^2.0.0"
 
-yoastseo@^1.33.1:
-  version "1.33.1"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.33.1.tgz#da04fd320a933cb7ef3bbe6a91cc5216a33105d2"
+yoastseo@^1.34.0:
+  version "1.34.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.34.0.tgz#d21066142268623e36c1f616c6e739bd2a2a5587"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
