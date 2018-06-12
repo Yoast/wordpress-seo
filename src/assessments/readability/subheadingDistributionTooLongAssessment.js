@@ -1,13 +1,15 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let isTextTooLong = require( "../../helpers/isValueTooLong" );
-let filter = require( "lodash/filter" );
-let map = require( "lodash/map" );
-let merge = require( "lodash/merge" );
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
+const isTextTooLong = require( "../../helpers/isValueTooLong" );
+const getSubheadings = require( "../../stringProcessing/getSubheadings.js" ).getSubheadings;
+const getWords = require( "../../stringProcessing/getWords.js" );
+const filter = require( "lodash/filter" );
+const map = require( "lodash/map" );
+const merge = require( "lodash/merge" );
 
-let Mark = require( "../../values/Mark.js" );
-let marker = require( "../../markers/addMark.js" );
-let inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
+const Mark = require( "../../values/Mark.js" );
+const marker = require( "../../markers/addMark.js" );
+const inRange = require( "../../helpers/inRange.js" ).inRangeEndInclusive;
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -16,17 +18,27 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
 
 		let defaultConfig = {
-			// The maximum recommended value of the subheading text.
-			recommendedMaximumWordCount: 300,
-			slightlyTooMany: 300,
-			farTooMany: 350,
+			parameters: {
+				// The maximum recommended value of the subheading text.
+				recommendedMaximumWordCount: 300,
+				slightlyTooMany: 300,
+				farTooMany: 350,
+			},
+			url: "<a href='https://yoa.st/headings' target='_blank'>",
+			scores: {
+				goodShortTextNoSubheadings: 9,
+				goodSubheadings: 9,
+				okSubheadings: 6,
+				badSubheadings: 3,
+				badLongTextNoSubheadings: 2,
+			},
 		};
 
 		this.identifier = "subheadingsTooLong";
@@ -38,26 +50,36 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
-		subheadingTextsLength = subheadingTextsLength.sort(
-			function( a, b ) {
-				return b.wordCount - a.wordCount;
-			}
-		);
+		this._subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
 
-		let tooLongTexts = this.getTooLongSubheadingTexts( subheadingTextsLength ).length;
-		let score = this.calculateScore( subheadingTextsLength );
+		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
+			return b.wordCount - a.wordCount;
+		} );
+
+		this._tooLongTexts = this.getTooLongSubheadingTexts();
+		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
 
 		let assessmentResult = new AssessmentResult();
+		assessmentResult.setIdentifier( this.identifier );
 
-		assessmentResult.setScore( score );
-		assessmentResult.setText( this.translateScore( score, tooLongTexts, i18n ) );
-		assessmentResult.setHasMarks( ( score > 2 && score < 7 ) );
+		this._hasSubheadings = this.hasSubheadings( paper );
+
+		this._textLength = getWords( paper.getText() ).length;
+
+		const calculatedResult = this.calculateResult( i18n );
+		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
+
+		if ( calculatedResult.score > 2 && calculatedResult.score < 7 ) {
+			assessmentResult.setHasMarks( true );
+			assessmentResult.setMarker( this.getMarks() );
+		}
 
 		return assessmentResult;
 	}
@@ -74,17 +96,24 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 
 	/**
-	 * Creates a marker for each text following a subheading that is too long.
+	 * Checks whether the paper has subheadings.
+	 *
 	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {object} researcher The researcher used for calling research.
+	 *
+	 * @returns {boolean} True when there is at least one subheading.
+	 */
+	hasSubheadings( paper ) {
+		const subheadings = getSubheadings( paper.getText() );
+		return subheadings.length > 0;
+	}
+
+	/**
+	 * Creates a marker for each text following a subheading that is too long.
 	 * @returns {Array} All markers for the current text.
 	 */
-	getMarks( paper, researcher ) {
-		let subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
-		let tooLongTexts = this.getTooLongSubheadingTexts( subheadingTextsLength );
-
-		return map( tooLongTexts, function( tooLongText ) {
-			let marked = marker( tooLongText.text );
+	getMarks() {
+		return map( this._tooLongTexts, function( tooLongText ) {
+			const marked = marker( tooLongText.text );
 			return new Mark( {
 				original: tooLongText.text,
 				marked: marked,
@@ -95,89 +124,132 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Counts the number of subheading texts that are too long.
 	 *
-	 * @param {Array} subheadingTextsLength Array with subheading text lengths.
 	 * @returns {number} The number of subheading texts that are too long.
 	 */
-	getTooLongSubheadingTexts( subheadingTextsLength ) {
-		return filter( subheadingTextsLength, function( subheading ) {
-			return isTextTooLong( this._config.recommendedMaximumWordCount, subheading.wordCount );
+	getTooLongSubheadingTexts() {
+		return filter( this._subheadingTextsLength, function( subheading ) {
+			return isTextTooLong( this._config.parameters.recommendedMaximumWordCount, subheading.wordCount );
 		}.bind( this ) );
 	}
 
 	/**
-	 * Calculates the score based on the subheading texts length.
+	 * Calculates the score and creates a feedback string based on the subheading texts length.
 	 *
-	 * @param {Array} subheadingTextsLength Array with subheading text lengths.
-	 * @returns {number} The calculated score.
+	 * @param {Object} i18n The object used for translations.
+	 *
+	 * @returns {Object} The calculated result.
 	 */
-	calculateScore( subheadingTextsLength ) {
-		let score;
+	calculateResult( i18n ) {
+		if ( this._textLength > 300 ) {
+			if ( this._hasSubheadings ) {
+				const longestSubheadingTextLength = this._subheadingTextsLength[ 0 ].wordCount;
+				if ( longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {
+					// Green indicator.
+					return {
+						score: this._config.scores.goodSubheadings,
+						resultText: i18n.sprintf(
+							// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+							i18n.dgettext(
+								"js-text-analysis",
+								"Great job with using %1$ssubheadings%2$s!"
+							),
+							this._config.url,
+							"</a>"
+						),
+					};
+				}
 
-		if ( subheadingTextsLength.length === 0 ) {
+				if ( inRange( longestSubheadingTextLength, this._config.parameters.slightlyTooMany, this._config.parameters.farTooMany ) ) {
+					// Orange indicator.
+					return {
+						score: this._config.scores.okSubheadings,
+						resultText: i18n.sprintf(
+							/*
+							 * Translators: %1$d expands to the number of subheadings, %2$d expands to the recommended number
+							 * of words following a subheading, %3$s expands to a link to https://yoa.st/headings,
+							 * %4$s expands to the link closing tag.
+							 */
+							i18n.dngettext(
+								"js-text-analysis",
+								"%1$d section of your text is longer than %2$d words and is not separated by any subheadings. " +
+								"Add %3$ssubheadings%4$s to improve readability.",
+								"%1$d sections of your text are longer than %2$d words and are not separated by any subheadings. " +
+								"Add %3$ssubheadings%4$s to improve readability.",
+								this._tooLongTextsNumber ),
+							this._tooLongTextsNumber,
+							this._config.parameters.recommendedMaximumWordCount,
+							this._config.url,
+							"</a>"
+						),
+					};
+				}
+
+				// Red indicator.
+				return {
+					score: this._config.scores.badSubheadings,
+					resultText: i18n.sprintf(
+						/*
+						 * Translators: %1$d expands to the number of subheadings, %2$d expands to the recommended number
+						 * of words following a subheading, %3$s expands to a link to https://yoa.st/headings,
+						 * %4$s expands to the link closing tag.
+						 */
+						i18n.dngettext(
+							"js-text-analysis",
+							"%1$d section of your text is longer than %2$d words and is not separated by any subheadings. " +
+							"Add %3$ssubheadings%4$s to improve readability.",
+							"%1$d sections of your text are longer than %2$d words and are not separated by any subheadings. " +
+							"Add %3$ssubheadings%4$s to improve readability.",
+							this._tooLongTextsNumber ),
+						this._tooLongTextsNumber,
+						this._config.parameters.recommendedMaximumWordCount,
+						this._config.url,
+						"</a>"
+					),
+				};
+			}
 			// Red indicator, use '2' so we can differentiate in external analysis.
-			return 2;
-		}
-
-		let longestSubheadingTextLength = subheadingTextsLength[ 0 ].wordCount;
-
-		// Green indicator.
-		if ( longestSubheadingTextLength <= this._config.slightlyTooMany ) {
-			score = 9;
-		}
-
-		// Orange indicator.
-		if ( inRange( longestSubheadingTextLength, this._config.slightlyTooMany, this._config.farTooMany  ) ) {
-			score = 6;
-		}
-
-		// Red indicator.
-		if ( longestSubheadingTextLength > this._config.farTooMany ) {
-			score = 3;
-		}
-
-		return score;
-	}
-
-	/**
-	 * Translates the score to a message the user can understand.
-	 *
-	 * @param {number} score The score.
-	 * @param {number} tooLongTexts The amount of too long texts.
-	 * @param {object} i18n The object used for translations.
-	 *
-	 * @returns {string} A string.
-	 */
-	translateScore( score, tooLongTexts, i18n ) {
-		if ( score === 2 ) {
-			// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
-			return i18n.sprintf(
-				i18n.dgettext(
-					"js-text-analysis",
-					"The text does not contain any %1$ssubheadings%2$s. Add at least one subheading."
+			return {
+				score: this._config.scores.badLongTextNoSubheadings,
+				resultText: i18n.sprintf(
+					// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+					i18n.dgettext(
+						"js-text-analysis",
+						"You are not using any subheadings, although your text is rather long. " +
+						"Try and add  some %1$ssubheadings%2$s."
+					),
+					this._config.url,
+					"</a>"
 				),
-				"<a href='https://yoa.st/headings' target='_blank'>",
-				"</a>"
-			);
+			};
 		}
-
-		if ( score >= 7 ) {
-			return i18n.sprintf(
+		if ( this._hasSubheadings ) {
+			// Green indicator.
+			return {
+				score: this._config.scores.goodSubheadings,
+				resultText: i18n.sprintf(
+					// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+					i18n.dgettext(
+						"js-text-analysis",
+						"Great job with using %1$ssubheadings%2$s!"
+					),
+					this._config.url,
+					"</a>"
+				),
+			};
+		}
+		// Green indicator.
+		return {
+			score: this._config.scores.goodShortTextNoSubheadings,
+			resultText: i18n.sprintf(
+				// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 				i18n.dgettext(
 					"js-text-analysis",
-					"The amount of words following each of the subheadings doesn't exceed the recommended maximum of %1$d words, which is great."
-				), this._config.recommendedMaximumWordCount );
-		}
-
-
-		// Translators: %1$d expands to the number of subheadings, %2$d expands to the recommended value
-		return i18n.sprintf(
-			i18n.dngettext(
-				"js-text-analysis",
-				"%1$d subheading is followed by more than the recommended maximum of %2$d words. Try to insert another subheading.",
-				"%1$d of the subheadings are followed by more than the recommended maximum of %2$d words. Try to insert additional subheadings.",
-				tooLongTexts ),
-			tooLongTexts, this._config.recommendedMaximumWordCount
-		);
+					"You are not using any %1$ssubheadings%2$s, but your text is short enough and probably doesn't need them."
+				),
+				this._config.url,
+				"</a>"
+			),
+		};
 	}
 }
 
