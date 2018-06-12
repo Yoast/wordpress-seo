@@ -11,7 +11,6 @@ import {
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
 import debounce from "lodash/debounce";
-import { setDocumentExcerpt, setDocumentContent, setDocumentTitle } from "../redux/actions/documentData";
 
 /**
  * Represents the classic editor data.
@@ -30,7 +29,6 @@ class ClassicEditorData {
 		this._data = {};
 		// This will be used for the comparison whether the title, description and slug are dirty.
 		this._previousData = {};
-		this.subscribeToInputElement = this.subscribeToInputElement.bind( this );
 		this.updateReplacementData = this.updateReplacementData.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
@@ -106,12 +104,6 @@ class ClassicEditorData {
 		this.subscribeToInputElement( "title", "title" );
 		this.subscribeToInputElement( "excerpt", "excerpt" );
 		this.subscribeToInputElement( "excerpt", "excerpt_only" );
-
-		let dispatchContentToStore = () => {
-			this._store.dispatch( setDocumentContent( this.getContent() ) );
-		};
-
-		tmceHelper.addEventHandler( tmceId, [ "input", "change", "cut", "paste" ], dispatchContentToStore );
 	}
 
 	/**
@@ -133,26 +125,9 @@ class ClassicEditorData {
 			return;
 		}
 
-		// Title and excerpt also need to be sent to the DocumentData in the Redux store.
-		switch ( targetField ) {
-			case "excerpt":
-				element.addEventListener( "input", ( event ) => {
-					this._store.dispatch( setDocumentExcerpt( event.target.value ) );
-					this.updateReplacementData( event, targetField );
-				} );
-				break;
-			case "title":
-				element.addEventListener( "input", ( event ) => {
-					this._store.dispatch( setDocumentTitle( event.target.value ) );
-					this.updateReplacementData( event, targetField );
-				} );
-				break;
-			default:
-				element.addEventListener( "input", ( event ) => {
-					this.updateReplacementData( event, targetField );
-				} );
-				break;
-		}
+		element.addEventListener( "input", ( event ) => {
+			this.updateReplacementData( event, targetField );
+		} );
 	}
 
 	/**

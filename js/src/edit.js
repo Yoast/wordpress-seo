@@ -43,7 +43,6 @@ function configureStore() {
 		activeKeyword: activeKeyword,
 		activeTab,
 		snippetEditor,
-		documentData: documentDataReducer,
 		analysisData: analysisDataReducer,
 	} );
 
@@ -152,24 +151,6 @@ export function initializeData( data, args, store ) {
 }
 
 /**
- * Maps the data to the correct fields in the store.
- *
- * @param {Object} data  The data object.
- * @param {Object} store The redux store.
- *
- * @returns {void}
- */
-function mapDataToStore( data, store ) {
-	const newData = data.getData();
-
-	store.dispatch( setDocumentData( {
-		title: newData.title,
-		content: newData.content,
-		excerpt: newData.excerpt,
-	} ) );
-}
-
-/**
  * Initializes all functionality on the edit screen.
  *
  * This can be a post or a term edit screen.
@@ -188,7 +169,6 @@ export function initialize( args ) {
 	const store = configureStore();
 
 	const data = initializeData( wp.data, args, store );
-	mapDataToStore( data, store );
 
 	renderReactApps( store, args );
 
