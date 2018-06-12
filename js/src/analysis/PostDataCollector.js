@@ -96,7 +96,7 @@ PostDataCollector.prototype.getKeyword = function() {
  */
 PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
 	let metaDesc = get( state, [ "analysisData", "snippet", "description" ], this.getSnippetMeta() );
-	if ( wpseoPostScraperL10n.metaDescriptionDate !== ""){
+	if ( wpseoPostScraperL10n.metaDescriptionDate !== "" ) {
 		metaDesc = wpseoPostScraperL10n.metaDescriptionDate + " - " + metaDesc;
 	}
 	return metaDesc;
