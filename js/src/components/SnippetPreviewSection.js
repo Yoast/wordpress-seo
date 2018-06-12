@@ -95,6 +95,7 @@ export const mapEditorDataToPreview = function( data, context ) {
 		data.url = data.url.slice( 0, -1 );
 	}
 	// If the first symbol after the baseUrl is a hyphen, remove that hyphen.
+	// This hyphen is removed because it is usually the result of the regex replacing a space it shouldn't.
 	if ( data.url[ baseUrlLength ] === "-" ) {
 		data.url = data.url.slice( 0, baseUrlLength ) + data.url.slice( baseUrlLength + 1 );
 	}
