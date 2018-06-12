@@ -19,7 +19,7 @@ let ordinalNumerals = [ "second", "secondes", "deuxième", "deuxièmes", "troisi
 	"dix-huitièmes", "dix-neuvième", "dix-neuvièmes", "vingtième", "vingtièmes" ];
 
 let personalPronounsNominative = [ "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles", "qu'il", "qu'elle",
-	"qu'ils", "qu'elles", "qu'on", "d'il", "d'elle", "d'ils", "d'elles" ];
+	"qu'ils", "qu'elles", "qu'on", "d'elle", "d'elles" ];
 
 let personalPronounsStressed = [ "moi", "toi", "lui", "soi", "eux", "d'eux", "qu'eux" ];
 
@@ -39,7 +39,7 @@ let reflexivePronouns = [ "se" ];
 
 let indefinitePronouns = [ "aucun", "aucune", "autre", "autres", "d'autres", "certain", "certaine", "certaines", "certains",
 	"chacun", "chacune", "même", "mêmes", "quelqu'un", "quelqu'une", "quelques'uns", "quelques'unes", "autrui", "nul",
-	"personne", "quiconque", "rien", "d'aucunes", "d'aucuns", "nuls", "nules", "l'autre", "l'autres", "tel", "telle",
+	"personne", "quiconque", "rien", "d'aucunes", "d'aucuns", "nuls", "nules", "l'autre", "tel", "telle",
 	"tels", "telles" ];
 
 let relativePronouns = [ "qui", "que", "lequel", "laquelle", "auquel", "auxquels", "auxquelles", "duquel", "desquels", "desquelles", "dont", "où",
@@ -79,7 +79,7 @@ let otherAuxiliaries = [ "a", "a-t-elle", "a-t-il", "a-t-on", "ai", "ai-je", "ai
 	"paraît", "ait", "paraissons", "paraissez", "paraissent", "parais-je", "parais-tu", "paraît-il", "paraît-elle", "paraît-on", "ait-il", "ait-elle",
 	"ait-on", "paraissons-nous", "paraissez-vous", "paraissent-ils", "paraissent-elles", "parus", "parut", "parûmes", "parûtes", "parurent",
 	"paraissais", "paraissait", "paraissions", "paraissiez", "paraissaient", "paraîtrai", "paraîtras", "paraîtra", "paraîtrons", "paraîtrez",
-	"paraîtront", "aitrai", "aitras", "aitra", "aitrons", "aitrez", "aitront", "paru", "paraisse", "paraisses", "parusse", "parusses", "parût",
+	"paraîtront", "paru", "paraisse", "paraisses", "parusse", "parusses", "parût",
 	"parussions", "parussiez", "parussent", "paraîtrais", "paraîtrait", "paraîtrions", "paraîtriez", "paraîtraient", "paraitrais", "paraitrait",
 	"paraitrions", "paraitriez", "paraitraient", "paraissant", "mets", "met", "mettons", "mettez", "mettent", "mets-je", "mets-tu", "met-il",
 	"met-elle", "met-on", "mettons-nous", "mettez-vous", "mettent-ils", "mettent-elles", "mis", "mit", "mîmes", "mîtes", "mirent", "mettais",
