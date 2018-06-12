@@ -8,7 +8,7 @@ import a11ySpeak from "a11y-speak";
 	/**
 	 * Displays given settings errors.
 	 *
-	 * @param {object[]} settingsErrors The list of settings error objects.
+	 * @param {Object} settingsErrors The list of settings error objects.
 	 *
 	 * @returns {void}
 	 */
@@ -27,7 +27,11 @@ import a11ySpeak from "a11y-speak";
 
 		$heading.after( notices.join( "" ) );
 
-		prefix = settingsErrors[ 0 ].type === "updated" ? wpseoNetworkAdminGlobalL10n.success_prefix : wpseoNetworkAdminGlobalL10n.error_prefix;
+		prefix = wpseoNetworkAdminGlobalL10n.error_prefix;
+		if ( settingsErrors[ 0 ].type === "updated" ) {
+			prefix = wpseoNetworkAdminGlobalL10n.success_prefix;
+		}
+
 		a11ySpeak( prefix.replace( "%s", settingsErrors[ 0 ].message ), "assertive" );
 	}
 
