@@ -16,8 +16,6 @@ import Data from "./analysis/data.js";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
-import documentDataReducer from "./redux/reducers/documentData";
-import { setDocumentData } from "./redux/actions/documentData";
 import configureEnhancers from "./redux/utils/configureEnhancers";
 import analysisDataReducer from "./redux/reducers/analysisData";
 
