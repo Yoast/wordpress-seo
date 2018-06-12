@@ -5,6 +5,27 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.2.0 June 12nd, 2018
+
+### Added
+- Implements the draft-js-single-line-plugin in order to keep the Draft-js Editor from creating new blocks on enter presses and pasting newlines.
+- Adds a meta description placeholder text.
+- Adds a SettingsSnippetEditor component.
+- Adds a button to the snippet editor to improve discoverability of the snippet variables.
+
+### Removed
+- Removes logic for decoding separators. This logic has been moved to wordpress-seo.
+
+### Fixed
+- Fixes a bug where the snippet editor fields would stay in an isActive state when blurred.
+- Fixes a bug where the progress bars for the snippet title and description wouldn't respond correctly to the content of the input fields.
+- Fixes a bug where multiple spaces and spaces at the beginning and end of the snippet description were taken into account for the description length progress calculation.
+- Fixes a bug where the snippet variable suggestions would be sometimes positioned outside of the viewport.
+
+### Other
+- Changes the replacement variable editor to automatically replace snippet variables with entities.
+- Improves the Help text accessibility and introduces a SlideToggle component based on react-transition-group.
+
 ## 4.1.0 May 23rd, 2018
 
 ### Changes
