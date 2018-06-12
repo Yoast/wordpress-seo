@@ -71,6 +71,8 @@ class WPSEO_Admin {
 
 		add_action( 'admin_init', array( $this, 'map_manage_options_cap' ) );
 
+		add_action( 'admin_init', array( $this, 'check_php_version' ) );
+
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'home' );
 
@@ -86,7 +88,6 @@ class WPSEO_Admin {
 
 		$this->set_upsell_notice();
 
-		$this->check_php_version();
 		$this->initialize_cornerstone_content();
 
 		new Yoast_Modal();
@@ -96,6 +97,7 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Statistic_Integration();
 		$integrations[] = new WPSEO_Slug_Change_Watcher();
 		$integrations[] = new WPSEO_Capability_Manager_Integration( WPSEO_Capability_Manager_Factory::get() );
+		$integrations[] = new WPSEO_Admin_Media_Purge_Notification();
 		$integrations   = array_merge( $integrations, $this->initialize_seo_links() );
 
 		/** @var WPSEO_WordPress_Integration $integration */
@@ -280,6 +282,8 @@ class WPSEO_Admin {
 	 */
 	private function localize_admin_global_script() {
 		return array(
+			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
+			'variable_warning'        => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
 			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
 			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
 			'help_video_iframe_title' => __( 'Yoast SEO video tutorial', 'wordpress-seo' ),
@@ -319,7 +323,7 @@ class WPSEO_Admin {
 	 *
 	 * @return void
 	 */
-	protected function check_php_version() {
+	public function check_php_version() {
 		// If the user isn't an admin, don't display anything.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;

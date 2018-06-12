@@ -983,11 +983,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'sitedesc',
 			'sep',
 			'page',
-			'currenttime',
-			'currentdate',
-			'currentday',
-			'currentmonth',
-			'currentyear',
 		);
 
 		foreach ( $vars_to_cache as $var ) {

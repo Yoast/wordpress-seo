@@ -3,31 +3,6 @@ import { __ } from "@wordpress/i18n";
 // This const was created to populate the redux store with the default replace variables, while keeping the reducer clean.
 const defaultReplaceVariables = [
 	{
-		name: "currentdate",
-		label: __( "Current date", "wordpress-seo" ),
-		value: "",
-	},
-	{
-		name: "currentday",
-		label: __( "Current day", "wordpress-seo" ),
-		value: "",
-	},
-	{
-		name: "currentmonth",
-		label: __( "Current month", "wordpress-seo" ),
-		value: "",
-	},
-	{
-		name: "currenttime",
-		label: __( "Current time", "wordpress-seo" ),
-		value: "",
-	},
-	{
-		name: "currentyear",
-		label: __( "Current year", "wordpress-seo" ),
-		value: "",
-	},
-	{
 		name: "date",
 		label: __( "Date", "wordpress-seo" ),
 		value: "",
