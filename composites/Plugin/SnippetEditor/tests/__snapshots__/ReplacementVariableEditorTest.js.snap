@@ -186,6 +186,7 @@ exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
   />
   <Decorated(MentionSuggestions)
     onSearchChange={[Function]}
+    suggestions={Array []}
   />
 </React.Fragment>
 `;
