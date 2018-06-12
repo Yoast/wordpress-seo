@@ -37,7 +37,7 @@ export function createLabelFromName( name ) {
 	}
 
 	// Replace all '_' with spaces
-	name.replace( "_", " " );
+	name = name.replace( /_/g, " " );
 
 	// Capitalize first letter
 	return name[ 0 ].toUpperCase() + name.slice( 1 );
@@ -53,7 +53,7 @@ export function createLabelFromName( name ) {
 export function decodeSeparatorVariable( replacementVariables ) {
 	if( replacementVariables[ "sep" ] ) {
 		replacementVariables[ "sep" ] = decodeHTML( replacementVariables[ "sep" ] );
-	}
+}
 
 	return replacementVariables;
 }
