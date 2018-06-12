@@ -25,6 +25,24 @@ export function fillReplacementVariables( data, store ) {
 	} );
 }
 
+export function createLabelFromName( name ) {
+	// Strip "ct_" or "cf_".
+	if ( [ "ct_", "cf_" ].includes( name.substr( 0, 3 ) ) ) {
+		name = name.slice( 3 );
+	}
+
+	// Remove "desc_" and append " description".
+	if ( name.indexOf( "desc_" ) !== -1 ) {
+		name = name.slice( 5 ) + " description";
+	}
+
+	// Replace all '_' with spaces
+	name.replace( "_", " " );
+
+	// Capitalize first letter
+	return name[ 0 ].toUpperCase() + name.slice( 1 );
+}
+
 /**
  * Decodes the separator replacement variable to a displayable symbol.
  *

@@ -7,6 +7,7 @@ import {
 	REMOVE_REPLACEMENT_VARIABLE,
 	REFRESH,
 } from "../actions/snippetEditor";
+import { createLabelFromName } from "../../helpers/replacementVariableHelpers";
 
 const INITIAL_STATE = {
 	mode: DEFAULT_MODE,
@@ -60,7 +61,7 @@ function snippetEditorReducer( state = INITIAL_STATE, action ) {
 			if ( isNewReplaceVar ) {
 				nextReplacementVariables.push( {
 					name: action.name,
-					label: action.label || action.name,
+					label: action.label || createLabelFromName( action.name ),
 					value: action.value,
 				} );
 			}
