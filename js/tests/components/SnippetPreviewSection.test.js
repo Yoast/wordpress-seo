@@ -15,7 +15,11 @@ jest.mock( "yoast-components", () => {
 
 describe( "SnippetPreviewSection", () => {
 	it( "renders the snippet editor inside of it", () => {
-		const tree = mount( <SnippetPreviewSection /> );
+		const tree = mount(
+			<SnippetPreviewSection
+				title="Snippet editor"
+				icon="eye" />
+		);
 
 		expect( tree ).toMatchSnapshot();
 	} );

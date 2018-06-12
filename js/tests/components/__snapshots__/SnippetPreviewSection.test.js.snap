@@ -1,12 +1,18 @@
 exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
-<SnippetPreviewSection>
+<SnippetPreviewSection
+  icon="eye"
+  title="Snippet editor">
   <SnippetPreviewSection__Section
+    headingIcon="eye"
     headingIconColor="#555"
-    headingLevel={3}>
+    headingLevel={3}
+    headingText="Snippet editor">
     <StyledSection
       className="SnippetPreviewSection__Section-kWfIbs cTPoST"
+      headingIcon="eye"
       headingIconColor="#555"
-      headingLevel={3}>
+      headingLevel={3}
+      headingText="Snippet editor">
       <span>
         yoast-components StyledSection
       </span>
