@@ -11,7 +11,7 @@ const defaultArgs = {
 	title: "Title",
 	url: "https://example.org",
 	mode: MODE_DESKTOP,
-	onClick: jest.fn(),
+	onMouseUp: jest.fn(),
 };
 
 const renderSnapshotWithArgs = ( changedArgs ) => {
@@ -47,7 +47,7 @@ describe( "SnippetPreview", () => {
 	} );
 
 	it( "changes the colors of the description if it was generated", () => {
-		renderSnapshotWithArgs( { isDescriptionGenerated: true } );
+		renderSnapshotWithArgs( { isDescriptionPlaceholder: true } );
 	} );
 
 	it( "renders a caret on hover", () => {

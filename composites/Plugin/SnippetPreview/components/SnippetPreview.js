@@ -7,16 +7,16 @@ import createWordRegex from "yoastseo/js/stringProcessing/createWordRegex";
 import replaceSpecialCharactersAndDiacritics from "yoastseo/js/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
-import partial from "lodash/partial";
 import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
 import colors from "../../../../style-guide/colors";
-import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
+import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 import HelpTextWrapper from "../components/HelpTextWrapper";
+import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -30,7 +30,7 @@ const colorDate = "#808080";
 
 const MAX_WIDTH = 600;
 const WIDTH_PADDING = 20;
-const DESCRIPTION_LIMIT = 280;
+const DESCRIPTION_LIMIT = 156;
 
 export const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: white;
@@ -59,6 +59,8 @@ export const BaseTitle = styled.div`
 	cursor: pointer;
 	position: relative;
 `;
+
+const HelpTextLink = makeOutboundLink();
 
 /**
  * Adds caret styles to a component.
@@ -137,10 +139,8 @@ const BaseUrlOverflowContainer = BaseUrl.extend`
 
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
-export const DesktopDescription = styled.div.attrs( {
-	color: ( props ) => props.isDescriptionGenerated ? colorGeneratedDescription : colorDescription,
-} )`
-	color: ${ props => props.color };
+export const DesktopDescription = styled.div`
+	color: ${ props => props.isDescriptionPlaceholder ? colorGeneratedDescription : colorDescription };
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
@@ -148,14 +148,8 @@ export const DesktopDescription = styled.div.attrs( {
 `;
 
 const MobileDescription = styled( DesktopDescription )`
-`;
-
-const MobileDescriptionOverflowContainer = styled( MobileDescription )`
 	font-size: 14px;
 	line-height: 20px;
-	max-height: 80px; // max four lines of text
-	overflow: hidden;
-	text-overflow: ellipsis;
 `;
 
 const MobilePartContainer = styled.div`
@@ -269,13 +263,13 @@ export default class SnippetPreview extends PureComponent {
 	 * Renders the SnippetPreview component.
 	 *
 	 * @param {Object} props The passed props.
-	 * @param {string} props.title                  The title tag.
-	 * @param {string} props.url                    The URL of the page for which to generate a snippet.
-	 * @param {string} props.description            The meta description.
-	 * @param {string} props.keyword                The keyword for the page.
-	 * @param {string} props.isDescriptionGenerated Whether the description was generated.
-	 * @param {string} props.locale                 The locale of the page.
-	 * @param {string} props.date                   Optional, the date to display before the meta description.
+	 * @param {string} props.title                      The title tag.
+	 * @param {string} props.url                        The URL of the page for which to generate a snippet.
+	 * @param {string} props.description                The meta description.
+	 * @param {string} props.keyword                    The keyword for the page.
+	 * @param {string} props.isDescriptionPlaceholder   Whether the description is the placeholder.
+	 * @param {string} props.locale                     The locale of the page.
+	 * @param {string} props.date                       Optional, the date to display before the meta description.
 	 *
 	 * @returns {ReactElement} The SnippetPreview component.
 	 */
@@ -285,6 +279,7 @@ export default class SnippetPreview extends PureComponent {
 		this.state = {
 			title: props.title,
 			description: props.description,
+			isDescriptionPlaceholder: true,
 		};
 
 		this.setTitleRef       = this.setTitleRef.bind( this );
@@ -361,38 +356,6 @@ export default class SnippetPreview extends PureComponent {
 	}
 
 	/**
-	 * Set the description in the state so it fits in four lines.
-	 *
-	 * @returns {void}
-	 */
-	fitDescription() {
-		const descriptionElement = this._descriptionElement;
-
-		/*
-		 * See the logic for TWO_LINES_OF_CHARACTERS_PER_WIDTH. We've determined that
-		 * 1.75 is a good amount as a heuristic.
-		 */
-		const PIXELS_PER_CHARACTER_FOR_FOUR_LINES = 1.75;
-
-		if ( this.hasOverflowedContent( descriptionElement ) ) {
-			let prevDescription = this.state.description;
-
-			// Heuristic to prevent too many re-renders.
-			const maxCharacterCount = descriptionElement.clientWidth / PIXELS_PER_CHARACTER_FOR_FOUR_LINES;
-
-			if ( prevDescription.length > maxCharacterCount ) {
-				prevDescription = prevDescription.substring( 0, maxCharacterCount );
-			}
-
-			const newDescription = this.dropLastWord( prevDescription );
-
-			this.setState( {
-				description: newDescription,
-			} );
-		}
-	}
-
-	/**
 	 * Removes the last word of a sentence.
 	 *
 	 * @param {string} sentence The sentence to drop a word of.
@@ -424,22 +387,16 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {string} The description to render.
 	 */
 	getDescription() {
-		if ( ! this.props.description && this.props.descriptionPlaceholder ) {
-			return this.props.descriptionPlaceholder;
+		if ( ! this.props.description ) {
+			return __( "Please provide a meta description by editing the snippet below. If you don’t, Google will " +
+				"try to find a relevant part of your post to show in the search results.", "yoast-components" );
 		}
 
-		if ( this.props.mode === MODE_MOBILE && this.props.description !== this.state.description ) {
-			return this.state.description + " ...";
-		}
-
-		if ( this.props.mode === MODE_DESKTOP ) {
-			return truncate( this.props.description, {
-				length: DESCRIPTION_LIMIT,
-				omission: "",
-			} );
-		}
-
-		return this.props.description;
+		return truncate( this.props.description, {
+			length: DESCRIPTION_LIMIT,
+			separator: " ",
+			omission: " ...",
+		} );
 	}
 
 	/**
@@ -512,8 +469,8 @@ export default class SnippetPreview extends PureComponent {
 	renderUrl() {
 		const {
 			url,
-			onClick,
-			onMouseOver,
+			onMouseUp,
+			onMouseEnter,
 			onMouseLeave,
 		} = this.props;
 
@@ -535,15 +492,15 @@ export default class SnippetPreview extends PureComponent {
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
 		/*
-		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
+		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
 		 * However this is not relevant in this case, because the url is not focusable.
 		 */
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return <Url>
 			<BaseUrlOverflowContainer
-				onClick={ onClick.bind( null, "url" ) }
-				onMouseOver={ partial( onMouseOver, "url" ) }
-				onMouseLeave={ partial( onMouseLeave, "url" ) }>
+				onMouseUp={ onMouseUp.bind( null, "url" ) }
+				onMouseEnter={ onMouseEnter.bind( null, "url" ) }
+				onMouseLeave={ onMouseLeave.bind( null ) }>
 				{ urlContent }
 			</BaseUrlOverflowContainer>
 		</Url>;
@@ -578,15 +535,29 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {void}
 	 */
 	componentDidUpdate() {
+		this.setState( {
+			isDescriptionPlaceholder: ( ! this.props.description ),
+		} );
+
 		if ( this.props.mode === MODE_MOBILE ) {
 			clearTimeout( this.fitTitleTimeout );
 
 			// Make sure that fitting the title doesn't block other rendering.
 			this.fitTitleTimeout = setTimeout( () => {
 				this.fitTitle();
-				this.fitDescription();
 			}, 10 );
 		}
+	}
+
+	/**
+	 * After a component has mounted, we need to set the state depending on the props provided.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		this.setState( {
+			isDescriptionPlaceholder: ( ! this.props.description ),
+		} );
 	}
 
 	/**
@@ -597,21 +568,20 @@ export default class SnippetPreview extends PureComponent {
 	renderDescription() {
 		const {
 			keyword,
-			isDescriptionGenerated,
 			locale,
-			onClick,
+			onMouseUp,
 			onMouseLeave,
-			onMouseOver,
+			onMouseEnter,
 			mode,
 		} = this.props;
 
 		const renderedDate = this.renderDate();
 
 		const outerContainerProps = {
-			isDescriptionGenerated: isDescriptionGenerated,
-			onClick: onClick.bind( null, "description" ),
-			onMouseOver: partial( onMouseOver, "description" ),
-			onMouseLeave: partial( onMouseLeave, "description" ),
+			isDescriptionPlaceholder: this.state.isDescriptionPlaceholder,
+			onMouseUp: onMouseUp.bind( null, "description" ),
+			onMouseEnter: onMouseEnter.bind( null, "description" ),
+			onMouseLeave: onMouseLeave.bind( null ),
 		};
 
 		if ( mode === MODE_DESKTOP ) {
@@ -631,12 +601,13 @@ export default class SnippetPreview extends PureComponent {
 				<MobileDescriptionWithCaret
 					{ ...outerContainerProps }
 				>
-					<MobileDescriptionOverflowContainer
+					<MobileDescription
+						isDescriptionPlaceholder={ this.state.isDescriptionPlaceholder }
 						innerRef={ this.setDescriptionRef }
 					>
 						{ renderedDate }
 						{ highlightKeyword( locale, keyword, this.getDescription() ) }
-					</MobileDescriptionOverflowContainer>
+					</MobileDescription>
 				</MobileDescriptionWithCaret>
 			);
 		}
@@ -650,9 +621,9 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	render() {
 		const {
-			onClick,
+			onMouseUp,
 			onMouseLeave,
-			onMouseOver,
+			onMouseEnter,
 			mode,
 			isAmp,
 		} = this.props;
@@ -668,13 +639,16 @@ export default class SnippetPreview extends PureComponent {
 		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow/> : null;
 		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp/>;
 
-		const helpText = [ __( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
-			<a key="1" href="https://yoa.st/snippet-preview" rel="noopener noreferrer" target="_blank">
+		const helpText = [
+			__( "This is a rendering of what this post might look like in Google's search results. ", "yoast-components" ),
+			<HelpTextLink key="1" href="https://yoa.st/snippet-preview">
 				{ __( "Learn more about the Snippet Preview.", "yoast-components" ) }
-			</a> ];
+			</HelpTextLink>,
+		];
+		const helpTextLabel = __( "Help on the Snippet Preview", "yoast-components" );
 
 		/*
-		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseOver.
+		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
 		 * However this is not relevant in this case, because the title and description are
 		 * not focusable.
 		 */
@@ -682,7 +656,11 @@ export default class SnippetPreview extends PureComponent {
 		return (
 			<section>
 				<div>
-					<HelpTextWrapper helpText={ helpText } />
+					<HelpTextWrapper
+						helpText={ helpText }
+						helpTextButtonLabel={ helpTextLabel }
+						panelMaxWidth="400px"
+					/>
 				</div>
 				<Container
 					onMouseLeave={ this.onMouseLeave }
@@ -690,15 +668,13 @@ export default class SnippetPreview extends PureComponent {
 					padding={ WIDTH_PADDING }
 				>
 					<PartContainer>
-						<FormattedScreenReaderMessage
-							id="snippetPreview.seoTitlePreview"
-							defaultMessage="SEO title preview"
-							after=":"
-						/>
+						<ScreenReaderText>
+							{ __( "SEO title preview", "yoast-components" ) + ":" }
+						</ScreenReaderText>
 						<Title
-							onClick={ onClick.bind( null, "title" ) }
-							onMouseOver={ partial( onMouseOver, "title" ) }
-							onMouseLeave={ partial( onMouseLeave, "title" ) }
+							onMouseUp={ onMouseUp.bind( null, "title" ) }
+							onMouseEnter={ onMouseEnter.bind( null, "title" ) }
+							onMouseLeave={ onMouseLeave.bind( null ) }
 						>
 							<TitleBounded>
 								<TitleUnbounded innerRef={ this.setTitleRef } >
@@ -706,22 +682,18 @@ export default class SnippetPreview extends PureComponent {
 								</TitleUnbounded>
 							</TitleBounded>
 						</Title>
-						<FormattedScreenReaderMessage
-							id="snippetPreview.urlPreview"
-							defaultMessage="Url preview"
-							after=":"
-						/>
+						<ScreenReaderText>
+							{ __( "Url preview", "yoast-components" ) + ":" }
+						</ScreenReaderText>
 						{ amp }
 						{ this.renderUrl() }
 						{ downArrow }
 					</PartContainer>
 					{ separator }
 					<PartContainer>
-						<FormattedScreenReaderMessage
-							id="snippetPreview.metaDescriptionPreview"
-							defaultMessage="Meta description preview"
-							after=":"
-						/>
+						<ScreenReaderText>
+							{ __( "Meta description preview", "yoast-components" ) + ":" }
+						</ScreenReaderText>
 						{ this.renderDescription() }
 					</PartContainer>
 				</Container>
@@ -760,22 +732,20 @@ SnippetPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
-	descriptionPlaceholder: PropTypes.string,
 	date: PropTypes.string,
 	breadcrumbs: PropTypes.array,
 
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
 	keyword: PropTypes.string,
-	isDescriptionGenerated: PropTypes.bool,
 	locale: PropTypes.string,
 	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
 	helpText: PropTypes.string,
 
-	onClick: PropTypes.func.isRequired,
+	onMouseUp: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
-	onMouseOver: PropTypes.func,
+	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
 };
 
@@ -783,7 +753,6 @@ SnippetPreview.defaultProps = {
 	date: "",
 	keyword: "",
 	breadcrumbs: null,
-	isDescriptionGenerated: false,
 	locale: "en",
 	hoveredField: "",
 	activeField: "",
@@ -791,6 +760,6 @@ SnippetPreview.defaultProps = {
 	isAmp: false,
 
 	onHover: () => {},
-	onMouseOver: () => {},
+	onMouseEnter: () => {},
 	onMouseLeave: () => {},
 };

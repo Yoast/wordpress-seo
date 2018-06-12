@@ -2,6 +2,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDescriptionLengthAssessment";
+import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
+import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
+import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
+import noop from "lodash/noop";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -15,7 +20,6 @@ import SvgIcon from "../../Shared/components/SvgIcon";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
 import colors from "../../../../style-guide/colors";
-import decodeHTML from "../../../OnboardingWizard/helpers/htmlDecoder";
 
 const SnippetEditorButton = Button.extend`
 	height: 33px;
@@ -28,7 +32,7 @@ const EditSnippetButton = SnippetEditorButton.extend`
 	margin: 10px 0 0 4px;
 	fill: ${ colors.$color_grey_dark };
 	padding-left: 8px;
-	
+
 	& svg {
 		margin-right: 7px;
 	}
@@ -38,69 +42,178 @@ const CloseEditorButton = SnippetEditorButton.extend`
 	margin-left: 20px;
 `;
 
+/**
+ * Gets the title progress.
+ *
+ * @param {string} title The title.
+ *
+ * @returns {Object} The title progress.
+ */
+function getTitleProgress( title ) {
+	const titleWidth = measureTextWidth( title );
+	const pageTitleWidthAssessment = new PageTitleWidthAssesment();
+	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
+	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
+
+	return {
+		max: maximumLength,
+		actual: titleWidth,
+		score: score,
+	};
+}
+
+/**
+ * Gets the description progress.
+ *
+ * @param {string} description The description.
+ * @param {string} date        The meta description date
+ *
+ * @returns {Object} The description progress.
+ */
+function getDescriptionProgress( description, date ) {
+	let descriptionLength = description.length;
+	/* If the meta description is preceded by a date, two spaces and a hyphen (" - ") are added as well. Therefore,
+	three needs to be added to the total length. */
+	if ( date !== "" ) {
+		descriptionLength += date.length + 3;
+	}
+	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
+	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
+
+	return {
+		max: maximumLength,
+		actual: descriptionLength,
+		score: score,
+	};
+}
+
 class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
-	 * @param {Object} props                             The props for the snippet
+	 * @param {Object}   props                           The props for the snippet
 	 *                                                   editor.
-	 * @param {Object} props.replacementVariables        The replacement variables
+	 * @param {Object}   props.replacementVariables      The replacement variables
 	 *                                                   for this editor.
-	 * @param {Object} props.data                        The initial editor data.
-	 * @param {string} props.keyword                     The focus keyword.
-	 * @param {string} props.data.title                  The initial title.
-	 * @param {string} props.data.slug                   The initial slug.
-	 * @param {string} props.data.description            The initial description.
-	 * @param {string} props.baseUrl                     The base URL to use for the
-	 *                                                   preview.
-	 * @param {string} props.mode                        The mode the editor should
-	 *                                                   be in.
+	 * @param {Object}   props.data                      The initial editor data.
+	 * @param {string}   props.keyword                   The focus keyword.
+	 * @param {string}   props.data.title                The initial title.
+	 * @param {string}   props.data.slug                 The initial slug.
+	 * @param {string}   props.data.description          The initial description.
+	 * @param {string}   props.baseUrl                   The base URL to use
+	 *                                                   for the preview.
+	 * @param {string}   props.mode                      The mode the editor
+	 *                                                   should be in.
 	 * @param {Function} props.onChange                  Called when the data
 	 *                                                   changes.
-	 * @param {Object} props.titleLengthProgress       The values for the title
+	 * @param {Object}   props.titleLengthProgress       The values for the title
 	 *                                                   length assessment.
-	 * @param {Object} props.descriptionLengthProgress The values for the
+	 * @param {Object}   props.descriptionLengthProgress The values for the
 	 *                                                   description length
 	 *                                                   assessment.
-	 * @param {Function} props.mapDataToPreview          Function to map the editor
-	 *                                                   data to data for the preview.
-	 * @param {string} props.locale                      The locale of the page.
+	 * @param {Function} props.mapEditorDataToPreview    Function to map the
+	 *                                                   editor data to data
+	 *                                                   for the preview.
+	 * @param {string}   props.locale                    The locale of the page.
 	 *
 	 * @returns {void}
 	 */
 	constructor( props ) {
 		super( props );
 
+		const measurementData = this.mapDataToMeasurements( props.data );
+		const previewData = this.mapDataToPreview( measurementData );
+
 		this.state = {
 			isOpen: false,
 			activeField: null,
 			hoveredField: null,
+			mappedData: previewData,
+			titleLengthProgress: getTitleProgress( measurementData.title ),
+			descriptionLengthProgress: getDescriptionProgress( measurementData.description, this.props.date ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
-		this.handleChange = this.handleChange.bind( this );
-		this.onClick = this.onClick.bind( this );
-		this.onMouseOver = this.onMouseOver.bind( this );
+		this.unsetFieldFocus = this.unsetFieldFocus.bind( this );
+		this.onMouseUp = this.onMouseUp.bind( this );
+		this.onMouseEnter = this.onMouseEnter.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
 		this.open = this.open.bind( this );
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
-		this.decodeSeparatorVariable = this.decodeSeparatorVariable.bind( this );
+		this.handleChange = this.handleChange.bind( this );
 	}
 
 	/**
-	 * Handles the onChange event.
+	 * Returns whether the old and the new data are different.
 	 *
-	 * First updates the description progress and title progress.
-	 * Then calls the onChange function that is passed through the props.
+	 * @param {Object} oldData The old data.
+	 * @param {Object} newData The new data.
+	 * @returns {boolean} True if any of the data points has changed.
+	 */
+	shallowCompareData( oldData, newData ) {
+		let isDirty = false;
+		if (
+			oldData.description !== newData.description ||
+			oldData.slug !== newData.slug ||
+			oldData.title !== newData.title
+		) {
+			isDirty = true;
+		}
+		return isDirty;
+	}
+
+	/**
+	 * Updates the state when the component receives new props.
 	 *
-	 * @param {string} type The type of change.
-	 * @param {string} content The content of the changed field.
+	 * @param {Object} nextProps The new props.
+	 * @returns {void}
+	 */
+	componentWillReceiveProps( nextProps ) {
+		// Only set a new state when the data is dirty.
+		if ( this.shallowCompareData( this.props.data, nextProps.data ) ) {
+			const data = this.mapDataToMeasurements( nextProps.data );
+			this.setState(
+				{
+					titleLengthProgress: getTitleProgress( data.title ),
+					descriptionLengthProgress: getDescriptionProgress( data.description, nextProps.date ),
+				}
+			);
+		}
+	}
+
+	/**
+	 * Calls the onChangeAnalysisData function with the current analysis
+	 * data when the component did update.
+	 *
+	 *  @returns {void}
+	 */
+	componentDidUpdate() {
+		const analysisData = this.mapDataToMeasurements( {
+			...this.props.data,
+		} );
+
+		this.props.onChangeAnalysisData( analysisData );
+	}
+
+	/**
+	 * Calls the onChangeAnalysisData function with the current analysis data.
+	 *
+	 * @param {string} key The key of the changed input.
+	 * @param {string} value The value of the new input.
 	 *
 	 * @returns {void}
 	 */
-	handleChange( type, content ) {
-		this.props.onChange( type, content );
+	handleChange( key, value ) {
+		this.props.onChange( key, value );
+
+		const analysisData = this.mapDataToMeasurements( {
+			...this.props.data,
+			[ key ]: value,
+		} );
+
+		this.props.onChangeAnalysisData( analysisData );
 	}
 
 	/**
@@ -111,11 +224,10 @@ class SnippetEditor extends React.Component {
 	renderEditor() {
 		const {
 			data,
-			titleLengthProgress,
-			descriptionLengthProgress,
+			replacementVariables,
+			descriptionEditorFieldPlaceholder,
 		} = this.props;
-		const replacementVariables = this.decodeSeparatorVariable( this.props.replacementVariables );
-		const { activeField, hoveredField, isOpen } = this.state;
+		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
 		if ( ! isOpen ) {
 			return null;
@@ -129,9 +241,11 @@ class SnippetEditor extends React.Component {
 					hoveredField={ hoveredField }
 					onChange={ this.handleChange }
 					onFocus={ this.setFieldFocus }
+					onBlur={ this.unsetFieldFocus }
 					replacementVariables={ replacementVariables }
 					titleLengthProgress={ titleLengthProgress }
 					descriptionLengthProgress={ descriptionLengthProgress }
+					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
 				/>
 				<CloseEditorButton onClick={ this.close }>
 					{ __( "Close snippet editor", "yoast-components" ) }
@@ -141,9 +255,9 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Focuses the preview on the given field.
-	 *SnippetEditorFields
-	 * @param {String} field the name of the field to focuSnippetEditorFieldss
+	 * Sets the active field.
+	 *
+	 * @param {String} field The active field.
 	 *
 	 * @returns {void}
 	 */
@@ -156,13 +270,34 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Handles click event on a certain field in the snippet preview.
-	 *
-	 * @param {string} field The field that was clicked on.
+	 * Unsets the active field.
 	 *
 	 * @returns {void}
 	 */
-	onClick( field ) {
+	unsetFieldFocus() {
+		this.setState( {
+			activeField: null,
+		} );
+	}
+
+	/**
+	 * Handles mouse up event on a certain field in the snippet preview.
+	 *
+	 * We're using onMouseUp instead of onClick because the SnippetPreview re-renders
+	 * when onBlur occurs. Click events fire when both a mousedown *and* a mouseup
+	 * events occur. When onBlur occurs, new onClick functions would be passed via
+	 * props and bounded, so the SnippetPreview would "see" just a mouseup event
+	 * and the click event wouldn't fire at all.
+	 *
+	 * @param {string} field The field that was moused up.
+	 *
+	 * @returns {void}
+	 */
+	onMouseUp( field ) {
+		if ( this.state.isOpen ) {
+			this.setFieldFocus( field );
+			return;
+		}
 		/*
 		 * We have to wait for the form to be mounted before we can actually focus
 		 * the correct input field.
@@ -172,32 +307,24 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Sets the hovered field on mouse over.
+	 * Sets the hovered field on mouse enter.
 	 *
-	 * @param {string} field The field that was moused over.
+	 * @param {string} field The field that was hovered.
 	 *
 	 * @returns {void}
 	 */
-	onMouseOver( field ) {
+	onMouseEnter( field ) {
 		this.setState( {
 			hoveredField: this.mapFieldToEditor( field ),
 		} );
 	}
 
 	/**
-	 * Sets the hovered field on mouse leave.
-	 *
-	 * @param {string} field The field that was the mouse left.
+	 * Unsets the hovered field on mouse leave.
 	 *
 	 * @returns {void}
 	 */
-	onMouseLeave( field ) {
-		field = this.mapFieldToEditor( field );
-
-		if ( field && this.state.hoveredField !== field ) {
-			return;
-		}
-
+	onMouseLeave() {
 		this.setState( {
 			hoveredField: null,
 		} );
@@ -248,41 +375,62 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Decodes the separator replacement variable to a displayable symbol.
+	 * Maps the data from to be suitable for measurement.
 	 *
-	 * @param {array} replacementVariables   The array of replacement variable objects.
+	 * The data that is measured is not exactly the same as the data that
+	 * is in the preview, because the metadescription placeholder shouldn't
+	 * be measured.
 	 *
-	 * @returns {array} replacementVariables The array of replacement variable objects with the updated separator variable.
+	 * @param {Object} originalData         The data from the form.
+	 *
+	 * @returns {Object} The data for the preview.
 	 */
-	decodeSeparatorVariable( replacementVariables ) {
-		let sepIndex = replacementVariables.findIndex( x => x.name === "sep" );
-		if( sepIndex !== -1 ) {
-			replacementVariables[ sepIndex ].value = decodeHTML( replacementVariables[ sepIndex ].value );
+	mapDataToMeasurements( originalData ) {
+		const { baseUrl, mapEditorDataToPreview } = this.props;
+
+		let description = this.processReplacementVariables( originalData.description );
+
+		// Strip multiple spaces and spaces at the beginning and end.
+		description = stripSpaces( description );
+
+		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
+
+		let mappedData = {
+			title: this.processReplacementVariables( originalData.title ),
+			url: shortenedBaseUrl + originalData.slug,
+			description: description,
+		};
+
+		const context = {
+			shortenedBaseUrl,
+		};
+
+		// The mapping by the passed mapping function should happen before measuring.
+		if ( mapEditorDataToPreview ) {
+			return mapEditorDataToPreview( mappedData, context );
 		}
-		return replacementVariables;
+
+
+		return mappedData;
 	}
 
 	/**
-	 * Maps the data from to be suitable for the preview.
+	 * Maps the passed data to be suitable for the preview.
 	 *
-	 * @param {Object} originalData The data from the form.
+	 * The data that is in the preview is not exactly the same as the data
+	 * that is measured (see above), because the metadescription placeholder
+	 * shouldn't be measured.
+	 *
+	 * @param {Object} originalData         The data from the form.
 	 *
 	 * @returns {Object} The data for the preview.
 	 */
 	mapDataToPreview( originalData ) {
-		const { baseUrl, mapDataToPreview } = this.props;
-
-		const mappedData = {
-			title: this.processReplacementVariables( originalData.title ),
-			url: baseUrl.replace( "https://", "" ) + originalData.slug,
-			description: this.processReplacementVariables( originalData.description ),
+		return {
+			title: originalData.title,
+			url: originalData.url,
+			description: originalData.description,
 		};
-
-		if ( mapDataToPreview ) {
-			return mapDataToPreview( mappedData, originalData );
-		}
-
-		return mappedData;
 	}
 
 	/**
@@ -333,7 +481,6 @@ class SnippetEditor extends React.Component {
 		const {
 			onChange,
 			data,
-			descriptionPlaceholder,
 			mode,
 			date,
 			locale,
@@ -346,7 +493,8 @@ class SnippetEditor extends React.Component {
 			isOpen,
 		} = this.state;
 
-		const mappedData = this.mapDataToPreview( data );
+		const measurementData = this.mapDataToMeasurements( data );
+		const mappedData = this.mapDataToPreview( measurementData );
 
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
@@ -361,11 +509,10 @@ class SnippetEditor extends React.Component {
 					date={ date }
 					activeField={ this.mapFieldToPreview( activeField ) }
 					hoveredField={ this.mapFieldToPreview( hoveredField ) }
-					onMouseOver={ this.onMouseOver }
+					onMouseEnter={ this.onMouseEnter }
 					onMouseLeave={ this.onMouseLeave }
-					onClick={ this.onClick }
+					onMouseUp={ this.onMouseUp }
 					locale={ locale }
-					descriptionPlaceholder={ descriptionPlaceholder }
 					{ ...mappedData }
 				/>
 
@@ -394,14 +541,15 @@ SnippetEditor.propTypes = {
 		slug: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
-	descriptionPlaceholder: PropTypes.string,
+	descriptionEditorFieldPlaceholder: PropTypes.string,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
+	onChangeAnalysisData: PropTypes.func,
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
-	mapDataToPreview: PropTypes.func,
+	mapEditorDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
 	locale: PropTypes.string,
 };
@@ -420,8 +568,10 @@ SnippetEditor.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
-	mapDataToPreview: null,
+	mapEditorDataToPreview: null,
 	locale: "en",
+	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
+	onChangeAnalysisData: noop,
 };
 
 export default SnippetEditor;
