@@ -1339,6 +1339,7 @@ class WPSEO_Frontend {
 
 			$redir = $this->get_seo_meta_value( 'redirect', $post->ID );
 			if ( $redir !== '' ) {
+				header( 'X-Redirect-By: Yoast SEO' );
 				wp_redirect( $redir, 301 );
 				exit;
 			}
@@ -1418,15 +1419,37 @@ class WPSEO_Frontend {
 			return false;
 		}
 
-		$url = wp_get_attachment_url( get_queried_object_id() );
+		/**
+		 * Allow the developer to change the target redirection URL for attachments.
+		 *
+		 * @api   string $attachment_url The attachment URL for the queried object.
+		 * @api   object $queried_object The queried object.
+		 *
+		 * @since 7.5.3
+		 */
+		$url = apply_filters( 'wpseo_attachment_redirect_url', wp_get_attachment_url( get_queried_object_id() ), get_queried_object() );
+
 
 		if ( ! empty( $url ) ) {
-			$this->redirect( $url, 301 );
+			$this->do_attachment_redirect( $url );
 
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Performs the redirect from the attachment page to the image file itself.
+	 *
+	 * @param string $attachment_url The attachment image url.
+	 *
+	 * @return void
+	 */
+	public function do_attachment_redirect( $attachment_url ) {
+		header( 'X-Redirect-By: Yoast SEO' );
+		wp_redirect( $attachment_url, 301 );
+		exit;
 	}
 
 	/**
@@ -1667,6 +1690,7 @@ class WPSEO_Frontend {
 	 * @param int    $status   Status code to use.
 	 */
 	public function redirect( $location, $status = 302 ) {
+		header( 'X-Redirect-By: Yoast SEO' );
 		wp_safe_redirect( $location, $status );
 		exit;
 	}

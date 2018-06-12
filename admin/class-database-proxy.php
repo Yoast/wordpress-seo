@@ -91,21 +91,46 @@ class WPSEO_Database_Proxy {
 	/**
 	 * Upserts data in the database.
 	 *
-	 * Tries to insert the data first, if this fails an update is attempted.
+	 * Performs an insert into and if key is duplicate it will update the existing record.
 	 *
 	 * @param array $data         Data to update on the table.
-	 * @param array $where        Where condition as key => value array.
-	 * @param null  $format       Optional. data prepare format.
-	 * @param null  $where_format Optional. Where prepare format.
+	 * @param array $where        Unused. Where condition as key => value array.
+	 * @param null  $format       Optional. Data prepare format.
+	 * @param null  $where_format Deprecated. Where prepare format.
 	 *
 	 * @return false|int False when the upsert request is invalid, int on number of rows changed.
 	 */
-	public function upsert( array $data, array $where, $format = null, $where_format = null ) {
-		$result = $this->insert( $data, $format );
-
-		if ( false === $result ) {
-			$result = $this->update( $data, $where, $format, $where_format );
+	public function upsert( array $data, array $where = null, $format = null, $where_format = null ) {
+		if ( $where_format !== null ) {
+			_deprecated_argument( __METHOD__, '7.7.0', 'The where_format argument is deprecated' );
 		}
+
+		$this->pre_execution();
+
+		$update  = array();
+		$keys    = array();
+		$columns = array_keys( $data );
+		foreach ( $columns as $column ) {
+			$keys[]   = '`' . $column . '`';
+			$update[] = sprintf( '`%1$s` = VALUES(`%1$s`)', $column );
+		}
+
+		$query = sprintf(
+			'INSERT INTO `%1$s` (%2$s) VALUES ( %3$s ) ON DUPLICATE KEY UPDATE %4$s',
+			$this->get_table_name(),
+			implode( ', ', $keys ),
+			implode( ', ', array_fill( 0, count( $data ), '%s' ) ),
+			implode( ', ', $update )
+		);
+
+		$result = $this->database->query(
+			$this->database->prepare(
+				$query,
+				array_values( $data )
+			)
+		);
+
+		$this->post_execution();
 
 		return $result;
 	}
