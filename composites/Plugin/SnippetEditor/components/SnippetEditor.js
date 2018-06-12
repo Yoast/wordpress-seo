@@ -101,10 +101,10 @@ class SnippetEditor extends React.Component {
 	 * @param {string}   props.data.title                The initial title.
 	 * @param {string}   props.data.slug                 The initial slug.
 	 * @param {string}   props.data.description          The initial description.
-	 * @param {string}   props.baseUrl                   The base URL to use for the
-	 *                                                   preview.
-	 * @param {string}   props.mode                      The mode the editor should
-	 *                                                   be in.
+	 * @param {string}   props.baseUrl                   The base URL to use
+	 *                                                   for the preview.
+	 * @param {string}   props.mode                      The mode the editor
+	 *                                                   should be in.
 	 * @param {Function} props.onChange                  Called when the data
 	 *                                                   changes.
 	 * @param {Object}   props.titleLengthProgress       The values for the title
@@ -112,8 +112,9 @@ class SnippetEditor extends React.Component {
 	 * @param {Object}   props.descriptionLengthProgress The values for the
 	 *                                                   description length
 	 *                                                   assessment.
-	 * @param {Function} props.mapEditorDataToPreview    Function to map the editor
-	 *                                                   data to data for the preview.
+	 * @param {Function} props.mapEditorDataToPreview    Function to map the
+	 *                                                   editor data to data
+	 *                                                   for the preview.
 	 * @param {string}   props.locale                    The locale of the page.
 	 *
 	 * @returns {void}
@@ -408,6 +409,7 @@ class SnippetEditor extends React.Component {
 		if ( mapEditorDataToPreview ) {
 			return mapEditorDataToPreview( mappedData, context );
 		}
+
 
 		return mappedData;
 	}
