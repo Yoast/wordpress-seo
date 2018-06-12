@@ -331,6 +331,13 @@ class ReplacementVariableEditor extends React.Component {
 		const { MentionSuggestions } = this.mentionsPlugin;
 		const { onFocus, onBlur, ariaLabelledBy, descriptionEditorFieldPlaceholder } = this.props;
 		const { editorState, replacementVariables } = this.state;
+		const replaceVarSuggestions = replacementVariables.map( ( variable ) => {
+			return {
+				...variable,
+				name: variable.label,
+				replaceName: variable.name,
+			};
+		} );
 
 		return (
 			<React.Fragment>
@@ -347,8 +354,7 @@ class ReplacementVariableEditor extends React.Component {
 				/>
 				<MentionSuggestions
 					onSearchChange={ this.onSearchChange }
-					suggestions={ replacementVariables }
-					onAddMention={ this.onAddMention }
+					suggestions={ replaceVarSuggestions }
 				/>
 			</React.Fragment>
 		);

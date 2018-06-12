@@ -38,7 +38,9 @@ export function serializeBlock( entityMap, block ) {
 		const beforeEntityLength = offset - previousEntityEnd;
 
 		const beforeEntity = text.substr( previousEntityEnd, beforeEntityLength );
-		const serializedEntity = serializeVariable( entityMap[ key ].data.mention.name );
+
+		// The entity should be serialized using the replaceName, which is the "not-nice" name.
+		const serializedEntity = serializeVariable( entityMap[ key ].data.mention.replaceName );
 
 		previousEntityEnd = offset + length;
 
@@ -191,7 +193,7 @@ export function moveSelectionAfterReplacement( selection, blockKey, variable ) {
 export function createEntityInContent( contentState, variable ) {
 	const entityData = {
 		mention: {
-			name: variable.name,
+			replaceName: variable.name,
 		},
 	};
 
