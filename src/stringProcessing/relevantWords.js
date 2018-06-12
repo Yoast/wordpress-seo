@@ -209,10 +209,7 @@ function filterEndingWith( wordCombinations, str, exceptions ) {
 				return true;
 			}
 		}
-		if ( combinationstr.endsWith( str ) ) {
-			return false;
-		}
-		return true;
+		return ! combinationstr.endsWith( str );
 	} );
 	return wordCombinations;
 }
