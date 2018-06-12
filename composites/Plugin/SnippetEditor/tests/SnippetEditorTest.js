@@ -10,9 +10,9 @@ import {
 } from "../../SnippetPreview/constants";
 import {
 	focus,
-} from "../components/ReplacementVariableEditor";
+} from "../components/ReplacementVariableEditorStandalone";
 
-jest.mock( "../components/ReplacementVariableEditor" );
+jest.mock( "../components/ReplacementVariableEditorStandalone" );
 
 const defaultData = {
 	title: "Test title",
@@ -212,9 +212,9 @@ describe( "SnippetEditor", () => {
 		editor.instance().open();
 		editor.update();
 
-		const titleEditor = editor.find( "ReplacementVariableEditor" ).get( 0 );
+		const titleEditor = editor.find( "ReplacementVariableEditorStandalone" ).get( 0 );
 		const slugEditor = editor.find( "input" ).get( 0 );
-		const descriptionEditor = editor.find( "ReplacementVariableEditor" ).get( 1 );
+		const descriptionEditor = editor.find( "ReplacementVariableEditorStandalone" ).get( 1 );
 
 		titleEditor.props.onFocus();
 		expect( editor ).toMatchSnapshot();
