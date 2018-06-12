@@ -9,8 +9,16 @@ const infinitiveToIngFormRegex = require( "./regexVerb.js" ).infinitiveToIngForm
 const infinitiveToEdFormRegex = require( "./regexVerb.js" ).infinitiveToEdForm;
 
 const isUndefined = require( "lodash/isUndefined.js" );
-const unique = require( "lodash/uniqBy" );
+const unique = require( "lodash/uniq" );
 
+/**
+ * Checks if the input word has one of the standard verb prefixes and if so returns a prefix and a de-prefixed verb to be
+ * further used to compare with the list of irregular verbs.
+ *
+ * @param {string} word The word for which to determine if it has one of the standard verb prefixes.
+ *
+ * @returns {Array} Array of word forms from the exception list.
+ */
 const normalizePrefixed = function( word ) {
 	if ( verbPrefixesRegex.sevenLetterHyphenPrefixes.test( word ) === true ) {
 		return {
@@ -90,7 +98,14 @@ const normalizePrefixed = function( word ) {
 	}
 };
 
-
+/**
+ * Checks if the input word occurs in the list of exception verbs and if so returns all its irregular forms.
+ * If not checks if it is an irregular verb with one of the standard verb prefixes, if so returns all irregular prefixed forms.
+ *
+ * @param {string} word The word for which to determine its irregular forms.
+ *
+ * @returns {Array} Array of word forms from the exception list.
+ */
 const checkIrregulars = function( word ) {
 	let irregulars;
 
@@ -121,18 +136,48 @@ const checkIrregulars = function( word ) {
 	return irregulars;
 };
 
+/**
+ * Checks if the input word ends with "s".
+ *
+ * @param {string} word The word to check.
+ *
+ * @returns {boolean} True if the word ends with "s".
+ */
 const endsWithS = function( word ) {
 	return word[ word.length - 1 ] === "s";
 };
 
+/**
+ * Checks if the input word ends with "ing".
+ *
+ * @param {string} word The word to check.
+ *
+ * @returns {boolean} True if the word ends with "ing".
+ */
 const endsWithIng = function( word ) {
 	return word.substring( word.length - 3, word.length ) === "ing";
 };
 
+/**
+ * Checks if the input word ends with "ed".
+ *
+ * @param {string} word The word to check.
+ *
+ * @returns {boolean} True if the word ends with "ed".
+ */
 const endsWithEd = function( word ) {
 	return word.substring( word.length - 2, word.length ) === "ed";
 };
 
+/**
+ * Checks if the input word qualifies for the input regex and if so builds a required form.
+ * This function is used for other more specific functions.
+ *
+ * @param {string} word The word to build forms for.
+ * @param {string} regex The regex to compare the word against.
+ *
+ * @returns {string} The newly built form of the word.
+ */
 const buildVerbFormFromRegex = function( word, regex ) {
 	for ( let i = 0; i < regex.length; i++ ) {
 		if ( regex[ i ].reg.test( word ) === true ) {
@@ -141,63 +186,120 @@ const buildVerbFormFromRegex = function( word, regex ) {
 	}
 };
 
+/**
+ * Forms the infinitive from an s-form.
+ *
+ * @param {string} word The word to build forms for.
+ *
+ * @returns {string} The infinitive formed from the input word.
+ */
 const sFormToInfinitive = function( word ) {
 	return buildVerbFormFromRegex( word, sFormToInfinitiveRegex );
 };
 
+/**
+ * Forms the infinitive from an ing-form.
+ *
+ * @param {string} word The word to build forms for.
+ *
+ * @returns {string} The infinitive formed from the input word.
+ */
 const ingFormToInfinitive = function( word ) {
 	return buildVerbFormFromRegex( word, ingFormToInfinitiveRegex );
 };
 
+/**
+ * Forms the infinitive from an ed-form.
+ *
+ * @param {string} word The word to build forms for.
+ *
+ * @returns {string} The infinitive formed from the input word.
+ */
 const edFormToInfinitive = function( word ) {
 	return buildVerbFormFromRegex( word, edFormToInfinitiveRegex );
 };
 
+/**
+ * Forms the s-form from an infinitive.
+ *
+ * @param {string} word The word to build forms for.
+ *
+ * @returns {string} The s-form from the input word.
+ */
 const infinitiveToSForm = function( word ) {
 	return buildVerbFormFromRegex( word, infinitiveToSFormRegex );
 };
 
+/**
+ * Forms the ing-form from an infinitive.
+ *
+ * @param {string} word The word to build forms for.
+ *
+ * @returns {string} The ing-form from the input word.
+ */
 const infinitiveToIngForm = function( word ) {
 	return buildVerbFormFromRegex( word, infinitiveToIngFormRegex );
 };
 
+/**
+ * Forms the ed-form from an infinitive.
+ *
+ * @param {string} word The word to build forms for.
+ *
+ * @returns {string} The ed-form from the input word.
+ */
 const infinitiveToEdForm = function( word ) {
 	return buildVerbFormFromRegex( word, infinitiveToEdFormRegex );
 };
 
+/**
+ * Forms the infinitive from an input word.
+ *
+ * @param {string} word The word to build the infinitive for.
+ *
+ * @returns {string} The infinitive of the input word.
+ */
 const getInfinitive = function( word ) {
-	let infinitive = word;
-	let guessedForm = "inf";
-
 	if ( endsWithS( word ) ) {
-		infinitive = sFormToInfinitive( word );
-		guessedForm = "s";
+		return {
+			infinitive: sFormToInfinitive( word ),
+			guessedForm: "s",
+		};
 	}
 
 	if ( endsWithIng( word ) ) {
-		infinitive = ingFormToInfinitive( word );
-		guessedForm = "ing";
+		return {
+			infinitive: ingFormToInfinitive( word ),
+			guessedForm: "ing",
+		};
 	}
 
 	if ( endsWithEd( word ) ) {
-		infinitive = edFormToInfinitive( word );
-		guessedForm = "ed";
+		return {
+			infinitive: edFormToInfinitive( word ),
+			guessedForm: "ed",
+		};
 	}
 	return {
-		infinitive: infinitive,
-		guessedForm: guessedForm,
+		infinitive: word,
+		guessedForm: "inf",
 	};
 };
 
+/**
+ * Collects all possible verb forms for a given word through checking if it is irregular, infinitive, s-form, ing-form or ed-form.
+ *
+ * @param {string} word The word for which to determine its forms.
+ *
+ * @returns {Array} Array of word forms.
+ */
 const getVerbForms = function( word ) {
-	let forms = [];
-
 	const irregular = checkIrregulars( word );
 	if ( ! isUndefined( irregular ) ) {
-		forms = forms.concat( irregular );
-		return unique( forms );
+		return irregular;
 	}
 
+	let forms = [];
 	const infinitive = getInfinitive( word ).infinitive;
 	// const guessedForm = getInfinitive( word ).guessedForm; //Meant to be used to check if the newly built forms are built correctly.
 	forms = forms.concat( word );

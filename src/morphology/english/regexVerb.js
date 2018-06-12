@@ -42,7 +42,7 @@ const ingFormToInfinitive = [
 	[ /([^aeiou])ying$/i, "$1y" ],
 	[ /([^ae]i[^x])ing$/i, "$1e" ],
 	[ /(ea.)ing$/i, "$1" ],
-	[ /(u[rtcb]|[bdtpkg]l|n[cg]|a[gdkvtc]|[ua]s|[dr]g|yz|o[rlsp]|cre|bath|iev|delet|fil|jok|past|rais|vil|ooth|tast|u|car)ing$/i, "$1e" ],
+	[ /(u[rtcb]|[bdtpkg]l|n[cg]|a[gdkvtc]|[ua]s|[dr]g|yz|o[rlsp]|cre|bath|iev|delet|fil|jok|past|rais|vil|ooth|tast|u|car|ys)ing$/i, "$1e" ],
 	[ /(ch|sh)ing$/i, "$1" ],
 	[ /(..)ing$/i, "$1" ],
 ].map( function( a ) {
@@ -69,7 +69,7 @@ const edFormToInfinitive = [
 	[ /([^aeiouy][aeiou])ked$/i, "$1ke" ],
 	[ /([^f][aeiou])led$/i, "$1l" ],
 	[ /asted$/i, "aste" ],
-	[ /(..)(h|ion|n[dt]|ai.|[cs]t|pp|all|ss|tt|int|ail|ld|en|oo.|er|k|w|ou.|rt|ght|rm|ast)ed$/i, "$1$2" ],
+	[ /(..)(h|ion|n[dt]|ai.|[cs]t|pp|all|ss|tt|int|ail|ld|en|oo.|er|k|w|ou.|rt|ght|rm|ast|rd)ed$/i, "$1$2" ],
 	[ /(.ut)ed$/i, "$1e" ],
 	[ /(us)ed$/i, "$1e" ],
 	[ /(..[^aeiouy])ed$/i, "$1e" ],
@@ -101,6 +101,7 @@ const infinitiveToSForm = [
 
 const infinitiveToIngForm = [
 	[ /(..)e$/i, "$1ing" ],
+	[ /(ae|ai|ao|au|ea|ee|eu|ie|io|oa|oe|oo|ou|oy|ua|ue|uo|uy)([bdfglmnpt])$/i, "$1$2ing" ],
 	[ /([aeiouy])([bdfglmnpt])$/i, "$1$2$2ing" ],
 	[ /(.*)/i, "$1ing" ],
 ].map( function( a ) {
@@ -112,6 +113,7 @@ const infinitiveToIngForm = [
 
 const infinitiveToEdForm = [
 	[ /(..)e$/i, "$1ed" ],
+	[ /(ae|ai|ao|au|ea|ee|eu|ie|io|oa|oe|oo|ou|oy|ua|ue|uo|uy)([bdfglmnpt])$/i, "$1$2ed" ],
 	[ /([aeiouy])([bdfglmnpt])$/i, "$1$2$2ed" ],
 	[ /(..)ed$/i, "$1ed" ],
 	[ /([bcdfghjklmnpqrstvwxz])y$/i, "$1ied" ],
