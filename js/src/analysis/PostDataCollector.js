@@ -66,7 +66,7 @@ PostDataCollector.prototype.getData = function() {
 	const snippetData = {
 		metaTitle: get( state, [ "analysisData", "snippet", "title" ], this.getSnippetTitle() ),
 		url: get( state, [ "snippetEditor", "data", "slug" ], data.slug ),
-		meta: get( state, [ "analysisData", "snippet", "description" ], this.getSnippetMeta() ),
+		meta: this.getMetaDescForAnalysis( state ),
 	};
 
 	return {
@@ -85,6 +85,14 @@ PostDataCollector.prototype.getKeyword = function() {
 	currentKeyword = val;
 
 	return val;
+};
+
+PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
+	let metaDesc = get( state, [ "analysisData", "snippet", "description" ], this.getSnippetMeta() );
+	if ( wpseoPostScraperL10n.metaDescriptionDate !== ""){
+		metaDesc = wpseoPostScraperL10n.metaDescriptionDate + " - " + metaDesc;
+	}
+	return metaDesc;
 };
 
 /**
