@@ -97,17 +97,8 @@ you want more information about the impact of showing media in search results.',
 			}
 		}
 
-		$this->form->textinput(
-			'title-' . $post_type->name,
-			__( 'Title template', 'wordpress-seo' ),
-			'template posttype-template'
-		);
-
-		$this->form->textarea(
-			'metadesc-' . $post_type->name,
-			__( 'Meta description template', 'wordpress-seo' ),
-			array( 'class' => 'template posttype-template' )
-		);
+		$editor = new WPSEO_Replacevar_Editor( $this->form, 'title-' . $post_type->name, 'metadesc-' . $post_type->name );
+		$editor->render();
 
 		$this->form->show_hide_switch(
 			'showdate-' . $post_type->name,
