@@ -106,6 +106,25 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.7.0 =
+Release Date: June 26th, 2018
+
+Bugfixes:
+* Fixes a bug where a PHP notice would be triggered when the `opcache.restrict_api` directive was enabled.
+* Fixes a bug where restricting SEO setting access to network admins only on a multisite, would still allow regular admins to have access to SEO settings.
+* Fixes a bug where dismissing notifications on a single site in a multisite environment, would result in the notification being dismissed on all sites.
+* Fixes a bug where the attachment URL would redirect to `wp-admin` if the attachment was located on a different Site URL domain.
+* Fixes a bug where MySQL would throw a "Duplicate entry 'X'" error into the error log when attempting to upsert a record in the database.
+* Fixes a performance problem where the selecting a fallback Open Graph image would collect the filename for all the images in the content. This has been changed to detecting if an image is usable per image and stopping when a usable image is found.
+
+Enhancements:
+* Sends the user to the proper control in the customizer when clicking the link in the "You still have the default WordPress tagline [...]" warning message.
+* Adds a `wpseo_attachment_redirect_url` filter to allow changing of the target redirection URL for attachments. This may be necessary to restore the redirect to the parent post. Props to [cawa-93](https://github.com/cawa-93).
+* Adds support for JSON-LD breadcrumbs. Props to [teolaz](https://github.com/teolaz)
+
+Other:
+* Changes the timing on which the capability filter is run to better time when notifications should be initialized.
+
 = 7.6.1 =
 Release Date: June 7th, 2018
 
@@ -132,31 +151,6 @@ Other:
 * Changes the maximum meta description length from 320 to 156 characters.
 * Fixes typo in $field_defs parameter description for wpseo_metabox_entries filter.
 * Restores the warning for using unsupported replacement variables on the search appearance settings page.
-
-= 7.5.3 =
-Release Date: May 30th, 2018
-
-* Added hooks and filters to allow our new [search index purge](https://wordpress.org/plugins/yoast-seo-search-index-purge/) plugin to work. You’re encouraged to read [this post about an attachment URL problem](https://yoa.st/2r8) for more info.
-
-= 7.5.1 =
-Release Date: May 16th, 2018
-
-Bugfixes:
-* Fixes a bug where the auto-generating of the slug did not work as expected due to persisting of the post name too agressively.
-
-= 7.5.0 =
-Release Date: May 15th, 2018
-
-Enhancements:
-* Adds readability analysis for Russian.
-* Improves accessibility.
-
-Bugfixes:
-* Fixes a bug where images with specific aspect ratios where removed from OpenGraph consideration. This was causing unexpected results with Facebook sharing. The aspect ratio check has been removed completely.
-* Fixes a bug where sentences ending in multiple sentence marks, exclamation marks or ellipses were treated as multiple sentences.
-* Fixes a bug where attempting to get Yoast SEO options in multi-site, would result in wrong values being returned.
-* Fixes a bug where the sitemap styling could not be loaded when the Site domain differs from the Admin domain.
-* Fixes a bug where the admin bar still used old copy: Dashboard has been renamed to General.
 
 = Earlier versions =
 
