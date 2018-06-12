@@ -8,6 +8,7 @@ branches:
     - trunk
     - /^release\/\d+\.\d+(\.\d+)?(-\S*)?$/
     - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^feature\/*/
 
 jobs:
   fast_finish: true

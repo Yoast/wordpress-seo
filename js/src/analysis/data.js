@@ -6,6 +6,7 @@ import {
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
 
+
 /**
  * Represents the data.
  */

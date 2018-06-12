@@ -30,10 +30,19 @@ describe( "snippet editor action creators", () => {
 
 	describe( "updateReplacementVariable", () => {
 		it( "returns an action", () => {
+			expect( updateReplacementVariable( "title", "Title", "Label" ) ).toEqual( {
+				type: UPDATE_REPLACEMENT_VARIABLE,
+				name: "title",
+				value: "Title",
+				label: "Label",
+			} );
+		} );
+		it( "returns an action with an empty label when no label is passed", () => {
 			expect( updateReplacementVariable( "title", "Title" ) ).toEqual( {
 				type: UPDATE_REPLACEMENT_VARIABLE,
 				name: "title",
 				value: "Title",
+				label: "",
 			} );
 		} );
 	} );
