@@ -1,12 +1,13 @@
 // External dependencies.
 import React from "react";
 import styled from "styled-components";
+import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import { Button } from "../../Shared/components/Button";
 import colors from "../../../../style-guide/colors";
 import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants";
-import FormattedScreenReaderMessage from "../../../../a11y/FormattedScreenReaderMessage";
+import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import PropTypes from "prop-types";
 
@@ -75,10 +76,9 @@ const ModeSwitcher = ( { onChange, active } ) => {
 			isActive={ active === MODE_MOBILE }
 			aria-pressed={ active === MODE_MOBILE }>
 			<SvgIcon icon="mobile" size="22px" color="currentColor" />
-			<FormattedScreenReaderMessage
-				id="snippetEditor.desktopPreview"
-				defaultMessage="Mobile preview"
-			/>
+			<ScreenReaderText>
+				{ __( "Mobile preview", "yoast-components" ) }
+			</ScreenReaderText>
 		</MobileButton>
 
 		<DesktopButton
@@ -86,10 +86,9 @@ const ModeSwitcher = ( { onChange, active } ) => {
 			isActive={ active === MODE_DESKTOP }
 			aria-pressed={ active === MODE_DESKTOP }>
 			<SvgIcon icon="desktop" size="18px" color="currentColor" />
-			<FormattedScreenReaderMessage
-				id="snippetEditor.desktopPreview"
-				defaultMessage="Desktop preview"
-			/>
+			<ScreenReaderText>
+				{ __( "Desktop preview", "yoast-components" ) }
+			</ScreenReaderText>
 		</DesktopButton>
 	</Switcher>;
 };
