@@ -50,7 +50,7 @@ class Indexable {
 	 */
 	public function __construct( $id, Object_Type $type, Meta_Values $meta_values, OpenGraph $opengraph, Twitter $twitter, Robots $robots ) {
 		if ( ! WPSEO_Validator::is_integer( $id ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $id, 'ID', 'integer' );
+			throw WPSEO_Invalid_Type_Exception::invalid_integer_parameter( $id, 'ID' );
 		}
 
 		$this->id 		   = $id;

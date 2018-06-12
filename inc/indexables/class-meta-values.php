@@ -55,43 +55,43 @@ class Meta_Values {
 	 */
 	public function __construct( $title, $description, $permalink, $readability_score, $is_cornerstone = false, $canonical = null, $breadcrumb_title = null ) {
 		if ( ! WPSEO_Validator::is_non_empty_string( $title ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $title, 'title', 'string' );
+			throw WPSEO_Invalid_Type_Exception::invalid_string_parameter( $title, 'title' );
 		}
 
 		$this->title = $title;
 
 		if ( ! empty( $description ) && ! WPSEO_Validator::is_string( $description ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $description, 'description', 'string' );
+			throw WPSEO_Invalid_Type_Exception::invalid_string_parameter( $description, 'description' );
 		}
 
 		$this->description = $description;
 
 		if ( ! WPSEO_Validator::is_non_empty_string( $permalink ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $permalink, 'permalink', 'string' );
+			throw WPSEO_Invalid_Type_Exception::invalid_string_parameter( $permalink, 'permalink' );
 		}
 
 		$this->permalink = $permalink;
 
 		if ( ! empty( $readability_score ) && ! WPSEO_Validator::is_integer( $readability_score ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $readability_score, 'readability_score', 'integer' );
+			throw WPSEO_Invalid_Type_Exception::invalid_integer_parameter( $readability_score, 'readability_score' );
 		}
 
 		$this->readability_score = $readability_score;
 
 		if ( ! empty( $is_cornerstone ) && ! WPSEO_Validator::is_boolean( $is_cornerstone ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $is_cornerstone, 'is_cornerstone', 'boolean' );
+			throw WPSEO_Invalid_Type_Exception::invalid_boolean_parameter( $is_cornerstone, 'is_cornerstone' );
 		}
 
 		$this->is_cornerstone = $is_cornerstone;
 
 		if ( ! empty( $canonical ) && ! WPSEO_Validator::is_string( $canonical ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $canonical, 'canonical', 'string' );
+			throw WPSEO_Invalid_Type_Exception::invalid_string_parameter( $canonical, 'canonical' );
 		}
 
 		$this->canonical = $canonical;
 
 		if ( ! empty( $breadcrumb_title ) && ! WPSEO_Validator::is_string( $breadcrumb_title ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $breadcrumb_title, 'breadcrumb_title', 'string' );
+			throw WPSEO_Invalid_Type_Exception::invalid_string_parameter( $breadcrumb_title, 'breadcrumb_title' );
 		}
 
 		$this->breadcrumb_title = $breadcrumb_title;

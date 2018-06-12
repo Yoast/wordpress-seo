@@ -32,7 +32,7 @@ class Object_Type {
 	 */
 	public function __construct( $type, $subtype ) {
 		if ( ! in_array( $type, $this->valid_types, true ) ) {
-			throw new \Exception( 'Invalid object type passed' );
+			throw new \InvalidArgumentException( 'Invalid object type passed' );
 		}
 
 		$this->type    = $type;
@@ -50,11 +50,11 @@ class Object_Type {
 	 */
 	private function validate_subtype( $subtype ) {
 		if ( $this->type === 'post' && ! post_type_exists( $subtype ) ) {
-			throw new \Exception( 'Invalid post subtype passed' );
+			throw new \InvalidArgumentException( 'Invalid post subtype passed' );
 		}
 
 		if ( $this->type === 'term' && ! taxonomy_exists( $subtype ) ) {
-			throw new \Exception( 'Invalid term object type passed' );
+			throw new \InvalidArgumentException( 'Invalid term object type passed' );
 		}
 
 		return $subtype;

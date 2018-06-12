@@ -44,31 +44,31 @@ class Robots {
 	 */
 	public function __construct( $nofollow, $noarchive, $noimageindex, $nosnippet, $noindex = null ) {
 		if ( ! empty( $nofollow ) && ! WPSEO_Validator::is_boolean( $nofollow ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $nofollow, 'is_robots_nofollow', 'boolean' );
+			throw WPSEO_Invalid_Type_Exception::invalid_boolean_parameter( $nofollow, 'is_robots_nofollow' );
 		}
 
 		$this->nofollow = $nofollow;
 
 		if ( ! empty( $noarchive ) && ! WPSEO_Validator::is_boolean( $noarchive ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noarchive, 'is_robots_noarchive', 'boolean' );
+			throw WPSEO_Invalid_Type_Exception::invalid_boolean_parameter( $noarchive, 'is_robots_noarchive' );
 		}
 
 		$this->noarchive = $noarchive;
 
 		if ( ! empty( $noimageindex ) && ! WPSEO_Validator::is_boolean( $noimageindex ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noimageindex, 'is_robots_noimageindex', 'boolean' );
+			throw WPSEO_Invalid_Type_Exception::invalid_boolean_parameter( $noimageindex, 'is_robots_noimageindex' );
 		}
 
 		$this->noimageindex = $noimageindex;
 
 		if ( ! empty( $nosnippet ) && ! WPSEO_Validator::is_boolean( $nosnippet ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $nosnippet, 'is_robots_nosnippet', 'boolean' );
+			throw WPSEO_Invalid_Type_Exception::invalid_boolean_parameter( $nosnippet, 'is_robots_nosnippet' );
 		}
 
 		$this->nosnippet = $nosnippet;
 
 		if ( ! empty( $noindex ) && ! empty( $noindex ) && ! WPSEO_Validator::is_boolean( $noindex ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_parameter_type( $noindex, 'is_robots_noindex', 'boolean' );
+			throw WPSEO_Invalid_Type_Exception::invalid_boolean_parameter( $noindex, 'is_robots_noindex' );
 		}
 
 		$this->noindex = $noindex;
