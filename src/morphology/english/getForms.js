@@ -5,8 +5,6 @@ const unique = require( "lodash/uniq" );
 const getForms = function( word ) {
 	let forms = [].concat( getNounForms( word ), getVerbForms( word ) );
 
-	console.log( "All forms of the keyword: ", unique( forms ) );
-
 	return unique( forms );
 };
 

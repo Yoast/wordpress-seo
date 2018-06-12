@@ -37,7 +37,6 @@ describe( "Test for getting all possible word forms for complex words", function
 	complexWordsToTest.forEach( function( paradigm ) {
 		const receivedForms = getForms( paradigm[ 0 ] );
 		const expectedForms = paradigm[ 1 ];
-		//console.log("word to build for = ", paradigm1[ 0 ], "receivedForms=", receivedForms, "expectedForms",expectedForms)
 		expectedForms.forEach( function( wordExpected ) {
 			it( "returns an array of word forms for a complex word", function() {
 				expect( receivedForms ).toContain( wordExpected );
