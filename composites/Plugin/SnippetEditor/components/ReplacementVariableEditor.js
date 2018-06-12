@@ -46,14 +46,10 @@ class ReplacementVariableEditor extends React.Component {
 	/**
 	 * Inserts a % into a ReplacementVariableEditor to trigger the replacement variable suggestions.
 	 *
-	 * @param {string} fieldName The field name to get the ref for.
-	 *
 	 * @returns {void}
 	 */
 	triggerReplacementVariableSuggestions() {
-		const element = this.ref;
-
-		element.triggerReplacementVariableSuggestions();
+		this.ref.triggerReplacementVariableSuggestions();
 	}
 
 	/**

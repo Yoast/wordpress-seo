@@ -13,6 +13,7 @@ import styled from "styled-components";
 
 // Internal dependencies.
 import { replacementVariablesShape } from "../constants";
+import { positionSuggestions } from "../positionSuggestions";
 import {
 	serializeEditor,
 	unserializeEditor,
@@ -121,7 +122,9 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.onChange = this.onChange.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
+		this.setMentionSuggestionsRef = this.setMentionSuggestionsRef.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
+		this.debouncedUpdateMentionSuggestions = debounce( this.updateMentionSuggestions.bind( this ), 100 );
 
 		/*
 		 * The mentions plugin is used to autocomplete the replacement variable
@@ -130,6 +133,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.mentionsPlugin = createMentionPlugin( {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
+			positionSuggestions,
 		} );
 
 		this.singleLinePlugin = createSingleLinePlugin( {
@@ -242,6 +246,15 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	}
 
 	/**
+	 * Update the mention suggestions to trigger the repositioning of the popover.
+	 *
+	 * @returns {void}
+	 */
+	updateMentionSuggestions() {
+		this.mentionSuggestions.forceUpdate();
+	}
+
+	/**
 	 * Focuses the editor.
 	 *
 	 * @returns {void}
@@ -259,6 +272,17 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 */
 	setEditorRef( editor ) {
 		this.editor = editor;
+	}
+
+	/**
+	 * Sets the mention reference on this component instance.
+	 *
+	 * @param {Object} mentionSuggestions The mentionSuggestions React reference.
+	 *
+	 * @returns {void}
+	 */
+	setMentionSuggestionsRef( mentionSuggestions ) {
+		this.mentionSuggestions = mentionSuggestions;
 	}
 
 	/**
@@ -324,13 +348,22 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	}
 
 	/**
-	 * Renders the editor including Draft.js and the mentions plugin.
-	 * Cancels the debounced call to A11ySpeak.
+	 * Update the mention suggestions to trigger the repositioning of the popover.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		window.addEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
+	}
+
+	/**
+	 * Cancels the debounced call to A11ySpeak and removes event listeners.
 	 *
 	 * @returns {void}
 	 */
 	componentWillUnmount() {
 		this.debouncedA11ySpeak.cancel();
+		window.removeEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
 	}
 
 	/**
@@ -360,7 +393,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
 						suggestions={ replacementVariables }
-						onAddMention={ this.onAddMention }
+						ref={ this.setMentionSuggestionsRef }
 					/>
 				</ZIndexOverride>
 			</React.Fragment>

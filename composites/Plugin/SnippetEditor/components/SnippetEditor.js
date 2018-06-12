@@ -6,6 +6,7 @@ import MetaDescriptionLengthAssessment from "yoastseo/js/assessments/seo/metaDes
 import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthAssessment";
 import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
+import noop from "lodash/noop";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -91,29 +92,29 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
-	 * @param {Object} props                             The props for the snippet
+	 * @param {Object}   props                           The props for the snippet
 	 *                                                   editor.
-	 * @param {Object} props.replacementVariables        The replacement variables
+	 * @param {Object}   props.replacementVariables      The replacement variables
 	 *                                                   for this editor.
-	 * @param {Object} props.data                        The initial editor data.
-	 * @param {string} props.keyword                     The focus keyword.
-	 * @param {string} props.data.title                  The initial title.
-	 * @param {string} props.data.slug                   The initial slug.
-	 * @param {string} props.data.description            The initial description.
-	 * @param {string} props.baseUrl                     The base URL to use for the
+	 * @param {Object}   props.data                      The initial editor data.
+	 * @param {string}   props.keyword                   The focus keyword.
+	 * @param {string}   props.data.title                The initial title.
+	 * @param {string}   props.data.slug                 The initial slug.
+	 * @param {string}   props.data.description          The initial description.
+	 * @param {string}   props.baseUrl                   The base URL to use for the
 	 *                                                   preview.
-	 * @param {string} props.mode                        The mode the editor should
+	 * @param {string}   props.mode                      The mode the editor should
 	 *                                                   be in.
 	 * @param {Function} props.onChange                  Called when the data
 	 *                                                   changes.
-	 * @param {Object} props.titleLengthProgress       The values for the title
+	 * @param {Object}   props.titleLengthProgress       The values for the title
 	 *                                                   length assessment.
-	 * @param {Object} props.descriptionLengthProgress The values for the
+	 * @param {Object}   props.descriptionLengthProgress The values for the
 	 *                                                   description length
 	 *                                                   assessment.
-	 * @param {Function} props.mapDataToPreview          Function to map the editor
+	 * @param {Function} props.mapEditorDataToPreview    Function to map the editor
 	 *                                                   data to data for the preview.
-	 * @param {string} props.locale                      The locale of the page.
+	 * @param {string}   props.locale                    The locale of the page.
 	 *
 	 * @returns {void}
 	 */
@@ -121,7 +122,7 @@ class SnippetEditor extends React.Component {
 		super( props );
 
 		const measurementData = this.mapDataToMeasurements( props.data );
-		const previewData = this.mapDataToPreview( measurementData, props.generatedDescription );
+		const previewData = this.mapDataToPreview( measurementData );
 
 		this.state = {
 			isOpen: false,
@@ -140,6 +141,7 @@ class SnippetEditor extends React.Component {
 		this.open = this.open.bind( this );
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
+		this.handleChange = this.handleChange.bind( this );
 	}
 
 	/**
@@ -181,6 +183,39 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
+	 * Calls the onChangeAnalysisData function with the current analysis
+	 * data when the component did update.
+	 *
+	 *  @returns {void}
+	 */
+	componentDidUpdate() {
+		const analysisData = this.mapDataToMeasurements( {
+			...this.props.data,
+		} );
+
+		this.props.onChangeAnalysisData( analysisData );
+	}
+
+	/**
+	 * Calls the onChangeAnalysisData function with the current analysis data.
+	 *
+	 * @param {string} key The key of the changed input.
+	 * @param {string} value The value of the new input.
+	 *
+	 * @returns {void}
+	 */
+	handleChange( key, value ) {
+		this.props.onChange( key, value );
+
+		const analysisData = this.mapDataToMeasurements( {
+			...this.props.data,
+			[ key ]: value,
+		} );
+
+		this.props.onChangeAnalysisData( analysisData );
+	}
+
+	/**
 	 * Renders the editor fields if the editor is open.
 	 *
 	 * @returns {ReactElement} The rendered react element.
@@ -190,7 +225,6 @@ class SnippetEditor extends React.Component {
 			data,
 			replacementVariables,
 			descriptionEditorFieldPlaceholder,
-			onChange,
 		} = this.props;
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
@@ -204,7 +238,7 @@ class SnippetEditor extends React.Component {
 					data={ data }
 					activeField={ activeField }
 					hoveredField={ hoveredField }
-					onChange={ onChange }
+					onChange={ this.handleChange }
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
 					replacementVariables={ replacementVariables }
@@ -351,44 +385,49 @@ class SnippetEditor extends React.Component {
 	 * @returns {Object} The data for the preview.
 	 */
 	mapDataToMeasurements( originalData ) {
-		const { baseUrl, mapDataToPreview } = this.props;
+		const { baseUrl, mapEditorDataToPreview } = this.props;
 
 		let description = this.processReplacementVariables( originalData.description );
 
 		// Strip multiple spaces and spaces at the beginning and end.
 		description = stripSpaces( description );
 
-		const mappedData = {
+		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
+
+		let mappedData = {
 			title: this.processReplacementVariables( originalData.title ),
-			url: baseUrl.replace( "https://", "" ) + originalData.slug,
+			url: shortenedBaseUrl + originalData.slug,
 			description: description,
 		};
 
+		const context = {
+			shortenedBaseUrl,
+		};
+
 		// The mapping by the passed mapping function should happen before measuring.
-		if ( mapDataToPreview ) {
-			return mapDataToPreview( mappedData, originalData );
+		if ( mapEditorDataToPreview ) {
+			return mapEditorDataToPreview( mappedData, context );
 		}
 
 		return mappedData;
 	}
 
 	/**
-	 * Maps the data from to be suitable for the preview.
+	 * Maps the passed data to be suitable for the preview.
 	 *
 	 * The data that is in the preview is not exactly the same as the data
 	 * that is measured (see above), because the metadescription placeholder
 	 * shouldn't be measured.
 	 *
 	 * @param {Object} originalData         The data from the form.
-	 * @param {string} generatedDescription The description that should be displayed, or an empty string.
 	 *
 	 * @returns {Object} The data for the preview.
 	 */
-	mapDataToPreview( originalData, generatedDescription ) {
+	mapDataToPreview( originalData ) {
 		return {
 			title: originalData.title,
 			url: originalData.url,
-			description: originalData.description || generatedDescription,
+			description: originalData.description,
 		};
 	}
 
@@ -440,8 +479,6 @@ class SnippetEditor extends React.Component {
 		const {
 			onChange,
 			data,
-			descriptionPlaceholder,
-			generatedDescription,
 			mode,
 			date,
 			locale,
@@ -455,7 +492,7 @@ class SnippetEditor extends React.Component {
 		} = this.state;
 
 		const measurementData = this.mapDataToMeasurements( data );
-		const mappedData = this.mapDataToPreview( measurementData, generatedDescription );
+		const mappedData = this.mapDataToPreview( measurementData );
 
 		/*
 		 * The SnippetPreview is not a build-in HTML element so this check is not
@@ -474,7 +511,6 @@ class SnippetEditor extends React.Component {
 					onMouseLeave={ this.onMouseLeave }
 					onMouseUp={ this.onMouseUp }
 					locale={ locale }
-					descriptionPlaceholder={ descriptionPlaceholder }
 					{ ...mappedData }
 				/>
 
@@ -503,16 +539,15 @@ SnippetEditor.propTypes = {
 		slug: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
-	descriptionPlaceholder: PropTypes.string,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
-	generatedDescription: PropTypes.string,
 	baseUrl: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf( MODES ),
 	date: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
+	onChangeAnalysisData: PropTypes.func,
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
-	mapDataToPreview: PropTypes.func,
+	mapEditorDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
 	locale: PropTypes.string,
 };
@@ -531,10 +566,10 @@ SnippetEditor.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
-	mapDataToPreview: null,
-	generatedDescription: "",
+	mapEditorDataToPreview: null,
 	locale: "en",
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
+	onChangeAnalysisData: noop,
 };
 
 export default SnippetEditor;
