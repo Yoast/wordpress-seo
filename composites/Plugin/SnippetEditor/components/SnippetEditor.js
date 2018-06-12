@@ -92,29 +92,30 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
-	 * @param {Object} props                             The props for the snippet
+	 * @param {Object}   props                           The props for the snippet
 	 *                                                   editor.
-	 * @param {Object} props.replacementVariables        The replacement variables
+	 * @param {Object}   props.replacementVariables      The replacement variables
 	 *                                                   for this editor.
-	 * @param {Object} props.data                        The initial editor data.
-	 * @param {string} props.keyword                     The focus keyword.
-	 * @param {string} props.data.title                  The initial title.
-	 * @param {string} props.data.slug                   The initial slug.
-	 * @param {string} props.data.description            The initial description.
-	 * @param {string} props.baseUrl                     The base URL to use for the
-	 *                                                   preview.
-	 * @param {string} props.mode                        The mode the editor should
-	 *                                                   be in.
+	 * @param {Object}   props.data                      The initial editor data.
+	 * @param {string}   props.keyword                   The focus keyword.
+	 * @param {string}   props.data.title                The initial title.
+	 * @param {string}   props.data.slug                 The initial slug.
+	 * @param {string}   props.data.description          The initial description.
+	 * @param {string}   props.baseUrl                   The base URL to use
+	 *                                                   for the preview.
+	 * @param {string}   props.mode                      The mode the editor
+	 *                                                   should be in.
 	 * @param {Function} props.onChange                  Called when the data
 	 *                                                   changes.
-	 * @param {Object} props.titleLengthProgress       The values for the title
+	 * @param {Object}   props.titleLengthProgress       The values for the title
 	 *                                                   length assessment.
-	 * @param {Object} props.descriptionLengthProgress The values for the
+	 * @param {Object}   props.descriptionLengthProgress The values for the
 	 *                                                   description length
 	 *                                                   assessment.
-	 * @param {Function} props.mapEditorDataToPreview          Function to map the editor
-	 *                                                   data to data for the preview.
-	 * @param {string} props.locale                      The locale of the page.
+	 * @param {Function} props.mapEditorDataToPreview    Function to map the
+	 *                                                   editor data to data
+	 *                                                   for the preview.
+	 * @param {string}   props.locale                    The locale of the page.
 	 *
 	 * @returns {void}
 	 */
