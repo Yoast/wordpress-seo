@@ -90,9 +90,9 @@ PostDataCollector.prototype.getKeyword = function() {
 /**
  * Returns the full meta description including any prefixed date.
  *
- * @param {Object} state The state containing the meta description
+ * @param {Object} state The state containing the meta description.
  *
- * @returns {string} The full meta description
+ * @returns {string} The full meta description.
  */
 PostDataCollector.prototype.getMetaDescForAnalysis = function( state ) {
 	let metaDesc = get( state, [ "analysisData", "snippet", "description" ], this.getSnippetMeta() );
