@@ -8,6 +8,7 @@ const filter = require( "lodash/filter" );
 const isUndefined = require( "lodash/isUndefined" );
 const escapeRegExp = require( "lodash/escapeRegExp" );
 const unique = require( "lodash/uniq" );
+const flatten = require( "lodash/flatten" );
 
 /**
  * Checks if the input word contains a normalized or a non-normalized apostrophe.
@@ -70,8 +71,8 @@ module.exports = function( paper ) {
 	if ( keyword.indexOf( " " ) === -1 ) {
 		// console.log( "Keyword is one word, returning  all forms of this keyword. ", getForms( escapeRegExp( keyword ) ) );
 		const wordToLowerCase = escapeRegExp( keyword.toLocaleLowerCase() );
-		forms = forms.concat( getForms( wordToLowerCase ) );
-		forms = forms.concat( getVariationsApostropheInArray( forms ) );
+		forms = flatten( forms.concat( getForms( wordToLowerCase ) ) );
+		forms = unique( flatten( forms.concat( getVariationsApostropheInArray( forms ) ) ) );
 		return forms;
 	}
 
@@ -87,8 +88,8 @@ module.exports = function( paper ) {
 	if ( keyWordsFiltered.length === 0 ) {
 		keyWords.forEach( function( word ) {
 			const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase() );
-			forms = forms.concat( getForms( wordToLowerCase ) );
-			forms = forms.concat( getVariationsApostropheInArray( forms ) );
+			forms = flatten( forms.concat( getForms( wordToLowerCase ) ) );
+			forms = unique( flatten( forms.concat( getVariationsApostropheInArray( forms ) ) ) );
 		} );
 		// console.log( "Keyphrase only contains functionWords, return all forms of every word in the keyphrase. ", forms );
 		return forms;
@@ -97,8 +98,8 @@ module.exports = function( paper ) {
 	// If after filtering function words out there are still words remaining, build all forms for each of them and return in one array.
 	keyWordsFiltered.forEach( function( word ) {
 		const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase() );
-		forms = forms.concat( getForms( wordToLowerCase ) );
-		forms = forms.concat( getVariationsApostropheInArray( forms ) );
+		forms = flatten( forms.concat( getForms( wordToLowerCase ) ) );
+		forms = unique( flatten( forms.concat( getVariationsApostropheInArray( forms ) ) ) );
 	} );
 	// console.log( "Keyphrase contains content words, return all forms of every content word in the keyphrase. ", forms );
 	return forms;

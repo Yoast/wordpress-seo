@@ -2,6 +2,7 @@ const getForms = require( "../../src/morphology/english/getForms.js" );
 
 const simpleWordsToTest = [
 	[ "word", "words", "wording", "worded" ],
+	[ "word", "words", "word's", "words'", "words's" ],
 	[ "fly", "flies", "flying", "flew", "flown" ],
 ];
 

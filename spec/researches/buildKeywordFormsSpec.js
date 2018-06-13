@@ -23,6 +23,12 @@ describe( "Build keyword forms based on the received keyword for English", funct
 		result = buildKeywordForms( mockPaper );
 		expect( result ).toContain( "keyword" );
 		expect( result ).toContain( "keywords" );
+		expect( result ).toContain( "keyword's" );
+		expect( result ).toContain( "keywords'" );
+		expect( result ).toContain( "keywords's" );
+		expect( result ).toContain( "keyword’s" );
+		expect( result ).toContain( "keywords’" );
+		expect( result ).toContain( "keywords’s" );
 
 		mockPaper = new Paper( "", { keyword: "Keyword", locale: "en_EN" } );
 		result = buildKeywordForms( mockPaper );
