@@ -182,8 +182,12 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	}
 
 	/**
+	 * In order to have the replaceVariable labels rather than the names in the Mention suggestions,
+	 * we map the replaceVar label as the name, and save the original name in replaceName.
 	 *
-	 * @param replacementVariables
+	 * @param {array} replacementVariables The list of replacementVariables.
+	 *
+	 * @returns {array} The suggestions, a mapped version of the replacementVariables.
 	 */
 	mapReplacementVariablesToSuggestions( replacementVariables ) {
 		return replacementVariables.map( ( variable ) => {
