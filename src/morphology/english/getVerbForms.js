@@ -316,4 +316,5 @@ const getVerbForms = function( word ) {
 
 module.exports = {
 	getVerbForms: getVerbForms,
+	normalizePrefixed: normalizePrefixed,
 };

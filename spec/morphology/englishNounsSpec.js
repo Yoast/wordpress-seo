@@ -1,8 +1,9 @@
-const getNounForms = require( "../../src/morphology/english/getNounForms.js" ).getNounForms;
-const getNounFormsWithPossessives = require( "../../src/morphology/english/getNounForms.js" ).getNounFormsWithPossessives;
-const checkHispanic = require( "../../src/morphology/english/getNounForms.js" ).checkHispanic;
-const getBaseFromPossessive = require( "../../src/morphology/english/getNounForms.js" ).getBaseFromPossessive;
-const irregularNounsToTest = require( "../../src/morphology/english/irregularNouns.js" );
+const getNounForms = require( "../../js/morphology/english/getNounForms.js" ).getNounForms;
+const getNounFormsWithPossessives = require( "../../js/morphology/english/getNounForms.js" ).getNounFormsWithPossessives;
+const checkHispanic = require( "../../js/morphology/english/getNounForms.js" ).checkHispanic;
+const checkPossessive = require( "../../js/morphology/english/getNounForms.js" ).checkPossessive;
+const getBaseFromPossessive = require( "../../js/morphology/english/getNounForms.js" ).getBaseFromPossessive;
+const irregularNounsToTest = require( "../../js/morphology/english/irregularNouns.js" );
 
 const regularNounsToTest = [
 	[ "word", "words" ],
@@ -521,11 +522,22 @@ describe( "Test for getting all possible word forms for irregular words", functi
 	} );
 } );
 
+describe( "Test for a possessive", function() {
+	possessivesToBaseToTest.forEach( function( paradigm ) {
+		const base = paradigm[ 0 ];
+		const possessive = paradigm[ 1 ];
+		it( "returns if the word is a possessive", function() {
+			expect( checkPossessive( base ) || false ).toEqual( false );
+			expect( checkPossessive( possessive ) || false ).toEqual( true );
+		} );
+	} );
+} );
+
 describe( "Test for getting the base from a possessive", function() {
 	possessivesToBaseToTest.forEach( function( paradigm ) {
 		const base = paradigm[ 0 ];
 		const possessive = paradigm[ 1 ];
-		it( "returns the base for an possessive word", function() {
+		it( "returns the base for a possessive word", function() {
 			const receivedForm = getBaseFromPossessive( possessive );
 			expect( receivedForm ).toContain( base );
 		} );

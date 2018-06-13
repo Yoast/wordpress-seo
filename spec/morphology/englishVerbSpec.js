@@ -1,4 +1,5 @@
 const getVerbForms = require( "../../src/morphology/english/getVerbForms.js" ).getVerbForms;
+const normalizePrefixed = require( "../../src/morphology/english/getVerbForms.js" ).normalizePrefixed;
 const irregularVerbsToTest = require( "../../src/morphology/english/irregularVerbs.js" );
 
 const regularVerbsToTest = [
@@ -220,7 +221,45 @@ const irregularVerbsWithPrefixes = [
 	[ "quarter-see", "quarter-sees", "quarter-seeing", "quarter-saw", "quarter-seen", "quarter-saws", "quarter-sawing", "quarter-sawed", "quarter-sawn" ],
 ];
 
+const verbsToNormalizePrefix = [
+	[ "abear", { normalizedWord: "bear", prefix: "a" } ],
+	[ "atslips", { normalizedWord: "slips", prefix: "at" } ],
+	[ "became", { normalizedWord: "came", prefix: "be" } ],
+	[ "enfreezes", { normalizedWord: "freezes", prefix: "en" } ],
+	[ "at-slipped", { normalizedWord: "slipped", prefix: "at-" } ],
+	[ "disproving", { normalizedWord: "proving", prefix: "dis" } ],
+	[ "outgoing", { normalizedWord: "going", prefix: "out" } ],
+	[ "far-speaks", { normalizedWord: "speaks", prefix: "far-" } ],
+	[ "autorun", { normalizedWord: "run", prefix: "auto" } ],
+	[ "backshined", { normalizedWord: "shined", prefix: "back" } ],
+	[ "umbeset", { normalizedWord: "set", prefix: "umbe" } ],
+	[ "auto-run", { normalizedWord: "run", prefix: "auto-" } ],
+	[ "afterseen", { normalizedWord: "seen", prefix: "after" } ],
+	[ "housebreak", { normalizedWord: "break", prefix: "house" } ],
+	[ "after-see", { normalizedWord: "see", prefix: "after-" } ],
+	[ "frost-bite", { normalizedWord: "bite", prefix: "frost-" } ],
+	[ "quick-freeze", { normalizedWord: "freeze", prefix: "quick-" } ],
+	[ "under-creep", { normalizedWord: "creep", prefix: "under-" } ],
+	[ "countersing", { normalizedWord: "sing", prefix: "counter" } ],
+	[ "quartersee", { normalizedWord: "see", prefix: "quarter" } ],
+	[ "counter-singing", { normalizedWord: "singing", prefix: "counter-" } ],
+	[ "quarter-see", { normalizedWord: "see", prefix: "quarter-" } ],
+];
+
 let receivedForms = [];
+
+describe( "Test for normalizing verb prefix", function() {
+	verbsToNormalizePrefix.forEach( function( paradigm ) {
+		const verbToNormalize = paradigm[ 0 ];
+		const expectedNormalization = paradigm[ 1 ].normalizedWord;
+		const expectedPrefix = paradigm[ 1 ].prefix;
+		it( "returns a normalized form for a prefixed verb", function() {
+			const receivedNormalization = normalizePrefixed( verbToNormalize );
+			expect( receivedNormalization.normalizedWord ).toEqual( expectedNormalization );
+			expect( receivedNormalization.prefix ).toEqual( expectedPrefix );
+		} );
+	} );
+} );
 
 describe( "Test for getting all possible word forms for regular verbs", function() {
 	regularVerbsToTest.forEach( function( paradigm ) {
