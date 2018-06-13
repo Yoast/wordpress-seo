@@ -99,18 +99,18 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	}
 
 	/**
-	 * Retrieves the recommended replacement variables for the given page type.
+	 * Retrieves the recommended replacement variables for the given post type.
 	 *
-	 * @param string $page_type The page type.
+	 * @param string $post_type The post type.
 	 *
 	 * @return array The recommended replacement variables.
 	 */
-	public function get_recommended_replacevars( $page_type ) {
-		if ( ! isset( $this->recommended_replace_vars[ $page_type ] ) ) {
+	public function get_recommended_replacevars( $post_type ) {
+		if ( ! isset( $this->recommended_replace_vars[ $post_type ] ) ) {
 			return array();
 		}
 
-		return $this->recommended_replace_vars[ $page_type ];
+		return $this->recommended_replace_vars[ $post_type ];
 	}
 
 	/**
