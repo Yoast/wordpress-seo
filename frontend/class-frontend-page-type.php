@@ -51,7 +51,7 @@ class WPSEO_Frontend_Page_Type {
 	}
 
 	/**
-	 * Determine whether the this is the static frontpage.
+	 * Determine whether this is the static frontpage.
 	 *
 	 * @return bool Whether or not the current page is a static frontpage.
 	 */
@@ -60,9 +60,9 @@ class WPSEO_Frontend_Page_Type {
 	}
 
 	/**
-	 * Determine whether this is the posts page, when it's not the frontpage.
+	 * Determine whether this is the statically set posts page, when it's not the frontpage.
 	 *
-	 * @return bool Whether or not it's a non-frontpage, posts page.
+	 * @return bool Whether or not it's a non-frontpage, statically set posts page.
 	 */
 	public function is_posts_page() {
 		return ( is_home() && get_option( 'show_on_front' ) === 'page' );
