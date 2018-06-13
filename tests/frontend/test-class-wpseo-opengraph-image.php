@@ -179,6 +179,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test setting the front page image.
+	 *
+ 	 * @covers WPSEO_OpenGraph_Image::set_front_page_image
 	 */
 	public function test_frontpage_image() {
 		WPSEO_Options::set( 'og_frontpage_image', '/test.png' );
@@ -203,6 +205,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test setting the front page image via a user-defined image.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::set_front_page_image
 	 */
 	public function test_frontpage_image_uses_user_defined() {
 		WPSEO_Options::set( 'og_frontpage_image', '/test.png' );
