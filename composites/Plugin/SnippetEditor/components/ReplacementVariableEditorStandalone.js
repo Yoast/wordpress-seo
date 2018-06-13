@@ -109,7 +109,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.state = {
 			editorState,
 			searchValue: "",
-			replacementVariables,
+			suggestions: this.mapReplacementVariablesToSuggestions( replacementVariables ),
 		};
 
 		/*
@@ -182,17 +182,36 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	}
 
 	/**
-	 * Filters replacement variables values based on the search term typed by the user.
 	 *
-	 * @param {string} searchValue The search value typed after the mentionTrigger by the user.
-	 * @param {Object[]} replacementVariables The replacement variables to filter.
-	 *
-	 * @returns {Object[]} A filtered set of replacement variables to show as suggestions to the user.
+	 * @param replacementVariables
 	 */
-	replacementVariablesFilter( searchValue, replacementVariables ) {
+	mapReplacementVariablesToSuggestions( replacementVariables ) {
+		return replacementVariables.map( ( variable ) => {
+			return {
+				...variable,
+
+				// We want to use the nice-name in the suggestion list, which is the label.
+				name: variable.label,
+
+				// We save the replacement variable name for later serialization.
+				replaceName: variable.name,
+			};
+		} );
+	}
+
+	/**
+	 * Filters suggestions based on the search term typed by the user.
+	 *
+	 * @param {string}   searchValue The search value typed after the mentionTrigger by the user.
+	 * @param {Object[]} suggestions The replacement variables to filter.
+	 *
+	 * @returns {Object[]} A filtered set of suggestions to show to the user.
+	 */
+	suggestionsFilter( searchValue, suggestions ) {
 		const value = searchValue.toLowerCase();
-		return replacementVariables.filter( function( suggestion ) {
-			return ! value || suggestion.label.toLowerCase().indexOf( value ) === 0;
+
+		return suggestions.filter( function( suggestion ) {
+			return ! value || suggestion.name.toLowerCase().indexOf( value ) === 0;
 		} );
 	}
 
@@ -204,9 +223,11 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	onSearchChange( { value } ) {
+		const suggestions = this.mapReplacementVariablesToSuggestions( this.props.replacementVariables );
+
 		this.setState( {
 			searchValue: value,
-			replacementVariables: this.replacementVariablesFilter( value, this.props.replacementVariables ),
+			suggestions: this.suggestionsFilter( value, suggestions ),
 		} );
 
 		/*
@@ -227,17 +248,17 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	announceSearchResults() {
-		const { replacementVariables } = this.state;
+		const { suggestions } = this.state;
 
-		if ( replacementVariables.length ) {
+		if ( suggestions.length ) {
 			this.debouncedA11ySpeak(
 				sprintf(
 					_n(
 						"%d result found, use up and down arrow keys to navigate",
 						"%d results found, use up and down arrow keys to navigate",
-						replacementVariables.length
+						suggestions.length
 					),
-					replacementVariables.length,
+					suggestions.length,
 					"yoast-components"
 				),
 				"assertive"
@@ -342,9 +363,11 @@ class ReplacementVariableEditorStandalone extends React.Component {
 			this._serializedContent = nextProps.content;
 			const editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
 
+			const suggestions = this.mapReplacementVariablesToSuggestions( nextProps.replacementVariables );
+
 			this.setState( {
 				editorState,
-				replacementVariables: this.replacementVariablesFilter( searchValue, nextProps.replacementVariables ),
+				suggestions: this.suggestionsFilter( searchValue, suggestions ),
 			} );
 		}
 	}
@@ -376,15 +399,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
 		const { onFocus, onBlur, ariaLabelledBy, placeholder } = this.props;
-		const { editorState, replacementVariables } = this.state;
-
-		const replaceVarSuggestions = replacementVariables.map( ( variable ) => {
-			return {
-				...variable,
-				name: variable.label,
-				replaceName: variable.name,
-			};
-		} );
+		const { editorState, suggestions } = this.state;
 
 		return (
 			<React.Fragment>
@@ -402,7 +417,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 				<ZIndexOverride>
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
-						suggestions={ replaceVarSuggestions }
+						suggestions={ suggestions }
 						ref={ this.setMentionSuggestionsRef }
 					/>
 				</ZIndexOverride>
