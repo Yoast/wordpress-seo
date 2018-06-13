@@ -4,10 +4,7 @@ import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import map from "lodash/map";
 import { connect } from "react-redux";
-import {
-	replacementVariablesShape,
-	recommendedReplacementVariablesShape,
-} from "yoast-components/composites/Plugin/SnippetEditor/constants";
+import { replacementVariablesShape } from "yoast-components/composites/Plugin/SnippetEditor/constants";
 
 /* Internal dependencies */
 import SettingsReplacementVariableEditor from "./SettingsReplacementVariableEditor";

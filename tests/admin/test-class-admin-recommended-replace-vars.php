@@ -113,16 +113,23 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
 	 */
 	public function test_determine_for_post_with_a_homepage() {
+		// Backup the current values for these options.
 		$show_on_front = get_option( 'show_on_front' );
 		$page_on_front = get_option( 'page_on_front' );
 
 		$post = $this->create_and_get_with_post_type( 'page' );
 
+		// Overwrite the options used in the is_homepage function.
 		update_option( 'show_on_front', 'page' );
-		update_option( 'page_on_front', $post->ID );
+		/*
+		 * Note the ID type is converted to a string.
+		 * This is because when you change your homepage in WordPress this gets saved as a string.
+		 */
+		update_option( 'page_on_front', '' . $post->ID );
 
 		$this->assertEquals( 'homepage', $this->class_instance->determine_for_post( $post ) );
 
+		// Revert the options their original values.
 		update_option( 'show_on_front', $show_on_front );
 		update_option( 'page_on_front', $page_on_front );
 	}

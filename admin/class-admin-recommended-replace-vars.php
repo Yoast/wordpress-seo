@@ -124,9 +124,15 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		if ( $post instanceof WP_Post === false ) {
 			return false;
 		}
-		$post_id_string = '' . $post->ID;
 
-		return get_option( 'show_on_front' ) === 'page' && get_option( 'page_on_front' ) === $post_id_string;
+		/*
+		 * The page on front returns a string with normal WordPress interaction, while the post ID is an int.
+		 * This way we make sure we always compare strings.
+		 */
+		$post_id_string = '' . $post->ID;
+		$page_on_front = '' . get_option( 'page_on_front' );
+
+		return get_option( 'show_on_front' ) === 'page' && $page_on_front === $post_id_string;
 	}
 
 	/**
