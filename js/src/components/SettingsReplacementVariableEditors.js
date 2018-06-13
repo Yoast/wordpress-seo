@@ -4,7 +4,10 @@ import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import map from "lodash/map";
 import { connect } from "react-redux";
-import { replacementVariablesShape } from "yoast-components/composites/Plugin/SnippetEditor/constants";
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "yoast-components/composites/Plugin/SnippetEditor/constants";
 
 /* Internal dependencies */
 import SettingsReplacementVariableEditor from "./SettingsReplacementVariableEditor";
@@ -27,9 +30,9 @@ class SettingsReplacementVariableEditors extends React.Component {
 	 *
 	 * Renders a settings replacement variable editor in every given element in
 	 * the editorElements props. It requires every element to have a data-react-
-	 * replacevar-title-field-id and data-react-replacevar-metadesc-field-id
-	 * attribute to function properly. These attributes should point to existing
-	 * (hidden) inputs in the DOM.
+	 * replacevar-title-field-id, data-react-replacevar-metadesc-field-id
+	 * attribute and data-react-replacevar-post-type to function properly.
+	 * These attributes should point to existing (hidden) inputs in the DOM.
 	 *
 	 * @returns {Array<ReactElement>} An array of portals to instances of the
 	 *                                settings replacement variable editor.
@@ -39,10 +42,12 @@ class SettingsReplacementVariableEditors extends React.Component {
 			const {
 				reactReplacevarTitleFieldId,
 				reactReplacevarMetadescFieldId,
+				reactReplacevarPostType,
 			} = targetElement.dataset;
 			return ReactDOM.createPortal(
 				<SettingsReplacementVariableEditor
 					replacementVariables={ this.props.replacementVariables }
+					recommendedReplacementVariables={ this.props.recommendedReplacementVariables[ reactReplacevarPostType ] }
 					titleTarget={ reactReplacevarTitleFieldId }
 					descriptionTarget={ reactReplacevarMetadescFieldId } />,
 				targetElement
@@ -55,8 +60,9 @@ class SettingsReplacementVariableEditors extends React.Component {
 	 *
 	 * Renders a settings replacement variable field in every given element in
 	 * the singleFieldElements props. It requires every element to have a data-
-	 * react- replacevar-field-id attribute to function properly. This attribute
-	 * should point to and existing (hidden) input in the DOM.
+	 * react-replacevar-field-id attribute and data-react-replacevar-post-type
+	 * to function properly. This attribute should point to and existing
+	 * (hidden) input in the DOM.
 	 *
 	 * @returns {Array<ReactElement>} An array of portals to instances of the
 	 *                                settings replacement variable field.
@@ -66,11 +72,13 @@ class SettingsReplacementVariableEditors extends React.Component {
 			const {
 				reactReplacevarFieldId,
 				reactReplacevarFieldLabel,
+				reactReplacevarPostType,
 			} = targetElement.dataset;
 			return ReactDOM.createPortal(
 				<SettingsTitleReplacementVariableEditor
 					label={ reactReplacevarFieldLabel }
 					replacementVariables={ this.props.replacementVariables }
+					recommendedReplacementVariables={ this.props.recommendedReplacementVariables[ reactReplacevarPostType ] }
 					fieldId={ reactReplacevarFieldId } />,
 				targetElement
 			);
@@ -94,18 +102,21 @@ class SettingsReplacementVariableEditors extends React.Component {
 
 SettingsReplacementVariableEditors.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: PropTypes.object,
 	editorElements: PropTypes.object,
 	singleFieldElements: PropTypes.object,
 };
 
 SettingsReplacementVariableEditors.defaultProps = {
 	replacementVariables: [],
+	recommendedReplacementVariables: {},
 	editorElements: [],
 	singleFieldElements: [],
 };
 
 export default connect( state => ( {
 	replacementVariables: state.snippetEditor.replacementVariables,
+	recommendedReplacementVariables: state.snippetEditor.recommendedReplacementVariables,
 } ), {
 	updateReplacementVariable,
 } )( SettingsReplacementVariableEditors );

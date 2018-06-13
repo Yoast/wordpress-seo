@@ -1,3 +1,5 @@
+/* global wpseoReplaceVarsL10n */
+
 /* External dependencies */
 import ReactDOM from "react-dom";
 import React from "react";
@@ -21,7 +23,8 @@ function configureStore() {
 		} ),
 		{
 			snippetEditor: {
-				replacementVariables: window.wpseoReplaceVarsL10n,
+				replacementVariables: wpseoReplaceVarsL10n.replace_vars,
+				recommendedReplacementVariables: wpseoReplaceVarsL10n.recommended_replace_vars,
 			},
 		},
 		configureEnhancers()

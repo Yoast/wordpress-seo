@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
 	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
 } from "yoast-components/composites/Plugin/SnippetEditor";
 import ReplaceVarEditor from "yoast-components/composites/Plugin/SnippetEditor/components/ReplacementVariableEditor";
 import styled from "styled-components";
@@ -34,6 +35,7 @@ class SettingsTitleReplacementVariableEditor extends React.Component {
 		const {
 			label,
 			replacementVariables,
+			recommendedReplacementVariables,
 			field,
 		} = this.props;
 
@@ -42,11 +44,12 @@ class SettingsTitleReplacementVariableEditor extends React.Component {
 				<ReplaceVarEditor
 					label={ label }
 					isActive={ this.state.isActive }
-					isHovered={ this.state.isHovered }
+					isHowvered={ this.state.isHovered }
 					content={ field.value }
 					onChange={ field.onChange }
 					onFocus={ this.focus }
 					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
 					editorRef={ ref => {
 						this.inputRef = ref;
 					} }
@@ -58,6 +61,7 @@ class SettingsTitleReplacementVariableEditor extends React.Component {
 
 SettingsTitleReplacementVariableEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	label: PropTypes.string.isRequired,
 	field: linkFieldsShape,
 };
