@@ -8,7 +8,10 @@ import styled from "styled-components";
 
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
-import { replacementVariablesShape } from "../constants";
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
 
 const FormSection = styled.div`
 	margin: 10px 0;
@@ -179,6 +182,7 @@ class SettingsSnippetEditorFields extends React.Component {
 			activeField,
 			hoveredField,
 			replacementVariables,
+			recommendedReplacementVariables,
 			onFocus,
 			onChange,
 			data: {
@@ -201,6 +205,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						isHovered={ hoveredField === "title" }
 						editorRef={ ref => this.setRef( "title", ref ) }
 						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ title }
 						onChange={ content => onChange( "title", content ) }
 						styleForMobile={ isSmallerThanMobileWidth }
@@ -216,6 +221,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						isHovered={ hoveredField === "description" }
 						editorRef={ ref => this.setRef( "description", ref ) }
 						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ description }
 						onChange={ content => onChange( "description", content ) }
 						styleForMobile={ isSmallerThanMobileWidth }
@@ -228,6 +234,7 @@ class SettingsSnippetEditorFields extends React.Component {
 
 SettingsSnippetEditorFields.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	data: PropTypes.shape( {

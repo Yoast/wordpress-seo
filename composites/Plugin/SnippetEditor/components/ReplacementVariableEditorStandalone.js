@@ -112,13 +112,21 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		const { content: rawContent, replacementVariables } = this.props;
+		const {
+			content: rawContent,
+			replacementVariables,
+			recommendedReplacementVariables,
+		} = this.props;
 		const editorState = unserializeEditor( rawContent, replacementVariables );
+		const currentReplacementVariables = this.determineCurrentReplacementVariables(
+			replacementVariables,
+			recommendedReplacementVariables
+		);
 
 		this.state = {
 			editorState,
 			searchValue: "",
-			replacementVariables,
+			replacementVariables: currentReplacementVariables,
 		};
 
 		/*
@@ -212,12 +220,13 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * Try to use the recommended replacement variables.
 	 * Otherwise use the normal replacement variables.
 	 *
+	 * @param {Object[]} replacementVariables            The current replacement variables.
+	 * @param {array}    recommendedReplacementVariables The recommended replacement variables.
+	 * @param {string}   searchValue                     The current search value.
+	 *
 	 * @returns {Object[]} The replacement variables to show as suggestions to the user.
 	 */
-	determineCurrentReplacementVariables() {
-		const { recommendedReplacementVariables } = this.props;
-		const { replacementVariables, searchValue } = this.state;
-
+	determineCurrentReplacementVariables( replacementVariables, recommendedReplacementVariables, searchValue = "" ) {
 		const useRecommended = searchValue === "" && ! isEmpty( recommendedReplacementVariables );
 
 		if ( useRecommended ) {
@@ -243,9 +252,15 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	onSearchChange( { value } ) {
+		const recommendedReplacementVariables = this.determineCurrentReplacementVariables(
+			this.props.replacementVariables,
+			this.props.recommendedReplacementVariables,
+			value,
+		);
+
 		this.setState( {
 			searchValue: value,
-			replacementVariables: this.replacementVariablesFilter( value, this.props.replacementVariables ),
+			replacementVariables: this.replacementVariablesFilter( value, recommendedReplacementVariables ),
 		} );
 
 		/*
@@ -371,7 +386,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	componentWillReceiveProps( nextProps ) {
-		const { content, replacementVariables } = this.props;
+		const { content, replacementVariables, recommendedReplacementVariables } = this.props;
 		const { searchValue } = this.state;
 
 		if (
@@ -380,10 +395,15 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		) {
 			this._serializedContent = nextProps.content;
 			const editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+			const currentReplacementVariables = this.determineCurrentReplacementVariables(
+				nextProps.replacementVariables,
+				recommendedReplacementVariables,
+				searchValue
+			);
 
 			this.setState( {
 				editorState,
-				replacementVariables: this.replacementVariablesFilter( searchValue, nextProps.replacementVariables ),
+				replacementVariables: this.replacementVariablesFilter( searchValue, currentReplacementVariables ),
 			} );
 		}
 	}
@@ -415,9 +435,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
 		const { onFocus, onBlur, ariaLabelledBy, placeholder } = this.props;
-		const { editorState } = this.state;
-
-		const currentReplacementVariables = this.determineCurrentReplacementVariables();
+		const { editorState, replacementVariables } = this.state;
 
 		return (
 			<React.Fragment>
@@ -435,7 +453,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 				<ZIndexOverride>
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
-						suggestions={ currentReplacementVariables }
+						suggestions={ replacementVariables }
 						ref={ this.setMentionSuggestionsRef }
 					/>
 				</ZIndexOverride>

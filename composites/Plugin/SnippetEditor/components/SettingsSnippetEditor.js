@@ -4,7 +4,10 @@ import PropTypes from "prop-types";
 
 // Internal dependencies.
 import SettingsSnippetEditorFields from "./SettingsSnippetEditorFields";
-import { replacementVariablesShape } from "../constants";
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
 
 class SnippetEditor extends React.Component {
 	/**
@@ -97,6 +100,7 @@ class SnippetEditor extends React.Component {
 		const {
 			data,
 			replacementVariables,
+			recommendedReplacementVariables,
 			descriptionEditorFieldPlaceholder,
 		} = this.props;
 
@@ -110,13 +114,16 @@ class SnippetEditor extends React.Component {
 				hoveredField={ hoveredField }
 				onChange={ this.handleChange }
 				onFocus={ this.setFieldFocus }
-				replacementVariables={ replacementVariables } />
+				replacementVariables={ replacementVariables }
+				recommendedReplacementVariables={ recommendedReplacementVariables }
+			/>
 		);
 	}
 }
 
 SnippetEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
@@ -127,6 +134,7 @@ SnippetEditor.propTypes = {
 
 SnippetEditor.defaultProps = {
 	replacementVariables: [],
+	recommendedReplacementVariables: [],
 };
 
 export default SnippetEditor;
