@@ -13,7 +13,7 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	/**
 	 * @var array The recommended replacement variables.
 	 */
-	protected $recommended_replace_vars = array(
+	public $recommended_replace_vars = array(
 		// Posts.
 		'page'                    => array( 'sitename', 'title', 'sep', 'primary_category' ),
 		'post'                    => array( 'sitename', 'title', 'sep', 'primary_category' ),
@@ -124,8 +124,9 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		if ( $post instanceof WP_Post === false ) {
 			return false;
 		}
+		$post_id_string = '' . $post->ID;
 
-		return get_option( 'show_on_front' ) === 'page' && get_option( 'page_on_front' ) === $post->ID;
+		return get_option( 'show_on_front' ) === 'page' && get_option( 'page_on_front' ) === $post_id_string;
 	}
 
 	/**
