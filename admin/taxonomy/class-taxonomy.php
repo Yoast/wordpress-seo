@@ -342,9 +342,9 @@ class WPSEO_Taxonomy {
 		$taxonomy = filter_input( INPUT_GET, 'taxonomy' );
 
 		// What is recommended depends on the current context.
-		$page_type = $recommended_replace_vars->determine_for_term( $taxonomy );
+		$post_type = $recommended_replace_vars->determine_for_term( $taxonomy );
 
-		return $recommended_replace_vars->get_recommended_replacevars( $page_type );
+		return $recommended_replace_vars->get_recommended_replacevars( $post_type );
 	}
 
 	/**
