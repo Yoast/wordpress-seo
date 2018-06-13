@@ -1,10 +1,9 @@
 const getNounForms = require( "./getNounForms.js" ).getNounForms;
-const unique = require( "lodash/uniqBy" );
+const getVerbForms = require( "./getVerbForms.js" ).getVerbForms;
+const unique = require( "lodash/uniq" );
 
 const getForms = function( word ) {
-	let forms = [].concat( getNounForms( word ) );
-
-	// Add call for verb forms here
+	let forms = [].concat( getNounForms( word ), getVerbForms( word ) );
 
 	return unique( forms );
 };

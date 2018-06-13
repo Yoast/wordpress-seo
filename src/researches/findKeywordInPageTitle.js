@@ -2,7 +2,8 @@
 
 const matchTextWithArray = require( "../stringProcessing/matchTextWithArray.js" );
 const buildKeywordForms = require( "./buildKeywordForms.js" );
-
+const map = require( "lodash/map" );
+const toLower = require( "lodash/toLower" );
 
 /**
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
@@ -14,8 +15,6 @@ const buildKeywordForms = require( "./buildKeywordForms.js" );
 
 module.exports = function( paper ) {
 	const title = paper.getTitle();
-	// const locale = paper.getLocale();
-
 	const keywordForms = buildKeywordForms( paper );
 
 	let result = { matches: 0, position: -1 };
@@ -23,10 +22,12 @@ module.exports = function( paper ) {
 
 	let positions = [];
 	const titleLowerCase = title.toLocaleLowerCase();
+	const keywordFormsLowerCase = map( keywordForms, function( form ) {
+		return toLower( form );
+	} );
 
-	keywordForms.forEach( function( form ) {
-		const formToLowerCase = form.toLocaleLowerCase();
-		const keywordFormIndex = titleLowerCase.indexOf( formToLowerCase );
+	keywordFormsLowerCase.forEach( function( form ) {
+		const keywordFormIndex = titleLowerCase.indexOf( form );
 
 		if ( keywordFormIndex > -1 ) {
 			positions = positions.concat( keywordFormIndex );
