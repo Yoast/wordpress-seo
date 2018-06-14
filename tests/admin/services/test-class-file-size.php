@@ -7,8 +7,6 @@
 
 /**
  * Unit Test Class.
- *
- * @group test
  */
 class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 
