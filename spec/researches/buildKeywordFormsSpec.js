@@ -1,4 +1,4 @@
-const buildKeywordForms = require( "../../src/researches/buildKeywordForms.js" );
+const buildKeywordForms = require( "../../js/researches/buildKeywordForms.js" );
 const includes = require( "lodash/includes" );
 const Paper = require( "../../js/values/Paper.js" );
 let result;
