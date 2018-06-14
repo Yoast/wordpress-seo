@@ -1,7 +1,6 @@
 /** @module analyses/getKeywordCount */
 
 const matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 
 const escapeRegExp = require( "lodash/escapeRegExp" );
 
