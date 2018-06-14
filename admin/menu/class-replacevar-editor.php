@@ -35,9 +35,9 @@ class WPSEO_Replacevar_Editor {
 	 * @param Yoast_Form $yform       Yoast forms.
 	 * @param string     $title       The title field id.
 	 * @param string     $description The description field id.
-	 * @param string     $post_type   The post type for context, defaults to post.
+	 * @param string     $post_type   The post type for context.
 	 */
-	public function __construct( Yoast_Form $yform, $title, $description, $post_type = 'post' ) {
+	public function __construct( Yoast_Form $yform, $title, $description, $post_type ) {
 		$this->yform       = $yform;
 		$this->title       = $title;
 		$this->description = $description;

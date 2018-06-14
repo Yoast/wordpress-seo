@@ -26,23 +26,25 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 
 		// Taxonomies.
 		'category'                => array( 'sitename', 'title', 'sep' ),
-		'tag'                     => array( 'sitename', 'title', 'sep' ),
+		'post_tag'                => array( 'sitename', 'title', 'sep' ),
 		// Specific custom taxonomies.
 		'post_format'             => array( 'sitename', 'title', 'sep', 'page' ),
 		'product_cat'             => array( 'sitename', 'title', 'sep' ),
 		'product_tag'             => array( 'sitename', 'title', 'sep' ),
+		'product_shipping_class'  => array( 'sitename', 'title', 'sep', 'page' ),
+		'product_brand'           => array( 'sitename', 'title', 'sep' ),
+		'pwb-brand'               => array( 'sitename', 'title', 'sep' ),
 		// Custom taxonomy.
 		'term-in-custom-taxomomy' => array( 'sitename', 'title', 'sep' ),
 
-		// Settings.
-		'search'                  => array( 'sitename', 'searchphrase', 'sep', 'page' ),
-		'404'                     => array( 'sitename', 'sep' ),
-		'shipping_classes'        => array( 'sitename', 'title', 'sep', 'page' ),
 		// Settings - archive pages.
 		'author_archive'          => array( 'sitename', 'title', 'sep', 'page' ),
 		'date_archive'            => array( 'sitename', 'sep', 'date', 'page' ),
-		'custom-taxonomy_archive' => array( 'sitename', 'title', 'sep' ),
 		'product_archive'         => array( 'sitename', 'sep', 'page', 'pt_plural' ),
+		'custom-taxonomy_archive' => array( 'sitename', 'title', 'sep' ),
+		// Settings - special pages.
+		'search'                  => array( 'sitename', 'searchphrase', 'sep', 'page' ),
+		'404'                     => array( 'sitename', 'sep' ),
 	);
 
 	/**
@@ -59,6 +61,10 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		if ( $this->is_woocommerce_active() ) {
 			$supported_taxonomies[] = 'product_cat';
 			$supported_taxonomies[] = 'product_tag';
+			$supported_taxonomies[] = 'product_brand';
+			$supported_taxonomies[] = 'product_shipping_class';
+			// This is the for the plugin: Perfect WooCommerce Brands.
+			$supported_taxonomies[] = 'pwb-brand';
 		}
 
 		if ( in_array( $taxonomy, $supported_taxonomies, true ) ) {

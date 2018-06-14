@@ -35,9 +35,9 @@ class WPSEO_Replacevar_Field {
 	 * @param Yoast_Form $yform       Yoast forms.
 	 * @param string     $field_id    The field id.
 	 * @param string     $label       The field label.
-	 * @param string     $post_type   The post type for context, defaults to post.
+	 * @param string     $post_type   The post type for context.
 	 */
-	public function __construct( Yoast_Form $yform, $field_id, $label, $post_type = 'post' ) {
+	public function __construct( Yoast_Form $yform, $field_id, $label, $post_type ) {
 		$this->yform     = $yform;
 		$this->field_id  = $field_id;
 		$this->label     = $label;
