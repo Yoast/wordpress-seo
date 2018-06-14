@@ -270,6 +270,11 @@ class WPSEO_Redirect_Handler {
 	 * @return void
 	 */
 	protected function do_redirect( $redirect_url, $redirect_type ) {
+		$redirect_url = $this->parse_target_url( $redirect_url );
+		if ( $this->home_url( $this->request_url ) === $redirect_url ) {
+			return;
+		}
+
 		$redirect_types_without_target = array( 410, 451 );
 		if ( in_array( $redirect_type, $redirect_types_without_target, true ) ) {
 			$this->handle_redirect_without_target( $redirect_type );
@@ -279,7 +284,7 @@ class WPSEO_Redirect_Handler {
 
 		$this->add_redirect_by_header();
 
-		$this->redirect( $this->parse_target_url( $redirect_url ), $redirect_type );
+		$this->redirect( $redirect_url, $redirect_type );
 	}
 
 	/**
