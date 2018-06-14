@@ -24,7 +24,8 @@ const complexWordsToTest = [
 ];
 
 const possessivesToTest = [
-	[ "word's", [ "wording", "worded" ] ],
+	[ "word's", [ "wording", "worded", "word'sed", "word'sing", "word'ses" ] ],
+	[ "Tomas'", [ "Tomas'ing", "Tomas'ed", "Tomas'ed" ] ],
 ];
 
 
