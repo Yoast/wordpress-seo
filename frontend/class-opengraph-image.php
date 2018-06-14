@@ -269,10 +269,6 @@ class WPSEO_OpenGraph_Image {
 		}
 
 		$this->set_featured_image( $post_id );
-
-		if ( $this->has_images() ) {
-			return;
-		}
 	}
 
 	/**
