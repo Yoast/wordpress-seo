@@ -200,8 +200,9 @@ var socialPreviews = require( "yoast-social-previews" );
 	}
 
 	/**
-	 * Gets the meta description from the snippet editor
-	 * @returns {void}
+	 * Gets the meta description from the snippet editor.
+     *
+	 * @returns {string} The meta description.
 	 */
 	function getMetaDescription() {
 		return $( "#yoast_wpseo_metadesc" ).val();
@@ -222,6 +223,30 @@ var socialPreviews = require( "yoast-social-previews" );
 		return description;
 	}
 
+    /**
+     * Gets the title from the snippet editor.
+     *
+     * @returns {string} The title.
+     */
+    function getTitle() {
+        return $( "#yoast_wpseo_title" ).val();
+    }
+
+    /**
+     * Returns the placeholder for the title field.
+     *
+     * @returns {string} The placeholder for the title.
+     */
+    function getSocialTitlePlaceholder() {
+        var title = getTitle();
+
+        if ( "" === title ) {
+            title = getTitlePlaceholder();
+        }
+
+        return title;
+    }
+
 	/**
 	 * Returns the arguments for the social preview prototypes.
 	 *
@@ -236,7 +261,7 @@ var socialPreviews = require( "yoast-social-previews" );
 	 * } } The arguments for the social preview.
 	 */
 	function getSocialPreviewArgs( targetElement, fieldPrefix ) {
-		var titlePlaceholder = getTitlePlaceholder();
+		var titlePlaceholder = getSocialTitlePlaceholder();
 		var descriptionPlaceholder = getSocialDescriptionPlaceholder();
 
 		var args = {
