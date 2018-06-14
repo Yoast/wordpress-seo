@@ -271,6 +271,8 @@ class WPSEO_Redirect_Handler {
 	 */
 	protected function do_redirect( $redirect_url, $redirect_type ) {
 		$redirect_url = $this->parse_target_url( $redirect_url );
+
+		// Prevents redirecting to itself.
 		if ( $this->home_url( $this->request_url ) === $redirect_url ) {
 			return;
 		}
