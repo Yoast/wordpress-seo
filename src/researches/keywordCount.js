@@ -12,8 +12,8 @@ const escapeRegExp = require( "lodash/escapeRegExp" );
  * @returns {number} The keyword count.
  */
 module.exports = function( paper ) {
-	const keyword = escapeRegExp( normalizeQuotes( paper.getKeyword() ) );
-	const text = normalizeQuotes( paper.getText() );
+	const keyword = escapeRegExp( paper.getKeyword() );
+	const text = paper.getText();
 	const locale = paper.getLocale();
 	return matchWords( text, keyword, locale );
 };
