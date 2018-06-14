@@ -8,7 +8,7 @@
 /**
  * Represents the yoast cornerstone content.
  */
-class WPSEO_Cornerstone implements WPSEO_WordPress_Integration  {
+class WPSEO_Cornerstone implements WPSEO_WordPress_Integration {
 
 	const META_NAME = 'is_cornerstone';
 

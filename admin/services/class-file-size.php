@@ -18,45 +18,44 @@ class WPSEO_File_Size_Service {
 	 * @return WP_REST_Response The response.
 	 */
 	public function get( WP_REST_Request $request ) {
+		try {
+			$file_url  = $this->get_file_url( $request );
+
+			return new WP_REST_Response(
+				array(
+					'type'     => 'success',
+					'response' => $this->get_file_size( $file_url ),
+				),
+				404
+			);
+		}
+		catch ( WPSEO_File_Size_Exception $exception ) {
+			return new WP_REST_Response(
+				array(
+					'type'     => 'failure',
+					'response' => $exception->getMessage(),
+				),
+				404
+			);
+		}
+	}
+
+	/**
+	 * Retrieves the file url.
+	 *
+	 * @param WP_REST_Request $request The request to retrieve file url from.
+	 *
+	 * @return string The file url.
+	 * @throws WPSEO_File_Size_Exception The file is hosted externally.
+	 */
+	protected function get_file_url( WP_REST_Request $request ) {
 		$file_url = rawurldecode( $request->get_param( 'url' ) );
 
-		if ( $this->is_externally_hosted( $file_url ) ) {
-			return new WP_REST_Response(
-				array(
-					'type'     => 'failure',
-					'response' => sprintf(
-						/* translators: %1$s expands to the requested url */
-						__( 'Cannot get the size of %1$s because it is hosted externally.', 'wordpress-seo' ),
-						$file_url
-					)
-				),
-				404
-			);
+		if ( ! $this->is_externally_hosted( $file_url ) ) {
+			return $file_url;
 		}
 
-		$file_size = $this->get_file_size( $file_url );
-
-		if ( ! $file_size ) {
-			return new WP_REST_Response(
-				array(
-					'type'     => 'failure',
-					'response' => sprintf(
-						/* translators: %1$s expands to the requested url */
-						__( 'Cannot get the size of %1$s because of unknown reasons.', 'wordpress-seo' ),
-						$file_url
-					)
-				),
-				404
-			);
-		}
-
-		return new WP_REST_Response(
-			array(
-				'type'     => 'success',
-				'response' => $file_size
-			),
-			404
-		);
+		throw WPSEO_File_Size_Exception::externally_hosted( $file_url );
 	}
 
 	/**
@@ -76,13 +75,22 @@ class WPSEO_File_Size_Service {
 	 * @param string $file_url The file url to get the size for.
 	 *
 	 * @return int The file size.
+	 * @throws WPSEO_File_Size_Exception Rerieval of file size went wrong for unknown reasons.
 	 */
 	protected function get_file_size( $file_url ) {
 		$file_config = wp_upload_dir();
 		$file_url    = str_replace( $file_config['baseurl'], '', $file_url );
-		$file        = array( 'path' => $file_url );
+		$file_size   = WPSEO_Image_Utils::get_file_size(
+			array(
+				'path' => $file_url,
+			)
+		);
 
-		return WPSEO_Image_Utils::get_file_size( $file );
+		if ( ! $file_size ) {
+			throw WPSEO_File_Size_Exception::unknown_error( $file_url );
+		}
+
+		return $file_size;
 	}
 
 }
