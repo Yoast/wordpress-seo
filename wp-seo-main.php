@@ -372,7 +372,7 @@ function wpseo_init_rest_api() {
 	$endpoints[] = new WPSEO_Endpoint_Statistics( $statistics_service );
 
 	/** @var WPSEO_Endpoint[] $endpoints */
-	foreach( $endpoints as $endpoint ) {
+	foreach ( $endpoints as $endpoint ) {
 		$endpoint->register();
 	}
 }
