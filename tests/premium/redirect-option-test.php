@@ -112,7 +112,7 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 		$class_instance
 			->expects( $this->once() )
 			->method( 'search' )
-			->willReturn( false );
+			->will( $this->returnValue( false ) );
 
 		$class_instance
 			->expects( $this->once() )
@@ -138,7 +138,7 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 		$class_instance
 			->expects( $this->once() )
 			->method( 'search' )
-			->willReturn( 'found' );
+			->will( $this->returnValue( 'found' ) );
 
 		$class_instance
 			->expects( $this->once() )
