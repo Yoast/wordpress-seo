@@ -9,6 +9,8 @@
  * Test class for the redirect option class
  *
  * @covers WPSEO_Redirect_Option
+ *
+ * @group redirects
  */
 class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 
@@ -94,6 +96,84 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 	public function test_search() {
 		$this->assertEquals( 0, $this->class_instance->search( 'old-url', WPSEO_Redirect::FORMAT_PLAIN ) );
 		$this->assertFalse( $this->class_instance->search( 'does-not-exist', WPSEO_Redirect::FORMAT_PLAIN ) );
+	}
+
+	/**
+	 * Checks if the redirect modified action method will be called when adding a redirect.
+	 *
+	 * @covers WPSEO_Redirect_Option::add
+	 */
+	public function test_run_redirects_modified_action_on_add() {
+		$class_instance = $this
+			->getMockBuilder( 'WPSEO_Redirect_Option' )
+			->setMethods( array( 'search', 'run_redirects_modified_action' ) )
+			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'search' )
+			->willReturn( false );
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'run_redirects_modified_action' );
+
+		$redirect = new WPSEO_Redirect( 'origin', 'target' );
+
+		// First of all create a redirect.
+		$class_instance->add( $redirect );
+	}
+
+	/**
+	 * Checks if the redirect modified action method will be called when updating a redirect.
+	 *
+	 * @covers WPSEO_Redirect_Option::update
+	 */
+	public function test_run_redirects_modified_action_on_edit() {
+		$class_instance = $this
+			->getMockBuilder( 'WPSEO_Redirect_Option' )
+			->setMethods( array( 'search', 'run_redirects_modified_action' ) )
+			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'search' )
+			->willReturn( 'found' );
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'run_redirects_modified_action' );
+
+		$redirect = new WPSEO_Redirect( 'origin', 'target' );
+
+		// First of all create a redirect.
+		$class_instance->update( $redirect, $redirect );
+	}
+
+	/**
+	 * Checks if the redirect modified action method will be called when deleting a redirect.
+	 *
+	 * @covers WPSEO_Redirect_Option::update
+	 */
+	public function test_run_redirects_modified_action_on_delete() {
+		$class_instance = $this
+			->getMockBuilder( 'WPSEO_Redirect_Option' )
+			->setMethods( array( 'search', 'run_redirects_modified_action' ) )
+			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'search' )
+			->willReturn( 'found' );
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'run_redirects_modified_action' );
+
+		$redirect = new WPSEO_Redirect( 'origin', 'target' );
+
+		// First of all create a redirect.
+		$class_instance->delete( $redirect );
 	}
 
 }
