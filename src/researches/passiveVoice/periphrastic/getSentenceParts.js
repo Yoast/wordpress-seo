@@ -19,15 +19,15 @@ const forEach = require( "lodash/forEach" );
 const SentencePartEnglish = require( "../../english/passiveVoice/SentencePart" );
 const auxiliariesEnglish = require( "../../english/passiveVoice/auxiliaries.js" )().all;
 const stopwordsEnglish = require( "../../english/passiveVoice/stopwords.js" )();
-const stopCharacterRegexEnglish = /([:,]|('ll)|('ve))(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
-const verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›<>])/ig;
+const stopCharacterRegexEnglish = /([:,]|('ll)|('ve))(?=[ \n\r\t'"+\-»«‹›<>])/ig;
+const verbEndingInIngRegex = /\w+ing(?=$|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
 const ingExclusionArray = [ "king", "cling", "ring", "being", "thing", "something", "anything" ];
 
 // French-specific variables and imports.
 const SentencePartFrench = require( "../../french/passiveVoice/SentencePart" );
 const auxiliariesFrench = require( "../../french/passiveVoice/auxiliaries.js" )();
 const stopwordsFrench = require( "../../french/passiveVoice/stopwords.js" )();
-const stopCharacterRegexFrench = /(,)(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+const stopCharacterRegexFrench = /(,)(?=[ \n\r\t'"+\-»«‹›<>])/ig;
 const followingAuxiliaryExceptionWordsFrench = [ "le", "la", "les", "une", "l'un", "l'une" ];
 const reflexivePronounsFrench = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];
 const directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
@@ -38,7 +38,7 @@ const elisionAuxiliaryExceptionRegex = arrayToRegex( elisionAuxiliaryExceptionWo
 const SentencePartSpanish = require( "../../spanish/passiveVoice/SentencePart" );
 const auxiliariesSpanish = require( "../../spanish/passiveVoice/auxiliaries.js" )();
 const stopwordsSpanish = require( "../../spanish/passiveVoice/stopwords.js" )();
-const stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t\'\"\+\-»«‹›<>])/ig;
+const stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t'"+\-»«‹›<>])/ig;
 const followingAuxiliaryExceptionWordsSpanish = [ "el", "la", "los", "las", "una" ];
 
 

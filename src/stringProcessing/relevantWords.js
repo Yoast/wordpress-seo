@@ -2,13 +2,7 @@ let getWords = require( "../stringProcessing/getWords.js" );
 let getSentences = require( "../stringProcessing/getSentences.js" );
 let WordCombination = require( "../values/WordCombination.js" );
 let normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
-let germanFunctionWords = require( "../researches/german/functionWords.js" );
-let englishFunctionWords = require( "../researches/english/functionWords.js" );
-let dutchFunctionWords = require( "../researches/dutch/functionWords.js" );
-let spanishFunctionWords = require( "../researches/spanish/functionWords.js" );
-let italianFunctionWords = require( "../researches/italian/functionWords.js" );
-let frenchFunctionWords = require( "../researches/french/functionWords.js" );
-let portugueseFunctionWords = require( "../researches/portuguese/functionWords.js" );
+let functionWordLists = require( "../helpers/getFunctionWords.js" )();
 let getLanguage = require( "../helpers/getLanguage.js" );
 
 let filter = require( "lodash/filter" );
@@ -200,6 +194,27 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
 }
 
 /**
+ * Filters combinations based on whether they end with a specified string or not.
+ *
+ * @param {WordCombination[]} wordCombinations The array of WordCombinations to filter.
+ * @param {string} str The string the WordCombinations that need to be filtered out end with.
+ * @param {string[]} exceptions The array of strings containing exceptions to not filter.
+ * @returns {WordCombination[]} The filtered array of WordCombinations.
+ */
+function filterEndingWith( wordCombinations, str, exceptions ) {
+	wordCombinations = wordCombinations.filter( function( combination ) {
+		let combinationstr = combination.getCombination();
+		for ( let i = 0; i < exceptions.length; i++ ) {
+			if ( combinationstr.endsWith( exceptions[ i ] ) ) {
+				return true;
+			}
+		}
+		return ! combinationstr.endsWith( str );
+	} );
+	return wordCombinations;
+}
+
+/**
  * Filters the list of word combination objects based on the language-specific function word filters.
  * Word combinations with specific parts of speech are removed.
  *
@@ -208,10 +223,10 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
  * @returns {Array} The filtered list of word combination objects.
  */
 function filterFunctionWords( combinations, functionWords ) {
-	combinations = filterFunctionWordsAnywhere( combinations, functionWords().filteredAnywhere );
-	combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords().filteredAtBeginningAndEnding );
-	combinations = filterFunctionWordsAtEnding( combinations, functionWords().filteredAtEnding );
-	combinations = filterFunctionWordsAtBeginning( combinations, functionWords().filteredAtBeginning );
+	combinations = filterFunctionWordsAnywhere( combinations, functionWords.filteredAnywhere );
+	combinations = filterFunctionWordsAtBeginningAndEnding( combinations, functionWords.filteredAtBeginningAndEnding );
+	combinations = filterFunctionWordsAtEnding( combinations, functionWords.filteredAtEnding );
+	combinations = filterFunctionWordsAtBeginning( combinations, functionWords.filteredAtBeginning );
 	return combinations;
 }
 
@@ -221,12 +236,16 @@ function filterFunctionWords( combinations, functionWords ) {
  *
  * @param {Array} combinations The list of word combination objects.
  * @param {Function} functionWords The function containing the lists of function words.
+ * @param {string} language The language for which specific filters should be applied.
  * @returns {Array} The filtered list of word combination objects.
  */
-function filterCombinations( combinations, functionWords ) {
+function filterCombinations( combinations, functionWords, language ) {
 	combinations = filterFunctionWordsAnywhere( combinations, specialCharacters );
 	combinations = filterOneCharacterWordCombinations( combinations );
 	combinations = filterFunctionWords( combinations, functionWords );
+	if( language === "en" ) {
+		combinations = filterEndingWith( combinations, "'s", [] );
+	}
 	return combinations;
 }
 /**
@@ -237,33 +256,14 @@ function filterCombinations( combinations, functionWords ) {
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
 function getRelevantWords( text, locale ) {
-	let functionWords;
-	switch( getLanguage( locale ) ) {
-		case "de":
-			functionWords = germanFunctionWords;
-			break;
-		case "nl":
-			functionWords = dutchFunctionWords;
-			break;
-		case "fr":
-			functionWords = frenchFunctionWords;
-			break;
-		case "es":
-			functionWords = spanishFunctionWords;
-			break;
-		case "it":
-			functionWords = italianFunctionWords;
-			break;
-		case "pt":
-			functionWords = portugueseFunctionWords;
-			break;
-		default:
-		case "en":
-			functionWords = englishFunctionWords;
-			break;
+	let language = getLanguage( locale );
+	if ( ! functionWordLists.hasOwnProperty( language ) ) {
+		language = "en";
 	}
 
-	let words = getWordCombinations( text, 1, functionWords().all );
+	let functionWords = functionWordLists[ language ];
+
+	let words = getWordCombinations( text, 1, functionWords.all );
 	let wordCount = words.length;
 
 	let oneWordCombinations = getRelevantCombinations(
@@ -279,10 +279,10 @@ function getRelevantWords( text, locale ) {
 		oneWordRelevanceMap[ combination.getCombination() ] = combination.getRelevance( functionWords );
 	} );
 
-	let twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2, functionWords().all ) );
-	let threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3, functionWords().all ) );
-	let fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4, functionWords().all ) );
-	let fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5, functionWords().all ) );
+	let twoWordCombinations = calculateOccurrences( getWordCombinations( text, 2, functionWords.all ) );
+	let threeWordCombinations = calculateOccurrences( getWordCombinations( text, 3, functionWords.all ) );
+	let fourWordCombinations = calculateOccurrences( getWordCombinations( text, 4, functionWords.all ) );
+	let fiveWordCombinations = calculateOccurrences( getWordCombinations( text, 5, functionWords.all ) );
 
 	let combinations = oneWordCombinations.concat(
 		twoWordCombinations,
@@ -291,13 +291,13 @@ function getRelevantWords( text, locale ) {
 		fiveWordCombinations
 	);
 
-	combinations = filterCombinations( combinations, functionWords );
+	combinations = filterCombinations( combinations, functionWords, language );
 
 	forEach( combinations, function( combination ) {
 		combination.setRelevantWords( oneWordRelevanceMap );
 	} );
 
-	combinations = getRelevantCombinations( combinations, wordCount );
+	combinations = getRelevantCombinations( combinations );
 	sortCombinations( combinations );
 
 	if ( wordCount >= wordCountLowerLimit ) {
@@ -319,4 +319,5 @@ module.exports = {
 	filterFunctionWordsAnywhere: filterFunctionWordsAnywhere,
 	filterOnDensity: filterOnDensity,
 	filterOneCharacterWordCombinations: filterOneCharacterWordCombinations,
+	filterEndingWith: filterEndingWith,
 };

@@ -24,12 +24,12 @@ var newLines = "\n\r|\n|\r";
 var fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 var sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
 var sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
-var htmlStartRegex = /^<([^>\s\/]+)[^>]*>$/mi;
+var htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 var htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 var newLineRegex = new RegExp( newLines );
 
-var blockStartRegex = /^\s*[\[\(\{]\s*$/;
-var blockEndRegex = /^\s*[\]\)}]\s*$/;
+var blockStartRegex = /^\s*[[({]\s*$/;
+var blockEndRegex = /^\s*[\])}]\s*$/;
 
 var tokens = [];
 var sentenceTokenizer;

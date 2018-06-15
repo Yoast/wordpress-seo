@@ -1,6 +1,6 @@
 let Assessor = require( "./assessor.js" );
 
-let fleschReadingEase = require( "./assessments/readability/fleschReadingEaseAssessment.js" );
+let FleschReadingEase = require( "./assessments/readability/fleschReadingEaseAssessment.js" );
 let paragraphTooLong = require( "./assessments/readability/paragraphTooLongAssessment.js" );
 let SentenceLengthInText = require( "./assessments/readability/sentenceLengthInTextAssessment.js" );
 let SubheadingDistributionTooLong = require( "./assessments/readability/subheadingDistributionTooLongAssessment.js" );
@@ -39,7 +39,7 @@ let ContentAssessor = function( i18n, options = {} ) {
 
 	this._assessments = [
 
-		fleschReadingEase,
+		new FleschReadingEase( contentConfiguration( locale ).fleschReading ),
 		new SubheadingDistributionTooLong(),
 		paragraphTooLong,
 		new SentenceLengthInText( contentConfiguration( locale ).sentenceLength ),

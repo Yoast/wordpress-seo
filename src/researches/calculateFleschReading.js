@@ -48,6 +48,7 @@ module.exports = function( paper ) {
 	let numberOfSyllables = countSyllables( text, locale );
 	let averageWordsPerSentence = getAverage( numberOfWords, numberOfSentences );
 	let syllablesPer100Words = numberOfSyllables * ( 100 / numberOfWords );
+
 	switch( language ) {
 		case "nl":
 			score = 206.84 - ( 0.77 * syllablesPer100Words ) - ( 0.93 * ( averageWordsPerSentence  ) );
@@ -58,6 +59,18 @@ module.exports = function( paper ) {
 		case "it":
 			score = 217 - ( 1.3 * averageWordsPerSentence ) - ( 0.6 * syllablesPer100Words );
 			break;
+		case "ru":
+			score = 206.835 - ( 1.3 * numberOfWords / numberOfSentences ) - ( 60.1 * numberOfSyllables / numberOfWords );
+			break;
+
+		case "es":
+			score = 206.84 - ( 1.02 * numberOfWords / numberOfSentences ) - ( 0.6 * syllablesPer100Words );
+			break;
+
+		case "fr":
+			score = 207 - ( 1.015 * numberOfWords / numberOfSentences ) - ( 73.6 * numberOfSyllables / numberOfWords );
+			break;
+
 		case "en":
 		default:
 			score = 206.835 - ( 1.015 * ( averageWordsPerSentence ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );

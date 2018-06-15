@@ -39,7 +39,7 @@ describe( "the SEO title length assessment", function() {
 	it( "should assess a paper with a SEO title that's longer than the recommended value", function() {
 		var paper = new Paper( "", { title: "The Title That Is Too Long Long To Pass" } );
 		var result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 620 ), i18n );
-		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "The SEO title is wider than the viewable limit." );
 	} );
 } );

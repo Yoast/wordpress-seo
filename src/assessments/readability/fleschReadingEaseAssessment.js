@@ -1,114 +1,143 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
+let AssessmentResult = require( "../../values/AssessmentResult.js" );
+let Assessment = require( "../../assessment.js" );
+const inRange = require( "lodash/inRange" );
 
-var getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
+const getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 
-var availableLanguages = [ "en", "nl", "de", "it" ];
+const availableLanguages = [ "en", "nl", "de", "it", "ru", "fr", "es" ];
 
-/**
- * Calculates the assessment result based on the fleschReadingScore
- * @param {int} fleschReadingScore The score from the fleschReadingtest
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} object with score, resultText and note
- */
-var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
-	if ( fleschReadingScore > 90 ) {
+class FleschReadingEaseAssessment extends Assessment {
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {Object} config The configuration to use.
+	 * @returns {void}
+	 */
+	constructor( config ) {
+		super();
+
+		this.identifier = "fleschReadingEase";
+		this._config = config;
+	}
+
+	/**
+	 * The assessment that runs the FleschReading on the paper.
+	 *
+	 * @param {Object} paper The paper to run this assessment on.
+	 * @param {Object} researcher The researcher used for the assessment.
+	 * @param {Object} i18n The i18n-object used for parsing translations.
+	 *
+	 * @returns {Object} An assessmentResult with the score and formatted text.
+	 */
+	getResult( paper, researcher, i18n ) {
+		this.fleschReadingResult = researcher.getResearch( "calculateFleschReading" );
+		if ( this.isApplicable( paper ) ) {
+			let assessmentResult =  new AssessmentResult( i18n );
+			const calculatedResult = this.calculateResult( i18n );
+			assessmentResult.setScore( calculatedResult.score );
+			assessmentResult.setText( calculatedResult.resultText );
+
+			return assessmentResult;
+		}
+		return null;
+	}
+
+	/**
+	 * Calculates the assessment result based on the fleschReadingScore.
+	 *
+	 * @param {Object} i18n The i18n-object used for parsing translations.
+	 *
+	 * @returns {Object} Object with score and resultText.
+	 */
+	calculateResult( i18n ) {
+		// Results must be between 0 and 100;
+		if ( this.fleschReadingResult < 0 ) {
+			this.fleschReadingResult = 0;
+		}
+
+		if ( this.fleschReadingResult > 100 ) {
+			this.fleschReadingResult = 100;
+		}
+
+		/* Translators: %1$s expands to the numeric Flesch reading ease score,
+		%2$s to a link to a Yoast.com article about Flesch reading ease score,
+		%3$s to the easyness of reading,
+		%4$s expands to a note about the flesch reading score. */
+		let text = i18n.dgettext(
+			"js-text-analysis",
+			"The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s"
+		);
+
+		const url = "<a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a>";
+
+		if ( this.fleschReadingResult > this._config.borders.veryEasy ) {
+			const feedback = i18n.dgettext( "js-text-analysis", "very easy" );
+			return {
+				score: this._config.scores.veryEasy,
+				resultText: i18n.sprintf( text, this.fleschReadingResult, url, feedback, "" ),
+			};
+		}
+
+		if ( inRange( this.fleschReadingResult, this._config.borders.easy, this._config.borders.veryEasy ) ) {
+			const feedback = i18n.dgettext( "js-text-analysis", "easy" );
+			return {
+				score: this._config.scores.easy,
+				resultText: i18n.sprintf( text, this.fleschReadingResult, url, feedback, "" ),
+			};
+		}
+
+		if ( inRange( this.fleschReadingResult, this._config.borders.fairlyEasy, this._config.borders.easy ) ) {
+			const feedback = i18n.dgettext( "js-text-analysis", "fairly easy" );
+			return {
+				score: this._config.scores.fairlyEasy,
+				resultText: i18n.sprintf( text, this.fleschReadingResult, url, feedback, "" ),
+			};
+		}
+
+		if ( inRange( this.fleschReadingResult, this._config.borders.okay, this._config.borders.fairlyEasy ) ) {
+			const feedback = i18n.dgettext( "js-text-analysis", "ok" );
+			return {
+				score: this._config.scores.okay,
+				resultText: i18n.sprintf( text, this.fleschReadingResult, url, feedback, "" ),
+			};
+		}
+
+		if ( inRange( this.fleschReadingResult, this._config.borders.fairlyDifficult, this._config.borders.okay ) ) {
+			const feedback = i18n.dgettext( "js-text-analysis", "fairly difficult" );
+			const note = i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." );
+			return {
+				score: this._config.scores.fairlyDifficult,
+				resultText: i18n.sprintf( text, this.fleschReadingResult, url, feedback, note ),
+			};
+		}
+
+		if ( inRange( this.fleschReadingResult, this._config.borders.difficult, this._config.borders.fairlyDifficult ) ) {
+			const feedback = i18n.dgettext( "js-text-analysis", "difficult" );
+			const note = i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." );
+			return {
+				score: this._config.scores.difficult,
+				resultText: i18n.sprintf( text, this.fleschReadingResult, url, feedback, note ),
+			};
+		}
+
+		const feedback = i18n.dgettext( "js-text-analysis", "very difficult" );
+		const note = i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." );
 		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "very easy" ),
-			note: "",
+			score: this._config.scores.veryDifficult,
+			resultText: i18n.sprintf( text, this.fleschReadingResult, url, feedback, note ),
 		};
 	}
 
-	if ( inRange( fleschReadingScore, 80, 90 ) ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "easy" ),
-			note: "",
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 70, 80 ) ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly easy" ),
-			note: "",
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 60, 70 ) ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "ok" ),
-			note: "",
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 50, 60 ) ) {
-		return {
-			score: 6,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." ),
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 30, 50 ) ) {
-		return {
-			score: 3,
-			resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." ),
-		};
-	}
-
-	if ( fleschReadingScore < 30 ) {
-		return {
-			score: 3,
-			resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." ),
-		};
-	}
-};
-
-/**
- * The assessment that runs the FleschReading on the paper.
- *
- * @param {object} paper The paper to run this assessment on
- * @param {object} researcher The researcher used for the assessment
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} an assessmentresult with the score and formatted text.
- */
-var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
-	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
-
-	/* Translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
-	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
-	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
-	var url = "<a href='https://yoa.st/flesch-reading' target='_blank'>Flesch Reading Ease</a>";
-
-	// Scores must be between 0 and 100;
-	if ( fleschReadingScore < 0 ) {
-		fleschReadingScore = 0;
-	}
-	if ( fleschReadingScore > 100 ) {
-		fleschReadingScore = 100;
-	}
-
-	var fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, i18n );
-
-	text = i18n.sprintf( text, fleschReadingScore, url, fleschReadingResult.resultText, fleschReadingResult.note );
-
-	var assessmentResult =  new AssessmentResult();
-	assessmentResult.setScore( fleschReadingResult.score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	identifier: "fleschReadingEase",
-	getResult: fleschReadingEaseAssessment,
-	isApplicable: function( paper ) {
-		var isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
+	/**
+	 * Checks if Flesch reading analysis is available for the language of the paper.
+	 *
+	 * @param {Object} paper The paper to have the Flesch score to be calculated for.
+	 * @returns {boolean} Returns true if the language is available and the paper is not empty.
+	 */
+	isApplicable( paper ) {
+		const isLanguageAvailable = getLanguageAvailability( paper.getLocale(), availableLanguages );
 		return ( isLanguageAvailable && paper.hasText() );
-	},
-};
+	}
+}
+
+module.exports = FleschReadingEaseAssessment;
