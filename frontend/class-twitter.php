@@ -68,7 +68,7 @@ class WPSEO_Twitter {
 		$this->title();
 		$this->site_twitter();
 
-		if( ! post_password_required() ){
+		if ( ! post_password_required() ) {
 			$this->image();
 		}
 
