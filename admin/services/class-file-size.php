@@ -75,7 +75,7 @@ class WPSEO_File_Size_Service {
 	 * @param string $file_url The file url to get the size for.
 	 *
 	 * @return int The file size.
-	 * @throws WPSEO_File_Size_Exception Rerieval of file size went wrong for unknown reasons.
+	 * @throws WPSEO_File_Size_Exception Retrieval of file size went wrong for unknown reasons.
 	 */
 	protected function get_file_size( $file_url ) {
 		$file_config = wp_upload_dir();
