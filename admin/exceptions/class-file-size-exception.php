@@ -19,7 +19,7 @@ class WPSEO_File_Size_Exception extends Exception {
 	 */
 	public static function externally_hosted( $file_url ) {
 		$message = sprintf(
-		/* translators: %1$s expands to the requested url */
+			/* translators: %1$s expands to the requested url */
 			__( 'Cannot get the size of %1$s because it is hosted externally.', 'wordpress-seo' ),
 			$file_url
 		);
