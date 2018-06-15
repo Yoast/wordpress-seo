@@ -40,7 +40,7 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 		);
 
 		// Register fetch config.
-		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_SINGULAR, array(
+		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_SINGULAR,
 			array(
 				'methods' => 'GET',
 				'callback' => array(
@@ -48,7 +48,10 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 					'get_indexable',
 				),
 				'permission_callback' => $permissions_callback,
-			),
+			)
+		);
+
+		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_SINGULAR,
 			array(
 				'methods' => 'POST',
 				'callback' => array(
@@ -56,8 +59,8 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 					'save_indexable',
 				),
 				'permission_callback' => $permissions_callback,
-			),
-		) );
+			)
+		);
 	}
 
 	/**
