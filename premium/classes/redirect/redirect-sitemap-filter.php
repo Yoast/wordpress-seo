@@ -33,18 +33,22 @@ class WPSEO_Redirect_Sitemap_Filter implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_filter( 'wpseo_sitemap_entry', array( $this, 'filter_redirects' ) );
+		add_filter( 'wpseo_sitemap_entry', array( $this, 'filter_sitemap_entry' ) );
 		add_filter( 'wpseo_premium_redirects_modified', array( $this, 'clear_sitemap_cache' ) );
 	}
 
 	/**
-	 * Checks if the url from the sitemap is added as a redirect.
+	 * Checks if the url from the sitemap is added as a redirect and removes it if so.
 	 *
 	 * @param array $url The url data.
 	 *
 	 * @return bool|array False when entry will be redirected.
 	 */
-	public function filter_redirects( $url ) {
+	public function filter_sitemap_entry( $url ) {
+		if ( empty( $url['loc'] ) ) {
+			return $url;
+		}
+
 		$entry_location = str_replace( $this->home_url, '', $url['loc'] );
 
 		if ( $this->option->search( $entry_location ) !== false ) {
