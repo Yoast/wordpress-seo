@@ -298,6 +298,12 @@ class WPSEO_Premium {
 		new WPSEO_Premium_Autoloader( 'WPSEO_Redirect', 'redirect/', 'WPSEO_' );
 
 		$this->redirects = new WPSEO_Redirect_Page();
+
+		// Adds integration that filters redirects from the sitemap.
+		$this->integrations[ 'redirect-sitemap-filter' ] = new WPSEO_Redirect_Sitemap_Filter(
+			home_url(),
+			new WPSEO_Redirect_Option()
+		);
 	}
 
 	/**
