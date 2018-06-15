@@ -27,7 +27,7 @@ class WPSEO_Redirect_Sitemap_Filter_Test extends WPSEO_UnitTestCase {
 		$option
 			->expects( $this->once() )
 			->method( 'search' )
-			->willReturn( false );
+			->will( $this->returnValue( false ) );
 
 		$sitemap_entry = array(
 			'loc' => 'http://example.domain/not-present'
@@ -51,7 +51,7 @@ class WPSEO_Redirect_Sitemap_Filter_Test extends WPSEO_UnitTestCase {
 		$option
 			->expects( $this->once() )
 			->method( 'search' )
-			->willReturn( true );
+			->will( $this->returnValue( true ) );
 
 		$sitemap_entry = array(
 			'loc' => 'http://example.domain/not-present'
