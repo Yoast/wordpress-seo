@@ -299,8 +299,8 @@ class WPSEO_Premium {
 
 		$this->redirects = new WPSEO_Redirect_Page();
 
-		// Adds integration that filters redirects from the sitemap.
-		$this->integrations[ 'redirect-sitemap-filter' ] = new WPSEO_Redirect_Sitemap_Filter(
+		// Adds integration that filters redirected entries from the sitemap.
+		$this->integrations['redirect-sitemap-filter'] = new WPSEO_Redirect_Sitemap_Filter(
 			home_url(),
 			new WPSEO_Redirect_Option()
 		);
