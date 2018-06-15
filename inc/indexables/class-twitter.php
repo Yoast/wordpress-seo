@@ -33,19 +33,19 @@ class Twitter {
 	 */
 	public function __construct( $title, $description, $image ) {
 		if ( ! empty( $title ) && ! WPSEO_Validator::is_string( $title ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_string_parameter( $title, 'title' );
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $title, 'title' );
 		}
 
 		$this->title = $title;
 
 		if ( ! empty( $description ) && ! WPSEO_Validator::is_string( $description ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_string_parameter( $description, 'description' );
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $description, 'description' );
 		}
 
 		$this->description = $description;
 
 		if ( ! empty( $image ) && ! WPSEO_Validator::is_string( $image ) ) {
-			throw WPSEO_Invalid_Type_Exception::invalid_string_parameter( $image, 'image' );
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $image, 'image' );
 		}
 
 		$this->image = $image;

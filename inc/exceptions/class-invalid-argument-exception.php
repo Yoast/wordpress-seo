@@ -1,10 +1,23 @@
 <?php
 
 /**
- * Class WPSEO_Invalid_Type_Exception
+ * Class WPSEO_Invalid_Argument_Exception
  */
-class WPSEO_Invalid_Type_Exception extends \InvalidArgumentException {
+class WPSEO_Invalid_Argument_Exception extends \InvalidArgumentException {
 
+	/**
+	 * Creates an invalid empty parameter exeception.
+	 *
+	 * @param string $name The name of the parameter.
+	 *
+	 * @return WPSEO_Invalid_Argument_Exception The exception.
+	 */
+	public static function empty_parameter( $name ) {
+		return new static(
+			sprintf( '`%s` cannot be empty.', $name )
+		);
+	}
+	
 	/**
 	 * Creates an invalid parameter exception.
 	 *
@@ -12,7 +25,7 @@ class WPSEO_Invalid_Type_Exception extends \InvalidArgumentException {
 	 * @param string $name	   The name of the field.
 	 * @param string $expected The expected type.
 	 *
-	 * @return WPSEO_Invalid_Type_Exception The exception.
+	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
 	public static function invalid_parameter_type( $parameter, $name, $expected ) {
 		return new static(
@@ -31,7 +44,7 @@ class WPSEO_Invalid_Type_Exception extends \InvalidArgumentException {
 	 * @param mixed $parameter The parameter value of the field.
 	 * @param string $name	   The name of the field.
 	 *
-	 * @return WPSEO_Invalid_Type_Exception The exception.
+	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
 	public static function invalid_integer_parameter( $parameter, $name ) {
 		return self::invalid_parameter_type( $parameter, $name, 'integer' );
@@ -43,7 +56,7 @@ class WPSEO_Invalid_Type_Exception extends \InvalidArgumentException {
 	 * @param mixed $parameter The parameter value of the field.
 	 * @param string $name	   The name of the field.
 	 *
-	 * @return WPSEO_Invalid_Type_Exception The exception.
+	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
 	public static function invalid_string_parameter( $parameter, $name ) {
 		return self::invalid_parameter_type( $parameter, $name, 'string' );
@@ -55,9 +68,21 @@ class WPSEO_Invalid_Type_Exception extends \InvalidArgumentException {
 	 * @param mixed $parameter The parameter value of the field.
 	 * @param string $name	   The name of the field.
 	 *
-	 * @return WPSEO_Invalid_Type_Exception The exception.
+	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
 	public static function invalid_boolean_parameter( $parameter, $name ) {
 		return self::invalid_parameter_type( $parameter, $name, 'boolean' );
+	}
+
+	/**
+	 * Creates an invalid callable parameter exception.
+	 *
+	 * @param mixed $parameter The parameter value of the field.
+	 * @param string $name	   The name of the field.
+	 *
+	 * @return WPSEO_Invalid_Argument_Exception The exception.
+	 */
+	public static function invalid_callable_parameter( $parameter, $name ) {
+		return self::invalid_parameter_type( $parameter, $name, 'callable' );
 	}
 }
