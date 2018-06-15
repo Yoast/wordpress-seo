@@ -15,7 +15,9 @@ class WPSEO_Endpoint_File_Size implements WPSEO_Endpoint {
 
 	const CAPABILITY_RETRIEVE = 'manage_options';
 
-	/** @var WPSEO_File_Size_Service */
+	/**
+	 * @var WPSEO_File_Size_Service The service provider.
+	 */
 	private $service;
 
 	/**
