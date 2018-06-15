@@ -5,6 +5,13 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.34.0 June 12th, 2018
+### Fixed
+* Fixes title width measurements by adding font styles to the hidden input field.
+
+### Changed
+* Improves the lists of French transition words, stopwords, and function words, props [Laurent-1971](https://github.com/Laurent-1971).
+
 ## 1.33.1 May 25th, 2018
 ### Fixed
 * Fixes a bug where Flesch Reading Ease translation strings were not fully translated.
