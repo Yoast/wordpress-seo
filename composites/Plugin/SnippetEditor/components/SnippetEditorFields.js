@@ -218,6 +218,7 @@ class SnippetEditorFields extends React.Component {
 						withCaret={ true }
 						label={ __( "SEO title", "yoast-components" ) }
 						onFocus={ () => onFocus( "title" ) }
+						onBlur={ () => onBlur() }
 						isActive={ activeField === "title" }
 						isHovered={ hoveredField === "title" }
 						editorRef={ ref => this.setRef( "title", ref ) }
@@ -261,6 +262,7 @@ class SnippetEditorFields extends React.Component {
 						placeholder={ descriptionEditorFieldPlaceholder }
 						label={ __( "Meta description", "yoast-components" ) }
 						onFocus={ () => onFocus( "description" ) }
+						onBlur={ () => onBlur() }
 						isActive={ activeField === "description" }
 						isHovered={ hoveredField === "description" }
 						editorRef={ ref => this.setRef( "description", ref ) }

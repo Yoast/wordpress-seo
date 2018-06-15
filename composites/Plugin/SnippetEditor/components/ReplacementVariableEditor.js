@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
+import styled from "styled-components";
 
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
 import {
@@ -13,6 +14,10 @@ import {
 } from "./Shared";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import { replacementVariablesShape } from "../constants";
+
+const FormSection = styled.div`
+	margin: 32px 0;
+`;
 
 class ReplacementVariableEditor extends React.Component {
 	/**
@@ -63,6 +68,7 @@ class ReplacementVariableEditor extends React.Component {
 			onChange,
 			content,
 			onFocus,
+			onBlur,
 			isActive,
 			isHovered,
 			replacementVariables,
@@ -96,6 +102,7 @@ class ReplacementVariableEditor extends React.Component {
 						content={ content }
 						onChange={ onChange }
 						onFocus={ onFocus }
+						onBlur={ onBlur }
 						replacementVariables={ replacementVariables }
 						ref={ ref => {
 							this.ref = ref;
@@ -113,6 +120,7 @@ ReplacementVariableEditor.propTypes = {
 	editorRef: PropTypes.func,
 	content: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
+	onBlur: PropTypes.func,
 	replacementVariables: replacementVariablesShape,
 	isActive: PropTypes.bool,
 	isHovered: PropTypes.bool,
