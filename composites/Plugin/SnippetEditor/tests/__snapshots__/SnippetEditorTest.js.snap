@@ -1993,6 +1993,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 isHovered={false}
                 label="SEO title"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 replacementVariables={Array []}
@@ -2124,6 +2125,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="30"
                       content="Test title"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       replacementVariables={Array []}
@@ -2207,6 +2209,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 isHovered={false}
                 label="Meta description"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Modify your meta description by editing it right here"
@@ -2340,6 +2343,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="31"
                       content="Test description, %%replacement_variable%%"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Modify your meta description by editing it right here"
@@ -3808,6 +3812,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 isHovered={false}
                 label="SEO title"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 replacementVariables={Array []}
@@ -3939,6 +3944,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="30"
                       content="Test title"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       replacementVariables={Array []}
@@ -4022,6 +4028,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 isHovered={false}
                 label="Meta description"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Modify your meta description by editing it right here"
@@ -4155,6 +4162,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="31"
                       content="Test description, %%replacement_variable%%"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Modify your meta description by editing it right here"
@@ -5623,6 +5631,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 isHovered={false}
                 label="SEO title"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 replacementVariables={Array []}
@@ -5754,6 +5763,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="30"
                       content="Test title"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       replacementVariables={Array []}
@@ -5837,6 +5847,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 isHovered={false}
                 label="Meta description"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Modify your meta description by editing it right here"
@@ -5970,6 +5981,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="31"
                       content="Test description, %%replacement_variable%%"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Modify your meta description by editing it right here"
@@ -7438,6 +7450,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 isHovered={false}
                 label="SEO title"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 replacementVariables={Array []}
@@ -7569,6 +7582,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="13"
                       content="Test title"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       replacementVariables={Array []}
@@ -7652,6 +7666,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 isHovered={false}
                 label="Meta description"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Modify your meta description by editing it right here"
@@ -7785,6 +7800,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="14"
                       content="Test description, %%replacement_variable%%"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Modify your meta description by editing it right here"
@@ -10373,6 +10389,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 isHovered={false}
                 label="SEO title"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 replacementVariables={Array []}
@@ -10504,6 +10521,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="46"
                       content="Test title"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       replacementVariables={Array []}
@@ -10587,6 +10605,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 isHovered={false}
                 label="Meta description"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Modify your meta description by editing it right here"
@@ -10720,6 +10739,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="47"
                       content="Test description, %%replacement_variable%%"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Modify your meta description by editing it right here"
@@ -12188,6 +12208,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 isHovered={false}
                 label="SEO title"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 replacementVariables={Array []}
@@ -12319,6 +12340,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="42"
                       content="Test title"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       replacementVariables={Array []}
@@ -12402,6 +12424,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 isHovered={false}
                 label="Meta description"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Modify your meta description by editing it right here"
@@ -12535,6 +12558,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="43"
                       content="Test description, %%replacement_variable%%"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Modify your meta description by editing it right here"
@@ -15113,6 +15137,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 isHovered={false}
                 label="SEO title"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 replacementVariables={Array []}
@@ -15244,6 +15269,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="21"
                       content="Test title"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       replacementVariables={Array []}
@@ -15327,6 +15353,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 isHovered={false}
                 label="Meta description"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Modify your meta description by editing it right here"
@@ -15460,6 +15487,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="22"
                       content="Test description, %%replacement_variable%%"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Modify your meta description by editing it right here"
@@ -16948,6 +16976,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 isHovered={false}
                 label="SEO title"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 replacementVariables={Array []}
@@ -17079,6 +17108,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="17"
                       content="Test title"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       replacementVariables={Array []}
@@ -17162,6 +17192,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 isHovered={true}
                 label="Meta description"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Modify your meta description by editing it right here"
@@ -17295,6 +17326,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="18"
                       content="Test description, %%replacement_variable%%"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Modify your meta description by editing it right here"
@@ -18763,6 +18795,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 isHovered={false}
                 label="SEO title"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 replacementVariables={Array []}
@@ -18894,6 +18927,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="9"
                       content="Test title"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       replacementVariables={Array []}
@@ -18977,6 +19011,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 isHovered={false}
                 label="Meta description"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Modify your meta description by editing it right here"
@@ -19110,6 +19145,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="10"
                       content="Test description, %%replacement_variable%%"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Modify your meta description by editing it right here"
@@ -20600,6 +20636,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 isHovered={false}
                 label="SEO title"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 replacementVariables={
@@ -20742,6 +20779,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="34"
                       content="Test title"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       replacementVariables={
@@ -20836,6 +20874,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 isHovered={false}
                 label="Meta description"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Modify your meta description by editing it right here"
@@ -20980,6 +21019,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="35"
                       content="Test description, %%replacement_variable%%"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Modify your meta description by editing it right here"
@@ -23089,6 +23129,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 isHovered={false}
                 label="SEO title"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 replacementVariables={Array []}
@@ -23220,6 +23261,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="25"
                       content="Test title"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       replacementVariables={Array []}
@@ -23303,6 +23345,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 isHovered={false}
                 label="Meta description"
                 mobileWidth={356}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 placeholder="Modify your meta description by editing it right here"
@@ -23436,6 +23479,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     <ReplacementVariableEditorStandalone
                       ariaLabelledBy="26"
                       content="Test description, %%replacement_variable%%"
+                      onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
                       placeholder="Modify your meta description by editing it right here"
