@@ -90,14 +90,14 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 			return 'homepage';
 		}
 
-		$supported_page_types = array( 'post', 'page' );
+		$supported_post_types = array( 'post', 'page' );
 
 		// Add WooCommerce specific types.
 		if ( $this->is_woocommerce_active() ) {
-			$supported_page_types[] = 'product';
+			$supported_post_types[] = 'product';
 		}
 
-		if ( in_array( $post->post_type, $supported_page_types, true ) ) {
+		if ( in_array( $post->post_type, $supported_post_types, true ) ) {
 			return $post->post_type;
 		}
 
