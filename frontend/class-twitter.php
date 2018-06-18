@@ -399,13 +399,16 @@ class WPSEO_Twitter {
 
 	/**
 	 * Takes care of image output when we only need to display a single image.
+	 *
+	 * @return void
 	 */
 	private function single_image_output() {
 		if ( $this->homepage_image_output() ) {
 			return;
 		}
 
-		if ( $this->posts_page_image_output() ) { // Posts page, which won't be caught by is_singular() below.
+		// Posts page, which won't be caught by is_singular() below.
+		if ( $this->posts_page_image_output() ) {
 			return;
 		}
 
@@ -421,13 +424,16 @@ class WPSEO_Twitter {
 			if ( $this->image_of_attachment_page_output( $post_id ) ) {
 				return;
 			}
+
 			if ( $this->image_thumbnail_output( $post_id ) ) {
 				return;
 			}
+
 			if ( count( $this->images ) > 0 ) {
 				$this->gallery_images_output();
 				return;
 			}
+
 			if ( $this->image_from_content_output( $post_id ) ) {
 				return;
 			}
