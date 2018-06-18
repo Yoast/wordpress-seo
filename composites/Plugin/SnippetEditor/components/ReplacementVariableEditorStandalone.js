@@ -414,6 +414,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
+	onClick: () => {},
 	onFocus: () => {},
 	onBlur: () => {},
 	className: "",

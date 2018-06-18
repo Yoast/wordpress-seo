@@ -63,6 +63,7 @@ class ReplacementVariableEditor extends React.Component {
 			onChange,
 			content,
 			onFocus,
+			onBlur,
 			isActive,
 			isHovered,
 			replacementVariables,
@@ -96,6 +97,7 @@ class ReplacementVariableEditor extends React.Component {
 						content={ content }
 						onChange={ onChange }
 						onFocus={ onFocus }
+						onBlur={ onBlur }
 						replacementVariables={ replacementVariables }
 						ref={ ref => {
 							this.ref = ref;
@@ -113,6 +115,7 @@ ReplacementVariableEditor.propTypes = {
 	editorRef: PropTypes.func,
 	content: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
+	onBlur: PropTypes.func,
 	replacementVariables: replacementVariablesShape,
 	isActive: PropTypes.bool,
 	isHovered: PropTypes.bool,
