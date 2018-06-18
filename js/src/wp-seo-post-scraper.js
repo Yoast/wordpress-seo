@@ -294,7 +294,8 @@ setYoastComponentsI18n();
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				let keyword = tabManager.getKeywordTab().getKeyWord();
+				const keyword = $( "#yoast_wpseo_focuskw_text_input" ).val();
+				store.dispatch( setActiveKeyword( keyword ) );
 
 				/*
 				 * The results from the main App callback are always for the first keyword. So
