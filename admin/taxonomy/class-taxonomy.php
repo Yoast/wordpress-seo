@@ -339,12 +339,12 @@ class WPSEO_Taxonomy {
 	 */
 	private function get_recommended_replace_vars() {
 		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
-		$taxonomy = filter_input( INPUT_GET, 'taxonomy' );
+		$taxonomy                 = filter_input( INPUT_GET, 'taxonomy' );
 
 		// What is recommended depends on the current context.
-		$post_type = $recommended_replace_vars->determine_for_term( $taxonomy );
+		$page_type = $recommended_replace_vars->determine_for_term( $taxonomy );
 
-		return $recommended_replace_vars->get_recommended_replacevars_for( $post_type );
+		return $recommended_replace_vars->get_recommended_replacevars_for( $page_type );
 	}
 
 	/**

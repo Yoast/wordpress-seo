@@ -106,9 +106,9 @@ class WPSEO_Admin_Pages {
 	}
 
 	/**
-	 * Pass some variables to js for upload module.
+	 * Retrieves some variables that are needed for the upload module in JS.
 	 *
-	 * @return  array
+	 * @return array The upload module variables.
 	 */
 	public function localize_media_script() {
 		return array(
@@ -117,7 +117,9 @@ class WPSEO_Admin_Pages {
 	}
 
 	/**
-	 * Pass some variables to js for replacing variables.
+	 * Retrieves some variables that are needed for replacing variables in JS.
+	 *
+	 * @return array The replacement and recommended replacement variables.
 	 */
 	public function localize_replace_vars_script() {
 		$replace_vars             = new WPSEO_Replace_Vars();

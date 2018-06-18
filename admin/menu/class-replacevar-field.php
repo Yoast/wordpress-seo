@@ -27,21 +27,21 @@ class WPSEO_Replacevar_Field {
 	/**
 	 * @var string The post type for context.
 	 */
-	private $post_type;
+	private $page_type;
 
 	/**
 	 * Constructs the object.
 	 *
-	 * @param Yoast_Form $yform       Yoast forms.
-	 * @param string     $field_id    The field id.
-	 * @param string     $label       The field label.
-	 * @param string     $post_type   The post type for context.
+	 * @param Yoast_Form $yform     Yoast forms.
+	 * @param string     $field_id  The field id.
+	 * @param string     $label     The field label.
+	 * @param string     $page_type The page type for context.
 	 */
-	public function __construct( Yoast_Form $yform, $field_id, $label, $post_type ) {
+	public function __construct( Yoast_Form $yform, $field_id, $label, $page_type ) {
 		$this->yform     = $yform;
 		$this->field_id  = $field_id;
 		$this->label     = $label;
-		$this->post_type = $post_type;
+		$this->page_type = $page_type;
 	}
 
 	/**
@@ -58,10 +58,10 @@ class WPSEO_Replacevar_Field {
 			data-react-replacevar-field
 			data-react-replacevar-field-id="%1$s"
 			data-react-replacevar-field-label="%2$s",
-			data-react-replacevar-post-type="%3$s"></div>',
+			data-react-replacevar-page-type="%3$s"></div>',
 			esc_attr( $this->field_id ),
 			esc_attr( $this->label ),
-			esc_attr( $this->post_type )
+			esc_attr( $this->page_type )
 		);
 	}
 }

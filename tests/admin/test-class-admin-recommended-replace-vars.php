@@ -145,11 +145,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 
 		// Overwrite the options used in the is_homepage function.
 		update_option( 'show_on_front', 'page' );
-		/*
-		 * Note the ID type is converted to a string.
-		 * This is because when you change your homepage in WordPress this gets saved as a string.
-		 */
-		update_option( 'page_on_front', '' . $post->ID );
+		update_option( 'page_on_front', $post->ID );
 
 		$this->assertEquals( 'homepage', $this->class_instance->determine_for_post( $post ) );
 
@@ -222,13 +218,13 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider get_recommended_replacevars_provider
 	 *
-	 * @param string $post_type The post type to get the recommended replacement variables for.
+	 * @param string $page_type The page type to get the recommended replacement variables for.
 	 * @param array  $expected  The expected recommended replacement variables.
 	 *
 	 * @covers       WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars_for
 	 */
-	public function test_get_recommended_replacevars( $post_type, $expected ) {
-		$this->assertEquals( $expected, $this->class_instance->get_recommended_replacevars_for( $post_type ) );
+	public function test_get_recommended_replacevars( $page_type, $expected ) {
+		$this->assertEquals( $expected, $this->class_instance->get_recommended_replacevars_for( $page_type ) );
 	}
 
 	/**
@@ -292,7 +288,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	private function create_and_get_with_post_type( $post_type = 'post' ) {
 		return self::factory()->post->create_and_get(
 			array(
-				'post_type' => $post_type
+				'post_type' => $post_type,
 			)
 		);
 	}

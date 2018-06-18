@@ -77,7 +77,7 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	/**
 	 * Determines the page type of the current post.
 	 *
-	 * @param WP_Post $post The WordPress global post variable.
+	 * @param WP_Post $post The WordPress global post object.
 	 *
 	 * @return string The page type.
 	 */
@@ -90,14 +90,14 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 			return 'homepage';
 		}
 
-		$supported_post_types = array( 'post', 'page' );
+		$supported_page_types = array( 'post', 'page' );
 
 		// Add WooCommerce specific types.
 		if ( $this->is_woocommerce_active() ) {
-			$supported_post_types[] = 'product';
+			$supported_page_types[] = 'product';
 		}
 
-		if ( in_array( $post->post_type, $supported_post_types, true ) ) {
+		if ( in_array( $post->post_type, $supported_page_types, true ) ) {
 			return $post->post_type;
 		}
 
@@ -105,18 +105,18 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	}
 
 	/**
-	 * Retrieves the recommended replacement variables for the given post type.
+	 * Retrieves the recommended replacement variables for the given page type.
 	 *
-	 * @param string $post_type The post type.
+	 * @param string $page_type The page type.
 	 *
 	 * @return array The recommended replacement variables.
 	 */
-	public function get_recommended_replacevars_for( $post_type ) {
-		if ( ! isset( $this->recommended_replace_vars[ $post_type ] ) ) {
+	public function get_recommended_replacevars_for( $page_type ) {
+		if ( ! isset( $this->recommended_replace_vars[ $page_type ] ) ) {
 			return array();
 		}
 
-		return $this->recommended_replace_vars[ $post_type ];
+		return $this->recommended_replace_vars[ $page_type ];
 	}
 
 	/**
@@ -131,7 +131,7 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	/**
 	 * Determines whether or not a post is the homepage.
 	 *
-	 * @param WP_Post $post The WordPress global post variable.
+	 * @param WP_Post $post The WordPress global post object.
 	 *
 	 * @return bool True if the given post is the homepage.
 	 */
@@ -144,10 +144,10 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		 * The page on front returns a string with normal WordPress interaction, while the post ID is an int.
 		 * This way we make sure we always compare strings.
 		 */
-		$post_id_string = '' . $post->ID;
-		$page_on_front = '' . get_option( 'page_on_front' );
+		$post_id       = (int) $post->ID;
+		$page_on_front = (int) get_option( 'page_on_front' );
 
-		return get_option( 'show_on_front' ) === 'page' && $page_on_front === $post_id_string;
+		return get_option( 'show_on_front' ) === 'page' && $page_on_front === $post_id;
 	}
 
 	/**
