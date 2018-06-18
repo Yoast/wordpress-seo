@@ -11,10 +11,9 @@ const matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
  * @returns {number} The number of occurrences of the keyword in the headings.
  */
 module.exports = function( matches, keyword, locale ) {
-	let foundInHeader;
-	if ( matches === null ) {
-		foundInHeader = -1;
-	} else {
+	let foundInHeader = -1;
+
+	if ( matches !== null ) {
 		foundInHeader = 0;
 		for ( let i = 0; i < matches.length; i++ ) {
 			// TODO: This replaceString call seemingly doesn't work, as no replacement value is being sent to the .replace method in replaceString

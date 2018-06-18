@@ -19,11 +19,10 @@ module.exports = function( paper ) {
 	 * necessary to repeat it here.
 	 */
 	const title = normalizeQuotes( paper.getTitle() );
-	const keyword = escapeRegExp( normalizeQuotes( paper.getKeyword() ) );
+	const keyword = escapeRegExp( normalizeQuotes( paper.getKeyword() ).toLocaleLowerCase() );
 	const locale = paper.getLocale();
 	const result = { matches: 0, position: -1 };
 	result.matches = wordMatch( title, keyword, locale );
 	result.position = title.toLocaleLowerCase().indexOf( keyword );
-
 	return result;
 };
