@@ -13,7 +13,7 @@ describe( "Return the received keyword for a language that is not added to the m
 		mockPaper = new Paper( "", { keyword: "слово'слово", locale: "ru_RU" } );
 		result = buildKeywordForms( mockPaper );
 
-		expect( result ).toEqual( [].concat( "слово'слово", "слово’слово" ) );
+		expect( result ).toEqual( [].concat( "слово'слово", "слово‘слово", "слово’слово", "слово‛слово", "слово`слово" ) );
 	} );
 } );
 
@@ -27,8 +27,19 @@ describe( "Build keyword forms based on the received keyword for English", funct
 		expect( result ).toContain( "keywords'" );
 		expect( result ).toContain( "keywords's" );
 		expect( result ).toContain( "keyword’s" );
+		expect( result ).toContain( "keyword‘s" );
+		expect( result ).toContain( "keyword‛s" );
+		expect( result ).toContain( "keyword`s" );
 		expect( result ).toContain( "keywords’" );
+		expect( result ).toContain( "keywords'" );
+		expect( result ).toContain( "keywords`" );
+		expect( result ).toContain( "keywords‘" );
+		expect( result ).toContain( "keywords‛" );
 		expect( result ).toContain( "keywords’s" );
+		expect( result ).toContain( "keywords's" );
+		expect( result ).toContain( "keywords`s" );
+		expect( result ).toContain( "keywords‘s" );
+		expect( result ).toContain( "keywords‛s" );
 
 		mockPaper = new Paper( "", { keyword: "Keyword", locale: "en_EN" } );
 		result = buildKeywordForms( mockPaper );

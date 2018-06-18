@@ -11,7 +11,7 @@ const unique = require( "lodash/uniq" );
 const flatten = require( "lodash/flatten" );
 
 /**
- * Checks if the input word is a possessive form (e.g., "boy's" in "the boy's car") and true if so.
+ * Checks if the input word is a possessive form (e.g., "boy's" in "the boy's car") and returns true if that is the case.
  *
  * @param {string} word The word for which to determine if it's a possessive.
  *
@@ -139,8 +139,9 @@ const getNounForms = function( word ) {
 	let forms = [].concat( word );
 	let base = word;
 
-	if ( checkPossessive( word ) ) {
-		base = getBaseFromPossessive( word );
+	const baseIfPossessive = getBaseFromPossessive( word );
+	if ( ! isUndefined( baseIfPossessive ) ) {
+		base = baseIfPossessive;
 		forms = forms.concat( base );
 	}
 

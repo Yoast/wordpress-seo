@@ -12,17 +12,20 @@ const flatten = require( "lodash/flatten" );
 
 /**
  * Checks if the input word contains a normalized or a non-normalized apostrophe.
- * If so generates a complementary form (e.g., "il'y a" > "il`a")
+ * If so generates a complementary form (e.g., "il'y a" > "il’a")
  *
  * @param {string} word The word to check.
  *
- * @returns {boolean} True if the word ends with "s".
+ * @returns {Array} All possible variations of the input word.
  */
 const getVariationsApostrophe = function( word ) {
-	return [
-		word.replace( "'", "’" ),
-		word.replace( "’", "'" ),
-	];
+	const apostrophes = [ "'", "‘", "’", "‛", "`" ];
+
+	return unique( flatten ( [].concat( apostrophes.map( function( apostropheOuter ) {
+		return [].concat( apostrophes.map( function( apostropheInner ) {
+			return word.replace( apostropheOuter, apostropheInner );
+		} ) );
+	} ) ) ) );
 };
 
 /**
@@ -51,8 +54,10 @@ module.exports = function( paper ) {
 	const language = getLanguage( paper.getLocale() );
 	const getForms = getFormsForLanguage[ language ];
 
-	// If the language is not yet supported with respect to morphological analysis, return keyword itself,
-	// including variations of the apostrophe in case it is present.
+	/*
+	 * If the language is not yet supported with respect to morphological analysis, return keyword itself,
+	 * including variations of the apostrophe in case it is present.
+	 */
 	if ( isUndefined( getForms ) ) {
 		// console.log( "Requested word forms for a language without morphological support, returning keyword itself.", keyword );
 		return unique( [].concat( keyword, getVariationsApostrophe( keyword ) ) );
