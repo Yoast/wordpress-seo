@@ -98,6 +98,18 @@ export function decodeSeparatorVariable( replacementVariables ) {
 }
 
 /**
+ * Replace spaces in a string with an underscore (default) or some other symbol/string.
+ *
+ * @param {string} string      The string in which to replace spaces.
+ * @param {string} replacement The symbol or string to replace the spaces with (underscore by default).
+ *
+ * @returns {string} The string without spaces.
+ */
+function replaceSpaces( string, replacement = "_" ) {
+	return string.replace( / /g, replacement );
+}
+
+/**
  * Map the custom_taxonomies field in the replacevars to a format suited for redux.
  *
  * @param {Object} replaceVars       The original replacevars.
@@ -111,6 +123,7 @@ export function mapCustomTaxonomies( replaceVars ) {
 
 	let customTaxonomyReplaceVars = {};
 	forEach( replaceVars.custom_taxonomies, ( value, key ) => {
+		key = replaceSpaces( key );
 		customTaxonomyReplaceVars[ `ct_${ key }` ] = value.name;
 		customTaxonomyReplaceVars[ `ct_desc_${ key }` ] = value.description;
 	} );
@@ -135,6 +148,7 @@ export function mapCustomFields( replaceVars ) {
 
 	let customFieldReplaceVars = {};
 	forEach( replaceVars.custom_fields, ( value, key ) => {
+		key = replaceSpaces( key );
 		customFieldReplaceVars[ `cf_${ key }` ] = value;
 	} );
 
