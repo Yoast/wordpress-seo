@@ -406,7 +406,7 @@ setYoastComponentsI18n();
 
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
-			app.runAnalyzer();
+			app.refresh();
 		}
 	}
 
