@@ -111,8 +111,8 @@ class WPSEO_Upgrade {
 			$this->upgrade_753();
 		}
 
-		if ( version_compare( $version, '7.6-RC0', '<' ) ) {
-			$this->upgrade_76();
+		if ( version_compare( $version, '7.7-RC0', '<' ) ) {
+			$this->upgrade_77();
 		}
 
 		// Since 3.7.
@@ -587,11 +587,11 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 7.6 upgrade.
+	 * Performs the 7.7 upgrade.
 	 *
 	 * @return void
 	 */
-	private function upgrade_76() {
+	private function upgrade_77() {
 		// Remove all OpenGraph content image cache.
 		delete_post_meta_by_key( '_yoast_wpseo_post_image_cache' );
 	}
