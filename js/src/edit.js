@@ -121,8 +121,10 @@ function renderSnippetPreview( store, props ) {
 /**
  * Renders the react apps.
  *
- * @param {Object} store Redux store.
- * @param {Object} args Arguments.
+ * @param {Object} store                Redux store.
+ * @param {Object} args                 Arguments.
+ * @param {string} args.analysisSection The target element id for the analysis
+ *                                      section.
  *
  * @returns {void}
  */
@@ -158,13 +160,19 @@ export function initializeData( data, args, store ) {
  *
  * This can be a post or a term edit screen.
  *
- * @param {Object} args Edit initialize arguments.
- * @param {boolean} args.shouldRenderSnippetPreview Whether the new reactified
- *                                                  snippet preview should be
- *                                                  rendered.
- * @param {string} args.seoTarget Target to render the seo analysis.
- * @param {string} args.readabilityTarget Target to render the readability analysis.
- * @param {Function} args.onRefreshRequest The function to refresh the analysis.
+ * @param {Object}   args                                 Edit initialize arguments.
+ * @param {string}   args.analysisSection                 The target element id
+ *                                                        for the analysis section.
+ * @param {Function} args.onRefreshRequest                The function to refresh
+ *                                                        the analysis.
+ * @param {Object}   args.replaceVars                     The replaceVars object.
+ * @param {string}   args.snippetEditorBaseUrl            Base URL of the site
+ *                                                        the user is editing.
+ * @param {string}   args.snippetEditorDate               The date for the
+ *                                                        snippet editor.
+ * @param {array}    args.recommendedReplacementVariables The recommended
+ *                                                        replacement variables
+ *                                                        for this context.
  *
  * @returns {Object} The store and the data.
  */

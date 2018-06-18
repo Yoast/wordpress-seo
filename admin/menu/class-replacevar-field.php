@@ -25,7 +25,7 @@ class WPSEO_Replacevar_Field {
 	private $label;
 
 	/**
-	 * @var string The post type for context.
+	 * @var string The page type for context.
 	 */
 	private $page_type;
 

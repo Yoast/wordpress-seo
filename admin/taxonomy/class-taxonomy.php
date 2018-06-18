@@ -303,7 +303,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Prepares the replace vars for localization.
 	 *
-	 * @return array replace vars.
+	 * @return array The replacement variables.
 	 */
 	private function get_replace_vars() {
 		$term_id = filter_input( INPUT_GET, 'tag_ID' );
@@ -335,7 +335,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Prepares the recommended replace vars for localization.
 	 *
-	 * @return array recommended replace vars
+	 * @return array The recommended replacement variables.
 	 */
 	private function get_recommended_replace_vars() {
 		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
