@@ -23,8 +23,8 @@ class WPSEO_File_Size_Service {
 
 			return new WP_REST_Response(
 				array(
-					'type'     => 'success',
-					'response' => $this->get_file_size( $file_url ),
+					'type'          => 'success',
+					'size_in_bytes' => $this->get_file_size( $file_url ),
 				),
 				404
 			);
