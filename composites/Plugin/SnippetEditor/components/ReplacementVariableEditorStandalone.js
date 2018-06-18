@@ -137,13 +137,30 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		 */
 		this._serializedContent = rawContent;
 
+		this.initializeBinds();
+		this.initializeDraftJsPlugins();
+	}
+
+	/**
+	 * Initializes the scope binding of functions.
+	 *
+	 * @returns {void}
+	 */
+	initializeBinds() {
 		this.onChange = this.onChange.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
 		this.setMentionSuggestionsRef = this.setMentionSuggestionsRef.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
 		this.debouncedUpdateMentionSuggestions = debounce( this.updateMentionSuggestions.bind( this ), 100 );
+	}
 
+	/**
+	 * Initializes the Draft.js mention and single line plugins.
+	 *
+	 * @returns {void}
+	 */
+	initializeDraftJsPlugins() {
 		/*
 		 * The mentions plugin is used to autocomplete the replacement variable
 		 * names.
