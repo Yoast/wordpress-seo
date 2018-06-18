@@ -98,6 +98,30 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests that determine_for_term can detect a WooCommerce product brand.
+	 *
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::is_woocommerce_active
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
+	 */
+	public function test_determine_for_term_with_a_woocommerce_product_brand() {
+		$class_instance = $this->mock_is_woocommerce_active( true );
+
+		$this->assertEquals( 'product_brand', $class_instance->determine_for_term( 'product_brand' ) );
+	}
+
+	/**
+	 * Tests that determine_for_term can not detect a WooCommerce product brand.
+	 *
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::is_woocommerce_active
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_term
+	 */
+	public function test_determine_for_term_with_a_woocommerce_product_brand_without_woocommerce() {
+		$class_instance = $this->mock_is_woocommerce_active( false );
+
+		$this->assertEquals( 'term-in-custom-taxomomy', $class_instance->determine_for_term( 'product_brand' ) );
+	}
+
+	/**
 	 * Tests that determine_for_post defaults to post when no actual post variable is passed along.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post
@@ -216,34 +240,36 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 		// This is basically a copy of the $recommended_replace_vars in WPSEO_Admin_Recommended_Replace_Vars.
 		return array(
 			// Posts.
-			array( 'page', array( 'sitename', 'title', 'sep', 'primary_category' ) ),
-			array( 'post', array( 'sitename', 'title', 'sep', 'primary_category' ) ),
+			array( 'page' , array( 'sitename', 'title', 'sep', 'primary_category' ) ),
+			array( 'post' , array( 'sitename', 'title', 'sep', 'primary_category' ) ),
 			// Homepage.
-			array( 'homepage', array( 'sitename', 'sitedesc', 'sep' ) ),
+			array( 'homepage' , array( 'sitename', 'sitedesc', 'sep' ) ),
 			// Specific custom post.
-			array( 'product', array( 'sitename', 'title', 'sep', 'primary_category' ) ),
+			array( 'product' , array( 'sitename', 'title', 'sep', 'primary_category' ) ),
 			// Custom post.
-			array( 'custom_post_type', array() ),
+			array( 'custom_post_type' , array() ),
 
 			// Taxonomies.
-			array( 'category', array( 'sitename', 'title', 'sep' ) ),
-			array( 'tag', array( 'sitename', 'title', 'sep' ) ),
+			array( 'category' , array( 'sitename', 'title', 'sep' ) ),
+			array( 'post_tag' , array( 'sitename', 'title', 'sep' ) ),
 			// Specific custom taxonomies.
-			array( 'post_format', array( 'sitename', 'title', 'sep', 'page' ) ),
-			array( 'product_cat', array( 'sitename', 'title', 'sep' ) ),
-			array( 'product_tag', array( 'sitename', 'title', 'sep' ) ),
+			array( 'post_format' , array( 'sitename', 'title', 'sep', 'page' ) ),
+			array( 'product_cat' , array( 'sitename', 'title', 'sep' ) ),
+			array( 'product_tag' , array( 'sitename', 'title', 'sep' ) ),
+			array( 'product_shipping_class' , array( 'sitename', 'title', 'sep', 'page' ) ),
+			array( 'product_brand' , array( 'sitename', 'title', 'sep' ) ),
+			array( 'pwb-brand' , array( 'sitename', 'title', 'sep' ) ),
 			// Custom taxonomy.
-			array( 'term-in-custom-taxomomy', array( 'sitename', 'title', 'sep' ) ),
+			array( 'term-in-custom-taxomomy' , array( 'sitename', 'title', 'sep' ) ),
 
-			// Settings.
-			array( 'search', array( 'sitename', 'searchphrase', 'sep', 'page' ) ),
-			array( '404', array( 'sitename', 'sep' ) ),
-			array( 'shipping_classes', array( 'sitename', 'title', 'sep', 'page' ) ),
 			// Settings - archive pages.
-			array( 'author_archive', array( 'sitename', 'title', 'sep', 'page' ) ),
-			array( 'date_archive', array( 'sitename', 'sep', 'date', 'page' ) ),
-			array( 'custom-taxonomy_archive', array( 'sitename', 'title', 'sep' ) ),
-			array( 'product_archive', array( 'sitename', 'sep', 'page', 'pt_plural' ) ),
+			array( 'author_archive' , array( 'sitename', 'title', 'sep', 'page' ) ),
+			array( 'date_archive' , array( 'sitename', 'sep', 'date', 'page' ) ),
+			array( 'product_archive' , array( 'sitename', 'sep', 'page', 'pt_plural' ) ),
+			array( 'custom-taxonomy_archive' , array( 'sitename', 'title', 'sep' ) ),
+			// Settings - special pages.
+			array( 'search' , array( 'sitename', 'searchphrase', 'sep', 'page' ) ),
+			array( '404' , array( 'sitename', 'sep' ) ),
 		);
 	}
 
