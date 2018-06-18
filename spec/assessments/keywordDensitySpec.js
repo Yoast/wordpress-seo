@@ -69,8 +69,8 @@ describe( "A test for marking the keyword forms", function() {
 	it( "returns markers", function() {
 		const paper = new Paper( "This is a very interesting paper with a keyword and other keywords.", { keyword: "keyword" }  );
 		const expected = [
-			new Mark( { original: "keyword", marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>" } ),
 			new Mark( { original: "keywords", marked: "<yoastmark class='yoast-text-mark'>keywords</yoastmark>" } ),
+			new Mark( { original: "keyword", marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>" } ),
 		];
 		expect( keywordDensityAssessment.getMarks( paper ) ).toEqual( expected );
 	} );

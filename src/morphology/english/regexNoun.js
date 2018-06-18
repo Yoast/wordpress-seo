@@ -89,8 +89,8 @@ const hispanic = [
 } );
 
 const possessiveToBase = [
-	[ /['’]s$/i, "" ],
-	[ /(s)(['’]s?)$/i, "$1" ],
+	[ /['‘’‛`]s$/i, "" ],
+	[ /(s)(['‘’‛`]s?)$/i, "$1" ],
 ].map( function( a ) {
 	return {
 		reg: a[ 0 ],

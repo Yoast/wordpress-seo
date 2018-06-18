@@ -21,7 +21,7 @@ const flatten = require( "lodash/flatten" );
 const getVariationsApostrophe = function( word ) {
 	const apostrophes = [ "'", "‘", "’", "‛", "`" ];
 
-	return unique( flatten ( [].concat( apostrophes.map( function( apostropheOuter ) {
+	return unique( flatten( [].concat( apostrophes.map( function( apostropheOuter ) {
 		return [].concat( apostrophes.map( function( apostropheInner ) {
 			return word.replace( apostropheOuter, apostropheInner );
 		} ) );
@@ -59,13 +59,12 @@ module.exports = function( paper ) {
 	 * including variations of the apostrophe in case it is present.
 	 */
 	if ( isUndefined( getForms ) ) {
-		// console.log( "Requested word forms for a language without morphological support, returning keyword itself.", keyword );
 		return unique( [].concat( keyword, getVariationsApostrophe( keyword ) ) );
 	}
 
+	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	// If the keyword is embedded in double quotation marks, return keyword itself, without outer-most quotation marks.
-	if ( keyword[ 0 ] === "\"" && keyword[ keyword.length - 1 ] === "\"" ) {
-		// console.log( "Requested exact match, returning keyword itself.", keyword.substring( 1, keyword.length - 1 ) );
+	if ( includes( doubleQuotes, keyword[ 0 ] ) && includes( doubleQuotes, keyword[ keyword.length - 1 ] ) ) {
 		keyword = keyword.substring( 1, keyword.length - 1 );
 		return unique( [].concat( keyword, getVariationsApostrophe( keyword ) ) );
 	}
@@ -74,7 +73,6 @@ module.exports = function( paper ) {
 
 	// If the keyword is a single word return all its possible forms.
 	if ( keyword.indexOf( " " ) === -1 ) {
-		// console.log( "Keyword is one word, returning  all forms of this keyword. ", getForms( escapeRegExp( keyword ) ) );
 		const wordToLowerCase = escapeRegExp( keyword.toLocaleLowerCase() );
 		forms = flatten( forms.concat( getForms( wordToLowerCase ) ) );
 		forms = unique( flatten( forms.concat( getVariationsApostropheInArray( forms ) ) ) );
@@ -96,7 +94,6 @@ module.exports = function( paper ) {
 			forms = flatten( forms.concat( getForms( wordToLowerCase ) ) );
 			forms = unique( flatten( forms.concat( getVariationsApostropheInArray( forms ) ) ) );
 		} );
-		// console.log( "Keyphrase only contains functionWords, return all forms of every word in the keyphrase. ", forms );
 		return forms;
 	}
 
@@ -106,6 +103,5 @@ module.exports = function( paper ) {
 		forms = flatten( forms.concat( getForms( wordToLowerCase ) ) );
 		forms = unique( flatten( forms.concat( getVariationsApostropheInArray( forms ) ) ) );
 	} );
-	// console.log( "Keyphrase contains content words, return all forms of every content word in the keyphrase. ", forms );
 	return forms;
 };

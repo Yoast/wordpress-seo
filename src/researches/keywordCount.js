@@ -1,6 +1,5 @@
 /** @module analyses/getKeywordCount */
 const matchTextWithArray = require( "../stringProcessing/matchTextWithArray.js" );
-const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 const buildKeywordForms = require( "./buildKeywordForms.js" );
 const unique = require( "lodash/uniq" );
 
@@ -12,11 +11,13 @@ const unique = require( "lodash/uniq" );
  */
 module.exports = function( paper ) {
 	const keywordForms = buildKeywordForms( paper );
-	const text = normalizeQuotes( paper.getText() );
-	const keywordFormsFound = matchTextWithArray( text, keywordForms );
+	const keywordFormsFound = matchTextWithArray( paper.getText(), keywordForms );
 
 	return {
 		count: keywordFormsFound.length,
-		matches: unique( keywordFormsFound ),
+		matches: unique( keywordFormsFound ).sort(
+			function( a, b ) {
+				return b.length - a.length;
+			} ),
 	};
 };
