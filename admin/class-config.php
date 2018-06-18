@@ -125,7 +125,7 @@ class WPSEO_Admin_Pages {
 
 		return array(
 			'replace_vars'             => $replace_vars->get_replacement_variables_list(),
-			'recommended_replace_vars' => $recommended_replace_vars->recommended_replace_vars,
+			'recommended_replace_vars' => $recommended_replace_vars->get_recommended_replacevars(),
 		);
 	}
 

@@ -344,7 +344,7 @@ class WPSEO_Taxonomy {
 		// What is recommended depends on the current context.
 		$post_type = $recommended_replace_vars->determine_for_term( $taxonomy );
 
-		return $recommended_replace_vars->get_recommended_replacevars( $post_type );
+		return $recommended_replace_vars->get_recommended_replacevars_for( $post_type );
 	}
 
 	/**

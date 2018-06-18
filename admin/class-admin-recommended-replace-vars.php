@@ -13,7 +13,7 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	/**
 	 * @var array The recommended replacement variables.
 	 */
-	public $recommended_replace_vars = array(
+	protected $recommended_replace_vars = array(
 		// Posts.
 		'page'                    => array( 'sitename', 'title', 'sep', 'primary_category' ),
 		'post'                    => array( 'sitename', 'title', 'sep', 'primary_category' ),
@@ -111,12 +111,21 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 *
 	 * @return array The recommended replacement variables.
 	 */
-	public function get_recommended_replacevars( $post_type ) {
+	public function get_recommended_replacevars_for( $post_type ) {
 		if ( ! isset( $this->recommended_replace_vars[ $post_type ] ) ) {
 			return array();
 		}
 
 		return $this->recommended_replace_vars[ $post_type ];
+	}
+
+	/**
+	 * Retrieves the recommended replacement variables.
+	 *
+	 * @return array The recommended replacement variables.
+	 */
+	public function get_recommended_replacevars() {
+		return $this->recommended_replace_vars;
 	}
 
 	/**

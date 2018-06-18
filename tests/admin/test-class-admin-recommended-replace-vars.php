@@ -225,10 +225,10 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * @param string $post_type The post type to get the recommended replacement variables for.
 	 * @param array  $expected  The expected recommended replacement variables.
 	 *
-	 * @covers       WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars
+	 * @covers       WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars_for
 	 */
 	public function test_get_recommended_replacevars( $post_type, $expected ) {
-		$this->assertEquals( $expected, $this->class_instance->get_recommended_replacevars( $post_type ) );
+		$this->assertEquals( $expected, $this->class_instance->get_recommended_replacevars_for( $post_type ) );
 	}
 
 	/**
@@ -276,10 +276,10 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test that get_recommended_replacevars works when there are no recommendations found.
 	 *
-	 * @covers WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars_for
 	 */
 	public function test_get_recommended_replacevars_non_existing() {
-		$this->assertEquals( array(), $this->class_instance->get_recommended_replacevars( 'non-existing-replace-var' ) );
+		$this->assertEquals( array(), $this->class_instance->get_recommended_replacevars_for( 'non-existing-replace-var' ) );
 	}
 
 	/**
