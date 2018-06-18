@@ -194,6 +194,27 @@ function filterOnDensity( wordCombinations, wordCount, densityLowerLimit, densit
 }
 
 /**
+ * Filters combinations based on whether they end with a specified string or not.
+ *
+ * @param {WordCombination[]} wordCombinations The array of WordCombinations to filter.
+ * @param {string} str The string the WordCombinations that need to be filtered out end with.
+ * @param {string[]} exceptions The array of strings containing exceptions to not filter.
+ * @returns {WordCombination[]} The filtered array of WordCombinations.
+ */
+function filterEndingWith( wordCombinations, str, exceptions ) {
+	wordCombinations = wordCombinations.filter( function( combination ) {
+		let combinationstr = combination.getCombination();
+		for ( let i = 0; i < exceptions.length; i++ ) {
+			if ( combinationstr.endsWith( exceptions[ i ] ) ) {
+				return true;
+			}
+		}
+		return ! combinationstr.endsWith( str );
+	} );
+	return wordCombinations;
+}
+
+/**
  * Filters the list of word combination objects based on the language-specific function word filters.
  * Word combinations with specific parts of speech are removed.
  *
@@ -215,12 +236,16 @@ function filterFunctionWords( combinations, functionWords ) {
  *
  * @param {Array} combinations The list of word combination objects.
  * @param {Function} functionWords The function containing the lists of function words.
+ * @param {string} language The language for which specific filters should be applied.
  * @returns {Array} The filtered list of word combination objects.
  */
-function filterCombinations( combinations, functionWords ) {
+function filterCombinations( combinations, functionWords, language ) {
 	combinations = filterFunctionWordsAnywhere( combinations, specialCharacters );
 	combinations = filterOneCharacterWordCombinations( combinations );
 	combinations = filterFunctionWords( combinations, functionWords );
+	if( language === "en" ) {
+		combinations = filterEndingWith( combinations, "'s", [] );
+	}
 	return combinations;
 }
 /**
@@ -266,13 +291,13 @@ function getRelevantWords( text, locale ) {
 		fiveWordCombinations
 	);
 
-	combinations = filterCombinations( combinations, functionWords );
+	combinations = filterCombinations( combinations, functionWords, language );
 
 	forEach( combinations, function( combination ) {
 		combination.setRelevantWords( oneWordRelevanceMap );
 	} );
 
-	combinations = getRelevantCombinations( combinations, wordCount );
+	combinations = getRelevantCombinations( combinations );
 	sortCombinations( combinations );
 
 	if ( wordCount >= wordCountLowerLimit ) {
@@ -294,4 +319,5 @@ module.exports = {
 	filterFunctionWordsAnywhere: filterFunctionWordsAnywhere,
 	filterOnDensity: filterOnDensity,
 	filterOneCharacterWordCombinations: filterOneCharacterWordCombinations,
+	filterEndingWith: filterEndingWith,
 };
