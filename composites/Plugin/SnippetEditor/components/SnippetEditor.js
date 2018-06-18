@@ -78,7 +78,7 @@ function getDescriptionProgress( description, date ) {
 	let descriptionLength = description.length;
 	/* If the meta description is preceded by a date, two spaces and a hyphen (" - ") are added as well. Therefore,
 	three needs to be added to the total length. */
-	if ( date !== "" ) {
+	if ( date !== "" && descriptionLength > 0 ) {
 		descriptionLength += date.length + 3;
 	}
 	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
