@@ -2,6 +2,7 @@
 Bugfixes:
 * Fixes a bug where non-public posts were given as a link suggestion.
 * Fixes a bug where a redirect would redirect to the currently requested URL.
+* Fixes a bug where the fallback for the Facebook title in the social preview was not showing the correct title.
 
 Other:
 * Includes every change in Yoast SEO core 7.7.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
