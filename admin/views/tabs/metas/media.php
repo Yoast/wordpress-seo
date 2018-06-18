@@ -39,16 +39,18 @@ $yform->toggle_switch(
 
 /**
  * Contains the output for the warning shown when attachment redirects are turned off.
+ *
+ * @return void
  */
-function show_attachment_warning(){
+function show_attachment_warning() {
 	?>
-    <div class="notice error is-dismissible" >
-        <p><?php _e( 'Your website is configured to show \'attachment\' pages for the images and media you\'ve uploaded. In most cases, this can be harmful to your SEO. We generally recommend hiding these pages by enabling the "Redirect attachment URLs to the attachment itself" option in our \'Media\' settings tab.', 'wordpress-seo' ); ?></p>
-    </div>
+	<div class="notice error is-dismissible" >
+		<p><?php _e( 'Your website is configured to show \'attachment\' pages for the images and media you\'ve uploaded. In most cases, this can be harmful to your SEO. We generally recommend hiding these pages by enabling the "Redirect attachment URLs to the attachment itself" option in our \'Media\' settings tab.', 'wordpress-seo' ); ?></p>
+	</div>
 	<?php
 }
 
-if ($yform->options['disable-attachment'] === 'off'){
+if ( $yform->options['disable-attachment'] === 'off' ) {
 	show_attachment_warning();
 }
 
