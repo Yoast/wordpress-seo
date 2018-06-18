@@ -85,7 +85,10 @@ class WPSEO_OpenGraph_Image {
 			$this->add_image_by_url( $image );
 		}
 
-		$this->set_images();
+		if ( ! post_password_required() ) {
+			$this->set_images();
+		}
+
 	}
 
 	/**
