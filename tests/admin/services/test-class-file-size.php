@@ -86,7 +86,7 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 		$response = $instance->get( new WP_REST_Request() );
 
 		$this->assertEquals( 'success', $response->data['type'] );
-		$this->assertEquals( 2048, $response->data['response'] );
+		$this->assertEquals( 2048, $response->data['size_in_bytes'] );
 	}
 
 	/**
@@ -143,6 +143,6 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 		$response = $instance->get( $request );
 
 		$this->assertEquals( 'success', $response->data['type'] );
-		$this->assertEquals( 2048, $response->data['response'] );
+		$this->assertEquals( 2048, $response->data['size_in_bytes'] );
 	}
 }
