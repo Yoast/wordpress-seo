@@ -3,6 +3,7 @@ import { EditorState, ContentState, SelectionState } from "draft-js";
 
 // Internal dependencies.
 import {
+	getTrigger,
 	hasWhitespaceAt,
 	getCaretOffset,
 	getAnchorBlock,
@@ -12,6 +13,36 @@ import {
 } from "../replaceText";
 
 describe( "SnippetEditor text utilities", () => {
+	describe( "getTrigger", () => {
+		it( "returns a % without spaces", () => {
+			const actual = getTrigger( false, false );
+			const expected = "%";
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "returns a % with a prepended space", () => {
+			const actual = getTrigger( true, false );
+			const expected = " %";
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "returns a % with a appended space", () => {
+			const actual = getTrigger( false, true );
+			const expected = "% ";
+
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "returns a % surrounded by spaces", () => {
+			const actual = getTrigger( true, true );
+			const expected = " % ";
+
+			expect( actual ).toBe( expected );
+		} );
+	} );
+
 	describe( "hasWhitespaceAt", () => {
 		const whitespaceText = "a \nb";
 

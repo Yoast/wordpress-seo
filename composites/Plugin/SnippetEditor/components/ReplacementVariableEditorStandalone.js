@@ -27,6 +27,7 @@ import {
 	replaceReplacementVariables,
 } from "../serialization";
 import {
+	getTrigger,
 	hasWhitespaceAt,
 	getCaretOffset,
 	getAnchorBlock,
@@ -56,29 +57,6 @@ const ZIndexOverride = styled.div`
 		z-index: 5;
 	}
 `;
-
-/**
- * Creates the trigger string that is needed to show the replacement variable suggestions.
- *
- * The Draft.js mention plugin trigger is set as %. But the suggestions popover only shows
- * when the characters before and after the % are whitespace.
- *
- * @param {boolean} needsPrependedSpace When true, a space is prepended.
- * @param {boolean} needsAppendedSpace  When true, a space is appended.
- *
- * @returns {string} The trigger string.
- */
-const getTrigger = ( needsPrependedSpace, needsAppendedSpace ) => {
-	let trigger = "%";
-
-	if ( needsPrependedSpace ) {
-		trigger = " " + trigger;
-	}
-	if ( needsAppendedSpace ) {
-		trigger += " ";
-	}
-	return trigger;
-};
 
 /**
  * A replacement variable editor. It allows replacements variables as tokens in
