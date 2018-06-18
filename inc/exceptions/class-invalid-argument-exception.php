@@ -17,7 +17,7 @@ class WPSEO_Invalid_Argument_Exception extends \InvalidArgumentException {
 			sprintf( '`%s` cannot be empty.', $name )
 		);
 	}
-	
+
 	/**
 	 * Creates an invalid parameter exception.
 	 *

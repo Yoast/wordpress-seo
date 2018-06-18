@@ -14,23 +14,21 @@ class WPSEO_Endpoint_Factory {
 
 	protected $args = array();
 
-	public function __construct( $namespace, $endpoint, $callback, $permission_callback, $method ) {
-		if ( empty( $namespace ) ) {
-			throw WPSEO_Invalid_Argument_Exception::empty_parameter( 'namespace' );
-		}
+	private $namespace;
+	private $endpoint;
+	private $callback;
+	private $permission_callback;
+	private $method;
 
+	public function __construct( $namespace, $endpoint, $callback, $permission_callback, $method = 'GET' ) {
 		if ( ! WPSEO_Validator::is_string( $namespace ) ) {
-			throw WPSEO_Invalid_Argument_Exception::empty_parameter( 'namespace' );
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $namespace, 'namespace' );
 		}
 
 		$this->namespace = $namespace;
 
-		if ( empty( $endpoint ) ) {
-			throw WPSEO_Invalid_Argument_Exception::empty_parameter( 'endpoint' );
-		}
-
 		if ( ! WPSEO_Validator::is_string( $endpoint ) ) {
-			throw WPSEO_Invalid_Argument_Exception::empty_parameter( 'endpoint' );
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $endpoint, 'endpoint' );
 		}
 
 		$this->endpoint = $endpoint;
@@ -41,11 +39,31 @@ class WPSEO_Endpoint_Factory {
 
 		$this->callback = $callback;
 
+		if ( ! is_callable( $permission_callback ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_callable_parameter( $permission_callback, 'callback' );
+		}
 
+		$this->permission_callback = $permission_callback;
+
+		if ( ! WPSEO_Validator::is_string( $method ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $method, 'method' );
+		}
+
+		$this->method = $this->validate_method( $method );
+	}
+
+	protected function validate_method( $method ) {
+		if ( ! in_array( $method, $this->valid_http_methods, true ) ) {
+			throw new \InvalidArgumentException( sprintf( '%s is not a valid HTTP method', $method ) );
+		}
+
+		return $method;
 	}
 
 	protected function add_argument( $name, $description, $type, $required = true ) {
-		
+		if ( ! WPSEO_Validator::is_string( $name ) ) {
+
+		}
 	}
 
 	public function register() {
@@ -56,7 +74,7 @@ class WPSEO_Endpoint_Factory {
 					$this->service,
 					'save_indexable',
 				),
-				'permission_callback' => $permissions_callback,
+				'permission_callback' => $this->permissions_callback,
 			)
 		);
 	}
