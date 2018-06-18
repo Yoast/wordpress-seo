@@ -38,7 +38,7 @@ class WPSEO_Redirect_Sitemap_Filter implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Checks if the url from the sitemap is added as a redirect and removes it if so.
+	 * Prevents a redirected URL from being added to the sitemap.
 	 *
 	 * @param array $url The url data.
 	 *

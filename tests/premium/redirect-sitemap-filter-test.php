@@ -6,7 +6,7 @@
  */
 
 /**
- * Test class for testing the filtering of redirected sitemap entries.
+ * Test class for WPSEO_Redirect_Sitemap_Filter.
  *
  * @covers WPSEO_Redirect_Sitemap_Filter
  * @group  redirects
@@ -33,7 +33,7 @@ class WPSEO_Redirect_Sitemap_Filter_Test extends WPSEO_UnitTestCase {
 			'loc' => 'http://example.domain/not-present'
 		);
 
-		$instance = new WPSEO_Redirect_Sitemap_Filter(  'http://example.domain', $option );
+		$instance = new WPSEO_Redirect_Sitemap_Filter( 'http://example.domain', $option );
 		$this->assertEquals( $sitemap_entry, $instance->filter_sitemap_entry( $sitemap_entry ) );
 	}
 
@@ -54,7 +54,7 @@ class WPSEO_Redirect_Sitemap_Filter_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( true ) );
 
 		$sitemap_entry = array(
-			'loc' => 'http://example.domain/not-present'
+			'loc' => 'http://example.domain/present'
 		);
 
 		$instance = new WPSEO_Redirect_Sitemap_Filter(  'http://example.domain', $option );
@@ -77,7 +77,7 @@ class WPSEO_Redirect_Sitemap_Filter_Test extends WPSEO_UnitTestCase {
 			->method( 'search' );
 
 		$sitemap_entry = array(
-			'entry' => 'http://example.domain/not-present'
+			'entry' => 'http://example.domain/present'
 		);
 
 		$instance = new WPSEO_Redirect_Sitemap_Filter(  'http://example.domain', $option );
