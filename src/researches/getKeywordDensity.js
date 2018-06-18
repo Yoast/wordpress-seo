@@ -14,6 +14,6 @@ module.exports = function( paper, researcher ) {
 	if ( wordCount === 0 ) {
 		return 0;
 	}
-	const keywordCount = researcher.getResearch( "keywordCount" );
+	const keywordCount = researcher.getResearch( "keywordCount" ).count;
 	return ( keywordCount / wordCount ) * 100;
 };
