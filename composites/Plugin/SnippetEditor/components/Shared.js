@@ -81,6 +81,14 @@ export const DescriptionInputContainer = InputContainer.extend`
 	min-height: 72px;
 	padding: 2px 6px;
 	line-height: 24px;
+
+	.public-DraftEditorPlaceholder-root {
+		color: ${ colors.$color_grey_text };
+	}
+
+	.public-DraftEditorPlaceholder-hasFocus {
+		color: ${ colors.$color_grey_text };
+	}
 `;
 
 export const FormSection = styled.div`
