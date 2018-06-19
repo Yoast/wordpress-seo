@@ -68,6 +68,22 @@ export function handlePrefixes( name ) {
 }
 
 /**
+ * Strips underscores from the beginning and end of a string, and replaces remaining underscores with a replacement.
+ *
+ * @param {string} string      The string in which underscores need to be stripped and replaced.
+ * @param {string} replacement The replacement.
+ *
+ * @returns {string} The string with the underscores stripped and replaced.
+ */
+export function replaceUnderscores( string, replacement = " " ) {
+	// Strip underscores from the beginning and end.
+	string = string.replace( /^_+|_+$/g, "" );
+
+	// Replace all '_' with spaces
+	return string.replace( /_+/g, replacement );
+}
+
+/**
  * Creates a "nicename" label from a replacementVariable name.
  *
  * @param {string} name The name from which a label should be created
@@ -77,8 +93,8 @@ export function handlePrefixes( name ) {
 export function createLabelFromName( name ) {
 	name = handlePrefixes( name );
 
-	// Replace all '_' with spaces
-	name = name.replace( /_+/g, " " );
+	// Strip and replace underscores.
+	name = replaceUnderscores( name );
 
 	// Capitalize first letter
 	return name[ 0 ].toUpperCase() + name.slice( 1 );
