@@ -20,6 +20,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 		parent::setUp();
 
 		$this->class_instance = new WPSEO_Admin_Recommended_Replace_Vars();
+		add_filter( 'wpseo_recommended_replace_vars', array( $this, 'filter_recommended_replacevars' ) );
 	}
 
 	/**
@@ -162,12 +163,34 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that get_recommended_replacevars works when there are no recommendations found.
+	 * Tests that get_recommended_replacevars works when there are no recommendations found.
 	 *
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars_for
 	 */
 	public function test_get_recommended_replacevars_non_existing() {
 		$this->assertEquals( array(), $this->class_instance->get_recommended_replacevars_for( 'non-existing-replace-var' ) );
+	}
+
+	/**
+	 * Tests that get_recommended_replacevars works when a filter adds a non-array recommendation.
+	 *
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars_for
+	 */
+	public function test_get_recommended_replacevars_non_array() {
+		$this->assertEquals( array(), $this->class_instance->get_recommended_replacevars_for( 'non-array' ) );
+	}
+
+	/**
+	 * Filter function for adding or changing replacement variables.
+	 *
+	 * @param array $replacevars The replacement variables before the filter.
+	 *
+	 * @return array The new recommended replacement variables.
+	 */
+	public function filter_recommended_replacevars( $replacevars = array() ) {
+		$replacevars[ 'non-array' ] = 'non-array';
+
+		return $replacevars;
 	}
 
 	/**
