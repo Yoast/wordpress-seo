@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import mapResults from "./mapResults";
 import ContentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/components/ContentAnalysis";
-import Loader from "yoast-components/composites/basic/Loader";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -64,7 +63,7 @@ class Results extends React.Component {
 	 * @returns {ReactElement} The react element.
 	 */
 	render() {
-		const { analysisIsLoading, mappedResults } = this.state;
+		const { mappedResults } = this.state;
 		const {
 			errorsResults,
 			improvementsResults,
