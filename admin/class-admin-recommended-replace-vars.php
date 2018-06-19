@@ -33,8 +33,8 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		// Settings - archive pages.
 		'author_archive'          => array( 'sitename', 'title', 'sep', 'page' ),
 		'date_archive'            => array( 'sitename', 'sep', 'date', 'page' ),
-		'product_archive'         => array( 'sitename', 'sep', 'page', 'pt_plural' ),
 		'custom-taxonomy_archive' => array( 'sitename', 'title', 'sep' ),
+
 		// Settings - special pages.
 		'search'                  => array( 'sitename', 'searchphrase', 'sep', 'page' ),
 		'404'                     => array( 'sitename', 'sep' ),
