@@ -93,6 +93,11 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 			return array();
 		}
 
+		if ( ! is_array( $recommended_replace_vars[ $page_type ] ) ) {
+			return array();
+		}
+
+
 		return $recommended_replace_vars[ $page_type ];
 	}
 
