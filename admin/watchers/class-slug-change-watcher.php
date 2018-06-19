@@ -34,61 +34,6 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Shows an message when a post is about to get trashed.
-	 *
-	 * @param integer $post_id The current post ID.
-	 *
-	 * @return void
-	 */
-	public function detect_post_trash( $post_id ) {
-		$post_type_label = $this->get_post_type_label( get_post_type( $post_id ) );
-
-		$message = sprintf(
-			/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
-			__(
-				'You just trashed this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect. %2$sLearn how to create redirects here.%3$s',
-				'wordpress-seo'
-			),
-			$post_type_label,
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">',
-			'</a>'
-		);
-
-		$this->add_notification( $message );
-	}
-
-	/**
-	 * Shows an message when a post is about to get trashed.
-	 *
-	 * @param integer $post_id The current post ID.
-	 *
-	 * @return void
-	 */
-	public function detect_post_delete( $post_id ) {
-		// We don't want to redirect menu items.
-		if ( is_nav_menu_item( $post_id ) ) {
-			return;
-		}
-		// When the post comes from the trash or if the post is a revision then skip further execution.
-		if ( get_post_status( $post_id ) === 'trash' || wp_is_post_revision( $post_id ) ) {
-			return;
-		}
-
-		$message = sprintf(
-			/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
-			__(
-				'You just DELETED this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect. %2$sLearn how to create redirects here.%3$s',
-				'wordpress-seo'
-			),
-			$this->get_post_type_label( get_post_type( $post_id ) ),
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">',
-			'</a>'
-		);
-
-		$this->add_notification( $message );
-	}
-
-	/**
 	 * Enqueues the quick edit handler.
 	 *
 	 * @return void
@@ -136,6 +81,61 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 				'wordpress-seo'
 			),
 			$this->get_post_type_label( $post->post_type ),
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">',
+			'</a>'
+		);
+
+		$this->add_notification( $message );
+	}
+
+	/**
+	 * Shows an message when a post is about to get trashed.
+	 *
+	 * @param integer $post_id The current post ID.
+	 *
+	 * @return void
+	 */
+	public function detect_post_trash( $post_id ) {
+		$post_type_label = $this->get_post_type_label( get_post_type( $post_id ) );
+
+		$message = sprintf(
+		/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
+			__(
+				'You just trashed this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect. %2$sLearn how to create redirects here.%3$s',
+				'wordpress-seo'
+			),
+			$post_type_label,
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">',
+			'</a>'
+		);
+
+		$this->add_notification( $message );
+	}
+
+	/**
+	 * Shows an message when a post is about to get trashed.
+	 *
+	 * @param integer $post_id The current post ID.
+	 *
+	 * @return void
+	 */
+	public function detect_post_delete( $post_id ) {
+		// We don't want to redirect menu items.
+		if ( is_nav_menu_item( $post_id ) ) {
+			return;
+		}
+		// When the post comes from the trash or if the post is a revision then skip further execution.
+		if ( get_post_status( $post_id ) === 'trash' || wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		$message = sprintf(
+		/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
+			__(
+				'You just deleted this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect. %2$sLearn how to create redirects here.%3$s',
+				'wordpress-seo'
+			),
+			$this->get_post_type_label( get_post_type( $post_id ) ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">',
 			'</a>'
 		);
