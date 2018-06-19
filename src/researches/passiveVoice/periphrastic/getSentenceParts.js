@@ -30,7 +30,7 @@ const stopwordsFrench = require( "../../french/passiveVoice/stopwords.js" )();
 const stopCharacterRegexFrench = /(,)(?=[ \n\r\t'"+\-»«‹›<>])/ig;
 const followingAuxiliaryExceptionWordsFrench = [ "le", "la", "les", "une", "l'un", "l'une" ];
 const reflexivePronounsFrench = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];
-const directPrecedenceExceptionRegex = arrayToRegex( reflexivePronounsFrench );
+const directPrecedenceExceptionRegexFrench = arrayToRegex( reflexivePronounsFrench );
 const elisionAuxiliaryExceptionWords = [ "c'", "s'", "peut-" ];
 const elisionAuxiliaryExceptionRegex = arrayToRegex( elisionAuxiliaryExceptionWords, true );
 
@@ -38,8 +38,21 @@ const elisionAuxiliaryExceptionRegex = arrayToRegex( elisionAuxiliaryExceptionWo
 const SentencePartSpanish = require( "../../spanish/passiveVoice/SentencePart" );
 const auxiliariesSpanish = require( "../../spanish/passiveVoice/auxiliaries.js" )();
 const stopwordsSpanish = require( "../../spanish/passiveVoice/stopwords.js" )();
-const stopCharacterRegexSpanish = /([:,])(?=[ \n\r\t'"+\-»«‹›<>])/ig;
 const followingAuxiliaryExceptionWordsSpanish = [ "el", "la", "los", "las", "una" ];
+
+// Italian-specific variables and imports.
+const SentencePartItalian = require( "../../italian/passiveVoice/SentencePart" );
+const auxiliariesItalian = require( "../../italian/passiveVoice/auxiliaries.js" )();
+const stopwordsItalian = require( "../../italian/passiveVoice/stopwords.js" )();
+const followingAuxiliaryExceptionWordsItalian = [ "il", "i", "la", "le", "lo", "gli", "uno", "una" ];
+const reflexivePronounsItalian = [ "mi", "ti", "si", "ci", "vi" ];
+const directPrecedenceExceptionRegexItalian = arrayToRegex( reflexivePronounsItalian );
+
+/*
+ * Variables applying to multiple languages
+ * This regex applies to Spanish and Italian
+ */
+const stopCharacterRegexOthers = /([:,])(?=[ \n\r\t'"+\-»«‹›<>])/ig;
 
 
 // The language-specific variables used to split sentences into sentence parts.
@@ -58,14 +71,24 @@ const languageVariables = {
 		auxiliaries: auxiliariesFrench,
 		stopCharacterRegex: stopCharacterRegexFrench,
 		followingAuxiliaryExceptionRegex: arrayToRegex( followingAuxiliaryExceptionWordsFrench ),
+		directPrecedenceExceptionRegex: directPrecedenceExceptionRegexFrench,
 	},
 	es: {
 		stopwords: stopwordsSpanish,
 		auxiliaryRegex: arrayToRegex( auxiliariesSpanish ),
 		SentencePart: SentencePartSpanish,
 		auxiliaries: auxiliariesSpanish,
-		stopCharacterRegex: stopCharacterRegexSpanish,
+		stopCharacterRegex: stopCharacterRegexOthers,
 		followingAuxiliaryExceptionRegex: arrayToRegex( followingAuxiliaryExceptionWordsSpanish ),
+	},
+	it: {
+		stopwords: stopwordsItalian,
+		auxiliaryRegex: arrayToRegex( auxiliariesItalian ),
+		SentencePart: SentencePartItalian,
+		auxiliaries: auxiliariesItalian,
+		stopCharacterRegex: stopCharacterRegexOthers,
+		followingAuxiliaryExceptionRegex: arrayToRegex( followingAuxiliaryExceptionWordsItalian ),
+		directPrecedenceExceptionRegex: directPrecedenceExceptionRegexItalian,
 	},
 };
 
@@ -114,10 +137,12 @@ let getStopCharacters = function( sentence, language ) {
  *
  * @param {string} text The text part in which to check.
  * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
+ * @param {string} language The language for which to check auxiliary precedence exceptions.
+ *
  * @returns {Array} The filtered list of auxiliary indices.
  */
-let auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches ) {
-	let directPrecedenceExceptionMatches = getWordIndices( text, directPrecedenceExceptionRegex );
+let auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches, language ) {
+	let directPrecedenceExceptionMatches = getWordIndices( text, languageVariables[ language ].directPrecedenceExceptionRegex );
 
 	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
 		if ( includesIndex( directPrecedenceExceptionMatches, auxiliaryMatch.index ) ) {
@@ -197,13 +222,18 @@ let getSentenceBreakers = function( sentence, language ) {
 	switch( language ) {
 		case "fr":
 			// Filters auxiliaries matched in the sentence based on a precedence exception filter.
-			auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices );
+			auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices, "fr" );
 			// Filters auxiliaries matched in the sentence based on a elision exception filter.
 			auxiliaryIndices = elisionAuxiliaryExceptionFilter( sentence, auxiliaryIndices );
 
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 			break;
 		case "es":
+			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
+			break;
+		case "it":
+			// Filters auxiliaries matched in the sentence based on a precedence exception filter.
+			auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices, "it" );
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 			break;
 		case "en":
@@ -231,12 +261,13 @@ let getAuxiliaryMatches = function( sentencePart, language ) {
 	switch( language ) {
 		case "fr":
 		case "es":
+		case "it":
 			// An array with the matched auxiliaries and their indices.
 			var auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
 
-			if( language === "fr" ) {
+			if( ( language ===  "fr" ) || ( language === "it" ) ) {
 				// Filters auxiliaries matched in the sentence part based on a precedence exception filter.
-				auxiliaryMatchIndices = auxiliaryPrecedenceExceptionFilter( sentencePart, auxiliaryMatchIndices );
+				auxiliaryMatchIndices = auxiliaryPrecedenceExceptionFilter( sentencePart, auxiliaryMatchIndices, language );
 			}
 			// Filters auxiliaries matched in the sentence part based on a exception filter for words following the auxiliary.
 			auxiliaryMatchIndices = followingAuxiliaryExceptionFilter( sentencePart, auxiliaryMatchIndices, language );

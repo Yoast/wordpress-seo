@@ -3,21 +3,21 @@ var getSentenceParts = require( "../../../js/researches/passiveVoice/periphrasti
 describe( "splits Italian sentences into parts", function() {
 	it( "returns all sentence parts from the auxiliary to the stopword and from the stopword to the end of the sentence", function() {
 		var sentence = "Erano tre amici quando erano bambini.";
-		expect( getSentenceParts( sentence, "it" )[ 0 ].getSentencePartText() ).toBe( "erano tre amici" );
+		expect( getSentenceParts( sentence, "it" )[ 0 ].getSentencePartText() ).toBe( "Erano tre amici" );
 		expect( getSentenceParts( sentence, "it" )[ 1 ].getSentencePartText() ).toBe( "erano bambini." );
 		expect( getSentenceParts( sentence, "it" ).length ).toBe( 2 );
 	} );
 
 	it( "returns all sentence parts from the auxiliary to the stopword", function() {
 		var sentence = "Erano tre amici quando li incontravo.";
-		expect( getSentenceParts( sentence, "it" )[ 0 ].getSentencePartText() ).toBe( "erano tre amici" );
+		expect( getSentenceParts( sentence, "it" )[ 0 ].getSentencePartText() ).toBe( "Erano tre amici" );
 		expect( getSentenceParts( sentence, "it" ).length ).toBe( 1 );
 	} );
 
 	it( "doesn't return sentence parts when there is a sentence breaker within a word", function() {
 		// Sentence breaker: 'era' in 'primavera' and 'temperature'.
-		var sentence = "Ieri era il primo giorno di primavera con temperature calde.";
-		expect( getSentenceParts( sentence, "it" )[ 0 ].getSentencePartText() ).toBe( "era il primo giorno di primavera con temperature calde." );
+		var sentence = "Ieri era un bel pomeriggio di primavera con temperature calde.";
+		expect( getSentenceParts( sentence, "it" )[ 0 ].getSentencePartText() ).toBe( "era un bel pomeriggio di primavera con temperature calde." );
 		expect( getSentenceParts( sentence, "it" ).length ).toBe( 1 );
 	} );
 

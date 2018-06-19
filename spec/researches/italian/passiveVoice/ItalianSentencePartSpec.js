@@ -1,4 +1,4 @@
-var ItalianSentencePart = require( "../../../../js/researches/italian/SentencePart.js" );
+var ItalianSentencePart = require( "../../../../js/researches/italian/passiveVoice/SentencePart.js" );
 
 describe( "creates an Italian sentence part", function() {
 	it( "makes sure the Italian sentence part inherits all functions", function() {
@@ -11,6 +11,7 @@ describe( "creates an Italian sentence part", function() {
 	it( "returns a participle for an Italian sentence part", function() {
 		var mockPart = new ItalianSentencePart( "Il testo è stato corretto.", [ "è" ], "it_IT" );
 		expect( mockPart.getParticiples()[ 0 ].getParticiple() ).toBe( "corretto" );
+		expect( mockPart.getParticiples()[ 0 ].getType() ).toBe( "irregular" );
 		expect( mockPart.getParticiples()[ 0 ].determinesSentencePartIsPassive() ).toBe( true );
 	} );
 } );

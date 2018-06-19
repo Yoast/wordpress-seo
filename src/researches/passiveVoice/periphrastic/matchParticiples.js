@@ -8,6 +8,7 @@ const irregularsRegularFrench = require( "../../french/passiveVoice/irregulars" 
 const irregularsIrregularFrench = require( "../../french/passiveVoice/irregulars" )().irregularsIrregular;
 const irregularsEndingInSFrench = require( "../../french/passiveVoice/irregulars" )().irregularsEndingInS;
 const spanishParticiples = require( "../../spanish/passiveVoice/participles" )();
+const italianParticiples = require( "../../italian/passiveVoice/participles" )();
 
 // The language-specific participle regexes.
 const languageVariables = {
@@ -30,6 +31,11 @@ const languageVariables = {
 let regularParticiples = function( word, language ) {
 	// In Spanish we don't match participles with a regular regex pattern.
 	if ( language === "es" ) {
+		return [];
+	}
+
+	// In Italian we don't match participles with a regular regex pattern.
+	if ( language === "it" ) {
 		return [];
 	}
 
@@ -87,6 +93,12 @@ let irregularParticiples = function( word, language ) {
 		case "es":
 			// In Spanish, we only match passives from a word list.
 			if ( includes( spanishParticiples, word ) ) {
+				matches.push( word );
+			}
+			break;
+		case "it":
+			// In Italian, we only match passives from a word list.
+			if ( includes( italianParticiples, word ) ) {
 				matches.push( word );
 			}
 			break;

@@ -90,4 +90,16 @@ describe( "detecting passive voice in sentences", function() {
 		var paper = new Paper( "Una mela deve essere mangiata da me.", { locale: "it_IT" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
+
+	it( "doesn't return passive voice if an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
+		// Exception word: "il" after "è".
+		var paper = new Paper( "È il capitolo preferito di diversi membri del team di produzione.", { locale: "it_IT" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
+
+	it( "doesn't return passive voice if a participle is marked as non-passive by a precedence exception (directly preceding).", function() {
+		// Exception word: "un" before "macchiato".
+		var paper = new Paper( "Lei ordinerà un macchiato.", { locale: "it_IT" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
 } );

@@ -17,6 +17,7 @@ module.exports = function() {
 		"eravate",
 		"erano",
 		"fui",
+		"fu",
 		"fosti",
 		"fummo",
 		"foste",
