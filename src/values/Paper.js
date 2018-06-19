@@ -67,7 +67,7 @@ Paper.prototype.hasSynonyms = function() {
 
 /**
  * Return the associated synonyms or an empty string if no synonyms is available.
- * @returns {string} Returns ynonyms
+ * @returns {string} Returns synonyms.
  */
 Paper.prototype.getSynonyms = function() {
 	return this._attributes.synonyms;
