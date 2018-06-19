@@ -1047,6 +1047,7 @@ class WPSEO_Replace_Vars {
 			<table class="yoast_help yoast-table-scrollable">
 			<thead>
 				<tr>
+					<th scope="col">' . esc_html__( 'Label', 'wordpress-seo' ) . '</th>
 					<th scope="col">' . esc_html__( 'Variable', 'wordpress-seo' ) . '</th>
 					<th scope="col">' . esc_html__( 'Description', 'wordpress-seo' ) . '</th>
 				</tr>
@@ -1056,6 +1057,7 @@ class WPSEO_Replace_Vars {
 		foreach ( self::$help_texts[ $type ] as $replace => $help_text ) {
 			$table .= '
 				<tr>
+					<td class="yoast-variable-label"> bla </td>
 					<td class="yoast-variable-name">%%' . esc_html( $replace ) . '%%</td>
 					<td class="yoast-variable-desc">' . $help_text . '</td>
 				</tr>';
