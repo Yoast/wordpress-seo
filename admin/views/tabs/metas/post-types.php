@@ -53,7 +53,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 				sprintf(
 					/* translators: %s expands to the post type's name. */
 					__( 'the archive for %s', 'wordpress-seo' ),
-					$post_type->labels->name
+					$plural_label
 				),
 				$custom_post_type_archive_help->get_button_html() . $custom_post_type_archive_help->get_panel_html()
 			);
@@ -75,13 +75,4 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 
 		echo '</div>';
 	}
-	unset( $post_type );
 }
-
-$post_types = get_post_types(
-	array(
-		'_builtin'    => false,
-		'has_archive' => true,
-	),
-	'objects'
-);
