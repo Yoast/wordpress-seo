@@ -72,22 +72,20 @@ class Results extends React.Component {
 			problemsResults,
 		} = mappedResults;
 		return (
-			<React.Fragment>
-				<ContentAnalysis
-					errorsResults={ errorsResults }
-					problemsResults={ problemsResults }
-					improvementsResults={ improvementsResults }
-					considerationsResults={ considerationsResults }
-					goodResults={ goodResults }
-					changeLanguageLink={ this.props.changeLanguageLink }
-					language={ this.props.language }
-					showLanguageNotice={ this.props.showLanguageNotice }
-					canChangeLanguage={ this.props.canChangeLanguage }
-					onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
-					marksButtonClassName={ this.props.marksButtonClassName }
-					marksButtonStatus={ this.props.marksButtonStatus }
-				/>
-			</React.Fragment>
+			<ContentAnalysis
+				errorsResults={ errorsResults }
+				problemsResults={ problemsResults }
+				improvementsResults={ improvementsResults }
+				considerationsResults={ considerationsResults }
+				goodResults={ goodResults }
+				changeLanguageLink={ this.props.changeLanguageLink }
+				language={ this.props.language }
+				showLanguageNotice={ this.props.showLanguageNotice }
+				canChangeLanguage={ this.props.canChangeLanguage }
+				onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
+				marksButtonClassName={ this.props.marksButtonClassName }
+				marksButtonStatus={ this.props.marksButtonStatus }
+			/>
 		);
 	}
 }
