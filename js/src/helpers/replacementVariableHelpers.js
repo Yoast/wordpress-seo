@@ -26,6 +26,63 @@ export function fillReplacementVariables( data, store ) {
 }
 
 /**
+ * Handles ct_, cf_, and pt_ prefixes (and their desc_ variants).
+ * It strips the prefix, and adds it in full-word form at the end of the name.
+ *
+ * @param {string} name The name for which the prefix should be handled.
+ *
+ * @returns {string} The handled name, stripped from prefixes.
+ */
+export function handlePrefixes( name ) {
+	let prefix = "";
+
+	// Strip "ct_", "cf_", or "pt_", and append it at the back in "readable" form.
+	if ( [ "ct_", "cf_", "pt_" ].includes( name.substr( 0, 3 ) ) ) {
+		prefix = name.slice( 0, 3 );
+		name = name.slice( 3 );
+	}
+
+	// Remove "desc_" and append " description".
+	if ( name.indexOf( "desc_" ) !== -1 ) {
+		name = name.slice( 5 ) + " description";
+	}
+
+	// Appends the prefix in full-word form at the end of the name.
+	switch( prefix ) {
+		case "ct_":
+			name += " (custom taxonomy)";
+			break;
+		case "cf_":
+			name += " (custom field)";
+			break;
+		case "pt_":
+			name = name.replace( "single", "singular" );
+			name = "Post type (" + name + ")";
+			break;
+		default:
+			break;
+	}
+	return name;
+}
+
+/**
+ * Creates a "nicename" label from a replacementVariable name.
+ *
+ * @param {string} name The name from which a label should be created
+ *
+ * @returns {string} The label that was created for the replacementVariable.
+ */
+export function createLabelFromName( name ) {
+	name = handlePrefixes( name );
+
+	// Replace all '_' with spaces
+	name = name.replace( /_/g, " " );
+
+	// Capitalize first letter
+	return name[ 0 ].toUpperCase() + name.slice( 1 );
+}
+
+/**
  * Decodes the separator replacement variable to a displayable symbol.
  *
  * @param {Object} replacementVariables   The object with replacement variables.
