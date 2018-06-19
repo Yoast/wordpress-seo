@@ -42,12 +42,16 @@ const serializeEditorState = flow( [
 ] );
 
 /**
- * Needed to avoid styling issues on the settings pages iwth the suggestions dropdown,
- * because the button labels have a z-index of 3.
+ * Needed to avoid styling issues on the settings pages with the
+ * suggestions dropdown, because the button labels have a z-index of 3.
+ * Added an extra 1000 because with a lot of replacement variables it should
+ * stay on top of the #wp-content-editor-tools element, which has a z-index
+ * of 1000.
+ *
  */
 const ZIndexOverride = styled.div`
 	div {
-		z-index: 5;
+		z-index: 1005;
 	}
 `;
 
