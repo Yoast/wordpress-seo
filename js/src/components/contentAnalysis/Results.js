@@ -12,7 +12,6 @@ class Results extends React.Component {
 		super( props );
 
 		this.state = {
-			analysisIsLoading: false,
 			mappedResults: mapResults( this.props.results ),
 		};
 	}
