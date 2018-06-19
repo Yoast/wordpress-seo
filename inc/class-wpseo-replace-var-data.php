@@ -7,11 +7,11 @@
  */
 
 /**
- * Class WPSEO_Replace_Var_Row
+ * Class WPSEO_Replace_Var_Data
  *
- * This class is used by class-wpseo-replace-vars to store a single row of the snippet variables table.
+ * This class is used by class-wpseo-replace-vars to store the data of a single row of the snippet variables table.
  */
-class WPSEO_Replace_Var_Row {
+class WPSEO_Replace_Var_Data {
 
 	/**
 	 * @var string  The label, or niceName, of the replacement variable.
@@ -29,13 +29,13 @@ class WPSEO_Replace_Var_Row {
 	protected $description;
 
 	/**
-	 * WPSEO_Replace_Var_Row constructor.
+	 * WPSEO_Replace_Var_Data constructor.
 	 *
 	 * @param string $label         The label, or niceName, of the replacement variable.
 	 * @param string $variable      The variable to use.
 	 * @param string $description   The description of the replacement variable.
 	 *
-	 * @return \WPSEO_Replace_Var_Row
+	 * @return \WPSEO_Replace_Var_Data
 	 */
 	public function __construct( $label, $variable, $description ) {
 		$this->label = $label;
@@ -58,7 +58,7 @@ class WPSEO_Replace_Var_Row {
 	 * @return string
 	 */
 	public function get_variable() {
-		return $this->description;
+		return $this->variable;
 	}
 
 	/**
