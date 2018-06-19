@@ -17,6 +17,13 @@ describe( "Counts the occurences of a word in a string", function() {
 	it( "should match quotes", function() {
 		expect( wordMatch( "Yoast's analyzer", "Yoast's" ) ).toBe( 1 );
 		expect( wordMatch( "Yoast\"s analyzer", "Yoast\"s analyzer" ) ).toBe( 1 );
+		expect( wordMatch( "Yoast’s analyzer", "Yoast’s" ) ).toBe( 1 );
+		expect( wordMatch( "Yoast's analyzer", "Yoast's" ) ).toBe( 1 );
+	} );
+
+	it( "should match normalized regardless of the type of quotes/apostrophes used", function() {
+		expect( wordMatch( "Yoast’s analyzer", "Yoast's" ) ).toBe( 1 );
+		expect( wordMatch( "Yoast's analyzer", "Yoast’s" ) ).toBe( 1 );
 	} );
 
 	it( "should match special characters", function() {
