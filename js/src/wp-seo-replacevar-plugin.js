@@ -3,7 +3,7 @@ import forEach from "lodash/forEach";
 import filter from "lodash/filter";
 import trim from "lodash/trim";
 import isUndefined from "lodash/isUndefined";
-
+import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
 import ReplaceVar from "./values/replaceVar";
 import {
 	removeReplacementVariable,
@@ -437,7 +437,10 @@ import {
 	 * @returns {string} The sanitized field name.
 	 */
 	YoastReplaceVarPlugin.prototype.sanitizeCustomFieldNames = function( customFieldName ) {
-		return customFieldName.replace( / +/g, "_" );
+		// First, strip spaces from the end and beginning, and replace multiple spaces with one.
+		customFieldName = stripSpaces( customFieldName );
+
+		return customFieldName.replace( /\s/g, "_" );
 	};
 
 	/**

@@ -5,6 +5,8 @@ import omit from "lodash/omit";
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import decodeHTML from "yoast-components/composites/OnboardingWizard/helpers/htmlDecoder";
+import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
+
 
 export const nonReplaceVars = [ "slug", "content" ];
 
@@ -76,7 +78,7 @@ export function createLabelFromName( name ) {
 	name = handlePrefixes( name );
 
 	// Replace all '_' with spaces
-	name = name.replace( /_/g, " " );
+	name = name.replace( /_+/g, " " );
 
 	// Capitalize first letter
 	return name[ 0 ].toUpperCase() + name.slice( 1 );
@@ -106,7 +108,11 @@ export function decodeSeparatorVariable( replacementVariables ) {
  * @returns {string} The string without spaces.
  */
 function replaceSpaces( string, replacement = "_" ) {
-	return string.replace( / +/g, replacement );
+	// First, strip whitespace from the beginning and end of the string, and reduce multiple whitespaces to just one.
+	string = stripSpaces( string );
+
+	// Then, replace the remaining spaces with the replacement.
+	return string.replace( /\s/g, replacement );
 }
 
 /**
