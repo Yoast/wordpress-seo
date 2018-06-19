@@ -3,11 +3,34 @@ import PropTypes from "prop-types";
 
 import mapResults from "./mapResults";
 import ContentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/components/ContentAnalysis";
+import Loader from "yoast-components/composites/basic/Loader";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
  */
 class Results extends React.Component {
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			analysisIsLoading: false,
+			mappedResults: mapResults( this.props.results ),
+		};
+	}
+
+	componentWillReceiveProps( nextProps ) {
+		/*
+		 * Check if there are new results.
+		 * When the new results are null, we presume we are loading the analysis.
+		 * Only update the mappedResults when we have new and non-null results.
+		 */
+		if ( nextProps.results !== null && nextProps.results !== this.props.results ) {
+			this.setState( {
+				mappedResults: mapResults( nextProps.results ),
+			} );
+		}
+	}
+
 	/**
 	 * Handles a click on a marker button, to mark the text in the editor.
 	 *
@@ -41,7 +64,7 @@ class Results extends React.Component {
 	 * @returns {ReactElement} The react element.
 	 */
 	render() {
-		const mappedResults = mapResults( this.props.results );
+		const { analysisIsLoading, mappedResults } = this.state;
 		const {
 			errorsResults,
 			improvementsResults,
@@ -49,21 +72,23 @@ class Results extends React.Component {
 			considerationsResults,
 			problemsResults,
 		} = mappedResults;
-		return(
-			<ContentAnalysis
-				errorsResults={ errorsResults }
-				problemsResults={ problemsResults }
-				improvementsResults={ improvementsResults }
-				considerationsResults={ considerationsResults }
-				goodResults={ goodResults }
-				changeLanguageLink={ this.props.changeLanguageLink }
-				language={ this.props.language }
-				showLanguageNotice={ this.props.showLanguageNotice }
-				canChangeLanguage={ this.props.canChangeLanguage }
-				onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
-				marksButtonClassName={ this.props.marksButtonClassName }
-				marksButtonStatus={ this.props.marksButtonStatus }
-			/>
+		return (
+			<React.Fragment>
+				<ContentAnalysis
+					errorsResults={ errorsResults }
+					problemsResults={ problemsResults }
+					improvementsResults={ improvementsResults }
+					considerationsResults={ considerationsResults }
+					goodResults={ goodResults }
+					changeLanguageLink={ this.props.changeLanguageLink }
+					language={ this.props.language }
+					showLanguageNotice={ this.props.showLanguageNotice }
+					canChangeLanguage={ this.props.canChangeLanguage }
+					onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
+					marksButtonClassName={ this.props.marksButtonClassName }
+					marksButtonStatus={ this.props.marksButtonStatus }
+				/>
+			</React.Fragment>
 		);
 	}
 }
