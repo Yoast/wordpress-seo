@@ -25,10 +25,73 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		// Detect a post slug change.
 		add_action( 'post_updated', array( $this, 'detect_slug_change' ), 12, 3 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+
+		// Detect a post trash.
+		add_action( 'wp_trash_post', array( $this, 'detect_post_trash' ) );
+
+		// Detect a post delete.
+		add_action( 'before_delete_post', array( $this, 'detect_post_delete' ) );
+	}
+
+	/**
+	 * Shows an message when a post is about to get trashed.
+	 *
+	 * @param integer $post_id The current post ID.
+	 *
+	 * @return void
+	 */
+	public function detect_post_trash( $post_id ) {
+		$post_type_label = $this->get_post_type_label( get_post_type( $post_id ) );
+
+		$message = sprintf(
+			/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
+			__(
+				'You just trashed this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect. %2$sLearn how to create redirects here.%3$s',
+				'wordpress-seo'
+			),
+			$post_type_label,
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">',
+			'</a>'
+		);
+
+		$this->add_notification( $message );
+	}
+
+	/**
+	 * Shows an message when a post is about to get trashed.
+	 *
+	 * @param integer $post_id The current post ID.
+	 *
+	 * @return void
+	 */
+	public function detect_post_delete( $post_id ) {
+		// We don't want to redirect menu items.
+		if ( is_nav_menu_item( $post_id ) ) {
+			return;
+		}
+		// When the post comes from the trash or if the post is a revision then skip further execution.
+		if ( get_post_status( $post_id ) === 'trash' || wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		$message = sprintf(
+			/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
+			__(
+				'You just DELETED this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect. %2$sLearn how to create redirects here.%3$s',
+				'wordpress-seo'
+			),
+			$this->get_post_type_label( get_post_type( $post_id ) ),
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">',
+			'</a>'
+		);
+
+		$this->add_notification( $message );
 	}
 
 	/**
 	 * Enqueues the quick edit handler.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		global $pagenow;
@@ -42,7 +105,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Detects if the slug changed, hooked into 'post_updated'.
+	 * Shows an message when a post slug has changed.
 	 *
 	 * @param integer $post_id     The ID of the post. Unused.
 	 * @param WP_Post $post        The post with the new values.
@@ -66,14 +129,36 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$post_type_object = get_post_type_object( $post->post_type );
+		$message = sprintf(
+			/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
+			__(
+				'You just changed the URL of this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect. %2$sLearn how to create redirects here.%3$s',
+				'wordpress-seo'
+			),
+			$this->get_post_type_label( $post->post_type ),
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">',
+			'</a>'
+		);
+
+		$this->add_notification( $message );
+	}
+
+	/**
+	 * Retrieves the singular post type label.
+	 *
+	 * @param string $post_type Post type to retrieve label from.
+	 *
+	 * @return string The singular post type name.
+	 */
+	protected function get_post_type_label( $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
 
 		// If the post type of this post wasn't registered default back to post.
 		if ( $post_type_object === null ) {
 			$post_type_object = get_post_type_object( 'post' );
 		}
 
-		$this->add_notification( $post_type_object->labels->singular_name );
+		return $post_type_object->labels->singular_name;
 	}
 
 	/**
@@ -96,22 +181,13 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	/**
 	 * Adds a notification to be shown on the next page request since posts are updated in an ajax request.
 	 *
-	 * @param string $post_type_label The singular_name label from a post_type_object.
+	 * @param string $message The singular_name label from a post_type_object.
 	 *
 	 * @return void
 	 */
-	protected function add_notification( $post_type_label ) {
+	protected function add_notification( $message ) {
 		$notification = new Yoast_Notification(
-			sprintf(
-				/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
-				__(
-					'You just changed the URL of this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect. %2$sLearn how to create redirects here.%3$s',
-					'wordpress-seo'
-				),
-				$post_type_label,
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">',
-				'</a>'
-			), array( 'type' => 'notice-info' )
+			$message, array( 'type' => 'notice-info' )
 		);
 
 		$notification_center = Yoast_Notification_Center::get();
