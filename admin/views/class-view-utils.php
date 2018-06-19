@@ -72,33 +72,30 @@ class Yoast_View_Utils {
 		}
 
 		$show_post_type_help = $this->search_results_setting_help( $post_type );
-
 		$noindex_option_name = 'noindex-' . $post_type->name;
-		$this->form->index_switch(
-			$noindex_option_name,
-			$post_type->labels->name,
-			$show_post_type_help->get_button_html() . $show_post_type_help->get_panel_html()
-		);
 
 		if ( WPSEO_Options::get( 'is-media-purge-relevant' ) ) {
 			if ( $post_type->name === 'attachment' && WPSEO_Options::get( $noindex_option_name ) === false ) {
 				$description = sprintf(
 					/* translators: %1$s expands to the link to the article, %2$s closes the link to the article */
-					esc_html( __( 'By enabling this option, attachment URLs become visible to both your visitors and Google.
+					__( 'By enabling this option, attachment URLs become visible to both your visitors and Google.
 To add value to your website, they should contain useful information, or they might have a
 negative impact on your ranking. Please carefully consider this and %1$sread this post%2$s if
 you want more information about the impact of showing media in search results.', 'wordpress-seo'
-					) ),
+					),
 					'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2r8' ) ) . '" rel="noopener nofollow" target="_blank">',
 					'</a>'
 				);
 
-				echo '<div style="clear:both; background-color: #ffeb3b; color: #000000; padding: 16px; max-width: 450px; margin-bottom: 32px;">' . $description . '</div>';
+				echo '<div style="clear:both; background-color: #ffeb3b; color: #000000; padding: 16px; max-width: 450px; margin-bottom: 32px;">' . esc_html( $description ) . '</div>';
 			}
 		}
 
-		$editor = new WPSEO_Replacevar_Editor( $this->form, 'title-' . $post_type->name, 'metadesc-' . $post_type->name );
-		$editor->render();
+		$this->form->index_switch(
+			$noindex_option_name,
+			$post_type->labels->name,
+			$show_post_type_help->get_button_html() . $show_post_type_help->get_panel_html()
+		);
 
 		$this->form->show_hide_switch(
 			'showdate-' . $post_type->name,
@@ -110,5 +107,9 @@ you want more information about the impact of showing media in search results.',
 			/* translators: %1$s expands to Yoast SEO */
 			sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' )
 		);
+
+		$editor = new WPSEO_Replacevar_Editor( $this->form, 'title-' . $post_type->name, 'metadesc-' . $post_type->name );
+		$editor->render();
+
 	}
 }
