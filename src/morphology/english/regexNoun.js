@@ -88,8 +88,31 @@ const hispanic = [
 	};
 } );
 
+const possessiveToBase = [
+	[ /['‘’‛`]s$/i, "" ],
+	[ /(s)(['‘’‛`]s?)$/i, "$1" ],
+].map( function( a ) {
+	return {
+		reg: a[ 0 ],
+		repl: a[ 1 ],
+	};
+} );
+
+const baseToPossessive = [
+	[ /s$/i, "s's", "s'" ],
+	[ /(.+)/i, "$1's", "$1's" ],
+].map( function( a ) {
+	return {
+		reg: a[ 0 ],
+		repl1: a[ 1 ],
+		repl2: a[ 2 ],
+	};
+} );
+
 module.exports = {
 	singularizeRegex: singularize,
 	pluralizeRegex: pluralize,
 	hispanicRegex: hispanic,
+	possessiveToBase: possessiveToBase,
+	baseToPossessive: baseToPossessive,
 };

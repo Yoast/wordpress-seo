@@ -15,6 +15,10 @@ describe( "Match keywords in string", function() {
 		expect( result.matches ).toBe( 2 );
 		expect( result.position ).toBe( 16 );
 
+		var mockPaper = new Paper( "", { keyword: "keyword", title: "”a string with a keyword and another keyword”", locale: "en_EN" } );
+		result = pageTitleKeyword( mockPaper );
+		expect( result.matches ).toBe( 2 );
+
 		var mockPaper = new Paper( "", { keyword: "", title: "a string with words", locale: "en_EN" } );
 		result = pageTitleKeyword( mockPaper );
 		expect( result.matches ).toBe( 0 );

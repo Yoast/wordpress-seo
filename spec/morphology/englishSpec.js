@@ -1,7 +1,9 @@
 const getForms = require( "../../src/morphology/english/getForms.js" );
+const includes = require( "lodash/includes" );
 
 const simpleWordsToTest = [
 	[ "word", "words", "wording", "worded" ],
+	[ "word", "words", "word's", "words'", "words's" ],
 	[ "fly", "flies", "flying", "flew", "flown" ],
 ];
 
@@ -18,7 +20,14 @@ const complexWordsToTest = [
 	[ "embargoes", [ "embargo", "embargos", "embargoing", "embargoed" ] ],
 	[ "embargoing", [ "embargo", "embargoes", "embargoed" ] ],
 	[ "embargoed", [ "embargo", "embargoes", "embargoing" ] ],
+	[ "word's", [ "word", "words", "words'", "words's" ] ],
 ];
+
+const possessivesToTest = [
+	[ "word's", [ "wording", "worded", "word'sed", "word'sing", "word'ses" ] ],
+	[ "Tomas'", [ "Tomas'ing", "Tomas'ed", "Tomas'ed" ] ],
+];
+
 
 describe( "Test for getting all possible word forms for regular words", function() {
 	simpleWordsToTest.forEach( function( paradigm ) {
@@ -44,3 +53,17 @@ describe( "Test for getting all possible word forms for complex words", function
 		} );
 	} );
 } );
+
+describe( "Test for NOT getting verb forms for possessives", function() {
+	possessivesToTest.forEach( function( paradigm ) {
+		const receivedForms = getForms( paradigm[ 0 ] );
+		const formsNotExpected = paradigm[ 1 ];
+		formsNotExpected.forEach( function( formNotExpected ) {
+			it( "returns an array of word forms that should not be formed for a possessive", function() {
+				const presentInTheReceivedForms = includes( receivedForms, formNotExpected );
+				expect( presentInTheReceivedForms ).toEqual( false );
+			} );
+		} );
+	} );
+} );
+

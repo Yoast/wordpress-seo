@@ -1,6 +1,9 @@
-const getNounForms = require( "../../src/morphology/english/getNounForms.js" ).getNounForms;
-const checkHispanic = require( "../../src/morphology/english/getNounForms.js" ).checkHispanic;
-const irregularNounsToTest = require( "../../src/morphology/english/irregularNouns.js" );
+const getNounForms = require( "../../js/morphology/english/getNounForms.js" ).getNounForms;
+const getNounFormsWithPossessives = require( "../../js/morphology/english/getNounForms.js" ).getNounFormsWithPossessives;
+const checkHispanic = require( "../../js/morphology/english/getNounForms.js" ).checkHispanic;
+const checkPossessive = require( "../../js/morphology/english/getNounForms.js" ).checkPossessive;
+const getBaseFromPossessive = require( "../../js/morphology/english/getNounForms.js" ).getBaseFromPossessive;
+const irregularNounsToTest = require( "../../js/morphology/english/irregularNouns.js" );
 
 const regularNounsToTest = [
 	[ "word", "words" ],
@@ -416,6 +419,29 @@ const hispanicNounsToTest = [
 	[ "volcano", "volcanos", "volcanoes" ],
 ];
 
+const possessivesToBaseToTest = [
+	[ "word", "word's" ],
+	[ "words", "words'" ],
+	[ "words", "words's" ],
+	[ "chateau", "chateau's" ],
+	[ "chateaux", "chateaux's" ],
+	[ "mango", "mango's" ],
+	[ "mangos", "mangos's" ],
+	[ "mangoes", "mangoes's" ],
+	[ "Tomas", "Tomas's" ],
+	[ "Tomas", "Tomas'" ],
+];
+
+const possessivesFormationToTest = [
+	[ "word", "words", "word's", "words'", "words's" ],
+	[ "horse", "horses", "horse's", "horses'", "horses's"  ],
+	[ "chateau", "chateaux", "chateaux's", "chateau's" ],
+	[ "mango", "mangos",  "mangoes", "mangoes's", "mangos's", "mango's", "mangoes'", "mangos'" ],
+	[ "Tomas", "Tomas'", "Tomas's" ],
+	[ "rostrum", "rostra", "rostrum's", "rostra's" ],
+	[ "cortex", "cortices", "cortex's", "cortices's", "cortices'" ],
+];
+
 let receivedForms = [];
 
 describe( "Test for getting all possible word forms for regular words", function() {
@@ -488,6 +514,41 @@ describe( "Test for getting all possible word forms for irregular words", functi
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for an irregular word", function() {
 				receivedForms = getNounForms( wordInParadigm );
+				paradigm.forEach( function( form ) {
+					expect( receivedForms ).toContain( form );
+				} );
+			} );
+		} );
+	} );
+} );
+
+describe( "Test for a possessive", function() {
+	possessivesToBaseToTest.forEach( function( paradigm ) {
+		const base = paradigm[ 0 ];
+		const possessive = paradigm[ 1 ];
+		it( "returns if the word is a possessive", function() {
+			expect( checkPossessive( base ) || false ).toEqual( false );
+			expect( checkPossessive( possessive ) || false ).toEqual( true );
+		} );
+	} );
+} );
+
+describe( "Test for getting the base from a possessive", function() {
+	possessivesToBaseToTest.forEach( function( paradigm ) {
+		const base = paradigm[ 0 ];
+		const possessive = paradigm[ 1 ];
+		it( "returns the base for a possessive word", function() {
+			const receivedForm = getBaseFromPossessive( possessive );
+			expect( receivedForm ).toContain( base );
+		} );
+	} );
+} );
+
+describe( "Test for getting all possible word forms (including possessives)", function() {
+	possessivesFormationToTest.forEach( function( paradigm ) {
+		paradigm.forEach( function( wordInParadigm ) {
+			it( "returns an array of word forms for a word", function() {
+				receivedForms = getNounFormsWithPossessives( wordInParadigm );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
 				} );
