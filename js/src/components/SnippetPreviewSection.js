@@ -9,7 +9,7 @@ const Section = styled( StyledSection )`
 	max-width: 640px;
 	
 	&${ StyledSectionBase } {
-		padding: 0 0 10px;
+		padding: 0 0 15px;
 
 		& ${ StyledHeading } {
 			padding-left: 20px;
@@ -38,7 +38,7 @@ const SnippetPreviewSection = ( { children, title, icon } ) => {
 
 SnippetPreviewSection.propTypes = {
 	children: PropTypes.element,
-	title: PropTypes.string.isRequired,
+	title: PropTypes.string,
 	icon: PropTypes.string,
 };
 
