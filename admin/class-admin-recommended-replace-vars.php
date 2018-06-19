@@ -103,17 +103,17 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 */
 	public function get_recommended_replacevars() {
 		/**
-		 * Filter: Adds the possibility to add extra recommended replacement variables
+		 * Filter: Adds the possibility to add extra recommended replacement variables.
 		 *
 		 * @api array $additional_replace_vars Empty array to add the replacevars to.
 		 */
-		$additional_replace_vars = apply_filters( 'wpseo_recommended_replace_vars', array() );
+		$recommended_replace_vars = apply_filters( 'wpseo_recommended_replace_vars', $this->recommended_replace_vars );
 
-		if ( ! is_array( $additional_replace_vars ) ) {
-			$additional_replace_vars = array();
+		if ( ! is_array( $recommended_replace_vars ) ) {
+			return $this->recommended_replace_vars;
 		}
 
-		return array_merge( $this->recommended_replace_vars, $additional_replace_vars );
+		return $recommended_replace_vars;
 	}
 
 	/**
