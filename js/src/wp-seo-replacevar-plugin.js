@@ -437,7 +437,7 @@ import {
 	 * @returns {string} The sanitized field name.
 	 */
 	YoastReplaceVarPlugin.prototype.sanitizeCustomFieldNames = function( customFieldName ) {
-		return customFieldName.replace( " ", "_" );
+		return customFieldName.replace( / +/g, "_" );
 	};
 
 	/**

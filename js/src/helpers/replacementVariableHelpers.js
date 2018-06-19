@@ -106,7 +106,7 @@ export function decodeSeparatorVariable( replacementVariables ) {
  * @returns {string} The string without spaces.
  */
 function replaceSpaces( string, replacement = "_" ) {
-	return string.replace( / /g, replacement );
+	return string.replace( / +/g, replacement );
 }
 
 /**
