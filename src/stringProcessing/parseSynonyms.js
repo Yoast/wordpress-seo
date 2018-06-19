@@ -14,8 +14,10 @@ module.exports = function( synonyms ) {
 	let synonymsSplit = synonyms.split( "," );
 
 	synonymsSplit = synonymsSplit.map( function( synonym ) {
-		return removePunctuation( stripSpaces( synonym ) ) ;
-	} ).filter( function( e ){ return e } );
+		return removePunctuation( stripSpaces( synonym ) );
+	} ).filter( function( synonym ) {
+		return synonym;
+	} );
 
 	return synonymsSplit;
 };
