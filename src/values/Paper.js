@@ -3,10 +3,11 @@ const isEmpty = require( "lodash/isEmpty" );
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
- * @type {{keyword: string, description: string, title: string, url: string}}
+ * @type {{keyword: string, synonyms: string, description: string, title: string, url: string}}
  */
 var defaultAttributes = {
 	keyword: "",
+	synonyms: "",
 	description: "",
 	title: "",
 	titleWidth: 0,
@@ -54,6 +55,22 @@ Paper.prototype.hasKeyword = function() {
  */
 Paper.prototype.getKeyword = function() {
 	return this._attributes.keyword;
+};
+
+/**
+ * Check whether synonyms is available.
+ * @returns {boolean} Returns true if the Paper has synonyms.
+ */
+Paper.prototype.hasSynonyms = function() {
+	return this._attributes.synonyms !== "";
+};
+
+/**
+ * Return the associated synonyms or an empty string if no synonyms is available.
+ * @returns {string} Returns ynonyms
+ */
+Paper.prototype.getSynonyms = function() {
+	return this._attributes.synonyms;
 };
 
 /**
