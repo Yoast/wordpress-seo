@@ -62,6 +62,7 @@ import {
 		this.addReplacement( new ReplaceVar( "%%currenttime%%",     "currenttime" ) );
 		this.addReplacement( new ReplaceVar( "%%currentyear%%",     "currentyear" ) );
 		this.addReplacement( new ReplaceVar( "%%date%%",            "date" ) );
+		this.addReplacement( new ReplaceVar( "%%userid%%",          "userid" ) );
 		this.addReplacement( new ReplaceVar( "%%id%%",              "id" ) );
 		this.addReplacement( new ReplaceVar( "%%page%%",            "page" ) );
 		this.addReplacement( new ReplaceVar( "%%searchphrase%%",    "searchphrase" ) );
