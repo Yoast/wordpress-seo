@@ -4,6 +4,10 @@
  * Class WPSEO_Endpoint_Factory
  */
 class WPSEO_Endpoint_Factory {
+
+	/**
+	 * @var array The valid HTTP methods.
+	 */
 	private $valid_http_methods = array(
 		'GET',
 		'PATCH',
@@ -12,14 +16,45 @@ class WPSEO_Endpoint_Factory {
 		'DELETE',
 	);
 
+	/**
+	 * @var array The arguments.
+	 */
 	protected $args = array();
 
+	/**
+	 * @var string The namespace.
+	 */
 	private $namespace;
+
+	/**
+	 * @var string The endpoint URL.
+	 */
 	private $endpoint;
+
+	/**
+	 * @var callable The callback to execute if the endpoint is called.
+	 */
 	private $callback;
+
+	/**
+	 * @var callable The permission callback to execute to determine permissions.
+	 */
 	private $permission_callback;
+
+	/**
+	 * @var string The HTTP method to use.
+	 */
 	private $method;
 
+	/**
+	 * WPSEO_Endpoint_Factory constructor.
+	 *
+	 * @param string 	$namespace				The endpoint's namespace.
+	 * @param string 	$endpoint				The endpoint's URL.
+	 * @param callable 	$callback				The callback function to execute.
+	 * @param callable 	$permission_callback	The permission callback to execute to determine permissions.
+	 * @param string 	$method					The HTTP method to use. Defaults to GET.
+	 */
 	public function __construct( $namespace, $endpoint, $callback, $permission_callback, $method = 'GET' ) {
 		if ( ! WPSEO_Validator::is_string( $namespace ) ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $namespace, 'namespace' );
@@ -45,14 +80,21 @@ class WPSEO_Endpoint_Factory {
 
 		$this->permission_callback = $permission_callback;
 
+		$this->method = $this->validate_method( $method );
+	}
+
+	/**
+	 * Validates the method parameter.
+	 *
+	 * @param string $method The set method parameter.
+	 *
+	 * @return string The validated method.
+	 */
+	protected function validate_method( $method ) {
 		if ( ! WPSEO_Validator::is_string( $method ) ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $method, 'method' );
 		}
 
-		$this->method = $this->validate_method( $method );
-	}
-
-	protected function validate_method( $method ) {
 		if ( ! in_array( $method, $this->valid_http_methods, true ) ) {
 			throw new \InvalidArgumentException( sprintf( '%s is not a valid HTTP method', $method ) );
 		}
@@ -60,22 +102,62 @@ class WPSEO_Endpoint_Factory {
 		return $method;
 	}
 
+	/**
+	 * Adds an argument to the endpoint.
+	 *
+	 * @param string $name			The name of the argument.
+	 * @param string $description	The description associated with the argument.
+	 * @param string $type			The type of value that can be assigned to the argument.
+	 * @param bool 	 $required		Whether or not it's a required argument. Defaults to true.
+	 *
+	 * @return void
+	 */
 	protected function add_argument( $name, $description, $type, $required = true ) {
-		if ( ! WPSEO_Validator::is_string( $name ) ) {
-
+		if ( in_array( $name, array_keys( $this->args ), true ) ) {
+			return;
 		}
+
+		$this->args[ $name ] = array(
+			'description' => $description,
+			'type' 		  => $type,
+			'required' 	  => $required,
+		);
 	}
 
+	/**
+	 * Gets the associated arguments.
+	 *
+	 * @return array The arguments.
+	 */
+	public function get_arguments() {
+		return $this->args;
+	}
+
+	/**
+	 * Determines whether or not there are any arguments present.
+	 *
+	 * @return bool Whether or not any arguments are present.
+	 */
+	public function has_arguments() {
+		return count( $this->args ) > 0;
+	}
+
+	/**
+	 * Registers the endpoint with WordPress.
+	 *
+	 * @return void
+	 */
 	public function register() {
-		register_rest_route( $this->namespace, $this->endpoint,
-			array(
-				'methods' => 'POST',
-				'callback' => array(
-					$this->service,
-					'save_indexable',
-				),
-				'permission_callback' => $this->permissions_callback,
-			)
+		$config = array(
+			'methods'  			  => $this->method,
+			'callback' 			  => $this->callback,
+			'permission_callback' => $this->permission_callback,
 		);
+
+		if ( $this->has_arguments() ) {
+			$config['args'] = $this->args;
+		}
+
+		register_rest_route( $this->namespace, $this->endpoint, $config );
 	}
 }

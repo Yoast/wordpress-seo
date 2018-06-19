@@ -16,6 +16,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 * @param integer $object_id The target object id.
 	 *
 	 * @return array The retrieved data.
+	 * @throws Exception
 	 */
 	public function get( $object_id ) {
 
@@ -26,35 +27,48 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 		$link_count = new WPSEO_Link_Column_Count();
 		$link_count->set( array( $object_id ) );
 
-		return array(
-			'object_id'                   => (int) $object_id,
-			'object_type'                 => 'post',
-			'object_subtype'              => get_post_type( $object_id ),
-			'permalink'                   => get_permalink( $object_id ),
-			'canonical'                   => $this->get_meta_value( 'canonical', $object_id ),
-			'title'                       => $this->get_meta_value( 'title', $object_id ),
-			'description'                 => $this->get_meta_value( 'metadesc', $object_id ),
-			'breadcrumb_title'            => $this->get_meta_value( 'bctitle', $object_id ),
-			'og_title'                    => $this->get_meta_value( 'opengraph-title', $object_id ),
-			'og_description'              => $this->get_meta_value( 'opengraph-description', $object_id ),
-			'og_image'                    => $this->get_meta_value( 'opengraph-image', $object_id ),
-			'twitter_title'               => $this->get_meta_value( 'twitter-title', $object_id ),
-			'twitter_description'         => $this->get_meta_value( 'twitter-description', $object_id ),
-			'twitter_image'               => $this->get_meta_value( 'twitter-image', $object_id ),
-			'is_robots_noindex'           => $this->get_robots_noindex_value( $this->get_meta_value( 'meta-robots-noindex', $object_id ) ),
-			'is_robots_nofollow'          => $this->get_meta_value( 'meta-robots-nofollow', $object_id ) === '1',
-			'is_robots_noarchive'         => strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), 'noarchive' ) !== false,
-			'is_robots_noimageindex'      => strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), 'noimageindex' ) !== false,
-			'is_robots_nosnippet'         => strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), 'nosnippet' ) !== false,
-			'primary_focus_keyword'       => $this->get_meta_value( 'focuskw', $object_id ),
-			'primary_focus_keyword_score' => (int) $this->get_meta_value( 'linkdex', $object_id ),
-			'readability_score'           => (int) $this->get_meta_value( 'content_score', $object_id ),
-			'is_cornerstone'              => $this->get_meta_value( 'is_cornerstone', $object_id ) === '1',
-			'link_count'                  => (int) $link_count->get( $object_id ),
-			'incoming_link_count'         => (int) $link_count->get( $object_id, 'incoming_link_count' ),
-			'created_at'                  => null,
-			'updated_at'                  => null,
+
+		$indexable = new Indexable(
+			(int) $object_id,
+			new Object_Type(
+				'post',
+				get_post_type( $object_id )
+			),
+			new Meta_Values(
+				$this->get_meta_value( 'title', $object_id ),
+				$this->get_meta_value( 'metadesc', $object_id ),
+				get_permalink( $object_id ),
+				(int) $this->get_meta_value( 'content_score', $object_id ),
+				$this->get_meta_value( 'is_cornerstone', $object_id ) === '1',
+				$this->get_meta_value( 'canonical', $object_id ),
+				$this->get_meta_value( 'bctitle', $object_id )
+			),
+			new OpenGraph(
+				$this->get_meta_value( 'opengraph-title', $object_id ),
+				$this->get_meta_value( 'opengraph-description', $object_id ),
+				$this->get_meta_value( 'opengraph-image', $object_id )
+			),
+			new Twitter(
+				$this->get_meta_value( 'twitter-title', $object_id ),
+				$this->get_meta_value( 'twitter-description', $object_id ),
+				$this->get_meta_value( 'twitter-image', $object_id )
+			),
+			new Robots(
+				$this->get_meta_value( 'meta-robots-nofollow', $object_id ) === '1',
+				$this->has_advanced_meta_value( $object_id, 'noarchive' ),
+				$this->has_advanced_meta_value( $object_id, 'noimageindex' ),
+				$this->has_advanced_meta_value( $object_id, 'nosnippet' ),
+				$this->get_robots_noindex_value( $this->get_meta_value( 'meta-robots-noindex', $object_id ) )
+			),
+			new Link(
+				(int) $link_count->get( $object_id ),
+				(int) $link_count->get( $object_id, 'incoming_link_count' )
+			),
+			null,
+			null
 		);
+
+		return $indexable->to_array();
 	}
 
 	public function post( Indexable $indexable ) {
@@ -73,6 +87,10 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 		}
 
 		return $parsed;
+	}
+
+	protected function has_advanced_meta_value( $object_id, $value ) {
+		return strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), $value ) !== false;
 	}
 
 	/**

@@ -34,21 +34,34 @@ class Indexable {
 	private $twitter;
 
 	/**
-	 * @var Robots
+	 * @var string|null
 	 */
 	private $robots;
 
 	/**
+	 * @var string|null
+	 */
+	private $created_at;
+
+	/**
+	 * @var string|null
+	 */
+	private $updated_at;
+
+	/**
 	 * Indexable constructor.
 	 *
-	 * @param int 		  $id			The indexable's ID.
-	 * @param Object_Type $type			The object type.
-	 * @param Meta_Values $meta_values	The meta values for the indexable.
-	 * @param OpenGraph   $opengraph	The OpenGraph values for the indexable.
-	 * @param Twitter     $twitter		The Twitter values for the indexable.
-	 * @param Robots      $robots		The robots values for the indexable.
+	 * @param int         $id          The indexable's ID.
+	 * @param Object_Type $type        The object type.
+	 * @param Meta_Values $meta_values The meta values for the indexable.
+	 * @param OpenGraph   $opengraph   The OpenGraph values for the indexable.
+	 * @param Twitter     $twitter     The Twitter values for the indexable.
+	 * @param Robots      $robots      The robots values for the indexable.
+	 * @param Link        $links	   The links values for the indexable.
+	 * @param string	  $created_at  The date the indexable was created on. Can be NULL.
+	 * @param string	  $updated_at  The date the indexable was updated on. Can be NULL.
 	 */
-	public function __construct( $id, Object_Type $type, Meta_Values $meta_values, OpenGraph $opengraph, Twitter $twitter, Robots $robots ) {
+	public function __construct( $id, Object_Type $type, Meta_Values $meta_values, OpenGraph $opengraph, Twitter $twitter, Robots $robots, Link $links, $created_at = null, $updated_at = null ) {
 		if ( ! WPSEO_Validator::is_integer( $id ) ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_integer_parameter( $id, 'ID' );
 		}
@@ -59,6 +72,8 @@ class Indexable {
 		$this->opengraph   = $opengraph;
 		$this->twitter 	   = $twitter;
 		$this->robots 	   = $robots;
+		$this->created_at  = $created_at;
+		$this->updated_at  = $updated_at;
 	}
 
 	/**
@@ -73,8 +88,11 @@ class Indexable {
 			$this->meta_values->to_array(),
 			$this->opengraph->to_array(),
 			$this->twitter->to_array(),
-			$this->robots->to_array()
+			$this->robots->to_array(),
+			array(
+				'created_at' => $this->created_at,
+				'updated_at' => $this->updated_at,
+			)
 		);
 	}
-
 }

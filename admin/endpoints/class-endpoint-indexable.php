@@ -36,33 +36,26 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 	 * @return void
 	 */
 	public function register() {
-		$permissions_callback = array(
-			$this,
-			'can_retrieve_data',
+		$endpoints = array();
+
+		$endpoints[] = new WPSEO_Endpoint_Factory(
+			self::REST_NAMESPACE,
+			self::ENDPOINT_SINGULAR,
+			array( $this->service, 'get_indexable' ),
+			array( $this, 'can_retrieve_data' )
 		);
 
-		// Register fetch config.
-		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_SINGULAR,
-			array(
-				'methods' => 'GET',
-				'callback' => array(
-					$this->service,
-					'get_indexable',
-				),
-				'permission_callback' => $permissions_callback,
-			)
+		$endpoints[] = new WPSEO_Endpoint_Factory(
+			self::REST_NAMESPACE,
+			self::ENDPOINT_SINGULAR,
+			array( $this->service, 'save_indexable' ),
+			array( $this, 'can_retrieve_data' ),
+			'POST'
 		);
 
-		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_SINGULAR,
-			array(
-				'methods' => 'POST',
-				'callback' => array(
-					$this->service,
-					'save_indexable',
-				),
-				'permission_callback' => $permissions_callback,
-			)
-		);
+		foreach ( $endpoints as $endpoint ) {
+			$endpoint->register();
+		}
 	}
 
 	/**

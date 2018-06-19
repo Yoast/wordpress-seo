@@ -26,13 +26,13 @@ class WPSEO_Keyword {
 	 * @throws Exception
 	 */
 	public function __construct( $keyword, $score ) {
-		if ( ! WPSEO_Validator::is_string( $keyword ) ) {
+		if ( ! empty( $keyword ) && ! WPSEO_Validator::is_string( $keyword ) ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $keyword, 'keyword' );
 		}
 
 		$this->keyword = $keyword;
 
-		if ( ! WPSEO_Validator::is_integer( $score ) ) {
+		if ( ! empty( $score ) && ! WPSEO_Validator::is_integer( $score ) ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_integer_parameter( $score, 'score' );
 		}
 

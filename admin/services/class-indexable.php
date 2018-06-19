@@ -94,7 +94,8 @@ class WPSEO_Indexable_Service {
 				new WPSEO_Keyword(
 					$request->get_param( 'primary_focus_keyword' ),
 					$request->get_param( 'primary_focus_keyword_score' )
-				)
+				),
+				new Link( 0, 0 )
 			);
 		} catch (\InvalidArgumentException $exception ) {
 			return new WP_REST_Response( $exception->getMessage(), 500 );

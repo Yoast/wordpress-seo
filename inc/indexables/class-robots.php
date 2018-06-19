@@ -67,7 +67,7 @@ class Robots {
 
 		$this->nosnippet = $nosnippet;
 
-		if ( ! empty( $noindex ) && ! empty( $noindex ) && ! WPSEO_Validator::is_boolean( $noindex ) ) {
+		if ( ! empty( $noindex ) && ! WPSEO_Validator::is_boolean( $noindex ) ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_boolean_parameter( $noindex, 'is_robots_noindex' );
 		}
 
