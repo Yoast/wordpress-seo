@@ -1,6 +1,7 @@
 /** @module analyses/findKeywordInPageTitle */
 
 const matchTextWithArray = require( "../stringProcessing/matchTextWithArray.js" );
+const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 const buildKeywordForms = require( "./buildKeywordForms.js" );
 const map = require( "lodash/map" );
 const toLower = require( "lodash/toLower" );
@@ -14,7 +15,7 @@ const toLower = require( "lodash/toLower" );
  */
 
 module.exports = function( paper ) {
-	const title = paper.getTitle();
+	const title = normalizeQuotes( paper.getTitle() );
 	const keywordForms = buildKeywordForms( paper );
 
 	let result = { matches: 0, position: -1 };
