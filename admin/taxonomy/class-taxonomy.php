@@ -56,9 +56,7 @@ class WPSEO_Taxonomy {
 		}
 
 		$this->insert_description_field_editor();
-
-		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
-
+		
 		add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 	}
@@ -208,7 +206,6 @@ class WPSEO_Taxonomy {
 		ob_start();
 		$desc = do_shortcode( $desc );
 		ob_end_clean();
-
 		return $desc;
 	}
 
