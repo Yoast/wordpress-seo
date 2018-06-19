@@ -14,26 +14,19 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 * @var array The recommended replacement variables.
 	 */
 	protected $recommended_replace_vars = array(
-		// Posts.
+		// Posts types.
 		'page'                    => array( 'sitename', 'title', 'sep', 'primary_category' ),
 		'post'                    => array( 'sitename', 'title', 'sep', 'primary_category' ),
 		// Homepage.
 		'homepage'                => array( 'sitename', 'sitedesc', 'sep' ),
-		// Specific custom post.
-		'product'                 => array( 'sitename', 'title', 'sep', 'primary_category' ),
-		// Custom post.
+		// Custom post type.
 		'custom_post_type'        => array(),
 
 		// Taxonomies.
 		'category'                => array( 'sitename', 'title', 'sep' ),
 		'post_tag'                => array( 'sitename', 'title', 'sep' ),
-		// Specific custom taxonomies.
 		'post_format'             => array( 'sitename', 'title', 'sep', 'page' ),
-		'product_cat'             => array( 'sitename', 'title', 'sep' ),
-		'product_tag'             => array( 'sitename', 'title', 'sep' ),
-		'product_shipping_class'  => array( 'sitename', 'title', 'sep', 'page' ),
-		'product_brand'           => array( 'sitename', 'title', 'sep' ),
-		'pwb-brand'               => array( 'sitename', 'title', 'sep' ),
+
 		// Custom taxonomy.
 		'term-in-custom-taxomomy' => array( 'sitename', 'title', 'sep' ),
 
@@ -55,19 +48,8 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 * @return string The page type.
 	 */
 	public function determine_for_term( $taxonomy ) {
-		$supported_taxonomies = array( 'category', 'tag', 'post_format' );
-
-		// Add WooCommerce specific types.
-		if ( $this->is_woocommerce_active() ) {
-			$supported_taxonomies[] = 'product_cat';
-			$supported_taxonomies[] = 'product_tag';
-			$supported_taxonomies[] = 'product_brand';
-			$supported_taxonomies[] = 'product_shipping_class';
-			// This is the for the plugin: Perfect WooCommerce Brands.
-			$supported_taxonomies[] = 'pwb-brand';
-		}
-
-		if ( in_array( $taxonomy, $supported_taxonomies, true ) ) {
+		$recommended_replace_vars = $this->get_recommended_replacevars();
+		if ( array_key_exists( $taxonomy, $recommended_replace_vars ) ) {
 			return $taxonomy;
 		}
 
@@ -90,14 +72,8 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 			return 'homepage';
 		}
 
-		$supported_post_types = array( 'post', 'page' );
-
-		// Add WooCommerce specific types.
-		if ( $this->is_woocommerce_active() ) {
-			$supported_post_types[] = 'product';
-		}
-
-		if ( in_array( $post->post_type, $supported_post_types, true ) ) {
+		$recommended_replace_vars = $this->get_recommended_replacevars();
+		if ( array_key_exists( $post->post_type, $recommended_replace_vars ) ) {
 			return $post->post_type;
 		}
 
@@ -112,11 +88,12 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 * @return array The recommended replacement variables.
 	 */
 	public function get_recommended_replacevars_for( $page_type ) {
-		if ( ! isset( $this->recommended_replace_vars[ $page_type ] ) ) {
+		$recommended_replace_vars = $this->get_recommended_replacevars();
+		if ( ! isset( $recommended_replace_vars[ $page_type ] ) ) {
 			return array();
 		}
 
-		return $this->recommended_replace_vars[ $page_type ];
+		return $recommended_replace_vars[ $page_type ];
 	}
 
 	/**
@@ -125,7 +102,18 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 * @return array The recommended replacement variables.
 	 */
 	public function get_recommended_replacevars() {
-		return $this->recommended_replace_vars;
+		/**
+		 * Filter: Adds the possibility to add extra recommended replacement variables
+		 *
+		 * @api array $additional_replace_vars Empty array to add the replacevars to.
+		 */
+		$additional_replace_vars = apply_filters( 'wpseo_recommended_replace_vars', array() );
+
+		if ( ! is_array( $additional_replace_vars ) ) {
+			$additional_replace_vars = array();
+		}
+
+		return array_merge( $this->recommended_replace_vars, $additional_replace_vars );
 	}
 
 	/**
@@ -148,14 +136,5 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		$page_on_front = (int) get_option( 'page_on_front' );
 
 		return get_option( 'show_on_front' ) === 'page' && $page_on_front === $post_id;
-	}
-
-	/**
-	 * Determines whether or not the WooCommerce plugin is active.
-	 *
-	 * @return bool True if WooCommerce is active.
-	 */
-	protected function is_woocommerce_active() {
-		return class_exists( 'WooCommerce' );
 	}
 }
