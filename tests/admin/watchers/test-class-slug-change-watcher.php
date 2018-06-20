@@ -187,6 +187,7 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 		wp_trash_post( $post->ID );
 	}
 
+	// Happy path: expects notification to be triggered when post is deleted.
 	public function test_detect_post_delete() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
@@ -210,4 +211,104 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 		wp_delete_post( $post->ID );
 	}
 
+	// Tests if we correctly don't show the notification when we delete a menu item.
+	public function test_detect_post_delete_menu_item() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
+			->setMethods( array( 'add_notification' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->never() )
+			->method( 'add_notification' );
+
+		$instance->register_hooks();
+
+		$post = self::factory()
+			->post
+			->create_and_get(
+				array(
+					'post_name' => 'new_post',
+					'post_type' => 'nav_menu_item',
+				)
+			);
+
+		wp_delete_post( $post->ID );
+	}
+
+	// Tests if we correctly don't show the notification when a post is trashed.
+	public function test_detect_post_delete_trashed_post() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
+			->setMethods( array( 'add_notification' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->never() )
+			->method( 'add_notification' );
+
+		$instance->register_hooks();
+
+		$post = self::factory()
+			->post
+			->create_and_get(
+				array(
+					'post_name' => 'new_post',
+					'post_status' => 'trash',
+				)
+			);
+
+		wp_delete_post( $post->ID );
+	}
+
+	// Tests if we correctly don't show the notification when a post is a revision.
+	public function test_detect_post_delete_revision() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
+			->setMethods( array( 'add_notification' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->never() )
+			->method( 'add_notification' );
+
+		$instance->register_hooks();
+
+		$post = self::factory()
+			->post
+			->create_and_get(
+				array(
+					'post_name' => 'new_post',
+				)
+			);
+
+		$revision_id         = wp_save_post_revision( $post->ID );
+
+		wp_delete_post( $revision_id );
+	}
+
+	// Tests if we correctly don't show the notification when a post is not visible.
+	public function test_detect_post_delete_when_not_visible() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
+			->setMethods( array( 'add_notification' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->never() )
+			->method( 'add_notification' );
+
+		$instance->register_hooks();
+
+		$post = self::factory()
+			->post
+			->create_and_get(
+				array(
+					'post_name'     => 'new_post',
+					'post_status'   => 'pending',
+				)
+			);
+
+		wp_delete_post( $post->ID );
+	}
 }
