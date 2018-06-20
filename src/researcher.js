@@ -37,6 +37,7 @@ var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 var relevantWords = require( "./researches/relevantWords" );
 var readingTime = require( "./researches/readingTime" );
+const largestKeywordDistance = require( "./researches/largestKeywordDistance" );
 
 /**
  * This contains all possible, default researches.
@@ -79,6 +80,7 @@ var Researcher = function( paper ) {
 		relevantWords: relevantWords,
 		readingTime: readingTime,
 		sentences,
+		largestKeywordDistance: largestKeywordDistance,
 	};
 
 	this.customResearches = {};
