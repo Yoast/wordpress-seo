@@ -15,9 +15,7 @@ class SettingsReplacementVariableEditor extends React.Component {
 
 	render() {
 		return (
-			<SnippetPreviewSection
-				title={ __( "Edit template", "wordpress-seo" ) }
-				icon="edit">
+			<SnippetPreviewSection>
 				<SettingsSnippetEditor
 					descriptionEditorFieldPlaceholder={ __( "Modify your meta description by editing it right here", "wordpress-seo" ) }
 					onChange={ ( field, value ) => {
