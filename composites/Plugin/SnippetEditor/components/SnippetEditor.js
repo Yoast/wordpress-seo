@@ -146,7 +146,7 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Returns whether the old and the new data are different.
+	 * Returns whether the old and the new data or replacement variables are different.
 	 *
 	 * @param {Object} prev The old props.
 	 * @param {Object} next The new props.
