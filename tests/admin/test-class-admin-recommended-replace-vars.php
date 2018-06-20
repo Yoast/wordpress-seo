@@ -139,26 +139,27 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 		// This is basically a copy of the $recommended_replace_vars in WPSEO_Admin_Recommended_Replace_Vars.
 		return array(
 			// Posts.
-			array( 'page' , array( 'sitename', 'title', 'sep', 'primary_category' ) ),
-			array( 'post' , array( 'sitename', 'title', 'sep', 'primary_category' ) ),
+			array( 'page', array( 'sitename', 'title', 'sep', 'primary_category' ) ),
+			array( 'post', array( 'sitename', 'title', 'sep', 'primary_category' ) ),
 			// Homepage.
-			array( 'homepage' , array( 'sitename', 'sitedesc', 'sep' ) ),
+			array( 'homepage', array( 'sitename', 'sitedesc', 'sep' ) ),
 			// Custom post.
-			array( 'custom_post_type' , array() ),
+			array( 'custom_post_type', array( 'sitename', 'title', 'sep' ) ),
 
 			// Taxonomies.
-			array( 'category' , array( 'sitename', 'title', 'sep' ) ),
-			array( 'post_tag' , array( 'sitename', 'title', 'sep' ) ),
+			array( 'category'   , array( 'sitename', 'term_title', 'sep' ) ),
+			array( 'post_tag'   , array( 'sitename', 'term_title', 'sep' ) ),
+			array( 'post_format', array( 'sitename', 'term_title', 'sep', 'page' ) ),
 			// Custom taxonomy.
-			array( 'term-in-custom-taxomomy' , array( 'sitename', 'title', 'sep' ) ),
+			array( 'term-in-custom-taxomomy', array( 'sitename', 'term_title', 'sep' ) ),
 
 			// Settings - archive pages.
-			array( 'author_archive' , array( 'sitename', 'title', 'sep', 'page' ) ),
-			array( 'date_archive' , array( 'sitename', 'sep', 'date', 'page' ) ),
-			array( 'custom-taxonomy_archive' , array( 'sitename', 'title', 'sep' ) ),
+			array( 'author_archive'         , array( 'sitename', 'title', 'sep', 'page' ) ),
+			array( 'date_archive'           , array( 'sitename', 'sep', 'date', 'page' ) ),
+			array( 'custom-taxonomy_archive', array( 'sitename', 'title', 'sep' ) ),
 			// Settings - special pages.
-			array( 'search' , array( 'sitename', 'searchphrase', 'sep', 'page' ) ),
-			array( '404' , array( 'sitename', 'sep' ) ),
+			array( 'search', array( 'sitename', 'searchphrase', 'sep', 'page' ) ),
+			array( '404'   , array( 'sitename', 'sep' ) ),
 		);
 	}
 
