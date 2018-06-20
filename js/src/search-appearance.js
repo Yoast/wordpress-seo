@@ -32,7 +32,7 @@ function configureStore() {
 		},
 		configureEnhancers()
 	);
-	forEach( window.wpseoReplaceVarsL10n, replacementVariable => {
+	forEach( window.wpseoReplaceVarsL10n.replace_vars, replacementVariable => {
 		store.dispatch( updateReplacementVariable(
 			replacementVariable.name,
 			replacementVariable.value,
