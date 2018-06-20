@@ -341,9 +341,11 @@ let interjections = [ "a", "ach", "aha", "aj", "akurat", "ał", "aua", "auć", "
 	"uwaga", "wow" ];
 
 
-let recipeWords = [ "c", "cl", "cm", "dag", "deka", "dl", "g", "gram", "gramów", "gramy", "kg", "kilo", "l", "litr",
-	"litrów", "litry", "łyżeczka", "łyżeczkę", "łyżeczki", "łyżka", "łyżkę", "łyżki", "mg", "ml", "szczypta", "szczyptę",
-	"szczypty", "szklanka", "szklankę", "szklanki", "tuzin" ];
+let measurementUnits = [ "°C", "°F", "ar", "ary", "arów", "arach", "c", "cl", "cm", "cm²", "cm³", "dag", "deka", "dl", "f",
+	"ft", "g", "gram", "gramów", "gramy", "ha", "hektar", "hektary", "hektarów", "hektarach", "in", "kg", "kilo", "km",
+	"km²", "cm³", "l", "litr", "litrów", "litry", "łyżeczka", "łyżeczkę", "łyżeczki", "łyżka", "łyżkę", "łyżki", "m",
+	"m²", "m³", "mg", "ml", "mm", "mm²", "mm³", "szczypta", "szczyptę", "szczypty", "szklanka", "szklankę", "szklanki",
+	"tuzin" ];
 
 let miscellaneous = [ "nie", "no", "oto", "tak" ];
 
@@ -365,7 +367,7 @@ module.exports = function() {
 			personalPronounsPast, personalPronounsPrepositional, interrogativePronouns, interrogativeProAdverbs,
 			interrogativeDeterminers, indefinitePronouns, adverbialGenitives, auxiliaries, prepositionalAdverbs,
 			subordinatingConjunctions, delexicalizedVerbs, interviewVerbs, timeWords, vagueNouns, titles,
-			interjections, recipeWords, miscellaneous ),
+			interjections, measurementUnits, miscellaneous ),
 
 		// This export contains all of the above words.
 		all: [].concat( transitionWords, additionalTransitionWords, cardinalNumerals, personalPronounsNominative,
@@ -373,7 +375,7 @@ module.exports = function() {
 			personalPronounsPast, personalPronounsPrepositional, interrogativePronouns, interrogativeProAdverbs,
 			interrogativeDeterminers, indefinitePronouns, adverbialGenitives, auxiliaries, prepositionalAdverbs,
 			subordinatingConjunctions, delexicalizedVerbs, interviewVerbs, timeWords, vagueNouns, titles,
-			interjections, recipeWords, miscellaneous, prepositions, coordinatingConjunctions, demonstrativePronouns,
+			interjections, measurementUnits, miscellaneous, prepositions, coordinatingConjunctions, demonstrativePronouns,
 			quantifiers, intensifiers, possessivePronouns, reflexivePronouns, ordinalNumerals, generalAdjectives,
 			generalAdverbs, delexicalisedVerbsInfinitive, auxiliariesInfinitive ),
 	};
