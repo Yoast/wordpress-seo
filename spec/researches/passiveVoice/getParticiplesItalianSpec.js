@@ -3,14 +3,14 @@ var sentencePart = require( "../../../js/values/SentencePart.js" );
 
 describe( "Test for matching Italian participles", function() {
 	it( "returns matched irregular participles.", function() {
-		var mockSentence = new sentencePart( "sono salvati dal bagnino.", [ "sono" ], "it" );
+		var mockSentence = new sentencePart( "Venivano salvati dal bagnino.", [ "venivano" ], "it" );
 		var sentencePartText = mockSentence.getSentencePartText();
 		var auxiliaries = mockSentence.getAuxiliaries();
 		var foundParticiples = getParticiples( sentencePartText, auxiliaries, "it" );
 		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "salvati" );
 		expect( foundParticiples[ 0 ].getType() ).toEqual( "irregular" );
-		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "sono salvati dal bagnino." );
-		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "sono" ] );
+		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "Venivano salvati dal bagnino." );
+		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "venivano" ] );
 		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	} );
 

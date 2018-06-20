@@ -8,8 +8,8 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns passive voice (present)", function() {
-		// Passive: è mangiata
-		var paper = new Paper( "Una mela è mangiata da me.", { locale: "it_IT" } );
+		// Passive: viene mangiata
+		var paper = new Paper( "Una mela viene mangiata da me.", { locale: "it_IT" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
@@ -19,8 +19,8 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns passive voice (future)", function() {
-		// Passive: sarà mangiata
-		var paper = new Paper( "Una mela sarà mangiata da me.", { locale: "it_IT" } );
+		// Passive: verrà mangiata
+		var paper = new Paper( "Una mela verrà mangiata da me.", { locale: "it_IT" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
@@ -52,8 +52,8 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns passive voice (imperfect)", function() {
-		// Passive: era mangiata
-		var paper = new Paper( "Una mela era mangiata da me.", { locale: "it_IT" } );
+		// Passive: venisse mangiata
+		var paper = new Paper( "Una mela venisse mangiata da me.", { locale: "it_IT" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
@@ -86,20 +86,20 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns passive voice (infinitive)", function() {
-		// Passive: essere mangiata
-		var paper = new Paper( "Una mela deve essere mangiata da me.", { locale: "it_IT" } );
+		// Passive: venire mangiata
+		var paper = new Paper( "Una mela deve venire mangiata da me.", { locale: "it_IT" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
 	it( "doesn't return passive voice if an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
-		// Exception word: "il" after "è".
-		var paper = new Paper( "È il capitolo preferito di diversi membri del team di produzione.", { locale: "it_IT" } );
+		// Exception word: "il" after "stato".
+		var paper = new Paper( "È stato il capitolo preferito di diversi membri del team di produzione.", { locale: "it_IT" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 
 	it( "doesn't return passive voice if a participle is marked as non-passive by a precedence exception (directly preceding).", function() {
 		// Exception word: "un" before "macchiato".
-		var paper = new Paper( "Lei ordinerà un macchiato.", { locale: "it_IT" } );
+		var paper = new Paper( "C'è sempre stato un macchiato.", { locale: "it_IT" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 } );
