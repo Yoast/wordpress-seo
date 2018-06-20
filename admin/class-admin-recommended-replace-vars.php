@@ -20,15 +20,15 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		// Homepage.
 		'homepage'                => array( 'sitename', 'sitedesc', 'sep' ),
 		// Custom post type.
-		'custom_post_type'        => array(),
+		'custom_post_type'        => array( 'sitename', 'title', 'sep' ),
 
 		// Taxonomies.
-		'category'                => array( 'sitename', 'title', 'sep' ),
-		'post_tag'                => array( 'sitename', 'title', 'sep' ),
-		'post_format'             => array( 'sitename', 'title', 'sep', 'page' ),
+		'category'                => array( 'sitename', 'term_title', 'sep' ),
+		'post_tag'                => array( 'sitename', 'term_title', 'sep' ),
+		'post_format'             => array( 'sitename', 'term_title', 'sep', 'page' ),
 
 		// Custom taxonomy.
-		'term-in-custom-taxomomy' => array( 'sitename', 'title', 'sep' ),
+		'term-in-custom-taxomomy' => array( 'sitename', 'term_title', 'sep' ),
 
 		// Settings - archive pages.
 		'author_archive'          => array( 'sitename', 'title', 'sep', 'page' ),
