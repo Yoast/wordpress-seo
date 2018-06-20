@@ -34,18 +34,39 @@ esc_html_e( 'The settings on this page allow you to specify what the default sea
 echo '</p>';
 
 if ( is_array( $post_types ) && $post_types !== array() ) {
-	foreach ( $post_types as $post_type ) {
+	foreach ( $post_types as $id => $post_type ) {
 		$single_label = $post_type->labels->singular_name;
 		$plural_label = $post_type->labels->name;
+
 		echo '<div class="paper tab-block" id="' . esc_attr( $post_type->name . '-titles-metas' ) . '">';
-		echo '<h2 id="' . esc_attr( $post_type->name ) . '">' . esc_html( $plural_label ) . ' (<code>' . esc_html( $post_type->name ) . '</code>)</h2>';
+
+		$toggle_icon = "dashicons-arrow-up-alt2";
+		$class 		 = "toggleable-container";
+
+		if ( $id !== 'post' ) {
+			$toggle_icon = "dashicons-arrow-down-alt2";
+			$class .= " toggleable-container-hidden";
+		}
+
+		printf(
+			'<h2 id="%s">%s (<code>%s</code>) <button class="toggleable-container-trigger"><span class="toggleable-container-icon dashicons %s"></span></button></h2>',
+			esc_attr( $post_type->name ),
+			esc_html( $plural_label ),
+			esc_html( $post_type->name ),
+			$toggle_icon
+		);
+
+		echo '<div class="' . $class . '">';
+
 		// translators: %s is the singular version of the post type's name.
 		echo '<h3>' . esc_html( sprintf( __( 'Settings for single %s URLs', 'wordpress-seo' ), $single_label ) ) . '</h3>';
+
 		$view_utils->show_post_type_settings( $post_type );
 
 		if ( $post_type->has_archive === true ) {
 			// translators: %s is the plural version of the post type's name.
 			echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
+
 			$custom_post_type_archive_help = $view_utils->search_results_setting_help( $post_type, 'archive' );
 
 			$yform->index_switch(
@@ -60,6 +81,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 
 			$editor = new WPSEO_Replacevar_Editor( $yform, 'title-ptarchive-' . $post_type->name, 'metadesc-ptarchive-' . $post_type->name );
 			$editor->render();
+
 			if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
 				$yform->textinput( 'bctitle-ptarchive-' . $post_type->name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
 			}
@@ -73,6 +95,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		 */
 		do_action( 'wpseo_admin_page_meta_post_types', $yform, $post_type->name );
 
+		echo '</div>';
 		echo '</div>';
 	}
 }

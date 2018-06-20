@@ -278,6 +278,16 @@ import a11ySpeak from "a11y-speak";
 			}
 		} );
 
+		// Allow collapsing of the content types sections.
+		jQuery( ".toggleable-container-trigger" ).on( "click", ( event ) => {
+			event.preventDefault();
+
+			let target = jQuery( event.target );
+
+			target.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
+			target.parent().siblings( ".toggleable-container" ).toggleClass( "toggleable-container-hidden" )
+		} );
+
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
