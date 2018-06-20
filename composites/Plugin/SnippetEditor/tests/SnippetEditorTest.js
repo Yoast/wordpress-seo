@@ -309,18 +309,27 @@ describe( "SnippetEditor", () => {
 		it( "returns false when there is no new data", () => {
 			const editor = mountWithArgs( {} );
 
-			const oldData = {
-				title: "old title",
-				description: "old description",
-				slug: "old slug",
-			};
-			const newData = {
-				title: "old title",
-				description: "old description",
-				slug: "old slug",
+			const data = {
+				data: {
+					title: "old title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
 			};
 
-			const isDirty = editor.instance().shallowCompareData( oldData, newData );
+			const isDirty = editor.instance().shallowCompareData( data, data );
 
 			expect( isDirty ).toBe( false );
 		} );
@@ -328,18 +337,93 @@ describe( "SnippetEditor", () => {
 		it( "returns true when one data point has changed", () => {
 			const editor = mountWithArgs( {} );
 
-			const oldData = {
-				title: "old title",
-				description: "old description",
-				slug: "old slug",
+			const prev = {
+				data: {
+					title: "old title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
 			};
-			const newData = {
-				title: "new title",
-				description: "old description",
-				slug: "old slug",
+			const next = {
+				data: {
+					title: "new title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
 			};
 
-			const isDirty = editor.instance().shallowCompareData( oldData, newData );
+			const isDirty = editor.instance().shallowCompareData( prev, next );
+
+			expect( isDirty ).toBe( true );
+		} );
+
+		it( "returns true when one replacement variable has changed", () => {
+			const editor = mountWithArgs( {} );
+
+			const prev = {
+				data: {
+					title: "old title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
+			};
+			const next = {
+				data: {
+					title: "new title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first to change",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
+			};
+
+			const isDirty = editor.instance().shallowCompareData( prev, next );
 
 			expect( isDirty ).toBe( true );
 		} );
@@ -347,18 +431,46 @@ describe( "SnippetEditor", () => {
 		it( "returns true when multiple data points have changed", () => {
 			const editor = mountWithArgs( {} );
 
-			const oldData = {
-				title: "old title",
-				description: "old description",
-				slug: "old slug",
+			const prev = {
+				data: {
+					title: "old title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
 			};
-			const newData = {
-				title: "new title",
-				description: "new description",
-				slug: "old slug",
+			const next = {
+				data: {
+					title: "new title",
+					description: "new description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second but now third",
+					},
+				],
 			};
 
-			const isDirty = editor.instance().shallowCompareData( oldData, newData );
+			const isDirty = editor.instance().shallowCompareData( prev, next );
 
 			expect( isDirty ).toBe( true );
 		} );
