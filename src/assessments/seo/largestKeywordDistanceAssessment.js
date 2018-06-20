@@ -23,8 +23,8 @@ class largestKeywordDistanceAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			overRecommendedMaximumKeywordDistance: 40,
-			recommendedMaximumKeywordDistance: 30,
+			overRecommendedMaximumKeywordDistance: 50,
+			recommendedMaximumKeywordDistance: 40,
 			scores: {
 				good: 9,
 				okay: 6,
@@ -53,7 +53,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( calculatedResult.score < 2 );
+		assessmentResult.setHasMarks( calculatedResult.score < 9 );
 
 		return assessmentResult;
 	}

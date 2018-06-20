@@ -9,7 +9,7 @@ let keywordDistanceAssessment = new largestKeyWordDistanceAssessment();
 describe( "An assessment to check the largest percentage of text in which no keyword occurs", function() {
 	it( "returns a bad score when the largest keyword distance is between more than 40%", function() {
 		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 45 ), i18n );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 55 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual( "Large parts of your text do not contain the keyword. Try to distribute the keyword more evenly." );
@@ -17,7 +17,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 
 	it( "returns an okay score when the largest keyword distance is between 30 and 40%", function() {
 		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword" } );
-		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 35 ), i18n );
+		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 45 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "Some parts of your text do not contain the keyword. Try to distribute the keyword more evenly." );
