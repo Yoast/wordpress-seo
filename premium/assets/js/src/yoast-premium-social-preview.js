@@ -305,7 +305,12 @@ var socialPreviews = require( "yoast-social-previews" );
 							}
 						}
 					}
-					return YoastSEO.wp.replaceVarsPlugin.replaceVariables( title );
+
+					if ( ! isUndefined( title ) ) {
+						return YoastSEO.wp.replaceVarsPlugin.replaceVariables( title );
+					}
+
+					return "";
 				},
 				modifyDescription: function( description ) {
 					if ( fieldPrefix.indexOf( "twitter" ) > -1 ) {
@@ -324,7 +329,7 @@ var socialPreviews = require( "yoast-social-previews" );
 				},
 			},
 			placeholder: {
-				title: titlePlaceholder,
+				title: "",//titlePlaceholder,
 			},
 			defaultValue: {
 				title: titlePlaceholder,
@@ -332,7 +337,7 @@ var socialPreviews = require( "yoast-social-previews" );
 		};
 
 		if ( "" !== descriptionPlaceholder ) {
-			args.placeholder.description = descriptionPlaceholder;
+			args.placeholder.description = ""; //descriptionPlaceholder
 			args.defaultValue.description = descriptionPlaceholder;
 		}
 
