@@ -196,6 +196,15 @@ tr.yst_row.even {
 	max-width: none;
 }
 
+.yoast-alert .yoast-seo-icon {
+	float: right;
+	margin: 20px 10px;
+}
+
+.yoast-alert .yoast-seo-icon-wrap {
+	margin: 0 90px 0 0;
+}
+
 /* @todo: check this. */
 table.wpseo th {
 	text-align: right;
