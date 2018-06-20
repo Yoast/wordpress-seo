@@ -13,10 +13,10 @@ export const StyledHeading = styled( Heading )``;
 export const StyledIcon = styled( SvgIcon )``;
 
 export const StyledSectionBase = styled( Section )`
-	box-shadow: ${ props => props.hasPaperStyle ? `0 1px 2px rgba( ${ colors.$color_black }, 0.2 )` : "none" };
+	box-shadow: ${ props => props.hasPaperStyle ? `0 1px 2px ${ rgba( colors.$color_black, 0.2 ) }` : "none" };
 	background-color: ${ props => props.hasPaperStyle ? colors.$color_white : "transparent" };
-	padding-right: 20px;
-	padding-left: 20px;
+	padding-right: ${ props => props.hasPaperStyle ? "20px" : "0" };
+	padding-left: ${ props => props.hasPaperStyle ? "20px" : "0" };
 	padding-bottom: ${ props => props.headingText ? "0" : "10px" };
 	padding-top: ${ props => props.headingText ? "0" : "10px" };
 

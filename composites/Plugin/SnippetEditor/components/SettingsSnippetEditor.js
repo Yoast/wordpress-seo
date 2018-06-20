@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import SettingsSnippetEditorFields from "./SettingsSnippetEditorFields";
 import { replacementVariablesShape } from "../constants";
 
-class SnippetEditor extends React.Component {
+class SettingsSnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
@@ -115,7 +115,7 @@ class SnippetEditor extends React.Component {
 	}
 }
 
-SnippetEditor.propTypes = {
+SettingsSnippetEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
@@ -125,8 +125,8 @@ SnippetEditor.propTypes = {
 	descriptionEditorFieldPlaceholder: PropTypes.string,
 };
 
-SnippetEditor.defaultProps = {
+SettingsSnippetEditor.defaultProps = {
 	replacementVariables: [],
 };
 
-export default SnippetEditor;
+export default SettingsSnippetEditor;
