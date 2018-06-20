@@ -18,7 +18,6 @@ import {
 import ProgressBar from "../../SnippetPreview/components/ProgressBar";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import colors from "../../../../style-guide/colors";
-import ErrorBoundary from "../../../basic/ErrorBoundary";
 
 const SlugInput = styled.input`
 	border: none;
@@ -151,8 +150,12 @@ class SnippetEditorFields extends React.Component {
 	 */
 	focusOnActiveFieldChange() {
 		const { activeField } = this.props;
-		if ( activeField ) {
-			const activeElement = this.elements[ activeField ];
+		const activeElement = activeField ? this.elements[ activeField ] : null;
+		/*
+		 * The editor might not render if any previous error occurs, so better
+		 * to check for the existence of the DOM node before trying to use it.
+		 */
+		if ( activeElement ) {
 			activeElement.focus();
 		}
 	}
@@ -216,76 +219,74 @@ class SnippetEditorFields extends React.Component {
 		const slugLabelId = `${ this.uniqueId }-slug`;
 
 		return (
-			<ErrorBoundary>
-				<StyledEditor
-					innerRef={ this.setEditorRef }
-				>
-					<FormSection>
-						<ReplacementVariableEditor
-							withCaret={ true }
-							label={ __( "SEO title", "yoast-components" ) }
-							onFocus={ () => onFocus( "title" ) }
+			<StyledEditor
+				innerRef={ this.setEditorRef }
+			>
+				<FormSection>
+					<ReplacementVariableEditor
+						withCaret={ true }
+						label={ __( "SEO title", "yoast-components" ) }
+						onFocus={ () => onFocus( "title" ) }
+						onBlur={ () => onBlur() }
+						isActive={ activeField === "title" }
+						isHovered={ hoveredField === "title" }
+						editorRef={ ref => this.setRef( "title", ref ) }
+						replacementVariables={ replacementVariables }
+						content={ title }
+						onChange={ content => onChange( "title", content ) }
+						styleForMobile={ isSmallerThanMobileWidth }
+					/>
+					<ProgressBar
+						max={ titleLengthProgress.max }
+						value={ titleLengthProgress.actual }
+						progressColor={ this.getProgressColor( titleLengthProgress.score ) }
+					/>
+				</FormSection>
+				<FormSection>
+					<SimulatedLabel
+						id={ slugLabelId }
+						onClick={ () => onFocus( "slug" ) }
+					>
+						{ __( "Slug", "yoast-components" ) }
+					</SimulatedLabel>
+					<InputContainerWithCaretStyles
+						onClick={ () => this.elements.slug.focus() }
+						isActive={ activeField === "slug" }
+						isHovered={ hoveredField === "slug" }
+					>
+						<SlugInput
+							value={ slug }
+							onChange={ event => onChange( "slug", event.target.value ) }
+							onFocus={ () => onFocus( "slug" ) }
 							onBlur={ () => onBlur() }
-							isActive={ activeField === "title" }
-							isHovered={ hoveredField === "title" }
-							editorRef={ ref => this.setRef( "title", ref ) }
-							replacementVariables={ replacementVariables }
-							content={ title }
-							onChange={ content => onChange( "title", content ) }
-							styleForMobile={ isSmallerThanMobileWidth }
+							innerRef={ ref => this.setRef( "slug", ref ) }
+							aria-labelledby={ this.uniqueId + "-slug" }
 						/>
-						<ProgressBar
-							max={ titleLengthProgress.max }
-							value={ titleLengthProgress.actual }
-							progressColor={ this.getProgressColor( titleLengthProgress.score ) }
-						/>
-					</FormSection>
-					<FormSection>
-						<SimulatedLabel
-							id={ slugLabelId }
-							onClick={ () => onFocus( "slug" ) }
-						>
-							{ __( "Slug", "yoast-components" ) }
-						</SimulatedLabel>
-						<InputContainerWithCaretStyles
-							onClick={ () => this.elements.slug.focus() }
-							isActive={ activeField === "slug" }
-							isHovered={ hoveredField === "slug" }
-						>
-							<SlugInput
-								value={ slug }
-								onChange={ event => onChange( "slug", event.target.value ) }
-								onFocus={ () => onFocus( "slug" ) }
-								onBlur={ () => onBlur() }
-								innerRef={ ref => this.setRef( "slug", ref ) }
-								aria-labelledby={ this.uniqueId + "-slug" }
-							/>
-						</InputContainerWithCaretStyles>
-					</FormSection>
-					<FormSection>
-						<ReplacementVariableEditor
-							withCaret={ true }
-							type="description"
-							placeholder={ descriptionEditorFieldPlaceholder }
-							label={ __( "Meta description", "yoast-components" ) }
-							onFocus={ () => onFocus( "description" ) }
-							onBlur={ () => onBlur() }
-							isActive={ activeField === "description" }
-							isHovered={ hoveredField === "description" }
-							editorRef={ ref => this.setRef( "description", ref ) }
-							replacementVariables={ replacementVariables }
-							content={ description }
-							onChange={ content => onChange( "description", content ) }
-							styleForMobile={ isSmallerThanMobileWidth }
-						/>
-						<ProgressBar
-							max={ descriptionLengthProgress.max }
-							value={ descriptionLengthProgress.actual }
-							progressColor={ this.getProgressColor( descriptionLengthProgress.score ) }
-						/>
-					</FormSection>
-				</StyledEditor>
-			</ErrorBoundary>
+					</InputContainerWithCaretStyles>
+				</FormSection>
+				<FormSection>
+					<ReplacementVariableEditor
+						withCaret={ true }
+						type="description"
+						placeholder={ descriptionEditorFieldPlaceholder }
+						label={ __( "Meta description", "yoast-components" ) }
+						onFocus={ () => onFocus( "description" ) }
+						onBlur={ () => onBlur() }
+						isActive={ activeField === "description" }
+						isHovered={ hoveredField === "description" }
+						editorRef={ ref => this.setRef( "description", ref ) }
+						replacementVariables={ replacementVariables }
+						content={ description }
+						onChange={ content => onChange( "description", content ) }
+						styleForMobile={ isSmallerThanMobileWidth }
+					/>
+					<ProgressBar
+						max={ descriptionLengthProgress.max }
+						value={ descriptionLengthProgress.actual }
+						progressColor={ this.getProgressColor( descriptionLengthProgress.score ) }
+					/>
+				</FormSection>
+			</StyledEditor>
 		);
 	}
 
