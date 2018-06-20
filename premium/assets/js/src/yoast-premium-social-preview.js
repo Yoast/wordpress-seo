@@ -329,7 +329,7 @@ var socialPreviews = require( "yoast-social-previews" );
 				},
 			},
 			placeholder: {
-				title: "",//titlePlaceholder,
+				title: "",
 			},
 			defaultValue: {
 				title: titlePlaceholder,
@@ -337,7 +337,7 @@ var socialPreviews = require( "yoast-social-previews" );
 		};
 
 		if ( "" !== descriptionPlaceholder ) {
-			args.placeholder.description = ""; //descriptionPlaceholder
+			args.placeholder.description = "";
 			args.defaultValue.description = descriptionPlaceholder;
 		}
 
