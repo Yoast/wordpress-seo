@@ -1,8 +1,9 @@
 /** @module stringProcessing/matchTextWithWord */
 
-var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
-var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyAllSpaces;
-var matchStringWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
+const stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
+const unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyAllSpaces;
+const matchStringWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
+const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 
 /**
  * Returns the number of matches in a given string
@@ -16,6 +17,8 @@ var matchStringWithTransliteration = require( "../stringProcessing/matchTextWith
 module.exports = function( text, wordToMatch, locale, extraBoundary ) {
 	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
-	var matches = matchStringWithTransliteration( text, wordToMatch, locale, extraBoundary );
+	text = normalizeQuotes( text );
+	wordToMatch = normalizeQuotes( wordToMatch );
+	const matches = matchStringWithTransliteration( text, wordToMatch, locale, extraBoundary );
 	return matches.length;
 };
