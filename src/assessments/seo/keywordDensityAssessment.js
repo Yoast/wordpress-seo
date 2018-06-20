@@ -99,6 +99,7 @@ module.exports = {
 	identifier: "keywordDensity",
 	getResult: keywordDensityAssessment,
 	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100; // todo: as soon as Synonym interface is ready add !paper.hasSynonyms().
+		// todo: as soon as Synonym interface is ready add !paper.hasSynonyms().
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
 	},
 };

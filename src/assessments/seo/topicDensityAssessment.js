@@ -1,137 +1,187 @@
+const Assessment = require( "../../assessment.js" );
 const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const topicCount = require( "../../researches/topicCount.js" );
 const countWords = require( "../../stringProcessing/countWords.js" );
+const topicCount = require( "../../researches/topicCount.js" );
 const formatNumber = require( "../../helpers/formatNumber.js" );
 const inRange = require( "../../helpers/inRange.js" );
 const Mark = require( "../../values/Mark.js" );
 const marker = require( "../../markers/addMark.js" );
 
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
-const inRangeStartInclusive = inRange.inRangeStartInclusive;
 const inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
 const map = require( "lodash/map" );
+const merge = require( "lodash/merge" );
 
-/**
- * Returns the scores and result text for topic density
- *
- * @param {number} topicDensity The topic density
- * @param {object} i18n The i18n object used for translations
- * @param {number} topicCount The number of times the keyword has been found in the text.
- * @returns {{score: number, text: string}} The assessment result
- */
-const calculateTopicDensityResult = function( topicDensity, i18n, topicCount ) {
-	let score, text, max;
-	const roundedTopicDensity = formatNumber( topicDensity );
-	const topicDensityPercentage = roundedTopicDensity + "%";
+class TopicDensityAssessment extends Assessment {
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {Object} config The configuration to use.
+	 * @returns {void}
+	 */
+	constructor( config ) {
+		super();
 
-	console.log("topicDensity=", topicDensity, "roundedTopicDensity = ", roundedTopicDensity, "topicDensityPercentage = ", topicDensityPercentage);
+		this.identifier = "topicDensity";
 
-
-	if ( roundedTopicDensity > 4 ) {
-		score = -50;
-
-		/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count,
-		%3$s expands to the maximum topic density percentage. */
-		text = i18n.dgettext( "js-text-analysis", "The topic density is %1$s," +
-			" which is way over the advised %3$s maximum;" +
-			" the focus keyword and its synonyms were found %2$d times." );
-
-		max = "3%";
-
-		text = i18n.sprintf( text, topicDensityPercentage, topicCount, max );
+		let defaultConfig = {
+			parameters: {
+				maxText: "3%",
+				recommendedMinimum: 0.5,
+				recommendedMaximum: 3,
+				slightlyOverMaximum: 4,
+			},
+			scores: {
+				tooLittle: 4,
+				good: 9,
+				tooMuch: -10,
+				wayTooMuch: -50,
+			},
+		};
+		this._config = merge( defaultConfig, config );
 	}
 
-	if ( inRangeEndInclusive( roundedTopicDensity, 3, 4 ) ) {
-		score = -10;
 
-		/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count,
-		%3$s expands to the maximum topic density percentage. */
-		text = i18n.dgettext( "js-text-analysis", "The topic density is %1$s," +
-			" which is over the advised %3$s maximum;" +
-			" the focus keyword and its synonyms were found %2$d times." );
+	/**
+	 * The assessment runs the getTopicCount and Density module, based on this returns an assessment result with score.
+	 *
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
+	 * @param {Object} i18n The object used for translations
+	 * @returns {AssessmentResult} the AssessmentResult
+	 */
+	getResult( paper, researcher, i18n ) {
+		this._topicDensity = formatNumber( researcher.getResearch( "getTopicDensity" ) );
+		this._topicCount = researcher.getResearch( "topicCount" );
 
-		max = "3%";
+		const topicDensityResult = this.calculateTopicDensityResult( i18n );
+		const assessmentResult = new AssessmentResult();
 
-		text = i18n.sprintf( text, topicDensityPercentage, topicCount, max );
+		assessmentResult.setScore( topicDensityResult.score );
+		assessmentResult.setText( topicDensityResult.resultText );
+		assessmentResult.setHasMarks( this._topicDensity > 0 );
+
+		return assessmentResult;
 	}
 
-	if ( inRangeStartEndInclusive( roundedTopicDensity, 0.5, 3 ) ) {
-		score = 9;
 
-		/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count. */
-		text = i18n.dgettext( "js-text-analysis", "The topic density is %1$s, which is great;" +
-			" the focus keyword and its synonyms were found %2$d times." );
+	/**
+	 * Returns the scores and result text for topic density
+	 *
+	 * @param {object} i18n The i18n object used for translations
+	 *
+	 * @returns {{score: number, text: string}} The assessment result
+	 */
+	calculateTopicDensityResult( i18n ) {
+		const topicDensityPercentage = this._topicDensity + "%";
 
-		text = i18n.sprintf( text, topicDensityPercentage, topicCount );
+		if ( this._topicDensity > this._config.parameters.slightlyOverMaximum ) {
+			return {
+				score: this._config.scores.wayTooMuch,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count,
+					 *%3$s expands to the maximum topic density percentage.
+					 */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The topic density is %1$s, which is way over the advised %3$s maximum;" +
+						" the focus keyword and its synonyms were found %2$d times."
+					),
+					topicDensityPercentage,
+					this._topicCount.count,
+					this._config.parameters.maxText
+				),
+			};
+		}
+
+		if (
+			inRangeEndInclusive(
+				this._topicDensity,
+				this._config.parameters.recommendedMaximum,
+				this._config.parameters.slightlyOverMaximum
+			)
+		) {
+			return {
+				score: this._config.scores.tooMuch,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count,
+					 *%3$s expands to the maximum topic density percentage.
+					 */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The topic density is %1$s, which is over the advised %3$s maximum;" +
+						" the focus keyword and its synonyms were found %2$d times."
+					),
+					topicDensityPercentage,
+					this._topicCount.count,
+					this._config.parameters.maxText
+				),
+			};
+		}
+
+		if (
+			inRangeStartEndInclusive(
+				this._topicDensity,
+				this._config.parameters.recommendedMinimum,
+				this._config.parameters.recommendedMaximum
+			)
+		) {
+			return {
+				score: this._config.scores.good,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count. */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The topic density is %1$s, which is great; the focus keyword and its synonyms were found %2$d times."
+					),
+					topicDensityPercentage,
+					this._topicCount.count
+				),
+			};
+		}
+
+		return {
+			score: this._config.scores.tooLittle,
+			resultText: i18n.sprintf(
+				/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count. */
+				i18n.dgettext(
+					"js-text-analysis",
+					"The topic density is %1$s, which is too low; the focus keyword and its synonyms were found %2$d times."
+				),
+				topicDensityPercentage,
+				this._topicCount.count
+			),
+		};
 	}
 
-	if ( inRangeStartInclusive( roundedTopicDensity, 0, 0.5 ) ) {
-		score = 4;
-
-		/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count. */
-		text = i18n.dgettext( "js-text-analysis", "The topic density is %1$s, which is too low;" +
-			" the focus keyword and its synonyms were found %2$d times." );
-
-		text = i18n.sprintf( text, topicDensityPercentage, topicCount );
-	}
-
-	return {
-		score: score,
-		text: text,
-		hasMarks: roundedTopicDensity > 0,
-	};
-};
-
-/**
- * Runs the getTopicCountDensity module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the AssessmentResult
- */
-const topicDensityAssessment = function( paper, researcher, i18n ) {
-	const topicDensity = researcher.getResearch( "getTopicDensity" );
-	const topicCount = researcher.getResearch( "topicCount" ).count;
-
-	console.log("topicDensity = ", topicDensity);
-	console.log("topicCount = ", topicCount);
-
-	const topicDensityResult = calculateTopicDensityResult( topicDensity, i18n, topicCount );
-	const assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( topicDensityResult.score );
-	assessmentResult.setText( topicDensityResult.text );
-	assessmentResult.setHasMarks( topicDensityResult.hasMarks );
-
-	return assessmentResult;
-};
-
-/**
- * Marks keywords and synonyms in the text for the topic density assessment.
- *
- * @param {Object} paper The paper to use for the assessment.
- *
- * @returns {Array<Mark>} A list of marks that should be applied.
- */
-const getMarks = function( paper ) {
-	const topicWords = topicCount( paper ).matches;
-
-	console.log("topicWords = ", topicWords);
-
-	return map( topicWords, function( topicWord ) {
-		return new Mark( {
-			original: topicWord,
-			marked: marker( topicWord ),
+	/**
+	 * Marks keywords and synonyms in the text for the topic density assessment.
+	 *
+	 * @param {Object} paper The paper to use for the assessment.
+	 *
+	 * @returns {Array<Mark>} A list of marks that should be applied.
+	 */
+	getMarks( paper ) {
+		const topicMatches = topicCount( paper ).matches;
+		return map( topicMatches, function( topicWord ) {
+			return new Mark( {
+				original: topicWord,
+				marked: marker( topicWord ),
+			} );
 		} );
-	} );
-};
+	}
 
-module.exports = {
-	identifier: "topicDensity",
-	getResult: topicDensityAssessment,
-	isApplicable: function( paper ) {
+	/**
+	 * Checks if topicDensity analysis is applicable to the paper: The paper should have a text, a keyword, synonyms, and
+	 * a minimal keyword count above 100 words.
+	 *
+	 * @param {Object} paper The paper to have the Flesch score to be calculated for.
+	 * @returns {boolean} Returns true if the assessment is applicable.
+	 */
+	isApplicable( paper ) {
 		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100 && paper.getKeyword().indexOf( "," ) > 0;
-	},
-	getMarks: getMarks,
-};
+	}
+}
+
+module.exports = TopicDensityAssessment;
+
