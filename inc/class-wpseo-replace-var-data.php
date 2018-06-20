@@ -19,11 +19,6 @@ class WPSEO_Replace_Var_Data {
 	protected $label;
 
 	/**
-	 * @var string  The variable to use.
-	 */
-	protected $variable;
-
-	/**
 	 * @var string  The description of the replacement variable.
 	 */
 	protected $description;
@@ -32,14 +27,12 @@ class WPSEO_Replace_Var_Data {
 	 * WPSEO_Replace_Var_Data constructor.
 	 *
 	 * @param string $label         The label, or niceName, of the replacement variable.
-	 * @param string $variable      The variable to use.
 	 * @param string $description   The description of the replacement variable.
 	 *
 	 * @return \WPSEO_Replace_Var_Data
 	 */
-	public function __construct( $label, $variable, $description ) {
+	public function __construct( $label, $description ) {
 		$this->label = $label;
-		$this->variable = $variable;
 		$this->description = $description;
 	}
 
@@ -50,15 +43,6 @@ class WPSEO_Replace_Var_Data {
 	 */
 	public function get_label() {
 		return $this->label;
-	}
-
-	/**
-	 * Returns the variable the users should use.
-	 *
-	 * @return string
-	 */
-	public function get_variable() {
-		return $this->variable;
 	}
 
 	/**

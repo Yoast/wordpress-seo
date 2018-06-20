@@ -1241,21 +1241,21 @@ class WPSEO_Replace_Vars {
 	 */
 	private static function set_advanced_help_texts() {
 		self::$help_texts['advanced'] = array(
-			new WPSEO_Replace_Var_Data('pt_single', 'pt_single', __( 'Replaced with the content type single label', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('pt_plural', 'pt_plural', __( 'Replaced with the content type plural label', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('modified', 'modified', __( 'Replaced with the post/page modified time', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('id', 'id', __( 'Replaced with the post/page ID', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('name', 'name', __( 'Replaced with the post/page author\'s \'nicename\'', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('user_description', 'user_description', __( 'Replaced with the post/page author\'s \'Biographical Info\'', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('page', 'page', __( 'Replaced with the current page number with context (i.e. page 2 of 4)', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('pagetotal', 'pagetotal', __( 'Replaced with the current page total', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('pagenumber', 'pagenumber', __( 'Replaced with the current page number', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('caption', 'caption', __( 'Attachment caption', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('focuskw', 'focuskw', __( 'Replaced with the posts focus keyword', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('term404', 'term404', __( 'Replaced with the slug which caused the 404', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('cf_<custom-field-name>', 'cf_<custom-field-name>', __( 'Replaced with a posts custom field value', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('ct_<custom-tax-name>', 'ct_<custom-tax-name>', __( 'Replaced with a posts custom taxonomies, comma separated.', 'wordpress-seo' ) ),
-			new WPSEO_Replace_Var_Data('ct_desc_<custom-tax-name>', 'ct_desc_<custom-tax-name>', __( 'Replaced with a custom taxonomies description', 'wordpress-seo' ) )
+			'pt_single' =>  new WPSEO_Replace_Var_Data('pt_single', __( 'Replaced with the content type single label', 'wordpress-seo' ) ),
+			'pt_plural' =>  new WPSEO_Replace_Var_Data('pt_plural', __( 'Replaced with the content type plural label', 'wordpress-seo' ) ),
+			'modified'  =>  new WPSEO_Replace_Var_Data('modified', __( 'Replaced with the post/page modified time', 'wordpress-seo' ) ),
+			'id'        =>  new WPSEO_Replace_Var_Data('id', __( 'Replaced with the post/page ID', 'wordpress-seo' ) ),
+			'name'      =>  new WPSEO_Replace_Var_Data('name', __( 'Replaced with the post/page author\'s \'nicename\'', 'wordpress-seo' ) ),
+			'user_description' =>   new WPSEO_Replace_Var_Data('user_description', __( 'Replaced with the post/page author\'s \'Biographical Info\'', 'wordpress-seo' ) ),
+			'page'  =>          new WPSEO_Replace_Var_Data('page', __( 'Replaced with the current page number with context (i.e. page 2 of 4)', 'wordpress-seo' ) ),
+			'pagetotal' =>      new WPSEO_Replace_Var_Data('pagetotal', __( 'Replaced with the current page total', 'wordpress-seo' ) ),
+			'pagenumber' => new WPSEO_Replace_Var_Data('pagenumber', __( 'Replaced with the current page number', 'wordpress-seo' ) ),
+			'caption' => new WPSEO_Replace_Var_Data( 'caption', __( 'Attachment caption', 'wordpress-seo' ) ),
+			'focuskw' => new WPSEO_Replace_Var_Data('focuskw', __( 'Replaced with the posts focus keyword', 'wordpress-seo' ) ),
+			'term404' => new WPSEO_Replace_Var_Data('term404', __( 'Replaced with the slug which caused the 404', 'wordpress-seo' ) ),
+			'cf_<custom-field-name>' => new WPSEO_Replace_Var_Data('cf_<custom-field-name>', __( 'Replaced with a posts custom field value', 'wordpress-seo' ) ),
+			'ct_<custom-tax-name>' => new WPSEO_Replace_Var_Data('ct_<custom-tax-name>', __( 'Replaced with a posts custom taxonomies, comma separated.', 'wordpress-seo' ) ),
+			'ct_desc_<custom-tax-name>' => new WPSEO_Replace_Var_Data('ct_desc_<custom-tax-name>', __( 'Replaced with a custom taxonomies description', 'wordpress-seo' ) )
 		);
 	}
 
