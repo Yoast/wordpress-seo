@@ -88,9 +88,9 @@ function expectToMatch( args ) {
 	const editorState = unserializeEditor( text, [ { name: "entity", value: "EntityValue" } ] );
 	const key = editorState.getCurrentContent().getFirstBlock().getKey();
 
-	const before = convertToState( beforeText, key, editorState );
-	const after = convertToState( afterText, key, editorState );
-	const expected = convertToState( expectedText, key, editorState );
+	const before = convertToState( beforeText, key, editorState, backwards );
+	const after = convertToState( afterText, key, editorState, backwards );
+	const expected = convertToState( expectedText, key, editorState, backwards );
 
 	const actual = selectReplacementVariables( after, before );
 	const actualText = convertFromState( "Text entity entity Text", actual.getSelection() );
@@ -191,5 +191,20 @@ describe( "selection behavior", () => {
 			after: "Text entity entity[ Te]xt",
 			expected: "Text entity entity[ Te]xt",
 		} );
+	} );
+
+	it( "doesn't alter the selection if it wasn't changed in the first place", () => {
+		const text = "Text %%entity%% %%entity%% Text";
+		const beforeText = "[Text entity entity Text]";
+		const editorState = unserializeEditor( text, [ { name: "entity", value: "EntityValue" } ] );
+		const key = editorState.getCurrentContent().getFirstBlock().getKey();
+
+		const before = convertToState( beforeText, key, editorState );
+		const after = before;
+		const expected = before;
+
+		const actual = selectReplacementVariables( after, before );
+
+		expect( actual ).toBe( expected );
 	} );
 } );
