@@ -40,12 +40,12 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 
 		echo '<div class="paper tab-block" id="' . esc_attr( $post_type->name . '-titles-metas' ) . '">';
 
-		$toggle_icon = "dashicons-arrow-up-alt2";
-		$class 		 = "toggleable-container";
+		$toggle_icon = 'dashicons-arrow-up-alt2';
+		$class 		 = 'toggleable-container';
 
 		if ( $id !== 'post' ) {
-			$toggle_icon = "dashicons-arrow-down-alt2";
-			$class .= " toggleable-container-hidden";
+			$toggle_icon = 'dashicons-arrow-down-alt2';
+			$class .= ' toggleable-container-hidden';
 		}
 
 		printf(
