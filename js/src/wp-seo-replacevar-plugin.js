@@ -3,7 +3,6 @@ import forEach from "lodash/forEach";
 import filter from "lodash/filter";
 import trim from "lodash/trim";
 import isUndefined from "lodash/isUndefined";
-import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
 import ReplaceVar from "./values/replaceVar";
 import {
 	removeReplacementVariable,
@@ -404,9 +403,10 @@ import {
 			var customFieldName = jQuery( "#" + customField.id + "-key" ).val();
 			var customValue = jQuery( "#" + customField.id + "-value" ).val();
 			const sanitizedFieldName = "cf_" + this.sanitizeCustomFieldNames( customFieldName );
+			const label = customFieldName + " (custom field)";
 
 			// Register these as new replacevars. The replacement text will be a literal string.
-			this._store.dispatch( updateReplacementVariable( sanitizedFieldName, customValue ) );
+			this._store.dispatch( updateReplacementVariable( sanitizedFieldName, customValue, label ) );
 			this.addReplacement( new ReplaceVar( `%%${ sanitizedFieldName }%%`,
 				customValue,
 				{ source: "direct" }
@@ -437,9 +437,6 @@ import {
 	 * @returns {string} The sanitized field name.
 	 */
 	YoastReplaceVarPlugin.prototype.sanitizeCustomFieldNames = function( customFieldName ) {
-		// First, strip spaces from the end and beginning, and replace multiple spaces with one.
-		customFieldName = stripSpaces( customFieldName );
-
 		return customFieldName.replace( /\s/g, "_" );
 	};
 

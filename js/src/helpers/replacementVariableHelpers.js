@@ -5,7 +5,6 @@ import omit from "lodash/omit";
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import decodeHTML from "yoast-components/composites/OnboardingWizard/helpers/htmlDecoder";
-import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
 
 
 export const nonReplaceVars = [ "slug", "content" ];
@@ -36,13 +35,16 @@ export function fillReplacementVariables( data, store ) {
  * @returns {string} The handled name, stripped from prefixes.
  */
 export function handlePrefixes( name ) {
-	let prefix = "";
+	const prefixes = [ "ct_", "cf_", "pt_" ];
 
-	// Strip "ct_", "cf_", or "pt_", and append it at the back in "readable" form.
-	if ( [ "ct_", "cf_", "pt_" ].includes( name.substr( 0, 3 ) ) ) {
-		prefix = name.slice( 0, 3 );
-		name = name.slice( 3 );
+	// If there are no prefixes, replace underscores by spaces and return.
+	if ( ! prefixes.includes( name.substr( 0, 3 ) ) ) {
+		return name.replace( /_/g, " " );
 	}
+
+	// Strip "ct_", "cf_", or "pt_", and save it for the switch statement.
+	let prefix = name.slice( 0, 3 );
+	name = name.slice( 3 );
 
 	// Remove "desc_" and append " description".
 	if ( name.indexOf( "desc_" ) !== -1 ) {
@@ -68,22 +70,6 @@ export function handlePrefixes( name ) {
 }
 
 /**
- * Strips underscores from the beginning and end of a string, and replaces remaining underscores with a replacement.
- *
- * @param {string} string      The string in which underscores need to be stripped and replaced.
- * @param {string} replacement The replacement.
- *
- * @returns {string} The string with the underscores stripped and replaced.
- */
-export function replaceUnderscores( string, replacement = " " ) {
-	// Strip underscores from the beginning and end.
-	string = string.replace( /^_+|_+$/g, "" );
-
-	// Replace all '_' with spaces
-	return string.replace( /_+/g, replacement );
-}
-
-/**
  * Creates a "nicename" label from a replacementVariable name.
  *
  * @param {string} name The name from which a label should be created
@@ -92,9 +78,6 @@ export function replaceUnderscores( string, replacement = " " ) {
  */
 export function createLabelFromName( name ) {
 	name = handlePrefixes( name );
-
-	// Strip and replace underscores.
-	name = replaceUnderscores( name );
 
 	// Capitalize first letter
 	return name[ 0 ].toUpperCase() + name.slice( 1 );
@@ -124,10 +107,7 @@ export function decodeSeparatorVariable( replacementVariables ) {
  * @returns {string} The string without spaces.
  */
 function replaceSpaces( string, replacement = "_" ) {
-	// First, strip whitespace from the beginning and end of the string, and reduce multiple whitespaces to just one.
-	string = stripSpaces( string );
-
-	// Then, replace the remaining spaces with the replacement.
+	// Replace whitespaces with the replacement.
 	return string.replace( /\s/g, replacement );
 }
 
