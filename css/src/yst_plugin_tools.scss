@@ -26,17 +26,18 @@ tr.yst_row {
 	padding: 5px 0 0 0;
 }
 
+#sidebar-container {
+	/* For historical reasons banner images have a 261px width. */
+	width: 261px;
+	padding: 0 0 0 19px;
+}
+
 /* @todo: check this. */
 tr.yst_row.even {
 	background-color: #f6f6f6;
 }
 
 .wpseo_content_wrapper {
-	#sidebar-container {
-		/* For historical reasons banner images have a 261px width. */
-		width: 261px;
-		padding: 0 0 0 19px;
-	}
 
 	/* Forms. */
 	label.textinput,
