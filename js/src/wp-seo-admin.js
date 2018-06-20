@@ -285,7 +285,7 @@ import a11ySpeak from "a11y-speak";
 			let target = jQuery( event.target );
 
 			target.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
-			target.parent().siblings( ".toggleable-container" ).toggleClass( "toggleable-container-hidden" )
+			target.parent().siblings( ".toggleable-container" ).toggleClass( "toggleable-container-hidden" );
 		} );
 
 		wpseoCopyHomeMeta();
