@@ -464,6 +464,7 @@ var socialPreviews = require( "yoast-social-previews" );
 	function twitterTitleFallback( twitterPreview ) {
 		var $twitterTitle = $( "#twitter-editor-title" );
 		var twitterTitle = $twitterTitle.val();
+
 		if( twitterTitle !== "" ) {
 			return;
 		}
@@ -471,9 +472,17 @@ var socialPreviews = require( "yoast-social-previews" );
 		var facebookTitle = $( "#facebook-editor-title" ).val();
 		if ( ! isUndefined( facebookTitle ) && facebookTitle !== "" ) {
 			twitterPreview.setTitle( facebookTitle );
-		} else {
-			twitterPreview.setTitle( $twitterTitle.attr( "placeholder" ) );
+
+			return;
 		}
+
+		twitterTitle = getSocialTitlePlaceholder();
+		if( twitterTitle !== "" ) {
+			twitterPreview.setTitle( twitterTitle );
+			return;
+		}
+
+		twitterPreview.setTitle( "" );
 	}
 
 	/**
