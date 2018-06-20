@@ -159,13 +159,11 @@ class SnippetEditor extends React.Component {
 			prev.data.slug !== next.data.slug ||
 			prev.data.title !== next.data.title
 		) {
-			console.log( "data", prev.data, next.data );
 			isDirty = true;
 		}
 
 		// If any of the replacement variables have changed, the preview progress needs to be reanalysed.
 		if ( prev.replacementVariables !== next.replacementVariables ) {
-			console.log( "repvars", prev.replacementVariables, next.replacementVariables );
 			isDirty = true;
 		}
 
