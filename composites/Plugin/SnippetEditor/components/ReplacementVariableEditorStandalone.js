@@ -1,10 +1,8 @@
 // External dependencies.
 import React from "react";
-import { convertToRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import createMentionPlugin from "draft-js-mention-plugin";
 import createSingleLinePlugin from "draft-js-single-line-plugin";
-import flow from "lodash/flow";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
@@ -19,6 +17,7 @@ import {
 	serializeEditor,
 	unserializeEditor,
 	replaceReplacementVariables,
+	serializeSelection,
 } from "../serialization";
 import {
 	hasWhitespaceAt,
@@ -30,17 +29,6 @@ import {
 } from "../replaceText";
 
 /**
- * Serializes the Draft.js editor state into a string.
- *
- * @param {EditorState} The current editor state.
- *
- * @returns {string} The serialized editor state.
- */
-const serializeEditorState = flow( [
-	convertToRaw,
-	serializeEditor,
-] );
-
 /**
  * Needed to avoid styling issues on the settings pages with the
  * suggestions dropdown, because the button labels have a z-index of 3.
@@ -128,6 +116,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
 		this.setMentionSuggestionsRef = this.setMentionSuggestionsRef.bind( this );
+		this.handleCopyCutEvent = this.handleCopyCutEvent.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
 		this.debouncedUpdateMentionSuggestions = debounce( this.updateMentionSuggestions.bind( this ), 100 );
 
@@ -156,7 +145,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	serializeContent( editorState ) {
-		const serializedContent = serializeEditorState( editorState.getCurrentContent() );
+		const serializedContent = serializeEditor( editorState.getCurrentContent() );
 
 		if ( this._serializedContent !== serializedContent ) {
 			this._serializedContent = serializedContent;
@@ -354,12 +343,52 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	}
 
 	/**
-	 * Update the mention suggestions to trigger the repositioning of the popover.
+	 * Handles browser copy and cut events.
+	 *
+	 * This method makes sure that the clipboard has the correct content if a user
+	 * copies from this DraftJS editor.
+	 *
+	 * @param {ClipboardEvent} event The triggered clipboard event.
+	 * @returns {void}
+	 */
+	handleCopyCutEvent( event ) {
+		const { editorState } = this.state;
+		const selection = editorState.getSelection();
+
+		// If this editor is not focused we don't do anything.
+		if ( ! selection.getHasFocus() ) {
+			return;
+		}
+
+		// Use a try-catch to make this fail gracefully on older browsers.
+		try {
+			const clipboardData = event.clipboardData;
+			const contentState = editorState.getCurrentContent();
+
+			const text = serializeSelection( contentState, selection );
+
+			clipboardData.setData( "text/plain", text );
+
+			/*
+			 * This is at the end because we only want to prevent the default if we
+			 * succeeded in altering the clipboard contents.
+			 */
+			event.preventDefault();
+		} catch ( error ) {
+			console.error( "Couldn't copy content of editor to clipboard, defaulting to browser copy behavior." );
+			console.error( "Original error: ", error );
+		}
+	}
+
+	/**
+	 * Sets up event listeners this component needs.
 	 *
 	 * @returns {void}
 	 */
 	componentDidMount() {
 		window.addEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
+		document.addEventListener( "copy", this.handleCopyCutEvent );
+		document.addEventListener( "cut", this.handleCopyCutEvent );
 	}
 
 	/**
@@ -370,6 +399,8 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	componentWillUnmount() {
 		this.debouncedA11ySpeak.cancel();
 		window.removeEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
+		document.removeEventListener( "copy", this.handleCopyCutEvent );
+		document.removeEventListener( "cut", this.handleCopyCutEvent );
 	}
 
 	/**
