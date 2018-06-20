@@ -24,7 +24,10 @@ const calculateTopicDensityResult = function( topicDensity, i18n, topicCount ) {
 	const roundedTopicDensity = formatNumber( topicDensity );
 	const topicDensityPercentage = roundedTopicDensity + "%";
 
-	if ( roundedTopicDensity > 3.5 ) {
+	console.log("topicDensity=", topicDensity, "roundedTopicDensity = ", roundedTopicDensity, "topicDensityPercentage = ", topicDensityPercentage);
+
+
+	if ( roundedTopicDensity > 4 ) {
 		score = -50;
 
 		/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count,
@@ -33,12 +36,12 @@ const calculateTopicDensityResult = function( topicDensity, i18n, topicCount ) {
 			" which is way over the advised %3$s maximum;" +
 			" the focus keyword and its synonyms were found %2$d times." );
 
-		max = "2.5%";
+		max = "3%";
 
 		text = i18n.sprintf( text, topicDensityPercentage, topicCount, max );
 	}
 
-	if ( inRangeEndInclusive( roundedTopicDensity, 2.5, 3.5 ) ) {
+	if ( inRangeEndInclusive( roundedTopicDensity, 3, 4 ) ) {
 		score = -10;
 
 		/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count,
@@ -47,12 +50,12 @@ const calculateTopicDensityResult = function( topicDensity, i18n, topicCount ) {
 			" which is over the advised %3$s maximum;" +
 			" the focus keyword and its synonyms were found %2$d times." );
 
-		max = "2.5%";
+		max = "3%";
 
 		text = i18n.sprintf( text, topicDensityPercentage, topicCount, max );
 	}
 
-	if ( inRangeStartEndInclusive( roundedTopicDensity, 0.5, 2.5 ) ) {
+	if ( inRangeStartEndInclusive( roundedTopicDensity, 0.5, 3 ) ) {
 		score = 9;
 
 		/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count. */
@@ -91,6 +94,9 @@ const topicDensityAssessment = function( paper, researcher, i18n ) {
 	const topicDensity = researcher.getResearch( "getTopicDensity" );
 	const topicCount = researcher.getResearch( "topicCount" ).count;
 
+	console.log("topicDensity = ", topicDensity);
+	console.log("topicCount = ", topicCount);
+
 	const topicDensityResult = calculateTopicDensityResult( topicDensity, i18n, topicCount );
 	const assessmentResult = new AssessmentResult();
 
@@ -110,6 +116,8 @@ const topicDensityAssessment = function( paper, researcher, i18n ) {
  */
 const getMarks = function( paper ) {
 	const topicWords = topicCount( paper ).matches;
+
+	console.log("topicWords = ", topicWords);
 
 	return map( topicWords, function( topicWord ) {
 		return new Mark( {

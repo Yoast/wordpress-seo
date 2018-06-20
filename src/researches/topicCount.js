@@ -12,15 +12,17 @@ const unique = require( "lodash/uniq" );
  */
 module.exports = function( paper ) {
 	const getSynonymsResult = getSynonyms( paper );
-	const keyword = getSynonymsResult.keyword;
-	const synonyms = getSynonymsResult.synonyms;
-	const topicWords = keyword.concat( synonyms );
+	const topicWords = [].concat( getSynonymsResult.keyword, getSynonymsResult.synonyms );
 	const text = normalizeQuotes( paper.getText() );
+
 	const topicFound = matchTextWithArray( text, topicWords );
 
 	return {
 		count: topicFound.length,
-		matches: unique( topicFound ),
+		matches: unique( topicFound ).sort(
+			function( a, b ) {
+				return b.length - a.length;
+			} ),
 	};
 };
 
