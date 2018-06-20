@@ -87,11 +87,6 @@ const defaultReplaceVariables = [
 		label: __( "Term description", "wordpress-seo" ),
 		value: "",
 	},
-	{
-		name: "userid",
-		label: __( "User ID", "wordpress-seo" ),
-		value: "",
-	},
 ];
 
 export default defaultReplaceVariables;
