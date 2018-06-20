@@ -13,12 +13,12 @@ export const StyledHeading = styled( Heading )``;
 export const StyledIcon = styled( SvgIcon )``;
 
 export const StyledSectionBase = styled( Section )`
-	box-shadow: 0 1px 2px ${ rgba( colors.$color_black, 0.2 ) };
-	background-color: ${ colors.$color_white };
-	padding-right: 20px
-	padding-left: 20px
-	padding-bottom: ${ props => props.headingText ? "0" : "10px" } 
-	padding-top: ${ props => props.headingText ? "0" : "10px" } 
+	box-shadow: ${ props => props.hasPaperStyle ? `0 1px 2px rgba( ${ colors.$color_black }, 0.2 )` : "none" };
+	background-color: ${ props => props.hasPaperStyle ? colors.$color_white : "transparent" };
+	padding-right: 20px;
+	padding-left: 20px;
+	padding-bottom: ${ props => props.headingText ? "0" : "10px" };
+	padding-top: ${ props => props.headingText ? "0" : "10px" };
 
 	*, & {
 		box-sizing: border-box;
@@ -49,7 +49,18 @@ export const StyledSectionBase = styled( Section )`
 /**
  * Creates a styled section within the page.
  *
- * @param {Object} props The props to use.
+ * @param {Object}   props                  The props to use.
+ * @param {string}   props.className        The name of the section class.
+ * @param {number}   props.headingLevel     The level of the heading element. Defaults to 2, which creates a h2 element.
+ * @param {string}   props.headingClassName The name of the heading class.
+ * @param {string}   props.headingColor     The color of the heading text.
+ * @param {string}   props.headingIcon      The icon name for in the heading.
+ * @param {string}   props.headingIconColor The color of the heading icon.
+ * @param {string}   props.headingIconSize  The size of the heading icon.
+ * @param {string}   props.headingText      The heading text.
+ * @param {bool}     props.hasPaperStyle    Whether the section should have a paper style.
+ * @param {children} props.children         The react children.
+ *
  * @returns {ReactElement} The rendered component.
  */
 const StyledSection = ( props ) => {
@@ -57,6 +68,7 @@ const StyledSection = ( props ) => {
 		<StyledSectionBase
 			className={ props.className }
 			headingColor={ props.headingColor }
+			hasPaperStyle={ props.hasPaperStyle }
 		>
 			{ props.headingText &&
 				<StyledHeading
@@ -87,12 +99,14 @@ StyledSection.propTypes = {
 	headingIconColor: PropTypes.string,
 	headingIconSize: PropTypes.string,
 	headingText: PropTypes.string,
+	hasPaperStyle: PropTypes.bool,
 	children: PropTypes.any,
 };
 
 StyledSection.defaultProps = {
 	className: "yoast-section",
 	headingLevel: 2,
+	hasPaperStyle: true,
 };
 
 export default StyledSection;
