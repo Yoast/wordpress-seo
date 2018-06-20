@@ -5,16 +5,16 @@ import { EditorState } from "draft-js";
  *
  * @param {ContentState} contentState The current content.
  * @param {string}       blockKey     The block key.
- * @param {number}       entity       The entity key.
+ * @param {number}       entityKey    The entity key.
  * @returns {Object} The start and end of the entity.
  */
-export function getEntityRange( contentState, blockKey, entity ) {
+export function getEntityRange( contentState, blockKey, entityKey ) {
 	const block = contentState.getBlockForKey( blockKey );
 	let entityRange = null;
 
 	block.findEntityRanges(
 		character => {
-			return character.getEntity() === entity;
+			return character.getEntity() === entityKey;
 		},
 		( start, end ) => {
 			entityRange = { start, end };
@@ -35,12 +35,28 @@ export function getEntityRange( contentState, blockKey, entity ) {
 export function getEntityAtPosition( contentState, blockKey, position ) {
 	const block = contentState.getBlockForKey( blockKey );
 
-	// Console.log( blockKey, contentState, block );
 	let entity = block.getEntityAt( position );
+	const entityRange = getEntityRange( contentState, blockKey, entity );
 
-	const { start } = getEntityRange( contentState, blockKey, entity );
+	if ( entityRange === null ) {
+		return;
+	}
 
-	if ( start === position ) {
+	/*
+	 * The cursor is before a character with the same position.
+	 *
+	 * For example when the cursor is before the e here:
+	 *
+	 * ```
+	 * Text
+	 *  ^
+	 * ```
+	 *
+	 * If an entity would start with the `e` then the cursor isn't actually in the
+	 * entity yet. So we check if the position is equal to the start of the entity
+	 * we exclude it.
+	 */
+	if ( entityRange.start === position ) {
 		return null;
 	}
 
@@ -48,7 +64,7 @@ export function getEntityAtPosition( contentState, blockKey, position ) {
 }
 
 /**
- * Determines the correct property based on if a selection is backward.
+ * Determines the correct offset properties based on if a selection is backward.
  *
  * It is important to understand what the difference is between the anchor and
  * the focus in a selection.
@@ -72,7 +88,7 @@ let getOffsetProperties = function( isBackward ) {
 };
 
 /**
- * Returns if the entity is completely enclosed by the selection.
+ * Returns whether the entity is completely enclosed by the selection.
  *
  * @param {SelectionState} selection         The selection to check.
  * @param {Object}         entityRange       The entity positions.
@@ -146,10 +162,10 @@ function alterSelection( selection, previousSelection, contentState ) {
 				[ endOffsetProperty ]: startOfEntity,
 			} );
 
-			/*
-			 * If the previous selection didn't contain the entity this means we are moving
-			 * into it which means we should make sure the whole entity is selected.
-			 */
+		/*
+		 * If the previous selection didn't contain the entity this means we are moving
+		 * into it which means we should make sure the whole entity is selected.
+		 */
 		} else {
 			selection = selection.merge( {
 				[ endOffsetProperty ]: endOfEntity,
@@ -172,14 +188,18 @@ export function selectReplacementVariables( editorState, previousEditorState ) {
 	const previousSelection = previousEditorState.getSelection();
 	const contentState = editorState.getCurrentContent();
 
-	// We are fixing the selection, but if it didn't change there is nothing to fix.
+	/*
+	 * We are moving the selection, but if it didn't change there is nothing to
+	 * move. It would have already been moved the previous time the selection
+	 * changed.
+	 */
 	if ( selection === previousSelection ) {
 		return editorState;
 	}
 
 	const newSelection = alterSelection( selection, previousSelection, contentState );
 
-	// If we always force a new selection we will trigger onChange events indefinitely.
+	// If we always force a new selection, we would trigger onChange events indefinitely.
 	if ( newSelection !== selection ) {
 		editorState = EditorState.forceSelection( editorState, newSelection );
 	}

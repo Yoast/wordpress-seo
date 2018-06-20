@@ -14,13 +14,13 @@ import { selectReplacementVariables } from "../selection";
 /**
  * Converts a visualizable text to a DraftJS SelectionState.
  *
- * @param {string} text The text to convert.
- * @param {string} key The key of the block the selection is on.
+ * @param {string}      text        The text to convert.
+ * @param {string}      blockKey    The key of the block the selection is on.
  * @param {EditorState} editorState The editor state to put the selection on.
- * @param {boolean} backwards Whether the selection is backwards or not.
+ * @param {boolean}     backwards   Whether the selection is backwards or not.
  * @returns {SelectionState} The converted selection state.
  */
-function convertToState( text, key, editorState, backwards = false ) {
+function convertToState( text, blockKey, editorState, backwards = false ) {
 	const start = text.indexOf( "[" );
 	text = text.replace( "[", "" );
 	const end = text.indexOf( "]" );
@@ -34,9 +34,9 @@ function convertToState( text, key, editorState, backwards = false ) {
 	}
 
 	const selection = new SelectionState( {
-		anchorKey: key,
+		anchorKey: blockKey,
 		anchorOffset,
-		focusKey: key,
+		focusKey: blockKey,
 		focusOffset,
 		hasFocus: true,
 		isBackward: backwards,
@@ -120,7 +120,7 @@ describe( "selection behavior", () => {
 		} );
 	} );
 
-	it( "moves over an entity to the right", () => {
+	it( "selects an entity when trying to move into it from the left", () => {
 		expectToMatch( {
 			before: "Text []entity entity Text",
 			after: "Text e[]ntity entity Text",
@@ -128,7 +128,7 @@ describe( "selection behavior", () => {
 		} );
 	} );
 
-	it( "moves over an entity to the left", () => {
+	it( "selects an entity when trying to move into it from the right", () => {
 		expectToMatch( {
 			before: "Text entity[] entity Text",
 			after: "Text entit[]y entity Text",
