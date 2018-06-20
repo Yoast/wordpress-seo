@@ -62,6 +62,7 @@ class Yoast_Notification {
 		'dismissal_key'    => null,
 		'capabilities'     => array(),
 		'capability_check' => self::MATCH_ALL,
+		'yoast-branding'   => false,
 	);
 
 	/**
@@ -282,8 +283,36 @@ class Yoast_Notification {
 		// Combined attribute key and value into a string.
 		array_walk( $attributes, array( $this, 'parse_attributes' ) );
 
+		if ( $this->options['yoast-branding'] ) {
+			$message = $this->wrap_yoast_seo_icon( $this->message );
+		}
+		if ( ! isset( $message ) ) {
+			$message = wpautop( $this->message );
+		}
+
 		// Build the output DIV.
-		return '<div ' . implode( ' ', $attributes ) . '>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
+		return '<div ' . implode( ' ', $attributes ) . '>' . $message . '</div>' . PHP_EOL;
+	}
+
+	/**
+	 * Wraps the message with a Yoast SEO icon.
+	 *
+	 * @param string $message The message to wrap.
+	 *
+	 * @return string
+	 */
+	private function wrap_yoast_seo_icon( $message ) {
+		$out  = sprintf(
+			'<img src="%1$s" height="%2$d" width="%3$d" class="yoast-seo-icon" />',
+			esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/Yoast_SEO_Icon.svg' ),
+			60,
+			60
+		);
+		$out .= '<div class="yoast-seo-icon-wrap">';
+		$out .= $message;
+		$out .= '</div>';
+
+		return $out;
 	}
 
 	/**

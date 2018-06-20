@@ -101,17 +101,25 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_notification( $post_type_label ) {
-		$notification = new Yoast_Notification(
+		$notification_text = sprintf( '<h2>%s</h2>', __( 'Make sure you redirect the old URL', 'wordpress-seo' ) )
+			.
 			sprintf(
+				'<p>'
 				/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
-				__(
-					'You just changed the URL of this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect. %2$sLearn how to create redirects here.%3$s',
-					'wordpress-seo'
-				),
-				$post_type_label,
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">',
-				'</a>'
-			), array( 'type' => 'notice-info' )
+				. __( 'You just changed the URL of this %1$s. To ensure your visitors do not see a 404 on the old URL, you should create a redirect.', 'wordpress-seo' )
+				. '</p><p>'
+				. __( 'With Yoast SEO Premium, this redirect would be made automatically.', 'wordpress-seo' )
+				. ' <a class="button-primary" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1d0' ) . '" target="_blank">'
+				. __( 'Get Yoast SEO Premium', 'wordpress-seo' )
+				. '</a></p>',
+				$post_type_label
+			);
+
+		$notification = new Yoast_Notification(
+			$notification_text, array(
+				'type'           => 'notice-warning is-dismissible',
+				'yoast-branding' => true,
+			)
 		);
 
 		$notification_center = Yoast_Notification_Center::get();
