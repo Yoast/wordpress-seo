@@ -80,7 +80,7 @@ import {
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%term_title%%", "term_title", {
-			scope: [ "post", "term" ],
+			scope: [ "term" ],
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%title%%", "title", {
@@ -168,8 +168,6 @@ import {
 	 */
 	YoastReplaceVarPlugin.prototype.replaceVariables = function( data ) {
 		if ( ! isUndefined( data ) ) {
-			data = this.termtitleReplace( data );
-
 			// This order currently needs to be maintained until we can figure out a nicer way to replace this.
 			data = this.parentReplace( data );
 			data = this.replaceCustomTaxonomy( data );
@@ -499,20 +497,6 @@ import {
 	/*
 	 * SPECIALIZED REPLACES
 	 */
-
-	/**
-	 * Replaces %%term_title%% with the title of the term.
-	 *
-	 * @param {string} data The data that needs its placeholders replaced.
-	 * @returns {string} The data with all its placeholders replaced by actual values.
-	 */
-	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
-		var termTitle = this._app.rawData.name;
-
-		data = data.replace( /%%term_title%%/g, termTitle );
-
-		return data;
-	};
 
 	/**
 	 * Replaces %%parent_title%% with the selected value from selectbox (if available on pages only).

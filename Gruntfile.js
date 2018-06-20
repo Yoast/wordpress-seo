@@ -27,7 +27,7 @@ module.exports = function( grunt ) {
 			js: "js/src/",
 			languages: "languages/",
 			logs: "logs/",
-			svnCheckoutDir: "/.wordpress-svn",
+			svnCheckoutDir: ".wordpress-svn",
 		},
 		files: {
 			sass: [ "<%= paths.sass %>*.scss" ],

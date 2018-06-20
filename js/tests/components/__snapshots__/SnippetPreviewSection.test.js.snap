@@ -8,7 +8,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
     headingLevel={3}
     headingText="Snippet editor">
     <StyledSection
-      className="SnippetPreviewSection__Section-kWfIbs cTPoST"
+      className="SnippetPreviewSection__Section-kWfIbs fyDJCY"
       headingIcon="eye"
       headingIconColor="#555"
       headingLevel={3}
