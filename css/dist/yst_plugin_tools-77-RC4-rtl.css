@@ -23,6 +23,12 @@ tr.yst_row {
 	padding: 5px 0 0 0;
 }
 
+#sidebar-container {
+	/* For historical reasons banner images have a 261px width. */
+	width: 261px;
+	padding: 0 19px 0 0;
+}
+
 /* @todo: check this. */
 tr.yst_row.even {
 	background-color: #f6f6f6;
@@ -44,11 +50,6 @@ tr.yst_row.even {
 	/* Search Appearance: title separator. */
 	/* @todo: check this. */
 	/* @todo: check this. */
-}
-.wpseo_content_wrapper #sidebar-container {
-	/* For historical reasons banner images have a 261px width. */
-	width: 261px;
-	padding: 0 19px 0 0;
 }
 .wpseo_content_wrapper label.textinput,
 .wpseo_content_wrapper label.select {
