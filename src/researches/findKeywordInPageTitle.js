@@ -1,8 +1,9 @@
 /** @module analyses/findKeywordInPageTitle */
 
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+const wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 
-var escapeRegExp = require( "lodash/escapeRegExp" );
+const escapeRegExp = require( "lodash/escapeRegExp" );
 
 /**
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
@@ -13,12 +14,15 @@ var escapeRegExp = require( "lodash/escapeRegExp" );
  */
 
 module.exports = function( paper ) {
-	var title = paper.getTitle();
-	var keyword = escapeRegExp( paper.getKeyword() );
-	var locale = paper.getLocale();
-	var result = { matches: 0, position: -1 };
+	/*
+	 * NormalizeQuotes also is used in wordMatch, but in order to find the index of the keyword, it's
+	 * necessary to repeat it here.
+	 */
+	const title = normalizeQuotes( paper.getTitle() );
+	const keyword = escapeRegExp( normalizeQuotes( paper.getKeyword() ).toLocaleLowerCase() );
+	const locale = paper.getLocale();
+	const result = { matches: 0, position: -1 };
 	result.matches = wordMatch( title, keyword, locale );
 	result.position = title.toLocaleLowerCase().indexOf( keyword );
-
 	return result;
 };
