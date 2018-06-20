@@ -96,6 +96,12 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function detect_post_trash( $post_id ) {
+
+		$post_status = get_post_status( $post_id );
+		if ( ! $this->check_visible_post_status( $post_status ) ) {
+			return;
+		}
+
 		$post_type_label = $this->get_post_type_label( get_post_type( $post_id ) );
 
 		$message = sprintf(
@@ -124,8 +130,15 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		if ( is_nav_menu_item( $post_id ) ) {
 			return;
 		}
+
+		$post_status = get_post_status( $post_id );
+
 		// When the post comes from the trash or if the post is a revision then skip further execution.
-		if ( get_post_status( $post_id ) === 'trash' || wp_is_post_revision( $post_id ) ) {
+		if ( $post_status === 'trash' || wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		if ( ! $this->check_visible_post_status( $post_status ) ) {
 			return;
 		}
 
