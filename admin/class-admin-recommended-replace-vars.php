@@ -31,8 +31,8 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		'term-in-custom-taxomomy' => array( 'sitename', 'term_title', 'sep' ),
 
 		// Settings - archive pages.
-		'author_archive'          => array( 'sitename', 'title', 'sep', 'page' ),
-		'date_archive'            => array( 'sitename', 'sep', 'date', 'page' ),
+		'author_archive'           => array( 'sitename', 'title', 'sep', 'page' ),
+		'date_archive'             => array( 'sitename', 'sep', 'date', 'page' ),
 		'custom-post-type_archive' => array( 'sitename', 'title', 'sep', 'page' ),
 
 		// Settings - special pages.
