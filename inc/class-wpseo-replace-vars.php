@@ -617,7 +617,7 @@ class WPSEO_Replace_Vars {
 		global $wp_query;
 		$pt_single = null;
 		$pt_plural = null;
-		$post_type = null;
+		$post_type = '';
 
 		if ( isset( $wp_query->query_vars['post_type'] ) && ( ( is_string( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== '' ) || ( is_array( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== array() ) ) ) {
 			$post_type = $wp_query->query_vars['post_type'];
