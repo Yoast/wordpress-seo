@@ -86,7 +86,7 @@ export function serializeBlock( block, getEntity, { start = 0, end = block.getTe
 				replacements.push( {
 					start: entityStart - start,
 					end: entityEnd - start,
-					replacementText: serializeVariable( entityData.data.mention.name ),
+					replacementText: serializeVariable( entityData.data.mention.replaceName ),
 				} );
 			}
 		}
@@ -284,7 +284,7 @@ export function moveSelectionAfterReplacement( selection, blockKey, variable ) {
 export function createEntityInContent( contentState, variable ) {
 	const entityData = {
 		mention: {
-			name: variable.name,
+			replaceName: variable.name,
 		},
 	};
 

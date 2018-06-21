@@ -53,12 +53,12 @@ describe( "editor unserialization", () => {
 				0: {
 					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: { name: "title" } },
+					data: { mention: { replaceName: "title" } },
 				},
 				1: {
 					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: { name: "post_type" } },
+					data: { mention: { replaceName: "post_type" } },
 				},
 			},
 		};
@@ -183,7 +183,7 @@ describe( "serializeBlock", () => {
 		const entity = {
 			type: "%mention",
 			mutability: "IMMUTABLE",
-			data: { mention: { name: "long_name" } },
+			data: { mention: { replaceName: "long_name" } },
 		};
 		const entityMap = { 1: entity };
 		const getEntity = ( key ) => entityMap[ key ];
@@ -208,7 +208,7 @@ describe( "serializeBlock", () => {
 		const entity = {
 			type: "%mention",
 			mutability: "IMMUTABLE",
-			data: { mention: { name: "long_name" } },
+			data: { mention: { replaceName: "long_name" } },
 		};
 		const entityMap = { 1: entity };
 		const getEntity = ( key ) => entityMap[ key ];
@@ -237,12 +237,12 @@ describe( "serializeBlock", () => {
 		const entity1 = {
 			type: "%mention",
 			mutability: "IMMUTABLE",
-			data: { mention: { name: "long_name" } },
+			data: { mention: { replaceName: "long_name" } },
 		};
 		const entity2 = {
 			type: "%mention",
 			mutability: "IMMUTABLE",
-			data: { mention: { name: "other_long_name" } },
+			data: { mention: { replaceName: "other_long_name" } },
 		};
 		const entityMap = { 1: entity1, 2: entity2 };
 		const getEntity = ( key ) => entityMap[ key ];
