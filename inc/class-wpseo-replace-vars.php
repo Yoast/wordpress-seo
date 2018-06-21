@@ -1119,7 +1119,8 @@ class WPSEO_Replace_Vars {
 
 		$replacement_variables = array_merge(
 			$this->get_replacement_variables(),
-			$this->get_custom_fields()
+			$this->get_custom_fields(),
+			$this->get_custom_taxonomies()
 		);
 
 		return array_map( array( $this, 'format_replacement_variable' ), $replacement_variables );
@@ -1194,7 +1195,6 @@ class WPSEO_Replace_Vars {
 
 		return array();
 	}
-
 	/**
 	 * Adds the cf_ prefix to a field.
 	 *
@@ -1204,6 +1204,34 @@ class WPSEO_Replace_Vars {
 	 */
 	private function add_custom_field_prefix( $field ) {
 		return 'cf_' . $field;
+	}
+
+	private function get_custom_taxonomies() {
+		$args = array(
+			'public'   => true,
+			'_builtin' => false
+
+		);
+		$output = 'names'; // or objects
+		$operator = 'and'; // 'and' or 'or'
+		$custom_taxonomies = get_taxonomies( $args, $output, $operator );
+
+		if ( is_array( $custom_taxonomies ) ) {
+			return array_map( array( $this, 'add_custom_taxonomy_prefix' ), $custom_taxonomies );
+		}
+
+		return array();
+	}
+
+	/**
+	 * Adds the ct_ prefix to a custom taxonomy.
+	 *
+	 * @param string $field The custom taxonomy to prefix.
+	 *
+	 * @return string The prefixed custom taxonomy.
+	 */
+	private function add_custom_taxonomy_prefix( $custom_taxonomy ) {
+		return 'ct_' . $custom_taxonomy;
 	}
 
 	/**
