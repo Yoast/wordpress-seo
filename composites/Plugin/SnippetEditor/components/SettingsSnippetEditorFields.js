@@ -181,7 +181,6 @@ class SettingsSnippetEditorFields extends React.Component {
 		} = this.props;
 
 		const isSmallerThanMobileWidth = this.state.isSmallerThanMobileWidth;
-		console.log( "containerPadding", containerPadding );
 
 		return (
 			<StyledEditor
