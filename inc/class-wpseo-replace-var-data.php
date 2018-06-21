@@ -14,19 +14,19 @@
 class WPSEO_Replace_Var_Data {
 
 	/**
-	 * @var string  The label, or niceName, of the replacement variable.
+	 * @var string The label of the replacement variable.
 	 */
 	protected $label;
 
 	/**
-	 * @var string  The description of the replacement variable.
+	 * @var string The description of the replacement variable.
 	 */
 	protected $description;
 
 	/**
 	 * WPSEO_Replace_Var_Data constructor.
 	 *
-	 * @param string $label         The label, or niceName, of the replacement variable.
+	 * @param string $label         The label of the replacement variable.
 	 * @param string $description   The description of the replacement variable.
 	 *
 	 * @return \WPSEO_Replace_Var_Data
