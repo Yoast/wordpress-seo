@@ -92,7 +92,7 @@ export const DescriptionInputContainer = InputContainer.extend`
 `;
 
 export const FormSection = styled.div`
-	margin: 24px 0;
+	margin: 24px 0 0 0;
 `;
 
 export const StyledEditor = styled.section`
