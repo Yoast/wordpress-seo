@@ -39,12 +39,15 @@ class SettingsReplacementVariableEditors extends React.Component {
 			const {
 				reactReplacevarTitleFieldId,
 				reactReplacevarMetadescFieldId,
+				reactReplacevarPaperStyle,
 			} = targetElement.dataset;
 			return ReactDOM.createPortal(
 				<SettingsReplacementVariableEditor
 					replacementVariables={ this.props.replacementVariables }
 					titleTarget={ reactReplacevarTitleFieldId }
-					descriptionTarget={ reactReplacevarMetadescFieldId } />,
+					descriptionTarget={ reactReplacevarMetadescFieldId }
+					hasPaperStyle={ reactReplacevarPaperStyle === "1" }
+				/>,
 				targetElement
 			);
 		} );
