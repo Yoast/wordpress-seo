@@ -2,8 +2,9 @@ import {
 	findReplacementVariables,
 	serializeEditor,
 	unserializeEditor,
+	replaceReplacementVariables,
 } from "../serialization";
-import { convertToRaw } from "draft-js";
+import {convertToRaw, ContentState, EditorState, convertFromRaw, SelectionState} from "draft-js";
 
 jest.mock( "draft-js/lib/generateRandomKey", () => () => {
 	let randomKey = global._testDraftJSRandomNumber;
@@ -183,5 +184,134 @@ describe( "findReplacementVariables", () => {
 		const actual = findReplacementVariables( content );
 
 		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "replaceReplacementVariables", () => {
+	it( "replaces a replacement variable that has no space behind it.", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%%moretext",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [  ],
+				data: {},
+			} ],
+			entityMap: {		},
+		};
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ]
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
+			.blockMap[ "f4sem" ].text;
+
+		expect( actual ).toEqual( "Title moretext" );
+	} );
+
+	it( "places the cursor after the appended space.", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%%moretext",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [  ],
+				data: {},
+			} ],
+			entityMap: {},
+		};
+
+		SelectionState.createEmpty( "f4sem" )
+			.merge( {
+				anchorOffset: 9,
+				focusOffset: 9,
+			} );
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection().toJS().anchorOffset;
+
+		expect( actual ).toEqual( 6 );
+	} );
+
+	it( "replaces a replacement variable that already has a space behind it.", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%% moretext",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [  ],
+				data: {},
+			} ],
+			entityMap: {},
+		};
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ]
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
+			.blockMap[ "f4sem" ].text;
+
+		expect( actual ).toEqual( "Title moretext" );
+	} );
+
+	it( "replaces a replacement variable that has no space behind it, with multiple replacevars.", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%%moretext%%title%%",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [ ],
+				data: {},
+			} ],
+			entityMap: {
+			},
+		};
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
+			.blockMap[ "f4sem" ].text;
+
+		expect( actual ).toEqual( "Title moretextTitle " );
+	} );
+
+	it( "places the cursor after the replaced entity when there is no space appended.", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%% moretext",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [ ],
+				data: {},
+			} ],
+			entityMap: {
+			},
+		};
+
+		SelectionState.createEmpty( "f4sem" )
+			.merge( {
+				anchorOffset: 9,
+				focusOffset: 9,
+			} );
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection().toJS().anchorOffset;
+
+		expect( actual ).toEqual( 5 );
 	} );
 } );
