@@ -33,6 +33,7 @@ class SettingsSnippetEditor extends React.Component {
 	 * @param {Function} props.mapDataToPreview          Function to map the editor
 	 *                                                   data to data for the preview.
 	 * @param {string} props.locale                      The locale of the page.
+	 * @param {bool}   props.hasPaperStyle               Whether or not it has paper style.
 	 *
 	 * @returns {void}
 	 */
@@ -98,6 +99,7 @@ class SettingsSnippetEditor extends React.Component {
 			data,
 			replacementVariables,
 			descriptionEditorFieldPlaceholder,
+			hasPaperStyle,
 		} = this.props;
 
 		const { activeField, hoveredField } = this.state;
@@ -110,7 +112,9 @@ class SettingsSnippetEditor extends React.Component {
 				hoveredField={ hoveredField }
 				onChange={ this.handleChange }
 				onFocus={ this.setFieldFocus }
-				replacementVariables={ replacementVariables } />
+				replacementVariables={ replacementVariables }
+				containerPadding={ hasPaperStyle ? "0 20px" : "0" }
+			/>
 		);
 	}
 }
@@ -123,10 +127,12 @@ SettingsSnippetEditor.propTypes = {
 	} ).isRequired,
 	onChange: PropTypes.func.isRequired,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
+	hasPaperStyle: PropTypes.bool,
 };
 
 SettingsSnippetEditor.defaultProps = {
 	replacementVariables: [],
+	hasPaperStyle: true,
 };
 
 export default SettingsSnippetEditor;

@@ -96,7 +96,7 @@ export const FormSection = styled.div`
 `;
 
 export const StyledEditor = styled.section`
-	padding: 10px 20px 0px 20px;
+	padding: ${ ( props ) => props.padding ? props.padding : "0 20px" };
 `;
 
 /**
