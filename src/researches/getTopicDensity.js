@@ -6,7 +6,7 @@ const topicCount = require( "./topicCount.js" );
 /**
  * Calculates the topic density .
  *
- * @param {object} paper The paper containing keyword, (synonyms) and text.
+ * @param {Object} paper The paper containing keyword, (synonyms) and text.
  * @returns {number} The topic density.
  */
 module.exports = function( paper ) {

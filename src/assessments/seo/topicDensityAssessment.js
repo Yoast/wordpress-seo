@@ -7,6 +7,7 @@ const inRange = require( "../../helpers/inRange.js" );
 const Mark = require( "../../values/Mark.js" );
 const marker = require( "../../markers/addMark.js" );
 
+const inRangeStartInclusive = inRange.inRangeStartInclusive;
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
 const inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
 const map = require( "lodash/map" );
@@ -68,7 +69,7 @@ class TopicDensityAssessment extends Assessment {
 	/**
 	 * Returns the scores and result text for topic density
 	 *
-	 * @param {object} i18n The i18n object used for translations
+	 * @param {Object} i18n The i18n object used for translations
 	 *
 	 * @returns {{score: number, text: string}} The assessment result
 	 */
@@ -130,9 +131,33 @@ class TopicDensityAssessment extends Assessment {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count. */
+					i18n.dngettext(
+						"js-text-analysis",
+						"The topic density is %1$s, which is great; the focus keyword and its synonyms were found %2$d time.",
+						"The topic density is %1$s, which is great; the focus keyword and its synonyms were found %2$d times.",
+						this._topicCount.count
+					),
+					topicDensityPercentage,
+					this._topicCount.count
+				),
+			};
+		}
+
+
+		if(
+			inRangeStartInclusive(
+				this._topicDensity,
+				0,
+				this._config.recommendedMinimum
+			) && ( this._topicCount.count === 0 )
+		) {
+			return {
+				score: this._config.scores.tooLittle,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The topic density is %1$s, which is great; the focus keyword and its synonyms were found %2$d times."
+						"The topic density is %1$s, which is too low; the focus keyword and its synonyms were found %2$d times."
 					),
 					topicDensityPercentage,
 					this._topicCount.count
@@ -144,9 +169,11 @@ class TopicDensityAssessment extends Assessment {
 			score: this._config.scores.tooLittle,
 			resultText: i18n.sprintf(
 				/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count. */
-				i18n.dgettext(
+				i18n.dngettext(
 					"js-text-analysis",
-					"The topic density is %1$s, which is too low; the focus keyword and its synonyms were found %2$d times."
+					"The topic density is %1$s, which is too low; the focus keyword and its synonyms were found %2$d time.",
+					"The topic density is %1$s, which is too low; the focus keyword and its synonyms were found %2$d times.",
+					this._topicCount.count
 				),
 				topicDensityPercentage,
 				this._topicCount.count
