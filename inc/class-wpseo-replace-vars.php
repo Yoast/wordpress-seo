@@ -1105,7 +1105,7 @@ class WPSEO_Replace_Vars {
 					'advanced',
 				), true ) ) && ( $identifier !== '' && ! isset( self::$help_texts[ $type ][ $identifier ] ) )
 		) {
-			self::$help_texts[ $type ][ $identifier ] =  $replacement_variable;
+			self::$help_texts[ $type ][ $identifier ] = $replacement_variable;
 		}
 	}
 
