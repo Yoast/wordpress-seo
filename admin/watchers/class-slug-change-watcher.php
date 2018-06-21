@@ -16,7 +16,6 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-
 		// If the current plugin is Yoast SEO Premium, stop registering.
 		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
 			return;
@@ -55,7 +54,6 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function detect_post_trash( $post_id ) {
-
 		$post_status = get_post_status( $post_id );
 		if ( ! $this->check_visible_post_status( $post_status ) ) {
 			return;
