@@ -3,7 +3,6 @@ import forEach from "lodash/forEach";
 import filter from "lodash/filter";
 import trim from "lodash/trim";
 import isUndefined from "lodash/isUndefined";
-
 import ReplaceVar from "./values/replaceVar";
 import {
 	removeReplacementVariable,
@@ -404,8 +403,11 @@ import {
 			var customValue = jQuery( "#" + customField.id + "-value" ).val();
 			const sanitizedFieldName = "cf_" + this.sanitizeCustomFieldNames( customFieldName );
 
+			// The label will just be the value of the name field, with " (custom field)" appended.
+			const label = customFieldName + " (custom field)";
+
 			// Register these as new replacevars. The replacement text will be a literal string.
-			this._store.dispatch( updateReplacementVariable( sanitizedFieldName, customValue ) );
+			this._store.dispatch( updateReplacementVariable( sanitizedFieldName, customValue, label ) );
 			this.addReplacement( new ReplaceVar( `%%${ sanitizedFieldName }%%`,
 				customValue,
 				{ source: "direct" }
@@ -436,7 +438,7 @@ import {
 	 * @returns {string} The sanitized field name.
 	 */
 	YoastReplaceVarPlugin.prototype.sanitizeCustomFieldNames = function( customFieldName ) {
-		return customFieldName.replace( " ", "_" );
+		return customFieldName.replace( /\s/g, "_" );
 	};
 
 	/**
