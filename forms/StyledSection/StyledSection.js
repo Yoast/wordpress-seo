@@ -15,7 +15,10 @@ export const StyledIcon = styled( SvgIcon )``;
 export const StyledSectionBase = styled( Section )`
 	box-shadow: 0 1px 2px ${ rgba( colors.$color_black, 0.2 ) };
 	background-color: ${ colors.$color_white };
-	padding: 0 20px 16px;
+	padding-right: 20px
+	padding-left: 20px
+	padding-bottom: ${ props => props.headingText ? "0" : "10px" } 
+	padding-top: ${ props => props.headingText ? "0" : "10px" } 
 
 	*, & {
 		box-sizing: border-box;

@@ -1,10 +1,8 @@
 // External dependencies.
 import React from "react";
-import { convertToRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import createMentionPlugin from "draft-js-mention-plugin";
 import createSingleLinePlugin from "draft-js-single-line-plugin";
-import flow from "lodash/flow";
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
 import filter from "lodash/filter";
@@ -25,6 +23,7 @@ import {
 	serializeEditor,
 	unserializeEditor,
 	replaceReplacementVariables,
+	serializeSelection,
 } from "../serialization";
 import {
 	getTrigger,
@@ -37,24 +36,17 @@ import {
 } from "../replaceText";
 
 /**
- * Serializes the Draft.js editor state into a string.
- *
- * @param {EditorState} The current editor state.
- *
- * @returns {string} The serialized editor state.
- */
-const serializeEditorState = flow( [
-	convertToRaw,
-	serializeEditor,
-] );
-
 /**
- * Needed to avoid styling issues on the settings pages iwth the suggestions dropdown,
- * because the button labels have a z-index of 3.
+ * Needed to avoid styling issues on the settings pages with the
+ * suggestions dropdown, because the button labels have a z-index of 3.
+ * Added an extra 1000 because with a lot of replacement variables it should
+ * stay on top of the #wp-content-editor-tools element, which has a z-index
+ * of 1000.
+ *
  */
 const ZIndexOverride = styled.div`
 	div {
-		z-index: 5;
+		z-index: 1005;
 	}
 `;
 
@@ -104,7 +96,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.state = {
 			editorState,
 			searchValue: "",
-			replacementVariables: currentReplacementVariables,
+			suggestions: this.mapReplacementVariablesToSuggestions( currentReplacementVariables ),
 		};
 
 		/*
@@ -129,6 +121,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
 		this.setMentionSuggestionsRef = this.setMentionSuggestionsRef.bind( this );
+		this.handleCopyCutEvent = this.handleCopyCutEvent.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
 		this.debouncedUpdateMentionSuggestions = debounce( this.updateMentionSuggestions.bind( this ), 100 );
 	}
@@ -164,7 +157,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	serializeContent( editorState ) {
-		const serializedContent = serializeEditorState( editorState.getCurrentContent() );
+		const serializedContent = serializeEditor( editorState.getCurrentContent() );
 
 		if ( this._serializedContent !== serializedContent ) {
 			this._serializedContent = serializedContent;
@@ -194,16 +187,39 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	}
 
 	/**
-	 * Filters replacement variables values based on the search term typed by the user.
+	 * In order to have the replaceVariable labels rather than the names in the Mention suggestions,
+	 * we map the replaceVar label as the name, and save the original name in replaceName.
 	 *
-	 * @param {string} searchValue The search value typed after the mentionTrigger by the user.
-	 * @param {Object[]} replacementVariables The replacement variables to filter.
+	 * @param {array} replacementVariables The list of replacementVariables.
 	 *
-	 * @returns {Object[]} A filtered set of replacement variables to show as suggestions to the user.
+	 * @returns {array} The suggestions, a mapped version of the replacementVariables.
 	 */
-	replacementVariablesFilter( searchValue, replacementVariables ) {
+	mapReplacementVariablesToSuggestions( replacementVariables ) {
+		return replacementVariables.map( ( variable ) => {
+			return {
+				...variable,
+
+				// We want to use the nice-name in the suggestion list, which is the label.
+				name: variable.label,
+
+				// We save the replacement variable name for later serialization.
+				replaceName: variable.name,
+			};
+		} );
+	}
+
+	/**
+	 * Filters suggestions based on the search term typed by the user.
+	 *
+	 * @param {string}   searchValue The search value typed after the mentionTrigger by the user.
+	 * @param {Object[]} suggestions The replacement variables to filter.
+	 *
+	 * @returns {Object[]} A filtered set of suggestions to show to the user.
+	 */
+	suggestionsFilter( searchValue, suggestions ) {
 		const value = searchValue.toLowerCase();
-		return replacementVariables.filter( function( suggestion ) {
+
+		return suggestions.filter( function( suggestion ) {
 			return ! value || suggestion.name.toLowerCase().indexOf( value ) === 0;
 		} );
 	}
@@ -252,10 +268,11 @@ class ReplacementVariableEditorStandalone extends React.Component {
 			this.props.recommendedReplacementVariables,
 			value,
 		);
+		const suggestions = this.mapReplacementVariablesToSuggestions( recommendedReplacementVariables );
 
 		this.setState( {
 			searchValue: value,
-			replacementVariables: this.replacementVariablesFilter( value, recommendedReplacementVariables ),
+			suggestions: this.suggestionsFilter( value, suggestions ),
 		} );
 
 		/*
@@ -276,17 +293,17 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	announceSearchResults() {
-		const { replacementVariables } = this.state;
+		const { suggestions } = this.state;
 
-		if ( replacementVariables.length ) {
+		if ( suggestions.length ) {
 			this.debouncedA11ySpeak(
 				sprintf(
 					_n(
 						"%d result found, use up and down arrow keys to navigate",
 						"%d results found, use up and down arrow keys to navigate",
-						replacementVariables.length
+						suggestions.length
 					),
-					replacementVariables.length,
+					suggestions.length,
 					"yoast-components"
 				),
 				"assertive"
@@ -395,21 +412,62 @@ class ReplacementVariableEditorStandalone extends React.Component {
 				recommendedReplacementVariables,
 				searchValue
 			);
+			const suggestions = this.mapReplacementVariablesToSuggestions( currentReplacementVariables );
 
 			this.setState( {
 				editorState,
-				replacementVariables: this.replacementVariablesFilter( searchValue, currentReplacementVariables ),
+				suggestions: this.suggestionsFilter( searchValue, suggestions ),
 			} );
 		}
 	}
 
 	/**
-	 * Update the mention suggestions to trigger the repositioning of the popover.
+	 * Handles browser copy and cut events.
+	 *
+	 * This method makes sure that the clipboard has the correct content if a user
+	 * copies from this DraftJS editor.
+	 *
+	 * @param {ClipboardEvent} event The triggered clipboard event.
+	 * @returns {void}
+	 */
+	handleCopyCutEvent( event ) {
+		const { editorState } = this.state;
+		const selection = editorState.getSelection();
+
+		// If this editor is not focused we don't do anything.
+		if ( ! selection.getHasFocus() ) {
+			return;
+		}
+
+		// Use a try-catch to make this fail gracefully on older browsers.
+		try {
+			const clipboardData = event.clipboardData;
+			const contentState = editorState.getCurrentContent();
+
+			const text = serializeSelection( contentState, selection );
+
+			clipboardData.setData( "text/plain", text );
+
+			/*
+			 * This is at the end because we only want to prevent the default if we
+			 * succeeded in altering the clipboard contents.
+			 */
+			event.preventDefault();
+		} catch ( error ) {
+			console.error( "Couldn't copy content of editor to clipboard, defaulting to browser copy behavior." );
+			console.error( "Original error: ", error );
+		}
+	}
+
+	/**
+	 * Sets up event listeners this component needs.
 	 *
 	 * @returns {void}
 	 */
 	componentDidMount() {
 		window.addEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
+		document.addEventListener( "copy", this.handleCopyCutEvent );
+		document.addEventListener( "cut", this.handleCopyCutEvent );
 	}
 
 	/**
@@ -420,6 +478,8 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	componentWillUnmount() {
 		this.debouncedA11ySpeak.cancel();
 		window.removeEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
+		document.removeEventListener( "copy", this.handleCopyCutEvent );
+		document.removeEventListener( "cut", this.handleCopyCutEvent );
 	}
 
 	/**
@@ -430,7 +490,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
 		const { onFocus, onBlur, ariaLabelledBy, placeholder } = this.props;
-		const { editorState, replacementVariables } = this.state;
+		const { editorState, suggestions } = this.state;
 
 		return (
 			<React.Fragment>
@@ -448,7 +508,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 				<ZIndexOverride>
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
-						suggestions={ replacementVariables }
+						suggestions={ suggestions }
 						ref={ this.setMentionSuggestionsRef }
 					/>
 				</ZIndexOverride>
@@ -469,6 +529,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
+	onClick: () => {},
 	onFocus: () => {},
 	onBlur: () => {},
 	className: "",

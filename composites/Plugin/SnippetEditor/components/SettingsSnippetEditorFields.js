@@ -21,7 +21,7 @@ const FormSection = styled.div`
 `;
 
 const StyledEditor = styled.div`
-	padding: 0 20px;
+	padding: 12px 20px 2px;
 `;
 
 class SettingsSnippetEditorFields extends React.Component {

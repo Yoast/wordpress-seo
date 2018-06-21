@@ -50,23 +50,23 @@ const Choice = ( props ) => {
 			/* eslint-enable jsx-a11y/no-onchange */
 		}
 		return <fieldset className={"yoast-wizard-input-radio-" + fieldName}>
-				{fieldKeys.map( ( choiceName, index ) => {
-					let choice = choices[ choiceName ];
-					let id = `${fieldName}-${index}`;
-					// If the value for the choice field equals the name for this choice, the choice is checked.
-					let checked = ( props.value === choiceName );
+			{fieldKeys.map( ( choiceName, index ) => {
+				let choice = choices[ choiceName ];
+				let id = `${fieldName}-${index}`;
+				// If the value for the choice field equals the name for this choice, the choice is checked.
+				let checked = ( props.value === choiceName );
 
-					return (
-						<div className={props.optionClassName + " " + choiceName} key={index}>
-							<Input name={fieldName} type="radio" label={choice.label} onChange={props.onChange}
-								   value={choiceName} optionalAttributes={ { id, checked } }
-							/>
-							<Label for={id}
-								   optionalAttributes={ { "aria-label": choice.screenReaderText } }>{htmlDecoder( choice.label )}</Label>
-						</div>
-					);
-				} )}
-			</fieldset>
+				return (
+					<div className={props.optionClassName + " " + choiceName} key={index}>
+						<Input name={fieldName} type="radio" label={choice.label} onChange={props.onChange}
+							   value={choiceName} optionalAttributes={ { id, checked } }
+						/>
+						<Label for={id}
+							   optionalAttributes={ { "aria-label": choice.screenReaderText } }>{htmlDecoder( choice.label )}</Label>
+					</div>
+				);
+			} )}
+		</fieldset>
 		;
 	};
 

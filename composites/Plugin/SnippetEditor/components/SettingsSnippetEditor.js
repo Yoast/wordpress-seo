@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 // Internal dependencies.
 import SettingsSnippetEditorFields from "./SettingsSnippetEditorFields";
+import ErrorBoundary from "../../../basic/ErrorBoundary";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
@@ -107,16 +108,18 @@ class SnippetEditor extends React.Component {
 		const { activeField, hoveredField } = this.state;
 
 		return (
-			<SettingsSnippetEditorFields
-				descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
-				data={ data }
-				activeField={ activeField }
-				hoveredField={ hoveredField }
-				onChange={ this.handleChange }
-				onFocus={ this.setFieldFocus }
-				replacementVariables={ replacementVariables }
-				recommendedReplacementVariables={ recommendedReplacementVariables }
-			/>
+			<ErrorBoundary>
+				<SettingsSnippetEditorFields
+					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
+					data={ data }
+					activeField={ activeField }
+					hoveredField={ hoveredField }
+					onChange={ this.handleChange }
+					onFocus={ this.setFieldFocus }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
+				/>
+			</ErrorBoundary>
 		);
 	}
 }
