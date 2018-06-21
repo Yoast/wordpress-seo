@@ -1097,8 +1097,8 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Set the help text for a user/plugin/theme defined extra variable.
 	 *
-	 * @param  string                       $type                   Type of variable: 'basic' or 'advanced'.
-	 * @param  WPSEO_Replacement_Variable   $replacement_variable   The replacement variable to register.
+	 * @param  string                     $type                 Type of variable: 'basic' or 'advanced'.
+	 * @param  WPSEO_Replacement_Variable $replacement_variable The replacement variable to register.
 	 */
 	private static function register_help_text( $type, WPSEO_Replacement_Variable $replacement_variable ) {
 		$replacement_variable->set_variable( self::remove_var_delimiter( $replacement_variable->get_variable() ) );
@@ -1237,7 +1237,7 @@ class WPSEO_Replace_Vars {
 			) ),
 		);
 
-		foreach( $replacement_variables as $replacement_variable ) {
+		foreach ( $replacement_variables as $replacement_variable ) {
 			self::register_help_text( 'basic', $replacement_variable );
 		}
 	}
@@ -1264,7 +1264,7 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'ct_desc_<custom-tax-name>', 'ct_desc_<custom-tax-name>', __( 'Replaced with a custom taxonomies description', 'wordpress-seo' ) ),
 		);
 
-		foreach( $replacement_variables as $replacement_variable ) {
+		foreach ( $replacement_variables as $replacement_variable ) {
 			self::register_help_text( 'advanced', $replacement_variable );
 		}
 	}
