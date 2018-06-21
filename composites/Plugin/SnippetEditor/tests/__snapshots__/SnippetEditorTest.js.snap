@@ -583,6 +583,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
     <React.Fragment>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -709,6 +710,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-top: 24px;
   margin-left: 20px;
 }
 
@@ -951,11 +953,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c29 {
-  margin: 24px 0;
+  margin: 24px 0 0 0;
 }
 
 .c28 {
-  padding: 10px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .c30 {
@@ -1170,6 +1172,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       "score": 0,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -1960,6 +1963,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       </Button>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -1992,6 +1996,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
       >
         <Shared__StyledEditor
           innerRef={[Function]}
+          padding="0 20px"
         >
           <section
             className="c28"
@@ -2544,6 +2549,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-top: 24px;
   margin-left: 20px;
 }
 
@@ -2786,11 +2792,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c29 {
-  margin: 24px 0;
+  margin: 24px 0 0 0;
 }
 
 .c28 {
-  padding: 10px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .c30 {
@@ -3005,6 +3011,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       "score": 0,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -3795,6 +3802,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       </Button>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -3827,6 +3835,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
       >
         <Shared__StyledEditor
           innerRef={[Function]}
+          padding="0 20px"
         >
           <section
             className="c28"
@@ -4379,6 +4388,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-top: 24px;
   margin-left: 20px;
 }
 
@@ -4621,11 +4631,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c29 {
-  margin: 24px 0;
+  margin: 24px 0 0 0;
 }
 
 .c28 {
-  padding: 10px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .c30 {
@@ -4840,6 +4850,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       "score": 0,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -5630,6 +5641,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       </Button>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -5662,6 +5674,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
       >
         <Shared__StyledEditor
           innerRef={[Function]}
+          padding="0 20px"
         >
           <section
             className="c28"
@@ -6214,6 +6227,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-top: 24px;
   margin-left: 20px;
 }
 
@@ -6456,11 +6470,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c29 {
-  margin: 24px 0;
+  margin: 24px 0 0 0;
 }
 
 .c28 {
-  padding: 10px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .c30 {
@@ -6675,6 +6689,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       "score": 0,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -7465,6 +7480,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       </Button>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -7497,6 +7513,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
       >
         <Shared__StyledEditor
           innerRef={[Function]}
+          padding="0 20px"
         >
           <section
             className="c28"
@@ -8293,6 +8310,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
       "score": 0,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -9172,6 +9190,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-top: 24px;
   margin-left: 20px;
 }
 
@@ -9414,11 +9433,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c29 {
-  margin: 24px 0;
+  margin: 24px 0 0 0;
 }
 
 .c28 {
-  padding: 10px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .c30 {
@@ -9633,6 +9652,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       "score": 0,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -10423,6 +10443,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       </Button>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -10455,6 +10476,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
       >
         <Shared__StyledEditor
           innerRef={[Function]}
+          padding="0 20px"
         >
           <section
             className="c28"
@@ -11007,6 +11029,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-top: 24px;
   margin-left: 20px;
 }
 
@@ -11249,11 +11272,11 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c29 {
-  margin: 24px 0;
+  margin: 24px 0 0 0;
 }
 
 .c28 {
-  padding: 10px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .c30 {
@@ -11468,6 +11491,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       "score": 9,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -12258,6 +12282,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       </Button>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -12290,6 +12315,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
       >
         <Shared__StyledEditor
           innerRef={[Function]}
+          padding="0 20px"
         >
           <section
             className="c28"
@@ -13932,6 +13958,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-top: 24px;
   margin-left: 20px;
 }
 
@@ -14174,11 +14201,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 }
 
 .c30 {
-  margin: 24px 0;
+  margin: 24px 0 0 0;
 }
 
 .c29 {
-  padding: 10px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .c31 {
@@ -14405,6 +14432,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       "score": 0,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -15203,6 +15231,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       </Button>
       <SnippetEditorFields
         activeField="description"
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -15235,6 +15264,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
       >
         <Shared__StyledEditor
           innerRef={[Function]}
+          padding="0 20px"
         >
           <section
             className="c29"
@@ -15787,6 +15817,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-top: 24px;
   margin-left: 20px;
 }
 
@@ -16029,11 +16060,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 }
 
 .c30 {
-  margin: 24px 0;
+  margin: 24px 0 0 0;
 }
 
 .c29 {
-  padding: 10px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .c31 {
@@ -16260,6 +16291,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       "score": 0,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -17058,6 +17090,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       </Button>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -17090,6 +17123,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
       >
         <Shared__StyledEditor
           innerRef={[Function]}
+          padding="0 20px"
         >
           <section
             className="c29"
@@ -17642,6 +17676,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-top: 24px;
   margin-left: 20px;
 }
 
@@ -17884,11 +17919,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c29 {
-  margin: 24px 0;
+  margin: 24px 0 0 0;
 }
 
 .c28 {
-  padding: 10px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .c30 {
@@ -18103,6 +18138,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       "score": 0,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -18893,6 +18929,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       </Button>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -18925,6 +18962,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
       >
         <Shared__StyledEditor
           innerRef={[Function]}
+          padding="0 20px"
         >
           <section
             className="c28"
@@ -19477,6 +19515,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-top: 24px;
   margin-left: 20px;
 }
 
@@ -19719,11 +19758,11 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c29 {
-  margin: 24px 0;
+  margin: 24px 0 0 0;
 }
 
 .c28 {
-  padding: 10px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .c30 {
@@ -19938,6 +19977,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       "score": 0,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -20739,6 +20779,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       </Button>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -20782,6 +20823,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
       >
         <Shared__StyledEditor
           innerRef={[Function]}
+          padding="0 20px"
         >
           <section
             className="c28"
@@ -21885,6 +21927,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
     <React.Fragment>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -22011,6 +22054,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   border: 1px solid #dbdbdb;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin-top: 24px;
   margin-left: 20px;
 }
 
@@ -22253,11 +22297,11 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 }
 
 .c29 {
-  margin: 24px 0;
+  margin: 24px 0 0 0;
 }
 
 .c28 {
-  padding: 10px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .c30 {
@@ -22472,6 +22516,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       "score": 0,
     }
   }
+  hasPaperStyle={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -23262,6 +23307,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       </Button>
       <SnippetEditorFields
         activeField={null}
+        containerPadding="0 20px"
         data={
           Object {
             "description": "Test description, %%replacement_variable%%",
@@ -23294,6 +23340,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
       >
         <Shared__StyledEditor
           innerRef={[Function]}
+          padding="0 20px"
         >
           <section
             className="c28"

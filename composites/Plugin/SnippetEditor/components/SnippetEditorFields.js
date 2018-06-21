@@ -220,6 +220,7 @@ class SnippetEditorFields extends React.Component {
 				slug,
 				description,
 			},
+			containerPadding,
 		} = this.props;
 		const { isSmallerThanMobileWidth } = this.state;
 
@@ -228,6 +229,7 @@ class SnippetEditorFields extends React.Component {
 		return (
 			<StyledEditor
 				innerRef={ this.setEditorRef }
+				padding={ containerPadding }
 			>
 				<FormSection>
 					<ReplacementVariableEditor
@@ -336,6 +338,7 @@ SnippetEditorFields.propTypes = {
 	descriptionLengthProgress: lengthProgressShape,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
 	mobileWidth: PropTypes.number,
+	containerPadding: PropTypes.string,
 };
 
 SnippetEditorFields.defaultProps = {
@@ -353,6 +356,7 @@ SnippetEditorFields.defaultProps = {
 		score: 0,
 	},
 	mobileWidth: 356,
+	containerPadding: "0 20px",
 };
 
 export default SnippetEditorFields;
