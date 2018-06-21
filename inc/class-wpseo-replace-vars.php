@@ -110,10 +110,7 @@ class WPSEO_Replace_Vars {
 				trigger_error( esc_html__( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
 			}
 			elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var ) ) {
-				if ( ! isset( self::$external_replacements[ $var ] ) ) {
-					if ( empty( $var ) ) {
-						return false;
-					}
+				if ( $var !== '' && ! isset( self::$external_replacements[ $var ] ) ) {
 					self::$external_replacements[ $var ] = $replace_function;
 					$replacement_variable = new WPSEO_Replacement_Variable( $var, $var, $help_text );
 					self::register_help_text( $type, $replacement_variable );
@@ -1058,12 +1055,12 @@ class WPSEO_Replace_Vars {
 			</thead>
 			<tbody>';
 
-		foreach ( self::$help_texts[ $type ] as $variable => $variable_data ) {
+		foreach ( self::$help_texts[ $type ] as $replacement_variable ) {
 			$table .= '
 				<tr>
-					<td class="yoast-variable-label">' . esc_html( $variable_data->get_label() ) . '</td>
-					<td class="yoast-variable-name">%%' . esc_html( $variable_data->get_variable() ) . '%%</td>
-					<td class="yoast-variable-desc">' . $variable_data->get_description() . '</td>
+					<td class="yoast-variable-label">' . esc_html( $replacement_variable->get_label() ) . '</td>
+					<td class="yoast-variable-name">%%' . esc_html( $replacement_variable->get_variable() ) . '%%</td>
+					<td class="yoast-variable-desc">' . esc_html( $replacement_variable->get_description() ) . '</td>
 				</tr>';
 		}
 
@@ -1101,7 +1098,6 @@ class WPSEO_Replace_Vars {
 	 * @param  WPSEO_Replacement_Variable $replacement_variable The replacement variable to register.
 	 */
 	private static function register_help_text( $type, WPSEO_Replacement_Variable $replacement_variable ) {
-		$replacement_variable->set_variable( self::remove_var_delimiter( $replacement_variable->get_variable() ) );
 		$identifier = $replacement_variable->get_variable();
 
 		if ( ( is_string( $type ) && in_array( $type, array(

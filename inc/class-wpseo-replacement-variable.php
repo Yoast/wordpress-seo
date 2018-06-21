@@ -3,7 +3,7 @@
  * WPSEO plugin file.
  *
  * @package WPSEO\Internals
- * @since   7.0
+ * @since   7.7
  */
 
 /**
@@ -31,15 +31,15 @@ class WPSEO_Replacement_Variable {
 	/**
 	 * WPSEO_Replacement_Variable constructor.
 	 *
-	 * @param string $variable      The variable that is replaced.
-	 * @param string $label         The label of the replacement variable.
-	 * @param string $description   The description of the replacement variable.
+	 * @param string $variable    The variable that is replaced.
+	 * @param string $label       The label of the replacement variable.
+	 * @param string $description The description of the replacement variable.
 	 *
 	 * @return \WPSEO_Replacement_Variable
 	 */
 	public function __construct( $variable, $label, $description ) {
-		$this->variable = $variable;
-		$this->label = $label;
+		$this->variable    = $variable;
+		$this->label       = $label;
 		$this->description = $description;
 	}
 
@@ -50,15 +50,6 @@ class WPSEO_Replacement_Variable {
 	 */
 	public function get_variable() {
 		return $this->variable;
-	}
-
-	/**
-	 * Sets the variable to use.
-	 *
-	 * @param string $variable The variable to use.
-	 */
-	public function set_variable( $variable ) {
-		$this->variable = $variable;
 	}
 
 	/**
