@@ -1224,7 +1224,7 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'category_description', __( 'Category description',  'wordpress-seo' ), __( 'Replaced with the category description', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'tag_description', __( 'Tag description',  'wordpress-seo' ), __( 'Replaced with the tag description', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'term_description', __( 'Term description',  'wordpress-seo' ), __( 'Replaced with the term description', 'wordpress-seo' ) ),
-			new WPSEO_Replacement_Variable( 'term_title', __ ( 'Term title', 'wordpress-seo' ), __( 'Replaced with the term name', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'term_title', __( 'Term title', 'wordpress-seo' ), __( 'Replaced with the term name', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'searchphrase', __( 'Search phrase',  'wordpress-seo' ), __( 'Replaced with the current search phrase', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'sep', __( 'Separator',  'wordpress-seo' ), sprintf(
 			/* translators: %s: wp_title() function. */
@@ -1248,7 +1248,7 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'modified', __( 'Modified', 'wordpress-seo' ), __( 'Replaced with the post/page modified time', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'id', __( 'ID',  'wordpress-seo' ), __( 'Replaced with the post/page ID', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'name', __( 'Name', 'wordpress-seo' ), __( 'Replaced with the post/page author\'s \'nicename\'', 'wordpress-seo' ) ),
-			new WPSEO_Replacement_Variable( 'user_description', __( 'User Description', 'wordpress-seo' ), __( 'Replaced with the post/page author\'s \'Biographical Info\'', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'user_description', __( 'User description', 'wordpress-seo' ), __( 'Replaced with the post/page author\'s \'Biographical Info\'', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'page', __( 'Page number',  'wordpress-seo' ), __( 'Replaced with the current page number with context (i.e. page 2 of 4)', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'pagetotal', __( 'Pagetotal', 'wordpress-seo' ), __( 'Replaced with the current page total', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'pagenumber', __( 'Pagenumber', 'wordpress-seo' ), __( 'Replaced with the current page number', 'wordpress-seo' ) ),
