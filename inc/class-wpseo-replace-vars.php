@@ -1210,28 +1210,20 @@ class WPSEO_Replace_Vars {
 		$args = array(
 			'public'   => true,
 			'_builtin' => false
-
 		);
-		$output = 'names'; // or objects
-		$operator = 'and'; // 'and' or 'or'
+		$output = 'names';
+		$operator = 'and';
 		$custom_taxonomies = get_taxonomies( $args, $output, $operator );
 
 		if ( is_array( $custom_taxonomies ) ) {
-			return array_map( array( $this, 'add_custom_taxonomy_prefix' ), $custom_taxonomies );
+			$ct_replace_vars = array();
+			foreach( $custom_taxonomies as $custom_taxonomy ) {
+				array_push( $ct_replace_vars, 'ct_' . $custom_taxonomy, 'ct_desc_' . $custom_taxonomy );
+			}
+			return $ct_replace_vars;
 		}
 
 		return array();
-	}
-
-	/**
-	 * Adds the ct_ prefix to a custom taxonomy.
-	 *
-	 * @param string $field The custom taxonomy to prefix.
-	 *
-	 * @return string The prefixed custom taxonomy.
-	 */
-	private function add_custom_taxonomy_prefix( $custom_taxonomy ) {
-		return 'ct_' . $custom_taxonomy;
 	}
 
 	/**
