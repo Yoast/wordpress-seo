@@ -12,12 +12,13 @@ import { selectReplacementVariables } from "../selection";
  */
 
 /**
- * Converts a visualizable text to a DraftJS SelectionState.
+ * Converts a visualizable text to a DraftJS SelectionState and applies it to one.
  *
  * @param {string}      text        The text to convert.
  * @param {string}      blockKey    The key of the block the selection is on.
  * @param {EditorState} editorState The editor state to put the selection on.
  * @param {boolean}     backwards   Whether the selection is backwards or not.
+ *
  * @returns {SelectionState} The converted selection state.
  */
 function convertToState( text, blockKey, editorState, backwards = false ) {
@@ -33,7 +34,7 @@ function convertToState( text, blockKey, editorState, backwards = false ) {
 		focusOffset = start;
 	}
 
-	const selection = new SelectionState( {
+	const selectionState = new SelectionState( {
 		anchorKey: blockKey,
 		anchorOffset,
 		focusKey: blockKey,
@@ -42,11 +43,11 @@ function convertToState( text, blockKey, editorState, backwards = false ) {
 		isBackward: backwards,
 	} );
 
-	return EditorState.acceptSelection( editorState, selection );
+	return EditorState.acceptSelection( editorState, selectionState );
 }
 
 /**
- * Converts a selection to a piece of text for easier visualization.
+ * Converts a selectionState to a piece of text for easier visualization.
  *
  * This is used to make the errors in the tests look something like this:
  * Expected value to equal:
@@ -56,13 +57,14 @@ function convertToState( text, blockKey, editorState, backwards = false ) {
  *
  * Which is much easier to debug.
  *
- * @param {string} text Text to put the selection brackets in.
- * @param {SelectionState} selection The selection.
- * @returns {string} Text with brackets to represent the selection.
+ * @param {string}         text           Text to put the selectionState brackets in.
+ * @param {SelectionState} selectionState The selectionState.
+ *
+ * @returns {string} Text with brackets to represent the selectionState.
  */
-function convertFromState( text, selection ) {
-	const start = selection.getStartOffset();
-	const end = selection.getEndOffset();
+function convertFromState( text, selectionState ) {
+	const start = selectionState.getStartOffset();
+	const end = selectionState.getEndOffset();
 
 	text = text.slice( 0, start ) + "[" + text.slice( start, end ) + "]" + text.slice( end );
 
@@ -79,6 +81,7 @@ function convertFromState( text, selection ) {
  *                               represented as text.
  * @param {string} args.expected The expected state the function should return,
  *                               represented as text.
+ *
  * @returns {void}
  */
 function expectToMatch( args ) {
@@ -152,7 +155,7 @@ describe( "selection behavior", () => {
 		} );
 	} );
 
-	it( "moves out of selection when pressing arrow keys", () => {
+	it( "moves out of selection when pressing arrow keys or clicking before or after it with the mouse", () => {
 		expectToMatch( {
 			before: "Text entity [entity] Text",
 			after: "Text entity []entity Text",
