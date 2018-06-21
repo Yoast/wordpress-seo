@@ -1,5 +1,6 @@
 /* External dependencies */
 import React from "react";
+import PropTypes from "prop-types";
 import { SettingsSnippetEditor } from "yoast-components";
 import { __ } from "@wordpress/i18n";
 import { replacementVariablesShape } from "yoast-components/composites/Plugin/SnippetEditor/constants";
@@ -15,7 +16,9 @@ class SettingsReplacementVariableEditor extends React.Component {
 
 	render() {
 		return (
-			<SnippetPreviewSection>
+			<SnippetPreviewSection
+				hasPaperStyle={ this.props.hasPaperStyle }
+			>
 				<SettingsSnippetEditor
 					descriptionEditorFieldPlaceholder={ __( "Modify your meta description by editing it right here", "wordpress-seo" ) }
 					onChange={ ( field, value ) => {
@@ -32,7 +35,9 @@ class SettingsReplacementVariableEditor extends React.Component {
 					data={ {
 						title: this.props.title.value,
 						description: this.props.description.value,
-					} } />
+					} }
+					hasPaperStyle={ this.props.hasPaperStyle }
+				/>
 			</SnippetPreviewSection>
 		);
 	}
@@ -42,6 +47,11 @@ SettingsReplacementVariableEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	title: linkFieldsShape,
 	description: linkFieldsShape,
+	hasPaperStyle: PropTypes.bool,
+};
+
+SettingsReplacementVariableEditor.defaultProps = {
+	hasPaperStyle: true,
 };
 
 export default linkHiddenFields( props => {
