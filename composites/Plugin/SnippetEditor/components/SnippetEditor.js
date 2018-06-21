@@ -7,7 +7,6 @@ import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthA
 import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
 import noop from "lodash/noop";
-import toJSON from "lodash/toJSON";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -149,16 +148,16 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Returns whether the old and the new data or replacement variables are different.
 	 *
-	 * @param {Object} prev The old props.
-	 * @param {Object} next The new props.
+	 * @param {Object} prevProps The old props.
+	 * @param {Object} nextProps The new props.
 	 * @returns {boolean} True if any of the data points has changed.
 	 */
-	shallowCompareData( prev, next ) {
+	shallowCompareData( prevProps, nextProps ) {
 		let isDirty = false;
 		if (
-			prev.data.description !== next.data.description ||
-			prev.data.slug !== next.data.slug ||
-			prev.data.title !== next.data.title
+			prevProps.data.description !== nextProps.data.description ||
+			prevProps.data.slug !== nextProps.data.slug ||
+			prevProps.data.title !== nextProps.data.title
 		) {
 			isDirty = true;
 		}
@@ -167,7 +166,7 @@ class SnippetEditor extends React.Component {
 		   The replacement variables are converted from an array of objects to a string for easier and more consistent
 		   comparison.
 		 */
-		if ( JSON.stringify( prev.replacementVariables ) !== JSON.stringify( next.replacementVariables ) ) {
+		if ( JSON.stringify( prevProps.replacementVariables ) !== JSON.stringify( nextProps.replacementVariables ) ) {
 			isDirty = true;
 		}
 
