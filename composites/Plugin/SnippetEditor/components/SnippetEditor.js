@@ -7,6 +7,7 @@ import PageTitleWidthAssesment from "yoastseo/js/assessments/seo/pageTitleWidthA
 import { measureTextWidth } from "yoastseo/js/helpers/createMeasurementElement";
 import stripSpaces from "yoastseo/js/stringProcessing/stripSpaces";
 import noop from "lodash/noop";
+import toJSON from "lodash/toJSON";
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
@@ -162,8 +163,11 @@ class SnippetEditor extends React.Component {
 			isDirty = true;
 		}
 
-		// If any of the replacement variables have changed, the preview progress needs to be reanalysed.
-		if ( prev.replacementVariables !== next.replacementVariables ) {
+		/* If any of the replacement variables have changed, the preview progress needs to be reanalysed.
+		   The replacement variables are converted from an array of objects to a string for easier and more consistent
+		   comparison.
+		 */
+		if ( JSON.stringify( prev.replacementVariables ) !== JSON.stringify( next.replacementVariables ) ) {
 			isDirty = true;
 		}
 
