@@ -47,12 +47,12 @@ describe( "editor serialization", () => {
 				0: {
 					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: { name: "post_type" } },
+					data: { mention: { replaceName: "post_type" } },
 				},
 				1: {
 					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: { name: "title" } },
+					data: { mention: { replaceName: "title" } },
 				},
 			},
 		};
@@ -89,12 +89,12 @@ describe( "editor unserialization", () => {
 				0: {
 					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: { name: "title" } },
+					data: { mention: { replaceName: "title" } },
 				},
 				1: {
 					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: { name: "post_type" } },
+					data: { mention: { replaceName: "post_type" } },
 				},
 			},
 		};
