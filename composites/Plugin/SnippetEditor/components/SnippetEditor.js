@@ -20,6 +20,7 @@ import SvgIcon from "../../Shared/components/SvgIcon";
 import { lengthProgressShape, replacementVariablesShape } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
 import colors from "../../../../style-guide/colors";
+import ErrorBoundary from "../../../basic/ErrorBoundary";
 
 const SnippetEditorButton = Button.extend`
 	height: 33px;
@@ -502,33 +503,35 @@ class SnippetEditor extends React.Component {
 		 */
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return (
-			<div>
-				<SnippetPreview
-					keyword={ keyword }
-					mode={ mode }
-					date={ date }
-					activeField={ this.mapFieldToPreview( activeField ) }
-					hoveredField={ this.mapFieldToPreview( hoveredField ) }
-					onMouseEnter={ this.onMouseEnter }
-					onMouseLeave={ this.onMouseLeave }
-					onMouseUp={ this.onMouseUp }
-					locale={ locale }
-					{ ...mappedData }
-				/>
+			<ErrorBoundary>
+				<div>
+					<SnippetPreview
+						keyword={ keyword }
+						mode={ mode }
+						date={ date }
+						activeField={ this.mapFieldToPreview( activeField ) }
+						hoveredField={ this.mapFieldToPreview( hoveredField ) }
+						onMouseEnter={ this.onMouseEnter }
+						onMouseLeave={ this.onMouseLeave }
+						onMouseUp={ this.onMouseUp }
+						locale={ locale }
+						{ ...mappedData }
+					/>
 
-				<ModeSwitcher onChange={ ( mode ) => onChange( "mode", mode ) } active={ mode } />
+					<ModeSwitcher onChange={ ( mode ) => onChange( "mode", mode ) } active={ mode } />
 
-				<EditSnippetButton
-					onClick={ isOpen ? this.close : this.open }
-					aria-expanded={ isOpen }
-					innerRef={ this.setEditButtonRef }
-				>
-					<SvgIcon icon="edit" />
-					{ __( "Edit snippet", "yoast-components" ) }
-				</EditSnippetButton>
+					<EditSnippetButton
+						onClick={ isOpen ? this.close : this.open }
+						aria-expanded={ isOpen }
+						innerRef={ this.setEditButtonRef }
+					>
+						<SvgIcon icon="edit" />
+						{ __( "Edit snippet", "yoast-components" ) }
+					</EditSnippetButton>
 
-				{ this.renderEditor() }
-			</div>
+					{ this.renderEditor() }
+				</div>
+			</ErrorBoundary>
 		);
 		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
