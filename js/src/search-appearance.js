@@ -33,8 +33,10 @@ function configureStore() {
 		configureEnhancers()
 	);
 	forEach( window.wpseoReplaceVarsL10n.replace_vars, replacementVariable => {
+		const name = replacementVariable.name.replace( / /g, "_" );
+
 		store.dispatch( updateReplacementVariable(
-			replacementVariable.name,
+			name,
 			replacementVariable.value,
 		) );
 	} );
