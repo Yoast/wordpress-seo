@@ -1206,10 +1206,15 @@ class WPSEO_Replace_Vars {
 		return 'cf_' . $field;
 	}
 
+	/**
+	 * Gets the names of the custom taxonomies, prepends 'ct_' and 'ct_desc', and returns them in an array.
+	 *
+	 * @return array The custom taxonomy prefixed names.
+	 */
 	private function get_custom_taxonomies() {
 		$args = array(
 			'public'   => true,
-			'_builtin' => false
+			'_builtin' => false,
 		);
 		$output = 'names';
 		$operator = 'and';
@@ -1217,7 +1222,7 @@ class WPSEO_Replace_Vars {
 
 		if ( is_array( $custom_taxonomies ) ) {
 			$ct_replace_vars = array();
-			foreach( $custom_taxonomies as $custom_taxonomy ) {
+			foreach ( $custom_taxonomies as $custom_taxonomy ) {
 				array_push( $ct_replace_vars, 'ct_' . $custom_taxonomy, 'ct_desc_' . $custom_taxonomy );
 			}
 			return $ct_replace_vars;
