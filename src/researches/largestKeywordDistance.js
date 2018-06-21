@@ -1,4 +1,5 @@
-const getIndicesByWord = require( "../stringProcessing/indices" ).getIndicesByWord;
+const parseSynonyms = require( "../stringProcessing/parseSynonyms" );
+const getIndicesByWordListSorted = require( "../stringProcessing/indices" ).getIndicesByWordListSorted;
 const sortBy = require( "lodash/sortBy" );
 const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
 
@@ -93,7 +94,14 @@ module.exports = function( paper ) {
 	keyword = keyword.toLowerCase();
 	keyword = normalizeQuotes( keyword );
 
-	const keywordIndices = getIndicesByWord( keyword, text );
+	let topicArray = [].concat( keyword );
+
+	if ( keyword.indexOf( "," ) > 0 ) { // todo: change it to paper.hasSynonyms()===true as soon as the synonym interface is ready.
+		topicArray = parseSynonyms( keyword );
+	}
+
+	const keywordIndices = getIndicesByWordListSorted( topicArray, text );
+
 	let keywordDistances = [];
 
 	for ( let keywordIndex of keywordIndices ) {

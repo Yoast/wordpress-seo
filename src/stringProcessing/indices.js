@@ -91,9 +91,44 @@ var filterIndices = function( indices ) {
 	return filtered;
 };
 
+/**
+ * Matches string with an array, returns the word and the index it was found on, and sorts the match instances based on
+ * the index property of the match.
+ *
+ * @param {Array} words The array with strings to match.
+ * @param {string} text The text to match the strings from the array to.
+ * @returns {Array} The array with words, containing the index of the match and the matched string.
+ * Returns an empty array if none are found.
+ */
+var getIndicesByWordListSorted = function( words, text ) {
+	var matchedWords = [];
+
+	forEach( words, function( word ) {
+		word = stripSpaces( word );
+		if ( ! matchWordInSentence( word, text ) ) {
+			return matchedWords;
+		}
+		matchedWords = matchedWords.concat( getIndicesByWord( word, text ) );
+	} );
+
+	let matchedWordsArrayed = Array.from( matchedWords );
+	matchedWordsArrayed = matchedWordsArrayed.sort( function( a, b ) {
+		if ( a.index < b.index ) {
+			return -1;
+		}
+		if ( a.index > b.index ) {
+			return 1;
+		}
+		return 0;
+	} );
+
+	return matchedWordsArrayed;
+};
+
 module.exports = {
 	getIndicesByWord: getIndicesByWord,
 	getIndicesByWordList: getIndicesByWordList,
 	filterIndices: filterIndices,
 	sortIndices: sortIndices,
+	getIndicesByWordListSorted: getIndicesByWordListSorted,
 };
