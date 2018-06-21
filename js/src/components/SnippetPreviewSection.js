@@ -9,6 +9,9 @@ const Section = styled( StyledSection )`
 	max-width: 640px;
 	
 	&${ StyledSectionBase } {
+		padding-left: 0;
+		padding-right: 0;
+
 		& ${ StyledHeading } {
 			padding-left: 20px;
 			font-size: 14.4px;
