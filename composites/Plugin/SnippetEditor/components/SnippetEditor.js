@@ -40,6 +40,7 @@ const EditSnippetButton = SnippetEditorButton.extend`
 `;
 
 const CloseEditorButton = SnippetEditorButton.extend`
+	margin-top: 24px;
 	margin-left: 20px;
 `;
 
