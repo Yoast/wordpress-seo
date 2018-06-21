@@ -1229,7 +1229,8 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'sep', __( 'Separator', 'wordpress-seo' ), sprintf(
 			/* translators: %s: wp_title() function. */
 				__( 'The separator defined in your theme\'s %s tag.', 'wordpress-seo' ),
-				'<code>wp_title()</code>'
+				//'<code>wp_title()</code>'
+				'wp_title()'
 			) ),
 		);
 
