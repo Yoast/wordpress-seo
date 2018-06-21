@@ -279,10 +279,10 @@ import a11ySpeak from "a11y-speak";
 		} );
 
 		// Allow collapsing of the content types sections.
-		jQuery( ".toggleable-container-trigger" ).on( "click", ( event ) => {
+		jQuery( "body" ).on( "click", "button.toggleable-container-trigger", ( event ) => {
 			event.preventDefault();
 
-			let target = jQuery( event.target );
+			let target = jQuery( event.currentTarget );
 
 			target.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
 			target.parent().siblings( ".toggleable-container" ).toggleClass( "toggleable-container-hidden" );
