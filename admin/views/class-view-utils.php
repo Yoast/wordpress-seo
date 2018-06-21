@@ -72,13 +72,7 @@ class Yoast_View_Utils {
 		}
 
 		$show_post_type_help = $this->search_results_setting_help( $post_type );
-
 		$noindex_option_name = 'noindex-' . $post_type->name;
-		$this->form->index_switch(
-			$noindex_option_name,
-			$post_type->labels->name,
-			$show_post_type_help->get_button_html() . $show_post_type_help->get_panel_html()
-		);
 
 		if ( WPSEO_Options::get( 'is-media-purge-relevant' ) ) {
 			if ( $post_type->name === 'attachment' && WPSEO_Options::get( $noindex_option_name ) === false ) {
@@ -97,8 +91,11 @@ you want more information about the impact of showing media in search results.',
 			}
 		}
 
-		$editor = new WPSEO_Replacevar_Editor( $this->form, 'title-' . $post_type->name, 'metadesc-' . $post_type->name );
-		$editor->render();
+		$this->form->index_switch(
+			$noindex_option_name,
+			$post_type->labels->name,
+			$show_post_type_help->get_button_html() . $show_post_type_help->get_panel_html()
+		);
 
 		$this->form->show_hide_switch(
 			'showdate-' . $post_type->name,
@@ -110,5 +107,9 @@ you want more information about the impact of showing media in search results.',
 			/* translators: %1$s expands to Yoast SEO */
 			sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' )
 		);
+
+		$editor = new WPSEO_Replacevar_Editor( $this->form, 'title-' . $post_type->name, 'metadesc-' . $post_type->name );
+		$editor->render();
+
 	}
 }

@@ -272,6 +272,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 			}
 		});
 
+		// Allow collapsing of the content types sections.
+		jQuery(".toggleable-container-trigger").on("click", function (event) {
+			event.preventDefault();
+
+			var target = jQuery(event.target);
+
+			target.find("span").toggleClass("dashicons-arrow-up-alt2 dashicons-arrow-down-alt2");
+			target.parent().siblings(".toggleable-container").toggleClass("toggleable-container-hidden");
+		});
+
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
