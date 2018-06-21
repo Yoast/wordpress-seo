@@ -161,9 +161,9 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	/**
 	 * Returns whether the given page type has recommended replace vars.
 	 *
-	 * @param array $recommended_replace_vars The recommended replace vars
-	 *                                        to check in.
-	 * @param string $page_type               The page type to check.
+	 * @param array  $recommended_replace_vars The recommended replace vars
+	 *                                         to check in.
+	 * @param string $page_type                The page type to check.
 	 *
 	 * @return bool True if there are associated recommended replace vars.
 	 */
