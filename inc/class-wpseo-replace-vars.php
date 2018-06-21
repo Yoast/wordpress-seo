@@ -631,7 +631,6 @@ class WPSEO_Replace_Vars {
 			if ( $post instanceof WP_Post ) {
 				$post_type = $post->post_type;
 			}
-
 		}
 
 		if ( is_array( $post_type ) ) {
