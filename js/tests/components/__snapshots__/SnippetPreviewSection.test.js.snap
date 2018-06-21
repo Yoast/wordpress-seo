@@ -1,14 +1,17 @@
 exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
 <SnippetPreviewSection
+  hasPaperStyle={true}
   icon="eye"
   title="Snippet editor">
   <SnippetPreviewSection__Section
+    hasPaperStyle={true}
     headingIcon="eye"
     headingIconColor="#555"
     headingLevel={3}
     headingText="Snippet editor">
     <StyledSection
-      className="SnippetPreviewSection__Section-kWfIbs fyDJCY"
+      className="SnippetPreviewSection__Section-kWfIbs DsgBW"
+      hasPaperStyle={true}
       headingIcon="eye"
       headingIconColor="#555"
       headingLevel={3}
