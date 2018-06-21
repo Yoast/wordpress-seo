@@ -256,7 +256,6 @@ describe( "serializeBlock", () => {
 describe( "serializeSelection", () => {
 	it( "only serializes a selected part of the content state", () => {
 		const text = "Text %%entity%% %%entity%% Text";
-		// const beforeText = "[Text entity entity Text]";
 		const editorState = unserializeEditor( text, [ { name: "entity", value: "EntityValue" } ] );
 		const key = editorState.getCurrentContent().getFirstBlock().getKey();
 		const selection = new SelectionState( {
