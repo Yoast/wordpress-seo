@@ -30,8 +30,10 @@ function configureStore() {
 		configureEnhancers()
 	);
 	forEach( window.wpseoReplaceVarsL10n, replacementVariable => {
+		let name = replacementVariable.name.replace( / /g, "_" );
+
 		store.dispatch( updateReplacementVariable(
-			replacementVariable.name,
+			name,
 			replacementVariable.value,
 		) );
 	} );

@@ -6,6 +6,7 @@ import omit from "lodash/omit";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import decodeHTML from "yoast-components/composites/OnboardingWizard/helpers/htmlDecoder";
 
+
 export const nonReplaceVars = [ "slug", "content" ];
 
 /**
@@ -34,13 +35,16 @@ export function fillReplacementVariables( data, store ) {
  * @returns {string} The handled name, stripped from prefixes.
  */
 export function handlePrefixes( name ) {
-	let prefix = "";
+	const prefixes = [ "ct_", "cf_", "pt_" ];
 
-	// Strip "ct_", "cf_", or "pt_", and append it at the back in "readable" form.
-	if ( [ "ct_", "cf_", "pt_" ].includes( name.substr( 0, 3 ) ) ) {
-		prefix = name.slice( 0, 3 );
-		name = name.slice( 3 );
+	// If there are no prefixes, replace underscores by spaces and return.
+	if ( ! prefixes.includes( name.substr( 0, 3 ) ) ) {
+		return name.replace( /_/g, " " );
 	}
+
+	// Strip "ct_", "cf_", or "pt_", and save it for the switch statement.
+	let prefix = name.slice( 0, 3 );
+	name = name.slice( 3 );
 
 	// Remove "desc_" and append " description".
 	if ( name.indexOf( "desc_" ) !== -1 ) {
@@ -75,9 +79,6 @@ export function handlePrefixes( name ) {
 export function createLabelFromName( name ) {
 	name = handlePrefixes( name );
 
-	// Replace all '_' with spaces
-	name = name.replace( /_/g, " " );
-
 	// Capitalize first letter
 	return name[ 0 ].toUpperCase() + name.slice( 1 );
 }
@@ -98,6 +99,19 @@ export function decodeSeparatorVariable( replacementVariables ) {
 }
 
 /**
+ * Replace spaces in a string with an underscore (default) or some other symbol/string.
+ *
+ * @param {string} string      The string in which to replace spaces.
+ * @param {string} replacement The symbol or string to replace the spaces with (underscore by default).
+ *
+ * @returns {string} The string without spaces.
+ */
+function replaceSpaces( string, replacement = "_" ) {
+	// Replace whitespaces with the replacement.
+	return string.replace( /\s/g, replacement );
+}
+
+/**
  * Map the custom_taxonomies field in the replacevars to a format suited for redux.
  *
  * @param {Object} replaceVars       The original replacevars.
@@ -111,6 +125,7 @@ export function mapCustomTaxonomies( replaceVars ) {
 
 	let customTaxonomyReplaceVars = {};
 	forEach( replaceVars.custom_taxonomies, ( value, key ) => {
+		key = replaceSpaces( key );
 		customTaxonomyReplaceVars[ `ct_${ key }` ] = value.name;
 		customTaxonomyReplaceVars[ `ct_desc_${ key }` ] = value.description;
 	} );
@@ -135,6 +150,7 @@ export function mapCustomFields( replaceVars ) {
 
 	let customFieldReplaceVars = {};
 	forEach( replaceVars.custom_fields, ( value, key ) => {
+		key = replaceSpaces( key );
 		customFieldReplaceVars[ `cf_${ key }` ] = value;
 	} );
 
