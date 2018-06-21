@@ -117,6 +117,7 @@ class SnippetEditor extends React.Component {
 	 *                                                   editor data to data
 	 *                                                   for the preview.
 	 * @param {string}   props.locale                    The locale of the page.
+	 * @param {bool}     props.hasPaperStyle             Whether or not it has paper style.
 	 *
 	 * @returns {void}
 	 */
@@ -227,6 +228,7 @@ class SnippetEditor extends React.Component {
 			data,
 			replacementVariables,
 			descriptionEditorFieldPlaceholder,
+			hasPaperStyle,
 		} = this.props;
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
@@ -247,6 +249,7 @@ class SnippetEditor extends React.Component {
 					titleLengthProgress={ titleLengthProgress }
 					descriptionLengthProgress={ descriptionLengthProgress }
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
+					containerPadding={ hasPaperStyle ? "0 20px": "0" }
 				/>
 				<CloseEditorButton onClick={ this.close }>
 					{ __( "Close snippet editor", "yoast-components" ) }
@@ -555,6 +558,7 @@ SnippetEditor.propTypes = {
 	mapEditorDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
 	locale: PropTypes.string,
+	hasPaperStyle: PropTypes.bool,
 };
 
 SnippetEditor.defaultProps = {
@@ -575,6 +579,7 @@ SnippetEditor.defaultProps = {
 	locale: "en",
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
 	onChangeAnalysisData: noop,
+	hasPaperStyle: true,
 };
 
 export default SnippetEditor;

@@ -4,22 +4,14 @@ import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import debounce from "lodash/debounce";
 import { __ } from "@wordpress/i18n";
-import styled from "styled-components";
 
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import { replacementVariablesShape } from "../constants";
-
-const FormSection = styled.div`
-	margin: 10px 0;
-	&:not(:first-child) {
-		margin-top: 32px; 
-	}
-`;
-
-const StyledEditor = styled.div`
-	padding: 12px 20px 2px;
-`;
+import {
+	FormSection,
+	StyledEditor,
+} from "./Shared";
 
 class SettingsSnippetEditorFields extends React.Component {
 	/**
@@ -185,6 +177,7 @@ class SettingsSnippetEditorFields extends React.Component {
 				title,
 				description,
 			},
+			containerPadding,
 		} = this.props;
 
 		const isSmallerThanMobileWidth = this.state.isSmallerThanMobileWidth;
@@ -192,6 +185,7 @@ class SettingsSnippetEditorFields extends React.Component {
 		return (
 			<StyledEditor
 				innerRef={ this.setEditorRef }
+				padding={ containerPadding }
 			>
 				<FormSection>
 					<ReplacementVariableEditor
@@ -238,12 +232,14 @@ SettingsSnippetEditorFields.propTypes = {
 	hoveredField: PropTypes.oneOf( [ "title", "description" ] ),
 	descriptionEditorFieldPlaceholder: PropTypes.string,
 	mobileWidth: PropTypes.number,
+	containerPadding: PropTypes.string,
 };
 
 SettingsSnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
 	mobileWidth: 356,
+	containerPadding: "0 20px",
 };
 
 export default SettingsSnippetEditorFields;
