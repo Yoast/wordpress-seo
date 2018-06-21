@@ -401,6 +401,8 @@ import {
 			var customFieldName = jQuery( "#" + customField.id + "-key" ).val();
 			var customValue = jQuery( "#" + customField.id + "-value" ).val();
 			const sanitizedFieldName = "cf_" + this.sanitizeCustomFieldNames( customFieldName );
+
+			// The label will just be the value of the name field, with " (custom field)" appended.
 			const label = customFieldName + " (custom field)";
 
 			// Register these as new replacevars. The replacement text will be a literal string.
