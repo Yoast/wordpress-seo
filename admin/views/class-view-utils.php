@@ -97,7 +97,11 @@ you want more information about the impact of showing media in search results.',
 			}
 		}
 
-		$editor = new WPSEO_Replacevar_Editor( $this->form, 'title-' . $post_type->name, 'metadesc-' . $post_type->name, $post_type->name );
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$page_type                = $recommended_replace_vars->determine_for_post_type( $post_type->name );
+		var_dump( $page_type );
+
+		$editor = new WPSEO_Replacevar_Editor( $this->form, 'title-' . $post_type->name, 'metadesc-' . $post_type->name, $page_type );
 		$editor->render();
 
 		$this->form->show_hide_switch(

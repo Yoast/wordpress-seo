@@ -33,7 +33,7 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		// Settings - archive pages.
 		'author_archive'          => array( 'sitename', 'title', 'sep', 'page' ),
 		'date_archive'            => array( 'sitename', 'sep', 'date', 'page' ),
-		'custom-taxonomy_archive' => array( 'sitename', 'title', 'sep' ),
+		'custom-post-type_archive' => array( 'sitename', 'title', 'sep', 'page' ),
 
 		// Settings - special pages.
 		'search'                  => array( 'sitename', 'searchphrase', 'sep', 'page' ),
@@ -81,6 +81,46 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	}
 
 	/**
+	 * Determines the page type for a post type.
+	 *
+	 * @param string $post_type The name of the post_type.
+	 * @param string $fallback  The page type to fall back to.
+	 *
+	 * @return string The page type.
+	 */
+	public function determine_for_post_type( $post_type, $fallback = 'custom_post_type' ) {
+		$page_type                   = $post_type;
+		$recommended_replace_vars    = $this->get_recommended_replacevars();
+		$has_recommended_replacevars = $this->has_recommended_replace_vars( $recommended_replace_vars, $page_type );
+
+		if ( ! $has_recommended_replacevars ) {
+			return $fallback;
+		}
+
+		return $page_type;
+	}
+
+	/**
+	 * Determines the page type for an archive page.
+	 *
+	 * @param string $name     The name of the archive.
+	 * @param string $fallback The page type to fall back to.
+	 *
+	 * @return string The page type.
+	 */
+	public function determine_for_archive( $name, $fallback = 'custom-post-type_archive' ) {
+		$page_type                   = $name . '_archive';
+		$recommended_replace_vars    = $this->get_recommended_replacevars();
+		$has_recommended_replacevars = $this->has_recommended_replace_vars( $recommended_replace_vars, $page_type );
+
+		if ( ! $has_recommended_replacevars ) {
+			return $fallback;
+		}
+
+		return $page_type;
+	}
+
+	/**
 	 * Retrieves the recommended replacement variables for the given page type.
 	 *
 	 * @param string $page_type The page type.
@@ -88,15 +128,12 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 * @return array The recommended replacement variables.
 	 */
 	public function get_recommended_replacevars_for( $page_type ) {
-		$recommended_replace_vars = $this->get_recommended_replacevars();
-		if ( ! isset( $recommended_replace_vars[ $page_type ] ) ) {
+		$recommended_replace_vars     = $this->get_recommended_replacevars();
+		$has_recommended_replace_vars = $this->has_recommended_replace_vars( $recommended_replace_vars, $page_type );
+
+		if ( ! $has_recommended_replace_vars ) {
 			return array();
 		}
-
-		if ( ! is_array( $recommended_replace_vars[ $page_type ] ) ) {
-			return array();
-		}
-
 
 		return $recommended_replace_vars[ $page_type ];
 	}
@@ -119,6 +156,27 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		}
 
 		return $recommended_replace_vars;
+	}
+
+	/**
+	 * Returns whether the given page type has recommended replace vars.
+	 *
+	 * @param array $recommended_replace_vars The recommended replace vars
+	 *                                        to check in.
+	 * @param string $page_type               The page type to check.
+	 *
+	 * @return bool True if there are associated recommended replace vars.
+	 */
+	private function has_recommended_replace_vars( $recommended_replace_vars, $page_type ) {
+		if ( ! isset( $recommended_replace_vars[ $page_type ] ) ) {
+			return false;
+		}
+
+		if ( ! is_array( $recommended_replace_vars[ $page_type ] ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

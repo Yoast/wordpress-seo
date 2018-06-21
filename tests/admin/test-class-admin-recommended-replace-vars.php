@@ -117,6 +117,69 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests that determine_for_post_type works for a post.
+	 *
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post_type
+	 */
+	public function test_determine_for_post_type_with_a_post() {
+		$this->assertEquals( 'post', $this->class_instance->determine_for_post_type( 'post' ) );
+	}
+
+	/**
+	 * Tests that the determine_for_post_type fallback works.
+	 *
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post_type
+	 */
+	public function test_determine_for_post_type_with_a_fallback() {
+		$this->assertEquals( 'custom_post_type', $this->class_instance->determine_for_post_type( 'non-existing-post_type' ) );
+	}
+
+	/**
+	 * Tests that the determine_for_post_type custom fallback works.
+	 *
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_post_type
+	 */
+	public function test_determine_for_post_type_with_a_custom_fallback() {
+		$this->assertEquals( 'fallback_post_type', $this->class_instance->determine_for_post_type( 'non-existing-post_type', 'fallback_post_type' ) );
+	}
+
+	/**
+	 * Tests that determine_for_archive works for the date_archive.
+	 *
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_archive
+	 */
+	public function test_determine_for_archive_with_author() {
+		$this->assertEquals( 'author_archive', $this->class_instance->determine_for_archive( 'author' ) );
+	}
+
+	/**
+	 * Tests that determine_for_archive works for the date_archive.
+	 *
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_archive
+	 */
+	public function test_determine_for_archive_with_date() {
+		$this->assertEquals( 'date_archive', $this->class_instance->determine_for_archive( 'date' ) );
+	}
+
+	/**
+	 * Tests that the determine_for_archive fallback works.
+	 *
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_archive
+	 */
+	public function test_determine_for_archive_with_a_fallback() {
+		$this->assertEquals( 'custom-post-type_archive', $this->class_instance->determine_for_archive( 'non-existing-archive' ) );
+	}
+
+	/**
+	 * Tests that the determine_for_archive custom fallback works.
+	 *
+	 * @covers WPSEO_Admin_Recommended_Replace_Vars::determine_for_archive
+	 */
+	public function test_determine_for_archive_with_a_custom_fallback() {
+		$this->assertEquals( 'fallback_archive', $this->class_instance->determine_for_archive( 'non-existing-archive', 'fallback_archive' ) );
+	}
+
+	/**
 	 * Tests that get_recommended_replacevars works for the settings.
 	 *
 	 * @dataProvider get_recommended_replacevars_provider
@@ -154,9 +217,9 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 			array( 'term-in-custom-taxomomy', array( 'sitename', 'term_title', 'sep' ) ),
 
 			// Settings - archive pages.
-			array( 'author_archive'         , array( 'sitename', 'title', 'sep', 'page' ) ),
-			array( 'date_archive'           , array( 'sitename', 'sep', 'date', 'page' ) ),
-			array( 'custom-taxonomy_archive', array( 'sitename', 'title', 'sep' ) ),
+			array( 'author_archive'          , array( 'sitename', 'title', 'sep', 'page' ) ),
+			array( 'date_archive'            , array( 'sitename', 'sep', 'date', 'page' ) ),
+			array( 'custom-post-type_archive', array( 'sitename', 'title', 'sep', 'page' ) ),
 			// Settings - special pages.
 			array( 'search', array( 'sitename', 'searchphrase', 'sep', 'page' ) ),
 			array( '404'   , array( 'sitename', 'sep' ) ),
