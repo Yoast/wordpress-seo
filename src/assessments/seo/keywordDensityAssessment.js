@@ -4,7 +4,6 @@ var formatNumber = require( "../../helpers/formatNumber.js" );
 var inRange = require( "../../helpers/inRange.js" );
 
 var inRangeEndInclusive = inRange.inRangeEndInclusive;
-var inRangeStartInclusive = inRange.inRangeStartInclusive;
 var inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
 
 /**
