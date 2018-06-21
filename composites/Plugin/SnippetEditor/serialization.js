@@ -1,5 +1,3 @@
-import reduce from "lodash/reduce";
-import sortBy from "lodash/sortBy";
 import { EditorState, Modifier, SelectionState, ContentState } from "draft-js";
 
 const CIRCUMFIX = "%%";
@@ -20,48 +18,143 @@ export function serializeVariable( name ) {
 }
 
 /**
- * Serializes a Draft.js block into a string.
+ * Replaces pieces of text by using positions.
  *
- * @param {Object} entityMap Contains all the entities in the Draft.js editor.
- * @param {Object} block The block to serialize.
- *
- * @returns {string} The serialized block.
+ * @param {string} text The text to replace in.
+ * @param {Array} replacements The replacements to execute.
+ * @returns {string} The text with the replacements replaced.
  */
-export function serializeBlock( entityMap, block ) {
-	const { text, entityRanges } = block;
-	let previousEntityEnd = 0;
+export function replaceByPosition( text, replacements = [] ) {
+	/*
+	 * Start from the last replacement to prevent having to track changes in the
+	 * string.
+	 */
+	[ ...replacements ].reverse().forEach( ( replacement ) => {
+		const { start, end, replacementText } = replacement;
 
-	// Ensure the entityRanges are in order from low to high offset.
-	const sortedEntityRanges = sortBy( entityRanges, "offset" );
-	let serialized = reduce( sortedEntityRanges, ( serialized, entityRange ) => {
-		const { key, length, offset } = entityRange;
-		const beforeEntityLength = offset - previousEntityEnd;
+		const before =       text.slice( 0, start );
+		const after =        text.slice( end, text.length );
 
-		const beforeEntity = text.substr( previousEntityEnd, beforeEntityLength );
-		const serializedEntity = serializeVariable( entityMap[ key ].data.mention.name );
+		text = before + replacementText + after;
+	} );
 
-		previousEntityEnd = offset + length;
+	return text;
+}
 
-		return serialized + beforeEntity + serializedEntity;
-	}, "" );
+/**
+ * Returns whether a given position is in the given range.
+ *
+ * @param {number} position The position to check.
+ * @param {number} start    The start of the range.
+ * @param {number} end      The end of the range.
+ * @returns {boolean} Whether the given position is inside the range.
+ */
+function inRange( position, start, end ) {
+	return position >= start && position <= end;
+}
 
-	serialized += text.substr( previousEntityEnd );
+/**
+ * Serializes a block into a string.
+ *
+ * @param {ContentBlock} block            The DraftJS block to serialize.
+ * @param {Function}     getEntity        A function which is used to get the
+ *                                        entity object from the entity key.
+ * @param {Object?}      delimiters       Optional delimiters which can be
+ *                                        passed to only serialize that part of
+ *                                        the block.
+ * @param {number}       delimiters.start The start of the selection to
+ *                                        serialize.
+ * @param {number}       delimiters.end   The end of the selection to serialize.
+ * @returns {string} The content of the block serialized into a string.
+ */
+export function serializeBlock( block, getEntity, { start = 0, end = block.getText().length } = {} ) {
+	let text = block.getText().slice( start, end );
 
-	return serialized;
+	const replacements = [];
+
+	// Find all the entities and replace them if necessary.
+	block.findEntityRanges(
+		character => !! character.getEntity(),
+		( entityStart, entityEnd ) => {
+			/*
+			 * Only if the entity is contained within start and end do we want to replace it
+			 * by its serialized value.
+			 */
+			if ( inRange( entityStart, start, end ) && inRange( entityEnd, start, end ) ) {
+				const entityData = getEntity( block.getEntityAt( entityStart ) );
+
+				replacements.push( {
+					start: entityStart - start,
+					end: entityEnd - start,
+					replacementText: serializeVariable( entityData.data.mention.replaceName ),
+				} );
+			}
+		}
+	);
+
+	return replaceByPosition( text, replacements );
 }
 
 /**
  * Serializes the content inside a Draft.js editor.
  *
- * @param {Object} rawContent The content as returned by convertToRaw.
- *
+ * @param {ContentState} contentState The content state of DraftJS.
+ * @param {string} blockDelimiter The string with which to delimit the blocks.
  * @returns {string} The serialized content.
  */
-export function serializeEditor( rawContent ) {
-	const { blocks, entityMap } = rawContent;
+export function serializeEditor( contentState, blockDelimiter = " " ) {
+	const blocks = contentState.getBlockMap();
 
-	// Every line is a block. Join the lines with a space between them.
-	return blocks.map( block => serializeBlock( entityMap, block ) ).join( " " );
+	return blocks
+		.map( ( block ) => serializeBlock( block, key => contentState.getEntity( key ) ) )
+		.join( blockDelimiter );
+}
+
+/**
+ * Serializes a piece of the content state into text.
+ *
+ * @param  {ContentState}   contentState          The current content state.
+ * @param  {SelectionState} selection             The current selection
+ * @param  {string}         [blockDelimiter=" "] With which to separate the
+ *                                                blocks.
+ * @returns {string} The selected text.
+ */
+export function serializeSelection( contentState, selection, blockDelimiter = " " ) {
+	const startKey   = selection.getStartKey();
+	const endKey     = selection.getEndKey();
+	const blocks     = contentState.getBlockMap();
+
+	let lastWasEnd = false;
+	const selectedBlock = blocks
+		.skipUntil( function( block ) {
+			return block.getKey() === startKey;
+		} )
+		.takeUntil( function( block ) {
+			const result = lastWasEnd;
+
+			if ( block.getKey() === endKey ) {
+				lastWasEnd = true;
+			}
+
+			return result;
+		} );
+
+	return selectedBlock
+		.map( function( block ) {
+			const key = block.getKey();
+
+			const delimiters = {};
+
+			if ( key === startKey ) {
+				delimiters.start = selection.getStartOffset();
+			}
+			if ( key === endKey ) {
+				delimiters.end = selection.getEndOffset();
+			}
+
+			return serializeBlock( block, key => contentState.getEntity( key ), delimiters );
+		} )
+		.join( blockDelimiter );
 }
 
 /**
@@ -191,7 +284,7 @@ export function moveSelectionAfterReplacement( selection, blockKey, variable ) {
 export function createEntityInContent( contentState, variable ) {
 	const entityData = {
 		mention: {
-			name: variable.name,
+			replaceName: variable.name,
 		},
 	};
 

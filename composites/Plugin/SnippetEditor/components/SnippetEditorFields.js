@@ -150,8 +150,12 @@ class SnippetEditorFields extends React.Component {
 	 */
 	focusOnActiveFieldChange() {
 		const { activeField } = this.props;
-		if ( activeField ) {
-			const activeElement = this.elements[ activeField ];
+		const activeElement = activeField ? this.elements[ activeField ] : null;
+		/*
+		 * The editor might not render if any previous error occurs, so better
+		 * to check for the existence of the DOM node before trying to use it.
+		 */
+		if ( activeElement ) {
 			activeElement.focus();
 		}
 	}
@@ -177,6 +181,11 @@ class SnippetEditorFields extends React.Component {
 	 * @returns {void}
 	 */
 	updateIsSmallerThanMobileWidth() {
+		if ( ! this.editor ) {
+			// The editor might not render if any previous error occurs.
+			return;
+		}
+
 		const isSmallerThanMobileWidth = this.editor.clientWidth < this.props.mobileWidth;
 		if ( this.state.isSmallerThanMobileWidth !== isSmallerThanMobileWidth ) {
 			this.setState( { isSmallerThanMobileWidth } );
