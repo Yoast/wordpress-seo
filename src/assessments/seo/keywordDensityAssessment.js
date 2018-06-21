@@ -16,7 +16,8 @@ var inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
  * @returns {{score: number, text: *}} The assessment result
  */
 var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount ) {
-	var score, text, max;
+	var score, text;
+	const max = "2.5%";
 	var roundedKeywordDensity = formatNumber( keywordDensity );
 	var keywordDensityPercentage = roundedKeywordDensity + "%";
 
@@ -25,11 +26,12 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 		%3$s expands to the maximum keyword density percentage. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
-			" which is way over the advised %3$s maximum;" +
-			" the focus keyword was found %2$d times." );
-
-		max = "2.5%";
+		text = i18n.dngettext(
+			"js-text-analysis",
+			"The keyword density is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d time.",
+			"The keyword density is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d times.",
+			keywordCount
+		);
 
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
 	}
@@ -39,11 +41,12 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 		%3$s expands to the maximum keyword density percentage. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
-			" which is over the advised %3$s maximum;" +
-			" the focus keyword was found %2$d times." );
-
-		max = "2.5%";
+		text = i18n.dngettext(
+			"js-text-analysis",
+			"The keyword density is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d time.",
+			"The keyword density is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d times.",
+			keywordCount
+		);
 
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
 	}
@@ -52,18 +55,38 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 		score = 9;
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is great;" +
-			" the focus keyword was found %2$d times." );
+		text = i18n.dngettext(
+			"js-text-analysis",
+			"The keyword density is %1$s, which is great; the focus keyword was found %2$d time.",
+			"The keyword density is %1$s, which is great; the focus keyword was found %2$d times.",
+			keywordCount
+		);
 
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount );
 	}
 
-	if ( inRangeStartInclusive( roundedKeywordDensity, 0, 0.5 ) ) {
+	if ( roundedKeywordDensity < 0.5 && keywordCount === 0 ) {
 		score = 4;
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is too low;" +
-			" the focus keyword was found %2$d times." );
+		text = i18n.dgettext(
+			"js-text-analysis",
+			"The keyword density is %1$s, which is too low; the focus keyword was found %2$d times."
+		);
+
+		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount );
+	}
+
+	if ( roundedKeywordDensity < 0.5 && ! ( keywordCount === 0 ) ) {
+		score = 4;
+
+		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
+		text = i18n.dngettext(
+			"js-text-analysis",
+			"The keyword density is %1$s, which is too low; the focus keyword was found %2$d time.",
+			"The keyword density is %1$s, which is too low; the focus keyword was found %2$d times.",
+			keywordCount
+		);
 
 		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount );
 	}
