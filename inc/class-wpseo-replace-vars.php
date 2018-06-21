@@ -1097,7 +1097,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Set the help text for a user/plugin/theme defined extra variable.
 	 *
-	 * @param  string                   $type                   Type of variable: 'basic' or 'advanced'.
+	 * @param  string                       $type                   Type of variable: 'basic' or 'advanced'.
 	 * @param  WPSEO_Replacement_Variable   $replacement_variable   The replacement variable to register.
 	 */
 	private static function register_help_text( $type, WPSEO_Replacement_Variable $replacement_variable ) {

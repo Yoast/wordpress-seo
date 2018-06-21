@@ -7,7 +7,7 @@
  */
 
 /**
- * Class WPSEO_Replace_Var_Data
+ * Class WPSEO_Replacement_Variable
  *
  * This class stores the data of a single snippet variable.
  */
@@ -29,7 +29,7 @@ class WPSEO_Replacement_Variable {
 	protected $description;
 
 	/**
-	 * WPSEO_Replace_Var_Data constructor.
+	 * WPSEO_Replacement_Variable constructor.
 	 *
 	 * @param string $variable      The variable that is replaced.
 	 * @param string $label         The label of the replacement variable.
@@ -53,9 +53,9 @@ class WPSEO_Replacement_Variable {
 	}
 
 	/**
-	 * Sets the replacement variable to use.
+	 * Sets the variable to use.
 	 *
-	 * @param string $variable The variable that is replaced.
+	 * @param string $variable The variable to use.
 	 */
 	public function set_variable( $variable ) {
 		$this->variable = $variable;
