@@ -66,6 +66,10 @@ tr.yst_row.even {
 .wpseo_content_wrapper select {
 	width: 400px;
 }
+.wpseo_content_wrapper input.large-text,
+.wpseo_content_wrapper textarea.large-text {
+	width: 99%;
+}
 .wpseo_content_wrapper input.textinput,
 .wpseo_content_wrapper textarea.textinput,
 .wpseo_content_wrapper select.select {
