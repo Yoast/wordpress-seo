@@ -28,6 +28,7 @@ build:
 
 # Build internationalisation features
 'build:i18n':
+  - 'clean:language-files'
   - 'build:i18n:potFiles'
   - 'build:i18n:translations'
 # Create the relevant POT files

@@ -1,5 +1,9 @@
 // See https://github.com/gruntjs/grunt-contrib-clean for details.
 module.exports = {
+	"language-files": [
+		"<%= paths.languages %>*",
+		"!<%= paths.languages %>index.js",
+	],
 	"po-files": [
 		"<%= paths.languages %>*.po",
 		"<%= paths.languages %><%= pkg.plugin.textdomain %>-temp.pot",
