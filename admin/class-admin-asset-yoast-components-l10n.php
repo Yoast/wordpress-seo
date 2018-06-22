@@ -4,29 +4,33 @@
  */
 
 /**
- * Localizes yoast-components.
+ * Localizes JavaScript files.
  */
 final class WPSEO_Admin_Asset_Yoast_Components_l10n {
 	/**
-	 * Localizes the given script with the yoast-components translations.
+	 * Localizes the given script with the JavaScript translations.
 	 *
 	 * @param string $script_handle The script handle to localize for.
 	 *
 	 * @return void
 	 */
 	public function localize_script( $script_handle ) {
-		wp_localize_script( $script_handle, 'wpseoYoastComponentsL10n', $this->get_translations() );
+		wp_localize_script( $script_handle, 'wpseoYoastJSL10n', array(
+			'yoast-components' => $this->get_translations( 'yoast-components' ),
+			'wordpress-seo' => $this->get_translations( 'wordpress-seojs' ),
+		) );
 	}
 
 	/**
-	 * Returns translations necessary for yoast-components.
+	 * Returns translations necessary for JS files.
 	 *
-	 * @return object The translations in a Jed format for yoast-components.
+	 * @param string $component The component to retrieve the translations for.
+	 * @return object The translations in a Jed format for JS files.
 	 */
-	protected function get_translations() {
+	protected function get_translations( $component ) {
 		$locale = WPSEO_Utils::get_user_locale();
 
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/yoast-components-' . $locale . '.json';
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/' . $component . '-' . $locale . '.json';
 		if ( file_exists( $file ) ) {
 			$file = file_get_contents( $file );
 			if ( is_string( $file ) && $file !== '' ) {

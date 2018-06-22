@@ -23,9 +23,10 @@ import UsedKeywords from "./analysis/usedKeywords";
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
-import { setYoastComponentsI18n } from "./helpers/i18n";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 
-setYoastComponentsI18n();
+setYoastComponentsL10n();
+setWordPressSeoL10n();
 
 window.yoastHideMarkers = true;
 
