@@ -177,13 +177,11 @@ tr.yst_row.even {
 .wpseo_content_wrapper .toggleable-container-trigger {
 	float: right;
 	width: 20px;
+	height: 20px;
 	padding: 0; 
 	border: 0;
 	background: none;
 	cursor: pointer;
-}
-.wpseo_content_wrapper .toggleable-container-icon {
-	display: block;
 }
 .wpseo_content_wrapper .toggleable-container-hidden {
 	display: none;
