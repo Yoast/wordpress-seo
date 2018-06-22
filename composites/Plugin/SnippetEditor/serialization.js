@@ -259,6 +259,60 @@ export function getSelectedText( editorState, SelectionState ) {
 }
 
 /**
+ * Adds a space after a replacement variable if there isn't one now.
+ *
+ * Takes into account word boundaries so we don't add spaces before comma's,
+ * full stops or other punctuation.
+ *
+ * @param {EditorState} editorState The current editor state.
+ * @param {SelectionState} selection The current selection state.
+ * @param {string} blockKey Key of the block we are currently working with.
+ * @param {Object} variable Details about the variable we are replacing.
+ * @returns {{editorState: EditorState, selection: SelectionState}} New editor and selection state.
+ */
+function addSpaceAfterVariable( editorState, selection, blockKey, variable ) {
+	const contentState = editorState.getCurrentContent();
+
+	/*
+	 * We need to know what is the first character after the replacement variable to
+	 * decide whether we need to insert a space after the variable (see below).
+	 */
+	const selectionCharacterAfterVariable = SelectionState.createEmpty( blockKey ).merge( {
+		anchorOffset: variable.end,
+		focusOffset: variable.end + 1,
+	} );
+
+	const characterAfterVariable = getSelectedText( editorState, selectionCharacterAfterVariable );
+
+	/*
+	 * We're making sure there is a space after every entity to improve the UX.
+	 * Without a space, replaced variables are stuck to each other, while it might
+	 * look like they aren't when looking at the entities because of the margin
+	 * between entities.
+	 */
+	if ( ! wordBoundaries().includes( characterAfterVariable ) ) {
+		// We want to place a space after the variable, so we need to know where that is.
+		const selectionAfterVariable = SelectionState.createEmpty( blockKey ).merge( {
+			anchorOffset: variable.end,
+			focusOffset: variable.end,
+		} );
+
+		const newContentState = Modifier.insertText(
+			contentState,
+			selectionAfterVariable,
+			" ",
+		);
+		editorState = EditorState.push( editorState, newContentState, "insert-characters" );
+		selection = selection.merge( {
+			anchorOffset: selection.getAnchorOffset() + 1,
+			focusOffset: selection.getFocusOffset() + 1,
+		} );
+	}
+
+	return { editorState, selection };
+}
+
+/**
  * Replaces replacement variables (%%replacement_variable%%) in an editor state with entities.
  *
  * @param {EditorState} editorState The editor state to find the variables in.
@@ -281,56 +335,21 @@ export function replaceReplacementVariables( editorState, replacementVariables )
 		const foundReplacementVariables = findReplacementVariables( text );
 
 		/*
-		 * We reverse the order to make it possible to replace replace vars without having to keep track
-		 * of the difference between the entity length and the length before replacement.
+		 * We reverse the order to make it possible to replace replace vars without
+		 * having to keep track of the difference between the entity length and the
+		 * length before replacement.
 		 */
 		[ ...foundReplacementVariables ].reverse().forEach( ( variable ) => {
-
-			const contentState = newEditorState.getCurrentContent();
 			variable = addLabel( variable, replacementVariables );
 			variable = addPositionInformation( variable );
-
-			/*
-			 * We need to know what is the first character after the replacement variable to decide
-			 * whether we need to insert a space after the variable (see below).
-			 */
-			const selectionCharacterAfterVariable = SelectionState.createEmpty( blockKey ).merge( {
-				anchorOffset: variable.end,
-				focusOffset: variable.end + 1,
-			} );
-
-			const characterAfterVariable = getSelectedText( newEditorState, selectionCharacterAfterVariable );
 
 			let selection = newEditorState.getSelection();
 			selection = moveSelectionAfterReplacement( selection, blockKey, variable );
 
-			/*
-			 * We're making sure there is a space after every entity to improve the UX.
-			 * Without a space, replaced variables are stuck to each other, while it might
-			 * look like they aren't when looking at the entities because of the margin
-			 * between entities.
-			 */
-			if ( ! wordBoundaries().includes( characterAfterVariable ) ) {
-				// We want to place a space after the variable, so we need to know where that is.
-				const selectionAfterVariable = SelectionState.createEmpty( blockKey ).merge( {
-					anchorOffset: variable.end,
-					focusOffset: variable.end,
-				} );
+			const addedSpace = addSpaceAfterVariable( newEditorState, selection, blockKey, variable );
 
-				const newContentState = Modifier.insertText(
-					contentState,
-					selectionAfterVariable,
-					" ",
-				);
-				newEditorState = EditorState.push( newEditorState, newContentState, "insert-characters" );
-				selection = selection.merge( {
-					anchorOffset: selection.getAnchorOffset() + 1,
-					focusOffset: selection.getFocusOffset() + 1,
-				} );
-			}
-
-			newEditorState = replaceVariableWithEntity( newEditorState, variable, blockKey );
-			newEditorState = EditorState.acceptSelection( newEditorState, selection );
+			newEditorState = replaceVariableWithEntity( addedSpace.editorState, variable, blockKey );
+			newEditorState = EditorState.acceptSelection( newEditorState, addedSpace.selection );
 		} );
 	} );
 
