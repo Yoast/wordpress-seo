@@ -156,21 +156,30 @@ class SnippetEditor extends React.Component {
 	}
 
 	/**
-	 * Returns whether the old and the new data are different.
+	 * Returns whether the old and the new data or replacement variables are different.
 	 *
-	 * @param {Object} oldData The old data.
-	 * @param {Object} newData The new data.
+	 * @param {Object} prevProps The old props.
+	 * @param {Object} nextProps The new props.
 	 * @returns {boolean} True if any of the data points has changed.
 	 */
-	shallowCompareData( oldData, newData ) {
+	shallowCompareData( prevProps, nextProps ) {
 		let isDirty = false;
 		if (
-			oldData.description !== newData.description ||
-			oldData.slug !== newData.slug ||
-			oldData.title !== newData.title
+			prevProps.data.description !== nextProps.data.description ||
+			prevProps.data.slug !== nextProps.data.slug ||
+			prevProps.data.title !== nextProps.data.title
 		) {
 			isDirty = true;
 		}
+
+		/* If any of the replacement variables have changed, the preview progress needs to be reanalysed.
+		   The replacement variables are converted from an array of objects to a string for easier and more consistent
+		   comparison.
+		 */
+		if ( JSON.stringify( prevProps.replacementVariables ) !== JSON.stringify( nextProps.replacementVariables ) ) {
+			isDirty = true;
+		}
+
 		return isDirty;
 	}
 
@@ -182,8 +191,8 @@ class SnippetEditor extends React.Component {
 	 */
 	componentWillReceiveProps( nextProps ) {
 		// Only set a new state when the data is dirty.
-		if ( this.shallowCompareData( this.props.data, nextProps.data ) ) {
-			const data = this.mapDataToMeasurements( nextProps.data );
+		if ( this.shallowCompareData( this.props, nextProps ) ) {
+			const data = this.mapDataToMeasurements( nextProps.data, nextProps.replacementVariables );
 			this.setState(
 				{
 					titleLengthProgress: getTitleProgress( data.title ),
@@ -374,13 +383,12 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Processes replacement variables in the content.
 	 *
-	 * @param {string} content The content to process.
+	 * @param {string} content              The content to process.
+	 * @param {array}  replacementVariables The replacement variables to use. Taken from the props by default.
 	 *
 	 * @returns {string} The processed content.
 	 */
-	processReplacementVariables( content ) {
-		const { replacementVariables } = this.props;
-
+	processReplacementVariables( content, replacementVariables = this.props.replacementVariables ) {
 		for ( const { name, value } of replacementVariables ) {
 			content = content.replace( new RegExp( "%%" + name + "%%", "g" ), value );
 		}
@@ -396,13 +404,14 @@ class SnippetEditor extends React.Component {
 	 * be measured.
 	 *
 	 * @param {Object} originalData         The data from the form.
+	 * @param {array}  replacementVariables The replacement variables to use. Taken from the props by default.
 	 *
 	 * @returns {Object} The data for the preview.
 	 */
-	mapDataToMeasurements( originalData ) {
+	mapDataToMeasurements( originalData, replacementVariables = this.props.replacementVariables ) {
 		const { baseUrl, mapEditorDataToPreview } = this.props;
 
-		let description = this.processReplacementVariables( originalData.description );
+		let description = this.processReplacementVariables( originalData.description, replacementVariables );
 
 		// Strip multiple spaces and spaces at the beginning and end.
 		description = stripSpaces( description );
@@ -410,7 +419,7 @@ class SnippetEditor extends React.Component {
 		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
 
 		let mappedData = {
-			title: this.processReplacementVariables( originalData.title ),
+			title: this.processReplacementVariables( originalData.title, replacementVariables ),
 			url: shortenedBaseUrl + originalData.slug,
 			description: description,
 		};
