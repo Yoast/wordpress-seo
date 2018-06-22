@@ -1,8 +1,8 @@
 /** @module stringProcessing/matchTextWithArray */
 
-var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
+const arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
+const stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+const removePunctuation = require( "../stringProcessing/removePunctuation.js" );
 /**
  * Matches strings from an array against a given text.
  *
@@ -17,7 +17,7 @@ module.exports = function( text, array ) {
 	}
 
 	matches = matches.map( function( string ) {
-		return stripSpaces( string );
+		return stripSpaces( removePunctuation( string ) );
 	} );
 
 	return matches;
