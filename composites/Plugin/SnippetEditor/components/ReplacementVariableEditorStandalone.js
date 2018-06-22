@@ -34,6 +34,9 @@ import {
 	removeSelectedText,
 	moveCaret,
 } from "../replaceText";
+import {
+	selectReplacementVariables,
+} from "../selection";
 
 /**
 /**
@@ -176,6 +179,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	onChange( editorState ) {
 		return new Promise( ( resolve ) => {
 			editorState = replaceReplacementVariables( editorState, this.props.replacementVariables );
+			editorState = selectReplacementVariables( editorState, this.state.editorState );
 
 			this.setState( {
 				editorState,
