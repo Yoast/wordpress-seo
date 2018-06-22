@@ -17,7 +17,11 @@ import {
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
-import { lengthProgressShape, replacementVariablesShape } from "../constants";
+import {
+	lengthProgressShape,
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
 import colors from "../../../../style-guide/colors";
 import ErrorBoundary from "../../../basic/ErrorBoundary";
@@ -94,31 +98,34 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
-	 * @param {Object}   props                           The props for the snippet
-	 *                                                   editor.
-	 * @param {Object}   props.replacementVariables      The replacement variables
-	 *                                                   for this editor.
-	 * @param {Object}   props.data                      The initial editor data.
-	 * @param {string}   props.keyword                   The focus keyword.
-	 * @param {string}   props.data.title                The initial title.
-	 * @param {string}   props.data.slug                 The initial slug.
-	 * @param {string}   props.data.description          The initial description.
-	 * @param {string}   props.baseUrl                   The base URL to use
-	 *                                                   for the preview.
-	 * @param {string}   props.mode                      The mode the editor
-	 *                                                   should be in.
-	 * @param {Function} props.onChange                  Called when the data
-	 *                                                   changes.
-	 * @param {Object}   props.titleLengthProgress       The values for the title
-	 *                                                   length assessment.
-	 * @param {Object}   props.descriptionLengthProgress The values for the
-	 *                                                   description length
-	 *                                                   assessment.
-	 * @param {Function} props.mapEditorDataToPreview    Function to map the
-	 *                                                   editor data to data
-	 *                                                   for the preview.
-	 * @param {string}   props.locale                    The locale of the page.
-	 * @param {bool}     props.hasPaperStyle             Whether or not it has paper style.
+	 * @param {Object}   props                                 The props for the snippet
+	 *                                                         editor.
+	 * @param {Object[]} props.replacementVariables            The replacement variables
+	 *                                                         for this editor.
+	 * @param {Object[]} props.recommendedReplacementVariables The recommended replacement
+	 *                                                         variables for this editor.
+	 * @param {Object}   props.data                            The initial editor data.
+	 * @param {string}   props.keyword                         The focus keyword.
+	 * @param {string}   props.data.title                      The initial title.
+	 * @param {string}   props.data.slug                       The initial slug.
+	 * @param {string}   props.data.description                The initial description.
+	 * @param {string}   props.baseUrl                         The base URL to use
+	 *                                                         for the preview.
+	 * @param {string}   props.mode                            The mode the editor
+	 *                                                         should be in.
+	 * @param {Function} props.onChange                        Called when the data
+	 *                                                         changes.
+	 * @param {Object}   props.titleLengthProgress             The values for the title
+	 *                                                         length assessment.
+	 * @param {Object}   props.descriptionLengthProgress       The values for the
+	 *                                                         description length
+	 *                                                         assessment.
+	 * @param {Function} props.mapEditorDataToPreview          Function to map the
+	 *                                                         editor data to data
+	 *                                                         for the preview.
+	 * @param {string}   props.locale                          The locale of the page.
+	 * @param {bool}     props.hasPaperStyle                   Whether or not it has
+	 *                                                         paper style.
 	 *
 	 * @returns {void}
 	 */
@@ -228,6 +235,7 @@ class SnippetEditor extends React.Component {
 		const {
 			data,
 			replacementVariables,
+			recommendedReplacementVariables,
 			descriptionEditorFieldPlaceholder,
 			hasPaperStyle,
 		} = this.props;
@@ -247,6 +255,7 @@ class SnippetEditor extends React.Component {
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
 					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
 					titleLengthProgress={ titleLengthProgress }
 					descriptionLengthProgress={ descriptionLengthProgress }
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
@@ -543,6 +552,7 @@ class SnippetEditor extends React.Component {
 
 SnippetEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
@@ -566,6 +576,7 @@ SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
 	date: "",
 	replacementVariables: [],
+	recommendedReplacementVariables: [],
 	titleLengthProgress: {
 		max: 600,
 		actual: 0,

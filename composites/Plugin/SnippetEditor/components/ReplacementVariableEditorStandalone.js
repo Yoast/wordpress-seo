@@ -4,13 +4,19 @@ import Editor from "draft-js-plugins-editor";
 import createMentionPlugin from "draft-js-mention-plugin";
 import createSingleLinePlugin from "draft-js-single-line-plugin";
 import debounce from "lodash/debounce";
+import isEmpty from "lodash/isEmpty";
+import filter from "lodash/filter";
+import includes from "lodash/includes";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
 
 // Internal dependencies.
-import { replacementVariablesShape } from "../constants";
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
 import { positionSuggestions } from "../positionSuggestions";
 import { Mention } from "./Mention";
 import {
@@ -20,6 +26,7 @@ import {
 	serializeSelection,
 } from "../serialization";
 import {
+	getTrigger,
 	hasWhitespaceAt,
 	getCaretOffset,
 	getAnchorBlock,
@@ -44,29 +51,6 @@ const ZIndexOverride = styled.div`
 `;
 
 /**
- * Creates the trigger string that is needed to show the replacement variable suggestions.
- *
- * The Draft.js mention plugin trigger is set as %. But the suggestions popover only shows
- * when the characters before and after the % are whitespace.
- *
- * @param {boolean} needsPrependedSpace When true, a space is prepended.
- * @param {boolean} needsAppendedSpace  When true, a space is appended.
- *
- * @returns {string} The trigger string.
- */
-const getTrigger = ( needsPrependedSpace, needsAppendedSpace ) => {
-	let trigger = "%";
-
-	if ( needsPrependedSpace ) {
-		trigger = " " + trigger;
-	}
-	if ( needsAppendedSpace ) {
-		trigger += " ";
-	}
-	return trigger;
-};
-
-/**
  * A replacement variable editor. It allows replacements variables as tokens in
  * its editor. It's a small shell on top of Draft.js.
  */
@@ -74,34 +58,45 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	/**
 	 * Constructs the replacement variable editor for use.
 	 *
-	 * @param {Object} props                        The props to instantiate this
-	 *                                              editor with.
-	 * @param {string} props.content                The content to instantiate this
-	 *                                              editor with.
-	 * @param {Object[]} props.replacementVariables The replacement variables that
-	 *                                              should be available in the
-	 *                                              editor.
-	 * @param {string}   props.ariaLabelledBy       The ID of the field this is
-	 *                                              labelled by.
-	 * @param {Function} props.onChange             Called when the content inside
-	 *                                              is edited.
-	 * @param {Function} props.onFocus              Called when this editor is
-	 *                                              focused.
-	 * @param {Function} props.onBlur               Called when this editor is
-	 *                                              unfocused.
+	 * @param {Object}   props                                 The props to instantiate this
+	 *                                                         editor with.
+	 * @param {string}   props.content                         The content to instantiate this
+	 *                                                         editor with.
+	 * @param {Object[]} props.replacementVariables            The replacement variables
+	 *                                                         that should be available
+	 *                                                         in the editor.
+	 * @param {Object[]} props.recommendedReplacementVariables The recommended replacement
+	 *                                                         variables that should be
+	 *                                                         available in the editor.
+	 * @param {string}   props.ariaLabelledBy                  The ID of the field this is
+	 *                                                         labelled by.
+	 * @param {Function} props.onChange                        Called when the content inside
+	 *                                                         is edited.
+	 * @param {Function} props.onFocus                         Called when this editor is
+	 *                                                         focused.
+	 * @param {Function} props.onBlur                          Called when this editor is
+	 *                                                         unfocused.
 	 *
 	 * @returns {void}
 	 */
 	constructor( props ) {
 		super( props );
 
-		const { content: rawContent, replacementVariables } = this.props;
+		const {
+			content: rawContent,
+			replacementVariables,
+			recommendedReplacementVariables,
+		} = this.props;
 		const editorState = unserializeEditor( rawContent, replacementVariables );
+		const currentReplacementVariables = this.determineCurrentReplacementVariables(
+			replacementVariables,
+			recommendedReplacementVariables
+		);
 
 		this.state = {
 			editorState,
 			searchValue: "",
-			suggestions: this.mapReplacementVariablesToSuggestions( replacementVariables ),
+			suggestions: this.mapReplacementVariablesToSuggestions( currentReplacementVariables ),
 		};
 
 		/*
@@ -112,6 +107,16 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		 */
 		this._serializedContent = rawContent;
 
+		this.initializeBinds();
+		this.initializeDraftJsPlugins();
+	}
+
+	/**
+	 * Initializes the scope binding of functions.
+	 *
+	 * @returns {void}
+	 */
+	initializeBinds() {
 		this.onChange = this.onChange.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
@@ -119,7 +124,14 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.handleCopyCutEvent = this.handleCopyCutEvent.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
 		this.debouncedUpdateMentionSuggestions = debounce( this.updateMentionSuggestions.bind( this ), 100 );
+	}
 
+	/**
+	 * Initializes the Draft.js mention and single line plugins.
+	 *
+	 * @returns {void}
+	 */
+	initializeDraftJsPlugins() {
 		/*
 		 * The mentions plugin is used to autocomplete the replacement variable
 		 * names.
@@ -213,6 +225,37 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	}
 
 	/**
+	 * Determines the current replacement variables to be used.
+	 *
+	 * When the search value is empty and there are recommended replacement variables:
+	 * Try to use the recommended replacement variables.
+	 * Otherwise use the normal replacement variables.
+	 *
+	 * @param {Object[]} replacementVariables            The current replacement variables.
+	 * @param {array}    recommendedReplacementVariables The recommended replacement variables.
+	 * @param {string}   searchValue                     The current search value.
+	 *
+	 * @returns {Object[]} The replacement variables to show as suggestions to the user.
+	 */
+	determineCurrentReplacementVariables( replacementVariables, recommendedReplacementVariables, searchValue = "" ) {
+		const useRecommended = searchValue === "" && ! isEmpty( recommendedReplacementVariables );
+
+		if ( useRecommended ) {
+			const recommended = filter(
+				replacementVariables,
+				replaceVar => includes( recommendedReplacementVariables, replaceVar.name ),
+			);
+
+			// Ensure there are replacement variables we recommend before using them.
+			if ( recommended.length !== 0 ) {
+				return recommended;
+			}
+		}
+
+		return replacementVariables;
+	}
+
+	/**
 	 * Handles a search change in the mentions plugin.
 	 *
 	 * @param {string} value The search value.
@@ -220,7 +263,12 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	onSearchChange( { value } ) {
-		const suggestions = this.mapReplacementVariablesToSuggestions( this.props.replacementVariables );
+		const recommendedReplacementVariables = this.determineCurrentReplacementVariables(
+			this.props.replacementVariables,
+			this.props.recommendedReplacementVariables,
+			value,
+		);
+		const suggestions = this.mapReplacementVariablesToSuggestions( recommendedReplacementVariables );
 
 		this.setState( {
 			searchValue: value,
@@ -350,7 +398,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	componentWillReceiveProps( nextProps ) {
-		const { content, replacementVariables } = this.props;
+		const { content, replacementVariables, recommendedReplacementVariables } = this.props;
 		const { searchValue } = this.state;
 
 		if (
@@ -359,8 +407,12 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		) {
 			this._serializedContent = nextProps.content;
 			const editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
-
-			const suggestions = this.mapReplacementVariablesToSuggestions( nextProps.replacementVariables );
+			const currentReplacementVariables = this.determineCurrentReplacementVariables(
+				nextProps.replacementVariables,
+				recommendedReplacementVariables,
+				searchValue
+			);
+			const suggestions = this.mapReplacementVariablesToSuggestions( currentReplacementVariables );
 
 			this.setState( {
 				editorState,
@@ -468,6 +520,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 ReplacementVariableEditorStandalone.propTypes = {
 	content: PropTypes.string.isRequired,
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	ariaLabelledBy: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,

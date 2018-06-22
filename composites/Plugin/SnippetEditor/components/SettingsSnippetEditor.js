@@ -4,8 +4,11 @@ import PropTypes from "prop-types";
 
 // Internal dependencies.
 import SettingsSnippetEditorFields from "./SettingsSnippetEditorFields";
-import { replacementVariablesShape } from "../constants";
 import ErrorBoundary from "../../../basic/ErrorBoundary";
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
 
 class SettingsSnippetEditor extends React.Component {
 	/**
@@ -99,6 +102,7 @@ class SettingsSnippetEditor extends React.Component {
 		const {
 			data,
 			replacementVariables,
+			recommendedReplacementVariables,
 			descriptionEditorFieldPlaceholder,
 			hasPaperStyle,
 		} = this.props;
@@ -115,6 +119,7 @@ class SettingsSnippetEditor extends React.Component {
 					onChange={ this.handleChange }
 					onFocus={ this.setFieldFocus }
 					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
 					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
 				/>
 			</ErrorBoundary>
@@ -124,6 +129,7 @@ class SettingsSnippetEditor extends React.Component {
 
 SettingsSnippetEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
@@ -135,6 +141,7 @@ SettingsSnippetEditor.propTypes = {
 
 SettingsSnippetEditor.defaultProps = {
 	replacementVariables: [],
+	recommendedReplacementVariables: [],
 	hasPaperStyle: true,
 };
 

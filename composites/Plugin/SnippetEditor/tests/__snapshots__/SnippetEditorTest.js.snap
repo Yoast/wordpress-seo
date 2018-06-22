@@ -604,6 +604,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -1202,6 +1203,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -1982,6 +1984,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -2012,6 +2015,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   withCaret={true}
@@ -2144,6 +2148,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -2229,6 +2234,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   type="description"
@@ -2363,6 +2369,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder="Modify your meta description by editing it right here"
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -3035,6 +3042,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -3815,6 +3823,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -3845,6 +3854,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   withCaret={true}
@@ -3977,6 +3987,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -4062,6 +4073,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   type="description"
@@ -4196,6 +4208,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder="Modify your meta description by editing it right here"
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -4868,6 +4881,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -5648,6 +5662,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -5678,6 +5693,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   withCaret={true}
@@ -5810,6 +5826,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -5895,6 +5912,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   type="description"
@@ -6029,6 +6047,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder="Modify your meta description by editing it right here"
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -6701,6 +6720,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -7481,6 +7501,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -7511,6 +7532,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   withCaret={true}
@@ -7643,6 +7665,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -7728,6 +7751,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   type="description"
@@ -7862,6 +7886,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder="Modify your meta description by editing it right here"
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -8316,6 +8341,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -9657,6 +9683,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -10437,6 +10464,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -10467,6 +10495,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   withCaret={true}
@@ -10599,6 +10628,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -10684,6 +10714,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   type="description"
@@ -10818,6 +10849,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder="Modify your meta description by editing it right here"
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -11490,6 +11522,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -12270,6 +12303,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -12300,6 +12334,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   withCaret={true}
@@ -12432,6 +12467,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -12517,6 +12553,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   type="description"
@@ -12651,6 +12688,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder="Modify your meta description by editing it right here"
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -14425,6 +14463,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -15213,6 +15252,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -15243,6 +15283,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   withCaret={true}
@@ -15375,6 +15416,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -15460,6 +15502,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   type="description"
@@ -15594,6 +15637,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder="Modify your meta description by editing it right here"
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -16278,6 +16322,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -17066,6 +17111,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -17096,6 +17142,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   withCaret={true}
@@ -17228,6 +17275,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -17313,6 +17361,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   type="description"
@@ -17447,6 +17496,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder="Modify your meta description by editing it right here"
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -18119,6 +18169,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -18899,6 +18950,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -18929,6 +18981,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   withCaret={true}
@@ -19061,6 +19114,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -19146,6 +19200,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   type="description"
@@ -19280,6 +19335,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder="Modify your meta description by editing it right here"
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -19952,6 +20008,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={
     Array [
       Object {
@@ -20743,6 +20800,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={
           Array [
             Object {
@@ -20784,6 +20842,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={
                     Array [
                       Object {
@@ -20927,6 +20986,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={
                           Array [
                             Object {
@@ -21023,6 +21083,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={
                     Array [
                       Object {
@@ -21168,6 +21229,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder="Modify your meta description by editing it right here"
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={
                           Array [
                             Object {
@@ -21886,6 +21948,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -22484,6 +22547,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   mode="mobile"
   onChange={[MockFunction]}
   onChangeAnalysisData={[Function]}
+  recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
   titleLengthProgress={
     Object {
@@ -23264,6 +23328,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        recommendedReplacementVariables={Array []}
         replacementVariables={Array []}
         titleLengthProgress={
           Object {
@@ -23294,6 +23359,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   withCaret={true}
@@ -23426,6 +23492,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
@@ -23511,6 +23578,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
+                  recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
                   styleForMobile={true}
                   type="description"
@@ -23645,6 +23713,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         onChange={[Function]}
                         onFocus={[Function]}
                         placeholder="Modify your meta description by editing it right here"
+                        recommendedReplacementVariables={Array []}
                         replacementVariables={Array []}
                       >
                         <div />
