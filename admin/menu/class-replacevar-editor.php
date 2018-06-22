@@ -25,6 +25,11 @@ class WPSEO_Replacevar_Editor {
 	private $description;
 
 	/**
+	 * @var string The page type for context.
+	 */
+	private $page_type;
+
+	/**
 	 * @var bool Whether the editor has paper style.
 	 */
 	private $paper_style;
@@ -35,12 +40,14 @@ class WPSEO_Replacevar_Editor {
 	 * @param Yoast_Form $yform       Yoast forms.
 	 * @param string     $title       The title field id.
 	 * @param string     $description The description field id.
+	 * @param string     $page_type   The page type for context.
 	 * @param bool       $paper_style Whether the editor has paper style.
 	 */
-	public function __construct( Yoast_Form $yform, $title, $description, $paper_style = true ) {
+	public function __construct( Yoast_Form $yform, $title, $description, $page_type, $paper_style = true ) {
 		$this->yform       = $yform;
 		$this->title       = $title;
 		$this->description = $description;
+		$this->page_type   = $page_type;
 		$this->paper_style = $paper_style;
 	}
 
@@ -59,9 +66,11 @@ class WPSEO_Replacevar_Editor {
 				data-react-replacevar-editor
 				data-react-replacevar-title-field-id="%1$s"
 				data-react-replacevar-metadesc-field-id="%2$s"
-				data-react-replacevar-paper-style="%3$s"></div>',
+				data-react-replacevar-page-type="%3$s">
+				data-react-replacevar-paper-style="%4$s"></div>',
 			esc_attr( $this->title ),
 			esc_attr( $this->description ),
+			esc_attr( $this->page_type ),
 			esc_attr( $this->paper_style )
 		);
 	}

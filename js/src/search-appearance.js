@@ -1,3 +1,5 @@
+/* global wpseoReplaceVarsL10n */
+
 /* External dependencies */
 import ReactDOM from "react-dom";
 import React from "react";
@@ -25,13 +27,16 @@ function configureStore() {
 		{
 			snippetEditor: {
 				replacementVariables: defaultReplacementVariables,
+				recommendedReplacementVariables: wpseoReplaceVarsL10n.recommended_replace_vars,
 			},
 		},
 		configureEnhancers()
 	);
-	forEach( window.wpseoReplaceVarsL10n, replacementVariable => {
+	forEach( window.wpseoReplaceVarsL10n.replace_vars, replacementVariable => {
+		const name = replacementVariable.name.replace( / /g, "_" );
+
 		store.dispatch( updateReplacementVariable(
-			replacementVariable.name,
+			name,
 			replacementVariable.value,
 		) );
 	} );

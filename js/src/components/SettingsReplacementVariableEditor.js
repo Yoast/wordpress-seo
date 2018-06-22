@@ -3,7 +3,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { SettingsSnippetEditor } from "yoast-components";
 import { __ } from "@wordpress/i18n";
-import { replacementVariablesShape } from "yoast-components/composites/Plugin/SnippetEditor/constants";
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "yoast-components/composites/Plugin/SnippetEditor/constants";
 
 /* Internal dependencies */
 import SnippetPreviewSection from "./SnippetPreviewSection";
@@ -15,6 +18,13 @@ class SettingsReplacementVariableEditor extends React.Component {
 	}
 
 	render() {
+		const {
+			title,
+			description,
+			replacementVariables,
+			recommendedReplacementVariables,
+		} = this.props;
+
 		return (
 			<SnippetPreviewSection
 				hasPaperStyle={ this.props.hasPaperStyle }
@@ -24,17 +34,18 @@ class SettingsReplacementVariableEditor extends React.Component {
 					onChange={ ( field, value ) => {
 						switch( field ) {
 							case "title":
-								this.props.title.onChange( value );
+								title.onChange( value );
 								break;
 							case "description":
-								this.props.description.onChange( value );
+								description.onChange( value );
 								break;
 						}
 					} }
-					replacementVariables={ this.props.replacementVariables }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
 					data={ {
-						title: this.props.title.value,
-						description: this.props.description.value,
+						title: title.value,
+						description: description.value,
 					} }
 					hasPaperStyle={ this.props.hasPaperStyle }
 				/>
@@ -45,8 +56,10 @@ class SettingsReplacementVariableEditor extends React.Component {
 
 SettingsReplacementVariableEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	title: linkFieldsShape,
 	description: linkFieldsShape,
+	postType: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
 };
 
