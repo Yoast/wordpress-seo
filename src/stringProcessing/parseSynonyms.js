@@ -18,6 +18,5 @@ module.exports = function( synonyms ) {
 	} ).filter( function( synonym ) {
 		return synonym;
 	} );
-
 	return synonymsSplit;
 };

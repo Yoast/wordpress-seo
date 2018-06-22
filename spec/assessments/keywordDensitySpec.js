@@ -17,11 +17,19 @@ describe( "An assessment for the keywordDensity", function() {
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
+			getKeywordDensity: 0.1,
+			keywordCount: 1,
+		}, true ), i18n );
+		expect( result.getScore() ).toBe( 4 );
+		expect( result.getText() ).toBe( "The keyword density is 0.1%, which is too low; the focus keyword was found 1 time." );
+
+		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
+		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
 			getKeywordDensity: 10,
 			keywordCount: 1,
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "The keyword density is 10%, which is way over the advised 2.5% maximum; the focus keyword was found 1 times." );
+		expect( result.getText() ).toBe( "The keyword density is 10%, which is way over the advised 2.5% maximum; the focus keyword was found 1 time." );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
@@ -29,7 +37,7 @@ describe( "An assessment for the keywordDensity", function() {
 			keywordCount: 1,
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "The keyword density is 2%, which is great; the focus keyword was found 1 times." );
+		expect( result.getText() ).toBe( "The keyword density is 2%, which is great; the focus keyword was found 1 time." );
 
 		paper = new Paper( "string with the keyword  and keyword ", { keyword: "keyword" } );
 		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
