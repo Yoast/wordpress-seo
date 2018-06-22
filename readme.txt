@@ -120,6 +120,10 @@ Enhancements:
 * Adds support for JSON-LD breadcrumbs. Props to [teolaz](https://github.com/teolaz)
 * Improves the lists of French transition words, stopwords, and function words, props to [Laurent-1971](https://github.com/Laurent-1971).
 * Improves the assessment that checks the use of subheadings so that it always returns relevant feedback to the user.
+* Adds a notification when a post is trashed or deleted.
+* Overhauls the Content Types section under SEO -> Search Appearance by sectioning the post types and allowing users to collapse them. This is especially handy when you have a lot of custom post types.
+* Updates the 'snippet variables tab' of the Help Center to have the new names.
+* Adds recommended snippet variables for templates depending on the context. The `wpseo_recommended_replace_vars` filter is added, which gives the possibility to add or alter the recommended snippet variables.
 
 Bugfixes:
 * Fixes a bug where a PHP notice would be triggered when the `opcache.restrict_api` directive was enabled.
@@ -128,12 +132,16 @@ Bugfixes:
 * Fixes a bug where the attachment URL would redirect to `wp-admin` if the attachment was located on a different Site URL domain.
 * Fixes a bug where MySQL would throw a "Duplicate entry 'X'" error into the error log when attempting to upsert a record in the database.
 * Fixes a performance problem where the selecting a fallback Open Graph image would collect the filename for all the images in the content. This has been changed to detecting if an image is usable per image and stopping when a usable image is found.
+* Fixes a bug where the term title snippet variable would be replaced by 'undefined' instead of an empty string on posts and pages.
+* Fixes a bug where the analysis results were being hidden while updating.
+* Fixes a bug where PHP notices got triggered on archive pages when `%%pt_single%%` and/or `%%pt_plural%%` are used as a template.
 
 Deprecated:
 * Deprecates the following snippet variables: %%userid%%, %%currenttime%%, %%currentdate%%, %%currentday%%, %%currentmonth%%, %%currentyear%%.
 
 Other:
 * Changes the timing on which the capability filter is run to better time when notifications should be initialized.
+* Adds X-Redirect-By header to all redirects, making the origin of redirects much easier to debug.
 
 = 7.6.1 =
 Release Date: June 7th, 2018
