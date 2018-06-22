@@ -45,10 +45,10 @@ class WPSEO_Replacevar_Editor {
 	 */
 	public function __construct( Yoast_Form $yform, $title, $description, $page_type, $paper_style = true ) {
 		$this->yform       = $yform;
-		$this->title       = $title;
-		$this->description = $description;
-		$this->page_type   = $page_type;
-		$this->paper_style = $paper_style;
+		$this->title       = (string) $title;
+		$this->description = (string) $description;
+		$this->page_type   = (string) $page_type;
+		$this->paper_style = (bool) $paper_style;
 	}
 
 	/**
@@ -66,7 +66,7 @@ class WPSEO_Replacevar_Editor {
 				data-react-replacevar-editor
 				data-react-replacevar-title-field-id="%1$s"
 				data-react-replacevar-metadesc-field-id="%2$s"
-				data-react-replacevar-page-type="%3$s">
+				data-react-replacevar-page-type="%3$s"
 				data-react-replacevar-paper-style="%4$s"></div>',
 			esc_attr( $this->title ),
 			esc_attr( $this->description ),
