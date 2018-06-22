@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
 
 const Section = styled( StyledSection )`
-	margin-bottom: 2em;
 	max-width: 640px;
 	
 	&${ StyledSectionBase } {

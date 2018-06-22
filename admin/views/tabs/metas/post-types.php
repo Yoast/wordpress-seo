@@ -79,7 +79,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 				$custom_post_type_archive_help->get_button_html() . $custom_post_type_archive_help->get_panel_html()
 			);
 
-			$editor = new WPSEO_Replacevar_Editor( $yform, 'title-ptarchive-' . $post_type->name, 'metadesc-ptarchive-' . $post_type->name );
+			$editor = new WPSEO_Replacevar_Editor( $yform, 'title-ptarchive-' . $post_type->name, 'metadesc-ptarchive-' . $post_type->name, false );
 			$editor->render();
 
 			if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
