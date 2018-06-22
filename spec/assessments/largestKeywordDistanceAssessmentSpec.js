@@ -34,7 +34,8 @@ describe( "An assessment to check the largest percentage of text in which no key
 
 describe( "An assessment to check the largest percentage of text in which no keyword or synonyms occured", function() {
 	it( "returns a bad score when the largest keyword distance is between more than 40%", function() {
-		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword, synonym" } ); // todo: change keyword definition
+		// todo: change keyword definition
+		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword, synonym" } );
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 45 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
@@ -42,7 +43,8 @@ describe( "An assessment to check the largest percentage of text in which no key
 	} );
 
 	it( "returns an okay score when the largest keyword distance is between 30 and 40%", function() {
-		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword, synonym, synonyms" } ); // todo: change keyword definition
+		// todo: change keyword definition
+		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword, synonym, synonyms" } );
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 35 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -50,7 +52,8 @@ describe( "An assessment to check the largest percentage of text in which no key
 	} );
 
 	it( "returns an okay score when the largest keyword distance is less than 30%", function() {
-		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword, synonym" } ); // todo: change keyword definition
+		// todo: change keyword definition
+		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword, synonym" } );
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -109,14 +112,14 @@ describe( "A test for marking keywords in the text", function() {
 	it( "returns markers for keywords in the text", function() {
 		const text = " a ".repeat( 200 );
 		const keyword = "keyword";
-		let mockPaper = new Paper( keyword.concat(text, keyword), { keyword: "keyword" } );
+		let mockPaper = new Paper( keyword.concat( text, keyword ), { keyword: "keyword" } );
 
-		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true ) ;
+		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true );
 
 		let expected = [
 			new Mark( {
 				original: "keyword",
-				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>"
+				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>",
 			} ),
 		];
 		expect( keywordDistanceAssessment.getMarks( mockPaper ) ).toEqual( expected );
@@ -126,18 +129,19 @@ describe( "A test for marking keywords in the text", function() {
 		const text = " a ".repeat( 200 );
 		const keyword = "keyword";
 		const synonym = "synonym";
-		let mockPaper = new Paper( keyword.concat(text, keyword, text, synonym), { keyword: keyword.concat( ", ", synonym) } ); // todo: change keyword definition
+		// todo: change keyword definition
+		let mockPaper = new Paper( keyword.concat( text, keyword, text, synonym ), { keyword: keyword.concat( ", ", synonym ) } );
 
-		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true ) ;
+		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true );
 
 		let expected = [
 			new Mark( {
 				original: "keyword",
-				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>"
+				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>",
 			} ),
 			new Mark( {
 				original: "synonym",
-				marked: "<yoastmark class='yoast-text-mark'>synonym</yoastmark>"
+				marked: "<yoastmark class='yoast-text-mark'>synonym</yoastmark>",
 			} ),
 		];
 		expect( keywordDistanceAssessment.getMarks( mockPaper ) ).toEqual( expected );

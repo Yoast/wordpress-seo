@@ -96,7 +96,8 @@ module.exports = function( paper ) {
 
 	let topicArray = [].concat( keyword );
 
-	if ( keyword.indexOf( "," ) > 0 ) { // todo: change it to paper.hasSynonyms()===true as soon as the synonym interface is ready.
+	// todo: change it to paper.hasSynonyms()===true as soon as the synonym interface is ready.
+	if ( keyword.indexOf( "," ) > 0 ) {
 		topicArray = parseSynonyms( keyword );
 	}
 

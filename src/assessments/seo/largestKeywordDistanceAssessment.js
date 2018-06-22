@@ -138,7 +138,8 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 *
 	 * @returns {boolean} Whether the paper has synonyms or not
 	 */
-	hasSynonyms( paper ) { // todo: this function can be deprecated as soon as the Synonym interface is ready
+	hasSynonyms( paper ) {
+		// todo: this function can be deprecated as soon as the Synonym interface is ready
 		return paper.getKeyword().indexOf( "," ) > 0;
 	}
 

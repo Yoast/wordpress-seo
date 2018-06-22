@@ -55,7 +55,7 @@ describe( "running assessments in the assessor", function() {
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } ) );
 		expect( assessor.getValidResults().length ).toBe( 10 );
 	} );
-	
+
 	it( "additionally runs assessments that require a long enough text and one keyword occurrence and one synonym occurrence", function() {
 		assessor.assess( new Paper( "This is a keyword. Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
