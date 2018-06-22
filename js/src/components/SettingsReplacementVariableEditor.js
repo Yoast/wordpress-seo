@@ -26,7 +26,9 @@ class SettingsReplacementVariableEditor extends React.Component {
 		} = this.props;
 
 		return (
-			<SnippetPreviewSection>
+			<SnippetPreviewSection
+				hasPaperStyle={ this.props.hasPaperStyle }
+			>
 				<SettingsSnippetEditor
 					descriptionEditorFieldPlaceholder={ __( "Modify your meta description by editing it right here", "wordpress-seo" ) }
 					onChange={ ( field, value ) => {
@@ -44,7 +46,9 @@ class SettingsReplacementVariableEditor extends React.Component {
 					data={ {
 						title: title.value,
 						description: description.value,
-					} } />
+					} }
+					hasPaperStyle={ this.props.hasPaperStyle }
+				/>
 			</SnippetPreviewSection>
 		);
 	}
@@ -56,6 +60,11 @@ SettingsReplacementVariableEditor.propTypes = {
 	title: linkFieldsShape,
 	description: linkFieldsShape,
 	postType: PropTypes.string,
+	hasPaperStyle: PropTypes.bool,
+};
+
+SettingsReplacementVariableEditor.defaultProps = {
+	hasPaperStyle: true,
 };
 
 export default linkHiddenFields( props => {

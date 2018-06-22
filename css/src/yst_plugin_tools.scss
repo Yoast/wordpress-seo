@@ -195,6 +195,27 @@ tr.yst_row.even {
 		height: 100px;
 		font-size: 100px;
 	}
+
+	.paper.tab-block {
+		max-width: 600px;
+		box-shadow: 0 1px 2px rgba( #000, 0.2 );
+		background-color: #fff;
+		padding: 8px 20px;
+	}
+
+	.toggleable-container-trigger {
+		float: right;
+		border: 0;
+		background: none;
+		cursor: pointer;
+		height: 20px;
+		width: 20px;
+		padding: 0;
+	}
+
+	.toggleable-container-hidden {
+		display: none;
+	}
 }
 
 /* Google Search Console: Reload crawl issues form. */

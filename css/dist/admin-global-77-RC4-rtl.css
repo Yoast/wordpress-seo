@@ -689,3 +689,12 @@ td.column-wpseo-linked {
 .yoast-modal_is-open {
 	overflow: hidden;
 }
+
+.yoast-alert .yoast-seo-icon {
+	float: right;
+	margin: 20px 10px;
+}
+
+.yoast-alert .yoast-seo-icon-wrap {
+	margin: 0 85px 0 0;
+}
