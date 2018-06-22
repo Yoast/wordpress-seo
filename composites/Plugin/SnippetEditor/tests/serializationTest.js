@@ -290,7 +290,7 @@ describe( "replaceReplacementVariables", () => {
 		const contentState = {
 			blocks: [ {
 				key: "f4sem",
-				text: "%%title%% moretext",
+				text: "%%title%%",
 				type: "unstyled",
 				depth: 0,
 				inlineStyleRanges: [],
@@ -301,17 +301,62 @@ describe( "replaceReplacementVariables", () => {
 			},
 		};
 
-		SelectionState.createEmpty( "f4sem" )
+		const selection = SelectionState.createEmpty( "f4sem" )
 			.merge( {
 				anchorOffset: 9,
 				focusOffset: 9,
 			} );
 
 		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		    editorState = EditorState.acceptSelection( editorState, selection );
 		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
 
-		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection().toJS().anchorOffset;
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection();
 
-		expect( actual ).toEqual( 5 );
+		expect( actual.getAnchorOffset() ).toEqual( 6 );
+		expect( actual.getFocusOffset() ).toEqual( 6 );
+	} );
+
+	it( "keeps the selection around the same content if the selection is unrelated to the replacement variables", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%% %%title%% A piece of text",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [ ],
+				data: {},
+			} ],
+			entityMap: {
+			},
+		};
+
+		const selection = SelectionState.createEmpty( "f4sem" )
+			.merge( {
+				anchorOffset: 20,
+				focusOffset: 35,
+			} );
+		// We remove 4x '%%' so that amounts to a change of 8.
+		const changeInOffset = -8;
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		editorState = EditorState.acceptSelection( editorState, selection );
+		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection();
+
+		expect( actual.getAnchorOffset() ).toEqual( 20 + changeInOffset );
+		expect( actual.getFocusOffset() ).toEqual( 35 + changeInOffset );
+	} );
+
+	it( "spaces out replacement variables that are stuck together", () => {
+		const input = "%%title%%%%title%%%%title%%%%title%%";
+		const expected = "%%title%% %%title%% %%title%% %%title%% ";
+		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = serializeEditor( convertToRaw( unserializeEditor( input, replacementVariables ).getCurrentContent() ) );
+
+		expect( actual ).toBe( expected );
 	} );
 } );

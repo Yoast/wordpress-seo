@@ -323,9 +323,9 @@ export function replaceReplacementVariables( editorState, replacementVariables )
 					" ",
 				);
 				newEditorState = EditorState.push( newEditorState, newContentState, "insert-characters" );
-				selection = SelectionState.createEmpty( blockKey ).merge( {
+				selection = selection.merge( {
 					anchorOffset: selection.getAnchorOffset() + 1,
-					focusOffset: selection.getFocusOffset + 1,
+					focusOffset: selection.getFocusOffset() + 1,
 				} );
 			}
 
