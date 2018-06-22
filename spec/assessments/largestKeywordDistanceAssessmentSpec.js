@@ -152,7 +152,7 @@ describe( "A test for marking keywords in the text", function() {
 		const keyword = "keyword";
 		const synonym = "synonym";
 		// todo: change keyword definition
-		let mockPaper = new Paper( keyword.concat( "! ", text, keyword,"> ", text, " \"", synonym ), { keyword: keyword.concat( ", ", synonym ) } );
+		let mockPaper = new Paper( keyword.concat( "! ", text, keyword, "> ", text, " \"", synonym ), { keyword: keyword.concat( ", ", synonym ) } );
 
 		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true );
 
