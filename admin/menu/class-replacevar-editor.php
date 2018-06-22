@@ -25,16 +25,23 @@ class WPSEO_Replacevar_Editor {
 	private $description;
 
 	/**
+	 * @var string The page type for context.
+	 */
+	private $page_type;
+
+	/**
 	 * Constructs the object.
 	 *
 	 * @param Yoast_Form $yform       Yoast forms.
 	 * @param string     $title       The title field id.
 	 * @param string     $description The description field id.
+	 * @param string     $page_type   The page type for context.
 	 */
-	public function __construct( Yoast_Form $yform, $title, $description ) {
+	public function __construct( Yoast_Form $yform, $title, $description, $page_type ) {
 		$this->yform       = $yform;
 		$this->title       = $title;
 		$this->description = $description;
+		$this->page_type   = $page_type;
 	}
 
 	/**
@@ -51,9 +58,11 @@ class WPSEO_Replacevar_Editor {
 		printf( '<div
 				data-react-replacevar-editor
 				data-react-replacevar-title-field-id="%1$s"
-				data-react-replacevar-metadesc-field-id="%2$s"></div>',
+				data-react-replacevar-metadesc-field-id="%2$s"
+				data-react-replacevar-page-type="%3$s"></div>',
 			esc_attr( $this->title ),
-			esc_attr( $this->description )
+			esc_attr( $this->description ),
+			esc_attr( $this->page_type )
 		);
 	}
 }
