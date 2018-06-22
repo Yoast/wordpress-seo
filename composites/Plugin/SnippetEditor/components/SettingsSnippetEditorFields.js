@@ -4,22 +4,17 @@ import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import debounce from "lodash/debounce";
 import { __ } from "@wordpress/i18n";
-import styled from "styled-components";
 
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
-import { replacementVariablesShape } from "../constants";
-
-const FormSection = styled.div`
-	margin: 10px 0;
-	&:not(:first-child) {
-		margin-top: 32px; 
-	}
-`;
-
-const StyledEditor = styled.div`
-	padding: 12px 20px 2px;
-`;
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
+import {
+	FormSection,
+	StyledEditor,
+} from "./Shared";
 
 class SettingsSnippetEditorFields extends React.Component {
 	/**
@@ -179,12 +174,14 @@ class SettingsSnippetEditorFields extends React.Component {
 			activeField,
 			hoveredField,
 			replacementVariables,
+			recommendedReplacementVariables,
 			onFocus,
 			onChange,
 			data: {
 				title,
 				description,
 			},
+			containerPadding,
 		} = this.props;
 
 		const isSmallerThanMobileWidth = this.state.isSmallerThanMobileWidth;
@@ -192,6 +189,7 @@ class SettingsSnippetEditorFields extends React.Component {
 		return (
 			<StyledEditor
 				innerRef={ this.setEditorRef }
+				padding={ containerPadding }
 			>
 				<FormSection>
 					<ReplacementVariableEditor
@@ -201,6 +199,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						isHovered={ hoveredField === "title" }
 						editorRef={ ref => this.setRef( "title", ref ) }
 						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ title }
 						onChange={ content => onChange( "title", content ) }
 						styleForMobile={ isSmallerThanMobileWidth }
@@ -216,6 +215,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						isHovered={ hoveredField === "description" }
 						editorRef={ ref => this.setRef( "description", ref ) }
 						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ description }
 						onChange={ content => onChange( "description", content ) }
 						styleForMobile={ isSmallerThanMobileWidth }
@@ -228,6 +228,7 @@ class SettingsSnippetEditorFields extends React.Component {
 
 SettingsSnippetEditorFields.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	data: PropTypes.shape( {
@@ -238,12 +239,14 @@ SettingsSnippetEditorFields.propTypes = {
 	hoveredField: PropTypes.oneOf( [ "title", "description" ] ),
 	descriptionEditorFieldPlaceholder: PropTypes.string,
 	mobileWidth: PropTypes.number,
+	containerPadding: PropTypes.string,
 };
 
 SettingsSnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
 	mobileWidth: 356,
+	containerPadding: "0 20px",
 };
 
 export default SettingsSnippetEditorFields;

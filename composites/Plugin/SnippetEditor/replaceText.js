@@ -1,6 +1,29 @@
 import { EditorState, SelectionState, Modifier } from "draft-js";
 
 /**
+ * Creates the trigger string that is needed to show the replacement variable suggestions.
+ *
+ * The Draft.js mention plugin trigger is set as %. But the suggestions popover only shows
+ * when the characters before and after the % are whitespace.
+ *
+ * @param {boolean} needsPrependedSpace When true, a space is prepended.
+ * @param {boolean} needsAppendedSpace  When true, a space is appended.
+ *
+ * @returns {string} The trigger string.
+ */
+export const getTrigger = ( needsPrependedSpace, needsAppendedSpace ) => {
+	let trigger = "%";
+
+	if ( needsPrependedSpace ) {
+		trigger = " " + trigger;
+	}
+	if ( needsAppendedSpace ) {
+		trigger += " ";
+	}
+	return trigger;
+};
+
+/**
  * Tests if a character in a text is whitespace. Out of range index counts as whitespace.
  *
  * @param {string} text  The text to get the character from.

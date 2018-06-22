@@ -39,6 +39,10 @@ const replacementVariables = [
 		description: "The slug which caused the error 404",
 	},
 ];
+const recommendedReplacementVariables = [
+	replacementVariables[ 0 ].name,
+	replacementVariables[ 1 ].name,
+];
 
 export default class SnippetEditorExample extends Component {
 	/**
@@ -161,6 +165,7 @@ export default class SnippetEditorExample extends Component {
 				baseUrl="https://local.wordpress.test/"
 				onChange={ this.onChangedData }
 				replacementVariables={ replacementVariables }
+				recommendedReplacementVariables={ recommendedReplacementVariables }
 				titleLengthProgress={ titleLengthProgress }
 				descriptionLengthProgress={ descriptionLengthProgress }
 			/>

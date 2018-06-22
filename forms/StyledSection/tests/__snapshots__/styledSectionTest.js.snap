@@ -4,16 +4,20 @@ exports[`StyledSection can change the heading level 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -86,16 +90,20 @@ exports[`StyledSection can change the icon to angle-down 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -166,16 +174,20 @@ exports[`StyledSection can change the icon to angle-left 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -246,16 +258,20 @@ exports[`StyledSection can change the icon to angle-right 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -326,16 +342,20 @@ exports[`StyledSection can change the icon to angle-up 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -406,16 +426,20 @@ exports[`StyledSection can change the icon to circle 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -486,16 +510,20 @@ exports[`StyledSection can change the icon to edit 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -566,16 +594,20 @@ exports[`StyledSection can change the icon to eye 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -646,16 +678,20 @@ exports[`StyledSection can change the icon to file-text 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -726,16 +762,20 @@ exports[`StyledSection can change the icon to key 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -806,16 +846,20 @@ exports[`StyledSection can change the icon to list 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -886,16 +930,20 @@ exports[`StyledSection can change the icon to question-circle 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -966,16 +1014,20 @@ exports[`StyledSection can change the icon to search 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -1046,16 +1098,20 @@ exports[`StyledSection can change the icon to times 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -1126,16 +1182,20 @@ exports[`StyledSection have a red icon 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }
@@ -1205,16 +1265,20 @@ exports[`StyledSection match the snapshot 1`] = `
 .c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *,
+.c0 *,
 .c0 {
   box-sizing: border-box;
 }
 
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:before,
+.c0 *:before,
 .c0:before,
-.c0 padding-right:20px padding-left:20px padding-bottom:10px padding-top:10px *:after,
+.c0 *:after,
 .c0:after {
   box-sizing: border-box;
 }

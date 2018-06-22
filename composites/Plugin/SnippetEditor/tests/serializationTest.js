@@ -1,10 +1,17 @@
 import {
-	findReplacementVariables,
-	serializeEditor,
+	findReplacementVariables, serializeBlock,
+	serializeEditor, serializeSelection,
 	unserializeEditor,
 	replaceReplacementVariables,
 } from "../serialization";
-import {convertToRaw, ContentState, EditorState, convertFromRaw, SelectionState} from "draft-js";
+import {
+	convertToRaw,
+	convertFromRaw,
+	ContentBlock,
+	EditorState,
+	CharacterMetadata,
+	SelectionState,
+} from "draft-js";
 
 jest.mock( "draft-js/lib/generateRandomKey", () => () => {
 	let randomKey = global._testDraftJSRandomNumber;
@@ -23,47 +30,6 @@ const TAGS = [
 	{ name: "title", value: "Title" },
 	{ name: "post_type", value: "Gallery" },
 ];
-
-describe( "editor serialization", () => {
-	it( "transforms the deep structure to a plain string", () => {
-		const structure = {
-			blocks: [ {
-				key: "f4sem",
-				text: "title post_type test123 fa",
-				type: "unstyled",
-				depth: 0,
-				inlineStyleRanges: [],
-				entityRanges: [ {
-					offset: 6,
-					length: 9,
-					key: 0,
-				}, {
-					offset: 0,
-					length: 5,
-					key: 1,
-				} ],
-				data: {},
-			} ],
-			entityMap: {
-				0: {
-					type: "%mention",
-					mutability: "IMMUTABLE",
-					data: { mention: { name: "post_type" } },
-				},
-				1: {
-					type: "%mention",
-					mutability: "IMMUTABLE",
-					data: { mention: { name: "title" } },
-				},
-			},
-		};
-		const expected = "%%title%% %%post_type%% test123 fa";
-
-		const actual = serializeEditor( structure );
-
-		expect( actual ).toBe( expected );
-	} );
-} );
 
 describe( "editor unserialization", () => {
 	it( "transforms a string into a Draft.js editor structure", () => {
@@ -90,12 +56,12 @@ describe( "editor unserialization", () => {
 				0: {
 					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: { name: "title" } },
+					data: { mention: { replaceName: "title" } },
 				},
 				1: {
 					type: "%mention",
 					mutability: "IMMUTABLE",
-					data: { mention: { name: "post_type" } },
+					data: { mention: { replaceName: "post_type" } },
 				},
 			},
 		};
@@ -109,7 +75,7 @@ describe( "editor unserialization", () => {
 		const input = "The first thing, %%title%%, %%post_type%% type.";
 		const expected = input;
 
-		const actual = serializeEditor( convertToRaw( unserializeEditor( input, TAGS ).getCurrentContent() ) );
+		const actual = serializeEditor( unserializeEditor( input, TAGS ).getCurrentContent() );
 
 		expect( actual ).toBe( expected );
 	} );
@@ -184,6 +150,128 @@ describe( "findReplacementVariables", () => {
 		const actual = findReplacementVariables( content );
 
 		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "serializeBlock", () => {
+	it( "serializes all the content into a string", () => {
+		let input = new ContentBlock( { text: "Piece of text" } );
+		const expected = "Piece of text";
+
+		const actual = serializeBlock( input, () => {} );
+
+		expect( actual ).toBe( expected );
+	} );
+
+	it( "serializes within the given selection", () => {
+		let input = new ContentBlock( { text: "Piece of text" } );
+		const expected = "ece";
+
+		const actual = serializeBlock( input, () => {}, { start: 2, end: 5 } );
+
+		expect( actual ).toBe( expected );
+	} );
+
+	it( "serializes replacement variables as %%var%% tokens", () => {
+		let input = new ContentBlock( { text: "Piece of text" } );
+		let characterList = input
+			.getCharacterList()
+			// Set character at position 7 to be entity 1.
+			.set( 6, new CharacterMetadata( { entity: 1 } ) )
+			// Set character at position 8 to be entity 1.
+			.set( 7, new CharacterMetadata( { entity: 1 } ) );
+		input = input.merge( {
+			characterList,
+		} );
+		const entity = {
+			type: "%mention",
+			mutability: "IMMUTABLE",
+			data: { mention: { replaceName: "long_name" } },
+		};
+		const entityMap = { 1: entity };
+		const getEntity = ( key ) => entityMap[ key ];
+		const expected = "Piece %%long_name%% text";
+
+		const actual = serializeBlock( input, getEntity, {} );
+
+		expect( actual ).toBe( expected );
+	} );
+
+	it( "ignores replacement variables that are half selected", () => {
+		let input = new ContentBlock( { text: "Piece of text" } );
+		let characterList = input
+			.getCharacterList()
+			// Set character at position 7 to be entity 1.
+			.set( 6, new CharacterMetadata( { entity: 1 } ) )
+			// Set character at position 8 to be entity 1.
+			.set( 7, new CharacterMetadata( { entity: 1 } ) );
+		input = input.merge( {
+			characterList,
+		} );
+		const entity = {
+			type: "%mention",
+			mutability: "IMMUTABLE",
+			data: { mention: { replaceName: "long_name" } },
+		};
+		const entityMap = { 1: entity };
+		const getEntity = ( key ) => entityMap[ key ];
+		const expected = "f text";
+
+		const actual = serializeBlock( input, getEntity, { start: 7, end: input.getText().length } );
+
+		expect( actual ).toBe( expected );
+	} );
+
+	it( "works with multiple replacement variables", () => {
+		let input = new ContentBlock( { text: "Piece of the text" } );
+		let characterList = input
+			.getCharacterList()
+			// Set character at position 7 to be entity 1.
+			.set( 6, new CharacterMetadata( { entity: 1 } ) )
+			// Set character at position 8 to be entity 1.
+			.set( 7, new CharacterMetadata( { entity: 1 } ) )
+			.set( 9, new CharacterMetadata( { entity: 2 } ) )
+			.set( 10, new CharacterMetadata( { entity: 2 } ) )
+			.set( 11, new CharacterMetadata( { entity: 2 } ) );
+		input = input.merge( {
+			characterList,
+		} );
+		const expected = "Piece %%long_name%% %%other_long_name%% text";
+		const entity1 = {
+			type: "%mention",
+			mutability: "IMMUTABLE",
+			data: { mention: { replaceName: "long_name" } },
+		};
+		const entity2 = {
+			type: "%mention",
+			mutability: "IMMUTABLE",
+			data: { mention: { replaceName: "other_long_name" } },
+		};
+		const entityMap = { 1: entity1, 2: entity2 };
+		const getEntity = ( key ) => entityMap[ key ];
+
+		const actual = serializeBlock( input, getEntity );
+
+		expect( actual ).toBe( expected );
+	} );
+} );
+
+describe( "serializeSelection", () => {
+	it( "only serializes a selected part of the content state", () => {
+		const text = "Text %%entity%% %%entity%% Text";
+		const editorState = unserializeEditor( text, [ { name: "entity", value: "EntityValue" } ] );
+		const key = editorState.getCurrentContent().getFirstBlock().getKey();
+		const selection = new SelectionState( {
+			anchorKey: key,
+			anchorOffset: 12,
+			focusKey: key,
+			focusOffset: 23,
+		} );
+		const expected = "%%entity%% Text";
+
+		const actual = serializeSelection( editorState.getCurrentContent(), selection );
+
+		expect( actual ).toBe( expected );
 	} );
 } );
 
@@ -357,7 +445,7 @@ describe( "replaceReplacementVariables", () => {
 		const expected = "%%title%% %%title%% %%title%% %%title%% ";
 		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
 
-		const actual = serializeEditor( convertToRaw( unserializeEditor( input, replacementVariables ).getCurrentContent() ) );
+		const actual = serializeEditor( unserializeEditor( input, replacementVariables ).getCurrentContent() );
 
 		expect( actual ).toBe( expected );
 	} );
