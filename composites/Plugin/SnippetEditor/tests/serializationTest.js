@@ -2,10 +2,13 @@ import {
 	findReplacementVariables, serializeBlock,
 	serializeEditor, serializeSelection,
 	unserializeEditor,
+	replaceReplacementVariables,
 } from "../serialization";
 import {
 	convertToRaw,
+	convertFromRaw,
 	ContentBlock,
+	EditorState,
 	CharacterMetadata,
 	SelectionState,
 } from "draft-js";
@@ -269,5 +272,219 @@ describe( "serializeSelection", () => {
 		const actual = serializeSelection( editorState.getCurrentContent(), selection );
 
 		expect( actual ).toBe( expected );
+	} );
+} );
+
+describe( "replaceReplacementVariables", () => {
+	it( "replaces a replacement variable that has no space behind it.", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%%moretext",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [  ],
+				data: {},
+			} ],
+			entityMap: {		},
+		};
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
+			.blockMap.f4sem.text;
+
+		expect( actual ).toEqual( "Title moretext" );
+	} );
+
+	it( "places the cursor after the appended space.", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%%moretext",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [  ],
+				data: {},
+			} ],
+			entityMap: {},
+		};
+
+		SelectionState.createEmpty( "f4sem" )
+			.merge( {
+				anchorOffset: 9,
+				focusOffset: 9,
+			} );
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection().toJS().anchorOffset;
+
+		expect( actual ).toEqual( 6 );
+	} );
+
+	it( "replaces a replacement variable that already has a space behind it.", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%% moretext",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [  ],
+				data: {},
+			} ],
+			entityMap: {},
+		};
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
+			.blockMap.f4sem.text;
+
+		expect( actual ).toEqual( "Title moretext" );
+	} );
+
+	it( "replaces a replacement variable that has no space behind it, with multiple replacevars.", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%%moretext%%title%%",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [ ],
+				data: {},
+			} ],
+			entityMap: {
+			},
+		};
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
+			.blockMap.f4sem.text;
+
+		expect( actual ).toEqual( "Title moretextTitle " );
+	} );
+
+	it( "places the cursor after the replaced entity when there is no space appended.", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%%",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [ ],
+				data: {},
+			} ],
+			entityMap: {
+			},
+		};
+
+		const selection = SelectionState.createEmpty( "f4sem" )
+			.merge( {
+				anchorOffset: 9,
+				focusOffset: 9,
+			} );
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		    editorState = EditorState.acceptSelection( editorState, selection );
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection();
+
+		expect( actual.getAnchorOffset() ).toEqual( 6 );
+		expect( actual.getFocusOffset() ).toEqual( 6 );
+	} );
+
+	it( "keeps the selection around the same content if the selection is unrelated to the replacement variables", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "%%title%% %%title%% A piece of text",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [ ],
+				data: {},
+			} ],
+			entityMap: {
+			},
+		};
+
+		const anchorOffset = 20;
+		const focusOffset = 35;
+		const selection = SelectionState.createEmpty( "f4sem" )
+			.merge( {
+				anchorOffset: anchorOffset,
+				focusOffset: focusOffset,
+			} );
+		// We remove 4x '%%' so that amounts to a change of 8.
+		const changeInOffset = -8;
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		editorState = EditorState.acceptSelection( editorState, selection );
+		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection();
+
+		expect( actual.getAnchorOffset() ).toEqual( anchorOffset + changeInOffset );
+		expect( actual.getFocusOffset() ).toEqual( focusOffset + changeInOffset );
+	} );
+
+	it( "spaces out replacement variables that are stuck together", () => {
+		const input = "%%title%%%%title%%%%title%%%%title%%";
+		const expected = "%%title%% %%title%% %%title%% %%title%% ";
+		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = serializeEditor( unserializeEditor( input, replacementVariables ).getCurrentContent() );
+
+		expect( actual ).toBe( expected );
+	} );
+
+	it( "doesn't move the selection if the extra space is after the current selection", () => {
+		const contentState = {
+			blocks: [ {
+				key: "f4sem",
+				text: "Text %%title%%",
+				type: "unstyled",
+				depth: 0,
+				inlineStyleRanges: [],
+				entityRanges: [ ],
+				data: {},
+			} ],
+			entityMap: {
+			},
+		};
+
+		const anchorOffset = 2;
+		const focusOffset = 2;
+		const selection = SelectionState.createEmpty( "f4sem" )
+			.merge( {
+				anchorOffset: anchorOffset,
+				focusOffset: focusOffset,
+			} );
+		/*
+		 * Because all the changes in the text are after the cursor, no change in offset
+		 * should occur.
+		 */
+		const changeInOffset = 0;
+
+		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
+		editorState = EditorState.acceptSelection( editorState, selection );
+		const replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
+
+		const actual = replaceReplacementVariables( editorState, replacementVariables ).getSelection();
+
+		expect( actual.getAnchorOffset() ).toEqual( anchorOffset + changeInOffset );
+		expect( actual.getFocusOffset() ).toEqual( focusOffset + changeInOffset );
 	} );
 } );

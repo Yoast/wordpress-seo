@@ -1,4 +1,5 @@
 import { EditorState, Modifier, SelectionState, ContentState } from "draft-js";
+import wordBoundaries from "yoastseo/js/config/wordBoundaries";
 
 const CIRCUMFIX = "%%";
 
@@ -222,15 +223,14 @@ export function addLabel( variable, replacementVariables ) {
  * Adds position information about a variable inside a block.
  *
  * @param {Object} variable Details about the variable we are replacing.
- * @param {number} offset The offset we need to add because of other replacements.
  *
  * @returns {Object} The variable with position information.
  */
-export function addPositionInformation( variable, offset ) {
+export function addPositionInformation( variable ) {
 	return {
 		...variable,
-		start: variable.start + offset,
-		end: variable.start + variable.length + offset,
+		start: variable.start,
+		end: variable.start + variable.length,
 		delta: variable.label.length - variable.length,
 	};
 }
@@ -334,6 +334,81 @@ export function replaceVariableWithEntity( editorState, variable, blockKey ) {
 }
 
 /**
+ * Gets the selected text.
+ *
+ * @param {EditorState} editorState The editor state to find the selected text in.
+ * @param {SelectionState} SelectionState The selection state to find the text for.
+ *
+ * @returns {string} The selected text.
+ */
+export function getSelectedText( editorState, SelectionState ) {
+	const anchorKey = SelectionState.getAnchorKey();
+	const currentContent = editorState.getCurrentContent();
+	const currentBlock = currentContent.getBlockForKey( anchorKey );
+	const start = SelectionState.getStartOffset();
+	const end = SelectionState.getEndOffset();
+
+	return currentBlock.getText().slice( start, end );
+}
+
+/**
+ * Adds a space after a replacement variable if there isn't one now.
+ *
+ * Takes into account word boundaries so we don't add spaces before comma's,
+ * full stops or other punctuation.
+ *
+ * @param {EditorState} editorState The current editor state.
+ * @param {SelectionState} selection The current selection state.
+ * @param {string} blockKey Key of the block we are currently working with.
+ * @param {Object} variable Details about the variable we are replacing.
+ * @returns {{editorState: EditorState, selection: SelectionState}} New editor and selection state.
+ */
+function addSpaceAfterVariable( editorState, selection, blockKey, variable ) {
+	const contentState = editorState.getCurrentContent();
+
+	/*
+	 * We need to know what is the first character after the replacement variable to
+	 * decide whether we need to insert a space after the variable (see below).
+	 */
+	const selectionCharacterAfterVariable = SelectionState.createEmpty( blockKey ).merge( {
+		anchorOffset: variable.end,
+		focusOffset: variable.end + 1,
+	} );
+
+	const characterAfterVariable = getSelectedText( editorState, selectionCharacterAfterVariable );
+
+	/*
+	 * We're making sure there is a space after every entity to improve the UX.
+	 * Without a space, replaced variables are stuck to each other, while it might
+	 * look like they aren't when looking at the entities because of the margin
+	 * between entities.
+	 */
+	if ( ! wordBoundaries().includes( characterAfterVariable ) ) {
+		// We want to place a space after the variable, so we need to know where that is.
+		const selectionAfterVariable = SelectionState.createEmpty( blockKey ).merge( {
+			anchorOffset: variable.end,
+			focusOffset: variable.end,
+		} );
+
+		const newContentState = Modifier.insertText(
+			contentState,
+			selectionAfterVariable,
+			" ",
+		);
+		editorState = EditorState.push( editorState, newContentState, "insert-characters" );
+
+		if ( selection.getAnchorOffset() >= variable.start ) {
+			selection = selection.merge( {
+				anchorOffset: selection.getAnchorOffset() + 1,
+				focusOffset: selection.getFocusOffset() + 1,
+			} );
+		}
+	}
+
+	return { editorState, selection };
+}
+
+/**
  * Replaces replacement variables (%%replacement_variable%%) in an editor state with entities.
  *
  * @param {EditorState} editorState The editor state to find the variables in.
@@ -356,30 +431,21 @@ export function replaceReplacementVariables( editorState, replacementVariables )
 		const foundReplacementVariables = findReplacementVariables( text );
 
 		/*
-		 * Offset keeps track of the amount of shifting that occurred by replacing
-		 * replacement variables with entities. This makes sure multiple replacement
-		 * variables are replaced correctly. This is only relevant on initial
-		 * entity conversion on first rendering and when pasting content that
-		 * contains multiple replacement variables.
+		 * We reverse the order to make it possible to replace replace vars without
+		 * having to keep track of the difference between the entity length and the
+		 * length before replacement.
 		 */
-		let offset = 0;
-
-		foundReplacementVariables.forEach( ( variable ) => {
+		[ ...foundReplacementVariables ].reverse().forEach( ( variable ) => {
 			variable = addLabel( variable, replacementVariables );
-			variable = addPositionInformation( variable, offset );
+			variable = addPositionInformation( variable );
 
 			let selection = newEditorState.getSelection();
 			selection = moveSelectionAfterReplacement( selection, blockKey, variable );
 
-			newEditorState = replaceVariableWithEntity( newEditorState, variable, blockKey );
-			newEditorState = EditorState.acceptSelection( newEditorState, selection );
+			const addedSpace = addSpaceAfterVariable( newEditorState, selection, blockKey, variable );
 
-			/*
-			 * The variable.delta is the difference between the variable human-readable
-			 * label length e.g. `Separator` and the variable length including `%%`
-			 * e.g. `%%sep%%`. See `addPositionInformation()`.
-			 */
-			offset = offset + variable.delta;
+			newEditorState = replaceVariableWithEntity( addedSpace.editorState, variable, blockKey );
+			newEditorState = EditorState.acceptSelection( newEditorState, addedSpace.selection );
 		} );
 	} );
 
