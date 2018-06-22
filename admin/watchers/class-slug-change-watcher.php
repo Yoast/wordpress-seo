@@ -131,12 +131,11 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 *
 	 * @param string $first_sentence The first sentence of the notification.
 	 *
-	 * @return string
+	 * @return string The full notification.
 	 */
 	protected function get_message( $first_sentence ) {
 		return '<h2>' . __( 'Make sure your visitors don\'t get errors!', 'wordpress-seo' ) . '</h2>'
 			. '<p>'
-			/* translators: %1$s expands to the translated name of the post type, %2$s expands to the anchor opening tag, %3$s to the anchor closing tag. */
 			. $first_sentence
 			. ' ' . __( 'To ensure your visitors do not get a 404 error when they click on the no longer working URL, you should create a redirect.', 'wordpress-seo' )
 			. ' ' . __( 'With Yoast SEO Premium, you can easily create such redirects.', 'wordpress-seo' )
@@ -147,15 +146,16 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	/**
 	 * Adds a notification to be shown on the next page request since posts are updated in an ajax request.
 	 *
-	 * @param string $message The singular_name label from a post_type_object.
+	 * @param string $message The message to add to the notification.
 	 *
 	 * @return void
 	 */
 	protected function add_notification( $message ) {
 		$notification = new Yoast_Notification(
-			$message, array(
+			$message,
+			array(
 				'type'           => 'notice-warning is-dismissible',
-				'yoast-branding' => true,
+				'yoast_branding' => true,
 			)
 		);
 

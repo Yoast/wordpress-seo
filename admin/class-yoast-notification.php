@@ -62,8 +62,15 @@ class Yoast_Notification {
 		'dismissal_key'    => null,
 		'capabilities'     => array(),
 		'capability_check' => self::MATCH_ALL,
-		'yoast-branding'   => false,
+		'yoast_branding'   => false,
 	);
+
+	/**
+	 * The message for the notification.
+	 *
+	 * @var string
+	 */
+	private $message;
 
 	/**
 	 * Notification class constructor.
@@ -283,10 +290,12 @@ class Yoast_Notification {
 		// Combined attribute key and value into a string.
 		array_walk( $attributes, array( $this, 'parse_attributes' ) );
 
-		if ( $this->options['yoast-branding'] ) {
+		$message = null;
+		if ( $this->options['yoast_branding'] ) {
 			$message = $this->wrap_yoast_seo_icon( $this->message );
 		}
-		if ( ! isset( $message ) ) {
+
+		if ( $message === null ) {
 			$message = wpautop( $this->message );
 		}
 
@@ -299,7 +308,7 @@ class Yoast_Notification {
 	 *
 	 * @param string $message The message to wrap.
 	 *
-	 * @return string
+	 * @return string The wrapped message.
 	 */
 	private function wrap_yoast_seo_icon( $message ) {
 		$out  = sprintf(
