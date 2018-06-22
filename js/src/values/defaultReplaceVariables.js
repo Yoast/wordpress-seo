@@ -22,7 +22,7 @@ export default function getDefaultReplacementVariables() {
 		},
 		{
 			name: "page",
-			label: __( "Page number", "wordpress-seo" ),
+			label: __( "Page", "wordpress-seo" ),
 			value: "",
 		},
 		{
