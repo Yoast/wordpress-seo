@@ -60,7 +60,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		}
 
 		/* translators: %1$s expands to the translated name of the post type. */
-		$first_sentence = sprintf( __( 'You just trashed this %1$s.', 'wordpress-seo' ), $this->get_post_type_label( get_post_type( $post_id ) ) );
+		$first_sentence = sprintf( __( 'You just trashed a %1$s.', 'wordpress-seo' ), $this->get_post_type_label( get_post_type( $post_id ) ) );
 		$message        = $this->get_message( $first_sentence );
 
 		$this->add_notification( $message );
@@ -85,7 +85,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		}
 
 		/* translators: %1$s expands to the translated name of the post type. */
-		$first_sentence = sprintf( __( 'You just deleted this %1$s.', 'wordpress-seo' ), $this->get_post_type_label( get_post_type( $post_id ) ) );
+		$first_sentence = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $this->get_post_type_label( get_post_type( $post_id ) ) );
 		$message        = $this->get_message( $first_sentence );
 
 		$this->add_notification( $message );
@@ -106,7 +106,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			$post_type_object = get_post_type_object( 'post' );
 		}
 
-		return $post_type_object->labels->singular_name;
+		return strtolower( $post_type_object->labels->singular_name );
 	}
 
 	/**
