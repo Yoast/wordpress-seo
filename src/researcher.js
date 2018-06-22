@@ -37,6 +37,8 @@ var passiveVoice = require( "./researches/getPassiveVoice.js" );
 var getSentenceBeginnings = require( "./researches/getSentenceBeginnings.js" );
 var relevantWords = require( "./researches/relevantWords" );
 var readingTime = require( "./researches/readingTime" );
+var getTopicDensity = require( "./researches/getTopicDensity" );
+var topicCount = require( "./researches/topicCount" );
 const largestKeywordDistance = require( "./researches/largestKeywordDistance" );
 
 /**
@@ -79,6 +81,8 @@ var Researcher = function( paper ) {
 		getSentenceBeginnings: getSentenceBeginnings,
 		relevantWords: relevantWords,
 		readingTime: readingTime,
+		getTopicDensity: getTopicDensity,
+		topicCount: topicCount,
 		sentences,
 		largestKeywordDistance: largestKeywordDistance,
 	};
