@@ -303,10 +303,13 @@ function addSpaceAfterVariable( editorState, selection, blockKey, variable ) {
 			" ",
 		);
 		editorState = EditorState.push( editorState, newContentState, "insert-characters" );
-		selection = selection.merge( {
-			anchorOffset: selection.getAnchorOffset() + 1,
-			focusOffset: selection.getFocusOffset() + 1,
-		} );
+
+		if ( selection.getAnchorOffset() >= variable.start ) {
+			selection = selection.merge( {
+				anchorOffset: selection.getAnchorOffset() + 1,
+				focusOffset: selection.getFocusOffset() + 1,
+			} );
+		}
 	}
 
 	return { editorState, selection };
