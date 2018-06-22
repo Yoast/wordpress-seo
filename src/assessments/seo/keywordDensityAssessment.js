@@ -1,10 +1,15 @@
 var AssessmentResult = require( "../../values/AssessmentResult.js" );
 var countWords = require( "../../stringProcessing/countWords.js" );
+var keywordCountResearch = require( "../../researches/keywordCount" );
 var formatNumber = require( "../../helpers/formatNumber.js" );
 var inRange = require( "../../helpers/inRange.js" );
 
 var inRangeEndInclusive = inRange.inRangeEndInclusive;
 var inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
+
+const map = require( "lodash/map.js" );
+const Mark = require( "../../values/Mark.js" );
+const marker = require( "../../markers/addMark.js" );
 
 /**
  * Returns the scores and text for keyword density
@@ -97,6 +102,23 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 };
 
 /**
+ * Marks keywords in the text for the keyword density assessment.
+ *
+ * @param {Object} paper The paper to use for the assessment.
+ *
+ * @returns {Array<Mark>} Marks that should be applied.
+ */
+var getMarks = function( paper ) {
+	const keywordMatches = keywordCountResearch( paper ).matches;
+	return map( keywordMatches, function( keyword ) {
+		return new Mark( {
+			original: keyword,
+			marked: marker( keyword ),
+		} );
+	} );
+};
+
+/**
  * Runs the getkeywordDensity module, based on this returns an assessment result with score.
  *
  * @param {object} paper The paper to use for the assessment.
@@ -108,11 +130,12 @@ var keywordDensityAssessment = function( paper, researcher, i18n ) {
 	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
 	var keywordCount = researcher.getResearch( "keywordCount" );
 
-	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n, keywordCount );
+	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n, keywordCount.count );
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( keywordDensityResult.score );
 	assessmentResult.setText( keywordDensityResult.text );
+	assessmentResult.setHasMarks( keywordCount.count > 0 );
 
 	return assessmentResult;
 };
@@ -123,4 +146,5 @@ module.exports = {
 	isApplicable: function( paper ) {
 		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100 && ! ( paper.hasSynonyms() );
 	},
+	getMarks: getMarks,
 };

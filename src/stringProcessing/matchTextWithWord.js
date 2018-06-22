@@ -12,7 +12,7 @@ const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
  * @param {string} wordToMatch The word to match in the text
  * @param {string} locale The locale used for transliteration.
  * @param {string} [extraBoundary] An extra string that can be added to the wordboundary regex
- * @returns {number} The amount of matches found.
+ * @returns {Object} The matches found and the number of matches.
  */
 module.exports = function( text, wordToMatch, locale, extraBoundary ) {
 	text = stripSomeTags( text );
@@ -20,5 +20,8 @@ module.exports = function( text, wordToMatch, locale, extraBoundary ) {
 	text = normalizeQuotes( text );
 	wordToMatch = normalizeQuotes( wordToMatch );
 	const matches = matchStringWithTransliteration( text, wordToMatch, locale, extraBoundary );
-	return matches.length;
+	return {
+		count: matches.length,
+		matches: matches,
+	};
 };
