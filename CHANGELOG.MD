@@ -5,6 +5,22 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.3.0 June 22nd, 2018
+
+### Added
+* Added `ErrorBoundary` component to be used in the `SnippetEditor`. [#605](https://github.com/Yoast/yoast-components/pull/605)
+
+### Changes
+* Let the padding on the `StyledSection` depend on the title. [#606](https://github.com/Yoast/yoast-components/pull/606)
+* Implements an option for the paper style in the styled section component. [#612](https://github.com/Yoast/yoast-components/pull/612)
+* Moves the margin bottom from the FormSections to the CloseSnippetEditor button. [#615](https://github.com/Yoast/yoast-components/pull/615)
+
+### Fixes
+* Clicking the entire meta description field in `SnippetEditor` will now focus the input. [#600](https://github.com/Yoast/yoast-components/pull/600)
+* Improved snippet editor placeholder contrast. [#603](https://github.com/Yoast/yoast-components/pull/603)
+* Fixes an issue where in cases with a lot of snippet variables it would sometimes be partially hidden behind the WordPress toolbar. [#604](https://github.com/Yoast/yoast-components/pull/604)
+* Handle cut and paste behaviour in the `ReplacementVariableEditor`. [#611](https://github.com/Yoast/yoast-components/pull/611)
+
 ## 4.2.0 June 12nd, 2018
 
 ### Added

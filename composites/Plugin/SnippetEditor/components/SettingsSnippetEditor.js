@@ -4,9 +4,13 @@ import PropTypes from "prop-types";
 
 // Internal dependencies.
 import SettingsSnippetEditorFields from "./SettingsSnippetEditorFields";
-import { replacementVariablesShape } from "../constants";
+import ErrorBoundary from "../../../basic/ErrorBoundary";
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
 
-class SnippetEditor extends React.Component {
+class SettingsSnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
@@ -33,6 +37,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Function} props.mapDataToPreview          Function to map the editor
 	 *                                                   data to data for the preview.
 	 * @param {string} props.locale                      The locale of the page.
+	 * @param {bool}   props.hasPaperStyle               Whether or not it has paper style.
 	 *
 	 * @returns {void}
 	 */
@@ -97,36 +102,47 @@ class SnippetEditor extends React.Component {
 		const {
 			data,
 			replacementVariables,
+			recommendedReplacementVariables,
 			descriptionEditorFieldPlaceholder,
+			hasPaperStyle,
 		} = this.props;
 
 		const { activeField, hoveredField } = this.state;
 
 		return (
-			<SettingsSnippetEditorFields
-				descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
-				data={ data }
-				activeField={ activeField }
-				hoveredField={ hoveredField }
-				onChange={ this.handleChange }
-				onFocus={ this.setFieldFocus }
-				replacementVariables={ replacementVariables } />
+			<ErrorBoundary>
+				<SettingsSnippetEditorFields
+					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
+					data={ data }
+					activeField={ activeField }
+					hoveredField={ hoveredField }
+					onChange={ this.handleChange }
+					onFocus={ this.setFieldFocus }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
+					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
+				/>
+			</ErrorBoundary>
 		);
 	}
 }
 
-SnippetEditor.propTypes = {
+SettingsSnippetEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
 	onChange: PropTypes.func.isRequired,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
+	hasPaperStyle: PropTypes.bool,
 };
 
-SnippetEditor.defaultProps = {
+SettingsSnippetEditor.defaultProps = {
 	replacementVariables: [],
+	recommendedReplacementVariables: [],
+	hasPaperStyle: true,
 };
 
-export default SnippetEditor;
+export default SettingsSnippetEditor;

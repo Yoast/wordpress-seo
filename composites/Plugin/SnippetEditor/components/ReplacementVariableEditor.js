@@ -12,7 +12,10 @@ import {
 	withCaretStyles,
 } from "./Shared";
 import SvgIcon from "../../Shared/components/SvgIcon";
-import { replacementVariablesShape } from "../constants";
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
 
 class ReplacementVariableEditor extends React.Component {
 	/**
@@ -67,6 +70,7 @@ class ReplacementVariableEditor extends React.Component {
 			isActive,
 			isHovered,
 			replacementVariables,
+			recommendedReplacementVariables,
 			styleForMobile,
 			editorRef,
 			placeholder,
@@ -99,6 +103,7 @@ class ReplacementVariableEditor extends React.Component {
 						onFocus={ onFocus }
 						onBlur={ onBlur }
 						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
 						ref={ ref => {
 							this.ref = ref;
 							editorRef( ref );
@@ -117,6 +122,7 @@ ReplacementVariableEditor.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onBlur: PropTypes.func,
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	isActive: PropTypes.bool,
 	isHovered: PropTypes.bool,
 	withCaret: PropTypes.bool,

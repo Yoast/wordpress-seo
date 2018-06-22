@@ -17,9 +17,14 @@ import {
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
-import { lengthProgressShape, replacementVariablesShape } from "../constants";
+import {
+	lengthProgressShape,
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
 import colors from "../../../../style-guide/colors";
+import ErrorBoundary from "../../../basic/ErrorBoundary";
 
 const SnippetEditorButton = Button.extend`
 	height: 33px;
@@ -39,6 +44,7 @@ const EditSnippetButton = SnippetEditorButton.extend`
 `;
 
 const CloseEditorButton = SnippetEditorButton.extend`
+	margin-top: 24px;
 	margin-left: 20px;
 `;
 
@@ -92,30 +98,34 @@ class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
-	 * @param {Object}   props                           The props for the snippet
-	 *                                                   editor.
-	 * @param {Object}   props.replacementVariables      The replacement variables
-	 *                                                   for this editor.
-	 * @param {Object}   props.data                      The initial editor data.
-	 * @param {string}   props.keyword                   The focus keyword.
-	 * @param {string}   props.data.title                The initial title.
-	 * @param {string}   props.data.slug                 The initial slug.
-	 * @param {string}   props.data.description          The initial description.
-	 * @param {string}   props.baseUrl                   The base URL to use
-	 *                                                   for the preview.
-	 * @param {string}   props.mode                      The mode the editor
-	 *                                                   should be in.
-	 * @param {Function} props.onChange                  Called when the data
-	 *                                                   changes.
-	 * @param {Object}   props.titleLengthProgress       The values for the title
-	 *                                                   length assessment.
-	 * @param {Object}   props.descriptionLengthProgress The values for the
-	 *                                                   description length
-	 *                                                   assessment.
-	 * @param {Function} props.mapEditorDataToPreview    Function to map the
-	 *                                                   editor data to data
-	 *                                                   for the preview.
-	 * @param {string}   props.locale                    The locale of the page.
+	 * @param {Object}   props                                 The props for the snippet
+	 *                                                         editor.
+	 * @param {Object[]} props.replacementVariables            The replacement variables
+	 *                                                         for this editor.
+	 * @param {Object[]} props.recommendedReplacementVariables The recommended replacement
+	 *                                                         variables for this editor.
+	 * @param {Object}   props.data                            The initial editor data.
+	 * @param {string}   props.keyword                         The focus keyword.
+	 * @param {string}   props.data.title                      The initial title.
+	 * @param {string}   props.data.slug                       The initial slug.
+	 * @param {string}   props.data.description                The initial description.
+	 * @param {string}   props.baseUrl                         The base URL to use
+	 *                                                         for the preview.
+	 * @param {string}   props.mode                            The mode the editor
+	 *                                                         should be in.
+	 * @param {Function} props.onChange                        Called when the data
+	 *                                                         changes.
+	 * @param {Object}   props.titleLengthProgress             The values for the title
+	 *                                                         length assessment.
+	 * @param {Object}   props.descriptionLengthProgress       The values for the
+	 *                                                         description length
+	 *                                                         assessment.
+	 * @param {Function} props.mapEditorDataToPreview          Function to map the
+	 *                                                         editor data to data
+	 *                                                         for the preview.
+	 * @param {string}   props.locale                          The locale of the page.
+	 * @param {bool}     props.hasPaperStyle                   Whether or not it has
+	 *                                                         paper style.
 	 *
 	 * @returns {void}
 	 */
@@ -225,7 +235,9 @@ class SnippetEditor extends React.Component {
 		const {
 			data,
 			replacementVariables,
+			recommendedReplacementVariables,
 			descriptionEditorFieldPlaceholder,
+			hasPaperStyle,
 		} = this.props;
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
@@ -243,9 +255,11 @@ class SnippetEditor extends React.Component {
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
 					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
 					titleLengthProgress={ titleLengthProgress }
 					descriptionLengthProgress={ descriptionLengthProgress }
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
+					containerPadding={ hasPaperStyle ? "0 20px": "0" }
 				/>
 				<CloseEditorButton onClick={ this.close }>
 					{ __( "Close snippet editor", "yoast-components" ) }
@@ -502,33 +516,35 @@ class SnippetEditor extends React.Component {
 		 */
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return (
-			<div>
-				<SnippetPreview
-					keyword={ keyword }
-					mode={ mode }
-					date={ date }
-					activeField={ this.mapFieldToPreview( activeField ) }
-					hoveredField={ this.mapFieldToPreview( hoveredField ) }
-					onMouseEnter={ this.onMouseEnter }
-					onMouseLeave={ this.onMouseLeave }
-					onMouseUp={ this.onMouseUp }
-					locale={ locale }
-					{ ...mappedData }
-				/>
+			<ErrorBoundary>
+				<div>
+					<SnippetPreview
+						keyword={ keyword }
+						mode={ mode }
+						date={ date }
+						activeField={ this.mapFieldToPreview( activeField ) }
+						hoveredField={ this.mapFieldToPreview( hoveredField ) }
+						onMouseEnter={ this.onMouseEnter }
+						onMouseLeave={ this.onMouseLeave }
+						onMouseUp={ this.onMouseUp }
+						locale={ locale }
+						{ ...mappedData }
+					/>
 
-				<ModeSwitcher onChange={ ( mode ) => onChange( "mode", mode ) } active={ mode } />
+					<ModeSwitcher onChange={ ( mode ) => onChange( "mode", mode ) } active={ mode } />
 
-				<EditSnippetButton
-					onClick={ isOpen ? this.close : this.open }
-					aria-expanded={ isOpen }
-					innerRef={ this.setEditButtonRef }
-				>
-					<SvgIcon icon="edit" />
-					{ __( "Edit snippet", "yoast-components" ) }
-				</EditSnippetButton>
+					<EditSnippetButton
+						onClick={ isOpen ? this.close : this.open }
+						aria-expanded={ isOpen }
+						innerRef={ this.setEditButtonRef }
+					>
+						<SvgIcon icon="edit" />
+						{ __( "Edit snippet", "yoast-components" ) }
+					</EditSnippetButton>
 
-				{ this.renderEditor() }
-			</div>
+					{ this.renderEditor() }
+				</div>
+			</ErrorBoundary>
 		);
 		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
@@ -536,6 +552,7 @@ class SnippetEditor extends React.Component {
 
 SnippetEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
@@ -552,12 +569,14 @@ SnippetEditor.propTypes = {
 	mapEditorDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
 	locale: PropTypes.string,
+	hasPaperStyle: PropTypes.bool,
 };
 
 SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
 	date: "",
 	replacementVariables: [],
+	recommendedReplacementVariables: [],
 	titleLengthProgress: {
 		max: 600,
 		actual: 0,
@@ -572,6 +591,7 @@ SnippetEditor.defaultProps = {
 	locale: "en",
 	descriptionEditorFieldPlaceholder: "Modify your meta description by editing it right here",
 	onChangeAnalysisData: noop,
+	hasPaperStyle: true,
 };
 
 export default SnippetEditor;

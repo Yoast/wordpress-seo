@@ -12,3 +12,7 @@ export const replacementVariablesShape = PropTypes.arrayOf( PropTypes.shape( {
 	label: PropTypes.string,
 	description: PropTypes.string,
 } ) );
+
+export const recommendedReplacementVariablesShape = PropTypes.arrayOf(
+	PropTypes.string,
+);

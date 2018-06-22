@@ -187,6 +187,7 @@ exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
   <ReplacementVariableEditorStandalone__ZIndexOverride>
     <Decorated(MentionSuggestions)
       onSearchChange={[Function]}
+      suggestions={Array []}
     />
   </ReplacementVariableEditorStandalone__ZIndexOverride>
 </React.Fragment>
