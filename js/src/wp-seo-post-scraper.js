@@ -31,9 +31,10 @@ import UsedKeywords from "./analysis/usedKeywords";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
-import { setYoastComponentsI18n } from "./helpers/i18n";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 
-setYoastComponentsI18n();
+setYoastComponentsL10n();
+setWordPressSeoL10n();
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line

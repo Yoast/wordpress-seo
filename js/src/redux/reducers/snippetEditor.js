@@ -1,5 +1,5 @@
 import { DEFAULT_MODE } from "yoast-components";
-import defaultReplaceVariables from "../../values/defaultReplaceVariables";
+import getDefaultReplacementVariables from "../../values/defaultReplaceVariables";
 import {
 	SWITCH_MODE,
 	UPDATE_DATA,
@@ -9,16 +9,23 @@ import {
 } from "../actions/snippetEditor";
 import { createLabelFromName } from "../../helpers/replacementVariableHelpers";
 
-const INITIAL_STATE = {
-	mode: DEFAULT_MODE,
-	data: {
-		title: "",
-		slug: "",
-		description: "",
-	},
-	replacementVariables: defaultReplaceVariables,
-	uniqueRefreshValue: "",
-};
+/**
+ * Returns the initial state for the snippetEditorReducer.
+ *
+ * @returns {Object} The initial state.
+ */
+function getInitialState() {
+	return {
+		mode: DEFAULT_MODE,
+		data: {
+			title: "",
+			slug: "",
+			description: "",
+		},
+		replacementVariables: getDefaultReplacementVariables(),
+		uniqueRefreshValue: "",
+	};
+}
 
 /**
  * Reduces the dispatched action for the snippet editor state.
@@ -28,7 +35,7 @@ const INITIAL_STATE = {
  *
  * @returns {Object} The new state.
  */
-function snippetEditorReducer( state = INITIAL_STATE, action ) {
+function snippetEditorReducer( state = getInitialState(), action ) {
 	switch ( action.type ) {
 		case SWITCH_MODE:
 			return {

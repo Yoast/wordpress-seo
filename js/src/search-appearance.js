@@ -11,8 +11,12 @@ import { createStore, combineReducers } from "redux";
 import SettingsReplacementVariableEditors from "./components/SettingsReplacementVariableEditors";
 import snippetEditorReducer from "./redux/reducers/snippetEditor";
 import configureEnhancers from "./redux/utils/configureEnhancers";
-import defaultReplacementVariables from "./values/defaultReplaceVariables";
+import getDefaultReplacementVariables from "./values/defaultReplaceVariables";
 import { updateReplacementVariable } from "./redux/actions/snippetEditor";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
+
+setYoastComponentsL10n();
+setWordPressSeoL10n();
 
 /**
  * Create a shared store for all snippet editors in the search appearance pages.
@@ -26,7 +30,7 @@ function configureStore() {
 		} ),
 		{
 			snippetEditor: {
-				replacementVariables: defaultReplacementVariables,
+				replacementVariables: getDefaultReplacementVariables(),
 				recommendedReplacementVariables: wpseoReplaceVarsL10n.recommended_replace_vars,
 			},
 		},
