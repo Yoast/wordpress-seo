@@ -291,10 +291,10 @@ describe( "replaceReplacementVariables", () => {
 		};
 
 		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
-		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ]
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
 
 		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
-			.blockMap[ "f4sem" ].text;
+			.blockMap.f4sem.text;
 
 		expect( actual ).toEqual( "Title moretext" );
 	} );
@@ -342,10 +342,10 @@ describe( "replaceReplacementVariables", () => {
 		};
 
 		let editorState = EditorState.createWithContent( convertFromRaw( contentState ) );
-		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ]
+		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
 
 		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
-			.blockMap[ "f4sem" ].text;
+			.blockMap.f4sem.text;
 
 		expect( actual ).toEqual( "Title moretext" );
 	} );
@@ -369,7 +369,7 @@ describe( "replaceReplacementVariables", () => {
 		let replacementVariables = [ { name: "title", label: "Title", value: "My title" } ];
 
 		const actual = replaceReplacementVariables( editorState, replacementVariables ).getCurrentContent().toJS()
-			.blockMap[ "f4sem" ].text;
+			.blockMap.f4sem.text;
 
 		expect( actual ).toEqual( "Title moretextTitle " );
 	} );
