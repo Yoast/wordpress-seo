@@ -1,7 +1,7 @@
 /* global describe it expect */
 const keywordDensityAssessment = require( "../../js/assessments/seo/keywordDensityAssessment.js" );
 const Paper = require( "../../js/values/Paper.js" );
-
+const Mark = require( "../../src/values/Mark.js" );
 const factory = require( "../helpers/factory.js" );
 const i18n = factory.buildJed();
 
@@ -66,5 +66,21 @@ describe( "An assessment for the keywordDensity", function() {
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "The keyword density is 0.5%, which is great; the focus keyword was found 2 times." );
+	} );
+} );
+
+describe( "A test for marking the keyword", function() {
+	it( "returns markers", function() {
+		const paper = new Paper( "This is a very interesting paper with a keyword and another keyword.", { keyword: "keyword" }  );
+		const expected = [
+			new Mark( { original: "keyword", marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>" } ),
+		];
+		expect( keywordDensityAssessment.getMarks( paper ) ).toEqual( expected );
+	} );
+
+	it( "returns no markers", function() {
+		const paper = new Paper( "This is a very interesting paper with a keyword and other keywords.", { keyword: "seaside" }  );
+		const expected = [];
+		expect( keywordDensityAssessment.getMarks( paper ) ).toEqual( expected );
 	} );
 } );

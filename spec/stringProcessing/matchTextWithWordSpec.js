@@ -81,11 +81,11 @@ describe( "Counts the occurences of a word in a string", function() {
 
 	it( "should match within special characters", function() {
 		expect( wordMatch( "Sed <keyword» dictum", "keyword" ).count ).toBe( 1 );
-		expect( wordMatch( "Sed <keyword» dictum", "keyword" ).matches ).toEqual( [ "<keyword»" ] );
+		expect( wordMatch( "Sed <keyword» dictum", "keyword" ).matches ).toEqual( [ "keyword" ] );
 		expect( wordMatch( "Sed «keyword> dictum", "keyword" ).count ).toBe( 1 );
-		expect( wordMatch( "Sed «keyword> dictum", "keyword" ).matches ).toEqual( [ "«keyword>" ] );
+		expect( wordMatch( "Sed «keyword> dictum", "keyword" ).matches ).toEqual( [ "keyword" ] );
 		expect( wordMatch( "Sed ‹keyword› dictum", "keyword" ).count ).toBe( 1 );
-		expect( wordMatch( "Sed ‹keyword› dictum", "keyword" ).matches ).toEqual( [ "‹keyword›" ] );
+		expect( wordMatch( "Sed ‹keyword› dictum", "keyword" ).matches ).toEqual( [ "keyword" ] );
 		expect( wordMatch( "", "keyword" ).count ).toBe( 0 );
 		expect( wordMatch( "", "keyword" ).matches ).toEqual( [] );
 	} );

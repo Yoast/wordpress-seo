@@ -1,9 +1,12 @@
 /** @module stringProcessing/matchTextWithWord */
 
 const stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
+const stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+const removePunctuation = require( "../stringProcessing/removePunctuation.js" );
 const unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" ).unifyAllSpaces;
 const matchStringWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
 const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
+const map = require( "lodash/map" );
 
 /**
  * Returns the number of matches in a given string
@@ -19,7 +22,11 @@ module.exports = function( text, wordToMatch, locale, extraBoundary ) {
 	text = unifyWhitespace( text );
 	text = normalizeQuotes( text );
 	wordToMatch = normalizeQuotes( wordToMatch );
-	const matches = matchStringWithTransliteration( text, wordToMatch, locale, extraBoundary );
+	let matches = matchStringWithTransliteration( text, wordToMatch, locale, extraBoundary );
+	matches = map( matches, function( keyword ) {
+		return stripSpaces( removePunctuation( keyword ) );
+	} );
+
 	return {
 		count: matches.length,
 		matches: matches,
