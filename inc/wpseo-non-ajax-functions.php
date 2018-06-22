@@ -29,20 +29,26 @@ add_action( 'wp_loaded', 'wpseo_initialize_admin_bar' );
  * @param array $cap     Array of capabilities to be checked, unused here.
  * @param array $args    List of arguments for the specific cap to be checked.
  *
- * @return array $allcaps
+ * @return array $allcaps Filtered capabilities.
  */
 function allow_custom_field_edits( $allcaps, $cap, $args ) {
-	// $args[0] holds the capability.
-	// $args[2] holds the post ID.
-	// $args[3] holds the custom field.
-	// Make sure the request is to edit or add a post meta (this is usually also the second value in $cap,
-	// but this is safer to check).
-	if ( in_array( $args[0], array( 'edit_post_meta', 'add_post_meta' ), true ) ) {
-		// Only allow editing rights for users who have the rights to edit this post and make sure
-		// the meta value starts with _yoast_wpseo (WPSEO_Meta::$meta_prefix).
-		if ( ( isset( $args[2] ) && current_user_can( 'edit_post', $args[2] ) ) && ( ( isset( $args[3] ) && $args[3] !== '' ) && strpos( $args[3], WPSEO_Meta::$meta_prefix ) === 0 ) ) {
-			$allcaps[ $args[0] ] = true;
-		}
+	if ( ! in_array( $args[0], array( 'edit_post_meta', 'add_post_meta' ), true ) ) {
+		return $allcaps;
+	}
+
+	// If this is provided, it is the post ID.
+	if ( empty( $args[2] ) ) {
+		return $allcaps;
+	}
+
+	// If this is provided, it is the custom field.
+	if ( empty( $args[3] ) ) {
+		return $allcaps;
+	}
+
+	// If the meta key is part of the plugin, grant capabilities accordingly.
+	if ( strpos( $args[3], WPSEO_Meta::$meta_prefix ) === 0 && current_user_can( 'edit_post', $args[2] ) ) {
+		$allcaps[ $args[0] ] = true;
 	}
 
 	return $allcaps;

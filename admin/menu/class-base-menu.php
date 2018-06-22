@@ -27,14 +27,14 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	public abstract function register_hooks();
+	abstract public function register_hooks();
 
 	/**
 	 * Returns the list of registered submenu pages.
 	 *
 	 * @return array List of registered submenu pages.
 	 */
-	public abstract function get_submenu_pages();
+	abstract public function get_submenu_pages();
 
 	/**
 	 * Creates a submenu formatted array.
@@ -65,79 +65,152 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers submenu pages as menu pages.
 	 *
-	 * @param array $submenu_pages List of submenu pages.
+	 * This method should only be used if the user does not have the required capabilities
+	 * to access the parent menu page.
+	 *
+	 * @param array $submenu_pages List of submenu pages to register.
+	 *
+	 * @return void
 	 */
 	protected function register_menu_pages( $submenu_pages ) {
-		if ( ! is_array( $submenu_pages ) || $submenu_pages === array() ) {
+		if ( ! is_array( $submenu_pages ) || empty( $submenu_pages ) ) {
 			return;
 		}
 
 		// Loop through submenu pages and add them.
-		foreach ( $submenu_pages as $submenu_page ) {
-			if ( $submenu_page[3] === $this->get_manage_capability() ) {
-				continue;
-			}
-
-			// Register submenu as menu page.
-			add_menu_page(
-				'Yoast SEO: ' . $submenu_page[2],
-				$submenu_page[2],
-				$submenu_page[3],
-				$submenu_page[4],
-				$submenu_page[5],
-				WPSEO_Utils::get_icon_svg(),
-				'99.31337'
-			);
-		}
+		array_walk( $submenu_pages, array( $this, 'register_menu_page' ) );
 	}
 
 	/**
-	 * Registers the submenu pages.
-	 *
-	 * This is only done when the user has the capability to manage options,
-	 * thus all capabilities can be set to this capability.
+	 * Registers submenu pages.
 	 *
 	 * @param array $submenu_pages List of submenu pages to register.
 	 *
 	 * @return void
 	 */
 	protected function register_submenu_pages( $submenu_pages ) {
-		if ( ! is_array( $submenu_pages ) || $submenu_pages === array() ) {
+		if ( ! is_array( $submenu_pages ) || empty( $submenu_pages ) ) {
 			return;
 		}
 
 		// Loop through submenu pages and add them.
-		foreach ( $submenu_pages as $submenu_page ) {
-			$page_title = $submenu_page[2];
+		array_walk( $submenu_pages, array( $this, 'register_submenu_page' ) );
 
-			// We cannot use $submenu_page[1] because add-ons define that, so hard-code this value.
-			if ( $submenu_page[4] === 'wpseo_licenses' ) {
-				$page_title = $this->get_license_page_title();
-			}
-
-			$page_title .= ' - Yoast SEO';
-
-			/*
-			 * Add submenu page.
-			 *
-			 * If we don't register this on `wpseo_manage_options`, admin users with only this capability
-			 * will not be able to see the submenus which are configured with something else,
-			 * thus all submenu pages are registered with the `wpseo_manage_options` capability here.
-			 */
-			$admin_page = add_submenu_page( $submenu_page[0], $page_title, $submenu_page[2], $this->get_manage_capability(), $submenu_page[4], $submenu_page[5] );
-
-			// Check if we need to hook.
-			if ( isset( $submenu_page[6] ) && ( is_array( $submenu_page[6] ) && $submenu_page[6] !== array() ) ) {
-				foreach ( $submenu_page[6] as $submenu_page_action ) {
-					add_action( 'load-' . $admin_page, $submenu_page_action );
-				}
-			}
-		}
-
-		// Use WordPress global $submenu to directly access it's properties.
+		// Set the first submenu title to the title of the first submenu page.
 		global $submenu;
 		if ( isset( $submenu[ $this->get_page_identifier() ] ) && $this->check_manage_capability() ) {
 			$submenu[ $this->get_page_identifier() ][0][0] = $submenu_pages[0][2];
+		}
+	}
+
+	/**
+	 * Registers a submenu page as a menu page.
+	 *
+	 * This method should only be used if the user does not have the required capabilities
+	 * to access the parent menu page.
+	 *
+	 * @param array $submenu_page {
+	 *     Submenu page definition.
+	 *
+	 *     @type string   $0 Parent menu page slug.
+	 *     @type string   $1 Page title, currently unused.
+	 *     @type string   $2 Title to display in the menu.
+	 *     @type string   $3 Required capability to access the page.
+	 *     @type string   $4 Page slug.
+	 *     @type callable $5 Callback to run when the page is rendered.
+	 *     @type array    $6 Optional. List of callbacks to run when the page is loaded.
+	 * }
+	 *
+	 * @return void
+	 */
+	protected function register_menu_page( $submenu_page ) {
+
+		// If the submenu page requires the general manage capability, it must be added as an actual submenu page.
+		if ( $submenu_page[3] === $this->get_manage_capability() ) {
+			return;
+		}
+
+		$page_title = 'Yoast SEO: ' . $submenu_page[2];
+
+		// Register submenu page as menu page.
+		$hook_suffix = add_menu_page(
+			$page_title,
+			$submenu_page[2],
+			$submenu_page[3],
+			$submenu_page[4],
+			$submenu_page[5],
+			WPSEO_Utils::get_icon_svg(),
+			'99.31337'
+		);
+
+		// If necessary, add hooks for the submenu page.
+		if ( isset( $submenu_page[6] ) && ( is_array( $submenu_page[6] ) ) ) {
+			$this->add_page_hooks( $hook_suffix, $submenu_page[6] );
+		}
+	}
+
+	/**
+	 * Registers a submenu page.
+	 *
+	 * This method will override the capability of the page to automatically use the
+	 * general manage capability. Use the `register_menu_page()` method if the submenu
+	 * page should actually use a different capability.
+	 *
+	 * @param array $submenu_page {
+	 *     Submenu page definition.
+	 *
+	 *     @type string   $0 Parent menu page slug.
+	 *     @type string   $1 Page title, currently unused.
+	 *     @type string   $2 Title to display in the menu.
+	 *     @type string   $3 Required capability to access the page.
+	 *     @type string   $4 Page slug.
+	 *     @type callable $5 Callback to run when the page is rendered.
+	 *     @type array    $6 Optional. List of callbacks to run when the page is loaded.
+	 * }
+	 *
+	 * @return void
+	 */
+	protected function register_submenu_page( $submenu_page ) {
+		$page_title = $submenu_page[2];
+
+		// We cannot use $submenu_page[1] because add-ons define that, so hard-code this value.
+		if ( $submenu_page[4] === 'wpseo_licenses' ) {
+			$page_title = $this->get_license_page_title();
+		}
+
+		$page_title .= ' - Yoast SEO';
+
+		// Force the general manage capability to be used.
+		$submenu_page[3] = $this->get_manage_capability();
+
+		// Register submenu page.
+		$hook_suffix = add_submenu_page(
+			$submenu_page[0],
+			$page_title,
+			$submenu_page[2],
+			$submenu_page[3],
+			$submenu_page[4],
+			$submenu_page[5]
+		);
+
+		// If necessary, add hooks for the submenu page.
+		if ( isset( $submenu_page[6] ) && ( is_array( $submenu_page[6] ) ) ) {
+			$this->add_page_hooks( $hook_suffix, $submenu_page[6] );
+		}
+	}
+
+	/**
+	 * Adds hook callbacks for a given admin page hook suffix.
+	 *
+	 * @param string $hook_suffix Admin page hook suffix, as returned by `add_menu_page()`
+	 *                            or `add_submenu_page()`.
+	 * @param array  $callbacks   Callbacks to add.
+	 *
+	 * @return void
+	 */
+	protected function add_page_hooks( $hook_suffix, array $callbacks ) {
+		foreach ( $callbacks as $callback ) {
+			add_action( 'load-' . $hook_suffix, $callback );
 		}
 	}
 
@@ -164,7 +237,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @return string Capability to check against.
 	 */
-	protected abstract function get_manage_capability();
+	abstract protected function get_manage_capability();
 
 	/**
 	 * Returns the page handler callback.
