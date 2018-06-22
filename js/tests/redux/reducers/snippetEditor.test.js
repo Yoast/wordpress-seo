@@ -6,7 +6,7 @@ import {
 } from "../../../src/redux/actions/snippetEditor";
 import snippetEditorReducer from "../../../src/redux/reducers/snippetEditor";
 import { DEFAULT_MODE } from "yoast-components";
-import defaultReplaceVariables from "../../../src/values/defaultReplaceVariables";
+import getDefaultReplaceVariables from "../../../src/values/defaultReplaceVariables";
 
 describe( "snippet editor reducers", () => {
 	describe( "snippetEditorReducer", () => {
@@ -20,7 +20,7 @@ describe( "snippet editor reducers", () => {
 					slug: "",
 					description: "",
 				},
-				replacementVariables: defaultReplaceVariables,
+				replacementVariables: getDefaultReplaceVariables(),
 				uniqueRefreshValue: "",
 			} );
 		} );
