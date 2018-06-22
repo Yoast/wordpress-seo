@@ -5,6 +5,15 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.4.0 June 22nd, 2018
+
+### Changes
+* `ReplacementVariableEditor` adds a space after replacement variable when there is no space yet. [#616](https://github.com/Yoast/yoast-components/pull/616)
+* Entities in `ReplacementVariableEditor` can no longer be partially selected. [#607](https://github.com/Yoast/yoast-components/pull/607)
+
+### Fixes
+* Improved change detection of replacement variables in `SnippetEditor`. [#610](https://github.com/Yoast/yoast-components/pull/610/files)
+
 ## 4.3.0 June 22nd, 2018
 
 ### Added
