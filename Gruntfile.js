@@ -52,10 +52,12 @@ module.exports = function( grunt ) {
 				yoastComponents: "<%= paths.languages %>yoast-components.pot",
 				yoastComponentsConfigurationWizard: "<%= paths.languages %>yoast-components1.pot",
 				yoastComponentsRemaining: "gettext.pot",
+				wordpressSeoJs: "<%= paths.languages %>wordpress-seo-js.pot",
 
 				php: {
 					yoastseojs: "<%= paths.languages %>yoast-seo-js.php",
 					yoastComponents: "<%= paths.languages %>yoast-components.php",
+					wordpressSeoJs: "<%= paths.languages %>wordpress-seo-js.php",
 				},
 			},
 			phptests: "tests/**/*.php",

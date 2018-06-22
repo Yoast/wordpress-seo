@@ -29,6 +29,10 @@ module.exports = {
 			},
 		],
 	},
+	"makepot-wordpress-seo": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.wordpressSeoJs %>",
+	},
 	artifact: {
 		files: [
 			{

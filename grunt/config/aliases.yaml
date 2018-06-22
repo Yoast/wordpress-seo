@@ -34,6 +34,8 @@ build:
 'build:i18n:potFiles':
   - 'makepot'
   - 'shell:makepot-yoast-components-configuration-wizard'
+  - 'shell:makepot-wordpress-seo'
+  - 'copy:makepot-wordpress-seo'
   - 'shell:makepot-yoast-components-remaining'
   - 'shell:combine-pots-yoast-components'
   - 'shell:makepot-yoastseojs'
