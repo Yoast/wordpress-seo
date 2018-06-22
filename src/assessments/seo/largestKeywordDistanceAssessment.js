@@ -104,7 +104,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 
 		return {
 			score: this._config.scores.good,
-			resultText: i18n.sprintf( i18n.dgettext(
+			resultText: i18n.sprintf( i18n.dngettext(
 				"js-text-analysis",
 				"Your keyword is distributed evenly throughout the text. That's great.",
 				"Your keyword and its synonyms are distributed evenly throughout the text. That's great.",
@@ -121,13 +121,12 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks( paper ) {
-		const topicMatches = []; // TODO: REMOVE THAT AFTER THE TOPIC DENSITY IS MERGED!!!!!!!!!!!
-		//const topicMatches = topicCount( paper ).matches;
+		const topicMatches = topicCount( paper ).matches;
 		return map( topicMatches, function( topicWord ) {
-				return new Mark( {
-					original: topicWord,
-					marked: marker( topicWord ),
-				} );
+			return new Mark( {
+				original: topicWord,
+				marked: marker( topicWord ),
+			} );
 		} );
 	}
 
@@ -153,10 +152,9 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 *                    with the keyword occurring more than one time.
 	 */
 	isApplicable( paper ) {
-		const topicCount = 2; // TODO: REMOVE THAT AFTER THE TOPIC DENSITY IS MERGED!!!!!!!!!!!
-		//const topicCount = topicCount( paper ).count;
+		const topicUsed = topicCount( paper ).count;
 
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200 && topicCount > 1;
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200 && topicUsed > 1;
 	}
 }
 

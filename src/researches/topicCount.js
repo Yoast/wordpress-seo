@@ -20,10 +20,7 @@ module.exports = function( paper ) {
 
 	return {
 		count: topicFound.length,
-		matches: unique( topicFound ).sort(
-			function( a, b ) {
-				return b.length - a.length;
-			} ),
+		matches: unique( topicFound ).sort( ( a, b ) => b.length - a.length ),
 	};
 };
 
