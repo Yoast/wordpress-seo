@@ -86,7 +86,8 @@ $yform->index_switch(
 	__( 'archives for authors without posts', 'wordpress-seo' ),
 	$author_archives_no_posts_help->get_button_html() . $author_archives_no_posts_help->get_panel_html()
 );
-$editor = new WPSEO_Replacevar_Editor( $yform, 'title-author-wpseo', 'metadesc-author-wpseo' );
+
+$editor = new WPSEO_Replacevar_Editor( $yform, 'title-author-wpseo', 'metadesc-author-wpseo', 'author_archive' );
 $editor->render();
 echo '</div>';
 echo '</div>';
@@ -118,7 +119,7 @@ $yform->index_switch(
 	$date_archives_help->get_button_html() . $date_archives_help->get_panel_html()
 );
 
-$editor = new WPSEO_Replacevar_Editor( $yform, 'title-archive-wpseo', 'metadesc-archive-wpseo' );
+$editor = new WPSEO_Replacevar_Editor( $yform, 'title-archive-wpseo', 'metadesc-archive-wpseo', 'date_archive' );
 $editor->render();
 echo '</div>';
 echo '</div>';
@@ -138,9 +139,9 @@ echo '<div class="tab-block" id="special-pages-titles-metas">';
 echo '<h2 class="help-button-inline">' . esc_html__( 'Special Pages', 'wordpress-seo' ) . $spcia_pages_help->get_button_html() . '</h2>';
 echo $spcia_pages_help->get_panel_html();
 
-$editor = new WPSEO_Replacevar_Field( $yform, 'title-search-wpseo', __( 'Search pages', 'wordpress-seo' ) );
+$editor = new WPSEO_Replacevar_Field( $yform, 'title-search-wpseo', __( 'Search pages', 'wordpress-seo' ), 'search' );
 $editor->render();
 echo '<br/>';
-$editor = new WPSEO_Replacevar_Field( $yform, 'title-404-wpseo', __( '404 pages', 'wordpress-seo' ) );
+$editor = new WPSEO_Replacevar_Field( $yform, 'title-404-wpseo', __( '404 pages', 'wordpress-seo' ), '404' );
 $editor->render();
 echo '</div>';

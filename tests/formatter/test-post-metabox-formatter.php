@@ -59,9 +59,9 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, array(), '' );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['keyword_usage'], array( '' => array() ) );
-		$this->assertEquals( $result['title_template'], '' );
-		$this->assertEquals( $result['metadesc_template'], '' );
+		$this->assertEquals( array( '' => array() ), $result['keyword_usage'] );
+		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['title_template'] );
+		$this->assertEquals( '', $result['metadesc_template'] );
 	}
 
 	/**

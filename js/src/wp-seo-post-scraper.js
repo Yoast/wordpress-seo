@@ -294,7 +294,7 @@ setYoastComponentsI18n();
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				let keyword = tabManager.getKeywordTab().getKeyWord();
+				const keyword = $( "#yoast_wpseo_focuskw_text_input" ).val();
 				store.dispatch( setActiveKeyword( keyword ) );
 
 				/*
@@ -415,7 +415,7 @@ setYoastComponentsI18n();
 	 *
 	 * @returns {void}
 	 */
-	 function initializePostAnalysis() {
+	function initializePostAnalysis() {
 		const editArgs = {
 			analysisSection: "pageanalysis",
 			onRefreshRequest: () => {},
@@ -423,6 +423,7 @@ setYoastComponentsI18n();
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
 			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
+			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;
