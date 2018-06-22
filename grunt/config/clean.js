@@ -2,7 +2,7 @@
 module.exports = {
 	"language-files": [
 		"<%= paths.languages %>*",
-		"!<%= paths.languages %>index.js",
+		"!<%= paths.languages %>index.php",
 	],
 	"po-files": [
 		"<%= paths.languages %>*.po",
