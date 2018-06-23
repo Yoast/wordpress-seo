@@ -681,10 +681,9 @@ class WPSEO_OpenGraph {
 
 		$terms = get_the_category();
 
-		if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
+		if ( ! is_wp_error( $terms ) && is_array( $terms ) && ! empty( $terms ) ) {
 			// We can only show one section here, so we take the first one.
-			$this->og_tag( 'article:section', $terms[0]->name );
-
+			$this->og_tag( 'article:section', reset( $terms )->name );
 			return true;
 		}
 
