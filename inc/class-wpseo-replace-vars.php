@@ -1142,14 +1142,14 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
-	 * Checks if the replacement variable contains a prefix.
+	 * Checks whether the replacement variable contains a `ct_` or `cf_` prefix, because they follow different logic.
 	 *
 	 * @param string $replacement_variable The replacement variable.
 	 *
 	 * @return bool True when the replacement variable is not prefixed.
 	 */
 	private function is_not_prefixed( $replacement_variable ) {
-		$prefixes = array( 'cf_', 'ct_', 'pt_' );
+		$prefixes = array( 'cf_', 'ct_' );
 		$prefix   = $this->get_prefix( $replacement_variable );
 
 		return ! in_array( $prefix, $prefixes, true );
@@ -1208,7 +1208,7 @@ class WPSEO_Replace_Vars {
 		if ( $prefix === 'ct_' ) {
 			$label = $this->strip_prefix( $replacement_variable );
 			$label = $this->handle_description( $label );
-			return $label . ' (custom taxonomy)';
+			return ucfirst( $label . ' (custom taxonomy)' );
 		}
 
 		if ( $prefix === 'pt_' ) {
