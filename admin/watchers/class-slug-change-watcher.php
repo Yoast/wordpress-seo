@@ -54,8 +54,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function detect_post_trash( $post_id ) {
-		$post_status = get_post_status( $post_id );
-		if ( ! $this->check_visible_post_status( $post_status ) ) {
+		if ( ! $this->is_post_accessible( $post_id ) ) {
 			return;
 		}
 
@@ -74,13 +73,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function detect_post_delete( $post_id ) {
-		// We don't want to redirect menu items.
-		if ( is_nav_menu_item( $post_id ) ) {
-			return;
-		}
-
-		$post_status = get_post_status( $post_id );
-		if ( ! $this->check_visible_post_status( $post_status ) ) {
+		if ( ! $this->is_post_accessible( $post_id ) ) {
 			return;
 		}
 
@@ -89,6 +82,31 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		$message        = $this->get_message( $first_sentence );
 
 		$this->add_notification( $message );
+	}
+
+	/**
+	 * Checks if the post is accesible.
+	 *
+	 * This method will check:
+	 * 1. Is the post type for the given post viewable
+	 * 2. Is the post status is publically visible.
+	 *
+	 * @param string $post_id The post id to check.
+	 *
+	 * @return bool Whether the post is accessible or not.
+	 */
+	protected function is_post_accessible( $post_id ) {
+		$post_type = get_post_type( $post_id );
+		if ( ! is_post_type_viewable( $post_type ) ) {
+			return false;
+		}
+
+		$post_status = get_post_status( $post_id );
+		if ( ! $this->check_visible_post_status( $post_status ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
