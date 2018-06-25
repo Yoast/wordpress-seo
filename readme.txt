@@ -117,6 +117,7 @@ Enhancements:
 * Changes the behavior of the meta description preview when there is no handwritten meta description. We no longer mimic Google by showing a part of your content, but explain what Google does instead.
 * Sends the user to the proper control in the customizer when clicking the link in the "You still have the default WordPress tagline [...]" warning message.
 * Adds a `wpseo_attachment_redirect_url` filter to allow changing of the target redirection URL for attachments. This may be necessary to restore the redirect to the parent post. Props to [cawa-93](https://github.com/cawa-93).
+* Adds a `wpseo_recommended_replace_vars` filter, which gives the possibility to add or alter the recommended snippet variables.
 * Adds support for JSON-LD breadcrumbs. Props to [teolaz](https://github.com/teolaz)
 * Improves the lists of French transition words, stopwords, and function words, props to [Laurent-1971](https://github.com/Laurent-1971).
 * Improves the assessment that checks the use of subheadings so that it always returns relevant feedback to the user.
@@ -142,7 +143,6 @@ Deprecated:
 Other:
 * Changes the timing on which the capability filter is run to better time when notifications should be initialized.
 * Adds X-Redirect-By header to all redirects, making the origin of redirects much easier to debug.
-* Adds the wpseo_recommended_replace_vars filter, which gives the possibility to add or alter the recommended snippet variables.
 
 = 7.6.1 =
 Release Date: June 7th, 2018
