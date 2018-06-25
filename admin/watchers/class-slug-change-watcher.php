@@ -85,15 +85,11 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Checks if the post is accesible.
-	 *
-	 * This method will check:
-	 * 1. Is the post type for the given post viewable.
-	 * 2. Is the post status is publically visible.
+	 * Checks if the post is viewable.
 	 *
 	 * @param string $post_id The post id to check.
 	 *
-	 * @return bool Whether the post is accessible or not.
+	 * @return bool Whether the post is viewable or not.
 	 */
 	protected function is_post_viewable( $post_id ) {
 		$post_type = get_post_type( $post_id );
