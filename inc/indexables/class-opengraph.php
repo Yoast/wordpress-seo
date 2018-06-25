@@ -59,9 +59,9 @@ class OpenGraph {
 	 */
 	public function to_array() {
 		return array(
-			'og_title' 		 => $this->title,
-			'og_description' => $this->description,
-			'og_image' 		 => $this->image,
+			'opengraph-title' 		 => $this->title,
+			'opengraph-description'  => $this->description,
+			'opengraph-image' 		 => $this->image,
 		);
 	}
 }

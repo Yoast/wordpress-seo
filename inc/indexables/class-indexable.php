@@ -110,4 +110,53 @@ class Indexable {
 			)
 		);
 	}
+
+	/**
+	 * Creates an instance of the Indexable based on the REST API request.
+	 *
+	 * @param WP_REST_Request $request The request to base the Indexable on.
+	 *
+	 * @return Indexable The Indexable instance.
+	 * @throws Exception
+	 */
+	public static function from_request( WP_REST_Request $request ) {
+		return new self(
+			$request->get_param( 'object_id' ),
+			new Object_Type(
+				$request->get_param( 'object_type' ),
+				$request->get_param( 'object_subtype' )
+			),
+			new Meta_Values(
+				$request->get_param( 'title' ),
+				$request->get_param( 'description' ),
+				null,
+				$request->get_param( 'readability_score' ),
+				$request->get_param( 'is_cornerstone' ),
+				$request->get_param( 'canonical' ),
+				$request->get_param( 'breadcrumb_title' )
+			),
+			new OpenGraph(
+				$request->get_param( 'og_title' ),
+				$request->get_param( 'og_description' ),
+				$request->get_param( 'og_image' )
+			),
+			new Twitter(
+				$request->get_param( 'twitter_title' ),
+				$request->get_param( 'twitter_description' ),
+				$request->get_param( 'twitter_image' )
+			),
+			new Robots(
+				$request->get_param( 'is_robots_nofollow' ),
+				$request->get_param( 'is_robots_noarchive' ),
+				$request->get_param( 'is_robots_noimageindex' ),
+				$request->get_param( 'is_robots_nosnippet' ),
+				$request->get_param( 'is_robots_noindex' )
+			),
+			new WPSEO_Keyword(
+				$request->get_param( 'primary_focus_keyword' ),
+				$request->get_param( 'primary_focus_keyword_score' )
+			),
+			new Link( 0, 0 )
+		);
+	}
 }

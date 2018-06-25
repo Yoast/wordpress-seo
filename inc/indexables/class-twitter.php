@@ -58,9 +58,9 @@ class Twitter {
 	 */
 	public function to_array() {
 		return array(
-			'twitter_title' 	  => $this->title,
-			'twitter_description' => $this->description,
-			'twitter_image' 	  => $this->image,
+			'twitter-title' 	  => $this->title,
+			'twitter-description' => $this->description,
+			'twitter-image' 	  => $this->image,
 		);
 	}
 }

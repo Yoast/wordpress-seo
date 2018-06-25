@@ -46,8 +46,8 @@ class WPSEO_Keyword {
 	 */
 	public function to_array() {
 		return array(
-			'primary_focus_keyword'		  => $this->keyword,
-			'primary_focus_keyword_score' => $this->score,
+			'focuskw' => $this->keyword,
+			'linkdex' => $this->score,
 		);
 	}
 }

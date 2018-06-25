@@ -66,7 +66,7 @@ class Meta_Values {
 
 		$this->description = $description;
 
-		if ( ! WPSEO_Validator::is_non_empty_string( $permalink ) ) {
+		if ( ! empty( $permalink ) && ! WPSEO_Validator::is_string( $permalink ) ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $permalink, 'permalink' );
 		}
 
@@ -105,7 +105,7 @@ class Meta_Values {
 	public function to_array() {
 		return array(
 			'title'	 		   	=> $this->title,
-			'description' 	   	=> $this->description,
+			'metadesc' 	   		=> $this->description,
 			'permalink' 	   	=> $this->permalink,
 			'readability_score' => $this->readability_score,
 			'is_cornerstone' 	=> $this->is_cornerstone,

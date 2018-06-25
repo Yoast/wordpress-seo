@@ -28,8 +28,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 
 		$indexable = new Indexable(
 			(int) $object_id,
-			new Object_Type( 'post', get_post_type( $object_id )
-			),
+			new Object_Type( 'post', get_post_type( $object_id ) ),
 			new Meta_Values(
 				$this->get_meta_value( 'title', $object_id ),
 				$this->get_meta_value( 'metadesc', $object_id ),
@@ -71,24 +70,85 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 		return $indexable->to_array();
 	}
 
+	/**
+	 * Handles the saving of the indexable parameters.
+	 *
+	 * @param Indexable $indexable The indexable object to parse and save.
+	 *
+	 * @return WP_REST_Response The REST API response. Can be an error if the object does not exist.
+	 */
 	public function post( Indexable $indexable ) {
 		$items 	   = $indexable->to_array();
 		$object_id = $items['object_id'];
 
-		$parsed = array();
+		if ( ! $this->is_indexable( $object_id ) ) {
+			$exception = WPSEO_Invalid_Indexable_Exception::non_existing_indexable( $object_id );
 
-		foreach ( $items as $key => $item ) {
+			return new WP_REST_Response( $exception->getMessage(), 500 );
+		}
+
+		// First validate that we don't already have these values
+		if ( $this->is_valid_post_request( $indexable ) === false ) {
+			$exception = WPSEO_Invalid_Indexable_Exception::invalid_post_request( $object_id );
+
+			return new WP_REST_Response( $exception->getMessage(), 500 );
+		}
+
+		$this->store_indexable( $indexable );
+
+		return new WP_REST_Response( 'Indexable parameters were successfully saved', 200 );
+	}
+
+	/**
+	 * Stores the indexable object.
+	 *
+	 * @param Indexable $indexable The indexable object to store.
+	 *
+	 * @return void
+	 */
+	protected function store_indexable( Indexable $indexable ) {
+		$values = $indexable->to_array();
+
+		foreach ( $values as $key => $item ) {
 			if ( $key === 'object_id' || empty( $item ) ) {
 				continue;
 			}
 
-			$parsed[$key] = $item;
-			$this->set_meta_value( $key, $item, $object_id );
+			$this->set_meta_value( $key, $item, $values['object_id'] );
 		}
-
-		return $parsed;
 	}
 
+	/**
+	 * Validates if the Indexable is considered valid for a POST request.
+	 *
+	 * @param Indexable $indexable The indexable to validate.
+	 *
+	 * @return bool Whether or not the Indexable can be considered valid for a POST request.
+	 */
+	protected function is_valid_post_request( Indexable $indexable ) {
+		$values = $indexable->to_array();
+
+		foreach ( $values as $key => $item ) {
+			if ( $key === 'object_id' || empty( $item ) ) {
+				continue;
+			}
+
+			if ( $this->get_meta_value( $key, $values['object_id'] ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Determines whether the advanced robot metas value contains the passed value.
+	 *
+	 * @param int 	 $object_id	The ID of the object to check.
+	 * @param string $value 	The name of the advanced robots meta value to look for.
+	 *
+	 * @return bool Whether or not the advanced robots meta values contains the passed string.
+	 */
 	protected function has_advanced_meta_value( $object_id, $value ) {
 		return strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), $value ) !== false;
 	}

@@ -58,46 +58,9 @@ class WPSEO_Indexable_Service {
 			return $this->handle_unknown_object_type( $object_type );
 		}
 
-		try {
-			$indexable = new Indexable(
-				$request->get_param( 'object_id' ),
-				new Object_Type(
-					$object_type,
-					$request->get_param( 'object_subtype' )
-				),
-				new Meta_Values(
-					$request->get_param( 'title' ),
-					$request->get_param( 'description' ),
-					$request->get_param( 'permalink' ),
-					$request->get_param( 'readability_score' ),
-					$request->get_param( 'is_cornerstone' ),
-					$request->get_param( 'canonical' ),
-					$request->get_param( 'breadcrumb_title' )
-				),
-				new OpenGraph(
-					$request->get_param( 'og_title' ),
-					$request->get_param( 'og_description' ),
-					$request->get_param( 'og_image' )
-				),
-				new Twitter(
-					$request->get_param( 'twitter_title' ),
-					$request->get_param( 'twitter_description' ),
-					$request->get_param( 'twitter_image' )
-				),
-				new Robots(
-					$request->get_param( 'is_robots_nofollow' ),
-					$request->get_param( 'is_robots_noarchive' ),
-					$request->get_param( 'is_robots_noimageindex' ),
-					$request->get_param( 'is_robots_nosnippet' ),
-					$request->get_param( 'is_robots_noindex' )
-				),
-				new WPSEO_Keyword(
-					$request->get_param( 'primary_focus_keyword' ),
-					$request->get_param( 'primary_focus_keyword_score' )
-				),
-				new Link( 0, 0 )
-			);
-		} catch (\InvalidArgumentException $exception ) {
+		try{
+			$indexable = Indexable::from_request( $request );
+		} catch ( \InvalidArgumentException $exception ) {
 			return new WP_REST_Response( $exception->getMessage(), 500 );
 		}
 
