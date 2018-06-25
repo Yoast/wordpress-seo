@@ -117,6 +117,7 @@ Enhancements:
 * Changes the behavior of the meta description preview when there is no handwritten meta description. We no longer mimic Google by showing a part of your content, but explain what Google does instead.
 * Sends the user to the proper control in the customizer when clicking the link in the "You still have the default WordPress tagline [...]" warning message.
 * Adds a `wpseo_attachment_redirect_url` filter to allow changing of the target redirection URL for attachments. This may be necessary to restore the redirect to the parent post. Props to [cawa-93](https://github.com/cawa-93).
+* Adds a `wpseo_recommended_replace_vars` filter to allow adding or altering the recommended snippet variables.
 * Adds support for JSON-LD breadcrumbs. Props to [teolaz](https://github.com/teolaz)
 * Improves the lists of French transition words, stopwords, and function words, props to [Laurent-1971](https://github.com/Laurent-1971).
 * Improves the assessment that checks the use of subheadings so that it always returns relevant feedback to the user.
@@ -133,8 +134,8 @@ Bugfixes:
 * Fixes a bug where MySQL would throw a "Duplicate entry 'X'" error into the error log when attempting to upsert a record in the database.
 * Fixes a performance problem where the selecting a fallback Open Graph image would collect the filename for all the images in the content. This has been changed to detecting if an image is usable per image and stopping when a usable image is found.
 * Fixes a bug where the term title snippet variable would be replaced by 'undefined' instead of an empty string on posts and pages.
-* Fixes a bug where the analysis results were being hidden while updating.
-* Fixes a bug where PHP notices got triggered on archive pages when `%%pt_single%%` and/or `%%pt_plural%%` are used as a template.
+* Fixes a bug where PHP notices got triggered on archive pages when `%%pt_single%%` and/or `%%pt_plural%%` are used in a template.
+* Fixes a bug where the configured separator wasn't used in the title template fallback that's being used when no title template has been set.
 
 Deprecated:
 * Deprecates the following snippet variables: %%userid%%, %%currenttime%%, %%currentdate%%, %%currentday%%, %%currentmonth%%, %%currentyear%%.
