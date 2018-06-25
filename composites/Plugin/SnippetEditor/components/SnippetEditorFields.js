@@ -288,7 +288,6 @@ SnippetEditorFields.propTypes = {
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
-	mobileWidth: PropTypes.number,
 	containerPadding: PropTypes.string,
 };
 
@@ -306,7 +305,6 @@ SnippetEditorFields.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
-	mobileWidth: 356,
 	containerPadding: "0 20px",
 };
 

@@ -132,7 +132,6 @@ ReplacementVariableEditor.propTypes = {
 
 ReplacementVariableEditor.defaultProps = {
 	replacementVariables: [],
-	mobileWidth: 356,
 };
 
 export default ReplacementVariableEditor;

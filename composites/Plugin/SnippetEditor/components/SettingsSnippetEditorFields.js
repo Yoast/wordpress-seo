@@ -186,14 +186,12 @@ SettingsSnippetEditorFields.propTypes = {
 	activeField: PropTypes.oneOf( [ "title", "description" ] ),
 	hoveredField: PropTypes.oneOf( [ "title", "description" ] ),
 	descriptionEditorFieldPlaceholder: PropTypes.string,
-	mobileWidth: PropTypes.number,
 	containerPadding: PropTypes.string,
 };
 
 SettingsSnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
-	mobileWidth: 356,
 	containerPadding: "0 20px",
 };
 
