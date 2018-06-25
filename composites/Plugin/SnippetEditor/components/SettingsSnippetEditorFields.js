@@ -48,19 +48,7 @@ class SettingsSnippetEditorFields extends React.Component {
 		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
 		this.setRef = this.setRef.bind( this );
-		this.setEditorRef = this.setEditorRef.bind( this );
 		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
-	}
-
-	/**
-	 * Sets the ref for the editor.
-	 *
-	 * @param {Object} editor The editor React reference.
-	 *
-	 * @returns {void}
-	 */
-	setEditorRef( editor ) {
-		this.editor = editor;
 	}
 
 	/**
@@ -138,7 +126,6 @@ class SettingsSnippetEditorFields extends React.Component {
 
 		return (
 			<StyledEditor
-				innerRef={ this.setEditorRef }
 				padding={ containerPadding }
 			>
 				<FormSection>

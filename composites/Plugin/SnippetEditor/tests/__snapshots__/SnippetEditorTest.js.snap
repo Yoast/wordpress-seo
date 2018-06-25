@@ -2019,7 +2019,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -3865,7 +3864,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -5711,7 +5709,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -7557,7 +7554,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -10527,7 +10523,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -12373,7 +12368,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -15329,7 +15323,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -17195,7 +17188,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -19041,7 +19033,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -20909,7 +20900,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -23432,7 +23422,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
