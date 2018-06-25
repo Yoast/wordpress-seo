@@ -72,7 +72,7 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 |                     | English | German | Dutch | French | Spanish  | Italian | Japanese | Portuguese | Russian | Catalan |
 |---------------------|---------|--------|-------|--------|---------|---------|----------|----------|----------|----------|
 | Transition words    | ✅      | ✅     | ✅    | ✅      | ✅       | ✅       |          | ✅        | ✅       | ✅        |
-| Flesch reading ease  | ✅      | ✅     | ✅    |        |         | ✅       | ❌<sup>2</sup>        |          | ✅        |          |
+| Flesch reading ease  | ✅      | ✅     | ✅    | ✅      | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅        |          |
 | Passive voice       | ✅      | ✅     |       | ✅     | ✅       |         | ❌<sup>2</sup>        |          | ✅       |          |
 | Sentence beginnings | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅       |          |
 | Sentence length<sup>1</sup>     | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       |          |          | ✅       |          |
