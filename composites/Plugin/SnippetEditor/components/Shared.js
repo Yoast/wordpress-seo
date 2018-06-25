@@ -110,7 +110,7 @@ export const StyledEditor = styled.section`
  * A div element that looks like it can be interacted with like a label.
  */
 export const SimulatedLabel = styled.div`
-	flex: 0 1 200px;
+	flex: 1 1 200px;
 	min-width: 200px;
 	cursor: pointer;
 	font-size: 16px;

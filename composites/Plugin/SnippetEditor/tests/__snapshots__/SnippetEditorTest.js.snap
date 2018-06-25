@@ -991,9 +991,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c30 {
-  -webkit-flex: 0 1 200px;
-  -ms-flex: 0 1 200px;
-  flex: 0 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
   min-width: 200px;
   cursor: pointer;
   font-size: 16px;
@@ -2843,9 +2843,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c30 {
-  -webkit-flex: 0 1 200px;
-  -ms-flex: 0 1 200px;
-  flex: 0 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
   min-width: 200px;
   cursor: pointer;
   font-size: 16px;
@@ -4695,9 +4695,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c30 {
-  -webkit-flex: 0 1 200px;
-  -ms-flex: 0 1 200px;
-  flex: 0 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
   min-width: 200px;
   cursor: pointer;
   font-size: 16px;
@@ -6547,9 +6547,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c30 {
-  -webkit-flex: 0 1 200px;
-  -ms-flex: 0 1 200px;
-  flex: 0 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
   min-width: 200px;
   cursor: pointer;
   font-size: 16px;
@@ -9523,9 +9523,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c30 {
-  -webkit-flex: 0 1 200px;
-  -ms-flex: 0 1 200px;
-  flex: 0 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
   min-width: 200px;
   cursor: pointer;
   font-size: 16px;
@@ -11375,9 +11375,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c30 {
-  -webkit-flex: 0 1 200px;
-  -ms-flex: 0 1 200px;
-  flex: 0 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
   min-width: 200px;
   cursor: pointer;
   font-size: 16px;
@@ -14317,9 +14317,9 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 }
 
 .c31 {
-  -webkit-flex: 0 1 200px;
-  -ms-flex: 0 1 200px;
-  flex: 0 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
   min-width: 200px;
   cursor: pointer;
   font-size: 16px;
@@ -16189,9 +16189,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 }
 
 .c31 {
-  -webkit-flex: 0 1 200px;
-  -ms-flex: 0 1 200px;
-  flex: 0 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
   min-width: 200px;
   cursor: pointer;
   font-size: 16px;
@@ -18061,9 +18061,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c30 {
-  -webkit-flex: 0 1 200px;
-  -ms-flex: 0 1 200px;
-  flex: 0 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
   min-width: 200px;
   cursor: pointer;
   font-size: 16px;
@@ -19913,9 +19913,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c30 {
-  -webkit-flex: 0 1 200px;
-  -ms-flex: 0 1 200px;
-  flex: 0 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
   min-width: 200px;
   cursor: pointer;
   font-size: 16px;
@@ -22465,9 +22465,9 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 }
 
 .c30 {
-  -webkit-flex: 0 1 200px;
-  -ms-flex: 0 1 200px;
-  flex: 0 1 200px;
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
   min-width: 200px;
   cursor: pointer;
   font-size: 16px;
