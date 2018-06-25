@@ -43,6 +43,28 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	}
 
 	/**
+	 * Filters out the editor specific replace vars from the provided array.
+	 *
+	 * @param array $replace_vars_list                 The replace vars list.
+	 * @param array $editor_specific_replace_vars_list The array to filter out.
+	 *
+	 * @return array The filtered replacement variables list.
+	 */
+	public static function filter_editor_specific_replace_vars( $replace_vars_list, $editor_specific_replace_vars_list ) {
+		$filter_values         = self::array_flatten( $editor_specific_replace_vars_list );
+		$filtered_replace_vars = array();
+		$count                 = count( $replace_vars_list );
+
+		for ( $i = 0; $i < $count; $i++ ) {
+			$replace_var = $replace_vars_list[ $i ];
+			if ( ! in_array( $replace_var['name'], $filter_values ) ) {
+				$filtered_replace_vars[ $i ] = $replace_vars_list[ $i ];
+			}
+		}
+		return $filtered_replace_vars;
+	}
+
+	/**
 	 * Determines the page type of the current term.
 	 *
 	 * @param string $taxonomy The taxonomy name.
@@ -157,6 +179,27 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		}
 
 		return $editor_specific_replace_vars;
+	}
+
+	/**
+	 * Flattens an array.
+	 *
+	 * @param array $array The array to flatten.
+	 *
+	 * @return array The flattened array.
+	 */
+	private static function array_flatten( $array ) {
+		$flattened = array();
+
+		foreach ( $array as $key => $value ) {
+			if ( is_array( $value ) ) {
+				$flattened = array_merge( $flattened, self::array_flatten( $value ) );
+				continue;
+			}
+			$flattened[ $key ] = $value;
+		}
+
+		return $flattened;
 	}
 
 	/**
