@@ -58,6 +58,11 @@ tr.yst_row.even {
 		width: 400px;
 	}
 
+	input.large-text,
+	textarea.large-text {
+		width: 99%;
+	}
+
 	input.textinput,
 	textarea.textinput,
 	select.select {
