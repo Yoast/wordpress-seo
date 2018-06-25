@@ -71,7 +71,6 @@ class ReplacementVariableEditor extends React.Component {
 			isHovered,
 			replacementVariables,
 			recommendedReplacementVariables,
-			styleForMobile,
 			editorRef,
 			placeholder,
 		} = this.props;
@@ -87,7 +86,6 @@ class ReplacementVariableEditor extends React.Component {
 				</SimulatedLabel>
 				<TriggerReplacementVariableSuggestionsButton
 					onClick={ () => this.triggerReplacementVariableSuggestions() }
-					isSmallerThanMobileWidth={ styleForMobile }
 				>
 					<SvgIcon icon="plus-circle" />
 					{ __( "Insert snippet variable", "yoast-components" ) }
@@ -127,7 +125,6 @@ ReplacementVariableEditor.propTypes = {
 	isHovered: PropTypes.bool,
 	withCaret: PropTypes.bool,
 	onFocus: PropTypes.func,
-	styleForMobile: PropTypes.bool,
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
 	type: PropTypes.oneOf( [ "title", "description" ] ),

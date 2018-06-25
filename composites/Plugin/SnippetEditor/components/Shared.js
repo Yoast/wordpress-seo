@@ -41,8 +41,11 @@ function getCaretColor( props ) {
  */
 export const InputContainer = styled.div.attrs( {
 } )`
-	padding: 3px 5px;
+	flex: 0 1 100%;
 	border: 1px solid ${ ( props ) => props.isActive ? "#5b9dd9" : "#ddd" };
+	margin-top: 8px;
+	padding: 3px 5px;
+	box-sizing: border-box;
 	box-shadow: ${ ( props ) => props.isActive ? "0 0 2px rgba(30,140,190,.8);" : "inset 0 1px 2px rgba(0,0,0,.07)" };
 	background-color: #fff;
 	color: #32373c;
@@ -92,6 +95,10 @@ export const DescriptionInputContainer = InputContainer.extend`
 `;
 
 export const FormSection = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
 	margin: 24px 0 0 0;
 `;
 
@@ -103,30 +110,24 @@ export const StyledEditor = styled.section`
  * A div element that looks like it can be interacted with like a label.
  */
 export const SimulatedLabel = styled.div`
+	flex: 0 1 200px;
+	min-width: 200px;
 	cursor: pointer;
 	font-size: 16px;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
-	margin-bottom: 9px;
+	margin: 4px 0;
 `;
 
 export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
 	box-shadow: none;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
-	fill: ${ colors.$color_grey_dark };
 	padding-left: 8px;
-	float: right;
-	margin-top: -33px; // negative height
 	height: 33px;
 	border: 1px solid #dbdbdb;
 	font-size: 13px;
 
-	${ props => props.isSmallerThanMobileWidth && `
-		float: none;
-		margin-top: 0;
-		margin-bottom: 2px;
-	` }
-
 	& svg {
 		margin-right: 7px;
+		fill: ${ colors.$color_grey_dark };
 	}
 `;

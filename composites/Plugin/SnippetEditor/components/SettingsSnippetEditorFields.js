@@ -2,7 +2,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
-import debounce from "lodash/debounce";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
@@ -46,16 +45,11 @@ class SettingsSnippetEditorFields extends React.Component {
 			description: null,
 		};
 
-		this.state = {
-			isSmallerThanMobileWidth: false,
-		};
-
 		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
 		this.setRef = this.setRef.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
 		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
-		this.debouncedUpdateIsSmallerThanMobileWidth = debounce( this.updateIsSmallerThanMobileWidth.bind( this ), 200 );
 	}
 
 	/**
@@ -79,34 +73,6 @@ class SettingsSnippetEditorFields extends React.Component {
 	 */
 	setRef( field, ref ) {
 		this.elements[ field ] = ref;
-	}
-
-	/**
-	 * Ensures isSmallerThanMobileWidth is accurate.
-	 *
-	 * By running it once and binding it to the window resize event.
-	 *
-	 * @returns {void}
-	 */
-	componentDidMount() {
-		/**
-		 * Temporary fix to make sure the initial styling is applied correctly,
-		 * because we manually calculate whether the editor should be styled for
-		 * mobile or not.
-		 */
-		setTimeout( () => {
-			this.updateIsSmallerThanMobileWidth();
-		}, 300 );
-		window.addEventListener( "resize", this.debouncedUpdateIsSmallerThanMobileWidth );
-	}
-
-	/**
-	 * Removes the window resize event listener.
-	 *
-	 * @returns {void}
-	 */
-	componentWillUnmount() {
-		window.removeEventListener( "resize", this.debouncedUpdateIsSmallerThanMobileWidth );
 	}
 
 	/**
@@ -150,20 +116,6 @@ class SettingsSnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Updates isSmallerThanMobileWidth when changed.
-	 *
-	 * isSmallerThanMobileWidth is true if the editor's client width is smaller than the mobile width prop.
-	 *
-	 * @returns {void}
-	 */
-	updateIsSmallerThanMobileWidth() {
-		const isSmallerThanMobileWidth = this.editor.clientWidth < this.props.mobileWidth;
-		if ( this.state.isSmallerThanMobileWidth !== isSmallerThanMobileWidth ) {
-			this.setState( { isSmallerThanMobileWidth } );
-		}
-	}
-
-	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -184,8 +136,6 @@ class SettingsSnippetEditorFields extends React.Component {
 			containerPadding,
 		} = this.props;
 
-		const isSmallerThanMobileWidth = this.state.isSmallerThanMobileWidth;
-
 		return (
 			<StyledEditor
 				innerRef={ this.setEditorRef }
@@ -202,7 +152,6 @@ class SettingsSnippetEditorFields extends React.Component {
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ title }
 						onChange={ content => onChange( "title", content ) }
-						styleForMobile={ isSmallerThanMobileWidth }
 					/>
 				</FormSection>
 				<FormSection>
@@ -218,7 +167,6 @@ class SettingsSnippetEditorFields extends React.Component {
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ description }
 						onChange={ content => onChange( "description", content ) }
-						styleForMobile={ isSmallerThanMobileWidth }
 					/>
 				</FormSection>
 			</StyledEditor>
