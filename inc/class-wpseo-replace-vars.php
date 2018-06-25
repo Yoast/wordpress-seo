@@ -1152,7 +1152,7 @@ class WPSEO_Replace_Vars {
 		$prefixes = array( 'cf_', 'ct_', 'pt_' );
 		$prefix   = $this->get_prefix( $replacement_variable );
 
-		return ! in_array( $prefix, $prefixes );
+		return ! in_array( $prefix, $prefixes, true );
 	}
 
 	/**
@@ -1185,9 +1185,10 @@ class WPSEO_Replace_Vars {
 	 * @return string The altered replacement variable name.
 	 */
 	private function handle_description( $label ) {
-		if ( substr( $label, 0, 5 ) === 'desc_' ) {
+		if ( strpos( $label, 'desc_' ) === 0 ) {
 			return substr( $label, 5 ) . ' description';
 		}
+
 		return $label;
 	}
 
@@ -1198,31 +1199,27 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @return string The replacement variable label.
 	 */
-	private function get_prefix_label( $replacement_variable ) {
-		$label = '';
+	private function get_label( $replacement_variable ) {
 		$prefix = $this->get_prefix( $replacement_variable );
-		switch ( $prefix ) {
-			case 'cf_':
-				$label = $this->strip_prefix( $replacement_variable ) . ' (custom field)';
-				break;
-			case 'ct_':
-				$label = $this->strip_prefix( $replacement_variable );
-				$label = $this->handle_description( $label );
-				$label .= ' (custom taxonomy)';
-				break;
-			case 'pt_':
-				if ( $replacement_variable = 'pt_single' ) {
-					$label = 'Post type (singular)';
-					break;
-				}
-				else {
-					$label = 'Post type (plural)';
-					break;
-				}
-			default:
-				break;
+		if ( $prefix === 'cf_' ) {
+			return $this->strip_prefix( $replacement_variable ) . ' (custom field)';
 		}
-		return $label;
+
+		if ( $prefix === 'ct_' ) {
+			$label = $this->strip_prefix( $replacement_variable );
+			$label = $this->handle_description( $label );
+			return $label . ' (custom taxonomy)';
+		}
+
+		if ( $prefix === 'pt_' ) {
+			if ( $replacement_variable === 'pt_single' ) {
+				return 'Post type (singular)';
+			}
+
+			return 'Post type (plural)';
+		}
+
+		return '';
 	}
 
 	/**
@@ -1233,11 +1230,11 @@ class WPSEO_Replace_Vars {
 	 * @return array The formatted replacement variable.
 	 */
 	private function format_replacement_variable( $replacement_variable ) {
-		$label = '';
-		if ( ! $this->is_not_prefixed( $replacement_variable ) ) {
-			$label = $this->get_prefix_label( $replacement_variable );
-		}
-		return array( 'name' => $replacement_variable, 'value' => '', 'label' => $label );
+		return array(
+			'name'  => $replacement_variable,
+			'value' => '',
+			'label' => $this->get_label( $replacement_variable ),
+		);
 	}
 
 	/**
