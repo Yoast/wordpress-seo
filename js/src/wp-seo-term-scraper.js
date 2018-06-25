@@ -4,6 +4,7 @@
 import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import isUndefined from "lodash/isUndefined";
+import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
 import initializeEdit from "./edit";
@@ -22,9 +23,10 @@ import UsedKeywords from "./analysis/usedKeywords";
 import TaxonomyAssessor from "./assessors/taxonomyAssessor";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
-import { setYoastComponentsI18n } from "./helpers/i18n";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 
-setYoastComponentsI18n();
+setYoastComponentsL10n();
+setWordPressSeoL10n();
 
 window.yoastHideMarkers = true;
 
@@ -173,6 +175,26 @@ window.yoastHideMarkers = true;
 		}
 	}
 
+	let currentAnalysisData;
+
+	/**
+	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 *
+	 * @param {Object} store The store.
+	 * @param {Object} app The YoastSEO app.
+	 *
+	 * @returns {void}
+	 */
+	function handleStoreChange( store, app ) {
+		const previousAnalysisData = currentAnalysisData || "";
+		currentAnalysisData = store.getState().analysisData.snippet;
+
+		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
+		if ( isDirty ) {
+			app.refresh();
+		}
+	}
+
 	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
@@ -180,6 +202,7 @@ window.yoastHideMarkers = true;
 			analysisSection: "pageanalysis",
 			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
+			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
 		store = initializeEdit( editArgs ).store;
 
@@ -241,6 +264,8 @@ window.yoastHideMarkers = true;
 		}
 
 		app = new App( args );
+
+		store.subscribe( handleStoreChange.bind( null, store, app ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			app.seoAssessor = new TaxonomyAssessor( app.i18n );

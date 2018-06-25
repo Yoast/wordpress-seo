@@ -20,8 +20,9 @@
 
 		echo '<h2 class="help-button-inline">', esc_html__( 'Homepage', 'wordpress-seo' ), $homepage_help->get_button_html(), '</h2>';
 		echo $homepage_help->get_panel_html();
-		$yform->textinput( 'title-home-wpseo', __( 'Title', 'wordpress-seo' ), 'template homepage-template' );
-		$yform->textarea( 'metadesc-home-wpseo', __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template homepage-template' ) );
+
+		$editor = new WPSEO_Replacevar_Editor( $yform, 'title-home-wpseo', 'metadesc-home-wpseo', 'homepage' );
+		$editor->render();
 	}
 	else {
 		echo '<h2>', esc_html__( 'Homepage &amp; Front page', 'wordpress-seo' ), '</h2>';

@@ -17,6 +17,7 @@ final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_L
 	private static $dev_server_script = array(
 		'commons',
 		'configuration-wizard',
+		'search-appearance',
 		'wp-seo-dashboard-widget',
 		'wp-seo-help-center',
 		'wp-seo-metabox',

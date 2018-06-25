@@ -5,6 +5,7 @@ import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
+import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
 import initializeEdit from "./edit";
@@ -30,9 +31,10 @@ import UsedKeywords from "./analysis/usedKeywords";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
-import { setYoastComponentsI18n } from "./helpers/i18n";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 
-setYoastComponentsI18n();
+setYoastComponentsL10n();
+setWordPressSeoL10n();
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
@@ -293,7 +295,7 @@ setYoastComponentsI18n();
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				let keyword = tabManager.getKeywordTab().getKeyWord();
+				const keyword = $( "#yoast_wpseo_focuskw_text_input" ).val();
 				store.dispatch( setActiveKeyword( keyword ) );
 
 				/*
@@ -389,12 +391,32 @@ setYoastComponentsI18n();
 		}
 	}
 
+	let currentAnalysisData;
+
+	/**
+	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 *
+	 * @param {Object} store The store.
+	 * @param {Object} app The YoastSEO app.
+	 *
+	 * @returns {void}
+	 */
+	function handleStoreChange( store, app ) {
+		const previousAnalysisData = currentAnalysisData || "";
+		currentAnalysisData = store.getState().analysisData.snippet;
+
+		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
+		if ( isDirty ) {
+			app.refresh();
+		}
+	}
+
 	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
 	 */
-	 function initializePostAnalysis() {
+	function initializePostAnalysis() {
 		const editArgs = {
 			analysisSection: "pageanalysis",
 			onRefreshRequest: () => {},
@@ -402,6 +424,7 @@ setYoastComponentsI18n();
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
 			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
+			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;
@@ -421,6 +444,8 @@ setYoastComponentsI18n();
 		app = new App( appArgs );
 
 		postDataCollector.app = app;
+
+		editStore.subscribe( handleStoreChange.bind( null, editStore, app ) );
 
 		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 		const shortcodePlugin = new YoastShortcodePlugin( app );

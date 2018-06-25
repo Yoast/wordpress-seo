@@ -1,5 +1,9 @@
 // See https://github.com/gruntjs/grunt-contrib-clean for details.
 module.exports = {
+	"language-files": [
+		"<%= paths.languages %>*",
+		"!<%= paths.languages %>index.php",
+	],
 	"po-files": [
 		"<%= paths.languages %>*.po",
 		"<%= paths.languages %><%= pkg.plugin.textdomain %>-temp.pot",
@@ -8,6 +12,7 @@ module.exports = {
 		"<%= files.pot.yoastComponents %>",
 		"<%= files.pot.yoastComponentsConfigurationWizard %>",
 		"<%= files.pot.yoastComponentsRemaining %>",
+		"<%= files.pot.wordpressSeoJs %>",
 		"<%= paths.languages %>yoast-components.pot",
 		"<%= paths.languages %>yoast-components.json",
 
