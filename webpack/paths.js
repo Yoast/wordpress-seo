@@ -36,6 +36,7 @@ const entry = {
 		"styled-components",
 	],
 	"configuration-wizard": "./configuration-wizard.js",
+	"search-appearance": "./search-appearance.js",
 	"wp-seo-dashboard-widget": "./wp-seo-dashboard-widget.js",
 	"wp-seo-help-center": "./wp-seo-help-center.js",
 	"wp-seo-metabox": "./wp-seo-metabox.js",

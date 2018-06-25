@@ -13,10 +13,6 @@ function getTitlePlaceholder() {
 		titlePlaceholder = l10nObject.title_template;
 	}
 
-	if ( titlePlaceholder === "" ) {
-		titlePlaceholder = "%%title%% - %%sitename%%";
-	}
-
 	return titlePlaceholder;
 }
 

@@ -44,7 +44,7 @@ class WPSEO_Replace_Vars {
 	protected $args;
 
 	/**
-	 * @var    array    Help texts for use in WPSEO -> Titles and Meta's help tabs.
+	 * @var    array    Help texts for use in WPSEO -> Search appearance tabs.
 	 */
 	protected static $help_texts = array();
 
@@ -52,7 +52,6 @@ class WPSEO_Replace_Vars {
 	 * @var array    Register of additional variable replacements registered by other plugins/themes.
 	 */
 	protected static $external_replacements = array();
-
 
 	/**
 	 * Constructor.
@@ -111,9 +110,10 @@ class WPSEO_Replace_Vars {
 				trigger_error( esc_html__( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
 			}
 			elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var ) ) {
-				if ( ! isset( self::$external_replacements[ $var ] ) ) {
+				if ( $var !== '' && ! isset( self::$external_replacements[ $var ] ) ) {
 					self::$external_replacements[ $var ] = $replace_function;
-					self::register_help_text( $type, $var, $help_text );
+					$replacement_variable = new WPSEO_Replacement_Variable( $var, $var, $help_text );
+					self::register_help_text( $type, $replacement_variable );
 					$success = true;
 				}
 				else {
@@ -618,6 +618,7 @@ class WPSEO_Replace_Vars {
 		global $wp_query;
 		$pt_single = null;
 		$pt_plural = null;
+		$post_type = '';
 
 		if ( isset( $wp_query->query_vars['post_type'] ) && ( ( is_string( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== '' ) || ( is_array( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== array() ) ) ) {
 			$post_type = $wp_query->query_vars['post_type'];
@@ -627,7 +628,10 @@ class WPSEO_Replace_Vars {
 		}
 		else {
 			// Make it work in preview mode.
-			$post_type = $wp_query->get_queried_object()->post_type;
+			$post = $wp_query->get_queried_object();
+			if ( $post instanceof WP_Post ) {
+				$post_type = $post->post_type;
+			}
 		}
 
 		if ( is_array( $post_type ) ) {
@@ -752,7 +756,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current date for use as replacement string.
 	 *
-	 * @return string
+	 * @return string The formatted current date.
 	 */
 	private function retrieve_currentdate() {
 		static $replacement;
@@ -767,7 +771,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current day for use as replacement string.
 	 *
-	 * @return string
+	 * @return string The current day.
 	 */
 	private function retrieve_currentday() {
 		static $replacement;
@@ -782,7 +786,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current month for use as replacement string.
 	 *
-	 * @return string
+	 * @return string The current month.
 	 */
 	private function retrieve_currentmonth() {
 		static $replacement;
@@ -797,7 +801,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current time for use as replacement string.
 	 *
-	 * @return string
+	 * @return string The formatted current time.
 	 */
 	private function retrieve_currenttime() {
 		static $replacement;
@@ -812,7 +816,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current year for use as replacement string.
 	 *
-	 * @return string
+	 * @return string The current year.
 	 */
 	private function retrieve_currentyear() {
 		static $replacement;
@@ -1048,17 +1052,19 @@ class WPSEO_Replace_Vars {
 			<table class="yoast_help yoast-table-scrollable">
 			<thead>
 				<tr>
+					<th scope="col">' . esc_html__( 'Label', 'wordpress-seo' ) . '</th>
 					<th scope="col">' . esc_html__( 'Variable', 'wordpress-seo' ) . '</th>
 					<th scope="col">' . esc_html__( 'Description', 'wordpress-seo' ) . '</th>
 				</tr>
 			</thead>
 			<tbody>';
 
-		foreach ( self::$help_texts[ $type ] as $replace => $help_text ) {
+		foreach ( self::$help_texts[ $type ] as $replacement_variable ) {
 			$table .= '
 				<tr>
-					<td class="yoast-variable-name">%%' . esc_html( $replace ) . '%%</td>
-					<td class="yoast-variable-desc">' . $help_text . '</td>
+					<td class="yoast-variable-label">' . esc_html( $replacement_variable->get_label() ) . '</td>
+					<td class="yoast-variable-name">%%' . esc_html( $replacement_variable->get_variable() ) . '%%</td>
+					<td class="yoast-variable-desc">' . esc_html( $replacement_variable->get_description() ) . '</td>
 				</tr>';
 		}
 
@@ -1092,81 +1098,201 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Set the help text for a user/plugin/theme defined extra variable.
 	 *
-	 * @param  string $type      Type of variable: 'basic' or 'advanced'.
-	 * @param  string $replace   Variable to replace, i.e. '%%var%%'.
-	 * @param  string $help_text The actual help text string.
+	 * @param  string                     $type                 Type of variable: 'basic' or 'advanced'.
+	 * @param  WPSEO_Replacement_Variable $replacement_variable The replacement variable to register.
 	 */
-	private static function register_help_text( $type, $replace, $help_text = '' ) {
-		if ( is_string( $replace ) && $replace !== '' ) {
-			$replace = self::remove_var_delimiter( $replace );
+	private static function register_help_text( $type, WPSEO_Replacement_Variable $replacement_variable ) {
+		$identifier = $replacement_variable->get_variable();
 
-			if ( ( is_string( $type ) && in_array( $type, array(
-						'basic',
-						'advanced',
-					), true ) ) && ( $replace !== '' && ! isset( self::$help_texts[ $type ][ $replace ] ) )
-			) {
-				self::$help_texts[ $type ][ $replace ] = $help_text;
-			}
+		if ( ( is_string( $type ) && in_array( $type, array(
+					'basic',
+					'advanced',
+				), true ) ) && ( $identifier !== '' && ! isset( self::$help_texts[ $type ][ $identifier ] ) )
+		) {
+			self::$help_texts[ $type ][ $identifier ] = $replacement_variable;
 		}
 	}
 
+	/**
+	 * Generates a list of replacement variables based on the help texts.
+	 *
+	 * @return array List of replace vars.
+	 */
+	public function get_replacement_variables_list() {
+		self::setup_statics_once();
+
+		$replacement_variables = array_merge(
+			$this->get_replacement_variables(),
+			$this->get_custom_fields(),
+			$this->get_custom_taxonomies()
+		);
+
+		return array_map( array( $this, 'format_replacement_variable' ), $replacement_variables );
+	}
+
+	/**
+	 * Creates a merged associative array of both the basic and advanced help texts.
+	 *
+	 * @return array Array with the replacement variables.
+	 */
+	private function get_replacement_variables() {
+		$help_texts = array_merge( self::$help_texts['basic'], self::$help_texts['advanced'] );
+
+		return array_filter( array_keys( $help_texts ), array( $this, 'is_not_prefixed' ) );
+	}
+
+	/**
+	 * Checks if the replacement variable contains a prefix.
+	 *
+	 * @param string $replacement_variable The replacement variable.
+	 *
+	 * @return bool True when the replacement variable contains a
+	 */
+	private function is_not_prefixed( $replacement_variable ) {
+		$prefixes = array( 'cf_', 'ct_' );
+		$prefix   = substr( $replacement_variable, 0, 3 );
+
+		return ! in_array( $prefix, $prefixes );
+	}
+
+	/**
+	 * Formats the replacement variables.
+	 *
+	 * @param string $replacement_variable The replacement variable to format.
+	 *
+	 * @return array The formatted replacement variable.
+	 */
+	private function format_replacement_variable( $replacement_variable ) {
+		return array( 'name' => $replacement_variable, 'value' => '' );
+	}
+
+	/**
+	 * Retrieves the custom field names as an array.
+	 *
+	 * @see WordPress core: wp-admin/includes/template.php. Reused query from it.
+	 *
+	 * @return array The custom fields.
+	 */
+	private function get_custom_fields() {
+		global $wpdb;
+
+		/**
+		 * Filters the number of custom fields to retrieve for the drop-down
+		 * in the Custom Fields meta box.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param int $limit Number of custom fields to retrieve. Default 30.
+		 */
+		$limit = apply_filters( 'postmeta_form_limit', 30 );
+		$sql   = "SELECT DISTINCT meta_key
+			FROM $wpdb->postmeta
+			WHERE meta_key NOT BETWEEN '_' AND '_z'
+			HAVING meta_key NOT LIKE %s
+			ORDER BY meta_key
+			LIMIT %d";
+		$fields = $wpdb->get_col( $wpdb->prepare( $sql, $wpdb->esc_like( '_' ) . '%', $limit ) );
+
+		if ( is_array( $fields ) ) {
+			return array_map( array( $this, 'add_custom_field_prefix' ), $fields );
+		}
+
+		return array();
+	}
+	/**
+	 * Adds the cf_ prefix to a field.
+	 *
+	 * @param string $field The field to prefix.
+	 *
+	 * @return string The prefixed field.
+	 */
+	private function add_custom_field_prefix( $field ) {
+		return 'cf_' . $field;
+	}
+
+	/**
+	 * Gets the names of the custom taxonomies, prepends 'ct_' and 'ct_desc', and returns them in an array.
+	 *
+	 * @return array The custom taxonomy prefixed names.
+	 */
+	private function get_custom_taxonomies() {
+		$args = array(
+			'public'   => true,
+			'_builtin' => false,
+		);
+		$output = 'names';
+		$operator = 'and';
+		$custom_taxonomies = get_taxonomies( $args, $output, $operator );
+
+		if ( is_array( $custom_taxonomies ) ) {
+			$ct_replace_vars = array();
+			foreach ( $custom_taxonomies as $custom_taxonomy ) {
+				array_push( $ct_replace_vars, 'ct_' . $custom_taxonomy, 'ct_desc_' . $custom_taxonomy );
+			}
+			return $ct_replace_vars;
+		}
+
+		return array();
+	}
 
 	/**
 	 * Set/translate the help texts for the WPSEO standard basic variables.
 	 */
 	private static function set_basic_help_texts() {
-		self::$help_texts['basic'] = array(
-			'date'                 => __( 'Replaced with the date of the post/page', 'wordpress-seo' ),
-			'title'                => __( 'Replaced with the title of the post/page', 'wordpress-seo' ),
-			'parent_title'         => __( 'Replaced with the title of the parent page of the current page', 'wordpress-seo' ),
-			'archive_title'        => __( 'Replaced with the normal title for an archive generated by WordPress', 'wordpress-seo' ),
-			'sitename'             => __( 'The site\'s name', 'wordpress-seo' ),
-			'sitedesc'             => __( 'The site\'s tag line / description', 'wordpress-seo' ),
-			'excerpt'              => __( 'Replaced with the post/page excerpt (or auto-generated if it does not exist)', 'wordpress-seo' ),
-			'excerpt_only'         => __( 'Replaced with the post/page excerpt (without auto-generation)', 'wordpress-seo' ),
-			'tag'                  => __( 'Replaced with the current tag/tags', 'wordpress-seo' ),
-			'category'             => __( 'Replaced with the post categories (comma separated)', 'wordpress-seo' ),
-			'primary_category'     => __( 'Replaced with the primary category of the post/page', 'wordpress-seo' ),
-			'category_description' => __( 'Replaced with the category description', 'wordpress-seo' ),
-			'tag_description'      => __( 'Replaced with the tag description', 'wordpress-seo' ),
-			'term_description'     => __( 'Replaced with the term description', 'wordpress-seo' ),
-			'term_title'           => __( 'Replaced with the term name', 'wordpress-seo' ),
-			'searchphrase'         => __( 'Replaced with the current search phrase', 'wordpress-seo' ),
-			'sep'                  => sprintf(
-				/* translators: %s: wp_title() function. */
+		$replacement_variables = array(
+			new WPSEO_Replacement_Variable( 'date', __( 'Date', 'wordpress-seo' ), __( 'Replaced with the date of the post/page', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'title', __( 'Title', 'wordpress-seo' ), __( 'Replaced with the title of the post/page', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'parent_title', __( 'Parent title', 'wordpress-seo' ), __( 'Replaced with the title of the parent page of the current page', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'archive_title', __( 'Archive title', 'wordpress-seo' ), __( 'Replaced with the normal title for an archive generated by WordPress', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'sitename', __( 'Site title', 'wordpress-seo' ), __( 'The site\'s name', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'excerpt', __( 'Excerpt', 'wordpress-seo' ), __( 'Replaced with the post/page excerpt (or auto-generated if it does not exist)', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'excerpt_only', __( 'Excerpt only', 'wordpress-seo' ), __( 'Replaced with the post/page excerpt (without auto-generation)', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'tag', __( 'Tag', 'wordpress-seo' ), __( 'Replaced with the current tag/tags', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'category', __( 'Category', 'wordpress-seo' ), __( 'Replaced with the post categories (comma separated)', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'primary_category', __( 'Primary category', 'wordpress-seo' ), __( 'Replaced with the primary category of the post/page', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'category_description', __( 'Category description', 'wordpress-seo' ), __( 'Replaced with the category description', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'tag_description', __( 'Tag description', 'wordpress-seo' ), __( 'Replaced with the tag description', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'term_description', __( 'Term description', 'wordpress-seo' ), __( 'Replaced with the term description', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'term_title', __( 'Term title', 'wordpress-seo' ), __( 'Replaced with the term name', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'searchphrase', __( 'Search phrase', 'wordpress-seo' ), __( 'Replaced with the current search phrase', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'sep', __( 'Separator', 'wordpress-seo' ), sprintf(
+			/* translators: %s: wp_title() function. */
 				__( 'The separator defined in your theme\'s %s tag.', 'wordpress-seo' ),
-				'<code>wp_title()</code>'
-			),
+				// '<code>wp_title()</code>'
+				'wp_title()'
+			) ),
 		);
+
+		foreach ( $replacement_variables as $replacement_variable ) {
+			self::register_help_text( 'basic', $replacement_variable );
+		}
 	}
 
 	/**
 	 * Set/translate the help texts for the WPSEO standard advanced variables.
 	 */
 	private static function set_advanced_help_texts() {
-		self::$help_texts['advanced'] = array(
-			'pt_single'                 => __( 'Replaced with the content type single label', 'wordpress-seo' ),
-			'pt_plural'                 => __( 'Replaced with the content type plural label', 'wordpress-seo' ),
-			'modified'                  => __( 'Replaced with the post/page modified time', 'wordpress-seo' ),
-			'id'                        => __( 'Replaced with the post/page ID', 'wordpress-seo' ),
-			'name'                      => __( 'Replaced with the post/page author\'s \'nicename\'', 'wordpress-seo' ),
-			'user_description'          => __( 'Replaced with the post/page author\'s \'Biographical Info\'', 'wordpress-seo' ),
-			'userid'                    => __( 'Replaced with the post/page author\'s userid', 'wordpress-seo' ),
-			'currenttime'               => __( 'Replaced with the current time', 'wordpress-seo' ),
-			'currentdate'               => __( 'Replaced with the current date', 'wordpress-seo' ),
-			'currentday'                => __( 'Replaced with the current day', 'wordpress-seo' ),
-			'currentmonth'              => __( 'Replaced with the current month', 'wordpress-seo' ),
-			'currentyear'               => __( 'Replaced with the current year', 'wordpress-seo' ),
-			'page'                      => __( 'Replaced with the current page number with context (i.e. page 2 of 4)', 'wordpress-seo' ),
-			'pagetotal'                 => __( 'Replaced with the current page total', 'wordpress-seo' ),
-			'pagenumber'                => __( 'Replaced with the current page number', 'wordpress-seo' ),
-			'caption'                   => __( 'Attachment caption', 'wordpress-seo' ),
-			'focuskw'                   => __( 'Replaced with the posts focus keyword', 'wordpress-seo' ),
-			'term404'                   => __( 'Replaced with the slug which caused the 404', 'wordpress-seo' ),
-			'cf_<custom-field-name>'    => __( 'Replaced with a posts custom field value', 'wordpress-seo' ),
-			'ct_<custom-tax-name>'      => __( 'Replaced with a posts custom taxonomies, comma separated.', 'wordpress-seo' ),
-			'ct_desc_<custom-tax-name>' => __( 'Replaced with a custom taxonomies description', 'wordpress-seo' ),
+		$replacement_variables = array(
+			new WPSEO_Replacement_Variable( 'pt_single', __( 'Post type (singular)', 'wordpress-seo' ), __( 'Replaced with the content type single label', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'pt_plural', __( 'Post type (plural)', 'wordpress-seo' ), __( 'Replaced with the content type plural label', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'modified', __( 'Modified', 'wordpress-seo' ), __( 'Replaced with the post/page modified time', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'id', __( 'ID', 'wordpress-seo' ), __( 'Replaced with the post/page ID', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'name', __( 'Name', 'wordpress-seo' ), __( 'Replaced with the post/page author\'s \'nicename\'', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'user_description', __( 'User description', 'wordpress-seo' ), __( 'Replaced with the post/page author\'s \'Biographical Info\'', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'page', __( 'Page number', 'wordpress-seo' ), __( 'Replaced with the current page number with context (i.e. page 2 of 4)', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'pagetotal', __( 'Pagetotal', 'wordpress-seo' ), __( 'Replaced with the current page total', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'pagenumber', __( 'Pagenumber', 'wordpress-seo' ), __( 'Replaced with the current page number', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'caption', __( 'Caption', 'wordpress-seo' ), __( 'Attachment caption', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'focuskw', __( 'Focus keyword', 'wordpress-seo' ), __( 'Replaced with the posts focus keyword', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'term404', __( 'Term404', 'wordpress-seo' ), __( 'Replaced with the slug which caused the 404', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'cf_<custom-field-name>', '<custom-field-name> ' . __( '(custom field)', 'wordpress-seo' ) , __( 'Replaced with a posts custom field value', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'ct_<custom-tax-name>', '<custom-tax-name> ' . __( '(custom taxonomy)', 'wordpress-seo' ), __( 'Replaced with a posts custom taxonomies, comma separated.', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'ct_desc_<custom-tax-name>', '<custom-tax-name> ' . __( 'description (custom taxonomy)', 'wordpress-seo' ), __( 'Replaced with a custom taxonomies description', 'wordpress-seo' ) ),
 		);
+
+		foreach ( $replacement_variables as $replacement_variable ) {
+			self::register_help_text( 'advanced', $replacement_variable );
+		}
 	}
 
 

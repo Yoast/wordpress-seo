@@ -1,18 +1,21 @@
 exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
 <SnippetPreviewSection
-  baseUrl="http://example.org"
-  date="">
+  hasPaperStyle={true}
+  icon="eye"
+  title="Snippet editor">
   <SnippetPreviewSection__Section
+    hasPaperStyle={true}
     headingIcon="eye"
     headingIconColor="#555"
     headingLevel={3}
-    headingText="Snippet preview">
+    headingText="Snippet editor">
     <StyledSection
-      className="SnippetPreviewSection__Section-kWfIbs cakLAM"
+      className="SnippetPreviewSection__Section-kWfIbs iPXqmw"
+      hasPaperStyle={true}
       headingIcon="eye"
       headingIconColor="#555"
       headingLevel={3}
-      headingText="Snippet preview">
+      headingText="Snippet editor">
       <span>
         yoast-components StyledSection
       </span>

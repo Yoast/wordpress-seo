@@ -51,9 +51,6 @@ function getTemplatesFromL10n( l10nObject ) {
 	}
 
 	templates.title = l10nObject.title_template;
-	if ( isEmpty( templates.title ) ) {
-		templates.title = "%%title%% - %%sitename%%";
-	}
 
 	const description = l10nObject.metadesc_template;
 	if ( ! isEmpty( description ) ) {

@@ -40,14 +40,16 @@ export function updateData( data ) {
  *
  * @param {string} name  The name of the replacement variable.
  * @param {string} value The value of the replacement variable.
+ * @param {string} label The label of the replacement variable (optional).
  *
  * @returns {Object} An action for redux.
  */
-export function updateReplacementVariable( name, value ) {
+export function updateReplacementVariable( name, value, label = "" ) {
 	return {
 		type: UPDATE_REPLACEMENT_VARIABLE,
 		name,
 		value,
+		label,
 	};
 }
 

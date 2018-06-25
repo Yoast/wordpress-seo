@@ -80,10 +80,19 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager->enqueue_script( 'admin-script' );
 		$this->asset_manager->enqueue_script( 'help-center' );
 
+		$page = filter_input( INPUT_GET, 'page' );
+
+		if ( $page === 'wpseo_titles' ) {
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
+			$this->asset_manager->enqueue_script( 'search-appearance' );
+			$this->asset_manager->enqueue_style( 'search-appearance' );
+
+			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
+			$yoast_components_l10n->localize_script( 'search-appearance' );
+		}
+
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
-
-		$page = filter_input( INPUT_GET, 'page' );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
 
@@ -100,13 +109,28 @@ class WPSEO_Admin_Pages {
 	}
 
 	/**
-	 * Pass some variables to js for upload module.
+	 * Retrieves some variables that are needed for the upload module in JS.
 	 *
-	 * @return  array
+	 * @return array The upload module variables.
 	 */
 	public function localize_media_script() {
 		return array(
 			'choose_image' => __( 'Use Image', 'wordpress-seo' ),
+		);
+	}
+
+	/**
+	 * Retrieves some variables that are needed for replacing variables in JS.
+	 *
+	 * @return array The replacement and recommended replacement variables.
+	 */
+	public function localize_replace_vars_script() {
+		$replace_vars             = new WPSEO_Replace_Vars();
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+
+		return array(
+			'replace_vars'             => $replace_vars->get_replacement_variables_list(),
+			'recommended_replace_vars' => $recommended_replace_vars->get_recommended_replacevars(),
 		);
 	}
 

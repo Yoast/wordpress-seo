@@ -8,6 +8,27 @@ import ContentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/
  * Wrapper to provide functionality to the ContentAnalysis component.
  */
 class Results extends React.Component {
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			mappedResults: mapResults( this.props.results ),
+		};
+	}
+
+	componentWillReceiveProps( nextProps ) {
+		/*
+		 * Check if there are new results.
+		 * When the new results are null, we presume we are loading the analysis.
+		 * Only update the mappedResults when we have new and non-null results.
+		 */
+		if ( nextProps.results !== null && nextProps.results !== this.props.results ) {
+			this.setState( {
+				mappedResults: mapResults( nextProps.results ),
+			} );
+		}
+	}
+
 	/**
 	 * Handles a click on a marker button, to mark the text in the editor.
 	 *
@@ -41,7 +62,7 @@ class Results extends React.Component {
 	 * @returns {ReactElement} The react element.
 	 */
 	render() {
-		const mappedResults = mapResults( this.props.results );
+		const { mappedResults } = this.state;
 		const {
 			errorsResults,
 			improvementsResults,
@@ -49,7 +70,7 @@ class Results extends React.Component {
 			considerationsResults,
 			problemsResults,
 		} = mappedResults;
-		return(
+		return (
 			<ContentAnalysis
 				errorsResults={ errorsResults }
 				problemsResults={ problemsResults }
