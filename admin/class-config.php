@@ -131,7 +131,7 @@ class WPSEO_Admin_Pages {
 
 		$replace_vars_list                 = $replace_vars->get_replacement_variables_list();
 		$editor_specific_replace_vars_list = $editor_specific_replace_vars->get_editor_specific_replace_vars();
-		$replace_vars_list                 = WPSEO_Admin_Editor_Specific_Replace_Vars::filter_editor_specific_replace_vars(
+		$shared_replace_vars_list          = WPSEO_Admin_Editor_Specific_Replace_Vars::get_shared_replace_vars(
 			$replace_vars_list,
 			$editor_specific_replace_vars_list
 		);
@@ -140,10 +140,11 @@ class WPSEO_Admin_Pages {
 			'replace_vars'                 => $replace_vars_list,
 			'recommended_replace_vars'     => $recommended_replace_vars->get_recommended_replacevars(),
 			'editor_specific_replace_vars' => $editor_specific_replace_vars_list,
+			'shared_replace_vars'          => $shared_replace_vars_list,
 		);
 	}
 
-	/**
+	/**ß
 	 * Enqueues and handles all the tool dependencies.
 	 */
 	private function enqueue_tools_scripts() {

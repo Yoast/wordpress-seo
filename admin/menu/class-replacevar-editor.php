@@ -25,9 +25,14 @@ class WPSEO_Replacevar_Editor {
 	private $description;
 
 	/**
-	 * @var string The page type for context.
+	 * @var string The page type for the context of the recommended replace vars.
 	 */
-	private $page_type;
+	private $page_type_recommended;
+
+	/**
+	 * @var string The page type for the context of the editor specific replace vars.
+	 */
+	private $page_type_specific;
 
 	/**
 	 * @var bool Whether the editor has paper style.
@@ -37,18 +42,20 @@ class WPSEO_Replacevar_Editor {
 	/**
 	 * Constructs the object.
 	 *
-	 * @param Yoast_Form $yform       Yoast forms.
-	 * @param string     $title       The title field id.
-	 * @param string     $description The description field id.
-	 * @param string     $page_type   The page type for context.
-	 * @param bool       $paper_style Whether the editor has paper style.
+	 * @param Yoast_Form $yform                 Yoast forms.
+	 * @param string     $title                 The title field id.
+	 * @param string     $description           The description field id.
+	 * @param string     $page_type_recommended The page type for the context of the recommended replace vars.
+	 * @param string     $page_type_specific    The page type for the context of the editor specific replace vars.
+	 * @param bool       $paper_style           Whether the editor has paper style.
 	 */
-	public function __construct( Yoast_Form $yform, $title, $description, $page_type, $paper_style = true ) {
-		$this->yform       = $yform;
-		$this->title       = (string) $title;
-		$this->description = (string) $description;
-		$this->page_type   = (string) $page_type;
-		$this->paper_style = (bool) $paper_style;
+	public function __construct( Yoast_Form $yform, $title, $description, $page_type_recommended, $page_type_specific, $paper_style = true ) {
+		$this->yform                 = $yform;
+		$this->title                 = (string) $title;
+		$this->description           = (string) $description;
+		$this->page_type_recommended = (string) $page_type_recommended;
+		$this->page_type_specific    = (string) $page_type_specific;
+		$this->paper_style           = (bool) $paper_style;
 	}
 
 	/**
@@ -66,11 +73,13 @@ class WPSEO_Replacevar_Editor {
 				data-react-replacevar-editor
 				data-react-replacevar-title-field-id="%1$s"
 				data-react-replacevar-metadesc-field-id="%2$s"
-				data-react-replacevar-page-type="%3$s"
-				data-react-replacevar-paper-style="%4$s"></div>',
+				data-react-replacevar-page-type-recommended="%3$s"
+				data-react-replacevar-page-type-specific="%4$s"
+				data-react-replacevar-paper-style="%5$s"></div>',
 			esc_attr( $this->title ),
 			esc_attr( $this->description ),
-			esc_attr( $this->page_type ),
+			esc_attr( $this->page_type_recommended ),
+			esc_attr( $this->page_type_specific ),
 			esc_attr( $this->paper_style )
 		);
 	}

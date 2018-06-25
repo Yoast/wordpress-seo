@@ -43,25 +43,27 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	}
 
 	/**
-	 * Filters out the editor specific replace vars from the provided array.
+	 * Retrieves the shared replacement variable names.
+	 *
+	 * Which are the replacement variables without the editor specific ones.
 	 *
 	 * @param array $replace_vars_list                 The replace vars list.
-	 * @param array $editor_specific_replace_vars_list The array to filter out.
+	 * @param array $editor_specific_replace_vars_list The editor specific replace var names.
 	 *
-	 * @return array The filtered replacement variables list.
+	 * @return array The shared replacement variable names.
 	 */
-	public static function filter_editor_specific_replace_vars( $replace_vars_list, $editor_specific_replace_vars_list ) {
-		$filter_values         = self::array_flatten( $editor_specific_replace_vars_list );
-		$filtered_replace_vars = array();
-		$count                 = count( $replace_vars_list );
+	public static function get_shared_replace_vars( $replace_vars_list, $editor_specific_replace_vars_list ) {
+		$filter_values       = self::array_flatten( $editor_specific_replace_vars_list );
+		$shared_replace_vars = array();
 
-		for ( $i = 0; $i < $count; $i++ ) {
-			$replace_var = $replace_vars_list[ $i ];
-			if ( ! in_array( $replace_var['name'], $filter_values ) ) {
-				$filtered_replace_vars[ $i ] = $replace_vars_list[ $i ];
+		foreach ( $replace_vars_list as $replace_var ) {
+			$name = $replace_var['name'];
+			if ( ! in_array( $name, $filter_values ) ) {
+				$shared_replace_vars[] = $name;
 			}
 		}
-		return $filtered_replace_vars;
+
+		return $shared_replace_vars;
 	}
 
 	/**

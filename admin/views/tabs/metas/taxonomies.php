@@ -17,6 +17,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
+	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+	$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+
 	foreach ( $taxonomies as $tax ) {
 		// Explicitly hide all the core taxonomies we never want to do stuff for.
 		if ( in_array( $tax->name, array( 'link_category', 'nav_menu' ), true ) ) {
@@ -44,11 +47,10 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			$taxonomies_help->get_button_html() . $taxonomies_help->get_panel_html()
 		);
 
-		// Determine the page type for the term, this is needed for the recommended replacement variables.
-		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
-		$page_type                = $recommended_replace_vars->determine_for_term( $tax->name );
+		$page_type_recommended = $recommended_replace_vars->determine_for_term( $tax->name );
+		$page_type_specific    = $editor_specific_replace_vars->determine_for_archive( $tax->name );
 
-		$editor = new WPSEO_Replacevar_Editor( $yform, 'title-tax-' . $tax->name, 'metadesc-tax-' . $tax->name, $page_type );
+		$editor = new WPSEO_Replacevar_Editor( $yform, 'title-tax-' . $tax->name, 'metadesc-tax-' . $tax->name, $page_type_recommended, $page_type_specific );
 		$editor->render();
 
 		if ( $tax->name !== 'post_format' ) {
