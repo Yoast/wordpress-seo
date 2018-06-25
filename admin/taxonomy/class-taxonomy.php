@@ -56,7 +56,7 @@ class WPSEO_Taxonomy {
 		}
 
 		$this->insert_description_field_editor();
-		
+
 		add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 	}
@@ -197,11 +197,15 @@ class WPSEO_Taxonomy {
 	/**
 	 * Adds shortcode support to category descriptions.
 	 *
+	 * @deprecated 7.6.0
+	 *
 	 * @param string $desc String to add shortcodes in.
 	 *
 	 * @return string
 	 */
 	public function custom_category_descriptions_add_shortcode_support( $desc ) {
+		_deprecated_function( __FUNCTION__, 'WPSEO 7.8.0' );
+
 		// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
 		ob_start();
 		$desc = do_shortcode( $desc );
