@@ -43,7 +43,6 @@ export const InputContainer = styled.div.attrs( {
 } )`
 	flex: 0 1 100%;
 	border: 1px solid ${ ( props ) => props.isActive ? "#5b9dd9" : "#ddd" };
-	margin-top: 8px;
 	padding: 3px 5px;
 	box-sizing: border-box;
 	box-shadow: ${ ( props ) => props.isActive ? "0 0 2px rgba(30,140,190,.8);" : "inset 0 1px 2px rgba(0,0,0,.07)" };
