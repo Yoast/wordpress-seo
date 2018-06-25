@@ -49,6 +49,6 @@ class WPSEO_Validator {
 	 * @return bool Whether or not the passed variable is an integer.
 	 */
 	public static function is_integer( $variable ) {
-		return filter_var( $variable, FILTER_VALIDATE_INT );
+		return filter_var( $variable, FILTER_VALIDATE_INT ) || filter_var( $variable, FILTER_VALIDATE_INT ) === 0;
 	}
 }

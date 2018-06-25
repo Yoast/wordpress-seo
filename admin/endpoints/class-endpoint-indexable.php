@@ -49,7 +49,7 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 			self::REST_NAMESPACE,
 			self::ENDPOINT_SINGULAR,
 			array( $this->service, 'save_indexable' ),
-			array( $this, 'can_retrieve_data' ),
+			array( $this, 'can_store_data' ),
 			'POST'
 		);
 

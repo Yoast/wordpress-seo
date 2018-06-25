@@ -19,7 +19,6 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 * @throws Exception
 	 */
 	public function get( $object_id ) {
-
 		if ( ! $this->is_indexable( $object_id ) ) {
 			return array();
 		}
@@ -27,12 +26,9 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 		$link_count = new WPSEO_Link_Column_Count();
 		$link_count->set( array( $object_id ) );
 
-
 		$indexable = new Indexable(
 			(int) $object_id,
-			new Object_Type(
-				'post',
-				get_post_type( $object_id )
+			new Object_Type( 'post', get_post_type( $object_id )
 			),
 			new Meta_Values(
 				$this->get_meta_value( 'title', $object_id ),
@@ -60,6 +56,10 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 				$this->has_advanced_meta_value( $object_id, 'nosnippet' ),
 				$this->get_robots_noindex_value( $this->get_meta_value( 'meta-robots-noindex', $object_id ) )
 			),
+			new WPSEO_Keyword(
+				$this->get_meta_value( 'focuskw', $object_id ),
+				(int) $this->get_meta_value( 'linkdex', $object_id )
+			),
 			new Link(
 				(int) $link_count->get( $object_id ),
 				(int) $link_count->get( $object_id, 'incoming_link_count' )
@@ -83,7 +83,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 			}
 
 			$parsed[$key] = $item;
-//			$this->set_meta_value( $key, $item, $object_id );
+			$this->set_meta_value( $key, $item, $object_id );
 		}
 
 		return $parsed;
