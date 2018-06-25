@@ -120,7 +120,7 @@ Enhancements:
 * Adds support for JSON-LD breadcrumbs. Props to [teolaz](https://github.com/teolaz)
 * Improves the lists of French transition words, stopwords, and function words, props to [Laurent-1971](https://github.com/Laurent-1971).
 * Improves the assessment that checks the use of subheadings so that it always returns relevant feedback to the user.
-* Adds a notification when a post is trashed or deleted.
+* Adds a notification when a post is removed.
 * Overhauls the Content Types section under SEO -> Search Appearance by sectioning the post types and allowing users to collapse them. This is especially handy when you have a lot of custom post types.
 * Updates the 'snippet variables tab' of the Help Center to have the new names.
 * Adds recommended snippet variables for templates depending on the context. The `wpseo_recommended_replace_vars` filter is added, which gives the possibility to add or alter the recommended snippet variables.
