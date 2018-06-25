@@ -39,7 +39,7 @@ describe( "running assessments in the assessor", function() {
 	} );
 
 	// These specifications will additionally trigger the largest keyword distance assessment.
-	it( "additionally runs assessments that require an url", function() {
+	it( "additionally runs assessments that require a long enough text and two keyword occurrences", function() {
 		assessor.assess( new Paper( "This is a keyword and a keyword. Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
 			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +

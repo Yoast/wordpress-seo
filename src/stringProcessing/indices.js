@@ -111,8 +111,7 @@ var getIndicesByWordListSorted = function( words, text ) {
 		matchedWords = matchedWords.concat( getIndicesByWord( word, text ) );
 	} );
 
-	let matchedWordsArrayed = Array.from( matchedWords );
-	matchedWordsArrayed = matchedWordsArrayed.sort( function( a, b ) {
+	matchedWords = matchedWords.sort( function( a, b ) {
 		if ( a.index < b.index ) {
 			return -1;
 		}
@@ -122,7 +121,7 @@ var getIndicesByWordListSorted = function( words, text ) {
 		return 0;
 	} );
 
-	return matchedWordsArrayed;
+	return matchedWords;
 };
 
 module.exports = {

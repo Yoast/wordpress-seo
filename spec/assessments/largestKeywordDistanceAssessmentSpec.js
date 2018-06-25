@@ -23,7 +23,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 		expect( assessment.getText() ).toEqual( "Some parts of your text do not contain the keyword. Try to distribute the keyword more evenly." );
 	} );
 
-	it( "returns an okay score when the largest keyword distance is less than 40%", function() {
+	it( "returns an good score when the largest keyword distance is less than 40%", function() {
 		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
 
@@ -32,8 +32,8 @@ describe( "An assessment to check the largest percentage of text in which no key
 	} );
 } );
 
-describe( "An assessment to check the largest percentage of text in which no keyword or synonyms occured", function() {
-	it( "returns a bad score when the largest keyword distance is between more than 40%", function() {
+describe( "An assessment to check the largest percentage of text in which no keyword or synonyms occurred", function() {
+	it( "returns a bad score when the largest keyword distance is more than 40%", function() {
 		// todo: change keyword definition
 		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword, synonym" } );
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 45 ), i18n );
@@ -51,7 +51,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 		expect( assessment.getText() ).toEqual( "Some parts of your text do not contain the keyword or its synonyms. Try to distribute them more evenly." );
 	} );
 
-	it( "returns an okay score when the largest keyword distance is less than 30%", function() {
+	it( "returns an good score when the largest keyword distance is less than 30%", function() {
 		// todo: change keyword definition
 		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword, synonym" } );
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
@@ -62,7 +62,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 } );
 
 describe( "Checks if the assessment is applicable", function() {
-	it( "is applicable papers with more than 200 words and 2 keywords", function() {
+	it( "is applicable to papers with more than 200 words and 2 keywords", function() {
 		let mockPaper = new Paper( "This is a keyword and a keyword. Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
 			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
@@ -81,7 +81,7 @@ describe( "Checks if the assessment is applicable", function() {
 		expect( assessment ).toBe( true );
 	} );
 
-	it( "is not applicable papers with more than 200 words and only 1 keyword", function() {
+	it( "is not applicable to papers with more than 200 words and only 1 keyword", function() {
 		let mockPaper = new Paper( "This is the keyword. Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
 			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
@@ -100,7 +100,7 @@ describe( "Checks if the assessment is applicable", function() {
 		expect( assessment ).toBe( false );
 	} );
 
-	it( "is not applicable papers with less than 100 words that contain the keyword more than once", function() {
+	it( "is not applicable to papers with less than 100 words that contain the keyword more than once", function() {
 		let mockPaper = new Paper( "Keyword and keyword. ", { keyword: "keyword" } );
 		let assessment = keywordDistanceAssessment.isApplicable( mockPaper );
 
