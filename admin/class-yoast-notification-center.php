@@ -641,13 +641,7 @@ class Yoast_Notification_Center {
 	 */
 	private function notification_to_array( Yoast_Notification $notification ) {
 
-		$notification_data = $notification->to_array();
-
-		if ( isset( $notification_data['nonce'] ) ) {
-			unset( $notification_data['nonce'] );
-		}
-
-		return $notification_data;
+		return $notification->to_array();
 	}
 
 	/**
@@ -658,10 +652,6 @@ class Yoast_Notification_Center {
 	 * @return Yoast_Notification
 	 */
 	private function array_to_notification( $notification_data ) {
-
-		if ( isset( $notification_data['options']['nonce'] ) ) {
-			unset( $notification_data['options']['nonce'] );
-		}
 
 		return new Yoast_Notification(
 			$notification_data['message'],
