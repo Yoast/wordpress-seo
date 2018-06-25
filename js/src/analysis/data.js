@@ -121,6 +121,7 @@ class Data {
 		// Handle excerpt change
 		if ( this._data.excerpt !== newData.excerpt ) {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
+			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt ) );
 		}
 	}
 
