@@ -125,12 +125,14 @@ class WPSEO_Admin_Pages {
 	 * @return array The replacement and recommended replacement variables.
 	 */
 	public function localize_replace_vars_script() {
-		$replace_vars             = new WPSEO_Replace_Vars();
-		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$replace_vars                 = new WPSEO_Replace_Vars();
+		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
 		return array(
-			'replace_vars'             => $replace_vars->get_replacement_variables_list(),
-			'recommended_replace_vars' => $recommended_replace_vars->get_recommended_replacevars(),
+			'replace_vars'                 => $replace_vars->get_replacement_variables_list(),
+			'recommended_replace_vars'     => $recommended_replace_vars->get_recommended_replacevars(),
+			'editor_specific_replace_vars' => $editor_specific_replace_vars->get_editor_specific_replace_vars(),
 		);
 	}
 

@@ -1123,8 +1123,8 @@ class WPSEO_Replace_Vars {
 
 		$replacement_variables = array_merge(
 			$this->get_replacement_variables(),
-			$this->get_custom_fields(),
-			$this->get_custom_taxonomies()
+			WPSEO_Custom_Fields::get_custom_fields(),
+			WPSEO_Custom_Taxonomies::get_custom_taxonomies()
 		);
 
 		return array_map( array( $this, 'format_replacement_variable' ), $replacement_variables );
@@ -1164,75 +1164,6 @@ class WPSEO_Replace_Vars {
 	 */
 	private function format_replacement_variable( $replacement_variable ) {
 		return array( 'name' => $replacement_variable, 'value' => '' );
-	}
-
-	/**
-	 * Retrieves the custom field names as an array.
-	 *
-	 * @see WordPress core: wp-admin/includes/template.php. Reused query from it.
-	 *
-	 * @return array The custom fields.
-	 */
-	private function get_custom_fields() {
-		global $wpdb;
-
-		/**
-		 * Filters the number of custom fields to retrieve for the drop-down
-		 * in the Custom Fields meta box.
-		 *
-		 * @since 2.1.0
-		 *
-		 * @param int $limit Number of custom fields to retrieve. Default 30.
-		 */
-		$limit = apply_filters( 'postmeta_form_limit', 30 );
-		$sql   = "SELECT DISTINCT meta_key
-			FROM $wpdb->postmeta
-			WHERE meta_key NOT BETWEEN '_' AND '_z'
-			HAVING meta_key NOT LIKE %s
-			ORDER BY meta_key
-			LIMIT %d";
-		$fields = $wpdb->get_col( $wpdb->prepare( $sql, $wpdb->esc_like( '_' ) . '%', $limit ) );
-
-		if ( is_array( $fields ) ) {
-			return array_map( array( $this, 'add_custom_field_prefix' ), $fields );
-		}
-
-		return array();
-	}
-	/**
-	 * Adds the cf_ prefix to a field.
-	 *
-	 * @param string $field The field to prefix.
-	 *
-	 * @return string The prefixed field.
-	 */
-	private function add_custom_field_prefix( $field ) {
-		return 'cf_' . $field;
-	}
-
-	/**
-	 * Gets the names of the custom taxonomies, prepends 'ct_' and 'ct_desc', and returns them in an array.
-	 *
-	 * @return array The custom taxonomy prefixed names.
-	 */
-	private function get_custom_taxonomies() {
-		$args = array(
-			'public'   => true,
-			'_builtin' => false,
-		);
-		$output = 'names';
-		$operator = 'and';
-		$custom_taxonomies = get_taxonomies( $args, $output, $operator );
-
-		if ( is_array( $custom_taxonomies ) ) {
-			$ct_replace_vars = array();
-			foreach ( $custom_taxonomies as $custom_taxonomy ) {
-				array_push( $ct_replace_vars, 'ct_' . $custom_taxonomy, 'ct_desc_' . $custom_taxonomy );
-			}
-			return $ct_replace_vars;
-		}
-
-		return array();
 	}
 
 	/**
