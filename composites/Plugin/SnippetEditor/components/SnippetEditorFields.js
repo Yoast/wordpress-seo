@@ -184,7 +184,7 @@ class SnippetEditorFields extends React.Component {
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ title }
 						onChange={ content => onChange( "title", content ) }
-					    uniqueID="snippet-editor-field-title"
+					    fieldId="snippet-editor-field-title"
 					/>
 					<ProgressBar
 						max={ titleLengthProgress.max }
@@ -230,7 +230,7 @@ class SnippetEditorFields extends React.Component {
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ description }
 						onChange={ content => onChange( "description", content ) }
-					    uniqueID={ "snippet-editor-field-description" }
+					    fieldId={ "snippet-editor-field-description" }
 					/>
 					<ProgressBar
 						max={ descriptionLengthProgress.max }

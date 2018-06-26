@@ -73,7 +73,7 @@ class ReplacementVariableEditor extends React.Component {
 			recommendedReplacementVariables,
 			editorRef,
 			placeholder,
-			uniqueID,
+			fieldId,
 		} = this.props;
 
 		const InputContainer = this.InputContainer;
@@ -95,7 +95,7 @@ class ReplacementVariableEditor extends React.Component {
 					onClick={ onFocus }
 					isActive={ isActive }
 					isHovered={ isHovered }
-					id={ uniqueID }>
+					id={ fieldId }>
 					<ReplacementVariableEditorStandalone
 						placeholder={ placeholder }
 						content={ content }
@@ -109,7 +109,6 @@ class ReplacementVariableEditor extends React.Component {
 							editorRef( ref );
 						} }
 						ariaLabelledBy={ this.uniqueId }
-					    uniqueID={ uniqueID }
 					/>
 				</InputContainer>
 			</React.Fragment>
@@ -131,7 +130,7 @@ ReplacementVariableEditor.propTypes = {
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
 	type: PropTypes.oneOf( [ "title", "description" ] ),
-	uniqueID: PropTypes.string,
+	fieldId: PropTypes.string,
 };
 
 ReplacementVariableEditor.defaultProps = {
