@@ -46,7 +46,7 @@ let regularParticiples = function( word, language ) {
  * @param {string} word The word to match on.
  * @param {Array} irregulars The list of irregulars to match.
  * @param {string} suffixes The suffixes to match the word with.
- * 
+ *
  * @returns {Array} A list with matched irregular participles.
  */
 let matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes ) {
