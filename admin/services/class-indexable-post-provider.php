@@ -23,49 +23,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 			return array();
 		}
 
-		$link_count = new WPSEO_Link_Column_Count();
-		$link_count->set( array( $object_id ) );
-
-		$indexable = new Indexable(
-			(int) $object_id,
-			new Object_Type( 'post', get_post_type( $object_id ) ),
-			new Meta_Values(
-				$this->get_meta_value( 'title', $object_id ),
-				$this->get_meta_value( 'metadesc', $object_id ),
-				get_permalink( $object_id ),
-				(int) $this->get_meta_value( 'content_score', $object_id ),
-				$this->get_meta_value( 'is_cornerstone', $object_id ) === '1',
-				$this->get_meta_value( 'canonical', $object_id ),
-				$this->get_meta_value( 'bctitle', $object_id )
-			),
-			new OpenGraph(
-				$this->get_meta_value( 'opengraph-title', $object_id ),
-				$this->get_meta_value( 'opengraph-description', $object_id ),
-				$this->get_meta_value( 'opengraph-image', $object_id )
-			),
-			new Twitter(
-				$this->get_meta_value( 'twitter-title', $object_id ),
-				$this->get_meta_value( 'twitter-description', $object_id ),
-				$this->get_meta_value( 'twitter-image', $object_id )
-			),
-			new Robots(
-				$this->get_meta_value( 'meta-robots-nofollow', $object_id ) === '1',
-				$this->has_advanced_meta_value( $object_id, 'noarchive' ),
-				$this->has_advanced_meta_value( $object_id, 'noimageindex' ),
-				$this->has_advanced_meta_value( $object_id, 'nosnippet' ),
-				$this->get_robots_noindex_value( $this->get_meta_value( 'meta-robots-noindex', $object_id ) )
-			),
-			new WPSEO_Keyword(
-				$this->get_meta_value( 'focuskw', $object_id ),
-				(int) $this->get_meta_value( 'linkdex', $object_id )
-			),
-			new Link(
-				(int) $link_count->get( $object_id ),
-				(int) $link_count->get( $object_id, 'incoming_link_count' )
-			),
-			null,
-			null
-		);
+		$indexable = WPSEO_Indexable::from_object( $object_id );
 
 		return $indexable->to_array();
 	}
@@ -97,6 +55,22 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 		$this->store_indexable( $indexable );
 
 		return new WP_REST_Response( 'Indexable parameters were successfully saved', 200 );
+	}
+
+	public function patch( $requestdata ) {
+		$object_id = $requestdata['object_id'];
+
+		if ( ! $this->is_indexable( $object_id ) ) {
+			$exception = WPSEO_Invalid_Indexable_Exception::non_existing_indexable( $object_id );
+
+			return new WP_REST_Response( $exception->getMessage(), 500 );
+		}
+
+		$indexable = $this->get( $object_id );
+
+
+
+
 	}
 
 	/**
@@ -142,18 +116,6 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Determines whether the advanced robot metas value contains the passed value.
-	 *
-	 * @param int 	 $object_id	The ID of the object to check.
-	 * @param string $value 	The name of the advanced robots meta value to look for.
-	 *
-	 * @return bool Whether or not the advanced robots meta values contains the passed string.
-	 */
-	protected function has_advanced_meta_value( $object_id, $value ) {
-		return strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), $value ) !== false;
-	}
-
-	/**
 	 * Checks if the given object id belongs to an indexable.
 	 *
 	 * @param int $object_id The object id.
@@ -174,25 +136,6 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 		}
 
 		return true;
-	}
-
-	/**
-	 * Translates the meta value to a boolean value.
-	 *
-	 * @param string $value The value to translate.
-	 *
-	 * @return bool|null The translated value.
-	 */
-	protected function get_robots_noindex_value( $value ) {
-		if ( $value === '1' ) {
-			return true;
-		}
-
-		if ( $value === '2' ) {
-			return false;
-		}
-
-		return null;
 	}
 
 	/**

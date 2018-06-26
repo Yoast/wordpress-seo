@@ -11,7 +11,9 @@
 class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storable {
 
 	const REST_NAMESPACE 	  = 'yoast/v1';
-	const ENDPOINT_SINGULAR   = 'indexables/(?P<object_type>.*)/(?P<object_id>\d+)';
+
+	const ENDPOINT_SINGULAR   = 'indexables/(?P<id>\d+)';
+//	const ENDPOINT_SINGULAR   = 'indexables/(?P<object_type>.*)/(?P<object_id>\d+)';
 
 	const CAPABILITY_RETRIEVE = 'manage_options';
 	const CAPABILITY_STORE 	  = 'manage_options';
@@ -50,7 +52,7 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 			self::ENDPOINT_SINGULAR,
 			array( $this->service, 'save_indexable' ),
 			array( $this, 'can_store_data' ),
-			'POST'
+			'PUT'
 		);
 
 		foreach ( $endpoints as $endpoint ) {

@@ -51,4 +51,8 @@ class WPSEO_Validator {
 	public static function is_integer( $variable ) {
 		return filter_var( $variable, FILTER_VALIDATE_INT ) || filter_var( $variable, FILTER_VALIDATE_INT ) === 0;
 	}
+
+	public static function key_exists( $data, $key ) {
+		return array_key_exists( $key, $data );
+	}
 }
