@@ -55,16 +55,16 @@ class SynonymsInput extends React.Component {
 	 * @returns {ReactElement} The SynonymsField component.
 	 */
 	render() {
+		const { id, label, synonyms } = this.props;
+
 		return (
 			<React.Fragment>
-				<label htmlFor={ this.props.id }>
-					{ this.props.label }
-				</label>
 				<SynonymsField
+					aria-label={ label }
 					type="text"
-					id={ this.props.id }
+					id={ id }
 					onChange={ this.handleChange }
-					defaultValue={ this.props.synonyms }
+					defaultValue={ synonyms }
 				/>
 			</React.Fragment>
 		);
