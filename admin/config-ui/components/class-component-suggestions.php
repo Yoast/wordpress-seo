@@ -52,7 +52,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				'type'  => 'link',
 				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/2up' ),
 			),
-			WPSEO_Shortlinker::get( 'https://www.youtube.com/embed/0jo-g9uSoZc' )
+			WPSEO_Shortlinker::get( 'https://yoa.st/2v0' )
 		);
 
 		$field->add_suggestion(
