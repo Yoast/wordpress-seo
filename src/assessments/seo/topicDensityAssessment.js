@@ -1,16 +1,13 @@
 const Assessment = require( "../../assessment.js" );
 const AssessmentResult = require( "../../values/AssessmentResult.js" );
 const countWords = require( "../../stringProcessing/countWords.js" );
-const topicCount = require( "../../researches/topicCount.js" );
 const formatNumber = require( "../../helpers/formatNumber.js" );
 const inRange = require( "../../helpers/inRange.js" );
-const Mark = require( "../../values/Mark.js" );
-const marker = require( "../../markers/addMark.js" );
+const topicCount = require( "../../researches/topicCount.js" );
 
 const inRangeStartInclusive = inRange.inRangeStartInclusive;
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
 const inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
-const map = require( "lodash/map" );
 const merge = require( "lodash/merge" );
 
 class TopicDensityAssessment extends Assessment {
@@ -184,25 +181,20 @@ class TopicDensityAssessment extends Assessment {
 	/**
 	 * Marks keywords and synonyms in the text for the topic density assessment.
 	 *
-	 * @param {Object} paper The paper to use for the assessment.
+	 * @param {Object} paper The paper to have the topic density to be calculated for.
 	 *
 	 * @returns {Array<Mark>} A list of marks that should be applied.
 	 */
 	getMarks( paper ) {
-		const topicMatches = topicCount( paper ).matches;
-		return map( topicMatches, function( topicWord ) {
-			return new Mark( {
-				original: topicWord,
-				marked: marker( topicWord ),
-			} );
-		} );
+		return topicCount( paper ).markings;
 	}
 
 	/**
 	 * Checks if topicDensity analysis is applicable to the paper: The paper should have a text, a keyword, synonyms, and
 	 * a minimal keyword count above 100 words.
 	 *
-	 * @param {Object} paper The paper to have the Flesch score to be calculated for.
+	 * @param {Object} paper The paper to have the topic density to be calculated for.
+	 *
 	 * @returns {boolean} Returns true if the assessment is applicable.
 	 */
 	isApplicable( paper ) {

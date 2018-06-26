@@ -1,15 +1,11 @@
 var AssessmentResult = require( "../../values/AssessmentResult.js" );
 var countWords = require( "../../stringProcessing/countWords.js" );
-var keywordCountResearch = require( "../../researches/keywordCount" );
 var formatNumber = require( "../../helpers/formatNumber.js" );
 var inRange = require( "../../helpers/inRange.js" );
 
 var inRangeEndInclusive = inRange.inRangeEndInclusive;
 var inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
-
-const map = require( "lodash/map.js" );
-const Mark = require( "../../values/Mark.js" );
-const marker = require( "../../markers/addMark.js" );
+const topicCount = require( "../../researches/topicCount" );
 
 /**
  * Returns the scores and text for keyword density
@@ -109,13 +105,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
  * @returns {Array<Mark>} Marks that should be applied.
  */
 var getMarks = function( paper ) {
-	const keywordMatches = keywordCountResearch( paper ).matches;
-	return map( keywordMatches, function( keyword ) {
-		return new Mark( {
-			original: keyword,
-			marked: marker( keyword ),
-		} );
-	} );
+	return topicCount( paper ).markings;
 };
 
 /**
@@ -129,7 +119,6 @@ var getMarks = function( paper ) {
 var keywordDensityAssessment = function( paper, researcher, i18n ) {
 	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
 	var keywordCount = researcher.getResearch( "keywordCount" );
-
 	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n, keywordCount.count );
 	var assessmentResult = new AssessmentResult();
 

@@ -1,11 +1,8 @@
 const AssessmentResult = require( "../../values/AssessmentResult.js" );
 const Assessment = require( "../../assessment.js" );
 const merge = require( "lodash/merge" );
-const map = require( "lodash/map" );
 const countWords = require( "../../stringProcessing/countWords.js" );
 const topicCount = require( "../../researches/topicCount.js" );
-const Mark = require( "../../values/Mark.js" );
-const marker = require( "../../markers/addMark.js" );
 const inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeStartEndInclusive;
 
 /**
@@ -121,13 +118,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks( paper ) {
-		const topicMatches = topicCount( paper ).matches;
-		return map( topicMatches, function( topicWord ) {
-			return new Mark( {
-				original: topicWord,
-				marked: marker( topicWord ),
-			} );
-		} );
+		return topicCount( paper ).markings;
 	}
 
 	/**

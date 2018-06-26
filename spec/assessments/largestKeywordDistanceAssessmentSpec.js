@@ -112,58 +112,59 @@ describe( "A test for marking keywords in the text", function() {
 	it( "returns markers for keywords in the text", function() {
 		const text = " a ".repeat( 200 );
 		const keyword = "keyword";
-		let mockPaper = new Paper( keyword.concat( text, keyword ), { keyword: "keyword" } );
+		let mockPaper = new Paper( "".concat( keyword, " ", text, " ", keyword ), { keyword: keyword } );
 
 		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true );
 
 		let expected = [
 			new Mark( {
-				original: "keyword",
-				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>",
+				original: "".concat( keyword, " ", text, " ", keyword ),
+				marked: "".concat( "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", " ", text,
+					"<yoastmark class='yoast-text-mark'>", " ", keyword, "</yoastmark>" ),
 			} ),
 		];
 		expect( keywordDistanceAssessment.getMarks( mockPaper ) ).toEqual( expected );
 	} );
 
 	it( "returns markers for keywords and synonyms in the text", function() {
-		const text = " a ".repeat( 200 );
+		const text = "a ".repeat( 200 );
 		const keyword = "keyword";
 		const synonym = "synonym";
 		// todo: change keyword definition
-		let mockPaper = new Paper( keyword.concat( text, keyword, text, synonym ), { keyword: keyword.concat( ", ", synonym ) } );
+		let mockPaper = new Paper( "".concat( keyword, " ", text, " ", keyword, " ", text, " ", synonym ), { keyword: keyword.concat( ", ", synonym ) } );
 
 		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true );
 
 		let expected = [
 			new Mark( {
-				original: "keyword",
-				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>",
-			} ),
-			new Mark( {
-				original: "synonym",
-				marked: "<yoastmark class='yoast-text-mark'>synonym</yoastmark>",
+				original: "".concat( keyword, " ", text, " ", keyword, " ", text, " ", synonym ),
+				marked: "".concat( "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", " ", text,
+					"<yoastmark class='yoast-text-mark'>", " ", keyword, "</yoastmark>", " ",
+					text, "<yoastmark class='yoast-text-mark'>", " ", synonym, "</yoastmark>" ),
 			} ),
 		];
 		expect( keywordDistanceAssessment.getMarks( mockPaper ) ).toEqual( expected );
 	} );
 
-	it( "returns markers for keywords and synonyms in the text, does not mark extra punctuation", function() {
-		const text = " a ".repeat( 200 );
+	it( "returns markers for keywords and synonyms in the text", function() {
+		const text = "a ".repeat( 200 );
 		const keyword = "keyword";
 		const synonym = "synonym";
 		// todo: change keyword definition
-		let mockPaper = new Paper( keyword.concat( "! ", text, keyword, "> ", text, " \"", synonym ), { keyword: keyword.concat( ", ", synonym ) } );
+		let mockPaper = new Paper( "".concat( keyword, "! >", text, "? >", keyword, "> ", text, ") ", synonym ),
+			{ keyword: keyword.concat( ", ", synonym ) } );
 
 		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true );
 
 		let expected = [
 			new Mark( {
-				original: "keyword",
-				marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>",
+				original: "".concat( keyword, "!" ),
+				marked: "".concat( "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", "!" ),
 			} ),
 			new Mark( {
-				original: "synonym",
-				marked: "<yoastmark class='yoast-text-mark'>synonym</yoastmark>",
+				original: "".concat( ">", keyword, "> ", text, ") ", synonym ),
+				marked: "".concat( "<yoastmark class='yoast-text-mark'>", ">", keyword, "</yoastmark>", "> ", text,
+					")", "<yoastmark class='yoast-text-mark'>", " ", synonym, "</yoastmark>" ),
 			} ),
 		];
 		expect( keywordDistanceAssessment.getMarks( mockPaper ) ).toEqual( expected );

@@ -63,8 +63,10 @@ describe( "A test for marking the keyword and its synonyms", function() {
 	it( "returns markers", function() {
 		const paper = new Paper( "This is a very interesting paper with a keyword and other keywords.", { keyword: "keyword, other keywords" }  );
 		const expected = [
-			new Mark( { original: "other keywords", marked: "<yoastmark class='yoast-text-mark'>other keywords</yoastmark>" } ),
-			new Mark( { original: "keyword", marked: "<yoastmark class='yoast-text-mark'>keyword</yoastmark>" } ),
+			new Mark( {
+				original: "This is a very interesting paper with a keyword and other keywords.",
+				marked: "This is a very interesting paper with a<yoastmark class='yoast-text-mark'> keyword</yoastmark> and<yoastmark class='yoast-text-mark'> other keywords</yoastmark>.",
+			} ),
 		];
 		expect( new TopicDensityAssessment().getMarks( paper ) ).toEqual( expected );
 	} );
@@ -72,8 +74,10 @@ describe( "A test for marking the keyword and its synonyms", function() {
 	it( "returns markers when there is overlap", function() {
 		const paper = new Paper( "This is a very interesting paper with a key word and another key.", { keyword: "key, key word" }  );
 		const expected = [
-			new Mark( { original: "key word", marked: "<yoastmark class='yoast-text-mark'>key word</yoastmark>" } ),
-			new Mark( { original: "key", marked: "<yoastmark class='yoast-text-mark'>key</yoastmark>" } ),
+			new Mark( {
+				original: "This is a very interesting paper with a key word and another key.",
+				marked: "This is a very interesting paper with a<yoastmark class='yoast-text-mark'> key word</yoastmark> and another<yoastmark class='yoast-text-mark'> key</yoastmark>.",
+			} ),
 		];
 		expect( new TopicDensityAssessment().getMarks( paper ) ).toEqual( expected );
 	} );
