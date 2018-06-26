@@ -163,7 +163,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			$post_type_object = get_post_type_object( 'post' );
 		}
 
-		return strtolower( $post_type_object->labels->singular_name );
+		return $post_type_object->labels->singular_name;
 	}
 
 	/**
