@@ -197,7 +197,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Adds shortcode support to category descriptions.
 	 *
-	 * @deprecated 7.6.0
+	 * @deprecated 7.8.0
 	 *
 	 * @param string $desc String to add shortcodes in.
 	 *
