@@ -1,5 +1,7 @@
 import React from "react";
 import { IntlProvider } from "react-intl";
+// Required to make Material UI work with touch screens.
+import injectTapEventPlugin from "react-tap-event-plugin";
 
 import ContentAnalysis from "./app/ContentAnalysisWrapper";
 import Wizard from "./app/WizardWrapper";
@@ -8,11 +10,8 @@ import Loader from "./composites/basic/Loader";
 import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
 import SnippetEditor from "./app/SnippetEditorExample";
-
-// Required to make Material UI work with touch screens.
-import injectTapEventPlugin from "react-tap-event-plugin";
 import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
-import KeywordInput from "./composites/Plugin/Shared/components/KeywordInput";
+import KeywordExample from "./app/KeywordExample";
 
 const components = [
 	{
@@ -64,12 +63,9 @@ const components = [
 		/>,
 	},
 	{
-		id: "focus-keyword",
+		id: "keyword-example",
 		name: "Keyword",
-		component: <KeywordInput
-			id="focus-keyword"
-			label={ "Focus keyword"}
-		/>,
+		component: <KeywordExample />,
 	},
 	{
 		id: "sidebar-collapsible",
