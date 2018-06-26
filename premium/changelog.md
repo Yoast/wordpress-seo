@@ -3,7 +3,6 @@ Bugfixes:
 * Fixes a bug where non-public posts were given as a link suggestion.
 * Fixes a bug where a redirect would redirect to the currently requested URL.
 * Fixes a bug where the fallback for the Facebook title in the social preview was not showing the correct title.
-* Fixes a bug where a redirect occurs when the redirect target URL is the same as the request URL.
 * Fixes a bug where Yoast product advertisements were shown in the Help Center video tab.
 * Fixes a bug where the analysis would only show results for the main keyword when multiple keywords are used.
 * Fixes a bug where the analysis results were being hidden while they were being calculated.
