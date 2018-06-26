@@ -2,10 +2,10 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import isFunction from "lodash/isFunction";
 import isUndefined from "lodash/isUndefined";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
+import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
 import initializeEdit from "./edit";
@@ -31,10 +31,10 @@ import UsedKeywords from "./analysis/usedKeywords";
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
-import { setYoastComponentsI18n } from "./helpers/i18n";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 
-setYoastComponentsI18n();
-
+setYoastComponentsL10n();
+setWordPressSeoL10n();
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
@@ -44,7 +44,7 @@ setYoastComponentsI18n();
 
 	let snippetContainer;
 	let titleElement;
-	let app, snippetPreview;
+	let app;
 	let decorator = null;
 	let tabManager, postDataCollector;
 
@@ -92,51 +92,6 @@ setYoastComponentsI18n();
 		}
 	} );
 
-	/**
-	 * Dispatches an action to the store that updates the snippet editor.
-	 *
-	 * @param {Object} data The data from the legacy snippet editor.
-	 *
-	 * @returns {void}
-	 */
-	const dispatchUpdateSnippetEditor = function( data ) {
-		/*
-		 * The setTimeout makes sure the React component is only rendered on the next
-		 * frame.
-		 */
-		setTimeout( () => {
-			editStore.dispatch( updateData( {
-				title: data.title,
-				slug: data.urlPath,
-				description: data.metaDesc,
-			} ) );
-		}, 0 );
-	};
-
-	/**
-	 * Initializes the snippet preview.
-	 *
-	 * @param {Object} snippetEditorData The snippet editor data.
-	 *
-	 * @returns {SnippetPreview} The created snippetpreview element.
-	 */
-	function initSnippetPreview( snippetEditorData ) {
-		return snippetPreviewHelpers.create( snippetContainer, {
-			title: snippetEditorData.title,
-			urlPath: snippetEditorData.slug,
-			metaDesc: snippetEditorData.description,
-		}, ( data ) => {
-			const previousData = snippetEditorHelpers.getDataFromStore( editStore );
-
-			if (
-				previousData.title !== data.title ||
-				previousData.description !== data.metaDesc ||
-				previousData.slug !== data.urlPath
-			) {
-				dispatchUpdateSnippetEditor( data );
-			}
-		} );
-	}
 	/**
 	 * Determines if markers should be shown.
 	 *
@@ -292,6 +247,7 @@ setYoastComponentsI18n();
 		let postDataCollector = new PostDataCollector( {
 			tabManager,
 			data,
+			store: editStore,
 		} );
 
 		/*
@@ -333,13 +289,13 @@ setYoastComponentsI18n();
 			marker: getMarker(),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			snippetPreview: snippetPreview,
+			hasSnippetPreview: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				let keyword = tabManager.getKeywordTab().getKeyWord();
+				const keyword = $( "#yoast_wpseo_focuskw_text_input" ).val();
 				store.dispatch( setActiveKeyword( keyword ) );
 
 				/*
@@ -435,39 +391,23 @@ setYoastComponentsI18n();
 		}
 	}
 
+	let currentAnalysisData;
+
 	/**
-	 * Update the legacy snippet preview based on the passed data from the redux
-	 * store.
+	 * Rerun the analysis when the title or metadescription in the snippet changes.
 	 *
-	 * @param {Object} data The data from the store.
+	 * @param {Object} store The store.
+	 * @param {Object} app The YoastSEO app.
 	 *
 	 * @returns {void}
 	 */
-	function updateLegacySnippetEditor( data ) {
-		if ( isFunction( snippetPreview.refresh ) ) {
-			let isDataChanged = false;
+	function handleStoreChange( store, app ) {
+		const previousAnalysisData = currentAnalysisData || "";
+		currentAnalysisData = store.getState().analysisData.snippet;
 
-			if ( snippetPreview.data.title !== data.title ) {
-				snippetPreview.element.input.title.value = data.title;
-
-				isDataChanged = true;
-			}
-
-			if ( snippetPreview.data.urlPath !== data.slug ) {
-				snippetPreview.element.input.urlPath.value = data.slug;
-
-				isDataChanged = true;
-			}
-
-			if ( snippetPreview.data.metaDesc !== data.description ) {
-				snippetPreview.element.input.metaDesc.value = data.description;
-
-				isDataChanged = true;
-			}
-
-			if ( isDataChanged ) {
-				snippetPreview.changedInput();
-			}
+		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
+		if ( isDirty ) {
+			app.refresh();
 		}
 	}
 
@@ -480,10 +420,11 @@ setYoastComponentsI18n();
 		const editArgs = {
 			analysisSection: "pageanalysis",
 			onRefreshRequest: () => {},
-			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
+			shouldRenderSnippetPreview: true,
 			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
 			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
+			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;
@@ -499,17 +440,12 @@ setYoastComponentsI18n();
 		postDataCollector = initializePostDataCollector( data );
 		publishBox.initalise();
 
-		// Initialize the snippet editor data.
-		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
-		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoPostScraperL10n );
-		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
-
-		snippetPreview = initSnippetPreview( snippetEditorData );
-
 		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
 		postDataCollector.app = app;
+
+		editStore.subscribe( handleStoreChange.bind( null, editStore, app ) );
 
 		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 		const shortcodePlugin = new YoastShortcodePlugin( app );
@@ -527,15 +463,6 @@ setYoastComponentsI18n();
 		activateEnabledAnalysis( tabManager );
 
 		jQuery( window ).trigger( "YoastSEO:ready" );
-
-		/*
-		 * Checks the snippet preview size and toggles views when the WP admin menu state changes.
-		 * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
-		 * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
-		 */
-		jQuery( document ).on( "wp-collapse-menu wp-menu-state-set", function() {
-			app.snippetPreview.handleWindowResizing();
-		} );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
@@ -570,6 +497,11 @@ setYoastComponentsI18n();
 			data.setRefresh( app.refresh );
 		}
 
+		// Initialize the snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoPostScraperL10n );
+		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
@@ -592,8 +524,6 @@ setYoastComponentsI18n();
 			snippetEditorData.title = data.title;
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
-
-			updateLegacySnippetEditor( data );
 		} );
 	}
 

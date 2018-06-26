@@ -111,6 +111,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_753();
 		}
 
+		if ( version_compare( $version, '7.7-RC0', '<' ) ) {
+			$this->upgrade_77();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -580,6 +584,16 @@ class WPSEO_Upgrade {
 
 		// Set purging relevancy.
 		WPSEO_Options::set( 'is-media-purge-relevant', true );
+	}
+
+	/**
+	 * Performs the 7.7 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_77() {
+		// Remove all OpenGraph content image cache.
+		delete_post_meta_by_key( '_yoast_wpseo_post_image_cache' );
 	}
 
 	/**

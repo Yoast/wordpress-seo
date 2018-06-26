@@ -234,9 +234,10 @@ class WPSEO_Taxonomy {
 	 */
 	public function localize_replace_vars_script() {
 		return array(
-			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
-			'replace_vars'   => $this->get_replace_vars(),
-			'scope'          => $this->determine_scope(),
+			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'             => $this->get_replace_vars(),
+			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+			'scope'                    => $this->determine_scope(),
 		);
 	}
 
@@ -302,7 +303,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Prepares the replace vars for localization.
 	 *
-	 * @return array replace vars.
+	 * @return array The replacement variables.
 	 */
 	private function get_replace_vars() {
 		$term_id = filter_input( INPUT_GET, 'tag_ID' );
@@ -317,11 +318,6 @@ class WPSEO_Taxonomy {
 			'sitedesc',
 			'sep',
 			'page',
-			'currenttime',
-			'currentdate',
-			'currentday',
-			'currentmonth',
-			'currentyear',
 			'term_title',
 			'term_description',
 			'category_description',
@@ -334,6 +330,21 @@ class WPSEO_Taxonomy {
 		}
 
 		return $cached_replacement_vars;
+	}
+
+	/**
+	 * Prepares the recommended replace vars for localization.
+	 *
+	 * @return array The recommended replacement variables.
+	 */
+	private function get_recommended_replace_vars() {
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$taxonomy                 = filter_input( INPUT_GET, 'taxonomy' );
+
+		// What is recommended depends on the current context.
+		$page_type = $recommended_replace_vars->determine_for_term( $taxonomy );
+
+		return $recommended_replace_vars->get_recommended_replacevars_for( $page_type );
 	}
 
 	/**

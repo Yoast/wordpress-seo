@@ -1,8 +1,5 @@
 /* External dependencies */
 import removeMarks from "yoastseo/js/markers/removeMarks";
-import debounce from "lodash/debounce";
-import omit from "lodash/omit";
-import forEach from "lodash/forEach";
 
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
@@ -10,8 +7,10 @@ import {
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
+	decodeSeparatorVariable,
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
+import debounce from "lodash/debounce";
 
 /**
  * Represents the classic editor data.
@@ -28,7 +27,10 @@ class ClassicEditorData {
 		this._refresh = refresh;
 		this._store = store;
 		this._data = {};
-		this.updateData = this.updateData.bind( this );
+		// This will be used for the comparison whether the title, description and slug are dirty.
+		this._previousData = {};
+		this.updateReplacementData = this.updateReplacementData.bind( this );
+		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
 
 	/**
@@ -40,8 +42,9 @@ class ClassicEditorData {
 	 */
 	initialize( replaceVars ) {
 		this._data = this.getInitialData( replaceVars );
-		fillReplacementVariables( this._data, this._store );
+		fillReplacementVariables( decodeSeparatorVariable( this._data ), this._store );
 		this.subscribeToElements();
+		this.subscribeToStore();
 	}
 
 	/**
@@ -106,12 +109,12 @@ class ClassicEditorData {
 	/**
 	 * Subscribes to an element via its id, and sets a callback.
 	 *
-	 * @param {string} elementId          The id of the element to subscribe to.
-	 * @param {string} targetReplaceVar   The name of the replacevar the value should be sent to.
+	 * @param {string}  elementId       The id of the element to subscribe to.
+	 * @param {string}  targetField     The name of the field the value should be sent to.
 	 *
 	 * @returns {void}
 	 */
-	subscribeToInputElement( elementId, targetReplaceVar ) {
+	subscribeToInputElement( elementId, targetField ) {
 		const element = document.getElementById( elementId );
 
 		/*
@@ -123,7 +126,7 @@ class ClassicEditorData {
 		}
 
 		element.addEventListener( "input", ( event ) => {
-			this.updateData( event, targetReplaceVar );
+			this.updateReplacementData( event, targetField );
 		} );
 	}
 
@@ -135,7 +138,7 @@ class ClassicEditorData {
 	 *
 	 * @returns {void}
 	 */
-	updateData( event, targetReplaceVar ) {
+	updateReplacementData( event, targetReplaceVar ) {
 		const replaceValue = event.target.value;
 		this._data[ targetReplaceVar ] = replaceValue;
 		this._store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
@@ -145,8 +148,8 @@ class ClassicEditorData {
 	 * Checks whether the current data and the data from the updated state are the same.
 	 *
 	 * @param {Object} currentData The current data.
-	 * @param {Object} newData The data from the updated state.
-	 * @returns {boolean} Whether the current data and the newData is the same.
+	 * @param {Object} newData     The data from the updated state.
+	 * @returns {boolean}          Whether the current data and the newData is the same.
 	 */
 	isShallowEqual( currentData, newData ) {
 		if ( Object.keys( currentData ).length !== Object.keys( newData ).length ) {
@@ -192,52 +195,6 @@ class ClassicEditorData {
 		this._store.subscribe(
 			this.subscriber
 		);
-	}
-	/**
-	 * Map the custom_fields field in the replacevars to a format suited for redux.
-	 *
-	 * @param {Object} replaceVars       The original replacevars.
-	 *
-	 * @returns {Object}                 The restructured replacevars object without custom_fields.
-	 */
-	mapCustomFields( replaceVars ) {
-		if( ! replaceVars.custom_fields ) {
-			return replaceVars;
-		}
-
-		let customFieldReplaceVars = {};
-		forEach( replaceVars.custom_fields, ( value, key ) => {
-			customFieldReplaceVars[ `cf_${ key }` ] = value;
-		} );
-
-		return omit( {
-			...replaceVars,
-			...customFieldReplaceVars,
-		}, "custom_fields" );
-	}
-
-	/**
-	 * Map the custom_taxonomies field in the replacevars to a format suited for redux.
-	 *
-	 * @param {Object} replaceVars       The original replacevars.
-	 *
-	 * @returns {Object}                 The restructured replacevars object without custom_taxonomies.
-	 */
-	mapCustomTaxonomies( replaceVars ) {
-		if( ! replaceVars.custom_taxonomies ) {
-			return replaceVars;
-		}
-
-		let customTaxonomyReplaceVars = {};
-		forEach( replaceVars.custom_taxonomies, ( value, key ) => {
-			customTaxonomyReplaceVars[ `ct_${ key }` ] = value.name;
-			customTaxonomyReplaceVars[ `ct_desc_${ key }` ] = value.description;
-		} );
-
-		return omit( {
-			...replaceVars,
-			...customTaxonomyReplaceVars,
-		}, "custom_taxonomies" );
 	}
 
 	/**

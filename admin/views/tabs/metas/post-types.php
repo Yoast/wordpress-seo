@@ -6,6 +6,8 @@
  */
 
 /**
+ * Form object.
+ *
  * @var Yoast_Form $yform
  */
 
@@ -27,12 +29,69 @@ $post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );
 
 $view_utils = new Yoast_View_Utils();
 
+echo '<p>';
+esc_html_e( 'The settings on this page allow you to specify what the default search appearance should be for any type of content you have. You can choose which content types appear in search results and what their default description should be.', 'wordpress-seo' );
+echo '</p>';
+
 if ( is_array( $post_types ) && $post_types !== array() ) {
-	foreach ( $post_types as $post_type ) {
-		echo '<div class="tab-block" id="' . esc_attr( $post_type->name . '-titles-metas' ) . '">';
-		echo '<h2 id="' . esc_attr( $post_type->name ) . '">' . esc_html( $post_type->labels->name ) . ' (<code>' . esc_html( $post_type->name ) . '</code>)</h2>';
+	foreach ( $post_types as $id => $post_type ) {
+		$single_label = $post_type->labels->singular_name;
+		$plural_label = $post_type->labels->name;
+
+		echo '<div class="paper tab-block" id="' . esc_attr( $post_type->name . '-titles-metas' ) . '">';
+
+		$toggle_icon = 'dashicons-arrow-up-alt2';
+		$class 		 = 'toggleable-container';
+
+		if ( $id !== 'post' ) {
+			$toggle_icon = 'dashicons-arrow-down-alt2';
+			$class .= ' toggleable-container-hidden';
+		}
+
+		printf(
+			'<h2 id="%s">%s (<code>%s</code>) <button class="toggleable-container-trigger"><span class="toggleable-container-icon dashicons %s"></span></button></h2>',
+			esc_attr( $post_type->name ),
+			esc_html( $plural_label ),
+			esc_html( $post_type->name ),
+			$toggle_icon
+		);
+
+		echo '<div class="' . $class . '">';
+
+		// translators: %s is the singular version of the post type's name.
+		echo '<h3>' . esc_html( sprintf( __( 'Settings for single %s URLs', 'wordpress-seo' ), $single_label ) ) . '</h3>';
+
 		$view_utils->show_post_type_settings( $post_type );
-		echo '</div>';
+
+		if ( $post_type->has_archive === true ) {
+			// translators: %s is the plural version of the post type's name.
+			echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
+
+			$custom_post_type_archive_help = $view_utils->search_results_setting_help( $post_type, 'archive' );
+
+			$yform->index_switch(
+				'noindex-ptarchive-' . $post_type->name,
+				sprintf(
+					/* translators: %s expands to the post type's name. */
+					__( 'the archive for %s', 'wordpress-seo' ),
+					$plural_label
+				),
+				$custom_post_type_archive_help->get_button_html() . $custom_post_type_archive_help->get_panel_html()
+			);
+
+			$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+			$page_type                = $recommended_replace_vars->determine_for_archive( $post_type->name );
+
+			$editor = new WPSEO_Replacevar_Editor( $yform, 'title-ptarchive-' . $post_type->name, 'metadesc-ptarchive-' . $post_type->name, $page_type, false );
+			$editor->render();
+
+			if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
+				// translators: %s is the plural version of the post type's name.
+				echo '<h4>' . esc_html( sprintf( __( 'Breadcrumb settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h4>';
+				$yform->textinput( 'bctitle-ptarchive-' . $post_type->name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
+			}
+		}
+
 		/**
 		 * Allow adding a custom checkboxes to the admin meta page - Post Types tab
 		 *
@@ -40,45 +99,8 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		 * @api  String  $name  The post type name
 		 */
 		do_action( 'wpseo_admin_page_meta_post_types', $yform, $post_type->name );
-	}
-	unset( $post_type );
-}
 
-$post_types = get_post_types(
-	array(
-		'_builtin'    => false,
-		'has_archive' => true,
-	),
-	'objects'
-);
-
-if ( is_array( $post_types ) && $post_types !== array() ) {
-	echo '<h2>' . esc_html__( 'Custom Content Type Archives', 'wordpress-seo' ) . '</h2>';
-	echo '<p>' . esc_html__( 'Note: instead of templates these are the actual titles and meta descriptions for these custom content type archive pages.', 'wordpress-seo' ) . '</p>';
-	foreach ( $post_types as $post_type ) {
-		$name = $post_type->name;
-		echo '<div class="tab-block">';
-		echo '<h3>' . esc_html( ucfirst( $post_type->labels->name ) ) . '</h3>';
-
-		$custom_post_type_archive_help = $view_utils->search_results_setting_help( $post_type, 'archive' );
-
-		$yform->index_switch(
-			'noindex-ptarchive-' . $name,
-			sprintf(
-				/* translators: %s expands to the post type's name. */
-				__( 'the archive for %s', 'wordpress-seo' ),
-				$post_type->labels->name
-			),
-			$custom_post_type_archive_help->get_button_html() . $custom_post_type_archive_help->get_panel_html()
-		);
-
-		$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
-		$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
-		if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
-			$yform->textinput( 'bctitle-ptarchive-' . $name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
-		}
+		echo '</div>';
 		echo '</div>';
 	}
-	unset( $post_type );
 }
-unset( $post_types );

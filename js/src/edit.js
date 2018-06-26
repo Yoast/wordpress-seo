@@ -1,12 +1,9 @@
 /* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp */
 
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import thunk from "redux-thunk";
-import logger from "redux-logger";
+import { createStore, combineReducers } from "redux";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import flowRight from "lodash/flowRight";
 
 import IntlProvider from "./components/IntlProvider";
 import markerStatusReducer from "./redux/reducers/markerButtons";
@@ -18,7 +15,9 @@ import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
-import SnippetPreviewSection from "./components/SnippetPreviewSection";
+import SnippetEditor from "./containers/SnippetEditor";
+import configureEnhancers from "./redux/utils/configureEnhancers";
+import analysisDataReducer from "./redux/reducers/analysisData";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {} };
@@ -34,21 +33,7 @@ if( window.wpseoPostScraperL10n ) {
  * @returns {Object} Things that need to be exposed, such as the store.
  */
 function configureStore() {
-	const middleware = [
-		thunk,
-	];
-
-	if ( process.env.NODE_ENV !== "production" ) {
-		middleware.push( logger );
-	}
-
-	const enhancers = [
-		applyMiddleware( ...middleware ),
-	];
-
-	if ( window.__REDUX_DEVTOOLS_EXTENSION__ ) {
-		enhancers.push( window.__REDUX_DEVTOOLS_EXTENSION__() );
-	}
+	const enhancers = configureEnhancers();
 
 	const rootReducer = combineReducers( {
 		marksButtonStatus: markerStatusReducer,
@@ -56,9 +41,10 @@ function configureStore() {
 		activeKeyword: activeKeyword,
 		activeTab,
 		snippetEditor,
+		analysisData: analysisDataReducer,
 	} );
 
-	return createStore( rootReducer, {}, flowRight( enhancers ) );
+	return createStore( rootReducer, {}, enhancers );
 }
 
 /**
@@ -107,10 +93,15 @@ function renderReactApp( target, component, store ) {
 /**
  * Renders the snippet preview for display.
  *
- * @param {Object} store Redux store.
- * @param {Object} props Props to be passed to the snippet preview.
- * @param {string} props.baseUrl The base URL of the site the user is editing.
- * @param {string} props.date The date.
+ * @param {Object} store                                 Redux store.
+ * @param {Object} props                                 Props to be passed to
+ *                                                       the snippet preview.
+ * @param {string} props.baseUrl                         Base URL of the site
+ *                                                       the user is editing.
+ * @param {string} props.date                            The date.
+ * @param {array}  props.recommendedReplacementVariables The recommended
+ *                                                       replacement variables
+ *                                                       for this context.
  *
  * @returns {void}
  */
@@ -121,20 +112,19 @@ function renderSnippetPreview( store, props ) {
 		return;
 	}
 
-	const container = document.createElement( "div" );
-	targetElement.parentNode.insertBefore( container, targetElement );
-
 	ReactDOM.render(
-		wrapInTopLevelComponents( SnippetPreviewSection, store, props ),
-		container,
+		wrapInTopLevelComponents( SnippetEditor, store, props ),
+		targetElement,
 	);
 }
 
 /**
  * Renders the react apps.
  *
- * @param {Object} store Redux store.
- * @param {Object} args Arguments.
+ * @param {Object} store                Redux store.
+ * @param {Object} args                 Arguments.
+ * @param {string} args.analysisSection The target element id for the analysis
+ *                                      section.
  *
  * @returns {void}
  */
@@ -170,13 +160,19 @@ export function initializeData( data, args, store ) {
  *
  * This can be a post or a term edit screen.
  *
- * @param {Object} args Edit initialize arguments.
- * @param {boolean} args.shouldRenderSnippetPreview Whether the new reactified
- *                                                  snippet preview should be
- *                                                  rendered.
- * @param {string} args.seoTarget Target to render the seo analysis.
- * @param {string} args.readabilityTarget Target to render the readability analysis.
- * @param {Function} args.onRefreshRequest The function to refresh the analysis.
+ * @param {Object}   args                                 Edit initialize arguments.
+ * @param {string}   args.analysisSection                 The target element id
+ *                                                        for the analysis section.
+ * @param {Function} args.onRefreshRequest                The function to refresh
+ *                                                        the analysis.
+ * @param {Object}   args.replaceVars                     The replaceVars object.
+ * @param {string}   args.snippetEditorBaseUrl            Base URL of the site
+ *                                                        the user is editing.
+ * @param {string}   args.snippetEditorDate               The date for the
+ *                                                        snippet editor.
+ * @param {array}    args.recommendedReplacementVariables The recommended
+ *                                                        replacement variables
+ *                                                        for this context.
  *
  * @returns {Object} The store and the data.
  */
@@ -187,12 +183,11 @@ export function initialize( args ) {
 
 	renderReactApps( store, args );
 
-	if ( args.shouldRenderSnippetPreview ) {
-		renderSnippetPreview( store, {
-			baseUrl: args.snippetEditorBaseUrl,
-			date: args.snippetEditorDate,
-		} );
-	}
+	renderSnippetPreview( store, {
+		baseUrl: args.snippetEditorBaseUrl,
+		date: args.snippetEditorDate,
+		recommendedReplacementVariables: args.recommendedReplaceVars,
+	} );
 
 	return {
 		store,

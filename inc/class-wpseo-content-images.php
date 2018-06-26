@@ -10,30 +10,24 @@
  */
 class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
 	/**
-	 * The key used to store our image cache.
-	 *
-	 * @var string
-	 */
-	private $cache_meta_key = '_yoast_wpseo_post_image_cache';
-
-	/**
 	 * Registers the hooks.
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'save_post', array( $this, 'clear_cached_images' ) );
 	}
 
 	/**
 	 * Removes the cached images on post save.
+	 *
+	 * @deprecated 7.7
 	 *
 	 * @param int $post_id The post id to remove the images from.
 	 *
 	 * @return void
 	 */
 	public function clear_cached_images( $post_id ) {
-		delete_post_meta( $post_id, $this->cache_meta_key );
+		_deprecated_function( __METHOD__, '7.7.0' );
 	}
 
 	/**
@@ -45,17 +39,7 @@ class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
 	 * @return array An array of images found in this post.
 	 */
 	public function get_images( $post_id, $post = null ) {
-		$post_image_cache = $this->get_cached_images( $post_id );
-		if ( is_array( $post_image_cache ) ) {
-			return $post_image_cache;
-		}
-
-		$images = $this->get_images_from_content( $this->get_post_content( $post_id, $post ) );
-
-		// Store the data in the cache.
-		$this->update_image_cache( $post, $images );
-
-		return $images;
+		return $this->get_images_from_content( $this->get_post_content( $post_id, $post ) );
 	}
 
 	/**
@@ -63,16 +47,13 @@ class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
 	 *
 	 * @param string $content The post content string.
 	 *
-	 * @return array An array of image URLs as keys and ID's as values.
+	 * @return array An array of image URLs.
 	 */
-	private function get_images_from_content( $content ) {
-		$images = array();
-		foreach ( $this->get_img_tags_from_content( $content ) as $img ) {
-			$url = $this->get_img_tag_source( $img );
-			if ( $url ) {
-				$images[ $url ] = WPSEO_Image_Utils::get_attachment_by_url( $url );
-			}
-		}
+	protected function get_images_from_content( $content ) {
+		$content_images = $this->get_img_tags_from_content( $content );
+		$images = array_map( array( $this, 'get_img_tag_source' ), $content_images );
+		$images = array_filter( $images );
+		$images = array_unique( $images );
 
 		return $images;
 	}
@@ -110,29 +91,6 @@ class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
 			return $matches[2];
 		}
 		return false;
-	}
-
-	/**
-	 * Retrieves the images from the cache.
-	 *
-	 * @param int $post_id Post ID to retrieve images for.
-	 *
-	 * @return mixed Data stored in the cache.
-	 */
-	private function get_cached_images( $post_id ) {
-		return get_post_meta( $post_id, $this->cache_meta_key, true );
-	}
-
-	/**
-	 * Updates the image cache.
-	 *
-	 * @param WP_Post|array $post   The post to store the cache for.
-	 * @param array         $images The data to store in the cache.
-	 *
-	 * @return void
-	 */
-	private function update_image_cache( $post, $images ) {
-		update_post_meta( $post->ID, $this->cache_meta_key, $images );
 	}
 
 	/**
