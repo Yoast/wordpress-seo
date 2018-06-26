@@ -5,6 +5,7 @@ var inRange = require( "../../helpers/inRange.js" );
 
 var inRangeEndInclusive = inRange.inRangeEndInclusive;
 var inRangeStartEndInclusive = inRange.inRangeStartEndInclusive;
+const topicCount = require( "../../researches/topicCount" );
 
 /**
  * Returns the scores and text for keyword density
@@ -97,6 +98,17 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 };
 
 /**
+ * Marks keywords in the text for the keyword density assessment.
+ *
+ * @param {Object} paper The paper to use for the assessment.
+ *
+ * @returns {Array<Mark>} Marks that should be applied.
+ */
+var getMarks = function( paper ) {
+	return topicCount( paper ).markings;
+};
+
+/**
  * Runs the getkeywordDensity module, based on this returns an assessment result with score.
  *
  * @param {object} paper The paper to use for the assessment.
@@ -107,12 +119,12 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 var keywordDensityAssessment = function( paper, researcher, i18n ) {
 	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
 	var keywordCount = researcher.getResearch( "keywordCount" );
-
-	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n, keywordCount );
+	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n, keywordCount.count );
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( keywordDensityResult.score );
 	assessmentResult.setText( keywordDensityResult.text );
+	assessmentResult.setHasMarks( keywordCount.count > 0 );
 
 	return assessmentResult;
 };
@@ -121,7 +133,7 @@ module.exports = {
 	identifier: "keywordDensity",
 	getResult: keywordDensityAssessment,
 	isApplicable: function( paper ) {
-		// todo: as soon as Synonym interface is ready add !paper.hasSynonyms().
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100 && ! ( paper.hasSynonyms() );
 	},
+	getMarks: getMarks,
 };

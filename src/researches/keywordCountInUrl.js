@@ -12,5 +12,5 @@ var escapeRegExp = require( "lodash/escapeRegExp" );
 module.exports = function( paper ) {
 	var keyword = paper.getKeyword().replace( "'", "" ).replace( /\s/ig, "-" );
 	keyword = escapeRegExp( keyword );
-	return wordMatch( paper.getUrl(), keyword, paper.getLocale() );
+	return wordMatch( paper.getUrl(), keyword, paper.getLocale() ).count;
 };

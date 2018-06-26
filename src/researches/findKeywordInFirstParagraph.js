@@ -19,5 +19,5 @@ module.exports = function( paper ) {
 	const paragraphs = matchParagraphs( paper.getText() );
 	const keyword = escapeRegExp( paper.getKeyword().toLocaleLowerCase() );
 	const paragraph = reject( paragraphs, isEmpty )[ 0 ] || "";
-	return wordMatch( paragraph, keyword, paper.getLocale() );
+	return wordMatch( paragraph, keyword, paper.getLocale() ).count;
 };

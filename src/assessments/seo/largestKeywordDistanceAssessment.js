@@ -2,9 +2,7 @@ const AssessmentResult = require( "../../values/AssessmentResult.js" );
 const Assessment = require( "../../assessment.js" );
 const merge = require( "lodash/merge" );
 const countWords = require( "../../stringProcessing/countWords.js" );
-const matchWords = require( "../../stringProcessing/matchTextWithWord.js" );
-const Mark = require( "../../values/Mark.js" );
-const marker = require( "../../markers/addMark.js" );
+const topicCount = require( "../../researches/topicCount.js" );
 const inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeStartEndInclusive;
 
 /**
@@ -47,6 +45,9 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
+
+		this._hasSynonyms = this.hasSynonyms( paper );
+
 		let assessmentResult = new AssessmentResult();
 
 		const calculatedResult = this.calculateResult( i18n );
@@ -66,13 +67,20 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Object} Object with score and feedback text.
 	 */
 	calculateResult( i18n ) {
+		if ( this._hasSynonyms ) {
+			this._config.overRecommendedMaximumKeywordDistance = 40;
+			this._config.recommendedMaximumKeywordDistance = 30;
+		}
+
 		if ( this._largestKeywordDistance > this._config.overRecommendedMaximumKeywordDistance ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: i18n.sprintf( i18n.dgettext(
+				resultText: i18n.sprintf( i18n.dngettext(
 					"js-text-analysis",
-					"Large parts of your text do not contain the keyword. " +
-					"Try to distribute the keyword more evenly." ) ),
+					"Large parts of your text do not contain the keyword. Try to distribute the keyword more evenly.",
+					"Large parts of your text do not contain the keyword or its synonyms. Try to distribute them more evenly.",
+					this._hasSynonyms + 1
+				) ),
 			};
 		}
 
@@ -82,19 +90,23 @@ class largestKeywordDistanceAssessment extends Assessment {
 			this._config.overRecommendedMaximumKeywordDistance ) ) {
 			return {
 				score: this._config.scores.okay,
-				resultText: i18n.sprintf( i18n.dgettext(
+				resultText: i18n.sprintf( i18n.dngettext(
 					"js-text-analysis",
-					"Some parts of your text do not contain the keyword. " +
-					"Try to distribute the keyword more evenly." ) ),
+					"Some parts of your text do not contain the keyword. Try to distribute the keyword more evenly.",
+					"Some parts of your text do not contain the keyword or its synonyms. Try to distribute them more evenly.",
+					this._hasSynonyms + 1
+				) ),
 			};
 		}
 
 		return {
 			score: this._config.scores.good,
-			resultText: i18n.sprintf( i18n.dgettext(
+			resultText: i18n.sprintf( i18n.dngettext(
 				"js-text-analysis",
-				"Your keyword is distributed evenly throughout the text. " +
-				"That's great." ) ),
+				"Your keyword is distributed evenly throughout the text. That's great.",
+				"Your keyword and its synonyms are distributed evenly throughout the text. That's great.",
+				this._hasSynonyms + 1
+			) ),
 		};
 	}
 
@@ -106,12 +118,20 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks( paper ) {
-		const keyword = paper.getKeyword();
+		return topicCount( paper ).markings;
+	}
 
-		return [ new Mark( {
-			original: keyword,
-			marked: marker( keyword ),
-		} ) ];
+	/**
+	 * Checks if the paper has synonyms to apply different criteria to the assessment and to isApplicable depending on
+	 * whether synonyms are supplied.
+	 *
+	 * @param {Paper} paper The paper to use for the assessment.
+	 *
+	 * @returns {boolean} Whether the paper has synonyms or not
+	 */
+	hasSynonyms( paper ) {
+		// todo: this function can be deprecated as soon as the Synonym interface is ready
+		return paper.getKeyword().indexOf( "," ) > 0;
 	}
 
 	/**
@@ -124,9 +144,9 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 *                    with the keyword occurring more than one time.
 	 */
 	isApplicable( paper ) {
-		const keywordCount = matchWords( paper.getText(), paper.getKeyword(), paper.getLocale() );
+		const topicUsed = topicCount( paper ).count;
 
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200 && keywordCount > 1;
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200 && topicUsed > 1;
 	}
 }
 

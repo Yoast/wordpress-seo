@@ -21,8 +21,8 @@ module.exports = function( matches, keyword, locale ) {
 				matches[ i ], removalWords
 			);
 			if (
-				matchTextWithWord( formattedHeaders, keyword, locale ) > 0 ||
-				matchTextWithWord( matches[ i ], keyword, locale ) > 0
+				matchTextWithWord( formattedHeaders, keyword, locale ).count > 0 ||
+				matchTextWithWord( matches[ i ], keyword, locale ).count > 0
 			) {
 				foundInHeader++;
 			}

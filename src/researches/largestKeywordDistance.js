@@ -1,6 +1,5 @@
-const getIndicesByWord = require( "../stringProcessing/indices" ).getIndicesByWord;
 const sortBy = require( "lodash/sortBy" );
-const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
+const topicCount = require( "./topicCount" );
 
 /**
  * Gets the distance (in terms of characters) between two keywords, between the beginning
@@ -85,23 +84,17 @@ const getLargestDistanceInCharacters = function( keywordDistances ) {
  *                   or a keyword occurrence and the start/end of the text.
  */
 module.exports = function( paper ) {
-	let text = paper.getText();
-	text = text.toLowerCase();
-	text = normalizeQuotes( text );
+	const keywordIndices = topicCount( paper ).matchesIndices;
+	const textLength = paper.getText().length;
 
-	let keyword = paper.getKeyword();
-	keyword = keyword.toLowerCase();
-	keyword = normalizeQuotes( keyword );
-
-	const keywordIndices = getIndicesByWord( keyword, text );
 	let keywordDistances = [];
 
 	for ( let keywordIndex of keywordIndices ) {
-		let currentDistances = getKeywordDistances( keywordIndex, keywordIndices, text.length );
+		let currentDistances = getKeywordDistances( keywordIndex, keywordIndices, textLength );
 		keywordDistances = keywordDistances.concat( currentDistances );
 	}
 
 	const largestKeywordDistanceInCharacters = getLargestDistanceInCharacters( keywordDistances );
 
-	return ( largestKeywordDistanceInCharacters / text.length ) * 100;
+	return ( largestKeywordDistanceInCharacters / textLength ) * 100;
 };

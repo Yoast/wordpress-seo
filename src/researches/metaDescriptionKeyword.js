@@ -14,6 +14,6 @@ module.exports = function( paper ) {
 		return -1;
 	}
 	var keyword = escapeRegExp( paper.getKeyword() );
-	return matchTextWithWord( paper.getDescription(), keyword, paper.getLocale() );
+	return matchTextWithWord( paper.getDescription(), keyword, paper.getLocale() ).count;
 };
 
