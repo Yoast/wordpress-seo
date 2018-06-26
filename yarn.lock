@@ -158,6 +158,10 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@wordpress/url/-/url-1.0.3.tgz#1f1bcf63a8e2b4534696541bfdd3108d4edee784"
 
+"@yoast/grunt-plugin-tasks@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.0.0.tgz#647261449f9f5a90014c5310cfb050db47d22202"
+
 JSONStream@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-0.10.0.tgz#74349d0d89522b71f30f0a03ff9bd20ca6f12ac0"
