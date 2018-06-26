@@ -28,6 +28,9 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 
 		// Detect a post delete.
 		add_action( 'before_delete_post', array( $this, 'detect_post_delete' ) );
+
+		// Detects deletion of a term.
+		add_action( 'delete_term_taxonomy', array( $this, 'detect_term_delete' ) );
 	}
 
 	/**
@@ -38,7 +41,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	public function enqueue_assets() {
 		global $pagenow;
 
-		if ( ! in_array( $pagenow, array( 'edit.php' ), true ) ) {
+		if ( ! in_array( $pagenow, array( 'edit.php', 'edit-tags.php' ), true ) ) {
 			return;
 		}
 
@@ -89,6 +92,52 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		$message        = $this->get_message( $first_sentence );
 
 		$this->add_notification( $message );
+	}
+
+	/**
+	 * Shows an message when a term is about to get deleted.
+
+	 *
+	 * @param integer $term_id The term id that will be deleted.
+	 */
+	public function detect_term_delete( $term_id ) {
+		if ( ! $this->is_term_viewable( $term_id ) ) {
+//			return;
+		}
+
+		$first_sentence = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $this->get_taxonomy_label_for_term( $term_id ) );
+		$message        = $this->get_message( $first_sentence );
+
+		$this->add_notification( $message );
+	}
+
+	/**
+	 * Checks if the term is viewable.
+	 *
+	 * @param string $term_id The term id to check.
+	 *
+	 * @return bool Whether the term is viewable or not.
+	 */
+	protected function is_term_viewable( $term_id ) {
+		$term = get_term( $term_id );
+
+		if ( ! is_object( $term ) || property_exists( $term, 'taxonomy' ) ) {
+			return false;
+		}
+
+		$taxonomy = get_taxonomy( $term->taxonomy );
+		if ( ! is_object( $taxonomy ) ) {
+			return false;
+		}
+
+		return $taxonomy->publicly_queryable || ( $taxonomy->_builtin && $taxonomy->public );
+	}
+
+	protected function get_taxonomy_label_for_term( $term_id ) {
+		$term     = get_term( $term_id );
+		$taxonomy = get_taxonomy( $term->taxonomy );
+
+		return strtolower( $taxonomy->labels->singular_name );
 	}
 
 	/**
