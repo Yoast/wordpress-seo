@@ -2,9 +2,9 @@ var ItalianSentencePart = require( "../../../../js/researches/italian/passiveVoi
 
 describe( "creates an Italian sentence part", function() {
 	it( "makes sure the Italian sentence part inherits all functions", function() {
-		var mockPart = new ItalianSentencePart( "I testi italiani sono stato bellissimi.", [ "stato" ], "it_IT" );
-		expect( mockPart.getSentencePartText() ).toBe( "I testi italiani sono stato bellissimi." );
-		expect( mockPart.getAuxiliaries() ).toEqual( [ "stato" ] );
+		var mockPart = new ItalianSentencePart( "I testi italiani sono stati bellissimi.", [ "stati" ], "it_IT" );
+		expect( mockPart.getSentencePartText() ).toBe( "I testi italiani sono stati bellissimi." );
+		expect( mockPart.getAuxiliaries() ).toEqual( [ "stati" ] );
 		expect( mockPart.getLocale() ).toBe( "it_IT" );
 	} );
 

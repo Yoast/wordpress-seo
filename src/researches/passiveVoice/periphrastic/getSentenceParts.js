@@ -15,7 +15,7 @@ const includes = require( "lodash/includes" );
 const map = require( "lodash/map" );
 const forEach = require( "lodash/forEach" );
 
-// English-specific constiables and imports.
+// English-specific variables and imports.
 const SentencePartEnglish = require( "../../english/passiveVoice/SentencePart" );
 const auxiliariesEnglish = require( "../../english/passiveVoice/auxiliaries.js" )().all;
 const stopwordsEnglish = require( "../../english/passiveVoice/stopwords.js" )();

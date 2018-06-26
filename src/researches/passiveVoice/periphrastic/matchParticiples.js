@@ -29,13 +29,8 @@ const languageVariables = {
  * @returns {Array} A list with the matches.
  */
 let regularParticiples = function( word, language ) {
-	// In Spanish we don't match participles with a regular regex pattern.
-	if ( language === "es" ) {
-		return [];
-	}
-
-	// In Italian we don't match participles with a regular regex pattern.
-	if ( language === "it" ) {
+	// In Spanish and Italian we don't match participles with a regular regex pattern.
+	if ( ( language === "es" ) || ( language === "it" ) ) {
 		return [];
 	}
 
@@ -51,7 +46,7 @@ let regularParticiples = function( word, language ) {
  * @param {string} word The word to match on.
  * @param {Array} irregulars The list of irregulars to match.
  * @param {string} suffixes The suffixes to match the word with.
- * @param {Array} matches The array into which to push the matches.
+ * 
  * @returns {Array} A list with matched irregular participles.
  */
 let matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes ) {
