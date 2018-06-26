@@ -119,7 +119,7 @@ export function mapStateToProps( state ) {
 
 	// Replace all empty values with %%replaceVarName%% so the replacement variables plugin can do its job.
 	replacementVariables.forEach( ( replaceVariable ) => {
-		if( replaceVariable.value === "" ) {
+		if( replaceVariable.value === "" && ! [ "title", "excerpt", "excerpt_only" ].includes( replaceVariable.name ) ) {
 			replaceVariable.value = "%%" + replaceVariable.name + "%%";
 		}
 	} );
