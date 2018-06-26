@@ -1178,7 +1178,7 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
-	 * Strips 'desc_' if present, and appends '(description)' at the end.
+	 * Strips 'desc_' if present, and appends ' description' at the end.
 	 *
 	 * @param string $label The replacement variable.
 	 *
