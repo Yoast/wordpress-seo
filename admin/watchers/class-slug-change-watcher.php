@@ -102,7 +102,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 */
 	public function detect_term_delete( $term_id ) {
 		if ( ! $this->is_term_viewable( $term_id ) ) {
-//			return;
+			return;
 		}
 
 		$first_sentence = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $this->get_taxonomy_label_for_term( $term_id ) );
@@ -121,23 +121,23 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	protected function is_term_viewable( $term_id ) {
 		$term = get_term( $term_id );
 
-		if ( ! is_object( $term ) || property_exists( $term, 'taxonomy' ) ) {
+		if ( ! $term || is_wp_error( $term ) ) {
 			return false;
 		}
 
 		$taxonomy = get_taxonomy( $term->taxonomy );
-		if ( ! is_object( $taxonomy ) ) {
+		if ( ! $taxonomy ) {
 			return false;
 		}
 
-		return $taxonomy->publicly_queryable || ( $taxonomy->_builtin && $taxonomy->public );
+		return $taxonomy->publicly_queryable || $taxonomy->public;
 	}
 
 	protected function get_taxonomy_label_for_term( $term_id ) {
 		$term     = get_term( $term_id );
 		$taxonomy = get_taxonomy( $term->taxonomy );
 
-		return strtolower( $taxonomy->labels->singular_name );
+		return $taxonomy->labels->singular_name;
 	}
 
 	/**
