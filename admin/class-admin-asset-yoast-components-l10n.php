@@ -6,7 +6,7 @@
 /**
  * Localizes JavaScript files.
  */
-final class WPSEO_Admin_Asset_Yoast_Components_l10n {
+final class WPSEO_Admin_Asset_Yoast_Components_L10n {
 	/**
 	 * Localizes the given script with the JavaScript translations.
 	 *
