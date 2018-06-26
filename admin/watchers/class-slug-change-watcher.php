@@ -95,10 +95,11 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Shows an message when a term is about to get deleted.
-
+	 * Shows a message when a term is about to get deleted.
 	 *
-	 * @param integer $term_id The term id that will be deleted.
+	 * @param integer $term_id The term ID that will be deleted.
+	 *
+	 * @return void
 	 */
 	public function detect_term_delete( $term_id ) {
 		if ( ! $this->is_term_viewable( $term_id ) ) {
@@ -114,7 +115,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	/**
 	 * Checks if the term is viewable.
 	 *
-	 * @param string $term_id The term id to check.
+	 * @param string $term_id The term ID to check.
 	 *
 	 * @return bool Whether the term is viewable or not.
 	 */
@@ -133,6 +134,13 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		return $taxonomy->publicly_queryable || $taxonomy->public;
 	}
 
+	/**
+	 * Gets the taxonomy label to use for a term.
+	 *
+	 * @param int $term_id The term ID.
+	 *
+	 * @return string The taxonomy's singular label.
+	 */
 	protected function get_taxonomy_label_for_term( $term_id ) {
 		$term     = get_term( $term_id );
 		$taxonomy = get_taxonomy( $term->taxonomy );
