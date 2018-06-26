@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package WPSEO\Tests\Admin
+ */
 
 /**
  * Class WPSEO_Help_Center_Template_Variables_Tab_Test
@@ -18,7 +23,7 @@ class WPSEO_Help_Center_Template_Variables_Tab_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 10, has_filter( 'wpseo_help_center_items', array(
 			$instance,
-			'add_meta_options_help_center_tabs'
+			'add_meta_options_help_center_tabs',
 		) ) );
 		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', array( $instance, 'enqueue_assets' ) ) );
 	}
@@ -35,7 +40,7 @@ class WPSEO_Help_Center_Template_Variables_Tab_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 20, has_filter( 'wpseo_help_center_items', array(
 			$instance,
-			'add_meta_options_help_center_tabs'
+			'add_meta_options_help_center_tabs',
 		) ) );
 	}
 

@@ -17,7 +17,7 @@ final class WPSEO_Admin_Asset_Yoast_Components_L10n {
 	public function localize_script( $script_handle ) {
 		wp_localize_script( $script_handle, 'wpseoYoastJSL10n', array(
 			'yoast-components' => $this->get_translations( 'yoast-components' ),
-			'wordpress-seo' => $this->get_translations( 'wordpress-seojs' ),
+			'wordpress-seo'    => $this->get_translations( 'wordpress-seojs' ),
 		) );
 	}
 

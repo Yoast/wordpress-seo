@@ -1005,7 +1005,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array Recommended replacement variables.
 	 */
 	private function get_recommended_replace_vars() {
-	    $recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
 		$post                     = $this->get_metabox_post();
 
 		// What is recommended depends on the current context.
