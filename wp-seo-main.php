@@ -304,6 +304,13 @@ function wpseo_init() {
 	$link_watcher = new WPSEO_Link_Watcher_Loader();
 	$link_watcher->load();
 
+	$integrations   = array();
+	$integrations[] = new WPSEO_Slug_Change_Watcher();
+
+	foreach ( $integrations as $integration ) {
+		$integration->register_hooks();
+	}
+
 	// Loading Ryte integration.
 	$wpseo_onpage = new WPSEO_OnPage();
 	$wpseo_onpage->register_hooks();
