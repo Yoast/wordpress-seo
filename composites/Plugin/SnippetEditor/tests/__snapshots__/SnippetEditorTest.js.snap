@@ -600,7 +600,6 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -857,8 +856,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c32 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -888,8 +891,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c34 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -915,8 +922,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c36 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -953,6 +964,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 24px 0 0 0;
 }
 
@@ -961,29 +987,28 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
+  margin: 4px 0;
 }
 
 .c31 {
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
   padding-left: 8px;
-  float: right;
-  margin-top: -33px;
   height: 33px;
   border: 1px solid #dbdbdb;
   font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
 }
 
 .c31 svg {
   margin-right: 7px;
+  fill: #555;
 }
 
 .c33 {
@@ -1980,7 +2005,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1995,7 +2019,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -2011,13 +2034,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   uniqueID="snippet-editor-field-title"
                   withCaret={true}
                 >
@@ -2034,12 +2055,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -2047,7 +2066,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -2057,7 +2075,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -2067,7 +2084,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -2077,7 +2093,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -2087,7 +2102,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -2235,14 +2249,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   uniqueID="snippet-editor-field-description"
                   withCaret={true}
@@ -2260,12 +2272,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -2273,7 +2283,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -2283,7 +2292,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -2293,7 +2301,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -2303,7 +2310,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -2313,7 +2319,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -2706,8 +2711,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c32 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -2737,8 +2746,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c34 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -2764,8 +2777,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c36 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -2802,6 +2819,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 24px 0 0 0;
 }
 
@@ -2810,29 +2842,28 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
+  margin: 4px 0;
 }
 
 .c31 {
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
   padding-left: 8px;
-  float: right;
-  margin-top: -33px;
   height: 33px;
   border: 1px solid #dbdbdb;
   font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
 }
 
 .c31 svg {
   margin-right: 7px;
+  fill: #555;
 }
 
 .c33 {
@@ -3829,7 +3860,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -3844,7 +3874,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -3860,13 +3889,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   uniqueID="snippet-editor-field-title"
                   withCaret={true}
                 >
@@ -3883,12 +3910,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -3896,7 +3921,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -3906,7 +3930,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -3916,7 +3939,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -3926,7 +3948,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -3936,7 +3957,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -4084,14 +4104,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   uniqueID="snippet-editor-field-description"
                   withCaret={true}
@@ -4109,12 +4127,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -4122,7 +4138,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -4132,7 +4147,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -4142,7 +4156,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -4152,7 +4165,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -4162,7 +4174,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -4555,8 +4566,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c32 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -4586,8 +4601,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c34 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -4613,8 +4632,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c36 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -4651,6 +4674,21 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 24px 0 0 0;
 }
 
@@ -4659,29 +4697,28 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
+  margin: 4px 0;
 }
 
 .c31 {
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
   padding-left: 8px;
-  float: right;
-  margin-top: -33px;
   height: 33px;
   border: 1px solid #dbdbdb;
   font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
 }
 
 .c31 svg {
   margin-right: 7px;
+  fill: #555;
 }
 
 .c33 {
@@ -5678,7 +5715,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -5693,7 +5729,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -5709,13 +5744,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   uniqueID="snippet-editor-field-title"
                   withCaret={true}
                 >
@@ -5732,12 +5765,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -5745,7 +5776,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -5755,7 +5785,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -5765,7 +5794,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -5775,7 +5803,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -5785,7 +5812,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -5933,14 +5959,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   uniqueID="snippet-editor-field-description"
                   withCaret={true}
@@ -5958,12 +5982,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -5971,7 +5993,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -5981,7 +6002,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -5991,7 +6011,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -6001,7 +6020,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -6011,7 +6029,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -6404,8 +6421,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c32 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -6435,8 +6456,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c34 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -6462,8 +6487,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c36 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -6500,6 +6529,21 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 24px 0 0 0;
 }
 
@@ -6508,29 +6552,28 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
+  margin: 4px 0;
 }
 
 .c31 {
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
   padding-left: 8px;
-  float: right;
-  margin-top: -33px;
   height: 33px;
   border: 1px solid #dbdbdb;
   font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
 }
 
 .c31 svg {
   margin-right: 7px;
+  fill: #555;
 }
 
 .c33 {
@@ -7527,7 +7570,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -7542,7 +7584,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -7558,13 +7599,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   uniqueID="snippet-editor-field-title"
                   withCaret={true}
                 >
@@ -7581,12 +7620,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -7594,7 +7631,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -7604,7 +7640,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -7614,7 +7649,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -7624,7 +7658,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -7634,7 +7667,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -7782,14 +7814,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   uniqueID="snippet-editor-field-description"
                   withCaret={true}
@@ -7807,12 +7837,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -7820,7 +7848,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -7830,7 +7857,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -7840,7 +7866,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -7850,7 +7875,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -7860,7 +7884,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -9377,8 +9400,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c32 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -9408,8 +9435,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c34 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -9435,8 +9466,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c36 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -9473,6 +9508,21 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 24px 0 0 0;
 }
 
@@ -9481,29 +9531,28 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
+  margin: 4px 0;
 }
 
 .c31 {
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
   padding-left: 8px;
-  float: right;
-  margin-top: -33px;
   height: 33px;
   border: 1px solid #dbdbdb;
   font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
 }
 
 .c31 svg {
   margin-right: 7px;
+  fill: #555;
 }
 
 .c33 {
@@ -10500,7 +10549,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -10515,7 +10563,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -10531,35 +10578,31 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   uniqueID="snippet-editor-field-title"
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
-                    id="46"
+                    id="42"
                     onClick={[Function]}
                   >
                     <div
                       className="c30"
-                      id="46"
+                      id="42"
                       onClick={[Function]}
                     >
                       SEO title
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -10567,7 +10610,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -10577,7 +10619,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -10587,7 +10628,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -10597,7 +10637,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -10607,7 +10646,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -10666,7 +10704,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       onClick={[Function]}
                     >
                       <ReplacementVariableEditorStandalone
-                        ariaLabelledBy="46"
+                        ariaLabelledBy="42"
                         content="Test title"
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -10702,12 +10740,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 className="c29"
               >
                 <Shared__SimulatedLabel
-                  id="snippet-editor-field-45-slug"
+                  id="snippet-editor-field-41-slug"
                   onClick={[Function]}
                 >
                   <div
                     className="c30"
-                    id="snippet-editor-field-45-slug"
+                    id="snippet-editor-field-41-slug"
                     onClick={[Function]}
                   >
                     Slug
@@ -10723,7 +10761,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     onClick={[Function]}
                   >
                     <SnippetEditorFields__SlugInput
-                      aria-labelledby="snippet-editor-field-45-slug"
+                      aria-labelledby="snippet-editor-field-41-slug"
                       id="snippet-editor-field-slug"
                       innerRef={[Function]}
                       onBlur={[Function]}
@@ -10732,7 +10770,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       value="test-slug"
                     >
                       <input
-                        aria-labelledby="snippet-editor-field-45-slug"
+                        aria-labelledby="snippet-editor-field-41-slug"
                         className="c35"
                         id="snippet-editor-field-slug"
                         onBlur={[Function]}
@@ -10755,37 +10793,33 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   uniqueID="snippet-editor-field-description"
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
-                    id="47"
+                    id="43"
                     onClick={[Function]}
                   >
                     <div
                       className="c30"
-                      id="47"
+                      id="43"
                       onClick={[Function]}
                     >
                       Meta description
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -10793,7 +10827,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -10803,7 +10836,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -10813,7 +10845,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -10823,7 +10854,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -10833,7 +10863,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -10892,7 +10921,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       onClick={[Function]}
                     >
                       <ReplacementVariableEditorStandalone
-                        ariaLabelledBy="47"
+                        ariaLabelledBy="43"
                         content="Test description, %%replacement_variable%%"
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -11226,8 +11255,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c32 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -11257,8 +11290,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c34 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -11284,8 +11321,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c36 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -11322,6 +11363,21 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 24px 0 0 0;
 }
 
@@ -11330,29 +11386,28 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
+  margin: 4px 0;
 }
 
 .c31 {
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
   padding-left: 8px;
-  float: right;
-  margin-top: -33px;
   height: 33px;
   border: 1px solid #dbdbdb;
   font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
 }
 
 .c31 svg {
   margin-right: 7px;
+  fill: #555;
 }
 
 .c33 {
@@ -12349,7 +12404,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -12364,7 +12418,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -12380,35 +12433,31 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   uniqueID="snippet-editor-field-title"
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
-                    id="42"
+                    id="38"
                     onClick={[Function]}
                   >
                     <div
                       className="c30"
-                      id="42"
+                      id="38"
                       onClick={[Function]}
                     >
                       SEO title
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -12416,7 +12465,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -12426,7 +12474,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -12436,7 +12483,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -12446,7 +12492,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -12456,7 +12501,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -12515,7 +12559,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       onClick={[Function]}
                     >
                       <ReplacementVariableEditorStandalone
-                        ariaLabelledBy="42"
+                        ariaLabelledBy="38"
                         content="Test title"
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -12551,12 +12595,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 className="c29"
               >
                 <Shared__SimulatedLabel
-                  id="snippet-editor-field-41-slug"
+                  id="snippet-editor-field-37-slug"
                   onClick={[Function]}
                 >
                   <div
                     className="c30"
-                    id="snippet-editor-field-41-slug"
+                    id="snippet-editor-field-37-slug"
                     onClick={[Function]}
                   >
                     Slug
@@ -12572,7 +12616,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     onClick={[Function]}
                   >
                     <SnippetEditorFields__SlugInput
-                      aria-labelledby="snippet-editor-field-41-slug"
+                      aria-labelledby="snippet-editor-field-37-slug"
                       id="snippet-editor-field-slug"
                       innerRef={[Function]}
                       onBlur={[Function]}
@@ -12581,7 +12625,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       value="test-slug"
                     >
                       <input
-                        aria-labelledby="snippet-editor-field-41-slug"
+                        aria-labelledby="snippet-editor-field-37-slug"
                         className="c35"
                         id="snippet-editor-field-slug"
                         onBlur={[Function]}
@@ -12604,37 +12648,33 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   uniqueID="snippet-editor-field-description"
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
-                    id="43"
+                    id="39"
                     onClick={[Function]}
                   >
                     <div
                       className="c30"
-                      id="43"
+                      id="39"
                       onClick={[Function]}
                     >
                       Meta description
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -12642,7 +12682,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -12652,7 +12691,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -12662,7 +12700,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -12672,7 +12709,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -12682,7 +12718,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -12741,7 +12776,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       onClick={[Function]}
                     >
                       <ReplacementVariableEditorStandalone
-                        ariaLabelledBy="43"
+                        ariaLabelledBy="39"
                         content="Test description, %%replacement_variable%%"
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -14165,8 +14200,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 }
 
 .c33 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -14196,8 +14235,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 }
 
 .c35 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -14223,8 +14266,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 }
 
 .c37 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #5b9dd9;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: 0 0 2px rgba(30,140,190,.8);
   background-color: #fff;
   color: #32373c;
@@ -14261,6 +14308,21 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 }
 
 .c30 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 24px 0 0 0;
 }
 
@@ -14269,29 +14331,28 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 }
 
 .c31 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
+  margin: 4px 0;
 }
 
 .c32 {
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
   padding-left: 8px;
-  float: right;
-  margin-top: -33px;
   height: 33px;
   border: 1px solid #dbdbdb;
   font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
 }
 
 .c32 svg {
   margin-right: 7px;
+  fill: #555;
 }
 
 .c34 {
@@ -15308,7 +15369,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -15323,7 +15383,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -15339,13 +15398,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   uniqueID="snippet-editor-field-title"
                   withCaret={true}
                 >
@@ -15362,12 +15419,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c32"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -15375,7 +15430,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c32 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -15385,7 +15439,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c32 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -15395,7 +15448,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -15405,7 +15457,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -15415,7 +15466,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -15563,14 +15613,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   isActive={true}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   uniqueID="snippet-editor-field-description"
                   withCaret={true}
@@ -15588,12 +15636,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c32"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -15601,7 +15647,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c32 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -15611,7 +15656,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c32 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -15621,7 +15665,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -15631,7 +15674,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -15641,7 +15683,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -16034,8 +16075,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 }
 
 .c33 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -16065,8 +16110,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 }
 
 .c35 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -16092,8 +16141,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 }
 
 .c37 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -16130,6 +16183,21 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 }
 
 .c30 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 24px 0 0 0;
 }
 
@@ -16138,29 +16206,28 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 }
 
 .c31 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
+  margin: 4px 0;
 }
 
 .c32 {
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
   padding-left: 8px;
-  float: right;
-  margin-top: -33px;
   height: 33px;
   border: 1px solid #dbdbdb;
   font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
 }
 
 .c32 svg {
   margin-right: 7px;
+  fill: #555;
 }
 
 .c34 {
@@ -17177,7 +17244,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           }
         }
         hoveredField="description"
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -17192,7 +17258,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -17208,13 +17273,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   uniqueID="snippet-editor-field-title"
                   withCaret={true}
                 >
@@ -17231,12 +17294,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c32"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -17244,7 +17305,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c32 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -17254,7 +17314,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c32 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -17264,7 +17323,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -17274,7 +17332,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -17284,7 +17341,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -17432,14 +17488,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   isActive={false}
                   isHovered={true}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   uniqueID="snippet-editor-field-description"
                   withCaret={true}
@@ -17457,12 +17511,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c32"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -17470,7 +17522,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c32 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -17480,7 +17531,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c32 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -17490,7 +17540,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -17500,7 +17549,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -17510,7 +17558,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -17903,8 +17950,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c32 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -17934,8 +17985,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c34 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -17961,8 +18016,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c36 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -17999,6 +18058,21 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 24px 0 0 0;
 }
 
@@ -18007,29 +18081,28 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
+  margin: 4px 0;
 }
 
 .c31 {
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
   padding-left: 8px;
-  float: right;
-  margin-top: -33px;
   height: 33px;
   border: 1px solid #dbdbdb;
   font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
 }
 
 .c31 svg {
   margin-right: 7px;
+  fill: #555;
 }
 
 .c33 {
@@ -19026,7 +19099,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -19041,7 +19113,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -19057,13 +19128,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   uniqueID="snippet-editor-field-title"
                   withCaret={true}
                 >
@@ -19080,12 +19149,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -19093,7 +19160,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -19103,7 +19169,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -19113,7 +19178,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -19123,7 +19187,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -19133,7 +19196,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -19281,14 +19343,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   uniqueID="snippet-editor-field-description"
                   withCaret={true}
@@ -19306,12 +19366,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -19319,7 +19377,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -19329,7 +19386,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -19339,7 +19395,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -19349,7 +19404,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -19359,7 +19413,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -19752,8 +19805,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c32 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -19783,8 +19840,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c34 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -19810,8 +19871,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c36 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -19848,6 +19913,21 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 24px 0 0 0;
 }
 
@@ -19856,29 +19936,28 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
+  margin: 4px 0;
 }
 
 .c31 {
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
   padding-left: 8px;
-  float: right;
-  margin-top: -33px;
   height: 33px;
   border: 1px solid #dbdbdb;
   font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
 }
 
 .c31 svg {
   margin-right: 7px;
+  fill: #555;
 }
 
 .c33 {
@@ -20886,7 +20965,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -20912,7 +20990,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -20928,7 +21005,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -20945,7 +21021,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       },
                     ]
                   }
-                  styleForMobile={true}
                   uniqueID="snippet-editor-field-title"
                   withCaret={true}
                 >
@@ -20962,12 +21037,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -20975,7 +21048,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -20985,7 +21057,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -20995,7 +21066,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -21005,7 +21075,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -21015,7 +21084,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -21174,7 +21242,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -21192,7 +21259,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       },
                     ]
                   }
-                  styleForMobile={true}
                   type="description"
                   uniqueID="snippet-editor-field-description"
                   withCaret={true}
@@ -21210,12 +21276,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -21223,7 +21287,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -21233,7 +21296,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -21243,7 +21305,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -21253,7 +21314,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -21263,7 +21323,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -22044,7 +22103,6 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -22301,8 +22359,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 }
 
 .c32 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -22332,8 +22394,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 }
 
 .c34 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -22359,8 +22425,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 }
 
 .c36 {
-  padding: 3px 5px;
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
   border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
   color: #32373c;
@@ -22397,6 +22467,21 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 }
 
 .c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin: 24px 0 0 0;
 }
 
@@ -22405,29 +22490,28 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 }
 
 .c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
   cursor: pointer;
   font-size: 16px;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
+  margin: 4px 0;
 }
 
 .c31 {
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
   padding-left: 8px;
-  float: right;
-  margin-top: -33px;
   height: 33px;
   border: 1px solid #dbdbdb;
   font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
 }
 
 .c31 svg {
   margin-right: 7px;
+  fill: #555;
 }
 
 .c33 {
@@ -23424,7 +23508,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -23439,7 +23522,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -23455,13 +23537,11 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   uniqueID="snippet-editor-field-title"
                   withCaret={true}
                 >
@@ -23478,12 +23558,10 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -23491,7 +23569,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -23501,7 +23578,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -23511,7 +23587,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -23521,7 +23596,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -23531,7 +23605,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -23679,14 +23752,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   uniqueID="snippet-editor-field-description"
                   withCaret={true}
@@ -23704,12 +23775,10 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -23717,7 +23786,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -23727,7 +23795,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -23737,7 +23804,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -23747,7 +23813,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -23757,7 +23822,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"

@@ -2,7 +2,6 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import debounce from "lodash/debounce";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
@@ -80,25 +79,8 @@ class SnippetEditorFields extends React.Component {
 
 		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
-		this.state = {
-			isSmallerThanMobileWidth: false,
-		};
-
 		this.setRef = this.setRef.bind( this );
-		this.setEditorRef = this.setEditorRef.bind( this );
 		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
-		this.debouncedUpdateIsSmallerThanMobileWidth = debounce( this.updateIsSmallerThanMobileWidth.bind( this ), 200 );
-	}
-
-	/**
-	 * Sets the ref for the editor.
-	 *
-	 * @param {Object} editor The editor React reference.
-	 *
-	 * @returns {void}
-	 */
-	setEditorRef( editor ) {
-		this.editor = editor;
 	}
 
 	/**
@@ -126,27 +108,6 @@ class SnippetEditorFields extends React.Component {
 		if ( prevProps.activeField !== this.props.activeField ) {
 			this.focusOnActiveFieldChange();
 		}
-	}
-
-	/**
-	 * Ensures isSmallerThanMobileWidth is accurate.
-	 *
-	 * By running it once and binding it to the window resize event.
-	 *
-	 * @returns {void}
-	 */
-	componentDidMount() {
-		this.updateIsSmallerThanMobileWidth();
-		window.addEventListener( "resize", this.debouncedUpdateIsSmallerThanMobileWidth );
-	}
-
-	/**
-	 * Removes the window resize event listener.
-	 *
-	 * @returns {void}
-	 */
-	componentWillUnmount() {
-		window.removeEventListener( "resize", this.debouncedUpdateIsSmallerThanMobileWidth );
 	}
 
 	/**
@@ -180,25 +141,6 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
-	 * Updates isSmallerThanMobileWidth when changed.
-	 *
-	 * isSmallerThanMobileWidth is true if the editor's client width is smaller than the mobile width prop.
-	 *
-	 * @returns {void}
-	 */
-	updateIsSmallerThanMobileWidth() {
-		if ( ! this.editor ) {
-			// The editor might not render if any previous error occurs.
-			return;
-		}
-
-		const isSmallerThanMobileWidth = this.editor.clientWidth < this.props.mobileWidth;
-		if ( this.state.isSmallerThanMobileWidth !== isSmallerThanMobileWidth ) {
-			this.setState( { isSmallerThanMobileWidth } );
-		}
-	}
-
-	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -222,13 +164,11 @@ class SnippetEditorFields extends React.Component {
 			},
 			containerPadding,
 		} = this.props;
-		const { isSmallerThanMobileWidth } = this.state;
 
 		const slugLabelId = `${ this.uniqueId }-slug`;
 
 		return (
 			<StyledEditor
-				innerRef={ this.setEditorRef }
 				padding={ containerPadding }
 			>
 				<FormSection>
@@ -244,7 +184,6 @@ class SnippetEditorFields extends React.Component {
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ title }
 						onChange={ content => onChange( "title", content ) }
-						styleForMobile={ isSmallerThanMobileWidth }
 					    uniqueID="snippet-editor-field-title"
 					/>
 					<ProgressBar
@@ -291,7 +230,6 @@ class SnippetEditorFields extends React.Component {
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ description }
 						onChange={ content => onChange( "description", content ) }
-						styleForMobile={ isSmallerThanMobileWidth }
 					    uniqueID={ "snippet-editor-field-description" }
 					/>
 					<ProgressBar
@@ -340,7 +278,6 @@ SnippetEditorFields.propTypes = {
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
-	mobileWidth: PropTypes.number,
 	containerPadding: PropTypes.string,
 };
 
@@ -358,7 +295,6 @@ SnippetEditorFields.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
-	mobileWidth: 356,
 	containerPadding: "0 20px",
 };
 
