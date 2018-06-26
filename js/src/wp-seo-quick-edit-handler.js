@@ -128,4 +128,13 @@
 			wpseoShowNotification();
 		}
 	} );
+
+	/**
+	 * @todo This won't work, make it work
+	 */
+	jQuery( document ).on( "ajaxComplete", function( e, xhr, settings ) {
+		if ( settings.data.indexOf( "action=delete-tag" ) > -1 ) {
+			wpseoShowNotification();
+		}
+	} );
 }( jQuery ) )  );
