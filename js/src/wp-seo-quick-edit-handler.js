@@ -102,32 +102,26 @@
 		return currentSlug !== newSlug;
 	}
 
-	// Listen to events based on the current screen.
-	switch ( currentScreen ) {
+	if ( [ "edit.php", "edit-tags.php" ].includes( currentScreen ) ) {
+		$( "#inline-edit input" ).on( "keydown", function( ev ) {
+			// 13 refers to the enter key.
+			if ( ev.which === 13 && wpseoSlugChanged() ) {
+				wpseoShowNotification();
+			}
+		} );
 
-		// Terms list screen.
-		case "edit-tags.php":
-			$( document ).on( "ajaxComplete", function( e, xhr, settings ) {
-				if ( settings.data.indexOf( "action=delete-tag" ) > -1 ) {
-					wpseoShowNotification();
-				}
-			} );
+		$( ".button-primary" ).click( function( ev ) {
+			if ( $( ev.target ).attr( "id" ) !== "save-order" && wpseoSlugChanged() ) {
+				wpseoShowNotification();
+			}
+		} );
+	}
 
-		// Posts list screen.
-		case "edit.php":
-			$( "#inline-edit input" ).on( "keydown", function( ev ) {
-				// 13 refers to the enter key.
-				if ( ev.which === 13 && wpseoSlugChanged() ) {
-					wpseoShowNotification();
-				}
-			} );
-
-			$( ".button-primary" ).click( function( ev ) {
-				if ( $( ev.target ).attr( "id" ) !== "save-order" && wpseoSlugChanged() ) {
-					wpseoShowNotification();
-				}
-			} );
-
-			break;
+	if ( currentScreen === "edit-tags.php" ) {
+		$( document ).on( "ajaxComplete", function( e, xhr, settings ) {
+			if ( settings.data.indexOf( "action=delete-tag" ) > -1 ) {
+				wpseoShowNotification();
+			}
+		} );
 	}
 }( jQuery ) )  );
