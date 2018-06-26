@@ -597,6 +597,20 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 7.7.1 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_771() {
+		// Check if WPSEO titles is set. If so, lets not touch it.
+
+		// format archives default to 0 if untouched.
+
+
+
+	}
+
+	/**
 	 * Removes all sitemap validators.
 	 *
 	 * This should be executed on every upgrade routine until we have removed the sitemap caching in the database.
