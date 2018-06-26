@@ -60,9 +60,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public static function translate_meta_boxes() {
 		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet editor', 'wordpress-seo' );
-		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %1$sLearn more about the Snippet Preview%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/snippet-preview' ) . '">', '</a>' );
-		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
 
 		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Analysis', 'wordpress-seo' );
 		/* translators: 1: link open tag; 2: link close tag. */
@@ -257,9 +254,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function localize_replace_vars_script() {
 		return array(
-			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
-			'replace_vars'   => $this->get_replace_vars(),
-			'scope'          => $this->determine_scope(),
+			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'             => $this->get_replace_vars(),
+			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+			'scope'                    => $this->determine_scope(),
 		);
 	}
 
@@ -985,11 +983,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'sitedesc',
 			'sep',
 			'page',
-			'currenttime',
-			'currentdate',
-			'currentday',
-			'currentmonth',
-			'currentyear',
 		);
 
 		foreach ( $vars_to_cache as $var ) {
@@ -998,6 +991,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		// Merge custom replace variables with the WordPress ones.
 		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $post ) );
+	}
+
+	/**
+	 * Prepares the recommended replace vars for localization.
+	 *
+	 * @return array Recommended replacement variables.
+	 */
+	private function get_recommended_replace_vars() {
+	    $recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$post                     = $this->get_metabox_post();
+
+		// What is recommended depends on the current context.
+		$post_type = $recommended_replace_vars->determine_for_post( $post );
+
+		return $recommended_replace_vars->get_recommended_replacevars_for( $post_type );
 	}
 
 	/**

@@ -87,8 +87,8 @@ $yform->index_switch(
 	$author_archives_no_posts_help->get_button_html() . $author_archives_no_posts_help->get_panel_html()
 );
 
-$yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
-$yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
+$editor = new WPSEO_Replacevar_Editor( $yform, 'title-author-wpseo', 'metadesc-author-wpseo', 'author_archive' );
+$editor->render();
 echo '</div>';
 echo '</div>';
 
@@ -119,8 +119,8 @@ $yform->index_switch(
 	$date_archives_help->get_button_html() . $date_archives_help->get_panel_html()
 );
 
-$yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
-$yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
+$editor = new WPSEO_Replacevar_Editor( $yform, 'title-archive-wpseo', 'metadesc-archive-wpseo', 'date_archive' );
+$editor->render();
 echo '</div>';
 echo '</div>';
 
@@ -139,10 +139,9 @@ echo '<div class="tab-block" id="special-pages-titles-metas">';
 echo '<h2 class="help-button-inline">' . esc_html__( 'Special Pages', 'wordpress-seo' ) . $spcia_pages_help->get_button_html() . '</h2>';
 echo $spcia_pages_help->get_panel_html();
 
-echo '<p><strong>' . esc_html__( 'Search pages', 'wordpress-seo' ) . '</strong><br/>';
-$yform->textinput( 'title-search-wpseo', __( 'Title template', 'wordpress-seo' ), 'template search-template' );
-echo '</p>';
-echo '<p><strong>' . esc_html__( '404 pages', 'wordpress-seo' ) . '</strong><br/>';
-$yform->textinput( 'title-404-wpseo', __( 'Title template', 'wordpress-seo' ), 'template error404-template' );
-echo '</p>';
+$editor = new WPSEO_Replacevar_Field( $yform, 'title-search-wpseo', __( 'Search pages', 'wordpress-seo' ), 'search' );
+$editor->render();
+echo '<br/>';
+$editor = new WPSEO_Replacevar_Field( $yform, 'title-404-wpseo', __( '404 pages', 'wordpress-seo' ), '404' );
+$editor->render();
 echo '</div>';

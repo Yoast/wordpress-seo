@@ -1,3 +1,15 @@
+### 7.7.0: June 26th, 2018
+Bugfixes:
+* Fixes a bug where non-public posts were given as a link suggestion.
+* Fixes a bug where a redirect would redirect to the currently requested URL.
+* Fixes a bug where the fallback for the Facebook title in the social preview was not showing the correct title.
+* Fixes a bug where Yoast product advertisements were shown in the Help Center video tab.
+* Fixes a bug where the analysis would only show results for the main keyword when multiple keywords are used.
+* Fixes a bug where the analysis results were being hidden while they were being calculated.
+
+Other:
+* Includes every change in Yoast SEO core 7.7.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.6.1: June 7th, 2018
 * Includes every change in Yoast SEO core 7.6.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 

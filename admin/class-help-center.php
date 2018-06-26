@@ -104,20 +104,23 @@ class WPSEO_Help_Center {
 
 		$formatted_data['translations'] = self::get_translated_texts();
 
-		$formatted_data['videoDescriptions'] = array(
-			array(
+		$formatted_data['videoDescriptions'] = array();
+
+		if ( $is_premium === false ) {
+			$formatted_data['videoDescriptions'][] = array(
 				'title'       => __( 'Need some help?', 'wordpress-seo' ),
 				'description' => __( 'Go Premium and our experts will be there for you to answer any questions you might have about the setup and use of the plugin.', 'wordpress-seo' ),
 				'link'        => WPSEO_Shortlinker::get( 'https://yoa.st/seo-premium-vt' ),
 				'linkText'    => __( 'Get Yoast SEO Premium now »', 'wordpress-seo' ),
-			),
-			array(
+			);
+
+			$formatted_data['videoDescriptions'][] = array(
 				'title'       => __( 'Want to be a Yoast SEO Expert?', 'wordpress-seo' ),
 				'description' => __( 'Follow our Yoast SEO for WordPress training and become a certified Yoast SEO Expert!', 'wordpress-seo' ),
 				'link'        => WPSEO_Shortlinker::get( 'https://yoa.st/wordpress-training-vt' ),
 				'linkText'    => __( 'Enroll in the Yoast SEO for WordPress training »', 'wordpress-seo' ),
-			),
-		);
+			);
+		}
 
 		$formatted_data['contactSupportParagraphs'] = array(
 			array(

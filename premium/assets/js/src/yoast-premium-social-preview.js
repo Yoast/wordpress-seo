@@ -200,8 +200,9 @@ var socialPreviews = require( "yoast-social-previews" );
 	}
 
 	/**
-	 * Gets the meta description from the snippet editor
-	 * @returns {void}
+	 * Gets the meta description from the snippet editor.
+     *
+	 * @returns {string} The meta description.
 	 */
 	function getMetaDescription() {
 		return $( "#yoast_wpseo_metadesc" ).val();
@@ -222,6 +223,30 @@ var socialPreviews = require( "yoast-social-previews" );
 		return description;
 	}
 
+    /**
+     * Gets the title from the snippet editor.
+     *
+     * @returns {string} The title.
+     */
+    function getTitle() {
+        return $( "#yoast_wpseo_title" ).val();
+    }
+
+    /**
+     * Returns the placeholder for the title field.
+     *
+     * @returns {string} The placeholder for the title.
+     */
+    function getSocialTitlePlaceholder() {
+        var title = getTitle();
+
+        if ( "" === title ) {
+            title = getTitlePlaceholder();
+        }
+
+        return title;
+    }
+
 	/**
 	 * Returns the arguments for the social preview prototypes.
 	 *
@@ -236,7 +261,7 @@ var socialPreviews = require( "yoast-social-previews" );
 	 * } } The arguments for the social preview.
 	 */
 	function getSocialPreviewArgs( targetElement, fieldPrefix ) {
-		var titlePlaceholder = getTitlePlaceholder();
+		var titlePlaceholder = getSocialTitlePlaceholder();
 		var descriptionPlaceholder = getSocialDescriptionPlaceholder();
 
 		var args = {
@@ -280,7 +305,12 @@ var socialPreviews = require( "yoast-social-previews" );
 							}
 						}
 					}
-					return YoastSEO.wp.replaceVarsPlugin.replaceVariables( title );
+
+					if ( ! isUndefined( title ) ) {
+						return YoastSEO.wp.replaceVarsPlugin.replaceVariables( title );
+					}
+
+					return "";
 				},
 				modifyDescription: function( description ) {
 					if ( fieldPrefix.indexOf( "twitter" ) > -1 ) {
@@ -299,7 +329,7 @@ var socialPreviews = require( "yoast-social-previews" );
 				},
 			},
 			placeholder: {
-				title: titlePlaceholder,
+				title: "",
 			},
 			defaultValue: {
 				title: titlePlaceholder,
@@ -307,7 +337,7 @@ var socialPreviews = require( "yoast-social-previews" );
 		};
 
 		if ( "" !== descriptionPlaceholder ) {
-			args.placeholder.description = descriptionPlaceholder;
+			args.placeholder.description = "";
 			args.defaultValue.description = descriptionPlaceholder;
 		}
 
@@ -434,6 +464,7 @@ var socialPreviews = require( "yoast-social-previews" );
 	function twitterTitleFallback( twitterPreview ) {
 		var $twitterTitle = $( "#twitter-editor-title" );
 		var twitterTitle = $twitterTitle.val();
+
 		if( twitterTitle !== "" ) {
 			return;
 		}
@@ -441,9 +472,17 @@ var socialPreviews = require( "yoast-social-previews" );
 		var facebookTitle = $( "#facebook-editor-title" ).val();
 		if ( ! isUndefined( facebookTitle ) && facebookTitle !== "" ) {
 			twitterPreview.setTitle( facebookTitle );
-		} else {
-			twitterPreview.setTitle( $twitterTitle.attr( "placeholder" ) );
+
+			return;
 		}
+
+		twitterTitle = getSocialTitlePlaceholder();
+		if( twitterTitle !== "" ) {
+			twitterPreview.setTitle( twitterTitle );
+			return;
+		}
+
+		twitterPreview.setTitle( "" );
 	}
 
 	/**

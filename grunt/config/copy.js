@@ -27,7 +27,20 @@ module.exports = {
 					return dest + src.replace( "wordpress-seo", "yoast-components" );
 				},
 			},
+			{
+				expand: true,
+				cwd: "languages/",
+				src: [ "wordpress-seo-*.json" ],
+				dest: "languages/",
+				rename: ( dest, src ) => {
+					return dest + src.replace( "wordpress-seo", "wordpress-seojs" );
+				},
+			},
 		],
+	},
+	"makepot-wordpress-seo": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.wordpressSeoJs %>",
 	},
 	artifact: {
 		files: [

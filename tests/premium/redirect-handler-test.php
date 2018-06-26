@@ -909,7 +909,38 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		 *
 		 * @var WPSEO_Redirect_Handler_Double $redirect_handler
 		 */
+
 		$this->assertEquals( $expected, $redirect_handler->strip_subdirectory( $url ), $message );
+	}
+
+	/**
+	 * Checks if the request uri based on home_url is equal to the home url based target.
+	 *
+	 * @covers WPSEO_Redirect_Handler::do_redirect()
+	 */
+	public function test_redirect() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'get_request_uri', 'redirect', 'add_redirect_by_header' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'get_request_uri' )
+			->will( $this->returnValue( 'redirect/loop' ) );
+
+		$redirect_handler
+			->expects( $this->never() )
+			->method( 'redirect' );
+
+		/**
+		 * Represents the WPSEO_Redirect_Handler_Double class.
+		 *
+		 * @var WPSEO_Redirect_Handler_Double $redirect_handler
+		 */
+		$redirect_handler->load();
+		$redirect_handler->do_redirect( 'redirect/loop', '301' );
+
 	}
 
 	/* ********************* Data Providers ********************* */
