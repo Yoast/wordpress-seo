@@ -162,26 +162,21 @@ window.wpseoCreateRedirect = redirectFunctions.wpseoCreateRedirect;
 ( jQuery( function() {
 	var wpseoCurrentPage = wpseoGetCurrentPage();
 
-	switch ( wpseoCurrentPage ) {
+	if ( [ "edit.php", "edit-tags.php" ].includes( wpseoCurrentPage ) ) {
+		jQuery( "#inline-edit input" ).on( "keydown", function( ev ) {
+			wpseoHandleKeyEvents( ev );
+		} );
 
-		// Terms list screen.
-		case "edit-tags.php":
-			jQuery( document ).on( "ajaxComplete", function( e, xhr, settings ) {
-				if ( settings.data.indexOf( "action=delete-tag" ) > -1 ) {
-					wpseoShowNotification();
-				}
-			} );
+		jQuery( ".button-primary" ).click( function( ev ) {
+			wpseoHandleButtonEvents( ev );
+		} );
+	}
 
-		// Posts list screen.
-		case "edit.php":
-			jQuery( "#inline-edit input" ).on( "keydown", function( ev ) {
-				wpseoHandleKeyEvents( ev );
-			} );
-
-			jQuery( ".button-primary" ).click( function( ev ) {
-				wpseoHandleButtonEvents( ev );
-			} );
-
-			break;
+	if ( wpseoCurrentPage === "edit-tags.php" ) {
+		jQuery( document ).on( "ajaxComplete", function( e, xhr, settings ) {
+			if ( settings.data.indexOf( "action=delete-tag" ) > -1 ) {
+				wpseoShowNotification();
+			}
+		} );
 	}
 } ) );
