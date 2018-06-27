@@ -8,6 +8,8 @@ var isString = require( "lodash/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
 var isEmpty = require( "lodash/isEmpty" );
+var isFunction = require( "lodash/isFunction" );
+var merge = require( "lodash/merge" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
 var throttle = require( "lodash/throttle" );
@@ -473,6 +475,16 @@ App.prototype.constructI18n = function( translations ) {
 App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
 
+	/*
+	 * The function getPremiumData gets initialized only in premium.
+	 * This is so the premium specific data gets combined with the data from free.
+	 */
+	if ( isFunction( this.callbacks.getPremiumData ) ) {
+		const rawPremiumData = this.callbacks.getPremiumData();
+
+		this.rawData = merge( this.rawData, rawPremiumData );
+	}
+
 	if ( this.hasSnippetPreview() ) {
 		// Gets the data FOR the analyzer
 		var data = this.snippetPreview.getAnalyzerData();
@@ -650,6 +662,7 @@ App.prototype.runAnalyzer = function() {
 	// Create a paper object for the Researcher
 	this.paper = new Paper( text, {
 		keyword: this.analyzerData.keyword,
+		synonyms: this.analyzerData.synonyms,
 		description: this.analyzerData.meta,
 		url: this.analyzerData.url,
 		title: this.analyzerData.metaTitle,
