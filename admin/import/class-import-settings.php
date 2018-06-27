@@ -109,8 +109,8 @@ class WPSEO_Import_Settings {
 				self_admin_url('admin.php?page=wpseo_tools&tool=import-export'),
 				'wpseo-import'
 			);
-			$creds = request_filesystem_credentials( esc_url_raw( $url ) );
-			WP_Filesystem( $creds );
+			$credentials = request_filesystem_credentials( esc_url_raw( $url ) );
+			WP_Filesystem( $credentials );
 		}
 	}
 
