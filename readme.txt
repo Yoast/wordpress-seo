@@ -111,6 +111,7 @@ Release Date: June 27th, 2018
 
 Bugfixes:
 * Fixes a bug where disabling the post_format archive would result in it actually being enabled and vice versa.
+* Fixes an issue where more all replacement variables were being displayed instead of the recommended ones.
 
 = 7.7.0 =
 Release Date: June 26th, 2018
