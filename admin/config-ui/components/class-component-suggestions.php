@@ -44,9 +44,17 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 		}
 
 		$field->add_suggestion(
-			__( 'Learn all about SEO with our Basic SEO course', 'wordpress-seo' ),
-			/* translators: %1$s resolves to SEO copywriting training */
-			sprintf( __( 'Do you want to learn how you can improve your SEO yourself? In our %1$s you\'ll learn practical SEO skills from keyword research and copywriting to technical SEO and off-page SEO. Using the Yoast SEO plugin is one thing. Doing good SEO day-to-day is another. You simply won\'t get the results you want without putting in work yourself. The %1$s teaches you how.', 'wordpress-seo' ), 'Basic SEO training' ),
+			sprintf(
+				/* translators: %1$s resolves to Basic SEO training */
+				__( 'Learn all about SEO with our %1$s', 'wordpress-seo' ),
+				'Basic SEO training'
+			),
+			sprintf(
+				/* translators: %1$s resolves to Basic SEO training, 2: Yoast SEO */
+				__( 'Do you want to learn how you can improve your SEO yourself? In our %1$s you\'ll learn practical SEO skills from keyword research and copywriting to technical SEO and off-page SEO. Using the %2$s plugin is one thing. Doing good SEO day-to-day is another. You simply won\'t get the results you want without putting in work yourself. The %1$s teaches you how.', 'wordpress-seo' ),
+				'Basic SEO training',
+				'Yoast SEO'
+			),
 			array(
 				'label' => 'Basic SEO training',
 				'type'  => 'link',
