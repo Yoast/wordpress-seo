@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import isFunction from "lodash/isFunction";
 
-import colors from "../../../../style-guide/colors.json";
-
 const SynonymsField = styled.input`
 	margin-right: 0.5em;
 `;
