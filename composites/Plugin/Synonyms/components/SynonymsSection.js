@@ -39,6 +39,7 @@ class SynonymsSection extends React.Component {
 			<Section
 				headingText={ label }
 				headingIcon={ "key" }
+				headingLevel={ 3 }
 			>
 				<SynonymsInput
 					id={ id }

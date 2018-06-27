@@ -10,6 +10,6 @@ export const SET_SYNONYMS = "WPSEO_SET_SYNONYMS";
 export const setSynonyms = function( synonyms ) {
 	return {
 		type: SET_SYNONYMS,
-		tab: synonyms,
+		synonyms,
 	};
 };
