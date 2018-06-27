@@ -86,7 +86,8 @@ module.exports = function( grunt ) {
 				wpcss: "grunt-wp-css",
 				"update-version": "@yoast/grunt-plugin-tasks",
 				"set-version": "@yoast/grunt-plugin-tasks"
-			}
+			},
+			customTasksDir: "grunt/custom",
 		},
 	} );
 };
