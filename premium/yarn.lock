@@ -8710,18 +8710,6 @@ yoast-components@^4.4.0:
     lodash "^3.10.1"
     yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#master"
 
-yoastseo@^1.33.1:
-  version "1.33.1"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.33.1.tgz#da04fd320a933cb7ef3bbe6a91cc5216a33105d2"
-  dependencies:
-    htmlparser2 "^3.9.2"
-    jed "^1.1.0"
-    jest "^23.0.0"
-    lodash "^4.14.1"
-    node-sass "^4.7.2"
-    sassdash "^0.9.0"
-    tokenizer2 "^2.0.0"
-
 yoastseo@^1.34.0:
   version "1.34.0"
   resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.34.0.tgz#d21066142268623e36c1f616c6e739bd2a2a5587"
