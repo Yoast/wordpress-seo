@@ -23,13 +23,11 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		// Taxonomies.
 		'category'                => array( 'term_title', 'term_description', 'category_description' ),
 		'post_tag'                => array( 'term_title', 'term_description', 'tag_description' ),
-
 		// Custom taxonomy.
 		'term-in-custom-taxomomy' => array( 'term_title', 'term_description' ),
 
 		// Settings - archive pages.
 		'custom-post-type_archive' => array(),
-
 		// Settings - special pages.
 		'search'                  => array( 'searchphrase' ),
 	);
@@ -169,7 +167,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		/**
 		 * Filter: Adds the possibility to add extra editor specific replacement variables.
 		 *
-		 * @api array $editor_specific_replace_vars Empty array to add the replace vars to.
+		 * @api array $editor_specific_replace_vars Empty array to add the editor specific replace vars to.
 		 */
 		$editor_specific_replace_vars = apply_filters(
 			'wpseo_editor_specific_replace_vars',
@@ -230,7 +228,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 *
 	 * @return void
 	 */
-	private function apply_custom_fields() {
+	protected function apply_custom_fields() {
 		$custom_fields = WPSEO_Custom_Fields::get_custom_fields();
 		$page_types    = array( 'page', 'post', 'custom_post_type' );
 		foreach ( $page_types as $page_type ) {
@@ -246,7 +244,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 *
 	 * @return void
 	 */
-	private function apply_custom_taxonomies() {
+	protected function apply_custom_taxonomies() {
 		$custom_taxonomies = WPSEO_Custom_Taxonomies::get_custom_taxonomies();
 		$page_types        = array( 'post', 'term-in-custom-taxomomy' );
 		foreach ( $page_types as $page_type ) {
