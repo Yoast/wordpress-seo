@@ -1,13 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
+import styled from "styled-components";
 
-import StyledSection from "../StyledSection/StyledSection";
-import SynonymsInput from "../../composites/Plugin/Shared/components/SynonymsInput";
+import StyledSection from "../../../../forms/StyledSection/StyledSection";
+import SynonymsInput from "./SynonymsInput";
+
+const Section = styled( StyledSection )`
+	display: flex;
+	flex-direction: column;
+`;
 
 class SynonymsSection extends React.Component {
 	/**
-	 * Constructs a SynonymsField component
+	 * Constructs a SynonymsSection component
 	 *
 	 * @param {Object} props          The props for this input field component.
 	 * @param {string} props.id       The id of the SynonymsField.
@@ -21,11 +27,16 @@ class SynonymsSection extends React.Component {
 		super( props );
 	}
 
+	/**
+	 * Renders the SynonymsSection component.
+	 *
+	 * @returns {ReactElement} The rendered SynonymsSection component.
+	 */
 	render() {
 		const { id, label, synonyms, onChange } = this.props;
 
 		return (
-			<StyledSection
+			<Section
 				headingText={ label }
 				headingIcon={ "key" }
 			>
@@ -35,7 +46,7 @@ class SynonymsSection extends React.Component {
 					synonyms={ synonyms }
 					onChange={ onChange }
 				/>
-			</StyledSection>
+			</Section>
 		);
 	}
 }

@@ -58,15 +58,13 @@ class SynonymsInput extends React.Component {
 		const { id, label, synonyms } = this.props;
 
 		return (
-			<React.Fragment>
-				<SynonymsField
-					aria-label={ label }
-					type="text"
-					id={ id }
-					onChange={ this.handleChange }
-					defaultValue={ synonyms }
-				/>
-			</React.Fragment>
+			<SynonymsField
+				aria-label={ label }
+				type="text"
+				id={ id }
+				onChange={ this.handleChange }
+				defaultValue={ synonyms }
+			/>
 		);
 	}
 }

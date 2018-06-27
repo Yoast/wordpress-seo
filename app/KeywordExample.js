@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 // Internal dependencies.
 import KeywordInput from "../composites/Plugin/Shared/components/KeywordInput";
-import SynonymsInput from "../composites/Plugin/Shared/components/SynonymsInput";
+import SynonymsSection from "../composites/Plugin/Synonyms/components/SynonymsSection";
 
 const Container = styled.div`
 	background-color: white;
@@ -28,7 +28,7 @@ export default class KeywordExample extends Component {
 					label={ "Focus keyword"}
 				/>
 
-				<SynonymsInput
+				<SynonymsSection
 					label={ "Keyword synonyms" }
 					onChange={ synonyms => console.log( 'SynonymsField change event', synonyms ) }
 				/>
