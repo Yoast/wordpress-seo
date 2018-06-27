@@ -6,8 +6,7 @@
  * @package WPSEO\Internals
  */
 
-class OpenGraph {
-
+class WPSEO_Twitter_Validator {
 	/**
 	 * @var string
 	 */
@@ -24,7 +23,7 @@ class OpenGraph {
 	private $image;
 
 	/**
-	 * OpenGraph constructor.
+	 * Twitter constructor.
 	 *
 	 * @param string $title 	  The OpenGraph title.
 	 * @param string $description The OpenGraph description.
@@ -53,15 +52,15 @@ class OpenGraph {
 	}
 
 	/**
-	 * Returns an array representation of the OpenGraph object.
+	 * Returns an array representation of the Twitter object.
 	 *
 	 * @return array The object as an array.
 	 */
 	public function to_array() {
 		return array(
-			'opengraph-title' 		 => $this->title,
-			'opengraph-description'  => $this->description,
-			'opengraph-image' 		 => $this->image,
+			'twitter-title' 	  => $this->title,
+			'twitter-description' => $this->description,
+			'twitter-image' 	  => $this->image,
 		);
 	}
 }

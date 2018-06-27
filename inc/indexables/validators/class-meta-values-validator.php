@@ -5,7 +5,7 @@
  *
  * @package WPSEO\Internals
  */
-class Meta_Values {
+class WPSEO_Meta_Values_Validator {
 
 	/**
 	 * @var string

@@ -5,7 +5,7 @@
  *
  * @package WPSEO\Internals
  */
-class WPSEO_Keyword {
+class WPSEO_Keyword_Validator {
 
 	/**
 	 * @var string

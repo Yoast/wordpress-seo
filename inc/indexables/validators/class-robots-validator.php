@@ -6,7 +6,7 @@
  * @package WPSEO\Internals
  */
 
-class Robots {
+class WPSEO_Robots_Validator {
 
 	/**
 	 * @var bool

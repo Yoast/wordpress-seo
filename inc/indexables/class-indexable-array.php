@@ -14,10 +14,10 @@ class WPSEO_Indexable {
 	private $data;
 
 	private static $validators = array(
+		'WPSEO_Object_Type_Validator',
 		'WPSEO_Link_Validator',
 		'WPSEO_Keyword_Validator',
 		'WPSEO_Meta_Values_Validator',
-		'WPSEO_Object_Type_Validator',
 		'WPSEO_OpenGraph_Validator',
 		'WPSEO_Robots_Validator',
 		'WPSEO_Twitter_Validator',

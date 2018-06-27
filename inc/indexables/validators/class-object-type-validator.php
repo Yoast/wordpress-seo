@@ -5,7 +5,7 @@
  *
  * @package WPSEO\Internals
  */
-class Object_Type {
+class WPSEO_Object_Type_Validator {
 
 	/**
 	 * @var string
