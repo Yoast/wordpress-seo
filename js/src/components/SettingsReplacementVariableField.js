@@ -15,7 +15,7 @@ const SnippetEditorWidthContainer = styled.div`
 	max-width: 640px;
 `;
 
-class SettingsTitleReplacementVariableEditor extends React.Component {
+class SettingsReplacementVariableField extends React.Component {
 	constructor( props ) {
 		super( props );
 
@@ -37,12 +37,14 @@ class SettingsTitleReplacementVariableEditor extends React.Component {
 			replacementVariables,
 			recommendedReplacementVariables,
 			field,
+			fieldId,
 		} = this.props;
 
 		return (
 			<SnippetEditorWidthContainer>
 				<ReplaceVarEditor
 					label={ label }
+					fieldId={ fieldId + "-snippet-editor" }
 					isActive={ this.state.isActive }
 					isHowvered={ this.state.isHovered }
 					content={ field.value }
@@ -59,10 +61,11 @@ class SettingsTitleReplacementVariableEditor extends React.Component {
 	}
 }
 
-SettingsTitleReplacementVariableEditor.propTypes = {
+SettingsReplacementVariableField.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	label: PropTypes.string.isRequired,
+	fieldId: PropTypes.string.isRequired,
 	field: linkFieldsShape,
 };
 
@@ -73,4 +76,4 @@ export default linkHiddenFields( props => {
 			fieldId: props.fieldId,
 		},
 	];
-} )( SettingsTitleReplacementVariableEditor );
+} )( SettingsReplacementVariableField );
