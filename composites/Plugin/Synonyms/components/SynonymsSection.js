@@ -2,9 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import styled from "styled-components";
+import { __ } from "@wordpress/i18n";
 
 import StyledSection from "../../../../forms/StyledSection/StyledSection";
 import SynonymsInput from "./SynonymsInput";
+import HelpText from "../../Shared/components/HelpText";
+import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
+
+const HelpTextLink = makeOutboundLink();
 
 const Section = styled( StyledSection )`
 	display: flex;
@@ -35,12 +40,22 @@ class SynonymsSection extends React.Component {
 	render() {
 		const { id, label, synonyms, onChange } = this.props;
 
+		const helpText = [
+			__( "Enter synonyms for your focus keyword. Separate individual synonyms with commas. ", "yoast-components" ),
+			<HelpTextLink key="1" href="https://yoa.st/kd1">
+				{ __( "Learn more about keyword synonyms.", "yoast-components" ) }
+			</HelpTextLink>,
+		];
+
 		return (
 			<Section
 				headingText={ label }
 				headingIcon={ "key" }
 				headingLevel={ 3 }
 			>
+				<HelpText
+					text={ helpText }
+				/>
 				<SynonymsInput
 					id={ id }
 					label={ label }
