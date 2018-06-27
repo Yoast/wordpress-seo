@@ -448,9 +448,10 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 */
 	public static function get_meta_without_term( $meta ) {
 		$term = $GLOBALS['wp_query']->get_queried_object();
-
-		return self::get_term_meta( $term, $term->taxonomy, $meta );
-
+		if ( $term && isset( $term->taxonomy ) ) {
+			return self::get_term_meta( $term, $term->taxonomy, $meta );
+		}
+		return false;
 	}
 
 	/**
