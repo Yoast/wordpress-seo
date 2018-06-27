@@ -106,6 +106,12 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.7.1 =
+Release Date: June 27th, 2018
+
+Bugfixes:
+* Fixes a bug where disabling the post_format archive would result in it actually being enabled and vice versa.
+
 = 7.7.0 =
 Release Date: June 26th, 2018
 
