@@ -76,7 +76,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 				);
 			}
 
-			echo '<h3>' . __( 'Archives', 'wordpress-seo' ) . '</h3>';
+			echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
 			echo '<p>' . $description . '</p>';
 			echo '</div>';
 			echo '</div>';
