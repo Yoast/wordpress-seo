@@ -323,6 +323,7 @@ class WPSEO_Taxonomy {
 			'category_description',
 			'tag_description',
 			'searchphrase',
+			'currentyear',
 		);
 
 		foreach ( $vars_to_cache as $var ) {
