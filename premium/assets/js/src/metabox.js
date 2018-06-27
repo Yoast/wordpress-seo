@@ -5,6 +5,7 @@ import ProminentWordNoStorage from "./keywordSuggestions/ProminentWordNoStorage"
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
 import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
+import Synonyms from "./metabox/synonyms";
 
 let settings = wpseoPremiumMetaboxData.data;
 
@@ -53,6 +54,9 @@ let linkSuggestionsIsSupported = function() {
 function initializeMetabox() {
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
+
+	const synonyms = new Synonyms();
+	synonyms.initDOM();
 
 	if ( insightsEnabled() || linkSuggestionsEnabled() ) {
 		initializeKeywordSuggestionsMetabox();
