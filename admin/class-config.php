@@ -144,7 +144,7 @@ class WPSEO_Admin_Pages {
 		);
 	}
 
-	/**ß
+	/**
 	 * Enqueues and handles all the tool dependencies.
 	 */
 	private function enqueue_tools_scripts() {
