@@ -63,6 +63,27 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 
 		$view_utils->show_post_type_settings( $post_type );
 
+		if ( WPSEO_Utils::is_woocommerce_active() && $post_type->name === 'product' ) {
+			$woocommerce_shop_page = wc_get_page_id( 'shop' );
+			$description = __( 'You haven\'t set a Shop page in your WooCommerce settings. Please do this first.', 'wordpress-seo' );
+
+			if ( $woocommerce_shop_page !== -1 ) {
+				$description = sprintf(
+				/* translators: %1$s expands to an opening anchor tag, %2$s expands to a closing anchor tag. */
+				__( 'You can edit the SEO meta-data for this custom type on the %1$sShop page%2$s.', 'wordpress-seo' ),
+					'<a href="' . get_edit_post_link( wc_get_page_id( 'shop' ) ) . '">',
+					'</a>'
+				);
+			}
+
+			echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
+			echo '<p>' . $description . '</p>';
+			echo '</div>';
+			echo '</div>';
+
+			continue;
+		}
+
 		if ( $post_type->has_archive === true ) {
 			// translators: %s is the plural version of the post type's name.
 			echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
