@@ -52,6 +52,7 @@ class SynonymsSection extends React.Component {
 				headingText={ label }
 				headingIcon={ "key" }
 				headingLevel={ 3 }
+				className={ "yoast-section" }
 			>
 				<HelpText
 					text={ helpText }
