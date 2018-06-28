@@ -83,31 +83,6 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 	`;
 }
 
-/**
- * Adds caret styles to a component.
- *
- * @param {ReactComponent} WithoutCaret The component without caret styles.
- * @param {string} color The color to render the caret in.
- * @param {string} mode The mode the snippet preview is in.
- *
- * @returns {ReactComponent} The component with caret styles.
- */
-function addCaretStyleRTL( WithoutCaret, color, mode ) {
-	return styled( WithoutCaret )`
-		&::before {
-			display: block;
-			position: absolute;
-			top: -3px;
-			right: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
-			width: 24px;
-			height: 24px;
-			background-image: url( ${ () => angleLeft( color ) } );
-			background-size: 25px;
-			content: "";
-		}
-	`;
-}
-
 export const Title = styled.div`
 	color: ${ colorTitle };
 	text-decoration: none;
