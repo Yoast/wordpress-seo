@@ -198,7 +198,7 @@ class TopicDensityAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the assessment is applicable.
 	 */
 	isApplicable( paper ) {
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100 && paper.getKeyword().indexOf( "," ) > 0;
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100 && paper.hasSynonyms();
 	}
 }
 

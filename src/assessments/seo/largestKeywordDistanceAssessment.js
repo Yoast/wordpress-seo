@@ -46,7 +46,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		this._largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
 
-		this._hasSynonyms = this.hasSynonyms( paper );
+		this._hasSynonyms = paper.hasSynonyms();
 
 		let assessmentResult = new AssessmentResult();
 
@@ -121,18 +121,6 @@ class largestKeywordDistanceAssessment extends Assessment {
 		return topicCount( paper ).markings;
 	}
 
-	/**
-	 * Checks if the paper has synonyms to apply different criteria to the assessment and to isApplicable depending on
-	 * whether synonyms are supplied.
-	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 *
-	 * @returns {boolean} Whether the paper has synonyms or not
-	 */
-	hasSynonyms( paper ) {
-		// todo: this function can be deprecated as soon as the Synonym interface is ready
-		return paper.getKeyword().indexOf( "," ) > 0;
-	}
 
 	/**
 	 * Checks whether the paper has a text with at least 200 words, a keyword, and whether
