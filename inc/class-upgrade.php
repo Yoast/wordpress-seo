@@ -741,5 +741,19 @@ class WPSEO_Upgrade {
 
 			WPSEO_Options::set( 'bctitle-ptarchive-product', '' );
 		}
+
+		$noindex = WPSEO_Meta::get_value( 'meta-robots-noindex', $shop_page_id );
+
+		if ( $noindex === '0' ) {
+			$option_noindex = WPSEO_Options::get( 'noindex-ptarchive-product' );
+
+			WPSEO_Meta::set_value(
+				'meta-robots-noindex',
+				$option_noindex,
+				$shop_page_id
+			);
+
+			WPSEO_Options::set( 'noindex-ptarchive-product', false );
+		}
 	}
 }
