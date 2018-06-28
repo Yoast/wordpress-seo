@@ -29,6 +29,8 @@ class Synonyms {
 		this.setSynonyms = this.setSynonyms.bind( this );
 		this.debouncedSetSynonyms = debounce( this.setSynonyms, 200 );
 		this.handleStoreChange = this.handleStoreChange.bind( this );
+
+		this.hiddenInput = $( "#yoast_wpseo_keywordsynonyms" );
 	}
 
 	/**
@@ -66,6 +68,30 @@ class Synonyms {
 	}
 
 	/**
+	 * Gets the active keyword from the store.
+	 *
+	 * @returns {string} The active keyword.
+	 */
+	getActiveKeyword() {
+		return YoastSEO.store.getState().activeKeyword;
+	}
+
+	/**
+	 * Updates the current keyword synonyms in the hidden input.
+	 *
+	 * @param {string} synonyms The current synonyms.
+	 *
+	 * @returns {void}
+	 */
+	updateHiddenField( synonyms ) {
+		const keyword = this.getActiveKeyword();
+		const allSynonyms = JSON.parse( this.hiddenInput.val() );
+
+		allSynonyms[ keyword ] = synonyms;
+		this.hiddenInput.val( JSON.stringify( allSynonyms ) );
+	}
+
+	/**
 	 * Sets the synonyms in the store.
 	 *
 	 * @param {string} synonyms The synonyms to set.
@@ -82,6 +108,7 @@ class Synonyms {
 
 		if ( previousState.synonyms !== currentState.synonyms ) {
 			this._currentState = currentState;
+			this.updateHiddenField( this._currentState.synonyms );
 			this.refreshApp();
 		}
 	}
