@@ -6,6 +6,7 @@ import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
 import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 import Synonyms from "./metabox/synonyms";
+import { setYoastComponentsL10n } from "../../../../js/src/helpers/i18n";
 
 let settings = wpseoPremiumMetaboxData.data;
 
@@ -19,6 +20,8 @@ let focusKeywordSuggestions;
 let linkSuggestions;
 
 let cornerstoneElementID = "yst_is_cornerstone";
+
+setYoastComponentsL10n();
 
 /**
  * Determines whether or not Insights is enabled.
