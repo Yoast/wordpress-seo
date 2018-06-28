@@ -47,19 +47,36 @@ describe( "Test for counting the keyword and synonyms in a text", function() {
 	} );
 
 	it( "returns topic count if both keyword and synonyms are supplied", function() {
-		let mockPaper = new Paper( "Site and website are essentially the same.", { keyword: "site, website" } );
+		let mockPaper = new Paper( "Site and website are essentially the same.", { keyword: "site", synonyms: "website" } );
 		expect( topicCount( mockPaper ).count ).toBe( 2 );
-		mockPaper = new Paper( "Site and website are essentially the same.", { keyword: "website, site" } );
+		mockPaper = new Paper( "Site and website are essentially the same.", { keyword: "website", synonyms: "site" } );
 		expect( topicCount( mockPaper ).count ).toBe( 2 );
-		mockPaper = new Paper( "Site and website are essentially the same.", { keyword: "keyword, anotherKeyword" } );
+		mockPaper = new Paper( "Site and website are essentially the same.", { keyword: "keyword", synonyms: "anotherKeyword" } );
 		expect( topicCount( mockPaper ).count ).toBe( 0 );
-		mockPaper = new Paper( "Blog is a website", { keyword: "website, site" } );
+		mockPaper = new Paper( "Blog is a website", { keyword: "website", synonyms: "site" } );
 		expect( topicCount( mockPaper ).count ).toBe( 1 );
-		mockPaper = new Paper( "Waltz keepin auf mitz auf keepin äöüß weiner blitz deutsch spitzen. ", { keyword: "äöüß, spitzen" } );
+		mockPaper = new Paper( "Waltz keepin auf mitz auf keepin äöüß weiner blitz deutsch spitzen. ", { keyword: "äöüß", synonyms: "spitzen" } );
 		expect( topicCount( mockPaper ).count ).toBe( 2 );
-		mockPaper = new Paper( "Another way to write key word is key-word or keyword.", { keyword: "key word, key-word, keyword" } );
+		mockPaper = new Paper( "Another way to write key word is key-word or keyword.", { keyword: "key word", synonyms: "key-word, keyword" } );
 		expect( topicCount( mockPaper  ).count ).toBe( 3 );
-		mockPaper = new Paper( "a string of text with the kapaklı in it.", { keyword: "kapaklı" } );
+		mockPaper = new Paper( "a string of text with the kapaklı in it.", { keyword: "kapaklı", synonyms: "kapaklı" } );
 		expect( topicCount( mockPaper ).count ).toBe( 1 );
+
+		mockPaper = new Paper( "a string with a keyword, a synonym 1, another synonym 2, a synonym 3 and another synonym 3.",
+			{ keyword: "keyword", synonyms: "synonym 1, synonym 2, synonym 3" } );
+		expect( topicCount( mockPaper ).count ).toBe( 5 );
+
+		mockPaper = new Paper( "a string with a keyword, a synonym 1, another synonym-2, a synonym3 and another synonym 3.",
+			{ keyword: "keyword", synonyms: "Synonym 1, synonym-2, synonym3" } );
+		expect( topicCount( mockPaper ).count ).toBe( 4 );
+
+		mockPaper = new Paper( "a string with a keyword, a synonym 1, another synonym-2, a synonym3 and another synonym 3.",
+			{ keyword: "keyword", synonyms: "" } );
+		expect( topicCount( mockPaper ).count ).toBe( 1 );
+
+		mockPaper = new Paper( "a string with a keyword, a synonym 1, another synonym-2, a synonym3 and another synonym 3.",
+			{ keyword: "", synonyms: "" } );
+		expect( topicCount( mockPaper ).count ).toBe( 0 );
+
 	} );
 } );

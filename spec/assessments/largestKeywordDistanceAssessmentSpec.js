@@ -34,8 +34,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 
 describe( "An assessment to check the largest percentage of text in which no keyword or synonyms occurred", function() {
 	it( "returns a bad score when the largest keyword distance is more than 40%", function() {
-		// todo: change keyword definition
-		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword, synonym" } );
+		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword", synonyms: "synonym" } );
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 45 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
@@ -43,8 +42,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 	} );
 
 	it( "returns an okay score when the largest keyword distance is between 30 and 40%", function() {
-		// todo: change keyword definition
-		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword, synonym, synonyms" } );
+		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword", synonyms: "synonym, synonyms" } );
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 35 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -52,8 +50,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 	} );
 
 	it( "returns an good score when the largest keyword distance is less than 30%", function() {
-		// todo: change keyword definition
-		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword, synonym" } );
+		let mockPaper = new Paper( "string with the keyword", { keyword: "keyword", synonyms: "synonym" } );
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -130,8 +127,7 @@ describe( "A test for marking keywords in the text", function() {
 		const text = "a ".repeat( 200 );
 		const keyword = "keyword";
 		const synonym = "synonym";
-		// todo: change keyword definition
-		let mockPaper = new Paper( "".concat( keyword, " ", text, " ", keyword, " ", text, " ", synonym ), { keyword: keyword.concat( ", ", synonym ) } );
+		let mockPaper = new Paper( "".concat( keyword, " ", text, " ", keyword, " ", text, " ", synonym ), { keyword: keyword, synonyms: synonym } );
 
 		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true );
 
@@ -150,9 +146,8 @@ describe( "A test for marking keywords in the text", function() {
 		const text = "a ".repeat( 200 );
 		const keyword = "keyword";
 		const synonym = "synonym";
-		// todo: change keyword definition
 		let mockPaper = new Paper( "".concat( keyword, "! >", text, "? >", keyword, "> ", text, ") ", synonym ),
-			{ keyword: keyword.concat( ", ", synonym ) } );
+			{ keyword: keyword, synonyms: synonym } );
 
 		expect( keywordDistanceAssessment.isApplicable( mockPaper ) ).toBe( true );
 
