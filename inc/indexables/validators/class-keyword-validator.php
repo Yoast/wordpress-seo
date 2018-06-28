@@ -5,49 +5,22 @@
  *
  * @package WPSEO\Internals
  */
-class WPSEO_Keyword_Validator {
+class WPSEO_Keyword_Validator implements WPSEO_Endpoint_Validator {
 
 	/**
-	 * @var string
-	 */
-	private $keyword;
-
-	/**
-	 * @var int
-	 */
-	private $score;
-
-	/**
-	 * Object Type constructor.
+	 * Validates the keyword-related data.
 	 *
-	 * @param string $keyword The keyword.
-	 * @param int 	 $score   The keyword score.
+	 * @param array $request_data The request data to validate.
 	 *
 	 * @throws Exception
 	 */
-	public function __construct( $keyword, $score ) {
-		if ( ! empty( $keyword ) && ! WPSEO_Validator::is_string( $keyword ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $keyword, 'keyword' );
+	public static function validate( $request_data ) {
+		if ( WPSEO_Validator::key_exists( $request_data, 'keyword' ) && ! WPSEO_Validator::is_string( $request_data['keyword'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $request_data['keyword'], 'keyword' );
 		}
 
-		$this->keyword = $keyword;
-
-		if ( ! empty( $score ) && ! WPSEO_Validator::is_integer( $score ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_integer_parameter( $score, 'score' );
+		if ( WPSEO_Validator::key_exists( $request_data, 'score' ) && ! WPSEO_Validator::is_integer( $request_data['score'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_integer_parameter( $request_data['score'], 'score' );
 		}
-
-		$this->score = $score;
-	}
-
-	/**
-	 * Returns an array representation of the ObjectType object.
-	 *
-	 * @return array The object as an array.
-	 */
-	public function to_array() {
-		return array(
-			'focuskw' => $this->keyword,
-			'linkdex' => $this->score,
-		);
 	}
 }

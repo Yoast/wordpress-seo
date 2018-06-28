@@ -5,7 +5,7 @@
  *
  * @package WPSEO\Internals
  */
-class WPSEO_Object_Type_Validator {
+class WPSEO_Object_Type_Validator implements WPSEO_Endpoint_Validator {
 
 	/**
 	 * @var string
@@ -70,5 +70,20 @@ class WPSEO_Object_Type_Validator {
 			'object_type'	 => $this->type,
 			'object_subtype' => $this->subtype,
 		);
+	}
+
+	/**
+	 * Validates the passed request data.
+	 *
+	 * @param array $request_data The request data to validate.
+	 *
+	 * @return void
+	 */
+	public static function validate( $request_data ) {
+		// TODO: Implement validate() method.
+
+		if ( WPSEO_Validator::key_exists( $request_data, 'object_type' ) &&  ) {
+
+		}
 	}
 }

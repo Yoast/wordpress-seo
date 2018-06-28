@@ -5,112 +5,42 @@
  *
  * @package WPSEO\Internals
  */
-class WPSEO_Meta_Values_Validator {
+class WPSEO_Meta_Values_Validator implements WPSEO_Endpoint_Validator {
 
 	/**
-	 * @var string
-	 */
-	private $title;
-
-	/**
-	 * @var string
-	 */
-	private $description;
-
-	/**
-	 * @var string
-	 */
-	private $permalink;
-
-	/**
-	 * @var int
-	 */
-	private $readability_score;
-
-	/**
-	 * @var bool
-	 */
-	private $is_cornerstone;
-
-	/**
-	 * @var string
-	 */
-	private $canonical;
-
-	/**
-	 * @var string
-	 */
-	private $breadcrumb_title;
-
-	/**
-	 * Meta Values constructor.
+	 * Validates the passed request data.
 	 *
-	 * @param string $title             The title.
-	 * @param string $description       The description.
-	 * @param string $permalink			The permalink.
-	 * @param int 	 $readability_score	The readability score.
-	 * @param string $canonical		    The canonical URL.
-	 * @param bool 	 $is_cornerstone    Whether or not it's a cornerstone article. Defaults to false.
-	 * @param string $breadcrumb_title  The breadcrumb title.
-	 */
-	public function __construct( $title, $description, $permalink, $readability_score, $is_cornerstone = false, $canonical = null, $breadcrumb_title = null ) {
-		if ( ! WPSEO_Validator::is_non_empty_string( $title ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $title, 'title' );
-		}
-
-		$this->title = $title;
-
-		if ( ! empty( $description ) && ! WPSEO_Validator::is_string( $description ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $description, 'description' );
-		}
-
-		$this->description = $description;
-
-		if ( ! empty( $permalink ) && ! WPSEO_Validator::is_string( $permalink ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $permalink, 'permalink' );
-		}
-
-		$this->permalink = $permalink;
-
-		if ( ! empty( $readability_score ) && ! WPSEO_Validator::is_integer( $readability_score ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_integer_parameter( $readability_score, 'readability_score' );
-		}
-
-		$this->readability_score = $readability_score;
-
-		if ( ! empty( $is_cornerstone ) && ! WPSEO_Validator::is_boolean( $is_cornerstone ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_boolean_parameter( $is_cornerstone, 'is_cornerstone' );
-		}
-
-		$this->is_cornerstone = $is_cornerstone;
-
-		if ( ! empty( $canonical ) && ! WPSEO_Validator::is_string( $canonical ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $canonical, 'canonical' );
-		}
-
-		$this->canonical = $canonical;
-
-		if ( ! empty( $breadcrumb_title ) && ! WPSEO_Validator::is_string( $breadcrumb_title ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $breadcrumb_title, 'breadcrumb_title' );
-		}
-
-		$this->breadcrumb_title = $breadcrumb_title;
-	}
-
-	/**
-	 * Returns an array representation of the Meta Values object.
+	 * @param array $request_data The request data to validate.
 	 *
-	 * @return array The object as an array.
+	 * @return void
 	 */
-	public function to_array() {
-		return array(
-			'title'	 		   	=> $this->title,
-			'metadesc' 	   		=> $this->description,
-			'permalink' 	   	=> $this->permalink,
-			'readability_score' => $this->readability_score,
-			'is_cornerstone' 	=> $this->is_cornerstone,
-			'canonical' 	   	=> $this->canonical,
-			'breadcrumb_title' 	=> $this->breadcrumb_title,
-		);
+	public static function validate( $request_data ) {
+		if ( WPSEO_Validator::key_exists( $request_data, 'title' ) && ! WPSEO_Validator::is_string( $request_data['title'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $request_data['title'], 'title' );
+		}
+
+		if ( WPSEO_Validator::key_exists( $request_data, 'metadesc' ) && ! WPSEO_Validator::is_string( $request_data['metadesc'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $request_data['metadesc'], 'metadesc' );
+		}
+
+		if ( WPSEO_Validator::key_exists( $request_data, 'permalink' ) && ! WPSEO_Validator::is_string( $request_data['permalink'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $request_data['permalink'], 'permalink' );
+		}
+
+		if ( WPSEO_Validator::key_exists( $request_data, 'readability_score' ) && ! WPSEO_Validator::is_integer( $request_data['readability_score'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_integer_parameter( $request_data['readability_score'], 'readability_score' );
+		}
+
+		if ( WPSEO_Validator::key_exists( $request_data, 'is_cornerstone' ) && ! WPSEO_Validator::is_boolean( $request_data['is_cornerstone'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_boolean_parameter( $request_data['is_cornerstone'], 'is_cornerstone' );
+		}
+
+		if ( WPSEO_Validator::key_exists( $request_data, 'canonical' ) && ! WPSEO_Validator::is_string( $request_data['canonical'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $request_data['canonical'], 'canonical' );
+		}
+
+		if ( WPSEO_Validator::key_exists( $request_data, 'breadcrumb_title' ) && ! WPSEO_Validator::is_string( $request_data['breadcrumb_title'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $request_data['breadcrumb_title'], 'breadcrumb_title' );
+		}
 	}
 }

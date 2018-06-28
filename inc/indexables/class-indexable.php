@@ -6,157 +6,148 @@
  * @package WPSEO\Internals
  */
 
-class Indexable {
+class WPSEO_Indexable {
 
 	/**
-	 * @var int
+	 * @var array
 	 */
-	private $id;
+	private $data;
 
-	/**
-	 * @var Object_Type
-	 */
-	private $type;
-
-	/**
-	 * @var Meta_Values
-	 */
-	private $meta_values;
-
-	/**
-	 * @var OpenGraph
-	 */
-	private $opengraph;
-
-	/**
-	 * @var Twitter
-	 */
-	private $twitter;
-
-	/**
-	 * @var string|null
-	 */
-	private $robots;
-
-	/**
-	 * @var string|null
-	 */
-	private $created_at;
-
-	/**
-	 * @var string|null
-	 */
-	private $updated_at;
-
-	/**
-	 * @var Link
-	 */
-	private $links;
-
-	/**
-	 * @var WPSEO_Keyword
-	 */
-	private $primary_keyword;
+	private static $validators = array(
+		'WPSEO_Object_Type_Validator',
+		'WPSEO_Link_Validator',
+		'WPSEO_Keyword_Validator',
+		'WPSEO_Meta_Values_Validator',
+		'WPSEO_OpenGraph_Validator',
+		'WPSEO_Robots_Validator',
+		'WPSEO_Twitter_Validator',
+	);
 
 	/**
 	 * Indexable constructor.
 	 *
-	 * @param int           $id              The indexable's ID.
-	 * @param Object_Type   $type            The object type.
-	 * @param Meta_Values   $meta_values     The meta values for the indexable.
-	 * @param OpenGraph     $opengraph       The OpenGraph values for the indexable.
-	 * @param Twitter       $twitter         The Twitter values for the indexable.
-	 * @param Robots        $robots          The robots values for the indexable.
-	 * @param WPSEO_Keyword $primary_keyword The primary keyword values for the indexable.
-	 * @param Link          $links           The links values for the indexable.
-	 * @param string        $created_at      The date the indexable was created on. Can be NULL.
-	 * @param string        $updated_at      The date the indexable was updated on. Can be NULL.
+	 * @param $data
 	 */
-	public function __construct( $id, Object_Type $type, Meta_Values $meta_values, OpenGraph $opengraph, Twitter $twitter, Robots $robots, WPSEO_Keyword $primary_keyword, Link $links, $created_at = null, $updated_at = null ) {
-		if ( ! WPSEO_Validator::is_integer( $id ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_integer_parameter( $id, 'ID' );
+	public function __construct( $data ) {
+		$is_valid = $this->validate_data( $data );
+
+		if ( ! $is_valid ) {
+			var_dump( 'uhoh' );die;
 		}
 
-		$this->id 		   	   = $id;
-		$this->type 	   	   = $type;
-		$this->meta_values 	   = $meta_values;
-		$this->opengraph   	   = $opengraph;
-		$this->twitter 	   	   = $twitter;
-		$this->robots 	   	   = $robots;
-		$this->primary_keyword = $primary_keyword;
-		$this->links	   	   = $links;
-		$this->created_at  	   = $created_at;
-		$this->updated_at  	   = $updated_at;
+		$this->data = $data;
 	}
 
 	/**
-	 * Returns an array representation of the Indexable object.
+	 * @param $object_id
+	 * @param $object_type
 	 *
-	 * @return array The object as an array.
+	 * @return WPSEO_Indexable
 	 */
-	public function to_array() {
-		return array_merge(
-			array( 'object_id' => $this->id ),
-			$this->type->to_array(),
-			$this->meta_values->to_array(),
-			$this->opengraph->to_array(),
-			$this->twitter->to_array(),
-			$this->robots->to_array(),
-			$this->primary_keyword->to_array(),
-			$this->links->to_array(),
+	public static function from_object( $object_id, $object_type ) {
+		// check if object exists and that object type is a valid type.
+
+
+
+		$link_count = new WPSEO_Link_Column_Count();
+		$link_count->set( array( $object_id ) );
+
+		return new self(
 			array(
-				'created_at' => $this->created_at,
-				'updated_at' => $this->updated_at,
+				'object_id'                   => (int) $object_id,
+				'object_type'                 => $object_type,
+				'object_subtype'              => get_post_type( $object_id ),
+				'permalink'                   => get_permalink( $object_id ),
+				'canonical'                   => WPSEO_Meta::get_value( 'canonical', $object_id ),
+				'title'                       => WPSEO_Meta::get_value( 'title', $object_id ),
+				'description'                 => WPSEO_Meta::get_value( 'metadesc', $object_id ),
+				'breadcrumb_title'            => WPSEO_Meta::get_value( 'bctitle', $object_id ),
+				'og_title'                    => WPSEO_Meta::get_value( 'opengraph-title', $object_id ),
+				'og_description'              => WPSEO_Meta::get_value( 'opengraph-description', $object_id ),
+				'og_image'                    => WPSEO_Meta::get_value( 'opengraph-image', $object_id ),
+				'twitter_title'               => WPSEO_Meta::get_value( 'twitter-title', $object_id ),
+				'twitter_description'         => WPSEO_Meta::get_value( 'twitter-description', $object_id ),
+				'twitter_image'               => WPSEO_Meta::get_value( 'twitter-image', $object_id ),
+				'is_robots_noindex'           => self::get_robots_noindex_value( WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) ),
+				'is_robots_nofollow'          => WPSEO_Meta::get_value( 'meta-robots-nofollow', $object_id ) === '1',
+				'is_robots_noarchive'         => self::has_advanced_meta_value( 'noarchive' ),
+				'is_robots_noimageindex'      => self::has_advanced_meta_value( 'noimageindex' ),
+				'is_robots_nosnippet'         => self::has_advanced_meta_value( 'nosnippet' ),
+				'primary_focus_keyword'       => WPSEO_Meta::get_value( 'focuskw', $object_id ),
+				'primary_focus_keyword_score' => (int) WPSEO_Meta::get_value( 'linkdex', $object_id ),
+				'readability_score'           => (int) WPSEO_Meta::get_value( 'content_score', $object_id ),
+				'is_cornerstone'              => WPSEO_Meta::get_value( 'is_cornerstone', $object_id ) === '1',
+				'link_count'                  => (int) $link_count->get( $object_id ),
+				'incoming_link_count'         => (int) $link_count->get( $object_id, 'incoming_link_count' ),
+				'created_at'                  => null,
+				'updated_at'                  => null,
 			)
 		);
 	}
 
 	/**
-	 * Creates an instance of the Indexable based on the REST API request.
+	 * Translates the meta value to a boolean value.
 	 *
-	 * @param WP_REST_Request $request The request to base the Indexable on.
+	 * @param string $value The value to translate.
 	 *
-	 * @return Indexable The Indexable instance.
-	 * @throws Exception
+	 * @return bool|null The translated value.
 	 */
-	public static function from_request( WP_REST_Request $request ) {
-		return new self(
-			$request->get_param( 'object_id' ),
-			new Object_Type(
-				$request->get_param( 'object_type' ),
-				$request->get_param( 'object_subtype' )
-			),
-			new Meta_Values(
-				$request->get_param( 'title' ),
-				$request->get_param( 'description' ),
-				null,
-				$request->get_param( 'readability_score' ),
-				$request->get_param( 'is_cornerstone' ),
-				$request->get_param( 'canonical' ),
-				$request->get_param( 'breadcrumb_title' )
-			),
-			new OpenGraph(
-				$request->get_param( 'og_title' ),
-				$request->get_param( 'og_description' ),
-				$request->get_param( 'og_image' )
-			),
-			new Twitter(
-				$request->get_param( 'twitter_title' ),
-				$request->get_param( 'twitter_description' ),
-				$request->get_param( 'twitter_image' )
-			),
-			new Robots(
-				$request->get_param( 'is_robots_nofollow' ),
-				$request->get_param( 'is_robots_noarchive' ),
-				$request->get_param( 'is_robots_noimageindex' ),
-				$request->get_param( 'is_robots_nosnippet' ),
-				$request->get_param( 'is_robots_noindex' )
-			),
-			new WPSEO_Keyword(
-				$request->get_param( 'primary_focus_keyword' ),
-				$request->get_param( 'primary_focus_keyword_score' )
-			),
-			new Link( 0, 0 )
-		);
+	protected function get_robots_noindex_value( $value ) {
+		if ( $value === '1' ) {
+			return true;
+		}
+
+		if ( $value === '2' ) {
+			return false;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Determines whether the advanced robot metas value contains the passed value.
+	 *
+	 * @param int 	 $object_id	The ID of the object to check.
+	 * @param string $value 	The name of the advanced robots meta value to look for.
+	 *
+	 * @return bool Whether or not the advanced robots meta values contains the passed string.
+	 */
+	protected function has_advanced_meta_value( $object_id, $value ) {
+		return strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), $value ) !== false;
+	}
+
+	/**
+	 * Validates the data.
+	 *
+	 * @param array $data The data to validate.
+	 *
+	 * @return void
+	 */
+	private function validate_data( $data ) {
+		foreach ( $this->validators as $validator ) {
+			$validator::validate( $data );
+		}
+	}
+
+	/**
+	 * Updates the data and returns a new instance.
+	 *
+	 * @param array $data The data to update into a new instance.
+	 *
+	 * @return WPSEO_Indexable A new instance with the updated data.
+	 */
+	public function update( $data ) {
+		$data = array_merge( $this->data, $data );
+
+		return new self( $data );
+	}
+
+	/**
+	 * Returns the data as an array.
+	 *
+	 * @return array The data as an array.
+	 */
+	public function to_array() {
+		return $this->data;
 	}
 }
