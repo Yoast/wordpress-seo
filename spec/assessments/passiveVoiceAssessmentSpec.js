@@ -6,6 +6,13 @@ var Mark = require( "../../js/values/Mark.js" );
 
 var paper = new Paper();
 describe( "An assessment for scoring passive voice.", function() {
+	it( "scores 0 passive sentences - 0%", function() {
+		var assessment = passiveVoiceAssessment.getResult( paper, Factory.buildMockResearcher( { total: 20, passives: [] } ), i18n );
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "0% of the sentences contain <a href='https://yoa.st/passive-voice' target='_blank'>passive voice</a>, " +
+			"which is less than or equal to the recommended maximum of 10%." );
+	} );
+
 	it( "scores 1 passive sentence - 5%", function() {
 		var assessment = passiveVoiceAssessment.getResult( paper, Factory.buildMockResearcher( { total: 20, passives: [ 1 ] } ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
