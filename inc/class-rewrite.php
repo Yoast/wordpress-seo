@@ -195,13 +195,13 @@ class WPSEO_Rewrite {
 	 * 
 	 * @param string $encoded The encoded string.
 	 * 
-	 * @return string
+	 * @return bool
 	 */
 	public function encode_to_upper( &$encoded ) {
 
 		if ( strpos( $encoded, '%' ) === false  ) {
 	
-			return $encoded;
+			return false;
 	
 		}
 
