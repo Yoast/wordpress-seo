@@ -216,6 +216,7 @@ tr.yst_row.even {
 		width: 100%;
 		padding: 0;
 		text-align: left;
+		overflow: visible; // IE11 clips the icon focus style
 	}
 
 	.toggleable-container-icon {
