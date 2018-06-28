@@ -74,7 +74,6 @@ function wrapInTopLevelComponents( Component, store, props ) {
 	);
 }
 
-
 /**
  * Render a react app to a target element.
  *

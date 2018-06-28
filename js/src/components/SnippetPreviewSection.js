@@ -14,7 +14,6 @@ const Section = styled( StyledSection )`
 
 		& ${ StyledHeading } {
 			font-size: 14.4px;
-			
 			${ getRtlStyle( "padding-left", "padding-right" ) }: 20px;
 			margin-left: ${ getRtlStyle( "0", "20px" ) };
 		}
