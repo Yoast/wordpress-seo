@@ -64,6 +64,13 @@ export const InputContainer = styled.div.attrs( {
 	cursor: text;
 `;
 
+/**
+ * Gets the background image based on the color from the props and the language direction.
+ *
+ * @param {Object} props The component's props.
+ *
+ * @returns {string} The background image.
+ */
 function getBackgroundImage( props ) {
 	let rtlStyle = getRtlStyle(
 		angleRight( getCaretColor( props ) ),

@@ -269,7 +269,7 @@ class SnippetEditor extends React.Component {
 					titleLengthProgress={ titleLengthProgress }
 					descriptionLengthProgress={ descriptionLengthProgress }
 					descriptionEditorFieldPlaceholder={ descriptionEditorFieldPlaceholder }
-					containerPadding={ hasPaperStyle ? "0 20px": "0" }
+					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
 				/>
 				<CloseEditorButton onClick={ this.close }>
 					{ __( "Close snippet editor", "yoast-components" ) }
