@@ -44,11 +44,11 @@ class SettingsReplacementVariableEditors extends React.Component {
 	 * Renders a settings replacement variable editor in every given element in
 	 * the editorElements props. It requires every element to have a data-react-
 	 * replacevar-title-field-id, data-react-replacevar-metadesc-field-id,
-	 * data-react-replacevar-page-type-recommend andß
+	 * data-react-replacevar-page-type-recommend and
 	 * data-react-replacevar-page-type-specific attributes to function properly.
 	 * These attributes should point to existing (hidden) inputs in the DOM.
 	 *
-	 * @returns {Array<ReactElement>} An array of portals to instancßes of the
+	 * @returns {Array<ReactElement>} An array of portals to instances of the
 	 *                                settings replacement variable editor.
 	 */
 	renderEditors() {
