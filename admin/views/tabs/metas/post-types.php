@@ -41,19 +41,22 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		echo '<div class="paper tab-block" id="' . esc_attr( $post_type->name . '-titles-metas' ) . '">';
 
 		$toggle_icon = 'dashicons-arrow-up-alt2';
-		$class 		 = 'toggleable-container';
+		$class       = 'toggleable-container';
+		$expanded    = 'true';
 
 		if ( $id !== 'post' ) {
 			$toggle_icon = 'dashicons-arrow-down-alt2';
 			$class .= ' toggleable-container-hidden';
+			$expanded = 'false';
 		}
 
 		printf(
-			'<h2 id="%s">%s (<code>%s</code>) <button class="toggleable-container-trigger"><span class="toggleable-container-icon dashicons %s"></span></button></h2>',
+			'<h2 id="%1$s"><button type="button" class="toggleable-container-trigger" aria-expanded="%5$s">%2$s (<code>%3$s</code>) <span class="toggleable-container-icon dashicons %4$s" aria-hidden="true"></span></button></h2>',
 			esc_attr( $post_type->name ),
 			esc_html( $plural_label ),
 			esc_html( $post_type->name ),
-			$toggle_icon
+			$toggle_icon,
+			$expanded
 		);
 
 		echo '<div class="' . $class . '">';
