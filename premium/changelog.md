@@ -1,3 +1,6 @@
+### 7.7.1: June 27th, 2018
+* Includes every change in Yoast SEO core 7.7.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.7.0: June 26th, 2018
 Bugfixes:
 * Fixes a bug where non-public posts were given as a link suggestion.
