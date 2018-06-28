@@ -47,7 +47,6 @@ export const StyledSectionBase = styled( Section )`
 	& ${ StyledIcon } {
 		flex: 0 0 auto;
 		${ getRtlStyle( "margin-right", "margin-left" ) }: 8px;
-		
 	}
 `;
 

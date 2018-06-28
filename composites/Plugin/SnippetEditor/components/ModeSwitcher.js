@@ -43,18 +43,17 @@ const SwitcherButton = styled( Button )`
 	}
 `;
 
-export const MobileButton = SwitcherButton.extend`
+const MobileButton = SwitcherButton.extend`
 	border-radius: 3px 0 0 3px;
 `;
 
-export const DesktopButton = SwitcherButton.extend`
+const DesktopButton = SwitcherButton.extend`
 	border-radius: 0 3px 3px 0;
 `;
 
-export const Switcher = styled.div`
+const Switcher = styled.div`
 	display: inline-block;
 	margin-top: 10px;
-	margin-left: 20px;
 	margin-right: ${ getRtlStyle( "0px", "20px" ) };
 	margin-left: ${ getRtlStyle( "20px", "4px" ) };
 	border: 1px solid #dbdbdb;

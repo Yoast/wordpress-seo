@@ -13,18 +13,18 @@ import { rgba } from "../../../../style-guide/helpers";
 import { YoastSlideToggle } from "../../../../utils/animations";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
-export const HelpTextContainer = styled.div`
+const HelpTextContainer = styled.div`
 	max-width: 600px;
 	font-weight: normal;
 	// Don't apply a bottom margin to avoid "jumpiness".
 	margin: ${ getRtlStyle( "0 20px 0 25px", "0 20px 0 15px" ) };
 `;
 
-export const HelpTextPanel = styled.div`
+const HelpTextPanel = styled.div`
 	max-width: ${ props => props.panelMaxWidth };
 `;
 
-export const HelpTextButton = styled( Button )`
+const HelpTextButton = styled( Button )`
 	min-width: 14px;
 	min-height: 14px;
 	width: 30px;
@@ -56,7 +56,7 @@ export const HelpTextButton = styled( Button )`
 	}
 `;
 
-export const StyledSvg = styled( SvgIcon )`
+const StyledSvg = styled( SvgIcon )`
 	&:hover {
 		fill: ${ colors.$color_blue };
 	}

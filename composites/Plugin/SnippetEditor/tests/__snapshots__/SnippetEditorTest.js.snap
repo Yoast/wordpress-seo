@@ -273,7 +273,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -1142,7 +1141,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -2989,7 +2987,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -4836,7 +4833,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -6683,7 +6679,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -8286,7 +8281,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -9656,7 +9650,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -11503,7 +11496,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -13106,7 +13098,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -13653,7 +13644,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -14444,7 +14434,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c23 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -16311,7 +16300,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 .c23 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -18178,7 +18166,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -20025,7 +20012,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -21698,7 +21684,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
 .c23 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -22573,7 +22558,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -24173,7 +24157,6 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
@@ -24720,7 +24703,6 @@ exports[`SnippetEditor shows the editor 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
-  margin-left: 20px;
   margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
