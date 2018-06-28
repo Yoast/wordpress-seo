@@ -28,6 +28,9 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 
 		// Detect a post delete.
 		add_action( 'before_delete_post', array( $this, 'detect_post_delete' ) );
+
+		// Detects deletion of a term.
+		add_action( 'delete_term_taxonomy', array( $this, 'detect_term_delete' ) );
 	}
 
 	/**
@@ -38,7 +41,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	public function enqueue_assets() {
 		global $pagenow;
 
-		if ( ! in_array( $pagenow, array( 'edit.php' ), true ) ) {
+		if ( ! in_array( $pagenow, array( 'edit.php', 'edit-tags.php' ), true ) ) {
 			return;
 		}
 
@@ -54,8 +57,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function detect_post_trash( $post_id ) {
-		$post_status = get_post_status( $post_id );
-		if ( ! $this->check_visible_post_status( $post_status ) ) {
+		if ( ! $this->is_post_viewable( $post_id ) ) {
 			return;
 		}
 
@@ -74,13 +76,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function detect_post_delete( $post_id ) {
-		// We don't want to redirect menu items.
-		if ( is_nav_menu_item( $post_id ) ) {
-			return;
-		}
-
-		$post_status = get_post_status( $post_id );
-		if ( ! $this->check_visible_post_status( $post_status ) ) {
+		if ( ! $this->is_post_viewable( $post_id ) ) {
 			return;
 		}
 
@@ -89,6 +85,81 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 		$message        = $this->get_message( $first_sentence );
 
 		$this->add_notification( $message );
+	}
+
+	/**
+	 * Shows a message when a term is about to get deleted.
+	 *
+	 * @param integer $term_id The term ID that will be deleted.
+	 *
+	 * @return void
+	 */
+	public function detect_term_delete( $term_id ) {
+		if ( ! $this->is_term_viewable( $term_id ) ) {
+			return;
+		}
+
+		$first_sentence = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $this->get_taxonomy_label_for_term( $term_id ) );
+		$message        = $this->get_message( $first_sentence );
+
+		$this->add_notification( $message );
+	}
+
+	/**
+	 * Checks if the post is viewable.
+	 *
+	 * @param string $post_id The post id to check.
+	 *
+	 * @return bool Whether the post is viewable or not.
+	 */
+	protected function is_post_viewable( $post_id ) {
+		$post_type = get_post_type( $post_id );
+		if ( ! WPSEO_Post_Type::is_post_type_accessible( $post_type ) ) {
+			return false;
+		}
+
+		$post_status = get_post_status( $post_id );
+		if ( ! $this->check_visible_post_status( $post_status ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if the term is viewable.
+	 *
+	 * @param string $term_id The term ID to check.
+	 *
+	 * @return bool Whether the term is viewable or not.
+	 */
+	protected function is_term_viewable( $term_id ) {
+		$term = get_term( $term_id );
+
+		if ( ! $term || is_wp_error( $term ) ) {
+			return false;
+		}
+
+		$taxonomy = get_taxonomy( $term->taxonomy );
+		if ( ! $taxonomy ) {
+			return false;
+		}
+
+		return $taxonomy->publicly_queryable || $taxonomy->public;
+	}
+
+	/**
+	 * Gets the taxonomy label to use for a term.
+	 *
+	 * @param int $term_id The term ID.
+	 *
+	 * @return string The taxonomy's singular label.
+	 */
+	protected function get_taxonomy_label_for_term( $term_id ) {
+		$term     = get_term( $term_id );
+		$taxonomy = get_taxonomy( $term->taxonomy );
+
+		return $taxonomy->labels->singular_name;
 	}
 
 	/**
@@ -106,7 +177,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			$post_type_object = get_post_type_object( 'post' );
 		}
 
-		return strtolower( $post_type_object->labels->singular_name );
+		return $post_type_object->labels->singular_name;
 	}
 
 	/**

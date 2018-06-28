@@ -42,6 +42,7 @@ function configureStore() {
 		store.dispatch( updateReplacementVariable(
 			name,
 			replacementVariable.value,
+			replacementVariable.label,
 		) );
 	} );
 	return store;
@@ -52,7 +53,7 @@ const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-f
 
 if( editorElements.length ) {
 	const element = document.createElement( "div" );
-	document.body.append( element );
+	document.body.appendChild( element );
 
 	const store = configureStore();
 

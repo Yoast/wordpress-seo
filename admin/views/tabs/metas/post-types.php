@@ -85,10 +85,12 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 			$page_type_recommended = $recommended_replace_vars->determine_for_archive( $post_type->name );
 			$page_type_specific    = $editor_specific_replace_vars->determine_for_archive( $post_type->name );
 
-			$editor = new WPSEO_Replacevar_Editor( $yform, 'title-ptarchive-' . $post_type->name, 'metadesc-ptarchive-' . $post_type->name, $page_type_recommended, $page_type_specific );
+			$editor = new WPSEO_Replacevar_Editor( $yform, 'title-ptarchive-' . $post_type->name, 'metadesc-ptarchive-' . $post_type->name, $page_type_recommended, $page_type_specific, false );
 			$editor->render();
 
 			if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
+				// translators: %s is the plural version of the post type's name.
+				echo '<h4>' . esc_html( sprintf( __( 'Breadcrumb settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h4>';
 				$yform->textinput( 'bctitle-ptarchive-' . $post_type->name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
 			}
 		}
