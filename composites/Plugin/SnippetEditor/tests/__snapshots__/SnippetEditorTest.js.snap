@@ -274,6 +274,8 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   display: inline-block;
   margin-top: 10px;
   margin-left: 20px;
+  margin-right: 0px;
+  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -763,6 +765,162 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -853,162 +1011,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c31 svg {
-  margin-right: 7px;
-  fill: #555;
 }
 
 .c33 {
@@ -1140,6 +1142,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -2608,6 +2612,162 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -2698,162 +2858,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c31 svg {
-  margin-right: 7px;
-  fill: #555;
 }
 
 .c33 {
@@ -2985,6 +2989,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -4453,6 +4459,162 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -4543,162 +4705,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c31 svg {
-  margin-right: 7px;
-  fill: #555;
 }
 
 .c33 {
@@ -4830,6 +4836,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -6298,6 +6306,162 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -6388,162 +6552,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c31 svg {
-  margin-right: 7px;
-  fill: #555;
 }
 
 .c33 {
@@ -6675,6 +6683,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -8277,6 +8287,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   display: inline-block;
   margin-top: 10px;
   margin-left: 20px;
+  margin-right: 0px;
+  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -9267,6 +9279,162 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -9357,162 +9525,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c31 svg {
-  margin-right: 7px;
-  fill: #555;
 }
 
 .c33 {
@@ -9644,6 +9656,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -11112,6 +11126,162 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -11202,162 +11372,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c31 svg {
-  margin-right: 7px;
-  fill: #555;
 }
 
 .c33 {
@@ -11489,6 +11503,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -13091,6 +13107,8 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   display: inline-block;
   margin-top: 10px;
   margin-left: 20px;
+  margin-right: 0px;
+  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -13636,6 +13654,8 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   display: inline-block;
   margin-top: 10px;
   margin-left: 20px;
+  margin-right: 0px;
+  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -14047,6 +14067,162 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   fill: #0066cd;
 }
 
+.c33 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c33 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c33::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c35 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c35::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c37 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #5b9dd9;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: 0 0 2px rgba(30,140,190,.8);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c37 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c37 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c37::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231e8cbe%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c30 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c29 {
+  padding: 0 20px;
+}
+
+.c31 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c32 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -14137,162 +14313,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c33 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c33 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c33::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c35 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c35::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c37 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #5b9dd9;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: 0 0 2px rgba(30,140,190,.8);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c37 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c37 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c37::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231e8cbe%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c30 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c29 {
-  padding: 0 20px;
-}
-
-.c31 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c32 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c32 svg {
-  margin-right: 7px;
-  fill: #555;
 }
 
 .c34 {
@@ -14424,6 +14444,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c23 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -15912,6 +15934,162 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   fill: #0066cd;
 }
 
+.c33 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c33 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c33::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c35 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c35::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c37 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c37 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c37 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c37::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c30 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c29 {
+  padding: 0 20px;
+}
+
+.c31 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c32 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -16002,162 +16180,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c33 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c33 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c33::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c35 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c35::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c37 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c37 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c37 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c37::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c30 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c29 {
-  padding: 0 20px;
-}
-
-.c31 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c32 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c32 svg {
-  margin-right: 7px;
-  fill: #555;
 }
 
 .c34 {
@@ -16289,6 +16311,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 .c23 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -17777,6 +17801,162 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -17867,162 +18047,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c31 svg {
-  margin-right: 7px;
-  fill: #555;
 }
 
 .c33 {
@@ -18154,6 +18178,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -19622,6 +19648,162 @@ exports[`SnippetEditor passes replacement variables to the title and description
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -19712,162 +19894,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c31 svg {
-  margin-right: 7px;
-  fill: #555;
 }
 
 .c33 {
@@ -19999,6 +20025,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -21671,6 +21699,8 @@ exports[`SnippetEditor passes the date prop 1`] = `
   display: inline-block;
   margin-top: 10px;
   margin-left: 20px;
+  margin-right: 0px;
+  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -22166,6 +22196,162 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -22256,162 +22442,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  -webkit-flex: 0 1 100%;
-  -ms-flex: 0 1 100%;
-  flex: 0 1 100%;
-  border: 1px solid #ddd;
-  padding: 3px 5px;
-  box-sizing: border-box;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin: 4px 0;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  padding-left: 8px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-}
-
-.c31 svg {
-  margin-right: 7px;
-  fill: #555;
 }
 
 .c33 {
@@ -22543,6 +22573,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -24142,6 +24174,8 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   display: inline-block;
   margin-top: 10px;
   margin-left: 20px;
+  margin-right: 0px;
+  margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: #f7f7f7;
@@ -24686,6 +24720,8 @@ exports[`SnippetEditor shows the editor 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;

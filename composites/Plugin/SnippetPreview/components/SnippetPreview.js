@@ -17,6 +17,8 @@ import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 import HelpTextWrapper from "../components/HelpTextWrapper";
 import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
+import { angleLeft, angleRight } from "../../SnippetEditor/components/Shared";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -49,12 +51,6 @@ const MobileContainer = styled.div`
 	font-size: 14px;
 `;
 
-const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
-	'<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">' +
-		'<path fill="' + color + '" d="M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z" />' +
-	"</svg>"
-);
-
 export const BaseTitle = styled.div`
 	cursor: pointer;
 	position: relative;
@@ -77,10 +73,35 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 			display: block;
 			position: absolute;
 			top: -3px;
-			left: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
+			${ getRtlStyle( "left", "right" ) }: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
 			width: 24px;
 			height: 24px;
-			background-image: url( ${ () => angleRight( color ) } );
+			background-image: url( ${ getRtlStyle( angleRight( color ), angleLeft( color ) ) } );
+			background-size: 25px;
+			content: "";
+		}
+	`;
+}
+
+/**
+ * Adds caret styles to a component.
+ *
+ * @param {ReactComponent} WithoutCaret The component without caret styles.
+ * @param {string} color The color to render the caret in.
+ * @param {string} mode The mode the snippet preview is in.
+ *
+ * @returns {ReactComponent} The component with caret styles.
+ */
+function addCaretStyleRTL( WithoutCaret, color, mode ) {
+	return styled( WithoutCaret )`
+		&::before {
+			display: block;
+			position: absolute;
+			top: -3px;
+			right: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
+			width: 24px;
+			height: 24px;
+			background-image: url( ${ () => angleLeft( color ) } );
 			background-size: 25px;
 			content: "";
 		}

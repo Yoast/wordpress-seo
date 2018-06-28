@@ -11,19 +11,20 @@ import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import { rgba } from "../../../../style-guide/helpers";
 import { YoastSlideToggle } from "../../../../utils/animations";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
-const HelpTextContainer = styled.div`
+export const HelpTextContainer = styled.div`
 	max-width: 600px;
 	font-weight: normal;
 	// Don't apply a bottom margin to avoid "jumpiness".
-	margin: 0 20px 0 25px;
+	margin: ${ getRtlStyle( "0 20px 0 25px", "0 20px 0 15px" ) };
 `;
 
-const HelpTextPanel = styled.div`
+export const HelpTextPanel = styled.div`
 	max-width: ${ props => props.panelMaxWidth };
 `;
 
-const HelpTextButton = styled( Button )`
+export const HelpTextButton = styled( Button )`
 	min-width: 14px;
 	min-height: 14px;
 	width: 30px;
@@ -34,8 +35,9 @@ const HelpTextButton = styled( Button )`
 	display: block;
 	margin: -44px -10px 10px 0;
 	background-color: transparent;
-	float: right;
-	padding: 3px 0 0 6px;
+	float: ${ getRtlStyle( "right", "left" ) };
+	padding: ${ getRtlStyle( "3px 0 0 6px", "3px 0 0 5px" ) };
+
 	&:hover {
 		color: ${ colors.$color_blue };
 	}
@@ -54,7 +56,7 @@ const HelpTextButton = styled( Button )`
 	}
 `;
 
-const StyledSvg = styled( SvgIcon )`
+export const StyledSvg = styled( SvgIcon )`
 	&:hover {
 		fill: ${ colors.$color_blue };
 	}

@@ -10,6 +10,7 @@ import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import SvgIcon from "../../Shared/components/SvgIcon";
 import PropTypes from "prop-types";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 /**
  * Renders a switcher button.
@@ -42,18 +43,20 @@ const SwitcherButton = styled( Button )`
 	}
 `;
 
-const MobileButton = SwitcherButton.extend`
+export const MobileButton = SwitcherButton.extend`
 	border-radius: 3px 0 0 3px;
 `;
 
-const DesktopButton = SwitcherButton.extend`
+export const DesktopButton = SwitcherButton.extend`
 	border-radius: 0 3px 3px 0;
 `;
 
-const Switcher = styled.div`
+export const Switcher = styled.div`
 	display: inline-block;
 	margin-top: 10px;
 	margin-left: 20px;
+	margin-right: ${ getRtlStyle( "0px", "20px" ) };
+	margin-left: ${ getRtlStyle( "20px", "4px" ) };
 	border: 1px solid #dbdbdb;
 	border-radius: 4px;
 	background-color: #f7f7f7;

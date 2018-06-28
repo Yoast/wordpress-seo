@@ -25,6 +25,7 @@ import {
 import ModeSwitcher from "./ModeSwitcher";
 import colors from "../../../../style-guide/colors";
 import ErrorBoundary from "../../../basic/ErrorBoundary";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 const SnippetEditorButton = Button.extend`
 	height: 33px;
@@ -39,13 +40,13 @@ const EditSnippetButton = SnippetEditorButton.extend`
 	padding-left: 8px;
 
 	& svg {
-		margin-right: 7px;
+		${ getRtlStyle( "margin-right", "margin-left" ) }: 7px;
 	}
 `;
 
 const CloseEditorButton = SnippetEditorButton.extend`
 	margin-top: 24px;
-	margin-left: 20px;
+	${ getRtlStyle( "margin-left", "margin-right" ) }: 20px;
 `;
 
 /**
