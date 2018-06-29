@@ -106,6 +106,20 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.8.0 =
+Release Date: July 10th, 2018
+
+Bugfixes:
+* Fixes a bug where images from password protected posts could potentially end up in OG image tags.
+* Fixes a bug where very old notifications could not be be dismissed or restored.
+* Fixes a bug where the Insert variable button alignment was incorrect.
+
+Enhancements:
+* Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
+
+Other:
+* Adds a reminder message to create a redirect if a user deletes a category or tag.
+
 = 7.7.1 =
 Release Date: June 27th, 2018
 
@@ -153,33 +167,6 @@ Deprecated:
 Other:
 * Changes the timing on which the capability filter is run to better time when notifications should be initialized.
 * Adds X-Redirect-By header to all redirects, making the origin of redirects much easier to debug.
-
-= 7.6.1 =
-Release Date: June 7th, 2018
-
-Bugfixes:
-* Fixes a bug where a JavaScript error was thrown on the post-edit page when certain plugins are active.
-* Fixes a bug where stylesheet definitions would impact form fields of metaboxes on the post-edit pages. The definitions have been contained in a Yoast-selector.
-
-= 7.6.0 =
-Release Date: June 5th, 2018
-
-Enhancements:
-* Adds Flesch Reading Ease for Russian.
-* Adds Catalan transition words.
-* Adds a tab to the Help Center on posts, pages, terms and custom post types which explains which template variables can be used in the Snippet Preview.
-
-Bugfixes:
-* Fixes a bug where sequences of symbols which do not contain a single letter or digit were considered as valid keywords.
-* Fixes a bug where Flesch Reading Ease translation strings were not fully translated.
-* Fixes a bug where numbers-only keywords caused the analysis to fail.
-* Fixes a bug where the active keyword in the state wasn't updated whenever changes were made in the keyword field.
-* Fixes a bug where replacevars based on custom fields would throw an error due to a missing ID.
-
-Other:
-* Changes the maximum meta description length from 320 to 156 characters.
-* Fixes typo in $field_defs parameter description for wpseo_metabox_entries filter.
-* Restores the warning for using unsupported replacement variables on the search appearance settings page.
 
 = Earlier versions =
 
