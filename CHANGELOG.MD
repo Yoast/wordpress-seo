@@ -5,6 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.5.0 June 29nd, 2018
+### Fixes
+* Fixes the styling of the `ModeSwitcher`, `SnippetEditor`, `HelpTextWrapper`, `SnippetPreview` and `StyledSection` for right-to-left languages. [#629](https://github.com/Yoast/yoast-components/pull/629/files)
+* Fixes a bug where the snippet variable suggestions would disappear behind the admin menu bar when using a right-to-left language. [#628](https://github.com/Yoast/yoast-components/pull/628/files)
+* Fixes the 'insert snippet variable' button alignment by using only CSS and removing the JS widths calculations. [#618](https://github.com/Yoast/yoast-components/pull/618/files)
+
 ## 4.4.0 June 22nd, 2018
 
 ### Changes
