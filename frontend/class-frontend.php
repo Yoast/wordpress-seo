@@ -702,7 +702,7 @@ class WPSEO_Frontend {
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		if ( is_object( $post ) && is_singular() ) {
+		if ( ( is_object( $post ) && is_singular() ) || ( WPSEO_Utils::is_woocommerce_active() && is_shop() ) ) {
 			$private = 'private' === $post->post_status;
 			$noindex = ! WPSEO_Post_Type::is_post_type_indexable( $post->post_type );
 
