@@ -28,8 +28,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 				okay: 6,
 				bad: 1,
 			},
-			urlDistribute: "<a href='https://yoa.st/2pe' target='_blank'>distribute</a>",
-			urlDistributed: "<a href='https://yoa.st/2pe' target='_blank'>distributed</a>",
+			url: "<a href='https://yoa.st/2pe' target='_blank'>",
 		};
 
 		this.identifier = "largestKeywordDistance";
@@ -78,14 +77,19 @@ class largestKeywordDistanceAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
-					// Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution, the text says "distribute".
+					/*
+					 * Translators:
+					 * %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+					 * %2$s expands to the anchor end tag
+					 */
 					i18n.dngettext(
 						"js-text-analysis",
-						"Large parts of your text do not contain the keyword. Try to %1$s the keyword more evenly.",
-						"Large parts of your text do not contain the keyword or its synonyms. Try to %1$s them more evenly.",
+						"Large parts of your text do not contain the keyword. Try to %1$sdistribute%2$s the keyword more evenly.",
+						"Large parts of your text do not contain the keyword or its synonyms. Try to %1$sdistribute%2$s them more evenly.",
 						this._hasSynonyms + 1
 					),
-					this._config.urlDistribute
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -97,14 +101,19 @@ class largestKeywordDistanceAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
-					// Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution, the text says "distribute".
+					/*
+					 * Translators:
+					 * %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+					 * %2$s expands to the anchor end tag
+					 */
 					i18n.dngettext(
 						"js-text-analysis",
-						"Some parts of your text do not contain the keyword. Try to %1$s the keyword more evenly.",
-						"Some parts of your text do not contain the keyword or its synonyms. Try to %1$s them more evenly.",
+						"Some parts of your text do not contain the keyword. Try to %1$sdistribute%2$s the keyword more evenly.",
+						"Some parts of your text do not contain the keyword or its synonyms. Try to %1$sdistribute%2$s them more evenly.",
 						this._hasSynonyms + 1
 					),
-					this._config.urlDistribute
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -112,14 +121,19 @@ class largestKeywordDistanceAssessment extends Assessment {
 		return {
 			score: this._config.scores.good,
 			resultText: i18n.sprintf(
-				// Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution, the text says "distributed".
+				/*
+				 * Translators:
+				 * %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+				 * %2$s expands to the anchor end tag
+				 */
 				i18n.dngettext(
 					"js-text-analysis",
-					"Your keyword is %1$s evenly throughout the text. That's great.",
-					"Your keyword and its synonyms are %1$s evenly throughout the text. That's great.",
+					"Your keyword is %1$sdistributed%2$s evenly throughout the text. That's great.",
+					"Your keyword and its synonyms are %1$sdistributed%2$s evenly throughout the text. That's great.",
 					this._hasSynonyms + 1
 				),
-				this._config.urlDistributed
+				this._config.url,
+				"</a>"
 			),
 		};
 	}

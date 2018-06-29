@@ -1,4 +1,4 @@
-const wordBoundary = "[ \\u00a0 \\n\\r\\t.,'()\"+-;!?:/»«‹›<>]";
+const wordBoundary = "[ \\u00a0 \\n\\r\\t.,'()\"+\-;!?:/»«‹›<>]";
 const wordBoundaryStart = new RegExp( "^(" + wordBoundary + "+)", "ig" );
 const wordBoundaryEnd = new RegExp( "(" + wordBoundary + "+$)", "ig" );
 

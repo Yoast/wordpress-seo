@@ -35,7 +35,7 @@ class TopicDensityAssessment extends Assessment {
 				tooMuch: -10,
 				wayTooMuch: -50,
 			},
-			url: "<a href='https://yoa.st/2pe' target='_blank'>topic density</a>",
+			url: "<a href='https://yoa.st/2pe' target='_blank'>",
 		};
 		this._config = merge( defaultConfig, config );
 	}
@@ -82,17 +82,19 @@ class TopicDensityAssessment extends Assessment {
 					 * %1$s expands to the topic density percentage,
 					 * %2$d expands to the topic count,
 					 * %3$s expands to the maximum topic density percentage,
-					 * %4$s expands to a link to a Yoast.com article about keyword and topic density, the text says "topic density".
+					 * %4$s expands to a link to a Yoast.com article about keyword and topic density,
+					 * %5$s expands to the anchor end tag.
 					 * */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The %4$s is %1$s, which is way over the advised %3$s maximum;" +
+						"The %4$stopic density%5$s is %1$s, which is way over the advised %3$s maximum;" +
 						" the focus keyword and its synonyms were found %2$d times."
 					),
 					topicDensityPercentage,
 					this._topicCount.count,
 					this._config.parameters.maxText,
-					this._config.url
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -111,17 +113,19 @@ class TopicDensityAssessment extends Assessment {
 					 * %1$s expands to the topic density percentage,
 					 * %2$d expands to the topic count,
 					 * %3$s expands to the maximum topic density percentage,
-					 * %4$s expands to a link to a Yoast.com article about keyword and topic density, the text says "topic density".
+					 * %4$s expands to a link to a Yoast.com article about keyword and topic density,
+					 * %5$s expands to the anchor end tag.
 					 * */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The %4$s is %1$s, which is over the advised %3$s maximum;" +
+						"The %4$stopic density%5$s is %1$s, which is over the advised %3$s maximum;" +
 						" the focus keyword and its synonyms were found %2$d times."
 					),
 					topicDensityPercentage,
 					this._topicCount.count,
 					this._config.parameters.maxText,
-					this._config.url
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -139,17 +143,19 @@ class TopicDensityAssessment extends Assessment {
 					/* Translators:
 					 * %1$s expands to the topic density percentage,
 					 * %2$d expands to the topic count,
-					 * %3$s expands to a link to a Yoast.com article about keyword and topic density, the text says "topic density".
+					 * %3$s expands to a link to a Yoast.com article about keyword and topic density,
+					 * %4$s expands to the anchor end tag.
 					 * */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The %3$s is %1$s, which is great; the focus keyword and its synonyms were found %2$d time.",
-						"The %3$s is %1$s, which is great; the focus keyword and its synonyms were found %2$d times.",
+						"The %3$stopic density%4$s is %1$s, which is great; the focus keyword and its synonyms were found %2$d time.",
+						"The %3$stopic density%4$s is %1$s, which is great; the focus keyword and its synonyms were found %2$d times.",
 						this._topicCount.count
 					),
 					topicDensityPercentage,
 					this._topicCount.count,
-					this._config.url
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -168,15 +174,17 @@ class TopicDensityAssessment extends Assessment {
 					/* Translators:
 					 * %1$s expands to the topic density percentage,
 					 * %2$d expands to the topic count,
-					 * %3$s expands to a link to a Yoast.com article about keyword and topic density, the text says "topic density".
+					 * %3$s expands to a link to a Yoast.com article about keyword and topic density,
+					 * %4$s expands to the anchor end tag.
 					 * */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The %3$s is %1$s, which is too low; the focus keyword and its synonyms were found %2$d times."
+						"The %3$stopic density%4$s is %1$s, which is too low; the focus keyword and its synonyms were found %2$d times."
 					),
 					topicDensityPercentage,
 					this._topicCount.count,
-					this._config.url
+					this._config.url,
+					"</a>"
 				),
 			};
 		}
@@ -187,17 +195,19 @@ class TopicDensityAssessment extends Assessment {
 				/* Translators:
 				 * %1$s expands to the topic density percentage,
 				 * %2$d expands to the topic count,
-				 * %3$s expands to a link to a Yoast.com article about keyword and topic density, the text says "topic density".
+				 * %3$s expands to a link to a Yoast.com article about keyword and topic density,
+				 * %4$s expands to the anchor end tag.
 				 * */
 				i18n.dngettext(
 					"js-text-analysis",
-					"The %3$s is %1$s, which is too low; the focus keyword and its synonyms were found %2$d time.",
-					"The %3$s is %1$s, which is too low; the focus keyword and its synonyms were found %2$d times.",
+					"The %3$stopic density%4$s is %1$s, which is too low; the focus keyword and its synonyms were found %2$d time.",
+					"The %3$stopic density%4$s is %1$s, which is too low; the focus keyword and its synonyms were found %2$d times.",
 					this._topicCount.count
 				),
 				topicDensityPercentage,
 				this._topicCount.count,
-				this._config.url
+				this._config.url,
+				"</a>"
 			),
 		};
 	}
