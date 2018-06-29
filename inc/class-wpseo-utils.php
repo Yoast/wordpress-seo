@@ -1088,4 +1088,13 @@ SVG;
 
 		return false;
 	}
+
+	/**
+	 * Determines whether or not WooCommerce is active.
+	 *
+	 * @return bool Whether or not WooCommerce is active.
+	 */
+	public static function is_woocommerce_active() {
+		return class_exists( 'Woocommerce' );
+	}
 }
