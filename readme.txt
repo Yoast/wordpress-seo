@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.6
-Stable tag: 7.7.1
+Stable tag: 7.7.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -107,7 +107,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 7.7.2 =
-Release Date: June 28th, 2018
+Release Date: June 29th, 2018
 
 Bugfixes:
 * Fixes a bug where the snippet variables selection is hidden behind the WordPress menu when using a right-to-left language.
