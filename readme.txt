@@ -107,7 +107,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 7.7.2 =
-Release Date: June 28th, 2018
+Release Date: June 29th, 2018
 
 Bugfixes:
 * Fixes a bug where the snippet variables selection is hidden behind the WordPress menu when using a right-to-left language.
