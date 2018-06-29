@@ -18,7 +18,6 @@ let TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment.js" );
 let UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
 let UrlLength = require( "../assessments/seo/urlLengthAssessment.js" );
 let urlStopWords = require( "../assessments/seo/urlStopWordsAssessment.js" );
-const LargestKeywordDistance = require( "../assessments/seo/largestKeywordDistanceAssessment.js" );
 const TopicDensity = require( "../assessments/seo/topicDensityAssessment.js" );
 
 /**
@@ -102,7 +101,6 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 			},
 		} ),
 		urlStopWords,
-		new LargestKeywordDistance(),
 		new TopicDensity(),
 	];
 };

@@ -11,10 +11,13 @@ var isEmpty = require( "lodash/isEmpty" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
 var throttle = require( "lodash/throttle" );
+const merge = require ( "lodash/merge" );
 
 var Jed = require( "jed" );
 
 var SEOAssessor = require( "./seoAssessor.js" );
+const LargestKeywordDistance = require( "./assessments/seo/largestKeywordDistanceAssessment.js" );
+const largestKeywordDistance = new LargestKeywordDistance();
 var ContentAssessor = require( "./contentAssessor.js" );
 var CornerstoneSEOAssessor = require( "./cornerstone/seoAssessor.js" );
 var CornerstoneContentAssessor = require( "./cornerstone/contentAssessor.js" );
@@ -285,6 +288,11 @@ var App = function( args ) {
 		this.snippetPreview = createDefaultSnippetPreview.call( this );
 	}
 
+	this._assessorOptions = {
+		useCornerStone: false,
+		useKeywordDistribution: false,
+	};
+
 	this.initSnippetPreview();
 	this.initAssessorPresenters();
 };
@@ -308,6 +316,24 @@ App.prototype.getDefaultOutputElement = function( args ) {
 };
 
 /**
+ * Sets the assessors based on the assessor options and refreshes them.
+ *
+ * @param {Object} assessorOptions The specific options.
+ * @returns {void}
+ */
+App.prototype.changeAssessorOptions = function( assessorOptions ) {
+	this._assessorOptions = merge( this._assessorOptions, assessorOptions );
+
+	// Set the assessors based on the new assessor options.
+	this.seoAssessor = this.getSeoAssessor();
+	this.contentAssessor = this.getContentAssessor();
+
+	// Refresh everything so the user sees the changes.
+	this.initAssessorPresenters();
+	this.refresh();
+};
+
+/**
  * Switches between the cornerstone and default assessors.
  *
  * @param {boolean} useCornerStone True when cornerstone should be used.
@@ -315,36 +341,35 @@ App.prototype.getDefaultOutputElement = function( args ) {
  * @returns {void}
  */
 App.prototype.switchAssessors = function( useCornerStone ) {
-	this.seoAssessor = this.getSeoAssessor( useCornerStone );
-	this.contentAssessor = this.getContentAssessor( useCornerStone );
-
-	this.initAssessorPresenters();
-	this.refresh();
+	this.changeAssessorOptions( {
+		useCornerStone,
+	} );
 };
 
 /**
  * Returns an instance of the seo assessor to use.
  *
- * @param {boolean} useCornerStone True if the cornerstone assessor should be used.
- *
  * @returns {Assessor} The assessor instance.
  */
-App.prototype.getSeoAssessor = function( useCornerStone ) {
-	if ( useCornerStone ) {
-		return this.cornerStoneSeoAssessor;
+App.prototype.getSeoAssessor = function() {
+	const { useCornerStone, useKeywordDistribution } = this._assessorOptions;
+
+	const assessor = useCornerStone ? this.cornerStoneSeoAssessor : this.defaultSeoAssessor;
+	if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "largestKeywordDistance" ) ) ) {
+		assessor.addAssessment( "largestKeywordDistance", largestKeywordDistance )
 	}
 
-	return this.defaultSeoAssessor;
+	return assessor;
 };
 
 /**
  * Returns an instance of the content assessor to use.
  *
- * @param {boolean} useCornerStone True if the cornerstone assessor should be used.
- *
  * @returns {Assessor} The assessor instance.
  */
-App.prototype.getContentAssessor = function( useCornerStone ) {
+App.prototype.getContentAssessor = function() {
+	const { useCornerStone } = this._assessorOptions;
+
 	if ( useCornerStone ) {
 		return this.cornerStoneContentAssessor;
 	}

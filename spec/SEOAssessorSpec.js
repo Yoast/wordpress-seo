@@ -53,7 +53,7 @@ describe( "running assessments in the assessor", function() {
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } ) );
-		expect( assessor.getValidResults().length ).toBe( 10 );
+		expect( assessor.getValidResults().length ).toBe( 9 );
 	} );
 
 	it( "additionally runs assessments that require a long enough text and one keyword occurrence and one synonym occurrence", function() {
@@ -70,6 +70,6 @@ describe( "running assessments in the assessor", function() {
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas synonym." +
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword, synonym" } ) );
-		expect( assessor.getValidResults().length ).toBe( 11 );
+		expect( assessor.getValidResults().length ).toBe( 10 );
 	} );
 } );
