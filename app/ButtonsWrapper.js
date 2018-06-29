@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 import { YoastButton } from "../composites/Plugin/Shared/components/YoastButton";
+import { YoastLinkButton } from "../composites/Plugin/Shared/components/YoastLinkButton";
 import { BaseButton, Button, IconButton, IconsButton } from "../composites/Plugin/Shared/components/Button";
 import IconButtonToggle from "../composites/Plugin/Shared/components/IconButtonToggle";
 import { BaseLinkButton, LinkButton } from "../composites/Plugin/Shared/components/LinkButton";
+import FormButton from "../forms/Button";
 
 const ButtonsContainer = styled.div`
 	max-width: 800px;
@@ -12,6 +14,14 @@ const ButtonsContainer = styled.div`
 	padding: 24px;
 	box-sizing: border-box;
 	background-color: #fff;
+
+	.with-max-width {
+		max-width: 120px;
+	}
+
+	.test-large-button {
+		min-width: 240px;
+	}
 `;
 
 const Separator = styled.hr`
@@ -61,9 +71,12 @@ export default class ButtonsList extends React.Component {
 				<BaseButton>BaseButton</BaseButton>{ ' ' }
 				<Button>Button</Button>{ ' ' }
 				<IconButton icon="edit">IconButton</IconButton>{ ' ' }
-				<IconsButton prefixIcon="search" suffixIcon="plus">IconsButton</IconsButton><Separator />
+				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ ' ' }
+				<IconsButton prefixIcon="search" suffixIcon="plus">IconsButton</IconsButton>
+				<Separator />
 				<BaseLinkButton href="#someresource">BaseLinkButton</BaseLinkButton>{ ' ' }
-				<LinkButton href="#someresource">LinkButton</LinkButton><Separator />
+				<LinkButton href="#someresource">LinkButton</LinkButton>
+				<Separator />
 				<IconButtonToggle
 					name="group1"
 					id="some-id"
@@ -74,6 +87,33 @@ export default class ButtonsList extends React.Component {
 				/> (IconButtonToggle: needs a tooltip to make its aria-label visible)
 				<Separator />
 				<YoastButton>YoastButton</YoastButton>
+				<Separator />
+				<FormButton text="FormButton" onClick={ () => {
+					console.log( "hello FormButton clicked" );
+				} } />
+				<Separator />
+				<h2>Special cases</h2>
+				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ ' ' }
+				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long text</IconButton>{ ' ' }
+				<YoastButton backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>Color</YoastButton>{ ' ' }
+				<YoastButton className="test-large-button">Min width</YoastButton>{ ' ' }
+
+				<h2>Test min-height bugs</h2>
+				<p>Increase the `settings.minHeight` value in the components to check the Safari and IE11 bugs,
+					see <a href="https://github.com/Yoast/yoast-components/pull/262">https://github.com/Yoast/yoast-components/pull/262</a> and <a href="https://github.com/Yoast/yoast-components/pull/284">https://github.com/Yoast/yoast-components/pull/284</a>
+				</p>
+				<h3>Buttons</h3>
+				<BaseButton>Base</BaseButton>{ ' ' }
+				<Button>Button</Button>{ ' ' }
+				<YoastButton backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>Color</YoastButton>{ ' ' }
+				<YoastButton className="test-large-button">Min width</YoastButton>{ ' ' }
+				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ ' ' }
+				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long text</IconButton>{ ' ' }
+				<h3>Links</h3>
+				<BaseLinkButton href="#somewhere1">Base</BaseLinkButton>{ ' ' }
+				<LinkButton href="#somewhere2">Button</LinkButton>{ ' ' }
+				<YoastLinkButton href="#somewhere4" backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>Color</YoastLinkButton>{ ' ' }
+				<YoastLinkButton className="test-large-button" href="#somewhere3">Min width</YoastLinkButton>
 			</ButtonsContainer>
 		);
 	}
