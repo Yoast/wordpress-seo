@@ -7,8 +7,12 @@ import Heading from "../../composites/basic/Heading";
 import colors from "../../style-guide/colors.json";
 import { rgba } from "../../style-guide/helpers";
 import SvgIcon from "../../composites/Plugin/Shared/components/SvgIcon";
+import { getRtlStyle } from "../../utils/helpers/styled-components";
 
-export const StyledHeading = styled( Heading )``;
+export const StyledHeading = styled( Heading )`
+	margin-left: ${ getRtlStyle( "0", "20px" ) };
+	padding: ${ getRtlStyle( "0", "20px" ) };
+`;
 
 export const StyledIcon = styled( SvgIcon )``;
 
@@ -42,7 +46,7 @@ export const StyledSectionBase = styled( Section )`
 
 	& ${ StyledIcon } {
 		flex: 0 0 auto;
-		margin-right: 8px;
+		${ getRtlStyle( "margin-right", "margin-left" ) }: 8px;
 	}
 `;
 
