@@ -8,6 +8,7 @@ import Loader from "./composites/basic/Loader";
 import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
 import SnippetEditor from "./app/SnippetEditorExample";
+import ButtonsWrapper from "./app/ButtonsWrapper";
 
 // Required to make Material UI work with touch screens.
 import injectTapEventPlugin from "react-tap-event-plugin";
@@ -75,6 +76,11 @@ const components = [
 		id: "sidebar-collapsible",
 		name: "Sidebar Collapsible",
 		component: <SidebarCollapsibleWrapper />,
+	},
+	{
+		id: "buttons",
+		name: "Buttons",
+		component: <ButtonsWrapper />,
 	},
 ];
 
