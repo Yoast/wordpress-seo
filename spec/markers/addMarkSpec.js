@@ -10,6 +10,6 @@ describe( "addMark", function() {
 	} );
 
 	it( "should mark a text that starts with word boundaries", function() {
-		expect( addMarkSingleWord( "> ()A piece of text" ) ).toBe( "> ()" + "<yoastmark class='yoast-text-mark'>A piece of text</yoastmark>" );
+		expect( addMarkSingleWord( "> ()A piece of text" ) ).toBe( "> ()".concat( "<yoastmark class='yoast-text-mark'>A piece of text</yoastmark>" ) );
 	} );
 } );

@@ -56,8 +56,6 @@ describe( "function to remove word boundaries from words", function() {
 		expect( stripWordBoundariesEnd( "keyword" ) ).toBe( "keyword" );
 	} );
 
-	const wordBoundary = "[ \\u00a0 \\n\\r\\t.,'()\"+-;!?:/»«‹›<>]";
-
 	it( "returns a string with word boundaries in the end of the word removed", function() {
 		expect( stripWordBoundariesEverywhere( "?keyword " ) ).toBe( "keyword" );
 		expect( stripWordBoundariesEverywhere( "keyword" ) ).toBe( "keyword" );
