@@ -61,7 +61,7 @@ exports[`BaseButton executes callback 1`] = `
   align-self: center;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c3::after {
     display: inline-block;
     content: "";
@@ -139,7 +139,7 @@ exports[`BaseButton executes callback 2`] = `
   align-self: center;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c3::after {
     display: inline-block;
     content: "";
@@ -221,7 +221,7 @@ exports[`SnippetPreviewButton executes callback 1`] = `
   font-size: 0.8rem;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c4::after {
     display: inline-block;
     content: "";
@@ -303,7 +303,7 @@ exports[`SnippetPreviewButton executes callback 2`] = `
   font-size: 0.8rem;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c4::after {
     display: inline-block;
     content: "";
@@ -381,7 +381,7 @@ exports[`the BaseButton matches the snapshot 1`] = `
   align-self: center;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c3::after {
     display: inline-block;
     content: "";
@@ -470,7 +470,7 @@ exports[`the IconButton matches the snapshot 1`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c4::after {
     display: inline-block;
     content: "";
@@ -579,7 +579,7 @@ exports[`the IconButton with text matches the snapshot 1`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c4::after {
     display: inline-block;
     content: "";
@@ -674,7 +674,7 @@ exports[`the SnippetPreviewButton matches the snapshot 1`] = `
   font-size: 0.8rem;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c4::after {
     display: inline-block;
     content: "";
