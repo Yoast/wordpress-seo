@@ -8,8 +8,9 @@ export {
 	AlgoliaSearcher,
 	HelpCenter,
 	MessageBox,
-}
+};
 
 export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";
 export * from "./forms";
+export { getRtlStyle } from "./utils/helpers/styled-components";

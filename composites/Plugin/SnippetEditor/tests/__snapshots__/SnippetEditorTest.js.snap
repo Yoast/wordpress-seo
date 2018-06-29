@@ -273,6 +273,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -600,7 +601,6 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -764,6 +764,162 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -854,136 +1010,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -33px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c31 svg {
-  margin-right: 7px;
 }
 
 .c33 {
@@ -1115,6 +1141,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -1980,7 +2007,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1995,7 +2021,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -2011,13 +2036,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
@@ -2033,12 +2056,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -2046,7 +2067,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -2056,7 +2076,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -2066,7 +2085,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -2076,7 +2094,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -2086,7 +2103,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -2229,14 +2245,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   withCaret={true}
                 >
@@ -2253,12 +2267,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -2266,7 +2278,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -2276,7 +2287,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -2286,7 +2296,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -2296,7 +2305,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -2306,7 +2314,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -2603,6 +2610,162 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -2693,136 +2856,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -33px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c31 svg {
-  margin-right: 7px;
 }
 
 .c33 {
@@ -2954,6 +2987,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -3819,7 +3853,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -3834,7 +3867,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -3850,13 +3882,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
@@ -3872,12 +3902,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -3885,7 +3913,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -3895,7 +3922,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -3905,7 +3931,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -3915,7 +3940,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -3925,7 +3949,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -4068,14 +4091,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   withCaret={true}
                 >
@@ -4092,12 +4113,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -4105,7 +4124,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -4115,7 +4133,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -4125,7 +4142,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -4135,7 +4151,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -4145,7 +4160,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -4442,6 +4456,162 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -4532,136 +4702,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -33px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c31 svg {
-  margin-right: 7px;
 }
 
 .c33 {
@@ -4793,6 +4833,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -5658,7 +5699,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -5673,7 +5713,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -5689,13 +5728,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
@@ -5711,12 +5748,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -5724,7 +5759,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -5734,7 +5768,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -5744,7 +5777,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -5754,7 +5786,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -5764,7 +5795,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -5907,14 +5937,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   withCaret={true}
                 >
@@ -5931,12 +5959,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -5944,7 +5970,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -5954,7 +5979,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -5964,7 +5988,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -5974,7 +5997,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -5984,7 +6006,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -6281,6 +6302,162 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -6371,136 +6548,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -33px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c31 svg {
-  margin-right: 7px;
 }
 
 .c33 {
@@ -6632,6 +6679,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -7497,7 +7545,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -7512,7 +7559,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -7528,13 +7574,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
@@ -7550,12 +7594,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -7563,7 +7605,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -7573,7 +7614,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -7583,7 +7623,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -7593,7 +7632,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -7603,7 +7641,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -7746,14 +7783,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   withCaret={true}
                 >
@@ -7770,12 +7805,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -7783,7 +7816,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -7793,7 +7825,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -7803,7 +7834,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -7813,7 +7843,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -7823,7 +7852,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -8253,6 +8281,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -9244,6 +9273,162 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -9334,136 +9519,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -33px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c31 svg {
-  margin-right: 7px;
 }
 
 .c33 {
@@ -9595,6 +9650,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -10460,7 +10516,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -10475,7 +10530,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -10491,34 +10545,30 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
-                    id="46"
+                    id="42"
                     onClick={[Function]}
                   >
                     <div
                       className="c30"
-                      id="46"
+                      id="42"
                       onClick={[Function]}
                     >
                       SEO title
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -10526,7 +10576,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -10536,7 +10585,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -10546,7 +10594,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -10556,7 +10603,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -10566,7 +10612,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -10623,7 +10668,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       onClick={[Function]}
                     >
                       <ReplacementVariableEditorStandalone
-                        ariaLabelledBy="46"
+                        ariaLabelledBy="42"
                         content="Test title"
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -10658,12 +10703,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 className="c29"
               >
                 <Shared__SimulatedLabel
-                  id="snippet-editor-field-45-slug"
+                  id="snippet-editor-field-41-slug"
                   onClick={[Function]}
                 >
                   <div
                     className="c30"
-                    id="snippet-editor-field-45-slug"
+                    id="snippet-editor-field-41-slug"
                     onClick={[Function]}
                   >
                     Slug
@@ -10679,7 +10724,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     onClick={[Function]}
                   >
                     <SnippetEditorFields__SlugInput
-                      aria-labelledby="snippet-editor-field-45-slug"
+                      aria-labelledby="snippet-editor-field-41-slug"
                       innerRef={[Function]}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -10687,7 +10732,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       value="test-slug"
                     >
                       <input
-                        aria-labelledby="snippet-editor-field-45-slug"
+                        aria-labelledby="snippet-editor-field-41-slug"
                         className="c35"
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -10709,36 +10754,32 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
-                    id="47"
+                    id="43"
                     onClick={[Function]}
                   >
                     <div
                       className="c30"
-                      id="47"
+                      id="43"
                       onClick={[Function]}
                     >
                       Meta description
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -10746,7 +10787,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -10756,7 +10796,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -10766,7 +10805,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -10776,7 +10814,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -10786,7 +10823,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -10843,7 +10879,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       onClick={[Function]}
                     >
                       <ReplacementVariableEditorStandalone
-                        ariaLabelledBy="47"
+                        ariaLabelledBy="43"
                         content="Test description, %%replacement_variable%%"
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -11083,6 +11119,162 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -11173,136 +11365,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -33px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c31 svg {
-  margin-right: 7px;
 }
 
 .c33 {
@@ -11434,6 +11496,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -12299,7 +12362,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -12314,7 +12376,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -12330,34 +12391,30 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
-                    id="42"
+                    id="38"
                     onClick={[Function]}
                   >
                     <div
                       className="c30"
-                      id="42"
+                      id="38"
                       onClick={[Function]}
                     >
                       SEO title
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -12365,7 +12422,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -12375,7 +12431,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -12385,7 +12440,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -12395,7 +12449,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -12405,7 +12458,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -12462,7 +12514,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       onClick={[Function]}
                     >
                       <ReplacementVariableEditorStandalone
-                        ariaLabelledBy="42"
+                        ariaLabelledBy="38"
                         content="Test title"
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -12497,12 +12549,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 className="c29"
               >
                 <Shared__SimulatedLabel
-                  id="snippet-editor-field-41-slug"
+                  id="snippet-editor-field-37-slug"
                   onClick={[Function]}
                 >
                   <div
                     className="c30"
-                    id="snippet-editor-field-41-slug"
+                    id="snippet-editor-field-37-slug"
                     onClick={[Function]}
                   >
                     Slug
@@ -12518,7 +12570,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     onClick={[Function]}
                   >
                     <SnippetEditorFields__SlugInput
-                      aria-labelledby="snippet-editor-field-41-slug"
+                      aria-labelledby="snippet-editor-field-37-slug"
                       innerRef={[Function]}
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -12526,7 +12578,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       value="test-slug"
                     >
                       <input
-                        aria-labelledby="snippet-editor-field-41-slug"
+                        aria-labelledby="snippet-editor-field-37-slug"
                         className="c35"
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -12548,36 +12600,32 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
-                    id="43"
+                    id="39"
                     onClick={[Function]}
                   >
                     <div
                       className="c30"
-                      id="43"
+                      id="39"
                       onClick={[Function]}
                     >
                       Meta description
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -12585,7 +12633,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -12595,7 +12642,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -12605,7 +12651,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -12615,7 +12660,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -12625,7 +12669,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -12682,7 +12725,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       onClick={[Function]}
                     >
                       <ReplacementVariableEditorStandalone
-                        ariaLabelledBy="43"
+                        ariaLabelledBy="39"
                         content="Test description, %%replacement_variable%%"
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -13055,6 +13098,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -13600,6 +13644,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -14012,6 +14057,162 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   fill: #0066cd;
 }
 
+.c33 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c33 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c33::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c35 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c35::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c37 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #5b9dd9;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: 0 0 2px rgba(30,140,190,.8);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c37 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c37 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c37::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231e8cbe%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c30 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c29 {
+  padding: 0 20px;
+}
+
+.c31 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c32 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -14102,136 +14303,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c33 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c33 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c33::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c35 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c35::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c37 {
-  padding: 3px 5px;
-  border: 1px solid #5b9dd9;
-  box-shadow: 0 0 2px rgba(30,140,190,.8);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c37 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c37 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c37::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%231e8cbe%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c30 {
-  margin: 24px 0 0 0;
-}
-
-.c29 {
-  padding: 0 20px;
-}
-
-.c31 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
-}
-
-.c32 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -33px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c32 svg {
-  margin-right: 7px;
 }
 
 .c34 {
@@ -14363,6 +14434,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c23 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -15248,7 +15320,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -15263,7 +15334,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -15279,13 +15349,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
@@ -15301,12 +15369,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c32"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -15314,7 +15380,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c32 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -15324,7 +15389,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c32 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -15334,7 +15398,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -15344,7 +15407,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -15354,7 +15416,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -15497,14 +15558,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   isActive={true}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   withCaret={true}
                 >
@@ -15521,12 +15580,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c32"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -15534,7 +15591,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c32 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -15544,7 +15600,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c32 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -15554,7 +15609,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -15564,7 +15618,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -15574,7 +15627,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -15871,6 +15923,162 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   fill: #0066cd;
 }
 
+.c33 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c33 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c33::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c35 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c35::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c37 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c37 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c37 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c37::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c30 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c29 {
+  padding: 0 20px;
+}
+
+.c31 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c32 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c32 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -15961,136 +16169,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c33 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c33 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c33::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c35 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c35::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c37 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c37 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c37 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c37::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c30 {
-  margin: 24px 0 0 0;
-}
-
-.c29 {
-  padding: 0 20px;
-}
-
-.c31 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
-}
-
-.c32 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -33px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c32 svg {
-  margin-right: 7px;
 }
 
 .c34 {
@@ -16222,6 +16300,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 .c23 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -17107,7 +17186,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           }
         }
         hoveredField="description"
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -17122,7 +17200,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -17138,13 +17215,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
@@ -17160,12 +17235,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c32"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -17173,7 +17246,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c32 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -17183,7 +17255,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c32 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -17193,7 +17264,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -17203,7 +17273,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -17213,7 +17282,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -17356,14 +17424,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   isActive={false}
                   isHovered={true}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   withCaret={true}
                 >
@@ -17380,12 +17446,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c32"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -17393,7 +17457,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c32 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -17403,7 +17466,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c32 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -17413,7 +17475,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -17423,7 +17484,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -17433,7 +17493,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c32 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -17730,6 +17789,162 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -17820,136 +18035,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -33px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c31 svg {
-  margin-right: 7px;
 }
 
 .c33 {
@@ -18081,6 +18166,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -18946,7 +19032,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -18961,7 +19046,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -18977,13 +19061,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
@@ -18999,12 +19081,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -19012,7 +19092,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -19022,7 +19101,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -19032,7 +19110,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -19042,7 +19119,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -19052,7 +19128,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -19195,14 +19270,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   withCaret={true}
                 >
@@ -19219,12 +19292,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -19232,7 +19303,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -19242,7 +19312,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -19252,7 +19321,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -19262,7 +19330,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -19272,7 +19339,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -19569,6 +19635,162 @@ exports[`SnippetEditor passes replacement variables to the title and description
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -19659,136 +19881,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -33px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c31 svg {
-  margin-right: 7px;
 }
 
 .c33 {
@@ -19920,6 +20012,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -20796,7 +20889,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -20822,7 +20914,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -20838,7 +20929,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -20855,7 +20945,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       },
                     ]
                   }
-                  styleForMobile={true}
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
@@ -20871,12 +20960,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -20884,7 +20971,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -20894,7 +20980,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -20904,7 +20989,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -20914,7 +20998,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -20924,7 +21007,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -21078,7 +21160,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -21096,7 +21177,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       },
                     ]
                   }
-                  styleForMobile={true}
                   type="description"
                   withCaret={true}
                 >
@@ -21113,12 +21193,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -21126,7 +21204,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -21136,7 +21213,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -21146,7 +21222,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -21156,7 +21231,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -21166,7 +21240,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -21611,6 +21684,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
 .c23 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -21944,7 +22018,6 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -22108,6 +22181,162 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   fill: #0066cd;
 }
 
+.c32 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c32 .public-DraftStyleDefault-block {
+  line-height: 24px;
+}
+
+.c32::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c34 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+}
+
+.c34::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c36 {
+  -webkit-flex: 0 1 100%;
+  -ms-flex: 0 1 100%;
+  flex: 0 1 100%;
+  border: 1px solid #ddd;
+  padding: 3px 5px;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 50ms border-color ease-in-out;
+  transition: 50ms border-color ease-in-out;
+  position: relative;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  font-size: 14px;
+  cursor: text;
+  min-height: 72px;
+  padding: 2px 6px;
+  line-height: 24px;
+}
+
+.c36 .public-DraftEditorPlaceholder-root {
+  color: #646464;
+}
+
+.c36 .public-DraftEditorPlaceholder-hasFocus {
+  color: #646464;
+}
+
+.c36::before {
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: -25px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  background-size: 25px;
+  content: "";
+}
+
+.c29 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 24px 0 0 0;
+}
+
+.c28 {
+  padding: 0 20px;
+}
+
+.c30 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  margin: 4px 0;
+}
+
+.c31 {
+  box-shadow: none;
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  padding-left: 8px;
+  height: 33px;
+  border: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.c31 svg {
+  margin-right: 7px;
+  fill: #555;
+}
+
 .c11 {
   border-bottom: 1px hidden #fff;
   border-radius: 2px;
@@ -22198,136 +22427,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   border: 0;
   border-bottom: 1px solid #DFE1E5;
   margin: 0;
-}
-
-.c32 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c32 .public-DraftStyleDefault-block {
-  line-height: 24px;
-}
-
-.c32::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c34 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-}
-
-.c34::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c36 {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  background-color: #fff;
-  color: #32373c;
-  outline: 0;
-  -webkit-transition: 50ms border-color ease-in-out;
-  transition: 50ms border-color ease-in-out;
-  position: relative;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  font-size: 14px;
-  cursor: text;
-  min-height: 72px;
-  padding: 2px 6px;
-  line-height: 24px;
-}
-
-.c36 .public-DraftEditorPlaceholder-root {
-  color: #646464;
-}
-
-.c36 .public-DraftEditorPlaceholder-hasFocus {
-  color: #646464;
-}
-
-.c36::before {
-  display: block;
-  position: absolute;
-  top: -1px;
-  left: -25px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22transparent%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E);
-  background-size: 25px;
-  content: "";
-}
-
-.c29 {
-  margin: 24px 0 0 0;
-}
-
-.c28 {
-  padding: 0 20px;
-}
-
-.c30 {
-  cursor: pointer;
-  font-size: 16px;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  margin-bottom: 9px;
-}
-
-.c31 {
-  box-shadow: none;
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  fill: #555;
-  padding-left: 8px;
-  float: right;
-  margin-top: -33px;
-  height: 33px;
-  border: 1px solid #dbdbdb;
-  font-size: 13px;
-  float: none;
-  margin-top: 0;
-  margin-bottom: 2px;
-}
-
-.c31 svg {
-  margin-right: 7px;
 }
 
 .c33 {
@@ -22459,6 +22558,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -23324,7 +23424,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           }
         }
         hoveredField={null}
-        mobileWidth={356}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -23339,7 +23438,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         }
       >
         <Shared__StyledEditor
-          innerRef={[Function]}
           padding="0 20px"
         >
           <section
@@ -23355,13 +23453,11 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   isActive={false}
                   isHovered={false}
                   label="SEO title"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   withCaret={true}
                 >
                   <Shared__SimulatedLabel
@@ -23377,12 +23473,10 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -23390,7 +23484,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -23400,7 +23493,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -23410,7 +23502,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -23420,7 +23511,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -23430,7 +23520,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -23573,14 +23662,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   isActive={false}
                   isHovered={false}
                   label="Meta description"
-                  mobileWidth={356}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
                   placeholder="Modify your meta description by editing it right here"
                   recommendedReplacementVariables={Array []}
                   replacementVariables={Array []}
-                  styleForMobile={true}
                   type="description"
                   withCaret={true}
                 >
@@ -23597,12 +23684,10 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     </div>
                   </Shared__SimulatedLabel>
                   <Shared__TriggerReplacementVariableSuggestionsButton
-                    isSmallerThanMobileWidth={true}
                     onClick={[Function]}
                   >
                     <Button
                       className="c31"
-                      isSmallerThanMobileWidth={true}
                       onClick={[Function]}
                     >
                       <Button
@@ -23610,7 +23695,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
                         className="c31 c2"
-                        isSmallerThanMobileWidth={true}
                         onClick={[Function]}
                         textColor="#555"
                         type="button"
@@ -23620,7 +23704,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
                           className="c31 c2 Button-kDSBcD c3"
-                          isSmallerThanMobileWidth={true}
                           onClick={[Function]}
                           textColor="#555"
                           type="button"
@@ -23630,7 +23713,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
                             className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4"
-                            isSmallerThanMobileWidth={true}
                             onClick={[Function]}
                             textColor="#555"
                             type="button"
@@ -23640,7 +23722,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
                               className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5"
-                              isSmallerThanMobileWidth={true}
                               onClick={[Function]}
                               textColor="#555"
                               type="button"
@@ -23650,7 +23731,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
                                 className="c31 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6"
-                                isSmallerThanMobileWidth={true}
                                 onClick={[Function]}
                                 textColor="#555"
                                 type="button"
@@ -24077,6 +24157,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
@@ -24622,6 +24703,7 @@ exports[`SnippetEditor shows the editor 1`] = `
 .c22 {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 0px;
   margin-left: 20px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;

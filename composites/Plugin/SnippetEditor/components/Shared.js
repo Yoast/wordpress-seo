@@ -4,10 +4,18 @@ import styled from "styled-components";
 /* Internal dependencies */
 import colors from "../../../../style-guide/colors";
 import { Button } from "../../Shared/components/Button";
+import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
-const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
+export const angleRight = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
 	'<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">' +
 	'<path fill="' + color + '" d="M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z" />' +
+	"</svg>"
+);
+
+export const angleLeft = ( color ) => "data:image/svg+xml;charset=utf8," + encodeURIComponent(
+	'<svg width="1792" height="1792" viewBox="0 0 192 512" xmlns="http://www.w3.org/2000/svg">' +
+	'<path fill="' + color + '" d="M192 127.338v257.324c0 17.818-21.543 26.741-34.142 14.142L29.196 ' +
+	'270.142c-7.81-7.81-7.81-20.474 0-28.284l128.662-128.662c12.599-12.6 34.142-3.676 34.142 14.142z"/>' +
 	"</svg>"
 );
 
@@ -41,8 +49,10 @@ function getCaretColor( props ) {
  */
 export const InputContainer = styled.div.attrs( {
 } )`
-	padding: 3px 5px;
+	flex: 0 1 100%;
 	border: 1px solid ${ ( props ) => props.isActive ? "#5b9dd9" : "#ddd" };
+	padding: 3px 5px;
+	box-sizing: border-box;
 	box-shadow: ${ ( props ) => props.isActive ? "0 0 2px rgba(30,140,190,.8);" : "inset 0 1px 2px rgba(0,0,0,.07)" };
 	background-color: #fff;
 	color: #32373c;
@@ -54,16 +64,32 @@ export const InputContainer = styled.div.attrs( {
 	cursor: text;
 `;
 
+/**
+ * Gets the background image based on the color from the props and the language direction.
+ *
+ * @param {Object} props The component's props.
+ *
+ * @returns {string} The background image.
+ */
+function getBackgroundImage( props ) {
+	let rtlStyle = getRtlStyle(
+		angleRight( getCaretColor( props ) ),
+		angleLeft( getCaretColor( props ) )
+	);
+
+	return rtlStyle( props );
+}
+
 export const withCaretStyles = Component => {
 	return Component.extend`
 		&::before {
 			display: block;
 			position: absolute;
 			top: -1px;
-			left: -25px;
+			${ getRtlStyle( "left", "right" ) }: -25px;
 			width: 24px;
 			height: 24px;
-			background-image: url( ${ ( props ) => angleRight( getCaretColor( props ) ) });
+			background-image: url( ${ getBackgroundImage } );
 			background-size: 25px;
 			content: "";
 		}
@@ -92,6 +118,10 @@ export const DescriptionInputContainer = InputContainer.extend`
 `;
 
 export const FormSection = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
 	margin: 24px 0 0 0;
 `;
 
@@ -103,30 +133,24 @@ export const StyledEditor = styled.section`
  * A div element that looks like it can be interacted with like a label.
  */
 export const SimulatedLabel = styled.div`
+	flex: 1 1 200px;
+	min-width: 200px;
 	cursor: pointer;
 	font-size: 16px;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
-	margin-bottom: 9px;
+	margin: 4px 0;
 `;
 
 export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
 	box-shadow: none;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
-	fill: ${ colors.$color_grey_dark };
 	padding-left: 8px;
-	float: right;
-	margin-top: -33px; // negative height
 	height: 33px;
 	border: 1px solid #dbdbdb;
 	font-size: 13px;
 
-	${ props => props.isSmallerThanMobileWidth && `
-		float: none;
-		margin-top: 0;
-		margin-bottom: 2px;
-	` }
-
 	& svg {
-		margin-right: 7px;
+		${ getRtlStyle( "margin-right", "margin-left" ) }: 7px;
+		fill: ${ colors.$color_grey_dark };
 	}
 `;
