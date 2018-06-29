@@ -1,11 +1,15 @@
-var addMark = require( "../../js/markers/addMark.js" );
+const addMarkSingleWord = require( "../../js/markers/addMarkSingleWord.js" );
 
 describe( "addMark", function() {
 	it( "should mark an empty text", function() {
-		expect( addMark( "" ) ).toBe( "<yoastmark class='yoast-text-mark'></yoastmark>" );
+		expect( addMarkSingleWord( "" ) ).toBe( "<yoastmark class='yoast-text-mark'></yoastmark>" );
 	} );
 
 	it( "should mark a normal text", function() {
-		expect( addMark( "A piece of text" ) ).toBe( "<yoastmark class='yoast-text-mark'>A piece of text</yoastmark>" );
+		expect( addMarkSingleWord( "A piece of text" ) ).toBe( "<yoastmark class='yoast-text-mark'>A piece of text</yoastmark>" );
+	} );
+
+	it( "should mark a text that starts with word boundaries", function() {
+		expect( addMarkSingleWord( "> ()A piece of text" ) ).toBe( "> ()" + "<yoastmark class='yoast-text-mark'>A piece of text</yoastmark>" );
 	} );
 } );
