@@ -106,6 +106,9 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.7.3 =
+Release Date:
+
 = 7.7.2 =
 Release Date: June 29th, 2018
 
