@@ -1,7 +1,12 @@
-exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
+exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] = `
 <SnippetPreviewSection
   hasPaperStyle={true}
   icon="eye"
+  theme={
+    Object {
+      "isRtl": true,
+    }
+  }
   title="Snippet editor">
   <SnippetPreviewSection__Section
     hasPaperStyle={true}
@@ -10,7 +15,38 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
     headingLevel={3}
     headingText="Snippet editor">
     <StyledSection
-      className="SnippetPreviewSection__Section-kWfIbs iPXqmw"
+      className="SnippetPreviewSection__Section-kWfIbs hPjctU"
+      hasPaperStyle={true}
+      headingIcon="eye"
+      headingIconColor="#555"
+      headingLevel={3}
+      headingText="Snippet editor">
+      <span>
+        yoast-components StyledSection
+      </span>
+    </StyledSection>
+  </SnippetPreviewSection__Section>
+</SnippetPreviewSection>
+`;
+
+exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
+<SnippetPreviewSection
+  hasPaperStyle={true}
+  icon="eye"
+  theme={
+    Object {
+      "isRtl": false,
+    }
+  }
+  title="Snippet editor">
+  <SnippetPreviewSection__Section
+    hasPaperStyle={true}
+    headingIcon="eye"
+    headingIconColor="#555"
+    headingLevel={3}
+    headingText="Snippet editor">
+    <StyledSection
+      className="SnippetPreviewSection__Section-kWfIbs hPjctU"
       hasPaperStyle={true}
       headingIcon="eye"
       headingIconColor="#555"

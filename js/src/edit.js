@@ -18,9 +18,10 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
 import configureEnhancers from "./redux/utils/configureEnhancers";
 import analysisDataReducer from "./redux/reducers/analysisData";
+import { ThemeProvider } from "styled-components";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
-let localizedData = { intl: {} };
+let localizedData = { intl: {}, isRtl: false };
 if( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoPostScraperL10n;
 } else if ( window.wpseoTermScraperL10n ) {
@@ -57,11 +58,17 @@ function configureStore() {
  * @returns {ReactElement} The wrapped component.
  */
 function wrapInTopLevelComponents( Component, store, props ) {
+	const theme = {
+		isRtl: localizedData.isRtl,
+	};
+
 	return (
 		<IntlProvider
 			messages={ localizedData.intl } >
 			<Provider store={ store } >
-				<Component { ...props } />
+				<ThemeProvider theme={ theme }>
+					<Component { ...props } />
+				</ThemeProvider>
 			</Provider>
 		</IntlProvider>
 	);
