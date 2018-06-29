@@ -28,6 +28,8 @@ class largestKeywordDistanceAssessment extends Assessment {
 				okay: 6,
 				bad: 1,
 			},
+			urlDistribute: "<a href='https://yoa.st/2pe' target='_blank'>distribute</a>",
+			urlDistributed: "<a href='https://yoa.st/2pe' target='_blank'>distributed</a>",
 		};
 
 		this.identifier = "largestKeywordDistance";
@@ -75,12 +77,16 @@ class largestKeywordDistanceAssessment extends Assessment {
 		if ( this._largestKeywordDistance > this._config.overRecommendedMaximumKeywordDistance ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: i18n.sprintf( i18n.dngettext(
-					"js-text-analysis",
-					"Large parts of your text do not contain the keyword. Try to distribute the keyword more evenly.",
-					"Large parts of your text do not contain the keyword or its synonyms. Try to distribute them more evenly.",
-					this._hasSynonyms + 1
-				) ),
+				resultText: i18n.sprintf(
+					// Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution, the text says "distribute".
+					i18n.dngettext(
+						"js-text-analysis",
+						"Large parts of your text do not contain the keyword. Try to %1$s the keyword more evenly.",
+						"Large parts of your text do not contain the keyword or its synonyms. Try to %1$s them more evenly.",
+						this._hasSynonyms + 1
+					),
+					this._config.urlDistribute
+				),
 			};
 		}
 
@@ -90,23 +96,31 @@ class largestKeywordDistanceAssessment extends Assessment {
 			this._config.overRecommendedMaximumKeywordDistance ) ) {
 			return {
 				score: this._config.scores.okay,
-				resultText: i18n.sprintf( i18n.dngettext(
-					"js-text-analysis",
-					"Some parts of your text do not contain the keyword. Try to distribute the keyword more evenly.",
-					"Some parts of your text do not contain the keyword or its synonyms. Try to distribute them more evenly.",
-					this._hasSynonyms + 1
-				) ),
+				resultText: i18n.sprintf(
+					// Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution, the text says "distribute".
+					i18n.dngettext(
+						"js-text-analysis",
+						"Some parts of your text do not contain the keyword. Try to %1$s the keyword more evenly.",
+						"Some parts of your text do not contain the keyword or its synonyms. Try to %1$s them more evenly.",
+						this._hasSynonyms + 1
+					),
+					this._config.urlDistribute
+				),
 			};
 		}
 
 		return {
 			score: this._config.scores.good,
-			resultText: i18n.sprintf( i18n.dngettext(
-				"js-text-analysis",
-				"Your keyword is distributed evenly throughout the text. That's great.",
-				"Your keyword and its synonyms are distributed evenly throughout the text. That's great.",
-				this._hasSynonyms + 1
-			) ),
+			resultText: i18n.sprintf(
+				// Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution, the text says "distributed".
+				i18n.dngettext(
+					"js-text-analysis",
+					"Your keyword is %1$s evenly throughout the text. That's great.",
+					"Your keyword and its synonyms are %1$s evenly throughout the text. That's great.",
+					this._hasSynonyms + 1
+				),
+				this._config.urlDistributed
+			),
 		};
 	}
 

@@ -1,7 +1,6 @@
 /* global describe it expect */
 const topicCount = require( "../../js/researches/topicCount.js" );
 const Paper = require( "../../js/values/Paper.js" );
-// todo: change this spec as soon as the proper synonyms interface is ready.
 describe( "Test for counting the keyword and synonyms in a text", function() {
 	it( "returns topic count equal to keyword count if only keyword is supplied", function() {
 		let mockPaper = new Paper( "a string of text with the keyword in it.", { keyword: "keyword" } );
@@ -77,6 +76,5 @@ describe( "Test for counting the keyword and synonyms in a text", function() {
 		mockPaper = new Paper( "a string with a keyword, a synonym 1, another synonym-2, a synonym3 and another synonym 3.",
 			{ keyword: "", synonyms: "" } );
 		expect( topicCount( mockPaper ).count ).toBe( 0 );
-
 	} );
 } );

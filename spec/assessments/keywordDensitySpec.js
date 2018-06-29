@@ -15,7 +15,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "The keyword density is 0%, which is too low; the focus keyword was found 0 times." );
+		expect( result.getText() ).toBe( "The <a href='https://yoa.st/kd1' target='_blank'>keyword density</a> is 0%, which is too low; the focus keyword was found 0 times." );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
@@ -25,7 +25,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "The keyword density is 0.1%, which is too low; the focus keyword was found 1 time." );
+		expect( result.getText() ).toBe( "The <a href='https://yoa.st/kd1' target='_blank'>keyword density</a> is 0.1%, which is too low; the focus keyword was found 1 time." );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
@@ -35,7 +35,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "The keyword density is 10%, which is way over the advised 2.5% maximum; the focus keyword was found 1 time." );
+		expect( result.getText() ).toBe( "The <a href='https://yoa.st/kd1' target='_blank'>keyword density</a> is 10%, which is way over the advised 2.5% maximum; the focus keyword was found 1 time." );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
 		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
@@ -45,7 +45,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "The keyword density is 2%, which is great; the focus keyword was found 1 time." );
+		expect( result.getText() ).toBe( "The <a href='https://yoa.st/kd1' target='_blank'>keyword density</a> is 2%, which is great; the focus keyword was found 1 time." );
 
 		paper = new Paper( "string with the keyword  and keyword ", { keyword: "keyword" } );
 		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
@@ -55,7 +55,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -10 );
-		expect( result.getText() ).toBe( "The keyword density is 3%, which is over the advised 2.5% maximum; the focus keyword was found 2 times." );
+		expect( result.getText() ).toBe( "The <a href='https://yoa.st/kd1' target='_blank'>keyword density</a> is 3%, which is over the advised 2.5% maximum; the focus keyword was found 2 times." );
 
 		paper = new Paper( "string with the keyword  and keyword ", { keyword: "keyword" } );
 		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
@@ -65,7 +65,7 @@ describe( "An assessment for the keywordDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "The keyword density is 0.5%, which is great; the focus keyword was found 2 times." );
+		expect( result.getText() ).toBe( "The <a href='https://yoa.st/kd1' target='_blank'>keyword density</a> is 0.5%, which is great; the focus keyword was found 2 times." );
 	} );
 } );
 
