@@ -122,8 +122,8 @@ describe( "A test for marking keywords in the text", function() {
 		let expected = [
 			new Mark( {
 				original: "".concat( keyword, " ", text, " ", keyword ),
-				marked: "".concat( "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", " ", text,
-					"<yoastmark class='yoast-text-mark'>", " ", keyword, "</yoastmark>" ),
+				marked: "".concat( "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", " ", text, " ",
+					"<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>" ),
 			} ),
 		];
 		expect( keywordDistanceAssessment.getMarks( mockPaper ) ).toEqual( expected );
@@ -140,9 +140,9 @@ describe( "A test for marking keywords in the text", function() {
 		let expected = [
 			new Mark( {
 				original: "".concat( keyword, " ", text, " ", keyword, " ", text, " ", synonym ),
-				marked: "".concat( "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", " ", text,
-					"<yoastmark class='yoast-text-mark'>", " ", keyword, "</yoastmark>", " ",
-					text, "<yoastmark class='yoast-text-mark'>", " ", synonym, "</yoastmark>" ),
+				marked: "".concat( "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", " ", text, " ",
+					"<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", " ",
+					text, " ", "<yoastmark class='yoast-text-mark'>", synonym, "</yoastmark>" ),
 			} ),
 		];
 		expect( keywordDistanceAssessment.getMarks( mockPaper ) ).toEqual( expected );
@@ -164,8 +164,8 @@ describe( "A test for marking keywords in the text", function() {
 			} ),
 			new Mark( {
 				original: "".concat( ">", keyword, "> ", text, ") ", synonym ),
-				marked: "".concat( "<yoastmark class='yoast-text-mark'>", ">", keyword, "</yoastmark>", "> ", text,
-					")", "<yoastmark class='yoast-text-mark'>", " ", synonym, "</yoastmark>" ),
+				marked: "".concat( ">", "<yoastmark class='yoast-text-mark'>", keyword, "</yoastmark>", "> ", text,
+					") ", "<yoastmark class='yoast-text-mark'>", synonym, "</yoastmark>" ),
 			} ),
 		];
 		expect( keywordDistanceAssessment.getMarks( mockPaper ) ).toEqual( expected );

@@ -6,7 +6,7 @@ const unique = require( "lodash/uniq" );
 const isEmpty = require( "lodash/isEmpty" );
 const getSentences = require( "../stringProcessing/getSentences" );
 const arrayToRegex = require( "../stringProcessing/createRegexFromArray" );
-const addMark = require( "../markers/addMark" );
+const addMark = require( "../markers/addMarkSingleWord" );
 const Mark = require( "../values/Mark.js" );
 
 /**

@@ -75,7 +75,7 @@ describe( "A test for marking the keyword", function() {
 		const expected = [
 			new Mark( {
 				original: "This is a very interesting paper with a keyword and another keyword.",
-				marked: "This is a very interesting paper with a<yoastmark class='yoast-text-mark'> keyword</yoastmark> and another<yoastmark class='yoast-text-mark'> keyword</yoastmark>.",
+				marked: "This is a very interesting paper with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> and another <yoastmark class='yoast-text-mark'>keyword</yoastmark>.",
 			} ),
 		];
 		expect( keywordDensityAssessment.getMarks( paper ) ).toEqual( expected );

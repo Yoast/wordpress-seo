@@ -65,7 +65,7 @@ describe( "A test for marking the keyword and its synonyms", function() {
 		const expected = [
 			new Mark( {
 				original: "This is a very interesting paper with a keyword and other keywords.",
-				marked: "This is a very interesting paper with a<yoastmark class='yoast-text-mark'> keyword</yoastmark> and<yoastmark class='yoast-text-mark'> other keywords</yoastmark>.",
+				marked: "This is a very interesting paper with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> and <yoastmark class='yoast-text-mark'>other keywords</yoastmark>.",
 			} ),
 		];
 		expect( new TopicDensityAssessment().getMarks( paper ) ).toEqual( expected );
@@ -76,7 +76,7 @@ describe( "A test for marking the keyword and its synonyms", function() {
 		const expected = [
 			new Mark( {
 				original: "This is a very interesting paper with a key word and another key.",
-				marked: "This is a very interesting paper with a<yoastmark class='yoast-text-mark'> key word</yoastmark> and another<yoastmark class='yoast-text-mark'> key</yoastmark>.",
+				marked: "This is a very interesting paper with a <yoastmark class='yoast-text-mark'>key word</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>.",
 			} ),
 		];
 		expect( new TopicDensityAssessment().getMarks( paper ) ).toEqual( expected );
