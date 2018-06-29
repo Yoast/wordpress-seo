@@ -24,10 +24,10 @@ class TopicDensityAssessment extends Assessment {
 
 		let defaultConfig = {
 			parameters: {
-				maxText: "3%",
+				maxText: "3.5%",
 				recommendedMinimum: 0.5,
-				recommendedMaximum: 3,
-				slightlyOverMaximum: 4,
+				recommendedMaximum: 3.5,
+				slightlyOverMaximum: 4.5,
 			},
 			scores: {
 				tooLittle: 4,

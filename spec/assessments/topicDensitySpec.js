@@ -25,7 +25,7 @@ describe( "An assessment for the topicDensity", function() {
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "The <a href='https://yoa.st/2pe' target='_blank'>topic density</a> is 10%, which is way over the advised 3% maximum; the focus keyword and its synonyms were found 50 times." );
+		expect( result.getText() ).toBe( "The <a href='https://yoa.st/2pe' target='_blank'>topic density</a> is 10%, which is way over the advised 3.5% maximum; the focus keyword and its synonyms were found 50 times." );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword", synonyms: "synonym" } );
 		result = new TopicDensityAssessment().getResult( paper, factory.buildMockResearcher( {
@@ -39,13 +39,13 @@ describe( "An assessment for the topicDensity", function() {
 
 		paper = new Paper( "string with the keyword and keyword ", { keyword: "keyword", synonyms: "synonym" } );
 		result = new TopicDensityAssessment().getResult( paper, factory.buildMockResearcher( {
-			getTopicDensity: 3.5,
+			getTopicDensity: 3.8,
 			topicCount: {
 				count: 2,
 			},
 		}, true ), i18n );
 		expect( result.getScore() ).toBe( -10 );
-		expect( result.getText() ).toBe( "The <a href='https://yoa.st/2pe' target='_blank'>topic density</a> is 3.5%, which is over the advised 3% maximum; the focus keyword and its synonyms were found 2 times." );
+		expect( result.getText() ).toBe( "The <a href='https://yoa.st/2pe' target='_blank'>topic density</a> is 3.8%, which is over the advised 3.5% maximum; the focus keyword and its synonyms were found 2 times." );
 
 		paper = new Paper( "string with the keyword and keyword ", { keyword: "keyword", synonyms: "synonym" } );
 		result = new TopicDensityAssessment().getResult( paper, factory.buildMockResearcher( {
