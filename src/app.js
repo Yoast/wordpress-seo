@@ -356,7 +356,7 @@ App.prototype.getSeoAssessor = function() {
 
 	const assessor = useCornerStone ? this.cornerStoneSeoAssessor : this.defaultSeoAssessor;
 	if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "largestKeywordDistance" ) ) ) {
-		assessor.addAssessment( "largestKeywordDistance", largestKeywordDistance )
+		assessor.addAssessment( "largestKeywordDistance", largestKeywordDistance );
 	}
 
 	return assessor;
