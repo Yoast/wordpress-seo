@@ -112,6 +112,7 @@ Release Date: June 28th, 2018
 Bugfixes:
 * Fixes a bug where the snippet variables selection is hidden behind the WordPress menu when using a right-to-left language.
 * Fixes styling in the snippet preview when using a right-to-left language.
+* Fixes a bug where the 'insert snippet variable' button placement was inconsistent.
 * Migrates WooCommerce Product archive settings to the Shop page, if present and not already set on the Shop page.
 
 = 7.7.1 =
