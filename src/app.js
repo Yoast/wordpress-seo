@@ -9,7 +9,7 @@ var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
 var isEmpty = require( "lodash/isEmpty" );
 var isFunction = require( "lodash/isFunction" );
-var merge = require( "lodash/merge" );
+var isArray = require( "lodash/isArray" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
 var throttle = require( "lodash/throttle" );
@@ -468,6 +468,21 @@ App.prototype.constructI18n = function( translations ) {
 };
 
 /**
+ * Registers a custom data callback.
+ *
+ * @param {Function} callback
+ */
+App.prototype.registerCustomDataCallback = function( callback ) {
+	if( ! this.callbacks.custom ) {
+		this.callbacks.custom = [];
+	}
+
+	if ( isFunction( callback ) ) {
+		this.callbacks.push( callback );
+	}
+};
+
+/**
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
  *
  * @returns {void}
@@ -475,14 +490,13 @@ App.prototype.constructI18n = function( translations ) {
 App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
 
-	/*
-	 * The function getPremiumData gets initialized only in premium.
-	 * This is so the premium specific data gets combined with the data from free.
-	 */
-	if ( isFunction( this.callbacks.getPremiumData ) ) {
-		const rawPremiumData = this.callbacks.getPremiumData();
+	// Add the custom data to the raw data.
+	if ( isArray( this.callbacks.custom ) ) {
+		this.callbacks.forEach( ( customCallback ) => {
+			const customData = customCallback();
 
-		this.rawData = merge( this.rawData, rawPremiumData );
+			this.rawData = merge( this.rawData, customData );
+		} );
 	}
 
 	if ( this.hasSnippetPreview() ) {
