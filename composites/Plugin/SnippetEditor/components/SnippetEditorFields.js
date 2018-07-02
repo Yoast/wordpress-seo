@@ -211,7 +211,7 @@ class SnippetEditorFields extends React.Component {
 							onBlur={ () => onBlur() }
 							innerRef={ ref => this.setRef( "slug", ref ) }
 							aria-labelledby={ this.uniqueId + "-slug" }
-							id={ "snippet-editor-field-slug" }
+							id="snippet-editor-field-slug"
 						/>
 					</InputContainerWithCaretStyles>
 				</FormSection>
@@ -230,7 +230,7 @@ class SnippetEditorFields extends React.Component {
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ description }
 						onChange={ content => onChange( "description", content ) }
-						fieldId={ "snippet-editor-field-description" }
+						fieldId="snippet-editor-field-description"
 					/>
 					<ProgressBar
 						max={ descriptionLengthProgress.max }
