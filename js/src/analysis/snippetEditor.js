@@ -92,12 +92,15 @@ export function getDataWithoutTemplates( data, templates ) {
 	const dataWithoutTemplates = { ...data };
 
 	forEach( templates, ( template, key ) => {
-		if ( has( data, key ) ) {
-			// Trim spaces from the beginning and end of the data to make a fair comparison with the template.
-			const trimmedData = data[ key ].replace( /^\s+|\s+$/g, "" );
-			if ( trimmedData === template ) {
-				dataWithoutTemplates[ key ] = "";
-			}
+		if ( ! has( data, key ) ) {
+			return;
+		}
+
+		// Trim spaces from the beginning and end of the data to make a fair comparison with the template.
+		const trimmedData = data[ key ].trim();
+
+		if ( trimmedData === template ) {
+			dataWithoutTemplates[ key ] = "";
 		}
 	} );
 
