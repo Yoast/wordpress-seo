@@ -119,6 +119,11 @@ class WPSEO_Upgrade {
 			$this->upgrade_772();
 		}
 
+		if ( version_compare( $version, '7.7-RC0', '>=' )
+			 && version_compare( WPSEO_VERSION, '7.7.3', '=' ) ) {
+			$this->upgrade_773();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -608,6 +613,66 @@ class WPSEO_Upgrade {
 	private function upgrade_772() {
 		if ( WPSEO_Utils::is_woocommerce_active() ) {
 			$this->migrate_woocommerce_archive_setting_to_shop_page();
+		}
+	}
+
+	/**
+	 * Removes post meta settings when the content matches the template from the post type the post belongs to.
+	 */
+	private function upgrade_773() {
+		global $wpdb;
+
+		// Starting Wednesday 0:00 after the release.
+		$date_from = gmmktime( 0, 0, 0, 6, 27, 2018 );
+		// Ending the current moment - not surpassing a two week window.
+		$date_end = min( gmmktime( 0, 0, 0, 7, 10, 2018 ), time() );
+
+		// Apply for all post-types.
+		$post_type_names = get_post_types( array( 'public' => true ) );
+		foreach ( $post_type_names as $post_type ) {
+			// Fetch title template for this post type.
+			$title_template = WPSEO_Options::get( 'title-' . $post_type );
+
+			// Remove title templates on posts that were modified during the specified period.
+			$query = $wpdb->prepare( "
+			DELETE FROM {$wpdb->prefix}postmeta
+				  WHERE meta_key = '_yoast_wpseo_title'
+				    AND meta_value = %s
+					AND post_id IN (
+						SELECT ID
+						  FROM {$wpdb->prefix}posts
+						 WHERE post_type = %s
+						   AND post_modified_gmt BETWEEN %s AND %s
+						)",
+				$title_template,
+				$post_type,
+				date( 'Y-m-d H:i:s', $date_from ),
+				date( 'Y-m-d H:i:s', $date_end )
+			);
+
+			$wpdb->query( $query );
+
+			// Fetch meta description template for this post type.
+			$metadesc_template = WPSEO_Options::get( 'metadesc-' . $post_type );
+
+			// Remove meta description templates on posts that were modified during the specified period.
+			$query = $wpdb->prepare( "
+			DELETE FROM {$wpdb->prefix}postmeta
+				  WHERE meta_key = '_yoast_wpseo_metadesc'
+				    AND meta_value = %s
+					AND post_id IN (
+						SELECT ID
+						  FROM {$wpdb->prefix}posts
+						 WHERE post_type = %s
+						   AND post_modified_gmt BETWEEN %s AND %s
+						)",
+				$metadesc_template,
+				$post_type,
+				date( 'Y-m-d H:i:s', $date_from ),
+				date( 'Y-m-d H:i:s', $date_end )
+			);
+
+			$wpdb->query( $query );
 		}
 	}
 
