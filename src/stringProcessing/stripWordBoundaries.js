@@ -24,7 +24,7 @@ const stripWordBoundariesStart = function( text ) {
  * @returns {String} The text without double word boundary markers.
  */
 const stripWordBoundariesEnd = function( text ) {
-	// Remove first character if word boundary
+	// Remove last character if word boundary
 	text = text.replace( wordBoundaryEnd, "" );
 
 	return text;

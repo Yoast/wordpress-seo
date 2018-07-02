@@ -25,13 +25,9 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 	if ( roundedKeywordDensity > 3.5 ) {
 		score = -50;
 
-		/* Translators:
-		 * %1$s expands to the keyword density percentage,
-		 * %2$d expands to the keyword count,
-		 * %3$s expands to the maximum keyword density percentage,
-		 * %4$s expands to a link to a Yoast.com article about keyword and topic density,
-		 * %5$s expands to the anchor end tag.
-		 * */
+		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
+		%3$s expands to the maximum keyword density percentage, %4$s expands to a link to a Yoast.com article
+		about keyword and topic density, %5$s expands to the anchor end tag. */
 		text = i18n.dngettext(
 			"js-text-analysis",
 			"The %4$skeyword density%5$s is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d time.",
@@ -45,13 +41,9 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 	if ( inRangeEndInclusive( roundedKeywordDensity, 2.5, 3.5 ) ) {
 		score = -10;
 
-		/* Translators:
-		 * %1$s expands to the keyword density percentage,
-		 * %2$d expands to the keyword count,
-		 * %3$s expands to the maximum keyword density percentage,
-		 * %4$s expands to a link to a Yoast.com article about keyword and topic density,
-		 * %5$s expands to the anchor end tag.
-		 * */
+		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
+		%3$s expands to the maximum keyword density percentage, %4$s expands to a link to a Yoast.com article
+		about keyword and topic density, %5$s expands to the anchor end tag. */
 		text = i18n.dngettext(
 			"js-text-analysis",
 			"The %4$skeyword density%5$s is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d time.",
@@ -65,12 +57,9 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 	if ( inRangeStartEndInclusive( roundedKeywordDensity, 0.5, 2.5 ) ) {
 		score = 9;
 
-		/* Translators:
-		 * %1$s expands to the keyword density percentage,
-		 * %2$d expands to the keyword count,
-		 * %3$s expands to a link to a Yoast.com article about keyword and topic density,
-		 * %4$s expands to the anchor end tag.
-		 * */
+		/* Translators:	%1$s expands to the keyword density percentage,	%2$d expands to the keyword count,
+		%3$s expands to a link to a Yoast.com article about keyword and topic density,
+		%4$s expands to the anchor end tag. */
 		text = i18n.dngettext(
 			"js-text-analysis",
 			"The %3$skeyword density%4$s is %1$s, which is great; the focus keyword was found %2$d time.",
@@ -84,12 +73,9 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 	if ( roundedKeywordDensity < 0.5 && keywordCount === 0 ) {
 		score = 4;
 
-		/* Translators:
-		 * %1$s expands to the keyword density percentage,
-		 * %2$d expands to the keyword count,
-		 * %3$s expands to a link to a Yoast.com article about keyword and topic density,
-		 * %4$s expands to the anchor end tag.
-		 * */
+		/* Translators:	%1$s expands to the keyword density percentage,	%2$d expands to the keyword count,
+		%3$s expands to a link to a Yoast.com article about keyword and topic density,
+		%4$s expands to the anchor end tag.	*/
 		text = i18n.dgettext(
 			"js-text-analysis",
 			"The %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d times."
@@ -101,12 +87,9 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 	if ( roundedKeywordDensity < 0.5 && ! ( keywordCount === 0 ) ) {
 		score = 4;
 
-		/* Translators:
-		 * %1$s expands to the keyword density percentage,
-		 * %2$d expands to the keyword count,
-		 * %3$s expands to a link to a Yoast.com article about keyword and topic density,
-		 * %4$s expands to the anchor end tag.
-		 * */
+		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
+		%3$s expands to a link to a Yoast.com article about keyword and topic density,
+		%4$s expands to the anchor end tag. */
 		text = i18n.dngettext(
 			"js-text-analysis",
 			"The %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d time.",

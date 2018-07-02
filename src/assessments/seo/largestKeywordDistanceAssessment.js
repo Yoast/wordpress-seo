@@ -77,11 +77,8 @@ class largestKeywordDistanceAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
-					/*
-					 * Translators:
-					 * %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
-					 * %2$s expands to the anchor end tag
-					 */
+					/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+					%2$s expands to the anchor end tag */
 					i18n.dngettext(
 						"js-text-analysis",
 						"Large parts of your text do not contain the keyword. Try to %1$sdistribute%2$s the keyword more evenly.",
@@ -101,11 +98,8 @@ class largestKeywordDistanceAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
-					/*
-					 * Translators:
-					 * %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
-					 * %2$s expands to the anchor end tag
-					 */
+					/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+					%2$s expands to the anchor end tag */
 					i18n.dngettext(
 						"js-text-analysis",
 						"Some parts of your text do not contain the keyword. Try to %1$sdistribute%2$s the keyword more evenly.",
@@ -121,11 +115,8 @@ class largestKeywordDistanceAssessment extends Assessment {
 		return {
 			score: this._config.scores.good,
 			resultText: i18n.sprintf(
-				/*
-				 * Translators:
-				 * %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
-				 * %2$s expands to the anchor end tag
-				 */
+				/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+				%2$s expands to the anchor end tag */
 				i18n.dngettext(
 					"js-text-analysis",
 					"Your keyword is %1$sdistributed%2$s evenly throughout the text. That's great.",
