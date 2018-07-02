@@ -2161,6 +2161,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="30"
                         content="Test title"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -2372,6 +2373,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="31"
                         content="Test description, %%replacement_variable%%"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -4007,6 +4009,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="30"
                         content="Test title"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -4218,6 +4221,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="31"
                         content="Test description, %%replacement_variable%%"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -5853,6 +5857,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="30"
                         content="Test title"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -6064,6 +6069,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="31"
                         content="Test description, %%replacement_variable%%"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -10670,6 +10676,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="42"
                         content="Test title"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -10881,6 +10888,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="43"
                         content="Test description, %%replacement_variable%%"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -12516,6 +12524,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="38"
                         content="Test title"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -12727,6 +12736,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="39"
                         content="Test description, %%replacement_variable%%"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -17340,6 +17350,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="17"
                         content="Test title"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -17551,6 +17562,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="18"
                         content="Test description, %%replacement_variable%%"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -19186,6 +19198,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="9"
                         content="Test title"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -19397,6 +19410,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="10"
                         content="Test description, %%replacement_variable%%"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -21065,6 +21079,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="34"
                         content="Test title"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -21298,6 +21313,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="35"
                         content="Test description, %%replacement_variable%%"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -23578,6 +23594,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="25"
                         content="Test title"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -23789,6 +23806,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="26"
                         content="Test description, %%replacement_variable%%"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
