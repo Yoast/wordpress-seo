@@ -1019,7 +1019,6 @@ button.yoast-tooltip {
 
 	-ms-flex-direction: column;
 }
-
 /**
  * Draft v0.10.5
  *
@@ -1048,7 +1047,7 @@ button.yoast-tooltip {
 .DraftEditor-editorContainer {
 	position: relative;
 	z-index: 1;
-	border-right: 0.1px solid transparent;
+	border-left: 0.1px solid transparent;
 	background-color: rgba(255, 255, 255, 0);
 }
 
@@ -1057,12 +1056,12 @@ button.yoast-tooltip {
 }
 
 .DraftEditor-alignLeft .public-DraftStyleDefault-block {
-	text-align: right;
+	text-align: left;
 }
 
 .DraftEditor-alignLeft .public-DraftEditorPlaceholder-root {
-	right: 0;
-	text-align: right;
+	left: 0;
+	text-align: left;
 }
 
 .DraftEditor-alignCenter .public-DraftStyleDefault-block {
@@ -1076,12 +1075,12 @@ button.yoast-tooltip {
 }
 
 .DraftEditor-alignRight .public-DraftStyleDefault-block {
-	text-align: left;
+	text-align: right;
 }
 
 .DraftEditor-alignRight .public-DraftEditorPlaceholder-root {
-	left: 0;
-	text-align: left;
+	right: 0;
+	text-align: right;
 }
 
 .public-DraftEditorPlaceholder-root {
@@ -1104,23 +1103,23 @@ button.yoast-tooltip {
 }
 
 .public-DraftStyleDefault-ltr {
-	text-align: right;
-
-	direction: rtl;
-}
-
-.public-DraftStyleDefault-rtl {
 	text-align: left;
 
 	direction: ltr;
 }
 
-.public-DraftStyleDefault-listLTR {
+.public-DraftStyleDefault-rtl {
+	text-align: right;
+
 	direction: rtl;
 }
 
-.public-DraftStyleDefault-listRTL {
+.public-DraftStyleDefault-listLTR {
 	direction: ltr;
+}
+
+.public-DraftStyleDefault-listRTL {
+	direction: rtl;
 }
 
 .public-DraftStyleDefault-ol,
@@ -1130,43 +1129,43 @@ button.yoast-tooltip {
 }
 
 .public-DraftStyleDefault-depth0.public-DraftStyleDefault-listLTR {
-	margin-right: 1.5em;
-}
-
-.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listRTL {
 	margin-left: 1.5em;
 }
 
-.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listLTR {
-	margin-right: 3em;
+.public-DraftStyleDefault-depth0.public-DraftStyleDefault-listRTL {
+	margin-right: 1.5em;
 }
 
-.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listRTL {
+.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listLTR {
 	margin-left: 3em;
 }
 
-.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listLTR {
-	margin-right: 4.5em;
+.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listRTL {
+	margin-right: 3em;
 }
 
-.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listRTL {
+.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listLTR {
 	margin-left: 4.5em;
 }
 
-.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listLTR {
-	margin-right: 6em;
+.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listRTL {
+	margin-right: 4.5em;
 }
 
-.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listRTL {
+.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listLTR {
 	margin-left: 6em;
 }
 
+.public-DraftStyleDefault-depth3.public-DraftStyleDefault-listRTL {
+	margin-right: 6em;
+}
+
 .public-DraftStyleDefault-depth4.public-DraftStyleDefault-listLTR {
-	margin-right: 7.5em;
+	margin-left: 7.5em;
 }
 
 .public-DraftStyleDefault-depth4.public-DraftStyleDefault-listRTL {
-	margin-left: 7.5em;
+	margin-right: 7.5em;
 }
 
 .public-DraftStyleDefault-unorderedListItem {
@@ -1189,16 +1188,16 @@ button.yoast-tooltip {
 
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listLTR:before {
 	position: absolute;
-	right: -36px;
+	left: -36px;
 	width: 30px;
-	text-align: left;
+	text-align: right;
 }
 
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listRTL:before {
 	position: absolute;
-	left: -36px;
+	right: -36px;
 	width: 30px;
-	text-align: right;
+	text-align: left;
 }
 
 .public-DraftStyleDefault-orderedListItem:before {
@@ -1245,7 +1244,6 @@ button.yoast-tooltip {
 .public-DraftStyleDefault-depth4.public-DraftStyleDefault-reset {
 	counter-reset: ol4;
 }
-
 #wpseo_meta {
 	box-sizing: border-box;
 }
