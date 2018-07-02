@@ -19,7 +19,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 				i18n.dgettext( "js-text-analysis", "No %1$sinternal links%2$s appear in this page, consider adding some as appropriate." ),
 				url,
 				"</a>"
-			)
+			),
 		};
 	}
 
@@ -32,7 +32,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 				linkStatistics.internalNofollow,
 				url,
 				"</a>"
-			)
+			),
 		};
 	}
 
@@ -43,9 +43,9 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 				/* Translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
 				%3$s expands to the anchor end tag, %4$s to the number of internal links */
 				i18n.dgettext(
-				"js-text-analysis",
-				"This page has %1$s nofollowed %2$sinternal link(s)%3$s and %4$s normal internal link(s)."
-			),
+					"js-text-analysis",
+					"This page has %1$s nofollowed %2$sinternal link(s)%3$s and %4$s normal internal link(s)."
+				),
 				linkStatistics.internalNofollow,
 				url,
 				"</a>",
@@ -58,7 +58,8 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 		return {
 			score: 9,
 			text: i18n.sprintf(
-				/* Translators: %1$s expands to the number of internal links, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag */
+				/* Translators: %1$s expands to the number of internal links, %2$s expands to a link on yoast.com,
+				%3$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis", "This page has %1$s %2$sinternal link(s)%3$s." ),
 				linkStatistics.internalTotal,
 				url,

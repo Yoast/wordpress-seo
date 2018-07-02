@@ -18,7 +18,7 @@ var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
 				i18n.dgettext( "js-text-analysis", "The focus keyword appears in the %1$sfirst paragraph%2$s of the copy." ),
 				url,
 				"</a>"
-			)
+			),
 		};
 	}
 
@@ -30,7 +30,7 @@ var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
 			"Make sure the topic is clear immediately." ),
 			url,
 			"</a>"
-		)
+		),
 	};
 };
 

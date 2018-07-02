@@ -17,7 +17,7 @@ var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
 				i18n.dgettext( "js-text-analysis", "The meta description %1$scontains the focus keyword%2$s." ),
 				url,
 				"</a>"
-			)
+			),
 		};
 	}
 	if ( keywordMatches === 0 ) {
@@ -28,7 +28,7 @@ var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
 				i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it %1$sdoes not contain the focus keyword%2$s." ),
 				url,
 				"</a>"
-			)
+			),
 		};
 	}
 	return {};
