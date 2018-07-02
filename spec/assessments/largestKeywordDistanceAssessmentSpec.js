@@ -13,7 +13,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual( "Large parts of your text do not contain the keyword. " +
-			"Try to <a href='https://yoa.st/2pe' target='_blank'>distribute</a> the keyword more evenly." );
+			"Try to <a href='https://yoa.st/kd1' target='_blank'>distribute</a> the keyword more evenly." );
 	} );
 
 	it( "returns an okay score when the largest keyword distance is between 40 and 50%", function() {
@@ -22,7 +22,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "Some parts of your text do not contain the keyword. " +
-			"Try to <a href='https://yoa.st/2pe' target='_blank'>distribute</a> the keyword more evenly." );
+			"Try to <a href='https://yoa.st/kd1' target='_blank'>distribute</a> the keyword more evenly." );
 	} );
 
 	it( "returns an good score when the largest keyword distance is less than 40%", function() {
@@ -30,7 +30,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Your keyword is <a href='https://yoa.st/2pe' target='_blank'>distributed</a> evenly " +
+		expect( assessment.getText() ).toEqual( "Your keyword is <a href='https://yoa.st/kd1' target='_blank'>distributed</a> evenly " +
 			"throughout the text. That's great." );
 	} );
 } );
@@ -42,7 +42,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual( "Large parts of your text do not contain the keyword or its synonyms. " +
-			"Try to <a href='https://yoa.st/2pe' target='_blank'>distribute</a> them more evenly." );
+			"Try to <a href='https://yoa.st/kd1' target='_blank'>distribute</a> them more evenly." );
 	} );
 
 	it( "returns an okay score when the largest keyword distance is between 30 and 40%", function() {
@@ -51,7 +51,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "Some parts of your text do not contain the keyword or its synonyms. " +
-			"Try to <a href='https://yoa.st/2pe' target='_blank'>distribute</a> them more evenly." );
+			"Try to <a href='https://yoa.st/kd1' target='_blank'>distribute</a> them more evenly." );
 	} );
 
 	it( "returns an good score when the largest keyword distance is less than 30%", function() {
@@ -60,7 +60,7 @@ describe( "An assessment to check the largest percentage of text in which no key
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "Your keyword and its synonyms are " +
-			"<a href='https://yoa.st/2pe' target='_blank'>distributed</a> evenly throughout the text. That's great." );
+			"<a href='https://yoa.st/kd1' target='_blank'>distributed</a> evenly throughout the text. That's great." );
 	} );
 } );
 

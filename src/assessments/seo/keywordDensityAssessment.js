@@ -20,7 +20,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 	const max = "2.5%";
 	var roundedKeywordDensity = formatNumber( keywordDensity );
 	var keywordDensityPercentage = roundedKeywordDensity + "%";
-	const url = "<a href='https://yoa.st/kd1' target='_blank'>";
+	const url = "<a href='https://yoa.st/2pe' target='_blank'>";
 
 	if ( roundedKeywordDensity > 3.5 ) {
 		score = -50;

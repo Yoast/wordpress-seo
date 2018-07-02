@@ -28,7 +28,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 				okay: 6,
 				bad: 1,
 			},
-			url: "<a href='https://yoa.st/2pe' target='_blank'>",
+			url: "<a href='https://yoa.st/kd1' target='_blank'>",
 		};
 
 		this.identifier = "largestKeywordDistance";

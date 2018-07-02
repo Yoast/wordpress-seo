@@ -35,7 +35,7 @@ class TopicDensityAssessment extends Assessment {
 				tooMuch: -10,
 				wayTooMuch: -50,
 			},
-			url: "<a href='https://yoa.st/2pe' target='_blank'>",
+			url: "<a href='https://yoa.st/kd1' target='_blank'>",
 		};
 		this._config = merge( defaultConfig, config );
 	}
