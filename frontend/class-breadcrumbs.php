@@ -349,12 +349,12 @@ class WPSEO_Breadcrumbs {
 			$this->add_blog_crumb();
 		}
 		elseif ( is_singular() ) {
-
 			$this->maybe_add_pt_archive_crumb_for_post();
 
 			if ( isset( $this->post->post_parent ) && 0 === $this->post->post_parent ) {
 				$this->maybe_add_taxonomy_crumbs_for_post();
 			}
+
 			if ( isset( $this->post->post_parent ) && $this->post->post_parent !== 0 ) {
 				$this->add_post_ancestor_crumbs();
 			}
@@ -527,11 +527,6 @@ class WPSEO_Breadcrumbs {
 	private function maybe_add_pt_archive_crumb_for_post() {
 		// Never do this for the Post type archive for posts, as that would break `maybe_add_blog_crumb`.
 		if ( $this->post->post_type === 'post' ) {
-			return;
-		}
-
-		// If we're dealing with a WooCommerce product, we don't want to add the archive breadcrumb.
-		if ( $this->post->post_type === 'product' && WPSEO_Utils::is_woocommerce_active() ) {
 			return;
 		}
 
@@ -778,26 +773,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function get_link_info_for_ptarchive( $pt ) {
 		$link          = array();
-		$archive_title = '';
-
-		if ( WPSEO_Options::get( 'bctitle-ptarchive-' . $pt, '' ) !== '' ) {
-
-			$archive_title = WPSEO_Options::get( 'bctitle-ptarchive-' . $pt );
-		}
-		else {
-			$post_type_obj = get_post_type_object( $pt );
-			if ( is_object( $post_type_obj ) ) {
-				if ( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
-					$archive_title = $post_type_obj->label;
-				}
-				elseif ( isset( $post_type_obj->labels->menu_name ) && $post_type_obj->labels->menu_name !== '' ) {
-					$archive_title = $post_type_obj->labels->menu_name;
-				}
-				else {
-					$archive_title = $post_type_obj->name;
-				}
-			}
-		}
+		$archive_title = $this->get_archive_title( $pt );
 
 		$link['url']  = get_post_type_archive_link( $pt );
 		$link['text'] = $archive_title;
@@ -805,6 +781,70 @@ class WPSEO_Breadcrumbs {
 		return $link;
 	}
 
+	/**
+	 * Determines whether or not the passed post type has a custom set breadcrumb.
+	 *
+	 * @param string $post_type The post type to check.
+	 *
+	 * @return bool True if a custom breadcrumb was set.
+	 */
+	private function has_post_type_archive_breadcrumb( $post_type ) {
+		return WPSEO_Options::get( 'bctitle-ptarchive-' . $post_type, '' ) !== '';
+	}
+
+	/**
+	 * Determines whether or not the passed post_type is a WooCommerce product and if it has a breadcrumb title set.
+	 *
+	 * @param string $post_type The post type to check.
+	 *
+	 * @return bool True if a WooCommerce breadcrumb was found. False otherwise.
+	 */
+	private function has_woocommerce_breadcrumb( $post_type ) {
+		if ( ! WPSEO_Utils::is_woocommerce_active() || $post_type !== 'product' ) {
+			return false;
+		}
+
+		$shop_page_id = wc_get_page_id( 'shop' );
+
+		if ( $shop_page_id === -1 ) {
+			return false;
+		}
+
+		return WPSEO_Meta::get_value( 'bctitle', $shop_page_id ) !== '';
+	}
+
+	/**
+	 * Determines the archive title based on the passed post type.
+	 *
+	 * @param string $post_type The post type to determine the title for.
+	 *
+	 * @return string The archive title.
+	 */
+	private function get_archive_title( $post_type ) {
+		if ( $this->has_woocommerce_breadcrumb( $post_type ) ) {
+			return WPSEO_Meta::get_value( 'bctitle',  wc_get_page_id( 'shop' ) );
+		}
+
+		if ( $this->has_post_type_archive_breadcrumb( $post_type ) ) {
+			return WPSEO_Options::get_value( 'bctitle-ptarchive-' . $post_type );
+		}
+
+		$post_type_obj = get_post_type_object( $post_type );
+
+		if ( ! is_object( $post_type_obj ) ) {
+			return '';
+		}
+
+		if ( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
+			return $post_type_obj->label;
+		}
+
+		if ( isset( $post_type_obj->labels->menu_name ) && $post_type_obj->labels->menu_name !== '' ) {
+			return $post_type_obj->labels->menu_name;
+		}
+
+		return $post_type_obj->name;
+	}
 
 	/**
 	 * Create a breadcrumb element string.
