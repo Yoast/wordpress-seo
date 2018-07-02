@@ -497,6 +497,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		const { MentionSuggestions } = this.mentionsPlugin;
 		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme } = this.props;
 		const { editorState, suggestions } = this.state;
+
 		return (
 			<React.Fragment>
 				<Editor
@@ -543,5 +544,5 @@ ReplacementVariableEditorStandalone.defaultProps = {
 	placeholder: "",
 };
 
-export { ReplacementVariableEditorStandalone as InnerComponent };
+export { ReplacementVariableEditorStandalone as ReplacementVariableEditorStandaloneInnerComponent };
 export default withTheme( ReplacementVariableEditorStandalone );
