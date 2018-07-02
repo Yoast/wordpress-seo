@@ -82,7 +82,7 @@ class Yoast_Notification_Center {
 			) );
 		}
 
-		if ( $notification_center->maybe_dismiss_notification( $notification ) ) {
+		if ( self::maybe_dismiss_notification( $notification ) ) {
 			die( '1' );
 		}
 
