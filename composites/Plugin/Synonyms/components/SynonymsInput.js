@@ -37,7 +37,6 @@ class SynonymsInput extends React.Component {
 		const { onChange } = this.props;
 		const synonyms = event.target.value;
 
-		this.setState( { synonyms } );
 		if ( isFunction( onChange ) ) {
 			onChange( synonyms );
 		}
