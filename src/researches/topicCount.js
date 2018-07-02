@@ -1,11 +1,12 @@
 /** @module analyses/getTopicCount */
 const matchTextWithArray = require( "../stringProcessing/matchTextWithArray.js" );
 const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
-const getSynonyms = require( "./getSynonyms.js" );
+const parseSynonyms = require( "../stringProcessing/parseSynonyms" );
 const unique = require( "lodash/uniq" );
+const isEmpty = require( "lodash/isEmpty" );
 const getSentences = require( "../stringProcessing/getSentences" );
 const arrayToRegex = require( "../stringProcessing/createRegexFromArray" );
-const addMark = require( "../markers/addMark" );
+const addMark = require( "../markers/addMarkSingleWord" );
 const Mark = require( "../values/Mark.js" );
 
 /**
@@ -15,11 +16,22 @@ const Mark = require( "../values/Mark.js" );
  * @returns {number} The keyword count.
  */
 module.exports = function( paper ) {
-	const getSynonymsResult = getSynonyms( paper );
-	let topicWords = [].concat( getSynonymsResult.keyword, getSynonymsResult.synonyms );
-	topicWords.sort( ( a, b ) => b.length - a.length );
+	const keyword = paper.getKeyword();
+	const synonyms = parseSynonyms( paper.getSynonyms() );
 	const text = normalizeQuotes( paper.getText() );
 	const sentences = getSentences( text );
+
+	let topicWords = [].concat( keyword, synonyms ).filter( Boolean );
+	topicWords.sort( ( a, b ) => b.length - a.length );
+
+	if ( isEmpty( topicWords ) ) {
+		return {
+			count: 0,
+			matches: [],
+			markings: [],
+			matchesIndices: [],
+		};
+	}
 
 	let topicFound = [];
 	let topicFoundInSentence = [];

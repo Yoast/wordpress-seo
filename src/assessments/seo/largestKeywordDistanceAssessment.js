@@ -28,6 +28,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 				okay: 6,
 				bad: 1,
 			},
+			url: "<a href='https://yoa.st/2pe' target='_blank'>",
 		};
 
 		this.identifier = "largestKeywordDistance";
@@ -46,7 +47,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		this._largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
 
-		this._hasSynonyms = this.hasSynonyms( paper );
+		this._hasSynonyms = paper.hasSynonyms();
 
 		let assessmentResult = new AssessmentResult();
 
@@ -75,12 +76,18 @@ class largestKeywordDistanceAssessment extends Assessment {
 		if ( this._largestKeywordDistance > this._config.overRecommendedMaximumKeywordDistance ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: i18n.sprintf( i18n.dngettext(
-					"js-text-analysis",
-					"Large parts of your text do not contain the keyword. Try to distribute the keyword more evenly.",
-					"Large parts of your text do not contain the keyword or its synonyms. Try to distribute them more evenly.",
-					this._hasSynonyms + 1
-				) ),
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+					%2$s expands to the anchor end tag */
+					i18n.dngettext(
+						"js-text-analysis",
+						"Large parts of your text do not contain the keyword. Try to %1$sdistribute%2$s the keyword more evenly.",
+						"Large parts of your text do not contain the keyword or its synonyms. Try to %1$sdistribute%2$s them more evenly.",
+						this._hasSynonyms + 1
+					),
+					this._config.url,
+					"</a>"
+				),
 			};
 		}
 
@@ -90,23 +97,35 @@ class largestKeywordDistanceAssessment extends Assessment {
 			this._config.overRecommendedMaximumKeywordDistance ) ) {
 			return {
 				score: this._config.scores.okay,
-				resultText: i18n.sprintf( i18n.dngettext(
-					"js-text-analysis",
-					"Some parts of your text do not contain the keyword. Try to distribute the keyword more evenly.",
-					"Some parts of your text do not contain the keyword or its synonyms. Try to distribute them more evenly.",
-					this._hasSynonyms + 1
-				) ),
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+					%2$s expands to the anchor end tag */
+					i18n.dngettext(
+						"js-text-analysis",
+						"Some parts of your text do not contain the keyword. Try to %1$sdistribute%2$s the keyword more evenly.",
+						"Some parts of your text do not contain the keyword or its synonyms. Try to %1$sdistribute%2$s them more evenly.",
+						this._hasSynonyms + 1
+					),
+					this._config.url,
+					"</a>"
+				),
 			};
 		}
 
 		return {
 			score: this._config.scores.good,
-			resultText: i18n.sprintf( i18n.dngettext(
-				"js-text-analysis",
-				"Your keyword is distributed evenly throughout the text. That's great.",
-				"Your keyword and its synonyms are distributed evenly throughout the text. That's great.",
-				this._hasSynonyms + 1
-			) ),
+			resultText: i18n.sprintf(
+				/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+				%2$s expands to the anchor end tag */
+				i18n.dngettext(
+					"js-text-analysis",
+					"Your keyword is %1$sdistributed%2$s evenly throughout the text. That's great.",
+					"Your keyword and its synonyms are %1$sdistributed%2$s evenly throughout the text. That's great.",
+					this._hasSynonyms + 1
+				),
+				this._config.url,
+				"</a>"
+			),
 		};
 	}
 
@@ -121,18 +140,6 @@ class largestKeywordDistanceAssessment extends Assessment {
 		return topicCount( paper ).markings;
 	}
 
-	/**
-	 * Checks if the paper has synonyms to apply different criteria to the assessment and to isApplicable depending on
-	 * whether synonyms are supplied.
-	 *
-	 * @param {Paper} paper The paper to use for the assessment.
-	 *
-	 * @returns {boolean} Whether the paper has synonyms or not
-	 */
-	hasSynonyms( paper ) {
-		// todo: this function can be deprecated as soon as the Synonym interface is ready
-		return paper.getKeyword().indexOf( "," ) > 0;
-	}
 
 	/**
 	 * Checks whether the paper has a text with at least 200 words, a keyword, and whether
