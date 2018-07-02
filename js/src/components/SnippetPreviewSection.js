@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
+import { getRtlStyle } from "yoast-components";
 
 const Section = styled( StyledSection )`
 	max-width: 640px;
@@ -12,8 +13,9 @@ const Section = styled( StyledSection )`
 		padding-right: 0;
 
 		& ${ StyledHeading } {
-			padding-left: 20px;
 			font-size: 14.4px;
+			${ getRtlStyle( "padding-left", "padding-right" ) }: 20px;
+			margin-left: ${ getRtlStyle( "0", "20px" ) };
 		}
 	}
 `;

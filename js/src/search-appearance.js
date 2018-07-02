@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n */
+/* global wpseoReplaceVarsL10n, wpseoSearchAppearance */
 
 /* External dependencies */
 import ReactDOM from "react-dom";
@@ -14,6 +14,7 @@ import configureEnhancers from "./redux/utils/configureEnhancers";
 import getDefaultReplacementVariables from "./values/defaultReplaceVariables";
 import { updateReplacementVariable } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
+import { ThemeProvider } from "styled-components";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -57,12 +58,18 @@ if( editorElements.length ) {
 
 	const store = configureStore();
 
+	const theme = {
+		isRtl: wpseoSearchAppearance.isRtl,
+	};
+
 	ReactDOM.render(
 		<Provider store={ store }>
-			<SettingsReplacementVariableEditors
-				singleFieldElements={ singleFieldElements }
-				editorElements={ editorElements }
-			/>
+			<ThemeProvider theme={ theme }>
+				<SettingsReplacementVariableEditors
+					singleFieldElements={ singleFieldElements }
+					editorElements={ editorElements }
+				/>
+			</ThemeProvider>
 		</Provider>,
 		element
 	);
