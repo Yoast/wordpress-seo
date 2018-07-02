@@ -7705,6 +7705,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="13"
                         content="Test title"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -7916,6 +7917,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="14"
                         content="Test description, %%replacement_variable%%"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -15484,6 +15486,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="21"
                         content="Test title"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -15695,6 +15698,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       <ReplacementVariableEditorStandalone
                         ariaLabelledBy="22"
                         content="Test description, %%replacement_variable%%"
+                        innerRef={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
