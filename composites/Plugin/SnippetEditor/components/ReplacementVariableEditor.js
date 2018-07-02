@@ -106,10 +106,6 @@ class ReplacementVariableEditor extends React.Component {
 							this.ref = ref;
 							editorRef( ref );
 						} }
-						ref={ ref => {
-							this.ref = ref;
-							editorRef( ref );
-						} }
 						ariaLabelledBy={ this.uniqueId }
 					/>
 				</InputContainer>
