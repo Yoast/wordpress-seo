@@ -6,7 +6,9 @@ import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
 import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 import Synonyms from "./metabox/synonyms";
-import { setYoastComponentsL10n } from "../../../../js/src/helpers/i18n";
+import { setTextdomainL10n, setYoastComponentsL10n } from "../../../../js/src/helpers/i18n";
+
+setTextdomainL10n( "wordpress-seo-premium" );
 
 let settings = wpseoPremiumMetaboxData.data;
 

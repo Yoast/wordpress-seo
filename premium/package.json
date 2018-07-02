@@ -52,6 +52,7 @@
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
+    "@wordpress/i18n": "^1.1.1",
     "a11y-speak": "github:yoast/a11y-speak",
     "babel-polyfill": "^6.16.0",
     "concat-map": "^0.0.1",

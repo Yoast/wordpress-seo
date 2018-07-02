@@ -4,13 +4,15 @@ import SynonymsSection from "yoast-components/composites/Plugin/Synonyms/compone
 /**
  * Maps the redux state to the snippet editor component.
  *
- * @param {Object} state          The current state.
+ * @param {Object} state    The state.
+ * @param {Object} ownProps The props.
  *
  * @returns {Object} Data for the Synonyms component.
  */
-function mapStateToProps( state ) {
+function mapStateToProps( state, ownProps ) {
+	console.log( state, ownProps );
 	return {
-		synonyms: state.synonyms,
+		synonyms: state.synonyms[ ownProps.activeKeyword ],
 	};
 }
 
