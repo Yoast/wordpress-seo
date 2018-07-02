@@ -1,6 +1,12 @@
-import { SET_SYNONYMS } from "../actions/synonyms";
+import filter from "lodash/filter";
 
-const INITIAL_STATE = "";
+import {
+	SET_SYNONYMS,
+	SET_KEYWORD_SYNONYMS,
+	REMOVE_KEYWORD_SYNONYMS,
+} from "../actions/synonyms";
+
+const INITIAL_STATE = {};
 
 /**
  * A reducer for the synonyms.
@@ -14,6 +20,16 @@ function synonymsReducer( state = INITIAL_STATE, action ) {
 	switch( action.type ) {
 		case SET_SYNONYMS:
 			return action.synonyms;
+
+		case SET_KEYWORD_SYNONYMS:
+			return {
+				...state,
+				[ action.keyword ]: action.synonyms,
+			};
+
+		case REMOVE_KEYWORD_SYNONYMS:
+			return filter( state, keyword => keyword === action.keyword );
+
 		default:
 			return state;
 	}
