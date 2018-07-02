@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import ReplacementVariableEditorStandalone from "../components/ReplacementVariableEditorStandalone";
+import ReplacementVariableEditorStandalone, { InnerComponent } from "../components/ReplacementVariableEditorStandalone";
 import React from "react";
 
 jest.mock( "draft-js/lib/generateRandomKey", () => () => {
@@ -23,6 +23,7 @@ describe( "ReplacementVariableEditor", () => {
 				content="Dummy content"
 				onChange={ () => {} }
 				ariaLabelledBy="id"
+				theme={ { isRtl: "false" } }
 			/>
 		);
 
@@ -65,7 +66,7 @@ describe( "suggestionsFilter", () => {
 			ariaLabelledBy: "id",
 		};
 
-		replacementVariablesEditor = new ReplacementVariableEditorStandalone( props );
+		replacementVariablesEditor = new InnerComponent( props );
 
 		suggestions = replacementVariablesEditor.mapReplacementVariablesToSuggestions( props.replacementVariables );
 
