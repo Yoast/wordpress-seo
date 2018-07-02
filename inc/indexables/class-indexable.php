@@ -46,9 +46,6 @@ class WPSEO_Indexable {
 	 */
 	public static function from_object( $object_id, $object_type ) {
 		// check if object exists and that object type is a valid type.
-
-
-
 		$link_count = new WPSEO_Link_Column_Count();
 		$link_count->set( array( $object_id ) );
 
@@ -114,6 +111,68 @@ class WPSEO_Indexable {
 	 */
 	protected function has_advanced_meta_value( $object_id, $value ) {
 		return strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), $value ) !== false;
+	}
+
+	/**
+	 * Translates the nofollow value to a database compatible one.
+	 *
+	 * @param bool $nofollow The current nofollow value.
+	 *
+	 * @return string The translated value.
+	 */
+	private function translate_nofollow( $nofollow ) {
+		if ( $nofollow === true ) {
+			return '1';
+		}
+
+		// TODO: This might need to be translated to NULL.
+		return '0';
+	}
+
+	/**
+	 * Translates the noindex value to a database compatible one.
+	 *
+	 * @param bool $noindex The current noindex value.
+	 *
+	 * @return string|null The translated value.
+	 */
+	private function translate_noindex( $noindex ) {
+		if ( $noindex === false ) {
+			return '2';
+		}
+
+		if ( $noindex === true ) {
+			return '1';
+		}
+
+		return null;
+	}
+
+	/**
+	 * Translates the noarchive, noimageindex and nosnippet value to a database compatible one.
+	 *
+	 * @param bool $noarchive 	 The current noarchive value.
+	 * @param bool $noimageindex The current noimageindex value.
+	 * @param bool $nosnippet 	 The current nosnippet value.
+	 *
+	 * @return string The translated value.
+	 */
+	private function translate_advanced( $noarchive, $noimageindex, $nosnippet ) {
+		$translated = array();
+
+		if ( $noarchive === true ) {
+			$translated[] = 'noarchive';
+		}
+
+		if ( $noimageindex === true ) {
+			$translated[] = 'noimageindex';
+		}
+
+		if ( $nosnippet === true ) {
+			$translated[] = 'nosnippet';
+		}
+
+		return implode( ',', $translated );
 	}
 
 	/**

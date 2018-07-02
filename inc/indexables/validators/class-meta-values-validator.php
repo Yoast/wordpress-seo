@@ -8,7 +8,7 @@
 class WPSEO_Meta_Values_Validator implements WPSEO_Endpoint_Validator {
 
 	/**
-	 * Validates the passed request data.
+	 * Validates the meta values data.
 	 *
 	 * @param array $request_data The request data to validate.
 	 *

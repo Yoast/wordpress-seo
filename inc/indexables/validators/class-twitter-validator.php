@@ -6,61 +6,25 @@
  * @package WPSEO\Internals
  */
 
-class WPSEO_Twitter_Validator {
+class WPSEO_Twitter_Validator implements WPSEO_Endpoint_Validator {
 	/**
-	 * @var string
-	 */
-	private $title;
-
-	/**
-	 * @var string
-	 */
-	private $description;
-
-	/**
-	 * @var string
-	 */
-	private $image;
-
-	/**
-	 * Twitter constructor.
+	 * Validates the Twitter-related data.
 	 *
-	 * @param string $title 	  The OpenGraph title.
-	 * @param string $description The OpenGraph description.
-	 * @param string $image 	  The OpenGraph image.
+	 * @param array $request_data The request data to validate.
 	 *
-	 * @throws Exception
+	 * @return void
 	 */
-	public function __construct( $title, $description, $image ) {
-		if ( ! empty( $title ) && ! WPSEO_Validator::is_string( $title ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $title, 'title' );
+	public static function validate( $request_data ) {
+		if ( WPSEO_Validator::key_exists( $request_data, 'twitter_title' ) && ! WPSEO_Validator::is_string( $request_data['twitter_title'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $request_data['twitter_title'], 'twitter_title' );
 		}
 
-		$this->title = $title;
-
-		if ( ! empty( $description ) && ! WPSEO_Validator::is_string( $description ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $description, 'description' );
+		if ( WPSEO_Validator::key_exists( $request_data, 'twitter_description' ) && ! WPSEO_Validator::is_string( $request_data['twitter_description'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $request_data['twitter_description'], 'twitter_description' );
 		}
 
-		$this->description = $description;
-
-		if ( ! empty( $image ) && ! WPSEO_Validator::is_string( $image ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $image, 'image' );
+		if ( WPSEO_Validator::key_exists( $request_data, 'twitter_image' ) && ! WPSEO_Validator::is_string( $request_data['twitter_image'] ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $request_data['twitter_image'], 'twitter_image' );
 		}
-
-		$this->image = $image;
-	}
-
-	/**
-	 * Returns an array representation of the Twitter object.
-	 *
-	 * @return array The object as an array.
-	 */
-	public function to_array() {
-		return array(
-			'twitter-title' 	  => $this->title,
-			'twitter-description' => $this->description,
-			'twitter-image' 	  => $this->image,
-		);
 	}
 }
