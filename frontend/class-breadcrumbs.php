@@ -530,6 +530,11 @@ class WPSEO_Breadcrumbs {
 			return;
 		}
 
+		// If we're dealing with a WooCommerce product, we don't want to add the archive breadcrumb.
+		if ( $this->post->post_type === 'product' && WPSEO_Utils::is_woocommerce_active() ) {
+			return;
+		}
+
 		if ( isset( $this->post->post_type ) && get_post_type_archive_link( $this->post->post_type ) ) {
 			$this->add_ptarchive_crumb( $this->post->post_type );
 		}
