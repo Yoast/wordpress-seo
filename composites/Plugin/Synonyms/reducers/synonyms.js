@@ -28,7 +28,7 @@ function synonymsReducer( state = INITIAL_STATE, action ) {
 			};
 
 		case REMOVE_KEYWORD_SYNONYMS:
-			return filter( state, keyword => keyword === action.keyword );
+			return filter( state, ( synonyms, keyword ) => keyword === action.keyword );
 
 		default:
 			return state;
