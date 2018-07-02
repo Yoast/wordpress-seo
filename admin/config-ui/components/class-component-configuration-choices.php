@@ -56,8 +56,9 @@ class WPSEO_Config_Component_Configuration_Choices implements WPSEO_Config_Compo
 
 		$plugin_training_text = sprintf(
 			/* translators: %1$s expands to 'Yoast SEO for WordPress'. */
-			__( 'If you want to take full advantage of the plugin, get our %1$s training. Get insights from renowned SEO expert Joost de Valk and the team behind the plugin. Actionable tips that\'ll help you configure your site to perform even better in search and for your visitors. Hours of video, sliced into bite-sized clips for you to learn from!', 'wordpress-seo' ),
-			'Yoast SEO for WordPress'
+			__( 'If you want to take full advantage of the plugin, get our %1$s training. Get insights from renowned SEO expert %2$s and the team behind the plugin. Actionable tips that\'ll help you configure your site to perform even better in search and for your visitors. Hours of video, sliced into bite-sized clips for you to learn from!', 'wordpress-seo' ),
+			'Yoast SEO for WordPress',
+			'Joost de Valk'
 		);
 
 		$field->add_choice(
