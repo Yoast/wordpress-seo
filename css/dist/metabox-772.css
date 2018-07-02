@@ -1020,6 +1020,7 @@ button.yoast-tooltip {
 	-ms-flex-direction: column;
 }
 
+/*rtl:begin:ignore*/
 /**
  * Draft v0.10.5
  *
@@ -1246,6 +1247,7 @@ button.yoast-tooltip {
 	counter-reset: ol4;
 }
 
+/*rtl:end:ignore*/
 #wpseo_meta {
 	box-sizing: border-box;
 }
