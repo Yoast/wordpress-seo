@@ -116,12 +116,14 @@ class SettingsSnippetEditorFields extends React.Component {
 			replacementVariables,
 			recommendedReplacementVariables,
 			onFocus,
+			onBlur,
 			onChange,
 			data: {
 				title,
 				description,
 			},
 			containerPadding,
+			fieldIds,
 		} = this.props;
 
 		return (
@@ -132,6 +134,7 @@ class SettingsSnippetEditorFields extends React.Component {
 					<ReplacementVariableEditor
 						label={ __( "SEO title", "yoast-components" ) }
 						onFocus={ () => onFocus( "title" ) }
+						onBlur={ onBlur }
 						isActive={ activeField === "title" }
 						isHovered={ hoveredField === "title" }
 						editorRef={ ref => this.setRef( "title", ref ) }
@@ -139,6 +142,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ title }
 						onChange={ content => onChange( "title", content ) }
+						fieldId={ fieldIds.title }
 					/>
 				</FormSection>
 				<FormSection>
@@ -147,6 +151,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						placeholder={ descriptionEditorFieldPlaceholder }
 						label={ __( "Meta description", "yoast-components" ) }
 						onFocus={ () => onFocus( "description" ) }
+						onBlur={ onBlur }
 						isActive={ activeField === "description" }
 						isHovered={ hoveredField === "description" }
 						editorRef={ ref => this.setRef( "description", ref ) }
@@ -154,6 +159,7 @@ class SettingsSnippetEditorFields extends React.Component {
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						content={ description }
 						onChange={ content => onChange( "description", content ) }
+						fieldId={ fieldIds.description }
 					/>
 				</FormSection>
 			</StyledEditor>
@@ -166,6 +172,7 @@ SettingsSnippetEditorFields.propTypes = {
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
+	onBlur: PropTypes.func,
 	data: PropTypes.shape( {
 		title: PropTypes.string,
 		description: PropTypes.string,
@@ -174,11 +181,16 @@ SettingsSnippetEditorFields.propTypes = {
 	hoveredField: PropTypes.oneOf( [ "title", "description" ] ),
 	descriptionEditorFieldPlaceholder: PropTypes.string,
 	containerPadding: PropTypes.string,
+	fieldIds: PropTypes.shape( {
+		title: PropTypes.string.isRequired,
+		description: PropTypes.string.isRequired,
+	} ).isRequired,
 };
 
 SettingsSnippetEditorFields.defaultProps = {
 	replacementVariables: [],
 	onFocus: () => {},
+	onBlur: () => {},
 	containerPadding: "0 20px",
 };
 
