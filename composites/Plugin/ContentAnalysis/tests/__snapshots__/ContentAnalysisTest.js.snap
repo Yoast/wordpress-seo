@@ -221,7 +221,7 @@ exports[`the ContentAnalysis component with disabled buttons matches the snapsho
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c9::after {
     display: inline-block;
     content: "";
@@ -832,7 +832,7 @@ exports[`the ContentAnalysis component with hidden buttons matches the snapshot 
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c9::after {
     display: inline-block;
     content: "";
@@ -1450,7 +1450,7 @@ exports[`the ContentAnalysis component with language notice for someone who can 
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c11::after {
     display: inline-block;
     content: "";
@@ -2129,7 +2129,7 @@ exports[`the ContentAnalysis component with language notice for someone who cann
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c11::after {
     display: inline-block;
     content: "";
@@ -2785,7 +2785,7 @@ exports[`the ContentAnalysis component with language notice matches the snapshot
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c9::after {
     display: inline-block;
     content: "";
@@ -3422,7 +3422,7 @@ exports[`the ContentAnalysis component with specified header level matches the s
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -4050,7 +4050,7 @@ exports[`the ContentAnalysis component without language notice matches the snaps
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -4678,7 +4678,7 @@ exports[`the ContentAnalysis component without problems and considerations, but 
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -5152,7 +5152,7 @@ exports[`the ContentAnalysis component without problems and improvements matches
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -5626,7 +5626,7 @@ exports[`the ContentAnalysis component without problems matches the snapshot 1`]
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -6165,7 +6165,7 @@ exports[`the ContentAnalysis component without problems, improvements and consid
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
