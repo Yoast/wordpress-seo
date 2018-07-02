@@ -1,12 +1,11 @@
 // External dependencies.
 import get from "lodash/get";
-import debounce from "lodash/debounce";
-import SynonymsSection from "yoast-components/composites/Plugin/Synonyms/components/SynonymsSection";
 import { setSynonyms } from "yoast-components/composites/Plugin/Synonyms/actions/synonyms";
 
 // Internal dependencies.
 import configureStore from "../redux/store";
 import { renderReactApp } from "../redux/utils/render";
+import SynonymsContainer from "./synonymsContainer";
 
 const $ = jQuery;
 
@@ -14,10 +13,11 @@ class Synonyms {
 	/**
 	 * Initializes the Synonyms class.
 	 *
-	 * @param {Object} args          The arguments.
-	 * @param {string} args.template The HTML template string of the wrapper.
-	 * @param {string} args.label    The label of the synonyms section.
-	 * @param {string} args.synonyms The synonyms.
+	 * @param {Object} args               The arguments.
+	 * @param {string} args.template      The HTML template string of the wrapper.
+	 * @param {string} args.label         The label of the synonyms section.
+	 * @param {string} args.synonyms      The synonyms.
+	 * @param {string} args.hiddenFieldId The id of the hidden input field.
 	 *
 	 * @returns {void}
 	 */
@@ -25,12 +25,13 @@ class Synonyms {
 		this.template = args.template || "<div id='wpseosynonyms'></div>";
 		this.label = args.label || "Keyword synonyms";
 		this.synonyms = args.synonyms || "";
+		this.hiddenFieldId = args.hiddenFieldId || "yoast_wpseo_keywordsynonyms";
 
 		this.setSynonyms = this.setSynonyms.bind( this );
-		this.debouncedSetSynonyms = debounce( this.setSynonyms, 200 );
+		this.handlePremiumStoreChange = this.handlePremiumStoreChange.bind( this );
 		this.handleStoreChange = this.handleStoreChange.bind( this );
 
-		this.hiddenInput = $( "#yoast_wpseo_keywordsynonyms" );
+		this.hiddenField = $( `#${ this.hiddenFieldId }` );
 	}
 
 	/**
@@ -44,11 +45,9 @@ class Synonyms {
 			return;
 		}
 
-		app.callbacks.getPremiumData = () => {
-			const state = this._store.getState();
-
+		app.registerCustomDataCallback = () => {
 			return {
-				synonyms: state.synonyms,
+				synonyms: this.getSynonyms(),
 			};
 		};
 	}
@@ -68,27 +67,12 @@ class Synonyms {
 	}
 
 	/**
-	 * Gets the active keyword from the store.
+	 * Retrieves the active keyword from the store.
 	 *
 	 * @returns {string} The active keyword.
 	 */
 	getActiveKeyword() {
 		return YoastSEO.store.getState().activeKeyword;
-	}
-
-	/**
-	 * Updates the current keyword synonyms in the hidden input.
-	 *
-	 * @param {string} synonyms The current synonyms.
-	 *
-	 * @returns {void}
-	 */
-	updateHiddenField( synonyms ) {
-		const keyword = this.getActiveKeyword();
-		const allSynonyms = JSON.parse( this.hiddenInput.val() );
-
-		allSynonyms[ keyword ] = synonyms;
-		this.hiddenInput.val( JSON.stringify( allSynonyms ) );
 	}
 
 	/**
@@ -102,14 +86,78 @@ class Synonyms {
 		this._store.dispatch( setSynonyms( synonyms ) );
 	}
 
-	handleStoreChange() {
-		const previousState = this._currentState;
-		const currentState = this._store.getState();
+	/**
+	 * Retrieves the synonyms for the active keyword.
+	 *
+	 * @returns {string} The current synonyms.
+	 */
+	getSynonyms() {
+		return this._store.getState().synonyms;
+	}
 
-		if ( previousState.synonyms !== currentState.synonyms ) {
-			this._currentState = currentState;
-			this.updateHiddenField( this._currentState.synonyms );
+	/**
+	 * Retrieves the synonyms from the hidden field.
+	 *
+	 * @returns {Object} The synonyms for each keyword.
+	 */
+	getAllSynonyms() {
+		return JSON.parse( this.hiddenField.val() || "{}" );
+	}
+
+	/**
+	 * Updates the current keyword synonyms in the hidden input.
+	 *
+	 * @param {string} synonyms The current synonyms.
+	 *
+	 * @returns {void}
+	 */
+	updateHiddenField( synonyms ) {
+		if ( this.hiddenField.length === 0 ) {
+			return;
+		}
+
+		const activeKeyword = this.getActiveKeyword();
+		if ( activeKeyword.length === 0 ) {
+			return;
+		}
+
+		const allSynonyms = this.getAllSynonyms();
+		allSynonyms[ activeKeyword ] = synonyms;
+
+		this.hiddenField.val( JSON.stringify( allSynonyms ) );
+	}
+
+	/**
+	 * Handles premium store changes.
+	 *
+	 * @returns {void}
+	 */
+	handlePremiumStoreChange() {
+		const synonyms = this.getSynonyms();
+
+		if ( this._previousSynonyms !== synonyms ) {
+			this._previousSynonyms = synonyms;
+
+			this.updateHiddenField( synonyms );
 			this.refreshApp();
+		}
+	}
+
+	/**
+	 * Handles store changes.
+	 *
+	 * @returns {void}
+	 */
+	handleStoreChange() {
+		const activeKeyword = this.getActiveKeyword();
+
+		if ( this._previousKeyword !== activeKeyword ) {
+			this._previousKeyword = activeKeyword;
+
+			const allSynonyms = this.getAllSynonyms();
+			const synonyms = allSynonyms[ activeKeyword ] || "";
+
+			this.setSynonyms( synonyms );
 		}
 	}
 
@@ -121,7 +169,7 @@ class Synonyms {
 	 *
 	 * @returns {void}
 	 */
-	initDOM( insertAfterID = "wpseofocuskeyword" ) {
+	initializeDOM( insertAfterID = "wpseofocuskeyword" ) {
 		// Check if the given ID is on the page.
 		const previousElement = $( `#${ insertAfterID }` );
 		if ( previousElement.length === 0 ) {
@@ -132,18 +180,27 @@ class Synonyms {
 		const container = $( this.template )[ 0 ];
 		previousElement.after( container );
 
+		// Create and expose a premium store.
 		this._store = configureStore();
-		this._currentState = this._store.getState();
-		this._store.subscribe( this.handleStoreChange );
+		YoastSEO.premiumStore = this._store;
 
+		// Initialize premium store listener.
+		this._previousSynonyms = this.getSynonyms();
+		this._store.subscribe( this.handlePremiumStoreChange );
+
+		// Initialize store listener.
+		this._previousKeyword = this.getActiveKeyword();
+		YoastSEO.store.subscribe( this.handleStoreChange );
+
+		// Render react app.
 		const props = {
 			label: this.label,
 			synonyms: this.synonyms,
-			onChange: this.debouncedSetSynonyms,
+			onChange: this.setSynonyms,
 		};
-		renderReactApp( container, SynonymsSection, this._store, props );
+		renderReactApp( container, SynonymsContainer, this._store, props );
 
-		// Add premium specific data to YoastSEO.js
+		// Add premium specific data to YoastSEO.js.
 		this.initializePremiumDataCallback();
 	}
 }

@@ -59,7 +59,7 @@ function initializeMetabox() {
 	multiKeyword.initDOM();
 
 	const synonyms = new Synonyms();
-	synonyms.initDOM();
+	synonyms.initializeDOM();
 
 	if ( insightsEnabled() || linkSuggestionsEnabled() ) {
 		initializeKeywordSuggestionsMetabox();
