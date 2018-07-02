@@ -331,15 +331,19 @@ class Yoast_Notification_Center {
 		}
 
 		array_walk( $notifications, array( $this, 'remove_notification' ) );
-		
+
 		$notifications = array_unique( $notifications );
 		if ( $echo_as_json ) {
 			$notification_json = array();
+
+			/**
+			 * @var Yoast_Notification[] $notifications
+			 */
 			foreach ( $notifications as $notification ) {
 				$notification_json[] = $notification->render();
 			}
 
-			echo json_encode( $notification_json );
+			echo wp_json_encode( $notification_json );
 
 			return;
 		}
