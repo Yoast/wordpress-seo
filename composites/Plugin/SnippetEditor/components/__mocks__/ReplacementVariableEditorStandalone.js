@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 let focus = jest.fn();
 
@@ -28,6 +29,25 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	}
 }
 
-export default ReplacementVariableEditorStandalone;
+/**
+ * Wraps the ReplacementVariableEditorStandalone component to pass the innerRef as a ref.
+ *
+ * @param {Object} props The components props.
+ *
+ * @returns {ReactElement} The wrapped ReplacementVariableEditorStandalone component.
+ * @constructor
+ */
+const Wrapper = ( props ) => {
+	return <ReplacementVariableEditorStandalone
+		{ ...props }
+		ref={ props.innerRef }
+	/>;
+};
+
+Wrapper.propTypes = {
+	innerRef: PropTypes.string,
+};
+
+export default Wrapper;
 
 export { focus };
