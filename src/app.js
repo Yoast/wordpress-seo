@@ -11,13 +11,12 @@ var isEmpty = require( "lodash/isEmpty" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
 var throttle = require( "lodash/throttle" );
-const merge = require ( "lodash/merge" );
+const merge = require( "lodash/merge" );
 
 var Jed = require( "jed" );
 
 var SEOAssessor = require( "./seoAssessor.js" );
-const LargestKeywordDistance = require( "./assessments/seo/largestKeywordDistanceAssessment.js" );
-const largestKeywordDistance = new LargestKeywordDistance();
+const LargestKeywordDistanceAssessment = require( "./assessments/seo/largestKeywordDistanceAssessment.js" );
 var ContentAssessor = require( "./contentAssessor.js" );
 var CornerstoneSEOAssessor = require( "./cornerstone/seoAssessor.js" );
 var CornerstoneContentAssessor = require( "./cornerstone/contentAssessor.js" );
@@ -28,6 +27,8 @@ var Paper = require( "./values/Paper.js" );
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
 var removeHtmlBlocks = require( "./stringProcessing/htmlParser.js" );
+
+const largestKeywordDistance = new LargestKeywordDistanceAssessment();
 
 var inputDebounceDelay = 400;
 
@@ -335,6 +336,8 @@ App.prototype.changeAssessorOptions = function( assessorOptions ) {
 
 /**
  * Switches between the cornerstone and default assessors.
+ *
+ * @deprecated
  *
  * @param {boolean} useCornerStone True when cornerstone should be used.
  *
