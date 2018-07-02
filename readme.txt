@@ -107,7 +107,12 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 7.7.3 =
-Release Date:
+Release Date: July 2nd, 2018
+
+Bugfixes:
+* Fixes a bug where title and description templates were saved to the database.
+* Disables WordPress' automatic conversion of emoji to images on every page where the snippet editor is present. This conversion is not compatible with React or content editable fields and broke the snippet editor.
+* Fixes text directionality for the title and description fields in the snippet editor for right-to-left languages.
 
 = 7.7.2 =
 Release Date: June 29th, 2018
