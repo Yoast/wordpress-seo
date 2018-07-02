@@ -1,5 +1,4 @@
 import React from "react";
-import { withTheme } from "styled-components";
 
 let focus = jest.fn();
 
