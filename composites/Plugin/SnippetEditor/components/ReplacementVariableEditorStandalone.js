@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
+import { withTheme } from "styled-components";
 
 // Internal dependencies.
 import {
@@ -39,17 +40,18 @@ import {
 } from "../selection";
 
 /**
-/**
  * Needed to avoid styling issues on the settings pages with the
  * suggestions dropdown, because the button labels have a z-index of 3.
  * Added an extra 1000 because with a lot of replacement variables it should
  * stay on top of the #wp-content-editor-tools element, which has a z-index
  * of 1000.
- *
+ * When a user has an RTL language the popup suggestion disappears behind the
+ * WordPress admin menu. The admin menu has a z-index of 9990. Therefor we add
+ * an extra 9990 to our z-index value.
  */
 const ZIndexOverride = styled.div`
 	div {
-		z-index: 1005;
+		z-index: 10995;
 	}
 `;
 
@@ -493,12 +495,13 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 */
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy, placeholder } = this.props;
+		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme } = this.props;
 		const { editorState, suggestions } = this.state;
 
 		return (
 			<React.Fragment>
 				<Editor
+					textDirectionality={ theme.isRtl ? "RTL" : "LTR" }
 					editorState={ editorState }
 					onChange={ this.onChange }
 					onFocus={ onFocus }
@@ -529,6 +532,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
+	theme: PropTypes.object,
 	placeholder: PropTypes.string,
 };
 
@@ -540,4 +544,5 @@ ReplacementVariableEditorStandalone.defaultProps = {
 	placeholder: "",
 };
 
-export default ReplacementVariableEditorStandalone;
+export { ReplacementVariableEditorStandalone as ReplacementVariableEditorStandaloneInnerComponent };
+export default withTheme( ReplacementVariableEditorStandalone );
