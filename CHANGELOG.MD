@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.6.0 July 2nd, 2018
+### Added
+* Adds Styled Component's `withTheme` to the `ReplacementVariableEditorStandalone` component in order to set the `textDirectionality ` of the `Editor` based on the language direction that is passed to the theme.
+
 ## 4.5.0 June 29nd, 2018
 ### Fixes
 * Fixes the styling of the `ModeSwitcher`, `SnippetEditor`, `HelpTextWrapper`, `SnippetPreview` and `StyledSection` for right-to-left languages. [#629](https://github.com/Yoast/yoast-components/pull/629/files)
