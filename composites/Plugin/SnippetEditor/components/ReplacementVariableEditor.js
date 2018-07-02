@@ -102,6 +102,10 @@ class ReplacementVariableEditor extends React.Component {
 						onBlur={ onBlur }
 						replacementVariables={ replacementVariables }
 						recommendedReplacementVariables={ recommendedReplacementVariables }
+						innerRef={ ref => {
+							this.ref = ref;
+							editorRef( ref );
+						} }
 						ref={ ref => {
 							this.ref = ref;
 							editorRef( ref );

@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
+import { withTheme } from "styled-components";
 
 // Internal dependencies.
 import {
@@ -494,12 +495,13 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 */
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy, placeholder } = this.props;
+		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme } = this.props;
 		const { editorState, suggestions } = this.state;
 
 		return (
 			<React.Fragment>
 				<Editor
+					textDirectionality={ theme.isRtl ? "RTL" : "LTR" }
 					editorState={ editorState }
 					onChange={ this.onChange }
 					onFocus={ onFocus }
@@ -530,6 +532,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
+	theme: PropTypes.object,
 	placeholder: PropTypes.string,
 };
 
@@ -541,4 +544,5 @@ ReplacementVariableEditorStandalone.defaultProps = {
 	placeholder: "",
 };
 
-export default ReplacementVariableEditorStandalone;
+export { ReplacementVariableEditorStandalone as ReplacementVariableEditorStandaloneInnerComponent };
+export default withTheme( ReplacementVariableEditorStandalone );
