@@ -10,6 +10,7 @@ var isUndefined = require( "lodash/isUndefined" );
 var isEmpty = require( "lodash/isEmpty" );
 var isFunction = require( "lodash/isFunction" );
 var isArray = require( "lodash/isArray" );
+var merge = require( "lodash/merge" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
 var throttle = require( "lodash/throttle" );
@@ -470,7 +471,9 @@ App.prototype.constructI18n = function( translations ) {
 /**
  * Registers a custom data callback.
  *
- * @param {Function} callback
+ * @param {Function} callback The callback to register.
+ *
+ * @returns {void}
  */
 App.prototype.registerCustomDataCallback = function( callback ) {
 	if( ! this.callbacks.custom ) {
