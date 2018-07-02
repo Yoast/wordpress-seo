@@ -31,6 +31,21 @@ class SynonymsInput extends React.Component {
 	}
 
 	/**
+	 * Updates the synonyms when there is a difference.
+	 *
+	 * @param {Object} nextProps The next props.
+	 *
+	 * @returns {void}
+	 */
+	componentWillReceiveProps( nextProps ) {
+		if ( nextProps.synonyms !== this.state.synonyms ) {
+			this.setState( {
+				synonyms: nextProps.synonyms,
+			} );
+		}
+	}
+
+	/**
 	 * Handles changes in the input.
 	 *
 	 * @param {Event} event The onChange event.
@@ -53,7 +68,8 @@ class SynonymsInput extends React.Component {
 	 * @returns {ReactElement} The SynonymsField component.
 	 */
 	render() {
-		const { id, label, synonyms } = this.props;
+		const { id, label } = this.props;
+		const { synonyms } = this.state;
 
 		return (
 			<SynonymsField
@@ -61,7 +77,7 @@ class SynonymsInput extends React.Component {
 				type="text"
 				id={ id }
 				onChange={ this.handleChange }
-				defaultValue={ synonyms }
+				value={ synonyms }
 			/>
 		);
 	}
