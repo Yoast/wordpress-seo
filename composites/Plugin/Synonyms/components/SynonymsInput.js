@@ -24,25 +24,6 @@ class SynonymsInput extends React.Component {
 		super( props );
 
 		this.handleChange = this.handleChange.bind( this );
-
-		this.state = {
-			synonyms: this.props.synonyms,
-		};
-	}
-
-	/**
-	 * Updates the synonyms when there is a difference.
-	 *
-	 * @param {Object} nextProps The next props.
-	 *
-	 * @returns {void}
-	 */
-	componentWillReceiveProps( nextProps ) {
-		if ( nextProps.synonyms !== this.state.synonyms ) {
-			this.setState( {
-				synonyms: nextProps.synonyms,
-			} );
-		}
 	}
 
 	/**
@@ -68,8 +49,7 @@ class SynonymsInput extends React.Component {
 	 * @returns {ReactElement} The SynonymsField component.
 	 */
 	render() {
-		const { id, label } = this.props;
-		const { synonyms } = this.state;
+		const { id, label, synonyms } = this.props;
 
 		return (
 			<SynonymsField
@@ -86,13 +66,12 @@ class SynonymsInput extends React.Component {
 SynonymsInput.propTypes = {
 	id: PropTypes.string,
 	label: PropTypes.string.isRequired,
-	synonyms: PropTypes.string,
-	onChange: PropTypes.func,
+	synonyms: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
 };
 
 SynonymsInput.defaultProps = {
 	id: uniqueId( "yoast-synonyms-input-" ),
-	synonyms: "",
 };
 
 export default SynonymsInput;

@@ -71,13 +71,12 @@ class SynonymsSection extends React.Component {
 SynonymsSection.propTypes = {
 	id: PropTypes.string,
 	label: PropTypes.string.isRequired,
-	synonyms: PropTypes.string,
-	onChange: PropTypes.func,
+	synonyms: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
 };
 
 SynonymsSection.defaultProps = {
 	id: uniqueId( "yoast-synonyms-input-" ),
-	synonyms: "",
 };
 
 export default SynonymsSection;
