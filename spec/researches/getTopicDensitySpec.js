@@ -1,7 +1,6 @@
 /* global describe it expect */
 const getTopicDensity = require( "../../js/researches/getTopicDensity.js" );
 const Paper = require( "../../js/values/Paper.js" );
-// todo: change this spec as soon as the proper synonyms interface is ready.
 describe( "Test for counting the keyword and synonyms in a text", function() {
 	it( "returns topic count equal to keyword count if only keyword is supplied", function() {
 		let mockPaper = new Paper( "a string of text with the keyword in it.", { keyword: "keyword" } );
@@ -35,21 +34,21 @@ describe( "Test for counting the keyword and synonyms in a text", function() {
 	} );
 
 	it( "returns topic count if both keyword and synonyms are supplied", function() {
-		let mockPaper = new Paper( "Site and website are essentially the same, so to say.", { keyword: "site, website" } );
+		let mockPaper = new Paper( "Site and website are essentially the same, so to say.", { keyword: "site", synonyms: "website" } );
 		expect( getTopicDensity( mockPaper ) ).toBe( 20 );
-		mockPaper = new Paper( "Site and website are essentially the same, so to say.", { keyword: "website, site" } );
+		mockPaper = new Paper( "Site and website are essentially the same, so to say.", { keyword: "website", synonyms: "site" } );
 		expect( getTopicDensity( mockPaper ) ).toBe( 20 );
-		mockPaper = new Paper( "Site, web site and website are essentially the same, really.", { keyword: "website, site" } );
+		mockPaper = new Paper( "Site, web site and website are essentially the same, really.", { keyword: "website", synonyms: "site" } );
 		expect( getTopicDensity( mockPaper ) ).toBe( 30 );
-		mockPaper = new Paper( "Site and website are essentially the same, so to say.", { keyword: "keyword, anotherKeyword" } );
+		mockPaper = new Paper( "Site and website are essentially the same, so to say.", { keyword: "keyword", synonyms: "anotherKeyword" } );
 		expect( getTopicDensity( mockPaper ) ).toBe( 0 );
-		mockPaper = new Paper( "Blog is essentially a website.", { keyword: "website, site" } );
+		mockPaper = new Paper( "Blog is essentially a website.", { keyword: "website", synonyms: "site" } );
 		expect( getTopicDensity( mockPaper ) ).toBe( 20 );
-		mockPaper = new Paper( "Waltz keepin auf mitz auf keepin äöüß weiner blitz spitzen. ", { keyword: "äöüß, spitzen" } );
+		mockPaper = new Paper( "Waltz keepin auf mitz auf keepin äöüß weiner blitz spitzen. ", { keyword: "äöüß", synonyms: "spitzen" } );
 		expect( getTopicDensity( mockPaper ) ).toBe( 20 );
-		mockPaper = new Paper( "Another way to write key word is key-word or keyword.", { keyword: "key word, key-word, keyword" } );
+		mockPaper = new Paper( "Another way to write key word is key-word or keyword.", { keyword: "key word", synonyms: "key-word, keyword" } );
 		expect( getTopicDensity( mockPaper  ) ).toBe( 30 );
-		mockPaper = new Paper( "a string of text with the beautiful kapaklı in it.", { keyword: "kapaklı" } );
+		mockPaper = new Paper( "a string of text with the beautiful kapaklı in it.", { keyword: "kapaklı", synonyms: "kapaklı" } );
 		expect( getTopicDensity( mockPaper ) ).toBe( 10 );
 	} );
 } );

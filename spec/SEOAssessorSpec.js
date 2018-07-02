@@ -29,8 +29,8 @@ describe( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that require a long enough text and a keyword and a synonym", function() {
 		const text = "a ".repeat( 200 );
-		assessor.assess( new Paper( text, { keyword: "keyword, synonym" } ) );
-		expect( assessor.getValidResults().length ).toBe( 10 );
+		assessor.assess( new Paper( text, { keyword: "keyword", synonyms: "synonym" } ) );
+		expect( assessor.getValidResults().length ).toBe( 9 );
 	} );
 
 	it( "additionally runs assessments that require an url", function() {
@@ -69,7 +69,7 @@ describe( "running assessments in the assessor", function() {
 			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas synonym." +
-			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword, synonym" } ) );
-		expect( assessor.getValidResults().length ).toBe( 11 );
+			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword", synonyms: "synonym" } ) );
+		expect( assessor.getValidResults().length ).toBe( 10 );
 	} );
 } );
