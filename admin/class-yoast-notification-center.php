@@ -325,6 +325,7 @@ class Yoast_Notification_Center {
 
 		$sorted_notifications = $this->get_sorted_notifications();
 		$notifications        = array_filter( $sorted_notifications, array( $this, 'is_notification_persistent' ) );
+		$notifications        = array_unique( $notifications );
 
 		if ( empty( $notifications ) ) {
 			return;
