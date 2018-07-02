@@ -75,7 +75,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 
 		/* Translators:	%1$s expands to the keyword density percentage,	%2$d expands to the keyword count,
 		%3$s expands to a link to a Yoast.com article about keyword and topic density,
-		%4$s expands to the anchor end tag.	*/
+		%4$s expands to the anchor end tag. */
 		text = i18n.dgettext(
 			"js-text-analysis",
 			"The %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d times."

@@ -134,7 +134,7 @@ class TopicDensityAssessment extends Assessment {
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to the topic density percentage, %2$d expands to the topic count,
 					%3$s expands to a link to a Yoast.com article about keyword and topic density,
-					%4$s expands to the anchor end tag.	*/
+					%4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
 						"The %3$stopic density%4$s is %1$s, which is great; the focus keyword and its synonyms were found %2$d time.",
