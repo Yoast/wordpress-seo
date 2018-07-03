@@ -335,21 +335,6 @@ App.prototype.changeAssessorOptions = function( assessorOptions ) {
 };
 
 /**
- * Switches between the cornerstone and default assessors.
- *
- * @deprecated
- *
- * @param {boolean} useCornerStone True when cornerstone should be used.
- *
- * @returns {void}
- */
-App.prototype.switchAssessors = function( useCornerStone ) {
-	this.changeAssessorOptions( {
-		useCornerStone,
-	} );
-};
-
-/**
  * Returns an instance of the seo assessor to use.
  *
  * @returns {Assessor} The assessor instance.
@@ -973,6 +958,21 @@ App.prototype.registerTest = function() {
 App.prototype.createSnippetPreview = function() {
 	this.snippetPreview = createDefaultSnippetPreview.call( this );
 	this.initSnippetPreview();
+};
+
+/**
+ * Switches between the cornerstone and default assessors.
+ *
+ * @deprecated 1.35.0 - Use changeAssessorOption instead.
+ *
+ * @param {boolean} useCornerStone True when cornerstone should be used.
+ *
+ * @returns {void}
+ */
+App.prototype.switchAssessors = function( useCornerStone ) {
+	this.changeAssessorOptions( {
+		useCornerStone,
+	} );
 };
 
 module.exports = App;
