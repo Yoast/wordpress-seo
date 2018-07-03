@@ -12,7 +12,7 @@ describe( "An image count assessment", function() {
 		var assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual( "No images appear in this page, consider adding some as appropriate." );
+		expect( assessment.getText() ).toEqual( "No <a href='https://yoa.st/2pj' target='_blank'>images</a> appear in this page, consider adding some as appropriate." );
 	} );
 
 	it( "assesses a single image, without a keyword and alt-tag set", function() {
@@ -26,7 +26,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The images on this page are missing alt attributes." );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page are missing alt attributes." );
 	} );
 
 	it( "assesses a single image, without a keyword, but with an alt-tag set", function() {
@@ -40,7 +40,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The images on this page contain alt attributes." );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page contain alt attributes." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set, but with a non-keyword alt-tag", function() {
@@ -56,7 +56,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "The images on this page do not have alt attributes containing the focus keyword." );
+		expect( assessment.getText() ).toEqual( "The <a href='https://yoa.st/2pj' target='_blank'>images</a> on this page do not have alt attributes containing the focus keyword." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword", function() {
