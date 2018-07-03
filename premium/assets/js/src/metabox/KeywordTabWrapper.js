@@ -77,7 +77,7 @@ export default function listenToActiveKeyword( store ) {
 			/**
 			 * Retrieves the active keyword index from the HTML page.
 			 *
-			 * @returns {number} The keywords.
+			 * @returns {number} The index of the active keyword.
 			 */
 			getActiveKeywordIndex() {
 				const elements = $( this.props.keywordQuery );
@@ -108,12 +108,12 @@ export default function listenToActiveKeyword( store ) {
 			/**
 			 * Handles keyword remove changes.
 			 *
-			 * @param {Event}  ev    The event.
-			 * @param {Number} index The index of the removed keyword.
+			 * @param {Event}  clickEvent The event.
+			 * @param {number} index      The index of the removed keyword.
 			 *
 			 * @returns {void}
 			 */
-			handleRemoveChange( ev, index ) {
+			handleRemoveChange( clickEvent, index ) {
 				store.dispatch( removeSynonyms( index ) );
 				this.handleTabChange();
 			}
