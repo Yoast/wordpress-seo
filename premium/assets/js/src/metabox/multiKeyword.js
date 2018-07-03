@@ -157,7 +157,7 @@ YoastMultiKeyword.prototype.handleUpdatedScore = function( ev, score ) {
  * @returns {void}
  */
 YoastMultiKeyword.prototype.bindKeywordTab = function() {
-	$( ".wpseo-metabox-tabs" ).on( "click", ".wpseo_keyword_tab > .wpseo_tablink", function() {
+	$( ".wpseo-metabox-tab-content" ).on( "click", ".wpseo_keyword_tab > .wpseo_tablink", function() {
 		var $this = $( this );
 
 		// Convert to string to prevent errors if the keyword is "null".
@@ -184,12 +184,28 @@ YoastMultiKeyword.prototype.bindKeywordTab = function() {
  * @returns {void}
  */
 YoastMultiKeyword.prototype.bindKeywordRemove = function() {
-	$( ".wpseo-metabox-tabs" ).on( "click", ".remove-keyword", function( ev ) {
+	$( ".wpseo-metabox-tab-content" ).on( "click", ".remove-keyword", function( ev ) {
 		var previousTab, currentTab;
 
 		currentTab = $( ev.currentTarget ).parent( "li" );
+
+		// Trigger our own remove keyword event to listen to.
+		const tabLink = currentTab.find( ".wpseo_tablink[data-keyword]" );
+		let tabIndex = -1;
+		if ( tabLink.length === 1 ) {
+			$( ".wpseo-metabox-tabs > .wpseo_keyword_tab > .wpseo_tablink[data-keyword]" ).each( ( index, element ) => {
+				if ( element === tabLink[ 0 ] ) {
+					tabIndex = index;
+				}
+			} );
+		}
+
 		previousTab = currentTab.prev();
 		currentTab.remove();
+
+		if ( tabLink.length === 1 ) {
+			$( ".wpseo-metabox-tab-content" ).trigger( "_yoast_remove_keyword", [ tabIndex ] );
+		}
 
 		// If the removed tab was active we should make a different one active.
 		if ( currentTab.hasClass( "active" ) ) {

@@ -16,6 +16,7 @@
     "url": "https://github.com/Yoast/wordpress-seo-premium"
   },
   "devDependencies": {
+    "aliasify": "^2.1.0",
     "babel-core": "^6.13.2",
     "babel-preset-es2015": "^6.13.2",
     "babel-preset-react": "^6.11.1",
@@ -51,6 +52,7 @@
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
+    "@wordpress/i18n": "^1.1.1",
     "a11y-speak": "github:yoast/a11y-speak",
     "babel-polyfill": "^6.16.0",
     "concat-map": "^0.0.1",
@@ -58,6 +60,9 @@
     "lodash": "^4.7.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
     "sassdash": "^0.8.2",
     "yoast-components": "^4.6.2",
     "yoast-premium-components": "git+ssh://git@github.com/yoast/yoast-premium-components.git#1.7.0",
