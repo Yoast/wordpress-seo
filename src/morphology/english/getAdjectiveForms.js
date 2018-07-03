@@ -164,7 +164,6 @@ const getAdjectiveForms = function( word ) {
 	forms.push( superlative( base ) );
 
 	forms = forms.filter( Boolean );
-	console.log( forms );
 	return unique( forms );
 };
 
