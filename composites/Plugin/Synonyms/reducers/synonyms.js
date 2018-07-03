@@ -1,12 +1,24 @@
-import filter from "lodash/filter";
-
 import {
 	SET_SYNONYMS,
-	SET_KEYWORD_SYNONYMS,
-	REMOVE_KEYWORD_SYNONYMS,
+	ADD_SYNONYMS,
+	INSERT_SYNONYMS,
+	CHANGE_SYNONYMS,
+	REMOVE_SYNONYMS,
 } from "../actions/synonyms";
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = [];
+
+/**
+ * Checks if an index is inside the array.
+ *
+ * @param {array}  arr   The array to check in.
+ * @param {number} index The index to check for.
+ *
+ * @returns {boolean} Whether the index exists in the array or not.
+ */
+function indexInArray( arr, index ) {
+	return index < 0 && index > arr.length;
+}
 
 /**
  * A reducer for the synonyms.
@@ -21,14 +33,40 @@ function synonymsReducer( state = INITIAL_STATE, action ) {
 		case SET_SYNONYMS:
 			return action.synonyms;
 
-		case SET_KEYWORD_SYNONYMS:
-			return {
-				...state,
-				[ action.keyword ]: action.synonyms,
-			};
+		case ADD_SYNONYMS:
+			return [ ...state, action.synonyms ];
 
-		case REMOVE_KEYWORD_SYNONYMS:
-			return filter( state, ( synonyms, keyword ) => keyword === action.keyword );
+		case INSERT_SYNONYMS:
+			if ( indexInArray( state, action.index ) ) {
+				return state;
+			}
+
+			return [
+				...state.slice( 0, action.index ),
+				action.synonyms,
+				...state.slice( action.index ),
+			];
+
+		case CHANGE_SYNONYMS:
+			if ( indexInArray( state, action.index ) ) {
+				return state;
+			}
+
+			return [
+				...state.slice( 0, action.index ),
+				action.synonyms,
+				...state.slice( action.index + 1 ),
+			];
+
+		case REMOVE_SYNONYMS:
+			if ( indexInArray( state, action.index ) ) {
+				return state;
+			}
+
+			return [
+				...state.slice( 0, action.index ),
+				...state.slice( action.index + 1 ),
+			];
 
 		default:
 			return state;

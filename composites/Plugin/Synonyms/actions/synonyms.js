@@ -1,13 +1,15 @@
 export const SET_SYNONYMS = "WPSEO_SET_SYNONYMS";
-export const SET_KEYWORD_SYNONYMS = "WPSEO_SET_KEYWORD_SYNONYMS";
-export const REMOVE_KEYWORD_SYNONYMS = "WPSEO_REMOVE_KEYWORD_SYNONYMS";
+export const ADD_SYNONYMS = "WPSEO_ADD_SYNONYMS";
+export const INSERT_SYNONYMS = "WPSEO_INSERT_SYNONYMS";
+export const CHANGE_SYNONYMS = "WPSEO_CHANGE_SYNONYMS";
+export const REMOVE_SYNONYMS = "WPSEO_REMOVE_SYNONYMS";
 
 /**
  * An action creator for setting the synonyms.
  *
  * @param {string} synonyms The synonyms.
  *
- * @returns {Object} Action.
+ * @returns {Object} The action.
  */
 export const setSynonyms = function( synonyms ) {
 	return {
@@ -17,31 +19,63 @@ export const setSynonyms = function( synonyms ) {
 };
 
 /**
- * An action creator for adding or changing the synonyms of a keyword.
+ * An action creator for adding synonyms.
  *
- * @param {string} keyword  The keyword.
- * @param {string} synonyms The synonyms.
+ * @param {string} index    The index in the array.
+ * @param {string} synonyms The synonyms to add.
  *
- * @returns {Object} Action.
+ * @returns {Object} The action.
  */
-export const setKeywordSynonyms = function( keyword, synonyms ) {
+export const addSynonyms = function( index, synonyms ) {
 	return {
-		type: SET_KEYWORD_SYNONYMS,
-		keyword,
+		type: ADD_SYNONYMS,
+		index,
 		synonyms,
 	};
 };
 
 /**
- * An action creator for setting the synonyms.
+ * An action creator for insert synonyms at an index.
  *
- * @param {string} keyword The keyword.
+ * @param {string} index    The index in the array.
+ * @param {string} synonyms The synonyms to insert.
  *
- * @returns {Object} Action.
+ * @returns {Object} The action.
  */
-export const removeKeywordSynonyms = function( keyword ) {
+export const insertSynonyms = function( index, synonyms ) {
 	return {
-		type: REMOVE_KEYWORD_SYNONYMS,
-		keyword,
+		type: INSERT_SYNONYMS,
+		index,
+		synonyms,
+	};
+};
+
+/**
+ * An action creator for adding synonyms.
+ *
+ * @param {string} index    The index in the array.
+ * @param {string} synonyms The synonyms to add.
+ *
+ * @returns {Object} The action.
+ */
+export const changeSynonyms = function( index, synonyms ) {
+	return {
+		type: CHANGE_SYNONYMS,
+		index,
+		synonyms,
+	};
+};
+
+/**
+ * An action creator for removing the synonyms at an index.
+ *
+ * @param {string} index The index in the array.
+ *
+ * @returns {Object} The action.
+ */
+export const removeSynonyms = function( index ) {
+	return {
+		type: REMOVE_SYNONYMS,
+		index,
 	};
 };
