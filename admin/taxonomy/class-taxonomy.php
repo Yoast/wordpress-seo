@@ -195,25 +195,6 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Adds shortcode support to category descriptions.
-	 *
-	 * @deprecated 7.9.0
-	 *
-	 * @param string $desc String to add shortcodes in.
-	 *
-	 * @return string
-	 */
-	public function custom_category_descriptions_add_shortcode_support( $desc ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0' );
-
-		// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
-		ob_start();
-		$desc = do_shortcode( $desc );
-		ob_end_clean();
-		return $desc;
-	}
-
-	/**
 	 * Pass variables to js for use with the term-scraper.
 	 *
 	 * @return array
@@ -363,5 +344,21 @@ class WPSEO_Taxonomy {
 		}
 
 		add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
+	}
+
+	/**
+	 * Adds shortcode support to category descriptions.
+	 *
+	 * @deprecated 7.9.0
+	 *
+	 * @param string $desc String to add shortcodes in.
+	 *
+	 * @return string Content with shortcodes filtered out.
+	 */
+	public function custom_category_descriptions_add_shortcode_support( $desc ) {
+		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0', 'WPSEO_Frontend::custom_category_descriptions_add_shortcode_support' );
+
+		$frontend = WPSEO_Frontend::get_instance();
+		return $frontend->custom_category_descriptions_add_shortcode_support( $desc );
 	}
 }
