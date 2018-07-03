@@ -1,11 +1,13 @@
+/* External dependencies */
 import React from "react";
 import initAlgoliaSearch from "algoliasearch";
 import isUndefined from "lodash/isUndefined";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { injectIntl, intlShape, defineMessages } from "react-intl";
+import { __ } from "@wordpress/i18n";
 
+/* Internal dependencies */
 import Loading from "./Loading";
 import SearchBar from "./SearchBar";
 import SearchResultDetail from "./SearchResultDetail";
@@ -15,17 +17,6 @@ const AlgoliaSearchWrapper = styled.div`
 	margin: 0 auto 20px auto;
 	box-sizing: border-box;
 `;
-
-const messages = defineMessages( {
-	loadingPlaceholder: {
-		id: "algoliaSearcher.loadingPlaceholder",
-		defaultMessage: "Loading...",
-	},
-	errorMessage: {
-		id: "algoliaSearcher.errorMessage",
-		defaultMessage: "Something went wrong. Please try again later.",
-	},
-} );
 
 const VIEW = {
 	SEARCH: "SEARCH",
@@ -235,7 +226,7 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {ReactElement} Error component.
 	 */
 	getErrorMessage() {
-		const errorMessage = this.props.intl.formatMessage( messages.errorMessage );
+		const errorMessage = __( "Something went wrong. Please try again later.", "yoast-components" );
 
 		a11ySpeak( errorMessage );
 
@@ -250,7 +241,8 @@ class AlgoliaSearcher extends React.Component {
 	 * @returns {ReactElement} Loader component.
 	 */
 	getLoadingIndicator() {
-		const loadingPlaceholder = this.props.intl.formatMessage( messages.loadingPlaceholder );
+		const loadingPlaceholder = __( "Loading...", "yoast-components" );
+
 		return <Loading placeholder={ loadingPlaceholder } />;
 	}
 
@@ -387,7 +379,6 @@ AlgoliaSearcher.propTypes = {
 	algoliaApiKey: PropTypes.string,
 	algoliaIndexName: PropTypes.string,
 	onQueryChange: PropTypes.func,
-	intl: intlShape.isRequired,
 	enableLiveSearch: PropTypes.bool,
 };
 
@@ -398,4 +389,4 @@ AlgoliaSearcher.defaultProps = {
 	enableLiveSearch: false,
 };
 
-export default injectIntl( AlgoliaSearcher );
+export default AlgoliaSearcher;

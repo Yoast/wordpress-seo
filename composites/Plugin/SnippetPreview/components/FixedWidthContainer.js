@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import debounce from "lodash/debounce";
-import { FormattedMessage } from "react-intl";
+import { __ } from "@wordpress/i18n";
 
 const FixedWidth = styled.div`
 	overflow: auto;
@@ -121,16 +121,12 @@ export default class FixedWidthContainer extends Component {
 			{ this.state.showScrollHint &&
 				<ScrollHintContainer>
 					<ScrollHint>
-						<FormattedMessage
-							id="fixedWidthContainer.scroll"
-							defaultMessage="Scroll to see the preview content."
-						/>
+						{ __( "Scroll to see the preview content.", "yoast-components" ) }
 					</ScrollHint>
 				</ScrollHintContainer>
 			}
 		</React.Fragment>;
 	}
-
 }
 
 FixedWidthContainer.propTypes = {

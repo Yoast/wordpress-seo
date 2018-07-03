@@ -2,8 +2,7 @@
 
 exports[`HelpText matches the snapshot by default 1`] = `
 .c0 {
-  color: #646464;
-  font-size: 0.9em;
+  font-size: 13px;
 }
 
 <p
@@ -15,8 +14,7 @@ exports[`HelpText matches the snapshot by default 1`] = `
 
 exports[`HelpText matches the snapshot when an array is provided as text 1`] = `
 .c0 {
-  color: #646464;
-  font-size: 0.9em;
+  font-size: 13px;
 }
 
 <p
