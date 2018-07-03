@@ -9112,9 +9112,9 @@ yeoman-generator@^2.0.4:
     through2 "^2.0.0"
     yeoman-environment "^2.0.5"
 
-yoastseo@^1.34.0:
-  version "1.34.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.34.0.tgz#d21066142268623e36c1f616c6e739bd2a2a5587"
+yoastseo@^1.35.0:
+  version "1.35.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.0.tgz#f5e25b821fcc636d5be5f68f864acbf9837a9f5b"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
