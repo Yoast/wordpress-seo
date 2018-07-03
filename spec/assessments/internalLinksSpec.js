@@ -28,7 +28,7 @@ describe( "An assessor running the linkStatistics for internal links", function(
 		var assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 8 );
-		expect( assessment.getText() ).toEqual( "This page has 0 nofollowed internal link(s) and 1 normal internal link(s)." );
+		expect( assessment.getText() ).toEqual( "This page has 0 nofollowed <a href='https://yoa.st/2pm' target='_blank'>internal link(s)</a> and 1 normal internal link(s)." );
 
 		mockPaper = new Paper( "a test with a <a href='http://yoast.com' alt='' rel='nofollow'> link </a>", attributes );
 
@@ -48,7 +48,7 @@ describe( "An assessor running the linkStatistics for internal links", function(
 		assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 7 );
-		expect( assessment.getText() ).toEqual( "This page has 1 internal link(s), all nofollowed." );
+		expect( assessment.getText() ).toEqual( "This page has 1 <a href='https://yoa.st/2pm' target='_blank'>internal link(s)</a>, all nofollowed." );
 	} );
 
 	it( "Accepts a paper and i18nobject  ", function() {
@@ -56,6 +56,6 @@ describe( "An assessor running the linkStatistics for internal links", function(
 		var assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( { internalTotal: 0 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual( "No internal links appear in this page, consider adding some as appropriate." );
+		expect( assessment.getText() ).toEqual( "No <a href='https://yoa.st/2pm' target='_blank'>internal links</a> appear in this page, consider adding some as appropriate." );
 	} );
 } );

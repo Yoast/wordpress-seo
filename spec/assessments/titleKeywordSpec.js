@@ -11,7 +11,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		var assessment = pageTitleKeywordAssessment.getResult( paper, Factory.buildMockResearcher( { matches: 0 } ), i18n );
 
 		expect( assessment.getScore() ).toBe( 2 );
-		expect( assessment.getText() ).toBe( "The focus keyword 'keyword' does not appear in the SEO title." );
+		expect( assessment.getText() ).toBe( "The focus keyword 'keyword' does not appear in the <a href='https://yoa.st/2pn' target='_blank'>SEO title</a>." );
 	} );
 
 	it( "returns an assementresult with keyword found at start", function() {
@@ -21,7 +21,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		var assessment = pageTitleKeywordAssessment.getResult( paper, Factory.buildMockResearcher( { matches: 1, position: 0 } ), i18n );
 
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "The SEO title contains the focus keyword, at the beginning which is considered to improve rankings." );
+		expect( assessment.getText() ).toBe( "The <a href='https://yoa.st/2pn' target='_blank'>SEO title</a> contains the focus keyword, at the beginning which is considered to improve rankings." );
 	} );
 
 	it( "returns an assementresult with keyword found at start", function() {
@@ -31,6 +31,6 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		var assessment = pageTitleKeywordAssessment.getResult( paper, Factory.buildMockResearcher( { matches: 1, position: 2 } ), i18n );
 
 		expect( assessment.getScore() ).toBe( 6 );
-		expect( assessment.getText() ).toBe( "The SEO title contains the focus keyword, but it does not appear at the beginning; try and move it to the beginning." );
+		expect( assessment.getText() ).toBe( "The <a href='https://yoa.st/2pn' target='_blank'>SEO title</a> contains the focus keyword, but it does not appear at the beginning; try and move it to the beginning." );
 	} );
 } );
