@@ -104,7 +104,8 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			__( 'You just deleted a %1$s.', 'wordpress-seo' ),
 			$this->get_taxonomy_label_for_term( $term_id )
 		);
-		$message        = $this->get_message( $first_sentence );
+
+		$message = $this->get_message( $first_sentence );
 
 		$this->add_notification( $message );
 	}
