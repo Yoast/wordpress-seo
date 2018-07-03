@@ -110,6 +110,11 @@ class WPSEO_Taxonomy {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
 			$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' );
+			/**
+			 * Remove the emoji script as it is incompatible with both React and any
+			 * contenteditable fields.
+			 */
+			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );

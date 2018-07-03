@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.6
-Stable tag: 7.7.1
+Stable tag: 7.8-RC1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,6 +106,37 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.8.0 =
+Release Date: July 10th, 2018
+
+Bugfixes:
+* Fixes a bug where images from password protected posts could potentially end up in OG image tags.
+* Fixes a bug where very old notifications could not be be dismissed or restored.
+* Fixes a bug where the Insert variable button alignment was incorrect.
+
+Enhancements:
+* Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
+
+Other:
+* Adds a reminder message to create a redirect if a user deletes a category or tag.
+
+= 7.7.3 =
+Release Date: July 2nd, 2018
+
+Bugfixes:
+* Disables WordPress' automatic conversion of emoji to images on every page where the snippet editor is present. This conversion is not compatible with React or content editable fields and broke the snippet editor.
+* Fixes text directionality for the title and description fields in the snippet editor for right-to-left languages.
+* Fixes a bug where the snippet title and description values were saved to the database if they did match the post-type template.
+
+= 7.7.2 =
+Release Date: June 29th, 2018
+
+Bugfixes:
+* Fixes a bug where the snippet variables selection is hidden behind the WordPress menu when using a right-to-left language.
+* Fixes styling in the snippet preview when using a right-to-left language.
+* Fixes a bug where the 'insert snippet variable' button placement was inconsistent.
+* Migrates WooCommerce Product archive settings to the Shop page, if present and not already set on the Shop page.
+
 = 7.7.1 =
 Release Date: June 27th, 2018
 
@@ -134,7 +165,7 @@ Enhancements:
 * Adds a notification when a post is removed.
 * Overhauls the Content Types section under SEO -> Search Appearance by sectioning the post types and allowing users to collapse them. This is especially handy when you have a lot of custom post types.
 * Updates the 'snippet variables tab' of the Help Center to have the new names.
-* Adds recommended snippet variables for templates depending on the context. The `wpseo_recommended_replace_vars` filter is added, which gives the possibility to add or alter the recommended snippet variables.
+* Adds recommended snippet variables for templates depending on the context.
 
 Bugfixes:
 * Fixes a bug where a PHP notice would be triggered when the `opcache.restrict_api` directive was enabled.
@@ -153,34 +184,6 @@ Deprecated:
 Other:
 * Changes the timing on which the capability filter is run to better time when notifications should be initialized.
 * Adds X-Redirect-By header to all redirects, making the origin of redirects much easier to debug.
-
-= 7.6.1 =
-Release Date: June 7th, 2018
-
-Bugfixes:
-* Fixes a bug where a JavaScript error was thrown on the post-edit page when certain plugins are active.
-* Fixes a bug where stylesheet definitions would impact form fields of metaboxes on the post-edit pages. The definitions have been contained in a Yoast-selector.
-
-= 7.6.0 =
-Release Date: June 5th, 2018
-
-Enhancements:
-* Adds Flesch Reading Ease for Russian.
-* Adds Catalan transition words.
-* Adds a tab to the Help Center on posts, pages, terms and custom post types which explains which template variables can be used in the Snippet Preview.
-
-Bugfixes:
-* Fixes a bug where sequences of symbols which do not contain a single letter or digit were considered as valid keywords.
-* Fixes a bug where Flesch Reading Ease translation strings were not fully translated.
-* Fixes a bug where numbers-only keywords caused the analysis to fail.
-* Fixes a bug where the active keyword in the state wasn't updated whenever changes were made in the keyword field.
-* Fixes a bug where replacevars based on custom fields would throw an error due to a missing ID.
-
-
-Other:
-* Changes the maximum meta description length from 320 to 156 characters.
-* Fixes typo in $field_defs parameter description for wpseo_metabox_entries filter.
-* Restores the warning for using unsupported replacement variables on the search appearance settings page.
 
 = Earlier versions =
 

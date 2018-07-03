@@ -1,3 +1,21 @@
+### 7.8.0: July 10th, 2018
+Bugfixes:
+* Fixes a bug where advertisements were being displayed next to video tutorials.
+* Fixes a bug where redirected URLs would show up in the sitemap.
+
+Enhancements:
+* Shows a notification regarding the creation of redirects when deleting a category or tag.
+* Introduces an action (`wpseo_premium_redirects_modified`) that will be executed when a redirect has been added, edited or deleted.
+
+Other:
+* Includes every change in Yoast SEO core 7.8.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.7.3: July 2nd, 2018
+* Includes every change in Yoast SEO core 7.7.3 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.7.2: June 29th, 2018
+* Includes every change in Yoast SEO core 7.7.2 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.7.1: June 27th, 2018
 * Includes every change in Yoast SEO core 7.7.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 
