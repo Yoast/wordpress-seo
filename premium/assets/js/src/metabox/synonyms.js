@@ -1,3 +1,5 @@
+/* global jQuery */
+
 // External dependencies.
 import React from "react";
 import get from "lodash/get";
@@ -12,7 +14,7 @@ import { __ } from "@wordpress/i18n";
 import configureStore from "../redux/store";
 import { renderReactApp } from "../redux/utils/render";
 import SynonymsContainer from "./synonymsContainer";
-import listenToActiveKeyword from "./ActiveKeywordWrapper";
+import listenToActiveKeyword from "./KeywordTabWrapper";
 
 const $ = jQuery;
 
@@ -43,6 +45,8 @@ class Synonyms {
 		this.setSynonyms = this.setSynonyms.bind( this );
 		this.handlePremiumStoreChange = this.handlePremiumStoreChange.bind( this );
 		this.handleStoreChange = this.handleStoreChange.bind( this );
+
+		window.getKeywords = this.getKeywords.bind( this );
 	}
 
 	/**
@@ -61,7 +65,7 @@ class Synonyms {
 			template: options.template || "<div id='wpseosynonyms'></div>",
 			label: options.label || __( "Keyword synonyms" ),
 			hiddenFieldId: options.hiddenFieldId || "yoast_wpseo_keywordsynonyms",
-			keywordQuery: options.keywordQuery || "#wpseo-meta-section-content > wpseo_keyword_tab > wpseo_tablink[data-keyword]",
+			keywordQuery: options.keywordQuery || "#wpseo-meta-section-content .wpseo_keyword_tab .wpseo_tablink[data-keyword]",
 		};
 	}
 
@@ -126,13 +130,37 @@ class Synonyms {
 		return this._store.getState().activeKeyword;
 	}
 
+	/**
+	 * Retrieves the keywords from the HTML page.
+	 *
+	 * @returns {Array} The keywords.
+	 */
 	getKeywords() {
 		const elements = $( this._options.keywordQuery );
-		const keywords = elements.map( element => element.data( "keyword" ) );
-		console.log( elements );
-		console.log( keywords );
+		const keywords = [];
+
+		elements.each( ( index, element ) => {
+			keywords.push( $( element ).data( "keyword" ) );
+		} );
 
 		return keywords;
+	}
+
+	/**
+	 * Retrieves the active keyword index from the HTML page.
+	 *
+	 * @returns {number} The keywords.
+	 */
+	getActiveKeywordIndex() {
+		const elements = $( this._options.keywordQuery );
+
+		elements.each( ( index, element ) => {
+			if ( $( element ).parent().hasClass( "active" ) ) {
+				return index;
+			}
+		} );
+
+		return -1;
 	}
 
 	/**
@@ -160,8 +188,8 @@ class Synonyms {
 	 *
 	 * @returns {Object} The synonyms for each keyword.
 	 */
-	getAllSynonyms() {
-		return JSON.parse( this._hiddenField.val() || "{}" );
+	getSavedSynonyms() {
+		return JSON.parse( this._hiddenField.val() || "[]" );
 	}
 
 	/**
@@ -172,15 +200,7 @@ class Synonyms {
 	 * @returns {void}
 	 */
 	updateHiddenField( synonyms ) {
-		const activeKeyword = this.getActiveKeyword();
-		if ( activeKeyword.length === 0 ) {
-			return;
-		}
-
-		const allSynonyms = this.getAllSynonyms();
-		allSynonyms[ activeKeyword ] = synonyms;
-
-		this._hiddenField.val( JSON.stringify( allSynonyms ) );
+		this._hiddenField.val( JSON.stringify( synonyms ) );
 	}
 
 	/**
@@ -209,9 +229,9 @@ class Synonyms {
 
 		if ( this._previousKeyword !== activeKeyword ) {
 			this._previousKeyword = activeKeyword;
-
-			const allSynonyms = this.getAllSynonyms();
-			const synonyms = allSynonyms[ activeKeyword ] || "";
+			if ( activeKeyword.length === 0 ) {
+				return;
+			}
 
 			this.setSynonyms( synonyms );
 		}
@@ -240,6 +260,12 @@ class Synonyms {
 		this._premiumStore = configureStore();
 		YoastSEO.premiumStore = this._premiumStore;
 
+		// Apply the saved synonyms to the store in order of the keyword tabs.
+		const keywords = this.getKeywords();
+		const savedSynonyms = this.getSavedSynonyms();
+		const synonyms = keywords.map( ( value, index ) => savedSynonyms[ index ] || "" );
+		this.setSynonyms( synonyms );
+
 		// Initialize premium store listener.
 		this._previousSynonyms = this.getSynonyms();
 		this._premiumStore.subscribe( this.handlePremiumStoreChange );
@@ -251,10 +277,8 @@ class Synonyms {
 		// Render react app.
 		const props = {
 			label: this._options.label,
-			synonyms: {},
-			onChange: this.setSynonyms,
 		};
-		const WrappedSynonyms = listenToActiveKeyword( this._store )( SynonymsContainer );
+		const WrappedSynonyms = listenToActiveKeyword( this._premiumStore )( SynonymsContainer );
 		renderReactApp( container, WrappedSynonyms, this._premiumStore, props );
 
 		// Add premium specific data to YoastSEO.js.
