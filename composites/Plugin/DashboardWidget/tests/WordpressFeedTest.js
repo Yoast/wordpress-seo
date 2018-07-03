@@ -24,7 +24,7 @@ test( "the WordpressFeed matches the snapshot", () => {
 	const component = renderer.create(
 		<WordpressFeed
 			feed={ feed }
-			/>
+		/>
 	);
 
 	let tree = component.toJSON();
