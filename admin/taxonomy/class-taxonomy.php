@@ -197,14 +197,14 @@ class WPSEO_Taxonomy {
 	/**
 	 * Adds shortcode support to category descriptions.
 	 *
-	 * @deprecated 7.8.0
+	 * @deprecated 7.9.0
 	 *
 	 * @param string $desc String to add shortcodes in.
 	 *
 	 * @return string
 	 */
 	public function custom_category_descriptions_add_shortcode_support( $desc ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 7.8.0' );
+		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0' );
 
 		// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
 		ob_start();
