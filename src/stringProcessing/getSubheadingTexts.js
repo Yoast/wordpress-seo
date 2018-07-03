@@ -1,3 +1,4 @@
+const isEmpty = require( "lodash/isEmpty.js" );
 /**
  * Returns all texts per subheading.
  * @param {string} text The text to analyze from.
@@ -13,14 +14,14 @@ module.exports = function( text ) {
 	 */
 	text = text.replace( /\|/ig, "" );
 	text = text.replace( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig, "|" );
-	var subheadings =  text.split( "|" );
 
-	/*
-	 * We never need the first entry, if the text starts with a subheading it will be empty, and if the text doesn't start with a subheading,
-	 * the text doesnt't belong to a subheading, so it can be removed
-	 */
-	subheadings.shift();
-	return subheadings;
+	let subheadingsTexts = text.split( "|" );
+
+	if ( isEmpty( subheadingsTexts[ 0 ] ) ) {
+		subheadingsTexts.shift();
+	}
+
+	return subheadingsTexts;
 };
 
 

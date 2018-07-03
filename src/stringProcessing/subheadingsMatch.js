@@ -1,6 +1,6 @@
-var replaceString = require( "../stringProcessing/replaceString.js" );
-var removalWords = require( "../config/removalWords.js" )();
-var matchTextWithTransliteration = require( "../stringProcessing/matchTextWithTransliteration.js" );
+const replaceString = require( "../stringProcessing/replaceString.js" );
+const removalWords = require( "../config/removalWords.js" )();
+const matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
 
 /**
  * Matches the keyword in an array of strings
@@ -11,19 +11,18 @@ var matchTextWithTransliteration = require( "../stringProcessing/matchTextWithTr
  * @returns {number} The number of occurrences of the keyword in the headings.
  */
 module.exports = function( matches, keyword, locale ) {
-	var foundInHeader;
-	if ( matches === null ) {
-		foundInHeader = -1;
-	} else {
+	let foundInHeader = -1;
+
+	if ( matches !== null ) {
 		foundInHeader = 0;
-		for ( var i = 0; i < matches.length; i++ ) {
+		for ( let i = 0; i < matches.length; i++ ) {
 			// TODO: This replaceString call seemingly doesn't work, as no replacement value is being sent to the .replace method in replaceString
-			var formattedHeaders = replaceString(
+			const formattedHeaders = replaceString(
 				matches[ i ], removalWords
 			);
 			if (
-				matchTextWithTransliteration( formattedHeaders, keyword, locale ).length > 0 ||
-				matchTextWithTransliteration( matches[ i ], keyword, locale ).length > 0
+				matchTextWithWord( formattedHeaders, keyword, locale ).count > 0 ||
+				matchTextWithWord( matches[ i ], keyword, locale ).count > 0
 			) {
 				foundInHeader++;
 			}

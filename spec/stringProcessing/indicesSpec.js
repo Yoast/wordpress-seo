@@ -1,6 +1,7 @@
 let indices = require( "../../js/stringProcessing/indices.js" );
 let getIndices = indices.getIndicesByWord;
 let getIndicesOfList = indices.getIndicesByWordList;
+let getIndicesByWordListSorted = indices.getIndicesByWordListSorted;
 let filterIndices = indices.filterIndices;
 let sortIndices = indices.sortIndices;
 let getIndicesByWord = indices.getIndicesByWord;
@@ -23,6 +24,33 @@ describe( "A function to get indices from words in a word list in a string.", fu
 	} );
 	it( "returns a list with multiple words and their indices", function() {
 		expect( getIndicesOfList( [ "string", "test" ], "this is a string to test" ) ).toEqual( [ { index: 10, match: "string" }, { index: 20, match: "test" } ] );
+	} );
+} );
+
+describe( "A function to get indices from words in a word list in a string and make sure they are sorted by occurrence.", function() {
+	it( "returns a list with a single word and its index", function() {
+		expect( getIndicesByWordListSorted( [ "string" ], "this is a string to test" ) ).toEqual( [ { index: 10, match: "string" } ] );
+	} );
+	it( "returns a list with multiple words and their indices", function() {
+		expect( getIndicesByWordListSorted( [ "string" ], "this is a string to test, a very nice string to test" ) ).toEqual( [ { index: 10, match: "string" }, { index: 38, match: "string" } ] );
+	} );
+	it( "returns a list with multiple words and their indices", function() {
+		expect( getIndicesByWordListSorted( [ "string", "test" ], "this is a string to test" ) ).toEqual( [ { index: 10, match: "string" }, { index: 20, match: "test" } ] );
+	} );
+	it( "returns a list with multiple words and their indices", function() {
+		expect( getIndicesByWordListSorted( [ "string", "test" ], "this is a string to test and another string to test" ) ).toEqual( [ { index: 10, match: "string" }, { index: 20, match: "test" }, { index: 37, match: "string" }, { index: 47, match: "test" } ] );
+	} );
+	it( "returns a list with multiple words and their indices", function() {
+		expect( getIndicesByWordListSorted( [ "test", "string" ], "this is a string to test and another string to test" ) ).toEqual( [ { index: 10, match: "string" }, { index: 20, match: "test" }, { index: 37, match: "string" }, { index: 47, match: "test" } ] );
+	} );
+	it( "returns a list with multiple words and their indices", function() {
+		expect( getIndicesByWordListSorted( [ "string", "test" ], "this is a string and another string to test and to test again" ) ).toEqual( [ { index: 10, match: "string" }, { index: 29, match: "string" }, { index: 39, match: "test" }, { index: 51, match: "test" } ] );
+	} );
+	it( "searches for a list of words, but returns nothing if they are not in the sentence", function() {
+		expect( getIndicesByWordListSorted( [ "string1", "test1" ], "this is a string and another string to test and to test again" ) ).toEqual( [] );
+	} );
+	it( "returns a list with multiple words and their indices", function() {
+		expect( getIndicesByWordListSorted( [ "string", "string and" ], "this is a string and another string to test and to test again" ) ).toEqual( [ { index: 10, match: "string" }, { index: 10, match: "string and" }, { index: 29, match: "string" } ] );
 	} );
 } );
 

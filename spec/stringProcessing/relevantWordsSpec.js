@@ -10,6 +10,7 @@ let filterFunctionWords = relevantWords.filterFunctionWords;
 let filterFunctionWordsAnywhere = relevantWords.filterFunctionWordsAnywhere;
 let filterOneCharacterWordCombinations = relevantWords.filterOneCharacterWordCombinations;
 let filterOnDensity = relevantWords.filterOnDensity;
+let filterEndingWith = relevantWords.filterEndingWith;
 let englishFunctionWords = require( "../../js/researches/english/functionWords.js" )().all;
 
 describe( "getWordCombinations", function() {
@@ -281,6 +282,21 @@ describe( "filter one-letter words in word combinations", function() {
 	} );
 } );
 
+describe( "filter word combinations based on what string they end with but with specified exceptions", function() {
+	it( "filters word combinations that end with you but not word combinations that start with are you", function() {
+		let input = [
+			new WordCombination( [ "you", "do", "you" ] ),
+			new WordCombination( [ "you", "are", "awesome" ] ),
+			new WordCombination( [ "who", "are", "you" ] ),
+		];
+		let expected = [
+			new WordCombination( [ "you", "are", "awesome" ] ),
+			new WordCombination( [ "who", "are", "you" ] ),
+		];
+		let combinations = filterEndingWith( input, "you", [ "are you" ] );
+		expect( combinations ).toEqual( expected );
+	} );
+} );
 
 describe( "getRelevantWords", function() {
 	it( "uses the default (English) function words in case of a unknown locale", function() {

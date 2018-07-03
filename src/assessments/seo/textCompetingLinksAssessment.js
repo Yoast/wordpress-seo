@@ -13,12 +13,16 @@ var map = require( "lodash/map" );
  * @returns {object} resultObject with score and text
  */
 var calculateLinkCountResult = function( linkStatistics, i18n ) {
+	const url = "<a href='https://yoa.st/2pi' target='_blank'>";
+
 	if ( linkStatistics.keyword.totalKeyword > 0 ) {
 		return {
 			score: 2,
 			hasMarks: true,
-			text: i18n.dgettext( "js-text-analysis", "You're linking to another page with the focus keyword you want this page to rank for. " +
-				"Consider changing that if you truly want this page to rank." ),
+			text: i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "You're %1$slinking to another page with the focus keyword%2$s you want this page to rank for. " +
+				"Consider changing that if you truly want this page to rank." ), url, "</a>" ),
 		};
 	}
 	return {};

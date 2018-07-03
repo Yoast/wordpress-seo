@@ -80,12 +80,24 @@ class UrlKeywordAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( totalKeywords, i18n ) {
+		const url = "<a href='https://yoa.st/2pp' target='_blank'>";
+
 		if ( totalKeywords === 0 ) {
-			return i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. " +
-				"If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" );
+			return i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the %1$sURL%2$s for this page. " +
+				"If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" ),
+				url,
+				"</a>"
+			);
 		}
 
-		return i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." );
+		return i18n.sprintf(
+			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+			i18n.dgettext( "js-text-analysis", "The focus keyword appears in the %1$sURL%2$s for this page." ),
+			url,
+			"</a>"
+		);
 	}
 }
 

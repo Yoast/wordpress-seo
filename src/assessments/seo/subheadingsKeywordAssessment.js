@@ -91,18 +91,24 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( score, subHeadings, i18n ) {
+		const url = "<a href='https://yoa.st/2ph' target='_blank'>";
+
 		if ( score === this._config.scores.multipleMatches || score === this._config.scores.oneMatch ) {
 			return i18n.sprintf(
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in your copy." ),
-				subHeadings.count, subHeadings.matches
+				/* Translators: %1$d expands to the number of subheadings containing the keyword, %2$d expands to the
+				total number of subheadings, %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "The focus keyword appears in %1$d (out of %2$d) %3$ssubheadings%4$s in your copy." ),
+				subHeadings.matches, subHeadings.count, url, "</a>"
 			);
 		}
 
 		if ( score === this._config.scores.noMatches ) {
-			return i18n.dgettext(
-				"js-text-analysis",
-				"You have not used the focus keyword in any subheading (such as an H2) in your copy."
-			);
+			return i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext(
+					"js-text-analysis",
+					"You have not used the focus keyword in any %1$ssubheading%2$s (such as an H2) in your copy."
+				), url, "</a>" );
 		}
 
 		return "";

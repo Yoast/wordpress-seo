@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.33.1",
+  "version": "1.35.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/YoastSEO.js"
@@ -23,7 +23,7 @@
   },
   "browser": "js/browser.js",
   "devDependencies": {
-    "@types/jest": "^22.0.0",
+    "@types/jest": "^23.0.0",
     "@types/node": "^9.3.0",
     "autoprefixer": "^8.0.0",
     "babel-cli": "^6.16.0",

@@ -1,8 +1,7 @@
 /** @module analyses/getKeywordCount */
 
 const matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-const normalizeQuotes = require( "../stringProcessing/quotes.js" ).normalize;
-
+const unique = require( "lodash/uniq" );
 const escapeRegExp = require( "lodash/escapeRegExp" );
 
 /**
@@ -12,8 +11,13 @@ const escapeRegExp = require( "lodash/escapeRegExp" );
  * @returns {number} The keyword count.
  */
 module.exports = function( paper ) {
-	const keyword = escapeRegExp( normalizeQuotes( paper.getKeyword() ) );
-	const text = normalizeQuotes( paper.getText() );
+	const keyword = escapeRegExp( paper.getKeyword() );
+	const text = paper.getText();
 	const locale = paper.getLocale();
-	return matchWords( text, keyword, locale );
+	const keywordsFound = matchWords( text, keyword, locale );
+
+	return {
+		count: keywordsFound.count,
+		matches: unique( keywordsFound.matches ).sort( ( a, b ) => b.length - a.length ),
+	};
 };
