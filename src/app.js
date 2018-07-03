@@ -11,10 +11,12 @@ var isEmpty = require( "lodash/isEmpty" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
 var throttle = require( "lodash/throttle" );
+const merge = require( "lodash/merge" );
 
 var Jed = require( "jed" );
 
 var SEOAssessor = require( "./seoAssessor.js" );
+const LargestKeywordDistanceAssessment = require( "./assessments/seo/largestKeywordDistanceAssessment.js" );
 var ContentAssessor = require( "./contentAssessor.js" );
 var CornerstoneSEOAssessor = require( "./cornerstone/seoAssessor.js" );
 var CornerstoneContentAssessor = require( "./cornerstone/contentAssessor.js" );
@@ -25,6 +27,8 @@ var Paper = require( "./values/Paper.js" );
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
 var removeHtmlBlocks = require( "./stringProcessing/htmlParser.js" );
+
+const largestKeywordDistance = new LargestKeywordDistanceAssessment();
 
 var inputDebounceDelay = 400;
 
@@ -285,6 +289,11 @@ var App = function( args ) {
 		this.snippetPreview = createDefaultSnippetPreview.call( this );
 	}
 
+	this._assessorOptions = {
+		useCornerStone: false,
+		useKeywordDistribution: false,
+	};
+
 	this.initSnippetPreview();
 	this.initAssessorPresenters();
 };
@@ -308,16 +317,19 @@ App.prototype.getDefaultOutputElement = function( args ) {
 };
 
 /**
- * Switches between the cornerstone and default assessors.
+ * Sets the assessors based on the assessor options and refreshes them.
  *
- * @param {boolean} useCornerStone True when cornerstone should be used.
- *
+ * @param {Object} assessorOptions The specific options.
  * @returns {void}
  */
-App.prototype.switchAssessors = function( useCornerStone ) {
-	this.seoAssessor = this.getSeoAssessor( useCornerStone );
-	this.contentAssessor = this.getContentAssessor( useCornerStone );
+App.prototype.changeAssessorOptions = function( assessorOptions ) {
+	this._assessorOptions = merge( this._assessorOptions, assessorOptions );
 
+	// Set the assessors based on the new assessor options.
+	this.seoAssessor = this.getSeoAssessor();
+	this.contentAssessor = this.getContentAssessor();
+
+	// Refresh everything so the user sees the changes.
 	this.initAssessorPresenters();
 	this.refresh();
 };
@@ -325,26 +337,27 @@ App.prototype.switchAssessors = function( useCornerStone ) {
 /**
  * Returns an instance of the seo assessor to use.
  *
- * @param {boolean} useCornerStone True if the cornerstone assessor should be used.
- *
  * @returns {Assessor} The assessor instance.
  */
-App.prototype.getSeoAssessor = function( useCornerStone ) {
-	if ( useCornerStone ) {
-		return this.cornerStoneSeoAssessor;
+App.prototype.getSeoAssessor = function() {
+	const { useCornerStone, useKeywordDistribution } = this._assessorOptions;
+
+	const assessor = useCornerStone ? this.cornerStoneSeoAssessor : this.defaultSeoAssessor;
+	if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "largestKeywordDistance" ) ) ) {
+		assessor.addAssessment( "largestKeywordDistance", largestKeywordDistance );
 	}
 
-	return this.defaultSeoAssessor;
+	return assessor;
 };
 
 /**
  * Returns an instance of the content assessor to use.
  *
- * @param {boolean} useCornerStone True if the cornerstone assessor should be used.
- *
  * @returns {Assessor} The assessor instance.
  */
-App.prototype.getContentAssessor = function( useCornerStone ) {
+App.prototype.getContentAssessor = function() {
+	const { useCornerStone } = this._assessorOptions;
+
 	if ( useCornerStone ) {
 		return this.cornerStoneContentAssessor;
 	}
@@ -945,6 +958,21 @@ App.prototype.registerTest = function() {
 App.prototype.createSnippetPreview = function() {
 	this.snippetPreview = createDefaultSnippetPreview.call( this );
 	this.initSnippetPreview();
+};
+
+/**
+ * Switches between the cornerstone and default assessors.
+ *
+ * @deprecated 1.35.0 - Use changeAssessorOption instead.
+ *
+ * @param {boolean} useCornerStone True when cornerstone should be used.
+ *
+ * @returns {void}
+ */
+App.prototype.switchAssessors = function( useCornerStone ) {
+	this.changeAssessorOptions( {
+		useCornerStone,
+	} );
 };
 
 module.exports = App;
