@@ -7042,8 +7042,8 @@ var locativeAdverbs = ["accanto", "altrove", "attorno", "dappertutto", "giù", "
 // 'Essere' is already part of the otherAuxiliaries list.
 var filteredPassiveAuxiliaries = ["vengano", "vengo", "vengono", "veniamo", "veniate", "venimmo", "venisse", "venissero", "venissi", "venissimo", "veniste", "venisti", "venite", "veniva", "venivamo", "venivano", "venivate", "venivi", "venivo", "venne", "vennero", "venni", "verrà", "verrai", "verranno", "verrebbe", "verrebbero", "verrei", "verremmo", "verremo", "verreste", "verresti", "verrete", "verrò", "viene", "vieni"];
 var passiveAuxiliariesInfinitive = ["venire", "venir"];
-var otherAuxiliaries = ["abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbiente", "avemmo", "avendo", "avente", "avesse", "avessero", "avessi", "avessimo", "aveste", "avesti", "avete", "aveva", "avevamo", "avevano", "avevate", "avevi", "avevo", "avrà", "avrai", "avranno", "avrebbe", "avrebbero", "avrei", "avremmo", "avremo", "avreste", "avresti", "avrete", "avrò", "avuto", "ebbe", "ebbero", "ebbi", "ha", "hai", "hanno", "ho", "possa", "possano", "possiamo", "possiate", "posso", "possono", "poté", "potei", "potemmo", "potendo", "potente", "poterono", "potesse", "potessero", "potessi", "potessimo", "poteste", "potesti", "potete", "potette", "potettero", "potetti", "poteva", "potevamo", "potevano", "potevate", "potevi", "potevo", "potrà", "potrai", "potranno", "potrebbe", "potrebbero", "potrei", "potremmo", "potremo", "potreste", "potresti", "potrete", "potrò", "potuto", "può", "puoi", "voglia", "vogliamo", "vogliano", "vogliate", "voglio", "vogliono", "volemmo", "volendo", "volente", "volesse", "volessero", "volessi", "volessimo", "voleste", "volesti", "volete", "voleva", "volevamo", "volevano", "volevate", "volevi", "volevo", "volle", "vollero", "volli", "voluto", "vorrà", "vorrai", "vorranno", "vorrebbe", "vorrebbero", "vorrei", "vorremmo", "vorremo", "vorreste", "vorresti", "vorrete", "vorrò", "vuoi", "vuole", "debba", "debbano", "debbono", "deva", "deve", "devi", "devo", "devono", "dobbiamo", "dobbiate", "dové", "dovei", "dovemmo", "dovendo", "doverono", "dovesse", "dovessero", "dovessi", "dovessimo", "doveste", "dovesti", "dovete", "dovette", "dovettero", "dovetti", "doveva", "dovevamo", "dovevano", "dovevate", "dovevi", "dovevo", "dovrà", "dovrai", "dovranno", "dovrebbe", "dovrebbero", "dovrei", "dovremmo", "dovremo", "dovreste", "dovresti", "dovrete", "dovrò", "dovuto", "sa", "sai", "sanno", "sapemmo", "sapendo", "sapesse", "sapessero", "sapessi", "sapessimo", "sapeste", "sapesti", "sapete", "sapeva", "sapevamo", "sapevano", "sapevate", "sapevi", "sapevo", "sappi", "sappia", "sappiamo", "sappiano", "sappiate", "saprà", "saprai", "sapranno", "saprebbe", "saprebbero", "saprei", "sapremmo", "sapremo", "sapreste", "sapresti", "saprete", "saprò", "saputo", "seppe", "seppero", "seppi", "so", "soglia", "sogliamo", "sogliano", "sogliate", "soglio", "sogliono", "solesse", "solessero", "solessi", "solessimo", "soleste", "solete", "soleva", "solevamo", "solevano", "solevate", "solevi", "solevo", "suoli", "sta", "stai", "stando", "stanno", "stante", "starà", "starai", "staranno", "staremo", "starete", "starò", "stava", "stavamo", "stavano", "stavate", "stavi", "stavo", "stemmo", "stessero", "stessimo", "steste", "stesti", "stette", "stettero", "stetti", "stia", "stiamo", "stiano", "stiate", "sto"];
-var otherAuxiliariesInfinitive = ["avere", "aver", "potere", "poter", "volere", "voler", "dovere", "dover", "sapere", "saper", "solere", "stare", "star"];
+var otherAuxiliaries = ["abbi", "abbia", "abbiamo", "abbiano", "abbiate", "abbiente", "avemmo", "avendo", "avente", "avesse", "avessero", "avessi", "avessimo", "aveste", "avesti", "avete", "aveva", "avevamo", "avevano", "avevate", "avevi", "avevo", "avrà", "avrai", "avranno", "avrebbe", "avrebbero", "avrei", "avremmo", "avremo", "avreste", "avresti", "avrete", "avrò", "avuto", "ebbe", "ebbero", "ebbi", "ha", "hai", "hanno", "ho", "l'abbi", "l'abbia", "l'abbiamo", "l'abbiano", "l'abbiate", "l'abbiente", "l'avemmo", "l'avendo", "l'avente", "l'avesse", "l'avessero", "l'avessi", "l'avessimo", "l'aveste", "l'avesti", "l'avete", "l'aveva", "l'avevamo", "l'avevano", "l'avevate", "l'avevi", "l'avevo", "l'avrà", "l'avrai", "l'avranno", "l'avrebbe", "l'avrebbero", "l'avrei", "l'avremmo", "l'avremo", "l'avreste", "l'avresti", "l'avrete", "l'avrò", "l'avuto", "l'ebbe", "l'ebbero", "l'ebbi", "l'ha", "l'hai", "l'hanno", "l'ho", "possa", "possano", "possiamo", "possiate", "posso", "possono", "poté", "potei", "potemmo", "potendo", "potente", "poterono", "potesse", "potessero", "potessi", "potessimo", "poteste", "potesti", "potete", "potette", "potettero", "potetti", "poteva", "potevamo", "potevano", "potevate", "potevi", "potevo", "potrà", "potrai", "potranno", "potrebbe", "potrebbero", "potrei", "potremmo", "potremo", "potreste", "potresti", "potrete", "potrò", "potuto", "può", "puoi", "voglia", "vogliamo", "vogliano", "vogliate", "voglio", "vogliono", "volemmo", "volendo", "volente", "volesse", "volessero", "volessi", "volessimo", "voleste", "volesti", "volete", "voleva", "volevamo", "volevano", "volevate", "volevi", "volevo", "volle", "vollero", "volli", "voluto", "vorrà", "vorrai", "vorranno", "vorrebbe", "vorrebbero", "vorrei", "vorremmo", "vorremo", "vorreste", "vorresti", "vorrete", "vorrò", "vuoi", "vuole", "debba", "debbano", "debbono", "deva", "deve", "devi", "devo", "devono", "dobbiamo", "dobbiate", "dové", "dovei", "dovemmo", "dovendo", "doverono", "dovesse", "dovessero", "dovessi", "dovessimo", "doveste", "dovesti", "dovete", "dovette", "dovettero", "dovetti", "doveva", "dovevamo", "dovevano", "dovevate", "dovevi", "dovevo", "dovrà", "dovrai", "dovranno", "dovrebbe", "dovrebbero", "dovrei", "dovremmo", "dovremo", "dovreste", "dovresti", "dovrete", "dovrò", "dovuto", "sa", "sai", "sanno", "sapemmo", "sapendo", "sapesse", "sapessero", "sapessi", "sapessimo", "sapeste", "sapesti", "sapete", "sapeva", "sapevamo", "sapevano", "sapevate", "sapevi", "sapevo", "sappi", "sappia", "sappiamo", "sappiano", "sappiate", "saprà", "saprai", "sapranno", "saprebbe", "saprebbero", "saprei", "sapremmo", "sapremo", "sapreste", "sapresti", "saprete", "saprò", "saputo", "seppe", "seppero", "seppi", "so", "soglia", "sogliamo", "sogliano", "sogliate", "soglio", "sogliono", "solesse", "solessero", "solessi", "solessimo", "soleste", "solete", "soleva", "solevamo", "solevano", "solevate", "solevi", "solevo", "suoli", "sta", "stai", "stando", "stanno", "stante", "starà", "starai", "staranno", "staremo", "starete", "starò", "stava", "stavamo", "stavano", "stavate", "stavi", "stavo", "stemmo", "stessero", "stessimo", "steste", "stesti", "stette", "stettero", "stetti", "stia", "stiamo", "stiano", "stiate", "sto"];
+var otherAuxiliariesInfinitive = ["avere", "l'avere", "aver", "l'aver", "potere", "poter", "volere", "voler", "dovere", "dover", "sapere", "saper", "solere", "stare", "star"];
 var copula = ["è", "e'", "era", "erano", "eravamo", "eravate", "eri", "ero", "essendo", "essente", "fosse", "fossero", "fossi", "fossimo", "foste", "fosti", "fu", "fui", "fummo", "furono", "sarà", "sarai", "saranno", "sarebbe", "sarebbero", "sarei", "saremmo", "saremo", "sareste", "saresti", "sarete", "sarò", "sei", "sia", "siamo", "siano", "siate", "siete", "sii", "sono", "stata", "state", "stati", "stato"];
 var copulaInfinitive = ["essere", "esser"];
 /*
@@ -7114,6 +7114,10 @@ module.exports = function () {
     filteredAtBeginningAndEnding: [].concat(articles, prepositions, coordinatingConjunctions, demonstrativePronouns, intensifiers, quantifiers, possessivePronouns),
     // These word categories are filtered everywhere within word combinations.
     filteredAnywhere: [].concat(transitionWords, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, interjections, cardinalNumerals, filteredPassiveAuxiliaries, otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers, interrogativePronouns, interrogativeAdverbs, locativeAdverbs, miscellaneous, pronominalAdverbs, recipeWords, timeWords, vagueNouns),
+    // These word categories cannot directly precede a passive participle.
+    cannotDirectlyPrecedePassiveParticiple: [].concat(articles, prepositions, personalPronounsAccusative, possessivePronouns, indefinitePronouns, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalizedVerbsInfinitive, interviewVerbs, interrogativeDeterminers, interrogativePronouns, personalPronounsPrepositional, interrogativeAdverbs),
+    // These word categories cannot intervene between an auxiliary and a corresponding passive participle.
+    cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat(otherAuxiliaries, otherAuxiliariesInfinitive),
     // This export contains all of the above words.
     all: [].concat(articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, personalPronounsNominative, personalPronounsAccusative, personalPronounsPrepositional, quantifiers, indefinitePronouns, interrogativePronouns, interrogativeAdverbs, interrogativeDeterminers, pronominalAdverbs, locativeAdverbs, filteredPassiveAuxiliaries, passiveAuxiliariesInfinitive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions, subordinatingConjunctions, interviewVerbs, interviewVerbsInfinitive, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs, delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, generalAdjectivesAdverbsPreceding, recipeWords, vagueNouns, miscellaneous, timeWords, titlesPreceding)
   };
@@ -7944,6 +7948,26 @@ function filterOnDensity(wordCombinations, wordCount, densityLowerLimit, density
     });
 }
 /**
+ * Filters combinations based on whether they end with a specified string or not.
+ *
+ * @param {WordCombination[]} wordCombinations The array of WordCombinations to filter.
+ * @param {string} str The string the WordCombinations that need to be filtered out end with.
+ * @param {string[]} exceptions The array of strings containing exceptions to not filter.
+ * @returns {WordCombination[]} The filtered array of WordCombinations.
+ */
+function filterEndingWith(wordCombinations, str, exceptions) {
+    wordCombinations = wordCombinations.filter(function (combination) {
+        var combinationstr = combination.getCombination();
+        for (var i = 0; i < exceptions.length; i++) {
+            if (combinationstr.endsWith(exceptions[i])) {
+                return true;
+            }
+        }
+        return !combinationstr.endsWith(str);
+    });
+    return wordCombinations;
+}
+/**
  * Filters the list of word combination objects based on the language-specific function word filters.
  * Word combinations with specific parts of speech are removed.
  *
@@ -7964,12 +7988,16 @@ function filterFunctionWords(combinations, functionWords) {
  *
  * @param {Array} combinations The list of word combination objects.
  * @param {Function} functionWords The function containing the lists of function words.
+ * @param {string} language The language for which specific filters should be applied.
  * @returns {Array} The filtered list of word combination objects.
  */
-function filterCombinations(combinations, functionWords) {
+function filterCombinations(combinations, functionWords, language) {
     combinations = filterFunctionWordsAnywhere(combinations, specialCharacters);
     combinations = filterOneCharacterWordCombinations(combinations);
     combinations = filterFunctionWords(combinations, functionWords);
+    if (language === "en") {
+        combinations = filterEndingWith(combinations, "'s", []);
+    }
     return combinations;
 }
 /**
@@ -7999,11 +8027,11 @@ function getRelevantWords(text, locale) {
     var fourWordCombinations = calculateOccurrences(getWordCombinations(text, 4, functionWords.all));
     var fiveWordCombinations = calculateOccurrences(getWordCombinations(text, 5, functionWords.all));
     var combinations = oneWordCombinations.concat(twoWordCombinations, threeWordCombinations, fourWordCombinations, fiveWordCombinations);
-    combinations = filterCombinations(combinations, functionWords);
+    combinations = filterCombinations(combinations, functionWords, language);
     forEach(combinations, function (combination) {
         combination.setRelevantWords(oneWordRelevanceMap);
     });
-    combinations = getRelevantCombinations(combinations, wordCount);
+    combinations = getRelevantCombinations(combinations);
     sortCombinations(combinations);
     if (wordCount >= wordCountLowerLimit) {
         combinations = filterOnDensity(combinations, wordCount, densityLowerLimit, densityUpperLimit);
@@ -8021,7 +8049,8 @@ module.exports = {
     filterFunctionWords: filterFunctionWordsAtBeginningAndEnding,
     filterFunctionWordsAnywhere: filterFunctionWordsAnywhere,
     filterOnDensity: filterOnDensity,
-    filterOneCharacterWordCombinations: filterOneCharacterWordCombinations
+    filterOneCharacterWordCombinations: filterOneCharacterWordCombinations,
+    filterEndingWith: filterEndingWith
 };
 
 
@@ -8030,7 +8059,7 @@ module.exports = {
 "use strict";
 // Replace all other punctuation characters at the beginning or at the end of a word.
 
-var punctuationRegexString = "[\\\u2013\\-\\(\\)_\\[\\]\u2019\u201C\u201D\"'.?!:;,\xBF\xA1\xAB\xBB\u2014\xD7+&]+";
+var punctuationRegexString = "[\\\u2013\\-\\(\\)_\\[\\]\u2019\u201C\u201D\"'.?!:;,\xBF\xA1\xAB\xBB\u2039\u203A\u2014\xD7+&<>]+";
 var punctuationRegexStart = new RegExp("^" + punctuationRegexString);
 var punctuationRegexEnd = new RegExp(punctuationRegexString + "$");
 /**
