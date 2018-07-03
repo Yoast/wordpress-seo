@@ -120,6 +120,23 @@ Enhancements:
 Other:
 * Adds a reminder message to create a redirect if a user deletes a category or tag.
 
+= 7.7.3 =
+Release Date: July 2nd, 2018
+
+Bugfixes:
+* Disables WordPress' automatic conversion of emoji to images on every page where the snippet editor is present. This conversion is not compatible with React or content editable fields and broke the snippet editor.
+* Fixes text directionality for the title and description fields in the snippet editor for right-to-left languages.
+* Fixes a bug where the snippet title and description values were saved to the database if they did match the post-type template.
+
+= 7.7.2 =
+Release Date: June 29th, 2018
+
+Bugfixes:
+* Fixes a bug where the snippet variables selection is hidden behind the WordPress menu when using a right-to-left language.
+* Fixes styling in the snippet preview when using a right-to-left language.
+* Fixes a bug where the 'insert snippet variable' button placement was inconsistent.
+* Migrates WooCommerce Product archive settings to the Shop page, if present and not already set on the Shop page.
+
 = 7.7.1 =
 Release Date: June 27th, 2018
 
@@ -148,7 +165,7 @@ Enhancements:
 * Adds a notification when a post is removed.
 * Overhauls the Content Types section under SEO -> Search Appearance by sectioning the post types and allowing users to collapse them. This is especially handy when you have a lot of custom post types.
 * Updates the 'snippet variables tab' of the Help Center to have the new names.
-* Adds recommended snippet variables for templates depending on the context. The `wpseo_recommended_replace_vars` filter is added, which gives the possibility to add or alter the recommended snippet variables.
+* Adds recommended snippet variables for templates depending on the context.
 
 Bugfixes:
 * Fixes a bug where a PHP notice would be triggered when the `opcache.restrict_api` directive was enabled.

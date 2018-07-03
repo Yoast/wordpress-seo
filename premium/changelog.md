@@ -10,6 +10,12 @@ Enhancements:
 Other:
 * Includes every change in Yoast SEO core 7.8.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 
+### 7.7.3: July 2nd, 2018
+* Includes every change in Yoast SEO core 7.7.3 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.7.2: June 29th, 2018
+* Includes every change in Yoast SEO core 7.7.2 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.7.1: June 27th, 2018
 * Includes every change in Yoast SEO core 7.7.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 

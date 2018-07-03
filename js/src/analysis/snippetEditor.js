@@ -88,11 +88,18 @@ function getDataWithTemplates( data, templates ) {
 
  * @returns {Object} A copy of the data without the templates.
  */
-function getDataWithoutTemplates( data, templates ) {
+export function getDataWithoutTemplates( data, templates ) {
 	const dataWithoutTemplates = { ...data };
 
 	forEach( templates, ( template, key ) => {
-		if ( has( data, key ) && data[ key ] === template ) {
+		if ( ! has( data, key ) ) {
+			return;
+		}
+
+		// Trim spaces from the beginning and end of the data to make a fair comparison with the template.
+		const trimmedData = data[ key ].trim();
+
+		if ( trimmedData === template ) {
 			dataWithoutTemplates[ key ] = "";
 		}
 	} );

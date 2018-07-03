@@ -84,8 +84,14 @@ class WPSEO_Admin_Pages {
 
 		if ( $page === 'wpseo_titles' ) {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoSearchAppearance', array( 'isRtl' => is_rtl() ) );
 			$this->asset_manager->enqueue_script( 'search-appearance' );
 			$this->asset_manager->enqueue_style( 'search-appearance' );
+			/**
+			 * Remove the emoji script as it is incompatible with both React and any
+			 * contenteditable fields.
+			 */
+			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
 			$yoast_components_l10n->localize_script( 'search-appearance' );
