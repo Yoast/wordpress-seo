@@ -41,6 +41,19 @@ describe( "Paper", function() {
 			var paper = new Paper( "text", attributes );
 			expect( paper.hasUrl() ).toBe( true );
 			expect( paper.getUrl() ).toBe( "http://yoast.com/post" );
+			expect( paper.hasSynonyms() ).toBe( false );
+			expect( paper.getSynonyms() ).toBe( "" );
+		} );
+
+		it( "returns synonyms", function() {
+			var attributes = {
+				keyword: "website",
+				synonyms: "site",
+			};
+
+			var paper = new Paper( "text", attributes );
+			expect( paper.hasSynonyms() ).toBe( true );
+			expect( paper.getSynonyms() ).toBe( "site" );
 		} );
 
 		it( "returns title", function() {

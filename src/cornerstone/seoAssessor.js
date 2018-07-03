@@ -18,6 +18,7 @@ let TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment.js" );
 let UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
 let UrlLength = require( "../assessments/seo/urlLengthAssessment.js" );
 let urlStopWords = require( "../assessments/seo/urlStopWordsAssessment.js" );
+const TopicDensity = require( "../assessments/seo/topicDensityAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -100,6 +101,7 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 			},
 		} ),
 		urlStopWords,
+		new TopicDensity(),
 	];
 };
 

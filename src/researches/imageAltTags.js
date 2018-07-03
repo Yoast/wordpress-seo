@@ -38,13 +38,13 @@ var matchAltProperties = function( imageMatches, keyword, locale ) {
 			continue;
 		}
 
-		if ( wordMatch( alttag, keyword, locale ) === 0 && alttag !== "" ) {
+		if ( wordMatch( alttag, keyword, locale ).count === 0 && alttag !== "" ) {
 			// Match for keywords?
 			altProperties.withAltNonKeyword++;
 			continue;
 		}
 
-		if ( wordMatch( alttag, keyword, locale ) > 0 ) {
+		if ( wordMatch( alttag, keyword, locale ).count > 0 ) {
 			altProperties.withAltKeyword++;
 			continue;
 		}
