@@ -8,6 +8,7 @@ const EnglishParticiple = require( "../../english/passiveVoice/EnglishParticiple
 const FrenchParticiple = require( "../../french/passiveVoice/FrenchParticiple.js" );
 const SpanishParticiple = require( "../../spanish/passiveVoice/SpanishParticiple.js" );
 const ItalianParticiple = require( "../../italian/passiveVoice/ItalianParticiple.js" );
+const DutchParticiple = require( "../../dutch/passiveVoice/DutchParticiple.js" );
 
 let forEach = require( "lodash/forEach" );
 
@@ -45,6 +46,9 @@ module.exports = function( sentencePartText, auxiliaries, language ) {
 					foundParticiples.push( new ItalianParticiple( word, sentencePartText,
 						{ auxiliaries: auxiliaries, type: type, language: language } ) );
 					break;
+				case "nl":
+					foundParticiples.push( new DutchParticiple( word, sentencePartText,
+						{ auxiliaries: auxiliaries, type: type, language: language } ) );
 				case "en":
 				default:
 					foundParticiples.push( new EnglishParticiple( word, sentencePartText,
