@@ -109,7 +109,6 @@ describe( "Test for getting all possible word forms for eAtTheEnd adjectives", f
 	eAtTheEnd.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
 			it( "returns an array of word forms for a eAtTheEnd adjective", function() {
-				console.log("eAtTheEnd word = ", wordInParadigm);
 				receivedForms = getAdjectiveForms( wordInParadigm );
 				paradigm.forEach( function( form ) {
 					expect( receivedForms ).toContain( form );
