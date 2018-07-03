@@ -57,6 +57,8 @@ let linkSuggestionsIsSupported = function() {
  * @returns {void}
  */
 function initializeMetabox() {
+	// Set options for largest keyword distance assessment to be added in premium.
+	YoastSEO.app.changeAssessorOptions( { useKeywordDistribution: true } );
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
 
