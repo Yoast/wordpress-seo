@@ -3,12 +3,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-/* Internal dependencies */
-import colors from "../../../../style-guide/colors";
-
 const YoastHelpText = styled.p`
-	color: ${ colors.$color_grey_text };
-	font-size: 0.9em;
+	font-size: 13px;
 `;
 
 /**

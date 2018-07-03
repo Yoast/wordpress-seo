@@ -117,7 +117,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c7::after {
     display: inline-block;
     content: "";
@@ -282,7 +282,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c7::after {
     display: inline-block;
     content: "";
@@ -459,7 +459,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c7::after {
     display: inline-block;
     content: "";
@@ -624,7 +624,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c7::after {
     display: inline-block;
     content: "";
@@ -805,7 +805,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c7::after {
     display: inline-block;
     content: "";
@@ -982,7 +982,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c7::after {
     display: inline-block;
     content: "";
@@ -1135,7 +1135,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   font-weight: normal;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c7::after {
     display: inline-block;
     content: "";
@@ -1286,7 +1286,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   font-weight: normal;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c7::after {
     display: inline-block;
     content: "";
@@ -1437,7 +1437,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   font-weight: normal;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c7::after {
     display: inline-block;
     content: "";
@@ -1596,7 +1596,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c7::after {
     display: inline-block;
     content: "";

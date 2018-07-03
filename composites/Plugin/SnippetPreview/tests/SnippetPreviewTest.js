@@ -2,13 +2,16 @@ import SnippetPreview from "../components/SnippetPreview";
 import { MODE_DESKTOP, MODE_MOBILE } from "../constants";
 import React from "react";
 import { createComponentWithIntl } from "../../../../utils/intlProvider";
+import {
+	mountWithIntl,
+} from "../../../../utils/helpers/intl-enzyme-test-helper";
 
 const defaultArgs = {
 	description: "Description",
 	title: "Title",
 	url: "https://example.org",
 	mode: MODE_DESKTOP,
-	onClick: jest.fn(),
+	onMouseUp: jest.fn(),
 };
 
 const renderSnapshotWithArgs = ( changedArgs ) => {
@@ -17,6 +20,14 @@ const renderSnapshotWithArgs = ( changedArgs ) => {
 		.toJSON();
 
 	expect( tree ).toMatchSnapshot();
+};
+
+const mountWithArgs = ( props ) => {
+	return mountWithIntl(
+		<SnippetPreview
+			{ ...defaultArgs }
+			{ ...props } />
+	);
 };
 
 describe( "SnippetPreview", () => {
@@ -36,7 +47,7 @@ describe( "SnippetPreview", () => {
 	} );
 
 	it( "changes the colors of the description if it was generated", () => {
-		renderSnapshotWithArgs( { isDescriptionGenerated: true } );
+		renderSnapshotWithArgs( { isDescriptionPlaceholder: true } );
 	} );
 
 	it( "renders a caret on hover", () => {
@@ -67,6 +78,18 @@ describe( "SnippetPreview", () => {
 		} );
 	} );
 
+	it( "adds a trailing slash to the url", () => {
+		const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "https://example.org/this-url" } );
+
+		expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "https://example.org/this-url/" );
+	} );
+
+	it( "does not add a trailing slash to the url", () => {
+		const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "https://example.org/this-url/" } );
+
+		expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "https://example.org/this-url/" );
+	} );
+
 	describe( "mobile mode", () => {
 		it( "renders differently than desktop", () => {
 			renderSnapshotWithArgs( { mode: MODE_MOBILE } );
@@ -74,6 +97,20 @@ describe( "SnippetPreview", () => {
 
 		it( "renders an AMP logo when isAmp is true", () => {
 			renderSnapshotWithArgs( { mode: MODE_MOBILE, isAmp: true } );
+		} );
+	} );
+
+	describe( "breadcrumbs", () => {
+		it( "properly renders multiple breadcrumbs in mobile view", () => {
+			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "http://www.google.nl/about" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
+		} );
+
+		it( "doesn't percent encode characters that are percent encoded by node's url.parse", () => {
+			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "http://www.google.nl/`^ {}" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › `^ {}" );
 		} );
 	} );
 } );

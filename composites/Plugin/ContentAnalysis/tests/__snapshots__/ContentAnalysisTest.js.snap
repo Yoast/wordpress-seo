@@ -185,8 +185,7 @@ exports[`ContentAnalysis the ContentAnalysis component with HelpText matches the
 }
 
 .c1 {
-  color: #646464;
-  font-size: 0.9em;
+  font-size: 13px;
 }
 
 .c0 {
@@ -220,7 +219,7 @@ exports[`ContentAnalysis the ContentAnalysis component with HelpText matches the
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c9::after {
     display: inline-block;
     content: "";
@@ -865,7 +864,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c9::after {
     display: inline-block;
     content: "";
@@ -879,13 +878,11 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   <p
     className="c1"
   >
-    <span>
-      Your site language is set to 
-      <strong>
-        English
-      </strong>
-      . If this is not correct, contact your site administrator.
-    </span>
+    Your site language is set to 
+    <strong>
+      English
+    </strong>
+    . If this is not correct, contact your site administrator.
   </p>
   <div
     className="c2"
@@ -1478,7 +1475,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c9::after {
     display: inline-block;
     content: "";
@@ -1492,13 +1489,11 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   <p
     className="c1"
   >
-    <span>
-      Your site language is set to 
-      <strong>
-        English
-      </strong>
-      . If this is not correct, contact your site administrator.
-    </span>
+    Your site language is set to 
+    <strong>
+      English
+    </strong>
+    . If this is not correct, contact your site administrator.
   </p>
   <div
     className="c2"
@@ -2098,7 +2093,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c11::after {
     display: inline-block;
     content: "";
@@ -2112,13 +2107,11 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   <p
     className="c1"
   >
-    <span>
-      Your site language is set to 
-      <strong>
-        English
-      </strong>
-      .
-    </span>
+    Your site language is set to 
+    <strong>
+      English
+    </strong>
+    .
     <a
       className="c2"
       href="#"
@@ -2756,7 +2749,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c9::after {
     display: inline-block;
     content: "";
@@ -2770,13 +2763,11 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   <p
     className="c1"
   >
-    <span>
-      Your site language is set to 
-      <strong>
-        English
-      </strong>
-      . If this is not correct, contact your site administrator.
-    </span>
+    Your site language is set to 
+    <strong>
+      English
+    </strong>
+    . If this is not correct, contact your site administrator.
   </p>
   <div
     className="c2"
@@ -3401,7 +3392,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice matc
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c9::after {
     display: inline-block;
     content: "";
@@ -3415,13 +3406,11 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice matc
   <p
     className="c1"
   >
-    <span>
-      Your site language is set to 
-      <strong>
-        English
-      </strong>
-      . If this is not correct, contact your site administrator.
-    </span>
+    Your site language is set to 
+    <strong>
+      English
+    </strong>
+    . If this is not correct, contact your site administrator.
   </p>
   <div
     className="c2"
@@ -4040,7 +4029,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -4668,7 +4657,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -5296,7 +5285,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -5770,7 +5759,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -6244,7 +6233,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
@@ -6783,7 +6772,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c8::after {
     display: inline-block;
     content: "";
