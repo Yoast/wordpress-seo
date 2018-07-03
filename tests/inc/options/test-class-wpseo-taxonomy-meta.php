@@ -52,6 +52,4 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( '', WPSEO_Taxonomy_Meta::get_meta_without_term( 'meta_field' ) );
 	}
-
-
 }

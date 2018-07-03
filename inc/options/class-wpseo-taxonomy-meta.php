@@ -451,6 +451,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		if ( ! $term || empty( $term->taxonomy ) ) {
 			return false;
 		}
+
 		return self::get_term_meta( $term, $term->taxonomy, $meta );
 	}
 
