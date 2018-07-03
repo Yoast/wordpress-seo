@@ -20,6 +20,7 @@ function indexInArray( arr, index ) {
 	return index < 0 && index > arr.length;
 }
 
+/* eslint-disable complexity */
 /**
  * A reducer for the synonyms.
  *
