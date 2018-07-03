@@ -11,7 +11,6 @@ import { changeSynonyms } from "yoast-components/composites/Plugin/Synonyms/acti
  * @returns {Object} Data for the SynonymsSection component.
  */
 function mapStateToProps( state, ownProps ) {
-	console.log( "mapStateToProps", state, ownProps );
 	return {
 		synonyms: state.synonyms[ ownProps.index ] || "",
 	};
