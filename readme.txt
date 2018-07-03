@@ -114,9 +114,15 @@ Bugfixes:
 * Fixes a bug where very old notifications could not be be dismissed or restored.
 * Fixes a bug where the Insert variable button alignment was incorrect.
 * Fixes a discrepancy in the snippet variable labels for custom fields, custom taxonomies, and post type (singular/plural) in the Search Appearance settings.
+* Instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) are now recognized as the same in the following assessments: keyword in meta description, keyword in subheading, keyword in first paragraph, keyword in title, keyword in URL.
+* Filters out prominent word combinations ending in 's in English. Props to [swekkiekekkie](https://github.com/swekkiekekkie).
 
 Enhancements:
 * Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
+* Adds links to relevant articles to all SEO assessments.
+* Adds Flesch Reading Ease assessment for French.
+* Adds Flesch Reading Ease assessment for Spanish.
+* Add passive voice assessment for Italian.
 
 Other:
 * Adds a reminder message to create a redirect if a user deletes a category or tag.
