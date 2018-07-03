@@ -116,6 +116,9 @@ Bugfixes:
 
 Enhancements:
 * Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
+* Adds the possibility to enter keyword synonyms.
+* Adds an assessment the checks the distribution of the focus keyword in the text.
+* Adds a topic distribution and topic density assessment to use with synonyms.
 
 Other:
 * Adds a reminder message to create a redirect if a user deletes a category or tag.
