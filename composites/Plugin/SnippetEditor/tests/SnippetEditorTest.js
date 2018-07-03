@@ -105,8 +105,7 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	// This test is disabled due to a ref problem that is introduced by using styled-component's withTheme.
-	xit( "closes when calling close()", () => {
+	it( "closes when calling close()", () => {
 		focus.mockClear();
 		const editor = mountWithArgs( {} );
 
@@ -147,8 +146,7 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	// This test is disabled due to a ref problem that is introduced by using styled-component's withTheme.
-	xit( "highlights the active ReplacementVariableEditor when calling setFieldFocus", () => {
+	it( "highlights the active ReplacementVariableEditor when calling setFieldFocus", () => {
 		focus.mockClear();
 
 		const editor = mountWithArgs( {} );

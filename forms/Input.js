@@ -25,7 +25,6 @@ const inputTypes = [
  * @constructor
  */
 class Input extends React.Component {
-
 	/**
 	 * Determines whether or not the component updated and sets its focus accordingly.
 	 *

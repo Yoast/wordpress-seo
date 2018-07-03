@@ -73,6 +73,7 @@ class ReplacementVariableEditor extends React.Component {
 			recommendedReplacementVariables,
 			editorRef,
 			placeholder,
+			fieldId,
 		} = this.props;
 
 		const InputContainer = this.InputContainer;
@@ -93,7 +94,8 @@ class ReplacementVariableEditor extends React.Component {
 				<InputContainer
 					onClick={ onFocus }
 					isActive={ isActive }
-					isHovered={ isHovered }>
+					isHovered={ isHovered }
+					id={ fieldId }>
 					<ReplacementVariableEditorStandalone
 						placeholder={ placeholder }
 						content={ content }
@@ -128,6 +130,7 @@ ReplacementVariableEditor.propTypes = {
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
 	type: PropTypes.oneOf( [ "title", "description" ] ),
+	fieldId: PropTypes.string,
 };
 
 ReplacementVariableEditor.defaultProps = {

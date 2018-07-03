@@ -7230,10 +7230,6 @@ redux-mock-store@^1.2.3:
   dependencies:
     lodash.isplainobject "^4.0.6"
 
-redux-thunk@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
-
 redux@^3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.7.2.tgz#06b73123215901d25d065be342eb026bc1c8537b"
@@ -9116,9 +9112,9 @@ yeoman-generator@^2.0.4:
     through2 "^2.0.0"
     yeoman-environment "^2.0.5"
 
-yoastseo@^1.34.0:
-  version "1.34.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.34.0.tgz#d21066142268623e36c1f616c6e739bd2a2a5587"
+yoastseo@^1.35.0:
+  version "1.35.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.0.tgz#f5e25b821fcc636d5be5f68f864acbf9837a9f5b"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"

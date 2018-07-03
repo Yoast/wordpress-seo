@@ -5,6 +5,16 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.7.0 July 3rd, 2018
+### Added
+* Adds synonyms components.
+
+### Fixes
+* Fixes the CSS media query to target IE11 used for the buttons min-height.
+
+### Removed
+* Removes the unused replaceKeyword action.
+
 ## 4.6.2 July 2nd, 2018
 ### Fixes
 * Fixes a bug where console errors would be thrown because `ref` instead of `innerRef` was used in the `ReplacementVariableEditor`. 
