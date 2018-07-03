@@ -63,7 +63,7 @@ exports[`the BaseLinkButton matches the snapshot 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c3::after {
     display: inline-block;
     content: "";
@@ -145,7 +145,7 @@ exports[`the LinkButton matches the snapshot 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c4::after {
     display: inline-block;
     content: "";

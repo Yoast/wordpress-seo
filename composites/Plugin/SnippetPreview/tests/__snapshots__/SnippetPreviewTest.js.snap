@@ -212,7 +212,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -567,7 +567,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -925,7 +925,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -1297,7 +1297,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -1658,7 +1658,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -2016,7 +2016,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -2371,7 +2371,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -2738,7 +2738,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -3105,7 +3105,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -3472,7 +3472,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -3839,7 +3839,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -4206,7 +4206,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -4573,7 +4573,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   content: "";
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
@@ -4932,7 +4932,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   flex: none;
 }
 
-@media all and ( -ms-high-contrast:none ),( -ms-high-contrast:active ) {
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c6::after {
     display: inline-block;
     content: "";
