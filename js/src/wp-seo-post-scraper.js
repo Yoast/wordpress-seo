@@ -1,13 +1,16 @@
-/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, tinyMCE, wpseoReplaceVarsL10n, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+
+// External dependencies.
 import { App } from "yoastseo";
 import isUndefined from "lodash/isUndefined";
+import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
+import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
+// Internal dependencies.
+import initializeEdit from "./edit";
 import { tmceId, setStore } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
-
-import initializeEdit from "./edit";
-import { setActiveKeyword } from "./redux/actions/activeKeyword";
-import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
 
@@ -22,9 +25,17 @@ import getTranslations from "./analysis/getTranslations";
 import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
 import snippetPreviewHelpers from "./analysis/snippetPreview";
+import snippetEditorHelpers from "./analysis/snippetEditor";
 import UsedKeywords from "./analysis/usedKeywords";
+
+import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
+import { updateData } from "./redux/actions/snippetEditor";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
+
+setYoastComponentsL10n();
+setWordPressSeoL10n();
 
 ( function( $ ) {
 	"use strict"; // eslint-disable-line
@@ -34,7 +45,7 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 
 	let snippetContainer;
 	let titleElement;
-	let app, snippetPreview;
+	let app;
 	let decorator = null;
 	let tabManager, postDataCollector;
 
@@ -73,24 +84,15 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 			 */
 			postDataCollector.leavePostNameUntouched = true;
 
-			app.snippetPreview.setUrlPath( getUrlPathFromResponse( response ) );
+
+			const snippetEditorData = {
+				slug: getUrlPathFromResponse( response ),
+			};
+
+			editStore.dispatch( updateData( snippetEditorData ) );
 		}
 	} );
 
-	/**
-	 * Initializes the snippet preview.
-	 *
-	 * @param {PostDataCollector} postScraper Object for getting post data.
-	 *
-	 * @returns {SnippetPreview} The created snippetpreview element.
-	 */
-	function initSnippetPreview( postScraper ) {
-		return snippetPreviewHelpers.create( snippetContainer, {
-			title: postScraper.getSnippetTitle(),
-			urlPath: postScraper.getSnippetCite(),
-			metaDesc: postScraper.getSnippetMeta(),
-		}, postScraper.saveSnippetData.bind( postScraper ) );
-	}
 	/**
 	 * Determines if markers should be shown.
 	 *
@@ -246,7 +248,17 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 		let postDataCollector = new PostDataCollector( {
 			tabManager,
 			data,
+			store: editStore,
 		} );
+
+		/*
+		 * Initially any change on the slug needs to be persisted as post name.
+		 *
+		 * This value will change whenever an AJAX call is being detected that
+		 * populates the slug with a generated value based on the Title (or ID if no title is set).
+		 *
+		 * See bind event on "ajaxComplete" in this file.
+		 */
 		postDataCollector.leavePostNameUntouched = false;
 
 		return postDataCollector;
@@ -278,13 +290,14 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 			marker: getMarker(),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			snippetPreview: snippetPreview,
+			hasSnippetPreview: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
 			args.callbacks.saveScores = postDataCollector.saveScores.bind( postDataCollector );
 			args.callbacks.updatedKeywordsResults = function( results ) {
-				let keyword = tabManager.getKeywordTab().getKeyWord();
+				const keyword = $( "#yoast_wpseo_focuskw_text_input" ).val();
+				store.dispatch( setActiveKeyword( keyword ) );
 
 				/*
 				 * The results from the main App callback are always for the first keyword. So
@@ -293,6 +306,7 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 				 */
 				if ( tabManager.isMainKeyword( keyword ) ) {
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
+					store.dispatch( refreshSnippetEditor() );
 				}
 			};
 		}
@@ -301,6 +315,7 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 			args.callbacks.saveContentScore = postDataCollector.saveContentScore.bind( postDataCollector );
 			args.callbacks.updatedContentResults = function( results ) {
 				store.dispatch( setReadabilityResults( results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -377,6 +392,26 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 		}
 	}
 
+	let currentAnalysisData;
+
+	/**
+	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 *
+	 * @param {Object} store The store.
+	 * @param {Object} app The YoastSEO app.
+	 *
+	 * @returns {void}
+	 */
+	function handleStoreChange( store, app ) {
+		const previousAnalysisData = currentAnalysisData || "";
+		currentAnalysisData = store.getState().analysisData.snippet;
+
+		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
+		if ( isDirty ) {
+			app.refresh();
+		}
+	}
+
 	/**
 	 * Initializes analysis for the post edit screen.
 	 *
@@ -386,7 +421,11 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 		const editArgs = {
 			analysisSection: "pageanalysis",
 			onRefreshRequest: () => {},
-			shouldRenderSnippetPreview: !! wpseoPostScraperL10n.reactSnippetPreview,
+			shouldRenderSnippetPreview: true,
+			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
+			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
+			replaceVars: wpseoReplaceVarsL10n.replace_vars,
+			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;
@@ -401,15 +440,16 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 		tabManager = initializeTabManager();
 		postDataCollector = initializePostDataCollector( data );
 		publishBox.initalise();
-		snippetPreview = initSnippetPreview( postDataCollector );
 
-		let appArgs = getAppArgs( store );
+		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
 		postDataCollector.app = app;
 
-		let replaceVarsPlugin = new YoastReplaceVarPlugin( app );
-		let shortcodePlugin = new YoastShortcodePlugin( app );
+		editStore.subscribe( handleStoreChange.bind( null, editStore, app ) );
+
+		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
+		const shortcodePlugin = new YoastShortcodePlugin( app );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
 			let markdownPlugin = new YoastMarkdownPlugin( app );
@@ -425,15 +465,6 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 
 		jQuery( window ).trigger( "YoastSEO:ready" );
 
-		/*
-		 * Checks the snippet preview size and toggles views when the WP admin menu state changes.
-		 * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
-		 * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
-		 */
-		jQuery( document ).on( "wp-collapse-menu wp-menu-state-set", function() {
-			app.snippetPreview.handleWindowResizing();
-		} );
-
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
 
@@ -445,7 +476,7 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 		}
 
 		// Switch between assessors when checkbox has been checked.
-		let cornerstoneCheckbox = jQuery( "#yoast_wpseo_is_cornerstone" );
+		const cornerstoneCheckbox = jQuery( "#yoast_wpseo_is_cornerstone" );
 		app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
 		cornerstoneCheckbox.change( function() {
 			app.switchAssessors( cornerstoneCheckbox.is( ":checked" ) );
@@ -453,7 +484,7 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
-		let originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
+		const originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
 		app.initAssessorPresenters = function() {
 			originalInitAssessorPresenters();
 			disableYoastSEORenderers( app );
@@ -466,6 +497,35 @@ import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 		if ( data.setRefresh ) {
 			data.setRefresh( app.refresh );
 		}
+
+		// Initialize the snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoPostScraperL10n );
+		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+
+		// Set the initial snippet editor data.
+		store.dispatch( updateData( snippetEditorData ) );
+
+		store.subscribe( () => {
+			const data = snippetEditorHelpers.getDataFromStore( store );
+			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
+
+			if ( snippetEditorData.title !== data.title ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
+			}
+
+			if ( snippetEditorData.slug !== data.slug ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
+			}
+
+			if ( snippetEditorData.description !== data.description ) {
+				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+			}
+
+			snippetEditorData.title = data.title;
+			snippetEditorData.slug = data.slug;
+			snippetEditorData.description = data.description;
+		} );
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );

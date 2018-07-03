@@ -1,34 +1,39 @@
-/* global YoastSEO: true, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
 
-var isUndefined = require( "lodash/isUndefined" );
-
-var getIndicatorForScore = require( "./analysis/getIndicatorForScore" );
-var TabManager = require( "./analysis/tabManager" );
-
-var updateTrafficLight = require( "./ui/trafficLight" ).update;
-var updateAdminBar = require( "./ui/adminBar" ).update;
-
-var getTranslations = require( "./analysis/getTranslations" );
-var isKeywordAnalysisActive = require( "./analysis/isKeywordAnalysisActive" );
-var isContentAnalysisActive = require( "./analysis/isContentAnalysisActive" );
-var snippetPreviewHelpers = require( "./analysis/snippetPreview" );
-
-var App = require( "yoastseo" ).App;
-var TaxonomyAssessor = require( "./assessors/taxonomyAssessor" );
-var UsedKeywords = require( "./analysis/usedKeywords" );
-
-import TermDataCollector from "./analysis/TermDataCollector";
-import { termsTmceId as tmceId } from "./wp-seo-tinymce";
-import initializeEdit from "./edit";
-import { setActiveKeyword } from "./redux/actions/activeKeyword";
+// External dependencies.
+import { App } from "yoastseo";
 import { setReadabilityResults, setSeoResultsForKeyword } from "yoast-components/composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+import isUndefined from "lodash/isUndefined";
+import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
+
+// Internal dependencies.
+import initializeEdit from "./edit";
+import { termsTmceId as tmceId } from "./wp-seo-tinymce";
+import { update as updateTrafficLight } from "./ui/trafficLight";
+import { update as updateAdminBar } from "./ui/adminBar";
+import getIndicatorForScore from "./analysis/getIndicatorForScore";
+import TabManager from "./analysis/tabManager";
+import getTranslations from "./analysis/getTranslations";
+import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
+import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
+import snippetPreviewHelpers from "./analysis/snippetPreview";
+import snippetEditorHelpers from "./analysis/snippetEditor";
+import TermDataCollector from "./analysis/TermDataCollector";
+import UsedKeywords from "./analysis/usedKeywords";
+import TaxonomyAssessor from "./assessors/taxonomyAssessor";
+import { setActiveKeyword } from "./redux/actions/activeKeyword";
+import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
+
+setYoastComponentsL10n();
+setWordPressSeoL10n();
 
 window.yoastHideMarkers = true;
 
 ( function( $, window ) {
 	var snippetContainer;
 
-	var app, snippetPreview;
+	var app;
 
 	var termSlugInput;
 
@@ -69,7 +74,7 @@ window.yoastHideMarkers = true;
 		 */
 		descriptionTd.append( newEditor ).append( text );
 
-		// Populate the editor textarea with the original content,
+		// Populate the editor textarea with the original content.
 		document.getElementById( "description" ).value = textNode;
 
 		// Make the description textarea label plain text removing the label tag.
@@ -77,27 +82,16 @@ window.yoastHideMarkers = true;
 	};
 
 	/**
-	 * Initializes the snippet preview.
-	 *
-	 * @param {TermDataCollector} termScraper Object for getting term data.
-	 *
-	 * @returns {SnippetPreview} Instance of snippetpreview.
-	 */
-	function initSnippetPreview( termScraper ) {
-		return snippetPreviewHelpers.create( snippetContainer, {
-			title: termScraper.getSnippetTitle(),
-			urlPath: termScraper.getSnippetCite(),
-			metaDesc: termScraper.getSnippetMeta(),
-		}, termScraper.saveSnippetData.bind( termScraper ) );
-	}
-
-	/**
 	 * Function to handle when the user updates the term slug
 	 *
 	 * @returns {void}
 	 */
 	function updatedTermSlug() {
-		snippetPreview.setUrlPath( termSlugInput.val() );
+		const snippetEditorData = {
+			slug: termSlugInput.val(),
+		};
+
+		store.dispatch( updateData( snippetEditorData ) );
 	}
 
 	/**
@@ -181,11 +175,34 @@ window.yoastHideMarkers = true;
 		}
 	}
 
+	let currentAnalysisData;
+
+	/**
+	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 *
+	 * @param {Object} store The store.
+	 * @param {Object} app The YoastSEO app.
+	 *
+	 * @returns {void}
+	 */
+	function handleStoreChange( store, app ) {
+		const previousAnalysisData = currentAnalysisData || "";
+		currentAnalysisData = store.getState().analysisData.snippet;
+
+		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
+		if ( isDirty ) {
+			app.refresh();
+		}
+	}
+
 	jQuery( document ).ready( function() {
 		var args, termScraper, translations;
 
 		const editArgs = {
 			analysisSection: "pageanalysis",
+			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
+			replaceVars: wpseoReplaceVarsL10n.replace_vars,
+			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
 		};
 		store = initializeEdit( editArgs ).store;
 
@@ -202,8 +219,7 @@ window.yoastHideMarkers = true;
 
 		tabManager.init();
 
-		termScraper = new TermDataCollector( { tabManager } );
-		snippetPreview = initSnippetPreview( termScraper );
+		termScraper = new TermDataCollector( { tabManager, store } );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
@@ -215,7 +231,7 @@ window.yoastHideMarkers = true;
 			locale: wpseoTermScraperL10n.contentLocale,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
-			snippetPreview: snippetPreview,
+			hasSnippetPreview: false,
 		};
 
 		if ( isKeywordAnalysisActive() ) {
@@ -229,6 +245,7 @@ window.yoastHideMarkers = true;
 					}
 					store.dispatch( setSeoResultsForKeyword( keyword, results ) );
 					store.dispatch( setActiveKeyword( keyword ) );
+					store.dispatch( refreshSnippetEditor() );
 				}
 			};
 		}
@@ -237,6 +254,7 @@ window.yoastHideMarkers = true;
 			args.callbacks.saveContentScore = termScraper.saveContentScore.bind( termScraper );
 			args.callbacks.updatedContentResults = function( results ) {
 				store.dispatch( setReadabilityResults( results ) );
+				store.dispatch( refreshSnippetEditor() );
 			};
 		}
 
@@ -246,6 +264,8 @@ window.yoastHideMarkers = true;
 		}
 
 		app = new App( args );
+
+		store.subscribe( handleStoreChange.bind( null, store, app ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			app.seoAssessor = new TaxonomyAssessor( app.i18n );
@@ -291,13 +311,34 @@ window.yoastHideMarkers = true;
 			disableYoastSEORenderers( app );
 		};
 
-		/*
-		 * Checks the snippet preview size and toggles views when the WP admin menu state changes.
-		 * In WordPress, `wp-collapse-menu` fires when clicking on the Collapse/expand button.
-		 * `wp-menu-state-set` fires also when the window gets resized and the menu can be folded/auto-folded/collapsed/expanded/responsive.
-		 */
-		jQuery( document ).on( "wp-collapse-menu wp-menu-state-set", function() {
-			app.snippetPreview.handleWindowResizing();
+		// Initialize the snippet editor data.
+		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoTermScraperL10n );
+		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+
+		// Set the initial snippet editor data.
+		store.dispatch( updateData( snippetEditorData ) );
+
+		// Subscribe to the store to save the snippet editor data.
+		store.subscribe( () => {
+			const data = snippetEditorHelpers.getDataFromStore( store );
+			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
+
+			if ( snippetEditorData.title !== data.title ) {
+				termScraper.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );
+			}
+
+			if ( snippetEditorData.slug !== data.slug ) {
+				termScraper.setDataFromSnippet( dataWithoutTemplates.slug, "snippet_cite" );
+			}
+
+			if ( snippetEditorData.description !== data.description ) {
+				termScraper.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
+			}
+
+			snippetEditorData.title = data.title;
+			snippetEditorData.slug = data.slug;
+			snippetEditorData.description = data.description;
 		} );
 	} );
 }( jQuery, window ) );

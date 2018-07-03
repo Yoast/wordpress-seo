@@ -270,7 +270,7 @@ class WPSEO_Admin_Banner_Sidebar {
 		$courses_spot->add_banner(
 			new WPSEO_Admin_Banner(
 				WPSEO_Shortlinker::get( 'https://yoa.st/jv' ),
-				'yoast-seo-for-wordpress-training.png',
+				'yoast-seo-for-wordpress-training-2018.png',
 				261,
 				152,
 				sprintf(
@@ -319,6 +319,16 @@ class WPSEO_Admin_Banner_Sidebar {
 				261,
 				152,
 				__( 'Take the online Structured Data Training course and learn how to create rich snippets!', 'wordpress-seo' )
+			)
+		);
+
+		$courses_spot->add_banner(
+			new WPSEO_Admin_Banner(
+				WPSEO_Shortlinker::get( 'https://yoa.st/2oi' ),
+				'seo-for-beginners-training.png',
+				261,
+				152,
+				__( 'Get the FREE SEO for beginners training course and learn the SEO basics to make your site rank higher.', 'wordpress-seo' )
 			)
 		);
 

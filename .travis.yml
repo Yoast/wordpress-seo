@@ -8,6 +8,7 @@ branches:
     - trunk
     - /^release\/\d+\.\d+(\.\d+)?(-\S*)?$/
     - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^feature\/*/
 
 jobs:
   fast_finish: true
@@ -151,7 +152,10 @@ script:
 - |
   if [[ "$PHPLINT" == "1" ]]; then
     travis_fold start "PHP.check" && travis_time_start
-    find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+    if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
+      SKIP_CLI="-o -path ./cli -prune"
+    fi
+    find -L . -path ./vendor -prune -o -path ./node_modules -prune $SKIP_CLI -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     travis_time_finish && travis_fold end "PHP.check"
   fi
 # PHP CS

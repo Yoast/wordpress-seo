@@ -65,5 +65,8 @@ travis.sh
 test.sh
 /artifact/
 /artifact.zip
-/languages/wordpress-seo-temp.pot
-/languages/yoast-components.pot
+/languages/*
+!/languages/index.php
+/coverage
+/gettext.pot
+/.wordpress-svn

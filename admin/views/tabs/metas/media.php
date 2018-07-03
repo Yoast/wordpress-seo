@@ -43,6 +43,6 @@ $yform->toggle_switch(
 
 		<?php
 		$view_utils = new Yoast_View_Utils();
-		$view_utils->show_post_type_settings( 'attachment' );
+		$view_utils->show_post_type_settings( 'attachment', true );
 		?>
 	</div>

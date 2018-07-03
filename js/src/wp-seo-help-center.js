@@ -1,12 +1,15 @@
 /* global wpseoHelpCenterData jQuery */
 
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import get from "lodash/get";
 import { injectIntl, intlShape } from "react-intl";
 import IntlProvider from "./components/IntlProvider";
+import { setYoastComponentsL10n } from "./helpers/i18n";
 
+/* Internal dependencies */
 import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
 import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSearcher";
 import HelpCenterYC from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
@@ -276,6 +279,8 @@ function handleTabSelect() {
 }
 
 if ( window.wpseoHelpCenterData ) {
+	setYoastComponentsL10n();
+
 	ReactDOM.render(
 		<IntlProvider
 			messages={ wpseoHelpCenterData.translations }>

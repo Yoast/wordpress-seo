@@ -67,7 +67,11 @@ class WPSEO_Twitter {
 		$this->description();
 		$this->title();
 		$this->site_twitter();
-		$this->image();
+
+		if ( ! post_password_required() ) {
+			$this->image();
+		}
+
 		if ( is_singular() ) {
 			$this->author();
 		}
@@ -395,13 +399,16 @@ class WPSEO_Twitter {
 
 	/**
 	 * Takes care of image output when we only need to display a single image.
+	 *
+	 * @return void
 	 */
 	private function single_image_output() {
 		if ( $this->homepage_image_output() ) {
 			return;
 		}
 
-		if ( $this->posts_page_image_output() ) { // Posts page, which won't be caught by is_singular() below.
+		// Posts page, which won't be caught by is_singular() below.
+		if ( $this->posts_page_image_output() ) {
 			return;
 		}
 
@@ -417,13 +424,16 @@ class WPSEO_Twitter {
 			if ( $this->image_of_attachment_page_output( $post_id ) ) {
 				return;
 			}
+
 			if ( $this->image_thumbnail_output( $post_id ) ) {
 				return;
 			}
+
 			if ( count( $this->images ) > 0 ) {
 				$this->gallery_images_output();
 				return;
 			}
+
 			if ( $this->image_from_content_output( $post_id ) ) {
 				return;
 			}
@@ -621,7 +631,12 @@ class WPSEO_Twitter {
 	 * Displays the authors Twitter account.
 	 */
 	protected function author() {
-		$twitter = ltrim( trim( get_the_author_meta( 'twitter', get_post()->post_author ) ), '@' );
+		$post = get_post();
+
+		$twitter = null;
+		if ( is_object( $post ) ) {
+			$twitter = ltrim( trim( get_the_author_meta( 'twitter', $post->post_author ) ), '@' );
+		}
 		/**
 		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO
 		 *
