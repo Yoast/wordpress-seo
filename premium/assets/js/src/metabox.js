@@ -5,6 +5,10 @@ import ProminentWordNoStorage from "./keywordSuggestions/ProminentWordNoStorage"
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
 import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
+import Synonyms from "./metabox/synonyms";
+import { setTextdomainL10n, setYoastComponentsL10n } from "../../../../js/src/helpers/i18n";
+
+setTextdomainL10n( "wordpress-seo-premium" );
 
 let settings = wpseoPremiumMetaboxData.data;
 
@@ -18,6 +22,8 @@ let focusKeywordSuggestions;
 let linkSuggestions;
 
 let cornerstoneElementID = "yst_is_cornerstone";
+
+setYoastComponentsL10n();
 
 /**
  * Determines whether or not Insights is enabled.
@@ -51,8 +57,13 @@ let linkSuggestionsIsSupported = function() {
  * @returns {void}
  */
 function initializeMetabox() {
+	// Set options for largest keyword distance assessment to be added in premium.
+	YoastSEO.app.changeAssessorOptions( { useKeywordDistribution: true } );
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
+
+	const synonyms = new Synonyms();
+	synonyms.initializeDOM();
 
 	if ( insightsEnabled() || linkSuggestionsEnabled() ) {
 		initializeKeywordSuggestionsMetabox();
