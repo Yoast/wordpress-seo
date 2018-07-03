@@ -8,6 +8,9 @@ var isString = require( "lodash/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
 var isEmpty = require( "lodash/isEmpty" );
+var isFunction = require( "lodash/isFunction" );
+var isArray = require( "lodash/isArray" );
+var merge = require( "lodash/merge" );
 var forEach = require( "lodash/forEach" );
 var debounce = require( "lodash/debounce" );
 var throttle = require( "lodash/throttle" );
@@ -479,12 +482,38 @@ App.prototype.constructI18n = function( translations ) {
 };
 
 /**
+ * Registers a custom data callback.
+ *
+ * @param {Function} callback The callback to register.
+ *
+ * @returns {void}
+ */
+App.prototype.registerCustomDataCallback = function( callback ) {
+	if( ! this.callbacks.custom ) {
+		this.callbacks.custom = [];
+	}
+
+	if ( isFunction( callback ) ) {
+		this.callbacks.push( callback );
+	}
+};
+
+/**
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
  *
  * @returns {void}
  */
 App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
+
+	// Add the custom data to the raw data.
+	if ( isArray( this.callbacks.custom ) ) {
+		this.callbacks.forEach( ( customCallback ) => {
+			const customData = customCallback();
+
+			this.rawData = merge( this.rawData, customData );
+		} );
+	}
 
 	if ( this.hasSnippetPreview() ) {
 		// Gets the data FOR the analyzer
@@ -663,6 +692,7 @@ App.prototype.runAnalyzer = function() {
 	// Create a paper object for the Researcher
 	this.paper = new Paper( text, {
 		keyword: this.analyzerData.keyword,
+		synonyms: this.analyzerData.synonyms,
 		description: this.analyzerData.meta,
 		url: this.analyzerData.url,
 		title: this.analyzerData.metaTitle,
