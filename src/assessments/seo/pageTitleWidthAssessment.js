@@ -125,7 +125,11 @@ class PageTitleWidthAssesment extends Assessment {
 				),  url, "</a>" );
 		}
 
-		return i18n.dgettext( "js-text-analysis", "Please create an SEO title." );
+		return i18n.sprintf(
+			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+			i18n.dgettext( "js-text-analysis", "Please create an %1$sSEO title%2$s." ),
+			url, "</a>"
+		);
 	}
 }
 

@@ -12,7 +12,7 @@ describe( "the SEO title length assessment", function() {
 		var result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 0 ), i18n );
 
 		expect( result.getScore() ).toEqual( 1 );
-		expect( result.getText() ).toEqual( "Please create an SEO title." );
+		expect( result.getText() ).toEqual( "Please create an <a href='https://yoa.st/2po' target='_blank'>SEO title</a>." );
 	} );
 
 	it( "should assess a paper with a SEO title that's under the recommended value", function() {
