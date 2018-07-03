@@ -89937,7 +89937,7 @@ function configureStore() {
 	(0, _forEach2.default)(window.wpseoReplaceVarsL10n.replace_vars, function (replacementVariable) {
 		var name = replacementVariable.name.replace(/ /g, "_");
 
-		store.dispatch((0, _snippetEditor3.updateReplacementVariable)(name, replacementVariable.value));
+		store.dispatch((0, _snippetEditor3.updateReplacementVariable)(name, replacementVariable.value, replacementVariable.label));
 	});
 	return store;
 }
@@ -90006,9 +90006,9 @@ var _SettingsReplacementVariableEditor = __webpack_require__(1511);
 
 var _SettingsReplacementVariableEditor2 = _interopRequireDefault(_SettingsReplacementVariableEditor);
 
-var _SettingsTitleReplacementVariableEditor = __webpack_require__(1512);
+var _SettingsReplacementVariableField = __webpack_require__(1512);
 
-var _SettingsTitleReplacementVariableEditor2 = _interopRequireDefault(_SettingsTitleReplacementVariableEditor);
+var _SettingsReplacementVariableField2 = _interopRequireDefault(_SettingsReplacementVariableField);
 
 var _snippetEditor = __webpack_require__(170);
 
@@ -90099,7 +90099,7 @@ var SettingsReplacementVariableEditors = function (_React$Component) {
 				    reactReplacevarFieldLabel = _targetElement$datase2.reactReplacevarFieldLabel,
 				    reactReplacevarPageType = _targetElement$datase2.reactReplacevarPageType;
 
-				return _reactDom2.default.createPortal(yoast._wp.element.createElement(_SettingsTitleReplacementVariableEditor2.default, {
+				return _reactDom2.default.createPortal(yoast._wp.element.createElement(_SettingsReplacementVariableField2.default, {
 					label: reactReplacevarFieldLabel,
 					replacementVariables: _this3.props.replacementVariables,
 					recommendedReplacementVariables: _this3.props.recommendedReplacementVariables[reactReplacevarPageType],
@@ -90301,7 +90301,9 @@ var SettingsReplacementVariableEditor = function (_React$Component) {
 			    title = _props.title,
 			    description = _props.description,
 			    replacementVariables = _props.replacementVariables,
-			    recommendedReplacementVariables = _props.recommendedReplacementVariables;
+			    recommendedReplacementVariables = _props.recommendedReplacementVariables,
+			    titleTarget = _props.titleTarget,
+			    descriptionTarget = _props.descriptionTarget;
 
 
 			return yoast._wp.element.createElement(
@@ -90327,7 +90329,11 @@ var SettingsReplacementVariableEditor = function (_React$Component) {
 						title: title.value,
 						description: description.value
 					},
-					hasPaperStyle: this.props.hasPaperStyle
+					hasPaperStyle: this.props.hasPaperStyle,
+					fieldIds: {
+						title: titleTarget + "-snippet-editor",
+						description: descriptionTarget + "-snippet-editor"
+					}
 				})
 			);
 		}
@@ -90342,7 +90348,9 @@ SettingsReplacementVariableEditor.propTypes = {
 	title: _linkHiddenField.linkFieldsShape,
 	description: _linkHiddenField.linkFieldsShape,
 	postType: _propTypes2.default.string,
-	hasPaperStyle: _propTypes2.default.bool
+	hasPaperStyle: _propTypes2.default.bool,
+	titleTarget: _propTypes2.default.string.isRequired,
+	descriptionTarget: _propTypes2.default.string.isRequired
 };
 
 SettingsReplacementVariableEditor.defaultProps = {
@@ -90407,16 +90415,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 var SnippetEditorWidthContainer = _styledComponents2.default.div.withConfig({
-	displayName: "SettingsTitleReplacementVariableEditor__SnippetEditorWidthContainer"
-})(["max-width:640px;"]);
+	displayName: "SettingsReplacementVariableField__SnippetEditorWidthContainer"
+})(["display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;max-width:640px;"]);
 
-var SettingsTitleReplacementVariableEditor = function (_React$Component) {
-	_inherits(SettingsTitleReplacementVariableEditor, _React$Component);
+var SettingsReplacementVariableField = function (_React$Component) {
+	_inherits(SettingsReplacementVariableField, _React$Component);
 
-	function SettingsTitleReplacementVariableEditor(props) {
-		_classCallCheck(this, SettingsTitleReplacementVariableEditor);
+	function SettingsReplacementVariableField(props) {
+		_classCallCheck(this, SettingsReplacementVariableField);
 
-		var _this = _possibleConstructorReturn(this, (SettingsTitleReplacementVariableEditor.__proto__ || Object.getPrototypeOf(SettingsTitleReplacementVariableEditor)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (SettingsReplacementVariableField.__proto__ || Object.getPrototypeOf(SettingsReplacementVariableField)).call(this, props));
 
 		_this.state = {
 			isActive: false,
@@ -90427,7 +90435,7 @@ var SettingsTitleReplacementVariableEditor = function (_React$Component) {
 		return _this;
 	}
 
-	_createClass(SettingsTitleReplacementVariableEditor, [{
+	_createClass(SettingsReplacementVariableField, [{
 		key: "focus",
 		value: function focus() {
 			this.inputRef.focus();
@@ -90441,7 +90449,8 @@ var SettingsTitleReplacementVariableEditor = function (_React$Component) {
 			    label = _props.label,
 			    replacementVariables = _props.replacementVariables,
 			    recommendedReplacementVariables = _props.recommendedReplacementVariables,
-			    field = _props.field;
+			    field = _props.field,
+			    fieldId = _props.fieldId;
 
 
 			return yoast._wp.element.createElement(
@@ -90449,6 +90458,7 @@ var SettingsTitleReplacementVariableEditor = function (_React$Component) {
 				null,
 				yoast._wp.element.createElement(_ReplacementVariableEditor2.default, {
 					label: label,
+					fieldId: fieldId + "-snippet-editor",
 					isActive: this.state.isActive,
 					isHowvered: this.state.isHovered,
 					content: field.value,
@@ -90464,13 +90474,14 @@ var SettingsTitleReplacementVariableEditor = function (_React$Component) {
 		}
 	}]);
 
-	return SettingsTitleReplacementVariableEditor;
+	return SettingsReplacementVariableField;
 }(_react2.default.Component);
 
-SettingsTitleReplacementVariableEditor.propTypes = {
+SettingsReplacementVariableField.propTypes = {
 	replacementVariables: _SnippetEditor.replacementVariablesShape,
 	recommendedReplacementVariables: _SnippetEditor.recommendedReplacementVariablesShape,
 	label: _propTypes2.default.string.isRequired,
+	fieldId: _propTypes2.default.string.isRequired,
 	field: _linkHiddenField.linkFieldsShape
 };
 
@@ -90479,7 +90490,7 @@ exports.default = (0, _linkHiddenField2.default)(function (props) {
 		name: "field",
 		fieldId: props.fieldId
 	}];
-})(SettingsTitleReplacementVariableEditor);
+})(SettingsReplacementVariableField);
 
 /***/ })
 ],[1507]);
