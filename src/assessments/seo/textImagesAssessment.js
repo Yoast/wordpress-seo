@@ -107,28 +107,51 @@ class TextImagesAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( imageCount, altProperties, i18n ) {
+		const url = "<a href='https://yoa.st/2pj' target='_blank'>";
+
 		if ( imageCount === 0 ) {
-			return i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." );
+			return i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "No %1$simages%2$s appear in this page, consider adding some as appropriate." ),
+				url,
+				"</a>"
+			);
 		}
 
 		// Has alt-tag and keywords
 		if ( altProperties.withAltKeyword > 0 ) {
-			return i18n.dgettext( "js-text-analysis", "The images on this page contain alt attributes with the focus keyword." );
+			return i18n.sprintf(
+				i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page contain alt attributes with the focus keyword." ),
+				url,
+				"</a>"
+			);
 		}
 
 		// Has alt-tag, but no keywords and it's not okay
 		if ( altProperties.withAltNonKeyword > 0 ) {
-			return i18n.dgettext( "js-text-analysis", "The images on this page do not have alt attributes containing the focus keyword." );
+			return i18n.sprintf(
+				i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page do not have alt attributes containing the focus keyword." ),
+				url,
+				"</a>"
+			);
 		}
 
 		// Has alt-tag, but no keyword is set
 		if ( altProperties.withAlt > 0 ) {
-			return i18n.dgettext( "js-text-analysis", "The images on this page contain alt attributes." );
+			return i18n.sprintf(
+				i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page contain alt attributes." ),
+				url,
+				"</a>"
+			);
 		}
 
 		// Has no alt-tag
 		if ( altProperties.noAlt > 0 ) {
-			return i18n.dgettext( "js-text-analysis", "The images on this page are missing alt attributes." );
+			return i18n.sprintf(
+				i18n.dgettext( "js-text-analysis", "The %1$simages%2$s on this page are missing alt attributes." ),
+				url,
+				"</a>"
+			);
 		}
 
 		return "";
