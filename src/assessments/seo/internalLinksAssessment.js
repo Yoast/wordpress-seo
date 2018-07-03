@@ -9,39 +9,62 @@ var isEmpty = require( "lodash/isEmpty" );
  * @returns {object} resultObject with score and text
  */
 var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
+	const url = "<a href='https://yoa.st/2pm' target='_blank'>";
+
 	if ( linkStatistics.internalTotal === 0 ) {
 		return {
 			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "No internal links appear in this page, consider adding some as appropriate." ),
+			text: i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "No %1$sinternal links%2$s appear in this page, consider adding some as appropriate." ),
+				url,
+				"</a>"
+			),
 		};
 	}
 
 	if ( linkStatistics.internalNofollow === linkStatistics.total ) {
 		return {
 			score: 7,
-			/* Translators: %1$s expands the number of internal links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s internal link(s), all nofollowed." ),
-				linkStatistics.internalNofollow ),
+			text: i18n.sprintf(
+				/* Translators: %1$s expands the number of internal links, %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "This page has %1$s %2$sinternal link(s)%3$s, all nofollowed." ),
+				linkStatistics.internalNofollow,
+				url,
+				"</a>"
+			),
 		};
 	}
 
 	if ( linkStatistics.internalNofollow < linkStatistics.internalTotal ) {
 		return {
 			score: 8,
-			/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of internal links */
-			text: i18n.sprintf( i18n.dgettext(
-				"js-text-analysis",
-				"This page has %1$s nofollowed internal link(s) and %2$s normal internal link(s)."
+			text: i18n.sprintf(
+				/* Translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
+				%3$s expands to the anchor end tag, %4$s to the number of internal links */
+				i18n.dgettext(
+					"js-text-analysis",
+					"This page has %1$s nofollowed %2$sinternal link(s)%3$s and %4$s normal internal link(s)."
+				),
+				linkStatistics.internalNofollow,
+				url,
+				"</a>",
+				linkStatistics.internalDofollow
 			),
-			linkStatistics.internalNofollow, linkStatistics.internalDofollow ),
 		};
 	}
 
 	if ( linkStatistics.internalDofollow === linkStatistics.total ) {
 		return {
 			score: 9,
-			/* Translators: %1$s expands to the number of internal links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s internal link(s)." ), linkStatistics.internalTotal ),
+			text: i18n.sprintf(
+				/* Translators: %1$s expands to the number of internal links, %2$s expands to a link on yoast.com,
+				%3$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "This page has %1$s %2$sinternal link(s)%3$s." ),
+				linkStatistics.internalTotal,
+				url,
+				"</a>"
+			),
 		};
 	}
 

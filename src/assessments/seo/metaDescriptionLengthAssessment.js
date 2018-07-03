@@ -103,23 +103,51 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( descriptionLength, i18n ) {
+		const url = "<a href='https://yoa.st/2pg' target='_blank'>";
+
 		if ( descriptionLength === 0 ) {
-			return i18n.dgettext( "js-text-analysis", "No meta description has been specified. " +
-				"Search engines will display copy from the page instead." );
+			return i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "No %1$smeta description%2$s has been specified. " +
+				"Search engines will display copy from the page instead." ),
+				url,
+				"</a>"
+			);
 		}
 
 		if ( descriptionLength <= this._config.recommendedMaximumLength ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters long. " +
-				"However, up to %2$d characters are available." ), this._config.recommendedMaximumLength, this._config.maximumLength );
+			return i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+				%3$d expands to the number of characters in the meta description, %4$d expands to
+				the total available number of characters in the meta description */
+				i18n.dgettext( "js-text-analysis", "The %1$smeta description%2$s is under %3$d characters long. " +
+				"However, up to %4$d characters are available." ),
+				url,
+				"</a>",
+				this._config.recommendedMaximumLength,
+				this._config.maximumLength
+			);
 		}
 
 		if ( descriptionLength > this._config.maximumLength ) {
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is over %1$d characters. " +
-				"Reducing the length will ensure the entire description will be visible." ), this._config.maximumLength );
+			return i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+				%3$d expands to	the total available number of characters in the meta description */
+				i18n.dgettext( "js-text-analysis", "The %1$smeta description%2$s is over %3$d characters. " +
+				"Reducing the length will ensure the entire description will be visible." ),
+				url,
+				"</a>",
+				this._config.maximumLength
+			);
 		}
 
 		if ( descriptionLength >= this._config.recommendedMaximumLength && descriptionLength <= this._config.maximumLength ) {
-			return i18n.dgettext( "js-text-analysis", "The meta description has a nice length." );
+			return i18n.sprintf(
+				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "The %1$smeta description%2$s has a nice length." ),
+				url,
+				"</a>"
+			);
 		}
 	}
 }

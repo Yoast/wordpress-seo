@@ -96,28 +96,44 @@ class OutboundLinksAssessment extends Assessment {
 	 * @returns {string} The translated string.
 	 */
 	translateScore( linkStatistics, i18n ) {
+		const url = "<a href='https://yoa.st/2pl' target='_blank'>";
+
 		if ( linkStatistics.externalTotal === 0 ) {
-			return i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." );
+			return i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "No %1$soutbound links%2$s appear in this page, consider adding some as appropriate." ),
+				url,
+				"</a>"
+			);
 		}
 
 		if ( linkStatistics.externalNofollow === linkStatistics.total ) {
-			/* Translators: %1$s expands the number of outbound links */
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
-				linkStatistics.externalNofollow );
+			return i18n.sprintf(
+				/* Translators: %1$s expands the number of outbound links, %2$s expands to a link on yoast.com,
+				%3$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "This page has %1$s %2$soutbound link(s)%3$s, all nofollowed." ),
+				linkStatistics.externalNofollow,
+				url,
+				"</a>"
+			);
 		}
 
 		if ( linkStatistics.externalNofollow < linkStatistics.externalTotal ) {
-			/* Translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
-			return i18n.sprintf( i18n.dgettext(
-				"js-text-analysis",
-				"This page has %1$s nofollowed outbound link(s) and %2$s normal outbound link(s)."
-			),
-			linkStatistics.externalNofollow, linkStatistics.externalDofollow );
+			return i18n.sprintf(
+				/* Translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
+				%3$s expands to the anchor end tag, %4$s to the number of outbound links */
+				i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed %2$soutbound link(s)%3$s and %4$s normal outbound link(s)." ),
+				linkStatistics.externalNofollow,
+				url,
+				"</a>",
+				linkStatistics.externalDofollow );
 		}
 
 		if ( linkStatistics.externalDofollow === linkStatistics.total ) {
-			/* Translators: %1$s expands to the number of outbound links */
-			return i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal );
+			return i18n.sprintf(
+				/* Translators: %1$s expands to the number of outbound links, %2$s expands to a link on yoast.com,
+				%3$s expands to the anchor end tag */
+				i18n.dgettext( "js-text-analysis", "This page has %1$s %2$soutbound link(s)%3$s." ), linkStatistics.externalTotal );
 		}
 
 		return "";
