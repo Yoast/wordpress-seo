@@ -597,7 +597,7 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_77() {
 		// Remove all OpenGraph content image cache.
-		delete_post_meta_by_key( '_yoast_wpseo_post_image_cache' );
+		$this->delete_post_meta( '_yoast_wpseo_post_image_cache' );
 	}
 
 	/**
@@ -609,6 +609,19 @@ class WPSEO_Upgrade {
 		if ( WPSEO_Utils::is_woocommerce_active() ) {
 			$this->migrate_woocommerce_archive_setting_to_shop_page();
 		}
+	}
+
+	/**
+	 * Removes the post meta fields for a given meta key.
+	 *
+	 * @param string $meta_key The meta key.
+	 *
+	 * @return void
+	 */
+	private function delete_post_meta( $meta_key ) {
+		global $wpdb;
+
+		$wpdb->delete( $wpdb->postmeta, array( 'meta_key' => $meta_key ), array( '%s' ) );
 	}
 
 	/**
