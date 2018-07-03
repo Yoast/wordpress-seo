@@ -6,6 +6,32 @@ const regularAdjectivesToTest = [
 	[ "short", "shorter", "shortest" ],
 	[ "cool", "cooler", "coolest" ],
 	[ "warm", "warmer", "warmest" ],
+	[ "dull", "duller", "dullest" ],
+	[ "high", "higher", "highest" ],
+	[ "silent", "silenter", "silentest" ],
+	[ "kind", "kinder", "kindest" ],
+	[ "firm", "firmer", "firmest" ],
+	[ "cruel", "crueler", "cruelest" ],
+	[ "green", "greener", "greenest" ],
+	[ "bitter", "bitterer", "bitterest" ],
+	[ "fresh", "fresher", "freshest" ],
+	[ "weak", "weaker", "weakest" ],
+	[ "cold", "colder", "coldest" ],
+	[ "cool", "cooler", "coolest" ],
+	[ "few", "fewer", "fewest" ],
+	[ "full", "fuller", "fullest" ],
+	[ "light", "lighter", "lightest" ],
+	[ "alert", "alerter", "alertest" ],
+	[ "certain", "certainer", "certainest" ],
+	[ "hard", "harder", "hardest" ],
+	[ "low", "lower", "lowest" ],
+	[ "new", "newer", "newest" ],
+	// [ "old", "older", "oldest" ],
+	// [ "young", "younger", "youngest" ],
+	// [ "loud", "louder", "loudest" ],
+	// [ "abrupt", "abrupter", "abruptest" ],
+	// [ "great", "greater", "greatest" ],
+	// [ "long", "longer", "longest" ],
 ];
 
 const yAtTheEnd = [
@@ -33,6 +59,8 @@ const yAtTheEnd = [
 	[ "sunny", "sunnier", "sunniest" ],
 	[ "risky", "riskier", "riskiest" ],
 	[ "fancy", "fancier", "fanciest" ],
+	[ "early", "earlier", "earliest" ],
+	[ "easy", "easier", "easiest" ],
 ];
 
 const eAtTheEnd = [
