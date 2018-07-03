@@ -113,6 +113,7 @@ Bugfixes:
 * Fixes a bug where images from password protected posts could potentially end up in OG image tags.
 * Fixes a bug where very old notifications could not be be dismissed or restored.
 * Fixes a bug where the Insert variable button alignment was incorrect.
+* Fixes a discrepancy in the snippet variable labels for custom fields, custom taxonomies, and post type (singular/plural) in the Search Appearance settings.
 
 Enhancements:
 * Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
