@@ -597,7 +597,7 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_77() {
 		// Remove all OpenGraph content image cache.
-		delete_post_meta_by_key( '_yoast_wpseo_post_image_cache' );
+		$this->delete_post_meta( '_yoast_wpseo_post_image_cache' );
 	}
 
 	/**
