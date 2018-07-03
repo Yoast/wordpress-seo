@@ -23,9 +23,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 			return array();
 		}
 
-		$indexable = WPSEO_Indexable::from_object( $object_id );
-
-		return $indexable->to_array();
+		return WPSEO_Indexable::from_object( $object_id, 'post' );
 	}
 
 	/**

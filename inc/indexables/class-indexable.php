@@ -13,7 +13,7 @@ class WPSEO_Indexable {
 	 */
 	private $data;
 
-	private static $validators = array(
+	private $validators = array(
 		'WPSEO_Object_Type_Validator',
 		'WPSEO_Link_Validator',
 		'WPSEO_Keyword_Validator',
@@ -31,7 +31,7 @@ class WPSEO_Indexable {
 	public function __construct( $data ) {
 		$is_valid = $this->validate_data( $data );
 
-		if ( ! $is_valid ) {
+		if ( $is_valid === false ) {
 			var_dump( 'uhoh' );die;
 		}
 
@@ -45,7 +45,14 @@ class WPSEO_Indexable {
 	 * @return WPSEO_Indexable
 	 */
 	public static function from_object( $object_id, $object_type ) {
-		// check if object exists and that object type is a valid type.
+		if ( $object_type === 'post' && get_post( $object_id ) === null ) {
+			throw new \InvalidArgumentException( 'Invalid object id passed' );
+		}
+
+		if ( $object_type === 'term' && get_term( $object_id ) === null ) {
+			throw new \InvalidArgumentException( 'Invalid object id passed' );
+		}
+
 		$link_count = new WPSEO_Link_Column_Count();
 		$link_count->set( array( $object_id ) );
 
@@ -67,9 +74,9 @@ class WPSEO_Indexable {
 				'twitter_image'               => WPSEO_Meta::get_value( 'twitter-image', $object_id ),
 				'is_robots_noindex'           => self::get_robots_noindex_value( WPSEO_Meta::get_value( 'meta-robots-noindex', $object_id ) ),
 				'is_robots_nofollow'          => WPSEO_Meta::get_value( 'meta-robots-nofollow', $object_id ) === '1',
-				'is_robots_noarchive'         => self::has_advanced_meta_value( 'noarchive' ),
-				'is_robots_noimageindex'      => self::has_advanced_meta_value( 'noimageindex' ),
-				'is_robots_nosnippet'         => self::has_advanced_meta_value( 'nosnippet' ),
+				'is_robots_noarchive'         => self::has_advanced_meta_value( $object_id, 'noarchive' ),
+				'is_robots_noimageindex'      => self::has_advanced_meta_value( $object_id, 'noimageindex' ),
+				'is_robots_nosnippet'         => self::has_advanced_meta_value( $object_id, 'nosnippet' ),
 				'primary_focus_keyword'       => WPSEO_Meta::get_value( 'focuskw', $object_id ),
 				'primary_focus_keyword_score' => (int) WPSEO_Meta::get_value( 'linkdex', $object_id ),
 				'readability_score'           => (int) WPSEO_Meta::get_value( 'content_score', $object_id ),
@@ -89,7 +96,7 @@ class WPSEO_Indexable {
 	 *
 	 * @return bool|null The translated value.
 	 */
-	protected function get_robots_noindex_value( $value ) {
+	protected static function get_robots_noindex_value( $value ) {
 		if ( $value === '1' ) {
 			return true;
 		}
@@ -109,8 +116,8 @@ class WPSEO_Indexable {
 	 *
 	 * @return bool Whether or not the advanced robots meta values contains the passed string.
 	 */
-	protected function has_advanced_meta_value( $object_id, $value ) {
-		return strpos( $this->get_meta_value( 'meta-robots-adv', $object_id ), $value ) !== false;
+	protected static function has_advanced_meta_value( $object_id, $value ) {
+		return strpos( WPSEO_Meta::get_value( 'meta-robots-adv', $object_id ), $value ) !== false;
 	}
 
 	/**
@@ -180,12 +187,14 @@ class WPSEO_Indexable {
 	 *
 	 * @param array $data The data to validate.
 	 *
-	 * @return void
+	 * @return bool True if all validators have successfully validated.
 	 */
 	private function validate_data( $data ) {
 		foreach ( $this->validators as $validator ) {
 			$validator::validate( $data );
 		}
+
+		return true;
 	}
 
 	/**

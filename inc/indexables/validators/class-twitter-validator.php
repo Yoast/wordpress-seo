@@ -15,6 +15,8 @@ class WPSEO_Twitter_Validator implements WPSEO_Endpoint_Validator {
 	 * @return void
 	 */
 	public static function validate( $request_data ) {
+		$request_data['twitter_title'] = 1;
+
 		if ( WPSEO_Validator::key_exists( $request_data, 'twitter_title' ) && ! WPSEO_Validator::is_string( $request_data['twitter_title'] ) ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $request_data['twitter_title'], 'twitter_title' );
 		}

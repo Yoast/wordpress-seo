@@ -39,7 +39,13 @@ class WPSEO_Indexable_Service {
 			);
 		}
 
-		return new WP_REST_Response( $provider->get( $object_id ) );
+		try {
+			$indexable = $provider->get( $object_id );
+
+			return new WP_REST_Response( $indexable->to_array() );
+		} catch ( \Exception $exception ) {
+			return new WP_REST_Response( $exception->getMessage(), 500 );
+		}
 	}
 
 	/**

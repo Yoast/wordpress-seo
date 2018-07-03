@@ -14,7 +14,7 @@ class WPSEO_Object_Type_Validator implements WPSEO_Endpoint_Validator {
 	 *
 	 * @return void
 	 */
-	private function validate_type( $object_type ) {
+	private static function validate_type( $object_type ) {
 		if ( ! in_array( $object_type, array( 'post', 'term' ), true ) ) {
 			throw new \InvalidArgumentException( 'Invalid object type passed' );
 		}
@@ -32,12 +32,12 @@ class WPSEO_Object_Type_Validator implements WPSEO_Endpoint_Validator {
 	 * @return void
 	 * @throws Exception
 	 */
-	private function validate_subtype( $subtype ) {
-		if ( $this->type === 'post' && ! post_type_exists( $subtype ) ) {
+	private static function validate_subtype( $type, $subtype ) {
+		if ( $type === 'post' && ! post_type_exists( $subtype ) ) {
 			throw new \InvalidArgumentException( 'Invalid post subtype passed' );
 		}
 
-		if ( $this->type === 'term' && ! taxonomy_exists( $subtype ) ) {
+		if ( $type === 'term' && ! taxonomy_exists( $subtype ) ) {
 			throw new \InvalidArgumentException( 'Invalid term object type passed' );
 		}
 	}
@@ -56,7 +56,7 @@ class WPSEO_Object_Type_Validator implements WPSEO_Endpoint_Validator {
 		}
 
 		if ( WPSEO_Validator::key_exists( $request_data, 'object_subtype' ) ) {
-			self::validate_subtype( $request_data['object_subtype'] );
+			self::validate_subtype( $request_data['object_type'], $request_data['object_subtype'] );
 		}
 	}
 }
