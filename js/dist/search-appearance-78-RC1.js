@@ -18889,9 +18889,9 @@ var ReplacementVariableEditor = function (_React$Component) {
 						onBlur: onBlur,
 						replacementVariables: replacementVariables,
 						recommendedReplacementVariables: recommendedReplacementVariables,
-						ref: function ref(_ref) {
-							_this2.ref = _ref;
-							editorRef(_ref);
+						innerRef: function innerRef(ref) {
+							_this2.ref = ref;
+							editorRef(ref);
 						},
 						ariaLabelledBy: this.uniqueId
 					})
@@ -62107,6 +62107,7 @@ exports.default = SnippetEditorFields;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.ReplacementVariableEditorStandaloneInnerComponent = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -62693,7 +62694,8 @@ var ReplacementVariableEditorStandalone = function (_React$Component) {
 			    onFocus = _props2.onFocus,
 			    onBlur = _props2.onBlur,
 			    ariaLabelledBy = _props2.ariaLabelledBy,
-			    placeholder = _props2.placeholder;
+			    placeholder = _props2.placeholder,
+			    theme = _props2.theme;
 			var _state = this.state,
 			    editorState = _state.editorState,
 			    suggestions = _state.suggestions;
@@ -62703,6 +62705,7 @@ var ReplacementVariableEditorStandalone = function (_React$Component) {
 				_react2.default.Fragment,
 				null,
 				_react2.default.createElement(_draftJsPluginsEditor2.default, {
+					textDirectionality: theme.isRtl ? "RTL" : "LTR",
 					editorState: editorState,
 					onChange: this.onChange,
 					onFocus: onFocus,
@@ -62737,6 +62740,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 	onChange: _propTypes2.default.func.isRequired,
 	onFocus: _propTypes2.default.func,
 	onBlur: _propTypes2.default.func,
+	theme: _propTypes2.default.object,
 	placeholder: _propTypes2.default.string
 };
 
@@ -62748,7 +62752,8 @@ ReplacementVariableEditorStandalone.defaultProps = {
 	placeholder: ""
 };
 
-exports.default = ReplacementVariableEditorStandalone;
+exports.ReplacementVariableEditorStandaloneInnerComponent = ReplacementVariableEditorStandalone;
+exports.default = (0, _styledComponents.withTheme)(ReplacementVariableEditorStandalone);
 
 /***/ }),
 /* 774 */
