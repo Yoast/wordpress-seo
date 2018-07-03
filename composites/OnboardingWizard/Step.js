@@ -11,7 +11,6 @@ import Components from "./components/StepComponents";
  * @constructor
  */
 class Step extends React.Component {
-
 	/**
 	 * Sets the default state.
 	 *

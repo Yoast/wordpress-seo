@@ -159,8 +159,8 @@ class SearchBar extends React.Component {
 						placeholder={ placeholderText }
 					/>
 					{ ! this.props.enableLiveSearch && <YoastButton type="submit">
-							{ __( "Search", "yoast-components" ) }
-						</YoastButton>
+						{ __( "Search", "yoast-components" ) }
+					</YoastButton>
 					}
 				</form>
 			</SearchBarWrapper>
