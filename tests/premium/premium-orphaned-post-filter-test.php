@@ -10,7 +10,9 @@
  */
 class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Premium_Orphaned_Post_Filter_Double */
+	/**
+	 * @var WPSEO_Premium_Orphaned_Post_Filter_Double
+	 */
 	protected $class_instance;
 
 	/**
@@ -128,7 +130,7 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 		self::factory()->post->create( array(
 			'post_title'    => 'Secret page',
 			'post_status'   => 'publish',
-			'post_password' => 'verysecretpassword'
+			'post_password' => 'verysecretpassword',
 		) );
 
 		$post_2 = self::factory()->post->create_and_get( array(
@@ -142,7 +144,7 @@ class WPSEO_Premium_Orphaned_Post_Filter_Test extends WPSEO_UnitTestCase {
 			$post_1,
 		);
 
-		$query = new WP_Query( array(
+		$query  = new WP_Query( array(
 			'post_type' => 'post',
 		) );
 		$actual = $query->get_posts();

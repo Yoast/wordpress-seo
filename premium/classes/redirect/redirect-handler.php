@@ -170,7 +170,7 @@ class WPSEO_Redirect_Handler {
 			return;
 		}
 
-		if ( $this->normalize_url( $redirect_url['url'] ) === $request_url  ) {
+		if ( $this->normalize_url( $redirect_url['url'] ) === $request_url ) {
 			return;
 		}
 

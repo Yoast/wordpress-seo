@@ -20,7 +20,7 @@ final class WPSEO_CLI_Redirect_Update_Command extends WPSEO_CLI_Redirect_Base_Co
 	 *
 	 * <new-origin>
 	 * : New origin of the redirect.
-
+	 *
 	 * <target>
 	 * : Target of the redirect.
 	 *

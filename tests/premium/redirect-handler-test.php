@@ -636,7 +636,14 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		$class_instance
 			->expects( $this->once() )
 			->method( 'find_url' )
-			->will( $this->returnValue( array( 'url' => $redirect_url, 'type' => 301 ) ) );
+			->will(
+				$this->returnValue(
+					array(
+						'url'  => $redirect_url,
+						'type' => 301,
+					)
+				)
+			);
 
 		$class_instance
 			->expects( $this->never() )
