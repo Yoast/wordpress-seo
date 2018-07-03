@@ -621,7 +621,11 @@ class WPSEO_Upgrade {
 	private function delete_post_meta( $meta_key ) {
 		global $wpdb;
 
-		$wpdb->delete( $wpdb->postmeta, array( 'meta_key' => $meta_key ), array( '%s' ) );
+		$deleted = $wpdb->delete( $wpdb->postmeta, array( 'meta_key' => $meta_key ), array( '%s' ) );
+
+		if ( $deleted ) {
+			wp_cache_set( 'last_changed', microtime(), 'posts' );
+		}
 	}
 
 	/**
