@@ -6,6 +6,10 @@ Bugfixes:
 Enhancements:
 * Shows a notification regarding the creation of redirects when deleting a category or tag.
 * Introduces an action (`wpseo_premium_redirects_modified`) that will be executed when a redirect has been added, edited or deleted.
+* Adds the possibility to enter keyword synonyms.
+* Adds an assessment the checks the distribution of the focus keyword in the text.
+* Adds a topic distribution and topic density assessment to use with synonyms.
+
 
 Other:
 * Includes every change in Yoast SEO core 7.8.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
