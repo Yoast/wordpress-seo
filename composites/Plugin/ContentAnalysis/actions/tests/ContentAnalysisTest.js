@@ -12,8 +12,6 @@ import {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
 } from "../contentAnalysis";
-import configureMockStore from "redux-mock-store";
-import thunk from "redux-thunk";
 
 describe( "setSeoResultsForKeyword action creator", function() {
 	it( "creates the setSeoResultsForKeyword action", function() {
