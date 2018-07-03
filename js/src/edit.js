@@ -29,7 +29,6 @@ if( window.wpseoPostScraperL10n ) {
  */
 function registerStoreInGutenberg() {
 	const { combineReducers, registerStore } = yoast._wp.data;
-console.log("hier")
 
 	return registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
