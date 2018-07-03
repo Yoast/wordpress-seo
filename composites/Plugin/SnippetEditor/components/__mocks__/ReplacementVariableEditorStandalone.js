@@ -45,7 +45,7 @@ const Wrapper = ( props ) => {
 };
 
 Wrapper.propTypes = {
-	innerRef: PropTypes.string,
+	innerRef: PropTypes.func,
 };
 
 export default Wrapper;
