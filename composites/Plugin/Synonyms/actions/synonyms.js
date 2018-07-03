@@ -21,15 +21,13 @@ export const setSynonyms = function( synonyms ) {
 /**
  * An action creator for adding synonyms.
  *
- * @param {string} index    The index in the array.
  * @param {string} synonyms The synonyms to add.
  *
  * @returns {Object} The action.
  */
-export const addSynonyms = function( index, synonyms ) {
+export const addSynonyms = function( synonyms ) {
 	return {
 		type: ADD_SYNONYMS,
-		index,
 		synonyms,
 	};
 };
