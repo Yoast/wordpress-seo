@@ -782,35 +782,35 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Determines whether or not the passed post type has a custom set breadcrumb.
+	 * Gets the custom set breadcrumb title for the passed post type.
 	 *
 	 * @param string $post_type The post type to check.
 	 *
-	 * @return bool True if a custom breadcrumb was set.
+	 * @return string the breadcrumb title.
 	 */
-	private function has_post_type_archive_breadcrumb( $post_type ) {
-		return WPSEO_Options::get( 'bctitle-ptarchive-' . $post_type, '' ) !== '';
+	private function get_post_type_archive_breadcrumb( $post_type ) {
+		return WPSEO_Options::get( 'bctitle-ptarchive-' . $post_type, '' );
 	}
 
 	/**
-	 * Determines whether or not the passed post_type is a WooCommerce product and if it has a breadcrumb title set.
+	 * Gets the breadcrumb for the passed post type if it's a WooCommerce product and has a breadcrumb title set.
 	 *
 	 * @param string $post_type The post type to check.
 	 *
-	 * @return bool True if a WooCommerce breadcrumb was found. False otherwise.
+	 * @return string The breadcrumb title.
 	 */
-	private function has_woocommerce_breadcrumb( $post_type ) {
-		if ( ! WPSEO_Utils::is_woocommerce_active() || $post_type !== 'product' ) {
-			return false;
+	private function get_woocommerce_breadcrumb( $post_type ) {
+		if ( $post_type !== 'product' || ! WPSEO_Utils::is_woocommerce_active() ) {
+			return '';
 		}
 
 		$shop_page_id = wc_get_page_id( 'shop' );
 
 		if ( $shop_page_id === -1 ) {
-			return false;
+			return '';
 		}
 
-		return WPSEO_Meta::get_value( 'bctitle', $shop_page_id ) !== '';
+		return WPSEO_Meta::get_value( 'bctitle', $shop_page_id );
 	}
 
 	/**
@@ -821,12 +821,16 @@ class WPSEO_Breadcrumbs {
 	 * @return string The archive title.
 	 */
 	private function get_archive_title( $post_type ) {
-		if ( $this->has_woocommerce_breadcrumb( $post_type ) ) {
-			return WPSEO_Meta::get_value( 'bctitle',  wc_get_page_id( 'shop' ) );
+		$woocommerce_breadcrumb = $this->get_woocommerce_breadcrumb( $post_type );
+
+		if ( $woocommerce_breadcrumb !== '' ) {
+			return $woocommerce_breadcrumb;
 		}
 
-		if ( $this->has_post_type_archive_breadcrumb( $post_type ) ) {
-			return WPSEO_Options::get_value( 'bctitle-ptarchive-' . $post_type );
+		$post_type_archive_breadcrumb = $this->get_post_type_archive_breadcrumb( $post_type );
+
+		if ( $post_type_archive_breadcrumb !== '' ) {
+			return $post_type_archive_breadcrumb;
 		}
 
 		$post_type_obj = get_post_type_object( $post_type );
