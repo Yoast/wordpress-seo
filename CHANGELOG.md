@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.35.1 July 4th, 2018
+### Fixed
+* Fixes a bug where a custom callback would not work correctly.
+
 ## 1.35.0 July 3rd, 2018
 ### Added
 * Adds an assessment the checks the distribution of the focus keyword in the text.
