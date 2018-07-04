@@ -3314,7 +3314,10 @@ YoastMultiKeyword.prototype.updateKeywordTab = function (tab) {
 	link = tab.find(".wpseo_tablink");
 	keyword = link.data("keyword") + "";
 
-	var _analyzeKeyword = this.analyzeKeyword(keyword),
+	var firstKeywordTabIndex = getFirstKeywordTabIndex();
+	var index = tab.index() - firstKeywordTabIndex;
+
+	var _analyzeKeyword = this.analyzeKeyword(keyword, index),
 	    score = _analyzeKeyword.score,
 	    results = _analyzeKeyword.results;
 
@@ -3403,13 +3406,15 @@ YoastMultiKeyword.prototype.renderKeywordTab = function (keyword, score, tabElem
  * Analyzes a certain keyword with an ad-hoc analyzer
  *
  * @param {string} keyword The keyword to analyze.
+ * @param {number} index   The index of the keyword to analyze.
  *
  * @returns {{number, Array}} Total score.
  */
-YoastMultiKeyword.prototype.analyzeKeyword = function (keyword) {
+YoastMultiKeyword.prototype.analyzeKeyword = function (keyword, index) {
 	var paper;
 	var assessor = YoastSEO.app.seoAssessor;
 	var currentPaper;
+	var store = YoastSEO.premiumStore;
 
 	currentPaper = YoastSEO.app.paper;
 
@@ -3421,13 +3426,18 @@ YoastMultiKeyword.prototype.analyzeKeyword = function (keyword) {
 	}
 
 	// Re-use the data already present in the page.
-	paper = new Paper(currentPaper.getText(), {
+	var data = {
 		keyword: keyword,
 		description: currentPaper.getDescription(),
 		title: currentPaper.getTitle(),
 		url: currentPaper.getUrl(),
 		locale: currentPaper.getLocale()
-	});
+	};
+	if (store) {
+		var synonyms = store.getState().synonyms;
+		data.synonyms = synonyms[index];
+	}
+	paper = new Paper(currentPaper.getText(), data);
 
 	assessor.assess(paper);
 
@@ -3634,11 +3644,14 @@ var Synonyms = function () {
 		value: function initializePremiumDataCallback() {
 			var _this = this;
 
-			this._app.registerCustomDataCallback = function () {
+			this._app.registerCustomDataCallback(function () {
+				var synonyms = _this.getSynonyms();
+				var index = _this.getActiveKeywordIndex();
+
 				return {
-					synonyms: _this.getSynonyms()
+					synonyms: synonyms[index]
 				};
-			};
+			});
 		}
 
 		/**
@@ -3694,14 +3707,15 @@ var Synonyms = function () {
 		key: "getActiveKeywordIndex",
 		value: function getActiveKeywordIndex() {
 			var elements = $(this._options.keywordQuery);
+			var activeKeywordIndex = -1;
 
 			elements.each(function (index, element) {
 				if ($(element).parent().hasClass("active")) {
-					return index;
+					activeKeywordIndex = index;
 				}
 			});
 
-			return -1;
+			return activeKeywordIndex;
 		}
 
 		/**
