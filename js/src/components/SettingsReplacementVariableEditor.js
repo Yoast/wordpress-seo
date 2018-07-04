@@ -23,6 +23,8 @@ class SettingsReplacementVariableEditor extends React.Component {
 			description,
 			replacementVariables,
 			recommendedReplacementVariables,
+			titleTarget,
+			descriptionTarget,
 		} = this.props;
 
 		return (
@@ -48,6 +50,10 @@ class SettingsReplacementVariableEditor extends React.Component {
 						description: description.value,
 					} }
 					hasPaperStyle={ this.props.hasPaperStyle }
+					fieldIds={ {
+						title: titleTarget + "-snippet-editor",
+						description: descriptionTarget + "-snippet-editor",
+					} }
 				/>
 			</SnippetPreviewSection>
 		);
@@ -61,6 +67,8 @@ SettingsReplacementVariableEditor.propTypes = {
 	description: linkFieldsShape,
 	postType: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
+	titleTarget: PropTypes.string.isRequired,
+	descriptionTarget: PropTypes.string.isRequired,
 };
 
 SettingsReplacementVariableEditor.defaultProps = {
