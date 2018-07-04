@@ -49,14 +49,13 @@ class WPSEO_Admin_Banner_Sidebar {
 			$this->add_banner_spot( $this->get_premium_spot() );
 		}
 
-		$this->add_banner_spot( $this->get_services_spot() );
+		$this->add_banner_spot( $this->get_courses_spot() );
 
 		$extensions_spot = $this->get_extensions_spot( $this->get_active_extensions() );
 		if ( $extensions_spot->has_banners() ) {
 			$this->add_banner_spot( $extensions_spot );
 		}
 
-		$this->add_banner_spot( $this->get_courses_spot() );
 		$this->add_banner_spot( $this->get_remove_banner_spot() );
 	}
 
@@ -104,41 +103,6 @@ class WPSEO_Admin_Banner_Sidebar {
 		);
 
 		return $premium_spot;
-	}
-
-	/**
-	 * Returns the services banner spot.
-	 *
-	 * @return WPSEO_Admin_Banner_Spot
-	 */
-	protected function get_services_spot() {
-		$service_spot = new WPSEO_Admin_Banner_Spot( __( 'Services', 'wordpress-seo' ), $this->banner_renderer );
-
-		$service_spot->set_description(
-			sprintf(
-				/* translators: %1$s expands to a link start tag to the Yoast Services page, %2$s to Yoast, %3$s is the link closing tag. */
-				__( 'Do you want to know how to improve your rankings? %1$sLet team %2$s help you!%3$s', 'wordpress-seo' ),
-				'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/jk' ) . '">',
-				'Yoast',
-				'</a>'
-			)
-		);
-
-		$service_spot->add_banner(
-			new WPSEO_Admin_Banner(
-				WPSEO_Shortlinker::get( 'https://yoa.st/jm' ),
-				'configuration-service.png',
-				261,
-				152,
-				sprintf(
-				/* translators: %1$s expands to Yoast SEO Premium. */
-					__( 'Let our experts set up your %1$s plugin!', 'wordpress-seo' ),
-					'Yoast SEO Premium'
-				)
-			)
-		);
-
-		return $service_spot;
 	}
 
 	/**
@@ -279,46 +243,6 @@ class WPSEO_Admin_Banner_Sidebar {
 					'Yoast SEO for WordPress Training',
 					'Yoast SEO for WordPress'
 				)
-			)
-		);
-
-		$courses_spot->add_banner(
-			new WPSEO_Admin_Banner(
-				WPSEO_Shortlinker::get( 'https://yoa.st/jw' ),
-				'seo-copywriting-training.png',
-				261,
-				152,
-				__( 'Take the online SEO Copywriting Training course and learn how to write awesome copy that ranks!', 'wordpress-seo' )
-			)
-		);
-
-		$courses_spot->add_banner(
-			new WPSEO_Admin_Banner(
-				WPSEO_Shortlinker::get( 'https://yoa.st/qy' ),
-				'site-structure-training.png',
-				261,
-				152,
-				__( 'Take the online Site Structure Training course and learn how to structure your website!', 'wordpress-seo' )
-			)
-		);
-
-		$courses_spot->add_banner(
-			new WPSEO_Admin_Banner(
-				WPSEO_Shortlinker::get( 'https://yoa.st/jaa' ),
-				'technical-seo-training.png',
-				261,
-				152,
-				__( 'Take the online Technical SEO Training course and learn essential technical SEO-concepts!', 'wordpress-seo' )
-			)
-		);
-
-		$courses_spot->add_banner(
-			new WPSEO_Admin_Banner(
-				WPSEO_Shortlinker::get( 'https://yoa.st/15h' ),
-				'structured-data-course.png',
-				261,
-				152,
-				__( 'Take the online Structured Data Training course and learn how to create rich snippets!', 'wordpress-seo' )
 			)
 		);
 
