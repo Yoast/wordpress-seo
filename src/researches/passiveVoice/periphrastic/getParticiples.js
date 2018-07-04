@@ -49,6 +49,7 @@ module.exports = function( sentencePartText, auxiliaries, language ) {
 				case "nl":
 					foundParticiples.push( new DutchParticiple( word, sentencePartText,
 						{ auxiliaries: auxiliaries, type: type, language: language } ) );
+					break;
 				case "en":
 				default:
 					foundParticiples.push( new EnglishParticiple( word, sentencePartText,

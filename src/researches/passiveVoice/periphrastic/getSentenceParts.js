@@ -99,7 +99,7 @@ const languageVariables = {
 		stopwords: stopwordsDutch,
 		auxiliaryRegex: arrayToRegex( auxiliariesDutch ),
 		SentencePart: SentencePartDutch,
-	}
+	},
 };
 
 /**
@@ -248,6 +248,7 @@ let getSentenceBreakers = function( sentence, language ) {
 			break;
 		case "nl":
 			indices = [].concat( auxiliaryIndices, stopwordIndices );
+			break;
 		case "en":
 		default:
 			var ingVerbs = getVerbsEndingInIng( sentence );
