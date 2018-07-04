@@ -11,7 +11,7 @@
 class WPSEO_Breadcrumbs {
 
 	/**
-	 * @var    object    Instance of this class
+	 * @var object    Instance of this class
 	 */
 	public static $instance;
 
@@ -27,12 +27,12 @@ class WPSEO_Breadcrumbs {
 
 
 	/**
-	 * @var    string    Blog's show on front setting, 'page' or 'posts'
+	 * @var string    Blog's show on front setting, 'page' or 'posts'
 	 */
 	private $show_on_front;
 
 	/**
-	 * @var    mixed    Blog's page for posts setting, page id or false
+	 * @var mixed    Blog's page for posts setting, page id or false
 	 */
 	private $page_for_posts;
 
@@ -57,7 +57,7 @@ class WPSEO_Breadcrumbs {
 	private $wrapper = 'span';
 
 	/**
-	 * @var    array    Array of crumbs
+	 * @var array    Array of crumbs
 	 *
 	 * Each element of the crumbs array can either have one of these keys:
 	 *    "id"         for post types;
@@ -78,10 +78,14 @@ class WPSEO_Breadcrumbs {
 	private $links = array();
 
 	/**
-	 * @var    string    Breadcrumb html string
+	 * @var string    Breadcrumb html string
 	 */
 	private $output;
 
+	/**
+	 * @var WPSEO_WooCommerce_Shop_Page
+	 */
+	private $woocommerce_shop_page;
 
 	/**
 	 * Create the breadcrumb.
@@ -90,6 +94,7 @@ class WPSEO_Breadcrumbs {
 		$this->post           = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
 		$this->show_on_front  = get_option( 'show_on_front' );
 		$this->page_for_posts = get_option( 'page_for_posts' );
+		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
 
 		$this->filter_element();
 		$this->filter_separator();
@@ -804,7 +809,7 @@ class WPSEO_Breadcrumbs {
 			return '';
 		}
 
-		$shop_page_id = wc_get_page_id( 'shop' );
+		$shop_page_id = $this->woocommerce_shop_page->get_shop_page_id();
 
 		if ( $shop_page_id === -1 ) {
 			return '';
