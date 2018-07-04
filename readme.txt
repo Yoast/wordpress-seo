@@ -110,22 +110,24 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: July 10th, 2018
 
 Bugfixes:
-* Fixes a bug where images from password protected posts could potentially end up in OG image tags.
+* Fixes a bug where images from password protected posts could potentially end up in OpenGraph image tags.
 * Fixes a bug where very old notifications could not be be dismissed or restored.
-* Fixes a bug where the Insert variable button alignment was incorrect.
-* Fixes a discrepancy in the snippet variable labels for custom fields, custom taxonomies, and post type (singular/plural) in the Search Appearance settings.
-* Instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) are now recognized as the same in the following assessments: keyword in meta description, keyword in subheading, keyword in first paragraph, keyword in title, keyword in URL.
+* Fixes a bug where the `Insert snippet variable` button alignment was incorrect.
+* Fixes a bug where the snippet variables had a different label in the Search Appearance settings compared to the snippet variables when writing a post, pages and taxonomies.
+* Instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) are now recognized as the same in the following assessments: keyword in meta description, keyword in subheading, keyword in first paragraph, keyword in title and keyword in URL.
 * Filters out prominent word combinations ending in 's in English. Props to [swekkiekekkie](https://github.com/swekkiekekkie).
+* Fixes a bug where the custom set breadcrumb title for the WooCommerce Shop page wouldn't be used.
 
 Enhancements:
 * Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
 * Adds links to relevant articles to all SEO assessments.
 * Adds Flesch Reading Ease assessment for French.
 * Adds Flesch Reading Ease assessment for Spanish.
-* Add passive voice assessment for Italian.
+* Adds passive voice assessment for Italian.
 
 Other:
 * Adds a reminder message to create a redirect if a user deletes a category or tag.
+* Removes a banner spot in the admin.
 
 = 7.7.3 =
 Release Date: July 2nd, 2018
