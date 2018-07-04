@@ -84,7 +84,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 			continue;
 		}
 
-		if ( $post_type->has_archive == true ) {
+		if ( ! empty( $post_type->has_archive ) ) {
 			// translators: %s is the plural version of the post type's name.
 			echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
 
