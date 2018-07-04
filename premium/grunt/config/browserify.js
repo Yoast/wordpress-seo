@@ -3,6 +3,7 @@ module.exports = {
 		options: {
 			transform: [
 				[ "babelify", { presets: [ "es2015" ] } ],
+				[ "aliasify", { aliases: { "@wordpress/i18n": "./node_modules/@wordpress/i18n" } } ],
 			],
 			browserifyOptions: {
 				debug: true,
@@ -24,6 +25,7 @@ module.exports = {
 		options: {
 			transform: [
 				[ "babelify", { presets: [ "es2015" ] } ],
+				[ "aliasify", { aliases: { "@wordpress/i18n": "./node_modules/@wordpress/i18n" } } ],
 
 				// This is here to make a production build of React.
 				[ "envify", {

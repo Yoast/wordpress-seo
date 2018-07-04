@@ -157,7 +157,7 @@ YoastMultiKeyword.prototype.handleUpdatedScore = function( ev, score ) {
  * @returns {void}
  */
 YoastMultiKeyword.prototype.bindKeywordTab = function() {
-	$( ".wpseo-metabox-tabs" ).on( "click", ".wpseo_keyword_tab > .wpseo_tablink", function() {
+	$( ".wpseo-metabox-tab-content" ).on( "click", ".wpseo_keyword_tab > .wpseo_tablink", function() {
 		var $this = $( this );
 
 		// Convert to string to prevent errors if the keyword is "null".
@@ -184,12 +184,28 @@ YoastMultiKeyword.prototype.bindKeywordTab = function() {
  * @returns {void}
  */
 YoastMultiKeyword.prototype.bindKeywordRemove = function() {
-	$( ".wpseo-metabox-tabs" ).on( "click", ".remove-keyword", function( ev ) {
+	$( ".wpseo-metabox-tab-content" ).on( "click", ".remove-keyword", function( ev ) {
 		var previousTab, currentTab;
 
 		currentTab = $( ev.currentTarget ).parent( "li" );
+
+		// Trigger our own remove keyword event to listen to.
+		const tabLink = currentTab.find( ".wpseo_tablink[data-keyword]" );
+		let tabIndex = -1;
+		if ( tabLink.length === 1 ) {
+			$( ".wpseo-metabox-tabs > .wpseo_keyword_tab > .wpseo_tablink[data-keyword]" ).each( ( index, element ) => {
+				if ( element === tabLink[ 0 ] ) {
+					tabIndex = index;
+				}
+			} );
+		}
+
 		previousTab = currentTab.prev();
 		currentTab.remove();
+
+		if ( tabLink.length === 1 ) {
+			$( ".wpseo-metabox-tab-content" ).trigger( "_yoast_remove_keyword", [ tabIndex ] );
+		}
 
 		// If the removed tab was active we should make a different one active.
 		if ( currentTab.hasClass( "active" ) ) {
@@ -376,7 +392,11 @@ YoastMultiKeyword.prototype.updateKeywordTab = function( tab ) {
 
 	link    = tab.find( ".wpseo_tablink" );
 	keyword = link.data( "keyword" ) + "";
-	let { score, results } = this.analyzeKeyword( keyword );
+
+	const firstKeywordTabIndex = getFirstKeywordTabIndex();
+	const index = tab.index() - firstKeywordTabIndex;
+
+	let { score, results } = this.analyzeKeyword( keyword, index );
 
 	this.renderKeywordTab( keyword, score, tab, false, results );
 };
@@ -460,13 +480,15 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
  * Analyzes a certain keyword with an ad-hoc analyzer
  *
  * @param {string} keyword The keyword to analyze.
+ * @param {number} index   The index of the keyword to analyze.
  *
  * @returns {{number, Array}} Total score.
  */
-YoastMultiKeyword.prototype.analyzeKeyword = function( keyword ) {
+YoastMultiKeyword.prototype.analyzeKeyword = function( keyword, index ) {
 	var paper;
 	var assessor = YoastSEO.app.seoAssessor;
 	var currentPaper;
+	const store = YoastSEO.premiumStore;
 
 	currentPaper = YoastSEO.app.paper;
 
@@ -478,13 +500,18 @@ YoastMultiKeyword.prototype.analyzeKeyword = function( keyword ) {
 	}
 
 	// Re-use the data already present in the page.
-	paper = new Paper( currentPaper.getText(), {
+	const data = {
 		keyword: keyword,
 		description: currentPaper.getDescription(),
 		title: currentPaper.getTitle(),
 		url: currentPaper.getUrl(),
 		locale: currentPaper.getLocale(),
-	} );
+	};
+	if ( store ) {
+		const synonyms = store.getState().synonyms;
+		data.synonyms = synonyms[ index ];
+	}
+	paper = new Paper( currentPaper.getText(), data );
 
 	assessor.assess( paper );
 
