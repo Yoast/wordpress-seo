@@ -15,16 +15,16 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 */
 	protected $editor_specific_replace_vars = array(
 		// Posts types.
-		'page'                    => array( 'id', 'pt_single', 'pt_plural' ),
+		'page'                    => array( 'id', 'pt_single', 'pt_plural', 'parent_title' ),
 		'post'                    => array( 'id', 'term404', 'pt_single', 'pt_plural' ),
 		// Custom post type.
 		'custom_post_type'        => array( 'id', 'term404', 'pt_single', 'pt_plural' ),
 
 		// Taxonomies.
-		'category'                => array( 'term_title', 'term_description', 'category_description' ),
+		'category'                => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
 		'post_tag'                => array( 'term_title', 'term_description', 'tag_description' ),
 		// Custom taxonomy.
-		'term-in-custom-taxomomy' => array( 'term_title', 'term_description' ),
+		'term-in-custom-taxomomy' => array( 'term_title', 'term_description', 'parent_title' ),
 
 		// Settings - archive pages.
 		'custom-post-type_archive' => array(),
