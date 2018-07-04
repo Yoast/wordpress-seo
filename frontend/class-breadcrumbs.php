@@ -365,8 +365,14 @@ class WPSEO_Breadcrumbs {
 		elseif ( is_post_type_archive() ) {
 			$post_type = $wp_query->get( 'post_type' );
 
-			if ( $post_type && is_string( $post_type ) ) {
-				$this->add_ptarchive_crumb( $post_type );
+			if ( WPSEO_Utils::is_woocommerce_active() && is_shop() ) {
+				$id = wc_get_page_id( 'shop' );
+				$this->add_single_post_crumb( $id );
+			}
+			else {
+				if ( $post_type && is_string( $post_type ) ) {
+					$this->add_ptarchive_crumb( $post_type );
+				}
 			}
 		}
 		elseif ( is_tax() || is_tag() || is_category() ) {

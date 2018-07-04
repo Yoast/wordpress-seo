@@ -44,19 +44,22 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		echo '<div class="paper tab-block" id="' . esc_attr( $post_type->name . '-titles-metas' ) . '">';
 
 		$toggle_icon = 'dashicons-arrow-up-alt2';
-		$class 		 = 'toggleable-container';
+		$class       = 'toggleable-container';
+		$expanded    = 'true';
 
 		if ( $id !== 'post' ) {
 			$toggle_icon = 'dashicons-arrow-down-alt2';
 			$class .= ' toggleable-container-hidden';
+			$expanded = 'false';
 		}
 
 		printf(
-			'<h2 id="%s">%s (<code>%s</code>) <button class="toggleable-container-trigger"><span class="toggleable-container-icon dashicons %s"></span></button></h2>',
+			'<h2 id="%1$s"><button type="button" class="toggleable-container-trigger" aria-expanded="%5$s">%2$s (<code>%3$s</code>) <span class="toggleable-container-icon dashicons %4$s" aria-hidden="true"></span></button></h2>',
 			esc_attr( $post_type->name ),
 			esc_html( $plural_label ),
 			esc_html( $post_type->name ),
-			$toggle_icon
+			$toggle_icon,
+			$expanded
 		);
 
 		echo '<div class="' . $class . '">';
@@ -65,6 +68,27 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		echo '<h3>' . esc_html( sprintf( __( 'Settings for single %s URLs', 'wordpress-seo' ), $single_label ) ) . '</h3>';
 
 		$view_utils->show_post_type_settings( $post_type );
+
+		if ( WPSEO_Utils::is_woocommerce_active() && $post_type->name === 'product' ) {
+			$woocommerce_shop_page = wc_get_page_id( 'shop' );
+			$description = __( 'You haven\'t set a Shop page in your WooCommerce settings. Please do this first.', 'wordpress-seo' );
+
+			if ( $woocommerce_shop_page !== -1 ) {
+				$description = sprintf(
+				/* translators: %1$s expands to an opening anchor tag, %2$s expands to a closing anchor tag. */
+				__( 'You can edit the SEO meta-data for this custom type on the %1$sShop page%2$s.', 'wordpress-seo' ),
+					'<a href="' . get_edit_post_link( wc_get_page_id( 'shop' ) ) . '">',
+					'</a>'
+				);
+			}
+
+			echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
+			echo '<p>' . $description . '</p>';
+			echo '</div>';
+			echo '</div>';
+
+			continue;
+		}
 
 		if ( $post_type->has_archive === true ) {
 			// translators: %s is the plural version of the post type's name.

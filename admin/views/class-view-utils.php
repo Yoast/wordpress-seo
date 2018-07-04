@@ -62,11 +62,12 @@ class Yoast_View_Utils {
 	/**
 	 * Shows the search appearance settings for a post type.
 	 *
-	 * @param string|object $post_type The post type to show the search appearance settings for.
+	 * @param string|object $post_type   The post type to show the search appearance settings for.
+	 * @param bool          $paper_style Whether or not the paper style should be shown.
 	 *
 	 * @return void
 	 */
-	public function show_post_type_settings( $post_type ) {
+	public function show_post_type_settings( $post_type, $paper_style = false ) {
 		if ( ! is_object( $post_type ) ) {
 			$post_type = get_post_type_object( $post_type );
 		}
@@ -113,7 +114,7 @@ you want more information about the impact of showing media in search results.',
 		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 		$page_type_specific           = $editor_specific_replace_vars->determine_for_post_type( $post_type->name );
 
-		$editor = new WPSEO_Replacevar_Editor( $this->form, 'title-' . $post_type->name, 'metadesc-' . $post_type->name, $page_type_recommended, $page_type_specific, false );
+		$editor = new WPSEO_Replacevar_Editor( $this->form, 'title-' . $post_type->name, 'metadesc-' . $post_type->name, $page_type_recommended, $page_type_specific, $paper_style );
 		$editor->render();
 	}
 }
