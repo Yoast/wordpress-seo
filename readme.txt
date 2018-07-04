@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.6
-Stable tag: 7.7.2
+Stable tag: 7.7.3
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -113,12 +113,27 @@ Bugfixes:
 * Fixes a bug where images from password protected posts could potentially end up in OG image tags.
 * Fixes a bug where very old notifications could not be be dismissed or restored.
 * Fixes a bug where the Insert variable button alignment was incorrect.
+* Fixes a discrepancy in the snippet variable labels for custom fields, custom taxonomies, and post type (singular/plural) in the Search Appearance settings.
+* Instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) are now recognized as the same in the following assessments: keyword in meta description, keyword in subheading, keyword in first paragraph, keyword in title, keyword in URL.
+* Filters out prominent word combinations ending in 's in English. Props to [swekkiekekkie](https://github.com/swekkiekekkie).
 
 Enhancements:
 * Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
+* Adds links to relevant articles to all SEO assessments.
+* Adds Flesch Reading Ease assessment for French.
+* Adds Flesch Reading Ease assessment for Spanish.
+* Add passive voice assessment for Italian.
 
 Other:
 * Adds a reminder message to create a redirect if a user deletes a category or tag.
+
+= 7.7.3 =
+Release Date: July 2nd, 2018
+
+Bugfixes:
+* Disables WordPress' automatic conversion of emoji to images on every page where the snippet editor is present. This conversion is not compatible with React or content editable fields and broke the snippet editor.
+* Fixes text directionality for the title and description fields in the snippet editor for right-to-left languages.
+* Fixes a bug where the snippet title and description values were saved to the database if they did match the post-type template.
 
 = 7.7.2 =
 Release Date: June 29th, 2018

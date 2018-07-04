@@ -11301,9 +11301,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-yoast-components@^4.5.0:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.6.2.tgz#857c0a766180ea70b86f4d4f399cd0fb76a1fb6f"
+yoast-components@^4.7:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.7.0.tgz#58ab1df09d72a53330d9bfeae2b9878279978079"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -11322,17 +11322,28 @@ yoast-components@^4.5.0:
     react-tabs "^2.2.1"
     react-transition-group "^2.3.1"
     redux "^3.7.2"
-    redux-thunk "^2.2.0"
     striptags "^3.1.0"
     styled-components "^2.1.2"
     whatwg-fetch "^1.0.0"
-    yoastseo "^1.34.0"
+    yoastseo "^1.35.0"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoastseo@^1.34.0:
-  version "1.34.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.34.0.tgz#d21066142268623e36c1f616c6e739bd2a2a5587"
+yoastseo@^1.35.0:
+  version "1.35.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.0.tgz#f5e25b821fcc636d5be5f68f864acbf9837a9f5b"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    jest "^23.0.0"
+    lodash "^4.14.1"
+    node-sass "^4.7.2"
+    sassdash "^0.9.0"
+    tokenizer2 "^2.0.0"
+
+yoastseo@^1.35.1:
+  version "1.35.1"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.1.tgz#a82f7c585afd913bd1306de5331aa522430611f9"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
