@@ -493,7 +493,7 @@ App.prototype.registerCustomDataCallback = function( callback ) {
 	}
 
 	if ( isFunction( callback ) ) {
-		this.callbacks.push( callback );
+		this.callbacks.custom.push( callback );
 	}
 };
 
@@ -507,7 +507,7 @@ App.prototype.getData = function() {
 
 	// Add the custom data to the raw data.
 	if ( isArray( this.callbacks.custom ) ) {
-		this.callbacks.forEach( ( customCallback ) => {
+		this.callbacks.custom.forEach( ( customCallback ) => {
 			const customData = customCallback();
 
 			this.rawData = merge( this.rawData, customData );
