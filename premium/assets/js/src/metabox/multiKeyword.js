@@ -392,7 +392,11 @@ YoastMultiKeyword.prototype.updateKeywordTab = function( tab ) {
 
 	link    = tab.find( ".wpseo_tablink" );
 	keyword = link.data( "keyword" ) + "";
-	let { score, results } = this.analyzeKeyword( keyword );
+
+	const firstKeywordTabIndex = getFirstKeywordTabIndex();
+	const index = tab.index() - firstKeywordTabIndex;
+
+	let { score, results } = this.analyzeKeyword( keyword, index );
 
 	this.renderKeywordTab( keyword, score, tab, false, results );
 };
@@ -476,13 +480,15 @@ YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElem
  * Analyzes a certain keyword with an ad-hoc analyzer
  *
  * @param {string} keyword The keyword to analyze.
+ * @param {number} index   The index of the keyword to analyze.
  *
  * @returns {{number, Array}} Total score.
  */
-YoastMultiKeyword.prototype.analyzeKeyword = function( keyword ) {
+YoastMultiKeyword.prototype.analyzeKeyword = function( keyword, index ) {
 	var paper;
 	var assessor = YoastSEO.app.seoAssessor;
 	var currentPaper;
+	const store = YoastSEO.premiumStore;
 
 	currentPaper = YoastSEO.app.paper;
 
@@ -494,13 +500,18 @@ YoastMultiKeyword.prototype.analyzeKeyword = function( keyword ) {
 	}
 
 	// Re-use the data already present in the page.
-	paper = new Paper( currentPaper.getText(), {
+	const data = {
 		keyword: keyword,
 		description: currentPaper.getDescription(),
 		title: currentPaper.getTitle(),
 		url: currentPaper.getUrl(),
 		locale: currentPaper.getLocale(),
-	} );
+	};
+	if ( store ) {
+		const synonyms = store.getState().synonyms;
+		data.synonyms = synonyms[ index ];
+	}
+	paper = new Paper( currentPaper.getText(), data );
 
 	assessor.assess( paper );
 
