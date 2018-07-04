@@ -105,11 +105,14 @@ class Synonyms {
 	 * @returns {void}
 	 */
 	initializePremiumDataCallback() {
-		this._app.registerCustomDataCallback = () => {
+		this._app.registerCustomDataCallback( () => {
+			const synonyms = this.getSynonyms();
+			const index = this.getActiveKeywordIndex();
+
 			return {
-				synonyms: this.getSynonyms(),
+				synonyms: synonyms[ index ],
 			};
-		};
+		} );
 	}
 
 	/**
@@ -153,14 +156,15 @@ class Synonyms {
 	 */
 	getActiveKeywordIndex() {
 		const elements = $( this._options.keywordQuery );
+		let activeKeywordIndex = -1;
 
 		elements.each( ( index, element ) => {
 			if ( $( element ).parent().hasClass( "active" ) ) {
-				return index;
+				activeKeywordIndex = index;
 			}
 		} );
 
-		return -1;
+		return activeKeywordIndex;
 	}
 
 	/**
