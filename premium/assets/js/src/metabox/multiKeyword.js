@@ -5,7 +5,7 @@ import { setActiveKeyword } from "../../../../../js/src/redux/actions/activeKeyw
 
 var scoreToRating = require( "yoastseo/js/interpreters/scoreToRating" );
 var indicatorsFactory = require( "yoastseo/js/config/presenter" );
-var Paper = require( "yoastseo/js/values/paper" );
+var Paper = require( "yoastseo/js/values/Paper" );
 var isContentAnalysisActive = require( "../../../../../js/src/analysis/isContentAnalysisActive" );
 var isKeywordAnalysisActive = require( "../../../../../js/src/analysis/isKeywordAnalysisActive" );
 var _isUndefined = require( "lodash/isUndefined" );
