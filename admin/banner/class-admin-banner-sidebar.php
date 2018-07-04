@@ -10,9 +10,6 @@
  */
 class WPSEO_Admin_Banner_Sidebar {
 
-	/** @var string */
-	protected $title = '';
-
 	/** @var WPSEO_Admin_Banner_Spot[] */
 	protected $banner_spots = array();
 
@@ -22,21 +19,10 @@ class WPSEO_Admin_Banner_Sidebar {
 	/**
 	 * WPSEO_Admin_Banner_Sidebar constructor.
 	 *
-	 * @param string                      $title           The title for the sidebar.
 	 * @param WPSEO_Admin_Banner_Renderer $banner_renderer The render class for banners.
 	 */
-	public function __construct( $title, WPSEO_Admin_Banner_Renderer $banner_renderer ) {
-		$this->title           = $title;
+	public function __construct( WPSEO_Admin_Banner_Renderer $banner_renderer ) {
 		$this->banner_renderer = $banner_renderer;
-	}
-
-	/**
-	 * Returns the set title.
-	 *
-	 * @return string
-	 */
-	public function get_title() {
-		return $this->title;
 	}
 
 	/**
@@ -45,6 +31,7 @@ class WPSEO_Admin_Banner_Sidebar {
 	 * @param WPSEO_Features $features Class regarding WPSEO Features.
 	 */
 	public function initialize( WPSEO_Features $features ) {
+		$this->add_banner_spot( $this->get_remove_banner_spot() );
 		if ( $features->is_free() ) {
 			$this->add_banner_spot( $this->get_premium_spot() );
 		}
@@ -112,14 +99,15 @@ class WPSEO_Admin_Banner_Sidebar {
 	 * @return WPSEO_Admin_Banner_Spot
 	 */
 	protected function get_services_spot() {
-		$service_spot = new WPSEO_Admin_Banner_Spot( __( 'Services', 'wordpress-seo' ), $this->banner_renderer );
+		/* translators: %s expands to Yoast SEO. */
+		$service_spot = new WPSEO_Admin_Banner_Spot( sprintf( __( 'Let us configure %s for you', 'wordpress-seo' ), 'Yoast SEO' ), $this->banner_renderer );
 
 		$service_spot->set_description(
 			sprintf(
-				/* translators: %1$s expands to a link start tag to the Yoast Services page, %2$s to Yoast, %3$s is the link closing tag. */
-				__( 'Do you want to know how to improve your rankings? %1$sLet team %2$s help you!%3$s', 'wordpress-seo' ),
+				/* translators: %1$s expands to a link start tag to the Yoast Services page, %2$s to Yoast SEO, %3$s is the link closing tag. */
+				__( 'You don’t feel like figuring out the best settings for your website? Or you just don’t have the time? %1$sLet %2$s experts configure it for you!%3$s', 'wordpress-seo' ),
 				'<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/jk' ) . '">',
-				'Yoast',
+				'Yoast SEO',
 				'</a>'
 			)
 		);
