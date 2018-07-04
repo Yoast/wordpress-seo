@@ -107,7 +107,7 @@ export function decodeSeparatorVariable( replacementVariables ) {
  *
  * @returns {string} The string without spaces.
  */
-function replaceSpaces( string, replacement = "_" ) {
+export function replaceSpaces( string, replacement = "_" ) {
 	// Replace whitespaces with the replacement.
 	return string.replace( /\s/g, replacement );
 }
@@ -119,7 +119,7 @@ function replaceSpaces( string, replacement = "_" ) {
  * @param {string} name The name of the custom field.
  * @returns {Object}    An object containing the replacement variable name and nice label.
  */
-function prepareCustomFieldForDispatch( name ) {
+export function prepareCustomFieldForDispatch( name ) {
 	return {
 		name: "cf_" + replaceSpaces( name ),
 		label: firstToUpperCase( name + " (custom field)" ),
@@ -133,7 +133,7 @@ function prepareCustomFieldForDispatch( name ) {
  * @param {string} name The name of the custom taxonomy.
  * @returns {Object}    An object containing the replacement variable name and nice label, also for the description.
  */
-function prepareCustomTaxonomyForDispatch( name ) {
+export function prepareCustomTaxonomyForDispatch( name ) {
 	const protoName = replaceSpaces( name );
 	return {
 		name: "ct_" + protoName,
@@ -186,7 +186,6 @@ export function mapCustomFields( replaceVars, store ) {
 		return replaceVars;
 	}
 
-	// let customFieldReplaceVars = {};
 	forEach( replaceVars.custom_fields, ( value, key ) => {
 		const { name, label } = prepareCustomFieldForDispatch( key );
 		store.dispatch( updateReplacementVariable( name, value, label ) );
