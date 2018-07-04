@@ -43,6 +43,7 @@ function configureStore() {
 		store.dispatch( updateReplacementVariable(
 			name,
 			replacementVariable.value,
+			replacementVariable.label,
 		) );
 	} );
 	return store;

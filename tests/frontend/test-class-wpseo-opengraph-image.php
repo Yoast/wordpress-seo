@@ -179,6 +179,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test setting the front page image.
+	 *
+ 	 * @covers WPSEO_OpenGraph_Image::set_front_page_image
 	 */
 	public function test_frontpage_image() {
 		WPSEO_Options::set( 'og_frontpage_image', '/test.png' );
@@ -196,6 +198,36 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$class_instance = $this->setup_class();
 
 		$this->assertEquals( $this->sample_array(), $class_instance->get_images() );
+
+		update_option( 'show_on_front', $current_show_on_front );
+		update_option( 'page_on_front', $current_page_on_front );
+	}
+
+	/**
+	 * Test setting the front page image via a user-defined image.
+	 *
+	 * @covers WPSEO_OpenGraph_Image::set_front_page_image
+	 */
+	public function test_frontpage_image_uses_user_defined() {
+		WPSEO_Options::set( 'og_frontpage_image', '/test.png' );
+
+		$current_page_on_front = get_option( 'page_on_front' );
+		$current_show_on_front = get_option( 'show_on_front' );
+
+		// Create and go to a static front page.
+		$page_on_front = $this->create_post( 'page' );
+
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $page_on_front );
+
+		// Set user-defined image.
+		WPSEO_Meta::set_value( 'opengraph-image', '/user-defined.png', $page_on_front );
+
+		$this->go_to( '/' );
+
+		$class_instance = $this->setup_class();
+
+		$this->assertArrayHasKey( 'http://example.org/user-defined.png', $class_instance->get_images() );
 
 		update_option( 'show_on_front', $current_show_on_front );
 		update_option( 'page_on_front', $current_page_on_front );

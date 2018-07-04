@@ -21,7 +21,6 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
-		$this->assertFalse( self::$class_instance->is_home_posts_page() );
 
 		// Test title according to format.
 		$expected_title = self::$class_instance->get_title_from_options( 'title-post', get_queried_object() );
