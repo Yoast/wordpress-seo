@@ -287,7 +287,7 @@ class Yoast_Notification {
 			$classes[] = 'notice';
 			$classes[] = $this->get_type();
 		}
-languages/wordpress-seo.pot
+
 		if ( ! empty( $classes ) ) {
 			$attributes['class'] = implode( ' ', $classes );
 		}
