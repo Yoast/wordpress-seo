@@ -1,3 +1,67 @@
+### 7.7.3: July 2nd, 2018
+* Includes every change in Yoast SEO core 7.7.3 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.7.2: June 29th, 2018
+* Includes every change in Yoast SEO core 7.7.2 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.7.1: June 27th, 2018
+* Includes every change in Yoast SEO core 7.7.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.7.0: June 26th, 2018
+Bugfixes:
+* Fixes a bug where non-public posts were given as a link suggestion.
+* Fixes a bug where a redirect would redirect to the currently requested URL.
+* Fixes a bug where the fallback for the Facebook title in the social preview was not showing the correct title.
+* Fixes a bug where Yoast product advertisements were shown in the Help Center video tab.
+* Fixes a bug where the analysis would only show results for the main keyword when multiple keywords are used.
+* Fixes a bug where the analysis results were being hidden while they were being calculated.
+
+Other:
+* Includes every change in Yoast SEO core 7.7.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.6.1: June 7th, 2018
+* Includes every change in Yoast SEO core 7.6.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.6.0: June 5th, 2018
+Enhancements:
+* Adds WP-CLI commands to manage redirects. Use `wp yoast redirect` to see the list of available commands.
+
+Bugfixes:
+* Fixes a bug where the link to run the internal linking count for orphaned content did not work.
+* Fixes a bug where unpublished posts and password protected posts where taken into account in the orphaned content overview and notifications.
+* Includes every change in Yoast SEO core 7.6.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.5.3: May 30th, 2018
+* Includes every change in Yoast SEO core 7.5.3 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.5.2: May 28th, 2018
+* Fixes a bug where the determination of "Orphaned content" tries to account for `noindex` items, resulting in a lot of additional database querying.
+
+### 7.5.1: May 16th, 2018
+* Includes every change in Yoast SEO core 7.5.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.5.0: May 15th, 2018
+Enhancements:
+* Adds Russian Insights and Linking Suggestions.
+
+Bugfixes:
+* Fixes a bug where the subdirectory is added twice to the origin form field when pressing the create redirect link on the adminbar.
+* Fixes a bug where the subdirectory is stripped out of the redirect target when it's provided as a full url.
+* Fixes a bug where posts set to `noindex` would show in the orphaned content filter.
+
+Other:
+* Sets the maximum amount of Linking Suggestions to 10.
+* Includes every change in Yoast SEO core 7.5.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
+### 7.4.2: May 3rd, 2018
+* Includes every change in Yoast SEO core 7.4.2 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers)
+
+### 7.4.1: May 2nd, 2018
+* Includes every change in Yoast SEO core 7.4.1 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers)
+
+### 7.4.0: May 1st, 2018
+* Includes every change in Yoast SEO core 7.4.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.3.0: April 17th, 2018
 * Fixes a bug where the pagination overlaps the orphaned content information message, on post overview pages in combination with low resolutions.
 * Includes every change in Yoast SEO core 7.3.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).

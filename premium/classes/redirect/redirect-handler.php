@@ -161,17 +161,38 @@ class WPSEO_Redirect_Handler {
 		$redirects       = $this->get_redirects( $this->normal_option_name );
 		$this->redirects = $this->normalize_redirects( $redirects );
 
-		// Trim the slashes, to match the variants of a request URL (Like: url, /url, /url/, url/).
-		if ( $request_url !== '/' ) {
-			$request_url = trim( $request_url, '/' );
-		}
+		$request_url = $this->normalize_url( $request_url );
 
 		// Get the URL and doing the redirect.
 		$redirect_url = $this->find_url( $request_url );
-		if ( ! empty( $redirect_url ) ) {
-			$this->is_redirected = true;
-			$this->do_redirect( $redirect_url['url'], $redirect_url['type'] );
+
+		if ( empty( $redirect_url ) ) {
+			return;
 		}
+
+		if ( $this->normalize_url( $redirect_url['url'] ) === $request_url ) {
+			return;
+		}
+
+		$this->is_redirected = true;
+		$this->do_redirect( $redirect_url['url'], $redirect_url['type'] );
+	}
+
+	/**
+	 * Normalizes the url by trimming the slashes. If the given URL is a slash only,
+	 * it will do nothing. By normalizing the URL there is a basis for matching multiple
+	 * variants (Like: url, /url, /url/, url/).
+	 *
+	 * @param string $url The URL to normalize.
+	 *
+	 * @return string The modified url.
+	 */
+	protected function normalize_url( $url ) {
+		if ( $url === '/' ) {
+			return $url;
+		}
+
+		return trim( $url, '/' );
 	}
 
 	/**
@@ -249,6 +270,13 @@ class WPSEO_Redirect_Handler {
 	 * @return void
 	 */
 	protected function do_redirect( $redirect_url, $redirect_type ) {
+		$redirect_url = $this->parse_target_url( $redirect_url );
+
+		// Prevents redirecting to itself.
+		if ( $this->home_url( $this->request_url ) === $redirect_url ) {
+			return;
+		}
+
 		$redirect_types_without_target = array( 410, 451 );
 		if ( in_array( $redirect_type, $redirect_types_without_target, true ) ) {
 			$this->handle_redirect_without_target( $redirect_type );
@@ -258,7 +286,7 @@ class WPSEO_Redirect_Handler {
 
 		$this->add_redirect_by_header();
 
-		$this->redirect( $this->parse_target_url( $redirect_url ), $redirect_type );
+		$this->redirect( $redirect_url, $redirect_type );
 	}
 
 	/**

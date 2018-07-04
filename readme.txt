@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
 Tested up to: 4.9.6
-Stable tag: 7.7.2
+Stable tag: 7.7.3
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,6 +106,14 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.7.3 =
+Release Date: July 2nd, 2018
+
+Bugfixes:
+* Disables WordPress' automatic conversion of emoji to images on every page where the snippet editor is present. This conversion is not compatible with React or content editable fields and broke the snippet editor.
+* Fixes text directionality for the title and description fields in the snippet editor for right-to-left languages.
+* Fixes a bug where the snippet title and description values were saved to the database if they did match the post-type template.
+
 = 7.7.2 =
 Release Date: June 29th, 2018
 
@@ -184,6 +192,7 @@ Bugfixes:
 * Fixes a bug where numbers-only keywords caused the analysis to fail.
 * Fixes a bug where the active keyword in the state wasn't updated whenever changes were made in the keyword field.
 * Fixes a bug where replacevars based on custom fields would throw an error due to a missing ID.
+
 
 Other:
 * Changes the maximum meta description length from 320 to 156 characters.

@@ -583,6 +583,7 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 * @param WPSEO_Redirect $redirect    The redirect object.
 	 *
 	 * @covers WPSEO_Redirect_Handler::handle_normal_redirects
+	 * @covers WPSEO_Redirect_Handler::normalize_url
 	 */
 	public function test_handle_normal_redirects( $request_uri, WPSEO_Redirect $redirect ) {
 		$redirects = array(
@@ -607,6 +608,46 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 			->expects( $this->once() )
 			->method( 'do_redirect' )
 			->with( $this->identicalTo( $redirect->get_target() ), $this->identicalTo( $redirect->get_type() ) );
+
+		$class_instance->handle_normal_redirects( rawurldecode( $request_uri ) );
+	}
+
+	/**
+	 * Tests the handling of normal redirects when a 'found' target is the
+	 * same as the request url.
+	 *
+	 * @covers WPSEO_Redirect_Handler::handle_normal_redirects
+	 * @covers WPSEO_Redirect_Handler::normalize_url
+	 */
+	public function test_handle_normal_redirects_when_target_is_request_url() {
+		$request_uri  = '/cart/';
+		$redirect_url = '/cart/';
+
+		$class_instance = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'get_redirects', 'do_redirect', 'find_url' ) )
+			->getMock();
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'get_redirects' )
+			->will( $this->returnValue( array() ) );
+
+		$class_instance
+			->expects( $this->once() )
+			->method( 'find_url' )
+			->will(
+				$this->returnValue(
+					array(
+						'url'  => $redirect_url,
+						'type' => 301,
+					)
+				)
+			);
+
+		$class_instance
+			->expects( $this->never() )
+			->method( 'do_redirect' );
 
 		$class_instance->handle_normal_redirects( rawurldecode( $request_uri ) );
 	}
@@ -875,7 +916,38 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 		 *
 		 * @var WPSEO_Redirect_Handler_Double $redirect_handler
 		 */
+
 		$this->assertEquals( $expected, $redirect_handler->strip_subdirectory( $url ), $message );
+	}
+
+	/**
+	 * Checks if the request uri based on home_url is equal to the home url based target.
+	 *
+	 * @covers WPSEO_Redirect_Handler::do_redirect()
+	 */
+	public function test_redirect() {
+		$redirect_handler = $this
+			->getMockBuilder( 'WPSEO_Redirect_Handler_Double' )
+			->setMethods( array( 'get_request_uri', 'redirect', 'add_redirect_by_header' ) )
+			->getMock();
+
+		$redirect_handler
+			->expects( $this->once() )
+			->method( 'get_request_uri' )
+			->will( $this->returnValue( 'redirect/loop' ) );
+
+		$redirect_handler
+			->expects( $this->never() )
+			->method( 'redirect' );
+
+		/**
+		 * Represents the WPSEO_Redirect_Handler_Double class.
+		 *
+		 * @var WPSEO_Redirect_Handler_Double $redirect_handler
+		 */
+		$redirect_handler->load();
+		$redirect_handler->do_redirect( 'redirect/loop', '301' );
+
 	}
 
 	/* ********************* Data Providers ********************* */
@@ -890,7 +962,6 @@ class WPSEO_Redirect_Handler_Test extends WPSEO_UnitTestCase {
 	 * [3] string: Message for PHPUnit.
 	 *
 	 * @returns array The test data.
-	 *
 	 */
 	public function strip_directory_provider() {
 		return array(

@@ -249,7 +249,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @return bool True when a redirect can be made on this page.
 	 */
 	protected function term_redirect_can_be_made( $current_page ) {
-		return $this->is_term_page( $current_page ) || $this->is_action_inline_save_tax();
+		return $this->is_term_page( $current_page ) || $this->is_action_inline_save_tax() || $this->is_action_delete_tag();
 	}
 
 	/**
@@ -270,5 +270,14 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 */
 	protected function is_action_inline_save_tax() {
 		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && filter_input( INPUT_POST, 'action' ) === 'inline-save-tax' );
+	}
+
+	/**
+	 * Is the page in an AJAX-request and is the action "delete-tag".
+	 *
+	 * @return bool True when in an AJAX-request and the action is delete-tag.
+	 */
+	protected function is_action_delete_tag() {
+		return ( defined( 'DOING_AJAX' ) && DOING_AJAX && filter_input( INPUT_POST, 'action' ) === 'delete-tag' );
 	}
 }

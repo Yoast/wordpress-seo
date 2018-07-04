@@ -50,23 +50,32 @@ function wpseoGetCurrentPage() {
 window.wpseoGetCurrentPage = wpseoGetCurrentPage;
 
 /**
+ * Gets the name of the field to get the slug from, based on the current URL.
+ *
+ * For posts, this is 'post_name', for terms it is 'slug'.
+ *
+ * @returns {string} The current slug field name.
+ */
+function wpseoGetSlugField( currentPage ) {
+	currentPage = currentPage || wpseoGetCurrentPage();
+
+	if ( currentPage === "edit-tags.php" ) {
+		return "slug";
+	}
+
+	return "post_name";
+}
+
+/**
  * Gets the current slug of a post based on the current page and post or term being edited.
  *
  * @returns {string} The slug of the current post or term.
  */
 function wpseoGetCurrentSlug() {
 	var currentPost = wpseoGetItemId();
-	var currentPage = wpseoGetCurrentPage();
+	var slugField   = wpseoGetSlugField();
 
-	if ( currentPage === "edit.php" ) {
-		return jQuery( "#inline_" + currentPost ).find( ".post_name" ).html();
-	}
-
-	if ( currentPage === "edit-tags.php" ) {
-		return jQuery( "#inline_" + currentPost ).find( ".slug" ).html();
-	}
-
-	return "";
+	return jQuery( "#inline_" + currentPost ).find( "." + slugField ).html();
 }
 
 window.wpseoGetCurrentSlug = wpseoGetCurrentSlug;
@@ -77,11 +86,12 @@ window.wpseoGetCurrentSlug = wpseoGetCurrentSlug;
  * @returns {boolean} Whether or not the slug has changed.
  */
 function wpseoSlugChanged() {
-	var editor = wpseoGetActiveEditor();
+	var editor      = wpseoGetActiveEditor();
+	var slugField   = wpseoGetSlugField();
 	var currentSlug = wpseoGetCurrentSlug();
-	var wpseo_new_slug =  editor.find( "input[name=post_name]" ).val();
+	var newSlug     =  editor.find( "input[name=" + slugField + "]" ).val();
 
-	return currentSlug !== wpseo_new_slug;
+	return currentSlug !== newSlug;
 }
 
 window.wpseoSlugChanged = wpseoSlugChanged;
@@ -152,14 +162,21 @@ window.wpseoCreateRedirect = redirectFunctions.wpseoCreateRedirect;
 ( jQuery( function() {
 	var wpseoCurrentPage = wpseoGetCurrentPage();
 
-	// If current page is edit*.php, continue execution.
-	if ( wpseoCurrentPage === "edit.php" || wpseoCurrentPage === "edit-tags.php" ) {
+	if ( [ "edit.php", "edit-tags.php" ].includes( wpseoCurrentPage ) ) {
 		jQuery( "#inline-edit input" ).on( "keydown", function( ev ) {
 			wpseoHandleKeyEvents( ev );
 		} );
 
 		jQuery( ".button-primary" ).click( function( ev ) {
 			wpseoHandleButtonEvents( ev );
+		} );
+	}
+
+	if ( wpseoCurrentPage === "edit-tags.php" ) {
+		jQuery( document ).on( "ajaxComplete", function( e, xhr, settings ) {
+			if ( settings.data.indexOf( "action=delete-tag" ) > -1 ) {
+				wpseoShowNotification();
+			}
 		} );
 	}
 } ) );

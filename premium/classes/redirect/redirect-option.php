@@ -73,6 +73,8 @@ class WPSEO_Redirect_Option {
 	 */
 	public function add( WPSEO_Redirect $redirect ) {
 		if ( $this->search( $redirect->get_origin() ) === false ) {
+			$this->run_redirects_modified_action( $redirect );
+
 			$this->redirects[] = $redirect;
 
 			return true;
@@ -92,6 +94,8 @@ class WPSEO_Redirect_Option {
 	public function update( WPSEO_Redirect $current_redirect, WPSEO_Redirect $redirect ) {
 		$found = $this->search( $current_redirect->get_origin() );
 		if ( $found !== false ) {
+			$this->run_redirects_modified_action( $redirect );
+
 			$this->redirects[ $found ] = $redirect;
 
 			return true;
@@ -110,6 +114,8 @@ class WPSEO_Redirect_Option {
 	public function delete( WPSEO_Redirect $current_redirect ) {
 		$found = $this->search( $current_redirect->get_origin() );
 		if ( $found !== false ) {
+			$this->run_redirects_modified_action( $current_redirect );
+
 			unset( $this->redirects[ $found ] );
 
 			return true;
@@ -186,6 +192,24 @@ class WPSEO_Redirect_Option {
 		}
 
 		return $redirects;
+	}
+
+	/**
+	 * Runs the redirects modified hook with the altered redirect as input.
+	 *
+	 * @param WPSEO_Redirect $redirect The redirect that has been altered.
+	 *
+	 * @return void
+	 */
+	protected function run_redirects_modified_action( WPSEO_Redirect $redirect ) {
+		/**
+		 * Filter: wpseo_premium_redirects_modified - Allow developers run actions when the redirects are modified.
+		 *
+		 * @api   string $origin The redirect origin.
+		 * @param string $target The redirect target.
+		 * @param int    $type   The redirect type (301, 404, 410, etc).
+		 */
+		do_action( 'wpseo_premium_redirects_modified', $redirect->get_origin(), $redirect->get_target(), $redirect->get_type() );
 	}
 
 	/**

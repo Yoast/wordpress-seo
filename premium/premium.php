@@ -27,7 +27,7 @@ class WPSEO_Premium {
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
 	/** @var string */
-	const PLUGIN_VERSION_NAME = '7.3';
+	const PLUGIN_VERSION_NAME = '7.7.3';
 
 	/** @var string */
 	const PLUGIN_VERSION_CODE = '16';
@@ -110,6 +110,7 @@ class WPSEO_Premium {
 			'keyword-export-manager'                 => new WPSEO_Premium_Keyword_Export_Manager(),
 			'orphaned-post-filter'                   => new WPSEO_Premium_Orphaned_Post_Filter(),
 			'orphaned-post-notifier'                 => new WPSEO_Premium_Orphaned_Post_Notifier( array( 'post', 'page' ), Yoast_Notification_Center::get() ),
+			'request-free-translations'              => new WPSEO_Premium_Free_Translations(),
 		);
 
 		$this->setup();
@@ -297,6 +298,12 @@ class WPSEO_Premium {
 		new WPSEO_Premium_Autoloader( 'WPSEO_Redirect', 'redirect/', 'WPSEO_' );
 
 		$this->redirects = new WPSEO_Redirect_Page();
+
+		// Adds integration that filters redirected entries from the sitemap.
+		$this->integrations['redirect-sitemap-filter'] = new WPSEO_Redirect_Sitemap_Filter(
+			home_url(),
+			new WPSEO_Redirect_Option()
+		);
 	}
 
 	/**

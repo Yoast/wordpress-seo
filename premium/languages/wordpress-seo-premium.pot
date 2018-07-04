@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2018-04-17 10:55:15+00:00\n"
+"POT-Creation-Date: 2018-07-03 06:57:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -249,19 +249,19 @@ msgstr ""
 msgid "Export keywords"
 msgstr ""
 
-#: classes/premium-link-suggestions-service.php:215
+#: classes/premium-link-suggestions-service.php:216
 msgid "(no title)"
 msgstr ""
 
 #. translators: %1$s expands to the link to an article to read more about
 #. orphaned content, %2$s expands to </a>
-#: classes/premium-orphaned-post-filter.php:53
+#: classes/premium-orphaned-post-filter.php:52
 msgid "%1$sLearn more about orphaned content%2$s."
 msgstr ""
 
 #. translators: %1$s: plural form of the current post type, %2$s: a Learn more
 #. about link
-#: classes/premium-orphaned-post-filter.php:61
+#: classes/premium-orphaned-post-filter.php:60
 msgid ""
 "Ask your SEO Manager or Site Administrator to count links in all texts, so "
 "we can identify orphaned %1$s. %2$s"
@@ -270,7 +270,7 @@ msgstr ""
 #. translators: %1$s expands to link to the recalculation option, %2$s: anchor
 #. closing, %3$s: plural form of the current post type, %4$s: a Learn more
 #. about link
-#: classes/premium-orphaned-post-filter.php:70
+#: classes/premium-orphaned-post-filter.php:69
 msgid ""
 "%1$sClick here%2$s to index your links, so we can identify orphaned %3$s. "
 "%4$s"
@@ -278,13 +278,13 @@ msgstr ""
 
 #. translators: %1$s: plural form of the current post type, %2$s: a Learn more
 #. about link
-#: classes/premium-orphaned-post-filter.php:80
+#: classes/premium-orphaned-post-filter.php:79
 msgid ""
 "'Orphaned content' refers to %1$s that have no inbound links, consider "
 "adding links towards these %1$s. %2$s"
 msgstr ""
 
-#: classes/premium-orphaned-post-filter.php:134
+#: classes/premium-orphaned-post-filter.php:145
 msgid "Orphaned content"
 msgstr ""
 
@@ -527,7 +527,7 @@ msgstr ""
 msgid "Not all the required fields are filled."
 msgstr ""
 
-#: classes/redirect/redirect-presenter.php:60 premium.php:459
+#: classes/redirect/redirect-presenter.php:60 premium.php:469
 msgid "Redirects"
 msgstr ""
 
@@ -937,43 +937,43 @@ msgstr ""
 msgid "Make it serve a 410 Content Deleted header"
 msgstr ""
 
-#: premium.php:132
+#: premium.php:133
 msgid "Insights"
 msgstr ""
 
-#: premium.php:134
+#: premium.php:135
 msgid ""
 "The Insights section in our metabox shows you useful data about your "
 "content, like what words you use most often."
 msgstr ""
 
-#: premium.php:135
+#: premium.php:136
 msgid "Read more about how the insights can help you improve your content."
 msgstr ""
 
-#: premium.php:140
+#: premium.php:141
 msgid "Link suggestions"
 msgstr ""
 
-#: premium.php:142
+#: premium.php:143
 msgid ""
 "The link suggestions metabox contains a list of posts on your blog with "
 "similar content that might be interesting to link to."
 msgstr ""
 
-#: premium.php:143
+#: premium.php:144
 msgid "Read more about how internal linking can improve your site structure."
 msgstr ""
 
-#: premium.php:408
+#: premium.php:420
 msgid "Create Redirect"
 msgstr ""
 
-#: premium.php:440
+#: premium.php:450
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: premium.php:493
+#: premium.php:503
 msgid "Enabled"
 msgstr ""
 

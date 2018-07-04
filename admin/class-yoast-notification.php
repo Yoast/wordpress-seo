@@ -73,6 +73,11 @@ class Yoast_Notification {
 	private $message;
 
 	/**
+	 * @var string The ID of the notification
+	 */
+	private $id;
+
+	/**
 	 * Notification class constructor.
 	 *
 	 * @param string $message Message string.
@@ -282,7 +287,7 @@ class Yoast_Notification {
 			$classes[] = 'notice';
 			$classes[] = $this->get_type();
 		}
-
+languages/wordpress-seo.pot
 		if ( ! empty( $classes ) ) {
 			$attributes['class'] = implode( ' ', $classes );
 		}
