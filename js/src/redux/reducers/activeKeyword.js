@@ -1,6 +1,6 @@
 import { SET_ACTIVE_KEYWORD } from "../actions/activeKeyword";
 
-const INITIAL_STATE = null;
+const INITIAL_STATE = "";
 
 /**
  * A reducer for the active keyword.

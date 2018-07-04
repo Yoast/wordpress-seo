@@ -20,16 +20,16 @@ class WPSEO_Unsupported_PHP_Message implements Whip_Message {
 
 		$message[] = Whip_MessageFormatter::strongParagraph( __( 'PHP update required.', 'wordpress-seo' ) ) . '<br />';
 		$message[] = Whip_MessageFormatter::paragraph(
-				sprintf(
-					/* translators: 1: The strong opening tag; 2: The strong closing tag; 3: the Yoast SEO version that is dropping support; 4: The release date of the version of Yoast SEO that is dropping support; 5: The PHP version no longer being supported; */
-					__( '%1$sAction is needed%2$s: As of version %3$s, due to be released on %4$s, Yoast SEO will no longer work with PHP %5$s. Unfortunately, your site is running on PHP %5$s right now, so action is needed. Thankfully, you can update your PHP yourself.', 'wordpress-seo' ),
-					'<strong>',
-					'</strong>',
-					'7.5',
-					date_i18n( get_option( 'date_format' ), strtotime( '15-05-2018' ) ),
-					'5.2'
-				)
-			) . '<br />';
+			sprintf(
+				/* translators: 1: The strong opening tag; 2: The strong closing tag; 3: the Yoast SEO version that is dropping support; 4: The release date of the version of Yoast SEO that is dropping support; 5: The PHP version no longer being supported; */
+				__( '%1$sAction is needed%2$s: As of version %3$s, due to be released on %4$s, Yoast SEO will no longer work with PHP %5$s. Unfortunately, your site is running on PHP %5$s right now, so action is needed. Thankfully, you can update your PHP yourself.', 'wordpress-seo' ),
+				'<strong>',
+				'</strong>',
+				'7.7',
+				date_i18n( get_option( 'date_format' ), strtotime( '11-06-2018' ) ),
+				'5.2'
+			)
+		) . '<br />';
 
 		$message[] = Whip_MessageFormatter::strongParagraph( __( 'Why?', 'wordpress-seo' ) ) . '<br />';
 		$message[] = Whip_MessageFormatter::paragraph(
@@ -52,7 +52,8 @@ class WPSEO_Unsupported_PHP_Message implements Whip_Message {
 				'</a>',
 				'7.2',
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/wg' ) . '" target="_blank">'
-			) ) . '<br />';
+			)
+		) . '<br />';
 
 		$message[] = Whip_MessageFormatter::paragraph(
 			sprintf(
@@ -61,7 +62,8 @@ class WPSEO_Unsupported_PHP_Message implements Whip_Message {
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/wh' ) . '" target="_blank">',
 				'</a>',
 				sprintf( '<a href="%1$s" target="_blank">', esc_url( Whip_Host::hostingPageUrl() ) )
-				) ) . '<br />';
+			)
+		) . '<br />';
 
 		return implode( $message, "\n" );
 	}

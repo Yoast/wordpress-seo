@@ -19,6 +19,8 @@ import isUndefined from "lodash/isUndefined";
 
 import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
 
+import { setYoastComponentsL10n } from "./helpers/i18n";
+
 injectTapEventPlugin();
 
 class App extends React.Component {
@@ -149,5 +151,7 @@ class App extends React.Component {
 		);
 	}
 }
+
+setYoastComponentsL10n();
 
 ReactDOM.render( <App/>, document.getElementById( "wizard" ) );

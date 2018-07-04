@@ -92,12 +92,8 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	public function test_is_home_url_returned_correctly() {
 		$class_instance = new WPSEO_Sitemaps_Renderer_Double();
 
-		add_filter( 'plugins_url', array ($this, 'change_plugin_url') );
+		add_filter( 'plugins_url', array( $this, 'change_plugin_url' ) );
 		$this->assertEquals( 'http://example.org/main-sitemap.xsl', $class_instance->get_xsl_url() );
-		remove_filter('plugins_url', array ($this, 'change_plugin_url'));
+		remove_filter( 'plugins_url', array( $this, 'change_plugin_url' ) );
 	}
-
-
 }
-
-

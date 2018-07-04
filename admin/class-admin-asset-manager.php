@@ -221,6 +221,11 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
+				'name' => 'search-appearance',
+				'src' => 'search-appearance-' . $flat_version,
+				'deps' => 'react-dependencies',
+			),
+			array(
 				'name' => 'wp-globals-backport',
 				'src'  => 'wp-seo-wp-globals-backport-' . $flat_version,
 				'deps' => $backport_wp_dependencies,
@@ -519,6 +524,10 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'filter-explanation',
 				'src'  => 'filter-explanation-' . $flat_version,
+			),
+			array(
+				'name' => 'search-appearance',
+				'src' => 'search-appearance-' . $flat_version,
 			),
 		);
 	}

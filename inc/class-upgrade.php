@@ -103,6 +103,22 @@ class WPSEO_Upgrade {
 			$this->upgrade_73();
 		}
 
+		if ( version_compare( $version, '7.4-RC0', '<' ) ) {
+			$this->upgrade_74();
+		}
+
+		if ( version_compare( $version, '7.5.3', '<' ) ) {
+			$this->upgrade_753();
+		}
+
+		if ( version_compare( $version, '7.7-RC0', '<' ) ) {
+			$this->upgrade_77();
+		}
+
+		if ( version_compare( $version, '7.7.2-RC0', '<' ) ) {
+			$this->upgrade_772();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -544,6 +560,72 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 7.4 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_74() {
+		$this->remove_sitemap_validators();
+	}
+
+	/**
+	 * Performs the 7.5.3 upgrade.
+	 *
+	 * When upgrading purging media is potentially relevant.
+	 *
+	 * @return void
+	 */
+	private function upgrade_753() {
+		// Only when attachments are not disabled.
+		if ( WPSEO_Options::get( 'disable-attachment' ) === true ) {
+			return;
+		}
+
+		// Only when attachments are not no-indexed.
+		if ( WPSEO_Options::get( 'noindex-attachment' ) === true ) {
+			return;
+		}
+
+		// Set purging relevancy.
+		WPSEO_Options::set( 'is-media-purge-relevant', true );
+	}
+
+	/**
+	 * Performs the 7.7 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_77() {
+		// Remove all OpenGraph content image cache.
+		delete_post_meta_by_key( '_yoast_wpseo_post_image_cache' );
+	}
+
+	/**
+	 * Performs the 7.7.2 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_772() {
+		if ( WPSEO_Utils::is_woocommerce_active() ) {
+			$this->migrate_woocommerce_archive_setting_to_shop_page();
+		}
+	}
+
+	/**
+	 * Removes all sitemap validators.
+	 *
+	 * This should be executed on every upgrade routine until we have removed the sitemap caching in the database.
+	 *
+	 * @return void
+	 */
+	private function remove_sitemap_validators() {
+		global $wpdb;
+
+		// Remove all sitemap validators.
+		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'wpseo_sitemap%validator%'" );
+	}
+
+	/**
 	 * Retrieves the option value directly from the database.
 	 *
 	 * @param string $option_name Option to retrieve.
@@ -601,6 +683,77 @@ class WPSEO_Upgrade {
 
 		if ( isset( $source_data[ $source_setting ] ) ) {
 			WPSEO_Options::set( $target_setting, $source_data[ $source_setting ] );
+		}
+	}
+
+	/**
+	 * Migrates WooCommerce archive settings to the WooCommerce Shop page meta-data settings.
+	 *
+	 * If no Shop page is defined, nothing will be migrated.
+	 *
+	 * @return void
+	 */
+	private function migrate_woocommerce_archive_setting_to_shop_page() {
+		$shop_page_id = wc_get_page_id( 'shop' );
+
+		if ( $shop_page_id === -1 ) {
+			return;
+		}
+
+		$title = WPSEO_Meta::get_value( 'title', $shop_page_id );
+
+		if ( empty( $title ) ) {
+			$option_title = WPSEO_Options::get( 'title-ptarchive-product' );
+
+			WPSEO_Meta::set_value(
+				'title',
+				$option_title,
+				$shop_page_id
+			);
+
+			WPSEO_Options::set( 'title-ptarchive-product', '' );
+		}
+
+		$meta_description = WPSEO_Meta::get_value( 'metadesc', $shop_page_id );
+
+		if ( empty( $meta_description ) ) {
+			$option_metadesc = WPSEO_Options::get( 'metadesc-ptarchive-product' );
+
+			WPSEO_Meta::set_value(
+				'metadesc',
+				$option_metadesc,
+				$shop_page_id
+			);
+
+			WPSEO_Options::set( 'metadesc-ptarchive-product', '' );
+		}
+
+		$bc_title = WPSEO_Meta::get_value( 'bctitle', $shop_page_id );
+
+		if ( empty( $bc_title ) ) {
+			$option_bctitle = WPSEO_Options::get( 'bctitle-ptarchive-product' );
+
+			WPSEO_Meta::set_value(
+				'bctitle',
+				$option_bctitle,
+				$shop_page_id
+			);
+
+			WPSEO_Options::set( 'bctitle-ptarchive-product', '' );
+		}
+
+		$noindex = WPSEO_Meta::get_value( 'meta-robots-noindex', $shop_page_id );
+
+		if ( $noindex === '0' ) {
+			$option_noindex = WPSEO_Options::get( 'noindex-ptarchive-product' );
+
+			WPSEO_Meta::set_value(
+				'meta-robots-noindex',
+				$option_noindex,
+				$shop_page_id
+			);
+
+			WPSEO_Options::set( 'noindex-ptarchive-product', false );
 		}
 	}
 }

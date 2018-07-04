@@ -531,37 +531,13 @@ class WPSEO_OpenGraph {
 	/**
 	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image.
 	 *
-	 * @param string|boolean $image Optional image URL.
+	 * @param string|bool $image Optional. Image URL.
+	 *
+	 * @return void
 	 */
 	public function image( $image = false ) {
-		$opengraph_images = new WPSEO_OpenGraph_Image( $image );
-
-		foreach ( $opengraph_images->get_images() as $img ) {
-			$this->og_tag( 'og:image', esc_url( $img ) );
-
-			if ( 0 === strpos( $img, 'https://' ) ) {
-				$this->og_tag( 'og:image:secure_url', esc_url( $img ) );
-			}
-		}
-
-		$dimensions = $opengraph_images->get_dimensions();
-
-		if ( ! empty( $dimensions['width'] ) ) {
-			$this->og_tag( 'og:image:width', absint( $dimensions['width'] ) );
-		}
-
-		if ( ! empty( $dimensions['height'] ) ) {
-			$this->og_tag( 'og:image:height', absint( $dimensions['height'] ) );
-		}
-	}
-
-	/**
-	 * Fallback method for plugins using image_output.
-	 *
-	 * @param string $image Image URL.
-	 */
-	public function image_output( $image ) {
-		$this->image( $image );
+		$opengraph_image = new WPSEO_OpenGraph_Image( $image, $this );
+		$opengraph_image->show();
 	}
 
 	/**
@@ -777,6 +753,20 @@ class WPSEO_OpenGraph {
 		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
 			_deprecated_function( 'WPSEO_OpenGraph::site_owner', '7.1', null );
 		}
+	}
+
+	/**
+	 * Fallback method for plugins using image_output.
+	 *
+	 * @param string|bool $image Image URL.
+	 *
+	 * @deprecated 7.4
+	 * @codeCoverageIgnore
+	 */
+	public function image_output( $image = false ) {
+		_deprecated_function( 'WPSEO_OpenGraph::image_output', '7.4', 'WPSEO_OpenGraph::image' );
+
+		$this->image( $image );
 	}
 
 } /* End of class */

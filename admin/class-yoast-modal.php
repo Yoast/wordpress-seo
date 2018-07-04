@@ -41,9 +41,8 @@ class Yoast_Modal {
 	 * @param array $args The modal configuration arguments.
 	 */
 	public static function add( $args ) {
-		$defaults = self::get_defaults();
-
-		$single   = array_replace_recursive( $defaults, $args );
+		$defaults       = self::get_defaults();
+		$single         = array_replace_recursive( $defaults, $args );
 		self::$config[] = $single;
 	}
 
