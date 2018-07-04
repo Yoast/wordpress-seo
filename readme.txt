@@ -165,6 +165,7 @@ Enhancements:
 * Changes the behavior of the meta description preview when there is no handwritten meta description. We no longer mimic Google by showing a part of your content, but explain what Google does instead.
 * Sends the user to the proper control in the customizer when clicking the link in the "You still have the default WordPress tagline [...]" warning message.
 * Adds a `wpseo_attachment_redirect_url` filter to allow changing of the target redirection URL for attachments. This may be necessary to restore the redirect to the parent post. Props to [cawa-93](https://github.com/cawa-93).
+* Adds recommended snippet variables for templates depending on the context.
 * Adds a `wpseo_recommended_replace_vars` filter to allow adding or altering the recommended snippet variables.
 * Adds support for JSON-LD breadcrumbs. Props to [teolaz](https://github.com/teolaz)
 * Improves the lists of French transition words, stopwords, and function words, props to [Laurent-1971](https://github.com/Laurent-1971).
@@ -172,7 +173,6 @@ Enhancements:
 * Adds a notification when a post is removed.
 * Overhauls the Content Types section under SEO -> Search Appearance by sectioning the post types and allowing users to collapse them. This is especially handy when you have a lot of custom post types.
 * Updates the 'snippet variables tab' of the Help Center to have the new names.
-* Adds recommended snippet variables for templates depending on the context.
 
 Bugfixes:
 * Fixes a bug where a PHP notice would be triggered when the `opcache.restrict_api` directive was enabled.
