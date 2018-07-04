@@ -48,7 +48,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 		);
 
 		$page_type_recommended = $recommended_replace_vars->determine_for_term( $tax->name );
-		$page_type_specific    = $editor_specific_replace_vars->determine_for_archive( $tax->name );
+		$page_type_specific    = $editor_specific_replace_vars->determine_for_term( $tax->name );
 
 		$editor = new WPSEO_Replacevar_Editor( $yform, 'title-tax-' . $tax->name, 'metadesc-tax-' . $tax->name, $page_type_recommended, $page_type_specific );
 		$editor->render();
