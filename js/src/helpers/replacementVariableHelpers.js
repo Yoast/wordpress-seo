@@ -91,7 +91,7 @@ export function createLabelFromName( name ) {
  * @param {Object} action               The UPDATE_REPLACEMENT_VARIABLE action.
  * @param {string} action.name          The name of the replacement variable.
  * @param {string} [action.label]       The label of the replacement variable (optional).
- * @param {*} action.value         The value of the replacement variable.
+ * @param {*} action.value              The value of the replacement variable.
  *
  * @returns {array} The extended list of replacement variables.
  */
