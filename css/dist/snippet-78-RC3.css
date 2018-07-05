@@ -1,11 +1,14 @@
 #snippet_preview {
-  font-family: Arial, Helvetica, sans-serif;
-  font-style: normal; }
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: normal;
+}
 
 .wpseosnippet .snippet-editor__label {
-  font-size: 1rem;
-  line-height: 1;
-  font-weight: 400; }
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1;
+}
 
 input[type="text"].snippet-editor__field--invalid {
-  color: #dc3232; }
+	color: #dc3232;
+}
