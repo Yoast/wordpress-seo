@@ -23,6 +23,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		// Taxonomies.
 		'category'                 => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
 		'post_tag'                 => array( 'term_title', 'term_description', 'tag_description' ),
+		'post_format'              => array(),
 		// Custom taxonomy.
 		'term-in-custom-taxomomy'  => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
 
