@@ -11341,9 +11341,9 @@ yoastseo@^1.35.0:
     sassdash "^0.9.0"
     tokenizer2 "^2.0.0"
 
-yoastseo@^1.35.1:
-  version "1.35.1"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.1.tgz#a82f7c585afd913bd1306de5331aa522430611f9"
+yoastseo@^1.35.2:
+  version "1.35.2"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.2.tgz#e512b47f5cddf895b190f58376e37bca5cc3a5ec"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
