@@ -99,6 +99,7 @@ const languageVariables = {
 		stopwords: stopwordsDutch,
 		auxiliaryRegex: arrayToRegex( auxiliariesDutch ),
 		SentencePart: SentencePartDutch,
+		auxiliaries: auxiliariesDutch,
 	},
 };
 
@@ -225,8 +226,13 @@ let getSentenceBreakers = function( sentence, language ) {
 	const auxiliaries = languageVariables[ language ].auxiliaries;
 	let auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
 	let stopwordIndices = getIndicesOfList( stopwords, sentence );
-	let stopCharacterIndices = getStopCharacters( sentence, language );
 	let indices;
+	let stopCharacterIndices;
+
+	// For Dutch we don't use stop characters.
+	if ( language !== "nl" ) {
+		stopCharacterIndices = getStopCharacters( sentence, language );
+	}
 
 	// Concat all indices arrays, filter them and sort them.
 	switch( language ) {

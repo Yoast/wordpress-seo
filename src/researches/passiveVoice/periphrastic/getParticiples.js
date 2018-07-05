@@ -1,6 +1,6 @@
 const getWords = require( "../../../stringProcessing/getWords.js" );
 
-const matchParticiples = require( ".//matchParticiples" )();
+const matchParticiples = require( "./matchParticiples" )();
 const regularParticipleRegex = matchParticiples.regularParticiples;
 const irregularParticipleRegex = matchParticiples.irregularParticiples;
 

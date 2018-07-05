@@ -10,6 +10,7 @@ const irregularsIrregularFrench = require( "../../french/passiveVoice/irregulars
 const irregularsEndingInSFrench = require( "../../french/passiveVoice/irregulars" )().irregularsEndingInS;
 const spanishParticiples = require( "../../spanish/passiveVoice/participles" )();
 const italianParticiples = require( "../../italian/passiveVoice/participles" )();
+const irregularsDutch = require( "../../dutch/passiveVoice/irregulars" );
 
 const nlRegex1 = /(ge|be|ont|ver|her|er)\S+(d|t)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
 const nlRegex2 = /(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
@@ -111,6 +112,11 @@ let irregularParticiples = function( word, language ) {
 		case "it":
 			// In Italian, we only match passives from a word list.
 			if ( includes( italianParticiples, word ) ) {
+				matches.push( word );
+			}
+			break;
+		case "nl":
+			if ( includes( irregularsDutch, word ) ) {
 				matches.push( word );
 			}
 			break;

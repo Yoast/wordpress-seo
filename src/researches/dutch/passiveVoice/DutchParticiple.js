@@ -1,5 +1,8 @@
-var Participle = require( "../../../values/Participle.js" );
-var checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
+const Participle = require( "../../../values/Participle.js" );
+const checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
+const nonParticiples = require( "./nonParticiples" );
+const includes = require ( "lodash/includes" );
+
 // var directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
 // var precedenceException = require( "../../../stringProcessing/precedenceException" );
 
@@ -31,9 +34,22 @@ DutchParticiple.prototype.isPassive = function() {
 	// let participleIndex = sentencePart.indexOf( this.getParticiple() );
 	// let language = this.getLanguage();
 
+	return ! this.isOnNonParticiplesList();
 	// return ! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
 	// 	! this.precedenceException( sentencePart, participleIndex, language );
-	return true;
+};
+
+/**
+ * Checks whether a found participle is in the nonParticiples list.
+ *
+ * @returns {boolean} Returns true if it is in the nonParticiples list, otherwise returns false.
+ */
+DutchParticiple.prototype.isOnNonParticiplesList = function() {
+	if ( this.getType() === "irregular" ) {
+		return false;
+	}
+
+	return includes( nonParticiples(), this.getParticiple() );
 };
 
 // DutchParticiple.prototype.directPrecedenceException = directPrecedenceException;
