@@ -24,11 +24,11 @@ module.exports = function( paper, onlyKeyword = false ) {
 	const sentences = getSentences( text );
 	let topicWords = [];
 
-	if ( onlyKeyword === false ) {
+	if ( onlyKeyword === true ) {
+		topicWords = topicWords.concat( keyword );
+	} else {
 		topicWords = topicWords.concat( keyword, synonyms ).filter( Boolean );
 		topicWords.sort( ( a, b ) => b.length - a.length );
-	} else {
-		topicWords = topicWords.concat( keyword ).filter( Boolean );
 	}
 
 	if ( isEmpty( topicWords ) ) {
