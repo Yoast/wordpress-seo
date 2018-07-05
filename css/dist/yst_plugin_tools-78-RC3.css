@@ -361,6 +361,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
   .yoast-sidebar_section div {
     position: relative;
     margin: 10px 0; }
+    .yoast-sidebar_section div a {
+      color: #0085ba; }
     .yoast-sidebar_section div img, .yoast-sidebar_section div p {
       float: left; }
     .yoast-sidebar_section div img {
