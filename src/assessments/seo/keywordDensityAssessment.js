@@ -114,7 +114,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
  * @returns {Array<Mark>} Marks that should be applied.
  */
 var getMarks = function( paper ) {
-	return topicCount( paper ).markings;
+	return topicCount( paper, true ).markings;
 };
 
 /**
