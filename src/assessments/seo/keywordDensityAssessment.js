@@ -27,7 +27,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 		%3$s expands to the maximum keyword density percentage, %4$s expands to a link to a Yoast.com article
-		about keyword and topic density, %5$s expands to the anchor end tag. */
+		about keyword density, %5$s expands to the anchor end tag. */
 		text = i18n.dngettext(
 			"js-text-analysis",
 			"The %4$skeyword density%5$s is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d time.",
@@ -43,7 +43,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
 		%3$s expands to the maximum keyword density percentage, %4$s expands to a link to a Yoast.com article
-		about keyword and topic density, %5$s expands to the anchor end tag. */
+		about keyword density, %5$s expands to the anchor end tag. */
 		text = i18n.dngettext(
 			"js-text-analysis",
 			"The %4$skeyword density%5$s is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d time.",
@@ -58,7 +58,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 		score = 9;
 
 		/* Translators:	%1$s expands to the keyword density percentage,	%2$d expands to the keyword count,
-		%3$s expands to a link to a Yoast.com article about keyword and topic density,
+		%3$s expands to a link to a Yoast.com article about keyword density,
 		%4$s expands to the anchor end tag. */
 		text = i18n.dngettext(
 			"js-text-analysis",
@@ -74,7 +74,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 		score = 4;
 
 		/* Translators:	%1$s expands to the keyword density percentage,	%2$d expands to the keyword count,
-		%3$s expands to a link to a Yoast.com article about keyword and topic density,
+		%3$s expands to a link to a Yoast.com article about keyword density,
 		%4$s expands to the anchor end tag. */
 		text = i18n.dgettext(
 			"js-text-analysis",
@@ -88,7 +88,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 		score = 4;
 
 		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
-		%3$s expands to a link to a Yoast.com article about keyword and topic density,
+		%3$s expands to a link to a Yoast.com article about keyword density,
 		%4$s expands to the anchor end tag. */
 		text = i18n.dngettext(
 			"js-text-analysis",
@@ -142,7 +142,7 @@ module.exports = {
 	identifier: "keywordDensity",
 	getResult: keywordDensityAssessment,
 	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100 && ! ( paper.hasSynonyms() );
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
 	},
 	getMarks: getMarks,
 };
