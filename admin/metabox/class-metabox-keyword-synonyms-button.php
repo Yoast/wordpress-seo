@@ -25,7 +25,7 @@ class WPSEO_Metabox_Keyword_Synonyms_Button {
 			'mountHook'      => '.wpseo-button-keyword-synonyms',
 			'openButtonIcon' => '',
 			'intl'           => array(
-				'open'           => __( 'Want to add keyword synonyms?', 'wordpress-seo' ),
+				'open'           => __( '+ Add synonyms', 'wordpress-seo' ),
 				'modalAriaLabel' => sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
 					__( 'Get %s now!', 'wordpress-seo' ), 'Yoast SEO Premium'
