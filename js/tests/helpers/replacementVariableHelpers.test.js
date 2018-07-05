@@ -50,6 +50,7 @@ describe( "decodeSeparatorVariable", () => {
 		expect( expected ).toEqual( actual );
 	} );
 } );
+
 describe( "pushNewReplaceVar", () => {
 	const oldArray = [ { name: "object1" } ];
 	it( "pushes an action to an array", () => {
@@ -71,10 +72,35 @@ describe( "pushNewReplaceVar", () => {
 		];
 
 		const actual = pushNewReplaceVar( oldArray, action );
+
+		expect( actual ).toEqual( expected );
 	} );
-} );
-replacementVariables.push( {
-	name: action.name,
-	label: action.label || createLabelFromName( action.name ),
-	value: action.value,
+
+	it( "calls createLabelFromName if no label was supplied in the action", () => {
+		const action = {
+			name: "testName",
+			label: "",
+			value: "testValue",
+		};
+
+		const createLabelFromName = jest.fn( () => {
+			return "Cool created label";
+		} );
+
+		const expected =  [
+			{
+				name: "object1",
+			},
+			{
+				name: "testName",
+				label: "Cool created label",
+				value: "testValue",
+			},
+		];
+
+		const actual = pushNewReplaceVar( oldArray, action );
+
+		expect( createLabelFromName ).toHaveBeenCalled();
+		expect( actual ).toEqual( expected );
+	} );
 } );
