@@ -25,22 +25,16 @@ export function decorate( paper, marks ) {
 	const blocks = wp.data.select( "core/editor" ).getBlocks();
 	const annotations = [];
 
-	console.log( marks.length );
-
 	blocks.forEach( ( block ) => {
 		if ( block.name !== "core/paragraph" ) {
 			return;
 		}
 
-		console.log( block );
 		const { attributes } = block;
 		const { content } = attributes;
 
 		// For each mark see if it applies to this block.
 		marks.forEach( ( mark ) => {
-			console.log( mark.getOriginal() );
-			console.log( mark.getMarked() );
-
 			// Content is an array so we need to loop over it.
 			content.forEach( ( contentPiece, index ) => {
 				if ( ! contentPiece.indexOf ) {
@@ -80,8 +74,4 @@ export function decorate( paper, marks ) {
 			annotation.endOffset,
 		);
 	} );
-
-	console.log( annotations );
-
-	console.log( "Marking Gutenberg!" );
 }
