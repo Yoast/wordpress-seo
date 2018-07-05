@@ -106,6 +106,29 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 7.8.0 =
+Release Date: July 10th, 2018
+
+Bugfixes:
+* Fixes a bug where images from password protected posts could potentially end up in OpenGraph image tags.
+* Fixes a bug where very old notifications could not be be dismissed or restored.
+* Fixes a bug where the `Insert snippet variable` button alignment was incorrect.
+* Fixes a bug where the snippet variables had a different label in the Search Appearance settings compared to the snippet variables when writing a post, pages and taxonomies.
+* Instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) are now recognized as the same in the following assessments: keyword in meta description, keyword in subheading, keyword in first paragraph, keyword in title and keyword in URL.
+* Filters out prominent word combinations ending in 's in English. Props to [swekkiekekkie](https://github.com/swekkiekekkie).
+* Fixes a bug where the custom set breadcrumb title for the WooCommerce Shop page wouldn't be used.
+
+Enhancements:
+* Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
+* Adds links to relevant articles to all SEO assessments.
+* Adds Flesch Reading Ease assessment for French.
+* Adds Flesch Reading Ease assessment for Spanish.
+* Adds passive voice assessment for Italian.
+
+Other:
+* Adds a reminder message to create a redirect if a user deletes a category or tag.
+* Removes a banner spot in the admin.
+
 = 7.7.3 =
 Release Date: July 2nd, 2018
 
@@ -144,6 +167,7 @@ Enhancements:
 * Changes the behavior of the meta description preview when there is no handwritten meta description. We no longer mimic Google by showing a part of your content, but explain what Google does instead.
 * Sends the user to the proper control in the customizer when clicking the link in the "You still have the default WordPress tagline [...]" warning message.
 * Adds a `wpseo_attachment_redirect_url` filter to allow changing of the target redirection URL for attachments. This may be necessary to restore the redirect to the parent post. Props to [cawa-93](https://github.com/cawa-93).
+* Adds recommended snippet variables for templates depending on the context.
 * Adds a `wpseo_recommended_replace_vars` filter to allow adding or altering the recommended snippet variables.
 * Adds support for JSON-LD breadcrumbs. Props to [teolaz](https://github.com/teolaz)
 * Improves the lists of French transition words, stopwords, and function words, props to [Laurent-1971](https://github.com/Laurent-1971).
@@ -151,7 +175,6 @@ Enhancements:
 * Adds a notification when a post is removed.
 * Overhauls the Content Types section under SEO -> Search Appearance by sectioning the post types and allowing users to collapse them. This is especially handy when you have a lot of custom post types.
 * Updates the 'snippet variables tab' of the Help Center to have the new names.
-* Adds recommended snippet variables for templates depending on the context.
 
 Bugfixes:
 * Fixes a bug where a PHP notice would be triggered when the `opcache.restrict_api` directive was enabled.
@@ -170,33 +193,6 @@ Deprecated:
 Other:
 * Changes the timing on which the capability filter is run to better time when notifications should be initialized.
 * Adds X-Redirect-By header to all redirects, making the origin of redirects much easier to debug.
-
-= 7.6.1 =
-Release Date: June 7th, 2018
-
-Bugfixes:
-* Fixes a bug where a JavaScript error was thrown on the post-edit page when certain plugins are active.
-* Fixes a bug where stylesheet definitions would impact form fields of metaboxes on the post-edit pages. The definitions have been contained in a Yoast-selector.
-
-= 7.6.0 =
-Release Date: June 5th, 2018
-
-Enhancements:
-* Adds Flesch Reading Ease for Russian.
-* Adds Catalan transition words.
-* Adds a tab to the Help Center on posts, pages, terms and custom post types which explains which template variables can be used in the Snippet Preview.
-
-Bugfixes:
-* Fixes a bug where sequences of symbols which do not contain a single letter or digit were considered as valid keywords.
-* Fixes a bug where Flesch Reading Ease translation strings were not fully translated.
-* Fixes a bug where numbers-only keywords caused the analysis to fail.
-* Fixes a bug where the active keyword in the state wasn't updated whenever changes were made in the keyword field.
-* Fixes a bug where replacevars based on custom fields would throw an error due to a missing ID.
-
-Other:
-* Changes the maximum meta description length from 320 to 156 characters.
-* Fixes typo in $field_defs parameter description for wpseo_metabox_entries filter.
-* Restores the warning for using unsupported replacement variables on the search appearance settings page.
 
 = Earlier versions =
 
