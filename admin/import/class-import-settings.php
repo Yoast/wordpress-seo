@@ -106,7 +106,7 @@ class WPSEO_Import_Settings {
 
 		if ( ! isset( $GLOBALS['wp_filesystem'] ) || ! is_object( $GLOBALS['wp_filesystem'] ) ) {
 			$url = wp_nonce_url(
-				self_admin_url('admin.php?page=wpseo_tools&tool=import-export'),
+				self_admin_url( 'admin.php?page=wpseo_tools&tool=import-export' ),
 				'wpseo-import'
 			);
 			$credentials = request_filesystem_credentials( esc_url_raw( $url ) );
