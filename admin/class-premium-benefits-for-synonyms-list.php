@@ -33,7 +33,7 @@ class WPSEO_Premium_Benefits_For_Synonyms_List {
 	}
 
 	/**
-	 * Pass translations to JS for the Add Keyword JS component Premium benefits list.
+	 * Passes translations to JS for the Add Keyword JS component Premium benefits list.
 	 *
 	 * @return array Translated text strings for the Premium benefits list component.
 	 */
