@@ -1,5 +1,4 @@
 import {
-	createLabelFromName,
 	decodeSeparatorVariable, pushNewReplaceVar,
 } from "../../src/helpers/replacementVariableHelpers";
 
@@ -52,11 +51,11 @@ describe( "decodeSeparatorVariable", () => {
 } );
 
 describe( "pushNewReplaceVar", () => {
-	const oldArray = [ { name: "object1" } ];
 	it( "pushes an action to an array", () => {
+		const oldArray = [ { name: "object1" } ];
 		const action = {
-			name: "testName",
-			label: "testLabel",
+			name: "test_name",
+			label: "Nice custom label",
 			value: "testValue",
 		};
 
@@ -65,8 +64,8 @@ describe( "pushNewReplaceVar", () => {
 				name: "object1",
 			},
 			{
-				name: "testName",
-				label: "testLabel",
+				name: "test_name",
+				label: "Nice custom label",
 				value: "testValue",
 			},
 		];
@@ -77,30 +76,26 @@ describe( "pushNewReplaceVar", () => {
 	} );
 
 	it( "calls createLabelFromName if no label was supplied in the action", () => {
+		const oldArray = [ { name: "object1" } ];
 		const action = {
-			name: "testName",
+			name: "test_name",
 			label: "",
 			value: "testValue",
 		};
-
-		const createLabelFromName = jest.fn( () => {
-			return "Cool created label";
-		} );
 
 		const expected =  [
 			{
 				name: "object1",
 			},
 			{
-				name: "testName",
-				label: "Cool created label",
+				name: "test_name",
+				label: "Test name",
 				value: "testValue",
 			},
 		];
 
 		const actual = pushNewReplaceVar( oldArray, action );
 
-		expect( createLabelFromName ).toHaveBeenCalled();
 		expect( actual ).toEqual( expected );
 	} );
 } );
