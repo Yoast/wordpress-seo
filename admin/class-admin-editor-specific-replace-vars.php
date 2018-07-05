@@ -24,7 +24,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		'category'                 => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
 		'post_tag'                 => array( 'term_title', 'term_description', 'tag_description' ),
 		// Custom taxonomy.
-		'term-in-custom-taxomomy'  => array( 'term_title', 'term_description', 'parent_title' ),
+		'term-in-custom-taxomomy'  => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
 
 		// Settings - archive pages.
 		'custom-post-type_archive' => array(),
