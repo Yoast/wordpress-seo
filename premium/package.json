@@ -51,6 +51,7 @@
   "dependencies": {
     "@wordpress/i18n": "^1.1.1",
     "a11y-speak": "github:yoast/a11y-speak",
+    "babel-loader": "^7.1.4",
     "babel-polyfill": "^6.16.0",
     "concat-map": "^0.0.1",
     "grunt-webpack": "^3.1.2",
