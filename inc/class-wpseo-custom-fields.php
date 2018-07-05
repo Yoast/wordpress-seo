@@ -33,19 +33,17 @@ class WPSEO_Custom_Fields {
 		 * Filters the number of custom fields to retrieve for the drop-down
 		 * in the Custom Fields meta box.
 		 *
-		 * @since 2.1.0
-		 *
 		 * @param int $limit Number of custom fields to retrieve. Default 30.
 		 */
 		self::$custom_fields = array();
-		$limit         = apply_filters( 'postmeta_form_limit', 30 );
-		$sql           = "SELECT DISTINCT meta_key
+		$limit  = apply_filters( 'postmeta_form_limit', 30 );
+		$sql    = "SELECT DISTINCT meta_key
 			FROM $wpdb->postmeta
 			WHERE meta_key NOT BETWEEN '_' AND '_z'
 			HAVING meta_key NOT LIKE %s
 			ORDER BY meta_key
 			LIMIT %d";
-		$fields        = $wpdb->get_col( $wpdb->prepare( $sql, $wpdb->esc_like( '_' ) . '%', $limit ) );
+		$fields = $wpdb->get_col( $wpdb->prepare( $sql, $wpdb->esc_like( '_' ) . '%', $limit ) );
 
 		if ( is_array( $fields ) ) {
 			self::$custom_fields = array_map( 'self::add_custom_field_prefix', $fields );
