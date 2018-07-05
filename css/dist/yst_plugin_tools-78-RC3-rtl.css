@@ -419,29 +419,48 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	text-align: right;
 }
 
-.yoast-sidebar__spot {
-	padding: 10px 0;
+.yoast-sidebar section {
+	padding: 20px 0;
 	border-bottom: 1px solid #ddd;
 }
-.yoast-sidebar__spot h2,
-.yoast-sidebar__spot a {
+.yoast-sidebar section h2,
+.yoast-sidebar section a {
 	color: #a4286a;
 }
-.yoast-sidebar__spot h2 {
+.yoast-sidebar section h2 {
 	margin-top: 0;
 }
-.yoast-sidebar__spot ul {
+.yoast-sidebar section ul {
 	position: relative;
 }
-.yoast-sidebar__spot li {
+.yoast-sidebar section li {
 	margin-right: 20px; 
 	list-style: none;
 }
-.yoast-sidebar__spot li::before {
+.yoast-sidebar section li::before {
 	position: absolute;
 	right: 0;
 	font-weight: bold; 
 	content: "+";
+}
+.yoast-sidebar section div {
+	position: relative;
+	margin: 10px 0;
+}
+.yoast-sidebar section div img,
+.yoast-sidebar section div p {
+	float: right;
+}
+.yoast-sidebar section div img {
+	width: 40px;
+	height: 40px;
+}
+.yoast-sidebar section div p {
+	width: 200px;
+	margin: 0 10px 0 0;
+}
+.yoast-sidebar section div .clear {
+	clear: both;
 }
 
 .wpseo-banner__link {
