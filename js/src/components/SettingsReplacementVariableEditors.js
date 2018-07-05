@@ -47,7 +47,8 @@ class SettingsReplacementVariableEditors extends React.Component {
 	 * replacevar-title-field-id, data-react-replacevar-metadesc-field-id,
 	 * data-react-replacevar-page-type-recommend and
 	 * data-react-replacevar-page-type-specific attributes to function properly.
-	 * These attributes should point to existing (hidden) inputs in the DOM.
+	 * The *-field-id attributes should point to existing (hidden) inputs in the
+	 * DOM.
 	 *
 	 * @returns {Array<ReactElement>} An array of portals to instances of the
 	 *                                settings replacement variable editor.
@@ -86,8 +87,8 @@ class SettingsReplacementVariableEditors extends React.Component {
 	 * the singleFieldElements props. It requires every element to have a data-
 	 * react-replacevar-field-id, data-react-replacevar-page-type-recommended
 	 * and data-react-replacevar-page-type-specific attributes to function
-	 * properly. This attribute should point to and existing (hidden) input in
-	 * the DOM.
+	 * properly. The data-react-replacevar-field-id attribute should point to an
+	 * existing (hidden) input in the DOM.
 	 *
 	 * @returns {Array<ReactElement>} An array of portals to instances of the
 	 *                                settings replacement variable field.
