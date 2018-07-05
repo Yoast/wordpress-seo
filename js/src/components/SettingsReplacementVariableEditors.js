@@ -4,6 +4,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
+import includes from "lodash/includes";
 import map from "lodash/map";
 import { connect } from "react-redux";
 import { replacementVariablesShape } from "yoast-components/composites/Plugin/SnippetEditor/constants";
@@ -34,7 +35,7 @@ class SettingsReplacementVariableEditors extends React.Component {
 		const replaceVarNames = [ ...sharedReplaceVars, ...pageTypeSpecificReplaceVars ];
 
 		return replacementVariables.filter( replaceVar => {
-			return replaceVarNames.includes( replaceVar.name );
+			return includes( replaceVarNames, replaceVar.name );
 		} );
 	}
 
