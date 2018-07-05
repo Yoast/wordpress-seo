@@ -18,7 +18,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		'page'                    => array( 'id', 'pt_single', 'pt_plural', 'parent_title' ),
 		'post'                    => array( 'id', 'term404', 'pt_single', 'pt_plural' ),
 		// Custom post type.
-		'custom_post_type'        => array( 'id', 'term404', 'pt_single', 'pt_plural' ),
+		'custom_post_type'        => array( 'id', 'term404', 'pt_single', 'pt_plural', 'parent_title' ),
 
 		// Taxonomies.
 		'category'                => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
