@@ -83,7 +83,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	/**
 	 * Determines the page type of the current post.
 	 *
-	 * @param WP_Post $post The WordPress global post object.
+	 * @param WP_Post $post A WordPress post instance.
 	 *
 	 * @return string The page type.
 	 */
