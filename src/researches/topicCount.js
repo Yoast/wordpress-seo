@@ -28,7 +28,7 @@ module.exports = function( paper, onlyKeyword = false ) {
 		topicWords = topicWords.concat( keyword, synonyms ).filter( Boolean );
 		topicWords.sort( ( a, b ) => b.length - a.length );
 	} else {
-		topicWords = [].concat( keyword ).filter( Boolean );
+		topicWords = topicWords.concat( keyword ).filter( Boolean );
 	}
 
 	if ( isEmpty( topicWords ) ) {
