@@ -32,6 +32,7 @@ import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
+import {decorate} from "./decorator/gutenberg";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -124,6 +125,8 @@ setWordPressSeoL10n();
 
 				decorator( paper, marks );
 			}
+
+			decorate( paper, marks );
 		};
 	}
 
