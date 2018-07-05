@@ -8,7 +8,7 @@ import { replacementVariablesShape } from "yoast-components/composites/Plugin/Sn
 
 /* Internal dependencies */
 import SettingsReplacementVariableEditor from "./SettingsReplacementVariableEditor";
-import SettingsTitleReplacementVariableEditor from "./SettingsTitleReplacementVariableEditor";
+import SettingsReplacementVariableField from "./SettingsReplacementVariableField";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 
 /**
@@ -75,7 +75,7 @@ class SettingsReplacementVariableEditors extends React.Component {
 				reactReplacevarPageType,
 			} = targetElement.dataset;
 			return ReactDOM.createPortal(
-				<SettingsTitleReplacementVariableEditor
+				<SettingsReplacementVariableField
 					label={ reactReplacevarFieldLabel }
 					replacementVariables={ this.props.replacementVariables }
 					recommendedReplacementVariables={ this.props.recommendedReplacementVariables[ reactReplacevarPageType ] }

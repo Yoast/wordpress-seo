@@ -10,7 +10,6 @@ Enhancements:
 * Adds an assessment the checks the distribution of the focus keyword in the text.
 * Adds a topic distribution and topic density assessment to use with synonyms.
 
-
 Other:
 * Includes every change in Yoast SEO core 7.8.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 
