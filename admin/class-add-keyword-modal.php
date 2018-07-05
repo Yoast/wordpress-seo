@@ -40,7 +40,7 @@ class WPSEO_Add_Keyword_Modal {
 	}
 
 	/**
-	 * Pass tanslations to JS for the Add Keyword modal component.
+	 * Passes translations to JS for the Add Keyword modal component.
 	 *
 	 * @return array Translated text strings for the Add Keyword modal component.
 	 */

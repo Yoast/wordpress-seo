@@ -40,7 +40,7 @@ class WPSEO_Keyword_Synonyms_Modal {
 	}
 
 	/**
-	 * Pass tanslations to JS for the Keyword Synonyms modal component.
+	 * Passes translations to JS for the Keyword Synonyms modal component.
 	 *
 	 * @return array Translated text strings for the Keyword Synonyms modal component.
 	 */
