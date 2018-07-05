@@ -88,7 +88,7 @@
     "grunt-wp-deploy": "^1.2.1",
     "grunt-wp-i18n": "^1.0.0",
     "i18n-calypso": "^1.8.4",
-    "jest": "^18.0.0",
+    "jest": "^23.3.0",
     "load-grunt-config": "^0.19.2",
     "raf": "^3.4.0",
     "react": "^16.2.0",
