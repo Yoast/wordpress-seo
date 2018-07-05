@@ -40,7 +40,7 @@ class WPSEO_Metabox_Keyword_Synonyms_Button {
 		$translations = new WPSEO_Keyword_Synonyms_Modal();
 		$translations->enqueue_translations();
 
-		$benefits = new WPSEO_Premium_Benefits_List();
+		$benefits = new WPSEO_Premium_Benefits_For_Synonyms_List();
 		$benefits->enqueue_translations();
 
 		Yoast_Modal::add( $keyword_synonyms_modal_config );
