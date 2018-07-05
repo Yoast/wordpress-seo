@@ -1,27 +1,14 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
-import { injectIntl, intlShape, defineMessages } from "react-intl";
 import styled from "styled-components";
+import { __, sprintf } from "@wordpress/i18n";
 
+/* Internal dependencies */
 import { ZebrafiedListTable } from "../basic/Table/ListTable";
 import { Row } from "../basic/Table/Row";
 import colors from "../../style-guide/colors.json";
-
-const messages = defineMessages( {
-	noResultsText: {
-		id: "searchResult.noResultsText",
-		defaultMessage: "No results found.",
-	},
-	foundResultsText: {
-		id: "searchResult.foundResultsText",
-		defaultMessage: "Number of results found: { resultsCount }",
-	},
-	searchResultsHeading: {
-		id: "searchResult.searchResultsHeading",
-		defaultMessage: "Search results",
-	},
-} );
 
 /**
  * The title of the search result item.
@@ -124,7 +111,7 @@ class SearchResults extends React.Component {
 	 * @returns {ReactElement} The no results found text.
 	 */
 	renderNoResultsFound() {
-		const noResultsText = this.props.intl.formatMessage( messages.noResultsText );
+		const noResultsText = __( "No results found.", "yoast-components" );
 
 		a11ySpeak( noResultsText );
 
@@ -171,16 +158,14 @@ class SearchResults extends React.Component {
 			return this.handleZeroResults();
 		}
 
-		const foundResultsText = this.props.intl.formatMessage( messages.foundResultsText, {
-			resultsCount: resultsCount,
-		} );
+		const foundResultsText = sprintf( __( "Number of results found: %d", "yoast-components" ), resultsCount );
 
 		a11ySpeak( foundResultsText );
 
 		return (
 			<SearchResultsWrapper>
 				<h2 className="screen-reader-text">
-					{ this.props.intl.formatMessage( messages.searchResultsHeading ) }
+					{ __( "Search results", "yoast-components" ) }
 				</h2>
 				<ZebrafiedListTable>
 					{ this.resultsToSearchItem( this.props.results ) }
@@ -188,11 +173,9 @@ class SearchResults extends React.Component {
 			</SearchResultsWrapper>
 		);
 	}
-
 }
 
 SearchResults.propTypes = {
-	intl: intlShape.isRequired,
 	onClick: PropTypes.func.isRequired,
 	searchString: PropTypes.string,
 	results: PropTypes.array,
@@ -203,4 +186,4 @@ SearchResults.defaultProps = {
 	results: [],
 };
 
-export default injectIntl( SearchResults );
+export default SearchResults;

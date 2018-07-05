@@ -7,14 +7,11 @@ import {
 	SET_SEO_RESULTS_FOR_KEYWORD,
 	updateSeoResult,
 	updateReadabilityResult,
-	replaceKeyword,
 	setSeoResults,
 	removeKeyword,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
 } from "../contentAnalysis";
-import configureMockStore from "redux-mock-store";
-import thunk from "redux-thunk";
 
 describe( "setSeoResultsForKeyword action creator", function() {
 	it( "creates the setSeoResultsForKeyword action", function() {
@@ -59,30 +56,6 @@ describe( "updateReadabilityResult action creator", function() {
 		};
 		const actual = updateReadabilityResult( result );
 		expect( actual ).toEqual( expected );
-	} );
-} );
-
-describe( "the replaceKeyword action creator", function() {
-	it( "creates the replaceKeyword action", function() {
-		const middlewares = [ thunk ];
-		const mockStore = configureMockStore( middlewares );
-
-		let results = [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ];
-		let oldKeyword = "oldKeyword";
-		let newKeyword = "newKeyword";
-		let resultsPerKeyword = [ {
-			keyword: newKeyword,
-			results: [ { id: "result", score: 3, description: "This is a bad score!", markingIsActive: false } ],
-		} ];
-
-		const expectedActions = [
-			{ type: REMOVE_KEYWORD, keyword: oldKeyword },
-			{ type: SET_SEO_RESULTS, resultsPerKeyword: resultsPerKeyword },
-		];
-		const store = mockStore( { oldKeyword: [] }, { otherKeyword: [] } );
-
-		store.dispatch( replaceKeyword( oldKeyword, newKeyword, results ) );
-		expect( store.getActions() ).toEqual( expectedActions );
 	} );
 } );
 

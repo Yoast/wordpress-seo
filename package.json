@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "3.5.1",
+  "version": "4.7.0",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "main": "index.js",
@@ -48,8 +48,9 @@
     "algoliasearch": "^3.22.3",
     "debug": "^3.0.0",
     "draft-js": "^0.10.5",
-    "draft-js-mention-plugin": "^2.0.1",
+    "draft-js-mention-plugin": "^3.0.4",
     "draft-js-plugins-editor": "^2.0.4",
+    "draft-js-single-line-plugin": "^2.0.1",
     "grunt-scss-to-json": "^1.0.1",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
@@ -58,12 +59,12 @@
     "react-modal": "^3.1.10",
     "react-redux": "^5.0.6",
     "react-tabs": "^2.2.1",
+    "react-transition-group": "^2.3.1",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0",
     "striptags": "^3.1.0",
     "styled-components": "^2.1.2",
     "whatwg-fetch": "^1.0.0",
-    "yoastseo": "^1.28.0"
+    "yoastseo": "^1.35.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

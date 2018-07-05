@@ -10,9 +10,9 @@ import {
 } from "../../SnippetPreview/constants";
 import {
 	focus,
-} from "../components/ReplacementVariableEditor";
+} from "../components/ReplacementVariableEditorStandalone";
 
-jest.mock( "../components/ReplacementVariableEditor" );
+jest.mock( "../components/ReplacementVariableEditorStandalone" );
 
 const defaultData = {
 	title: "Test title",
@@ -21,9 +21,9 @@ const defaultData = {
 };
 
 const defaultArgs = {
-	baseUrl: "https://example.org/",
+	baseUrl: "http://example.org/",
 	data: defaultData,
-	onChange: () => {},
+	onChange: jest.fn(),
 };
 
 const renderSnapshotWithArgs = ( changedArgs ) => {
@@ -46,7 +46,7 @@ const shallowWithArgs = ( changedArgs ) => {
 
 
 describe( "SnippetEditor", () => {
-	it( "shows and editor", () => {
+	it( "shows the editor", () => {
 		renderSnapshotWithArgs( {} );
 	} );
 
@@ -70,7 +70,7 @@ describe( "SnippetEditor", () => {
 		const mapper = jest.fn( () => {
 			return {
 				title: "Totally different title",
-				url: "http://example.org/totally-different-url",
+				url: "example.org/totally-different-url",
 				description: "Totally different description",
 			};
 		} );
@@ -79,6 +79,9 @@ describe( "SnippetEditor", () => {
 			url: "example.org/test-slug",
 			description: "Test description, replacement value",
 		};
+		const context = {
+			shortenedBaseUrl: "example.org/",
+		};
 		const replacementVariables = [
 			{
 				name: "replacement_variable",
@@ -86,10 +89,11 @@ describe( "SnippetEditor", () => {
 			},
 		];
 
-		renderSnapshotWithArgs( { mapDataToPreview: mapper, replacementVariables } );
+		renderSnapshotWithArgs( { mapEditorDataToPreview: mapper, replacementVariables } );
 
-		expect( mapper ).toHaveBeenCalledTimes( 1 );
-		expect( mapper ).toHaveBeenCalledWith( defaultMappedData, defaultData );
+		// The mapper is called both in the constructor, as well as the render function.
+		expect( mapper ).toHaveBeenCalledTimes( 2 );
+		expect( mapper ).toHaveBeenCalledWith( defaultMappedData, context );
 	} );
 
 	it( "opens when calling open()", () => {
@@ -119,11 +123,11 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "highlights the hovered field when onMouseOver() is called", () => {
+	it( "highlights the hovered field when onMouseEnter() is called", () => {
 		const editor = mountWithArgs( {} );
 
 		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
+		editor.instance().onMouseEnter( "description" );
 		editor.update();
 
 		expect( editor ).toMatchSnapshot();
@@ -133,7 +137,7 @@ describe( "SnippetEditor", () => {
 		const editor = shallowWithArgs( {} );
 
 		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
+		editor.instance().onMouseEnter( "description" );
 		editor.update();
 
 		editor.instance().onMouseLeave( "description" );
@@ -142,38 +146,39 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "doesn't remove the highlight if the wrong field is left", () => {
-		const editor = shallowWithArgs( {} );
-
-		editor.instance().open();
-		editor.instance().onMouseOver( "description" );
-		editor.update();
-
-		editor.instance().onMouseLeave( "title" );
-		editor.update();
-
-		expect( editor ).toMatchSnapshot();
-	} );
-
-	it( "highlights the active field when calling setFieldFocus", () => {
+	it( "highlights the active ReplacementVariableEditor when calling setFieldFocus", () => {
 		focus.mockClear();
 
 		const editor = mountWithArgs( {} );
 
 		editor.instance().open();
-		editor.instance().setFieldFocus( "url" );
+		editor.instance().setFieldFocus( "title" );
 		editor.instance().setFieldFocus( "description" );
-		editor.instance().setFieldFocus( "slug" );
 		editor.update();
 
-		expect( focus ).toHaveBeenCalledTimes( 3 );
+		expect( focus ).toHaveBeenCalledTimes( 2 );
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "activates a field on onClick() and opens the editor", () => {
+	it( "removes the highlight when calling unsetFieldFocus", () => {
+		focus.mockClear();
+
+		const editor = mountWithArgs( {} );
+
+		editor.instance().open();
+		editor.instance().setFieldFocus( "title" );
+		editor.update();
+
+		editor.instance().unsetFieldFocus();
+		editor.update();
+
+		expect( editor ).toMatchSnapshot();
+	} );
+
+	it( "activates a field on onMouseUp() and opens the editor", () => {
 		const editor = shallowWithArgs( {} );
 
-		editor.instance().onClick( "title" );
+		editor.instance().onMouseUp( "title" );
 		editor.update();
 
 		expect( editor ).toMatchSnapshot();
@@ -198,12 +203,18 @@ describe( "SnippetEditor", () => {
 		const onChange = jest.fn();
 		const editor = mountWithArgs( { onChange } );
 
+		const changedSlugEvent = {
+			target: {
+				value: "changedSlug",
+			},
+		};
+
 		editor.instance().open();
 		editor.update();
 
-		const titleEditor = editor.find( "ReplacementVariableEditor" ).get( 0 );
-		const slugEditor = editor.find( "ReplacementVariableEditor" ).get( 1 );
-		const descriptionEditor = editor.find( "ReplacementVariableEditor" ).get( 2 );
+		const titleEditor = editor.find( "ReplacementVariableEditorStandalone" ).get( 0 );
+		const slugEditor = editor.find( "input" ).get( 0 );
+		const descriptionEditor = editor.find( "ReplacementVariableEditorStandalone" ).get( 1 );
 
 		titleEditor.props.onFocus();
 		expect( editor ).toMatchSnapshot();
@@ -213,7 +224,7 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 
 		titleEditor.props.onChange( "changedTitle" );
-		slugEditor.props.onChange( "changedSlug" );
+		slugEditor.props.onChange( changedSlugEvent );
 		descriptionEditor.props.onChange( "changedDescription" );
 
 		expect( onChange.mock.calls ).toEqual( [
@@ -246,12 +257,12 @@ describe( "SnippetEditor", () => {
 	describe( "colored progress bars", () => {
 		it( "can handle scores of 3 and 9", () => {
 			const editor = mountWithArgs( {
-				titleLengthAssessment: {
+				titleLengthProgress: {
 					max: 550,
 					actual: 100,
 					score: 3,
 				},
-				descriptionLengthAssessment: {
+				descriptionLengthProgress: {
 					max: 650,
 					actual: 330,
 					score: 9,
@@ -266,7 +277,7 @@ describe( "SnippetEditor", () => {
 
 		it( "can handle a score of 6", () => {
 			const editor = mountWithArgs( {
-				titleLengthAssessment: {
+				titleLengthProgress: {
 					max: 550,
 					actual: 361,
 					score: 6,
@@ -277,6 +288,177 @@ describe( "SnippetEditor", () => {
 			editor.update();
 
 			expect( editor ).toMatchSnapshot();
+		} );
+	} );
+
+	describe( "shallowCompareData", () => {
+		it( "returns false when there is no new data", () => {
+			const editor = mountWithArgs( {} );
+
+			const data = {
+				data: {
+					title: "old title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
+			};
+
+			const isDirty = editor.instance().shallowCompareData( data, data );
+
+			expect( isDirty ).toBe( false );
+		} );
+
+		it( "returns true when one data point has changed", () => {
+			const editor = mountWithArgs( {} );
+
+			const prev = {
+				data: {
+					title: "old title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
+			};
+			const next = {
+				data: {
+					title: "new title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
+			};
+
+			const isDirty = editor.instance().shallowCompareData( prev, next );
+
+			expect( isDirty ).toBe( true );
+		} );
+
+		it( "returns true when one replacement variable has changed", () => {
+			const editor = mountWithArgs( {} );
+
+			const prev = {
+				data: {
+					title: "old title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
+			};
+			const next = {
+				data: {
+					title: "new title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first to change",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
+			};
+
+			const isDirty = editor.instance().shallowCompareData( prev, next );
+
+			expect( isDirty ).toBe( true );
+		} );
+
+		it( "returns true when multiple data points have changed", () => {
+			const editor = mountWithArgs( {} );
+
+			const prev = {
+				data: {
+					title: "old title",
+					description: "old description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second",
+					},
+				],
+			};
+			const next = {
+				data: {
+					title: "new title",
+					description: "new description",
+					slug: "old slug",
+				},
+				replacementVariables: [
+					{
+						name: "test1",
+						label: "Test1",
+						value: "first",
+					},
+					{
+						name: "test2",
+						label: "Test2",
+						value: "second but now third",
+					},
+				],
+			};
+
+			const isDirty = editor.instance().shallowCompareData( prev, next );
+
+			expect( isDirty ).toBe( true );
 		} );
 	} );
 } );

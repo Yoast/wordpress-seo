@@ -1,27 +1,14 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { intlShape, injectIntl, defineMessages } from "react-intl";
 import debounce from "lodash/debounce";
+import { __ } from "@wordpress/i18n";
 
+/* Internal dependencies */
 import colors from "../../style-guide/colors.json";
 import { YoastButton } from "../Plugin/Shared/components/YoastButton";
 import breakpoints from "../../style-guide/responsive-breakpoints.json";
-
-const messages = defineMessages( {
-	headingText: {
-		id: "searchBar.headingText",
-		defaultMessage: "Search the Yoast Knowledge Base for answers to your questions:",
-	},
-	placeholderText: {
-		id: "searchBar.placeholderText",
-		defaultMessage: "Type here to search...",
-	},
-	buttonText: {
-		id: "searchBar.buttonText",
-		defaultMessage: "Search",
-	},
-} );
 
 const SearchBarWrapper = styled.div`
 	form {
@@ -150,8 +137,8 @@ class SearchBar extends React.Component {
 	 * @returns {ReactElement} The SearchBar component.
 	 */
 	render() {
-		const headingText = this.props.intl.formatMessage( messages.headingText );
-		const placeholderText = this.props.intl.formatMessage( messages.placeholderText );
+		const headingText = __( "Search the Yoast Knowledge Base for answers to your questions:", "yoast-components" );
+		const placeholderText = __( "Type here to search...", "yoast-components" );
 
 		return (
 			<SearchBarWrapper role="search">
@@ -172,8 +159,8 @@ class SearchBar extends React.Component {
 						placeholder={ placeholderText }
 					/>
 					{ ! this.props.enableLiveSearch && <YoastButton type="submit">
-							{ this.props.intl.formatMessage( messages.buttonText ) }
-						</YoastButton>
+						{ __( "Search", "yoast-components" ) }
+					</YoastButton>
 					}
 				</form>
 			</SearchBarWrapper>
@@ -184,11 +171,10 @@ class SearchBar extends React.Component {
 SearchBar.propTypes = {
 	searchString: PropTypes.string,
 	submitAction: PropTypes.func,
-	intl: intlShape.isRequired,
 	enableLiveSearch: PropTypes.bool,
 };
 
 SearchBar.defaultProps = {
 };
 
-export default injectIntl( SearchBar );
+export default SearchBar;

@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HelpTextWrapper matches the snapshot by default 1`] = `
+.c7 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c2 {
+  font-size: 0.8rem;
+}
+
+.c3:active {
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4:hover {
+  color: #000;
+}
+
+.c5::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c5:focus {
+  outline: none;
+  border-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c10 >:first-child {
+  overflow: hidden;
+  -webkit-transition: height 300ms ease-out;
+  transition: height 300ms ease-out;
+}
+
+.c0 {
+  max-width: 600px;
+  font-weight: normal;
+  margin: 0 20px 0 25px;
+}
+
+.c1 {
+  min-width: 14px;
+  min-height: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  box-shadow: none;
+  display: block;
+  margin: -44px -10px 10px 0;
+  background-color: transparent;
+  float: right;
+  padding: 3px 0 0 6px;
+}
+
+.c1:hover {
+  color: #0066cd;
+}
+
+.c1:focus {
+  border: 1px solid #0066cd;
+  outline: none;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:focus svg {
+  fill: #0066cd;
+  color: #0066cd;
+}
+
+.c1:active {
+  box-shadow: none;
+}
+
+.c8:hover {
+  fill: #0066cd;
+}
+
+.c9 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div
+  className="yoast-help c0"
+>
+  <button
+    aria-controls={null}
+    aria-expanded={false}
+    aria-label="Open help"
+    className="yoast-help__button c1 c2 Button-kDSBcD c3 Button-kDSBcD c4 Button-kDSBcD c5 Button-kDSBcD c6 c7"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
+      fill="#646464"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 1792 1792"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1024 1376v-192q0-14-9-23t-23-9h-192q-14 0-23 9t-9 23v192q0 14 9 23t23 9h192q14 0 23-9t9-23zm256-672q0-88-55.5-163t-138.5-116-170-41q-243 0-371 213-15 24 8 42l132 100q7 6 19 6 16 0 25-12 53-68 86-92 34-24 86-24 48 0 85.5 26t37.5 59q0 38-20 61t-68 45q-63 28-115.5 86.5t-52.5 125.5v36q0 14 9 23t23 9h192q14 0 23-9t9-23q0-19 21.5-49.5t54.5-49.5q32-18 49-28.5t46-35 44.5-48 28-60.5 12.5-81zm384 192q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+      />
+    </svg>
+  </button>
+  <div
+    className="c10"
+  />
+</div>
+`;
