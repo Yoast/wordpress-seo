@@ -198,7 +198,7 @@ describe( "mapCustomFields", () => {
 		mapCustomFields( replaceVars, store );
 
 		expect( store.dispatch ).toHaveBeenCalledWith( expect.objectContaining( {
-			label: expect.stringContaining( " (custom fields)" ),
+			label: expect.stringContaining( " (custom field)" ),
 		} ) );
 	} );
 
@@ -240,20 +240,22 @@ describe( "mapCustomTaxonomies", () => {
 		dispatch: jest.fn(),
 	};
 
-	it( "dispatches the SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE action to redux twice", () => {
+	it( "dispatches the SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE action to redux twice per custom taxonomy", () => {
+		const numberOfCustomTaxonomies = Object.keys( replaceVars.custom_taxonomies ).length;
+
 		mapCustomTaxonomies( replaceVars, store );
 
 		expect( store.dispatch ).toHaveBeenCalledWith( expect.objectContaining( {
 			type: UPDATE_REPLACEMENT_VARIABLE,
 		} ) );
-		expect( store.dispatch ).toHaveBeenCalledTimes( 2 );
+		expect( store.dispatch ).toHaveBeenCalledTimes( numberOfCustomTaxonomies * 2 );
 	} );
 
 	it( "passes a label that contains ' (custom taxonomies)'", () => {
 		mapCustomTaxonomies( replaceVars, store );
 
 		expect( store.dispatch ).toHaveBeenCalledWith( expect.objectContaining( {
-			label: expect.stringContaining( " (custom taxonomies)" ),
+			label: expect.stringContaining( " (custom taxonomy)" ),
 		} ) );
 	} );
 
