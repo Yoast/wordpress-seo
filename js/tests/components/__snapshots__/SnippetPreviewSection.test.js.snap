@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] = `
 <SnippetPreviewSection
   hasPaperStyle={true}
@@ -7,20 +9,23 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
       "isRtl": true,
     }
   }
-  title="Snippet editor">
+  title="Snippet editor"
+>
   <SnippetPreviewSection__Section
     hasPaperStyle={true}
     headingIcon="eye"
     headingIconColor="#555"
     headingLevel={3}
-    headingText="Snippet editor">
+    headingText="Snippet editor"
+  >
     <StyledSection
       className="SnippetPreviewSection__Section-kWfIbs LsuOf"
       hasPaperStyle={true}
       headingIcon="eye"
       headingIconColor="#555"
       headingLevel={3}
-      headingText="Snippet editor">
+      headingText="Snippet editor"
+    >
       <span>
         yoast-components StyledSection
       </span>
@@ -38,20 +43,23 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
       "isRtl": false,
     }
   }
-  title="Snippet editor">
+  title="Snippet editor"
+>
   <SnippetPreviewSection__Section
     hasPaperStyle={true}
     headingIcon="eye"
     headingIconColor="#555"
     headingLevel={3}
-    headingText="Snippet editor">
+    headingText="Snippet editor"
+  >
     <StyledSection
       className="SnippetPreviewSection__Section-kWfIbs LsuOf"
       hasPaperStyle={true}
       headingIcon="eye"
       headingIconColor="#555"
       headingLevel={3}
-      headingText="Snippet editor">
+      headingText="Snippet editor"
+    >
       <span>
         yoast-components StyledSection
       </span>
