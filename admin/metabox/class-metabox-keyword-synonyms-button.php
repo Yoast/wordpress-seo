@@ -17,10 +17,6 @@ class WPSEO_Metabox_Keyword_Synonyms_Button {
 	 */
 	public function get_link() {
 
-		if ( WPSEO_UTILS::is_yoast_seo_premium() ) {
-			return '';
-		}
-
 		$keyword_synonyms_modal_config = array(
 			'mountHook'      => '.wpseo-button-keyword-synonyms',
 			'openButtonIcon' => '',
