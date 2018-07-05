@@ -1,5 +1,6 @@
 import {
-	decodeSeparatorVariable,
+	createLabelFromName,
+	decodeSeparatorVariable, pushNewReplaceVar,
 } from "../../src/helpers/replacementVariableHelpers";
 
 describe( "decodeSeparatorVariable", () => {
@@ -48,4 +49,32 @@ describe( "decodeSeparatorVariable", () => {
 
 		expect( expected ).toEqual( actual );
 	} );
+} );
+describe( "pushNewReplaceVar", () => {
+	const oldArray = [ { name: "object1" } ];
+	it( "pushes an action to an array", () => {
+		const action = {
+			name: "testName",
+			label: "testLabel",
+			value: "testValue",
+		};
+
+		const expected =  [
+			{
+				name: "object1",
+			},
+			{
+				name: "testName",
+				label: "testLabel",
+				value: "testValue",
+			},
+		];
+
+		const actual = pushNewReplaceVar( oldArray, action );
+	} );
+} );
+replacementVariables.push( {
+	name: action.name,
+	label: action.label || createLabelFromName( action.name ),
+	value: action.value,
 } );
