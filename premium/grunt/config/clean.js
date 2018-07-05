@@ -14,6 +14,7 @@ module.exports = {
 		"artifact",
 	],
 	"yoast-components-i18n": [
+		"node_modules/yoast-components/node_modules/@wordpress/i18n",
 		"node_modules/@wordpress/i18n",
 	],
 };
