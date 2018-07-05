@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.35.2 July 5th, 2018
+### Changed
+* Removes the topic density assessment and uses the keyword density assessment also when synonyms are set.
+
 ## 1.35.1 July 4th, 2018
 ### Fixed
 * Fixes a bug where a custom callback would not work correctly.
