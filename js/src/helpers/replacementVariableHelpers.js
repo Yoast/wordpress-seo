@@ -123,7 +123,7 @@ export function prepareCustomFieldForDispatch( name ) {
 	return {
 		name: "cf_" + replaceSpaces( name ),
 		label: firstToUpperCase( name + " (custom field)" ),
-	}
+	};
 }
 
 /**
@@ -140,7 +140,7 @@ export function prepareCustomTaxonomyForDispatch( name ) {
 		label: firstToUpperCase( name + " (custom taxonomy)" ),
 		descriptionName: "ct_desc_" + protoName,
 		descriptionLabel: firstToUpperCase( name + " description (custom taxonomy)" ),
-	}
+	};
 }
 
 /**
