@@ -81,6 +81,17 @@ describe( "A test for marking the keyword", function() {
 		expect( keywordDensityAssessment.getMarks( paper ) ).toEqual( expected );
 	} );
 
+	it( "doesn't return markers for synonyms", function() {
+		const paper = new Paper( "This is a very interesting paper with a keyword and another keyword and a synonym.", { keyword: "keyword", synonyms: "synonym" }  );
+		const expected = [
+			new Mark( {
+				original: "This is a very interesting paper with a keyword and another keyword and a synonym.",
+				marked: "This is a very interesting paper with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> and another <yoastmark class='yoast-text-mark'>keyword</yoastmark> and a synonym.",
+			} ),
+		];
+		expect( keywordDensityAssessment.getMarks( paper ) ).toEqual( expected );
+	} );
+
 	it( "returns no markers", function() {
 		const paper = new Paper( "This is a very interesting paper with a keyword and other keywords.", { keyword: "seaside" }  );
 		const expected = [];

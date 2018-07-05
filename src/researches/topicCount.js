@@ -12,17 +12,24 @@ const Mark = require( "../values/Mark.js" );
 /**
  * Calculates the topic count, i.e., how many times the keyword or its synonyms were encountered in the text.
  *
- * @param {Object} paper The paper containing keyword, text and potentially synonyms.
+ * @param {Object}  paper                   The paper containing keyword, text and potentially synonyms.
+ * @param {boolean} [onlyKeyword=false]     Whether to only use the keyword for the count.
+ *
  * @returns {number} The keyword count.
  */
-module.exports = function( paper ) {
+module.exports = function( paper, onlyKeyword = false ) {
 	const keyword = paper.getKeyword();
 	const synonyms = parseSynonyms( paper.getSynonyms() );
 	const text = normalizeQuotes( paper.getText() );
 	const sentences = getSentences( text );
+	let topicWords = [];
 
-	let topicWords = [].concat( keyword, synonyms ).filter( Boolean );
-	topicWords.sort( ( a, b ) => b.length - a.length );
+	if ( onlyKeyword === true ) {
+		topicWords = topicWords.concat( keyword );
+	} else {
+		topicWords = topicWords.concat( keyword, synonyms ).filter( Boolean );
+		topicWords.sort( ( a, b ) => b.length - a.length );
+	}
 
 	if ( isEmpty( topicWords ) ) {
 		return {
