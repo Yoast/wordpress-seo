@@ -93,7 +93,7 @@ class WPSEO_Admin_Pages {
 			 */
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
+			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 			$yoast_components_l10n->localize_script( 'search-appearance' );
 		}
 
