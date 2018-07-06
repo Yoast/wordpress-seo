@@ -52,6 +52,7 @@ class SettingsSnippetEditor extends React.Component {
 		this.setFieldFocus = this.setFieldFocus.bind( this );
 		this.handleChange = this.handleChange.bind( this );
 		this.onClick = this.onClick.bind( this );
+		this.onBlur = this.onBlur.bind( this );
 	}
 
 	/**
@@ -83,6 +84,17 @@ class SettingsSnippetEditor extends React.Component {
 	}
 
 	/**
+	 * Removes focus from the fields.
+	 *
+	 * @returns {void}
+	 */
+	onBlur() {
+		this.setState( {
+			activeField: null,
+		} );
+	}
+
+	/**
 	 * Handles click event on a certain field in the snippet preview.
 	 *
 	 * @param {string} field The field that was clicked on.
@@ -105,6 +117,7 @@ class SettingsSnippetEditor extends React.Component {
 			recommendedReplacementVariables,
 			descriptionEditorFieldPlaceholder,
 			hasPaperStyle,
+			fieldIds,
 		} = this.props;
 
 		const { activeField, hoveredField } = this.state;
@@ -118,9 +131,11 @@ class SettingsSnippetEditor extends React.Component {
 					hoveredField={ hoveredField }
 					onChange={ this.handleChange }
 					onFocus={ this.setFieldFocus }
+					onBlur={ this.onBlur }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
+					fieldIds={ fieldIds }
 				/>
 			</ErrorBoundary>
 		);
@@ -137,6 +152,10 @@ SettingsSnippetEditor.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	descriptionEditorFieldPlaceholder: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
+	fieldIds: PropTypes.shape( {
+		title: PropTypes.string.isRequired,
+		description: PropTypes.string.isRequired,
+	} ).isRequired,
 };
 
 SettingsSnippetEditor.defaultProps = {

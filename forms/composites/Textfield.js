@@ -10,7 +10,6 @@ import Explanation from "../../composites/OnboardingWizard/components/Explanatio
  * Represents the Textfield composite component.
  */
 class Textfield extends React.Component {
-
 	/**
 	 * Instantiates a new instance of the TextField and sets its default props.
 	 * Also adds some method binding and scoping.

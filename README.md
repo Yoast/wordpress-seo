@@ -94,8 +94,6 @@ combineReducers( {
 } );
 ```
 
-The Content Analysis requires the [`redux-thunk`](https://www.npmjs.com/package/redux-thunk) middleware.
-
 ## Setup
 - Run a `yarn install` in the root folder.
 - Run `yarn start` in the root folder.

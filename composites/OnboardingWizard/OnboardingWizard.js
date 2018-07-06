@@ -19,7 +19,6 @@ import CloseIcon from "material-ui/svg-icons/navigation/close";
  * The OnboardingWizard class.
  */
 class OnboardingWizard extends React.Component {
-
 	/**
 	 * Initialize the steps and set the current stepId to the first step in the array
 	 *
