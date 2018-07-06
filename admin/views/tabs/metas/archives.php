@@ -16,17 +16,31 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 // To improve readability, this tab has been divided into separate blocks, included below.
 require dirname( __FILE__ ) . '/archives/help.php';
 
-$view_files = array(
-	esc_html__( 'Author archives settings', 'wordpress-seo' ) => dirname( __FILE__ ) . '/archives/author-archive-settings.php',
-	esc_html__( 'Date archives settings', 'wordpress-seo' ) => dirname( __FILE__ ) . '/archives/date-archives-settings.php',
-	esc_html__( 'Special Pages', 'wordpress-seo' ) => dirname( __FILE__ ) . '/archives/special-pages.php',
+$wpseo_archives = array(
+	array(
+		'title'     => esc_html__( 'Author archives settings', 'wordpress-seo' ),
+		'view_file' => dirname( __FILE__ ) . '/paper-content/author-archive-settings.php',
+	),
+	array(
+		'title'     => esc_html__( 'Date archives settings', 'wordpress-seo' ),
+		'view_file' => dirname( __FILE__ ) . '/paper-content/date-archives-settings.php',
+	),
+	array(
+		'title'     => esc_html__( 'Special Pages', 'wordpress-seo' ),
+		'view_file' => dirname( __FILE__ ) . '/paper-content/special-pages.php',
+	),
 );
-foreach ( $view_files as $title => $view_file ) {
-	$presenter = new WPSEO_Paper_Presenter(
-		$title,
-		$view_file,
-		array( 'collapsible' => true, 'expanded' => true )
+foreach ( $wpseo_archives as $wpseo_archive_index => $wpseo_archive ) {
+	$wpseo_archive_presenter = new WPSEO_Paper_Presenter(
+		$wpseo_archive['title'],
+		$wpseo_archive['view_file'],
+		array(
+			'collapsible' => true,
+			'expanded'    => ( $wpseo_archive_index === 0 )
+		)
 	);
 
-	echo $presenter->render();
+	echo $wpseo_archive_presenter->get_output();
 }
+
+unset( $wpseo_archives, $wpseo_archive_presenter, $wpseo_archive_index );

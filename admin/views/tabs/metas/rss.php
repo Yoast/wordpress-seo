@@ -5,22 +5,16 @@
  * @package WPSEO\Admin
  */
 
-/**
- * @var Yoast_Form $yform
- */
-
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
-$presenter = new WPSEO_Paper_Presenter(
+$rss_presenter = new WPSEO_Paper_Presenter(
 	esc_html__( 'RSS feed settings', 'wordpress-seo' ),
-	dirname( __FILE__ ) . '/rss/rss-content.php',
-	array( 'collapsible' => false,
-		   'expanded' => true
-	)
+	dirname( __FILE__ ) . '/paper-content/rss-content.php'
 );
-echo $presenter->render();
+
+echo $rss_presenter->get_output();
 

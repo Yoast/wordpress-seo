@@ -11,11 +11,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-
-$presenter = new WPSEO_Paper_Presenter(
+$wpseo_media_presenter = new WPSEO_Paper_Presenter(
 	esc_html__( 'Media & attachment URLs', 'wordpress-seo' ),
-	dirname( __FILE__ ) . '/media/media-content.php',
-	array( 'collapsible' => true, 'expanded' => true )
+	dirname( __FILE__ ) . '/paper-content/media-content.php'
 );
 
-echo $presenter->render();
+echo $wpseo_media_presenter->get_output();
