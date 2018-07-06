@@ -212,7 +212,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 *
 	 * @return bool True if there are associated editor specific replace vars.
 	 */
-	private function has_editor_specific_replace_vars( $editor_specific_replace_vars, $page_type ) {
+	protected function has_editor_specific_replace_vars( $editor_specific_replace_vars, $page_type ) {
 		if ( ! isset( $editor_specific_replace_vars[ $page_type ] ) ) {
 			return false;
 		}

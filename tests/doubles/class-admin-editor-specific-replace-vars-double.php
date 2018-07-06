@@ -32,4 +32,11 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Double extends WPSEO_Admin_Editor
 	public function apply_custom_taxonomies() {
 		return parent::apply_custom_taxonomies();
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function has_editor_specific_replace_vars( $editor_specific_replacement_variables, $page_type ) {
+		return parent::has_editor_specific_replace_vars( $editor_specific_replacement_variables, $page_type );
+	}
 }
