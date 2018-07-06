@@ -11,6 +11,7 @@
  * @var string $title_after
  * @var string $help_text
  * @var string $view_file
+ * @var WPSEO_Admin_Help_Panel $help_text
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -25,19 +26,19 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	if ( ! empty( $title ) ) {
 		if ( ! empty( $collapsible ) ) {
 			printf(
-				'<h2 id="%1$s"><button type="button" class="toggleable-container-trigger" aria-expanded="%4$s">%2$s <span class="toggleable-container-icon dashicons %3$s" aria-hidden="true"></span></button></h2>',
+				'<h2 class="help-button-inline" id="%1$s"><button type="button" class="toggleable-container-trigger" aria-expanded="%4$s">%2$s <span class="toggleable-container-icon dashicons %3$s" aria-hidden="true"></span></button></h2>',
 				esc_attr( $title ),
-				esc_html( $title ) . $title_after . $help_text,
+				esc_html( $title ) . $title_after . $help_text->get_button_html(),
 				$collapsible_config['toggle_icon'],
 				$collapsible_config['expanded']
 			);
 		}
 		else {
-			printf( '<h2>' . esc_html( $title ) . $title_after . $help_text . '</h2>' );
+			printf( '<h2 class="help-button-inline">' . esc_html( $title ) . $title_after . $help_text->get_button_html() . '</h2>' );
 		}
 	}
-
 	?>
+	<?php echo $help_text->get_panel_html(); ?>
 	<div class="<?php echo esc_attr( $collapsible_config['class'] ); ?>">
 		<?php require $view_file; ?>
 	</div>

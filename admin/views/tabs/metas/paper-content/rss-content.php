@@ -7,13 +7,6 @@
  * @var Yoast_Form $yform
  */
 
-$rss_help = new WPSEO_Admin_Help_Panel(
-	'search-appearance-rss',
-	__( 'Learn more about the RSS feed setting', 'wordpress-seo' ),
-	__( 'This feature is used to automatically add content to your RSS, more specifically, it\'s meant to add links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content.', 'wordpress-seo' ),
-	'has-wrapper'
-);
-
 $textarea_atts = array(
 	'cols' => '50',
 	'rows' => '5',

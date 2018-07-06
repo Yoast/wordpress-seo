@@ -69,6 +69,10 @@ class WPSEO_Paper_Presenter {
 	 * @return array The view variables.
 	 */
 	private function get_view_variables() {
+		if ( $this->settings['help_text'] instanceof WPSEO_Admin_Help_Panel === false ) {
+			$this->settings['help_text'] = new WPSEO_Admin_Help_Panel( '', '', '' );
+		}
+
 		$view_variables = array(
 			'collapsible'        => ( bool ) $this->settings['collapsible'],
 			'collapsible_config' => $this->collapsible_config(),
