@@ -107,10 +107,16 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 				$custom_post_type_archive_help->get_button_html() . $custom_post_type_archive_help->get_panel_html()
 			);
 
-			$page_type_recommended = $recommended_replace_vars->determine_for_archive( $post_type->name );
-			$page_type_specific    = $editor_specific_replace_vars->determine_for_archive( $post_type->name );
-
-			$editor = new WPSEO_Replacevar_Editor( $yform, 'title-ptarchive-' . $post_type->name, 'metadesc-ptarchive-' . $post_type->name, $page_type_recommended, $page_type_specific, false );
+			$editor = new WPSEO_Replacevar_Editor(
+				$yform,
+				array(
+					'title'                 => 'title-ptarchive-' . $post_type->name,
+					'description'           => 'metadesc-ptarchive-' . $post_type->name,
+					'page_type_recommended' => $recommended_replace_vars->determine_for_archive( $post_type->name ),
+					'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( $post_type->name ),
+					'paper_style'           => false,
+				)
+			);
 			$editor->render();
 
 			if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
