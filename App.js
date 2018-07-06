@@ -12,6 +12,7 @@ import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
 import SnippetEditor from "./app/SnippetEditorExample";
 import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
 import KeywordExample from "./app/KeywordExample";
+import ButtonsWrapper from "./app/ButtonsWrapper";
 
 const components = [
 	{
@@ -71,6 +72,11 @@ const components = [
 		id: "sidebar-collapsible",
 		name: "Sidebar Collapsible",
 		component: <SidebarCollapsibleWrapper />,
+	},
+	{
+		id: "buttons",
+		name: "Buttons",
+		component: <ButtonsWrapper />,
 	},
 ];
 
