@@ -46,12 +46,14 @@
     "grunt-wp-i18n": "^0.4.8",
     "jest": "^18.1.0",
     "load-grunt-config": "^0.16.0",
-    "time-grunt": "^1.0.0"
+    "time-grunt": "^1.0.0",
+    "unminified-webpack-plugin": "^1.4.2"
   },
   "dependencies": {
     "@wordpress/i18n": "^1.1.1",
     "a11y-speak": "github:yoast/a11y-speak",
-    "babel-loader": "^7.1.4",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-dynamic-import-webpack": "^1.0.2",
     "babel-polyfill": "^6.16.0",
     "concat-map": "^0.0.1",
     "grunt-webpack": "^3.1.2",

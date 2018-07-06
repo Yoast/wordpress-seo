@@ -64,6 +64,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 	 */
 	public function enqueue_assets() {
 		if ( WPSEO_Metabox::is_post_edit( $GLOBALS['pagenow'] ) ) {
+			wp_enqueue_script( 'premium-commons', '/wp-content/plugins/wordpress-seo-premium/premium/assets/js/dist/commons-78-RC3.js' );
 			wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox' );
 			wp_enqueue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox' );
 

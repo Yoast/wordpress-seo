@@ -7,7 +7,7 @@ build:
   - 'build:i18n'
 # Build JavaScript from assets to production
 'build:js':
-  - 'webpack:buildDev'
+  - 'webpack:buildProd'
   - 'uglify'
 'build:css':
   - 'copy:css_social_previews'

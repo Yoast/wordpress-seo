@@ -51,7 +51,7 @@ const defaultWebpackConfig = {
 	output: {
 		path: paths.jsDist,
 		filename: outputFilename,
-		jsonpFunction: "yoastWebpackJsonp",
+		jsonpFunction: "yoastPremiumWebpackJsonp",
 	},
 	resolve: {
 		extensions: [ ".json", ".js", ".jsx" ],
@@ -104,7 +104,7 @@ const defaultWebpackConfig = {
 		new webpack.optimize.AggressiveMergingPlugin(),
 		new webpack.optimize.CommonsChunkPlugin( {
 			name: "vendor",
-			filename: "commons-" + pluginVersionSlug + ".min.js",
+			filename: "commons-premium-" + pluginVersionSlug + ".min.js",
 		} ),
 	],
 };
