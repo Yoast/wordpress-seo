@@ -22,7 +22,7 @@ $view_files = array(
 	esc_html__( 'Special Pages', 'wordpress-seo' ) => dirname( __FILE__ ) . '/archives/special-pages.php',
 );
 foreach ( $view_files as $title => $view_file ) {
-	$presenter = new WPSEO_presenter_paper(
+	$presenter = new WPSEO_Paper_Presenter(
 		$title,
 		$view_file,
 		array( 'collapsible' => true, 'expanded' => true )

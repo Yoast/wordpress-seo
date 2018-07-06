@@ -15,7 +15,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$presenter = new WPSEO_presenter_paper(
+$presenter = new WPSEO_Paper_Presenter(
 	esc_html__( 'RSS feed settings', 'wordpress-seo' ),
 	dirname( __FILE__ ) . '/rss/rss-content.php',
 	array( 'collapsible' => false,

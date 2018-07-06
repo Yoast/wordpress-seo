@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_presenter_paper
  */
-class WPSEO_presenter_paper {
+class WPSEO_Paper_Presenter {
 	/**
 	 * @var string
 	 */

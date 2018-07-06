@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 
-$presenter = new WPSEO_presenter_paper(
+$presenter = new WPSEO_Paper_Presenter(
 	esc_html__( 'Media & attachment URLs', 'wordpress-seo' ),
 	dirname( __FILE__ ) . '/media/media-content.php',
 	array( 'collapsible' => true, 'expanded' => true )
