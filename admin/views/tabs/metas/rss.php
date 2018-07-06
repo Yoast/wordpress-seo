@@ -11,10 +11,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$rss_presenter = new WPSEO_Paper_Presenter(
+$wpseo_rss_presenter = new WPSEO_Paper_Presenter(
 	esc_html__( 'RSS feed settings', 'wordpress-seo' ),
 	dirname( __FILE__ ) . '/paper-content/rss-content.php'
 );
 
-echo $rss_presenter->get_output();
+echo $wpseo_rss_presenter->get_output();
 
