@@ -4,8 +4,10 @@
  *
  * @package WPSEO\Admin\Views\Taxonomies
  *
- * @var Yoast_Form  $yform
- * @var WP_Taxonomy $wpseo_taxonomy
+ * @var Yoast_Form                           $yform
+ * @var WP_Taxonomy                          $wpseo_taxonomy
+ * @var Yoast_View_Utils                     $view_utils
+ * @var WPSEO_Admin_Recommended_Replace_Vars $recommended_replace_vars
  */
 
 if ( $wpseo_taxonomy->name === 'post_format' ) {
@@ -19,7 +21,6 @@ if ( $wpseo_taxonomy->name === 'post_format' ) {
 
 echo "<div id='" . esc_attr( $wpseo_taxonomy->name ) . "-titles-metas'>";
 
-$view_utils      = new Yoast_View_Utils();
 $taxonomies_help = $view_utils->search_results_setting_help( $wpseo_taxonomy );
 
 $yform->index_switch(
@@ -30,8 +31,7 @@ $yform->index_switch(
 
 
 // Determine the page type for the term, this is needed for the recommended replacement variables.
-$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
-$page_type                = $recommended_replace_vars->determine_for_term( $wpseo_taxonomy->name );
+$page_type = $recommended_replace_vars->determine_for_term( $wpseo_taxonomy->name );
 
 $editor = new WPSEO_Replacevar_Editor( $yform, 'title-tax-' . $wpseo_taxonomy->name, 'metadesc-tax-' . $wpseo_taxonomy->name, $page_type, false );
 $editor->render();

@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Views\Media
+ */
 
 // To improve readability, this tab has been divided into separate blocks, included below.
 require dirname( __FILE__ ) . '/general/force-rewrite-title.php';
