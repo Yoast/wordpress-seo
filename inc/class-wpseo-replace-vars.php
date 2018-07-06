@@ -1123,8 +1123,8 @@ class WPSEO_Replace_Vars {
 
 		$replacement_variables = array_merge(
 			$this->get_replacement_variables(),
-			$this->get_custom_fields(),
-			$this->get_custom_taxonomies()
+			WPSEO_Custom_Fields::get_custom_fields(),
+			WPSEO_Custom_Taxonomies::get_custom_taxonomies()
 		);
 
 		return array_map( array( $this, 'format_replacement_variable' ), $replacement_variables );

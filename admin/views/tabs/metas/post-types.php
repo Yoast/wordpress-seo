@@ -34,6 +34,9 @@ esc_html_e( 'The settings on this page allow you to specify what the default sea
 echo '</p>';
 
 if ( is_array( $post_types ) && $post_types !== array() ) {
+	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+	$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+
 	foreach ( $post_types as $id => $post_type ) {
 		$single_label = $post_type->labels->singular_name;
 		$plural_label = $post_type->labels->name;
@@ -104,10 +107,10 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 				$custom_post_type_archive_help->get_button_html() . $custom_post_type_archive_help->get_panel_html()
 			);
 
-			$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
-			$page_type                = $recommended_replace_vars->determine_for_archive( $post_type->name );
+			$page_type_recommended = $recommended_replace_vars->determine_for_archive( $post_type->name );
+			$page_type_specific    = $editor_specific_replace_vars->determine_for_archive( $post_type->name );
 
-			$editor = new WPSEO_Replacevar_Editor( $yform, 'title-ptarchive-' . $post_type->name, 'metadesc-ptarchive-' . $post_type->name, $page_type, false );
+			$editor = new WPSEO_Replacevar_Editor( $yform, 'title-ptarchive-' . $post_type->name, 'metadesc-ptarchive-' . $post_type->name, $page_type_recommended, $page_type_specific, false );
 			$editor->render();
 
 			if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
