@@ -137,6 +137,7 @@ $editor = new WPSEO_Replacevar_Editor(
 		'description'           => 'metadesc-archive-wpseo',
 		'page_type_recommended' => $recommended_replace_vars->determine_for_archive( 'date' ),
 		'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( 'date' ),
+	)
 );
 $editor->render();
 echo '</div>';

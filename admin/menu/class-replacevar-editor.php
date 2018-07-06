@@ -42,6 +42,13 @@ class WPSEO_Replacevar_Editor {
 	 * }
 	 */
 	public function __construct( Yoast_Form $yform, $arguments ) {
+		$arguments = wp_parse_args(
+			$arguments,
+			array(
+				'paper_style' => true,
+			)
+		);
+
 		$this->validate_arguments( $arguments );
 
 		$this->yform     = $yform;
@@ -86,8 +93,6 @@ class WPSEO_Replacevar_Editor {
 	 * @throws InvalidArgumentException Thrown when not all required arguments are present.
 	 */
 	protected function validate_arguments( array $arguments ) {
-		$arguments = wp_parse_args( $arguments, array( 'page_style' => true ) );
-
 		$required_arguments = array(
 			'title',
 			'description',
@@ -98,7 +103,13 @@ class WPSEO_Replacevar_Editor {
 
 		foreach ( $required_arguments as $field_name ) {
 			if ( ! array_key_exists( $field_name, $arguments ) ) {
-				throw new InvalidArgumentException( __( 'Not all required fields are given.', 'wordpress-seo' ) );
+				throw new InvalidArgumentException(
+					sprintf(
+						/* translators: %1$s expands to the missing field name.  */
+						__( 'Not all required fields are given. Missing field %1$s', 'wordpress-seo' ),
+						$field_name
+					)
+				);
 			}
 		}
 	}
