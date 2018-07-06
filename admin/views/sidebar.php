@@ -61,7 +61,7 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 			<div>
 				<a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jv' ); ?>"><img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/yoast_seo_for_wp_2.svg' ); ?>" alt=""></a>
 				<p>
-					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jv' ); ?>"><?php esc_html_e( 'Yoast SEO for WordPress training', 'wordpress-seo' ); ?></a></strong><br>
+					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jv' ); ?>"><?php esc_html_e( 'Yoast SEO for WordPress course', 'wordpress-seo' ); ?></a></strong><br>
 					<?php esc_html_e( 'Don’t waste time figuring out the best settings yourself.', 'wordpress-seo' ); ?>
 				</p>
 				<br class="clear">
@@ -69,7 +69,7 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 			<div>
 				<a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/ju' ); ?>"><img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/BasicSEO.svg' ); ?>" alt=""></a>
 				<p>
-					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/ju' ); ?>"><?php esc_html_e( 'Basic SEO training', 'wordpress-seo' ); ?></a></strong><br>
+					<strong><a target="_blank" rel="noopener noreferrer" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/ju' ); ?>"><?php esc_html_e( 'Basic SEO course', 'wordpress-seo' ); ?></a></strong><br>
 					<?php esc_html_e( 'Learn practical SEO skills to rank higher in Google.', 'wordpress-seo' ); ?>
 				</p>
 				<br class="clear">
