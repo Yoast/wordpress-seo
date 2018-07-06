@@ -93,7 +93,7 @@
     "raf": "^3.4.0",
     "react": "^16.2.0",
     "react-dom": "16.2.0",
-	"redux-logger": "^3.0.6",
+    "redux-logger": "^3.0.6",
     "sassdash": "^0.8.1",
     "svg-react-loader": "^0.4.5",
     "time-grunt": "^1.0.0",
