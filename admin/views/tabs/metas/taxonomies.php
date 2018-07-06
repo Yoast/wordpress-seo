@@ -53,7 +53,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				'title'                 => 'title-tax-' . $tax->name,
 				'description'           => 'metadesc-tax-' . $tax->name,
 				'page_type_recommended' => $recommended_replace_vars->determine_for_term( $tax->name ),
-				'page_type_specific'    => $editor_specific_replace_vars->determine_for_term( $tax->name )
+				'page_type_specific'    => $editor_specific_replace_vars->determine_for_term( $tax->name ),
 			)
 		);
 		$editor->render();

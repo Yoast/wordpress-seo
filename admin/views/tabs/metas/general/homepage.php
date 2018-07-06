@@ -27,7 +27,7 @@
 				'title'                 => 'title-home-wpseo',
 				'description'           => 'metadesc-home-wpseo',
 				'page_type_recommended' => 'homepage',
-				'page_type_specific'    => 'page'
+				'page_type_specific'    => 'page',
 			)
 		);
 		$editor->render();
