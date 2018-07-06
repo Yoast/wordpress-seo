@@ -79,10 +79,10 @@ class WPSEO_Replacevar_Editor {
 				data-react-replacevar-page-type-recommended="%3$s"
 				data-react-replacevar-page-type-specific="%4$s"
 				data-react-replacevar-paper-style="%5$s"></div>',
-			esc_attr( (string) $this->arguments['title'] ),
-			esc_attr( (string) $this->arguments['description'] ),
-			esc_attr( (string) $this->arguments['page_type_recommended'] ),
-			esc_attr( (string) $this->arguments['page_type_specific'] ),
+			esc_attr( $this->arguments['title'] ),
+			esc_attr( $this->arguments['description'] ),
+			esc_attr( $this->arguments['page_type_recommended'] ),
+			esc_attr( $this->arguments['page_type_specific'] ),
 			esc_attr( $this->arguments['paper_style'] )
 		);
 	}
