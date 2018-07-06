@@ -15,7 +15,15 @@ import { addHoverStyle, addFocusStyle, addActiveStyle } from "./Button";
  *
  * @returns {ReactElement} Component with applied styles.
  */
-export const addButtonStyles = flow( [ addFocusStyle, addActiveStyle, addHoverStyle ] );
+export const addButtonStyles = flow( [
+	/*
+	 * Styled-components applies the generated CSS classes in a reversed order,
+	 * but we want them in the order: base - hover - focus - active.
+	 */
+	addActiveStyle,
+	addFocusStyle,
+	addHoverStyle,
+] );
 
 /**
  * Returns a basic styled button.

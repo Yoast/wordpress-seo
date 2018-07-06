@@ -27,6 +27,14 @@ BaseLinkButton.propTypes = {
 	textColor: PropTypes.string,
 	borderColor: PropTypes.string,
 	boxShadowColor: PropTypes.string,
+	hoverColor: PropTypes.string,
+	hoverBackgroundColor: PropTypes.string,
+	hoverBorderColor: PropTypes.string,
+	activeBackgroundColor: PropTypes.string,
+	activeBorderColor: PropTypes.string,
+	focusColor: PropTypes.string,
+	focusBackgroundColor: PropTypes.string,
+	focusBorderColor: PropTypes.string,
 };
 
 BaseLinkButton.defaultProps = {
@@ -34,6 +42,14 @@ BaseLinkButton.defaultProps = {
 	textColor: colors.$color_button_text,
 	borderColor: colors.$color_button_border,
 	boxShadowColor: colors.$color_button_border,
+	hoverColor: colors.$color_button_text_hover,
+	hoverBackgroundColor: colors.$color_button_hover,
+	hoverBorderColor: colors.$color_button_border_hover,
+	activeBackgroundColor: colors.$color_button,
+	activeBorderColor: colors.$color_button_border_hover,
+	focusColor: colors.$color_button_text_hover,
+	focusBackgroundColor: colors.$color_white,
+	focusBorderColor: colors.$color_blue,
 };
 
 /**
