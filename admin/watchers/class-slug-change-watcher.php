@@ -99,8 +99,13 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$first_sentence = sprintf( __( 'You just deleted a %1$s.', 'wordpress-seo' ), $this->get_taxonomy_label_for_term( $term_id ) );
-		$message        = $this->get_message( $first_sentence );
+		$first_sentence = sprintf(
+			/* translators: 1: term label */
+			__( 'You just deleted a %1$s.', 'wordpress-seo' ),
+			$this->get_taxonomy_label_for_term( $term_id )
+		);
+
+		$message = $this->get_message( $first_sentence );
 
 		$this->add_notification( $message );
 	}

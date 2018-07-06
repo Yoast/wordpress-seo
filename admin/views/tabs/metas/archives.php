@@ -15,6 +15,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+
 $archives_help_01 = sprintf(
 	/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
 	esc_html__( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ),
@@ -87,7 +90,15 @@ $yform->index_switch(
 	$author_archives_no_posts_help->get_button_html() . $author_archives_no_posts_help->get_panel_html()
 );
 
-$editor = new WPSEO_Replacevar_Editor( $yform, 'title-author-wpseo', 'metadesc-author-wpseo', 'author_archive' );
+$editor = new WPSEO_Replacevar_Editor(
+	$yform,
+	array(
+		'title'                 => 'title-author-wpseo',
+		'description'           => 'metadesc-author-wpseo',
+		'page_type_recommended' => $recommended_replace_vars->determine_for_archive( 'author' ),
+		'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( 'author' ),
+	)
+);
 $editor->render();
 echo '</div>';
 echo '</div>';
@@ -119,7 +130,15 @@ $yform->index_switch(
 	$date_archives_help->get_button_html() . $date_archives_help->get_panel_html()
 );
 
-$editor = new WPSEO_Replacevar_Editor( $yform, 'title-archive-wpseo', 'metadesc-archive-wpseo', 'date_archive' );
+$editor = new WPSEO_Replacevar_Editor(
+	$yform,
+	array(
+		'title'                 => 'title-archive-wpseo',
+		'description'           => 'metadesc-archive-wpseo',
+		'page_type_recommended' => $recommended_replace_vars->determine_for_archive( 'date' ),
+		'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( 'date' ),
+	)
+);
 $editor->render();
 echo '</div>';
 echo '</div>';
@@ -139,9 +158,9 @@ echo '<div class="tab-block" id="special-pages-titles-metas">';
 echo '<h2 class="help-button-inline">' . esc_html__( 'Special Pages', 'wordpress-seo' ) . $spcia_pages_help->get_button_html() . '</h2>';
 echo $spcia_pages_help->get_panel_html();
 
-$editor = new WPSEO_Replacevar_Field( $yform, 'title-search-wpseo', __( 'Search pages', 'wordpress-seo' ), 'search' );
+$editor = new WPSEO_Replacevar_Field( $yform, 'title-search-wpseo', __( 'Search pages', 'wordpress-seo' ), 'search', 'search' );
 $editor->render();
 echo '<br/>';
-$editor = new WPSEO_Replacevar_Field( $yform, 'title-404-wpseo', __( '404 pages', 'wordpress-seo' ), '404' );
+$editor = new WPSEO_Replacevar_Field( $yform, 'title-404-wpseo', __( '404 pages', 'wordpress-seo' ), '404', '404' );
 $editor->render();
 echo '</div>';

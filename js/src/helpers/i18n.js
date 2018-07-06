@@ -9,7 +9,7 @@ import get from "lodash/get";
  * @param {string} textdomain The textdomain to set the locale data for.
  * @returns {void}
  */
-function setTextdomainL10n( textdomain ) {
+export function setTextdomainL10n( textdomain ) {
 	const jed = getI18n();
 	const currentTranslations = get( jed, [ "options", "locale_data", textdomain ], false );
 
