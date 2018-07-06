@@ -7,7 +7,6 @@
  * @var Yoast_Form $yform
  */
 
-
 $remove_buttons = array( __( 'Keep', 'wordpress-seo' ), __( 'Remove', 'wordpress-seo' ) );
 
 $stripcategorybase_help = new WPSEO_Admin_Help_Panel(

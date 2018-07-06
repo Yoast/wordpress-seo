@@ -34,7 +34,7 @@ foreach ( $wpseo_archives as $wpseo_archive_index => $wpseo_archive ) {
 		dirname( __FILE__ ) . '/' . $wpseo_archive['view_file'],
 		array(
 			'collapsible' => true,
-			'expanded'    => ( $wpseo_archive_index === 0 )
+			'expanded'    => ( $wpseo_archive_index === 0 ),
 		)
 	);
 

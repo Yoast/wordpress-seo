@@ -7,7 +7,9 @@
  * @var Yoast_Form $yform
  */
 
-$wpseo_post_type = get_post_type_object( 'attachment' );
+$wpseo_post_type          = get_post_type_object( 'attachment' );
+$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+$view_utils               = new Yoast_View_Utils();
 
 $media_help = new WPSEO_Admin_Help_Panel(
 	'search-appearance-media',
@@ -51,7 +53,6 @@ $yform->toggle_switch(
 		echo '<div style="clear:both; background-color: #ffeb3b; color: #000000; padding: 16px; max-width: 450px; margin-bottom: 32px;">' . $description . '</div>';
 	}
 
-	$view_utils = new Yoast_View_Utils();
-	$view_utils->show_post_type_settings( 'attachment', false );
+	require dirname( __FILE__ ) . '/post_type/post-type.php';
 	?>
 </div>

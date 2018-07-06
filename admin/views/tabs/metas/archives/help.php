@@ -6,6 +6,7 @@
  *
  * @var Yoast_Form $yform
  */
+
 $archives_help_content = array(
 	sprintf(
 	    /* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
@@ -25,7 +26,7 @@ $archives_help_content = array(
 $archives_help = new WPSEO_Admin_Help_Panel(
 'search-appearance-archives',
 	__( 'Learn more about the archives setting', 'wordpress-seo' ),
-	implode(  ' ', $archives_help_content ),
+	implode( ' ', $archives_help_content ),
 	'has-wrapper'
 );
 
