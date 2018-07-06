@@ -210,19 +210,19 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 			array( 'custom_post_type', array( 'sitename', 'title', 'sep' ) ),
 
 			// Taxonomies.
-			array( 'category'   , array( 'sitename', 'term_title', 'sep' ) ),
-			array( 'post_tag'   , array( 'sitename', 'term_title', 'sep' ) ),
+			array( 'category', array( 'sitename', 'term_title', 'sep' ) ),
+			array( 'post_tag', array( 'sitename', 'term_title', 'sep' ) ),
 			array( 'post_format', array( 'sitename', 'term_title', 'sep', 'page' ) ),
 			// Custom taxonomy.
 			array( 'term-in-custom-taxomomy', array( 'sitename', 'term_title', 'sep' ) ),
 
 			// Settings - archive pages.
-			array( 'author_archive'          , array( 'sitename', 'title', 'sep', 'page' ) ),
-			array( 'date_archive'            , array( 'sitename', 'sep', 'date', 'page' ) ),
+			array( 'author_archive', array( 'sitename', 'title', 'sep', 'page' ) ),
+			array( 'date_archive', array( 'sitename', 'sep', 'date', 'page' ) ),
 			array( 'custom-post-type_archive', array( 'sitename', 'title', 'sep', 'page' ) ),
 			// Settings - special pages.
 			array( 'search', array( 'sitename', 'searchphrase', 'sep', 'page' ) ),
-			array( '404'   , array( 'sitename', 'sep' ) ),
+			array( '404', array( 'sitename', 'sep' ) ),
 		);
 	}
 
@@ -252,7 +252,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * @return array The new recommended replacement variables.
 	 */
 	public function filter_recommended_replacevars( $replacevars = array() ) {
-		$replacevars[ 'non-array' ] = 'non-array';
+		$replacevars['non-array'] = 'non-array';
 
 		return $replacevars;
 	}

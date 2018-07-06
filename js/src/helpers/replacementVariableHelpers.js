@@ -5,6 +5,7 @@ import omit from "lodash/omit";
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import decodeHTML from "yoast-components/composites/OnboardingWizard/helpers/htmlDecoder";
+import { firstToUpperCase } from "./stringHelpers";
 
 
 export const nonReplaceVars = [ "slug", "content" ];
@@ -80,7 +81,7 @@ export function createLabelFromName( name ) {
 	name = handlePrefixes( name );
 
 	// Capitalize first letter
-	return name[ 0 ].toUpperCase() + name.slice( 1 );
+	return firstToUpperCase( name );
 }
 
 /**
@@ -127,33 +128,69 @@ export function decodeSeparatorVariable( replacementVariables ) {
  *
  * @returns {string} The string without spaces.
  */
-function replaceSpaces( string, replacement = "_" ) {
+export function replaceSpaces( string, replacement = "_" ) {
 	// Replace whitespaces with the replacement.
 	return string.replace( /\s/g, replacement );
+}
+
+/**
+ * Prepare the custom field for dispatch to the redux store.
+ * The main use here is to have control over the label, which needs to be created before spaces are replaced.
+ *
+ * @param {string} name The name of the custom field.
+ * @returns {Object}    An object containing the replacement variable name and nice label.
+ */
+export function prepareCustomFieldForDispatch( name ) {
+	return {
+		name: "cf_" + replaceSpaces( name ),
+		label: firstToUpperCase( name + " (custom field)" ),
+	};
+}
+
+/**
+ * Prepare the custom taxonomy for dispatch to the redux store.
+ * The main use here is to have control over the label, which needs to be created before spaces are replaced.
+ *
+ * @param {string} name The name of the custom taxonomy.
+ * @returns {Object}    An object containing the replacement variable name and nice label, also for the description.
+ */
+export function prepareCustomTaxonomyForDispatch( name ) {
+	const protoName = replaceSpaces( name );
+	return {
+		name: "ct_" + protoName,
+		label: firstToUpperCase( name + " (custom taxonomy)" ),
+		descriptionName: "ct_desc_" + protoName,
+		descriptionLabel: firstToUpperCase( name + " description (custom taxonomy)" ),
+	};
 }
 
 /**
  * Map the custom_taxonomies field in the replacevars to a format suited for redux.
  *
  * @param {Object} replaceVars       The original replacevars.
+ * @param {Object} store             The redux store.
  *
  * @returns {Object}                 The restructured replacevars object without custom_taxonomies.
  */
-export function mapCustomTaxonomies( replaceVars ) {
+export function mapCustomTaxonomies( replaceVars, store ) {
 	if( ! replaceVars.custom_taxonomies ) {
 		return replaceVars;
 	}
 
-	let customTaxonomyReplaceVars = {};
 	forEach( replaceVars.custom_taxonomies, ( value, key ) => {
-		key = replaceSpaces( key );
-		customTaxonomyReplaceVars[ `ct_${ key }` ] = value.name;
-		customTaxonomyReplaceVars[ `ct_desc_${ key }` ] = value.description;
+		const {
+			name,
+			label,
+			descriptionName,
+			descriptionLabel
+		} = prepareCustomTaxonomyForDispatch( key );
+
+		store.dispatch( updateReplacementVariable( name, value.name, label ) );
+		store.dispatch( updateReplacementVariable( descriptionName, value.description, descriptionLabel ) );
 	} );
 
 	return omit( {
 		...replaceVars,
-		...customTaxonomyReplaceVars,
 	}, "custom_taxonomies" );
 }
 
@@ -161,22 +198,21 @@ export function mapCustomTaxonomies( replaceVars ) {
  * Map the custom_fields field in the replacevars to a format suited for redux.
  *
  * @param {Object} replaceVars       The original replacevars.
+ * @param {Object} store             The redux store.
  *
  * @returns {Object}                 The restructured replacevars object without custom_fields.
  */
-export function mapCustomFields( replaceVars ) {
+export function mapCustomFields( replaceVars, store ) {
 	if( ! replaceVars.custom_fields ) {
 		return replaceVars;
 	}
 
-	let customFieldReplaceVars = {};
 	forEach( replaceVars.custom_fields, ( value, key ) => {
-		key = replaceSpaces( key );
-		customFieldReplaceVars[ `cf_${ key }` ] = value;
+		const { name, label } = prepareCustomFieldForDispatch( key );
+		store.dispatch( updateReplacementVariable( name, value, label ) );
 	} );
 
 	return omit( {
 		...replaceVars,
-		...customFieldReplaceVars,
 	}, "custom_fields" );
 }

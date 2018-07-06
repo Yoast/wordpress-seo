@@ -11,3 +11,14 @@ export function unescapeString( escapedString ) {
 	escapedString = escapedString.replace( /&#0*39;/g, "&#39;" );
 	return unescape( escapedString );
 }
+
+/**
+ * Capitalize the first letter of a string.
+ *
+ * @param   {string} string The string to capitalize.
+ *
+ * @returns {string}        The string with the first letter capitalized.
+ */
+export function firstToUpperCase( string ) {
+	return string.charAt( 0 ).toUpperCase() + string.slice( 1 );
+}

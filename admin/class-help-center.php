@@ -181,7 +181,7 @@ class WPSEO_Help_Center {
 	protected function enqueue_localized_data( $data ) {
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'help-center', 'wpseoHelpCenterData', $data );
 
-		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'help-center' );
 	}
 
