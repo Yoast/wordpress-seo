@@ -90,9 +90,15 @@ $yform->index_switch(
 	$author_archives_no_posts_help->get_button_html() . $author_archives_no_posts_help->get_panel_html()
 );
 
-$page_type_recommended = $recommended_replace_vars->determine_for_archive( 'author' );
-$page_type_specific    = $editor_specific_replace_vars->determine_for_archive( 'author' );
-$editor = new WPSEO_Replacevar_Editor( $yform, 'title-author-wpseo', 'metadesc-author-wpseo', $page_type_recommended, $page_type_specific );
+$editor = new WPSEO_Replacevar_Editor(
+	$yform,
+	array(
+		'title'                 => 'title-author-wpseo',
+		'description'           => 'metadesc-author-wpseo',
+		'page_type_recommended' => $recommended_replace_vars->determine_for_archive( 'author' ),
+		'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( 'author' ),
+	)
+);
 $editor->render();
 echo '</div>';
 echo '</div>';
@@ -124,9 +130,14 @@ $yform->index_switch(
 	$date_archives_help->get_button_html() . $date_archives_help->get_panel_html()
 );
 
-$page_type_recommended = $recommended_replace_vars->determine_for_archive( 'date' );
-$page_type_specific    = $editor_specific_replace_vars->determine_for_archive( 'date' );
-$editor = new WPSEO_Replacevar_Editor( $yform, 'title-archive-wpseo', 'metadesc-archive-wpseo', $page_type_recommended, $page_type_specific );
+$editor = new WPSEO_Replacevar_Editor(
+	$yform,
+	array(
+		'title'                 => 'title-archive-wpseo',
+		'description'           => 'metadesc-archive-wpseo',
+		'page_type_recommended' => $recommended_replace_vars->determine_for_archive( 'date' ),
+		'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( 'date' ),
+);
 $editor->render();
 echo '</div>';
 echo '</div>';
