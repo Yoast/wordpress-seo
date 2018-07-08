@@ -48,7 +48,7 @@ const IconLabelledBaseButton = addButtonStyles(
 		font-weight: inherit;
 		color: ${ props => props.textColor };
 		background: ${ props => props.backgroundColor };
-		font-size: ${ props => props.fontSize };
+		font-size: ${ props => props.textFontSize };
 
 		svg {
 			margin: 0 0 8px;
@@ -89,7 +89,7 @@ IconLabelledButton.propTypes = {
 	icon: PropTypes.string.isRequired,
 	iconColor: PropTypes.string,
 	textColor: PropTypes.string,
-	fontSize: PropTypes.string,
+	textFontSize: PropTypes.string,
 	backgroundColor: PropTypes.string,
 	borderColor: PropTypes.string,
 	hoverColor: PropTypes.string,
@@ -104,14 +104,14 @@ IconLabelledButton.propTypes = {
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
 		PropTypes.string,
-	] ),
+	] ).isRequired,
 };
 
 IconLabelledButton.defaultProps = {
 	type: "button",
 	iconColor: colors.$color_blue,
 	textColor: colors.$color_blue,
-	fontSize: "inherit",
+	textFontSize: "inherit",
 	backgroundColor: "transparent",
 	borderColor: "transparent",
 	hoverColor: colors.$color_blue,
