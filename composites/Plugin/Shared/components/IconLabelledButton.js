@@ -15,7 +15,7 @@ import { addHoverStyle, addFocusStyle, addActiveStyle } from "./Button";
  *
  * @returns {ReactElement} Component with applied styles.
  */
-export const addButtonStyles = flow( [
+const addButtonStyles = flow( [
 	/*
 	 * Styled-components applies the generated CSS classes in a reversed order,
 	 * but we want them in the order: base - hover - focus - active.
@@ -32,7 +32,7 @@ export const addButtonStyles = flow( [
  *
  * @returns {ReactElement} Styled button.
  */
-export const IconLabelledBaseButton = addButtonStyles(
+const IconLabelledBaseButton = addButtonStyles(
 	styled.button`
 		display: inline-flex;
 		flex-direction: column;
@@ -53,12 +53,13 @@ export const IconLabelledBaseButton = addButtonStyles(
 		svg {
 			margin: 0 0 8px;
 			flex-shrink: 0;
+			fill: currentColor;
 			// Safari 10
 			align-self: center;
 		}
 
-		&:hover svg {
-			fill: ${ props => props.hoverColor };
+		&:active {
+			box-shadow: none;
 		}
 	`
 );
@@ -70,7 +71,7 @@ export const IconLabelledBaseButton = addButtonStyles(
  *
  * @returns {ReactElement} Styled icon button.
  */
-export const IconLabelledButton = ( props ) => {
+const IconLabelledButton = ( props ) => {
 	const { children, icon, iconColor } = props;
 
 	const newProps = omit( props, "icon" );
@@ -90,10 +91,15 @@ IconLabelledButton.propTypes = {
 	textColor: PropTypes.string,
 	fontSize: PropTypes.string,
 	backgroundColor: PropTypes.string,
+	borderColor: PropTypes.string,
 	hoverColor: PropTypes.string,
 	hoverBackgroundColor: PropTypes.string,
+	hoverBorderColor: PropTypes.string,
 	activeBackgroundColor: PropTypes.string,
+	activeBorderColor: PropTypes.string,
+	focusColor: PropTypes.string,
 	focusBackgroundColor: PropTypes.string,
+	focusBorderColor: PropTypes.string,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
@@ -107,8 +113,15 @@ IconLabelledButton.defaultProps = {
 	textColor: colors.$color_blue,
 	fontSize: "inherit",
 	backgroundColor: "transparent",
+	borderColor: "transparent",
 	hoverColor: colors.$color_blue,
 	hoverBackgroundColor: null,
+	hoverBorderColor: null,
 	activeBackgroundColor: null,
+	activeBorderColor: "transparent",
+	focusColor: colors.$color_blue,
 	focusBackgroundColor: null,
+	focusBorderColor: colors.$color_blue,
 };
+
+export default IconLabelledButton;
