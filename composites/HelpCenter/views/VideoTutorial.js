@@ -15,7 +15,7 @@ const VideoTutorialContainer = styled.div`
 `;
 
 const VideoContainer = styled.div`
-	${ props => props.hasAdvertisements ? "float: left;" : "margin: auto;" }
+	${ props => props.hasParagraphs ? "float: left;" : "margin: auto;" }
 	width: ${ VIDEO_WIDTH };
 
 	@media screen and ( max-width: ${ breakpoints.tablet } ) {
@@ -26,7 +26,7 @@ const VideoContainer = styled.div`
 `;
 
 VideoContainer.propTypes = {
-	hasAdvertisements: PropTypes.bool.isRequired,
+	hasParagraphs: PropTypes.bool.isRequired,
 };
 
 const VideoDescriptions = styled.div`
@@ -108,7 +108,7 @@ export default function VideoTutorial( props ) {
 		<VideoTutorialContainer className={ `${ props.className }__container` }>
 			<VideoContainer
 				className={ `${ props.className }__video-container` }
-				hasAdvertisements={ props.paragraphs.length > 0 }
+				hasParagraphs={ props.paragraphs.length > 0 }
 			>
 				<YouTubeVideo
 					src={ props.src }
