@@ -196,7 +196,7 @@ class WPSEO_Rewrite {
 	 */
 	protected function convert_encoded_to_upper( $name ) {
 		// Checks if name has any encoding in it.
-		if ( strpos( $name, '%' ) === false  ) {
+		if ( strpos( $name, '%' ) === false ) {
 			return $name;
 		}
 
@@ -214,7 +214,7 @@ class WPSEO_Rewrite {
 	 * @return string The uppercased string.
 	 */
 	public function encode_to_upper( $encoded ) {
-		if ( strpos( $encoded, '%' ) === false  ) {
+		if ( strpos( $encoded, '%' ) === false ) {
 			return $encoded;
 		}
 
