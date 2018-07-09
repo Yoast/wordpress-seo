@@ -7,6 +7,7 @@
  */
 
 class WPSEO_Twitter_Validator implements WPSEO_Endpoint_Validator {
+
 	/**
 	 * Validates the Twitter-related data.
 	 *

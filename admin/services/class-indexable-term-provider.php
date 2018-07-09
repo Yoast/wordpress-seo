@@ -149,15 +149,15 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Renames some of the indexable data to its database variant.
+	 * Renames and converts some of the indexable data to its database variant.
 	 *
-	 * @param array $indexable_data The indexable data to rename.
+	 * @param array $indexable_data The indexable data to rename and convert.
 	 *
-	 * @return array The renamed indexable data.
+	 * @return array The renamed and converted indexable data.
 	 */
 	protected function rename_indexable_data( &$indexable_data ) {
 		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noindex' ) ) {
-			$indexable_data['is_robots_noindex'] = $this->translate_noindex( $indexable_data[ 'is_robots_noindex' ] );
+			$indexable_data['is_robots_noindex'] = $this->convert_noindex( $indexable_data[ 'is_robots_noindex' ] );
 		}
 
 		foreach ( $this->renameable_fields as $old_key => $new_key ) {
@@ -172,13 +172,13 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Translates the noindex value to a database compatible one.
+	 * Converts the noindex value to a database compatible one.
 	 *
 	 * @param bool $noindex The current noindex value.
 	 *
-	 * @return string|null The translated value.
+	 * @return string|null The converted value.
 	 */
-	protected function translate_noindex( $noindex ) {
+	protected function convert_noindex( $noindex ) {
 		if ( $noindex === 'false' ) {
 			return 'noindex';
 		}

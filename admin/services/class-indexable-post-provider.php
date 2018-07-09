@@ -71,7 +71,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 * @return bool True if saving was successful.
 	 */
 	protected function store_indexable( WPSEO_Indexable $indexable ) {
-		$values = $this->translate_indexable_data( $indexable->to_array() );
+		$values = $this->convert_indexable_data( $indexable->to_array() );
 
 		foreach ( $values as $key => $item ) {
 			if ( in_array( $key, $this->non_updateable_fields, true ) ) {
@@ -108,38 +108,38 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Translates some of the indexable data to its database variant.
+	 * Converts some of the indexable data to its database variant.
 	 *
-	 * @param array $indexable_data The indexable data to translate.
+	 * @param array $indexable_data The indexable data to convert.
 	 *
-	 * @return array The translated indexable data.
+	 * @return array The converted indexable data.
 	 */
-	protected function translate_indexable_data( $indexable_data ) {
+	protected function convert_indexable_data( $indexable_data ) {
 		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_nofollow' ) ) {
-			$indexable_data['is_robots_nofollow'] = $this->translate_nofollow( $indexable_data['is_robots_nofollow'] );
+			$indexable_data['is_robots_nofollow'] = $this->convert_nofollow( $indexable_data['is_robots_nofollow'] );
 		}
 
 		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noindex' ) ) {
-			$indexable_data['is_robots_noindex'] = $this->translate_noindex( $indexable_data['is_robots_noindex'] );
+			$indexable_data['is_robots_noindex'] = $this->convert_noindex( $indexable_data['is_robots_noindex'] );
 		}
 
 		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_cornerstone' ) ) {
-			$indexable_data['is_cornerstone'] = $this->translate_cornerstone( $indexable_data['is_cornerstone'] );
+			$indexable_data['is_cornerstone'] = $this->convert_cornerstone( $indexable_data['is_cornerstone'] );
 		}
 
-		$indexable_data['meta-robots-adv'] = $this->translate_advanced( $indexable_data );
+		$indexable_data['meta-robots-adv'] = $this->convert_advanced( $indexable_data );
 
 		return $indexable_data;
 	}
 
 	/**
-	 * Translates the cornerstone value to its database variant.
+	 * Converts the cornerstone value to its database variant.
 	 *
 	 * @param string $cornerstone_value The cornerstone value.
 	 *
-	 * @return string The translated indexable cornerstone value.
+	 * @return string The converted indexable cornerstone value.
 	 */
-	protected function translate_cornerstone( $cornerstone_value ) {
+	protected function convert_cornerstone( $cornerstone_value ) {
 		if ( $cornerstone_value === 'true' ) {
 			return '1';
 		}
@@ -148,13 +148,13 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Translates the advanced meta settings to its database variant.
+	 * Converts the advanced meta settings to its database variant.
 	 *
-	 * @param array $indexable_data The indeaxable data to translate the advanced meta settings from.
+	 * @param array $indexable_data The indeaxable data to convert the advanced meta settings from.
 	 *
-	 * @return string The translated advanced meta settings.
+	 * @return string The converted advanced meta settings.
 	 */
-	protected function translate_advanced( &$indexable_data ) {
+	protected function convert_advanced( &$indexable_data ) {
 		$translated_advanced_data = array();
 
 		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_nosnippet' ) && $indexable_data['is_robots_nosnippet'] === true ) {
@@ -179,13 +179,13 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Translates the nofollow value to a database compatible one.
+	 * Converts the nofollow value to a database compatible one.
 	 *
 	 * @param bool $nofollow The current nofollow value.
 	 *
-	 * @return string The translated value.
+	 * @return string The converted value.
 	 */
-	protected function translate_nofollow( $nofollow ) {
+	protected function convert_nofollow( $nofollow ) {
 		if ( $nofollow === 'true' ) {
 			return '1';
 		}
@@ -194,13 +194,13 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Translates the noindex value to a database compatible one.
+	 * Converts the noindex value to a database compatible one.
 	 *
 	 * @param bool $noindex The current noindex value.
 	 *
-	 * @return string|null The translated value.
+	 * @return string|null The converted value.
 	 */
-	protected function translate_noindex( $noindex ) {
+	protected function convert_noindex( $noindex ) {
 		if ( $noindex === 'false' ) {
 			return '2';
 		}
