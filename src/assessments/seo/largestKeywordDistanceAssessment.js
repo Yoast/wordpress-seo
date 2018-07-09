@@ -48,6 +48,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 		this._largestKeywordDistance = researcher.getResearch( "largestKeywordDistance" );
 
 		this._hasSynonyms = paper.hasSynonyms();
+		this._topicUsed = topicCount( paper ).count;
 
 		let assessmentResult = new AssessmentResult();
 
@@ -55,7 +56,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( calculatedResult.score < 9 );
+		assessmentResult.setHasMarks( calculatedResult.score > 0 );
 
 		return assessmentResult;
 	}
@@ -68,9 +69,17 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 * @returns {Object} Object with score and feedback text.
 	 */
 	calculateResult( i18n ) {
-		if ( this._hasSynonyms ) {
-			this._config.overRecommendedMaximumKeywordDistance = 40;
-			this._config.recommendedMaximumKeywordDistance = 30;
+		if ( this._topicUsed < 2 ) {
+			return {
+				score: 0,
+				resultText: i18n.sprintf(
+					i18n.dgettext(
+					"js-text-analysis",
+					"Use your keyword or synonyms more often in your text so we can check %1$skeyword distribution%2$s.",
+				),
+					this._config.url,
+					"</a>"
+			) };
 		}
 
 		if ( this._largestKeywordDistance > this._config.overRecommendedMaximumKeywordDistance ) {
@@ -151,9 +160,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 *                    with the keyword occurring more than one time.
 	 */
 	isApplicable( paper ) {
-		const topicUsed = topicCount( paper ).count;
-
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200 && topicUsed > 1;
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200;
 	}
 }
 
