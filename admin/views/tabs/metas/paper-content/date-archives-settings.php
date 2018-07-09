@@ -44,6 +44,7 @@
 				'description'           => 'metadesc-archive-wpseo',
 				'page_type_recommended' => $recommended_replace_vars->determine_for_archive( 'date' ),
 				'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( 'date' ),
+				'paper_style'           => false,
 			)
 		);
 		$editor->render();

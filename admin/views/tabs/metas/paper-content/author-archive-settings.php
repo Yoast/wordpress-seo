@@ -64,6 +64,7 @@ $yform->toggle_switch( 'disable-author', array(
 			'description'           => 'metadesc-author-wpseo',
 			'page_type_recommended' => $recommended_replace_vars->determine_for_archive( 'author' ),
 			'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( 'author' ),
+			'paper_style'           => false,
 		)
 	);
 	$editor->render();
