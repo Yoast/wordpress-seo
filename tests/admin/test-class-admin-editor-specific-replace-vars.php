@@ -10,7 +10,8 @@
  */
 class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Admin_Editor_Specific_Replace_Vars_Test */
+	/** @var WPSEO_Admin_Editor_Specific_Replace_Vars_Double
+	 */
 	protected $class_instance;
 
 	/**
@@ -27,7 +28,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * Tests that get_shared_replace_vars removes all replacement variables that occurs in the editor specific
 	 * replacement variables.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_shared_replace_vars
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_generic()
 	 */
 	public function test_get_shared_replace_vars_filters_editor_specific_replace_vars() {
 		$replace_vars_list = array(
@@ -63,7 +64,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that determine_for_term can detect a tag.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Var::determine_for_term
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_term
 	 */
 	public function test_determine_for_term_with_a_tag() {
 		$this->assertEquals( 'post_tag', $this->class_instance->determine_for_term( 'post_tag' ) );
@@ -85,30 +86,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_determine_for_post_without_a_wp_post_instance() {
 		$this->assertEquals( 'post', $this->class_instance->determine_for_post( null ) );
-	}
-
-	/**
-	 * Tests that a homepage is succesfully determined.
-	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::is_homepage
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_post
-	 */
-	public function test_determine_for_post_with_a_homepage() {
-		// Backup the current values for these options.
-		$show_on_front = get_option( 'show_on_front' );
-		$page_on_front = get_option( 'page_on_front' );
-
-		$post = $this->create_and_get_with_post_type( 'page' );
-
-		// Overwrite the options used in the is_homepage function.
-		update_option( 'show_on_front', 'page' );
-		update_option( 'page_on_front', $post->ID );
-
-		$this->assertEquals( 'page', $this->class_instance->determine_for_post( $post ) );
-
-		// Revert the options their original values.
-		update_option( 'show_on_front', $show_on_front );
-		update_option( 'page_on_front', $page_on_front );
 	}
 
 	/**
@@ -239,7 +216,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * Tests that has_editor_specific_replace_vars returns true when it has recommended replacement
 	 * variables for the passed page type.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_editor_specific_replace_vars
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type()
 	 */
 	public function test_has_editor_specific_replace_vars_existing() {
 		$this->assertEquals( true, $this->class_instance->has_for_page_type( 'post' ) );
@@ -249,7 +226,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * Tests that has_editor_specific_replace_vars returns false when it doesn't have recommended
 	 * replacement variables for the passed page type.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_editor_specific_replace_vars
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type
 	 */
 	public function test_has_editor_specific_replace_vars_non_existing() {
 		$this->assertEquals( false, $this->class_instance->has_for_page_type( 'non-existing-replace-var' ) );
