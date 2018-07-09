@@ -28,13 +28,19 @@ $wpseo_archives = array(
 		'view_file' => 'paper-content/special-pages.php',
 	),
 );
+
+$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+
 foreach ( $wpseo_archives as $wpseo_archive_index => $wpseo_archive ) {
 	$wpseo_archive_presenter = new WPSEO_Paper_Presenter(
 		$wpseo_archive['title'],
 		dirname( __FILE__ ) . '/' . $wpseo_archive['view_file'],
 		array(
-			'collapsible' => true,
-			'expanded'    => ( $wpseo_archive_index === 0 ),
+			'collapsible'                  => true,
+			'expanded'                     => ( $wpseo_archive_index === 0 ),
+			'recommended_replace_vars'     => $recommended_replace_vars,
+			'editor_specific_replace_vars' => $editor_specific_replace_vars,
 		)
 	);
 

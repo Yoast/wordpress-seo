@@ -8,6 +8,7 @@
  * @var WP_Taxonomy                          $wpseo_taxonomy
  * @var Yoast_View_Utils                     $view_utils
  * @var WPSEO_Admin_Recommended_Replace_Vars $recommended_replace_vars
+ * @var WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
 if ( $wpseo_taxonomy->name === 'post_format' ) {
@@ -33,7 +34,15 @@ $yform->index_switch(
 // Determine the page type for the term, this is needed for the recommended replacement variables.
 $page_type = $recommended_replace_vars->determine_for_term( $wpseo_taxonomy->name );
 
-$editor = new WPSEO_Replacevar_Editor( $yform, 'title-tax-' . $wpseo_taxonomy->name, 'metadesc-tax-' . $wpseo_taxonomy->name, $page_type, false );
+$editor = new WPSEO_Replacevar_Editor(
+	$yform,
+	array(
+		'title'                 => 'title-tax-' . $wpseo_taxonomy->name,
+		'description'           => 'metadesc-tax-' . $wpseo_taxonomy->name,
+		'page_type_recommended' => $recommended_replace_vars->determine_for_term( $wpseo_taxonomy->name ),
+		'page_type_specific'    => $editor_specific_replace_vars->determine_for_term( $wpseo_taxonomy->name ),
+	)
+);
 $editor->render();
 
 if ( $wpseo_taxonomy->name !== 'post_format' ) {

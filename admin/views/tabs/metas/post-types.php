@@ -32,8 +32,9 @@ esc_html_e( 'The settings on this page allow you to specify what the default sea
 echo '</p>';
 
 if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== array() ) {
-	$view_utils               = new Yoast_View_Utils();
-	$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+	$view_utils                   = new Yoast_View_Utils();
+	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+	$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
 	foreach ( array_values( $wpseo_post_types ) as $wpseo_post_type_index => $post_type ) {
 		$wpseo_post_type_presenter = new WPSEO_Paper_Presenter(
@@ -44,9 +45,10 @@ if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== array() ) {
 				'expanded'    => ( $wpseo_post_type_index === 0 ),
 				'paper_id'    => $post_type->name,
 				'view_data'   => array(
-					'wpseo_post_type'          => $post_type,
-					'view_utils'               => $view_utils,
-					'recommended_replace_vars' => $recommended_replace_vars,
+					'wpseo_post_type'              => $post_type,
+					'view_utils'                   => $view_utils,
+					'recommended_replace_vars'     => $recommended_replace_vars,
+					'editor_specific_replace_vars' => $editor_specific_replace_vars,
 				),
 				'title'       => $post_type->labels->name,
 				'title_after' => ' (<code>' . esc_html( $post_type->name ) . '</code>)',

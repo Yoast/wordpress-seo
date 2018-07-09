@@ -4,7 +4,9 @@
  *
  * @package WPSEO\Admin\Views\Archive
  *
- * @var Yoast_Form $yform
+ * @var Yoast_Form                               $yform
+ * @var WPSEO_Admin_Recommended_Replace_Vars     $recommended_replace_vars
+ * @var WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
 	$yform->toggle_switch( 'disable-date', array(
@@ -32,7 +34,18 @@
 		$date_archives_help->get_button_html() . $date_archives_help->get_panel_html()
 		);
 
-		$editor = new WPSEO_Replacevar_Editor( $yform, 'title-archive-wpseo', 'metadesc-archive-wpseo', 'date_archive', false );
+		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+
+		$editor = new WPSEO_Replacevar_Editor(
+			$yform,
+			array(
+				'title'                 => 'title-archive-wpseo',
+				'description'           => 'metadesc-archive-wpseo',
+				'page_type_recommended' => $recommended_replace_vars->determine_for_archive( 'date' ),
+				'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( 'date' ),
+			)
+		);
 		$editor->render();
 	?>
 </div>

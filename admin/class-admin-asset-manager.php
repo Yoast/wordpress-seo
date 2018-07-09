@@ -222,7 +222,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'search-appearance',
-				'src' => 'search-appearance-' . $flat_version,
+				'src'  => 'search-appearance-' . $flat_version,
 				'deps' => 'react-dependencies',
 			),
 			array(
@@ -527,7 +527,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'search-appearance',
-				'src' => 'search-appearance-' . $flat_version,
+				'src'  => 'search-appearance-' . $flat_version,
 			),
 		);
 	}

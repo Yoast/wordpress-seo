@@ -122,21 +122,6 @@ class WPSEO_Admin_Banner_Sidebar_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Admin_Banner_Sidebar::get_services_spot
-	 */
-	public function test_get_services_spot() {
-		$mock = $this->getSidebarMock( array( 'get_services_spot' ) );
-		$mock
-			->expects( $this->once() )
-			->method( 'get_services_spot' )
-			->will(
-				$this->returnValue( new WPSEO_Admin_Banner_Spot( 'test' ) )
-			);
-
-		$mock->initialize( new WPSEO_Features() );
-	}
-
-	/**
 	 * Tests if the get_active_extensions is called.
 	 *
 	 * @covers WPSEO_Admin_Banner_Sidebar::get_active_extensions()

@@ -7,9 +7,10 @@
  * @var Yoast_Form $yform
  */
 
-$wpseo_post_type          = get_post_type_object( 'attachment' );
-$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
-$view_utils               = new Yoast_View_Utils();
+$wpseo_post_type              = get_post_type_object( 'attachment' );
+$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+$view_utils                   = new Yoast_View_Utils();
 ?>
 <p><strong><?php esc_html_e( 'We recommend you set this to Yes.', 'wordpress-seo' ); ?></strong></p>
 <?php

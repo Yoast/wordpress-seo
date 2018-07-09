@@ -15,20 +15,20 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 */
 	protected $recommended_replace_vars = array(
 		// Posts types.
-		'page'                    => array( 'sitename', 'title', 'sep', 'primary_category' ),
-		'post'                    => array( 'sitename', 'title', 'sep', 'primary_category' ),
+		'page'                     => array( 'sitename', 'title', 'sep', 'primary_category' ),
+		'post'                     => array( 'sitename', 'title', 'sep', 'primary_category' ),
 		// Homepage.
-		'homepage'                => array( 'sitename', 'sitedesc', 'sep' ),
+		'homepage'                 => array( 'sitename', 'sitedesc', 'sep' ),
 		// Custom post type.
-		'custom_post_type'        => array( 'sitename', 'title', 'sep' ),
+		'custom_post_type'         => array( 'sitename', 'title', 'sep' ),
 
 		// Taxonomies.
-		'category'                => array( 'sitename', 'term_title', 'sep' ),
-		'post_tag'                => array( 'sitename', 'term_title', 'sep' ),
-		'post_format'             => array( 'sitename', 'term_title', 'sep', 'page' ),
+		'category'                 => array( 'sitename', 'term_title', 'sep' ),
+		'post_tag'                 => array( 'sitename', 'term_title', 'sep' ),
+		'post_format'              => array( 'sitename', 'term_title', 'sep', 'page' ),
 
 		// Custom taxonomy.
-		'term-in-custom-taxomomy' => array( 'sitename', 'term_title', 'sep' ),
+		'term-in-custom-taxomomy'  => array( 'sitename', 'term_title', 'sep' ),
 
 		// Settings - archive pages.
 		'author_archive'           => array( 'sitename', 'title', 'sep', 'page' ),
@@ -36,8 +36,8 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		'custom-post-type_archive' => array( 'sitename', 'title', 'sep', 'page' ),
 
 		// Settings - special pages.
-		'search'                  => array( 'sitename', 'searchphrase', 'sep', 'page' ),
-		'404'                     => array( 'sitename', 'sep' ),
+		'search'                   => array( 'sitename', 'searchphrase', 'sep', 'page' ),
+		'404'                      => array( 'sitename', 'sep' ),
 	);
 
 	/**
@@ -59,7 +59,7 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	/**
 	 * Determines the page type of the current post.
 	 *
-	 * @param WP_Post $post The WordPress global post object.
+	 * @param WP_Post $post A WordPress post instance.
 	 *
 	 * @return string The page type.
 	 */

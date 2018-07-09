@@ -17,11 +17,11 @@ __( 'These pages will be %s by default, so they will never show up in search res
 ),
 'has-wrapper'
 );
-	$editor = new WPSEO_Replacevar_Field( $yform, 'title-search-wpseo', __( 'Search pages', 'wordpress-seo' ), 'search' );
+	$editor = new WPSEO_Replacevar_Field( $yform, 'title-search-wpseo', __( 'Search pages', 'wordpress-seo' ), 'search', 'search' );
 	$editor->render();
 	?>
 	<br/>
 	<?php
-	$editor = new WPSEO_Replacevar_Field( $yform, 'title-404-wpseo', __( '404 pages', 'wordpress-seo' ), '404' );
+	$editor = new WPSEO_Replacevar_Field( $yform, 'title-404-wpseo', __( '404 pages', 'wordpress-seo' ), '404', '404' );
 	$editor->render();
 	?>

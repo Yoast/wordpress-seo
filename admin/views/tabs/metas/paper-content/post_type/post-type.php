@@ -2,16 +2,18 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Admin\Views\Taxonomies
+ * @package WPSEO\Admin\Views\PaperContent
  *
- * @var Yoast_Form                           $yform
- * @var WP_Taxonomy                          $wpseo_post_type
- * @var Yoast_View_Utils                     $view_utils
- * @var WPSEO_Admin_Recommended_Replace_Vars $recommended_replace_vars
+ * @var Yoast_Form                               $yform
+ * @var WP_Taxonomy                              $wpseo_post_type
+ * @var Yoast_View_Utils                         $view_utils
+ * @var WPSEO_Admin_Recommended_Replace_Vars     $recommended_replace_vars
+ * @var WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
 $show_post_type_help = $view_utils->search_results_setting_help( $wpseo_post_type );
 $noindex_option_name = 'noindex-' . $wpseo_post_type->name;
+
 
 $yform->index_switch(
 	$noindex_option_name,
@@ -30,7 +32,14 @@ $yform->show_hide_switch(
 	sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' )
 );
 
-$page_type = $recommended_replace_vars->determine_for_post_type( $wpseo_post_type->name );
-
-$editor = new WPSEO_Replacevar_Editor( $yform, 'title-' . $wpseo_post_type->name, 'metadesc-' . $wpseo_post_type->name, $page_type, false );
+$editor = new WPSEO_Replacevar_Editor(
+	$yform,
+	array(
+		'title'                 => 'title-ptarchive-' . $wpseo_post_type->name,
+		'description'           => 'metadesc-ptarchive-' . $wpseo_post_type->name,
+		'page_type_recommended' => $recommended_replace_vars->determine_for_archive( $wpseo_post_type->name ),
+		'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( $wpseo_post_type->name ),
+		'paper_style'           => false,
+	)
+);
 $editor->render();

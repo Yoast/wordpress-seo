@@ -899,8 +899,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
-		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' );
+		/**
+		 * Remove the emoji script as it is incompatible with both React and any
+		 * contenteditable fields.
+		 */
+		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
@@ -1000,7 +1005,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array Recommended replacement variables.
 	 */
 	private function get_recommended_replace_vars() {
-	    $recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
 		$post                     = $this->get_metabox_post();
 
 		// What is recommended depends on the current context.
