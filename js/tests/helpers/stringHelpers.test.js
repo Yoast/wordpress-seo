@@ -4,11 +4,11 @@ import {
 
 describe( "firstToUpperCase", () => {
 	it( "sets the first character of a string to uppercase", () => {
-		const escapedString = "i should know better and be capitalized";
+		const uncapitalizedString = "i should know better and be capitalized";
 
 		const expected = "I should know better and be capitalized";
 
-		const actual = firstToUpperCase( escapedString );
+		const actual = firstToUpperCase( uncapitalizedString );
 
 		expect( actual ).toEqual( expected );
 	} );
