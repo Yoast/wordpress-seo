@@ -215,8 +215,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	protected function has_for_page_type( $page_type ) {
 		$replacement_variables = $this->get();
 
-		// var_dump( $replacement_variables, $replacement_variables[ 'post' ] );
-
 		return ( ! empty( $replacement_variables[ $page_type ] ) && is_array( $replacement_variables[ $page_type ] ) );
 	}
 }
