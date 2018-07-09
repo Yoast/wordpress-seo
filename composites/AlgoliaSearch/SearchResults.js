@@ -173,7 +173,6 @@ class SearchResults extends React.Component {
 			</SearchResultsWrapper>
 		);
 	}
-
 }
 
 SearchResults.propTypes = {
