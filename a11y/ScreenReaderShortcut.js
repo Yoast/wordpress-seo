@@ -10,7 +10,6 @@ import Styles from "./Styles";
  * @constructor
  */
 class ScreenReaderShortcut extends React.Component {
-
 	/**
 	 * Sets initial focused state to false.
 	 *

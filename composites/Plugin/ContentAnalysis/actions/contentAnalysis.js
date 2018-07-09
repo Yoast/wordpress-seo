@@ -79,23 +79,6 @@ export function removeKeyword( keyword ) {
 }
 
 /**
- * An action creator for replacing a keyword.
- *
- * @param {string} oldKeyword The old focus keyword.
- * @param {string} newKeyword The new focus keyword.
- * @param {Array} newKeywordResults The results for the new focus keyword.
- *
- * @returns {Object} A replace keyword action.
- */
-export function replaceKeyword( oldKeyword, newKeyword, newKeywordResults ) {
-	let resultsPerKeyword = [ { keyword: newKeyword, results: newKeywordResults } ];
-	return function( dispatch ) {
-		dispatch( removeKeyword( oldKeyword ) );
-		dispatch( setSeoResults( resultsPerKeyword ) );
-	};
-}
-
-/**
  * An action creator for setting the readability results.
  *
  * @param {Object} results The readability results.
