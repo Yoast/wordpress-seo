@@ -7,7 +7,6 @@ import {
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
-	decodeSeparatorVariable,
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
 import debounce from "lodash/debounce";
