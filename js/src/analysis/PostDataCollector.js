@@ -362,18 +362,7 @@ PostDataCollector.prototype.inputElementEventBinder = function( app ) {
 
 	tmceHelper.tinyMceEventBinder( app, tmceId );
 
-	document.getElementById( "yoast_wpseo_focuskw_text_input" ).addEventListener( "blur", this.resetQueue.bind( this ) );
-};
-
-/**
- * Resets the current queue if focus keyword is changed and not empty.
- *
- * @returns {void}
- */
-PostDataCollector.prototype.resetQueue = function() {
-	if ( this.app.rawData.keyword !== "" ) {
-		this.app.runAnalyzer( this.rawData );
-	}
+	document.getElementById( "yoast_wpseo_focuskw_text_input" ).addEventListener( "blur", app.refresh.bind( app ) );
 };
 
 /**

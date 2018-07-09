@@ -35,6 +35,15 @@
     lodash "^4.17.5"
     memize "^1.0.5"
 
+"@wordpress/i18n@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-1.1.1.tgz#e97c31879e1f76878cfdd14eb7d7a0ec99a234c3"
+  dependencies:
+    gettext-parser "^1.3.1"
+    jed "^1.1.1"
+    lodash "^4.17.5"
+    memize "^1.0.5"
+
 JSONStream@^1.0.3:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-1.3.2.tgz#c102371b6ec3a7cf3b847ca00c20bb0fce4c6dea"
@@ -8657,9 +8666,9 @@ yoast-components@^2.11.6:
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
-yoast-components@^4.6.2:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.6.2.tgz#857c0a766180ea70b86f4d4f399cd0fb76a1fb6f"
+yoast-components@^4.7:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.7.0.tgz#58ab1df09d72a53330d9bfeae2b9878279978079"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -8678,11 +8687,10 @@ yoast-components@^4.6.2:
     react-tabs "^2.2.1"
     react-transition-group "^2.3.1"
     redux "^3.7.2"
-    redux-thunk "^2.2.0"
     striptags "^3.1.0"
     styled-components "^2.1.2"
     whatwg-fetch "^1.0.0"
-    yoastseo "^1.34.0"
+    yoastseo "^1.35.0"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
@@ -8710,9 +8718,21 @@ yoast-components@^4.6.2:
     lodash "^3.10.1"
     yoastseo "git+https://github.com/Yoast/YoastSEO.js.git#master"
 
-yoastseo@^1.34.0:
-  version "1.34.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.34.0.tgz#d21066142268623e36c1f616c6e739bd2a2a5587"
+yoastseo@^1.35.0:
+  version "1.35.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.0.tgz#f5e25b821fcc636d5be5f68f864acbf9837a9f5b"
+  dependencies:
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    jest "^23.0.0"
+    lodash "^4.14.1"
+    node-sass "^4.7.2"
+    sassdash "^0.9.0"
+    tokenizer2 "^2.0.0"
+
+yoastseo@^1.35.1:
+  version "1.35.1"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.1.tgz#a82f7c585afd913bd1306de5331aa522430611f9"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"

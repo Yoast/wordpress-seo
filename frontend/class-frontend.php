@@ -1813,7 +1813,7 @@ class WPSEO_Frontend {
 	 *
 	 * @param string $desc String to add shortcodes in.
 	 *
-	 * @return string
+	 * @return string Content with shortcodes filtered out.
 	 */
 	public function custom_category_descriptions_add_shortcode_support( $desc ) {
 		// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
