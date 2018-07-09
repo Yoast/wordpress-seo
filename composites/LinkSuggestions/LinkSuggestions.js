@@ -10,7 +10,6 @@ import a11ySpeak from "a11y-speak";
  * Represents the Suggestions component.
  */
 class LinkSuggestions extends React.Component {
-
 	/**
 	 * @constructor
 	 *
@@ -191,7 +190,6 @@ class LinkSuggestions extends React.Component {
 			}
 		);
 	}
-
 }
 
 LinkSuggestions.propTypes = {
