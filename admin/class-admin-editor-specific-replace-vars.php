@@ -37,8 +37,15 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * WPSEO_Admin_Editor_Specific_Replace_Vars constructor.
 	 */
 	public function __construct() {
-		$this->apply_custom_fields( WPSEO_Custom_Fields::get_custom_fields() );
-		$this->apply_custom_taxonomies( WPSEO_Custom_Taxonomies::get_custom_taxonomies() );
+		$this->add_for_page_types(
+			array( 'page', 'post', 'custom_post_type' ),
+			WPSEO_Custom_Fields::get_custom_fields()
+		);
+
+		$this->add_for_page_types(
+			array( 'post', 'term-in-custom-taxonomies' ),
+			WPSEO_Custom_Taxonomies::get_custom_taxonomies()
+		);
 	}
 
 	/**
@@ -151,46 +158,17 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	}
 
 	/**
-	 * Applies the custom fields to the appropriate page types.
-	 *
-	 * @param array $custom_fields The custom fields to add.
-	 *
-	 * @return void
-	 */
-	protected function apply_custom_fields( $custom_fields ) {
-		$page_types = array_fill_keys(
-			array( 'page', 'post', 'custom_post_type' ),
-			$custom_fields
-		);
-
-		$this->add_page_type_replacement_variables( $page_types );
-	}
-
-	/**
-	 * Applies the custom taxonomies to the appropriate page types.
-	 *
-	 * @param array $custom_taxonomies The custom taxonomies to add.
-	 *
-	 * @return void
-	 */
-	protected function apply_custom_taxonomies( $custom_taxonomies ) {
-		$page_types = array_fill_keys(
-			array( 'post', 'term-in-custom-taxonomies' ),
-			$custom_taxonomies
-		);
-
-		$this->add_page_type_replacement_variables( $page_types );
-	}
-
-	/**
 	 * Adds the replavement variables for the given page types.
 	 *
-	 * @param array $page_types Page types to add.
+	 * @param array $page_types            Page types to add variables for.
+	 * @param array $replacement_variables The variables to add.
 	 *
 	 * @return void
 	 */
-	protected function add_page_type_replacement_variables( $page_types ) {
-		$this->replacement_variables = array_merge( $this->replacement_variables, $page_types );
+	protected function add_for_page_types( array $page_types, array $replacement_variables ) {
+		$replacement_variables = array_fill_keys( $page_types, $replacement_variables );
+
+		$this->replacement_variables = array_merge( $this->replacement_variables, $replacement_variables );
 	}
 
 	/**
