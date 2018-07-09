@@ -42,6 +42,29 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	}
 
 	/**
+	 * Retrieves the editor specific replacement variables.
+	 *
+	 * @return array The editor specific replacement variables.
+	 */
+	public function get() {
+		/**
+		 * Filter: Adds the possibility to add extra editor specific replacement variables.
+		 *
+		 * @api array $editor_specific_replace_vars Empty array to add the editor specific replace vars to.
+		 */
+		$editor_specific_replace_vars = apply_filters(
+			'wpseo_editor_specific_replace_vars',
+			$this->editor_specific_replace_vars
+		);
+
+		if ( ! is_array( $editor_specific_replace_vars ) ) {
+			return $this->editor_specific_replace_vars;
+		}
+
+		return $editor_specific_replace_vars;
+	}
+
+	/**
 	 * Retrieves the shared replacement variable names.
 	 *
 	 * Which are the replacement variables without the editor specific ones.
@@ -128,29 +151,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	}
 
 	/**
-	 * Retrieves the editor specific replacement variables.
-	 *
-	 * @return array The editor specific replacement variables.
-	 */
-	public function get() {
-		/**
-		 * Filter: Adds the possibility to add extra editor specific replacement variables.
-		 *
-		 * @api array $editor_specific_replace_vars Empty array to add the editor specific replace vars to.
-		 */
-		$editor_specific_replace_vars = apply_filters(
-			'wpseo_editor_specific_replace_vars',
-			$this->editor_specific_replace_vars
-		);
-
-		if ( ! is_array( $editor_specific_replace_vars ) ) {
-			return $this->editor_specific_replace_vars;
-		}
-
-		return $editor_specific_replace_vars;
-	}
-
-	/**
 	 * Applies the custom fields to the appropriate page types.
 	 *
 	 * @param array $custom_fields The custom fields to add.
@@ -222,16 +222,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * @return bool True if there are associated editor specific replace vars.
 	 */
 	private function has_for_page_type( $page_type ) {
-		$editor_specific_replace_vars = $this->get();
+		$replacement_variables = $this->get();
 
-		if ( ! isset( $editor_specific_replace_vars[ $page_type ] ) ) {
-			return false;
-		}
-
-		if ( ! is_array( $editor_specific_replace_vars[ $page_type ] ) ) {
-			return false;
-		}
-
-		return true;
+		return ( ! empty( $replacement_variables[ $page_type ] ) && is_array( $replacement_variables[ $page_type ] ) );
 	}
 }
