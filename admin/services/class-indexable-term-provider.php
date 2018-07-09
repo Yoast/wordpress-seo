@@ -29,6 +29,24 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	);
 
 	/**
+	 * @var array List of fields that need to be renamed.
+	 */
+	private $renameable_fields = array(
+		'description' 		  		  => 'desc',
+		'breadcrumb_title' 	  		  => 'bctitle',
+		'og_title' 			  		  => 'opengraph-title',
+		'og_description' 	  		  => 'opengraph-description',
+		'og_image' 			  		  => 'opengraph-image',
+		'twitter_title' 	  		  => 'twitter-title',
+		'twitter_description' 		  => 'twitter-description',
+		'twitter_image' 			  => 'twitter-image',
+		'is_robots_noindex' 		  => 'noindex',
+		'primary_focus_keyword' 	  => 'focuskw',
+		'primary_focus_keyword_score' => 'linkdex',
+		'readability_score' 		  => 'content_score',
+	);
+
+	/**
 	 * Returns an array with data for the target object.
 	 *
 	 * @param integer $object_id The target object id.
@@ -96,7 +114,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	protected function prepare_indexable_data( $indexable_data ) {
 		$prepared_values = array();
 
-		$translated_values = $this->translate_indexable_data( $indexable_data );
+		$translated_values = $this->rename_indexable_data( $indexable_data );
 		$updateable_values = $this->filter_updateable_values( $translated_values );
 
 		foreach ( $updateable_values as $key => $updateable_value ) {
@@ -131,33 +149,18 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Translates some of the indexable data to its database variant.
+	 * Renames some of the indexable data to its database variant.
 	 *
-	 * @param array $indexable_data The indexable data to translate.
+	 * @param array $indexable_data The indexable data to rename.
 	 *
-	 * @return array The translated indexable data.
+	 * @return array The renamed indexable data.
 	 */
-	protected function translate_indexable_data( &$indexable_data ) {
-		$translatable = array(
-			'description' 		  		  => 'desc',
-			'breadcrumb_title' 	  		  => 'bctitle',
-			'og_title' 			  		  => 'opengraph-title',
-			'og_description' 	  		  => 'opengraph-description',
-			'og_image' 			  		  => 'opengraph-image',
-			'twitter_title' 	  		  => 'twitter-title',
-			'twitter_description' 		  => 'twitter-description',
-			'twitter_image' 			  => 'twitter-image',
-			'is_robots_noindex' 		  => 'noindex',
-			'primary_focus_keyword' 	  => 'focuskw',
-			'primary_focus_keyword_score' => 'linkdex',
-			'readability_score' 		  => 'content_score',
-		);
-
+	protected function rename_indexable_data( &$indexable_data ) {
 		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noindex' ) ) {
 			$indexable_data['is_robots_noindex'] = $this->translate_noindex( $indexable_data[ 'is_robots_noindex' ] );
 		}
 
-		foreach ( $translatable as $old_key => $new_key ) {
+		foreach ( $this->renameable_fields as $old_key => $new_key ) {
 			if ( WPSEO_Validator::key_exists( $indexable_data, $old_key ) ) {
 				$indexable_data[$new_key] = $indexable_data[$old_key];
 

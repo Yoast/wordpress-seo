@@ -29,7 +29,7 @@ abstract class WPSEO_Indexable {
 	/**
 	 * Indexable constructor.
 	 *
-	 * @param $data
+	 * @param array $data The data to use to construct the indexable.
 	 */
 	public function __construct( $data ) {
 		$this->validate_data( $data );
@@ -42,7 +42,7 @@ abstract class WPSEO_Indexable {
 	 *
 	 * @param int $object_id The object id to use as the source of the object.
 	 *
-	 * @return WPSEO_Indexable
+	 * @return WPSEO_Indexable The indexable.
 	 */
 	public abstract static function from_object( $object_id );
 

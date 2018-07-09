@@ -40,8 +40,8 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	/**
 	 * Handles the patching of values for an existing indexable.
 	 *
-	 * @param $object_id
-	 * @param $requestdata
+	 * @param int 	$object_id 		The ID of the object.
+	 * @param array $requestdata 	The request data to store.
 	 *
 	 * @return void
 	 * @throws Exception
@@ -68,7 +68,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 *
 	 * @param WPSEO_Indexable $indexable The indexable object to store.
 	 *
-	 * @return bool
+	 * @return bool True if saving was successful.
 	 */
 	protected function store_indexable( WPSEO_Indexable $indexable ) {
 		$values = $this->translate_indexable_data( $indexable->to_array() );
