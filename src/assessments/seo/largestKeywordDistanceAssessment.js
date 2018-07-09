@@ -73,6 +73,8 @@ class largestKeywordDistanceAssessment extends Assessment {
 			return {
 				score: 0,
 				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+					%2$s expands to the anchor end tag */
 					i18n.dgettext(
 					"js-text-analysis",
 					"Use your keyword or synonyms more often in your text so that we can check %1$skeyword distribution%2$s."
