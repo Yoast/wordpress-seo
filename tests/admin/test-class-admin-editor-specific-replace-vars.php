@@ -33,12 +33,12 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	public function test_get_shared_replace_vars_filters_editor_specific_replace_vars() {
 		$replace_vars_list = array(
 			array(
-				'name' => 'searchphrase',
+				'name'  => 'searchphrase',
 				'label' => 'Searchphrase',
 				'value' => '',
 			),
 			array(
-				'name' => 'title',
+				'name'  => 'title',
 				'label' => 'title',
 				'value' => '',
 			),
@@ -185,6 +185,26 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests that has_editor_specific_replace_vars returns true when it has recommended replacement
+	 * variables for the passed page type.
+	 *
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type()
+	 */
+	public function test_has_editor_specific_replace_vars_existing() {
+		$this->assertEquals( true, $this->class_instance->has_for_page_type( 'post' ) );
+	}
+
+	/**
+	 * Tests that has_editor_specific_replace_vars returns false when it doesn't have recommended
+	 * replacement variables for the passed page type.
+	 *
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type
+	 */
+	public function test_has_editor_specific_replace_vars_non_existing() {
+		$this->assertEquals( false, $this->class_instance->has_for_page_type( 'non-existing-replace-var' ) );
+	}
+
+	/**
 	 * Filter function for adding or changing replacement variables.
 	 *
 	 * @param array $replacevars The replacement variables before the filter.
@@ -210,25 +230,5 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 				'post_type' => $post_type,
 			)
 		);
-	}
-
-	/**
-	 * Tests that has_editor_specific_replace_vars returns true when it has recommended replacement
-	 * variables for the passed page type.
-	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type()
-	 */
-	public function test_has_editor_specific_replace_vars_existing() {
-		$this->assertEquals( true, $this->class_instance->has_for_page_type( 'post' ) );
-	}
-
-	/**
-	 * Tests that has_editor_specific_replace_vars returns false when it doesn't have recommended
-	 * replacement variables for the passed page type.
-	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type
-	 */
-	public function test_has_editor_specific_replace_vars_non_existing() {
-		$this->assertEquals( false, $this->class_instance->has_for_page_type( 'non-existing-replace-var' ) );
 	}
 }

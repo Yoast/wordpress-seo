@@ -173,7 +173,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	/**
 	 * Adds the replavement variables for the given page types.
 	 *
-	 * @param array $page_types            Page types to add variables for.
+	 * @param array $page_types                   Page types to add variables for.
 	 * @param array $replacement_variables_to_add The variables to add.
 	 *
 	 * @return void
