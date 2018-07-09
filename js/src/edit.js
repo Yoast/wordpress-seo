@@ -207,7 +207,9 @@ export function initializeData( data, args, store ) {
  */
 export function initialize( args ) {
 	const store = registerStoreInGutenberg();
-	registerPlugin();
+	if( args.shouldRenderGutenbergSidebar ) {
+		registerPlugin();
+	}
 
 	const data = initializeData( wp.data, args, store );
 

@@ -743,7 +743,7 @@ EXPECTED;
 	 *
 	 * @return int The created post id.
 	 */
-	protected function create_post_with_categories(  ) {
+	protected function create_post_with_categories() {
 		$post_id = self::factory()->post->create();
 		$term1   = self::factory()
 			->term
@@ -774,8 +774,8 @@ EXPECTED;
 	 *
 	 * @return array The altered category.
 	 */
-	public function remove_first_category(  $categories ) {
-		unset(  $categories[0] );
+	public function remove_first_category( $categories ) {
+		unset( $categories[0] );
 
 		return $categories;
 	}

@@ -426,6 +426,7 @@ setWordPressSeoL10n();
 			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
+			shouldRenderGutenbergSidebar: !! wpseoPostScraperL10n.gutenbergSidebar,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;

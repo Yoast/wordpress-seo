@@ -121,7 +121,7 @@ class WPSEO_Breadcrumbs {
 		self::$after  = $after;
 
 		$instance = self::get_instance();
-		$output = $before . $instance->output . $after;
+		$output   = $before . $instance->output . $after;
 
 		if ( $display === true ) {
 			echo $output;
