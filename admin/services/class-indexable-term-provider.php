@@ -59,7 +59,9 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 			return array();
 		}
 
-		return WPSEO_Term_Indexable::from_object( $object_id );
+		$indexable = WPSEO_Term_Indexable::from_object( $object_id );
+
+		return $indexable->to_array();
 	}
 
 	/**
@@ -180,11 +182,11 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 */
 	protected function convert_noindex( $noindex ) {
 		if ( $noindex === 'false' ) {
-			return 'noindex';
+			return 'index';
 		}
 
 		if ( $noindex === 'true' ) {
-			return 'index';
+			return 'noindex';
 		}
 
 		return 'default';

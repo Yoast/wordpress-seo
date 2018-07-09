@@ -14,9 +14,9 @@ abstract class WPSEO_Indexable {
 	protected $data;
 
 	/**
-	 * @var array
+	 * @var array The available validators to run.
 	 */
-	private $validators = array(
+	protected $validators = array(
 		'WPSEO_Object_Type_Validator',
 		'WPSEO_Link_Validator',
 		'WPSEO_Keyword_Validator',
@@ -47,11 +47,11 @@ abstract class WPSEO_Indexable {
 	public abstract static function from_object( $object_id );
 
 	/**
-	 * Translates the meta value to a boolean value.
+	 * Converts the meta value to a boolean value.
 	 *
-	 * @param string $value The value to translate.
+	 * @param string $value The value to convert.
 	 *
-	 * @return bool|null The translated value.
+	 * @return bool|null The converted value.
 	 */
 	protected static function get_robots_noindex_value( $value ) {
 		if ( $value === '1' ) {

@@ -9,6 +9,19 @@
 class WPSEO_Term_Indexable extends WPSEO_Indexable {
 
 	/**
+	 * @var array The available validators to run.
+	 */
+	protected $validators = array(
+		'WPSEO_Object_Type_Validator',
+		'WPSEO_Link_Validator',
+		'WPSEO_Keyword_Validator',
+		'WPSEO_Meta_Values_Validator',
+		'WPSEO_OpenGraph_Validator',
+		'WPSEO_Robots_Validator',
+		'WPSEO_Twitter_Validator',
+	);
+
+	/**
 	 * Creates a new Indexable from a passed object.
 	 *
 	 * @param $object_id
@@ -81,5 +94,24 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 	 */
 	protected static function get_meta_value( $field, $term ) {
 		return WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, $field );
+	}
+
+	/**
+	 * Converts the meta value to a boolean value.
+	 *
+	 * @param string $value The value to convert.
+	 *
+	 * @return bool|null The converted value.
+	 */
+	protected static function get_robots_noindex_value( $value ) {
+		if ( $value === 'noindex' ) {
+			return true;
+		}
+
+		if ( $value === 'index' ) {
+			return false;
+		}
+
+		return null;
 	}
 }

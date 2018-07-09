@@ -26,7 +26,7 @@ class WPSEO_Post_Indexable extends WPSEO_Indexable {
 		return new self(
 			array(
 				'object_id'                   => (int) $object_id,
-				'object_type'                 => $object_type,
+				'object_type'                 => 'post',
 				'object_subtype'              => get_post_type( $object_id ),
 				'permalink'                   => get_permalink( $object_id ),
 				'canonical'                   => WPSEO_Meta::get_value( 'canonical', $object_id ),

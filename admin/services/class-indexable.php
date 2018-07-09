@@ -20,12 +20,12 @@ class WPSEO_Indexable_Service {
 	public function get_indexable( WP_REST_Request $request ) {
 		$object_type = $request->get_param( 'object_type' );
 		$object_id 	 = $request->get_param( 'object_id' );
-		$provider    = $this->get_provider( $object_type );
 
 		try {
+			$provider  = $this->get_provider( $object_type );
 			$indexable = $provider->get( $object_id );
 
-			return new WP_REST_Response( $indexable->to_array() );
+			return new WP_REST_Response( $indexable );
 		} catch ( \Exception $exception ) {
 			return new WP_REST_Response( $exception->getMessage(), 500 );
 		}
@@ -41,9 +41,9 @@ class WPSEO_Indexable_Service {
 	public function patch_indexable( WP_REST_Request $request ) {
 		$object_type = $request->get_param( 'object_type' );
 		$object_id 	 = $request->get_param( 'object_id' );
-		$provider    = $this->get_provider( $object_type );
 
 		try {
+			$provider = $this->get_provider( $object_type );
 			$provider->patch( $object_id, $request->get_params() );
 
 			return new WP_REST_Response( 'Patch successful' );
@@ -71,7 +71,7 @@ class WPSEO_Indexable_Service {
 
 		}
 
-		return null;
+		throw WPSEO_Invalid_Argument_Exception::invalid_callable_parameter( $object_type, 'provider' );
 	}
 
 	/**

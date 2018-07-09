@@ -135,17 +135,18 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the translations of the robots noindex value.
+	 * Tests the conversion of the robots noindex value.
 	 *
 	 * @param string    $robot_value The value to test with.
-	 * @param bool|null $expected    The expected translation.
+	 * @param bool|null $expected    The expected converted value.
 	 * @param string    $description Description of the test.
 	 *
 	 * @covers       WPSEO_Indexable_Service_Term_Provider::get_robots_noindex_value()
 	 *
 	 * @dataProvider robots_noindex_provider
+	 * @throws Exception
 	 */
-	public function test_translate_robots_noindex( $robot_value, $expected, $description ) {
+	public function test_convert_robots_noindex( $robot_value, $expected, $description ) {
 		$term = $this
 			->factory()
 			->term
