@@ -75,7 +75,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 				resultText: i18n.sprintf(
 					i18n.dgettext(
 					"js-text-analysis",
-					"Use your keyword or synonyms more often in your text so we can check %1$skeyword distribution%2$s.",
+					"Use your keyword or synonyms more often in your text so we can check %1$skeyword distribution%2$s."
 				),
 					this._config.url,
 					"</a>"
