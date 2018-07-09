@@ -596,6 +596,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/>';
 
+				if ( WPSEO_UTILS::is_yoast_seo_premium() === false ) {
+					$button = new WPSEO_Metabox_Keyword_Synonyms_Button();
+					$content .= $button->get_link();
+				}
+
 				if ( WPSEO_Options::get( 'enable_cornerstone_content', false ) ) {
 					$cornerstone_field = new WPSEO_Cornerstone_Field();
 

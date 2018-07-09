@@ -183,17 +183,7 @@ class Yoast_Form {
 			}
 		}
 
-		$sidebar_renderer = new WPSEO_Admin_Banner_Sidebar_Renderer( new WPSEO_Admin_Banner_Spot_Renderer() );
-
-		$banner_renderer = new WPSEO_Admin_Banner_Renderer();
-		$banner_renderer->set_base_path( plugins_url( 'images/banner/', WPSEO_FILE ) );
-
-		/* translators: %1$s expands to "Yoast". */
-		$sidebar = new WPSEO_Admin_Banner_Sidebar( sprintf( __( '%1s recommendations for you', 'wordpress-seo' ), 'Yoast' ), $banner_renderer );
-		$sidebar->initialize( new WPSEO_Features() );
-
-		echo $sidebar_renderer->render( $sidebar );
-
+		require_once 'views/sidebar.php';
 	}
 
 	/**
