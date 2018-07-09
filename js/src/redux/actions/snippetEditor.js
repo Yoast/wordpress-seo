@@ -1,3 +1,5 @@
+import { unescapeString } from "../../helpers/stringHelpers";
+
 export const SWITCH_MODE = "SNIPPET_EDITOR_SWITCH_MODE";
 export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
 export const UPDATE_REPLACEMENT_VARIABLE = "SNIPPET_EDITOR_UPDATE_REPLACEMENT_VARIABLE";
@@ -45,10 +47,13 @@ export function updateData( data ) {
  * @returns {Object} An action for redux.
  */
 export function updateReplacementVariable( name, value, label = "" ) {
+	const unescapedValue = ( typeof value === "string" )
+		? unescapeString( value )
+		: value;
 	return {
 		type: UPDATE_REPLACEMENT_VARIABLE,
 		name,
-		value,
+		value: unescapedValue,
 		label,
 	};
 }
