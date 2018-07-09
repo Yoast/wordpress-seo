@@ -188,7 +188,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 			$custom_fields
 		);
 
-		$this->editor_specific_replace_vars = array_merge( $this->editor_specific_replace_vars, $page_types );
+		$this->add_page_type_replacement_variables( $page_types );
 	}
 
 	/**
@@ -204,6 +204,17 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 			$custom_taxonomies
 		);
 
+		$this->add_page_type_replacement_variables( $page_types );
+	}
+
+	/**
+	 * Adds the replavement variables for the given page types.
+	 *
+	 * @param array $page_types Page types to add.
+	 *
+	 * @return void
+	 */
+	protected function add_page_type_replacement_variables( $page_types ) {
 		$this->editor_specific_replace_vars = array_merge( $this->editor_specific_replace_vars, $page_types );
 	}
 
