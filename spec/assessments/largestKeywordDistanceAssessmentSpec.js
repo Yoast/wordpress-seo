@@ -12,7 +12,7 @@ describe( "An assessment to check the largest percentage of text in your text in
 		let assessment = keywordDistanceAssessment.getResult( mockPaper, Factory.buildMockResearcher( 10 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 0 );
-		expect( assessment.getText() ).toEqual( "Use your keyword or synonyms more often in your text so we can check <a href='https://yoa.st/2w7' target='_blank'>keyword distribution</a>." );
+		expect( assessment.getText() ).toEqual( "Use your keyword or synonyms more often in your text so that we can check <a href='https://yoa.st/2w7' target='_blank'>keyword distribution</a>." );
 	} );
 
 	it( "returns a bad score when the largest keyword distance is between more than 50%", function() {
@@ -111,7 +111,7 @@ describe( "Checks if the assessment is applicable", function() {
 		expect( assessment ).toBe( true );
 	} );
 
-	it( "is not applicable to papers with less than 100 words that contain the keyword more than once", function() {
+	it( "is not applicable to papers with less than 200 words that contain the keyword more than once", function() {
 		let mockPaper = new Paper( "Keyword and keyword. ", { keyword: "keyword" } );
 		let assessment = keywordDistanceAssessment.isApplicable( mockPaper );
 
