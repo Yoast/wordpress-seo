@@ -13,7 +13,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	/**
 	 * @var array The editor specific replacement variables.
 	 */
-	protected $editor_specific_replace_vars = array(
+	protected $replacement_variables = array(
 		// Posts types.
 		'page'                     => array( 'id', 'pt_single', 'pt_plural', 'parent_title' ),
 		'post'                     => array( 'id', 'term404', 'pt_single', 'pt_plural' ),
@@ -50,15 +50,15 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		/**
 		 * Filter: Adds the possibility to add extra editor specific replacement variables.
 		 *
-		 * @api array $editor_specific_replace_vars Empty array to add the editor specific replace vars to.
+		 * @api array $replacement_variables Empty array to add the editor specific replace vars to.
 		 */
 		$editor_specific_replace_vars = apply_filters(
 			'wpseo_editor_specific_replace_vars',
-			$this->editor_specific_replace_vars
+			$this->replacement_variables
 		);
 
 		if ( ! is_array( $editor_specific_replace_vars ) ) {
-			return $this->editor_specific_replace_vars;
+			return $this->replacement_variables;
 		}
 
 		return $editor_specific_replace_vars;
@@ -190,7 +190,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * @return void
 	 */
 	protected function add_page_type_replacement_variables( $page_types ) {
-		$this->editor_specific_replace_vars = array_merge( $this->editor_specific_replace_vars, $page_types );
+		$this->replacement_variables = array_merge( $this->replacement_variables, $page_types );
 	}
 
 	/**
