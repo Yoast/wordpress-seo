@@ -11,6 +11,17 @@
 class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_Provider {
 
 	/**
+	 * @var array List of non-updateable fields.
+	 */
+	private $non_updateable_fields = array(
+		'object_id',
+		'object_type',
+		'object_subtype',
+		'created_at',
+		'updated_at',
+	);
+
+	/**
 	 * Returns an array with data for the target object.
 	 *
 	 * @param integer $object_id The target object id.
@@ -23,91 +34,51 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 			return array();
 		}
 
-		return WPSEO_Indexable::from_object( $object_id, 'post' );
+		return WPSEO_Post_Indexable::from_object( $object_id );
 	}
 
 	/**
-	 * Handles the saving of the indexable parameters.
+	 * Handles the patching of values for an existing indexable.
 	 *
-	 * @param Indexable $indexable The indexable object to parse and save.
+	 * @param $object_id
+	 * @param $requestdata
 	 *
-	 * @return WP_REST_Response The REST API response. Can be an error if the object does not exist.
+	 * @return void
+	 * @throws Exception
 	 */
-	public function post( Indexable $indexable ) {
-		$items 	   = $indexable->to_array();
-		$object_id = $items['object_id'];
-
-		if ( ! $this->is_indexable( $object_id ) ) {
-			$exception = WPSEO_Invalid_Indexable_Exception::non_existing_indexable( $object_id );
-
-			return new WP_REST_Response( $exception->getMessage(), 500 );
-		}
-
-		// First validate that we don't already have these values
-		if ( $this->is_valid_post_request( $indexable ) === false ) {
-			$exception = WPSEO_Invalid_Indexable_Exception::invalid_post_request( $object_id );
-
-			return new WP_REST_Response( $exception->getMessage(), 500 );
-		}
-
-		$this->store_indexable( $indexable );
-
-		return new WP_REST_Response( 'Indexable parameters were successfully saved', 200 );
-	}
-
-	public function patch( $requestdata ) {
-		$object_id = $requestdata['object_id'];
-
-		if ( ! $this->is_indexable( $object_id ) ) {
-			$exception = WPSEO_Invalid_Indexable_Exception::non_existing_indexable( $object_id );
-
-			return new WP_REST_Response( $exception->getMessage(), 500 );
-		}
-
+	public function patch( $object_id, $requestdata ) {
 		$indexable = $this->get( $object_id );
 
+		if ( $indexable === array() ) {
+			throw WPSEO_Invalid_Indexable_Exception::non_existing_indexable( $object_id );
+		}
 
+		$new_indexable    = $indexable->update( $requestdata );
+		$stored_indexable = $this->store_indexable( $new_indexable );
 
+		if ( $stored_indexable === true ) {
+			return;
+		}
 
+		throw new \Exception( 'Patch failed' );
 	}
 
 	/**
 	 * Stores the indexable object.
 	 *
-	 * @param Indexable $indexable The indexable object to store.
+	 * @param WPSEO_Indexable $indexable The indexable object to store.
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	protected function store_indexable( Indexable $indexable ) {
-		$values = $indexable->to_array();
+	protected function store_indexable( WPSEO_Indexable $indexable ) {
+		$values = $this->translate_indexable_data( $indexable->to_array() );
 
 		foreach ( $values as $key => $item ) {
-			if ( $key === 'object_id' || empty( $item ) ) {
+			if ( in_array( $key, $this->non_updateable_fields, true ) ) {
 				continue;
 			}
 
-			$this->set_meta_value( $key, $item, $values['object_id'] );
-		}
-	}
-
-	/**
-	 * Validates if the Indexable is considered valid for a POST request.
-	 *
-	 * @param Indexable $indexable The indexable to validate.
-	 *
-	 * @return bool Whether or not the Indexable can be considered valid for a POST request.
-	 */
-	protected function is_valid_post_request( Indexable $indexable ) {
-		$values = $indexable->to_array();
-
-		foreach ( $values as $key => $item ) {
-			if ( $key === 'object_id' || empty( $item ) ) {
-				continue;
-			}
-
-			if ( $this->get_meta_value( $key, $values['object_id'] ) ) {
-				return false;
-			}
+			WPSEO_Meta::set_value( $key, $item, $values['object_id'] );
 		}
 
 		return true;
@@ -137,28 +108,107 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Returns the needed post meta field.
+	 * Translates some of the indexable data to its database variant.
 	 *
-	 * @param string $field   The requested field.
-	 * @param int    $post_id The post id.
+	 * @param array $indexable_data The indexable data to translate.
 	 *
-	 * @return bool|mixed The value of the requested field.
+	 * @return array The translated indexable data.
 	 */
-	protected function get_meta_value( $field, $post_id ) {
-		return WPSEO_Meta::get_value( $field, $post_id );
+	protected function translate_indexable_data( $indexable_data ) {
+		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_nofollow' ) ) {
+			$indexable_data['is_robots_nofollow'] = $this->translate_nofollow( $indexable_data['is_robots_nofollow'] );
+		}
+
+		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noindex' ) ) {
+			$indexable_data['is_robots_noindex'] = $this->translate_noindex( $indexable_data['is_robots_noindex'] );
+		}
+
+		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_cornerstone' ) ) {
+			$indexable_data['is_cornerstone'] = $this->translate_cornerstone( $indexable_data['is_cornerstone'] );
+		}
+
+		$indexable_data['meta-robots-adv'] = $this->translate_advanced( $indexable_data );
+
+		return $indexable_data;
 	}
 
 	/**
-	 * Sets the meta value for the passed key and post ID.
+	 * Translates the cornerstone value to its database variant.
 	 *
-	 * @param string $key     The key to set.
-	 * @param mixed  $value   The value to set.
-	 * @param int    $post_id The post id.
+	 * @param string $cornerstone_value The cornerstone value.
 	 *
-	 * @return int|bool Meta ID if the key didn't exist, true on successful update,
-	 *                  false on failure.
+	 * @return string The translated indexable cornerstone value.
 	 */
-	protected function set_meta_value( $key, $value, $post_id ) {
-		return WPSEO_Meta::set_value( $key, $value, $post_id );
+	protected function translate_cornerstone( $cornerstone_value ) {
+		if ( $cornerstone_value === 'true' ) {
+			return '1';
+		}
+
+		return null;
+	}
+
+	/**
+	 * Translates the advanced meta settings to its database variant.
+	 *
+	 * @param array $indexable_data The indeaxable data to translate the advanced meta settings from.
+	 *
+	 * @return string The translated advanced meta settings.
+	 */
+	protected function translate_advanced( &$indexable_data ) {
+		$translated_advanced_data = array();
+
+		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_nosnippet' ) && $indexable_data['is_robots_nosnippet'] === true ) {
+			$translated_advanced_data[] = 'nosnippet';
+
+			unset( $indexable_data['is_robots_nosnippet'] );
+		}
+
+		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noarchive' ) && $indexable_data['is_robots_noarchive'] === true ) {
+			$translated_advanced_data[] = 'noarchive';
+
+			unset( $indexable_data['is_robots_noarchive'] );
+		}
+
+		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noimageindex' ) && $indexable_data['is_robots_noimageindex'] === true ) {
+			$translated_advanced_data[] = 'noimageindex';
+
+			unset( $indexable_data['is_robots_noimageindex'] );
+		}
+
+		return implode( ',', $translated_advanced_data );
+	}
+
+	/**
+	 * Translates the nofollow value to a database compatible one.
+	 *
+	 * @param bool $nofollow The current nofollow value.
+	 *
+	 * @return string The translated value.
+	 */
+	protected function translate_nofollow( $nofollow ) {
+		if ( $nofollow === 'true' ) {
+			return '1';
+		}
+
+		return '0';
+	}
+
+	/**
+	 * Translates the noindex value to a database compatible one.
+	 *
+	 * @param bool $noindex The current noindex value.
+	 *
+	 * @return string|null The translated value.
+	 */
+	protected function translate_noindex( $noindex ) {
+		if ( $noindex === 'false' ) {
+			return '2';
+		}
+
+		if ( $noindex === 'true' ) {
+			return '1';
+		}
+
+		return null;
 	}
 }

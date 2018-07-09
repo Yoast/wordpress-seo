@@ -19,25 +19,8 @@ class WPSEO_Indexable_Service {
 	 */
 	public function get_indexable( WP_REST_Request $request ) {
 		$object_type = $request->get_param( 'object_type' );
-		$provider    = $this->get_provider( strtolower( $object_type ) );
-
-		if ( $provider === null ) {
-			return $this->handle_unknown_object_type( $object_type );
-		}
-
-		$object_id = $request->get_param( 'object_id' );
-
-		if ( ! $provider->is_indexable( $object_id ) ) {
-			return new WP_REST_Response(
-				sprintf(
-					/* translators: %1$s expands to the requested indexable type. %2$s expands to the request id */
-					__( 'Object %1$s with id %2$s not found', 'wordpress-seo' ),
-					$object_type,
-					$object_id
-				),
-				404
-			);
-		}
+		$object_id 	 = $request->get_param( 'object_id' );
+		$provider    = $this->get_provider( $object_type );
 
 		try {
 			$indexable = $provider->get( $object_id );
@@ -49,28 +32,24 @@ class WPSEO_Indexable_Service {
 	}
 
 	/**
-	 * Save an indexable.
+	 * Patches an indexable with the request parameters.
 	 *
-	 * @param WP_REST_Request $request The request object.
+	 * @param WP_REST_Request $request The REST API request to process.
 	 *
-	 * @return WP_REST_Response The response.
-	 * @throws Exception
+	 * @return WP_REST_Response The REST response.
 	 */
-	public function save_indexable( WP_REST_Request $request ) {
+	public function patch_indexable( WP_REST_Request $request ) {
 		$object_type = $request->get_param( 'object_type' );
-		$provider    = $this->get_provider( strtolower( $object_type ) );
+		$object_id 	 = $request->get_param( 'object_id' );
+		$provider    = $this->get_provider( $object_type );
 
-		if ( $provider === null ) {
-			return $this->handle_unknown_object_type( $object_type );
-		}
+		try {
+			$provider->patch( $object_id, $request->get_params() );
 
-		try{
-			$indexable = Indexable::from_request( $request );
-		} catch ( \InvalidArgumentException $exception ) {
+			return new WP_REST_Response( 'Patch successful' );
+		} catch ( \Exception $exception ) {
 			return new WP_REST_Response( $exception->getMessage(), 500 );
 		}
-
-		return new WP_REST_Response( $provider->post( $indexable ) );
 	}
 
 	/**
@@ -78,9 +57,11 @@ class WPSEO_Indexable_Service {
 	 *
 	 * @param string $object_type The object type to get the provider for.
 	 *
-	 * @return null|WPSEO_Indexable_Service_Provider Instance of the service provider.
+	 * @return Exception|WPSEO_Indexable_Service_Provider Instance of the service provider.
 	 */
 	protected function get_provider( $object_type ) {
+		$object_type = strtolower( $object_type );
+
 		if ( $object_type === 'post' ) {
 			return new WPSEO_Indexable_Service_Post_Provider();
 		}

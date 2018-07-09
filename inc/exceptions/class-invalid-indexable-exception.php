@@ -13,7 +13,7 @@ class WPSEO_Invalid_Indexable_Exception extends \InvalidArgumentException {
 	 * @return WPSEO_Invalid_Indexable_Exception The exception.
 	 */
 	public static function non_existing_indexable( $id ) {
-		return new static( sprintf( 'Indexable with id `%s` does not exist.', $id ) );
+		return new static( sprintf( 'Indexable with id `%d` does not exist.', $id ) );
 	}
 
 	/**
