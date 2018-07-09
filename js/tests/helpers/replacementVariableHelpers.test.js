@@ -1,5 +1,5 @@
 import {
-	decodeSeparatorVariable, mapCustomFields, mapCustomTaxonomies, prepareCustomFieldForDispatch,
+	pushNewReplaceVar, decodeSeparatorVariable, mapCustomFields, mapCustomTaxonomies, prepareCustomFieldForDispatch,
 	prepareCustomTaxonomyForDispatch,
 	replaceSpaces,
 } from "../../src/helpers/replacementVariableHelpers";
@@ -273,5 +273,55 @@ describe( "mapCustomTaxonomies", () => {
 		expect( actual ).not.toBe( expect.objectContaining( {
 			custom_taxonomies: expect.any( Object ),
 		} ) );
+	} );
+} );
+
+describe( "pushNewReplaceVar", () => {
+	it( "pushes an action to an array", () => {
+		const oldArray = [ { name: "object1" } ];
+		const action = {
+			name: "test_name",
+			label: "Nice custom label",
+			value: "testValue",
+		};
+
+		const expected =  [
+			{
+				name: "object1",
+			},
+			{
+				name: "test_name",
+				label: "Nice custom label",
+				value: "testValue",
+			},
+		];
+
+		const actual = pushNewReplaceVar( oldArray, action );
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "calls createLabelFromName if no label was supplied in the action", () => {
+		const oldArray = [ { name: "object1" } ];
+		const action = {
+			name: "test_name",
+			label: "",
+			value: "testValue",
+		};
+
+		const expected =  [
+			{
+				name: "object1",
+			},
+			{
+				name: "test_name",
+				label: "Test name",
+				value: "testValue",
+			},
+		];
+
+		const actual = pushNewReplaceVar( oldArray, action );
+
+		expect( actual ).toEqual( expected );
 	} );
 } );
