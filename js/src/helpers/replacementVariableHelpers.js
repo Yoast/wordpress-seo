@@ -85,11 +85,32 @@ export function createLabelFromName( name ) {
 }
 
 /**
+ * Pushes a new replacement variable from an action into the replacementVariables array.
+ * Creates a label from the replacement variable name when no label is supplied.
+ *
+ * @param {array}  replacementVariables The current replacement variable list
+ * @param {Object} action               The UPDATE_REPLACEMENT_VARIABLE action.
+ * @param {string} action.name          The name of the replacement variable.
+ * @param {string} [action.label]       The label of the replacement variable (optional).
+ * @param {*}      action.value         The value of the replacement variable.
+ *
+ * @returns {array} The extended list of replacement variables.
+ */
+export function pushNewReplaceVar( replacementVariables, action ) {
+	replacementVariables.push( {
+		name: action.name,
+		label: action.label || createLabelFromName( action.name ),
+		value: action.value,
+	} );
+	return replacementVariables;
+}
+
+/**
  * Decodes the separator replacement variable to a displayable symbol.
  *
- * @param {Object} replacementVariables   The object with replacement variables.
+ * @param   {Object} replacementVariables   The object with replacement variables.
  *
- * @returns {Object} replacementVariables The object with replacement variables with a decoded separator.
+ * @returns {Object} The object with replacement variables with a decoded separator.
  */
 export function decodeSeparatorVariable( replacementVariables ) {
 	if( replacementVariables[ "sep" ] ) {

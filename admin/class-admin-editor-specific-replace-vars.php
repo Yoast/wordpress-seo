@@ -13,7 +13,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	/**
 	 * @var array The editor specific replacement variables.
 	 */
-	protected $editor_specific_replace_vars = array(
+	protected $replacement_variables = array(
 		// Posts types.
 		'page'                     => array( 'id', 'pt_single', 'pt_plural', 'parent_title' ),
 		'post'                     => array( 'id', 'term404', 'pt_single', 'pt_plural' ),
@@ -37,32 +37,67 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * WPSEO_Admin_Editor_Specific_Replace_Vars constructor.
 	 */
 	public function __construct() {
-		$this->apply_custom_fields();
-		$this->apply_custom_taxonomies();
+		$this->add_for_page_types(
+			array( 'page', 'post', 'custom_post_type' ),
+			WPSEO_Custom_Fields::get_custom_fields()
+		);
+
+		$this->add_for_page_types(
+			array( 'post', 'term-in-custom-taxonomies' ),
+			WPSEO_Custom_Taxonomies::get_custom_taxonomies()
+		);
 	}
 
 	/**
-	 * Retrieves the shared replacement variable names.
+	 * Retrieves the editor specific replacement variables.
+	 *
+	 * @return array The editor specific replacement variables.
+	 */
+	public function get() {
+		/**
+		 * Filter: Adds the possibility to add extra editor specific replacement variables.
+		 *
+		 * @api array $replacement_variables Empty array to add the editor specific replace vars to.
+		 */
+		$replacement_variables = apply_filters(
+			'wpseo_editor_specific_replace_vars',
+			$this->replacement_variables
+		);
+
+		if ( ! is_array( $replacement_variables ) ) {
+			$replacement_variables = $this->replacement_variables;
+		}
+
+		return array_filter( $replacement_variables, 'is_array' );
+	}
+
+	/**
+	 * Retrieves the generic replacement variable names.
 	 *
 	 * Which are the replacement variables without the editor specific ones.
 	 *
-	 * @param array $replace_vars_list                 The replace vars list.
-	 * @param array $editor_specific_replace_vars_list The editor specific replace var names.
+	 * @param array $replacement_variables Possibly generic replacement variables.
 	 *
-	 * @return array The shared replacement variable names.
+	 * @return array The generic replacement variable names.
 	 */
-	public static function get_shared_replace_vars( $replace_vars_list, $editor_specific_replace_vars_list ) {
-		$filter_values       = self::array_flatten( $editor_specific_replace_vars_list );
-		$shared_replace_vars = array();
+	public function get_generic( $replacement_variables ) {
+		$shared_variables = array_diff(
+			$this->extract_names( $replacement_variables ),
+			$this->get_unique_replacement_variables()
+		);
 
-		foreach ( $replace_vars_list as $replace_var ) {
-			$name = $replace_var['name'];
-			if ( ! in_array( $name, $filter_values ) ) {
-				$shared_replace_vars[] = $name;
-			}
-		}
+		return array_values( $shared_variables );
+	}
 
-		return $shared_replace_vars;
+	/**
+	 * Merges all editor specific replacement variables into one array and removes duplicates.
+	 *
+	 * @return array The list of unique editor specific replacement variables.
+	 */
+	public function get_unique_replacement_variables() {
+		$merged_replacement_variables = call_user_func_array( 'array_merge', $this->get() );
+
+		return array_unique( $merged_replacement_variables );
 	}
 
 	/**
@@ -73,8 +108,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * @return string The page type.
 	 */
 	public function determine_for_term( $taxonomy ) {
-		$editor_specific_replace_vars = $this->get_editor_specific_replace_vars();
-		if ( array_key_exists( $taxonomy, $editor_specific_replace_vars ) ) {
+		$replacement_variables = $this->get();
+		if ( array_key_exists( $taxonomy, $replacement_variables ) ) {
 			return $taxonomy;
 		}
 
@@ -93,8 +128,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 			return 'post';
 		}
 
-		$editor_specific_replace_vars = $this->get_editor_specific_replace_vars();
-		if ( array_key_exists( $post->post_type, $editor_specific_replace_vars ) ) {
+		$replacement_variables = $this->get();
+		if ( array_key_exists( $post->post_type, $replacement_variables ) ) {
 			return $post->post_type;
 		}
 
@@ -110,15 +145,11 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * @return string The page type.
 	 */
 	public function determine_for_post_type( $post_type, $fallback = 'custom_post_type' ) {
-		$page_type                        = $post_type;
-		$editor_specific_replace_vars     = $this->get_editor_specific_replace_vars();
-		$has_editor_specific_replace_vars = $this->has_editor_specific_replace_vars( $editor_specific_replace_vars, $page_type );
-
-		if ( ! $has_editor_specific_replace_vars ) {
+		if ( ! $this->has_for_page_type( $post_type ) ) {
 			return $fallback;
 		}
 
-		return $page_type;
+		return $post_type;
 	}
 
 	/**
@@ -130,11 +161,9 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * @return string The page type.
 	 */
 	public function determine_for_archive( $name, $fallback = 'custom-post-type_archive' ) {
-		$page_type                        = $name . '_archive';
-		$editor_specific_replace_vars     = $this->get_editor_specific_replace_vars();
-		$has_editor_specific_replace_vars = $this->has_editor_specific_replace_vars( $editor_specific_replace_vars, $page_type );
+		$page_type = $name . '_archive';
 
-		if ( ! $has_editor_specific_replace_vars ) {
+		if ( ! $this->has_for_page_type( $page_type ) ) {
 			return $fallback;
 		}
 
@@ -142,117 +171,52 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	}
 
 	/**
-	 * Retrieves the editor specific replacement variables for the given page type.
+	 * Adds the replavement variables for the given page types.
 	 *
-	 * @param string $page_type The page type.
+	 * @param array $page_types            Page types to add variables for.
+	 * @param array $replacement_variables_to_add The variables to add.
 	 *
-	 * @return array The editor specific replacement variables.
+	 * @return void
 	 */
-	public function get_editor_specific_replace_vars_for( $page_type ) {
-		$editor_specific_replace_vars     = $this->get_editor_specific_replace_vars();
-		$has_editor_specific_replace_vars = $this->has_editor_specific_replace_vars( $editor_specific_replace_vars, $page_type );
+	protected function add_for_page_types( array $page_types, array $replacement_variables_to_add ) {
+		$replacement_variables_to_add = array_fill_keys( $page_types, $replacement_variables_to_add );
 
-		if ( ! $has_editor_specific_replace_vars ) {
-			return array();
-		}
-
-		return $editor_specific_replace_vars[ $page_type ];
+		$this->replacement_variables = array_merge( $replacement_variables_to_add, $this->replacement_variables );
 	}
 
 	/**
-	 * Retrieves the editor specific replacement variables.
+	 * Extracts the names from the given replacements variables.
 	 *
-	 * @return array The editor specific replacement variables.
+	 * @param array $replacement_variables Replacement variables to extract the name from.
+	 *
+	 * @return array Extracted names.
 	 */
-	public function get_editor_specific_replace_vars() {
-		/**
-		 * Filter: Adds the possibility to add extra editor specific replacement variables.
-		 *
-		 * @api array $editor_specific_replace_vars Empty array to add the editor specific replace vars to.
-		 */
-		$editor_specific_replace_vars = apply_filters(
-			'wpseo_editor_specific_replace_vars',
-			$this->editor_specific_replace_vars
-		);
+	protected function extract_names( $replacement_variables ) {
+		$extracted_names = array();
 
-		if ( ! is_array( $editor_specific_replace_vars ) ) {
-			return $this->editor_specific_replace_vars;
-		}
-
-		return $editor_specific_replace_vars;
-	}
-
-	/**
-	 * Flattens an array.
-	 *
-	 * @param array $array The array to flatten.
-	 *
-	 * @return array The flattened array.
-	 */
-	private static function array_flatten( $array ) {
-		$flattened = array();
-
-		foreach ( $array as $key => $value ) {
-			if ( is_array( $value ) ) {
-				$flattened = array_merge( $flattened, self::array_flatten( $value ) );
+		foreach ( $replacement_variables as $replacement_variable ) {
+			if ( empty( $replacement_variable['name'] ) ) {
 				continue;
 			}
-			$flattened[ $key ] = $value;
+
+			$extracted_names[] = $replacement_variable['name'];
 		}
 
-		return $flattened;
+		return $extracted_names;
 	}
 
 	/**
 	 * Returns whether the given page type has editor specific replace vars.
 	 *
-	 * @param array  $editor_specific_replace_vars The editor specific replace
-	 *                                             vars to check in.
-	 * @param string $page_type                    The page type to check.
+	 * @param string $page_type The page type to check.
 	 *
 	 * @return bool True if there are associated editor specific replace vars.
 	 */
-	protected function has_editor_specific_replace_vars( $editor_specific_replace_vars, $page_type ) {
-		if ( ! isset( $editor_specific_replace_vars[ $page_type ] ) ) {
-			return false;
-		}
+	protected function has_for_page_type( $page_type ) {
+		$replacement_variables = $this->get();
 
-		if ( ! is_array( $editor_specific_replace_vars[ $page_type ] ) ) {
-			return false;
-		}
+		// var_dump( $replacement_variables, $replacement_variables[ 'post' ] );
 
-		return true;
-	}
-
-	/**
-	 * Applies the custom fields to the appropriate page types.
-	 *
-	 * @return void
-	 */
-	protected function apply_custom_fields() {
-		$custom_fields = WPSEO_Custom_Fields::get_custom_fields();
-		$page_types    = array( 'page', 'post', 'custom_post_type' );
-		foreach ( $page_types as $page_type ) {
-			$this->editor_specific_replace_vars[ $page_type ] = array_merge(
-				$this->editor_specific_replace_vars[ $page_type ],
-				$custom_fields
-			);
-		}
-	}
-
-	/**
-	 * Applies the custom taxonomies to the appropriate page types.
-	 *
-	 * @return void
-	 */
-	protected function apply_custom_taxonomies() {
-		$custom_taxonomies = WPSEO_Custom_Taxonomies::get_custom_taxonomies();
-		$page_types        = array( 'post', 'term-in-custom-taxomomy' );
-		foreach ( $page_types as $page_type ) {
-			$this->editor_specific_replace_vars[ $page_type ] = array_merge(
-				$this->editor_specific_replace_vars[ $page_type ],
-				$custom_taxonomies
-			);
-		}
+		return ( ! empty( $replacement_variables[ $page_type ] ) && is_array( $replacement_variables[ $page_type ] ) );
 	}
 }

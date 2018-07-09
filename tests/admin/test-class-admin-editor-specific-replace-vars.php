@@ -20,7 +20,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 		parent::setUp();
 
 		$this->class_instance = new WPSEO_Admin_Editor_Specific_Replace_Vars_Double();
-		add_filter( 'wpseo_editor_specific_replace_vars', array( $this, 'filter_editor_specific_replacevars' ) );
+		// add_filter( 'wpseo_editor_specific_replace_vars', array( $this, 'filter_editor_specific_replacevars' ) );
 	}
 
 	/**
@@ -30,9 +30,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_shared_replace_vars
 	 */
 	public function test_get_shared_replace_vars_filters_editor_specific_replace_vars() {
-		$editor_specific_replace_vars = array(
-			'search' => array( 'searchphrase' ),
-		);
 		$replace_vars_list = array(
 			array(
 				'name' => 'searchphrase',
@@ -48,9 +45,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			array( 'title' ),
-			WPSEO_Admin_Editor_Specific_Replace_Vars::get_shared_replace_vars(
-				$replace_vars_list,
-				$editor_specific_replace_vars
+			$this->class_instance->get_generic(
+				$replace_vars_list
 			)
 		);
 	}
@@ -212,60 +208,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that get_editor_specific_replacevars works for the settings.
-	 *
-	 * @dataProvider get_editor_specific_replacevars_provider
-	 *
-	 * @param string $page_type The page type to get the editor_specific replacement variables for.
-	 * @param array  $expected  The expected editor_specific replacement variables.
-	 *
-	 * @covers       WPSEO_Admin_Editor_Specific_Replace_Vars::get_editor_specific_replacevars_for
-	 */
-	public function test_get_editor_specific_replace_vars( $page_type, $expected ) {
-		$this->assertEquals( $expected, $this->class_instance->get_editor_specific_replace_vars_for( $page_type ) );
-	}
-
-	/**
-	 * Dataprovider function for the test: test_get_editor_specific_replace_vars
-	 *
-	 * @return array With the $page_type and $expected variables.
-	 */
-	public function get_editor_specific_replacevars_provider() {
-		$editor_specific_replace_vars = $this->class_instance->get_protected_editor_specific_replace_vars();
-
-		return array_map( function( $name, $replace_vars ) {
-			return array( $name, $replace_vars );
-		}, $editor_specific_replace_vars );
-	}
-
-	/**
-	 * Tests that get_editor_specific_replace_vars works for the post type.
-	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_editor_specific_replace_vars_for
-	 */
-	public function test_get_editor_specific_replace_vars_non_existing() {
-		$this->assertEquals( array(), $this->class_instance->get_editor_specific_replace_vars_for( 'non-existing-replace-var' ) );
-	}
-
-	/**
-	 * Tests that get_editor_specific_replace_vars works when there are no recommendations found.
-	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_editor_specific_replace_vars_for
-	 */
-	public function test_get_editor_specific_replace_vars_for_post() {
-		$this->test_get_editor_specific_replace_vars( 'post', array( 'id', 'term404', 'pt_single', 'pt_plural' ) );
-	}
-
-	/**
-	 * Tests that get_editor_specific_replace_vars works when a filter adds a non-array recommendation.
-	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_editor_specific_replace_vars_for
-	 */
-	public function test_get_editor_specific_replace_vars_non_array() {
-		$this->assertEquals( array(), $this->class_instance->get_editor_specific_replace_vars_for( 'non-array' ) );
-	}
-
-	/**
 	 * Filter function for adding or changing replacement variables.
 	 *
 	 * @param array $replacevars The replacement variables before the filter.
@@ -300,7 +242,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_editor_specific_replace_vars
 	 */
 	public function test_has_editor_specific_replace_vars_existing() {
-		$this->assertEquals( true, $this->class_instance->has_editor_specific_replace_vars( $this->class_instance->get_editor_specific_replace_vars(), 'post' ) );
+		$this->assertEquals( true, $this->class_instance->has_for_page_type( 'post' ) );
 	}
 
 	/**
@@ -310,6 +252,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_editor_specific_replace_vars
 	 */
 	public function test_has_editor_specific_replace_vars_non_existing() {
-		$this->assertEquals( false, $this->class_instance->has_editor_specific_replace_vars( $this->class_instance->get_editor_specific_replace_vars(), 'non-existing-replace-var' ) );
+		$this->assertEquals( false, $this->class_instance->has_for_page_type( 'non-existing-replace-var' ) );
 	}
 }

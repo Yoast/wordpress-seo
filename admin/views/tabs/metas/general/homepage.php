@@ -21,7 +21,15 @@
 		echo '<h2 class="help-button-inline">', esc_html__( 'Homepage', 'wordpress-seo' ), $homepage_help->get_button_html(), '</h2>';
 		echo $homepage_help->get_panel_html();
 
-		$editor = new WPSEO_Replacevar_Editor( $yform, 'title-home-wpseo', 'metadesc-home-wpseo', 'homepage', 'page' );
+		$editor = new WPSEO_Replacevar_Editor(
+			$yform,
+			array(
+				'title'                 => 'title-home-wpseo',
+				'description'           => 'metadesc-home-wpseo',
+				'page_type_recommended' => 'homepage',
+				'page_type_specific'    => 'page',
+			)
+		);
 		$editor->render();
 	}
 	else {
