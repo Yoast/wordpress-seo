@@ -137,7 +137,7 @@ class WPSEO_Admin_Pages {
 
 		$replace_vars_list                 = $replace_vars->get_replacement_variables_list();
 		$editor_specific_replace_vars_list = $editor_specific_replace_vars->get_editor_specific_replace_vars();
-		$shared_replace_vars_list          = WPSEO_Admin_Editor_Specific_Replace_Vars::get_shared_replace_vars(
+		$shared_replace_vars_list          = $editor_specific_replace_vars->get_shared_replacement_variables(
 			$replace_vars_list,
 			$editor_specific_replace_vars_list
 		);

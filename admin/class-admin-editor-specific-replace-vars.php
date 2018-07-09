@@ -51,18 +51,11 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 *
 	 * @return array The shared replacement variable names.
 	 */
-	public static function get_shared_replace_vars( $replace_vars_list, $editor_specific_replace_vars_list ) {
-		$filter_values       = self::array_flatten( $editor_specific_replace_vars_list );
-		$shared_replace_vars = array();
-
-		foreach ( $replace_vars_list as $replace_var ) {
-			$name = $replace_var['name'];
-			if ( ! in_array( $name, $filter_values ) ) {
-				$shared_replace_vars[] = $name;
-			}
-		}
-
-		return $shared_replace_vars;
+	public function get_shared_replacement_variables( $replace_vars_list, $editor_specific_replace_vars_list ) {
+		return array_diff(
+			$this->extract_names( $editor_specific_replace_vars_list ),
+			$this->extract_names( $replace_vars_list )
+		);
 	}
 
 	/**
@@ -183,27 +176,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	}
 
 	/**
-	 * Flattens an array.
-	 *
-	 * @param array $array The array to flatten.
-	 *
-	 * @return array The flattened array.
-	 */
-	private static function array_flatten( $array ) {
-		$flattened = array();
-
-		foreach ( $array as $key => $value ) {
-			if ( is_array( $value ) ) {
-				$flattened = array_merge( $flattened, self::array_flatten( $value ) );
-				continue;
-			}
-			$flattened[ $key ] = $value;
-		}
-
-		return $flattened;
-	}
-
-	/**
 	 * Applies the custom fields to the appropriate page types.
 	 *
 	 * @param array $custom_fields The custom fields to add.
@@ -233,6 +205,27 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		);
 
 		$this->editor_specific_replace_vars = array_merge( $this->editor_specific_replace_vars, $page_types );
+	}
+
+	/**
+	 * Extracts the names from the given replacements variables.
+	 *
+	 * @param array $replacement_variables Replacement variables to extract the name from.
+	 *
+	 * @return array Extracted names.
+	 */
+	protected function extract_names( $replacement_variables ) {
+		$extracted_names = array();
+
+		foreach ( $replacement_variables as $replacement_variable ) {
+			if ( empty( $replacement_variable['name'] ) ) {
+				continue;
+			}
+
+			$extracted_names[] = $replacement_variable['name'];
+		}
+
+		return $extracted_names;
 	}
 
 	/**
