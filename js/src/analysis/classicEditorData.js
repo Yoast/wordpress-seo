@@ -42,7 +42,7 @@ class ClassicEditorData {
 	 */
 	initialize( replaceVars ) {
 		this._data = this.getInitialData( replaceVars );
-		fillReplacementVariables( decodeSeparatorVariable( this._data ), this._store );
+		fillReplacementVariables( this._data, this._store );
 		this.subscribeToElements();
 		this.subscribeToStore();
 	}
