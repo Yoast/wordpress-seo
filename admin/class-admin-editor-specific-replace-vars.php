@@ -82,8 +82,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 */
 	public function get_shared( $replacement_variables ) {
 		return array_diff(
-			$this->extract_names( $this->get() ),
-			$this->extract_names( $replacement_variables )
+			$this->extract_names( $replacement_variables ),
+			$this->extract_names( $this->get() )
 		);
 	}
 
