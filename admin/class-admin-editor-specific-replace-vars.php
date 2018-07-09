@@ -46,15 +46,14 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 *
 	 * Which are the replacement variables without the editor specific ones.
 	 *
-	 * @param array $replace_vars_list                 The replace vars list.
-	 * @param array $editor_specific_replace_vars_list The editor specific replace var names.
+	 * @param array $replacement_variables Possibly shared replacement variables.
 	 *
 	 * @return array The shared replacement variable names.
 	 */
-	public function get_shared_replacement_variables( $replace_vars_list, $editor_specific_replace_vars_list ) {
+	public function get_shared( $replacement_variables ) {
 		return array_diff(
-			$this->extract_names( $editor_specific_replace_vars_list ),
-			$this->extract_names( $replace_vars_list )
+			$this->extract_names( $this->get() ),
+			$this->extract_names( $replacement_variables )
 		);
 	}
 
@@ -66,7 +65,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * @return string The page type.
 	 */
 	public function determine_for_term( $taxonomy ) {
-		$editor_specific_replace_vars = $this->get_editor_specific_replace_vars();
+		$editor_specific_replace_vars = $this->get();
 		if ( array_key_exists( $taxonomy, $editor_specific_replace_vars ) ) {
 			return $taxonomy;
 		}
@@ -86,7 +85,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 			return 'post';
 		}
 
-		$editor_specific_replace_vars = $this->get_editor_specific_replace_vars();
+		$editor_specific_replace_vars = $this->get();
 		if ( array_key_exists( $post->post_type, $editor_specific_replace_vars ) ) {
 			return $post->post_type;
 		}
@@ -103,15 +102,11 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * @return string The page type.
 	 */
 	public function determine_for_post_type( $post_type, $fallback = 'custom_post_type' ) {
-		$page_type                        = $post_type;
-		$editor_specific_replace_vars     = $this->get_editor_specific_replace_vars();
-		$has_editor_specific_replace_vars = $this->has_editor_specific_replace_vars( $editor_specific_replace_vars, $page_type );
-
-		if ( ! $has_editor_specific_replace_vars ) {
+		if ( ! $this->has_for_page_type( $post_type ) ) {
 			return $fallback;
 		}
 
-		return $page_type;
+		return $post_type;
 	}
 
 	/**
@@ -123,11 +118,9 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * @return string The page type.
 	 */
 	public function determine_for_archive( $name, $fallback = 'custom-post-type_archive' ) {
-		$page_type                        = $name . '_archive';
-		$editor_specific_replace_vars     = $this->get_editor_specific_replace_vars();
-		$has_editor_specific_replace_vars = $this->has_editor_specific_replace_vars( $editor_specific_replace_vars, $page_type );
+		$page_type = $name . '_archive';
 
-		if ( ! $has_editor_specific_replace_vars ) {
+		if ( ! $this->has_for_page_type( $page_type ) ) {
 			return $fallback;
 		}
 
@@ -135,29 +128,11 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	}
 
 	/**
-	 * Retrieves the editor specific replacement variables for the given page type.
-	 *
-	 * @param string $page_type The page type.
-	 *
-	 * @return array The editor specific replacement variables.
-	 */
-	public function get_editor_specific_replace_vars_for( $page_type ) {
-		$editor_specific_replace_vars     = $this->get_editor_specific_replace_vars();
-		$has_editor_specific_replace_vars = $this->has_editor_specific_replace_vars( $editor_specific_replace_vars, $page_type );
-
-		if ( ! $has_editor_specific_replace_vars ) {
-			return array();
-		}
-
-		return $editor_specific_replace_vars[ $page_type ];
-	}
-
-	/**
 	 * Retrieves the editor specific replacement variables.
 	 *
 	 * @return array The editor specific replacement variables.
 	 */
-	public function get_editor_specific_replace_vars() {
+	public function get() {
 		/**
 		 * Filter: Adds the possibility to add extra editor specific replacement variables.
 		 *
@@ -242,13 +217,13 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	/**
 	 * Returns whether the given page type has editor specific replace vars.
 	 *
-	 * @param array  $editor_specific_replace_vars The editor specific replace
-	 *                                             vars to check in.
-	 * @param string $page_type                    The page type to check.
+	 * @param string $page_type The page type to check.
 	 *
 	 * @return bool True if there are associated editor specific replace vars.
 	 */
-	private function has_editor_specific_replace_vars( $editor_specific_replace_vars, $page_type ) {
+	private function has_for_page_type( $page_type ) {
+		$editor_specific_replace_vars = $this->get();
+
 		if ( ! isset( $editor_specific_replace_vars[ $page_type ] ) ) {
 			return false;
 		}
