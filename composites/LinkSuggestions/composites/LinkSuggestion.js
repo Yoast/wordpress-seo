@@ -41,8 +41,8 @@ const LinkSuggestion = ( { value, url, isActive, translate } ) => {
 	return (
 		<div className="yoast-link-suggestion" >
 			<button type="button" className={className}
-					onBlur={resetLabels}
-					data-clipboard-text={url} aria-label={ariaLabel} data-label={label}>
+				onBlur={resetLabels}
+				data-clipboard-text={url} aria-label={ariaLabel} data-label={label}>
 				<span className="screen-reader-text">{label}</span>
 			</button>
 			<a href={url} className="yoast-link-suggestion__value" target="_blank">{value}</a>
