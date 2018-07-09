@@ -472,7 +472,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 	&__title {
 		width: 100%;
-		margin: 46px 0 20px;
+		margin: 5px 0;
 		padding: 10px 0;
 		color: #a4286a;
 		text-align: left;
@@ -481,8 +481,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		border-bottom: 1px solid #a4286a;
 	}
 
-	&__spot {
-		padding: 10px 0;
+	&_section {
+		padding: 20px 0 20px 0;
 		border-bottom: 1px solid #ddd;
 
 		h2, a {
@@ -506,6 +506,33 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 				position: absolute;
 				left: 0;
 				font-weight: bold;
+			}
+		}
+
+		div {
+			position: relative;
+			margin: 10px 0;
+
+			a {
+				color: #0085ba;
+			}
+
+			img, p {
+				float: left;
+			}
+
+			img {
+				width: 40px;
+				height: 40px;
+			}
+
+			p {
+				width: 200px;
+				margin: 0 0 0 10px;
+			}
+
+			.clear {
+				clear: both;
 			}
 		}
 

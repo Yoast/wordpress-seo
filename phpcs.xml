@@ -10,6 +10,7 @@
     <exclude-pattern>deprecated/*</exclude-pattern>
     <exclude-pattern>languages/*</exclude-pattern>
     <exclude-pattern>artifact/*</exclude-pattern>
+    <exclude-pattern>.wordpress-svn/*</exclude-pattern>
 
     <arg name="extensions" value="php"/>
     <arg value="sp"/>

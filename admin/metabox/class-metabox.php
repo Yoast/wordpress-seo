@@ -596,6 +596,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/>';
 
+				if ( WPSEO_UTILS::is_yoast_seo_premium() === false ) {
+					$button = new WPSEO_Metabox_Keyword_Synonyms_Button();
+					$content .= $button->get_link();
+				}
+
 				if ( WPSEO_Options::get( 'enable_cornerstone_content', false ) ) {
 					$cornerstone_field = new WPSEO_Cornerstone_Field();
 
@@ -899,7 +904,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
-		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' );
 		/**
 		 * Remove the emoji script as it is incompatible with both React and any
@@ -1005,7 +1010,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array Recommended replacement variables.
 	 */
 	private function get_recommended_replace_vars() {
-	    $recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
 		$post                     = $this->get_metabox_post();
 
 		// What is recommended depends on the current context.

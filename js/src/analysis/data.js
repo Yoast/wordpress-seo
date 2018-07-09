@@ -39,8 +39,8 @@ class Data {
 		const gutenbergData = this.collectGutenbergData( this.getPostAttribute );
 
 		// Custom_fields and custom_taxonomies are objects instead of strings, which causes console errors.
-		replaceVars = mapCustomFields( replaceVars );
-		replaceVars = mapCustomTaxonomies( replaceVars );
+		replaceVars = mapCustomFields( replaceVars, this._store );
+		replaceVars = mapCustomTaxonomies( replaceVars, this._store );
 
 		return {
 			...replaceVars,

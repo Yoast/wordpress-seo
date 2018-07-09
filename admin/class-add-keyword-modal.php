@@ -18,7 +18,7 @@ class WPSEO_Add_Keyword_Modal {
 	 */
 	public function get_translations() {
 		return array(
-			'title'                    => __( 'Want to add more than one keyword?', 'wordpress-seo' ),
+			'title'                    => __( 'Would you like to add more than one keyword?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
 				/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
 				__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
@@ -40,7 +40,7 @@ class WPSEO_Add_Keyword_Modal {
 	}
 
 	/**
-	 * Pass tanslations to JS for the Add Keyword modal component.
+	 * Passes translations to JS for the Add Keyword modal component.
 	 *
 	 * @return array Translated text strings for the Add Keyword modal component.
 	 */

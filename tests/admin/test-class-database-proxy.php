@@ -260,7 +260,7 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 			(object) array(
 				'id'      => 10,
 				'testkey' => 'key10',
-				'testval' => 'value10-2'
+				'testval' => 'value10-2',
 			),
 			$results[0]
 		);
