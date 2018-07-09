@@ -52,16 +52,16 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		 *
 		 * @api array $replacement_variables Empty array to add the editor specific replace vars to.
 		 */
-		$editor_specific_replace_vars = apply_filters(
+		$replacement_variables = apply_filters(
 			'wpseo_editor_specific_replace_vars',
 			$this->replacement_variables
 		);
 
-		if ( ! is_array( $editor_specific_replace_vars ) ) {
+		if ( ! is_array( $replacement_variables ) ) {
 			return $this->replacement_variables;
 		}
 
-		return $editor_specific_replace_vars;
+		return $replacement_variables;
 	}
 
 	/**
@@ -88,8 +88,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * @return string The page type.
 	 */
 	public function determine_for_term( $taxonomy ) {
-		$editor_specific_replace_vars = $this->get();
-		if ( array_key_exists( $taxonomy, $editor_specific_replace_vars ) ) {
+		$replacement_variables = $this->get();
+		if ( array_key_exists( $taxonomy, $replacement_variables ) ) {
 			return $taxonomy;
 		}
 
@@ -108,8 +108,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 			return 'post';
 		}
 
-		$editor_specific_replace_vars = $this->get();
-		if ( array_key_exists( $post->post_type, $editor_specific_replace_vars ) ) {
+		$replacement_variables = $this->get();
+		if ( array_key_exists( $post->post_type, $replacement_variables ) ) {
 			return $post->post_type;
 		}
 
