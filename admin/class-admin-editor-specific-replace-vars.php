@@ -37,8 +37,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * WPSEO_Admin_Editor_Specific_Replace_Vars constructor.
 	 */
 	public function __construct() {
-		$this->apply_custom_fields();
-		$this->apply_custom_taxonomies();
+		$this->apply_custom_fields( WPSEO_Custom_Fields::get_custom_fields() );
+		$this->apply_custom_taxonomies( WPSEO_Custom_Taxonomies::get_custom_taxonomies() );
 	}
 
 	/**
@@ -204,6 +204,38 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	}
 
 	/**
+	 * Applies the custom fields to the appropriate page types.
+	 *
+	 * @param array $custom_fields The custom fields to add.
+	 *
+	 * @return void
+	 */
+	protected function apply_custom_fields( $custom_fields ) {
+		$page_types = array_fill_keys(
+			array( 'page', 'post', 'custom_post_type' ),
+			$custom_fields
+		);
+
+		$this->editor_specific_replace_vars = array_merge( $this->editor_specific_replace_vars, $page_types );
+	}
+
+	/**
+	 * Applies the custom taxonomies to the appropriate page types.
+	 *
+	 * @param array $custom_taxonomies The custom taxonomies to add.
+	 *
+	 * @return void
+	 */
+	protected function apply_custom_taxonomies( $custom_taxonomies ) {
+		$page_types = array_fill_keys(
+			array( 'post', 'term-in-custom-taxonomies' ),
+			$custom_taxonomies
+		);
+
+		$this->editor_specific_replace_vars = array_merge( $this->editor_specific_replace_vars, $page_types );
+	}
+
+	/**
 	 * Returns whether the given page type has editor specific replace vars.
 	 *
 	 * @param array  $editor_specific_replace_vars The editor specific replace
@@ -222,37 +254,5 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Applies the custom fields to the appropriate page types.
-	 *
-	 * @return void
-	 */
-	protected function apply_custom_fields() {
-		$custom_fields = WPSEO_Custom_Fields::get_custom_fields();
-		$page_types    = array( 'page', 'post', 'custom_post_type' );
-		foreach ( $page_types as $page_type ) {
-			$this->editor_specific_replace_vars[ $page_type ] = array_merge(
-				$this->editor_specific_replace_vars[ $page_type ],
-				$custom_fields
-			);
-		}
-	}
-
-	/**
-	 * Applies the custom taxonomies to the appropriate page types.
-	 *
-	 * @return void
-	 */
-	protected function apply_custom_taxonomies() {
-		$custom_taxonomies = WPSEO_Custom_Taxonomies::get_custom_taxonomies();
-		$page_types        = array( 'post', 'term-in-custom-taxomomy' );
-		foreach ( $page_types as $page_type ) {
-			$this->editor_specific_replace_vars[ $page_type ] = array_merge(
-				$this->editor_specific_replace_vars[ $page_type ],
-				$custom_taxonomies
-			);
-		}
 	}
 }

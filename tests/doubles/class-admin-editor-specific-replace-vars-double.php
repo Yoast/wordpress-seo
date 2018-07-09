@@ -22,14 +22,14 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Double extends WPSEO_Admin_Editor
 	/**
 	 * @inheritdoc
 	 */
-	public function apply_custom_fields() {
-		return parent::apply_custom_fields();
+	public function apply_custom_fields( $custom_fields ) {
+		parent::apply_custom_fields( $custom_fields );
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function apply_custom_taxonomies() {
-		return parent::apply_custom_taxonomies();
+	public function apply_custom_taxonomies( $custom_taxonomies ) {
+		parent::apply_custom_taxonomies( $custom_taxonomies );
 	}
 }
