@@ -20,9 +20,9 @@ const ChangeLanguageLink = makeOutboundLink( styled.a`
 
 const changeLanguageText = __( "Change language" );
 /* Translators: %s expands to the actual language. */
-const canChangeLanguageText = __( "Your site language is set to %s. If this is not correct, contact your site administrator." );
+const canChangeLanguageText = __( "Your site language is set to %s. " );
 /* Translators: %s expands to the actual language. */
-const canNotChangeLanguageText = __( "Your site language is set to %s." );
+const canNotChangeLanguageText = __( "Your site language is set to %s. If this is not correct, contact your site administrator." );
 
 /**
  * Returns the LanguageNotice component.
