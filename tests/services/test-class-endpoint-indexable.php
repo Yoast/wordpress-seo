@@ -132,7 +132,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Indexable_Service::get_provider()
 	 */
 	public function test_get_provider() {
-		$this->expectException( WPSEO_Invalid_Argument_Exception::class );
+		$this->expectException( 'WPSEO_Invalid_Argument_Exception' );
 
 		$service = new WPSEO_Indexable_Service_Double();
 
