@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Internals
+ */
 
 /**
  * Class WPSEO_Invalid_Argument_Exception
@@ -21,9 +26,9 @@ class WPSEO_Invalid_Argument_Exception extends \InvalidArgumentException {
 	/**
 	 * Creates an invalid parameter exception.
 	 *
-	 * @param mixed $parameter The parameter value of the field.
-	 * @param string $name	   The name of the field.
-	 * @param string $expected The expected type.
+	 * @param mixed  $parameter The parameter value of the field.
+	 * @param string $name	    The name of the field.
+	 * @param string $expected  The expected type.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
@@ -39,10 +44,10 @@ class WPSEO_Invalid_Argument_Exception extends \InvalidArgumentException {
 	}
 
 	/**
- 	 * Creates an invalid integer parameter exception.
+	 * Creates an invalid integer parameter exception.
 	 *
-	 * @param mixed $parameter The parameter value of the field.
-	 * @param string $name	   The name of the field.
+	 * @param mixed  $parameter The parameter value of the field.
+	 * @param string $name	    The name of the field.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
@@ -53,8 +58,8 @@ class WPSEO_Invalid_Argument_Exception extends \InvalidArgumentException {
 	/**
 	 * Creates an invalid string parameter exception.
 	 *
-	 * @param mixed $parameter The parameter value of the field.
-	 * @param string $name	   The name of the field.
+	 * @param mixed  $parameter The parameter value of the field.
+	 * @param string $name	    The name of the field.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
@@ -65,8 +70,8 @@ class WPSEO_Invalid_Argument_Exception extends \InvalidArgumentException {
 	/**
 	 * Creates an invalid boolean parameter exception.
 	 *
-	 * @param mixed $parameter The parameter value of the field.
-	 * @param string $name	   The name of the field.
+	 * @param mixed  $parameter The parameter value of the field.
+	 * @param string $name	    The name of the field.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
@@ -77,12 +82,25 @@ class WPSEO_Invalid_Argument_Exception extends \InvalidArgumentException {
 	/**
 	 * Creates an invalid callable parameter exception.
 	 *
-	 * @param mixed $parameter The parameter value of the field.
-	 * @param string $name	   The name of the field.
+	 * @param mixed  $parameter The parameter value of the field.
+	 * @param string $name	    The name of the field.
 	 *
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
 	public static function invalid_callable_parameter( $parameter, $name ) {
 		return self::invalid_parameter_type( $parameter, $name, 'callable' );
+	}
+
+	/**
+	 * Creates an invalid object type exception.
+	 *
+	 * @param string $name The name of the field.
+	 *
+	 * @return WPSEO_Invalid_Argument_Exception The exception.
+	 */
+	public static function invalid_type( $name ) {
+		return new static(
+			sprintf( '`%s`is of an invalid type.', $name )
+		);
 	}
 }

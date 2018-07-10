@@ -1,23 +1,27 @@
 <?php
-
 /**
  * WPSEO plugin file.
  *
  * @package WPSEO\Internals
  */
 
+/**
+ * Class WPSEO_Post_Indexable
+ */
 class WPSEO_Post_Indexable extends WPSEO_Indexable {
 
 	/**
 	 * Creates a new Indexable from a passed object.
 	 *
-	 * @param $object_id
+	 * @param int $object_id The object id to create the object for.
 	 *
-	 * @return WPSEO_Indexable
+	 * @return WPSEO_Indexable The indexable.
+	 *
+	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	public static function from_object( $object_id ) {
 		if ( get_post( $object_id ) === null ) {
-			throw new \InvalidArgumentException( 'Invalid object id passed' );
+			throw WPSEO_Invalid_Argument_Exception::invalid_type( 'object id' );
 		}
 
 		$link_count = new WPSEO_Link_Column_Count();

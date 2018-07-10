@@ -1,11 +1,13 @@
 <?php
-
 /**
  * WPSEO plugin file.
  *
  * @package WPSEO\Internals
  */
 
+/**
+ * Class WPSEO_Robots_Validator
+ */
 class WPSEO_Robots_Validator implements WPSEO_Endpoint_Validator {
 
 	/**
@@ -14,6 +16,8 @@ class WPSEO_Robots_Validator implements WPSEO_Endpoint_Validator {
 	 * @param array $request_data The request data to validate.
 	 *
 	 * @return void
+	 *
+	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	public static function validate( $request_data ) {
 		if ( WPSEO_Validator::key_exists( $request_data, 'is_robots_nofollow' ) && ! WPSEO_Validator::is_boolean( $request_data['is_robots_nofollow'] ) ) {

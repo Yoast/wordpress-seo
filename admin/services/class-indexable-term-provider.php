@@ -52,7 +52,6 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 * @param integer $object_id The target object id.
 	 *
 	 * @return array The retrieved data.
-	 * @throws Exception
 	 */
 	public function get( $object_id ) {
 		if ( ! $this->is_indexable( $object_id ) ) {
@@ -67,11 +66,13 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	/**
 	 * Handles the patching of values for an existing indexable.
 	 *
-	 * @param int 	$object_id 		The ID of the object.
-	 * @param array $requestdata 	The request data to store.
+	 * @param int   $object_id   The ID of the object.
+	 * @param array $requestdata The request data to store.
 	 *
 	 * @return void
-	 * @throws Exception
+	 *
+	 * @throws WPSEO_Invalid_Indexable_Exception The indexable exception.
+	 * @throws Exception 						 Exception that is thrown if patching the object has failed.
 	 */
 	public function patch( $object_id, $requestdata ) {
 		$indexable = $this->get( $object_id );
@@ -120,7 +121,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 		$updateable_values = $this->filter_updateable_values( $translated_values );
 
 		foreach ( $updateable_values as $key => $updateable_value ) {
-			$prepared_values['wpseo_' . $key] = $updateable_value;
+			$prepared_values[ 'wpseo_' . $key ] = $updateable_value;
 		}
 
 		return $prepared_values;
@@ -159,14 +160,14 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 */
 	protected function rename_indexable_data( &$indexable_data ) {
 		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noindex' ) ) {
-			$indexable_data['is_robots_noindex'] = $this->convert_noindex( $indexable_data[ 'is_robots_noindex' ] );
+			$indexable_data['is_robots_noindex'] = $this->convert_noindex( $indexable_data['is_robots_noindex'] );
 		}
 
 		foreach ( $this->renameable_fields as $old_key => $new_key ) {
 			if ( WPSEO_Validator::key_exists( $indexable_data, $old_key ) ) {
-				$indexable_data[$new_key] = $indexable_data[$old_key];
+				$indexable_data[ $new_key ] = $indexable_data[ $old_key ];
 
-				unset( $indexable_data[$old_key] );
+				unset( $indexable_data[ $old_key ] );
 			}
 		}
 

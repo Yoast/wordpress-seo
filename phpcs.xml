@@ -17,6 +17,7 @@
     <rule ref="Yoast">
         <exclude name="WordPress.WP.PreparedSQL.NotPrepared"/><!-- TODO audit raw queries -->
         <exclude name="WordPress.Functions.DontExtract" /><!-- TODO audit usage & replace -->
+        <exclude name="Squiz.Commenting.FunctionCommentThrowTag.WrongNumber" /><!-- TODO Remove this once we're on 0.5. See https://github.com/squizlabs/PHP_CodeSniffer/issues/650 for more info. -->
     </rule>
 
 	<rule ref="WordPress.WP.I18n">

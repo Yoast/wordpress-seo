@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Internals
+ */
 
 /**
  * Class WPSEO_Invalid_Indexable_Exception

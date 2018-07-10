@@ -1,9 +1,12 @@
 <?php
-
 /**
  * WPSEO interface file.
  *
  * @package WPSEO\Internals
+ */
+
+/**
+ * Interface WPSEO_Endpoint_Validator
  */
 interface WPSEO_Endpoint_Validator {
 

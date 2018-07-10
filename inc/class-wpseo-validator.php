@@ -1,11 +1,13 @@
 <?php
-
 /**
  * WPSEO plugin file.
  *
  * @package WPSEO\Internals
  */
 
+/**
+ * Class WPSEO_Validator
+ */
 class WPSEO_Validator {
 
 	/**
@@ -52,7 +54,15 @@ class WPSEO_Validator {
 		return filter_var( $variable, FILTER_VALIDATE_INT ) || filter_var( $variable, FILTER_VALIDATE_INT ) === 0;
 	}
 
-	public static function key_exists( $data, $key ) {
+	/**
+	 * Determines whether a particular key exists within the passed dataset.
+	 *
+	 * @param array  $data The dataset to search through.
+	 * @param string $key  The key to search for.
+	 *
+	 * @return bool Whether or not the key exists.
+	 */
+	public static function key_exists( array $data, $key ) {
 		return array_key_exists( $key, $data );
 	}
 }

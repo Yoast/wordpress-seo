@@ -27,7 +27,8 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 * @param integer $object_id The target object id.
 	 *
 	 * @return array The retrieved data.
-	 * @throws Exception
+	 *
+	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	public function get( $object_id ) {
 		if ( ! $this->is_indexable( $object_id ) ) {
@@ -46,7 +47,9 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 * @param array $requestdata 	The request data to store.
 	 *
 	 * @return void
-	 * @throws Exception
+	 *
+	 * @throws WPSEO_Invalid_Indexable_Exception The invalid argument exception.
+	 * @throws Exception 						 Exception that is thrown if patching the object has failed.
 	 */
 	public function patch( $object_id, $requestdata ) {
 		$indexable = $this->get( $object_id );

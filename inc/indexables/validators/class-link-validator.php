@@ -1,9 +1,12 @@
 <?php
-
 /**
  * WPSEO plugin file.
  *
  * @package WPSEO\Internals
+ */
+
+/**
+ * Class WPSEO_Link_Validator
  */
 class WPSEO_Link_Validator implements WPSEO_Endpoint_Validator {
 
@@ -12,7 +15,7 @@ class WPSEO_Link_Validator implements WPSEO_Endpoint_Validator {
 	 *
 	 * @param array $request_data The request data to validate.
 	 *
-	 * @throws Exception
+	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	public static function validate( $request_data ) {
 		if ( WPSEO_Validator::key_exists( $request_data, 'count' ) && ! WPSEO_Validator::is_integer( $request_data['count'] ) ) {

@@ -1,9 +1,12 @@
 <?php
-
 /**
  * WPSEO plugin file.
  *
  * @package WPSEO\Internals
+ */
+
+/**
+ * Class WPSEO_Keyword_Validator
  */
 class WPSEO_Keyword_Validator implements WPSEO_Endpoint_Validator {
 
@@ -12,7 +15,7 @@ class WPSEO_Keyword_Validator implements WPSEO_Endpoint_Validator {
 	 *
 	 * @param array $request_data The request data to validate.
 	 *
-	 * @throws Exception
+	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	public static function validate( $request_data ) {
 		if ( WPSEO_Validator::key_exists( $request_data, 'keyword' ) && ! WPSEO_Validator::is_string( $request_data['keyword'] ) ) {

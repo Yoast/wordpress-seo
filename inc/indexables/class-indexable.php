@@ -1,11 +1,13 @@
 <?php
-
 /**
  * WPSEO plugin file.
  *
  * @package WPSEO\Internals
  */
 
+/**
+ * Class WPSEO_Indexable
+ */
 abstract class WPSEO_Indexable {
 
 	/**

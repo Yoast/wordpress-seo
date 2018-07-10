@@ -57,7 +57,9 @@ class WPSEO_Indexable_Service {
 	 *
 	 * @param string $object_type The object type to get the provider for.
 	 *
-	 * @return Exception|WPSEO_Indexable_Service_Provider Instance of the service provider.
+	 * @return WPSEO_Indexable_Service_Provider Instance of the service provider.
+	 *
+	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	protected function get_provider( $object_type ) {
 		$object_type = strtolower( $object_type );

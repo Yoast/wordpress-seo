@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Internals
+ */
 
 /**
  * Class WPSEO_Endpoint_Factory
@@ -49,11 +54,13 @@ class WPSEO_Endpoint_Factory {
 	/**
 	 * WPSEO_Endpoint_Factory constructor.
 	 *
-	 * @param string 	$namespace				The endpoint's namespace.
-	 * @param string 	$endpoint				The endpoint's URL.
-	 * @param callable 	$callback				The callback function to execute.
-	 * @param callable 	$permission_callback	The permission callback to execute to determine permissions.
-	 * @param string 	$method					The HTTP method to use. Defaults to GET.
+	 * @param string   $namespace           The endpoint's namespace.
+	 * @param string   $endpoint            The endpoint's URL.
+	 * @param callable $callback            The callback function to execute.
+	 * @param callable $permission_callback The permission callback to execute to determine permissions.
+	 * @param string   $method              The HTTP method to use. Defaults to GET.
+	 *
+	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	public function __construct( $namespace, $endpoint, $callback, $permission_callback, $method = 'GET' ) {
 		if ( ! WPSEO_Validator::is_string( $namespace ) ) {
@@ -89,6 +96,9 @@ class WPSEO_Endpoint_Factory {
 	 * @param string $method The set method parameter.
 	 *
 	 * @return string The validated method.
+	 *
+	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
+	 * @throws \InvalidArgumentException The invalid argument exception.
 	 */
 	protected function validate_method( $method ) {
 		if ( ! WPSEO_Validator::is_string( $method ) ) {
@@ -105,10 +115,10 @@ class WPSEO_Endpoint_Factory {
 	/**
 	 * Adds an argument to the endpoint.
 	 *
-	 * @param string $name			The name of the argument.
-	 * @param string $description	The description associated with the argument.
-	 * @param string $type			The type of value that can be assigned to the argument.
-	 * @param bool 	 $required		Whether or not it's a required argument. Defaults to true.
+	 * @param string $name		  The name of the argument.
+	 * @param string $description The description associated with the argument.
+	 * @param string $type		  The type of value that can be assigned to the argument.
+	 * @param bool 	 $required	  Whether or not it's a required argument. Defaults to true.
 	 *
 	 * @return void
 	 */
