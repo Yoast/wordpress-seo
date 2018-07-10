@@ -9,13 +9,13 @@
 
 $archives_help_content = array(
 	sprintf(
-	    /* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
+		/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
 		esc_html__( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ),
 		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/duplicate-content' ) ) . '">',
 		'</a>'
 	),
 	sprintf(
-	    /* translators: %s expands to <code>noindex, follow</code> */
+		/* translators: %s expands to <code>noindex, follow</code> */
 		esc_html__( 'If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn\'t show up in the search results.', 'wordpress-seo' ),
 		'<code>noindex,follow</code>'
 	),

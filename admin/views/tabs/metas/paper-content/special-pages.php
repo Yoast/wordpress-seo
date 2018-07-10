@@ -11,7 +11,7 @@ $special_pages_help = new WPSEO_Admin_Help_Panel(
 	'search-appearance-special-pages',
 	__( 'Learn more about the special pages setting', 'wordpress-seo' ),
 	sprintf(
-	/* translators: %s expands to <code>noindex, follow</code>. */
+		/* translators: %s expands to <code>noindex, follow</code>. */
 		__( 'These pages will be %s by default, so they will never show up in search results.', 'wordpress-seo' ),
 		'<code>noindex, follow</code>'
 	),

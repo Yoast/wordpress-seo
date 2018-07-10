@@ -4,10 +4,10 @@
  *
  * @package WPSEO\Admin\Views\Taxonomies
  *
- * @var Yoast_Form                           $yform
- * @var WP_Taxonomy                          $wpseo_taxonomy
- * @var Yoast_View_Utils                     $view_utils
- * @var WPSEO_Admin_Recommended_Replace_Vars $recommended_replace_vars
+ * @var Yoast_Form                               $yform
+ * @var WP_Taxonomy                              $wpseo_taxonomy
+ * @var Yoast_View_Utils                         $view_utils
+ * @var WPSEO_Admin_Recommended_Replace_Vars     $recommended_replace_vars
  * @var WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
