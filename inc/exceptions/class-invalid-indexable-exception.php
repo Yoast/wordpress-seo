@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_Invalid_Indexable_Exception
  */
-class WPSEO_Invalid_Indexable_Exception extends \InvalidArgumentException {
+class WPSEO_Invalid_Indexable_Exception extends InvalidArgumentException {
 
 	/**
 	 * Creates an invalid indexable exception.
@@ -18,7 +18,7 @@ class WPSEO_Invalid_Indexable_Exception extends \InvalidArgumentException {
 	 * @return WPSEO_Invalid_Indexable_Exception The exception.
 	 */
 	public static function non_existing_indexable( $id ) {
-		return new static( sprintf( 'Indexable with id `%d` does not exist.', $id ) );
+		return new self( sprintf( 'Indexable with id `%d` does not exist.', $id ) );
 	}
 
 	/**
@@ -29,6 +29,6 @@ class WPSEO_Invalid_Indexable_Exception extends \InvalidArgumentException {
 	 * @return WPSEO_Invalid_Indexable_Exception The exception.
 	 */
 	public static function invalid_post_request( $id ) {
-		return new static( sprintf( 'Invalid POST request. Meta values already exist for object with ID %s.', $id ) );
+		return new self( sprintf( 'Invalid POST request. Meta values already exist for object with ID %s.', $id ) );
 	}
 }
