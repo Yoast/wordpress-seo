@@ -25,7 +25,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		'post_tag'                 => array( 'term_title', 'term_description', 'tag_description' ),
 		'post_format'              => array(),
 		// Custom taxonomy.
-		'term-in-custom-taxomomy'  => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
+		'term-in-custom-taxonomy'  => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
 
 		// Settings - archive pages.
 		'custom-post-type_archive' => array(),
@@ -113,7 +113,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 			return $taxonomy;
 		}
 
-		return 'term-in-custom-taxomomy';
+		return 'term-in-custom-taxonomy';
 	}
 
 	/**
