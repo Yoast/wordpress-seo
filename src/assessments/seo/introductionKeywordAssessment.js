@@ -1,62 +1,99 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const merge = require( "lodash/merge" );
 
 /**
- * Returns a score and text based on the firstParagraph object.
- *
- * @param {object} firstParagraphMatches The object with all firstParagraphMatches.
- * @param {object} i18n The object used for translations
- * @returns {object} resultObject with score and text
+ * Assessment to check whether the keyphrase is encountered in the first paragraph of the article.
  */
-var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
-	const url = "<a href='https://yoa.st/2pc' target='_blank'>";
+class IntroductionHasKeywordAssessment extends Assessment {
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {Object} config The configuration to use.
+	 *
+	 * @returns {void}
+	 */
+	constructor( config = {} ) {
+		super();
 
-	if ( firstParagraphMatches > 0 ) {
+		let defaultConfig = {
+			parameters: {
+				recommendedMinimum: 1,
+			},
+			scores: {
+				good: 9,
+				bad: 3,
+			},
+			url: "<a href='https://yoa.st/2pc' target='_blank'>",
+		};
+
+		this.identifier = "introductionKeyword";
+		this._config = merge( defaultConfig, config );
+	}
+
+	/**
+	 * Assesses the presence of keyphrase in the first paragraph.
+	 *
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
+	 * @param {Jed} i18n The object used for translations.
+	 *
+	 * @returns {AssessmentResult} The result of this assessment.
+	 */
+	getResult( paper, researcher, i18n ) {
+		let assessmentResult = new AssessmentResult();
+
+		this._firstParagraphMatches = researcher.getResearch( "firstParagraph" );
+		const calculatedResult = this.calculateResult( i18n );
+
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
+
+		return assessmentResult;
+	}
+
+	/**
+	 * Checks if the paper has both keyword and text.
+	 *
+	 * @param {Paper} paper The paper to be analyzed.
+	 *
+	 * @returns {boolean} Whether the assessment is applicable or not.
+	 */
+	isApplicable( paper ) {
+		return paper.hasKeyword() && paper.hasText();
+	}
+
+	/**
+	 * Returns a result based on the number of occurrences of keyphrase in the first paragraph.
+	 *
+	 * @param {Jed} i18n The object used for translations.
+	 *
+	 * @returns {Object} result object with a score and translation text.
+	 */
+	calculateResult( i18n ) {
+		if ( this._firstParagraphMatches >= this._config.parameters.recommendedMinimum ) {
+			return {
+				score: this._config.scores.good,
+				resultText: i18n.sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					i18n.dgettext( "js-text-analysis", "The focus keyword appears in the %1$sfirst paragraph%2$s of the copy." ),
+					this._config.url,
+					"</a>"
+				),
+			};
+		}
+
 		return {
-			score: 9,
-			text: i18n.sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "The focus keyword appears in the %1$sfirst paragraph%2$s of the copy." ),
-				url,
+			score: this._config.scores.bad,
+			resultText: i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+				i18n.dgettext( "js-text-analysis", "The focus keyword doesn't appear in the %1$sfirst paragraph%2$s of the copy. " +
+					"Make sure the topic is clear immediately." ),
+				this._config.url,
 				"</a>"
 			),
 		};
 	}
+}
 
-	return {
-		score: 3,
-		text: i18n.sprintf(
-			/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-			i18n.dgettext( "js-text-analysis", "The focus keyword doesn't appear in the %1$sfirst paragraph%2$s of the copy. " +
-			"Make sure the topic is clear immediately." ),
-			url,
-			"</a>"
-		),
-	};
-};
-
-/**
- * Runs the findKeywordInFirstParagraph module, based on this returns an assessment result with score.
- *
- * @param {Paper} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var introductionHasKeywordAssessment = function( paper, researcher, i18n ) {
-	var firstParagraphMatches = researcher.getResearch( "firstParagraph" );
-	var firstParagraphResult = calculateFirstParagraphResult( firstParagraphMatches, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( firstParagraphResult.score );
-	assessmentResult.setText( firstParagraphResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	identifier: "introductionKeyword",
-	getResult: introductionHasKeywordAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasKeyword();
-	},
-};
+module.exports = IntroductionHasKeywordAssessment;
