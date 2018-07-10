@@ -4,7 +4,6 @@ import omit from "lodash/omit";
 
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
-import decodeHTML from "yoast-components/composites/OnboardingWizard/helpers/htmlDecoder";
 import { firstToUpperCase } from "./stringHelpers";
 
 
@@ -85,17 +84,23 @@ export function createLabelFromName( name ) {
 }
 
 /**
- * Decodes the separator replacement variable to a displayable symbol.
+ * Pushes a new replacement variable from an action into the replacementVariables array.
+ * Creates a label from the replacement variable name when no label is supplied.
  *
- * @param {Object} replacementVariables   The object with replacement variables.
+ * @param {array}  replacementVariables The current replacement variable list
+ * @param {Object} action               The UPDATE_REPLACEMENT_VARIABLE action.
+ * @param {string} action.name          The name of the replacement variable.
+ * @param {string} [action.label]       The label of the replacement variable (optional).
+ * @param {*}      action.value         The value of the replacement variable.
  *
- * @returns {Object} replacementVariables The object with replacement variables with a decoded separator.
+ * @returns {array} The extended list of replacement variables.
  */
-export function decodeSeparatorVariable( replacementVariables ) {
-	if( replacementVariables[ "sep" ] ) {
-		replacementVariables[ "sep" ] = decodeHTML( replacementVariables[ "sep" ] );
-	}
-
+export function pushNewReplaceVar( replacementVariables, action ) {
+	replacementVariables.push( {
+		name: action.name,
+		label: action.label || createLabelFromName( action.name ),
+		value: action.value,
+	} );
 	return replacementVariables;
 }
 

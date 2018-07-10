@@ -131,22 +131,16 @@ class WPSEO_Admin_Pages {
 	 * @return array The replacement and recommended replacement variables.
 	 */
 	public function localize_replace_vars_script() {
-		$replace_vars                      = new WPSEO_Replace_Vars();
-		$recommended_replace_vars          = new WPSEO_Admin_Recommended_Replace_Vars();
-		$editor_specific_replace_vars      = new WPSEO_Admin_Editor_Specific_Replace_Vars();
-
-		$replace_vars_list                 = $replace_vars->get_replacement_variables_list();
-		$editor_specific_replace_vars_list = $editor_specific_replace_vars->get_editor_specific_replace_vars();
-		$shared_replace_vars_list          = WPSEO_Admin_Editor_Specific_Replace_Vars::get_shared_replace_vars(
-			$replace_vars_list,
-			$editor_specific_replace_vars_list
-		);
+		$replace_vars                 = new WPSEO_Replace_Vars();
+		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+		$replace_vars_list            = $replace_vars->get_replacement_variables_list();
 
 		return array(
 			'replace_vars'                 => $replace_vars_list,
 			'recommended_replace_vars'     => $recommended_replace_vars->get_recommended_replacevars(),
-			'editor_specific_replace_vars' => $editor_specific_replace_vars_list,
-			'shared_replace_vars'          => $shared_replace_vars_list,
+			'editor_specific_replace_vars' => $editor_specific_replace_vars->get(),
+			'shared_replace_vars'          => $editor_specific_replace_vars->get_shared( $replace_vars_list ),
 		);
 	}
 

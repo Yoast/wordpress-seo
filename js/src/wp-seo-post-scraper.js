@@ -30,6 +30,7 @@ import UsedKeywords from "./analysis/usedKeywords";
 
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
+import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 
@@ -98,7 +99,7 @@ setWordPressSeoL10n();
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return wpseoPostScraperL10n.show_markers === "1";
+		return ! isGutenbergPostAvailable() && wpseoPostScraperL10n.show_markers === "1";
 	}
 
 	/**
@@ -425,6 +426,7 @@ setWordPressSeoL10n();
 			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
 			replaceVars: wpseoReplaceVarsL10n.replace_vars,
 			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
+			shouldRenderGutenbergSidebar: !! wpseoPostScraperL10n.gutenbergSidebar,
 		};
 		const { store, data } = initializeEdit( editArgs );
 		editStore = store;

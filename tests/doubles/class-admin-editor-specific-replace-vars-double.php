@@ -16,20 +16,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Double extends WPSEO_Admin_Editor
 	 * @return array The protected editor_specific_replace_vars array.
 	 */
 	public function get_protected_editor_specific_replace_vars() {
-		return parent::editor_specific_replace_vars;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function apply_custom_fields() {
-		return parent::apply_custom_fields();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function apply_custom_taxonomies() {
-		return parent::apply_custom_taxonomies();
+		return $this->replacement_variables;
 	}
 }
