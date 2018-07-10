@@ -15,7 +15,7 @@ $yform->toggle_switch(
 		'off' => __( 'Enabled', 'wordpress-seo' ),
 		'on'  => __( 'Disabled', 'wordpress-seo' ),
 	),
-    __( 'Date archives', 'wordpress-seo' )
+	__( 'Date archives', 'wordpress-seo' )
 );
 
 ?>
