@@ -27,7 +27,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	 * @param integer $object_id The target object id.
 	 * @param bool    $as_object Whether or not to return the indexable as an object. Defaults to false.
 	 *
-	 * @return array The retrieved data.
+	 * @return array|WPSEO_Post_Indexable The retrieved data. Defaults to an array format.
 	 *
 	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */

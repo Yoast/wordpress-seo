@@ -52,7 +52,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 * @param integer $object_id The target object id.
 	 * @param bool    $as_object Whether or not to return the indexable as an object. Defaults to false.
 	 *
-	 * @return array The retrieved data.
+	 * @return array|WPSEO_Term_Indexable The retrieved data. Defaults to an array format.
 	 */
 	public function get( $object_id, $as_object = false ) {
 		if ( ! $this->is_indexable( $object_id ) ) {
