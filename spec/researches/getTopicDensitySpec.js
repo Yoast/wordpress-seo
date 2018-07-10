@@ -26,7 +26,7 @@ describe( "Test for counting the keyword and synonyms in a text", function() {
 		mockPaper = new Paper( "<img src='http://image.com/image.png'>", { keyword: "key&word" } );
 		expect( getTopicDensity( mockPaper ) ).toBe( 0 );
 		mockPaper = new Paper( "This is a nice string with a keyword keyword keyword.", { keyword: "keyword" } );
-		expect( getTopicDensity( mockPaper ) ).toBe( 30 );
+		expect( getTopicDensity( mockPaper ) ).toBe( 20 );
 		mockPaper = new Paper( "a string of text with the beautiful Keyword in it.", { keyword: "keyword" } );
 		expect( getTopicDensity( mockPaper ) ).toBe( 10 );
 		mockPaper = new Paper( "a string of text with the Key word in it.", { keyword: "key word" } );
