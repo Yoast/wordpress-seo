@@ -17,5 +17,5 @@ interface WPSEO_Endpoint_Validator {
 	 *
 	 * @return void
 	 */
-	public static function validate( $request_data );
+	public function validate( $request_data );
 }

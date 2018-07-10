@@ -91,7 +91,7 @@ abstract class WPSEO_Indexable {
 			// This is necessary to run under PHP 5.2.
 			$validator_instance = new $validator();
 
-			$validator_instance::validate( $data );
+			$validator_instance->validate( $data );
 		}
 
 		return true;

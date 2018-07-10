@@ -19,7 +19,7 @@ class WPSEO_Robots_Validator implements WPSEO_Endpoint_Validator {
 	 *
 	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
-	public static function validate( $request_data ) {
+	public function validate( $request_data ) {
 		if ( WPSEO_Validator::key_exists( $request_data, 'is_robots_nofollow' ) && ! WPSEO_Validator::is_boolean( $request_data['is_robots_nofollow'] ) ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_boolean_parameter( $nofollow, 'is_robots_nofollow' );
 		}
