@@ -10,6 +10,7 @@ import colors from "../../../../style-guide/colors.json";
 import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
 import AnalysisResult from "../components/AnalysisResult.js";
 import AnalysisCollapsible from "../components/AnalysisCollapsible.js";
+import HelpText, { HelpTextPropType } from "../../../../composites/Plugin/Shared/components/HelpText";
 
 export const ContentAnalysisContainer = styled.div`
 	width: 100%;
@@ -186,21 +187,25 @@ class ContentAnalysis extends React.Component {
 	 * @returns {ReactElement} The rendered ContentAnalysis component.
 	 */
 	render() {
-		let problemsResults = this.props.problemsResults;
-		let improvementsResults = this.props.improvementsResults;
-		let goodResults = this.props.goodResults;
-		let considerationsResults = this.props.considerationsResults;
-		let errorsResults = this.props.errorsResults;
-		let headingLevel = this.props.headingLevel;
-		let errorsFound = errorsResults.length;
-		let problemsFound = problemsResults.length;
-		let improvementsFound = improvementsResults.length;
-		let considerationsFound = considerationsResults.length;
-		let goodResultsFound = goodResults.length;
+		const {
+			problemsResults,
+			improvementsResults,
+			goodResults,
+			considerationsResults,
+			errorsResults,
+			headingLevel,
+			helpText,
+		} = this.props;
+		const errorsFound = errorsResults.length;
+		const problemsFound = problemsResults.length;
+		const improvementsFound = improvementsResults.length;
+		const considerationsFound = considerationsResults.length;
+		const goodResultsFound = goodResults.length;
 
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
+				{ helpText && <HelpText text={ helpText } /> }
 				{ this.renderLanguageNotice() }
 				{ errorsFound > 0 &&
 				<AnalysisCollapsible
@@ -256,6 +261,7 @@ ContentAnalysis.propTypes = {
 	headingLevel: PropTypes.number,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+	helpText: HelpTextPropType,
 };
 
 ContentAnalysis.defaultProps = {

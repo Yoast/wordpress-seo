@@ -1,6 +1,6 @@
 module.exports = {
 	target: [ "<%= files.components %>" ],
 	options: {
-		maxWarnings: 1,
+		maxWarnings: 2,
 	},
 };
