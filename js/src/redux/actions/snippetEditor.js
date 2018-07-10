@@ -1,4 +1,4 @@
-import { unescapeString } from "../../helpers/stringHelpers";
+import decodeHTML from "yoast-components/composites/OnboardingWizard/helpers/htmlDecoder";
 
 export const SWITCH_MODE = "SNIPPET_EDITOR_SWITCH_MODE";
 export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";
@@ -48,7 +48,7 @@ export function updateData( data ) {
  */
 export function updateReplacementVariable( name, value, label = "" ) {
 	const unescapedValue = ( typeof value === "string" )
-		? unescapeString( value )
+		? decodeHTML( value )
 		: value;
 	return {
 		type: UPDATE_REPLACEMENT_VARIABLE,
