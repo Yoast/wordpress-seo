@@ -26,7 +26,7 @@ class WPSEO_Indexable_Service {
 			$indexable = $provider->get( $object_id );
 
 			return new WP_REST_Response( $indexable );
-		} catch ( \Exception $exception ) {
+		} catch ( Exception $exception ) {
 			return new WP_REST_Response( $exception->getMessage(), 500 );
 		}
 	}
@@ -47,7 +47,7 @@ class WPSEO_Indexable_Service {
 			$provider->patch( $object_id, $request->get_params() );
 
 			return new WP_REST_Response( 'Patch successful' );
-		} catch ( \Exception $exception ) {
+		} catch ( Exception $exception ) {
 			return new WP_REST_Response( $exception->getMessage(), 500 );
 		}
 	}
@@ -86,7 +86,7 @@ class WPSEO_Indexable_Service {
 	protected function handle_unknown_object_type( $object_type ) {
 		return new WP_REST_Response(
 			sprintf(
-			/* translators: %1$s expands to the requested indexable type  */
+				/* translators: %1$s expands to the requested indexable type  */
 				__( 'Unknown type %1$s', 'wordpress-seo' ),
 				$object_type
 			),

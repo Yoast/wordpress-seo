@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_Invalid_Argument_Exception
  */
-class WPSEO_Invalid_Argument_Exception extends \InvalidArgumentException {
+class WPSEO_Invalid_Argument_Exception extends InvalidArgumentException {
 
 	/**
 	 * Creates an invalid empty parameter exeception.
@@ -18,7 +18,7 @@ class WPSEO_Invalid_Argument_Exception extends \InvalidArgumentException {
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
 	public static function empty_parameter( $name ) {
-		return new static(
+		return new self(
 			sprintf( '`%s` cannot be empty.', $name )
 		);
 	}
@@ -33,7 +33,7 @@ class WPSEO_Invalid_Argument_Exception extends \InvalidArgumentException {
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
 	public static function invalid_parameter_type( $parameter, $name, $expected ) {
-		return new static(
+		return new self(
 			sprintf(
 				'Invalid type for `%s` passed. Expected `%s`, but got `%s`',
 				$name,
@@ -99,7 +99,7 @@ class WPSEO_Invalid_Argument_Exception extends \InvalidArgumentException {
 	 * @return WPSEO_Invalid_Argument_Exception The exception.
 	 */
 	public static function invalid_type( $name ) {
-		return new static(
+		return new self(
 			sprintf( '`%s`is of an invalid type.', $name )
 		);
 	}

@@ -50,15 +50,20 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 * Returns an array with data for the target object.
 	 *
 	 * @param integer $object_id The target object id.
+	 * @param bool    $as_object Whether or not to return the indexable as an object. Defaults to false.
 	 *
 	 * @return array The retrieved data.
 	 */
-	public function get( $object_id ) {
+	public function get( $object_id, $as_object = false ) {
 		if ( ! $this->is_indexable( $object_id ) ) {
 			return array();
 		}
 
 		$indexable = WPSEO_Term_Indexable::from_object( $object_id );
+
+		if ( $as_object === true ) {
+			return $indexable;
+		}
 
 		return $indexable->to_array();
 	}
@@ -75,7 +80,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 * @throws Exception 						 Exception that is thrown if patching the object has failed.
 	 */
 	public function patch( $object_id, $requestdata ) {
-		$indexable = $this->get( $object_id );
+		$indexable = $this->get( $object_id, true );
 
 		if ( $indexable === array() ) {
 			throw WPSEO_Invalid_Indexable_Exception::non_existing_indexable( $object_id );
