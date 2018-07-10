@@ -93,7 +93,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 			return;
 		}
 
-		throw new \Exception( 'Patch failed' );
+		throw new Exception( 'Patch failed' );
 	}
 
 	/**

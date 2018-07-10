@@ -98,7 +98,7 @@ class WPSEO_Endpoint_Factory {
 	 * @return string The validated method.
 	 *
 	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
-	 * @throws \InvalidArgumentException The invalid argument exception.
+	 * @throws InvalidArgumentException The invalid argument exception.
 	 */
 	protected function validate_method( $method ) {
 		if ( ! WPSEO_Validator::is_string( $method ) ) {
@@ -106,7 +106,7 @@ class WPSEO_Endpoint_Factory {
 		}
 
 		if ( ! in_array( $method, $this->valid_http_methods, true ) ) {
-			throw new \InvalidArgumentException( sprintf( '%s is not a valid HTTP method', $method ) );
+			throw new InvalidArgumentException( sprintf( '%s is not a valid HTTP method', $method ) );
 		}
 
 		return $method;
