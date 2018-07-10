@@ -10,6 +10,10 @@ const YoastHelpText = styled.p`
 	color: ${ props => props.color };
 	font-size: ${ props => props.fontSize };
 	margin-top: 0;
+	
+	a {
+        color: ${ colors.$color_blue };
+    }
 `;
 
 /**
