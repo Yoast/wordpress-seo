@@ -5767,9 +5767,9 @@ sass-graph@^2.2.4:
     scss-tokenizer "^0.2.3"
     yargs "^7.0.0"
 
-sassdash@0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/sassdash/-/sassdash-0.8.0.tgz#d9a67e28acb876786632be8ddbc5e988bb0567a3"
+sassdash@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/sassdash/-/sassdash-0.9.0.tgz#e2114e80af0c01639d1c6b88a3eb350740cb1169"
 
 sax@>=0.6.0, sax@^1.2.1:
   version "1.2.4"
