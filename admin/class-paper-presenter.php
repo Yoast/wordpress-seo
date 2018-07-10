@@ -52,13 +52,11 @@ class WPSEO_Paper_Presenter {
 	 * @return string The rendered paper.
 	 */
 	public function get_output() {
-		ob_start();
-
 		extract( $this->get_view_variables(), EXTR_SKIP );
-		require WPSEO_PATH . 'admin/views/paper-collapsible.php' ;
 
-		$rendered_output = ob_get_contents();
-		ob_end_clean();
+		ob_start();
+		require WPSEO_PATH . 'admin/views/paper-collapsible.php' ;
+		$rendered_output = ob_get_clean();
 
 		return $rendered_output;
 	}
