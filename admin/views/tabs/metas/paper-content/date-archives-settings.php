@@ -9,10 +9,15 @@
  * @var WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
-	$yform->toggle_switch( 'disable-date', array(
-	'off' => __( 'Enabled', 'wordpress-seo' ),
-	'on'  => __( 'Disabled', 'wordpress-seo' ),
-	), __( 'Date archives', 'wordpress-seo' ) );
+$yform->toggle_switch(
+	'disable-date',
+	array(
+		'off' => __( 'Enabled', 'wordpress-seo' ),
+		'on'  => __( 'Disabled', 'wordpress-seo' ),
+	),
+    __( 'Date archives', 'wordpress-seo' )
+);
+
 ?>
 <div id='date-archives-titles-metas-content' class='archives-titles-metas-content'>
 	<?php

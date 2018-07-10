@@ -13,7 +13,7 @@ $stripcategorybase_help = new WPSEO_Admin_Help_Panel(
 	'opengraph',
 	esc_html__( 'Help on the category prefix setting', 'wordpress-seo' ),
 	sprintf(
-	/* translators: %s expands to <code>/category/</code> */
+		/* translators: %s expands to <code>/category/</code> */
 		esc_html__( 'Category URLs in WordPress contain a prefix, usually %s, this feature removes that prefix, for categories only.', 'wordpress-seo' ),
 		'<code>/category/</code>'
 	)
