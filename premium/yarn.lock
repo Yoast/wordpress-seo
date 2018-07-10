@@ -6202,7 +6202,7 @@ underscore@~1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.7.0.tgz#6bbaf0877500d36be34ecaa584e0db9fef035209"
 
-unminified-webpack-plugin@^1.1.1:
+unminified-webpack-plugin@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/unminified-webpack-plugin/-/unminified-webpack-plugin-1.4.2.tgz#2cf5294abe7827bb874354e30ee3e0c5ae0e8743"
 

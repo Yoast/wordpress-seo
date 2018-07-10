@@ -45,9 +45,12 @@ artifact:
 
 # Get the project ready for release
 release:
+  # Cleaning prevents two instances of @wordpress/i18n.
+  - 'clean:yoast-components-i18n'
   - 'clean:build-assets'
   - 'build:css'
   - 'release:js'
+  - 'build:i18n'
 'release:js':
   - 'browserify:build'
   - 'browserify:release-es6'

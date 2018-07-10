@@ -6,6 +6,7 @@ import ProminentWordCache from "./ProminentWordCache";
 import EventEmitter from "events";
 
 let postStatuses = [ "future", "draft", "pending", "private", "publish" ].join( "," );
+let mediaPostStatuses = [ "trash", "inherit", "private" ].join( "," );
 
 /**
  * Calculates prominent words for all posts on the site.
@@ -69,7 +70,7 @@ class SiteWideCalculation extends EventEmitter {
 		let data = {
 			/* eslint-disable camelcase */
 			per_page: this._perPage,
-			status: postStatuses,
+			status: ( this._listEndpoint.includes( "media" ) ) ? mediaPostStatuses : postStatuses,
 			yst_prominent_words_is_unindexed: true,
 			/* eslint-enable camelcase */
 		};

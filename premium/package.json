@@ -69,6 +69,6 @@
     "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews#1.4.2"
   },
   "yoast": {
-    "pluginVersion": "7.8-RC3"
+    "pluginVersion": "7.8"
   }
 }

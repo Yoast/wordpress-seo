@@ -13,7 +13,7 @@ import { __ } from "@wordpress/i18n";
 // Internal dependencies.
 import configureStore from "../redux/store";
 import { renderReactApp } from "../redux/utils/render";
-import SynonymsContainer from "./synonymsContainer";
+import SynonymsContainer from "./SynonymsContainer";
 import listenToActiveKeyword from "./KeywordTabWrapper";
 
 const $ = jQuery;

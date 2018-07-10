@@ -15,7 +15,14 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_full_image() {
 		$attachment = self::factory()->attachment->create();
-		update_post_meta( $attachment, '_wp_attachment_metadata', array( 'width' => 1000, 'height' => 1000 ) );
+		update_post_meta(
+			$attachment,
+			'_wp_attachment_metadata',
+			array(
+				'width'  => 1000,
+				'height' => 1000,
+			)
+		);
 
 		$this->assertEquals(
 			array(
@@ -27,7 +34,7 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 				'id'     => $attachment,
 				'alt'    => '',
 				'pixels' => 1000000,
-				'type'   => ''
+				'type'   => '',
 			),
 			WPSEO_Image_Utils::get_image( $attachment, 'full' )
 		);
@@ -38,7 +45,14 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_medium_image() {
 		$attachment = self::factory()->attachment->create();
-		update_post_meta( $attachment, '_wp_attachment_metadata', array( 'width' => 1000, 'height' => 1000 ) );
+		update_post_meta(
+			$attachment,
+			'_wp_attachment_metadata',
+			array(
+				'width'  => 1000,
+				'height' => 1000,
+			)
+		);
 
 		$this->assertFalse( WPSEO_Image_Utils::get_image( $attachment, 'medium' ) );
 	}
@@ -178,7 +192,7 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function get_data_provider(  ) {
+	public function get_data_provider() {
 		$attachment_id = self::factory()->attachment->create();
 		return array(
 			array(
@@ -188,13 +202,19 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 				'message'       => 'With a string given as image data',
 			),
 			array(
-				'image'         => array( 'with' => 'no image', 'and' => 'height keys given' ),
+				'image'         => array(
+					'with' => 'no image',
+					'and'  => 'height keys given',
+				),
 				'expected'      => false,
 				'attachment_id' => $attachment_id,
 				'message'       => 'An array without the width and height keys',
 			),
 			array(
-				'image'         => array( 'width' => '10', 'height' => '10' ),
+				'image'         => array(
+					'width'  => '10',
+					'height' => '10',
+				),
 				'expected'      => array(
 					'width'  => '10',
 					'height' => '10',
@@ -210,7 +230,7 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 				'image'         => array(
 					'width'       => '10',
 					'height'      => '10',
-					'unnecessary' => 'key'
+					'unnecessary' => 'key',
 				),
 				'expected'      => array(
 					'width'  => '10',

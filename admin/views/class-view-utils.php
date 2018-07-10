@@ -109,10 +109,19 @@ you want more information about the impact of showing media in search results.',
 			sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' )
 		);
 
-		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
-		$page_type                = $recommended_replace_vars->determine_for_post_type( $post_type->name );
+		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
-		$editor = new WPSEO_Replacevar_Editor( $this->form, 'title-' . $post_type->name, 'metadesc-' . $post_type->name, $page_type, $paper_style );
+		$editor = new WPSEO_Replacevar_Editor(
+			$this->form,
+			array(
+				'title'                 => 'title-' . $post_type->name,
+				'description'           => 'metadesc-' . $post_type->name,
+				'page_type_recommended' => $recommended_replace_vars->determine_for_post_type( $post_type->name ),
+				'page_type_specific'    => $editor_specific_replace_vars->determine_for_post_type( $post_type->name ),
+				'paper_style'           => $paper_style,
+			)
+		);
 		$editor->render();
 	}
 }

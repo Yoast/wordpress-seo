@@ -205,8 +205,8 @@ class ClassicEditorData {
 	 * @returns {Object} The data.
 	 */
 	getInitialData( replaceVars ) {
-		replaceVars = mapCustomFields( replaceVars );
-		replaceVars = mapCustomTaxonomies( replaceVars );
+		replaceVars = mapCustomFields( replaceVars, this._store );
+		replaceVars = mapCustomTaxonomies( replaceVars, this._store );
 		return {
 			...replaceVars,
 			title: this.getTitle(),
