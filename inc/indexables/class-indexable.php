@@ -88,7 +88,10 @@ abstract class WPSEO_Indexable {
 	 */
 	protected function validate_data( $data ) {
 		foreach ( $this->validators as $validator ) {
-			$validator::validate( $data );
+			// This is necessary to run under PHP 5.2.
+			$validator_instance = new $validator();
+
+			$validator_instance::validate( $data );
 		}
 
 		return true;
