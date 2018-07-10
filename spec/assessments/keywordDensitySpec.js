@@ -8,7 +8,7 @@ const i18n = factory.buildJed();
 describe( "An assessment for the keywordDensity", function() {
 	it( "runs the keywordDensity on the paper", function() {
 		let paper = new Paper( "string without the key", { keyword: "keyword" } );
-		let result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
+		let result = new keywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
 			getKeywordDensity: 0,
 			keywordCount: {
 				count: 0,
@@ -18,7 +18,7 @@ describe( "An assessment for the keywordDensity", function() {
 		expect( result.getText() ).toBe( "The <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 0%, which is too low; the focus keyword was found 0 times." );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
-		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
+		result = new keywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
 			getKeywordDensity: 0.1,
 			keywordCount: {
 				count: 1,
@@ -28,7 +28,7 @@ describe( "An assessment for the keywordDensity", function() {
 		expect( result.getText() ).toBe( "The <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 0.1%, which is too low; the focus keyword was found 1 time." );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
-		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
+		result = new keywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
 			getKeywordDensity: 10,
 			keywordCount: {
 				count: 1,
@@ -38,7 +38,7 @@ describe( "An assessment for the keywordDensity", function() {
 		expect( result.getText() ).toBe( "The <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 10%, which is way over the advised 2.5% maximum; the focus keyword was found 1 time." );
 
 		paper = new Paper( "string with the keyword", { keyword: "keyword" } );
-		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
+		result = new keywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
 			getKeywordDensity: 2,
 			keywordCount: {
 				count: 1,
@@ -48,7 +48,7 @@ describe( "An assessment for the keywordDensity", function() {
 		expect( result.getText() ).toBe( "The <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 2%, which is great; the focus keyword was found 1 time." );
 
 		paper = new Paper( "string with the keyword  and keyword ", { keyword: "keyword" } );
-		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
+		result = new keywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
 			getKeywordDensity: 3,
 			keywordCount: {
 				count: 2,
@@ -58,7 +58,7 @@ describe( "An assessment for the keywordDensity", function() {
 		expect( result.getText() ).toBe( "The <a href='https://yoa.st/2pe' target='_blank'>keyword density</a> is 3%, which is over the advised 2.5% maximum; the focus keyword was found 2 times." );
 
 		paper = new Paper( "string with the keyword  and keyword ", { keyword: "keyword" } );
-		result = keywordDensityAssessment.getResult( paper, factory.buildMockResearcher( {
+		result = new keywordDensityAssessment().getResult( paper, factory.buildMockResearcher( {
 			getKeywordDensity: 0.5,
 			keywordCount: {
 				count: 2,
@@ -78,7 +78,7 @@ describe( "A test for marking the keyword", function() {
 				marked: "This is a very interesting paper with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> and another <yoastmark class='yoast-text-mark'>keyword</yoastmark>.",
 			} ),
 		];
-		expect( keywordDensityAssessment.getMarks( paper ) ).toEqual( expected );
+		expect( new keywordDensityAssessment().getMarks( paper ) ).toEqual( expected );
 	} );
 
 	it( "doesn't return markers for synonyms", function() {
@@ -89,12 +89,12 @@ describe( "A test for marking the keyword", function() {
 				marked: "This is a very interesting paper with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> and another <yoastmark class='yoast-text-mark'>keyword</yoastmark> and a synonym.",
 			} ),
 		];
-		expect( keywordDensityAssessment.getMarks( paper ) ).toEqual( expected );
+		expect( new keywordDensityAssessment().getMarks( paper ) ).toEqual( expected );
 	} );
 
 	it( "returns no markers", function() {
 		const paper = new Paper( "This is a very interesting paper with a keyword and other keywords.", { keyword: "seaside" }  );
 		const expected = [];
-		expect( keywordDensityAssessment.getMarks( paper ) ).toEqual( expected );
+		expect( new keywordDensityAssessment().getMarks( paper ) ).toEqual( expected );
 	} );
 } );

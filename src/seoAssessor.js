@@ -2,7 +2,7 @@ var Assessor = require( "./assessor.js" );
 
 var introductionKeyword = require( "./assessments/seo/introductionKeywordAssessment.js" );
 var keyphraseLength = require( "./assessments/seo/keyphraseLengthAssessment.js" );
-var keywordDensity = require( "./assessments/seo/keywordDensityAssessment.js" );
+var KeywordDensity = require( "./assessments/seo/keywordDensityAssessment.js" );
 var keywordStopWords = require( "./assessments/seo/keywordStopWordsAssessment.js" );
 var metaDescriptionKeyword = require( "./assessments/seo/metaDescriptionKeywordAssessment.js" );
 var MetaDescriptionLength = require( "./assessments/seo/metaDescriptionLengthAssessment.js" );
@@ -33,7 +33,7 @@ var SEOAssessor = function( i18n, options ) {
 	this._assessments = [
 		introductionKeyword,
 		keyphraseLength,
-		keywordDensity,
+		new KeywordDensity(),
 		keywordStopWords,
 		metaDescriptionKeyword,
 		new MetaDescriptionLength(),
