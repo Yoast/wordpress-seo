@@ -1,11 +1,23 @@
 // External dependencies.
 import React, { PureComponent, Fragment } from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import HelpText, { helpTextPropType } from "../../Shared/components/HelpText";
 import KeywordInput, { keywordInputPropType } from "../../Shared/components/KeywordInput";
 import ContentAnalysis, { contentAnalysisPropType } from "./ContentAnalysis";
+
+const KeywordFieldLabel = styled.label`
+	font-weight: bold;
+	font-size: 13px; 
+`;
+
+const SeoResultsSubheading = styled.h3`
+	font-weight: bold;
+	font-size: 13px; 
+`;
 
 export default class SeoAnalysis extends PureComponent {
 	/**
@@ -36,7 +48,9 @@ export default class SeoAnalysis extends PureComponent {
 		return (
 			<Fragment>
 				<HelpText { ...helpText } />
+				<KeywordFieldLabel> { __( "Focus keyword:" ) } </KeywordFieldLabel>
 				<KeywordInput { ...keywordInput } />
+				<SeoResultsSubheading>{ __( "Analysis results:" ) }</SeoResultsSubheading>
 				<ContentAnalysis { ...contentAnalysis } />
 			</Fragment>
 		);
