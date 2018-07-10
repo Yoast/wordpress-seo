@@ -9,7 +9,7 @@ class UrlKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} config The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -19,7 +19,9 @@ class UrlKeywordAssessment extends Assessment {
 		let defaultConfig = {
 			scores: {
 				noKeywordInUrl: 6,
+				good: 9,
 			},
+			url: "<a href='https://yoa.st/2pp' target='_blank'>",
 		};
 
 		this.identifier = "urlKeyword";
@@ -31,16 +33,18 @@ class UrlKeywordAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The Paper object to assess.
 	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {object} i18n The locale object.
+	 * @param {Object} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let totalKeywords = researcher.getResearch( "keywordCountInUrl" );
+		this._totalKeywords = researcher.getResearch( "keywordCountInUrl" );
 
 		let assessmentResult = new AssessmentResult();
-		assessmentResult.setScore( this.calculateScore( totalKeywords ) );
-		assessmentResult.setText( this.translateScore( totalKeywords, i18n ) );
+
+		const calculatedResult = this.calculateResult( i18n );
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
 	}
@@ -57,47 +61,38 @@ class UrlKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculates the score based on whether or not there's a keyword in the url.
+	 * Determines the score  and the result text based on whether or not there's a keyword in the url.
 	 *
-	 * @param {number} totalKeywords The amount of keywords to be checked against.
+	 * @param {Object} i18n The object used for translations.
 	 *
-	 * @returns {number} The calculated score.
+	 * @returns {Object} The object with calculated score and resultText.
 	 */
-	calculateScore( totalKeywords ) {
-		if ( totalKeywords === 0 ) {
-			return this._config.scores.noKeywordInUrl;
+	calculateResult( i18n ) {
+		if ( this._totalKeywords === 0 ) {
+			return {
+				score: this._config.scores.noKeywordInUrl,
+				resultText: i18n.sprintf(
+					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"The focus keyword does not appear in the %1$sURL%2$s for this page. " +
+						"If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!"
+					),
+					this._config.url,
+					"</a>"
+				),
+			};
 		}
 
-		return 9;
-	}
-
-	/**
-	 * Translates the score to a message the user can understand.
-	 *
-	 * @param {number} totalKeywords The amount of keywords to be checked against.
-	 * @param {object} i18n The object used for translations.
-	 *
-	 * @returns {string} The translated string.
-	 */
-	translateScore( totalKeywords, i18n ) {
-		const url = "<a href='https://yoa.st/2pp' target='_blank'>";
-
-		if ( totalKeywords === 0 ) {
-			return i18n.sprintf(
+		return {
+			score: this._config.scores.good,
+			resultText: i18n.sprintf(
 				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the %1$sURL%2$s for this page. " +
-				"If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" ),
-				url,
+				i18n.dgettext( "js-text-analysis", "The focus keyword appears in the %1$sURL%2$s for this page." ),
+				this._config.url,
 				"</a>"
-			);
-		}
-
-		return i18n.sprintf(
-			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-			i18n.dgettext( "js-text-analysis", "The focus keyword appears in the %1$sURL%2$s for this page." ),
-			url,
-			"</a>"
-		);
+			),
+		};
 	}
 }
 
