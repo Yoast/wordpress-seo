@@ -17,7 +17,7 @@ const ProgressBar = styled.progress`
 	width: 100%;
 	height: 8px;
 	display: block;
-	margin-top: 5px;
+	margin-top: 8px;
 	appearance: none;
 	background-color: ${ props => props.backgroundColor };
 	border: 1px solid ${ props => props.borderColor };
@@ -39,7 +39,7 @@ const ProgressBar = styled.progress`
 		background-color: ${ props => props.progressColor };
 		border: 0;
 	}
-}`;
+`;
 
 
 ProgressBar.defaultProps = {

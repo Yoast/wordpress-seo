@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { injectIntl, intlShape, defineMessages } from "react-intl";
+import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import colors from "../../../../style-guide/colors.json";
@@ -15,45 +15,6 @@ export const ContentAnalysisContainer = styled.div`
 	max-width: 800px;
 	margin: 0 auto;
 `;
-
-const messages = defineMessages( {
-	languageNoticeLink: {
-		id: "content-analysis.language-notice-link",
-		defaultMessage:	"Change language",
-	},
-	errorsHeader: {
-		id: "content-analysis.errors",
-		defaultMessage: "Errors",
-	},
-	problemsHeader: {
-		id: "content-analysis.problems",
-		defaultMessage: "Problems",
-	},
-	improvementsHeader: {
-		id: "content-analysis.improvements",
-		defaultMessage: "Improvements",
-	},
-	considerationsHeader: {
-		id: "content-analysis.considerations",
-		defaultMessage: "Considerations",
-	},
-	goodHeader: {
-		id: "content-analysis.good",
-		defaultMessage: "Good results",
-	},
-	highlight: {
-		id: "content-analysis.highlight",
-		defaultMessage: "Highlight this result in the text",
-	},
-	noHighlight: {
-		id: "content-analysis.nohighlight",
-		defaultMessage: "Remove highlight from the text",
-	},
-	disabledButton: {
-		id: "content-analysis.disabledButton",
-		defaultMessage: "Marks are disabled in current view",
-	},
-} );
 
 /**
  * Returns the ContentAnalysis component.
@@ -133,11 +94,11 @@ class ContentAnalysis extends React.Component {
 			let isPressed = result.id === this.state.checked;
 			let ariaLabel = "";
 			if ( this.props.marksButtonStatus === "disabled" ) {
-				ariaLabel = this.props.intl.formatMessage( messages.disabledButton );
+				ariaLabel = __( "Marks are disabled in current view", "yoast-components" );
 			} else if ( isPressed ) {
-				ariaLabel = this.props.intl.formatMessage( messages.noHighlight );
+				ariaLabel = __( "Remove highlight from the text", "yoast-components" );
 			} else {
-				ariaLabel = this.props.intl.formatMessage( messages.highlight );
+				ariaLabel = __( "Highlight this result in the text", "yoast-components" );
 			}
 			return <AnalysisResult
 				key={ result.id }
@@ -180,35 +141,35 @@ class ContentAnalysis extends React.Component {
 				{ errorsFound > 0 &&
 				<AnalysisCollapsible
 					headingLevel={ headingLevel }
-					title={ this.props.intl.formatMessage( messages.errorsHeader ) }
+					title={ __( "Errors", "yoast-components" ) }
 				>
 					{ this.getResults( errorsResults ) }
 				</AnalysisCollapsible> }
 				{ problemsFound > 0 &&
 					<AnalysisCollapsible
 						headingLevel={ headingLevel }
-						title={ this.props.intl.formatMessage( messages.problemsHeader ) }
+						title={ __( "Problems", "yoast-components" ) }
 					>
 						{ this.getResults( problemsResults ) }
 					</AnalysisCollapsible> }
 				{ improvementsFound > 0 &&
 					<AnalysisCollapsible
 						headingLevel={ headingLevel }
-						title={ this.props.intl.formatMessage( messages.improvementsHeader ) }
+						title={ __( "Improvements", "yoast-components" ) }
 					>
 						{ this.getResults( improvementsResults ) }
 					</AnalysisCollapsible> }
 				{ considerationsFound > 0 &&
 					<AnalysisCollapsible
 						headingLevel={ headingLevel }
-						title={ this.props.intl.formatMessage( messages.considerationsHeader ) }
+						title={ __( "Considerations", "yoast-components" ) }
 					>
 						{ this.getResults( considerationsResults ) }
 					</AnalysisCollapsible> }
 				{ goodResultsFound > 0 &&
 					<AnalysisCollapsible
 						headingLevel={ headingLevel }
-						title={this.props.intl.formatMessage( messages.goodHeader ) }
+						title={ __( "Good results", "yoast-components" ) }
 					>
 						{ this.getResults( goodResults ) }
 					</AnalysisCollapsible> }
@@ -227,12 +188,6 @@ export const contentAnalysisPropType = {
 	headingLevel: PropTypes.number,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
-	intl: intlShape,
-};
-
-ContentAnalysis.propTypes = {
-	...contentAnalysisPropType,
-	intl: contentAnalysisPropType.intl.isRequired,
 };
 
 ContentAnalysis.defaultProps = {
@@ -246,4 +201,4 @@ ContentAnalysis.defaultProps = {
 	marksButtonStatus: "enabled",
 };
 
-export default injectIntl( ContentAnalysis );
+export default ContentAnalysis;

@@ -76,6 +76,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
 }
 
 .c6 {
+  -webkit-text-decoration: none;
   text-decoration: none;
   color: #fff;
   background: #64a60a;

@@ -1,19 +1,21 @@
 import React from "react";
 import { IntlProvider } from "react-intl";
+// Required to make Material UI work with touch screens.
+import injectTapEventPlugin from "react-tap-event-plugin";
 
 import Wizard from "./app/WizardWrapper";
 import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
 import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
+import KeywordSuggestionsWrapper from "./app/KeywordSuggestionWrapper";
 import SnippetEditor from "./app/SnippetEditorExample";
 import SeoAnalysis from "./app/SeoAnalysisExample";
 import ReadabilityAnalysis from "./app/ReadabilityAnalysisExample";
 
-// Required to make Material UI work with touch screens.
-import injectTapEventPlugin from "react-tap-event-plugin";
 import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
-import KeywordInput from "./composites/Plugin/Shared/components/KeywordInput";
+import KeywordExample from "./app/KeywordExample";
+import ButtonsWrapper from "./app/ButtonsWrapper";
 
 const components = [
 	{
@@ -70,17 +72,24 @@ const components = [
 		/>,
 	},
 	{
-		id: "focus-keyword",
+		id: "keyword-example",
 		name: "Keyword",
-		component: <KeywordInput
-			id="focus-keyword"
-			label={ "Focus keyword"}
-		/>,
+		component: <KeywordExample />,
 	},
 	{
 		id: "sidebar-collapsible",
 		name: "Sidebar Collapsible",
 		component: <SidebarCollapsibleWrapper />,
+	},
+	{
+		id: "keyword-suggestions",
+		name: "Keyword suggestions",
+		component: <KeywordSuggestionsWrapper />,
+  },
+  {
+		id: "buttons",
+		name: "Buttons",
+		component: <ButtonsWrapper />,
 	},
 ];
 

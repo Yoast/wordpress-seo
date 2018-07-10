@@ -5,6 +5,132 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.7.0 July 3rd, 2018
+### Added
+* Adds synonyms components.
+
+### Fixes
+* Fixes the CSS media query to target IE11 used for the buttons min-height.
+
+### Removed
+* Removes the unused replaceKeyword action.
+
+## 4.6.2 July 2nd, 2018
+### Fixes
+* Fixes a bug where console errors would be thrown because `ref` instead of `innerRef` was used in the `ReplacementVariableEditor`. 
+
+## 4.6.0 July 2nd, 2018
+### Added
+* Adds Styled Component's `withTheme` to the `ReplacementVariableEditorStandalone` component in order to set the `textDirectionality ` of the `Editor` based on the language direction that is passed to the theme.
+
+## 4.5.0 June 29nd, 2018
+### Fixes
+* Fixes the styling of the `ModeSwitcher`, `SnippetEditor`, `HelpTextWrapper`, `SnippetPreview` and `StyledSection` for right-to-left languages. [#629](https://github.com/Yoast/yoast-components/pull/629/files)
+* Fixes a bug where the snippet variable suggestions would disappear behind the admin menu bar when using a right-to-left language. [#628](https://github.com/Yoast/yoast-components/pull/628/files)
+* Fixes the 'insert snippet variable' button alignment by using only CSS and removing the JS widths calculations. [#618](https://github.com/Yoast/yoast-components/pull/618/files)
+
+## 4.4.0 June 22nd, 2018
+
+### Changes
+* `ReplacementVariableEditor` adds a space after replacement variable when there is no space yet. [#616](https://github.com/Yoast/yoast-components/pull/616)
+* Entities in `ReplacementVariableEditor` can no longer be partially selected. [#607](https://github.com/Yoast/yoast-components/pull/607)
+
+### Fixes
+* Improved change detection of replacement variables in `SnippetEditor`. [#610](https://github.com/Yoast/yoast-components/pull/610/files)
+
+## 4.3.0 June 22nd, 2018
+
+### Added
+* Added `ErrorBoundary` component to be used in the `SnippetEditor`. [#605](https://github.com/Yoast/yoast-components/pull/605)
+
+### Changes
+* Let the padding on the `StyledSection` depend on the title. [#606](https://github.com/Yoast/yoast-components/pull/606)
+* Implements an option for the paper style in the styled section component. [#612](https://github.com/Yoast/yoast-components/pull/612)
+* Moves the margin bottom from the FormSections to the CloseSnippetEditor button. [#615](https://github.com/Yoast/yoast-components/pull/615)
+
+### Fixes
+* Clicking the entire meta description field in `SnippetEditor` will now focus the input. [#600](https://github.com/Yoast/yoast-components/pull/600)
+* Improved snippet editor placeholder contrast. [#603](https://github.com/Yoast/yoast-components/pull/603)
+* Fixes an issue where in cases with a lot of snippet variables it would sometimes be partially hidden behind the WordPress toolbar. [#604](https://github.com/Yoast/yoast-components/pull/604)
+* Handle cut and paste behaviour in the `ReplacementVariableEditor`. [#611](https://github.com/Yoast/yoast-components/pull/611)
+
+## 4.2.0 June 12nd, 2018
+
+### Added
+- Implements the draft-js-single-line-plugin in order to keep the Draft-js Editor from creating new blocks on enter presses and pasting newlines.
+- Adds a meta description placeholder text.
+- Adds a SettingsSnippetEditor component.
+- Adds a button to the snippet editor to improve discoverability of the snippet variables.
+
+### Removed
+- Removes logic for decoding separators. This logic has been moved to wordpress-seo.
+
+### Fixed
+- Fixes a bug where the snippet editor fields would stay in an isActive state when blurred.
+- Fixes a bug where the progress bars for the snippet title and description wouldn't respond correctly to the content of the input fields.
+- Fixes a bug where multiple spaces and spaces at the beginning and end of the snippet description were taken into account for the description length progress calculation.
+- Fixes a bug where the snippet variable suggestions would be sometimes positioned outside of the viewport.
+
+### Other
+- Changes the replacement variable editor to automatically replace snippet variables with entities.
+- Improves the Help text accessibility and introduces a SlideToggle component based on react-transition-group.
+
+## 4.1.0 May 23rd, 2018
+
+### Changes
+* Maximum meta description length now retrieved from `yoastseo`.
+* Improve the Snippet Preview rendering with long text.
+* Better encode SVG images used as CSS background.
+* Snippet editor no longer manages the slug in local state.
+* Entire meta description field can now be clicked to focus the editor.
+* Removed `react-intl` remnants, which was removed in `v4.0.0`.
+* Snippet preview now decodes the separator replacement variable before it is passed along to the renderer.
+
+## 4.0.2 May 17th, 2018
+
+### Added
+
+* Added metadescription placeholder to `SnippetEditor`.
+* Replace the replace vars before measuring the title and description length to get the correct length.
+
+### Fixes
+
+* Fixes a problem with the Snippet Editor where it would crash when receiving new content.
+
+## 4.0.1 May 17th, 2018
+
+### Fixes
+
+* Fixes progress bars in `SnippetEditor`.
+
+## 4.0.0 May 16th, 2018
+
+### Breaking changes
+
+* Changed library used for translation from `react-intl` to `@wordpress/i18n`. [#494](https://github.com/Yoast/yoast-components/pull/494), [#469](https://github.com/Yoast/yoast-components/pull/496), [#497](https://github.com/Yoast/yoast-components/pull/497), [#498](https://github.com/Yoast/yoast-components/pull/498), [#500](https://github.com/Yoast/yoast-components/pull/500), [#505](https://github.com/Yoast/yoast-components/pull/505), [#506](https://github.com/Yoast/yoast-components/pull/506), [#507](https://github.com/Yoast/yoast-components/pull/507), [#508](https://github.com/Yoast/yoast-components/pull/508)
+
+### Added
+
+* Added `HelpText` component. [#480](https://github.com/Yoast/yoast-components/pull/480)
+* Added `KeywordInput` component. [#482](https://github.com/Yoast/yoast-components/pull/482)
+* Added help text drop down to `SnippetEditor`. [#517](https://github.com/Yoast/yoast-components/pull/517)
+
+### Changed
+
+* Added trailing slashes to `SnippetPreview` url desktop preview. [#526](https://github.com/Yoast/yoast-components/pull/526)
+* Improved `SnippetEditor` mentions suggestions accessibility. [#525](https://github.com/Yoast/yoast-components/pull/525)
+* URL safe characters are preserved in the `SnippetPreview`. [#520](https://github.com/Yoast/yoast-components/pull/520)
+* Transliterated keywords are highlighted in title and description in `SnippetPreview`. [#519](https://github.com/Yoast/yoast-components/pull/519), [#521](https://github.com/Yoast/yoast-components/pull/521), [#522](https://github.com/Yoast/yoast-components/pull/522)
+* The `SnippetEditor` slug input field has been changed from a `DraftJS` editor to a regular input field. [#515](https://github.com/Yoast/yoast-components/pull/515)
+* Dashes and question marks get stripped from the `SnippetEditor` url preview. [#495](https://github.com/Yoast/yoast-components/pull/495)
+* Allow optional help text to be passed to the `ContentAnalysis` component. [#480](https://github.com/Yoast/yoast-components/pull/480)
+* Upgraded webpack to version `4.7` in the development environment. [#501](https://github.com/Yoast/yoast-components/pull/501)
+
+### Fixed
+
+* Replace vars in description and title are converted to mentions on load. [#529](https://github.com/Yoast/yoast-components/pull/529)
+* Implemented various styling fixes for the `SnippetEditor` component. [#491](https://github.com/Yoast/yoast-components/pull/491), [#513](https://github.com/Yoast/yoast-components/pull/513), [#513](https://github.com/Yoast/yoast-components/pull/513)
+
 ## 3.5.1 April 25th, 2018
 
 ### Fixed

@@ -62,7 +62,6 @@ const RightYoastLinkButton = makeOutboundLink( styled( YoastLinkButton )`
  * @returns {ReactElement} A SearchResultDetail component.
  */
 class SearchResultDetail extends React.Component {
-
 	/**
 	 * Creates navigational elements.
 	 *
