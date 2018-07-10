@@ -14,7 +14,7 @@ exports[`LanguageNotice matches the snapshot when showLanguageNotice equals true
   <strong>
     English
   </strong>
-  .
+  . If this is not correct, contact your site administrator.
 </p>
 `;
 
@@ -53,7 +53,7 @@ exports[`LanguageNotice matches the snapshot with a changed language link 1`] = 
   <strong>
     English
   </strong>
-  . If this is not correct, contact your site administrator.
+  . 
   <a
     className="c1"
     href="http://www.example.com"
@@ -105,7 +105,7 @@ exports[`LanguageNotice matches the snapshot with another language 1`] = `
   <strong>
     Nederlands
   </strong>
-  . If this is not correct, contact your site administrator.
+  . 
   <a
     className="c1"
     href="http://www.example.com"
