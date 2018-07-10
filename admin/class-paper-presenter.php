@@ -10,7 +10,7 @@
  */
 class WPSEO_Paper_Presenter {
 	/**
-	 * @var string
+	 * @var string Title of the paper
 	 */
 	private $title;
 
@@ -20,7 +20,7 @@ class WPSEO_Paper_Presenter {
 	private $settings;
 
 	/**
-	 * @var string
+	 * @var string The path to the view file.
 	 */
 	private $view_file;
 
@@ -28,7 +28,7 @@ class WPSEO_Paper_Presenter {
 	 * WPSEO_presenter_paper constructor.
 	 *
 	 * @param string $title     The title of the paper.
-	 * @param string $view_file The path to the to be included file.
+	 * @param string $view_file The path to the view file.
 	 * @param array  $settings  Optional. Settings for the paper.
 	 */
 	public function __construct( $title, $view_file, array $settings = array() ) {
@@ -74,7 +74,7 @@ class WPSEO_Paper_Presenter {
 		}
 
 		$view_variables = array(
-			'collapsible'        => ( bool ) $this->settings['collapsible'],
+			'collapsible'        => $this->settings['collapsible'],
 			'collapsible_config' => $this->collapsible_config(),
 			'title_after'        => $this->settings['title_after'],
 			'help_text'          => $this->settings['help_text'],

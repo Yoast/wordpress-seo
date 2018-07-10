@@ -24,7 +24,7 @@ $archives_help_content = array(
 );
 
 $archives_help = new WPSEO_Admin_Help_Panel(
-'search-appearance-archives',
+	'search-appearance-archives',
 	__( 'Learn more about the archives setting', 'wordpress-seo' ),
 	implode( ' ', $archives_help_content ),
 	'has-wrapper'

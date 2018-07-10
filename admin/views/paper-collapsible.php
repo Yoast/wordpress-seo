@@ -4,14 +4,13 @@
  *
  * @package WPSEO\Admin\Views
  *
- * @var string $paper_id
- * @var bool   $collapsible
- * @var array  $collapsible_config
- * @var string $title
- * @var string $title_after
- * @var string $help_text
- * @var string $view_file
- * @var WPSEO_Admin_Help_Panel $help_text
+ * @var string $paper_id                  The id of the paper.
+ * @var bool   $collapsible               Whether the collapsible should be rendered.
+ * @var array  $collapsible_config        Configuration for the collapsible.
+ * @var string $title                     The title
+ * @var string $title_after               Additional content to render after the title.
+ * @var string $view_file                 Path to the view file.
+ * @var WPSEO_Admin_Help_Panel $help_text The help text.
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
