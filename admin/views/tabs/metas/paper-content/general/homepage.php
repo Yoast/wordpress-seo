@@ -28,6 +28,7 @@
 				'description'           => 'metadesc-home-wpseo',
 				'page_type_recommended' => 'homepage',
 				'page_type_specific'    => 'page',
+				'paper_style'           => false,
 			)
 		);
 		$editor->render();
