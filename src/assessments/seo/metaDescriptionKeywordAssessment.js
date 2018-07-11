@@ -78,15 +78,11 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to the number of keyword matches in the meta description,
-					 * %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The meta description %2$scontains the focus keyword%3$s. That's great.",
-						"The meta description %2$scontains the focus keyword %1$d times%3$s. That's great.",
-						this._keywordMatches
+						"The meta description %1$scontains the focus keyword%2$s."
 					),
-					this._keywordMatches,
 					this._config.url,
 					"</a>"
 				),

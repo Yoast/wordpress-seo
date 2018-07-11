@@ -21,8 +21,7 @@ describe( "the metadescription keyword assessment", function() {
 		const assessment = descriptionKeywordAssessment.getResult( mockPaper, factory.buildMockResearcher( 1 ), i18n );
 
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword</a>." +
-			" That's great." );
+		expect( assessment.getText() ).toBe( "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword</a>." );
 	} );
 
 	it( "returns a good result and an appropriate feedback message when the meta description contains the keyword two times", function() {
@@ -30,8 +29,7 @@ describe( "the metadescription keyword assessment", function() {
 		const assessment = descriptionKeywordAssessment.getResult( mockPaper, factory.buildMockResearcher( 2 ), i18n );
 
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword 2 times</a>. " +
-			"That's great." );
+		expect( assessment.getText() ).toBe( "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword</a>." );
 	} );
 
 	it( "returns a good result when the meta description contains the keyword more than two times", function() {
@@ -39,8 +37,7 @@ describe( "the metadescription keyword assessment", function() {
 		const assessment = descriptionKeywordAssessment.getResult( mockPaper, factory.buildMockResearcher( 3 ), i18n );
 
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword 3 times</a>. " +
-			"That's great." );
+		expect( assessment.getText() ).toBe( "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword</a>." );
 	} );
 
 	it( "is not applicable when the paper doesn't have a keyword", function() {
