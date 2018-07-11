@@ -46,6 +46,12 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 		$version       = $asset_manager->flatten_version( WPSEO_VERSION );
 
 		wp_register_script(
+			'yoast-seo-premium-commons',
+			plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/commons-premium-' . $version . WPSEO_CSSJS_SUFFIX . '.js',
+			array(),
+			WPSEO_VERSION
+		);
+		wp_register_script(
 			WPSEO_Admin_Asset_Manager::PREFIX . 'premium-metabox',
 			plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-metabox-' . $version . WPSEO_CSSJS_SUFFIX . '.js',
 			array(
@@ -53,6 +59,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 				'wp-util',
 				'underscore',
 				WPSEO_Admin_Asset_Manager::PREFIX . 'wp-globals-backport',
+				'yoast-seo-premium-commons',
 			),
 			WPSEO_VERSION
 		);

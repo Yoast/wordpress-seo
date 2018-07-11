@@ -49,12 +49,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		$version       = $asset_manager->flatten_version( WPSEO_VERSION );
 
 		if ( $pagenow === 'edit.php' || $this->is_nested_pages( $pagenow ) ) {
-			wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-quickedit-notification-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+			wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-quickedit-notification-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery', 'yoast-seo-premium-commons' ), WPSEO_VERSION );
 			wp_localize_script( 'wp-seo-premium-quickedit-notification', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
 		}
 
 		if ( $pagenow === 'post.php' ) {
-			wp_enqueue_script( 'wp-seo-premium-redirect-notifications', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-redirect-notifications-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+			wp_enqueue_script( 'wp-seo-premium-redirect-notifications', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/dist/wp-seo-premium-redirect-notifications-' . $version . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery', 'yoast-seo-premium-commons' ), WPSEO_VERSION );
 			wp_localize_script( 'wp-seo-premium-redirect-notifications', 'wpseoPremiumStrings', WPSEO_Premium_Javascript_Strings::strings() );
 		}
 	}
