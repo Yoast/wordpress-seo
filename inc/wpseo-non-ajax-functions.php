@@ -63,13 +63,13 @@ add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
  *
  * If the current user is an admin he can also go straight to several settings menu's from here.
  *
- * @deprecated 7.8 Use WPSEO_Admin_Bar_Menu::add_menu() instead
+ * @deprecated 7.9 Use WPSEO_Admin_Bar_Menu::add_menu() instead
  *
  * @return void
  */
 function wpseo_admin_bar_menu() {
 
-	_deprecated_function( __FUNCTION__, 'WPSEO 7.8', 'WPSEO_Admin_Bar_Menu::add_menu()' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.9', 'WPSEO_Admin_Bar_Menu::add_menu()' );
 
 	// Only use this admin bar menu for the site admin.
 	if ( is_admin() && ! is_blog_admin() ) {
@@ -91,12 +91,12 @@ function wpseo_admin_bar_menu() {
 /**
  * Returns the SEO score element for the admin bar.
  *
- * @deprecated 7.8
+ * @deprecated 7.9
  *
  * @return string
  */
 function wpseo_adminbar_seo_score() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 7.8', null );
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.9', null );
 
 	$rating = WPSEO_Meta::get_value( 'linkdex', get_the_ID() );
 
@@ -106,12 +106,12 @@ function wpseo_adminbar_seo_score() {
 /**
  * Returns the content score element for the adminbar.
  *
- * @deprecated 7.8
+ * @deprecated 7.9
  *
  * @return string
  */
 function wpseo_adminbar_content_score() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 7.8', null );
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.9', null );
 
 	$rating = WPSEO_Meta::get_value( 'content_score', get_the_ID() );
 
@@ -121,12 +121,12 @@ function wpseo_adminbar_content_score() {
 /**
  * Returns the SEO score element for the adminbar.
  *
- * @deprecated 7.8
+ * @deprecated 7.9
  *
  * @return string
  */
 function wpseo_tax_adminbar_seo_score() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 7.8', null );
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.9', null );
 
 	$rating = 0;
 
@@ -140,12 +140,12 @@ function wpseo_tax_adminbar_seo_score() {
 /**
  * Returns the Content score element for the adminbar.
  *
- * @deprecated 7.8
+ * @deprecated 7.9
  *
  * @return string
  */
 function wpseo_tax_adminbar_content_score() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 7.8', null );
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.9', null );
 
 	$rating = 0;
 
@@ -159,14 +159,14 @@ function wpseo_tax_adminbar_content_score() {
 /**
  * Takes The SEO score and makes the score icon for the adminbar with it.
  *
- * @deprecated 7.8
+ * @deprecated 7.9
  *
  * @param int $score The 0-100 rating of the score. Can be either SEO score or content score.
  *
  * @return string $score_adminbar_element
  */
 function wpseo_adminbar_score( $score ) {
-	_deprecated_function( __FUNCTION__, 'WPSEO 7.8', null );
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.9', null );
 
 	$score = WPSEO_Utils::translate_score( $score );
 
@@ -178,10 +178,10 @@ function wpseo_adminbar_score( $score ) {
 /**
  * Enqueue CSS to format the Yoast SEO adminbar item.
  *
- * @deprecated 7.8 Use WPSEO_Admin_Bar_Menu::enqueue_assets() instead
+ * @deprecated 7.9 Use WPSEO_Admin_Bar_Menu::enqueue_assets() instead
  */
 function wpseo_admin_bar_style() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 7.8', 'WPSEO_Admin_Bar_Menu::enqueue_assets()' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 7.9', 'WPSEO_Admin_Bar_Menu::enqueue_assets()' );
 
 	if ( ! is_admin_bar_showing() || WPSEO_Options::get( 'enable_admin_bar_menu' ) !== true ) {
 		return;
