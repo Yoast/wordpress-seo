@@ -1,5 +1,8 @@
 /**
  * Analysis Web Worker.
+ *
+ * Worker API:     https://developer.mozilla.org/en-US/docs/Web/API/Worker
+ * Webpack loader: https://github.com/webpack-contrib/worker-loader
  */
 class AnalysisWebWorker {
 	/**
@@ -13,12 +16,14 @@ class AnalysisWebWorker {
 	}
 
 	/**
-	 * Receives the post message and determines the command.
+	 * Receives the post message and determines the action.
+	 *
+	 * See: https://developer.mozilla.org/en-US/docs/Web/API/Worker/onmessage
 	 *
 	 * @param {MessageEvent} arguments              The post message event.
 	 * @param {Object}       arguments.data         The data object.
-	 * @param {string}       arguments.data.type    The command type.
-	 * @param {string}       arguments.data.payload The payload of the command.
+	 * @param {string}       arguments.data.type    The action type.
+	 * @param {string}       arguments.data.payload The payload of the action.
 	 *
 	 * @returns {void}
 	 */
@@ -44,7 +49,10 @@ class AnalysisWebWorker {
 	 */
 	initialize( configuration ) {
 		this.configuration = configuration;
-		console.log( "Analysis worker initialized.", configuration );
+		console.log( "run initialize", configuration );
+		self.postMessage( {
+			type: "initialize:done",
+		} );
 	}
 
 	/**
@@ -59,8 +67,14 @@ class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	analyze( { id, paper, configuration = {} } ) {
-		console.log( "Analyzing...", id, paper, configuration );
-		self.postMessage( { type: "analyze done", id, paper, configuration } );
+		console.log( "run analyze", id, paper, configuration );
+
+		setTimeout( () => {
+			self.postMessage( {
+				type: "analyze:done",
+				payload: { id, paper, configuration },
+			} );
+		}, 2000 );
 	}
 }
 

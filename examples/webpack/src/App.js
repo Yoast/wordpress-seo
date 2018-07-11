@@ -4,24 +4,24 @@ import './App.css';
 import Input from "./components/Input";
 import TextArea from "./components/TextArea";
 import Button from "./components/Button";
-import AnalysisWorker from "./analysis.worker";
+import AnalysisWorker from "./analysis/AnalysisWorker";
 
 class App extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.analysisWorker = AnalysisWorker();
-		this.analysisWorker.onmessage = event => console.log( "Worker message", event.data );
-		this.analysisWorker.onmessageerror = event => console.log( "Worker message error", event );
-		this.analysisWorker.onerror = event => console.log( "Worker error", event );
+		this.analysisWorker = new AnalysisWorker();
+
+		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
 	}
 
+	initialize() {
+		this.analysisWorker.initialize( {} ).then( () => console.log( "initialization done!" ) );
+	}
+
 	analyze() {
-		this.analysisWorker.postMessage( {
-			type: "analyze",
-			payload: "test",
-		} );
+		this.analysisWorker.analyze( "paper" ).then( () => console.log( "analyzation done!" ) );
 	}
 
 	render() {
@@ -30,6 +30,8 @@ class App extends React.Component {
 				<div className="content-sidebar-wrap">
 					<div id="input" className="form-container">
 						<div id="inputForm" className="inputForm">
+							<h2>Analysis Worker</h2>
+							<Button onClick={ this.initialize }>Initialize</Button>
 							<Button onClick={ this.analyze }>Analyze</Button>
 
 							<Input id="locale" label="Locale" placeholder="en_US" />
