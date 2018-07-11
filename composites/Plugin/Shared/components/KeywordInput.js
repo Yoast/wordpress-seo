@@ -105,14 +105,14 @@ class KeywordInput extends React.Component {
 	handleChange( event ) {
 		const keyword = event.target.value;
 		const showErrorMessage = this.checkKeywordInput( keyword );
+		const isDirty = keyword !== this.state.keyword;
 
-		if (
-			keyword !== this.state.keyword ||
-			showErrorMessage !== this.state.showErrorMessage
-		) {
+		if ( isDirty || showErrorMessage !== this.state.showErrorMessage ) {
 			this.setState( { keyword, showErrorMessage } );
+			if ( isDirty ) {
+				this.props.onChange( keyword );
+			}
 		}
-		this.props.onChange( keyword );
 	}
 
 	/**
@@ -134,7 +134,7 @@ class KeywordInput extends React.Component {
 					type="text"
 					id={ id }
 					className={ showErrorMessage ? "hasError" : null }
-					onChange={ this.handleChange }
+					onChange={ event => this.handleChange( event ) }
 					value={ keyword }
 				/>
 				{ this.displayErrorMessage( keyword ) }
