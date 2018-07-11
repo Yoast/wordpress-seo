@@ -40,15 +40,6 @@ abstract class WPSEO_Indexable {
 	}
 
 	/**
-	 * Creates a new Indexable from a passed object.
-	 *
-	 * @param int $object_id The object id to use as the source of the object.
-	 *
-	 * @return WPSEO_Indexable The indexable.
-	 */
-	public abstract static function from_object( $object_id );
-
-	/**
 	 * Converts the meta value to a boolean value.
 	 *
 	 * @param string $value The value to convert.
