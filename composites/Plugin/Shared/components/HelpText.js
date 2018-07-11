@@ -12,7 +12,7 @@ const YoastHelpText = styled.p`
 	margin-top: 0;
 	
 	a {
-        color: ${ colors.$color_blue };
+        color: ${ colors.$palette_blue_medium };
     }
 `;
 

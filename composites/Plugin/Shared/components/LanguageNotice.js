@@ -14,7 +14,7 @@ const YoastLanguageNotice = styled.p`
 `;
 
 const ChangeLanguageLink = makeOutboundLink( styled.a`
-	color: ${ colors.$color_blue };
+	color: ${ colors.$palette_blue_medium };
 	margin-left: 4px;
 ` );
 
