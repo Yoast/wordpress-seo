@@ -18,8 +18,7 @@ class WPSEO_Validator {
 	 * @return bool Whether or not the passed variable is a valid boolean.
 	 */
 	public static function is_boolean( $variable ) {
-		var_dump( $variable, filter_var( $variable, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE ) );
-		return filter_var( $variable, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE ) !== null;
+		return filter_var( $variable, FILTER_VALIDATE_BOOLEAN, array( 'flags' => FILTER_NULL_ON_FAILURE ) ) !== null;
 	}
 
 	/**
