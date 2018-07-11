@@ -67,7 +67,7 @@ class WPSEO_Admin_Media_Purge_Notification implements WPSEO_WordPress_Integratio
 		$content = sprintf(
 			/* translators: %1$s expands to the link to the article, %2$s closes the link tag. */
 			__( 'Your site\'s settings currently allow attachment URLs on your site to exist. Please read %1$sthis post about a potential issue%2$s with attachment URLs and check whether you have the correct setting for your site.', 'wordpress-seo' ),
-			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2r8' ) ) . '" rel="nofollow noreferer" target="_blank">',
+			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2r8' ) ) . '" rel="nofollow noreferrer" target="_blank">',
 			'</a>'
 		);
 
