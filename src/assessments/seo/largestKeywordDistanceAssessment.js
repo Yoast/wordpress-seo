@@ -153,13 +153,11 @@ class largestKeywordDistanceAssessment extends Assessment {
 
 
 	/**
-	 * Checks whether the paper has a text with at least 200 words, a keyword, and whether
-	 * the keyword appears more at least twice in the text (required to calculate a distribution).
+	 * Checks whether the paper has a text with at least 200 words and a keyword.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
-	 * @returns {boolean} True when there is a keyword and a text with 200 words or more,
-	 *                    with the keyword occurring more than one time.
+	 * @returns {boolean} True when there is a keyword and a text with 200 words or more.
 	 */
 	isApplicable( paper ) {
 		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200;

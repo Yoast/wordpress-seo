@@ -82,7 +82,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * or if there there is only 1 keyword match (regardless of the density).
 	 */
 	hasTooFewMatches() {
-		return inRangeStartInclusive( this._keywordDensity, 0, this._config.minimum )
+		return inRangeStartInclusive( this._keywordDensity, 0, this._config.minimum );
 	}
 
 	/**
@@ -93,7 +93,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * and the recommended maximum or if the keyword count is 2 and the recommended minimum is lower than 2.
 	 */
 	hasGoodNumberOfMatches() {
-		return inRangeStartEndInclusive( this._keywordDensity, this._config.minimum, this._config.maximum )
+		return inRangeStartEndInclusive( this._keywordDensity, this._config.minimum, this._config.maximum );
 	}
 
 	/**
