@@ -112,6 +112,7 @@ class KeywordInput extends React.Component {
 		) {
 			this.setState( { keyword, showErrorMessage } );
 		}
+		this.props.onChange( keyword );
 	}
 
 	/**
@@ -147,6 +148,7 @@ export const keywordInputPropType = {
 	label: PropTypes.string.isRequired,
 	showLabel: PropTypes.bool,
 	keyword: PropTypes.string,
+	onChange: PropTypes.func,
 };
 
 KeywordInput.propTypes = keywordInputPropType;

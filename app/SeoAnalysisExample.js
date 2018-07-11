@@ -69,6 +69,17 @@ export default function SeoAnalysisExample() {
 		},
 	];
 
+	/**
+	 * Handles a piece of changed data.
+	 *
+	 * @param {string} newKeyword the new keyword.
+	 *
+	 * @returns {void}
+	 */
+	const onKeywordChanged = function( newKeyword ) {
+		console.log( newKeyword );
+	};
+
 	return (
 		<Container>
 			<SeoAnalysis
@@ -86,6 +97,7 @@ export default function SeoAnalysisExample() {
 					label: "Focus keyword:",
 					showLabel: true,
 					keyword: "Mountaineering in the catskills during high season.",
+					onChange: onKeywordChanged,
 				} }
 				contentAnalysis={ {
 					problemsResults,
