@@ -11160,9 +11160,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-yoast-components@^4.7:
+"yoast-components@git+https://github.com/Yoast/yoast-components.git#develop":
   version "4.7.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.7.0.tgz#58ab1df09d72a53330d9bfeae2b9878279978079"
+  resolved "git+https://github.com/Yoast/yoast-components.git#0a7177a75a7d206675f6df522c2905cf446e9707"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -11200,9 +11200,9 @@ yoastseo@^1.35.0:
     sassdash "^0.9.0"
     tokenizer2 "^2.0.0"
 
-yoastseo@^1.35.1:
-  version "1.35.1"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.1.tgz#a82f7c585afd913bd1306de5331aa522430611f9"
+yoastseo@^1.35.3:
+  version "1.35.3"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.3.tgz#82dc6727a0e3db3546a8e72fe96ffe0474312962"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"

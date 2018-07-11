@@ -1,23 +1,17 @@
-/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp */
+/* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp yoast */
 
-import { createStore, combineReducers } from "redux";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
 import IntlProvider from "./components/IntlProvider";
-import markerStatusReducer from "./redux/reducers/markerButtons";
-import snippetEditor from "./redux/reducers/snippetEditor";
-import analysis from "yoast-components/composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
-import activeKeyword from "./redux/reducers/activeKeyword";
-import activeTab from "./redux/reducers/activeTab";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
+import reducers from "./redux/reducers";
+import PluginIcon from "../../images/Yoast_icon_kader.svg";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
-import configureEnhancers from "./redux/utils/configureEnhancers";
-import analysisDataReducer from "./redux/reducers/analysisData";
 import { ThemeProvider } from "styled-components";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
@@ -29,23 +23,51 @@ if( window.wpseoPostScraperL10n ) {
 }
 
 /**
- * Creates a redux store.
+ * Registers a redux store in Gutenberg.
  *
- * @returns {Object} Things that need to be exposed, such as the store.
+ * @returns {Object} The store.
  */
-function configureStore() {
-	const enhancers = configureEnhancers();
+function registerStoreInGutenberg() {
+	const { combineReducers, registerStore } = yoast._wp.data;
 
-	const rootReducer = combineReducers( {
-		marksButtonStatus: markerStatusReducer,
-		analysis: analysis,
-		activeKeyword: activeKeyword,
-		activeTab,
-		snippetEditor,
-		analysisData: analysisDataReducer,
+	return registerStore( "yoast-seo/editor", {
+		reducer: combineReducers( reducers ),
 	} );
+}
 
-	return createStore( rootReducer, {}, enhancers );
+/**
+ * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
+ * and creates that sidebar's content.
+ *
+ * @returns {void}
+ **/
+function registerPlugin() {
+	if ( isGutenbergDataAvailable() ) {
+		const { Fragment } = yoast._wp.element;
+		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
+		const { registerPlugin } = wp.plugins;
+
+		const YoastSidebar = () => (
+			<Fragment>
+				<PluginSidebarMoreMenuItem
+					target="seo-sidebar"
+					icon={ <PluginIcon/> }
+				>
+					Yoast SEO
+				</PluginSidebarMoreMenuItem>
+				<PluginSidebar
+					name="seo-sidebar"
+					title="Yoast SEO"
+				>
+					<p> Contents of the sidebar </p>
+				</PluginSidebar>
+			</Fragment>
+		);
+
+		registerPlugin( "yoast-seo", {
+			render: YoastSidebar,
+		} );
+	}
 }
 
 /**
@@ -184,7 +206,10 @@ export function initializeData( data, args, store ) {
  * @returns {Object} The store and the data.
  */
 export function initialize( args ) {
-	const store = configureStore();
+	const store = registerStoreInGutenberg();
+	if( args.shouldRenderGutenbergSidebar ) {
+		registerPlugin();
+	}
 
 	const data = initializeData( wp.data, args, store );
 
