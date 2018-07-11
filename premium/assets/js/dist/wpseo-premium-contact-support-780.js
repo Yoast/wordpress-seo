@@ -1,70 +1,11 @@
 yoastPremiumWebpackJsonp([7],{
 
-/***/ 589:
+/***/ 598:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-/* global HS */
-(function ($) {
-	/**
-  * Format the posts looked at by the user in HTML
-  *
-  * @param {array} posts List of posts opened by the user.
-  * @returns {string} The generated output.
-  */
-	function getPostsHTML(posts) {
-		var output = "";
-		var first = true;
-		if ($.isEmptyObject(posts)) {
-			output += "<td><em>No articles were opened.</em></td>";
-		} else {
-			$.each(posts, function (postId, post) {
-				if (first === false) {
-					output += "<td></td>";
-				}
-				output += "<td><a href='" + post.link + "'>" + post.title + "</a></td>";
-				first = false;
-			});
-		}
-
-		return output;
-	}
-
-	/**
-  * Format the search queries done by the user in HTML
-  *
-  * @param {array} usedQueries List of queries entered by the user.
-  * @returns {string} The generated output.
-  */
-	function usedQueriesWithHTML(usedQueries) {
-		var output = "";
-		if ($.isEmptyObject(usedQueries)) {
-			output += "<em>Search history is empty.</em>";
-		} else {
-			output += "<table><tr><th>Searched for</th><th>Opened article</th></tr>";
-			$.each(usedQueries, function (searchString, posts) {
-				output += "<tr><td>" + searchString + "</td>";
-				output += getPostsHTML(posts);
-				output += "</tr>";
-			});
-			output = output + "</table>";
-		}
-
-		return output;
-	}
-
-	$(window).on("YoastSEO:ContactSupport", function (e, data) {
-		if (typeof data.usedQueries !== "undefined") {
-			var identity = HS.beacon.get_helpscout_beacon_identity();
-			identity["User searched for"] = usedQueriesWithHTML(data.usedQueries);
-			HS.beacon.identify(identity);
-		}
-		HS.beacon.open();
-	});
-})(jQuery);
+eval("\n\n/* global HS */\n(function ($) {\n\t/**\n  * Format the posts looked at by the user in HTML\n  *\n  * @param {array} posts List of posts opened by the user.\n  * @returns {string} The generated output.\n  */\n\tfunction getPostsHTML(posts) {\n\t\tvar output = \"\";\n\t\tvar first = true;\n\t\tif ($.isEmptyObject(posts)) {\n\t\t\toutput += \"<td><em>No articles were opened.</em></td>\";\n\t\t} else {\n\t\t\t$.each(posts, function (postId, post) {\n\t\t\t\tif (first === false) {\n\t\t\t\t\toutput += \"<td></td>\";\n\t\t\t\t}\n\t\t\t\toutput += \"<td><a href='\" + post.link + \"'>\" + post.title + \"</a></td>\";\n\t\t\t\tfirst = false;\n\t\t\t});\n\t\t}\n\n\t\treturn output;\n\t}\n\n\t/**\n  * Format the search queries done by the user in HTML\n  *\n  * @param {array} usedQueries List of queries entered by the user.\n  * @returns {string} The generated output.\n  */\n\tfunction usedQueriesWithHTML(usedQueries) {\n\t\tvar output = \"\";\n\t\tif ($.isEmptyObject(usedQueries)) {\n\t\t\toutput += \"<em>Search history is empty.</em>\";\n\t\t} else {\n\t\t\toutput += \"<table><tr><th>Searched for</th><th>Opened article</th></tr>\";\n\t\t\t$.each(usedQueries, function (searchString, posts) {\n\t\t\t\toutput += \"<tr><td>\" + searchString + \"</td>\";\n\t\t\t\toutput += getPostsHTML(posts);\n\t\t\t\toutput += \"</tr>\";\n\t\t\t});\n\t\t\toutput = output + \"</table>\";\n\t\t}\n\n\t\treturn output;\n\t}\n\n\t$(window).on(\"YoastSEO:ContactSupport\", function (e, data) {\n\t\tif (typeof data.usedQueries !== \"undefined\") {\n\t\t\tvar identity = HS.beacon.get_helpscout_beacon_identity();\n\t\t\tidentity[\"User searched for\"] = usedQueriesWithHTML(data.usedQueries);\n\t\t\tHS.beacon.identify(identity);\n\t\t}\n\t\tHS.beacon.open();\n\t});\n})(jQuery);\n\n//////////////////\n// WEBPACK FOOTER\n// ./contact-support.js\n// module id = 598\n// module chunks = 7\n\n//# sourceURL=webpack:///./contact-support.js?");
 
 /***/ })
 
-},[589]);
+},[598]);

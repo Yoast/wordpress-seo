@@ -1,75 +1,11 @@
 yoastPremiumWebpackJsonp([5],{
 
-/***/ 594:
+/***/ 603:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-/* global tb_remove, wpseo_send_mark_as_fixed, yoastPremiumGSC */
-
-/**
- * Adds a redirect from the Google Search Console overview.
- *
- * @returns {boolean} Always returns false to cancel the default event handler.
- */
-function wpseoPostRedirectToGSC() {
-	var targetForm = jQuery("#TB_ajaxContent");
-	var oldURL = jQuery(targetForm).find("input[name=current_url]").val();
-	var newURL = jQuery(targetForm).find("input[name=new_url]").val();
-	var isChecked = jQuery(targetForm).find("input[name=mark_as_fixed]").prop("checked");
-	var type = parseInt(jQuery(targetForm).find("select[name=redirect-type]").val(), 10);
-
-	jQuery.ajax({
-		type: "POST",
-		url: yoastPremiumGSC.data.restAPI.root + "yoast/v1/redirects",
-		beforeSend: function beforeSend(xhr) {
-			xhr.setRequestHeader("X-WP-Nonce", yoastPremiumGSC.data.restAPI.nonce);
-		},
-		dataType: "json",
-		data: {
-			origin: oldURL,
-			target: newURL,
-			type: type
-		},
-		success: function success(response) {
-			if (response === "true" && isChecked === true) {
-				wpseo_send_mark_as_fixed(jQuery(".wpseo-gsc-ajax-security").val(), jQuery("#field_platform").val(), jQuery("#field_category").val(), oldURL);
-			}
-
-			// Remove the thickbox.
-			tb_remove();
-		}
-	});
-
-	return false;
-}
-
-/**
- * Adds onchange event to the dropdowns.
- *
- * @returns {void}
- */
-jQuery(function () {
-	var redirectTypes = jQuery("select[name=redirect-type]");
-
-	var ALLOW_EMPTY_TARGET = [410, 451];
-
-	redirectTypes.on("change", function (evt) {
-		var type = parseInt(this.value, 10);
-		var fieldToToggle = jQuery(evt.target).closest(".wpseo_content_wrapper").find(".form-field-target")[0];
-
-		// Hide the target field in case of a 410 redirect.
-		if (jQuery.inArray(type, ALLOW_EMPTY_TARGET) > -1) {
-			jQuery(fieldToToggle).hide();
-		} else {
-			jQuery(fieldToToggle).show();
-		}
-	});
-});
-
-window.wpseoPostRedirectToGSC = wpseoPostRedirectToGSC;
+eval("\n\n/* global tb_remove, wpseo_send_mark_as_fixed, yoastPremiumGSC */\n\n/**\n * Adds a redirect from the Google Search Console overview.\n *\n * @returns {boolean} Always returns false to cancel the default event handler.\n */\nfunction wpseoPostRedirectToGSC() {\n\tvar targetForm = jQuery(\"#TB_ajaxContent\");\n\tvar oldURL = jQuery(targetForm).find(\"input[name=current_url]\").val();\n\tvar newURL = jQuery(targetForm).find(\"input[name=new_url]\").val();\n\tvar isChecked = jQuery(targetForm).find(\"input[name=mark_as_fixed]\").prop(\"checked\");\n\tvar type = parseInt(jQuery(targetForm).find(\"select[name=redirect-type]\").val(), 10);\n\n\tjQuery.ajax({\n\t\ttype: \"POST\",\n\t\turl: yoastPremiumGSC.data.restAPI.root + \"yoast/v1/redirects\",\n\t\tbeforeSend: function beforeSend(xhr) {\n\t\t\txhr.setRequestHeader(\"X-WP-Nonce\", yoastPremiumGSC.data.restAPI.nonce);\n\t\t},\n\t\tdataType: \"json\",\n\t\tdata: {\n\t\t\torigin: oldURL,\n\t\t\ttarget: newURL,\n\t\t\ttype: type\n\t\t},\n\t\tsuccess: function success(response) {\n\t\t\tif (response === \"true\" && isChecked === true) {\n\t\t\t\twpseo_send_mark_as_fixed(jQuery(\".wpseo-gsc-ajax-security\").val(), jQuery(\"#field_platform\").val(), jQuery(\"#field_category\").val(), oldURL);\n\t\t\t}\n\n\t\t\t// Remove the thickbox.\n\t\t\ttb_remove();\n\t\t}\n\t});\n\n\treturn false;\n}\n\n/**\n * Adds onchange event to the dropdowns.\n *\n * @returns {void}\n */\njQuery(function () {\n\tvar redirectTypes = jQuery(\"select[name=redirect-type]\");\n\n\tvar ALLOW_EMPTY_TARGET = [410, 451];\n\n\tredirectTypes.on(\"change\", function (evt) {\n\t\tvar type = parseInt(this.value, 10);\n\t\tvar fieldToToggle = jQuery(evt.target).closest(\".wpseo_content_wrapper\").find(\".form-field-target\")[0];\n\n\t\t// Hide the target field in case of a 410 redirect.\n\t\tif (jQuery.inArray(type, ALLOW_EMPTY_TARGET) > -1) {\n\t\t\tjQuery(fieldToToggle).hide();\n\t\t} else {\n\t\t\tjQuery(fieldToToggle).show();\n\t\t}\n\t});\n});\n\nwindow.wpseoPostRedirectToGSC = wpseoPostRedirectToGSC;\n\n//////////////////\n// WEBPACK FOOTER\n// ./google-search-console.js\n// module id = 603\n// module chunks = 5\n\n//# sourceURL=webpack:///./google-search-console.js?");
 
 /***/ })
 
-},[594]);
+},[603]);
