@@ -223,7 +223,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 *
 	 * @return void
 	 */
-	protected function verify_request( $action, $query_arg = '_wpnonce' ) {
+	public function verify_request( $action, $query_arg = '_wpnonce' ) {
 		$has_access = current_user_can( 'wpseo_manage_network_options' );
 
 		if ( wp_doing_ajax() ) {
@@ -247,7 +247,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 *
 	 * @return void
 	 */
-	protected function terminate_request() {
+	public function terminate_request() {
 		if ( wp_doing_ajax() ) {
 			$settings_errors = get_settings_errors();
 

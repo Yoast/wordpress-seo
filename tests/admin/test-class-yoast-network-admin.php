@@ -213,7 +213,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wpnonce']         = '';
 
 		try {
-			$this->invoke_method( $admin, 'verify_request', array( 'my_action' ) );
+			$admin->verify_request( 'my_action' );
 		} catch ( WPDieException $e ) {
 			$this->assertContains( 'The link you followed has expired.', $e->getMessage() );
 			throw $e;
@@ -233,7 +233,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wpnonce']         = wp_create_nonce( 'my_action' );
 
 		try {
-			$this->invoke_method( $admin, 'verify_request', array( 'my_action' ) );
+			$admin->verify_request( 'my_action' );
 		} catch ( WPDieException $e ) {
 			$this->assertEquals( 'You are not allowed to perform this action.', $e->getMessage() );
 			throw $e;
@@ -256,7 +256,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$e = null;
 		try {
-			$this->invoke_method( $admin, 'verify_request', array( 'my_action' ) );
+			$admin->verify_request( 'my_action' );
 		} catch ( WPDieException $e ) {
 		}
 
@@ -278,7 +278,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wpnonce'] = '';
 
 		try {
-			$this->invoke_method( $admin, 'verify_request', array( 'my_action' ) );
+			$admin->verify_request( 'my_action' );
 		} catch ( WPDieException $e ) {
 			$this->assertEquals( -1, $e->getMessage() );
 			throw $e;
@@ -300,7 +300,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'my_action' );
 
 		try {
-			$this->invoke_method( $admin, 'verify_request', array( 'my_action' ) );
+			$admin->verify_request( 'my_action' );
 		} catch ( WPDieException $e ) {
 			$this->assertEquals( -1, $e->getMessage() );
 			throw $e;
@@ -325,7 +325,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$e = null;
 		try {
-			$this->invoke_method( $admin, 'verify_request', array( 'my_action' ) );
+			$admin->verify_request( 'my_action' );
 		} catch ( WPDieException $e ) {
 		}
 
@@ -352,7 +352,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 			->method( 'redirect_back' )
 			->with( array( 'settings-updated' => 'true' ) );
 
-		$this->invoke_method( $admin, 'terminate_request' );
+		$admin->terminate_request();
 	}
 
 	/**
@@ -372,7 +372,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		ob_start();
 
 		try {
-			$this->invoke_method( $admin, 'terminate_request' );
+			$admin->terminate_request();
 		} catch ( WPDieException $e ) {
 			$this->assertArrayHasKey( 'success', json_decode( ob_get_clean(), true ) );
 			throw $e;

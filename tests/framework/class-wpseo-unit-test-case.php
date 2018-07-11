@@ -34,24 +34,6 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Invokes a class method, ignoring whether it is protected or private.
-	 *
-	 * @param object $instance    Class instance to invoke the method on.
-	 * @param string $method_name Method name.
-	 * @param array  $args        Optional. Method arguments. Default empty array.
-	 *
-	 * @return mixed Invoked method return value.
-	 */
-	protected function invoke_method( $instance, $method_name, $args = array() ) {
-		$reflection = new ReflectionClass( get_class( $instance ) );
-
-		$method = $reflection->getMethod( $method_name );
-		$method->setAccessible( true );
-
-		return $method->invokeArgs( $instance, $args );
-	}
-
-	/**
 	 * Tests for expected output.
 	 *
 	 * @param string $expected    Expected output.
