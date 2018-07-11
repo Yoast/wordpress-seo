@@ -61,6 +61,8 @@ jobs:
     # Allow failures for unstable builds.
     - php: nightly
     - env: WP_VERSION=master
+    # Allow failure for coverage build, resulting in a faster build status.
+    - env: WP_VERSION=4.9 WP_MULTISITE=1 COVERAGE=1
 
 cache:
   yarn: true
