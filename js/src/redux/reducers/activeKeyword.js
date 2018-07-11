@@ -5,10 +5,10 @@ const INITIAL_STATE = "";
 /**
  * A reducer for the active keyword.
  *
- * @param {Object} state The current state of the object.
+ * @param {string} state The current state of the object.
  * @param {Object} action The current action received.
  *
- * @returns {Object} The state.
+ * @returns {string} The state.
  */
 function activeKeywordReducer( state = INITIAL_STATE, action ) {
 	switch( action.type ) {

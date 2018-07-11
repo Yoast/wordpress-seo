@@ -15,7 +15,8 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '7.6-RC1' );
+define( 'WPSEO_VERSION', '7.9-RC1' );
+
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -303,6 +304,13 @@ function wpseo_init() {
 	$link_watcher = new WPSEO_Link_Watcher_Loader();
 	$link_watcher->load();
 
+	$integrations   = array();
+	$integrations[] = new WPSEO_Slug_Change_Watcher();
+
+	foreach ( $integrations as $integration ) {
+		$integration->register_hooks();
+	}
+
 	// Loading Ryte integration.
 	$wpseo_onpage = new WPSEO_OnPage();
 	$wpseo_onpage->register_hooks();
@@ -389,35 +397,43 @@ function wpseo_admin_init() {
  * on PHP 5.3+, the constant should only be set when requirements are met.
  */
 function wpseo_cli_init() {
-	WP_CLI::add_command( 'yoast redirect list', 'WPSEO_CLI_Redirect_List_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
+	if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+		WP_CLI::add_command( 'yoast redirect list', 'WPSEO_CLI_Redirect_List_Command', array(
+			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
+		) );
 
-	WP_CLI::add_command( 'yoast redirect create', 'WPSEO_CLI_Redirect_Create_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
+		WP_CLI::add_command( 'yoast redirect create', 'WPSEO_CLI_Redirect_Create_Command', array(
+			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
+		) );
 
-	WP_CLI::add_command( 'yoast redirect update', 'WPSEO_CLI_Redirect_Update_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
+		WP_CLI::add_command( 'yoast redirect update', 'WPSEO_CLI_Redirect_Update_Command', array(
+			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
+		) );
 
-	WP_CLI::add_command( 'yoast redirect delete', 'WPSEO_CLI_Redirect_Delete_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
+		WP_CLI::add_command( 'yoast redirect delete', 'WPSEO_CLI_Redirect_Delete_Command', array(
+			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
+		) );
 
-	WP_CLI::add_command( 'yoast redirect has', 'WPSEO_CLI_Redirect_Has_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
+		WP_CLI::add_command( 'yoast redirect has', 'WPSEO_CLI_Redirect_Has_Command', array(
+			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
+		) );
 
-	WP_CLI::add_command( 'yoast redirect follow', 'WPSEO_CLI_Redirect_Follow_Command', array(
-		'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
-	) );
+		WP_CLI::add_command( 'yoast redirect follow', 'WPSEO_CLI_Redirect_Follow_Command', array(
+			'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce',
+		) );
+	}
 
 	// Only add the namespace if the required base class exists (WP-CLI 1.5.0+).
-	// This is optional and only adds the description of the root `redirect`
+	// This is optional and only adds the description of the root `yoast`
 	// command.
 	if ( class_exists( 'WP_CLI\Dispatcher\CommandNamespace' ) ) {
-		WP_CLI::add_command( 'yoast', 'WPSEO_CLI_Redirect_Command_Namespace' );
+		WP_CLI::add_command( 'yoast', 'WPSEO_CLI_Yoast_Command_Namespace' );
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+			WP_CLI::add_command( 'yoast redirect', 'WPSEO_CLI_Redirect_Command_Namespace' );
+		}
+		else {
+			WP_CLI::add_command( 'yoast redirect', 'WPSEO_CLI_Redirect_Upsell_Command_Namespace' );
+		}
 	}
 }
 

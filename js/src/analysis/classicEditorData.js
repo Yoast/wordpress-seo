@@ -28,7 +28,7 @@ class ClassicEditorData {
 		this._data = {};
 		// This will be used for the comparison whether the title, description and slug are dirty.
 		this._previousData = {};
-		this.updateData = this.updateData.bind( this );
+		this.updateReplacementData = this.updateReplacementData.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
 
@@ -77,7 +77,7 @@ class ClassicEditorData {
 		let newPostSlug = document.getElementById( "new-post-slug" );
 
 		if ( newPostSlug ) {
-			slug = newPostSlug.val();
+			slug = newPostSlug.value;
 		} else if ( document.getElementById( "editable-post-name-full" ) !== null ) {
 			slug = document.getElementById( "editable-post-name-full" ).textContent;
 		}
@@ -108,12 +108,12 @@ class ClassicEditorData {
 	/**
 	 * Subscribes to an element via its id, and sets a callback.
 	 *
-	 * @param {string} elementId          The id of the element to subscribe to.
-	 * @param {string} targetReplaceVar   The name of the replacevar the value should be sent to.
+	 * @param {string}  elementId       The id of the element to subscribe to.
+	 * @param {string}  targetField     The name of the field the value should be sent to.
 	 *
 	 * @returns {void}
 	 */
-	subscribeToInputElement( elementId, targetReplaceVar ) {
+	subscribeToInputElement( elementId, targetField ) {
 		const element = document.getElementById( elementId );
 
 		/*
@@ -125,7 +125,7 @@ class ClassicEditorData {
 		}
 
 		element.addEventListener( "input", ( event ) => {
-			this.updateData( event, targetReplaceVar );
+			this.updateReplacementData( event, targetField );
 		} );
 	}
 
@@ -137,7 +137,7 @@ class ClassicEditorData {
 	 *
 	 * @returns {void}
 	 */
-	updateData( event, targetReplaceVar ) {
+	updateReplacementData( event, targetReplaceVar ) {
 		const replaceValue = event.target.value;
 		this._data[ targetReplaceVar ] = replaceValue;
 		this._store.dispatch( updateReplacementVariable( targetReplaceVar, replaceValue ) );
@@ -147,8 +147,8 @@ class ClassicEditorData {
 	 * Checks whether the current data and the data from the updated state are the same.
 	 *
 	 * @param {Object} currentData The current data.
-	 * @param {Object} newData The data from the updated state.
-	 * @returns {boolean} Whether the current data and the newData is the same.
+	 * @param {Object} newData     The data from the updated state.
+	 * @returns {boolean}          Whether the current data and the newData is the same.
 	 */
 	isShallowEqual( currentData, newData ) {
 		if ( Object.keys( currentData ).length !== Object.keys( newData ).length ) {
@@ -204,8 +204,8 @@ class ClassicEditorData {
 	 * @returns {Object} The data.
 	 */
 	getInitialData( replaceVars ) {
-		replaceVars = mapCustomFields( replaceVars );
-		replaceVars = mapCustomTaxonomies( replaceVars );
+		replaceVars = mapCustomFields( replaceVars, this._store );
+		replaceVars = mapCustomTaxonomies( replaceVars, this._store );
 		return {
 			...replaceVars,
 			title: this.getTitle(),

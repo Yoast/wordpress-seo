@@ -28,12 +28,15 @@ build:
 
 # Build internationalisation features
 'build:i18n':
+  - 'clean:language-files'
   - 'build:i18n:potFiles'
   - 'build:i18n:translations'
 # Create the relevant POT files
 'build:i18n:potFiles':
   - 'makepot'
   - 'shell:makepot-yoast-components-configuration-wizard'
+  - 'shell:makepot-wordpress-seo'
+  - 'copy:makepot-wordpress-seo'
   - 'shell:makepot-yoast-components-remaining'
   - 'shell:combine-pots-yoast-components'
   - 'shell:makepot-yoastseojs'

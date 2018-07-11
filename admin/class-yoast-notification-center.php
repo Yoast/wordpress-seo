@@ -82,7 +82,7 @@ class Yoast_Notification_Center {
 			) );
 		}
 
-		if ( $notification_center->maybe_dismiss_notification( $notification ) ) {
+		if ( self::maybe_dismiss_notification( $notification ) ) {
 			die( '1' );
 		}
 
@@ -332,13 +332,18 @@ class Yoast_Notification_Center {
 
 		array_walk( $notifications, array( $this, 'remove_notification' ) );
 
+		$notifications = array_unique( $notifications );
 		if ( $echo_as_json ) {
 			$notification_json = array();
+
+			/**
+			 * @var Yoast_Notification[] $notifications
+			 */
 			foreach ( $notifications as $notification ) {
 				$notification_json[] = $notification->render();
 			}
 
-			echo json_encode( $notification_json );
+			echo wp_json_encode( $notification_json );
 
 			return;
 		}
@@ -641,7 +646,13 @@ class Yoast_Notification_Center {
 	 */
 	private function notification_to_array( Yoast_Notification $notification ) {
 
-		return $notification->to_array();
+		$notification_data = $notification->to_array();
+
+		if ( isset( $notification_data['nonce'] ) ) {
+			unset( $notification_data['nonce'] );
+		}
+
+		return $notification_data;
 	}
 
 	/**
@@ -652,6 +663,10 @@ class Yoast_Notification_Center {
 	 * @return Yoast_Notification
 	 */
 	private function array_to_notification( $notification_data ) {
+
+		if ( isset( $notification_data['options']['nonce'] ) ) {
+			unset( $notification_data['options']['nonce'] );
+		}
 
 		return new Yoast_Notification(
 			$notification_data['message'],

@@ -50,7 +50,7 @@ function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
 
 	return {
-		results: state.analysis.readability,
+		results: state.analysis.readability.results,
 		marksButtonStatus: marksButtonStatus,
 	};
 }

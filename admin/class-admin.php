@@ -96,7 +96,6 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Yoast_Columns();
 		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();
-		$integrations[] = new WPSEO_Slug_Change_Watcher();
 		$integrations[] = new WPSEO_Capability_Manager_Integration( WPSEO_Capability_Manager_Factory::get() );
 		$integrations[] = new WPSEO_Admin_Media_Purge_Notification();
 		$integrations   = array_merge( $integrations, $this->initialize_seo_links() );
@@ -282,6 +281,8 @@ class WPSEO_Admin {
 	 */
 	private function localize_admin_global_script() {
 		return array(
+			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
+			'variable_warning'        => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
 			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
 			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
 			'help_video_iframe_title' => __( 'Yoast SEO video tutorial', 'wordpress-seo' ),
