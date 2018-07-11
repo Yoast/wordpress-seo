@@ -42,5 +42,4 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		<?php require $view_file; ?>
 	</div>
 
-
 </div>
