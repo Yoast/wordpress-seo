@@ -11,11 +11,16 @@
 class WPSEO_Admin_Editor_Specific_Replace_Vars_Double extends WPSEO_Admin_Editor_Specific_Replace_Vars {
 
 	/**
-	 * Returns the protected editor_specific_replace_vars array.
-	 *
-	 * @return array The protected editor_specific_replace_vars array.
+	 * @inheritdoc
 	 */
-	public function get_protected_editor_specific_replace_vars() {
-		return $this->replacement_variables;
+	public function add_for_page_types( array $page_types, array $replacement_variables_to_add ) {
+		parent::add_for_page_types( $page_types, $replacement_variables_to_add );
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function has_for_page_type( $page_type ) {
+		return parent::has_for_page_type( $page_type );
 	}
 }
