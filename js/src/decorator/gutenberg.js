@@ -65,13 +65,15 @@ export function decorate( paper, marks ) {
 		} );
 	} );
 
-	annotations.forEach( ( annotation ) => {
-		wp.data.dispatch( "core/editor" ).addAnnotation(
-			annotation.block,
-			annotation.startXPath,
-			annotation.startOffset,
-			annotation.endXPath,
-			annotation.endOffset,
-		);
-	} );
+	setTimeout( function() {
+		annotations.forEach( ( annotation ) => {
+			wp.data.dispatch( "core/editor" ).addAnnotation(
+				annotation.block,
+				annotation.startXPath,
+				annotation.startOffset,
+				annotation.endXPath,
+				annotation.endOffset,
+			);
+		} );
+	}, 100 );
 }

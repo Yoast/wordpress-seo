@@ -41,11 +41,16 @@ function registerStoreInGutenberg() {
  *
  * @returns {void}
  **/
-function registerPlugin() {
+function registerPlugin( store ) {
 	if ( isGutenbergDataAvailable() ) {
 		const { Fragment } = yoast._wp.element;
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
+
+		const analysis = wrapInTopLevelComponents( AnalysisSection, store, {
+			title: localizedData.analysisHeadingTitle,
+			hideMarksButtons: localizedData.show_markers !== "1",
+		} );
 
 		const YoastSidebar = () => (
 			<Fragment>
@@ -60,6 +65,7 @@ function registerPlugin() {
 					title="Yoast SEO"
 				>
 					<p> Contents of the sidebar </p>
+					{ analysis }
 				</PluginSidebar>
 			</Fragment>
 		);
@@ -208,7 +214,7 @@ export function initializeData( data, args, store ) {
 export function initialize( args ) {
 	const store = registerStoreInGutenberg();
 	if( args.shouldRenderGutenbergSidebar ) {
-		registerPlugin();
+		registerPlugin( store );
 	}
 
 	const data = initializeData( wp.data, args, store );
