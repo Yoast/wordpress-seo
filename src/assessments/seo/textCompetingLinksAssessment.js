@@ -1,77 +1,118 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
 
-var Mark = require( "../../values/Mark.js" );
-var addMark = require( "../../markers/addMark.js" );
+const Mark = require( "../../values/Mark.js" );
+const addMark = require( "../../markers/addMark.js" );
 
-var map = require( "lodash/map" );
+const map = require( "lodash/map" );
+const merge = require( "lodash/merge" );
+const isUndefined = require( "lodash/isUndefined" );
 
 /**
- * Returns a score and text based on the number of links.
- *
- * @param {object} linkStatistics The object with all linkstatistics.
- * @param {object} i18n The object used for translations
- * @returns {object} resultObject with score and text
+ * Assessment to check whether you're linking to a different page with the focus keyword from this page.
  */
-var calculateLinkCountResult = function( linkStatistics, i18n ) {
-	const url = "<a href='https://yoa.st/2pi' target='_blank'>";
+class TextCompetingLinksAssessment extends Assessment {
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {Object} config The configuration to use.
+	 *
+	 * @returns {void}
+	 */
+	constructor( config = {} ) {
+		super();
 
-	if ( linkStatistics.keyword.totalKeyword > 0 ) {
-		return {
-			score: 2,
-			hasMarks: true,
-			text: i18n.sprintf(
-				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "You're %1$slinking to another page with the focus keyword%2$s you want this page to rank for. " +
-				"Consider changing that if you truly want this page to rank." ), url, "</a>" ),
+		let defaultConfig = {
+			parameters: {
+				recommendedMaximum: 0,
+			},
+			scores: {
+				bad: 2,
+			},
+			url: "<a href='https://yoa.st/2pi' target='_blank'>",
 		};
+
+		this.identifier = "textCompetingLinks";
+		this._config = merge( defaultConfig, config );
 	}
-	return {};
-};
 
-/**
- * Runs the linkCount module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var textHasCompetingLinksAssessment = function( paper, researcher, i18n ) {
-	var linkCount = researcher.getResearch( "getLinkStatistics" );
+	/**
+	 * Runs the linkCount module, based on this returns an assessment result with score.
+	 *
+	 * @param {Object} paper The paper to use for the assessment.
+	 * @param {Object} researcher The researcher used for calling research.
+	 * @param {Object} i18n The object used for translations.
+	 *
+	 * @returns {Object} The AssessmentResult.
+	 */
+	getResult( paper, researcher, i18n ) {
+		let assessmentResult = new AssessmentResult();
 
-	var linkCountResult = calculateLinkCountResult( linkCount, i18n );
-	var assessmentResult = new AssessmentResult();
+		this.linkCount = researcher.getResearch( "getLinkStatistics" );
 
-	assessmentResult.setScore( linkCountResult.score );
-	assessmentResult.setText( linkCountResult.text );
-	assessmentResult.setHasMarks( linkCountResult.hasMarks );
+		const calculatedResult = this.calculateResult( i18n );
 
-	return assessmentResult;
-};
+		if ( isUndefined( calculatedResult ) ) {
+			return assessmentResult;
+		}
 
-/**
- * Mark the anchors.
- *
- * @param {Paper} paper The paper to use for the marking.
- * @param {Researcher} researcher The researcher to use.
- * @returns {Array} Array with all the marked anchors.
- */
-var competingLinkMarker = function( paper, researcher ) {
-	var competingLinks = researcher.getResearch( "getLinkStatistics" );
+		assessmentResult.setScore( calculatedResult.score );
+		assessmentResult.setText( calculatedResult.resultText );
+		assessmentResult.setHasMarks( true );
+		assessmentResult.setMarker( this.getMarks() );
 
-	return map( competingLinks.keyword.matchedAnchors, function( matchedAnchor ) {
-		return new Mark( {
-			original: matchedAnchor,
-			marked: addMark( matchedAnchor ),
-		} );
-	} );
-};
+		return assessmentResult;
+	}
 
-module.exports = {
-	identifier: "textCompetingLinks",
-	getResult: textHasCompetingLinksAssessment,
-	isApplicable: function( paper ) {
+	/**
+	 * Determines if the assessment is applicable to the paper.
+	 *
+	 * @param {Paper} paper The paper to check
+	 *
+	 * @returns {boolean} Whether the paper has text and a keyword
+	 */
+	isApplicable( paper ) {
 		return paper.hasText() && paper.hasKeyword();
-	},
-	getMarks: competingLinkMarker,
-};
+	}
+
+	/**
+	 * Returns a result based on the number of links.
+	 *
+	 * @param {Object} i18n The object used for translations.
+	 *
+	 * @returns {Object} ResultObject with score and text.
+	 */
+	calculateResult( i18n ) {
+		if ( this.linkCount.keyword.totalKeyword > this._config.parameters.recommendedMaximum ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: i18n.sprintf(
+					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"You're %1$slinking to another page with the focus keyword%2$s you want this page to rank for. " +
+						"Consider changing that if you truly want this page to rank."
+					),
+					this._config.url,
+					"</a>"
+				),
+			};
+		}
+	}
+
+	/**
+	 * Mark the anchors.
+	 *
+	 * @returns {Array} Array with all the marked anchors.
+	 */
+	getMarks() {
+		return map( this.linkCount.keyword.matchedAnchors, function( matchedAnchor ) {
+			return new Mark( {
+				original: matchedAnchor,
+				marked: addMark( matchedAnchor ),
+			} );
+		} );
+	}
+}
+
+module.exports = TextCompetingLinksAssessment;

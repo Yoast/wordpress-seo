@@ -7,7 +7,7 @@ const keywordStopWords = require( "./assessments/seo/keywordStopWordsAssessment.
 const MetaDescriptionKeyword = require( "./assessments/seo/metaDescriptionKeywordAssessment.js" );
 const MetaDescriptionLength = require( "./assessments/seo/metaDescriptionLengthAssessment.js" );
 const SubheadingsKeyword = require( "./assessments/seo/subheadingsKeywordAssessment.js" );
-const textCompetingLinks = require( "./assessments/seo/textCompetingLinksAssessment.js" );
+const TextCompetingLinks = require( "./assessments/seo/textCompetingLinksAssessment.js" );
 const TextImages = require( "./assessments/seo/textImagesAssessment.js" );
 const TextLength = require( "./assessments/seo/textLengthAssessment.js" );
 const OutboundLinks = require( "./assessments/seo/outboundLinksAssessment.js" );
@@ -38,7 +38,7 @@ var SEOAssessor = function( i18n, options ) {
 		new MetaDescriptionKeyword(),
 		new MetaDescriptionLength(),
 		new SubheadingsKeyword(),
-		textCompetingLinks,
+		new TextCompetingLinks(),
 		new TextImages(),
 		new TextLength(),
 		new OutboundLinks(),

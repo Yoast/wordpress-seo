@@ -8,7 +8,7 @@ let keywordStopWords = require( "../assessments/seo/keywordStopWordsAssessment.j
 let MetaDescriptionKeyword = require( "../assessments/seo/metaDescriptionKeywordAssessment.js" );
 let MetaDescriptionLength = require( "../assessments/seo/metaDescriptionLengthAssessment.js" );
 let SubheadingsKeyword = require( "../assessments/seo/subheadingsKeywordAssessment.js" );
-let textCompetingLinks = require( "../assessments/seo/textCompetingLinksAssessment.js" );
+let TextCompetingLinks = require( "../assessments/seo/textCompetingLinksAssessment.js" );
 let TextImages = require( "../assessments/seo/textImagesAssessment.js" );
 let TextLength = require( "../assessments/seo/textLengthAssessment.js" );
 let OutboundLinks = require( "../assessments/seo/outboundLinksAssessment.js" );
@@ -52,7 +52,7 @@ let CornerstoneSEOAssessor = function( i18n, options ) {
 				},
 			}
 		),
-		textCompetingLinks,
+		new TextCompetingLinks(),
 		new TextImages( {
 			scores: {
 				noImages: 3,
