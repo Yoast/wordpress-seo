@@ -20,12 +20,7 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 			'snippet' => $this->get_field_config(
 				__( 'Snippet editor', 'wordpress-seo' ),
 				'',
-				'snippetpreview',
-				array(
-					'help-button' => __( 'Show information about the snippet editor', 'wordpress-seo' ),
-					/* translators: 1: link open tag; 2: link close tag. */
-					'help'        => sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %1$sLearn more about the Snippet Preview%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/snippet-preview' ) . '">', '</a>' ),
-				)
+				'snippetpreview'
 			),
 			'focuskw' => $this->get_field_config(
 				__( 'Focus keyword', 'wordpress-seo' ),

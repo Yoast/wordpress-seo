@@ -11,4 +11,8 @@ module.exports = {
 		src: "<%= files.pot.yoastseojs %>",
 		dest: "<%= files.pot.php.yoastseojs %>",
 	},
+	wordpressSeoJs: {
+		src: "<%= files.pot.wordpressSeoJs %>",
+		dest: "<%= files.pot.php.wordpressSeoJs %>",
+	},
 };

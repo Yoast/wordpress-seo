@@ -57,8 +57,6 @@ class WPSEO_Taxonomy {
 
 		$this->insert_description_field_editor();
 
-		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
-
 		add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 	}
@@ -108,8 +106,13 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_script( 'term-scraper' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
-			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
+			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 			$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' );
+			/**
+			 * Remove the emoji script as it is incompatible with both React and any
+			 * contenteditable fields.
+			 */
+			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Utils::get_language( WPSEO_Utils::get_user_locale() ) );
@@ -197,22 +200,6 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Adds shortcode support to category descriptions.
-	 *
-	 * @param string $desc String to add shortcodes in.
-	 *
-	 * @return string
-	 */
-	public function custom_category_descriptions_add_shortcode_support( $desc ) {
-		// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
-		ob_start();
-		$desc = do_shortcode( $desc );
-		ob_end_clean();
-
-		return $desc;
-	}
-
-	/**
 	 * Pass variables to js for use with the term-scraper.
 	 *
 	 * @return array
@@ -234,9 +221,10 @@ class WPSEO_Taxonomy {
 	 */
 	public function localize_replace_vars_script() {
 		return array(
-			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
-			'replace_vars'   => $this->get_replace_vars(),
-			'scope'          => $this->determine_scope(),
+			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'             => $this->get_replace_vars(),
+			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+			'scope'                    => $this->determine_scope(),
 		);
 	}
 
@@ -302,7 +290,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Prepares the replace vars for localization.
 	 *
-	 * @return array replace vars.
+	 * @return array The replacement variables.
 	 */
 	private function get_replace_vars() {
 		$term_id = filter_input( INPUT_GET, 'tag_ID' );
@@ -317,16 +305,12 @@ class WPSEO_Taxonomy {
 			'sitedesc',
 			'sep',
 			'page',
-			'currenttime',
-			'currentdate',
-			'currentday',
-			'currentmonth',
-			'currentyear',
 			'term_title',
 			'term_description',
 			'category_description',
 			'tag_description',
 			'searchphrase',
+			'currentyear',
 		);
 
 		foreach ( $vars_to_cache as $var ) {
@@ -334,6 +318,21 @@ class WPSEO_Taxonomy {
 		}
 
 		return $cached_replacement_vars;
+	}
+
+	/**
+	 * Prepares the recommended replace vars for localization.
+	 *
+	 * @return array The recommended replacement variables.
+	 */
+	private function get_recommended_replace_vars() {
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$taxonomy                 = filter_input( INPUT_GET, 'taxonomy' );
+
+		// What is recommended depends on the current context.
+		$page_type = $recommended_replace_vars->determine_for_term( $taxonomy );
+
+		return $recommended_replace_vars->get_recommended_replacevars_for( $page_type );
 	}
 
 	/**
@@ -350,5 +349,21 @@ class WPSEO_Taxonomy {
 		}
 
 		add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
+	}
+
+	/**
+	 * Adds shortcode support to category descriptions.
+	 *
+	 * @deprecated 7.9.0
+	 *
+	 * @param string $desc String to add shortcodes in.
+	 *
+	 * @return string Content with shortcodes filtered out.
+	 */
+	public function custom_category_descriptions_add_shortcode_support( $desc ) {
+		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0', 'WPSEO_Frontend::custom_category_descriptions_add_shortcode_support' );
+
+		$frontend = WPSEO_Frontend::get_instance();
+		return $frontend->custom_category_descriptions_add_shortcode_support( $desc );
 	}
 }

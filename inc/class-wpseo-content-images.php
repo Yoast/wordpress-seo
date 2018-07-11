@@ -20,12 +20,14 @@ class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
 	/**
 	 * Removes the cached images on post save.
 	 *
+	 * @deprecated 7.7
+	 *
 	 * @param int $post_id The post id to remove the images from.
 	 *
 	 * @return void
 	 */
 	public function clear_cached_images( $post_id ) {
-		_deprecated_function( __METHOD__, '7.6.0' );
+		_deprecated_function( __METHOD__, '7.7.0' );
 	}
 
 	/**
@@ -49,9 +51,9 @@ class WPSEO_Content_Images implements WPSEO_WordPress_Integration {
 	 */
 	protected function get_images_from_content( $content ) {
 		$content_images = $this->get_img_tags_from_content( $content );
-		$images = array_map( array( $this, 'get_img_tag_source' ), $content_images );
-		$images = array_filter( $images );
-		$images = array_unique( $images );
+		$images         = array_map( array( $this, 'get_img_tag_source' ), $content_images );
+		$images         = array_filter( $images );
+		$images         = array_unique( $images );
 
 		return $images;
 	}
