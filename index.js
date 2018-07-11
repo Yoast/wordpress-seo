@@ -1,9 +1,10 @@
+import * as assessments from "./js/assessments";
+import * as helpers from "./js/helpers";
+import * as markers from "./js/markers";
+import * as string from "./js/stringProcessing";
+
 var plugins = {
 	usedKeywords: require( "./js/bundledPlugins/previouslyUsedKeywords" )
-};
-
-var helpers = {
-	scoreToRating: require( "./js/interpreters/scoreToRating" )
 };
 
 module.exports = {
@@ -19,5 +20,9 @@ module.exports = {
 	AssessmentResult: require( "./js/values/AssessmentResult" ),
 
 	bundledPlugins: plugins,
-	helpers: helpers
+
+	helpers,
+	assessments,
+	markers,
+	string,
 };
