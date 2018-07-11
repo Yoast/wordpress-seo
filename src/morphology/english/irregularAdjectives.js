@@ -4,4 +4,5 @@ module.exports = [
 	[ "far", "further", "father", "furthest", "farthest" ],
 	[ "little", "less", "least" ],
 	[ "many", "much", "more", "most" ],
+	[ "bitter", "bitterer", "bitterest" ],
 ];
