@@ -40,9 +40,10 @@ const StyledIconsButton = styled( IconsButton )`
 	span {
 		margin: 8px 0;
 		word-wrap: break-word;
-		font-size: 1.25em;
+		font-size: 1em;
 		line-height: 1.25;
 		font-weight: inherit;
+		color: ${ colors.$palette_blue_medium }
 	}
 `;
 

@@ -43,7 +43,6 @@ const StyledTitle = styled.span`
 	flex-grow: 1;
 	font-size: 1.03em;
 	font-weight: 600;
-	color: ${ colors.$palette_blue_medium }
 `;
 
 /**
