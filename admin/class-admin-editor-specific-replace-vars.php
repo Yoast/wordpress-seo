@@ -25,7 +25,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		'post_tag'                 => array( 'term_title', 'term_description', 'tag_description' ),
 		'post_format'              => array(),
 		// Custom taxonomy.
-		'term-in-custom-taxomomy'  => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
+		'term-in-custom-taxonomy'  => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
 
 		// Settings - archive pages.
 		'custom-post-type_archive' => array(),
@@ -65,26 +65,28 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		);
 
 		if ( ! is_array( $replacement_variables ) ) {
-			return $this->replacement_variables;
+			$replacement_variables = $this->replacement_variables;
 		}
 
-		return $replacement_variables;
+		return array_filter( $replacement_variables, 'is_array' );
 	}
 
 	/**
-	 * Retrieves the shared replacement variable names.
+	 * Retrieves the generic replacement variable names.
 	 *
 	 * Which are the replacement variables without the editor specific ones.
 	 *
-	 * @param array $replacement_variables Possibly shared replacement variables.
+	 * @param array $replacement_variables Possibly generic replacement variables.
 	 *
-	 * @return array The shared replacement variable names.
+	 * @return array The generic replacement variable names.
 	 */
-	public function get_shared( $replacement_variables ) {
-		return array_diff(
+	public function get_generic( $replacement_variables ) {
+		$shared_variables = array_diff(
 			$this->extract_names( $replacement_variables ),
-			$this->extract_names( $this->get() )
+			$this->get_unique_replacement_variables()
 		);
+
+		return array_values( $shared_variables );
 	}
 
 	/**
@@ -100,7 +102,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 			return $taxonomy;
 		}
 
-		return 'term-in-custom-taxomomy';
+		return 'term-in-custom-taxonomy';
 	}
 
 	/**
@@ -160,15 +162,20 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	/**
 	 * Adds the replavement variables for the given page types.
 	 *
-	 * @param array $page_types            Page types to add variables for.
-	 * @param array $replacement_variables The variables to add.
+	 * @param array $page_types                   Page types to add variables for.
+	 * @param array $replacement_variables_to_add The variables to add.
 	 *
 	 * @return void
 	 */
-	protected function add_for_page_types( array $page_types, array $replacement_variables ) {
-		$replacement_variables = array_fill_keys( $page_types, $replacement_variables );
+	protected function add_for_page_types( array $page_types, array $replacement_variables_to_add ) {
+		if ( empty( $replacement_variables_to_add ) ) {
+			return;
+		}
 
-		$this->replacement_variables = array_merge( $this->replacement_variables, $replacement_variables );
+		$replacement_variables_to_add = array_fill_keys( $page_types, $replacement_variables_to_add );
+		$replacement_variables        = $this->replacement_variables;
+
+		$this->replacement_variables = array_merge_recursive( $replacement_variables, $replacement_variables_to_add );
 	}
 
 	/**
@@ -199,9 +206,20 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 *
 	 * @return bool True if there are associated editor specific replace vars.
 	 */
-	private function has_for_page_type( $page_type ) {
+	protected function has_for_page_type( $page_type ) {
 		$replacement_variables = $this->get();
 
 		return ( ! empty( $replacement_variables[ $page_type ] ) && is_array( $replacement_variables[ $page_type ] ) );
+	}
+
+	/**
+	 * Merges all editor specific replacement variables into one array and removes duplicates.
+	 *
+	 * @return array The list of unique editor specific replacement variables.
+	 */
+	protected function get_unique_replacement_variables() {
+		$merged_replacement_variables = call_user_func_array( 'array_merge', $this->get() );
+
+		return array_unique( $merged_replacement_variables );
 	}
 }
