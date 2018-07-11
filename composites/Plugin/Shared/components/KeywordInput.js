@@ -17,7 +17,7 @@ const YoastKeywordInput = styled.div`
 `;
 
 const KeywordFieldLabel = styled.label`
-	font-size: 1.1em;
+	font-size: 1em;
 	font-weight: bold;
 	margin-bottom: 0.5em;
 `;
@@ -153,8 +153,8 @@ KeywordInput.propTypes = keywordInputPropType;
 
 KeywordInput.defaultProps = {
 	id: uniqueId( "yoast-keyword-input-" ),
-	showLabel: false,
-	keyword: "",
+	showLabel: true,
+	label: "Focus keyword:",
 };
 
 export default KeywordInput;

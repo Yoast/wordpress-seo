@@ -83,8 +83,8 @@ export default function SeoAnalysisExample() {
 					],
 				} }
 				keywordInput={ {
-					label: "Enter a focus keyword:",
-					showLabel: false,
+					label: "Focus keyword:",
+					showLabel: true,
 					keyword: "Mountaineering in the catskills during high season.",
 				} }
 				contentAnalysis={ {

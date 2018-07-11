@@ -9,14 +9,9 @@ import HelpText, { helpTextPropType } from "../../Shared/components/HelpText";
 import KeywordInput, { keywordInputPropType } from "../../Shared/components/KeywordInput";
 import ContentAnalysis, { contentAnalysisPropType } from "./ContentAnalysis";
 
-const KeywordFieldLabel = styled.label`
-	font-weight: bold;
-	font-size: 13px; 
-`;
-
 const SeoResultsSubheading = styled.h3`
 	font-weight: bold;
-	font-size: 13px; 
+	font-size: 1em; 
 `;
 
 export default class SeoAnalysis extends PureComponent {
@@ -48,7 +43,6 @@ export default class SeoAnalysis extends PureComponent {
 		return (
 			<Fragment>
 				<HelpText { ...helpText } />
-				<KeywordFieldLabel> { __( "Focus keyword:" ) } </KeywordFieldLabel>
 				<KeywordInput { ...keywordInput } />
 				<SeoResultsSubheading>{ __( "Analysis results:" ) }</SeoResultsSubheading>
 				<ContentAnalysis { ...contentAnalysis } />
