@@ -71,8 +71,16 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 	public function get_submenu_pages() {
 		global $wpseo_admin;
 
-		/** WPSEO_Admin $wpseo_admin */
-		$admin_features = $wpseo_admin->get_admin_features();
+		$search_console_cb       = null;
+		$search_console_hook_cbs = null;
+
+		// Account for when the available submenu pages are requested from outside the admin.
+		if ( isset( $wpseo_admin ) ) {
+			$admin_features = $wpseo_admin->get_admin_features();
+
+			$search_console_cb       = array( $admin_features['google_search_console'], 'display' );
+			$search_console_hook_cbs = array( array( $admin_features['google_search_console'], 'set_help' ) );
+		}
 
 		// Submenu pages.
 		$submenu_pages = array(
@@ -81,8 +89,8 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 			$this->get_submenu_page(
 				__( 'Search Console', 'wordpress-seo' ),
 				'wpseo_search_console',
-				array( $admin_features['google_search_console'], 'display' ),
-				array( array( $admin_features['google_search_console'], 'set_help' ) )
+				$search_console_cb,
+				$search_console_hook_cbs
 			),
 			$this->get_submenu_page( __( 'Social', 'wordpress-seo' ), 'wpseo_social' ),
 			$this->get_submenu_page( __( 'Tools', 'wordpress-seo' ), 'wpseo_tools' ),
