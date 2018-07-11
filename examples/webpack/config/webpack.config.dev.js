@@ -130,6 +130,13 @@ module.exports = {
 							name: 'static/media/[name].[hash:8].[ext]',
 						},
 					},
+					// "worker" loader registers worker scripts as Web Workers.
+					{
+						test: /\.worker\.js$/,
+						use: {
+							loader: 'worker-loader',
+						},
+					},
 					// Process JS with Babel.
 					{
 						test: /\.(js|jsx|mjs)$/,

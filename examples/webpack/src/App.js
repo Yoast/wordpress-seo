@@ -3,21 +3,42 @@ import React from 'react';
 import './App.css';
 import Input from "./components/Input";
 import TextArea from "./components/TextArea";
+import Button from "./components/Button";
+import AnalysisWorker from "./analysis.worker";
 
 class App extends React.Component {
+	constructor( props ) {
+		super( props );
+
+		this.analysisWorker = AnalysisWorker();
+		this.analysisWorker.onmessage = event => console.log( "Worker message", event.data );
+		this.analysisWorker.onmessageerror = event => console.log( "Worker message error", event );
+		this.analysisWorker.onerror = event => console.log( "Worker error", event );
+		this.analyze = this.analyze.bind( this );
+	}
+
+	analyze() {
+		this.analysisWorker.postMessage( {
+			type: "analyze",
+			payload: "test",
+		} );
+	}
+
 	render() {
 		return (
 			<div className="App">
 				<div className="content-sidebar-wrap">
 					<div id="input" className="form-container">
 						<div id="inputForm" className="inputForm">
+							<Button onClick={ this.analyze }>Analyze</Button>
+
 							<Input id="locale" label="Locale" placeholder="en_US" />
 							<TextArea id="content" label="Text" placeholder="Start writing your text!" />
 							<Input id="focusKeyword" label="Focus keyword" placeholder="Choose a focus keyword" />
 							<Input id="synonyms" label="Synonyms" placeholder="Choose synonyms" />
 							<Input id="premium" label="Premium" type="checkbox" />
 
-							<button type="button" id="refresh-analysis">Refresh!</button>
+							<Button id="refresh-analysis">Refresh!</Button>
 						</div>
 						<form id="snippetForm" className="snippetForm">
 							<label>Snippet Preview</label>

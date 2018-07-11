@@ -1,7 +1,46 @@
 import React from "react";
 import PropTypes from "prop-types";
+import isFunction from "lodash/isFunction";
 
 class Input extends React.PureComponent {
+	/**
+	 * Initializes the Input component
+	 *
+	 * @param {Object}   props             The component's props.
+	 * @param {string}   props.id          The id of the input.
+	 * @param {string}   props.type        The type of the input.
+	 * @param {string}   props.placeholder The placeholder of the input.
+	 * @param {string}   props.label       The label in front of the input.
+	 * @param {function} props.onChange    Callback to receive the new text.
+	 *
+	 * @returns {void}
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.handleChange = this.handleChange.bind( this );
+	}
+
+	/**
+	 * Calls the onChange prop with the changed text.
+	 *
+	 * @param {Event} event The input change event.
+	 *
+	 * @returns {void}
+	 */
+	handleChange( event ) {
+		const { onChange } = this.props;
+
+		if ( isFunction( onChange ) ) {
+			onChange( event.target.value );
+		}
+	}
+
+	/**
+	 * Renders the Input component.
+	 *
+	 * @returns {void}
+	 */
 	render() {
 		const { id, type, label, placeholder } = this.props;
 
@@ -13,6 +52,7 @@ class Input extends React.PureComponent {
 					id={ id }
 					name={ id }
 					placeholder={ placeholder }
+					onChange={ this.handleChange }
 				/>
 			</React.Fragment>
 		);
@@ -24,6 +64,7 @@ Input.propTypes = {
 	type: PropTypes.string,
 	placeholder: PropTypes.string,
 	label: PropTypes.string,
+	onChange: PropTypes.func,
 };
 
 Input.defaultProps = {
