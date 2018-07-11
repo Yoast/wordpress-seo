@@ -90,17 +90,6 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	}
 
 	/**
-	 * Merges all editor specific replacement variables into one array and removes duplicates.
-	 *
-	 * @return array The list of unique editor specific replacement variables.
-	 */
-	public function get_unique_replacement_variables() {
-		$merged_replacement_variables = call_user_func_array( 'array_merge', $this->get() );
-
-		return array_unique( $merged_replacement_variables );
-	}
-
-	/**
 	 * Determines the page type of the current term.
 	 *
 	 * @param string $taxonomy The taxonomy name.
@@ -179,9 +168,14 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 	 * @return void
 	 */
 	protected function add_for_page_types( array $page_types, array $replacement_variables_to_add ) {
-		$replacement_variables_to_add = array_fill_keys( $page_types, $replacement_variables_to_add );
+		if ( empty( $replacement_variables_to_add ) ) {
+			return;
+		}
 
-		$this->replacement_variables = array_merge( $replacement_variables_to_add, $this->replacement_variables );
+		$replacement_variables_to_add = array_fill_keys( $page_types, $replacement_variables_to_add );
+		$replacement_variables        = $this->replacement_variables;
+
+		$this->replacement_variables = array_merge_recursive( $replacement_variables, $replacement_variables_to_add );
 	}
 
 	/**
@@ -216,5 +210,16 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		$replacement_variables = $this->get();
 
 		return ( ! empty( $replacement_variables[ $page_type ] ) && is_array( $replacement_variables[ $page_type ] ) );
+	}
+
+	/**
+	 * Merges all editor specific replacement variables into one array and removes duplicates.
+	 *
+	 * @return array The list of unique editor specific replacement variables.
+	 */
+	protected function get_unique_replacement_variables() {
+		$merged_replacement_variables = call_user_func_array( 'array_merge', $this->get() );
+
+		return array_unique( $merged_replacement_variables );
 	}
 }
