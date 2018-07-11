@@ -1,10 +1,15 @@
-import React from 'react';
+// External dependencies.
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
+// Internal dependencies.
 import './App.css';
 import Input from "./components/Input";
 import TextArea from "./components/TextArea";
 import Button from "./components/Button";
 import AnalysisWorker from "./analysis/AnalysisWorker";
+import { setPaper, setPaperAttribute } from "./redux/actions/paper";
 
 class App extends React.Component {
 	constructor( props ) {
@@ -25,29 +30,25 @@ class App extends React.Component {
 	}
 
 	render() {
+		const { actions } = this.props;
+
 		return (
-			<div className="App">
-				<div className="content-sidebar-wrap">
-					<div id="input" className="form-container">
-						<div id="inputForm" className="inputForm">
-							<h2>Analysis Worker</h2>
+			<div className="app">
+				<div className="left-container">
+					<div className="form-container">
+						<h2>Analysis Worker</h2>
+						<div className="button-container">
 							<Button onClick={ this.initialize }>Initialize</Button>
 							<Button onClick={ this.analyze }>Analyze</Button>
-
-							<Input id="locale" label="Locale" placeholder="en_US" />
-							<TextArea id="content" label="Text" placeholder="Start writing your text!" />
-							<Input id="focusKeyword" label="Focus keyword" placeholder="Choose a focus keyword" />
-							<Input id="synonyms" label="Synonyms" placeholder="Choose synonyms" />
-							<Input id="premium" label="Premium" type="checkbox" />
-
-							<Button id="refresh-analysis">Refresh!</Button>
 						</div>
-						<form id="snippetForm" className="snippetForm">
-							<label>Snippet Preview</label>
-							<div id="snippet" className="output"></div>
-						</form>
+
+						<Input id="locale" label="Locale" placeholder="en_US" onChange={ value => actions.setPaperAttribute( "locale", value ) } />
+						<TextArea id="content" label="Text" placeholder="Start writing your text!" onChange={ value => actions.setPaperAttribute( "text", value ) } />
+						<Input id="focusKeyword" label="Focus keyword" placeholder="Choose a focus keyword" onChange={ value => actions.setPaperAttribute( "keyword", value ) } />
+						<Input id="synonyms" label="Synonyms" placeholder="Choose synonyms" onChange={ value => actions.setPaperAttribute( "synonyms", value ) } />
+						<Input id="premium" label="Premium" type="checkbox" onChange={ value => actions.setPaperAttribute( "premium", value ) } />
 					</div>
-					<div id="output-container" className="output-container">
+					<div className="output-container">
 						<p>This is what the page might look like on a Google search result page.</p>
 
 						<p>Edit the SEO title and meta description by clicking the title and meta description!</p>
@@ -61,7 +62,7 @@ class App extends React.Component {
 						</div>
 					</div>
 				</div>
-				<div className="overallScore-container">
+				<div className="right-container">
 					<h2>The SEO score</h2>
 
 					<p>This is the overall score for the text and snippet preview.</p>
@@ -110,4 +111,31 @@ class App extends React.Component {
 	}
 }
 
-export default App;
+/**
+ * Maps state to props.
+ *
+ * @param {Object} state The store's state.
+ *
+ * @returns {Object} Selection from the state.
+ */
+function mapStateToProps( state ) {
+	return state;
+}
+
+/**
+ * Maps dispatch to props.
+ *
+ * @param {function} dispatch The store's dispatch.
+ *
+ * @returns {Object} Dispatch actions.
+ */
+function mapDispatchToProps( dispatch ) {
+	return {
+		actions: bindActionCreators( {
+			setPaper,
+			setPaperAttribute,
+		}, dispatch ),
+	};
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( App );

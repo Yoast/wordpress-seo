@@ -47,7 +47,12 @@ class TextArea extends React.PureComponent {
 		return (
 			<React.Fragment>
 				<label htmlFor={ id }>{ label }</label>
-				<textarea id={ id } name={ id } placeholder={ placeholder }/>
+				<textarea
+					id={ id }
+					name={ id }
+					placeholder={ placeholder }
+					onChange={ this.handleChange }
+				/>
 			</React.Fragment>
 		);
 	}

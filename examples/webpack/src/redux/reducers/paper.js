@@ -1,5 +1,6 @@
 import {
 	SET_PAPER,
+	SET_PAPER_ATTRIBUTE,
 } from "../actions/paper";
 
 const INITIAL_STATE = {};
@@ -16,6 +17,12 @@ function paper( state = INITIAL_STATE, action ) {
 	switch( action.type ) {
 		case SET_PAPER:
 			return action.paper;
+
+		case SET_PAPER_ATTRIBUTE:
+			return {
+				...state,
+				[ action.name ]: action.value,
+			};
 
 		default:
 			return state;

@@ -29,10 +29,17 @@ class Input extends React.PureComponent {
 	 * @returns {void}
 	 */
 	handleChange( event ) {
-		const { onChange } = this.props;
+		const { type, onChange } = this.props;
 
 		if ( isFunction( onChange ) ) {
-			onChange( event.target.value );
+			let name = "value";
+
+			// Exception for a checkbox.
+			if ( type === "checkbox" ) {
+				name = "checked";
+			}
+
+			onChange( event.target[ name ] );
 		}
 	}
 

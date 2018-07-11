@@ -1,66 +1,53 @@
-.App {
+.app {
 	display: flex;
 	align-content: space-between;
 }
 
-.content-sidebar-wrap {
+.left-container {
 	flex: 1;
 	padding: 20px 10px 20px 20px;
 }
 
-.overallScore-container {
+.right-container {
 	flex: 1;
 	padding: 20px 20px 20px 10px;
 }
 
-#snippet_preview {
-	min-width: 600px;
+.form-container {
+	display: flex;
+	flex-direction: column;
 }
 
-.inputForm {
-	margin-bottom: 16px;
-}
-
-#refresh-analysis {
-	margin-top: 8px;
-}
-
-.inputForm label {
-	width: 100%;
+.form-container label {
 	color: #777;
 	line-height: 20px;
 	text-transform: capitalize;
 }
 
-.inputForm input {
+.form-container input {
 	line-height: 20px;
 	margin: 5px 0;
 }
 
-.inputForm textarea {
+.form-container textarea {
 	height: 400px;
-	margin: 5px 0;
-	float: left;
 }
 
-.inputForm input,
-.inputForm textarea {
-	width: 100%;
+.form-container input,
+.form-container textarea {
 	padding: 5px;
 	margin: 5px 5px 5px 0;
-	font-size: 14px;
-	display: block
 }
 
-.inputForm label {
+.form-container label {
 	display: block;
 	font-size: 14px;
 	padding-top: 10px;
 	font-weight: bold;
-	vertical-align: text-bottom
+	vertical-align: text-bottom;
 }
 
-.inputForm button {
+.form-container button {
 	padding: 8px;
 }
 
