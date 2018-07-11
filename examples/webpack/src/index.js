@@ -1,7 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
 import './index.css';
 import App from './App';
+import configureStore from "./redux/utils/store";
+import { renderReactApp } from "./redux/utils/render";
 
-ReactDOM.render( <App/>, document.getElementById( 'root' ) );
+const store = configureStore();
+const targetElement = document.getElementById( "root" );
+
+renderReactApp( targetElement, App, store );
