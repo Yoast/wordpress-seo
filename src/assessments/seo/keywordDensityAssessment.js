@@ -23,53 +23,58 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount
 	var score, text, max;
 	var roundedKeywordDensity = formatNumber( keywordDensity );
 	var keywordDensityPercentage = roundedKeywordDensity + "%";
+	const url = "<a href='https://yoa.st/2pe' target='_blank'>";
 
 	if ( roundedKeywordDensity > 3.5 ) {
 		score = -50;
 
-		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
-		%3$s expands to the maximum keyword density percentage. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
-			" which is way over the advised %3$s maximum;" +
-			" the focus keyword was found %2$d times." );
+		/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+		%3$s expands to the keyword density percentage, %4$d expands to the keyword count,
+		%5$s expands to the maximum keyword density percentage. */
+		text = i18n.dgettext( "js-text-analysis", "The %1$skeyword density%2$s is %3$s," +
+			" which is way over the advised %5$s maximum;" +
+			" the focus keyword was found %4$d times." );
 
 		max = "2.5%";
 
-		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
+		text = i18n.sprintf( text, url, "</a>", keywordDensityPercentage, keywordCount, max );
 	}
 
 	if ( inRangeEndInclusive( roundedKeywordDensity, 2.5, 3.5 ) ) {
 		score = -10;
 
-		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
-		%3$s expands to the maximum keyword density percentage. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
-			" which is over the advised %3$s maximum;" +
-			" the focus keyword was found %2$d times." );
+		/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+		%3$s expands to the keyword density percentage, %4$d expands to the keyword count,
+		%5$s expands to the maximum keyword density percentage. */
+		text = i18n.dgettext( "js-text-analysis", "The %1$skeyword density%2$s is %3$s," +
+			" which is over the advised %5$s maximum;" +
+			" the focus keyword was found %4$d times." );
 
 		max = "2.5%";
 
-		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
+		text = i18n.sprintf( text, url, "</a>", keywordDensityPercentage, keywordCount, max );
 	}
 
 	if ( inRangeStartEndInclusive( roundedKeywordDensity, 0.5, 2.5 ) ) {
 		score = 9;
 
-		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is great;" +
-			" the focus keyword was found %2$d times." );
+		/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+		%3$s expands to the keyword density percentage, %4$d expands to the keyword count. */
+		text = i18n.dgettext( "js-text-analysis", "The %1$skeyword density%2$s is %3$s, which is great;" +
+			" the focus keyword was found %4$d times." );
 
-		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount );
+		text = i18n.sprintf( text, url, "</a>", keywordDensityPercentage, keywordCount );
 	}
 
 	if ( inRangeStartInclusive( roundedKeywordDensity, 0, 0.5 ) ) {
 		score = 4;
 
-		/* Translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
-		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is too low;" +
-			" the focus keyword was found %2$d times." );
+		/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+		%3$s expands to the keyword density percentage, %4$d expands to the keyword count. */
+		text = i18n.dgettext( "js-text-analysis", "The %1$skeyword density%2$s is %3$s, which is too low;" +
+			" the focus keyword was found %4$d times." );
 
-		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount );
+		text = i18n.sprintf( text, url, "</a>", keywordDensityPercentage, keywordCount );
 	}
 
 	return {
