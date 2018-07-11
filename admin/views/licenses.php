@@ -110,7 +110,7 @@ $extensions->add(
 );
 
 // Add Yoast WooCommerce SEO when WooCommerce is active.
-if ( class_exists( 'Woocommerce' ) ) {
+if ( WPSEO_Utils::is_woocommerce_active() ) {
 	$extensions->add(
 		'wpseo-woocommerce',
 		new WPSEO_Extension(

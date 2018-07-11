@@ -60,9 +60,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public static function translate_meta_boxes() {
 		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet editor', 'wordpress-seo' );
-		/* translators: 1: link open tag; 2: link close tag. */
-		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. %1$sLearn more about the Snippet Preview%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . WPSEO_Shortlinker::get( 'https://yoa.st/snippet-preview' ) . '">', '</a>' );
-		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
 
 		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Analysis', 'wordpress-seo' );
 		/* translators: 1: link open tag; 2: link close tag. */
@@ -257,9 +254,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function localize_replace_vars_script() {
 		return array(
-			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
-			'replace_vars'   => $this->get_replace_vars(),
-			'scope'          => $this->determine_scope(),
+			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'             => $this->get_replace_vars(),
+			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+			'scope'                    => $this->determine_scope(),
 		);
 	}
 
@@ -598,6 +596,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<label for="' . $esc_form_key . '" class="screen-reader-text">' . esc_html( $meta_field_def['label'] ) . '</label>';
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" autocomplete="off" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/>';
 
+				if ( WPSEO_UTILS::is_yoast_seo_premium() === false ) {
+					$button = new WPSEO_Metabox_Keyword_Synonyms_Button();
+					$content .= $button->get_link();
+				}
+
 				if ( WPSEO_Options::get( 'enable_cornerstone_content', false ) ) {
 					$cornerstone_field = new WPSEO_Cornerstone_Field();
 
@@ -901,8 +904,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
-		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' );
+		/**
+		 * Remove the emoji script as it is incompatible with both React and any
+		 * contenteditable fields.
+		 */
+		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
@@ -985,10 +993,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'sitedesc',
 			'sep',
 			'page',
-			'currenttime',
-			'currentdate',
-			'currentday',
-			'currentmonth',
 			'currentyear',
 		);
 
@@ -998,6 +1002,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		// Merge custom replace variables with the WordPress ones.
 		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $post ) );
+	}
+
+	/**
+	 * Prepares the recommended replace vars for localization.
+	 *
+	 * @return array Recommended replacement variables.
+	 */
+	private function get_recommended_replace_vars() {
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$post                     = $this->get_metabox_post();
+
+		// What is recommended depends on the current context.
+		$post_type = $recommended_replace_vars->determine_for_post( $post );
+
+		return $recommended_replace_vars->get_recommended_replacevars_for( $post_type );
 	}
 
 	/**

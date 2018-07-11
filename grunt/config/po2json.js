@@ -8,6 +8,7 @@ module.exports = {
 		src: [
 			"<%= files.pot.yoastseojs %>",
 			"<%= files.pot.yoastComponents %>",
+			"<%= files.pot.wordpressSeoJs %>",
 		],
 		dest: "languages",
 	},

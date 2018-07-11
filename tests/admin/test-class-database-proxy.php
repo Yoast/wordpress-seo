@@ -36,16 +36,23 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 				'PRIMARY KEY (id)',
 			)
 		);
-		self::$proxy->insert(
-			array(
-				'testkey' => 'key1',
-				'testval' => 'value1',
-			),
-			array( '%s', '%s' )
-		);
 
 		$installer = new WPSEO_Link_Installer();
 		$installer->install();
+	}
+
+	/**
+	 * Truncates the table before each test.
+	 *
+	 * @return void
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		global $wpdb;
+
+		$tablename = self::$proxy->get_table_name();
+		$wpdb->query( "TRUNCATE TABLE $tablename" );
 	}
 
 	/**
@@ -84,6 +91,14 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Database_Proxy::insert()
 	 */
 	public function test_insert_exists() {
+		self::$proxy->insert(
+			array(
+				'testkey' => 'key2',
+				'testval' => 'value2',
+			),
+			array( '%s', '%s' )
+		);
+
 		$result = self::$proxy->insert(
 			array(
 				'id'      => 1,
@@ -118,12 +133,20 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Database_Proxy::update()
 	 */
 	public function test_update() {
-		$result = self::$proxy->update(
+		self::$proxy->insert(
 			array(
+				'testkey' => 'key2',
 				'testval' => 'value2',
 			),
+			array( '%s', '%s' )
+		);
+
+		$result = self::$proxy->update(
 			array(
-				'testkey' => 'key1',
+				'testval' => 'value3',
+			),
+			array(
+				'testkey' => 'key2',
 			),
 			array( '%s' ),
 			array( '%s' )
@@ -187,8 +210,7 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 			array(
 				'id' => 2,
 			),
-			array( '%d', '%s', '%s' ),
-			array( '%d' )
+			array( '%d', '%s', '%s' )
 		);
 
 		$this->assertSame( 1, $result );
@@ -200,20 +222,48 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Database_Proxy::upsert()
 	 */
 	public function test_upsert_existing() {
-		$result = self::$proxy->upsert(
+		self::$proxy->insert(
 			array(
-				'id'      => 1,
-				'testkey' => 'key2',
-				'testval' => 'value2',
+				'id'      => 10,
+				'testkey' => 'key10',
+				'testval' => 'value10-1',
 			),
-			array(
-				'id' => 1,
-			),
-			array( '%d', '%s', '%s' ),
-			array( '%d' )
+			array( '%d', '%s', '%s' )
 		);
 
-		$this->assertSame( 1, $result );
+		$result = self::$proxy->upsert(
+			array(
+				'id'      => 10,
+				'testkey' => 'key10',
+				'testval' => 'value10-2',
+			),
+			array(
+				'id' => 10,
+			),
+			array( '%d', '%s', '%s' )
+		);
+
+		/**
+		 * The result of Upsert is the number of affected rows.
+		 * As it internally does an Insert and then an Update, it will count as 2 rows.
+		 *
+		 * @see https://dev.mysql.com/doc/refman/8.0/en/insert-on-duplicate.html
+		 * "With ON DUPLICATE KEY UPDATE, the affected-rows value per row is 1 if the row is inserted as a new row and 2 if an existing row is updated."
+		 */
+		$this->assertSame( 2, $result );
+
+		// Verify the data has been set as expected.
+		$table_name = self::$proxy->get_table_name();
+		$results    = self::$proxy->get_results( "SELECT * FROM $table_name WHERE testkey = 'key10'" );
+
+		$this->assertEquals(
+			(object) array(
+				'id'      => 10,
+				'testkey' => 'key10',
+				'testval' => 'value10-2',
+			),
+			$results[0]
+		);
 	}
 
 	/**
@@ -222,6 +272,14 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Database_Proxy::delete()
 	 */
 	public function test_delete() {
+		self::$proxy->insert(
+			array(
+				'testkey' => 'key1',
+				'testval' => 'value',
+			),
+			array( '%s', '%s' )
+		);
+
 		$result = self::$proxy->delete(
 			array(
 				'testkey' => 'key1',
@@ -272,13 +330,21 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	public function test_get_results() {
 		$table_name = self::$proxy->get_table_name();
 
+		self::$proxy->insert(
+			array(
+				'testkey' => 'key1',
+				'testval' => 'value',
+			),
+			array( '%s', '%s' )
+		);
+
 		$result = self::$proxy->get_results( "SELECT * FROM $table_name WHERE testkey = 'key1'" );
 
 		$expected = array(
 			(object) array(
 				'id'      => 1,
 				'testkey' => 'key1',
-				'testval' => 'value1',
+				'testval' => 'value',
 			),
 		);
 
