@@ -1,3 +1,10 @@
+### 7.9.0: July 24th, 2018
+Bugfixes:
+* Fixes a bug where the prominent words for attachments can't be indexed when the attachment has an other post status than trash, inherit or private.
+
+Other:
+* Includes every change in Yoast SEO core 7.9.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
+
 ### 7.8.0: July 10th, 2018
 Enhancements:
 * Shows a notification regarding the creation of redirects when deleting a category or tag.
