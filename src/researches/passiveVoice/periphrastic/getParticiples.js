@@ -1,5 +1,6 @@
-const getWords = require( "../../../stringProcessing/getWords.js" );
+let forEach = require( "lodash/forEach" );
 
+const getWords = require( "../../../stringProcessing/getWords.js" );
 const matchParticiples = require( "./matchParticiples" )();
 const regularParticipleRegex = matchParticiples.regularParticiples;
 const irregularParticipleRegex = matchParticiples.irregularParticiples;
@@ -9,8 +10,6 @@ const FrenchParticiple = require( "../../french/passiveVoice/FrenchParticiple.js
 const SpanishParticiple = require( "../../spanish/passiveVoice/SpanishParticiple.js" );
 const ItalianParticiple = require( "../../italian/passiveVoice/ItalianParticiple.js" );
 const DutchParticiple = require( "../../dutch/passiveVoice/DutchParticiple.js" );
-
-let forEach = require( "lodash/forEach" );
 
 /**
  * Creates participle objects for the participles found in a sentence part.
@@ -58,6 +57,5 @@ module.exports = function( sentencePartText, auxiliaries, language ) {
 			}
 		}
 	} );
-	console.log( "foundParticiples", foundParticiples );
 	return foundParticiples;
 };

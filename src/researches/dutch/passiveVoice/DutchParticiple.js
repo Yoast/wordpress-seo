@@ -27,9 +27,9 @@ require( "util" ).inherits( DutchParticiple, Participle );
  * @returns {boolean} Returns true if no exception is found.
  */
 DutchParticiple.prototype.isPassive = function() {
-	let sentencePart = this.getSentencePart();
-	let participleIndex = sentencePart.indexOf( this.getParticiple() );
-	let language = this.getLanguage();
+	const sentencePart = this.getSentencePart();
+	const participleIndex = sentencePart.indexOf( this.getParticiple() );
+	const language = this.getLanguage();
 
 	return ! this.isOnNonParticiplesList() &&
 		! this.hasNonParticipleEnding() &&

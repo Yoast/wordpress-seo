@@ -346,7 +346,6 @@ let getSentenceParts = function( sentence, language ) {
 			sentenceParts.push( new SentencePart( sentencePart, auxiliaryMatches ) );
 		}
 	}
-	console.log( "sentenceParts", sentenceParts );
 	return sentenceParts;
 };
 
