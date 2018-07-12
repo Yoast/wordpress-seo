@@ -55,6 +55,7 @@ exports[`the BaseLinkButton matches the snapshot 1`] = `
 }
 
 .c3:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -139,6 +140,7 @@ exports[`the LinkButton matches the snapshot 1`] = `
 }
 
 .c4:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );

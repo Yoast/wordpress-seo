@@ -109,6 +109,7 @@ export function addHoverStyle( component ) {
 export function addActiveStyle( component ) {
 	return styled( component )`
 		&:active {
+			color: ${ props => props.activeColor };
 			background-color: ${ props => props.activeBackgroundColor };
 			border-color: ${ props => props.activeBorderColor };
 			box-shadow: inset 0 2px 5px -3px ${ rgba( colors.$color_button_border_active, 0.5 ) };
@@ -172,6 +173,7 @@ BaseButton.propTypes = {
 	hoverColor: PropTypes.string,
 	hoverBackgroundColor: PropTypes.string,
 	hoverBorderColor: PropTypes.string,
+	activeColor: PropTypes.string,
 	activeBackgroundColor: PropTypes.string,
 	activeBorderColor: PropTypes.string,
 	focusColor: PropTypes.string,
@@ -188,6 +190,7 @@ BaseButton.defaultProps = {
 	hoverColor: colors.$color_button_text_hover,
 	hoverBackgroundColor: colors.$color_button_hover,
 	hoverBorderColor: colors.$color_button_border_hover,
+	activeColor: colors.$color_button_text_hover,
 	activeBackgroundColor: colors.$color_button,
 	activeBorderColor: colors.$color_button_border_hover,
 	focusColor: colors.$color_button_text_hover,

@@ -66,6 +66,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
 }
 
 .c7:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -275,6 +276,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
 }
 
 .c7:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -461,6 +463,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
 }
 
 .c7:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -647,6 +650,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
 }
 
 .c7:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -856,6 +860,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
 }
 
 .c7:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -1065,6 +1070,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
 }
 
 .c7:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );

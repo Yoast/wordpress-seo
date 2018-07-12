@@ -25,6 +25,7 @@ test( "the IconLabelledButton with props matches the snapshot", () => {
 			hoverColor="#fff"
 			hoverBackgroundColor="#a4286a"
 			hoverBorderColor="#f00"
+			activeColor="#fff"
 			activeBackgroundColor="#a4286a"
 			activeBorderColor="#a4286a"
 			focusColor="#a4286a"

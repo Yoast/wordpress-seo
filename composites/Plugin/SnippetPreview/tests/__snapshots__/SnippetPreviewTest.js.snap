@@ -78,6 +78,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -439,6 +440,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -803,6 +805,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -1155,6 +1158,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -1533,6 +1537,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -1897,6 +1902,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -2273,6 +2279,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -2634,6 +2641,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -3007,6 +3015,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -3380,6 +3389,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -3753,6 +3763,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -4126,6 +4137,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -4499,6 +4511,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -4872,6 +4885,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );

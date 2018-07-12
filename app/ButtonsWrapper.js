@@ -89,7 +89,6 @@ export default class ButtonsList extends React.Component {
 				<YoastButton>YoastButton</YoastButton>
 				<Separator />
 				<IconLabelledButton icon="question-circle">Need help?</IconLabelledButton>
-				<IconLabelledButton icon="list">Dock below content</IconLabelledButton>
 				<IconLabelledButton	icon="gear">Settings</IconLabelledButton>
 				<IconLabelledButton
 					hoverBackgroundColor="#a4286a"
@@ -105,6 +104,14 @@ export default class ButtonsList extends React.Component {
 					icon="key"
 				>
 					Custom Focus
+				</IconLabelledButton>
+				<IconLabelledButton
+					activeBackgroundColor="yellow"
+					activeBorderColor="black"
+					activeColor="black"
+					icon="list"
+				>
+					Custom Active
 				</IconLabelledButton>
 				<IconLabelledButton	icon="plus" textFontSize="13px">Custom Font Size</IconLabelledButton>
 				<Separator />

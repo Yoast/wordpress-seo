@@ -66,6 +66,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -696,6 +697,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -1311,6 +1313,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -1331,6 +1334,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -1351,6 +1355,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -1371,6 +1376,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -1391,6 +1397,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -1695,6 +1702,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -1714,6 +1722,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -1733,6 +1742,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -1752,6 +1762,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -1771,6 +1782,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -1862,6 +1874,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -1881,6 +1894,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -1900,6 +1914,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -1919,6 +1934,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -1938,6 +1954,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -2026,6 +2043,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -2045,6 +2063,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -2064,6 +2083,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -2083,6 +2103,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -2102,6 +2123,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -2238,6 +2260,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -2255,6 +2278,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -2272,6 +2296,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -2289,6 +2314,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -2306,6 +2332,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -2506,6 +2533,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -2523,6 +2551,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -2540,6 +2569,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -2557,6 +2587,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -2574,6 +2605,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -2695,6 +2727,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
@@ -2712,6 +2745,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
@@ -2729,6 +2763,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -2746,6 +2781,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -2763,6 +2799,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -2861,6 +2898,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -3476,6 +3514,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -3496,6 +3535,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -3516,6 +3556,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -3536,6 +3577,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -3556,6 +3598,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -3860,6 +3903,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -3879,6 +3923,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -3898,6 +3943,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -3917,6 +3963,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -3936,6 +3983,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -4027,6 +4075,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -4046,6 +4095,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -4065,6 +4115,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -4084,6 +4135,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -4103,6 +4155,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -4191,6 +4244,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -4210,6 +4264,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -4229,6 +4284,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -4248,6 +4304,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -4267,6 +4324,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -4403,6 +4461,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -4420,6 +4479,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -4437,6 +4497,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -4454,6 +4515,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -4471,6 +4533,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -4671,6 +4734,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -4688,6 +4752,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -4705,6 +4770,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -4722,6 +4788,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -4739,6 +4806,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -4860,6 +4928,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
@@ -4877,6 +4946,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
@@ -4894,6 +4964,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -4911,6 +4982,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -4928,6 +5000,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -5026,6 +5099,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -5641,6 +5715,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -5661,6 +5736,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -5681,6 +5757,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -5701,6 +5778,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -5721,6 +5799,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -6025,6 +6104,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -6044,6 +6124,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -6063,6 +6144,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -6082,6 +6164,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -6101,6 +6184,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -6192,6 +6276,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -6211,6 +6296,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -6230,6 +6316,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -6249,6 +6336,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -6268,6 +6356,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -6356,6 +6445,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -6375,6 +6465,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -6394,6 +6485,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -6413,6 +6505,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -6432,6 +6525,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -6568,6 +6662,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -6585,6 +6680,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -6602,6 +6698,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -6619,6 +6716,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -6636,6 +6734,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -6836,6 +6935,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -6853,6 +6953,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -6870,6 +6971,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -6887,6 +6989,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -6904,6 +7007,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -7025,6 +7129,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
@@ -7042,6 +7147,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
@@ -7059,6 +7165,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -7076,6 +7183,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -7093,6 +7201,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -7191,6 +7300,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -7806,6 +7916,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -7826,6 +7937,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -7846,6 +7958,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -7866,6 +7979,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -7886,6 +8000,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -8190,6 +8305,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -8209,6 +8325,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -8228,6 +8345,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -8247,6 +8365,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -8266,6 +8385,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -8357,6 +8477,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -8376,6 +8497,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -8395,6 +8517,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -8414,6 +8537,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -8433,6 +8557,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -8521,6 +8646,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -8540,6 +8666,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -8559,6 +8686,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -8578,6 +8706,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -8597,6 +8726,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -8733,6 +8863,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -8750,6 +8881,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -8767,6 +8899,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -8784,6 +8917,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -8801,6 +8935,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -9001,6 +9136,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -9018,6 +9154,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -9035,6 +9172,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -9052,6 +9190,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -9069,6 +9208,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -9190,6 +9330,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
@@ -9207,6 +9348,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
@@ -9224,6 +9366,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -9241,6 +9384,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -9258,6 +9402,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -9356,6 +9501,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -9727,6 +9873,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -9747,6 +9894,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -9767,6 +9915,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -9787,6 +9936,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -9807,6 +9957,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -10111,6 +10262,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -10130,6 +10282,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -10149,6 +10302,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -10168,6 +10322,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -10187,6 +10342,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -10278,6 +10434,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -10297,6 +10454,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -10316,6 +10474,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -10335,6 +10494,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -10354,6 +10514,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -10442,6 +10603,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={false}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -10461,6 +10623,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={false}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -10480,6 +10643,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={false}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -10499,6 +10663,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={false}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -10518,6 +10683,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -10647,6 +10813,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -11262,6 +11429,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -11282,6 +11450,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -11302,6 +11471,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -11322,6 +11492,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -11342,6 +11513,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -11646,6 +11818,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -11665,6 +11838,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -11684,6 +11858,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -11703,6 +11878,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -11722,6 +11898,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -11813,6 +11990,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -11832,6 +12010,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -11851,6 +12030,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -11870,6 +12050,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -11889,6 +12070,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -11977,6 +12159,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -11996,6 +12179,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -12015,6 +12199,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -12034,6 +12219,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -12053,6 +12239,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -12189,6 +12376,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -12206,6 +12394,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -12223,6 +12412,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -12240,6 +12430,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -12257,6 +12448,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -12457,6 +12649,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -12474,6 +12667,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -12491,6 +12685,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -12508,6 +12703,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -12525,6 +12721,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -12646,6 +12843,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
@@ -12663,6 +12861,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
@@ -12680,6 +12879,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -12697,6 +12897,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -12714,6 +12915,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -12812,6 +13014,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -13427,6 +13630,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -13447,6 +13651,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -13467,6 +13672,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -13487,6 +13693,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -13507,6 +13714,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -13811,6 +14019,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -13830,6 +14039,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -13849,6 +14059,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -13868,6 +14079,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -13887,6 +14099,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -13978,6 +14191,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -13997,6 +14211,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -14016,6 +14231,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -14035,6 +14251,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -14054,6 +14271,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -14142,6 +14360,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -14161,6 +14380,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -14180,6 +14400,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -14199,6 +14420,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -14218,6 +14440,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -14354,6 +14577,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -14371,6 +14595,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -14388,6 +14613,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -14405,6 +14631,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -14422,6 +14649,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -14622,6 +14850,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -14639,6 +14868,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -14656,6 +14886,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -14673,6 +14904,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -14690,6 +14922,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -14811,6 +15044,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
@@ -14828,6 +15062,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
@@ -14845,6 +15080,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -14862,6 +15098,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -14879,6 +15116,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -14977,6 +15215,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -15529,6 +15768,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -16081,6 +16321,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -16708,6 +16949,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -16728,6 +16970,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -16748,6 +16991,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -16768,6 +17012,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -16788,6 +17033,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -17100,6 +17346,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -17119,6 +17366,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -17138,6 +17386,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -17157,6 +17406,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -17176,6 +17426,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -17267,6 +17518,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -17286,6 +17538,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -17305,6 +17558,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -17324,6 +17578,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -17343,6 +17598,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -17431,6 +17687,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -17450,6 +17707,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -17469,6 +17727,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -17488,6 +17747,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -17507,6 +17767,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -17643,6 +17904,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -17660,6 +17922,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -17677,6 +17940,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -17694,6 +17958,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -17711,6 +17976,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -17911,6 +18177,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -17928,6 +18195,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -17945,6 +18213,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -17962,6 +18231,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -17979,6 +18249,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -18100,6 +18371,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
@@ -18117,6 +18389,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
@@ -18134,6 +18407,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -18151,6 +18425,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -18168,6 +18443,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -18266,6 +18542,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -18893,6 +19170,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -18913,6 +19191,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -18933,6 +19212,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -18953,6 +19233,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -18973,6 +19254,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -19285,6 +19567,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -19304,6 +19587,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -19323,6 +19607,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -19342,6 +19627,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -19361,6 +19647,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -19452,6 +19739,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -19471,6 +19759,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -19490,6 +19779,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -19509,6 +19799,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -19528,6 +19819,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -19616,6 +19908,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -19635,6 +19928,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -19654,6 +19948,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -19673,6 +19968,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -19692,6 +19988,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -19828,6 +20125,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -19845,6 +20143,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -19862,6 +20161,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -19879,6 +20179,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -19896,6 +20197,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -20096,6 +20398,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -20113,6 +20416,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -20130,6 +20434,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -20147,6 +20452,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -20164,6 +20470,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -20285,6 +20592,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
@@ -20302,6 +20610,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
@@ -20319,6 +20628,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -20336,6 +20646,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -20353,6 +20664,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -20451,6 +20763,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -21066,6 +21379,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -21086,6 +21400,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -21106,6 +21421,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -21126,6 +21442,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -21146,6 +21463,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -21450,6 +21768,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -21469,6 +21788,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -21488,6 +21808,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -21507,6 +21828,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -21526,6 +21848,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -21617,6 +21940,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -21636,6 +21960,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -21655,6 +21980,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -21674,6 +22000,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -21693,6 +22020,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -21781,6 +22109,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -21800,6 +22129,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -21819,6 +22149,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -21838,6 +22169,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -21857,6 +22189,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -21993,6 +22326,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -22010,6 +22344,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -22027,6 +22362,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -22044,6 +22380,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -22061,6 +22398,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -22261,6 +22599,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -22278,6 +22617,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -22295,6 +22635,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -22312,6 +22653,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -22329,6 +22671,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -22450,6 +22793,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
@@ -22467,6 +22811,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
@@ -22484,6 +22829,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -22501,6 +22847,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -22518,6 +22865,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -22616,6 +22964,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -23242,6 +23591,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -23262,6 +23612,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -23282,6 +23633,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -23302,6 +23654,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -23322,6 +23675,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -23626,6 +23980,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -23645,6 +24000,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -23664,6 +24020,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -23683,6 +24040,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -23702,6 +24060,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -23793,6 +24152,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -23812,6 +24172,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -23831,6 +24192,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -23850,6 +24212,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -23869,6 +24232,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -23957,6 +24321,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -23976,6 +24341,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -23995,6 +24361,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -24014,6 +24381,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -24033,6 +24401,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -24191,6 +24560,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -24208,6 +24578,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -24225,6 +24596,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -24242,6 +24614,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -24259,6 +24632,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -24492,6 +24866,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -24509,6 +24884,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -24526,6 +24902,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -24543,6 +24920,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -24560,6 +24938,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -24703,6 +25082,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
@@ -24720,6 +25100,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
@@ -24737,6 +25118,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -24754,6 +25136,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -24771,6 +25154,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -24869,6 +25253,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -25509,6 +25894,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -26124,6 +26510,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-controls={null}
                         aria-expanded={false}
                         aria-label="Help on the Snippet Preview"
@@ -26144,6 +26531,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-controls={null}
                           aria-expanded={false}
                           aria-label="Help on the Snippet Preview"
@@ -26164,6 +26552,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             aria-controls={null}
                             aria-expanded={false}
                             aria-label="Help on the Snippet Preview"
@@ -26184,6 +26573,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               aria-controls={null}
                               aria-expanded={false}
                               aria-label="Help on the Snippet Preview"
@@ -26204,6 +26594,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 aria-controls={null}
                                 aria-expanded={false}
                                 aria-label="Help on the Snippet Preview"
@@ -26508,6 +26899,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -26527,6 +26919,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={true}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -26546,6 +26939,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={true}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -26565,6 +26959,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={true}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -26584,6 +26979,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={true}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -26675,6 +27071,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 <Button
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-pressed={false}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -26694,6 +27091,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   <Button
                     activeBackgroundColor="#f7f7f7"
                     activeBorderColor="#888"
+                    activeColor="#000"
                     aria-pressed={false}
                     backgroundColor="#f7f7f7"
                     borderColor="#ccc"
@@ -26713,6 +27111,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     <Button
                       activeBackgroundColor="#f7f7f7"
                       activeBorderColor="#888"
+                      activeColor="#000"
                       aria-pressed={false}
                       backgroundColor="#f7f7f7"
                       borderColor="#ccc"
@@ -26732,6 +27131,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         aria-pressed={false}
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
@@ -26751,6 +27151,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         <Button__BaseButton
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           aria-pressed={false}
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
@@ -26839,6 +27240,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           aria-expanded={true}
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
@@ -26858,6 +27260,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             aria-expanded={true}
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
@@ -26877,6 +27280,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               aria-expanded={true}
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
@@ -26896,6 +27300,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 aria-expanded={true}
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
@@ -26915,6 +27320,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   aria-expanded={true}
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
@@ -27051,6 +27457,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -27068,6 +27475,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -27085,6 +27493,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -27102,6 +27511,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -27119,6 +27529,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -27319,6 +27730,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       <Button
                         activeBackgroundColor="#f7f7f7"
                         activeBorderColor="#888"
+                        activeColor="#000"
                         backgroundColor="#f7f7f7"
                         borderColor="#ccc"
                         boxShadowColor="#ccc"
@@ -27336,6 +27748,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         <Button
                           activeBackgroundColor="#f7f7f7"
                           activeBorderColor="#888"
+                          activeColor="#000"
                           backgroundColor="#f7f7f7"
                           borderColor="#ccc"
                           boxShadowColor="#ccc"
@@ -27353,6 +27766,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           <Button
                             activeBackgroundColor="#f7f7f7"
                             activeBorderColor="#888"
+                            activeColor="#000"
                             backgroundColor="#f7f7f7"
                             borderColor="#ccc"
                             boxShadowColor="#ccc"
@@ -27370,6 +27784,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             <Button
                               activeBackgroundColor="#f7f7f7"
                               activeBorderColor="#888"
+                              activeColor="#000"
                               backgroundColor="#f7f7f7"
                               borderColor="#ccc"
                               boxShadowColor="#ccc"
@@ -27387,6 +27802,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               <Button__BaseButton
                                 activeBackgroundColor="#f7f7f7"
                                 activeBorderColor="#888"
+                                activeColor="#000"
                                 backgroundColor="#f7f7f7"
                                 borderColor="#ccc"
                                 boxShadowColor="#ccc"
@@ -27508,6 +27924,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         <Button
           activeBackgroundColor="#f7f7f7"
           activeBorderColor="#888"
+          activeColor="#000"
           backgroundColor="#f7f7f7"
           borderColor="#ccc"
           boxShadowColor="#ccc"
@@ -27525,6 +27942,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           <Button
             activeBackgroundColor="#f7f7f7"
             activeBorderColor="#888"
+            activeColor="#000"
             backgroundColor="#f7f7f7"
             borderColor="#ccc"
             boxShadowColor="#ccc"
@@ -27542,6 +27960,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
             <Button
               activeBackgroundColor="#f7f7f7"
               activeBorderColor="#888"
+              activeColor="#000"
               backgroundColor="#f7f7f7"
               borderColor="#ccc"
               boxShadowColor="#ccc"
@@ -27559,6 +27978,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
               <Button
                 activeBackgroundColor="#f7f7f7"
                 activeBorderColor="#888"
+                activeColor="#000"
                 backgroundColor="#f7f7f7"
                 borderColor="#ccc"
                 boxShadowColor="#ccc"
@@ -27576,6 +27996,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 <Button__BaseButton
                   activeBackgroundColor="#f7f7f7"
                   activeBorderColor="#888"
+                  activeColor="#000"
                   backgroundColor="#f7f7f7"
                   borderColor="#ccc"
                   boxShadowColor="#ccc"
@@ -27686,6 +28107,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
@@ -28223,6 +28645,7 @@ exports[`SnippetEditor shows the editor 1`] = `
 }
 
 .c6:active {
+  color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );

@@ -17,6 +17,7 @@ exports[`the IconLabelledButton matches the snapshot 1`] = `
 }
 
 .c2:active {
+  color: #0066cd;
   border-color: transparent;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
@@ -115,6 +116,7 @@ exports[`the IconLabelledButton with props matches the snapshot 1`] = `
 }
 
 .c2:active {
+  color: #fff;
   background-color: #a4286a;
   border-color: #a4286a;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
