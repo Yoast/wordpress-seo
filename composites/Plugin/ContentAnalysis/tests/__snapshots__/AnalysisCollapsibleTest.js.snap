@@ -123,9 +123,10 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
 .c2 span {
   margin: 8px 0;
   word-wrap: break-word;
-  font-size: 1.25em;
+  font-size: 1em;
   line-height: 1.25;
   font-weight: inherit;
+  color: #1e8cbe;
 }
 
 .c11 {
@@ -326,9 +327,10 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
 .c2 span {
   margin: 8px 0;
   word-wrap: break-word;
-  font-size: 1.25em;
+  font-size: 1em;
   line-height: 1.25;
   font-weight: inherit;
+  color: #1e8cbe;
 }
 
 .c9 {
@@ -506,9 +508,10 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
 .c2 span {
   margin: 8px 0;
   word-wrap: break-word;
-  font-size: 1.25em;
+  font-size: 1em;
   line-height: 1.25;
   font-weight: inherit;
+  color: #1e8cbe;
 }
 
 .c9 {
@@ -686,9 +689,10 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
 .c2 span {
   margin: 8px 0;
   word-wrap: break-word;
-  font-size: 1.25em;
+  font-size: 1em;
   line-height: 1.25;
   font-weight: inherit;
+  color: #1e8cbe;
 }
 
 .c11 {
@@ -889,9 +893,10 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
 .c2 span {
   margin: 8px 0;
   word-wrap: break-word;
-  font-size: 1.25em;
+  font-size: 1em;
   line-height: 1.25;
   font-weight: inherit;
+  color: #1e8cbe;
 }
 
 .c11 {
@@ -1092,9 +1097,10 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
 .c2 span {
   margin: 8px 0;
   word-wrap: break-word;
-  font-size: 1.25em;
+  font-size: 1em;
   line-height: 1.25;
   font-weight: inherit;
+  color: #1e8cbe;
 }
 
 .c9 {

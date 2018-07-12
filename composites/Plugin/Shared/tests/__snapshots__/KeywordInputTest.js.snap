@@ -13,6 +13,12 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
 }
 
 .c1 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.c2 {
   border-color: #f1f1f1;
   border-style: solid;
   border-width: 3px;
@@ -20,7 +26,7 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   font-size: 1.1em;
 }
 
-.c1.hasError {
+.c2.hasError {
   border-color: #dc3232;
   outline-color: #dc3232;
 }
@@ -28,9 +34,15 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
 <div
   className="c0"
 >
-  <input
-    aria-label="test label"
+  <label
     className="c1"
+    htmlFor="test-id"
+  >
+    test label
+  </label>
+  <input
+    aria-label={null}
+    className="c2"
     id="test-id"
     onChange={[Function]}
     type="text"

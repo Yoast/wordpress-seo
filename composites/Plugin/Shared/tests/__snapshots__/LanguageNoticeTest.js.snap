@@ -42,7 +42,7 @@ exports[`LanguageNotice matches the snapshot with a changed language link 1`] = 
 }
 
 .c1 {
-  color: #0066cd;
+  color: #1e8cbe;
   margin-left: 4px;
 }
 
@@ -94,7 +94,7 @@ exports[`LanguageNotice matches the snapshot with another language 1`] = `
 }
 
 .c1 {
-  color: #0066cd;
+  color: #1e8cbe;
   margin-left: 4px;
 }
 

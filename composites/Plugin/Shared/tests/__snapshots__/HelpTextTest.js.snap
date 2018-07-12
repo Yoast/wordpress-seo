@@ -7,6 +7,10 @@ exports[`HelpText matches the snapshot by default 1`] = `
   margin-top: 0;
 }
 
+.c0 a {
+  color: #1e8cbe;
+}
+
 <p
   className="c0"
   color="#888"
@@ -21,6 +25,10 @@ exports[`HelpText matches the snapshot when an array is provided as text 1`] = `
   color: #888;
   font-size: 0.8em;
   margin-top: 0;
+}
+
+.c0 a {
+  color: #1e8cbe;
 }
 
 <p

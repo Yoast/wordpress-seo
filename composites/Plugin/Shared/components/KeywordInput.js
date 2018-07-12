@@ -10,7 +10,7 @@ import colors from "../../../../style-guide/colors.json";
 
 const errorColor = colors.$color_red;
 
-const YoastKeywordInput = styled.div`
+const KeywordInputContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	margin: 1em 0;
@@ -41,8 +41,6 @@ const ErrorText = styled.p`
 	min-height: 1.8em;
 `;
 
-const ErrorMessage = __( "Are you trying to use multiple keywords? You should add them separately below." );
-
 class KeywordInput extends React.Component {
 	/**
 	 * Constructs a KeywordInput component
@@ -60,11 +58,6 @@ class KeywordInput extends React.Component {
 
 		this.handleChange = this.handleChange.bind( this );
 		this.displayErrorMessage = this.displayErrorMessage.bind( this );
-
-		this.state = {
-			showErrorMessage: this.checkKeywordInput( props.keyword ),
-			keyword: props.keyword,
-		};
 	}
 
 	/**
@@ -85,11 +78,11 @@ class KeywordInput extends React.Component {
 	 *
 	 * @returns {ReactElement} ErrorText The error message element
 	 */
-	displayErrorMessage( input = "" ) {
-		if ( this.state.showErrorMessage && input !== "" ) {
+	displayErrorMessage( showErrorMessage ) {
+		if ( showErrorMessage && this.props.keyword !== "" ) {
 			return (
 				<ErrorText role="alert">
-					{ ErrorMessage }
+					{ __( "Are you trying to use multiple keywords? You should add them separately below.", "yoast-components" ) }
 				</ErrorText>
 			);
 		}
@@ -103,16 +96,7 @@ class KeywordInput extends React.Component {
 	 * @returns {void} Sets the state if a change has been made.
 	 */
 	handleChange( event ) {
-		const keyword = event.target.value;
-		const showErrorMessage = this.checkKeywordInput( keyword );
-		const isDirty = keyword !== this.state.keyword;
-
-		if ( isDirty || showErrorMessage !== this.state.showErrorMessage ) {
-			this.setState( { keyword, showErrorMessage } );
-			if ( isDirty ) {
-				this.props.onChange( keyword );
-			}
-		}
+		this.props.onChange( event.target.value );
 	}
 
 	/**
@@ -121,11 +105,11 @@ class KeywordInput extends React.Component {
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		const { keyword, showErrorMessage } = this.state;
-		const { id, label, showLabel } = this.props;
+		const { id, label, showLabel, keyword } = this.props;
+		const showErrorMessage = this.checkKeywordInput( keyword );
 
 		return(
-			<YoastKeywordInput>
+			<KeywordInputContainer>
 				{ showLabel && <KeywordFieldLabel htmlFor={ id }>
 					{ label }
 				</KeywordFieldLabel> }
@@ -134,11 +118,11 @@ class KeywordInput extends React.Component {
 					type="text"
 					id={ id }
 					className={ showErrorMessage ? "hasError" : null }
-					onChange={ event => this.handleChange( event ) }
+					onChange={ this.handleChange }
 					value={ keyword }
 				/>
-				{ this.displayErrorMessage( keyword ) }
-			</YoastKeywordInput>
+				{ this.displayErrorMessage( showErrorMessage ) }
+			</KeywordInputContainer>
 		);
 	}
 }
@@ -148,7 +132,7 @@ export const keywordInputPropType = {
 	label: PropTypes.string.isRequired,
 	showLabel: PropTypes.bool,
 	keyword: PropTypes.string,
-	onChange: PropTypes.func,
+	onChange: PropTypes.func.isRequired,
 };
 
 KeywordInput.propTypes = keywordInputPropType;
@@ -157,6 +141,7 @@ KeywordInput.defaultProps = {
 	id: uniqueId( "yoast-keyword-input-" ),
 	showLabel: true,
 	label: "Focus keyword:",
+	keyword: "",
 };
 
 export default KeywordInput;
