@@ -111,6 +111,6 @@ class WPSEO_Shortlinker {
 		$date_activated = WPSEO_Options::get( 'first_activated_on' );
 		$datediff       = ( time() - $date_activated );
 
-		return (int) round( $datediff / ( 60 * 60 * 24 ) );
+		return (int) round( $datediff / DAY_IN_SECONDS );
 	}
 }
