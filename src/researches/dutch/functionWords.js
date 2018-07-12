@@ -177,6 +177,9 @@ module.exports = function() {
 			correlativeConjunctions, subordinatingConjunctions, interrogativeProAdverbs, relativePronouns, locativeAdverbs, miscellaneous,
 			prepositionalAdverbs, pronominalAdverbs, recipeWords, timeWords, vagueNouns, reciprocalPronouns, possessivePronouns ),
 
+		cannotDirectlyPrecedePassiveParticiple: [].concat( articles, interrogativeProAdverbs, cardinalNumerals, possessivePronouns,
+		reflexivePronouns, indefinitePronounsPossessive, otherAuxiliaries, otherAuxiliariesInfinitive, copula, copulaInfinitive, prepositions ),
+
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns, reciprocalPronouns,
 			personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns,

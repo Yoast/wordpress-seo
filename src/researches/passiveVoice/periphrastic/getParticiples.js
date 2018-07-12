@@ -58,5 +58,6 @@ module.exports = function( sentencePartText, auxiliaries, language ) {
 			}
 		}
 	} );
+	console.log( "foundParticiples", foundParticiples );
 	return foundParticiples;
 };

@@ -1,11 +1,8 @@
 const Participle = require( "../../../values/Participle.js" );
 const checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
 const nonParticiples = require( "./nonParticiples" );
+const directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
 const includes = require ( "lodash/includes" );
-
-// var directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
-// var precedenceException = require( "../../../stringProcessing/precedenceException" );
-
 
 /**
  * Creates an Participle object for the Dutch language.
@@ -16,7 +13,7 @@ const includes = require ( "lodash/includes" );
  *
  * @constructor
  */
-var DutchParticiple = function( participle, sentencePart, attributes ) {
+const DutchParticiple = function( participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
 	checkException.call( this );
 };
@@ -31,12 +28,12 @@ require( "util" ).inherits( DutchParticiple, Participle );
  */
 DutchParticiple.prototype.isPassive = function() {
 	let sentencePart = this.getSentencePart();
-	// let participleIndex = sentencePart.indexOf( this.getParticiple() );
-	// let language = this.getLanguage();
+	let participleIndex = sentencePart.indexOf( this.getParticiple() );
+	let language = this.getLanguage();
 
-	return ! this.isOnNonParticiplesList();
-	// return ! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
-	// 	! this.precedenceException( sentencePart, participleIndex, language );
+	return ! this.isOnNonParticiplesList() &&
+		! this.hasNonParticipleEnding() &&
+		! this.directPrecedenceException( sentencePart, participleIndex, language );
 };
 
 /**
@@ -52,8 +49,10 @@ DutchParticiple.prototype.isOnNonParticiplesList = function() {
 	return includes( nonParticiples(), this.getParticiple() );
 };
 
-// DutchParticiple.prototype.directPrecedenceException = directPrecedenceException;
-//
-// DutchParticiple.prototype.precedenceException = precedenceException;
+DutchParticiple.prototype.hasNonParticipleEnding = function() {
+	return ( /\S+(heid|teit|tijd)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig ).test( this.getParticiple() );
+};
+
+DutchParticiple.prototype.directPrecedenceException = directPrecedenceException;
 
 module.exports = DutchParticiple;
