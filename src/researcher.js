@@ -1,4 +1,4 @@
-import sentences from "./researches/sentences";
+import sentences from "./researches/sentences.ts";
 
 var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );

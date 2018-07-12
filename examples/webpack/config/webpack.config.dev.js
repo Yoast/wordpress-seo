@@ -139,10 +139,17 @@ module.exports = {
 							loader: 'worker-loader',
 						},
 					},
+					{
+						test: /\.tsx?$/,
+						loader: "ts-loader"
+					},
 					// Process JS with Babel.
 					{
 						test: /\.(js|jsx|mjs)$/,
-						include: paths.appSrc,
+						include: [
+							paths.appSrc,
+							paths.yoastSrc,
+						],
 						loader: require.resolve( 'babel-loader' ),
 						options: {
 
