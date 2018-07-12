@@ -120,8 +120,8 @@ IconLabelledButton.defaultProps = {
 	activeColor: colors.$color_white,
 	activeBackgroundColor: colors.$color_blue,
 	activeBorderColor: null,
-	focusColor: colors.$color_blue,
-	focusBackgroundColor: null,
+	focusColor: colors.$color_white,
+	focusBackgroundColor: colors.$color_blue,
 	focusBorderColor: colors.$color_blue,
 };
 
