@@ -2,7 +2,8 @@
 
 exports[`the IconLabelledButton matches the snapshot 1`] = `
 .c0:hover {
-  color: #0066cd;
+  color: #fff;
+  background-color: #0066cd;
 }
 
 .c1::-moz-focus-inner {
@@ -17,8 +18,8 @@ exports[`the IconLabelledButton matches the snapshot 1`] = `
 }
 
 .c2:active {
-  color: #0066cd;
-  border-color: transparent;
+  color: #fff;
+  background-color: #0066cd;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 

@@ -6,7 +6,8 @@ import omit from "lodash/omit";
 
 import colors from "../../../../style-guide/colors.json";
 import SvgIcon from "./SvgIcon";
-import { addHoverStyle, addFocusStyle, addActiveStyle } from "./Button";
+// Note: the order of these imports matters for the styles order in the markup.
+import { addActiveStyle, addFocusStyle, addHoverStyle } from "./Button";
 
 /**
  * Returns a component with all button selector styles applied.
@@ -72,13 +73,13 @@ const IconLabelledBaseButton = addButtonStyles(
  * @returns {ReactElement} Styled icon button.
  */
 const IconLabelledButton = ( props ) => {
-	const { children, icon, iconColor } = props;
+	const { children, icon, textColor } = props;
 
 	const newProps = omit( props, "icon" );
 
 	return (
 		<IconLabelledBaseButton { ...newProps }>
-			<SvgIcon icon={ icon } color={ iconColor } />
+			<SvgIcon icon={ icon } color={ textColor } />
 			{ children }
 		</IconLabelledBaseButton>
 	);
@@ -87,7 +88,6 @@ const IconLabelledButton = ( props ) => {
 IconLabelledButton.propTypes = {
 	type: PropTypes.string,
 	icon: PropTypes.string.isRequired,
-	iconColor: PropTypes.string,
 	textColor: PropTypes.string,
 	textFontSize: PropTypes.string,
 	backgroundColor: PropTypes.string,
@@ -110,17 +110,16 @@ IconLabelledButton.propTypes = {
 
 IconLabelledButton.defaultProps = {
 	type: "button",
-	iconColor: colors.$color_blue,
 	textColor: colors.$color_blue,
 	textFontSize: "inherit",
 	backgroundColor: "transparent",
 	borderColor: "transparent",
-	hoverColor: colors.$color_blue,
-	hoverBackgroundColor: null,
+	hoverColor: colors.$color_white,
+	hoverBackgroundColor: colors.$color_blue,
 	hoverBorderColor: null,
-	activeColor: colors.$color_blue,
-	activeBackgroundColor: null,
-	activeBorderColor: "transparent",
+	activeColor: colors.$color_white,
+	activeBackgroundColor: colors.$color_blue,
+	activeBorderColor: null,
 	focusColor: colors.$color_blue,
 	focusBackgroundColor: null,
 	focusBorderColor: colors.$color_blue,
