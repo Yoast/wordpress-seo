@@ -43,7 +43,8 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 				'99.31337'
 			);
 
-			$admin_page_hooks[ $this->get_page_identifier() ] = 'seo'; // Wipe notification bits from hooks. R.
+			// Wipe notification bits from hooks.
+			$admin_page_hooks[ $this->get_page_identifier() ] = 'seo';
 		}
 
 		// Get all submenu pages.
@@ -71,15 +72,15 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 	public function get_submenu_pages() {
 		global $wpseo_admin;
 
-		$search_console_cb       = null;
-		$search_console_hook_cbs = null;
+		$search_console_callback       = null;
+		$search_console_hook_callbacks = null;
 
 		// Account for when the available submenu pages are requested from outside the admin.
 		if ( isset( $wpseo_admin ) ) {
 			$admin_features = $wpseo_admin->get_admin_features();
 
-			$search_console_cb       = array( $admin_features['google_search_console'], 'display' );
-			$search_console_hook_cbs = array( array( $admin_features['google_search_console'], 'set_help' ) );
+			$search_console_callback       = array( $admin_features['google_search_console'], 'display' );
+			$search_console_hook_callbacks = array( array( $admin_features['google_search_console'], 'set_help' ) );
 		}
 
 		// Submenu pages.
@@ -89,8 +90,8 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 			$this->get_submenu_page(
 				__( 'Search Console', 'wordpress-seo' ),
 				'wpseo_search_console',
-				$search_console_cb,
-				$search_console_hook_cbs
+				$search_console_callback,
+				$search_console_hook_callbacks
 			),
 			$this->get_submenu_page( __( 'Social', 'wordpress-seo' ), 'wpseo_social' ),
 			$this->get_submenu_page( __( 'Tools', 'wordpress-seo' ), 'wpseo_tools' ),
