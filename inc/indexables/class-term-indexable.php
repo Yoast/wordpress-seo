@@ -11,19 +11,6 @@
 class WPSEO_Term_Indexable extends WPSEO_Indexable {
 
 	/**
-	 * @var array The available validators to run.
-	 */
-	protected $validators = array(
-		'WPSEO_Object_Type_Validator',
-		'WPSEO_Link_Validator',
-		'WPSEO_Keyword_Validator',
-		'WPSEO_Meta_Values_Validator',
-		'WPSEO_OpenGraph_Validator',
-		'WPSEO_Robots_Validator',
-		'WPSEO_Twitter_Validator',
-	);
-
-	/**
 	 * Creates a new Indexable from a passed object.
 	 *
 	 * @param int $object_id The object id to create the object for.

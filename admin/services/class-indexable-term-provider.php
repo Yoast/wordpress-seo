@@ -32,25 +32,25 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 * @var array List of fields that need to be renamed.
 	 */
 	private $renameable_fields = array(
-		'description' 		  		  => 'desc',
-		'breadcrumb_title' 	  		  => 'bctitle',
-		'og_title' 			  		  => 'opengraph-title',
-		'og_description' 	  		  => 'opengraph-description',
-		'og_image' 			  		  => 'opengraph-image',
-		'twitter_title' 	  		  => 'twitter-title',
-		'twitter_description' 		  => 'twitter-description',
-		'twitter_image' 			  => 'twitter-image',
-		'is_robots_noindex' 		  => 'noindex',
-		'primary_focus_keyword' 	  => 'focuskw',
+		'description'				  => 'desc',
+		'breadcrumb_title'			  => 'bctitle',
+		'og_title'					  => 'opengraph-title',
+		'og_description'			  => 'opengraph-description',
+		'og_image'					  => 'opengraph-image',
+		'twitter_title'				  => 'twitter-title',
+		'twitter_description'		  => 'twitter-description',
+		'twitter_image'				  => 'twitter-image',
+		'is_robots_noindex'			  => 'noindex',
+		'primary_focus_keyword'		  => 'focuskw',
 		'primary_focus_keyword_score' => 'linkdex',
-		'readability_score' 		  => 'content_score',
+		'readability_score'			  => 'content_score',
 	);
 
 	/**
 	 * Returns an array with data for the target object.
 	 *
 	 * @param integer $object_id The target object id.
-	 * @param bool    $as_object Whether or not to return the indexable as an object. Defaults to false.
+	 * @param bool    $as_object Optional. Whether or not to return the indexable as an object. Defaults to false.
 	 *
 	 * @return array|WPSEO_Term_Indexable The retrieved data. Defaults to an array format.
 	 */
@@ -104,7 +104,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 * @return bool True if the indexable object was successfully stored.
 	 */
 	protected function store_indexable( WPSEO_Indexable $indexable ) {
-		$values 		   	= $indexable->to_array();
+		$values 			= $indexable->to_array();
 		$prepared_indexable = $this->prepare_indexable_data( $values );
 
 		WPSEO_Taxonomy_Meta::set_values( $values['object_id'], $values['object_subtype'], $prepared_indexable );

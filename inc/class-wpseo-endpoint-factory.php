@@ -91,6 +91,43 @@ class WPSEO_Endpoint_Factory {
 	}
 
 	/**
+	 * Gets the associated arguments.
+	 *
+	 * @return array The arguments.
+	 */
+	public function get_arguments() {
+		return $this->args;
+	}
+
+	/**
+	 * Determines whether or not there are any arguments present.
+	 *
+	 * @return bool Whether or not any arguments are present.
+	 */
+	public function has_arguments() {
+		return count( $this->args ) > 0;
+	}
+
+	/**
+	 * Registers the endpoint with WordPress.
+	 *
+	 * @return void
+	 */
+	public function register() {
+		$config = array(
+			'methods'			  => $this->method,
+			'callback'			  => $this->callback,
+			'permission_callback' => $this->permission_callback,
+		);
+
+		if ( $this->has_arguments() ) {
+			$config['args'] = $this->args;
+		}
+
+		register_rest_route( $this->namespace, $this->endpoint, $config );
+	}
+
+	/**
 	 * Validates the method parameter.
 	 *
 	 * @param string $method The set method parameter.
@@ -132,42 +169,5 @@ class WPSEO_Endpoint_Factory {
 			'type' 		  => $type,
 			'required' 	  => $required,
 		);
-	}
-
-	/**
-	 * Gets the associated arguments.
-	 *
-	 * @return array The arguments.
-	 */
-	public function get_arguments() {
-		return $this->args;
-	}
-
-	/**
-	 * Determines whether or not there are any arguments present.
-	 *
-	 * @return bool Whether or not any arguments are present.
-	 */
-	public function has_arguments() {
-		return count( $this->args ) > 0;
-	}
-
-	/**
-	 * Registers the endpoint with WordPress.
-	 *
-	 * @return void
-	 */
-	public function register() {
-		$config = array(
-			'methods'  			  => $this->method,
-			'callback' 			  => $this->callback,
-			'permission_callback' => $this->permission_callback,
-		);
-
-		if ( $this->has_arguments() ) {
-			$config['args'] = $this->args;
-		}
-
-		register_rest_route( $this->namespace, $this->endpoint, $config );
 	}
 }
