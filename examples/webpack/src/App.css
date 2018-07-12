@@ -26,7 +26,10 @@
 
 .form-container input {
 	line-height: 20px;
-	margin: 5px 0;
+}
+
+.form-container input[type=checkbox] {
+	width: 100%;
 }
 
 .form-container textarea {
@@ -53,6 +56,11 @@
 
 pre {
 	white-space: pre-wrap;
+}
+
+.checkbox {
+	display: flex;
+	flex-direction: row;
 }
 
 /* overall score */

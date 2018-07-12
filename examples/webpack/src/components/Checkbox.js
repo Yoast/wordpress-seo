@@ -2,15 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import isFunction from "lodash/isFunction";
 
-class TextArea extends React.PureComponent {
+class Checkbox extends React.PureComponent {
 	/**
-	 * Initializes the TextArea component
+	 * Initializes the Checkbox component
 	 *
 	 * @param {Object}   props             The component's props.
-	 * @param {string}   props.id          The id of the textarea.
-	 * @param {string}   props.value       The value of the textarea.
-	 * @param {string}   props.label       The label in front of the textarea.
-	 * @param {string}   props.placeholder The placeholder of the textarea.
+	 * @param {string}   props.id          The id of the checkbox.
+	 * @param {string}   props.value       The value of the checkbox.
+	 * @param {string}   props.label       The label in front of the checkbox.
 	 * @param {function} props.onChange    Callback to receive the new text.
 	 *
 	 * @returns {void}
@@ -24,7 +23,7 @@ class TextArea extends React.PureComponent {
 	/**
 	 * Calls the onChange prop with the changed text.
 	 *
-	 * @param {Event} event The input change event.
+	 * @param {Event} event The checkbox change event.
 	 *
 	 * @returns {void}
 	 */
@@ -32,26 +31,26 @@ class TextArea extends React.PureComponent {
 		const { onChange } = this.props;
 
 		if ( isFunction( onChange ) ) {
-			onChange( event.target.value );
+			onChange( event.target.checked );
 		}
 	}
 
 	/**
-	 * Renders the TextArea component.
+	 * Renders the Checkbox component.
 	 *
 	 * @returns {void}
 	 */
 	render() {
-		const { id, value, label, placeholder } = this.props;
+		const { id, value, label } = this.props;
 
 		return (
 			<React.Fragment>
 				<label htmlFor={ id }>{ label }</label>
-				<textarea
+				<input
+					type="checkbox"
 					id={ id }
 					name={ id }
-					value={ value }
-					placeholder={ placeholder }
+					checked={ value }
 					onChange={ this.handleChange }
 				/>
 			</React.Fragment>
@@ -59,17 +58,15 @@ class TextArea extends React.PureComponent {
 	}
 }
 
-TextArea.propTypes = {
+Checkbox.propTypes = {
 	id: PropTypes.string.isRequired,
-	value: PropTypes.any.isRequired,
+	value: PropTypes.bool.isRequired,
 	label: PropTypes.string,
-	placeholder: PropTypes.string,
 	onChange: PropTypes.func,
 };
 
-TextArea.defaultProps = {
+Checkbox.defaultProps = {
 	label: "",
-	placeholder: "",
 };
 
-export default TextArea;
+export default Checkbox;

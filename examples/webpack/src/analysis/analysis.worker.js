@@ -1,3 +1,19 @@
+// External dependencies.
+import Jed from "jed";
+import omit from "lodash/omit";
+import merge from "lodash/merge";
+
+// YoastSEO.js dependencies.
+import * as Paper from "yoast/values/Paper";
+import * as Researcher from "yoast/researcher";
+import * as SEOAssessor from "yoast/seoAssessor";
+import * as ContentAssessor from "yoast/contentAssessor";
+import * as CornerstoneSEOAssessor from "yoast/cornerstone/seoAssessor";
+import * as CornerstoneContentAssessor from "yoast/cornerstone/contentAssessor";
+
+// Internal dependencies.
+import { encodePayload, decodePayload } from "./utils";
+
 /**
  * Analysis Web Worker.
  *
@@ -9,8 +25,17 @@ class AnalysisWebWorker {
 	 * Initializes the AnalysisWebWorker class.
 	 */
 	constructor() {
-		this.configuration = {};
-		this.paper = null;
+		this.configuration = {
+			contentAnalysisActive: true,
+			keywordAnalysisActive: true,
+			useCornerstone: false,
+			useKeywordDistribution: false,
+			locale: "en_US",
+		};
+		this.i18n = AnalysisWebWorker.createI18n();
+		this.paper = new Paper( "" );
+		this.researcher = new Researcher( this.paper );
+		this.contentAssessor = null;
 
 		this.handleMessage = this.handleMessage.bind( this );
 	}
@@ -30,14 +55,76 @@ class AnalysisWebWorker {
 	handleMessage( { data: { type, payload } } ) {
 		switch( type ) {
 			case "initialize":
-				this.initialize( payload );
+				this.initialize( decodePayload( payload ) );
 				break;
 			case "analyze":
-				this.analyze( payload );
+				this.analyze( decodePayload( payload ) );
 				break;
 			default:
 				console.warn( "Unrecognized command", type );
 		}
+	}
+
+	/**
+	 * Initializes i18n object based on passed configuration.
+	 *
+	 * @param {Object} [translations] The translations to be used in the current
+	 *                                instance.
+	 *
+	 * @returns {Jed} Jed instance.
+	 */
+	static createI18n( translations ) {
+		// Use default object to prevent Jed from erroring out.
+		translations = translations || {
+			domain: "js-text-analysis",
+			// eslint-disable-next-line camelcase
+			locale_data: {
+				"js-text-analysis": {
+					"": {},
+				},
+			},
+		};
+
+		return new Jed( translations );
+	};
+
+	/**
+	 * Initializes the appropriate content assessor.
+	 *
+	 * @returns {null|ContentAssessor|CornerstoneContentAssessor} The chosen
+	 *                                                            content
+	 *                                                            assessor.
+	 */
+	createContentAssessor() {
+		const {
+			contentAnalysisActive,
+			useCornerstone,
+			locale,
+		} = this.configuration;
+
+		if ( contentAnalysisActive === false ) {
+			return null;
+		}
+		if ( useCornerstone === true ) {
+			return new CornerstoneContentAssessor( this.i18n, { locale } );
+		}
+		return new ContentAssessor( this.i18n, { locale } );
+	};
+
+	/**
+	 * Sends a message.
+	 *
+	 * @param {string}   type    The type of the message.
+	 * @param {Object|*} payload The payload to deliver.
+	 *
+	 * @returns {void}
+	 */
+	postMessage( type, payload ) {
+		console.log( "worker => wrapper", type, payload );
+		self.postMessage( {
+			type,
+			payload: encodePayload( payload ),
+		} );
 	}
 
 	/**
@@ -48,33 +135,47 @@ class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	initialize( configuration ) {
-		this.configuration = configuration;
-		console.log( "run initialize", configuration );
-		self.postMessage( {
-			type: "initialize:done",
-		} );
+		this.configuration = merge( this.configuration, configuration );
+		console.log( "run initialize", configuration, this.configuration );
+
+		this.contentAssessor = this.createContentAssessor();
+
+		this.postMessage( "initialize:done" );
 	}
 
 	/**
-	 * Runs an analyzation of a paper.
+	 * Runs analyzations on a paper.
 	 *
 	 * @param {Object} arguments                 The payload object.
 	 * @param {number} arguments.id              The id of this analyze request.
 	 * @param {Object} arguments.paper           The paper to analyze.
-	 * @param {Object} [arguments.configuration] The configuration for this
-	 *                                           specific analyzation.
+	 * @param {Object} [arguments.configuration] The configuration for the
+	 *                                           specific analyzations.
 	 *
 	 * @returns {void}
 	 */
 	analyze( { id, paper, configuration = {} } ) {
 		console.log( "run analyze", id, paper, configuration );
 
-		setTimeout( () => {
-			self.postMessage( {
-				type: "analyze:done",
-				payload: { id, paper, configuration },
-			} );
-		}, 2000 );
+		this.paper = new Paper( paper.text, omit( paper, "text" ) );
+		this.researcher.setPaper( this.paper );
+
+		if (
+			! this.contentAssessor ||
+			! this.configuration.contentAnalysisActive
+		) {
+			return;
+		}
+		this.contentAssessor.assess( this.paper );
+		const results = this.contentAssessor.results;
+		const score = this.contentAssessor.calculateOverallScore();
+
+		this.postMessage( "analyze:done", {
+			id,
+			category: "readability",
+			results: results,
+			score,
+		} );
 	}
 }
 

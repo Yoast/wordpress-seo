@@ -4,6 +4,7 @@ import noop from "lodash/noop";
 
 // Internal dependencies.
 import Worker from "./analysis.worker";
+import { encodePayload, decodePayload } from "./utils";
 
 /**
  * Analysis worker is an API around the Web Worker.
@@ -47,14 +48,26 @@ class AnalysisWorker {
 	 */
 	handleMessage( { data: { type, payload } } ) {
 		let id;
+		console.log( "wrapper", type, payload );
 		switch( type ) {
 			case "initialize:done":
+				payload = decodePayload( payload );
 				id = this.getID( "initialize" );
-				this.getCallback( "initialize", id )( null );
+
+				this.getCallback( "initialize", id )( null, payload );
 				break;
 			case "analyze:done":
+				payload = decodePayload( payload );
 				id = this.getID( "analyze" );
-				this.getCallback( "analyze", id )( null, payload );
+				if ( payload.id !== id ) {
+					console.log( "not the most recent request" );
+				}
+
+				this.getCallback( "analyze", payload.id )( null, {
+					category: payload.category,
+					results:payload.results,
+					score: payload.score,
+				} );
 				break;
 			default:
 				console.warn( "AnalysisWorker unrecognized action", type );
@@ -173,9 +186,10 @@ class AnalysisWorker {
 	 * @returns {void}
 	 */
 	postMessage( type, payload ) {
+		console.log( "wrapper => worker", type, payload );
 		this._worker.postMessage( {
 			type,
-			payload,
+			payload: encodePayload( payload ),
 		} );
 	}
 

@@ -9,8 +9,9 @@ class Input extends React.PureComponent {
 	 * @param {Object}   props             The component's props.
 	 * @param {string}   props.id          The id of the input.
 	 * @param {string}   props.type        The type of the input.
-	 * @param {string}   props.placeholder The placeholder of the input.
+	 * @param {string}   props.value       The value of the input.
 	 * @param {string}   props.label       The label in front of the input.
+	 * @param {string}   props.placeholder The placeholder of the input.
 	 * @param {function} props.onChange    Callback to receive the new text.
 	 *
 	 * @returns {void}
@@ -49,7 +50,7 @@ class Input extends React.PureComponent {
 	 * @returns {void}
 	 */
 	render() {
-		const { id, type, label, placeholder } = this.props;
+		const { id, type, value, label, placeholder } = this.props;
 
 		return (
 			<React.Fragment>
@@ -58,6 +59,7 @@ class Input extends React.PureComponent {
 					type={ type }
 					id={ id }
 					name={ id }
+					value={ value }
 					placeholder={ placeholder }
 					onChange={ this.handleChange }
 				/>
@@ -69,8 +71,9 @@ class Input extends React.PureComponent {
 Input.propTypes = {
 	id: PropTypes.string.isRequired,
 	type: PropTypes.string,
-	placeholder: PropTypes.string,
+	value: PropTypes.any.isRequired,
 	label: PropTypes.string,
+	placeholder: PropTypes.string,
 	onChange: PropTypes.func,
 };
 

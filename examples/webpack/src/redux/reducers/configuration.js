@@ -1,21 +1,21 @@
-import * as actions from "../actions/paper";
+import * as actions from "../actions/configuration";
 
 const INITIAL_STATE = {};
 
 /**
- * A reducer for the paper.
+ * A reducer for the configuration.
  *
  * @param {Object} state  The current state of the object.
  * @param {Object} action The current action received.
  *
  * @returns {Object} The state.
  */
-function paper( state = INITIAL_STATE, action ) {
+function configuration( state = INITIAL_STATE, action ) {
 	switch( action.type ) {
-		case actions.SET_PAPER:
-			return action.paper;
+		case actions.SET_CONFIGURATION:
+			return action.configuration;
 
-		case actions.SET_PAPER_ATTRIBUTE:
+		case actions.SET_CONFIGURATION_ATTRIBUTE:
 			return {
 				...state,
 				[ action.name ]: action.value,
@@ -26,4 +26,4 @@ function paper( state = INITIAL_STATE, action ) {
 	}
 }
 
-export default paper;
+export default configuration;

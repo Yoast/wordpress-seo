@@ -5,11 +5,13 @@ import { bindActionCreators } from "redux";
 
 // Internal dependencies.
 import './App.css';
+import AnalysisWorker from "./analysis/AnalysisWorker";
+import Button from "./components/Button";
+import Checkbox from "./components/Checkbox";
 import Input from "./components/Input";
 import TextArea from "./components/TextArea";
-import Button from "./components/Button";
-import AnalysisWorker from "./analysis/AnalysisWorker";
-import { setPaper, setPaperAttribute } from "./redux/actions/paper";
+import * as paperActionCreators from "./redux/actionCreators/paper";
+import * as configurationActionCreators from "./redux/actionCreators/configuration";
 
 class App extends React.Component {
 	constructor( props ) {
@@ -22,15 +24,35 @@ class App extends React.Component {
 	}
 
 	initialize() {
-		this.analysisWorker.initialize( {} ).then( () => console.log( "initialization done!" ) );
+		const { configuration } = this.props;
+
+		this.analysisWorker.initialize( configuration )
+		    .then( data => console.log( "initialization done!", data ) );
 	}
 
 	analyze() {
-		this.analysisWorker.analyze( "paper" ).then( () => console.log( "analyzation done!" ) );
+		const { paper } = this.props;
+
+		this.analysisWorker.analyze( paper )
+		    .then( data => console.log( "analyzation done!", data ) );
+	}
+
+	renderPaperAttribute( id, placeholder, label = null, Component = Input, defaultValue = "" ) {
+		const { actions, paper } = this.props;
+
+		return (
+			<Component
+				id={ id }
+				value={ paper[ id ] || defaultValue }
+				label={ label || id }
+				placeholder={ placeholder }
+				onChange={ value => actions.setPaperAttribute( id, value ) }
+			/>
+		);
 	}
 
 	render() {
-		const { actions } = this.props;
+		const { paper, actions } = this.props;
 
 		return (
 			<div className="app">
@@ -42,16 +64,24 @@ class App extends React.Component {
 							<Button onClick={ this.analyze }>Analyze</Button>
 						</div>
 
-						<Input id="locale" label="Locale" placeholder="en_US" onChange={ value => actions.setPaperAttribute( "locale", value ) } />
-						<TextArea id="content" label="Text" placeholder="Start writing your text!" onChange={ value => actions.setPaperAttribute( "text", value ) } />
-						<Input id="focusKeyword" label="Focus keyword" placeholder="Choose a focus keyword" onChange={ value => actions.setPaperAttribute( "keyword", value ) } />
-						<Input id="synonyms" label="Synonyms" placeholder="Choose synonyms" onChange={ value => actions.setPaperAttribute( "synonyms", value ) } />
-						<Input id="premium" label="Premium" type="checkbox" onChange={ value => actions.setPaperAttribute( "premium", value ) } />
+						{ this.renderPaperAttribute( "text", "Write a text", null, TextArea ) }
+						{ this.renderPaperAttribute( "keyword", "Choose a focus keyword", "focus keyword" ) }
+						{ this.renderPaperAttribute( "synonyms", "Choose keyword synonyms" ) }
+						{ this.renderPaperAttribute( "title", "Write the SEO title" ) }
+						{ this.renderPaperAttribute( "description", "Write a meta description" ) }
+						{ this.renderPaperAttribute( "locale", "en_US" ) }
+
+						<h2>Configuration</h2>
+						<Checkbox
+							id="premium"
+							value={ paper.premium !== false }
+							label="Premium"
+							onChange={ value => {
+								actions.setConfigurationAttribute( "useKeywordDistribution", value )
+							} }
+						/>
 					</div>
 					<div className="output-container">
-						<p>This is what the page might look like on a Google search result page.</p>
-
-						<p>Edit the SEO title and meta description by clicking the title and meta description!</p>
 						<h2>SEO assessments</h2>
 						<div id="output" className="output">
 
@@ -132,8 +162,8 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
 	return {
 		actions: bindActionCreators( {
-			setPaper,
-			setPaperAttribute,
+			...configurationActionCreators,
+			...paperActionCreators,
 		}, dispatch ),
 	};
 }
