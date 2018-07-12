@@ -78,7 +78,7 @@ class MediaUpload extends React.Component {
 	}
 
 	/**
-	 * Renders a remove button when a company image is set.
+	 * Renders a remove button when an image is set.
 	 *
 	 * @returns {ReactElement} The button element.
 	 */
@@ -96,7 +96,7 @@ class MediaUpload extends React.Component {
 	}
 
 	/**
-	 * Renders the company image when available.
+	 * Renders the image when available.
 	 *
 	 * @returns {ReactElement} The image element.
 	 */
@@ -108,7 +108,7 @@ class MediaUpload extends React.Component {
 			<img
 				className="yoast-wizard-image-upload-container__image"
 				src={ this.state.currentUpload }
-				alt={ this.props.translate( "company logo image preview" ) } />
+				alt={ this.props.translate( "image preview" ) } />
 		);
 	}
 
