@@ -24,6 +24,7 @@ class MediaUpload extends React.Component {
 
 		this.state.mediaUpload.on( "select", this.selectUpload.bind( this ) );
 	}
+
 	/**
 	 * Sends the change event, because the component is updated.
 	 *
@@ -86,6 +87,7 @@ class MediaUpload extends React.Component {
 		if ( ! this.state.currentUpload ) {
 			return null;
 		}
+
 		return (
 			<RaisedButton
 				label={ this.props.translate( "Remove the image" ) }
@@ -104,6 +106,7 @@ class MediaUpload extends React.Component {
 		if ( ! this.state.currentUpload ) {
 			return null;
 		}
+
 		return (
 			<img
 				className="yoast-wizard-image-upload-container__image"
