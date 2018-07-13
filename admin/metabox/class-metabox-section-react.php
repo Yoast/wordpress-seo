@@ -32,13 +32,6 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	private $link_content;
 
 	/**
-	 * Link title to use.
-	 *
-	 * @var string
-	 */
-	private $link_title;
-
-	/**
 	 * Class to add to the link.
 	 *
 	 * @var string
@@ -65,7 +58,6 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 		$this->content = $content;
 
 		$default_options = array(
-			'link_title'      => '',
 			'link_class'      => '',
 			'link_aria_label' => '',
 		);
@@ -73,7 +65,6 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 		$options = array_merge( $default_options, $options );
 
 		$this->link_content    = $link_content;
-		$this->link_title      = $options['link_title'];
 		$this->link_class      = $options['link_class'];
 		$this->link_aria_label = $options['link_aria_label'];
 	}
@@ -86,7 +77,6 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 			'<li><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s%4$s>%5$s</a></li>',
 			esc_attr( $this->name ),
 			esc_attr( $this->link_class ),
-			( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
 			( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
 			$this->link_content
 		);
