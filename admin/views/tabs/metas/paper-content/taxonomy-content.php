@@ -41,6 +41,7 @@ $editor = new WPSEO_Replacevar_Editor(
 		'description'           => 'metadesc-tax-' . $wpseo_taxonomy->name,
 		'page_type_recommended' => $recommended_replace_vars->determine_for_term( $wpseo_taxonomy->name ),
 		'page_type_specific'    => $editor_specific_replace_vars->determine_for_term( $wpseo_taxonomy->name ),
+		'paper_style'           => false,
 	)
 );
 $editor->render();
