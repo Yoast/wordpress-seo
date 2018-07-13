@@ -162,8 +162,6 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	public function test_convert_indexable_data( $robot_value, $supplied_value, $expected, $description ) {
 		$data = $this->provider->convert_indexable_data( array( $robot_value => $supplied_value ) );
 
-		var_dump($data);
-
 		$this->assertEquals( $expected, $data[ $robot_value ], $description );
 	}
 
