@@ -125,12 +125,11 @@ Bugfixes:
 * Fixes a bug in the UI that happend when `do_shortcode` was run on category descriptions in the admin list. Additionally, fixes rendering of shortcodes in category descriptions on the frontend.
 * Fixes a bug where saved templates in Search Appearance would be saved incorrectly into the database, resulting in them never being loaded when editing a post, page, etc. This meant that the default template would always be used.
 * Fixes a bug where the "Tagline" / `%%sitedesc%%` snippet editor variable was not selectable in the Search Appearance settings.
-* Fixes a bug where the YoastSEO marker buttons would display in non-compatible editors.
-* Fixes a bug where certain occurrences of `rel="noopener noreferrer` wouldn't work due to typos in the word `referrer`.
 
 Other:
 * Moves some snippet variables to only appear within specific editors. Adds a filter `wpseo_editor_specific_replace_vars` to make this pluggable.
 * Adds the white background to the template of media on the Search Appearance page.
+* Disables YoastSEO marker buttons in Gutenberg, as this is not supported.
 
 = 7.8.0 =
 Release Date: July 10th, 2018
