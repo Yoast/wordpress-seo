@@ -98,7 +98,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	public function display_content() {
 		$html  = '<div id="%1$s" class="wpseo-meta-section">';
 		$html .= $this->content;
-		$html .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
+		$html .= '<div id="wpseo-metabox-root" class="wpseo-metabox-root"></div>';
 		$html .= '</div>';
 
 		printf(
