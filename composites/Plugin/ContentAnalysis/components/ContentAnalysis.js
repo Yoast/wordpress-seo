@@ -190,6 +190,10 @@ export const contentAnalysisPropType = {
 	marksButtonClassName: PropTypes.string,
 };
 
+ContentAnalysis.propTypes = {
+	...contentAnalysisPropType,
+};
+
 ContentAnalysis.defaultProps = {
 	onMarkButtonClick: () => {},
 	problemsResults: [],
