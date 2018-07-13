@@ -1,23 +1,23 @@
-let Assessor = require( "../assessor.js" );
-let SEOAssessor = require( "../seoAssessor" );
+import * as Assessor from "../assessor.js";
+import * as SEOAssessor from "../seoAssessor";
 
-let introductionKeyword = require( "../assessments/seo/introductionKeywordAssessment.js" );
-let KeyphraseLength = require( "../assessments/seo/keyphraseLengthAssessment.js" );
-let KeywordDensity = require( "../assessments/seo/keywordDensityAssessment.js" );
-let keywordStopWords = require( "../assessments/seo/keywordStopWordsAssessment.js" );
-let metaDescriptionKeyword = require( "../assessments/seo/metaDescriptionKeywordAssessment.js" );
-let MetaDescriptionLength = require( "../assessments/seo/metaDescriptionLengthAssessment.js" );
-let SubheadingsKeyword = require( "../assessments/seo/subheadingsKeywordAssessment.js" );
-let textCompetingLinks = require( "../assessments/seo/textCompetingLinksAssessment.js" );
-let TextImages = require( "../assessments/seo/textImagesAssessment.js" );
-let TextLength = require( "../assessments/seo/textLengthAssessment.js" );
-let OutboundLinks = require( "../assessments/seo/outboundLinksAssessment.js" );
-let InternalLinks = require( "../assessments/seo/internalLinksAssessment" );
-let titleKeyword = require( "../assessments/seo/titleKeywordAssessment.js" );
-let TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment.js" );
-let UrlKeyword = require( "../assessments/seo/urlKeywordAssessment.js" );
-let UrlLength = require( "../assessments/seo/urlLengthAssessment.js" );
-let urlStopWords = require( "../assessments/seo/urlStopWordsAssessment.js" );
+import * as introductionKeyword from "../assessments/seo/introductionKeywordAssessment.js";
+import * as KeyphraseLength from "../assessments/seo/keyphraseLengthAssessment.js";
+import * as KeywordDensity from "../assessments/seo/keywordDensityAssessment.js";
+import * as keywordStopWords from "../assessments/seo/keywordStopWordsAssessment.js";
+import * as metaDescriptionKeyword from "../assessments/seo/metaDescriptionKeywordAssessment.js";
+import * as MetaDescriptionLength from "../assessments/seo/metaDescriptionLengthAssessment.js";
+import * as SubheadingsKeyword from "../assessments/seo/subheadingsKeywordAssessment.js";
+import * as textCompetingLinks from "../assessments/seo/textCompetingLinksAssessment.js";
+import * as TextImages from "../assessments/seo/textImagesAssessment.js";
+import * as TextLength from "../assessments/seo/textLengthAssessment.js";
+import * as OutboundLinks from "../assessments/seo/outboundLinksAssessment.js";
+import InternalLinks from "../assessments/seo/InternalLinksAssessment.js";
+import * as titleKeyword from "../assessments/seo/titleKeywordAssessment.js";
+import * as TitleWidth from "../assessments/seo/pageTitleWidthAssessment.js";
+import * as UrlKeyword from "../assessments/seo/urlKeywordAssessment.js";
+import * as UrlLength from "../assessments/seo/urlLengthAssessment.js";
+import * as urlStopWords from "../assessments/seo/urlStopWordsAssessment.js";
 
 /**
  * Creates the Assessor
@@ -28,7 +28,7 @@ let urlStopWords = require( "../assessments/seo/urlStopWordsAssessment.js" );
  *
  * @constructor
  */
-let CornerstoneSEOAssessor = function( i18n, options ) {
+const CornerstoneSEOAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [

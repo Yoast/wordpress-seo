@@ -1,22 +1,28 @@
-const Assessment = require( "../../assessment.js" );
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const merge = require( "lodash/merge" );
+import * as Assessment from "../../assessment";
+import * as AssessmentResult from "../../values/AssessmentResult.js";
+import * as merge from "lodash/merge";
 
 /**
  * Assessment to check whether the text has internal links and whether they are followed or no-followed.
  */
-class TextHasInternalLinksAssessment extends Assessment {
+class InternalLinksAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config The configuration to use.
+	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum number of internal links in the text.
+	 * @param {number} [config.scores.allInternalFollow] The score to return if all internal links are do-follow.
+	 * @param {number} [config.scores.someInternalFollow] The score to return if some but not all internal links are do-follow.
+	 * @param {number} [config.scores.noneInternalFollow] The score to return if all internal links are no-follow.
+	 * @param {number} [config.scores.noInternal] The score to return if there are no internal links.
+	 * @param {string} [config.url] The URL to the relevant KB article.
 	 *
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			parameters: {
 				recommendedMinimum: 1,
 			},
@@ -38,13 +44,13 @@ class TextHasInternalLinksAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
-	 * @returns {Object} The AssessmentResult.
+	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher, i18n ) {
 		this.linkStatistics = researcher.getResearch( "getLinkStatistics" );
-		let assessmentResult = new AssessmentResult();
+		const assessmentResult = new AssessmentResult();
 
 		const calculatedResult = this.calculateResult( i18n );
 		assessmentResult.setScore( calculatedResult.score );
@@ -67,7 +73,7 @@ class TextHasInternalLinksAssessment extends Assessment {
 	/**
 	 * Returns a score and text based on the linkStatistics object.
 	 *
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} ResultObject with score and text
 	 */
@@ -129,4 +135,4 @@ class TextHasInternalLinksAssessment extends Assessment {
 	}
 }
 
-module.exports = TextHasInternalLinksAssessment;
+export default InternalLinksAssessment;

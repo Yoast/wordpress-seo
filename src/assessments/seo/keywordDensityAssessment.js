@@ -115,7 +115,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
 	calculateResult( i18n ) {
-		const max = "".concat( this._config.maximum.toString(), "%" );
+		const max = `${ this._config.maximum}%`;
 		const roundedKeywordDensity = formatNumber( this._keywordDensity );
 		const keywordDensityPercentage = roundedKeywordDensity + "%";
 
@@ -246,7 +246,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {Array<Mark>} Marks that should be applied.
 	 */
 	getMarks( paper ) {
-		return topicCount( paper, true  ).markings;
+		return topicCount( paper, true ).markings;
 	}
 
 

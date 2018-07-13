@@ -61,7 +61,7 @@ class UrlKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Determines the score  and the result text based on whether or not there's a keyword in the url.
+	 * Determines the score and the result text based on whether or not there's a keyword in the url.
 	 *
 	 * @param {Object} i18n The object used for translations.
 	 *
