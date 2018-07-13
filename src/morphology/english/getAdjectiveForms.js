@@ -1,9 +1,15 @@
 // "use strict";
+const countSyllablesInText = require( "../../stringProcessing/syllables/count" );
+
 const irregularAdjectives = require( "./irregularAdjectives.js" );
+const noComparativeOrSuperlative = require( "./regexAdjective.js" ).noComparativeOrSuperlative;
 const comparativeRegex = require( "./regexAdjective.js" ).comparative;
 const superlativeRegex = require( "./regexAdjective.js" ).superlative;
 const comparativeToBaseRegex = require( "./regexAdjective.js" ).comparativeToBase;
 const superlativeToBaseRegex = require( "./regexAdjective.js" ).superlativeToBase;
+const adverbRegex = require( "./regexAdjective.js" ).adverb;
+const adverbToAdjectiveRegex = require( "./regexAdjective.js" ).adverbToAdjective;
+
 
 const isUndefined = require( "lodash/isUndefined.js" );
 const unique = require( "lodash/uniq" );
@@ -30,6 +36,20 @@ const checkIrregulars = function( word ) {
 };
 
 /**
+ * Checks if the input word is longer than 2 syllables (in this case comparative and superlative forms do not need to be formed).
+ *
+ * @param {string} word The word for which to determine its length.
+ *
+ * @returns {boolean} True if the input word is longer than 2 syllables.
+ */
+const checkWordTooLong = function( word ) {
+	// todo: provide proper locale definition
+	const lengthInSyllables = countSyllablesInText( word, "en_EN" );
+
+	return lengthInSyllables > 2;
+};
+
+/**
  * Checks if the input word ends with "er".
  *
  * @param {string} word The word to check.
@@ -49,6 +69,17 @@ const endsWithEr = function( word ) {
  */
 const endsWithEst = function( word ) {
 	return word.substring( word.length - 3, word.length ) === "est";
+};
+
+/**
+ * Checks if the input word ends with "ly".
+ *
+ * @param {string} word The word to check.
+ *
+ * @returns {boolean} True if the word ends with "ly".
+ */
+const endsWithLy = function( word ) {
+	return word.substring( word.length - 2, word.length ) === "ly";
 };
 
 
@@ -92,6 +123,18 @@ const superlative = function( word ) {
 };
 
 /**
+ * Forms an adverb from the base form.
+ *
+ * @param {string} word The word to build forms for.
+ *
+ * @returns {string} The adverb formed from the input word.
+ */
+const adverb = function( word ) {
+	return buildAdjectiveFormFromRegex( word, adverbRegex );
+};
+
+
+/**
  * Forms the base form from the comparative.
  *
  * @param {string} word The word to build forms for.
@@ -111,6 +154,17 @@ const comparativeToBase = function( word ) {
  */
 const superlativeToBase = function( word ) {
 	return buildAdjectiveFormFromRegex( word, superlativeToBaseRegex );
+};
+
+/**
+ * Forms the base form from the adverb.
+ *
+ * @param {string} word The word to build forms for.
+ *
+ * @returns {string} The base form from the input word.
+ */
+const adverbToAdjective = function( word ) {
+	return buildAdjectiveFormFromRegex( word, adverbToAdjectiveRegex );
 };
 
 /**
@@ -135,6 +189,13 @@ const getBase = function( word ) {
 		};
 	}
 
+	if ( endsWithLy( word ) ) {
+		return {
+			base: adverbToAdjective( word ),
+			guessedForm: "ly",
+		};
+	}
+
 	return {
 		base: word,
 		guessedForm: "base",
@@ -142,7 +203,7 @@ const getBase = function( word ) {
 };
 
 /**
- * Collects all possible verb forms for a given word through checking if it is irregular, base, comparative, or superlative.
+ * Collects all possible verb forms for a given word through checking if it is irregular, base, adverb, comparative, or superlative.
  *
  * @param {string} word The word for which to determine its forms.
  *
@@ -156,17 +217,25 @@ const getAdjectiveForms = function( word ) {
 
 	let forms = [];
 	const base = getBase( word ).base;
-	// const guessedForm = getBase( word ).guessedForm; //Meant to be used to check if the newly built forms are built correctly.
+	// Const guessedForm = getBase( word ).guessedForm; //Meant to be used to check if the newly built forms are built correctly.
 	forms = forms.concat( word );
 
 	forms.push( base );
+	forms.push( adverb( base ) );
+
+	if ( checkWordTooLong( base ) === true || noComparativeOrSuperlative.test( base ) === true ) {
+		return unique( forms.filter( Boolean ) );
+	}
+
 	forms.push( comparative( base ) );
 	forms.push( superlative( base ) );
 
-	forms = forms.filter( Boolean );
-	return unique( forms );
+	return unique( forms.filter( Boolean ) );
 };
 
 module.exports = {
 	getAdjectiveForms: getAdjectiveForms,
+	getBase: getBase,
+	comparative: comparative,
+	superlative: superlative,
 };

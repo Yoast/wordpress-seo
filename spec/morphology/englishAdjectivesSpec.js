@@ -1,109 +1,204 @@
 const getAdjectiveForms = require( "../../src/morphology/english/getAdjectiveForms.js" ).getAdjectiveForms;
+const getBase = require( "../../src/morphology/english/getAdjectiveForms.js" ).getBase;
 const irregularAdjectivesToTest = require( "../../src/morphology/english/irregularAdjectives.js" );
+const comparative = require( "../../src/morphology/english/getAdjectiveForms.js" ).comparative;
+const superlative = require( "../../src/morphology/english/getAdjectiveForms.js" ).superlative;
+
+const includes = require( "lodash/includes" );
 
 const regularAdjectivesToTest = [
-	[ "tall", "taller", "tallest" ],
-	[ "short", "shorter", "shortest" ],
-	[ "cool", "cooler", "coolest" ],
-	[ "warm", "warmer", "warmest" ],
-	[ "dull", "duller", "dullest" ],
-	[ "high", "higher", "highest" ],
-	[ "silent", "silenter", "silentest" ],
-	[ "kind", "kinder", "kindest" ],
-	[ "firm", "firmer", "firmest" ],
-	[ "cruel", "crueler", "cruelest" ],
-	[ "green", "greener", "greenest" ],
-	[ "bitter", "bitterer", "bitterest" ],
-	[ "fresh", "fresher", "freshest" ],
-	[ "weak", "weaker", "weakest" ],
-	[ "cold", "colder", "coldest" ],
-	[ "cool", "cooler", "coolest" ],
-	[ "few", "fewer", "fewest" ],
-	[ "full", "fuller", "fullest" ],
-	[ "light", "lighter", "lightest" ],
-	[ "alert", "alerter", "alertest" ],
-	[ "certain", "certainer", "certainest" ],
-	[ "hard", "harder", "hardest" ],
-	[ "low", "lower", "lowest" ],
-	[ "new", "newer", "newest" ],
-	// [ "old", "older", "oldest" ],
-	// [ "young", "younger", "youngest" ],
-	// [ "loud", "louder", "loudest" ],
-	// [ "abrupt", "abrupter", "abruptest" ],
-	// [ "great", "greater", "greatest" ],
-	// [ "long", "longer", "longest" ],
+	[ "short", "shorter", "shortest", "shortly" ],
+	[ "cool", "cooler", "coolest", "coolly" ],
+	[ "warm", "warmer", "warmest", "warmly" ],
+	[ "high", "higher", "highest", "highly" ],
+	[ "silent", "silenter", "silentest", "silently" ],
+	[ "kind", "kinder", "kindest", "kindly" ],
+	[ "firm", "firmer", "firmest", "firmly" ],
+	[ "cruel", "crueler", "cruelest", "cruelly" ],
+	[ "green", "greener", "greenest", "greenly" ],
+	[ "fresh", "fresher", "freshest", "freshly" ],
+	[ "weak", "weaker", "weakest", "weakly" ],
+	[ "cold", "colder", "coldest", "coldly" ],
+	[ "few", "fewer", "fewest", "fewly" ],
+	[ "light", "lighter", "lightest", "lightly" ],
+	[ "alert", "alerter", "alertest", "alertly" ],
+	[ "certain", "certainer", "certainest", "certainly" ],
+	[ "hard", "harder", "hardest", "hardly" ],
+	[ "low", "lower", "lowest", "lowly" ],
+	[ "new", "newer", "newest", "newly" ],
+	[ "old", "older", "oldest", "oldly" ],
+	[ "young", "younger", "youngest", "youngly" ],
+	[ "loud", "louder", "loudest", "loudly" ],
+	[ "proud", "prouder", "proudest", "proudly" ],
+	[ "abrupt", "abrupter", "abruptest", "abruptly" ],
+	[ "great", "greater", "greatest", "greatly" ],
+	[ "long", "longer", "longest", "longly" ],
+	[ "bold", "bolder", "boldest", "boldly" ],
+	[ "bald", "balder", "baldest", "baldly" ],
+	[ "sweet", "sweeter", "sweetest", "sweetly" ],
+	[ "quiet", "quieter", "quietest", "quietly" ],
+	[ "stupid", "stupider", "stupidest", "stupidly" ],
+	[ "stiff", "stiffer", "stiffest", "stiffly" ],
+	[ "brief", "briefer", "briefest", "briefly" ],
+	[ "rich", "richer", "richest", "richly" ],
+	[ "smooth", "smoother", "smoothest", "smoothly" ],
+	[ "tough", "tougher", "toughest", "toughly" ],
+	[ "drunk", "drunker", "drunkest", "drunkly" ],
+	[ "thick", "thicker", "thickest", "thickly" ],
+	[ "lean", "leaner", "leanest", "leanly" ],
+	[ "damn", "damner", "damnest", "damnly" ],
+	[ "brown", "browner", "brownest", "brownly" ],
+	[ "clear", "clearer", "clearest", "clearly" ],
+	[ "kind", "kinder", "kindest", "kindly" ],
+	[ "narrow", "narrower", "narrowest", "narrowly" ],
+	[ "faint", "fainter", "faintest", "faintly" ],
 ];
 
 const yAtTheEnd = [
-	[ "happy", "happier", "happiest" ],
-	[ "pretty", "prettier", "prettiest" ],
-	[ "heavy", "heavier", "heaviest" ],
-	[ "tiny", "tinier", "tiniest" ],
-	[ "healthy", "healthier", "healthiest" ],
-	[ "funny", "funnier", "funniest" ],
-	[ "angry", "angrier", "angriest" ],
-	[ "crazy", "crazier", "craziest" ],
-	[ "empty", "emptier", "emptiest" ],
-	[ "busy", "busier", "busiest" ],
-	[ "guilty", "guiltier", "guiltiest" ],
-	[ "lucky", "luckier", "luckiest" ],
-	[ "holy", "holier", "holiest" ],
-	[ "dirty", "dirtier", "dirtiest" ],
-	[ "hungry", "hungrier", "hungriest" ],
-	[ "ugly", "uglier", "ugliest" ],
-	[ "wealthy", "wealthier", "wealthiest" ],
-	[ "deadly", "deadlier", "deadliest" ],
-	[ "silly", "sillier", "silliest" ],
-	[ "scary", "scarier", "scariest" ],
-	[ "lonely", "lonelier", "loneliest" ],
-	[ "sunny", "sunnier", "sunniest" ],
-	[ "risky", "riskier", "riskiest" ],
-	[ "fancy", "fancier", "fanciest" ],
-	[ "early", "earlier", "earliest" ],
-	[ "easy", "easier", "easiest" ],
+	[ "happy", "happier", "happiest", "happily" ],
+	[ "pretty", "prettier", "prettiest", "prettily" ],
+	[ "heavy", "heavier", "heaviest", "heavily" ],
+	[ "tiny", "tinier", "tiniest", "tinily" ],
+	[ "healthy", "healthier", "healthiest", "healthily" ],
+	[ "funny", "funnier", "funniest", "funnily" ],
+	[ "angry", "angrier", "angriest", "angrily" ],
+	[ "crazy", "crazier", "craziest", "crazily" ],
+	[ "empty", "emptier", "emptiest", "emptily" ],
+	[ "busy", "busier", "busiest", "busily" ],
+	[ "guilty", "guiltier", "guiltiest", "guiltily" ],
+	[ "lucky", "luckier", "luckiest", "luckily" ],
+	[ "dirty", "dirtier", "dirtiest", "dirtily" ],
+	[ "hungry", "hungrier", "hungriest", "hungrily" ],
+	[ "wealthy", "wealthier", "wealthiest", "wealthily" ],
+	[ "scary", "scarier", "scariest", "scarily" ],
+	[ "sunny", "sunnier", "sunniest", "sunnily" ],
+	[ "risky", "riskier", "riskiest", "riskily" ],
+	[ "fancy", "fancier", "fanciest", "fancily" ],
+	[ "easy", "easier", "easiest", "easily" ],
 ];
 
 const eAtTheEnd = [
-	[ "nice", "nicer", "nicest" ],
-	[ "white", "whiter", "whitest" ],
-	[ "large", "larger", "largest" ],
-	[ "true", "truer", "truest" ],
-	[ "late", "later", "latest" ],
-	[ "blue", "bluer", "bluest" ],
-	[ "simple", "simpler", "simplest" ],
-	[ "safe", "safer", "safest" ],
-	[ "wide", "wider", "widest" ],
-	[ "rare", "rarer", "rarest" ],
-	[ "pure", "purer", "purest" ],
-	[ "stable", "stabler", "stablest" ],
-	[ "subtle", "subtler", "subtlest" ],
-	[ "wise", "wiser", "wisest" ],
-	[ "cute", "cuter", "cutest" ],
-	[ "brave", "braver", "bravest" ],
-	[ "dense", "denser", "densest" ],
-	[ "vague", "vaguer", "vaguest" ],
-	[ "rude", "ruder", "rudest" ],
-	[ "gentle", "gentler", "gentlest" ],
+	[ "nice", "nicer", "nicest", "nicely" ],
+	[ "white", "whiter", "whitest", "whitely" ],
+	[ "large", "larger", "largest", "largely" ],
+	[ "late", "later", "latest", "lately" ],
+	[ "blue", "bluer", "bluest", "bluely" ],
+	[ "safe", "safer", "safest", "safely" ],
+	[ "wide", "wider", "widest", "widely" ],
+	[ "rare", "rarer", "rarest", "rarely" ],
+	[ "pure", "purer", "purest", "purely" ],
+	[ "wise", "wiser", "wisest", "wisely" ],
+	[ "cute", "cuter", "cutest", "cutely" ],
+	[ "brave", "braver", "bravest", "bravely" ],
+	[ "dense", "denser", "densest", "densely" ],
+	[ "vague", "vaguer", "vaguest", "vaguely" ],
+	[ "rude", "ruder", "rudest", "rudely" ],
+	[ "strange", "stranger", "strangest", "strangely" ],
+	[ "huge", "huger", "hugest", "hugely" ],
+	[ "extreme", "extremer", "extremest", "extremely" ],
 
 ];
 
 const needsDoublingLastConsonant = [
-	[ "big", "bigger", "biggest" ],
-	[ "red", "redder", "reddest" ],
-	[ "sad", "sadder", "saddest" ],
-	[ "mad", "madder", "maddest" ],
-	[ "slim", "slimmer", "slimmest" ],
-	[ "dim", "dimmer", "dimmest" ],
-	[ "grim", "grimmer", "grimmest" ],
-	[ "thin", "thinner", "thinnest" ],
-	[ "tan", "tanner", "tannest" ],
-	[ "hip", "hipper", "hippest" ],
-	[ "hot", "hotter", "hottest" ],
-	[ "fat", "fatter", "fattest" ],
-	[ "wet", "wetter", "wettest" ],
-	[ "fit", "fitter", "fittest" ],
+	[ "big", "bigger", "biggest", "bigly" ],
+	[ "sad", "sadder", "saddest", "sadly" ],
+	[ "mad", "madder", "maddest", "madly" ],
+	[ "slim", "slimmer", "slimmest", "slimly" ],
+	[ "dim", "dimmer", "dimmest", "dimly" ],
+	[ "grim", "grimmer", "grimmest", "grimly" ],
+	[ "thin", "thinner", "thinnest", "thinly" ],
+	[ "tan", "tanner", "tannest", "tanly" ],
+	[ "hip", "hipper", "hippest", "hiply" ],
+	[ "hot", "hotter", "hottest", "hotly" ],
+	[ "fat", "fatter", "fattest", "fatly" ],
+	[ "wet", "wetter", "wettest", "wetly" ],
+	[ "fit", "fitter", "fittest", "fitly" ],
 
 ];
+
+const icAtTheEnd = [
+	[ "academic", "academically" ],
+	[ "systematic", "systematically" ],
+	[ "democratic", "democratically" ],
+	[ "basic", "basically" ],
+	[ "scientific", "scientifically" ],
+	[ "realistic", "realistically" ],
+	[ "organic", "organically" ],
+	[ "genetic", "genetically" ],
+	[ "magnetic", "magnetically" ],
+	[ "problematic", "problematically" ],
+	[ "nordic", "nordically" ],
+	[ "manic", "manically" ],
+	[ "galactic", "galactically" ],
+];
+
+const bleAtTheEnd = [
+	[ "noble", "nobly" ],
+	[ "stable", "stably" ],
+	[ "possible", "possibly" ],
+	[ "responsible", "responsibly" ],
+	[ "incredible", "incredibly" ],
+	[ "uncomfortable", "uncomfortably" ],
+	[ "comparable", "comparably" ],
+	[ "invisible", "invisibly" ],
+	[ "reasonable", "reasonably" ],
+	[ "flexible", "flexibly" ],
+	[ "inevitable", "inevitably" ],
+	[ "horrible", "horribly" ],
+	[ "suitable", "suitably" ],
+	[ "remarkable", "remarkably" ],
+];
+
+const longAdjectives = [
+	"beautiful",
+	"necessary",
+	"superior",
+	"geographical",
+	"habitual",
+	"fictitious",
+	"fantastic",
+	"feminine",
+	"parallel",
+	"parisian",
+	"pathetic",
+	"powerless",
+	"possible",
+	"academic",
+];
+
+const OnlyBaseAdjective = [
+	"boring",
+	"calming",
+	"numbing",
+	"awful",
+	"careful",
+	"cheerful",
+	"foolish",
+	"childish",
+	"stylish",
+	"local",
+	"cordial",
+	"equal",
+	"final",
+	"alive",
+	"passive",
+	"naive",
+	"childlike",
+	"alike",
+	"basic",
+	"rustic",
+	"anxious",
+	"fearless",
+	"jealous",
+	"stable",
+	"noble",
+];
+
+const allFormsToTestForBase = regularAdjectivesToTest.concat( yAtTheEnd, eAtTheEnd, needsDoublingLastConsonant );
+
+const onlyBaseAndAdverbToTestForBase = icAtTheEnd.concat( bleAtTheEnd );
+
+const onlyBaseAndAdverb = longAdjectives.concat( OnlyBaseAdjective );
 
 let receivedForms = [];
 
@@ -159,6 +254,32 @@ describe( "Test for getting all possible word forms for needsDoublingLastConsona
 	} );
 } );
 
+describe( "Test for getting all possible word forms for icAtTheEnd adjectives", function() {
+	icAtTheEnd.forEach( function( paradigm ) {
+		paradigm.forEach( function( wordInParadigm ) {
+			it( "returns an array of word forms for a icAtTheEnd adjectives", function() {
+				receivedForms = getAdjectiveForms( wordInParadigm );
+				paradigm.forEach( function( form ) {
+					expect( receivedForms ).toContain( form );
+				} );
+			} );
+		} );
+	} );
+} );
+
+describe( "Test for getting all possible word forms for bleAtTheEnd adjectives", function() {
+	bleAtTheEnd.forEach( function( paradigm ) {
+		paradigm.forEach( function( wordInParadigm ) {
+			it( "returns an array of word forms for a bleAtTheEnd adjectives", function() {
+				receivedForms = getAdjectiveForms( wordInParadigm );
+				paradigm.forEach( function( form ) {
+					expect( receivedForms ).toContain( form );
+				} );
+			} );
+		} );
+	} );
+} );
+
 describe( "Test for getting all possible word forms for irregular adjectives", function() {
 	irregularAdjectivesToTest.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
@@ -168,6 +289,74 @@ describe( "Test for getting all possible word forms for irregular adjectives", f
 					expect( receivedForms ).toContain( form );
 				} );
 			} );
+		} );
+	} );
+} );
+
+let returnedGetBaseResult = "";
+
+describe( "Test for getting the base from all types of regular adjectives", function() {
+	allFormsToTestForBase.forEach( function( paradigm ) {
+		const testBase = paradigm[ 0 ];
+		it( "returns the base of the word form which is a base itself", function() {
+			returnedGetBaseResult = getBase( testBase );
+			expect( returnedGetBaseResult.base ).toEqual( testBase );
+			expect( returnedGetBaseResult.guessedForm ).toEqual( "base" );
+		} );
+
+		const testComparative = paradigm[ 1 ];
+		it( "returns the base of the word form which is a comparative", function() {
+			returnedGetBaseResult = getBase( testComparative );
+			expect( returnedGetBaseResult.base ).toEqual( testBase );
+			expect( returnedGetBaseResult.guessedForm ).toEqual( "er" );
+		} );
+
+		const testSuperlative = paradigm[ 2 ];
+		it( "returns the base of the word form which is a superlative", function() {
+			returnedGetBaseResult = getBase( testSuperlative );
+			expect( returnedGetBaseResult.base ).toEqual( testBase );
+			expect( returnedGetBaseResult.guessedForm ).toEqual( "est" );
+		} );
+
+		const testAdverb = paradigm[ 3 ];
+		it( "returns the base of the word form which is an adverb", function() {
+			returnedGetBaseResult = getBase( testAdverb );
+			expect( returnedGetBaseResult.base ).toEqual( testBase );
+			expect( returnedGetBaseResult.guessedForm ).toEqual( "ly" );
+		} );
+	} );
+} );
+
+describe( "Test for getting the base from adjectives that have no comparative or superlative form", function() {
+	onlyBaseAndAdverbToTestForBase.forEach( function( paradigm ) {
+		const testBase = paradigm[ 0 ];
+		it( "returns the base of the word form which is a base itself", function() {
+			returnedGetBaseResult = getBase( testBase );
+			expect( returnedGetBaseResult.base ).toEqual( testBase );
+			expect( returnedGetBaseResult.guessedForm ).toEqual( "base" );
+		} );
+
+		const testAdverb = paradigm[ 1 ];
+		it( "returns the base of the word form which is an adverb", function() {
+			returnedGetBaseResult = getBase( testAdverb );
+			expect( returnedGetBaseResult.base ).toEqual( testBase );
+			expect( returnedGetBaseResult.guessedForm ).toEqual( "ly" );
+		} );
+	} );
+} );
+
+describe( "Test for returning the input form and the adverb of the adjectives that are too long to form comparatives/superlatives", function() {
+	onlyBaseAndAdverb.forEach( function( word ) {
+		it( "returns the input word and the adverb form", function() {
+			receivedForms = getAdjectiveForms( word );
+			const fakeComparative = comparative( word );
+			const fakeSuperlative = superlative( word );
+
+			const whetherReceivedFormsHaveComparative = includes( receivedForms, fakeComparative );
+			const whetherReceivedFormsHaveSuperlative = includes( receivedForms, fakeSuperlative );
+
+			expect( whetherReceivedFormsHaveComparative ).toBe( false );
+			expect( whetherReceivedFormsHaveSuperlative ).toBe( false );
 		} );
 	} );
 } );
