@@ -8,7 +8,7 @@
 /**
  * Multisite utility class for network admin functionality.
  */
-class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
+class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPress_AJAX_Integration {
 
 	/**
 	 * Action identifier for updating plugin network options.
@@ -84,12 +84,15 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	public function handle_update_options_request() {
 		$option_group = filter_input( INPUT_POST, 'network_option_group', FILTER_SANITIZE_STRING );
 
-		check_admin_referer( "$option_group-network-options" );
+		$this->verify_request( "$option_group-network-options" );
 
 		$whitelist_options = Yoast_Network_Settings_API::get()->get_whitelist_options( $option_group );
 
 		if ( empty( $whitelist_options ) ) {
-			wp_die( __( 'Sorry, you are not allowed to modify unregistered network settings.', 'wordpress-seo' ), '', 403 );
+			add_settings_error( $option_group, 'settings_updated', __( 'You are not allowed to modify unregistered network settings.', 'wordpress-seo' ), 'error' );
+
+			$this->terminate_request();
+			return;
 		}
 
 		foreach ( $whitelist_options as $option_name ) {
@@ -106,8 +109,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 			add_settings_error( $option_group, 'settings_updated', __( 'Settings Updated.', 'wordpress-seo' ), 'updated' );
 		}
 
-		$this->persist_settings_errors();
-		$this->redirect_back( array( 'settings-updated' => 'true' ) );
+		$this->terminate_request();
 	}
 
 	/**
@@ -116,7 +118,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function handle_restore_site_request() {
-		check_admin_referer( 'wpseo-network-restore' );
+		$this->verify_request( 'wpseo-network-restore', 'restore_site_nonce' );
 
 		$option_group = 'wpseo_ms';
 
@@ -124,8 +126,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 		if ( ! $site_id ) {
 			add_settings_error( $option_group, 'settings_updated', __( 'No site has been selected to restore.', 'wordpress-seo' ), 'error' );
 
-			$this->persist_settings_errors();
-			$this->redirect_back( array( 'settings-updated' => 'true' ) );
+			$this->terminate_request();
 			return;
 		}
 
@@ -141,8 +142,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 			add_settings_error( $option_group, 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $site->blogname ) ), 'updated' );
 		}
 
-		$this->persist_settings_errors();
-		$this->redirect_back( array( 'settings-updated' => 'true' ) );
+		$this->terminate_request();
 	}
 
 	/**
@@ -161,32 +161,22 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Prints the form for restoring a site with its default settings.
+	 * Enqueues network admin assets.
 	 *
 	 * @return void
 	 */
-	public function print_restore_form() {
-		$yform = Yoast_Form::get_instance();
+	public function enqueue_assets() {
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'network-admin-script' );
 
-		echo '<h2>' . esc_html__( 'Restore site to default settings', 'wordpress-seo' ) . '</h2>';
-		echo '<form action="' . esc_url( network_admin_url( 'admin.php' ) ) . '" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
-		wp_nonce_field( 'wpseo-network-restore' );
-		echo '<p>' . esc_html__( 'Using this form you can reset a site to the default SEO settings.', 'wordpress-seo' ) . '</p>';
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'network-admin-script', 'wpseoNetworkAdminGlobalL10n', array(
 
-		if ( get_blog_count() <= 100 ) {
-			$yform->select(
-				'site_id',
-				__( 'Site ID', 'wordpress-seo' ),
-				$this->get_site_choices()
-			);
-		}
-		else {
-			$yform->textinput( 'site_id', __( 'Site ID', 'wordpress-seo' ) );
-		}
+			/* translators: %s: success message */
+			'success_prefix' => __( 'Success: %s', 'wordpress-seo' ),
 
-		echo '<input type="hidden" name="action" value="' . esc_attr( self::RESTORE_SITE_ACTION ) . '" />';
-		echo '<input type="submit" name="wpseo_restore_blog" value="' . esc_attr__( 'Restore site to defaults', 'wordpress-seo' ) . '" class="button"/>';
-		echo '</form>';
+			/* translators: %s: error message */
+			'error_prefix'   => __( 'Error: %s', 'wordpress-seo' ),
+		) );
 	}
 
 	/**
@@ -195,13 +185,25 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
+
 		if ( ! $this->meets_requirements() ) {
 			return;
 		}
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+
 		add_action( 'admin_action_' . self::UPDATE_OPTIONS_ACTION, array( $this, 'handle_update_options_request' ) );
 		add_action( 'admin_action_' . self::RESTORE_SITE_ACTION, array( $this, 'handle_restore_site_request' ) );
-		add_action( 'wpseo_admin_footer', array( $this, 'print_restore_form' ) );
+	}
+
+	/**
+	 * Hooks in the necessary AJAX actions.
+	 *
+	 * @return void
+	 */
+	public function register_ajax_hooks() {
+		add_action( 'wp_ajax_' . self::UPDATE_OPTIONS_ACTION, array( $this, 'handle_update_options_request' ) );
+		add_action( 'wp_ajax_' . self::RESTORE_SITE_ACTION, array( $this, 'handle_restore_site_request' ) );
 	}
 
 	/**
@@ -214,6 +216,53 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Verifies that the current request is valid.
+	 *
+	 * @param string $action    Nonce action.
+	 * @param string $query_arg Optional. Nonce query argument. Default '_wpnonce'.
+	 *
+	 * @return void
+	 */
+	public function verify_request( $action, $query_arg = '_wpnonce' ) {
+		$has_access = current_user_can( 'wpseo_manage_network_options' );
+
+		if ( wp_doing_ajax() ) {
+			check_ajax_referer( $action, $query_arg );
+
+			if ( ! $has_access ) {
+				wp_die( -1, 403 );
+			}
+			return;
+		}
+
+		check_admin_referer( $action, $query_arg );
+
+		if ( ! $has_access ) {
+			wp_die( __( 'You are not allowed to perform this action.', 'wordpress-seo' ) );
+		}
+	}
+
+	/**
+	 * Terminates the current request by either redirecting back or sending an AJAX response.
+	 *
+	 * @return void
+	 */
+	public function terminate_request() {
+		if ( wp_doing_ajax() ) {
+			$settings_errors = get_settings_errors();
+
+			if ( ! empty( $settings_errors ) && $settings_errors[0]['type'] === 'updated' ) {
+				wp_send_json_success( $settings_errors, 200 );
+			}
+
+			wp_send_json_error( $settings_errors, 400 );
+		}
+
+		$this->persist_settings_errors();
+		$this->redirect_back( array( 'settings-updated' => 'true' ) );
+	}
+
+	/**
 	 * Persists settings errors.
 	 *
 	 * Settings errors are stored in a transient for 30 seconds so that this transient
@@ -221,7 +270,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	private function persist_settings_errors() {
+	protected function persist_settings_errors() {
 
 		/*
 		 * A regular transient is used here, since it is automatically cleared right after the redirect.
@@ -238,7 +287,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	private function redirect_back( $query_args = array() ) {
+	protected function redirect_back( $query_args = array() ) {
 		$sendback = wp_get_referer();
 
 		if ( ! empty( $query_args ) ) {
