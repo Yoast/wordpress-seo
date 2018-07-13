@@ -12,7 +12,7 @@
  */
 class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_Indexable_Service_Post_Provider */
+	/** @var WPSEO_Indexable_Service_Post_Provider_Double */
 	protected $provider;
 
 	/**
@@ -23,7 +23,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->provider = new WPSEO_Indexable_Service_Post_Provider();
+		$this->provider = new WPSEO_Indexable_Service_Post_Provider_Double();
 	}
 
 	/**
@@ -148,24 +148,42 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the translations of the robots noindex value.
+	 * Tests the conversion of the robots values.
 	 *
-	 * @param string    $robot_value The value to test with.
-	 * @param bool|null $expected    The expected translation.
-	 * @param string    $description Description of the test.
+	 * @param string    $robot_value 	The key to test with.
+	 * @param string    $supplied_value The value to test with.
+	 * @param bool|null $expected		The expected conversion.
+	 * @param string    $description	Description of the test.
 	 *
-	 * @covers       WPSEO_Indexable_Service_Post_Provider::get_robots_noindex_value()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_indexable_data()
 	 *
-	 * @dataProvider robots_noindex_provider
+	 * @dataProvider indexable_data_conversion_provider
 	 */
-	public function test_translate_robots_noindex( $robot_value, $expected, $description ) {
-		$post = self::factory()->post->create_and_get();
+	public function test_convert_indexable_data( $robot_value, $supplied_value, $expected, $description ) {
+		$data = $this->provider->convert_indexable_data( array( $robot_value => $supplied_value ) );
 
-		WPSEO_Meta::set_value( 'meta-robots-noindex', $robot_value, $post->ID );
+		var_dump($data);
 
-		$data = $this->provider->get( $post->ID );
+		$this->assertEquals( $expected, $data[ $robot_value ], $description );
+	}
 
-		$this->assertEquals( $expected, $data['is_robots_noindex'], $description );
+	/**
+	 * Tests the conversion of the advanced robots values.
+	 *
+	 * @param string    $robot_value 	The key to test with.
+	 * @param string    $supplied_value The value to test with.
+	 * @param bool|null $expected		The expected conversion.
+	 * @param string    $description	Description of the test.
+	 *
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_advanced()
+	 *
+	 * @dataProvider advanced_indexable_data_conversion_provider
+	 */
+	public function test_convert_advanced( $robot_value, $supplied_value, $expected, $description ) {
+		$indexable 	= array( $robot_value => $supplied_value );
+		$data 		= $this->provider->convert_advanced( $indexable );
+
+		$this->assertEquals( $expected, $data, $description );
 	}
 
 	/**
@@ -173,11 +191,36 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array The test data.
 	 */
-	public function robots_noindex_provider() {
+	public function indexable_data_conversion_provider() {
 		return array(
-			array( '1', true, 'With value set to noindex' ),
-			array( '2', false, 'With value set to index' ),
-			array( 'default', null, 'With default value' ),
+			array( 'is_robots_nofollow', 'true', '1', 'With is_robots_nofollow value set to nofollow' ),
+			array( 'is_robots_nofollow', false,  '0', 'With is_robots_nofollow value set to follow' ),
+			array( 'is_robots_noindex', 'false', '2', 'With is_robots_noindex value set to index' ),
+			array( 'is_robots_noindex', 'true', '1', 'With is_robots_noindex value set to noindex' ),
+			array( 'is_robots_noindex', null, null, 'With is_robots_noindex value set to default' ),
+			array( 'is_cornerstone', 'true', '1', 'With is_cornerstone value set to true' ),
+			array( 'is_cornerstone', false, null, 'With is_cornerstone value set to false' ),
+		);
+	}
+
+	/**
+	 * Returns an array with test data.
+	 *
+	 * @return array The test data.
+	 */
+	public function advanced_indexable_data_conversion_provider() {
+		return array(
+			array( 'is_robots_nosnippet', false, '', 'With is_robots_nosnippet value set to false' ),
+			array( 'is_robots_nosnippet', true, 'nosnippet', 'With is_robots_nosnippet value set to true' ),
+			array( 'is_robots_nosnippet', null, '', 'With is_robots_nosnippet value set to null' ),
+
+			array( 'is_robots_noarchive', false, '', 'With is_robots_nosnippet value set to false' ),
+			array( 'is_robots_noarchive', true, 'noarchive', 'With is_robots_nosnippet value set to true' ),
+			array( 'is_robots_noarchive', null, '', 'With is_robots_nosnippet value set to null' ),
+
+			array( 'is_robots_noimageindex', false, '', 'With is_robots_noimageindex value set to false' ),
+			array( 'is_robots_noimageindex', true, 'noimageindex', 'With is_robots_noimageindex value set to true' ),
+			array( 'is_robots_noimageindex', null, '', 'With is_robots_noimageindex value set to null' ),
 		);
 	}
 
