@@ -74,7 +74,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	 */
 	public function display_link() {
 		printf(
-			'<li><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s%4$s>%5$s</a></li>',
+			'<li><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s>%4$s</a></li>',
 			esc_attr( $this->name ),
 			esc_attr( $this->link_class ),
 			( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
