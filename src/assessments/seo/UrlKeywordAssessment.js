@@ -1,6 +1,6 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let merge = require( "lodash/merge" );
+import * as Assessment from "../../assessment";
+import * as AssessmentResult from "../../values/AssessmentResult.js";
+import * as merge from "lodash/merge";
 
 /**
  * Represents the URL keyword assessments. This assessments will check if the keyword is present in the url.
@@ -10,13 +10,16 @@ class UrlKeywordAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config The configuration to use.
+	 * @param {number} [config.scores.noKeywordInUrl] The score to return if the keyword is not in the URL.
+	 * @param {number} [config.scores.good] The score to return if the keyword is in the URL.
+	 * @param {string} [config.url] The URL to the relevant KB article.
 	 *
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			scores: {
 				noKeywordInUrl: 6,
 				good: 9,
@@ -33,14 +36,14 @@ class UrlKeywordAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The Paper object to assess.
 	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._totalKeywords = researcher.getResearch( "keywordCountInUrl" );
 
-		let assessmentResult = new AssessmentResult();
+		const assessmentResult = new AssessmentResult();
 
 		const calculatedResult = this.calculateResult( i18n );
 		assessmentResult.setScore( calculatedResult.score );
@@ -63,7 +66,7 @@ class UrlKeywordAssessment extends Assessment {
 	/**
 	 * Determines the score and the result text based on whether or not there's a keyword in the url.
 	 *
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
@@ -96,4 +99,4 @@ class UrlKeywordAssessment extends Assessment {
 	}
 }
 
-module.exports = UrlKeywordAssessment;
+export default UrlKeywordAssessment;

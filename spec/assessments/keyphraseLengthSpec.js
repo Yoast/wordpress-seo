@@ -1,4 +1,4 @@
-const keyphraseLengthAssessment = require( "../../js/assessments/seo/keyphraseLengthAssessment.js" );
+import KeyphraseLengthAssessment from "../../js/assessments/seo/keyphraseLengthAssessment.js";
 const Paper = require( "../../js/values/Paper.js" );
 
 const factory = require( "../helpers/factory.js" );
@@ -9,7 +9,7 @@ describe( "the keyphrase length assessment", function() {
 		const paper = new Paper();
 		const researcher = factory.buildMockResearcher( 0 );
 
-		const result = new keyphraseLengthAssessment().getResult( paper, researcher, i18n );
+		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( -999 );
 		expect( result.getText() ).toEqual( "No <a href='https://yoa.st/2pdd' target='_blank'>focus keyword</a> was set for this page. " +
@@ -20,7 +20,7 @@ describe( "the keyphrase length assessment", function() {
 		const paper = new Paper( "", { keyword: "keyword" } );
 		const researcher = factory.buildMockResearcher( 11 );
 
-		const result = new keyphraseLengthAssessment().getResult( paper, researcher, i18n );
+		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 0 );
 		expect( result.getText() ).toEqual( "The <a href='https://yoa.st/2pd' target='_blank'>keyphrase</a> is over 10 words, a keyphrase should be shorter." );
@@ -30,7 +30,7 @@ describe( "the keyphrase length assessment", function() {
 		const paper = new Paper( "", { keyword: "keyword" } );
 		const researcher = factory.buildMockResearcher( 10 );
 
-		const result = new keyphraseLengthAssessment().getResult( paper, researcher, i18n );
+		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 0 );
 		expect( result.getText() ).toEqual( "" );
@@ -40,7 +40,7 @@ describe( "the keyphrase length assessment", function() {
 		const paper = new Paper( "", { keyword: "keyword" } );
 		const researcher = factory.buildMockResearcher( 1 );
 
-		const result = new keyphraseLengthAssessment().getResult( paper, researcher, i18n );
+		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 0 );
 		expect( result.getText() ).toEqual( "" );

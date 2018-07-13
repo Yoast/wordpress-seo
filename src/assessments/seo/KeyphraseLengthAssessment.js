@@ -1,7 +1,7 @@
-let Assessment = require( "../../assessment.js" );
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-const merge = require( "lodash/merge" );
-const isUndefined = require( "lodash/isUndefined" );
+import * as AssessmentResult from "../../values/AssessmentResult.js";
+import * as Assessment from "../../assessment.js";
+import * as merge from "lodash/merge";
+import * as isUndefined from "lodash/isUndefined";
 
 /**
  * Assessment to check whether the keyphrase has a good length.
@@ -11,13 +11,17 @@ class KeyphraseLengthAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config The configuration to use.
+	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum length of the keyphrase (in words).
+	 * @param {number} [config.parameters.acceptableMaximum] The acceptable maximum length of the keyphrase (in words).
+	 * @param {number} [config.scores.veryBad] The score to return if the length of the keyphrase is below recommended minimum.
+	 * @param {number} [config.scores.consideration] The score to return if the length of the keyphrase is above acceptable maximum.
 	 *
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			parameters: {
 				recommendedMinimum: 1,
 				acceptableMaximum: 10,
@@ -45,7 +49,7 @@ class KeyphraseLengthAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._keyphraseLength = researcher.getResearch( "keyphraseLength" );
-		let assessmentResult =  new AssessmentResult();
+		const assessmentResult =  new AssessmentResult();
 
 		const calculatedResult = this.calculateResult( i18n );
 
@@ -98,4 +102,4 @@ class KeyphraseLengthAssessment extends Assessment {
 	}
 }
 
-module.exports = KeyphraseLengthAssessment;
+export default KeyphraseLengthAssessment;

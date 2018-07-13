@@ -2,8 +2,8 @@ import * as Assessor from "../assessor.js";
 import * as SEOAssessor from "../seoAssessor";
 
 import * as introductionKeyword from "../assessments/seo/introductionKeywordAssessment.js";
-import * as KeyphraseLength from "../assessments/seo/keyphraseLengthAssessment.js";
-import * as KeywordDensity from "../assessments/seo/keywordDensityAssessment.js";
+import KeyphraseLength from "../assessments/seo/KeyphraseLengthAssessment.js";
+import KeywordDensity from "../assessments/seo/KeywordDensityAssessment.js";
 import * as keywordStopWords from "../assessments/seo/keywordStopWordsAssessment.js";
 import * as metaDescriptionKeyword from "../assessments/seo/metaDescriptionKeywordAssessment.js";
 import * as MetaDescriptionLength from "../assessments/seo/metaDescriptionLengthAssessment.js";
@@ -15,7 +15,7 @@ import * as OutboundLinks from "../assessments/seo/outboundLinksAssessment.js";
 import InternalLinks from "../assessments/seo/InternalLinksAssessment.js";
 import * as titleKeyword from "../assessments/seo/titleKeywordAssessment.js";
 import * as TitleWidth from "../assessments/seo/pageTitleWidthAssessment.js";
-import * as UrlKeyword from "../assessments/seo/urlKeywordAssessment.js";
+import UrlKeyword from "../assessments/seo/UrlKeywordAssessment.js";
 import * as UrlLength from "../assessments/seo/urlLengthAssessment.js";
 import * as urlStopWords from "../assessments/seo/urlStopWordsAssessment.js";
 

@@ -1,10 +1,10 @@
-const Assessment = require( "../../assessment.js" );
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const countWords = require( "../../stringProcessing/countWords.js" );
-const inRange = require( "../../helpers/inRange.js" );
-const formatNumber = require( "../../helpers/formatNumber.js" );
-const topicCount = require( "../../researches/topicCount" );
-const merge = require( "lodash/merge" );
+import * as Assessment from "../../assessment";
+import * as AssessmentResult from "../../values/AssessmentResult.js";
+import * as countWords from "../../stringProcessing/countWords.js";
+import * as inRange from "../../helpers/inRange.js";
+import * as formatNumber from "../../helpers/formatNumber.js";
+import * as topicCount from "../../researches/topicCount";
+import * as merge from "lodash/merge";
 
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
 const inRangeStartInclusive = inRange.inRangeStartInclusive;
@@ -18,16 +18,26 @@ class KeywordDensityAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config The configuration to use.
+	 * @param {number} [config.parameters.overMaximum] The percentage of keyword instances in the text that is way over the maximum.
+	 * @param {number} [config.parameters.maximum] The maximum percentage of keyword instances in the text.
+	 * @param {number} [config.parameters.minimum] The minimum percentage of keyword instances in the text.
+	 * @param {number} [config.scores.wayOverMaximum] The score to return if there are way too many instances of keyword in the text.
+	 * @param {number} [config.scores.overMaximum] The score to return if there are too many instances of keyword in the text.
+	 * @param {number} [config.scores.correctDensity] The score to return if there is a good number of keyword instances in the text.
+	 * @param {number} [config.scores.underMinimum] The score to return if there is not enough keyword instances in the text.
+	 * @param {string} [config.url] The URL to the relevant KB article.
 	 *
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
-			overMaximum: 3.5,
-			maximum: 2.5,
-			minimum: 0.5,
+		const defaultConfig = {
+			parameters: {
+				overMaximum: 3.5,
+				maximum: 2.5,
+				minimum: 0.5,
+			},
 			scores: {
 				wayOverMaximum: -50,
 				overMaximum: -10,
@@ -46,12 +56,12 @@ class KeywordDensityAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling the research.
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
-	 * @returns {AssessmentResult} The assessment result.
+	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let assessmentResult = new AssessmentResult();
+		const assessmentResult = new AssessmentResult();
 
 		this._keywordCount = researcher.getResearch( "keywordCount" ).count;
 
@@ -80,7 +90,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the rounded keyword density is between 0 and the recommended minimum.
 	 */
 	hasTooFewMatches() {
-		return inRangeStartInclusive( this._keywordDensity, 0, this._config.minimum );
+		return inRangeStartInclusive( this._keywordDensity, 0, this._config.parameters.minimum );
 	}
 
 	/**
@@ -90,7 +100,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * and the recommended maximum.
 	 */
 	hasGoodNumberOfMatches() {
-		return inRangeStartEndInclusive( this._keywordDensity, this._config.minimum, this._config.maximum );
+		return inRangeStartEndInclusive( this._keywordDensity, this._config.parameters.minimum, this._config.parameters.maximum );
 	}
 
 	/**
@@ -101,18 +111,18 @@ class KeywordDensityAssessment extends Assessment {
 	 * the specified overMaximum value.
 	 */
 	hasTooManyMatches() {
-		return inRangeEndInclusive( this._keywordDensity, this._config.maximum, this._config.overMaximum );
+		return inRangeEndInclusive( this._keywordDensity, this._config.parameters.maximum, this._config.parameters.overMaximum );
 	}
 
 	/**
 	 * Returns the score for the keyword density.
 	 *
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
 	calculateResult( i18n ) {
-		const max = `${ this._config.maximum}%`;
+		const max = `${ this._config.parameters.maximum}%`;
 		const roundedKeywordDensity = formatNumber( this._keywordDensity );
 		const keywordDensityPercentage = roundedKeywordDensity + "%";
 
@@ -259,4 +269,4 @@ class KeywordDensityAssessment extends Assessment {
 	}
 }
 
-module.exports = KeywordDensityAssessment;
+export default KeywordDensityAssessment;
