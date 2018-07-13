@@ -18,6 +18,13 @@ const ChangeLanguageLink = makeOutboundLink( styled.a`
 	margin-left: 4px;
 ` );
 
+export const LanguageNoticeContainer = styled.div`
+	width: 100%;
+	background-color: white;
+	max-width: 800px;
+	margin: 0 auto;
+`;
+
 const changeLanguageText = __( "Change language" );
 /* Translators: %s expands to the actual language. */
 const canChangeLanguageText = __( "Your site language is set to %s. " );
@@ -59,12 +66,14 @@ export default class LanguageNotice extends PureComponent {
 		} );
 
 		return (
-			<YoastLanguageNotice>
-				{ text }
-				{ canChangeLanguage && <ChangeLanguageLink href={ changeLanguageLink }>
-					{ changeLanguageText }
-				</ChangeLanguageLink> }
-			</YoastLanguageNotice>
+			<LanguageNoticeContainer>
+				<YoastLanguageNotice>
+					{ text }
+					{ canChangeLanguage && <ChangeLanguageLink href={ changeLanguageLink }>
+						{ changeLanguageText }
+					</ChangeLanguageLink> }
+				</YoastLanguageNotice>
+			</LanguageNoticeContainer>
 		);
 	}
 }

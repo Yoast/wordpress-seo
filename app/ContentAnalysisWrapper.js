@@ -1,6 +1,7 @@
 import React from "react";
 
 import ContentAnalysis from "../composites/Plugin/ContentAnalysis/components/ContentAnalysis";
+import LanguageNotice from "../composites/Plugin/Shared/components/LanguageNotice.js";
 
 /**
  * Returns the HelpCenterWrapper component.
@@ -62,24 +63,28 @@ export default function HelpCenterWrapper() {
 	];
 
 	return (
-		<ContentAnalysis
-			problemsResults={ problemsResults }
-			improvementsResults={ improvementsResults }
-			goodResults={ goodResults }
-			considerationsResults={ considerationsResults }
-			errorsResults={ errorsResults }
-			changeLanguageLink="#"
-			language="English"
-			showLanguageNotice={ true }
-			canChangeLanguage={ true }
-			onMarkButtonClick={ ( id, marker ) => {
-				console.log( "Marker button clicked", id, marker );
-			} }
-			marksButtonStatus={ "enabled" }
-			helpText={ [
-				"Enter the search term you'd like this post to be found with and see how it would rank. ",
-				<a key="1" href="https://yoa.st/" target="_blank" rel="noopener">Learn more about the Content Analysis Tool.</a>,
-			] }
-		/>
+		<div>
+			<LanguageNotice
+				canChangeLanguage={ true }
+				changeLanguageLink={ "#" }
+				language={ "English" }
+				showLanguageNotice={ true }
+			/>
+			<ContentAnalysis
+				problemsResults={ problemsResults }
+				improvementsResults={ improvementsResults }
+				goodResults={ goodResults }
+				considerationsResults={ considerationsResults }
+				errorsResults={ errorsResults }
+				changeLanguageLink="#"
+				language="English"
+				showLanguageNotice={ true }
+				canChangeLanguage={ true }
+				onMarkButtonClick={ ( id, marker ) => {
+					console.log( "Marker button clicked", id, marker );
+				} }
+				marksButtonStatus={ "enabled" }
+			/>
+		</div>
 	);
 }

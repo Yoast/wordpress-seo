@@ -5,6 +5,7 @@ import styled from "styled-components";
 // Internal dependencies.
 import KeywordInput from "../composites/Plugin/Shared/components/KeywordInput";
 import SynonymsSection from "../composites/Plugin/Synonyms/components/SynonymsSection";
+import HelpText from "../composites/Plugin/Shared/components/HelpText.js";
 
 const Container = styled.div`
 	background-color: white;
@@ -55,6 +56,10 @@ export default class KeywordExample extends Component {
 	render() {
 		return (
 			<Container>
+				<HelpText text={ [
+					"Enter the search term you'd like this post to be found with and see how it would rank. ",
+					<a key="1" href="https://yoa.st/" target="_blank" rel="noopener">Learn more about the Content Analysis Tool.</a>,
+				] }/>
 				<KeywordInput
 					id="focus-keyword"
 					label={ "Focus keyword"}
