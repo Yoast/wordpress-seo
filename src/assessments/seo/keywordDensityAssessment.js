@@ -75,22 +75,19 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether there are too few keyword matches in the text. One keyword match is always considered
-	 * as bad, regardless of the density.
+	 * Checks whether there are too few keyword matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between 0 and the recommended minimum
-	 * or if there there is only 1 keyword match (regardless of the density).
+	 * @returns {boolean} Returns true if the rounded keyword density is between 0 and the recommended minimum.
 	 */
 	hasTooFewMatches() {
 		return inRangeStartInclusive( this._keywordDensity, 0, this._config.minimum );
 	}
 
 	/**
-	 * Checks whether there is a good number of keyword matches in the text. Two keyword matches are always
-	 * considered as good, regardless of the density.
+	 * Checks whether there is a good number of keyword matches in the text.
 	 *
 	 * @returns {boolean} Returns true if the rounded keyword density is between the recommended minimum
-	 * and the recommended maximum or if the keyword count is 2 and the recommended minimum is lower than 2.
+	 * and the recommended maximum.
 	 */
 	hasGoodNumberOfMatches() {
 		return inRangeStartEndInclusive( this._keywordDensity, this._config.minimum, this._config.maximum );
@@ -251,7 +248,7 @@ class KeywordDensityAssessment extends Assessment {
 
 
 	/**
-	 * Checks whether the paper has a text with at least 100 words, a keyword is set and there are no synonyms.
+	 * Checks whether the paper has a text with at least 100 words and a keyword is set.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
