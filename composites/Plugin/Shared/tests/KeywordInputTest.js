@@ -11,7 +11,7 @@ describe( KeywordInput, () => {
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
 			<KeywordInput id="test-id" onChange={ () => {
-			} } label="test label" keyword=""/>
+			} } label="test label"/>
 		);
 
 		let tree = component.toJSON();
@@ -20,12 +20,13 @@ describe( KeywordInput, () => {
 
 	it( "does not display the error message for a single keyword", () => {
 		const wrapper = Enzyme.mount(
-			<KeywordInput id="test-id" onChange={ () => {
-			} } label="test label" keyword=""/>
+			<KeywordInput id="test-id" onChange={ ( value ) => {
+				wrapper.setProps( { keyword: value } );
+			} } label="test label" />
 		);
 		wrapper.find( "input" ).simulate( "change", {
 			target: {
-				value: "Keyword1",
+				value: "Keyword",
 			},
 		} );
 		expect( wrapper.find( "p[role=\"alert\"]" ).length ).toBe( 0 );
@@ -33,8 +34,9 @@ describe( KeywordInput, () => {
 
 	it( "does not display the error message for two words separated by whitespace", () => {
 		const wrapper = Enzyme.mount(
-			<KeywordInput id="test-id" onChange={ () => {
-			} } label="test label" keyword=""/>
+			<KeywordInput id="test-id" onChange={ ( value ) => {
+				wrapper.setProps( { keyword: value } );
+			} } label="test label" />
 		);
 		wrapper.find( "input" ).simulate( "change", {
 			target: {
@@ -46,16 +48,15 @@ describe( KeywordInput, () => {
 
 	it( "displays the error message for comma-separated words", () => {
 		const wrapper = Enzyme.mount(
-			<KeywordInput id="test-id" onChange={ () => {
-			} } label="test label" value="test,test"/>
+			<KeywordInput id="test-id" onChange={ ( value ) => {
+				wrapper.setProps( { keyword: value } );
+			} } label="test label" />
 		);
 		wrapper.find( "input" ).simulate( "change", {
 			target: {
 				value: "Keyword1, Keyword2",
 			},
 		} );
-		console.log(wrapper.state());
-		expect( wrapper ).toBe( 1 );
-		expect( wrapper.find( "div" ).text() ).toBeTruthy();
+		expect( wrapper.find( "p[role=\"alert\"]" ).length ).toBe( 1 );
 	} );
 } );

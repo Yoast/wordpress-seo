@@ -185,42 +185,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   padding: 0 16px 0 0;
 }
 
-.c19 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin: 1em 0;
-}
-
-.c20 {
-  font-size: 1em;
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-
-.c21 {
-  border-color: #f1f1f1;
-  border-style: solid;
-  border-width: 3px;
-  padding: 0.75em;
-  font-size: 1.1em;
-}
-
-.c21.hasError {
-  border-color: #dc3232;
-  outline-color: #dc3232;
-}
-
-.c22 {
-  color: #dc3232;
-  margin: 0.5em 0 0 0;
-  min-height: 1.8em;
-}
-
 .c0 {
   width: 100%;
   background-color: white;
@@ -662,30 +626,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
       </li>
     </ul>
   </div>
-  <div
-    className="c19"
-  >
-    <label
-      className="c20"
-      htmlFor="yoast-keyword-input-1"
-    >
-      fdfsdfds
-    </label>
-    <input
-      aria-label={null}
-      className="hasError c21"
-      id="yoast-keyword-input-1"
-      onChange={[Function]}
-      type="text"
-      value="dsafdasfa,ffa"
-    />
-    <p
-      className="c22"
-      role="alert"
-    >
-      Are you trying to use multiple keywords? You should add them separately below.
-    </p>
-  </div>
 </div>
 `;
 
@@ -848,42 +788,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   margin: 0;
   list-style: none;
   padding: 0 16px 0 0;
-}
-
-.c17 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin: 1em 0;
-}
-
-.c18 {
-  font-size: 1em;
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-
-.c19 {
-  border-color: #f1f1f1;
-  border-style: solid;
-  border-width: 3px;
-  padding: 0.75em;
-  font-size: 1.1em;
-}
-
-.c19.hasError {
-  border-color: #dc3232;
-  outline-color: #dc3232;
-}
-
-.c20 {
-  color: #dc3232;
-  margin: 0.5em 0 0 0;
-  min-height: 1.8em;
 }
 
 .c0 {
@@ -1270,30 +1174,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         />
       </li>
     </ul>
-  </div>
-  <div
-    className="c17"
-  >
-    <label
-      className="c18"
-      htmlFor="yoast-keyword-input-1"
-    >
-      fdfsdfds
-    </label>
-    <input
-      aria-label={null}
-      className="hasError c19"
-      id="yoast-keyword-input-1"
-      onChange={[Function]}
-      type="text"
-      value="dsafdasfa,ffa"
-    />
-    <p
-      className="c20"
-      role="alert"
-    >
-      Are you trying to use multiple keywords? You should add them separately below.
-    </p>
   </div>
 </div>
 `;
@@ -1483,42 +1363,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   padding: 0 16px 0 0;
 }
 
-.c19 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin: 1em 0;
-}
-
-.c20 {
-  font-size: 1em;
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-
-.c21 {
-  border-color: #f1f1f1;
-  border-style: solid;
-  border-width: 3px;
-  padding: 0.75em;
-  font-size: 1.1em;
-}
-
-.c21.hasError {
-  border-color: #dc3232;
-  outline-color: #dc3232;
-}
-
-.c22 {
-  color: #dc3232;
-  margin: 0.5em 0 0 0;
-  min-height: 1.8em;
-}
-
 .c0 {
   width: 100%;
   background-color: white;
@@ -1959,30 +1803,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </button>
       </li>
     </ul>
-  </div>
-  <div
-    className="c19"
-  >
-    <label
-      className="c20"
-      htmlFor="yoast-keyword-input-1"
-    >
-      fdfsdfds
-    </label>
-    <input
-      aria-label={null}
-      className="hasError c21"
-      id="yoast-keyword-input-1"
-      onChange={[Function]}
-      type="text"
-      value="dsafdasfa,ffa"
-    />
-    <p
-      className="c22"
-      role="alert"
-    >
-      Are you trying to use multiple keywords? You should add them separately below.
-    </p>
   </div>
 </div>
 `;
@@ -2172,42 +1992,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   padding: 0 16px 0 0;
 }
 
-.c19 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin: 1em 0;
-}
-
-.c20 {
-  font-size: 1em;
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-
-.c21 {
-  border-color: #f1f1f1;
-  border-style: solid;
-  border-width: 3px;
-  padding: 0.75em;
-  font-size: 1.1em;
-}
-
-.c21.hasError {
-  border-color: #dc3232;
-  outline-color: #dc3232;
-}
-
-.c22 {
-  color: #dc3232;
-  margin: 0.5em 0 0 0;
-  min-height: 1.8em;
-}
-
 .c0 {
   width: 100%;
   background-color: white;
@@ -2649,30 +2433,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
       </li>
     </ul>
   </div>
-  <div
-    className="c19"
-  >
-    <label
-      className="c20"
-      htmlFor="yoast-keyword-input-1"
-    >
-      fdfsdfds
-    </label>
-    <input
-      aria-label={null}
-      className="hasError c21"
-      id="yoast-keyword-input-1"
-      onChange={[Function]}
-      type="text"
-      value="dsafdasfa,ffa"
-    />
-    <p
-      className="c22"
-      role="alert"
-    >
-      Are you trying to use multiple keywords? You should add them separately below.
-    </p>
-  </div>
 </div>
 `;
 
@@ -2859,42 +2619,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   margin: 0;
   list-style: none;
   padding: 0 16px 0 0;
-}
-
-.c19 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin: 1em 0;
-}
-
-.c20 {
-  font-size: 1em;
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-
-.c21 {
-  border-color: #f1f1f1;
-  border-style: solid;
-  border-width: 3px;
-  padding: 0.75em;
-  font-size: 1.1em;
-}
-
-.c21.hasError {
-  border-color: #dc3232;
-  outline-color: #dc3232;
-}
-
-.c22 {
-  color: #dc3232;
-  margin: 0.5em 0 0 0;
-  min-height: 1.8em;
 }
 
 .c0 {
@@ -3183,30 +2907,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         </button>
       </li>
     </ul>
-  </div>
-  <div
-    className="c19"
-  >
-    <label
-      className="c20"
-      htmlFor="yoast-keyword-input-1"
-    >
-      fdfsdfds
-    </label>
-    <input
-      aria-label={null}
-      className="hasError c21"
-      id="yoast-keyword-input-1"
-      onChange={[Function]}
-      type="text"
-      value="dsafdasfa,ffa"
-    />
-    <p
-      className="c22"
-      role="alert"
-    >
-      Are you trying to use multiple keywords? You should add them separately below.
-    </p>
   </div>
 </div>
 `;
@@ -3396,42 +3096,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   padding: 0 16px 0 0;
 }
 
-.c19 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin: 1em 0;
-}
-
-.c20 {
-  font-size: 1em;
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-
-.c21 {
-  border-color: #f1f1f1;
-  border-style: solid;
-  border-width: 3px;
-  padding: 0.75em;
-  font-size: 1.1em;
-}
-
-.c21.hasError {
-  border-color: #dc3232;
-  outline-color: #dc3232;
-}
-
-.c22 {
-  color: #dc3232;
-  margin: 0.5em 0 0 0;
-  min-height: 1.8em;
-}
-
 .c0 {
   width: 100%;
   background-color: white;
@@ -3719,30 +3383,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
       </li>
     </ul>
   </div>
-  <div
-    className="c19"
-  >
-    <label
-      className="c20"
-      htmlFor="yoast-keyword-input-1"
-    >
-      fdfsdfds
-    </label>
-    <input
-      aria-label={null}
-      className="hasError c21"
-      id="yoast-keyword-input-1"
-      onChange={[Function]}
-      type="text"
-      value="dsafdasfa,ffa"
-    />
-    <p
-      className="c22"
-      role="alert"
-    >
-      Are you trying to use multiple keywords? You should add them separately below.
-    </p>
-  </div>
 </div>
 `;
 
@@ -3929,42 +3569,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   margin: 0;
   list-style: none;
   padding: 0 16px 0 0;
-}
-
-.c19 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin: 1em 0;
-}
-
-.c20 {
-  font-size: 1em;
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-
-.c21 {
-  border-color: #f1f1f1;
-  border-style: solid;
-  border-width: 3px;
-  padding: 0.75em;
-  font-size: 1.1em;
-}
-
-.c21.hasError {
-  border-color: #dc3232;
-  outline-color: #dc3232;
-}
-
-.c22 {
-  color: #dc3232;
-  margin: 0.5em 0 0 0;
-  min-height: 1.8em;
 }
 
 .c0 {
@@ -4319,30 +3923,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
       </li>
     </ul>
   </div>
-  <div
-    className="c19"
-  >
-    <label
-      className="c20"
-      htmlFor="yoast-keyword-input-1"
-    >
-      fdfsdfds
-    </label>
-    <input
-      aria-label={null}
-      className="hasError c21"
-      id="yoast-keyword-input-1"
-      onChange={[Function]}
-      type="text"
-      value="dsafdasfa,ffa"
-    />
-    <p
-      className="c22"
-      role="alert"
-    >
-      Are you trying to use multiple keywords? You should add them separately below.
-    </p>
-  </div>
 </div>
 `;
 
@@ -4529,42 +4109,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   margin: 0;
   list-style: none;
   padding: 0 16px 0 0;
-}
-
-.c19 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin: 1em 0;
-}
-
-.c20 {
-  font-size: 1em;
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-
-.c21 {
-  border-color: #f1f1f1;
-  border-style: solid;
-  border-width: 3px;
-  padding: 0.75em;
-  font-size: 1.1em;
-}
-
-.c21.hasError {
-  border-color: #dc3232;
-  outline-color: #dc3232;
-}
-
-.c22 {
-  color: #dc3232;
-  margin: 0.5em 0 0 0;
-  min-height: 1.8em;
 }
 
 .c0 {
@@ -4788,30 +4332,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
         </button>
       </li>
     </ul>
-  </div>
-  <div
-    className="c19"
-  >
-    <label
-      className="c20"
-      htmlFor="yoast-keyword-input-1"
-    >
-      fdfsdfds
-    </label>
-    <input
-      aria-label={null}
-      className="hasError c21"
-      id="yoast-keyword-input-1"
-      onChange={[Function]}
-      type="text"
-      value="dsafdasfa,ffa"
-    />
-    <p
-      className="c22"
-      role="alert"
-    >
-      Are you trying to use multiple keywords? You should add them separately below.
-    </p>
   </div>
 </div>
 `;
