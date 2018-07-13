@@ -87,7 +87,6 @@ const components = [
 ];
 
 class App extends React.Component {
-
 	constructor() {
 		super();
 
