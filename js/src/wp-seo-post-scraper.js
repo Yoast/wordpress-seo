@@ -30,7 +30,6 @@ import UsedKeywords from "./analysis/usedKeywords";
 
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
-import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 
@@ -99,7 +98,7 @@ setWordPressSeoL10n();
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return ! isGutenbergPostAvailable() && wpseoPostScraperL10n.show_markers === "1";
+		return tinyMCEHelper.isTinyMCEAvailable( tmceId ) && window.wpseoPostScraperL10n.show_markers === "1";
 	}
 
 	/**
