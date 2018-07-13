@@ -106,17 +106,39 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
-		$content_sections = array(
-			$this->get_content_meta_section(),
-			$this->get_social_meta_section(),
-			$this->get_settings_meta_section(),
-		);
+		$content_sections = array();
+
+		if ( defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR') && YOAST_FEATURE_GUTENBERG_SIDEBAR ) {
+			$content_sections[] = $this->get_content_meta_section_react();
+		} else {
+			$content_sections[] = $this->get_content_meta_section();
+		}
+
+		$content_sections[] = $this->get_social_meta_section();
+		$content_sections[] = $this->get_settings_meta_section();
 
 		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 			$content_sections[] = $this->get_buy_premium_section();
 		}
 
 		return $content_sections;
+	}
+
+	/**
+	 * Returns the metabox content for React to hook into.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
+	private function get_content_meta_section_react() {
+		return new WPSEO_Metabox_Section_React(
+			'content',
+			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
+			array(),
+			array(
+				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
+			)
+		);
 	}
 
 	/**
