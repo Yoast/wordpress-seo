@@ -349,9 +349,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_content_sections() {
 		$content_sections = array();
 
-		if ( defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR') && YOAST_FEATURE_GUTENBERG_SIDEBAR ) {
-            $content_sections[] = $this->get_content_meta_section_react();
-		} else {
+		if ( defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' ) && YOAST_FEATURE_GUTENBERG_SIDEBAR ) {
+			$content_sections[] = $this->get_content_meta_section_react();
+		}
+		else {
 			$content_sections[] = $this->get_content_meta_section();
 		}
 
@@ -576,8 +577,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$content = '';
 		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
 			if ( $meta_field['type'] !== 'hidden' ) {
-			    continue;
-            }
+				continue;
+			}
+
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
 		unset( $key, $meta_field );

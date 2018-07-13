@@ -11,26 +11,43 @@
 class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 
 	/**
+	 * Name of the section.
+	 *
 	 * @var string
 	 */
 	public $name;
 
 	/**
+	 * Content to use above the React root node.
+	 *
+	 * @var string
+	 */
+	public $content;
+
+	/**
+	 * Content to use for the link.
+	 *
 	 * @var string
 	 */
 	private $link_content;
 
 	/**
+	 * Link title to use.
+	 *
 	 * @var string
 	 */
 	private $link_title;
 
 	/**
+	 * Class to add to the link.
+	 *
 	 * @var string
 	 */
 	private $link_class;
 
 	/**
+	 * Aria label to use for the link.
+	 *
 	 * @var string
 	 */
 	private $link_aria_label;
@@ -40,9 +57,10 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	 *
 	 * @param string $name         The name of the section, used as an identifier in the html. Can only contain URL safe characters.
 	 * @param string $link_content The text content of the section link.
+	 * @param string $content      Optional. Content to use above the React root element.
 	 * @param array  $options      Optional link attributes.
 	 */
-	public function __construct( $name, $link_content, $content, array $options = array() ) {
+	public function __construct( $name, $link_content, $content = '', array $options = array() ) {
 		$this->name = $name;
 		$this->content = $content;
 
