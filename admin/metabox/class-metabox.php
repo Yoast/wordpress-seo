@@ -550,7 +550,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Gets the contents for the metabox tab.
+	 * Retrieves the contents for the metabox tab.
 	 *
 	 * @param string $tab_name Tab for which to retrieve the field definitions.
 	 *
@@ -561,30 +561,28 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
-		unset( $key, $meta_field );
 
 		return $content;
 	}
 
 	/**
-	 * Gets the contents for the metabox tab.
+	 * Retrieves the hidden fields for the metabox tab.
 	 *
 	 * @param string $tab_name Tab for which to retrieve the field definitions.
 	 *
 	 * @return string
 	 */
 	private function get_hidden_tab_fields( $tab_name ) {
-		$content = '';
+		$hidden_fields = '';
 		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
 			if ( $meta_field['type'] !== 'hidden' ) {
 				continue;
 			}
 
-			$content .= $this->do_meta_box( $meta_field, $key );
+			$hidden_fields .= $this->do_meta_box( $meta_field, $key );
 		}
-		unset( $key, $meta_field );
 
-		return $content;
+		return $hidden_fields;
 	}
 
 	/**
