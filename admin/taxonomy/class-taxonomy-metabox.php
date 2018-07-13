@@ -130,15 +130,32 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_content_meta_section_react() {
+		$taxonomy_content_fields = new WPSEO_Taxonomy_Content_Fields( $this->term );
+
+		$fields  = $taxonomy_content_fields->get( $this->term );
+		$fields  = array_filter( $fields, array( $this, 'filter_hidden_fields' ) );
+		$content = $this->taxonomy_tab_content->html( $fields );
+
 		return new WPSEO_Metabox_Section_React(
 			'content',
 			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
-			array(),
+			$content,
 			array(
 				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
 			)
 		);
+	}
+
+	/**
+	 * Filters out non-hidden fields.
+	 *
+	 * @param array $field Content field to check.
+	 *
+	 * @return bool True if the field is a hidden field.
+	 */
+	private function filter_hidden_fields( $field ) {
+		return $field['type'] === 'hidden';
 	}
 
 	/**

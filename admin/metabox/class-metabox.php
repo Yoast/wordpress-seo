@@ -384,7 +384,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return new WPSEO_Metabox_Section_React(
 			'content',
 			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
-			array(),
+			$this->get_hidden_tab_fields( 'general' ),
 			array(
 				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
@@ -558,6 +558,26 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_tab_content( $tab_name ) {
 		$content = '';
 		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
+			$content .= $this->do_meta_box( $meta_field, $key );
+		}
+		unset( $key, $meta_field );
+
+		return $content;
+	}
+
+	/**
+	 * Gets the contents for the metabox tab.
+	 *
+	 * @param string $tab_name Tab for which to retrieve the field definitions.
+	 *
+	 * @return string
+	 */
+	private function get_hidden_tab_fields( $tab_name ) {
+		$content = '';
+		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
+			if ( $meta_field['type'] !== 'hidden' ) {
+			    continue;
+            }
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
 		unset( $key, $meta_field );

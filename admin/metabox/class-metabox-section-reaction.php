@@ -42,8 +42,9 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	 * @param string $link_content The text content of the section link.
 	 * @param array  $options      Optional link attributes.
 	 */
-	public function __construct( $name, $link_content, array $options = array() ) {
+	public function __construct( $name, $link_content, $content, array $options = array() ) {
 		$this->name = $name;
+		$this->content = $content;
 
 		$default_options = array(
 			'link_title'      => '',
@@ -78,6 +79,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	 */
 	public function display_content() {
 		$html  = '<div id="%1$s" class="wpseo-meta-section">';
+		$html .= $this->content;
 		$html .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
 		$html .= '</div>';
 
