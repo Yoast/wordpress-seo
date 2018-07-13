@@ -110,7 +110,8 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 Release Date: July 24th, 2018
 
 Enhancements:
-* Improves accessibility of the collapsible sections in Search Appearance > Content Types.
+* Introduces the collapsible sections to all the tabs in Search Appearance.
+* Improves accessibility of the collapsible sections in Search Appearance.
 
 Bugfixes:
 * Fixes a bug where archive settings for post types aren't shown on the search appearance page when the `has_archive` for that post type contains an archive slug. Props to [schurig](https://github.com/schurig).
@@ -122,6 +123,10 @@ Bugfixes:
 * Fixes a bug where the same notification is shown multiple times when trashing multiple posts.
 * Fixes a bug where a possibly non-existent key would be retrieved when generating the `article:section` OpenGraph tag. Props to [mikeschinkel](https://github.com/mikeschinkel).
 * Fixes a bug in the UI that happend when `do_shortcode` was run on category descriptions in the admin list. Additionally, fixes rendering of shortcodes in category descriptions on the frontend.
+* Fixes a bug where saved templates in Search Appearance would be saved incorrectly into the database, resulting in them never being loaded when editing a post, page, etc. This meant that the default template would always be used.
+* Fixes a bug where the "Tagline" / `%%sitedesc%%` snippet editor variable was not selectable in the Search Appearance settings.
+* Fixes a bug where the YoastSEO marker buttons would display in non-compatible editors.
+* Fixes a bug where certain occurrences of `rel="noopener noreferrer` wouldn't work due to typos in the word `referrer`.
 
 Other:
 * Moves some snippet variables to only appear within specific editors. Adds a filter `wpseo_editor_specific_replace_vars` to make this pluggable.
