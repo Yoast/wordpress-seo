@@ -1,4 +1,4 @@
-import KeyphraseLengthAssessment from "../../js/assessments/seo/keyphraseLengthAssessment.js";
+import KeyphraseLengthAssessment from "../../js/assessments/seo/KeyphraseLengthAssessment.js";
 const Paper = require( "../../js/values/Paper.js" );
 
 const factory = require( "../helpers/factory.js" );

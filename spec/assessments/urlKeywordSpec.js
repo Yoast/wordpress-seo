@@ -1,4 +1,4 @@
-import UrlKeywordAssessment from "../../js/assessments/seo/urlKeywordAssessment.js";
+import UrlKeywordAssessment from "../../js/assessments/seo/UrlKeywordAssessment.js";
 const Paper = require( "../../js/values/Paper.js" );
 const Factory = require( "../helpers/factory.js" );
 const i18n = Factory.buildJed();
