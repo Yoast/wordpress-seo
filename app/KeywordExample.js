@@ -1,7 +1,6 @@
 // External dependencies.
 import React, { Component } from "react";
 import styled from "styled-components";
-import debounce from "lodash/debounce";
 
 // Internal dependencies.
 import KeywordInput from "../composites/Plugin/Shared/components/KeywordInput";
@@ -13,33 +12,46 @@ const Container = styled.div`
 	padding: 10px;
 	display: flex;
 	flex-direction: column;
-	width: 512px;
+	width: 248px;
 `;
 
 export default class KeywordExample extends Component {
-	/**
-	 * Renders an example of how to use the keyword inputs.
-	 *
-	 * @returns {ReactElement} The rendered keyword example.
-	 */
 
+	/**
+	 * Constructs a keywordInput example
+	 *
+	 * @param {Object} props The props for the snippet preview example.
+	 *
+	 * @returns {void}
+	 */
 	constructor( props ) {
 		super( props );
 
 		this.state = {
-			keyword: "myKeywordo",
+			keyword: "special",
 		};
 
 		this.updateKeyword = this.updateKeyword.bind( this );
 	}
 
-	updateKeyword( event ) {
+	/**
+	 * Updates the keyword.
+	 *
+	 * @param {string} newKeyword The new keyword.
+	 *
+	 * @returns {void}
+	 */
+	updateKeyword( newKeyword ) {
 		this.setState( {
-			keyword: event,
+			keyword: newKeyword,
 		} );
 	}
 
-
+	/**
+	 * Renders an example of how to use the keyword input.
+	 *
+	 * @returns {ReactElement} The rendered keyword input.
+	 */
 	render() {
 		return (
 			<Container>
@@ -52,7 +64,7 @@ export default class KeywordExample extends Component {
 
 				<SynonymsSection
 					label={ "Keyword synonyms" }
-					onChange={ synonyms => console.log( 'SynonymsField change event', synonyms ) }
+					onChange={ synonyms => console.log( "SynonymsField change event", synonyms ) }
 				    synonyms=""
 				/>
 			</Container>
