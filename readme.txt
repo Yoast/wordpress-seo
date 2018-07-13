@@ -129,7 +129,6 @@ Bugfixes:
 Other:
 * Moves some snippet variables to only appear within specific editors. Adds a filter `wpseo_editor_specific_replace_vars` to make this pluggable.
 * Adds the white background to the template of media on the Search Appearance page.
-* Disables YoastSEO marker buttons in Gutenberg, as this is not supported.
 
 = 7.8.0 =
 Release Date: July 10th, 2018
