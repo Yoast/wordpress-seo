@@ -6,9 +6,7 @@ import merge from "lodash/merge";
 // YoastSEO.js dependencies.
 import * as Paper from "yoastseo/values/Paper";
 import * as Researcher from "yoastseo/researcher";
-import * as SEOAssessor from "yoastseo/seoAssessor";
 import * as ContentAssessor from "yoastseo/contentAssessor";
-import * as CornerstoneSEOAssessor from "yoastseo/cornerstone/seoAssessor";
 import * as CornerstoneContentAssessor from "yoastseo/cornerstone/contentAssessor";
 
 // Internal dependencies.
@@ -86,7 +84,7 @@ class AnalysisWebWorker {
 		};
 
 		return new Jed( translations );
-	};
+	}
 
 	/**
 	 * Initializes the appropriate content assessor.
@@ -109,7 +107,7 @@ class AnalysisWebWorker {
 			return new CornerstoneContentAssessor( this.i18n, { locale } );
 		}
 		return new ContentAssessor( this.i18n, { locale } );
-	};
+	}
 
 	/**
 	 * Sends a message.

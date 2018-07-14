@@ -19,8 +19,7 @@ export function encodePayload( payload ) {
 export function decodePayload( payload ) {
 	try {
 		return JSON.parse( payload );
-	}
-	catch( error ) {
+	} catch( error ) {
 		return payload;
 	}
 }

@@ -65,7 +65,7 @@ class AnalysisWorker {
 
 				this.getCallback( "analyze", payload.id )( null, {
 					category: payload.category,
-					results:payload.results,
+					results: payload.results,
 					score: payload.score,
 				} );
 				break;
@@ -121,10 +121,8 @@ class AnalysisWorker {
 	 * @returns {number} The new ID.
 	 */
 	incrementID( name ) {
-		if ( this._ids[ name ] ) {
-			return ++this._ids[ name ];
-		}
-		return this._ids[ name ] = 0;
+		this._ids[ name ] = this._ids[ name ] ? this._ids[ name ] + 1 : 0;
+		return this._ids[ name ];
 	}
 
 	/**
@@ -168,7 +166,7 @@ class AnalysisWorker {
 	 */
 	createCallbackPromise( name, id ) {
 		return new Promise( ( resolve, reject ) => {
-			this.setCallback( name , id, ( error, result ) => {
+			this.setCallback( name, id, ( error, result ) => {
 				if ( error ) {
 					return reject( new Error( error ) );
 				}
