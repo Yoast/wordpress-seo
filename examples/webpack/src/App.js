@@ -3,9 +3,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+// YoastSEO.js dependencies.
+import AnalysisWorker from "yoast/worker/AnalysisWorker";
+
 // Internal dependencies.
 import './App.css';
-import AnalysisWorker from "./analysis/AnalysisWorker";
 import Button from "./components/Button";
 import Checkbox from "./components/Checkbox";
 import Input from "./components/Input";
