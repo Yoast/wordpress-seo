@@ -4,12 +4,12 @@ import omit from "lodash/omit";
 import merge from "lodash/merge";
 
 // YoastSEO.js dependencies.
-import * as Paper from "yoast/values/Paper";
-import * as Researcher from "yoast/researcher";
-import * as SEOAssessor from "yoast/seoAssessor";
-import * as ContentAssessor from "yoast/contentAssessor";
-import * as CornerstoneSEOAssessor from "yoast/cornerstone/seoAssessor";
-import * as CornerstoneContentAssessor from "yoast/cornerstone/contentAssessor";
+import * as Paper from "yoastseo/values/Paper";
+import * as Researcher from "yoastseo/researcher";
+import * as SEOAssessor from "yoastseo/seoAssessor";
+import * as ContentAssessor from "yoastseo/contentAssessor";
+import * as CornerstoneSEOAssessor from "yoastseo/cornerstone/seoAssessor";
+import * as CornerstoneContentAssessor from "yoastseo/cornerstone/contentAssessor";
 
 // Internal dependencies.
 import { encodePayload, decodePayload } from "./utils";

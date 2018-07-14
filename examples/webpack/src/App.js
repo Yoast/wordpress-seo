@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 // YoastSEO.js dependencies.
-import AnalysisWorker from "yoast/worker/AnalysisWorker";
+import AnalysisWorker from "yoastseo/worker/AnalysisWorker";
 
 // Internal dependencies.
 import './App.css';
