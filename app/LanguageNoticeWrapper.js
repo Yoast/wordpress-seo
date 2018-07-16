@@ -25,10 +25,7 @@ export default function LanguageNoticeWrapper( props ) {
 	return (
 		<LanguageNoticeContainer>
 			<LanguageNotice
-				changeLanguageLink={ props.changeLanguageLink }
-				language={ props.language }
-				showLanguageNotice={ props.canChangeLanguage }
-				canChangeLanguage={ props.showLanguageNotice }
+				{ ...props }
 			/>
 		</LanguageNoticeContainer>
 	);
