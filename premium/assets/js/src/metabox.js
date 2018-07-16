@@ -46,6 +46,15 @@ function linkSuggestionsEnabled() {
 }
 
 /**
+ * Determines whether or not the SEO Analysis is enabled.
+ *
+ * @returns {boolean} Whether or not the SEO Analysis is enabled.
+ */
+function seoAnalysisEnabled() {
+	return settings.seoAnalysisEnabled;
+}
+
+/**
  * Determines whether or not link suggestions is supported.
  *
  * @returns {boolean} Whether or not link suggestions is supported.
@@ -73,13 +82,16 @@ function registerStoreInGutenberg() {
  * @returns {void}
  */
 function initializeMetabox() {
-	// Set options for largest keyword distance assessment to be added in premium.
-	YoastSEO.app.changeAssessorOptions( { useKeywordDistribution: true } );
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
 
-	const synonyms = new Synonyms();
-	synonyms.initializeDOM();
+	if ( seoAnalysisEnabled() ) {
+		// Set options for largest keyword distance assessment to be added in premium.
+		YoastSEO.app.changeAssessorOptions( {useKeywordDistribution: true} );
+
+		const synonyms = new Synonyms();
+		synonyms.initializeDOM();
+	}
 
 	if ( insightsEnabled() || linkSuggestionsEnabled() ) {
 		initializeKeywordSuggestionsMetabox();
