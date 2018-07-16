@@ -104,18 +104,20 @@ VideoDescriptionItem.defaultProps = {
  * @returns {ReactElement} The VideoTutorial component.
  */
 export default function VideoTutorial( props ) {
+	const hasParagraphs = props.paragraphs.length > 0;
+
 	return (
 		<VideoTutorialContainer className={ `${ props.className }__container` }>
 			<VideoContainer
 				className={ `${ props.className }__video-container` }
-				hasParagraphs={ props.paragraphs.length > 0 }
+				hasParagraphs={ hasParagraphs }
 			>
 				<YouTubeVideo
 					src={ props.src }
 					title={ props.title }
 				/>
 			</VideoContainer>
-			<VideoDescriptions className={ `${ props.className }__descriptions` }>
+			{ hasParagraphs && <VideoDescriptions className={ `${ props.className }__descriptions` }>
 				{ props.paragraphs.map( paragraph => {
 					return (
 						<VideoDescriptionItem className={ `${ props.className }__description` }
@@ -123,7 +125,7 @@ export default function VideoTutorial( props ) {
 							{ ...paragraph } />
 					);
 				} ) }
-			</VideoDescriptions>
+			</VideoDescriptions> }
 		</VideoTutorialContainer>
 	);
 }
