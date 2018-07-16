@@ -69,15 +69,15 @@ function initializeMetabox() {
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
 
-	if (seoAnalysisEnabled()) {
+	if ( seoAnalysisEnabled() ) {
 		// Set options for largest keyword distance assessment to be added in premium.
-		YoastSEO.app.changeAssessorOptions({useKeywordDistribution: true});
+		YoastSEO.app.changeAssessorOptions( {useKeywordDistribution: true} );
 
 		const synonyms = new Synonyms();
 		synonyms.initializeDOM();
 	}
 
-	if (insightsEnabled() || linkSuggestionsEnabled()) {
+	if ( insightsEnabled() || linkSuggestionsEnabled() ) {
 		initializeKeywordSuggestionsMetabox();
 	}
 
