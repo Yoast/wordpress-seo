@@ -5,6 +5,8 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.35.5 July 16th, 2018
+
 ## 1.35.4 July 16th, 2018
 ### Changed
 * Changes feedback in the keyword density assessment to make it more explicit that synonyms are not taken into consideration when calculating the score.
