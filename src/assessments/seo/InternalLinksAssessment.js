@@ -1,6 +1,7 @@
-import * as Assessment from "../../assessment";
-import * as AssessmentResult from "../../values/AssessmentResult.js";
 import * as merge from "lodash/merge";
+
+import * as Assessment from "../../assessment";
+import * as AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Assessment to check whether the text has internal links and whether they are followed or no-followed.

@@ -1,4 +1,4 @@
-import InternalLinksAssessment from "../../js/assessments/seo/InternalLinksAssessment.js";
+import InternalLinksAssessment from "../../js/assessments/seo/InternalLinksAssessment";
 
 const Paper = require( "../../js/values/Paper.js" );
 

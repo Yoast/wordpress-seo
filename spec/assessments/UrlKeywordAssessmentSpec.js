@@ -1,9 +1,9 @@
-import UrlKeywordAssessment from "../../js/assessments/seo/UrlKeywordAssessment.js";
+import UrlKeywordAssessment from "../../js/assessments/seo/UrlKeywordAssessment";
 const Paper = require( "../../js/values/Paper.js" );
 const Factory = require( "../helpers/factory.js" );
 const i18n = Factory.buildJed();
 
-let keywordInUrl = new UrlKeywordAssessment();
+const keywordInUrl = new UrlKeywordAssessment();
 
 describe( "A keyword in url count assessment", function() {
 	it( "assesses no keyword was found in the url", function() {

@@ -1,10 +1,11 @@
-import * as Assessment from "../../assessment";
-import * as AssessmentResult from "../../values/AssessmentResult.js";
-import * as countWords from "../../stringProcessing/countWords.js";
-import * as inRange from "../../helpers/inRange.js";
-import * as formatNumber from "../../helpers/formatNumber.js";
-import * as topicCount from "../../researches/topicCount";
 import * as merge from "lodash/merge";
+
+import * as Assessment from "../../assessment";
+import * as AssessmentResult from "../../values/AssessmentResult";
+import * as countWords from "../../stringProcessing/countWords";
+import * as inRange from "../../helpers/inRange";
+import * as formatNumber from "../../helpers/formatNumber";
+import * as topicCount from "../../researches/topicCount";
 
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
 const inRangeStartInclusive = inRange.inRangeStartInclusive;

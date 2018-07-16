@@ -1,5 +1,5 @@
 /* global describe it expect */
-import KeywordDensityAssessment from "../../js/assessments/seo/KeywordDensityAssessment.js";
+import KeywordDensityAssessment from "../../js/assessments/seo/KeywordDensityAssessment";
 const Paper = require( "../../js/values/Paper.js" );
 const Mark = require( "../../src/values/Mark.js" );
 const factory = require( "../helpers/factory.js" );

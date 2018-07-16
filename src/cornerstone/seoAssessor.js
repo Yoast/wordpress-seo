@@ -1,23 +1,24 @@
-import * as Assessor from "../assessor.js";
-import * as SEOAssessor from "../seoAssessor";
+import { inherits } from "util";
 
-import * as introductionKeyword from "../assessments/seo/introductionKeywordAssessment.js";
-import KeyphraseLength from "../assessments/seo/KeyphraseLengthAssessment.js";
-import KeywordDensity from "../assessments/seo/KeywordDensityAssessment.js";
-import * as keywordStopWords from "../assessments/seo/keywordStopWordsAssessment.js";
-import * as metaDescriptionKeyword from "../assessments/seo/metaDescriptionKeywordAssessment.js";
-import * as MetaDescriptionLength from "../assessments/seo/metaDescriptionLengthAssessment.js";
-import * as SubheadingsKeyword from "../assessments/seo/subheadingsKeywordAssessment.js";
-import * as textCompetingLinks from "../assessments/seo/textCompetingLinksAssessment.js";
-import * as TextImages from "../assessments/seo/textImagesAssessment.js";
-import * as TextLength from "../assessments/seo/textLengthAssessment.js";
-import * as OutboundLinks from "../assessments/seo/outboundLinksAssessment.js";
-import InternalLinks from "../assessments/seo/InternalLinksAssessment.js";
-import * as titleKeyword from "../assessments/seo/titleKeywordAssessment.js";
-import * as TitleWidth from "../assessments/seo/pageTitleWidthAssessment.js";
-import UrlKeyword from "../assessments/seo/UrlKeywordAssessment.js";
-import * as UrlLength from "../assessments/seo/urlLengthAssessment.js";
-import * as urlStopWords from "../assessments/seo/urlStopWordsAssessment.js";
+import * as Assessor from "../assessor";
+import * as SEOAssessor from "../seoAssessor";
+import * as introductionKeyword from "../assessments/seo/introductionKeywordAssessment";
+import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
+import KeywordDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
+import * as keywordStopWords from "../assessments/seo/keywordStopWordsAssessment";
+import * as metaDescriptionKeyword from "../assessments/seo/metaDescriptionKeywordAssessment";
+import * as MetaDescriptionLength from "../assessments/seo/metaDescriptionLengthAssessment";
+import * as SubheadingsKeyword from "../assessments/seo/subheadingsKeywordAssessment";
+import * as textCompetingLinks from "../assessments/seo/textCompetingLinksAssessment";
+import * as TextImages from "../assessments/seo/textImagesAssessment";
+import * as TextLength from "../assessments/seo/textLengthAssessment";
+import * as OutboundLinks from "../assessments/seo/outboundLinksAssessment";
+import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment";
+import * as titleKeyword from "../assessments/seo/titleKeywordAssessment";
+import * as TitleWidth from "../assessments/seo/pageTitleWidthAssessment";
+import UrlKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
+import * as UrlLength from "../assessments/seo/urlLengthAssessment";
+import * as urlStopWords from "../assessments/seo/urlStopWordsAssessment";
 
 /**
  * Creates the Assessor
@@ -33,8 +34,8 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		introductionKeyword,
-		new KeyphraseLength(),
-		new KeywordDensity(),
+		new KeyphraseLengthAssessment(),
+		new KeywordDensityAssessment(),
 		keywordStopWords,
 		metaDescriptionKeyword,
 		new MetaDescriptionLength( {
@@ -77,7 +78,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 				noLinks: 3,
 			},
 		} ),
-		new InternalLinks(),
+		new InternalLinksAssessment(),
 		titleKeyword,
 		new TitleWidth(
 			{
@@ -87,7 +88,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 				},
 			}
 		),
-		new UrlKeyword(
+		new UrlKeywordAssessment(
 			{
 				scores: {
 					noKeywordInUrl: 3,
@@ -103,6 +104,6 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 	];
 };
 
-require( "util" ).inherits( CornerstoneSEOAssessor, SEOAssessor );
+inherits( CornerstoneSEOAssessor, SEOAssessor );
 
 module.exports = CornerstoneSEOAssessor;

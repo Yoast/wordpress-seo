@@ -1,9 +1,10 @@
-import * as AssessmentResult from "../../values/AssessmentResult.js";
-import * as Assessment from "../../assessment.js";
 import * as merge from "lodash/merge";
-import * as countWords from "../../stringProcessing/countWords.js";
-import * as topicCount from "../../researches/topicCount.js";
-import { inRangeStartEndInclusive } from "../../helpers/inRange.js";
+
+import * as AssessmentResult from "../../values/AssessmentResult";
+import * as Assessment from "../../assessment";
+import * as countWords from "../../stringProcessing/countWords";
+import * as topicCount from "../../researches/topicCount";
+import { inRangeStartEndInclusive } from "../../helpers/inRange";
 
 /**
  * Returns a score based on the largest percentage of text in
