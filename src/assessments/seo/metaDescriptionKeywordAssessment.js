@@ -59,21 +59,6 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 * @returns {Object} Result object with score and text.
 	 */
 	calculateResult( i18n ) {
-		if ( this._keywordMatches < this._config.parameters.recommendedMinimumMatches ) {
-			return {
-				score: this._config.scores.bad,
-				resultText: i18n.sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-					i18n.dgettext(
-						"js-text-analysis",
-						"A meta description has been specified, but it %1$sdoes not contain the focus keyword%2$s."
-					),
-					this._config.url,
-					"</a>"
-				),
-			};
-		}
-
 		if ( this._keywordMatches >= this._config.parameters.recommendedMinimumMatches  ) {
 			return {
 				score: this._config.scores.good,
@@ -88,6 +73,19 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 				),
 			};
 		}
+
+		return {
+			score: this._config.scores.bad,
+			resultText: i18n.sprintf(
+				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+				i18n.dgettext(
+					"js-text-analysis",
+					"A meta description has been specified, but it %1$sdoes not contain the focus keyword%2$s."
+				),
+				this._config.url,
+				"</a>"
+			),
+		};
 	}
 
 	/**
