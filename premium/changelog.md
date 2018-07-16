@@ -5,6 +5,10 @@ Bugfixes:
 Other:
 * Includes every change in Yoast SEO core 7.9.0 see the [core changelog](https://wordpress.org/plugins/wordpress-seo/#developers).
 
+### 7.8.1: July 16th, 2018
+Bugfixes:
+* Fixes a bug where the snippet editor changes were not saved when the SEO Analysis feature is turned off.
+
 ### 7.8.0: July 10th, 2018
 Enhancements:
 * Shows a notification regarding the creation of redirects when deleting a category or tag.
