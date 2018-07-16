@@ -138,7 +138,7 @@ class KeywordDensityAssessment extends Assessment {
 					%4$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d times.",
+						"The exact-match %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d times.",
 						this._keywordCount
 					),
 					keywordDensityPercentage,
@@ -160,8 +160,8 @@ class KeywordDensityAssessment extends Assessment {
 					%4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d time.",
-						"The %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d times.",
+						"The exact-match %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d time.",
+						"The exact-match %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d times.",
 						this._keywordCount
 					),
 					keywordDensityPercentage,
@@ -183,8 +183,8 @@ class KeywordDensityAssessment extends Assessment {
 					%4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The %3$skeyword density%4$s is %1$s, which is great; the focus keyword was found %2$d time.",
-						"The %3$skeyword density%4$s is %1$s, which is great; the focus keyword was found %2$d times.",
+						"The exact-match %3$skeyword density%4$s is %1$s, which is great; the focus keyword was found %2$d time.",
+						"The exact-match %3$skeyword density%4$s is %1$s, which is great; the focus keyword was found %2$d times.",
 						this._keywordCount
 					),
 					keywordDensityPercentage,
@@ -207,8 +207,8 @@ class KeywordDensityAssessment extends Assessment {
 					%5$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The %4$skeyword density%5$s is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d time.",
-						"The %4$skeyword density%5$s is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d times.",
+						"The exact-match %4$skeyword density%5$s is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d time.",
+						"The exact-match %4$skeyword density%5$s is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d times.",
 						this._keywordCount
 					),
 					keywordDensityPercentage,
@@ -232,8 +232,8 @@ class KeywordDensityAssessment extends Assessment {
 				%5$s expands to the anchor end tag. */
 				i18n.dngettext(
 					"js-text-analysis",
-					"The %4$skeyword density%5$s is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d time.",
-					"The %4$skeyword density%5$s is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d times.",
+					"The exact-match %4$skeyword density%5$s is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d time.",
+					"The exact-match %4$skeyword density%5$s is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d times.",
 					this._keywordCount
 				),
 				keywordDensityPercentage,
