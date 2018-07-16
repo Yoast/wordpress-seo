@@ -53,10 +53,12 @@ class KeywordDensityAssessment extends Assessment {
 	}
 
 	/**
-	 * Runs the keyword density module, based on this returns an assessment result with score.
+	 * Runs the keyword density module, based on this returns an assessment
+	 * result with score.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher} researcher The researcher used for calling the research.
+	 * @param {Researcher} researcher The researcher used for calling the
+	 *                                research.
 	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment.
@@ -88,31 +90,45 @@ class KeywordDensityAssessment extends Assessment {
 	/**
 	 * Checks whether there are too few keyword matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between 0 and the recommended minimum.
+	 * @returns {boolean} Returns true if the rounded keyword density is between
+	 *                    0 and the recommended minimum.
 	 */
 	hasTooFewMatches() {
-		return inRangeStartInclusive( this._keywordDensity, 0, this._config.parameters.minimum );
+		return inRangeStartInclusive(
+			this._keywordDensity,
+			0,
+			this._config.parameters.minimum
+		);
 	}
 
 	/**
 	 * Checks whether there is a good number of keyword matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between the recommended minimum
-	 * and the recommended maximum.
+	 * @returns {boolean} Returns true if the rounded keyword density is between
+	 *                    the recommended minimum and the recommended maximum.
 	 */
 	hasGoodNumberOfMatches() {
-		return inRangeStartEndInclusive( this._keywordDensity, this._config.parameters.minimum, this._config.parameters.maximum );
+		return inRangeStartEndInclusive(
+			this._keywordDensity,
+			this._config.parameters.minimum,
+			this._config.parameters.maximum
+		);
 	}
 
 	/**
-	 * Checks whether the number of keyword matches in the text is between the recommended maximum and the
-	 * specified overMaximum value.
+	 * Checks whether the number of keyword matches in the text is between the
+	 * recommended maximum and the specified overMaximum value.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between the recommended maximum and
-	 * the specified overMaximum value.
+	 * @returns {boolean} Returns true if the rounded keyword density is between
+	 *                    the recommended maximum and the specified overMaximum
+	 *                    value.
 	 */
 	hasTooManyMatches() {
-		return inRangeEndInclusive( this._keywordDensity, this._config.parameters.maximum, this._config.parameters.overMaximum );
+		return inRangeEndInclusive(
+			this._keywordDensity,
+			this._config.parameters.maximum,
+			this._config.parameters.overMaximum
+		);
 	}
 
 	/**
@@ -138,7 +154,8 @@ class KeywordDensityAssessment extends Assessment {
 					%4$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"The exact-match %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d times.",
+						"The exact-match %3$skeyword density%4$s is %1$s," +
+						" which is too low; the focus keyword was found %2$d times.",
 						this._keywordCount
 					),
 					keywordDensityPercentage,
@@ -160,8 +177,10 @@ class KeywordDensityAssessment extends Assessment {
 					%4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The exact-match %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d time.",
-						"The exact-match %3$skeyword density%4$s is %1$s, which is too low; the focus keyword was found %2$d times.",
+						"The exact-match %3$skeyword density%4$s is %1$s," +
+						" which is too low; the focus keyword was found %2$d time.",
+						"The exact-match %3$skeyword density%4$s is %1$s," +
+						" which is too low; the focus keyword was found %2$d times.",
 						this._keywordCount
 					),
 					keywordDensityPercentage,
@@ -183,8 +202,10 @@ class KeywordDensityAssessment extends Assessment {
 					%4$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The exact-match %3$skeyword density%4$s is %1$s, which is great; the focus keyword was found %2$d time.",
-						"The exact-match %3$skeyword density%4$s is %1$s, which is great; the focus keyword was found %2$d times.",
+						"The exact-match %3$skeyword density%4$s is %1$s," +
+						" which is great; the focus keyword was found %2$d time.",
+						"The exact-match %3$skeyword density%4$s is %1$s," +
+						" which is great; the focus keyword was found %2$d times.",
 						this._keywordCount
 					),
 					keywordDensityPercentage,
@@ -207,8 +228,10 @@ class KeywordDensityAssessment extends Assessment {
 					%5$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"The exact-match %4$skeyword density%5$s is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d time.",
-						"The exact-match %4$skeyword density%5$s is %1$s, which is over the advised %3$s maximum; the focus keyword was found %2$d times.",
+						"The exact-match %4$skeyword density%5$s is %1$s," +
+						" which is over the advised %3$s maximum; the focus keyword was found %2$d time.",
+						"The exact-match %4$skeyword density%5$s is %1$s," +
+						" which is over the advised %3$s maximum; the focus keyword was found %2$d times.",
 						this._keywordCount
 					),
 					keywordDensityPercentage,
@@ -232,8 +255,10 @@ class KeywordDensityAssessment extends Assessment {
 				%5$s expands to the anchor end tag. */
 				i18n.dngettext(
 					"js-text-analysis",
-					"The exact-match %4$skeyword density%5$s is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d time.",
-					"The exact-match %4$skeyword density%5$s is %1$s, which is way over the advised %3$s maximum; the focus keyword was found %2$d times.",
+					"The exact-match %4$skeyword density%5$s is %1$s," +
+					" which is way over the advised %3$s maximum; the focus keyword was found %2$d time.",
+					"The exact-match %4$skeyword density%5$s is %1$s," +
+					" which is way over the advised %3$s maximum; the focus keyword was found %2$d times.",
 					this._keywordCount
 				),
 				keywordDensityPercentage,
@@ -259,7 +284,8 @@ class KeywordDensityAssessment extends Assessment {
 
 
 	/**
-	 * Checks whether the paper has a text with at least 100 words and a keyword is set.
+	 * Checks whether the paper has a text with at least 100 words and a keyword
+	 * is set.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
