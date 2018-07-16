@@ -285,7 +285,7 @@ var App = function( args ) {
 		app.*/
 		if ( this.snippetPreview.refObj !== this ) {
 			this.snippetPreview.refObj = this;
-			this.snippetPreview.i18n = this.i18n;
+			this.snippetPreview._i18n = this.i18n;
 		}
 	} else if ( args.hasSnippetPreview ) {
 		this.snippetPreview = createDefaultSnippetPreview.call( this );
@@ -415,10 +415,10 @@ App.prototype.initializeContentAssessor = function( args ) {
 	this.cornerStoneContentAssessor = new CornerstoneContentAssessor( this.i18n, { marker: this.config.marker, locale: this.config.locale } );
 
 	// Set the content assessor
-	if ( isUndefined( args.contentAssessor ) ) {
+	if ( isUndefined( args._contentAssessor ) ) {
 		this.contentAssessor = this.defaultContentAssessor;
 	} else {
-		this.contentAssessor = args.contentAssessor;
+		this.contentAssessor = args._contentAssessor;
 	}
 };
 

@@ -23,7 +23,7 @@ class AnalysisWorker {
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
 
-		// Bind events to this scope.
+		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
 		this.handleMessageError = this.handleMessageError.bind( this );
 		this.handleError = this.handleError.bind( this );
@@ -183,7 +183,7 @@ class AnalysisWorker {
 	 *
 	 * @returns {void}
 	 */
-	postMessage( type, payload ) {
+	send( type, payload ) {
 		console.log( "wrapper => worker", type, payload );
 		this._worker.postMessage( {
 			type,
@@ -203,7 +203,7 @@ class AnalysisWorker {
 		const name = "initialize";
 		const id = this.incrementID( name );
 
-		this.postMessage( name, configuration );
+		this.send( name, configuration );
 
 		return this.createCallbackPromise( name, id );
 	}
@@ -221,7 +221,7 @@ class AnalysisWorker {
 		const name = "analyze";
 		const id = this.incrementID( name );
 
-		this.postMessage( name, {
+		this.send( name, {
 			id,
 			paper,
 			configuration,

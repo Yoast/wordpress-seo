@@ -10,6 +10,7 @@ import * as ContentAssessor from "yoastseo/contentAssessor";
 import * as CornerstoneContentAssessor from "yoastseo/cornerstone/contentAssessor";
 
 // Internal dependencies.
+import { Scheduler, Task } from "./scheduler";
 import { encodePayload, decodePayload } from "./utils";
 
 /**
@@ -23,18 +24,24 @@ class AnalysisWebWorker {
 	 * Initializes the AnalysisWebWorker class.
 	 */
 	constructor() {
-		this.configuration = {
+		this._configuration = {
 			contentAnalysisActive: true,
 			keywordAnalysisActive: true,
 			useCornerstone: false,
 			useKeywordDistribution: false,
 			locale: "en_US",
 		};
-		this.i18n = AnalysisWebWorker.createI18n();
-		this.paper = new Paper( "" );
-		this.researcher = new Researcher( this.paper );
-		this.contentAssessor = null;
+		this._scheduler = new Scheduler( self );
+		this._i18n = AnalysisWebWorker.createI18n();
+		this._paper = new Paper( "" );
+		this._researcher = new Researcher( this._paper );
+		this._contentAssessor = null;
 
+		// Bind actions to this scope.
+		this.analyze = this.analyze.bind( this );
+		this.analyzeDone = this.analyzeDone.bind( this );
+
+		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
 	}
 
@@ -43,10 +50,10 @@ class AnalysisWebWorker {
 	 *
 	 * See: https://developer.mozilla.org/en-US/docs/Web/API/Worker/onmessage
 	 *
-	 * @param {MessageEvent} arguments              The post message event.
-	 * @param {Object}       arguments.data         The data object.
-	 * @param {string}       arguments.data.type    The action type.
-	 * @param {string}       arguments.data.payload The payload of the action.
+	 * @param {MessageEvent} event              The post message event.
+	 * @param {Object}       event.data         The data object.
+	 * @param {string}       event.data.type    The action type.
+	 * @param {string}       event.data.payload The payload of the action.
 	 *
 	 * @returns {void}
 	 */
@@ -56,7 +63,13 @@ class AnalysisWebWorker {
 				this.initialize( decodePayload( payload ) );
 				break;
 			case "analyze":
-				this.analyze( decodePayload( payload ) );
+				this._scheduler.schedule( {
+					execute: this.analyze,
+					done: this.analyzeDone,
+					data: decodePayload( payload ),
+				} );
+				this._scheduler.processQueue();
+				//this.analyze( decodePayload( payload ) );
 				break;
 			default:
 				console.warn( "Unrecognized command", type );
@@ -98,15 +111,15 @@ class AnalysisWebWorker {
 			contentAnalysisActive,
 			useCornerstone,
 			locale,
-		} = this.configuration;
+		} = this._configuration;
 
 		if ( contentAnalysisActive === false ) {
 			return null;
 		}
 		if ( useCornerstone === true ) {
-			return new CornerstoneContentAssessor( this.i18n, { locale } );
+			return new CornerstoneContentAssessor( this._i18n, { locale } );
 		}
-		return new ContentAssessor( this.i18n, { locale } );
+		return new ContentAssessor( this._i18n, { locale } );
 	}
 
 	/**
@@ -117,7 +130,7 @@ class AnalysisWebWorker {
 	 *
 	 * @returns {void}
 	 */
-	postMessage( type, payload ) {
+	send( type, payload ) {
 		console.log( "worker => wrapper", type, payload );
 		self.postMessage( {
 			type,
@@ -133,12 +146,12 @@ class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	initialize( configuration ) {
-		this.configuration = merge( this.configuration, configuration );
-		console.log( "run initialize", configuration, this.configuration );
+		this._configuration = merge( this._configuration, configuration );
+		console.log( "run initialize", configuration, this._configuration );
 
-		this.contentAssessor = this.createContentAssessor();
+		this._contentAssessor = this.createContentAssessor();
 
-		this.postMessage( "initialize:done" );
+		this.send( "initialize:done" );
 	}
 
 	/**
@@ -150,30 +163,34 @@ class AnalysisWebWorker {
 	 * @param {Object} [arguments.configuration] The configuration for the
 	 *                                           specific analyzations.
 	 *
-	 * @returns {void}
+	 * @returns {Object} The result.
 	 */
 	analyze( { id, paper, configuration = {} } ) {
 		console.log( "run analyze", id, paper, configuration );
 
-		this.paper = new Paper( paper.text, omit( paper, "text" ) );
-		this.researcher.setPaper( this.paper );
+		this._paper = new Paper( paper.text, omit( paper, "text" ) );
+		this._researcher.setPaper( this._paper );
 
 		if (
-			! this.contentAssessor ||
-			! this.configuration.contentAnalysisActive
+			! this._contentAssessor ||
+			! this._configuration.contentAnalysisActive
 		) {
 			return;
 		}
-		this.contentAssessor.assess( this.paper );
-		const results = this.contentAssessor.results;
-		const score = this.contentAssessor.calculateOverallScore();
+		this._contentAssessor.assess( this._paper );
+		const results = this._contentAssessor.results;
+		const score = this._contentAssessor.calculateOverallScore();
 
-		this.postMessage( "analyze:done", {
+		return {
 			id,
 			category: "readability",
-			results: results,
+			results,
 			score,
-		} );
+		}
+	}
+
+	analyzeDone( result ) {
+		this.send( "analyze:done", result );
 	}
 }
 
