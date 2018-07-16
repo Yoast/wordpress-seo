@@ -137,10 +137,11 @@ VideoTutorial.propTypes = {
 		PropTypes.shape(
 			VideoDescriptionItem.propTypes
 		)
-	).isRequired,
+	),
 	className: PropTypes.string,
 };
 
 VideoTutorial.defaultProps = {
 	className: "yoast-video-tutorial",
+	paragraphs: [],
 };

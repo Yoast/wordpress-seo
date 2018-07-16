@@ -27,3 +27,15 @@ test( "the VideoTutorial component matches the snapshot", () => {
 	let tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
+
+test( "the VideoTutorial component without paragraphs matches the snapshot", () => {
+	const component = createComponentWithIntl(
+		<VideoTutorial
+			src="https://www.youtube.com/embed/bIgcj_pPIbw"
+			title="Video title"
+		/>
+	);
+
+	let tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
