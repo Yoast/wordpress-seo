@@ -133,8 +133,20 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_content_meta_section_react() {
 		$taxonomy_content_fields = new WPSEO_Taxonomy_Content_Fields( $this->term );
 
-		$fields  = $taxonomy_content_fields->get( $this->term );
-		$fields  = array_filter( $fields, array( $this, 'filter_hidden_fields' ) );
+		$fields = $taxonomy_content_fields->get( $this->term );
+		$fields = array_filter( $fields, array( $this, 'filter_hidden_fields' ) );
+
+		$fields += array(
+			'focuskw' =>
+				array(
+					'label'       => '',
+					'description' => '',
+					'type'        => 'hidden',
+					'options'     => '',
+					'hide'        => '',
+				),
+		);
+
 		$content = $this->taxonomy_tab_content->html( $fields );
 
 		return new WPSEO_Metabox_Section_React(
