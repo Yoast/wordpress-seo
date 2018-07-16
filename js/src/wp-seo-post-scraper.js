@@ -9,8 +9,9 @@ import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
 import initializeEdit from "./edit";
-import tinyMCEHelper, { tmceId, setStore } from "./wp-seo-tinymce";
+import { tmceId, setStore } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
+import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
 
 import publishBox from "./ui/publishBox";
@@ -29,6 +30,7 @@ import UsedKeywords from "./analysis/usedKeywords";
 
 import { setActiveKeyword } from "./redux/actions/activeKeyword";
 import { setMarkerStatus } from "./redux/actions/markerButtons";
+import { isGutenbergPostAvailable } from "./helpers/isGutenbergAvailable";
 import { updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 
@@ -97,7 +99,7 @@ setWordPressSeoL10n();
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return window.wpseoPostScraperL10n.show_markers === "1";
+		return ! isGutenbergPostAvailable() && wpseoPostScraperL10n.show_markers === "1";
 	}
 
 	/**
@@ -108,7 +110,7 @@ setWordPressSeoL10n();
 	function getMarker() {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
-		if ( ! tinyMCEHelper.isTinyMCEAvailable( tmceId ) || ! displayMarkers() ) {
+		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
 			if ( ! isUndefined( editStore ) ) {
 				editStore.dispatch( setMarkerStatus( "hidden" ) );
 			}
