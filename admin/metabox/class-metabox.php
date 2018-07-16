@@ -382,10 +382,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_content_meta_section_react() {
+		$fields = $this->get_hidden_tab_fields( 'general' );
+
+		// Add fields that weren't hidden, as hidden fields.
+		$fields .= $this->do_meta_box(
+			array(
+				'type'  => 'hidden',
+				'title' => '',
+			),
+			'is_cornerstone'
+		);
+
 		return new WPSEO_Metabox_Section_React(
 			'content',
 			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
-			$this->get_hidden_tab_fields( 'general' ),
+			$fields,
 			array(
 				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
 				'link_class'      => 'yoast-tooltip yoast-tooltip-e',

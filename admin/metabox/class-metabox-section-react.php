@@ -11,21 +11,21 @@
 class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 
 	/**
-	 * Name of the section.
+	 * Name of the section, used as an identifier in the HTML.
 	 *
 	 * @var string
 	 */
 	public $name;
 
 	/**
-	 * Content to use above the React root node.
+	 * Content to use before the React root node.
 	 *
 	 * @var string
 	 */
 	public $content;
 
 	/**
-	 * Content to use for the link.
+	 * Content to use to display the button to open this content block.
 	 *
 	 * @var string
 	 */
