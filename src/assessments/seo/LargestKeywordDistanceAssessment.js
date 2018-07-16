@@ -1,19 +1,28 @@
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const Assessment = require( "../../assessment.js" );
-const merge = require( "lodash/merge" );
-const countWords = require( "../../stringProcessing/countWords.js" );
-const topicCount = require( "../../researches/topicCount.js" );
-const inRangeStartEndInclusive = require( "../../helpers/inRange.js" ).inRangeStartEndInclusive;
+import * as merge from "lodash/merge";
+
+import * as AssessmentResult from "../../values/AssessmentResult";
+import * as Assessment from "../../assessment";
+import * as countWords from "../../stringProcessing/countWords";
+import * as topicCount from "../../researches/topicCount";
+import { inRangeStartEndInclusive } from "../../helpers/inRange";
 
 /**
  * Returns a score based on the largest percentage of text in
  * which no keyword occurs.
  */
-class largestKeywordDistanceAssessment extends Assessment {
+class LargestKeywordDistanceAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config The configuration to use.
+	 * @param {number} [config.parameters.overRecommendedMaximumKeywordDistance]
+	 *      The percentage of the text that is already way too high to be allowed to be in between two keyword occurrences.
+	 * @param {number} [config.parameters.recommendedMaximumKeywordDistance]
+	 *      The percentage of the text that is maximally allowed to be in between two keyword occurrences.
+	 * @param {number} [config.scores.good] The score to return if there is not too much text between keyword occurrences.
+	 * @param {number} [config.scores.okay] The score to return if there is somewhat much text between keyword occurrences.
+	 * @param {number} [config.scores.bad] The score to return if there is way too much text between keyword occurrences.
+	 * @param {string} [config.url] The URL to the relevant KB article.
 	 *
 	 * @returns {void}
 	 */
@@ -21,12 +30,15 @@ class largestKeywordDistanceAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			overRecommendedMaximumKeywordDistance: 50,
-			recommendedMaximumKeywordDistance: 40,
+			parameters: {
+				overRecommendedMaximumKeywordDistance: 50,
+				recommendedMaximumKeywordDistance: 40,
+			},
 			scores: {
 				good: 9,
 				okay: 6,
 				bad: 1,
+				consideration: 0,
 			},
 			url: "<a href='https://yoa.st/2w7' target='_blank'>",
 		};
@@ -40,7 +52,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher used for calling research.
-	 * @param {Object}      i18n        The object used for translations.
+	 * @param {Jed}      i18n        The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -50,7 +62,7 @@ class largestKeywordDistanceAssessment extends Assessment {
 		this._hasSynonyms = paper.hasSynonyms();
 		this._topicUsed = topicCount( paper ).count;
 
-		let assessmentResult = new AssessmentResult();
+		const assessmentResult = new AssessmentResult();
 
 		const calculatedResult = this.calculateResult( i18n );
 
@@ -64,14 +76,14 @@ class largestKeywordDistanceAssessment extends Assessment {
 	/**
 	 *  Calculates the result based on the largestKeywordDistance research.
 	 *
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} Object with score and feedback text.
 	 */
 	calculateResult( i18n ) {
 		if ( this._topicUsed < 2 ) {
 			return {
-				score: 0,
+				score: this._config.scores.consideration,
 				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
 					%2$s expands to the anchor end tag */
@@ -81,10 +93,11 @@ class largestKeywordDistanceAssessment extends Assessment {
 					),
 					this._config.url,
 					"</a>"
-				) };
+				),
+			};
 		}
 
-		if ( this._largestKeywordDistance > this._config.overRecommendedMaximumKeywordDistance ) {
+		if ( this._largestKeywordDistance > this._config.parameters.overRecommendedMaximumKeywordDistance ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
@@ -104,8 +117,8 @@ class largestKeywordDistanceAssessment extends Assessment {
 
 		if ( inRangeStartEndInclusive(
 			this._largestKeywordDistance,
-			this._config.recommendedMaximumKeywordDistance,
-			this._config.overRecommendedMaximumKeywordDistance ) ) {
+			this._config.parameters.recommendedMaximumKeywordDistance,
+			this._config.parameters.overRecommendedMaximumKeywordDistance ) ) {
 			return {
 				score: this._config.scores.okay,
 				resultText: i18n.sprintf(
@@ -153,17 +166,15 @@ class largestKeywordDistanceAssessment extends Assessment {
 
 
 	/**
-	 * Checks whether the paper has a text with at least 200 words, a keyword, and whether
-	 * the keyword appears more at least twice in the text (required to calculate a distribution).
+	 * Checks whether the paper has a text with at least 200 words and a keyword.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 *
-	 * @returns {boolean} True when there is a keyword and a text with 200 words or more,
-	 *                    with the keyword occurring more than one time.
+	 * @returns {boolean} True when there is a keyword and a text with 200 words or more.
 	 */
 	isApplicable( paper ) {
 		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 200;
 	}
 }
 
-module.exports = largestKeywordDistanceAssessment;
+export default LargestKeywordDistanceAssessment;
