@@ -14,8 +14,8 @@ class TitleKeywordAssessment extends Assessment {
 	 * @param {Object} config The configuration to use.
 	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum of keyword occurrences in the title.
 	 * @param {number} [config.parameters.recommendedPosition] The recommended position of the keyword within the title.
-	 * @param {number} [config.scores.good] The score to return if the keyword is found in the recommended position.
-	 * @param {number} [config.scores.okay] The score to return if the keyword is found, but not at the recommended positio.
+	 * @param {number} [config.scores.good] The score to return if the keyword is found at the recommended position.
+	 * @param {number} [config.scores.okay] The score to return if the keyword is found, but not at the recommended position.
 	 * @param {number} [config.scores.bad] The score to return if there are fewer keyword occurrences than the recommended minimum.
 	 * @param {string} [config.url] The URL to the relevant article on Yoast.com.
 	 *
