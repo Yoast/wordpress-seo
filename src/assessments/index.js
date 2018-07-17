@@ -9,12 +9,12 @@ const TextPresenceAssessment = require( "./readability/textPresenceAssessment" )
 const TransitionWordsAssessment = require( "./readability/transitionWordsAssessment" );
 const WordComplexityAssessment = require( "./readability/wordComplexityAssessment" );
 
-const InternalLinksAssessment = require( "./seo/internalLinksAssessment" );
+import InternalLinksAssessment from "./seo/InternalLinksAssessment";
 const IntroductionKeywordAssessment = require( "./seo/introductionKeywordAssessment" );
-const KeyphraseLengthAssessment = require( "./seo/keyphraseLengthAssessment" );
-const KeywordDensityAssessment = require( "./seo/keywordDensityAssessment" );
+import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
+import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
 const KeywordStopWordsAssessment = require( "./seo/keywordStopWordsAssessment" );
-const LargestKeywordDistanceAssessment = require( "./seo/largestKeywordDistanceAssessment" );
+import LargestKeywordDistanceAssessment from "./seo/largestKeywordDistanceAssessment";
 const MetaDescriptionKeywordAssessment = require( "./seo/metaDescriptionKeywordAssessment" );
 const MetaDescriptionLengthAssessment = require( "./seo/metaDescriptionLengthAssessment" );
 const OutboundLinksAssessment = require( "./seo/outboundLinksAssessment" );
@@ -25,7 +25,7 @@ const TextCompetingLinksAssessment = require( "./seo/textCompetingLinksAssessmen
 const TextImagesAssessment = require( "./seo/textImagesAssessment" );
 const TextLengthAssessment = require( "./seo/textLengthAssessment" );
 const TitleKeywordAssessment = require( "./seo/titleKeywordAssessment" );
-const UrlKeywordAssessment = require( "./seo/urlKeywordAssessment" );
+import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";
 const UrlLengthAssessment = require( "./seo/urlLengthAssessment" );
 const UrlStopWordsAssessment = require( "./seo/urlStopWordsAssessment" );
 
