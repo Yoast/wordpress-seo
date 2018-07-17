@@ -7,22 +7,22 @@ import styled from "styled-components";
 import colors from "../../../../style-guide/colors";
 
 const YoastHelpText = styled.p`
-	color: ${ props => props.color };
-	font-size: ${ props => props.fontSize };
+	textColor: ${ props => props.textColor };
+	font-size: ${ props => props.textFontSize };
 	margin-top: 0;
 	
 	a {
-        color: ${ colors.$palette_blue_medium };
-    }
+		color: ${ colors.$color_snippet_focus };
+	}
 `;
 
 /**
  * Returns the HelpText component.
  *
- * @param {Object} props          Component props.
- * @param {string} props.text     The help text.
- * @param {string} props.color    The CSS color of the paragraph text.
- * @param {string} props.fontSize The CSS font-size of the paragraph text.
+ * @param {Object} props              Component props.
+ * @param {string} props.text         The help text.
+ * @param {string} props.textColor    The CSS textColor of the paragraph text.
+ * @param {string} props.textFontSize The CSS font-size of the paragraph text.
  *
  * @returns {ReactElement} HelpText component.
  */
@@ -33,10 +33,10 @@ export default class HelpText extends PureComponent {
 	 * @returns {ReactElement} The rendered help text component.
 	 */
 	render() {
-		const { text, color, fontSize } = this.props;
+		const { text, textColor, textFontSize } = this.props;
 
 		return (
-			<YoastHelpText color={ color } fontSize={ fontSize } >
+			<YoastHelpText textColor={ textColor } textFontSize={ textFontSize } >
 				{ text }
 			</YoastHelpText>
 		);
@@ -53,8 +53,8 @@ export const helpTextPropType = {
 		PropTypes.string,
 		PropTypes.array,
 	] ),
-	color: PropTypes.string,
-	fontSize: PropTypes.string,
+	textColor: PropTypes.string,
+	textFontSize: PropTypes.string,
 };
 
 HelpText.propTypes = {
@@ -63,6 +63,6 @@ HelpText.propTypes = {
 };
 
 HelpText.defaultProps = {
-	color: colors.$color_grey_medium_dark,
-	fontSize: "0.8em",
+	textColor: colors.$color_grey_medium_dark,
+	textFontSize: "0.8em",
 };

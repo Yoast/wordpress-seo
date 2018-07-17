@@ -23,11 +23,9 @@ const KeywordFieldLabel = styled.label`
 `;
 
 const KeywordField = styled.input`
-	border-color: ${ colors.$color_grey_light };
-	border-style: solid;
-	border-width: 3px;
+	border: 3px solid initial;
 	padding: 0.75em;
-	font-size: 1.1em;
+	font-size: 1em;
 
 	&.hasError {
 		border-color: ${ errorColor };
@@ -92,7 +90,7 @@ class KeywordInput extends React.Component {
 	/**
 	 * Handles changes in the KeywordInput.
 	 *
-	 * @param {Event} event The onChange event.
+	 * @param {SyntheticEvent} event The onChange event.
 	 *
 	 * @returns {void} Sets the state if a change has been made.
 	 */
@@ -141,7 +139,7 @@ KeywordInput.propTypes = keywordInputPropType;
 KeywordInput.defaultProps = {
 	id: uniqueId( "yoast-keyword-input-" ),
 	showLabel: true,
-	label: "Focus keyword:",
+	label: __( "Focus keyword:", "yoast-components" ),
 	keyword: "",
 };
 

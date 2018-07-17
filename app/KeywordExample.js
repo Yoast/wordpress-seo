@@ -6,6 +6,9 @@ import styled from "styled-components";
 import KeywordInput from "../composites/Plugin/Shared/components/KeywordInput";
 import SynonymsSection from "../composites/Plugin/Synonyms/components/SynonymsSection";
 import HelpText from "../composites/Plugin/Shared/components/HelpText.js";
+import { makeOutboundLink } from "../utils/makeOutboundLink";
+
+const HelpTextLink = makeOutboundLink();
 
 const Container = styled.div`
 	background-color: white;
@@ -58,7 +61,9 @@ export default class KeywordExample extends Component {
 			<Container>
 				<HelpText text={ [
 					"Enter the search term you'd like this post to be found with and see how it would rank. ",
-					<a key="1" href="https://yoa.st/" target="_blank" rel="noopener">Learn more about the Content Analysis Tool.</a>,
+					<HelpTextLink key="1" href="https://yoa.st/" target="_blank" rel="noopener">
+						Learn more about the Content Analysis Tool.
+					</HelpTextLink>,
 				] }/>
 				<KeywordInput
 					id="focus-keyword"
@@ -70,7 +75,7 @@ export default class KeywordExample extends Component {
 				<SynonymsSection
 					label={ "Keyword synonyms" }
 					onChange={ synonyms => console.log( "SynonymsField change event", synonyms ) }
-				    synonyms=""
+					synonyms=""
 				/>
 			</Container>
 		);

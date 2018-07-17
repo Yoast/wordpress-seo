@@ -43,7 +43,7 @@ const StyledIconsButton = styled( IconsButton )`
 		font-size: 1em;
 		line-height: 1.25;
 		font-weight: inherit;
-		color: ${ colors.$palette_blue_medium }
+		color: ${ colors.$color_snippet_focus }
 	}
 `;
 
