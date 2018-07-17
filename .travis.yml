@@ -33,8 +33,8 @@ deploy:
   skip_cleanup: true
   provider: npm
   email: webmaster@yoast.com
+  api_key:
+    secure: W7V824BCRwbxksSNTH65j2me1jQHv/oP0tBoe5DaNRd5XZ/BEQfDfiXNrmXTQg2JeqzdPEHZj9/mAYqfBi8IvZDwgV9gb/HBW39lsySwposIA28z3q0QjHWc7FCaOAbIXTZB4P52OuAre4njK/iP3owBPDfWP5zygaCNWZd+KZ0=
   on:
     tags: true
     repo: Yoast/YoastSEO.js
-  api_key:
-    secure: ss5t7WXcM5fkKh4z6y0+TmBtM+TSVFcU5psNhyb//cWErJGnRQ69mktvqSWj0nEimKihI2ypJvLsQPCKxVJJpGmRTsiTHvM+smEB82ugzYHjJ3eBst/+2BTQT23o9rQMX5V/FJ3PmRgPG8tnUE4gFyh2+hqqNKcA5wyzA18D2zs=
