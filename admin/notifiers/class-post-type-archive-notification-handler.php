@@ -49,11 +49,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 */
 	public function handle( Yoast_Notification_Center $notification_center )  {
 		if ( ! $this->is_applicable() ) {
-			$notification = $notification_center->get_notification_by_id( 'wpseo-' . $this->notification_identifier );
-
-			if ( $notification !== null ) {
-				$notification_center->remove_notification( $notification );
-			}
+			$notification_center->remove_notification_by_id( 'wpseo-' . $this->notification_identifier );
 
 			return;
 		}

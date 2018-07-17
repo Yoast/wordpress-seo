@@ -396,6 +396,24 @@ class Yoast_Notification_Center {
 	}
 
 	/**
+	 * Removes a notification by its ID.
+	 *
+	 * @param string $notification_id The notification id.
+	 * @param bool   $resolve         Resolve as fixed.
+	 *
+	 * @return void
+	 */
+	public function remove_notification_by_id( $notification_id, $resolve = true ) {
+		$notification = $this->get_notification_by_id( $notification_id );
+
+		if ( $notification === null ) {
+			return;
+		}
+
+		$this->remove_notification( $notification, $resolve );
+	}
+
+	/**
 	 * Get the notification count
 	 *
 	 * @param bool $dismissed Count dismissed notifications.
