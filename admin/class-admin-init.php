@@ -47,10 +47,10 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
-		add_action( 'admin_init', array( $this, 'handle_dashboard_notifiers' ), 15 );
+		add_action( 'admin_init', array( $this, 'handle_notifications' ), 15 );
 
 		$listeners   = array();
-		$listeners[] = new WPSEO_Post_Type_Archive_Notifier();
+		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
 
 		/** @var WPSEO_Listener $listener */
 		foreach ( $listeners as $listener ) {
@@ -70,16 +70,16 @@ class WPSEO_Admin_Init {
 	 *
 	 * @return void
 	 */
-	public function handle_dashboard_notifiers() {
+	public function handle_notifications() {
 		/**
-		 * @var WPSEO_Dashboard_Notifier[] $notifiers
+		 * @var WPSEO_Notification_Handler[] $handlers
 		 */
-		$notifiers   = array();
-		$notifiers[] = new WPSEO_Post_Type_Archive_Notifier();
+		$handlers   = array();
+		$handlers[] = new WPSEO_Post_Type_Archive_Notification_Handler();
 
 		$notification_center = Yoast_Notification_Center::get();
-		foreach( $notifiers as $notifier ) {
-			$notifier->notify( $notification_center );
+		foreach( $handlers as $handler ) {
+			$handler->handle( $notification_center );
 		}
 	}
 

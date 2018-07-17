@@ -8,7 +8,7 @@
 /**
  * Represents the logic for showing the post type archive notification.
  */
-class WPSEO_Post_Type_Archive_Notifier implements WPSEO_Listener, WPSEO_Dashboard_Notifier {
+class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WPSEO_Notification_Handler {
 
 	/**
 	 * The identifier for the notification.
@@ -47,7 +47,7 @@ class WPSEO_Post_Type_Archive_Notifier implements WPSEO_Listener, WPSEO_Dashboar
 	 *
 	 * @return void
 	 */
-	public function notify( Yoast_Notification_Center $notification_center )  {
+	public function handle( Yoast_Notification_Center $notification_center )  {
 		if ( ! $this->is_applicable() ) {
 			$notification = $notification_center->get_notification_by_id( 'wpseo-' . $this->notification_identifier );
 
