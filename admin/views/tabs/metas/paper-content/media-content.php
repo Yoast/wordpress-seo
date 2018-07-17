@@ -40,7 +40,7 @@ $yform->toggle_switch(
 				negative impact on your ranking. Please carefully consider this and %1$sread this post%2$s if
 				you want more information about the impact of showing media in search results.', 'wordpress-seo'
 			) ),
-			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2r8' ) ) . '" rel="noopener nofollow" target="_blank">',
+			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2r8' ) ) . '" rel="noopener noreferrer" target="_blank">',
 			'</a>'
 		);
 
