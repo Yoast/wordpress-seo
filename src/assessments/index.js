@@ -1,67 +1,67 @@
-const FleschReadingEase = require( "./readability/fleschReadingEaseAssessment" );
-const ParagraphTooLong = require( "./readability/paragraphTooLongAssessment" );
-const PassiveVoice = require( "./readability/passiveVoiceAssessment" );
-const SentenceBeginnings = require( "./readability/sentenceBeginningsAssessment" );
-const SentenceLengthInDescription = require( "./readability/sentenceLengthInDescriptionAssessment" );
-const SentenceLengthInText = require( "./readability/sentenceLengthInTextAssessment" );
-const SubheadingDistributionTooLong = require( "./readability/subheadingDistributionTooLongAssessment" );
-const TextPresence = require( "./readability/textPresenceAssessment" );
-const TransitionWords = require( "./readability/transitionWordsAssessment" );
-const WordComplexity = require( "./readability/wordComplexityAssessment" );
+const FleschReadingEaseAssessment = require( "./readability/fleschReadingEaseAssessment" );
+const ParagraphTooLongAssessment = require( "./readability/paragraphTooLongAssessment" );
+const PassiveVoiceAssessment = require( "./readability/passiveVoiceAssessment" );
+const SentenceBeginningsAssessment = require( "./readability/sentenceBeginningsAssessment" );
+const SentenceLengthInDescriptionAssessment = require( "./readability/sentenceLengthInDescriptionAssessment" );
+const SentenceLengthInTextAssessment = require( "./readability/sentenceLengthInTextAssessment" );
+const SubheadingDistributionTooLongAssessment = require( "./readability/subheadingDistributionTooLongAssessment" );
+const TextPresenceAssessment = require( "./readability/textPresenceAssessment" );
+const TransitionWordsAssessment = require( "./readability/transitionWordsAssessment" );
+const WordComplexityAssessment = require( "./readability/wordComplexityAssessment" );
 
-const InternalLinks = require( "./seo/internalLinksAssessment" );
-const IntroductionKeyword = require( "./seo/introductionKeywordAssessment" );
-const KeyphraseLength = require( "./seo/keyphraseLengthAssessment" );
-const KeywordDensity = require( "./seo/keywordDensityAssessment" );
-const KeywordStopWords = require( "./seo/keywordStopWordsAssessment" );
-const LargestKeywordDistance = require( "./seo/largestKeywordDistanceAssessment" );
-const MetaDescriptionKeyword = require( "./seo/metaDescriptionKeywordAssessment" );
-const MetaDescriptionLength = require( "./seo/metaDescriptionLengthAssessment" );
-const OutboundLinks = require( "./seo/outboundLinksAssessment" );
-const PageTitleWidth = require( "./seo/pageTitleWidthAssessment" );
-const SubheadingsKeyword = require( "./seo/subheadingsKeywordAssessment" );
-const TaxonomyTextLength = require( "./seo/taxonomyTextLengthAssessment" );
-const TextCompetingLinks = require( "./seo/textCompetingLinksAssessment" );
-const TextImages = require( "./seo/textImagesAssessment" );
-const TextLength = require( "./seo/textLengthAssessment" );
-const TitleKeyword = require( "./seo/titleKeywordAssessment" );
-const UrlKeyword = require( "./seo/urlKeywordAssessment" );
-const UrlLength = require( "./seo/urlLengthAssessment" );
-const UrlStopWords = require( "./seo/urlStopWordsAssessment" );
+const InternalLinksAssessment = require( "./seo/internalLinksAssessment" );
+const IntroductionKeywordAssessment = require( "./seo/introductionKeywordAssessment" );
+const KeyphraseLengthAssessment = require( "./seo/keyphraseLengthAssessment" );
+const KeywordDensityAssessment = require( "./seo/keywordDensityAssessment" );
+const KeywordStopWordsAssessment = require( "./seo/keywordStopWordsAssessment" );
+const LargestKeywordDistanceAssessment = require( "./seo/largestKeywordDistanceAssessment" );
+const MetaDescriptionKeywordAssessment = require( "./seo/metaDescriptionKeywordAssessment" );
+const MetaDescriptionLengthAssessment = require( "./seo/metaDescriptionLengthAssessment" );
+const OutboundLinksAssessment = require( "./seo/outboundLinksAssessment" );
+const PageTitleWidthAssessment = require( "./seo/pageTitleWidthAssessment" );
+const SubheadingsKeywordAssessment = require( "./seo/subheadingsKeywordAssessment" );
+const TaxonomyTextLengthAssessment = require( "./seo/taxonomyTextLengthAssessment" );
+const TextCompetingLinksAssessment = require( "./seo/textCompetingLinksAssessment" );
+const TextImagesAssessment = require( "./seo/textImagesAssessment" );
+const TextLengthAssessment = require( "./seo/textLengthAssessment" );
+const TitleKeywordAssessment = require( "./seo/titleKeywordAssessment" );
+const UrlKeywordAssessment = require( "./seo/urlKeywordAssessment" );
+const UrlLengthAssessment = require( "./seo/urlLengthAssessment" );
+const UrlStopWordsAssessment = require( "./seo/urlStopWordsAssessment" );
 
 const readability = {
-	FleschReadingEase,
-	ParagraphTooLong,
-	PassiveVoice,
-	SentenceBeginnings,
-	SentenceLengthInDescription,
-	SentenceLengthInText,
-	SubheadingDistributionTooLong,
-	TextPresence,
-	TransitionWords,
-	WordComplexity,
+	FleschReadingEaseAssessment,
+	ParagraphTooLongAssessment,
+	PassiveVoiceAssessment,
+	SentenceBeginningsAssessment,
+	SentenceLengthInDescriptionAssessment,
+	SentenceLengthInTextAssessment,
+	SubheadingDistributionTooLongAssessment,
+	TextPresenceAssessment,
+	TransitionWordsAssessment,
+	WordComplexityAssessment,
 };
 
 const seo = {
-	InternalLinks,
-	IntroductionKeyword,
-	KeyphraseLength,
-	KeywordDensity,
-	KeywordStopWords,
-	LargestKeywordDistance,
-	MetaDescriptionKeyword,
-	MetaDescriptionLength,
-	OutboundLinks,
-	PageTitleWidth,
-	SubheadingsKeyword,
-	TaxonomyTextLength,
-	TextCompetingLinks,
-	TextImages,
-	TextLength,
-	TitleKeyword,
-	UrlKeyword,
-	UrlLength,
-	UrlStopWords,
+	InternalLinksAssessment,
+	IntroductionKeywordAssessment,
+	KeyphraseLengthAssessment,
+	KeywordDensityAssessment,
+	KeywordStopWordsAssessment,
+	LargestKeywordDistanceAssessment,
+	MetaDescriptionKeywordAssessment,
+	MetaDescriptionLengthAssessment,
+	OutboundLinksAssessment,
+	PageTitleWidthAssessment,
+	SubheadingsKeywordAssessment,
+	TaxonomyTextLengthAssessment,
+	TextCompetingLinksAssessment,
+	TextImagesAssessment,
+	TextLengthAssessment,
+	TitleKeywordAssessment,
+	UrlKeywordAssessment,
+	UrlLengthAssessment,
+	UrlStopWordsAssessment,
 };
 
 export {
