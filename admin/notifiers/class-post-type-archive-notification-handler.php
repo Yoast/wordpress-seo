@@ -41,11 +41,11 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	/**
 	 * Adds the notification if applicable, otherwise removes it.
 	 *
-	 * @param Yoast_Notification_Center $notification_Center The notification center object.
+	 * @param Yoast_Notification_Center $notification_center The notification center object.
 	 *
 	 * @return void
 	 */
-	public function handle( Yoast_Notification_Center $notification_center )  {
+	public function handle( Yoast_Notification_Center $notification_center ) {
 		if ( ! $this->is_applicable() ) {
 			$notification_center->remove_notification_by_id( 'wpseo-' . $this->notification_identifier );
 
@@ -97,8 +97,8 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 		$message .= sprintf(
 			_n(
 				/* translators: %1$s is the archive template link start tag, %2$s is the link closing tag, %3$s is a comma separated string with content types. */
-				'Please check the %1$sarchive template%2$s for the following content type: %3$s',
-				' Please check the %1$sarchive templates%2$s for the following content types: %3$s',
+				'Please check the %1$sarchive template%2$s for the following content type: %3$s.',
+				' Please check the %1$sarchive templates%2$s for the following content types: %3$s.',
 				count( $post_types ),
 				'wordpress-seo'
 			),
@@ -200,12 +200,12 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 * Checks if the archive slug for the post type is overridden.
 	 *
 	 * @param string $post_type_name The post type's name.
-	 *\
+	 *
 	 * @return bool True whether the archive slug is overridden.
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function has_custom_archive_slug( $post_type_name) {
+	protected function has_custom_archive_slug( $post_type_name ) {
 		$post_type = get_post_type_object( $post_type_name );
 		if ( $post_type === null || ! WPSEO_Post_Type::has_archive( $post_type ) ) {
 			return false;

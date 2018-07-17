@@ -78,7 +78,7 @@ class WPSEO_Admin_Init {
 		$handlers[] = new WPSEO_Post_Type_Archive_Notification_Handler();
 
 		$notification_center = Yoast_Notification_Center::get();
-		foreach( $handlers as $handler ) {
+		foreach ( $handlers as $handler ) {
 			$handler->handle( $notification_center );
 		}
 	}
