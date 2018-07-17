@@ -62,25 +62,7 @@ exports[`ContentAnalysis the ContentAnalysis component with HelpText matches the
   font-size: 0.8rem;
 }
 
-.c6:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c7:hover {
-  color: #000;
-}
-
-.c8::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c8:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c9 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -109,10 +91,35 @@ exports[`ContentAnalysis the ContentAnalysis component with HelpText matches the
   min-height: 32px;
 }
 
-.c9 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c7:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c8::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c8:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c9:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c2 {
@@ -220,7 +227,7 @@ exports[`ContentAnalysis the ContentAnalysis component with HelpText matches the
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -705,25 +712,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   font-size: 0.8rem;
 }
 
-.c6:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c7:hover {
-  color: #000;
-}
-
-.c8::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c8:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c9 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -752,10 +741,35 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   min-height: 32px;
 }
 
-.c9 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c7:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c8::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c8:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c9:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c2 {
@@ -865,7 +879,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1324,25 +1338,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   font-size: 0.8rem;
 }
 
-.c6:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c7:hover {
-  color: #000;
-}
-
-.c8::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c8:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c9 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1371,10 +1367,35 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   min-height: 32px;
 }
 
-.c9 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c7:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c8::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c8:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c9:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c2 {
@@ -1476,7 +1497,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1929,25 +1950,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   font-size: 0.8rem;
 }
 
-.c8:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c9:hover {
-  color: #000;
-}
-
-.c10::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c10:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c11 {
+.c8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1976,10 +1979,35 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   min-height: 32px;
 }
 
-.c11 svg {
+.c8 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c9:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c10::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c10:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c11:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c4 {
@@ -2094,7 +2122,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c11::after {
+  .c8::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -2590,25 +2618,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   font-size: 0.8rem;
 }
 
-.c6:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c7:hover {
-  color: #000;
-}
-
-.c8::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c8:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c9 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2637,10 +2647,35 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   min-height: 32px;
 }
 
-.c9 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c7:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c8::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c8:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c9:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c2 {
@@ -2750,7 +2785,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -3233,25 +3268,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice matc
   font-size: 0.8rem;
 }
 
-.c6:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c7:hover {
-  color: #000;
-}
-
-.c8::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c8:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c9 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -3280,10 +3297,35 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice matc
   min-height: 32px;
 }
 
-.c9 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c7:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c8::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c8:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c9:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c2 {
@@ -3393,7 +3435,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice matc
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -3876,25 +3918,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   font-size: 0.8rem;
 }
 
-.c5:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6:hover {
-  color: #000;
-}
-
-.c7::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c7:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c8 {
+.c5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -3923,10 +3947,35 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   min-height: 32px;
 }
 
-.c8 svg {
+.c5 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c6:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c1 {
@@ -4030,7 +4079,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c8::after {
+  .c5::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -4504,25 +4553,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   font-size: 0.8rem;
 }
 
-.c5:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6:hover {
-  color: #000;
-}
-
-.c7::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c7:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c8 {
+.c5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -4551,10 +4582,35 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   min-height: 32px;
 }
 
-.c8 svg {
+.c5 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c6:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c1 {
@@ -4658,7 +4714,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c8::after {
+  .c5::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -5132,25 +5188,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   font-size: 0.8rem;
 }
 
-.c5:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6:hover {
-  color: #000;
-}
-
-.c7::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c7:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c8 {
+.c5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -5179,10 +5217,35 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   min-height: 32px;
 }
 
-.c8 svg {
+.c5 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c6:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c1 {
@@ -5286,7 +5349,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c8::after {
+  .c5::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -5606,25 +5669,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   font-size: 0.8rem;
 }
 
-.c5:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6:hover {
-  color: #000;
-}
-
-.c7::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c7:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c8 {
+.c5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -5653,10 +5698,35 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   min-height: 32px;
 }
 
-.c8 svg {
+.c5 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c6:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c1 {
@@ -5760,7 +5830,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c8::after {
+  .c5::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -6080,25 +6150,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   font-size: 0.8rem;
 }
 
-.c5:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6:hover {
-  color: #000;
-}
-
-.c7::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c7:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c8 {
+.c5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -6127,10 +6179,35 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   min-height: 32px;
 }
 
-.c8 svg {
+.c5 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c6:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c1 {
@@ -6234,7 +6311,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c8::after {
+  .c5::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -6619,25 +6696,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   font-size: 0.8rem;
 }
 
-.c5:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6:hover {
-  color: #000;
-}
-
-.c7::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c7:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c8 {
+.c5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -6666,10 +6725,35 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   min-height: 32px;
 }
 
-.c8 svg {
+.c5 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c6:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c1 {
@@ -6773,7 +6857,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c8::after {
+  .c5::after {
     display: inline-block;
     content: "";
     min-height: 22px;
