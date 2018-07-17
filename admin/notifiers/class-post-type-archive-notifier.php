@@ -8,7 +8,7 @@
 /**
  * Represents the logic for showing the post type archive notification.
  */
-class WPSEO_Post_Type_Archive_Notifier implements WPSEO_WordPress_Integration {
+class WPSEO_Post_Type_Archive_Notifier implements WPSEO_Listener, WPSEO_Dashboard_Notifier {
 
 	/**
 	 * The identifier for the notification.
@@ -29,24 +29,25 @@ class WPSEO_Post_Type_Archive_Notifier implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	public function register_hooks() {
-		add_action( 'admin_init', array( $this, 'handle_notification' ), 15 );
-
-		if ( filter_input( INPUT_GET, 'yoast_dismiss' ) === $this->notification_identifier ) {
-			$this->dismiss_notice();
-
-			wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
-			exit;
+	public function listen() {
+		if ( filter_input( INPUT_GET, 'yoast_dismiss' ) !== $this->notification_identifier ) {
+			return;
 		}
+
+		$this->dismiss_notice();
+
+		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
+		exit;
 	}
 
 	/**
 	 * Adds the notification if applicable, otherwise removes it.
 	 *
+	 * @param Yoast_Notification_Center $notification_Center The notification center object.
+	 *
 	 * @return void
 	 */
-	public function handle_notification() {
-		$notification_center = Yoast_Notification_Center::get();
+	public function notify( Yoast_Notification_Center $notification_center )  {
 		if ( ! $this->is_applicable() ) {
 			$notification = $notification_center->get_notification_by_id( 'wpseo-' . $this->notification_identifier );
 
