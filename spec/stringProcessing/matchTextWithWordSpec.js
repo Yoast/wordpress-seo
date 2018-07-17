@@ -41,8 +41,25 @@ describe( "Counts the occurences of a word in a string", function() {
 	it( "should match special characters", function() {
 		expect( wordMatch( "a string with diacritics äöüß oompaloomp", "äöüß oompaloomp" ).count ).toBe( 1 );
 		expect( wordMatch( "a string with diacritics äöüß oompaloomp", "äöüß oompaloomp" ).matches ).toEqual( [ "äöüß oompaloomp" ] );
+
 		expect( wordMatch( "", "äbc" ).count ).toBe( 0 );
 		expect( wordMatch( "", "äbc" ).matches ).toEqual( [] );
+
+		expect( wordMatch( "accion", "acción", "es_ES" ).count ).toBe( 1 );
+		expect( wordMatch( "accion", "acción", "es_ES" ).matches ).toEqual( [ "accion" ] );
+
+		expect( wordMatch( "oeverlaatelsebesiktning and overlatelsebesiktning", "överlåtelsebesiktning", "sv_SE" ).count ).toBe( 2 );
+		expect( wordMatch( "oeverlaatelsebesiktning and overlatelsebesiktning", "överlåtelsebesiktning", "sv_SE" ).matches ).toContain( "oeverlaatelsebesiktning" );
+		expect( wordMatch( "oeverlaatelsebesiktning and overlatelsebesiktning", "överlåtelsebesiktning", "sv_SE" ).matches ).toContain( "overlatelsebesiktning" );
+
+		expect( wordMatch( "København and Koebenhavn and Kobenhavn", "København", "nb_NO" ).count ).toBe( 3 );
+		expect( wordMatch( "København and Koebenhavn and Kobenhavn", "København", "nb_NO" ).matches ).toContain( "København" );
+		expect( wordMatch( "København and Koebenhavn and Kobenhavn", "København", "nb_NO" ).matches ).toContain( "Koebenhavn" );
+		expect( wordMatch( "København and Koebenhavn and Kobenhavn", "København", "nb_NO" ).matches ).toContain( "Kobenhavn" );
+
+		expect( wordMatch( "Türkçe and Turkce", "Türkçe", "tr_TR" ).count ).toBe( 2 );
+		expect( wordMatch( "Türkçe and Turkce", "Türkçe", "tr_TR" ).matches ).toContain( "Türkçe" );
+		expect( wordMatch( "Türkçe and Turkce", "Türkçe", "tr_TR" ).matches ).toContain( "Turkce" );
 	} );
 
 	it( "should match words and numbers", function() {
