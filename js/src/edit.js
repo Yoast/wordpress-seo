@@ -13,6 +13,7 @@ import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
 import { ThemeProvider } from "styled-components";
+import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/CornerstoneToggle";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -60,6 +61,7 @@ function registerPlugin() {
 					title="Yoast SEO"
 				>
 					<p> Contents of the sidebar </p>
+					<CornerstoneToggle onChange={ cornerstoneOnChange } checked={ true } />
 				</PluginSidebar>
 			</Fragment>
 		);
@@ -68,6 +70,12 @@ function registerPlugin() {
 			render: YoastSidebar,
 		} );
 	}
+}
+
+var cornerstone = false;
+function cornerstoneOnChange() {
+	cornerstone = !cornerstone;
+	return cornerstone;
 }
 
 /**
