@@ -17,6 +17,9 @@ class WPSEO_Upgrade {
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
+		// This should always be done before any upgrades are executed!
+		$this->add_upgrade_history( $version, WPSEO_VERSION );
+
 		if ( version_compare( $version, '1.5.0', '<' ) ) {
 			$this->upgrade_15( $version );
 		}
@@ -131,6 +134,17 @@ class WPSEO_Upgrade {
 		do_action( 'wpseo_run_upgrade', $version );
 
 		$this->finish_up();
+	}
+
+	/**
+	 * Adds a new upgrade history entry.
+	 *
+	 * @param string $current_version The old version from which we are upgrading.
+	 * @param string $new_version     The version we are upgrading to.
+	 */
+	protected function add_upgrade_history( $current_version, $new_version ) {
+		$upgrade_history = new WPSEO_Upgrade_History();
+		$upgrade_history->add( $current_version, $new_version, array_keys( WPSEO_Options::$options ) );
 	}
 
 	/**
