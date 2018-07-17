@@ -1,7 +1,8 @@
-const Assessment = require( "../../assessment" );
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const escape = require( "lodash/escape" );
-const merge = require( "lodash/merge" );
+import * as merge from "lodash/merge";
+import * as escape from "lodash/escape";
+
+import * as Assessment from "../../assessment";
+import * as AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Assessment to check whether the keyword is included in (the beginning of) the SEO title.
@@ -11,16 +12,22 @@ class TitleKeywordAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config The configuration to use.
+	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum of keyword occurrences in the title.
+	 * @param {number} [config.parameters.recommendedPosition] The recommended position of the keyword within the title.
+	 * @param {number} [config.scores.good] The score to return if the keyword is found in the recommended position.
+	 * @param {number} [config.scores.okay] The score to return if the keyword is found, but not at the recommended positio.
+	 * @param {number} [config.scores.bad] The score to return if there are fewer keyword occurrences than the recommended minimum.
+	 * @param {string} [config.url] The URL to the relevant article on Yoast.com.
 	 *
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			parameters: {
 				recommendedMinimum: 1,
-				position: 0,
+				recommendedPosition: 0,
 			},
 			scores: {
 				good: 9,
@@ -47,7 +54,7 @@ class TitleKeywordAssessment extends Assessment {
 		this._keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
 		this._keyword = escape( paper.getKeyword() );
 
-		let assessmentResult = new AssessmentResult();
+		const assessmentResult = new AssessmentResult();
 
 		const calculatedResult = this.calculateResult( i18n );
 		assessmentResult.setScore( calculatedResult.score );
@@ -94,7 +101,7 @@ class TitleKeywordAssessment extends Assessment {
 				),
 			};
 		}
-		if ( matches >= this._config.parameters.recommendedMinimum && position === this._config.parameters.position ) {
+		if ( matches >= this._config.parameters.recommendedMinimum && position === this._config.parameters.recommendedPosition ) {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
@@ -124,4 +131,4 @@ class TitleKeywordAssessment extends Assessment {
 	}
 }
 
-module.exports = TitleKeywordAssessment;
+export default TitleKeywordAssessment;

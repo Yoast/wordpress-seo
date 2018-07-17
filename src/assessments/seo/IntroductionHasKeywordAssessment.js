@@ -1,6 +1,7 @@
-const Assessment = require( "../../assessment.js" );
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const merge = require( "lodash/merge" );
+import * as merge from "lodash/merge";
+
+import * as Assessment from "../../assessment";
+import * as AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Assessment to check whether the keyphrase is encountered in the first paragraph of the article.
@@ -10,13 +11,17 @@ class IntroductionHasKeywordAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config The configuration to use.
+	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum of keyword occurrences in the first paragraph.
+	 * @param {number} [config.scores.good] The score to return if there are enough keyword occurrences in the first paragraph.
+	 * @param {number} [config.scores.bad] The score to return if there aren't enough keyword occurrences in the first paragraph.
+	 * @param {string} [config.url] The URL to the relevant article on Yoast.com.
 	 *
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			parameters: {
 				recommendedMinimum: 1,
 			},
@@ -41,7 +46,7 @@ class IntroductionHasKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of this assessment.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let assessmentResult = new AssessmentResult();
+		const assessmentResult = new AssessmentResult();
 
 		this._firstParagraphMatches = researcher.getResearch( "firstParagraph" );
 		const calculatedResult = this.calculateResult( i18n );
@@ -96,4 +101,4 @@ class IntroductionHasKeywordAssessment extends Assessment {
 	}
 }
 
-module.exports = IntroductionHasKeywordAssessment;
+export default IntroductionHasKeywordAssessment;

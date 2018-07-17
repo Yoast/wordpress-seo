@@ -2,19 +2,19 @@ import { inherits } from "util";
 
 import * as Assessor from "../assessor";
 import * as SEOAssessor from "../seoAssessor";
-import * as IntroductionKeyword from "../assessments/seo/introductionKeywordAssessment";
+import IntroductionHasKeywordAssessment from "../assessments/seo/IntroductionHasKeywordAssessment";
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
 import * as keywordStopWords from "../assessments/seo/keywordStopWordsAssessment";
-import * as MetaDescriptionKeyword from "../assessments/seo/metaDescriptionKeywordAssessment";
+import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
 import * as MetaDescriptionLength from "../assessments/seo/metaDescriptionLengthAssessment";
 import * as SubheadingsKeyword from "../assessments/seo/subheadingsKeywordAssessment";
-import * as TextCompetingLinks from "../assessments/seo/textCompetingLinksAssessment";
+import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksAssessment";
 import * as TextImages from "../assessments/seo/textImagesAssessment";
 import * as TextLength from "../assessments/seo/textLengthAssessment";
 import * as OutboundLinks from "../assessments/seo/outboundLinksAssessment";
 import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment";
-import * as TitleKeyword from "../assessments/seo/titleKeywordAssessment";
+import TitleKeywordAssessment from "../assessments/seo/TitleKeywordAssessment";
 import * as TitleWidth from "../assessments/seo/pageTitleWidthAssessment";
 import UrlKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import * as UrlLength from "../assessments/seo/urlLengthAssessment";
@@ -33,11 +33,11 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
-		new IntroductionKeyword(),
+		new IntroductionHasKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
 		new KeywordDensityAssessment(),
 		keywordStopWords,
-		new MetaDescriptionKeyword(),
+		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLength( {
 			scores:	{
 				tooLong: 3,
@@ -53,7 +53,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 				},
 			}
 		),
-		new TextCompetingLinks(),
+		new TextCompetingLinksAssessment(),
 		new TextImages( {
 			scores: {
 				noImages: 3,
@@ -78,7 +78,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 				noLinks: 3,
 			},
 		} ),
-		new TitleKeyword(),
+		new TitleKeywordAssessment(),
 		new InternalLinksAssessment(),
 		new TitleWidth(
 			{

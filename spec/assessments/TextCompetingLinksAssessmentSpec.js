@@ -1,17 +1,16 @@
+import TextCompetingLinksAssessment from "../../js/assessments/seo/TextCompetingLinksAssessment";
 import Mark from "../../js/values/Mark";
+import Paper from "../../js/values/Paper";
+import Factory from "../helpers/factory";
 
-const TextCompetingLinksAssessment = require( "../../js/assessments/seo/textCompetingLinksAssessment.js" );
-const Paper = require( "../../js/values/Paper.js" );
-
-const factory = require( "../helpers/factory.js" );
-const i18n = factory.buildJed();
+const i18n = Factory.buildJed();
 
 describe( "An assessment for competing links in the text", function() {
 	it( "returns a 'bad' score if a paper is referring to another paper with the same keyword", function() {
 		const paper = new Paper( "This is a very interesting paper", { keyword: "some keyword" } );
 		const result = new TextCompetingLinksAssessment().getResult(
 			paper,
-			factory.buildMockResearcher(
+			Factory.buildMockResearcher(
 				{
 					total: 0,
 					totalNaKeyword: 0,
@@ -60,7 +59,7 @@ describe( "A test for marking competing links", function() {
 		let paper = new Paper( "some text", { keyword: "some keyword" } );
 		const result = new TextCompetingLinksAssessment().getResult(
 			paper,
-			factory.buildMockResearcher(
+			Factory.buildMockResearcher(
 				{
 					total: 0,
 					totalNaKeyword: 0,

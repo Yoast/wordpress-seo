@@ -1,6 +1,7 @@
-const AssessmentResult = require( "../../values/AssessmentResult.js" );
-const Assessment = require( "../../assessment.js" );
-const merge = require( "lodash/merge" );
+import * as merge from "lodash/merge";
+
+import * as Assessment from "../../assessment";
+import * as AssessmentResult from "../../values/AssessmentResult";
 
 /**
  * Assessment for checking the keyword matches in the meta description.
@@ -10,6 +11,10 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} config The configuration to use.
+	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum of keyword occurrences in the meta description.
+	 * @param {number} [config.scores.good] The score to return if there are enough keyword occurrences in the meta description.
+	 * @param {number} [config.scores.bad] The score to return if there aren't enough keyword occurrences in the meta description.
+	 * @param {string} [config.url] The URL to the relevant article on Yoast.com.
 	 *
 	 * @returns {void}
 	 */
@@ -18,7 +23,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 
 		const defaultConfig = {
 			parameters: {
-				recommendedMinimumMatches: 1,
+				recommendedMinimum: 1,
 			},
 			scores: {
 				good: 9,
@@ -42,7 +47,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this._keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
-		let assessmentResult = new AssessmentResult();
+		const assessmentResult = new AssessmentResult();
 		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
@@ -59,7 +64,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 * @returns {Object} Result object with score and text.
 	 */
 	calculateResult( i18n ) {
-		if ( this._keywordMatches >= this._config.parameters.recommendedMinimumMatches  ) {
+		if ( this._keywordMatches >= this._config.parameters.recommendedMinimum  ) {
 			return {
 				score: this._config.scores.good,
 				resultText: i18n.sprintf(
@@ -100,4 +105,4 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	}
 }
 
-module.exports =  MetaDescriptionKeywordAssessment;
+export default MetaDescriptionKeywordAssessment;
