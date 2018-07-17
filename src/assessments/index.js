@@ -14,7 +14,7 @@ const IntroductionKeywordAssessment = require( "./seo/introductionKeywordAssessm
 import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
 const KeywordStopWordsAssessment = require( "./seo/keywordStopWordsAssessment" );
-import LargestKeywordDistanceAssessment from "./seo/largestKeywordDistanceAssessment";
+import LargestKeywordDistanceAssessment from "./seo/LargestKeywordDistanceAssessment";
 const MetaDescriptionKeywordAssessment = require( "./seo/metaDescriptionKeywordAssessment" );
 const MetaDescriptionLengthAssessment = require( "./seo/metaDescriptionLengthAssessment" );
 const OutboundLinksAssessment = require( "./seo/outboundLinksAssessment" );
