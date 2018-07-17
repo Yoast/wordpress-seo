@@ -3,7 +3,7 @@ const checkException = require( "../../../../js/researches/passiveVoice/periphra
 
 describe( "A test for checking the Dutch participle", function() {
 	it( "checks the properties of the Dutch participle object with a passive", function() {
-		var mockParticiple = new DutchParticiple( "gekocht", "werd door mij gekocht.", { auxiliaries: [ "werd" ], type: "regular", language: "nl" } );
+		const mockParticiple = new DutchParticiple( "gekocht", "werd door mij gekocht.", { auxiliaries: [ "werd" ], type: "regular", language: "nl" } );
 		expect( mockParticiple.getParticiple() ).toBe( "gekocht" );
 		expect( mockParticiple.isOnNonParticiplesList() ).toBe( false );
 		expect( mockParticiple.hasNonParticipleEnding() ).toBe( false );
@@ -12,7 +12,7 @@ describe( "A test for checking the Dutch participle", function() {
 	} );
 
 	it( "checks the properties of the Dutch participle object with an irregular passive", function() {
-		var mockParticiple = new DutchParticiple( "achtervolgd", "werd achtervolgd.", { auxiliaries: [ "werd" ], type: "irregular", language: "nl" } );
+		const mockParticiple = new DutchParticiple( "achtervolgd", "werd achtervolgd.", { auxiliaries: [ "werd" ], type: "irregular", language: "nl" } );
 		expect( mockParticiple.getParticiple() ).toBe( "achtervolgd" );
 		expect( mockParticiple.isOnNonParticiplesList() ).toBe( false );
 		expect( mockParticiple.hasNonParticipleEnding() ).toBe( false );
@@ -21,7 +21,7 @@ describe( "A test for checking the Dutch participle", function() {
 	} );
 
 	it( "checks the properties of the Dutch participle object with a word from the list of non-participles", function() {
-		var mockParticiple = new DutchParticiple( "beschrijvend", "wordt beschrijvend.", { auxiliaries: [ "werd" ], type: "regular", language: "nl" } );
+		const mockParticiple = new DutchParticiple( "beschrijvend", "wordt beschrijvend.", { auxiliaries: [ "werd" ], type: "regular", language: "nl" } );
 		expect( mockParticiple.getParticiple() ).toBe( "beschrijvend" );
 		expect( mockParticiple.isOnNonParticiplesList() ).toBe( true );
 		expect( mockParticiple.hasNonParticipleEnding() ).toBe( false );
@@ -30,7 +30,7 @@ describe( "A test for checking the Dutch participle", function() {
 	} );
 
 	it( "checks the properties of the Dutch participle object with a word from the list of non-participles", function() {
-		var mockParticiple = new DutchParticiple( "gemoedelijkheid", "wordt geen gemoedelijkheid", { auxiliaries: [ "wordt" ], type: "regular", language: "nl" } );
+		const mockParticiple = new DutchParticiple( "gemoedelijkheid", "wordt geen gemoedelijkheid", { auxiliaries: [ "wordt" ], type: "regular", language: "nl" } );
 		expect( mockParticiple.getParticiple() ).toBe( "gemoedelijkheid" );
 		expect( mockParticiple.isOnNonParticiplesList() ).toBe( false );
 		expect( mockParticiple.hasNonParticipleEnding() ).toBe( true );
@@ -38,8 +38,8 @@ describe( "A test for checking the Dutch participle", function() {
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
 	} );
 
-	it( "checks the properties of the Dutch participle object with a word from the list of non-participles", function() {
-		var mockParticiple = new DutchParticiple( "geliefd", "wordt een geliefd", { auxiliaries: [ "wordt" ], type: "regular", language: "nl" } );
+	it( "checks the properties of the Dutch participle object with a direct precedence exception", function() {
+		const mockParticiple = new DutchParticiple( "geliefd", "wordt een geliefd", { auxiliaries: [ "wordt" ], type: "regular", language: "nl" } );
 		expect( mockParticiple.getParticiple() ).toBe( "geliefd" );
 		expect( mockParticiple.isOnNonParticiplesList() ).toBe( false );
 		expect( mockParticiple.hasNonParticipleEnding() ).toBe( false );

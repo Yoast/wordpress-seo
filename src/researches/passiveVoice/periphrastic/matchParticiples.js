@@ -11,8 +11,8 @@ const irregularsEndingInSFrench = require( "../../french/passiveVoice/irregulars
 const spanishParticiples = require( "../../spanish/passiveVoice/participles" )();
 const italianParticiples = require( "../../italian/passiveVoice/participles" )();
 const irregularsDutch = require( "../../dutch/passiveVoice/irregulars" )();
-const nlRegex1 = /(ge|be|ont|ver|her|er)\S+(d|t)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
-const nlRegex2 = /(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
+const nlRegex1 = /^(ge|be|ont|ver|her|er)\S+(d|t)$/ig;
+const nlRegex2 = /^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)$/ig;
 
 // The language-specific participle regexes.
 const languageVariables = {
