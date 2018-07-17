@@ -189,8 +189,26 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 
 			$post_types = get_post_types( array( 'public' => true ) );
 			$post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );
+			$post_types = $this->filter_woocommerce_product_type( $post_types );
 			$post_types = array_filter( $post_types, array( $this, 'has_custom_archive_slug' ) );
 			$post_types = array_filter( $post_types, array( $this, 'has_default_templates_set' ) );
+		}
+
+		return $post_types;
+	}
+
+	/**
+	 * Filters the WooCommerce product, when Woocommerce is active.
+	 *
+	 * @param array $post_types The post types to filter.
+	 *
+	 * @return array The filtere post types.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function filter_woocommerce_product_type( $post_types ) {
+		if ( WPSEO_Utils::is_woocommerce_active() ) {
+			unset( $post_types['product'] );
 		}
 
 		return $post_types;
