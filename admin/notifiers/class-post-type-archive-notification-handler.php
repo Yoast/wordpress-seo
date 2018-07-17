@@ -30,14 +30,12 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 * @return void
 	 */
 	public function listen() {
-		if ( filter_input( INPUT_GET, 'yoast_dismiss' ) !== $this->notification_identifier ) {
+		if ( $this->get_listener_value() !== $this->notification_identifier ) {
 			return;
 		}
 
-		$this->dismiss_notice();
-
-		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
-		exit;
+		$this->set_dismissal_state();
+		$this->redirect_to_dashboard();
 	}
 
 	/**
@@ -59,11 +57,36 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	}
 
 	/**
+	 * Retrevies the value where listener is listening for.
+	 *
+	 * @return string The listener value.
+	 *
+	 * @coveCoverageIgnore
+	 */
+	protected function get_listener_value() {
+		return filter_input( INPUT_GET, 'yoast_dismiss' );
+	}
+
+	/**
+	 * Redirects the user back to the dashboard.
+	 *
+	 * @return void
+	 *
+	 * @coveCoverageIgnore
+	 */
+	protected function redirect_to_dashboard() {
+		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
+		exit;
+	}
+
+	/**
 	 * Returns the notification.
 	 *
 	 * @param array $post_types The post types that needs an other check.
 	 *
 	 * @return Yoast_Notification The notification for the notification center.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function get_notification( array $post_types ) {
 		$message  = esc_html__(
@@ -122,6 +145,8 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 * Checks whether the notification has been dismissed.
 	 *
 	 * @return bool True when notification is dismissed.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function is_notice_dismissed() {
 		return get_user_meta( get_current_user_id(), 'wpseo-remove-' . $this->notification_identifier, true ) === '1';
@@ -131,8 +156,10 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 * Dismisses the notification.
 	 *
 	 * @return void
+	 *
+	 * @codeCoverageIgnore
 	 */
-	protected function dismiss_notice() {
+	protected function set_dismissal_state() {
 		update_user_meta( get_current_user_id(), 'wpseo-remove-' . $this->notification_identifier, true );
 	}
 
@@ -140,6 +167,8 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 * Checks if the first activation is done before the release of 7.9.
 	 *
 	 * @return bool True whether the install is 'new'.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function is_new_install() {
 		return WPSEO_Options::get( 'first_activated_on' ) >= strtotime( '2018-07-24' );
@@ -149,6 +178,8 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 * Returns all the post types which might have wrong archive settings.
 	 *
 	 * @return array The post types.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function get_post_types() {
 		static $post_types;
@@ -171,6 +202,8 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 * @param string $post_type_name The post type's name.
 	 *\
 	 * @return bool True whether the archive slug is overridden.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function has_custom_archive_slug( $post_type_name) {
 		$post_type = get_post_type_object( $post_type_name );
@@ -188,6 +221,8 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 * @param string $post_type_name The post type name.
 	 *
 	 * @return bool True whether the default templates are set.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function has_default_templates_set( $post_type_name ) {
 		$title_option_name    = 'title-ptarchive-' . $post_type_name;
@@ -202,6 +237,8 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 * @param string $option_name The option name to check.
 	 *
 	 * @return bool True whethere the option value is equal to the default value.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function is_equal_to_default( $option_name ) {
 		if ( ! isset( $this->option_defaults[ $option_name ] ) ) {
