@@ -299,12 +299,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'my_action' );
 
-		try {
-			$admin->verify_request( 'my_action' );
-		} catch ( WPDieException $e ) {
-			$this->assertEquals( -1, $e->getMessage() );
-			throw $e;
-		}
+		$admin->verify_request( 'my_action' );
 	}
 
 	/**
