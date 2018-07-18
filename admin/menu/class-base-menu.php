@@ -23,13 +23,6 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Registers all hooks to WordPress.
-	 *
-	 * @return void
-	 */
-	abstract public function register_hooks();
-
-	/**
 	 * Returns the list of registered submenu pages.
 	 *
 	 * @return array List of registered submenu pages.
