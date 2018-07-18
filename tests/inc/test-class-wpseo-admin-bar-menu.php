@@ -196,7 +196,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 		$admin_bar_menu
 			->expects( $this->once() )
 			->method( 'meets_requirements' )
-			->willReturn( true );
+			->will( $this->returnValue( true ) );
 
 		$admin_bar_menu->register_hooks();
 		$this->assertInternalType( 'int', has_action( 'admin_bar_menu', array( $admin_bar_menu, 'add_menu' ), 95 ) );
