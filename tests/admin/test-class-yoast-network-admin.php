@@ -212,7 +212,12 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wp_http_referer'] = admin_url();
 		$_REQUEST['_wpnonce']         = '';
 
-		$admin->verify_request( 'my_action' );
+		try {
+			$admin->verify_request( 'my_action' );
+		} catch ( WPDieException $e ) {
+			$this->assertContains( 'The link you followed has expired.', $e->getMessage() );
+			throw $e;
+		}
 	}
 
 	/**
@@ -227,7 +232,12 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wp_http_referer'] = admin_url();
 		$_REQUEST['_wpnonce']         = wp_create_nonce( 'my_action' );
 
-		$admin->verify_request( 'my_action' );
+		try {
+			$admin->verify_request( 'my_action' );
+		} catch ( WPDieException $e ) {
+			$this->assertEquals( 'You are not allowed to perform this action.', $e->getMessage() );
+			throw $e;
+		}
 	}
 
 	/**
@@ -267,7 +277,12 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = '';
 
-		$admin->verify_request( 'my_action' );
+		try {
+			$admin->verify_request( 'my_action' );
+		} catch ( WPDieException $e ) {
+			$this->assertEquals( -1, $e->getMessage() );
+			throw $e;
+		}
 	}
 
 	/**
@@ -284,7 +299,12 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'my_action' );
 
-		$admin->verify_request( 'my_action' );
+		try {
+			$admin->verify_request( 'my_action' );
+		} catch ( WPDieException $e ) {
+			$this->assertEquals( -1, $e->getMessage() );
+			throw $e;
+		}
 	}
 
 	/**
@@ -339,6 +359,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * Tests terminating an AJAX request.
 	 *
 	 * @covers Yoast_Network_Admin::terminate_request()
+	 * @expectedException WPDieException
 	 */
 	public function test_terminate_request_ajax() {
 		$admin = new Yoast_Network_Admin();
@@ -354,6 +375,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 			$admin->terminate_request();
 		} catch ( WPDieException $e ) {
 			$this->assertArrayHasKey( 'success', json_decode( ob_get_clean(), true ) );
+			throw $e;
 		}
 
 		$this->assertArrayHasKey( 'success', json_decode( ob_get_clean(), true ) );
