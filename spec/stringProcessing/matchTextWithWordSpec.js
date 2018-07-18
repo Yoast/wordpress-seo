@@ -96,16 +96,19 @@ describe( "Counts the occurences of a word in a string", function() {
 	} );
 
 	it( "should match keywords preceded by a punctuation mark.", function() {
+		expect( wordMatch( "¿Como hacer guacamole?", "como" ).count ).toBe( 1 );
+		expect( wordMatch( "¿Como hacer guacamole?", "como" ).matches ).toEqual( [ "Como" ] );
+
 		expect( wordMatch( "¿keyword.", "keyword" ).count ).toBe( 1 );
-		expect( wordMatch( "¿keyword.", "keyword" ).matches ).toBe( "keyword" );
+		expect( wordMatch( "¿keyword.", "keyword" ).matches ).toEqual( [ "keyword" ] );
 
 		expect( wordMatch( "¡keyword.", "keyword" ).count ).toBe( 1 );
-		expect( wordMatch( "¡keyword.", "keyword" ).matches ).toBe( "keyword" );
+		expect( wordMatch( "¡keyword.", "keyword" ).matches ).toEqual( [ "keyword" ] );
 
 		expect( wordMatch( "«keyword»", "keyword" ).count ).toBe( 1 );
-		expect( wordMatch( "«keyword»", "keyword" ).matches ).toBe( "keyword" );
+		expect( wordMatch( "«keyword»", "keyword" ).matches ).toEqual( [ "keyword" ] );
 
 		expect( wordMatch( "(keyword)", "keyword" ).count ).toBe( 1 );
-		expect( wordMatch( "(keyword)", "keyword" ).matches ).toBe( "keyword" );
+		expect( wordMatch( "(keyword)", "keyword" ).matches ).toEqual( [ "keyword" ] );
 	} );
 } );
