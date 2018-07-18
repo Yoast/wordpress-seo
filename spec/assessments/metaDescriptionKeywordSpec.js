@@ -1,4 +1,4 @@
-var metaDescriptionKeyword = require( "../../js/assessments/metaDescriptionKeywordAssessment.js" );
+var metaDescriptionKeyword = require( "../../js/assessments/seo/metaDescriptionKeywordAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );
@@ -12,7 +12,7 @@ describe( "the metadescription keyword assessment", function() {
 		var result = metaDescriptionKeyword.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toBe( 3 );
-		expect( result.getText() ).toBe( "A meta description has been specified, but it does not contain the focus keyword." );
+		expect( result.getText() ).toBe( "A meta description has been specified, but it <a href='https://yoa.st/2pf' target='_blank'>does not contain the focus keyword</a>." );
 	} );
 
 	it( "should score a meta with no matching keyword as bad", function() {
@@ -22,7 +22,7 @@ describe( "the metadescription keyword assessment", function() {
 		var result = metaDescriptionKeyword.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "The meta description contains the focus keyword." );
+		expect( result.getText() ).toBe( "The meta description <a href='https://yoa.st/2pf' target='_blank'>contains the focus keyword</a>." );
 	} );
 
 	it( "should not score since there is no meta", function() {

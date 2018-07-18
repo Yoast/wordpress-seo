@@ -1,4 +1,4 @@
-var paragraphTooLongAssessment = require( "../../js/assessments/paragraphTooLongAssessment.js" );
+var paragraphTooLongAssessment = require( "../../js/assessments/readability/paragraphTooLongAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
@@ -52,26 +52,25 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 		expect( assessment.getText() ).toBe( "" );
 	} );
 	it( "returns true for isApplicable on a paper with text.", function() {
-		var paper = new Paper( "This is a very interesting paper.", {locale: "en_EN"} );
-		var assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 5, text: "This is a very interesting paper." } ] ), i18n );
-		expect( paragraphTooLongAssessment.isApplicable( paper )).toBe( true );
-		} );
+		var paper = new Paper( "This is a very interesting paper.", { locale: "en_EN" } );
+		paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 5, text: "This is a very interesting paper." } ] ), i18n );
+		expect( paragraphTooLongAssessment.isApplicable( paper ) ).toBe( true );
+	} );
 } );
 
 describe( "A test for marking the sentences", function() {
-	it ("returns markers", function() {
+	it( "returns markers", function() {
 		paper = new Paper( "This is a very interesting paper." );
 		var paragraphTooLong = Factory.buildMockResearcher( [ { wordCount: 210, text: "This is a very interesting paper." } ] );
 		var expected = [
-			new Mark({ original: "This is a very interesting paper.", marked: "<yoastmark class='yoast-text-mark'>This is a very interesting paper.</yoastmark>" })
+			new Mark( { original: "This is a very interesting paper.", marked: "<yoastmark class='yoast-text-mark'>This is a very interesting paper.</yoastmark>" } ),
 		];
 		expect( paragraphTooLongAssessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
 
-	it ("returns no markers", function() {
+	it( "returns no markers", function() {
 		var paragraphTooLong = Factory.buildMockResearcher( [ { wordCount: 60, text: "" }, { wordCount: 11, text: "" }, { wordCount: 13, text: "" } ] );
 		var expected = [];
 		expect( paragraphTooLongAssessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
-
 } );

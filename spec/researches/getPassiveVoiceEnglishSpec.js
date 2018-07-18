@@ -3,27 +3,27 @@ var Paper = require( "../../js/values/Paper.js" );
 
 // Tests inspired by the examples on http://www.englishpage.com/verbpage/activepassive.html
 describe( "detecting passive voice in sentences", function() {
-	it( "returns active voice (Simple Present)", function () {
-		var paper = new Paper("Once a week, Tom cleans the house.");
+	it( "returns active voice (Simple Present)", function() {
+		var paper = new Paper( "Once a week, Tom cleans the house." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
-	});
+	} );
 
-	it( "returns passive voice (Simple Present)", function () {
+	it( "returns passive voice (Simple Present)", function() {
 		// Passive: is cleaned.
-		var paper = new Paper("Once a week, the house is cleaned by Tom.");
-		expect( passiveVoice( paper ).passives.length).toBe( 1 );
-	});
+		var paper = new Paper( "Once a week, the house is cleaned by Tom." );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	} );
 
-	it( "returns active voice (Present Continuous)", function () {
-		var paper = new Paper("Right now, Sarah is writing the letter.");
-		expect(passiveVoice( paper ).passives.length).toBe( 0 );
-	});
+	it( "returns active voice (Present Continuous)", function() {
+		var paper = new Paper( "Right now, Sarah is writing the letter." );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
 
-	it( "returns passive voice (Present Continuous)", function () {
+	it( "returns passive voice (Present Continuous)", function() {
 		// Passive: (is) being written.
-		var paper = new Paper("Right now, the letter is being written by Sarah.");
-		expect(passiveVoice( paper ).passives.length).toBe( 1 );
-	});
+		var paper = new Paper( "Right now, the letter is being written by Sarah." );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	} );
 
 	it( "returns active voice (Simple Past)", function() {
 		var paper = new Paper( "Sam repaired the car." );
@@ -199,7 +199,6 @@ describe( "detecting passive voice in sentences", function() {
 		// Passive: (would) be made.
 		var paper = new Paper( "The pies would always be made by my mother." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-
 	} );
 	it( "returns active voice (Future in the Past - would)", function() {
 		var paper = new Paper( "I knew John would finish the work by 5:00 PM." );
@@ -237,29 +236,29 @@ describe( "detecting passive voice in sentences", function() {
 		// Passive: having painted.
 		var paper = new Paper( "He is having the house painted" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
 	it( "returns active voice ( no text between having and verb )", function() {
 		var paper = new Paper( "He is most notable, having contributed a lot" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
-	});
+	} );
 
 	it( "returns active voice ( combination with left )", function() {
 		var paper = new Paper( "The right way is to the left" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
-	});
+	} );
 
 	it( "returns passive voice ( combination with left )", function() {
 		// Passive: was left.
 		var paper = new Paper( "She was left at home" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
 	it( "returns passive voice ( combination with left )", function() {
 		// Passive: was hit.
 		var paper = new Paper( "He was hit on the left leg" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
 	/* Currently, the only time we verify that 'fit' is a noun, is when it is directly preceded by a determiner.
 	 However, 'fit' can also be a noun when it is preceded by an adjective, like in "It was the *right* fit",
@@ -269,115 +268,114 @@ describe( "detecting passive voice in sentences", function() {
 	 like "The model was fit by with the formula method" as well.
 	 */
 	xit( "returns active voice ( combination with fit )", function() {
-	 	var paper = new Paper( "It was the right fit" );
-	 	expect( passiveVoice( paper ).passives.length ).toBe( 0 );
-	});
+		var paper = new Paper( "It was the right fit" );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
 
 	it( "returns passive voice ( combination with fit )", function() {
 		// Passive: was fit.
 		var paper = new Paper( "He was fit with hearing aids" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
 	it( "returns active voice ( combination with ing-verbs )", function() {
 		var paper = new Paper( "They had apps that are constantly improving, with regular updates based on customer feedback." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
-	});
+	} );
 
 	it( "returns passive voice ( combination with cling )", function() {
 		// Passive: get (cling) wrapped.
 		var paper = new Paper( "They had apps that get constantly cling wrapped" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
 	it( "returns passive voice ( combination with cling  )", function() {
 		// Passive: are (cling) wrapped.
 		var paper = new Paper( "They had apps that are constantly cling wrapped." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
 	it( "returns passive voice with quotation marks", function() {
 		// Passive: get lost.
 		var paper = new Paper( "As a result of that, a lot of blog posts will 'get lost' in a structure that is too flat." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
 	it( "returns passive voice with multiple subsentence, where the passive is not in the last part", function() {
 		// Passive: get lost.
 		var paper = new Paper( "As a result of that, a lot of blog posts will get lost in a structure that is too flat." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
 	it( "returns passive voice in a sentence where the indicator is in caps.", function() {
 		// Passive: get lost.
 		var paper = new Paper( "As a result of that, a lot of blog posts will GET LOST in a structure that is too flat." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
-	it( "returns the passive sentences with multiple passive subsentences", function () {
+	it( "returns the passive sentences with multiple passive subsentences", function() {
 		// Passive: is cleaned, is cleaned (2 times).
-		var paper = new Paper("Once a week, the house is cleaned by Tom where the house is cleaned by Jane.");
+		var paper = new Paper( "Once a week, the house is cleaned by Tom where the house is cleaned by Jane." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
-	it( "returns the passive sentences with more subsentences and only the first subsentence is passive", function () {
+	it( "returns the passive sentences with more subsentences and only the first subsentence is passive", function() {
 		// Passive: is cleaned.
-		var paper = new Paper("Once a week, the house is cleaned by Tom where the house is Jane.");
+		var paper = new Paper( "Once a week, the house is cleaned by Tom where the house is Jane." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
 	it( "returns the passive sentences with an -ed word", function() {
 		var paper = new Paper( "Even though the house is cleaned" );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	});
+	} );
 
 	it( "supports different types of quotes", function() {
 		var paper = new Paper( "you're done." );
 		expect( passiveVoice( paper ) ).toEqual( {
 			total: 1,
-			passives: [ "you're done." ]
+			passives: [ "you're done." ],
 		} );
 
 		var paper = new Paper( "you’re done." );
 		expect( passiveVoice( paper ) ).toEqual( {
 			total: 1,
-			passives: [ "you’re done." ]
+			passives: [ "you’re done." ],
 		} );
 
 		var paper = new Paper( "you‘re done." );
 		expect( passiveVoice( paper ) ).toEqual( {
 			total: 1,
-			passives: [ "you‘re done." ]
+			passives: [ "you‘re done." ],
 		} );
 
 		var paper = new Paper( "you‛re done." );
 		expect( passiveVoice( paper ) ).toEqual( {
 			total: 1,
-			passives: [ "you‛re done." ]
+			passives: [ "you‛re done." ],
 		} );
-	});
+	} );
 
 	it( "strips HTMLtags", function() {
 		var paper = new Paper( "<a href='get lost'>No passive</a>" );
 		expect( passiveVoice( paper ) ).toEqual( {
 			total: 1,
-			passives: []
+			passives: [],
 		} );
-	});
+	} );
 
-	it( "returns no passive sentence when the subsentence has no auxiliary, when the auxiliary is used multiple times", function () {
+	it( "returns no passive sentence when the subsentence has no auxiliary, when the auxiliary is used multiple times", function() {
 		// Passive: no passive, auxiliary: was
 		var paper = new Paper( "He thought she was the one who knew about the six buried in his back yard, but he was wrong." );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
-	});
+	} );
 
-	it( "returns no passive sentence when there is an exception with 'rid'", function () {
+	it( "returns no passive sentence when there is an exception with 'rid'", function() {
 		// Passive: no passive, auxiliary: got
 		var paper = new Paper( "He got rid of it" );
 		expect( passiveVoice( paper ) ).toEqual( {
 			total: 1,
-			passives: []
+			passives: [],
 		} );
-	});
-
+	} );
 } );

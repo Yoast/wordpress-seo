@@ -4,6 +4,7 @@
 
 $snippet_width: 600px;
 
+// Default caret icon: top alignment only suitable for the Snippet Preview.
 @mixin svg-caret-before($color) {
 	background-image: url(svg-icon-caret-right($color));
 
@@ -37,6 +38,7 @@ $snippet_width: 600px;
 
 	&__view {
 		clear: both;
+		background: #fff;
 
 		&-toggle {
 			display: inline-block; /* Contain floated children and margins do not collapse. */
@@ -44,6 +46,7 @@ $snippet_width: 600px;
 			border: 1px solid $color_button_border;
 			border-radius: 4px;
 			margin-top: 10px;
+			margin-left: 20px;
 			vertical-align: top;
 		}
 
@@ -60,24 +63,25 @@ $snippet_width: 600px;
 			border-bottom: 4px solid transparent;
 			outline: none; /* Reset native outline especially on webkit on Macs. */
 
-		  &:hover, &:focus {
+			&:hover, &:focus {
 				background-color: #ffffff;
 				border-color: $color_caret_focus;
 				transition: .15s color ease-in-out,.15s background-color ease-in-out,.15s border-color ease-in-out;
 			}
-		  &--active {
+
+			&--active {
 				border-color: $color_caret;
 				transition: .15s color ease-in-out,.15s background-color ease-in-out,.15s border-color ease-in-out;
-		  }
+			}
 
-		  // Adjust the tooltips position because buttons have a 4px bottom border.
-		  &.yoast-tooltip:before {
+			// Adjust the tooltips position because buttons have a 4px bottom border.
+			&.yoast-tooltip:before {
 				bottom: -10px
-		  }
+			}
 
-		  &.yoast-tooltip:after {
+			&.yoast-tooltip:after {
 				margin-top: 10px;
-		  }
+			}
 		}
 
 		&-icon-desktop {
@@ -99,75 +103,165 @@ $snippet_width: 600px;
 		}
 
 		&--desktop {
-		width: $snippet_width;
-		background: #FFF;
-		  .snippet_container {
+			width: $snippet_width + 40;
+			max-width: 100%;
+			padding: 0 20px;
+			overflow: auto;
+		}
+
+		// Used for the desktop view and then overridden for the mobile one:
+		// title and slug don't wrap in new lines and use ellipsis. The meta
+		// description is allowed to wrap. All three elements have a 600 pixels fixed width.
+		.snippet_container {
 			&__title {
 				width: $snippet_width;
+				white-space: nowrap;
 
-				.title {
-					white-space: nowrap;
+				& .title {
+					display: inline-block;
+					max-width: $snippet_width;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					vertical-align: top;
+
+					&#snippet_sitename {
+						display: inline; // Consider to remove this element from the template, probably no more used.
+					}
 				}
 			}
-		  }
+
+			&__url {
+				width: $snippet_width;
+				white-space: nowrap;
+				line-height: 1; // Avoid to inherit line-height.
+
+				& .urlFull {
+					display: inline-block;
+					max-width: $snippet_width - 14; // down_arrow 8+6 pixels.
+					overflow: hidden;
+					text-overflow: ellipsis;
+					vertical-align: top;
+					font-size: 14px;
+					line-height: 16px;
+				}
+			}
+
+			& .down_arrow {
+				display: inline-block;
+				border-left: 4px solid transparent;
+				border-right: 4px solid transparent;
+				border-top: 5px solid #006621;
+				margin-top: 6px;
+				margin-left: 6px;
+				vertical-align: top;
+			}
+
+			&__meta {
+				width: $snippet_width;
+			}
 		}
 
 		&--mobile {
-			background-color: #fff;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 			border-radius: 2px;
 			border-bottom: 1px hidden #fff;
-			margin: 0 0 10px 0;
-			padding: 13px 0 ;
+			margin: 0 20px 10px;
+			padding: 11px 0;
 
+			// In the mobile view title, slug, and meta description have a fluid width.
+			// Title and meta description wrap in new lines. Slug doesn't wrap.
 			.snippet_container {
 				display: block;
 				line-height: 20px;
 
 				&__title, &__url, &__meta {
 					width: 100%;
+					// Worth noting that inside the yoast-section everything is already border-box.
+					// Setting this property on specific elements is needed just for the browserified example.
 					box-sizing: border-box;
 				}
 
 				&__title {
-					font-size: 16px;
 					padding: 0 16px;
+					white-space: normal;
+					overflow: visible;
 					word-wrap: break-word;
 
 					.title {
 						font-size: 16px;
+						line-height: 20px;
 					}
 
 				}
 
 				&__url {
 					border-bottom: 1px solid #ebebeb;
-					padding: 0 16px 11px;
-					margin-bottom: 13px;
-					font-size: 14px;
-					box-sizing: border-box;
-					white-space: nowrap;
+					padding: 0 16px 9px;
+					margin-bottom: 9px;
+
+					// In the mobile view there's no down arrow.
+					& .urlFull {
+						max-width: 100%;
+						font-size: 14px;
+						line-height: 20px;
+					}
+				}
+
+				// In the mobile view there's no down arrow.
+				& .down_arrow {
+					display: none;
 				}
 
 				&__meta {
 					font-size: 14px;
+					line-height: 20px;
 					padding: 0 16px;
 				}
 
+				& .desc {
+					font-size: 14px;
+					line-height: 20px;
+				}
 			}
 		}
+	}
 
+	&__is-scrollable-hintwrapper {
+		display: none;
+		margin: 1em 0 5px;
+		text-align: center;
+
+		.snippet-editor__view--desktop.snippet-editor__view--desktop-has-scroll + & {
+			display: block;
+		}
+	}
+
+	&__is-scrollable-hint {
+		display: inline-block;
+
+		&:before {
+			content: "\21c4";
+			display: inline-block;
+			margin-right: 10px;
+			font-size: 20px;
+			line-height: inherit;
+			vertical-align: text-top;
+		}
 	}
 
 	&__container {
 		position: relative;
 		cursor: pointer;
+
+		&.editable-preview__container--no-caret {
+			cursor: auto;
+		}
 	}
 
 	&__heading {
 		padding: 8px 20px;
 		font-size: 0.9rem;
-		margin: 0 -20px 15px;
+		margin: 0 0 15px;
 		font-family: "Open Sans", sans-serif;
 		font-weight: 300;
 		color: $color_headings;
@@ -192,8 +286,8 @@ $snippet_width: 600px;
 
 	}
 
+	// Display the caret icons in the Snippet Preview.
 	&__container {
-
 		&:hover {
 			&:before {
 				@include svg-caret-before($color_caret_hover);
@@ -209,8 +303,12 @@ $snippet_width: 600px;
 	}
 
 	&__preview {
-		padding: 0 20px 15px;
+		padding: 0 0 15px;
 		max-width: $snippet_width + 40;
+
+		& #help-yoast-snippetpreview {
+			padding: 0 20px;
+		}
 	}
 
 	&__button {
@@ -241,6 +339,9 @@ $snippet_width: 600px;
 		padding: 20px;
 	}
 
+	// Display the caret icons in the Snippet Editor.
+	// @todo: consider to use the new method used for the Social Previews, which
+	// doesn't use the labels but uses dedicated elements as hooks in the DOM.
 	&__label {
 		display: block;
 		width: 100%;
@@ -253,15 +354,15 @@ $snippet_width: 600px;
 
 		&--hover {
 			&:before {
-				@include svg_caret-before($color_caret_hover);
-				top: 20px;
+				@include svg-caret-before($color_caret_hover);
+				top: 20px; // Override default top alignment.
 			}
 		}
 
 		&--focus {
 			&:before {
-				@include svg_caret_before($color_caret_focus);
-				top: 20px;
+				@include svg-caret-before($color_caret_focus);
+				top: 20px; // Override default top alignment.
 			}
 		}
 	}
@@ -303,20 +404,20 @@ $snippet_width: 600px;
 	&__label {
 		&--hover {
 			&:before {
-				@include svg_caret-before-rtl($color_caret_hover);
+				@include svg-caret-before-rtl($color_caret_hover);
 			}
 		}
 
 		&--focus {
 			&:before {
-				@include svg_caret_before-rtl($color_caret_focus);
+				@include svg-caret-before-rtl($color_caret_focus);
 			}
 		}
 	}
 }
 
 .snippet-editor__meta-description {
-	height: 70px;
+	height: 84px;
 }
 
 .snippet-editor__submit {
@@ -334,9 +435,6 @@ $snippet_width: 600px;
 
 .snippet_container .title {
 	color: #1e0fbe;
-	display: block;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	text-decoration: none;
 	font-size: 18px;
 	line-height: 1.2;
@@ -344,36 +442,29 @@ $snippet_width: 600px;
 	margin: 0;
 }
 
-.snippet_container .url,
 .snippet_container .desc {
 	font-size: 13px;
 	line-height: 1.4;
 }
 
 .snippet_container .url {
-	display: inline-block;
-	font-size: 14px;
-	line-height: 16px;
 	color: #006621;
 	font-style: normal;
-	float: left;
-}
 
-.snippet_container .down_arrow {
-	border-left: 4px solid transparent;
-	border-right: 4px solid transparent;
-	border-top: 5px solid #006621;
-	margin-top: 6px;
-	margin-left: 5px;
-	float: left;
+	strong {
+		// Ensure it's a full bold regardless of the inherited styles.
+		font-weight: 700;
+	}
 }
 
 .snippet_container .desc-default {
 	color: #545454;
-}
 
-.snippet_container .desc-default strong{
-	color: #6a6a6a;
+	strong {
+		color: #6a6a6a;
+		// Ensure it's a full bold regardless of the inherited styles.
+		font-weight: 700;
+	}
 }
 
 .snippet_container .desc-render {

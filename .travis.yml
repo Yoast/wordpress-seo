@@ -1,34 +1,40 @@
 language: node_js
 node_js:
-  - node
-
+- 9
+- node
+matrix:
+  allow_failures:
+    - node_js: node
 sudo: false
-
 cache:
   yarn: true
   directories:
-    - node_modules
-
+  - node_modules
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - export PATH=$HOME/.yarn/bin:$PATH
-
+- curl -o- -L https://yarnpkg.com/install.sh | bash
+- export PATH=$HOME/.yarn/bin:$PATH
 install:
 - yarn global add grunt-cli
 - yarn install
-
-before_script:
-- grunt build:jst
-
 script:
-- yarn test
-- grunt check
-- yarn run check-coverage
-
+- yarn lint
+- yarn test --coverage --runInBand
 after_success:
 - yarn global add codeclimate-test-reporter
 - codeclimate-test-reporter < coverage/lcov.info
-
+- grunt publish # Builds in dist folder
+# Deploy from dist folder, because this has the built version of YoastSEO.js
+before_deploy:
+- cd dist
 notifications:
   slack:
     secure: W3StABr+AdcdQawTObK4nbsnn5nLrTTtZfVpD/GEN6gvSOQcykbGEC5+ceYg0jn5b4StDyCiTo5blEsrpVICFpYKc44+ogah+qaGRUfVRS/rpOvn4AueXTWn4JxhZzuxqKMiTmyW+MQG0uYM7sk7Q5S+15jj6ilkj4QATaBVNbY=
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: webmaster@yoast.com
+  api_key:
+    secure: W7V824BCRwbxksSNTH65j2me1jQHv/oP0tBoe5DaNRd5XZ/BEQfDfiXNrmXTQg2JeqzdPEHZj9/mAYqfBi8IvZDwgV9gb/HBW39lsySwposIA28z3q0QjHWc7FCaOAbIXTZB4P52OuAre4njK/iP3owBPDfWP5zygaCNWZd+KZ0=
+  on:
+    tags: true
+    repo: Yoast/YoastSEO.js

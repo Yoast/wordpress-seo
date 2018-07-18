@@ -6,6 +6,6 @@ describe( "sentencesLength", function() {
 
 		var lengths = sentencesLength( sentences );
 
-		expect( lengths ).toEqual( [{ sentence: "A sentence", sentenceLength: 2 }]);
-	});
-});
+		expect( lengths ).toEqual( [ { sentence: "A sentence", sentenceLength: 2 } ] );
+	} );
+} );

@@ -16,7 +16,7 @@ Also included is a preview of the Google search results which can be assessed us
 You can install YoastSEO.js using npm:
 
 ```bash
-npm install https://github.com/Yoast/YoastSEO.js#develop
+npm install yoastseo
 ```
 
 ## Usage
@@ -61,11 +61,33 @@ You can also invoke internal components directly to be able to work with the raw
 
 ```js
 var Researcher = require( "yoastseo" ).Researcher;
+var Paper = require( "yoastseo" ).Paper;
 
 var researcher = new Researcher( new Paper( "Text that has been written" ) );
 
 console.log( researcher.getResearch( "wordCountInText" ) );
 ```
+
+## Supported languages
+|                     | English | German | Dutch | French | Spanish  | Italian | Japanese | Portuguese | Russian | Catalan |
+|---------------------|---------|--------|-------|--------|---------|---------|----------|----------|----------|----------|
+| Transition words    | ✅      | ✅     | ✅    | ✅      | ✅       | ✅       |          | ✅        | ✅       | ✅        |
+| Flesch reading ease  | ✅      | ✅     | ✅    | ✅      | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅        |          |
+| Passive voice       | ✅      | ✅     |       | ✅     | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅       |          |
+| Flesch reading ease  | ✅      | ✅     | ✅    | ✅      | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅        |          |
+| Passive voice       | ✅      | ✅     |       | ✅     | ✅       |         | ❌<sup>2</sup>        |          | ✅       |          |
+| Sentence beginnings | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       | ❌<sup>2</sup>        |          | ✅       |          |
+| Sentence length<sup>1</sup>     | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       |          |          | ✅       |          |
+| Function words (for Internal linking and insights)      | ✅      | ✅     | ✅    | ✅     | ✅       | ✅       |          | ✅        | ✅       |          |
+
+<sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
+
+<sup>2</sup> This means that this feature doesn't make sense for the specific language.
+
+The following readability assessments are available for all languages: 
+- sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
+- paragraph length
+- subheading distribution
 
 ## Change log
 

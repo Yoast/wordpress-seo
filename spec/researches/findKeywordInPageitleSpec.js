@@ -2,9 +2,8 @@ var pageTitleKeyword = require( "../../js/researches/findKeywordInPageTitle.js" 
 var Paper = require( "../../js/values/Paper.js" );
 var result;
 
-describe("Match keywords in string", function(){
-	it("returns number of matches and position", function(){
-
+describe( "Match keywords in string", function() {
+	it( "returns number of matches and position", function() {
 		var mockPaper = new Paper( "", { keyword: "keyword", title: "keyword in a string" } );
 
 		result = pageTitleKeyword( mockPaper );
@@ -18,7 +17,7 @@ describe("Match keywords in string", function(){
 
 		var mockPaper = new Paper( "", { keyword: "", title: "a string with words" } );
 		result = pageTitleKeyword( mockPaper );
-		expect( result.matches).toBe( 0 );
+		expect( result.matches ).toBe( 0 );
 
 		var mockPaper = new Paper( "", { keyword: "нечто", title: "ст, чтобы проверить нечто Test текст, чтобы " } );
 		result = pageTitleKeyword( mockPaper );
@@ -32,9 +31,13 @@ describe("Match keywords in string", function(){
 		result = pageTitleKeyword( mockPaper );
 		expect( result.matches ).toBe( 0 );
 
+		var mockPaper = new Paper( "", { keyword: "Focus Keyword", title: "focus keyword" } );
+		result = pageTitleKeyword( mockPaper );
+		expect( result.matches ).toBe( 1 );
+
 		var mockPaper = new Paper( "", { keyword: "$keyword", title: "A title with a $keyword" } );
 		result = pageTitleKeyword( mockPaper );
 		expect( result.matches ).toBe( 1 );
-	});
-});
+	} );
+} );
 

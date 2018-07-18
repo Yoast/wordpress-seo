@@ -37,7 +37,8 @@ YoastSEO.app.pluginReloaded( 'examplePlugin' );
 
 YoastSEO.js has a synchronous modification mechanism that operates much like the filtering mechanism in WordPress (`add_filter|apply_filters`). We currently have support for the following modifications (more might follow):
 * `content`
-* `title`
+* `data_page_title`
+* `data_meta_desc`
 
 The modifications that are supported by us are applyed in the following way:
 

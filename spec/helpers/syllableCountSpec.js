@@ -8,24 +8,25 @@ describe( "A test for creating a language syllable regex", function() {
 
 	it( "creates an language syllable regex with a +1 multiplier", function() {
 		var mockSyllables = {
-				fragments: [ "a" ],
-				countModifier: +1
+			fragments: [ "a" ],
+			countModifier: +1,
 		};
 		var languageSyllableRegex = new LanguageSyllableRegex( mockSyllables );
 		expect( languageSyllableRegex.countSyllables( "a" ) ).toBe( 1 );
 		expect( languageSyllableRegex.countSyllables( "b" ) ).toBe( 0 );
 
-		expect( languageSyllableRegex.getRegex() ).toMatch( /(a)/gi );
+		expect( languageSyllableRegex.getRegex() ).toEqual( /(a)/gi );
 	} );
 
 	it( "creates an language syllable regex with a +1 multiplier", function() {
 		var mockSyllables = {
 			fragments: [ "ee" ],
-			countModifier: -2
+			countModifier: -2,
 		};
 		var languageSyllableRegex = new LanguageSyllableRegex( mockSyllables );
 		expect( languageSyllableRegex.countSyllables( "been seen" ) ).toBe( -4 );
 
-		expect( languageSyllableRegex.getRegex() ).toMatch( /(ee)/gi );
+		expect( languageSyllableRegex.getRegex() ).toEqual( /(ee)/gi );
 	} );
 } );
+

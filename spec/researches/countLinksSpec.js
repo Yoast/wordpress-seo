@@ -2,8 +2,8 @@ var linkCount = require( "../../js/researches/countLinks.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var foundLinks;
 
-describe("Tests a string for anchors", function() {
-	it("returns an object with all linktypes found", function () {
+describe( "Tests a string for anchors", function() {
+	it( "returns an object with all linktypes found", function() {
 		var mockPaper = new Paper( "string <a href='http://yoast.com'>link</a>" );
 		foundLinks = linkCount( mockPaper );
 		expect( foundLinks ).toBe( 1 );
@@ -15,5 +15,5 @@ describe("Tests a string for anchors", function() {
 		mockPaper = new Paper( "string" );
 		foundLinks = linkCount( mockPaper );
 		expect( foundLinks ).toBe( 0 );
-	});
-});
+	} );
+} );

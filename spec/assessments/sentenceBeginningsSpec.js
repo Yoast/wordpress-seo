@@ -1,4 +1,4 @@
-var sentenceBeginningsAssessment = require( "../../js/assessments/sentenceBeginningsAssessment.js" );
+var sentenceBeginningsAssessment = require( "../../js/assessments/readability/sentenceBeginningsAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
@@ -46,24 +46,24 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 		var assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "hello", { locale: "xx_YY" } ) );
 		expect( assessment ).toBe( false );
 	} );
-});
+} );
 
 describe( "A test for marking the sentences", function() {
-	it ("returns markers", function() {
-		var sentenceBeginnings = Factory.buildMockResearcher( [ { word: 'hey', count: 4, sentences: [ "Hey, hello.", "Hey, hey.", "Hey you.", "Hey." ] } ] );
+	it( "returns markers", function() {
+		var sentenceBeginnings = Factory.buildMockResearcher( [ { word: "hey", count: 4, sentences: [ "Hey, hello.", "Hey, hey.", "Hey you.", "Hey." ] } ] );
 		var expected = [
-			new Mark({ original: 'Hey, hello.', marked: "<yoastmark class='yoast-text-mark'>Hey, hello.</yoastmark>" }),
-			new Mark({ original: 'Hey, hey.', marked: "<yoastmark class='yoast-text-mark'>Hey, hey.</yoastmark>" }),
-			new Mark({ original: 'Hey you.', marked: "<yoastmark class='yoast-text-mark'>Hey you.</yoastmark>" }),
-			new Mark({ original: 'Hey.', marked: "<yoastmark class='yoast-text-mark'>Hey.</yoastmark>" })
+			new Mark( { original: "Hey, hello.", marked: "<yoastmark class='yoast-text-mark'>Hey, hello.</yoastmark>" } ),
+			new Mark( { original: "Hey, hey.", marked: "<yoastmark class='yoast-text-mark'>Hey, hey.</yoastmark>" } ),
+			new Mark( { original: "Hey you.", marked: "<yoastmark class='yoast-text-mark'>Hey you.</yoastmark>" } ),
+			new Mark( { original: "Hey.", marked: "<yoastmark class='yoast-text-mark'>Hey.</yoastmark>" } ),
 		];
 		expect( sentenceBeginningsAssessment.getMarks( paper, sentenceBeginnings ) ).toEqual( expected );
 	} );
 
-	it ("returns no markers", function() {
-		var sentenceBeginnings = Factory.buildMockResearcher( [ { word: 'hey', count: 2, sentences: [ "Hey, hello.", "Hey, hey." ] } ] );
+	it( "returns no markers", function() {
+		var sentenceBeginnings = Factory.buildMockResearcher( [ { word: "hey", count: 2, sentences: [ "Hey, hello.", "Hey, hey." ] } ] );
 		var expected = [];
 		expect( sentenceBeginningsAssessment.getMarks( paper, sentenceBeginnings ) ).toEqual( expected );
 	} );
-});
+} );
 

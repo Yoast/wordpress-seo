@@ -1,20 +1,22 @@
-var urlLengthAssessment = require( "../../js/assessments/urlLengthAssessment.js" );
+var UrlLengthAssessment = require( "../../js/assessments/seo/urlLengthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();
 
-describe( "An assessment for the urlLengthAssessment", function(){
-    it( "runs the url length assessment on the paper", function(){
-        var paper = new Paper();
-        var result = urlLengthAssessment.getResult( paper, factory.buildMockResearcher( true ), i18n );
+let urlLengthAssessment = new UrlLengthAssessment();
 
-        expect( result.score ).toBe( 5 );
-        expect( result.text ).toBe( "The slug for this page is a bit long, consider shortening it." );
+describe( "An assessment for the urlLengthAssessment", function() {
+	it( "runs the url length assessment on the paper", function() {
+		var paper = new Paper();
+		var result = urlLengthAssessment.getResult( paper, factory.buildMockResearcher( true ), i18n );
 
-        var paper = new Paper();
-        var result = urlLengthAssessment.getResult( paper, factory.buildMockResearcher( false ), i18n );
+		expect( result.score ).toBe( 6 );
+		expect( result.text ).toBe( "The slug for this page is a bit long, consider shortening it." );
 
-        expect( result.score ).toBe( 0 );
-    } );
+		var paper = new Paper();
+		var result = urlLengthAssessment.getResult( paper, factory.buildMockResearcher( false ), i18n );
+
+		expect( result.score ).toBe( 0 );
+	} );
 } );

@@ -17,10 +17,6 @@ describe( "gets Dutch word combinations", function() {
 			" Dit zijn heel veel zinnen met heel veel woorden. Dit zijn heel veel zinnen met heel veel woorden.";
 		let expected = [
 			new WordCombination( [ "zinnen", "met", "heel", "veel", "woorden" ], 23, dutchFunctionWords ),
-			new WordCombination( [ "heel", "veel", "zinnen", "met", "heel" ], 23, dutchFunctionWords ),
-			new WordCombination( [ "heel", "veel", "zinnen" ], 23, dutchFunctionWords ),
-			new WordCombination( [ "zinnen", "met", "heel" ], 23, dutchFunctionWords ),
-			new WordCombination( [ "heel", "veel", "woorden" ], 23, dutchFunctionWords ),
 			new WordCombination( [ "zinnen" ], 23, dutchFunctionWords ),
 			new WordCombination( [ "woorden" ], 23, dutchFunctionWords ),
 		];
@@ -32,9 +28,9 @@ describe( "gets Dutch word combinations", function() {
 
 		words.forEach( function( word ) {
 			delete( word._relevantWords );
-		});
+		} );
 
 		expect( words ).toEqual( expected );
-	});
-});
+	} );
+} );
 

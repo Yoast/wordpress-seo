@@ -8,11 +8,17 @@ build:
   - 'build:translations'
 # Precompile JavaScript templates
 'build:jst':
+  - 'build:js'
   - 'build-templates'
 # Build JavaScript from assets to production
 'build:js':
+  - 'ts'
+  - 'copy:js'
   - 'browserify'
   - 'exorcise'
+'build:test':
+  - 'ts'
+  - 'copy:js'
 # Build CSS
 'build:css':
   - 'copy'
@@ -27,3 +33,9 @@ check:
 default:
   - check
   - build
+# Create folder for npm publishing
+publish:
+  - 'ts'
+  - 'copy:js'
+  - 'babel:publish'
+  - 'copy:publish'

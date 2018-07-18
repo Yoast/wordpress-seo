@@ -5,23 +5,268 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.35.5 July 16th, 2018
+
+## 1.35.4 July 16th, 2018
+### Changed
+* Changes feedback in the keyword density assessment to make it more explicit that synonyms are not taken into consideration when calculating the score.
+
+## 1.35.3 July 9th, 2018
+### Changed
+* Makes keyword distribution boundaries the same regardless of whether or not synonyms are set, enables markings also when the bullet is green, and shows a gray bullet when there are not enough keyword occurrences to calculate distribution.
+
+## 1.35.2 July 5th, 2018
+### Changed
+* Removes the topic density assessment and uses the keyword density assessment also when synonyms are set.
+
+## 1.35.1 July 4th, 2018
+### Fixed
+* Fixes a bug where a custom callback would not work correctly.
+
+## 1.35.0 July 3rd, 2018
+### Added
+* Adds an assessment the checks the distribution of the focus keyword in the text.
+* Adds a topic distribution and topic density assessment to use with synonyms.
+* Adds links to relevant articles to all SEO assessments.
+* Adds Flesch Reading Ease assessment for French.
+* Adds Flesch Reading Ease assessment for Spanish.
+* Add passive voice assessment for Italian.
+
+### Fixed
+* Instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) are now recognized as the same in the following assessments: keyword in meta description, keyword in subheading, keyword in first paragraph, keyword in title, keyword in URL.
+* Filters out prominent word combinations ending in 's in English. Props to [swekkiekekkie](https://github.com/swekkiekekkie).
+
+## 1.34.0 June 12th, 2018
+### Fixed
+* Fixes title width measurements by adding font styles to the hidden input field.
+
+### Changed
+* Improves the lists of French transition words, stopwords, and function words, props [Laurent-1971](https://github.com/Laurent-1971).
+
+## 1.33.1 May 25th, 2018
+### Fixed
+* Fixes a bug where Flesch Reading Ease translation strings were not fully translated.
+
+## 1.33.0 May 23rd, 2018
+### Added
+* Adds Catalan transition words.
+* Added the title width to rawData in app.js to be used by the title width assessment.
+
+### Changed
+* Changed max meta description length from 320 to 156.
+
+## 1.32.0 May 16th, 2018
+### Added
+* Adds Flesh Reading Ease for Russian.
+
+### Changed
+* Sequences of symbols which do not contain a single letter or digit are no longer considered a valid keyword.
+* Question marks and hashes are stripped from the snippet preview URL.
+* Makes the snippetPreview optional in the App. This can be enabled by putting the hasSnippetPreview argument to false.
+
+## 1.31.0 April 26th, 2018
+### Added
+* Adds readability analysis for Russian.
+* Adds prominent words for Russian.
+
+### Changed
+* Improves SVG image accessibility.
+* Updates the language support table in the README.
+
+### Fixed
+* Fixes a bug where sentences ending in multiple sentence marks, exclamation marks or ellipses were treated as multiple sentences.
+
+## 1.30.2  March 16th, 2018
+### Changed
+* Reverted the default view of the snippet preview to desktop.
+
+## 1.30.1 March 12th, 2018
+### Fixed
+* Fixes a bug that broke a filter which marks Spanish and French sentences as non-passive when certain exception words occur between the auxiliary and the participle.
+
+## 1.30.0 March 5th, 2018
+### Added
+* Adds a setter for titleWidth to the snippet preview. 
+* Adds a researcher to calculate the reading time for a given paper.
+* Adds a filter to mark Spanish sentences as non-passive when certain exception words occur between the auxiliary and the participle. The list of exception words includes all forms of the copula 'estar'.
+* Adds transition words assessment for Portuguese, props [amesdigital](https://github.com/amesdigital).
+* Adds prominent words for Portuguese, props [amesdigital](https://github.com/amesdigital).
+
+### Changed
+* The snippet preview now shows the mobile preview by default.
+* Fixes a bug where division by zero errors in the passive voice assessment would cause `NaN%` to show up in the feedback.
+* Fixes a bug where multiple `rel` arguments prevented correct `nofollow` detection. 
+* Slightly increased the height of the meta description box so it matches the maximum amount of characters without needing a scrollbar.
+* Improves the list of Portuguese function words.
+
+## 1.29.0 January 15th, 2018
+### Added
+* Adds language support table to the README.
+* Adds a performance analysis tool.
+* Adds the passive voice assessment for French.
+* Adds the passive voice assessment for Spanish.
+
+### Changed
+* Simplifies the message for the SubheadingsKeywordAssessment.
+* Reduces the number of times the content analysis is refreshed on page load.
+* Fixes a bug where relative URLs were not counted as internal links in the internal link assessment.
+
+## 1.28.0 December 18th, 2017
+### Changed
+* Includes the link to the post about using your focus keyword multiple times also to the feedback text that is shown when using a focus keyword twice. 
+* Changes the anchor text of the link to the post about using your focus keyword multiple times to a more accessible one.
+
+## 1.27.0 December 15th, 2017
+### Changed
+* The upper boundary of the meta description length has been changed from 156 to 320 characters.
+
+## 1.26.0 December 13th, 2017
+### Changed
+* Updates the copy for the `previouslyUsedKeywords` assessment by referring to a new blogpost on why it might be a bad idea to use the same keyword more than once.
+
+## 1.25.0 December 11th, 2017
+### Added
+* Adds a link to the subheadings article in the readability analysis to better explain the advantages of using subheadings in your text. #1317
+
+## 1.24 November 29th, 2017
+### Changed
+* Changes the feedback string for a good meta description length from `The length of the meta description is sufficient.` to `The meta description has a nice length.` #1307
+
+## 1.23.1 November 7th, 2017
+### Added
+* Adds a sentence research. #1278
+* Adds escaping of the focus keyword in the url generated by the `PreviouslyUsedKeywords` assessment. #1281
+
+## 1.23.0 October 31st, 2017
+* Errors now give a score of -1. `ScoreToRating` interpreter will convert `-1` to `error`. #1272
+* Adds `Excited` to exception -ed verbs for passive voice assessment. #1269
+* Adds `release` script to `.travis.yml` for publishing to npm. #1265
+* Adds a filter to exclude `code` tags and their enclosed content from the content analysis assessments. #1250
+* Adds a filter to exclude `pre` tags and their enclosed content from the content analysis assessments, props [chrisboo](https://github.com/chrisboo). #1258
+* Switches testing framework to `jest`. #1266
+
+## 1.22.0 October 3rd, 2017
+* Added typescript support.
+* Add filter for exception words between auxiliary and passive participle.
+* Fixes a bug that caused an error in the passive analysis when certain words ending in ing were followed by a parenthesis.
+
+## 1.21.0: September 5th, 2017
+* Adds updatedKeywordsResults and updatedContentResults callbacks to app.js.
+
+## 1.20.0: August 8th, 2017
+### Added
+* Adds a filter for word combinations that consist of a single one-character word.
+
+### Fixed
+* Fixes a bug where the passive voice and transition word assessments were broken when the passive voice sentence breaker or the transition word was preceded by a word containing the same string of letters.
+
+## 1.19.0: July 25th, 2017
+### Added
+* Adds additional English transition words.
+* Adds additional French transition words, props [Evoque](https://github.com/@evoqueio).
+* Adds relevant words functionality for Italian.
+* Adds relevant words filters for titles such as 'Ms', 'jr' etc. for English, Dutch, German, French, Italian and Spanish.
+* Adds plural ordinal numbers relevant words filters for Spanish, Italian, and French.
+* Adds time words relevant words filters for English, Dutch, German, French and Spanish.
+* Adds more function words category relevant words filters for Spanish and Italian.
+
+### Changed
+* Improves filtering for Internal Linking Suggestions and Insights for Italian, Spanish, Dutch, French, English and German.
+* Removes all relevant word combinations containing any of the following special characters if they are not part of a word: –, —, -, ©, #, %, /, \, $, €, £, *, •, |, →, ←, }, {, //, ||.
+
+### Fixed
+* Fixes a visual imperfection in the tooltip in combination with Microsoft Edge.
+
+## 1.18.0: July 6th, 2017
+### Changed
+* Changes 'page title' to 'seo title' in the snippet preview.
+* Changes recommended maximum sentence length for Italian from 20 to 25 words, based on more in-depth research.
+
+### Added
+* Adds Flesch Reading for Italian.
+* Adds prominent words for French, props Sylvain Perret and [Evoque](https://github.com/evoqueio).
+
+## 1.17.2: June 7th, 2017
+
+### Fixed
+* Remove YoastSEO.js as dependency of itself.
+
+## 1.17.0: June 7th, 2017
+
+### Fixed
+* Fixes a bug where assessments added with the pluggable were omitted.
+
+## 1.16.0: May 23rd, 2017
+
+### Fixed
+* Fixes a typo in app.js comments, props [Alexander Varwijk](https://github.com/Kingdutch).
+* Fixes an incompatibility issue with includes in Internet Explorer. The browser doesn't support includes and that broke the HTMLparser.
+
+### Added
+* Adds cornerstone assessors.
+
+## 1.15.1: May 9th, 2017
+
+### Fixed
+* Fixes an issue where the analysis wouldn't work on Internet Explorer.
+
+## 1.15.0: May 2nd, 2017
+
+### Fixed
+* Fixes a bug where style and script elements were parsed for the prominent words.
+* Fixes a bug where the cursor pointer was in front of the metabox.
+
+### Added
+* Adds transition words for Italian.
+* Adds a new assessment for internal linking that checks for the presence of at least one internal link.
+
+## 1.14.0: April 11th, 2017
+
+### Fixed
+* Fixes the provided example code, props [Alexander Guth](https://github.com/alxy).
+
+### Added
+* Introduces sentence beginnings assessment for Italian.
+
+## 1.13.0: March 21st, 2017
+
+### Fixed
+
+* Fixes a bug where the keyword density assessment would disappear when the density was 0.5%.
+
+## 1.12.0: February 28th, 2017
+
+### Fixed
+* Sets the boldness of the strong tags to 700 to enforce that they are displayed strong.
+* Changes strings that link to an article to improve context.
+* Changes links to short links so we can ensure they are always up to date.
+
+## 1.11.0: February 14th, 2017
+
+### Added
+* Adds prominent words for Spanish.
+* Adds getLinks to the researcher, this function retrieves the URLs of the links from the text.
+
+### Changed
+* Improves feedback text for subheading too long assessment.
+
 ## 1.10.0: January 31st, 2017
 
-## Added
+### Added
 * Adds prominent words for Dutch.
 * Adds example for testing the prominent words analysis.
 * Adds the tooltip CSS rule from Yoast SEO to yoastSEO.js.
 
-## Changed
+### Changed
 * Improves the accessibility of the snippet preview toggle buttons.
 * Makes the mark buttons tooltips always visible.
 
-## Fixed
+### Fixed
 * Fixes a bug where the measurement elements holder `<div>` breaks the responsive view of the media modal.
 
 ## 1.9.0: January 17th, 2017
 
-## Added
+### Added
 
 * Adds mobile snippet preview.
 * Adds sentence length check for Dutch.
@@ -29,7 +274,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds transition words for Dutch.
 * Adds German prominent words.
 
-## Changed
+### Changed
 
 * Removes unused assessments; sentence length variation, subheading length, 
     subheading presence, subheading distribution too short, paragraph too short
@@ -37,44 +282,44 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.8.0: December 13th, 2016
 
-## Added
+### Added
 
 * Adds passive voice for German. 
 * Adds more transition words for French.
 
-## Changed
+### Changed
 
 * Creates value objects for sentence parts and participles.
 * Improves feedback strings for the meta description length assessment. 
 * Improves matching of the keyword in the first paragraph.
 * Improves the snippet preview to match the styling of Google's snippet.
 
-## Fixed
+### Fixed
 
 * Fixes a bug where keywords with periods where not highlighted in the snippet.
 
 ## 1.7.0: October 11th, 2016
 
-## Added
+### Added
 
 * Adds relevant word research that returns a list of most prominent words in a given Paper.
 
-## Changed
+### Changed
 
 * Changes all target= links to consistently be target=_blank.
 
-## Fixed
+### Fixed
 
 * Adds missing transition words to German transition word list.
 * Fixes a bug where empty sentences could be marked when marking the beginning of sentences.
 
 ## 1.6.0: September 27th, 2016
 
-## Changed
+### Changed
 
 * Improves carets used in the snippet preview to support RTL.
 
-## Fixed
+### Fixed
 
 * Keywords with special characters are now matched.
 * Changes sassdash from a dev dependency to a regular dependency.
