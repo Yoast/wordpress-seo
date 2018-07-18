@@ -97,8 +97,8 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 
 		foreach ( $whitelist_options as $option_name ) {
 			$value = null;
-			if ( isset( $_POST[ $option_name ] ) ) { // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-				$value = wp_unslash( $_POST[ $option_name ] ); // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+			if ( isset( $_POST[ $option_name ] ) ) { // WPCS: CSRF ok.
+				$value = wp_unslash( $_POST[ $option_name ] ); // WPCS: CSRF ok.
 			}
 
 			WPSEO_Options::update_site_option( $option_name, $value );
@@ -122,7 +122,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 
 		$option_group = 'wpseo_ms';
 
-		$site_id = ! empty( $_POST[ $option_group ]['site_id'] ) ? (int) $_POST[ $option_group ]['site_id'] : 0; // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+		$site_id = ! empty( $_POST[ $option_group ]['site_id'] ) ? (int) $_POST[ $option_group ]['site_id'] : 0; // WPCS: CSRF ok.
 		if ( ! $site_id ) {
 			add_settings_error( $option_group, 'settings_updated', __( 'No site has been selected to restore.', 'wordpress-seo' ), 'error' );
 
