@@ -168,7 +168,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$admin
 			->expects( $this->once() )
 			->method( 'meets_requirements' )
-			->willReturn( true );
+			->will( $this->returnValue( true ) );
 
 		$admin->register_hooks();
 		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, array( $admin, 'handle_update_options_request' ) ) );
