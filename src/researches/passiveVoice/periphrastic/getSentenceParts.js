@@ -48,11 +48,6 @@ const followingAuxiliaryExceptionWordsItalian = [ "il", "i", "la", "le", "lo", "
 const reflexivePronounsItalian = [ "mi", "ti", "si", "ci", "vi" ];
 const directPrecedenceExceptionRegexItalian = arrayToRegex( reflexivePronounsItalian );
 
-// Dutch-specific variables and imports.
-const SentencePartDutch = require( "../../dutch/passiveVoice/SentencePart" );
-const auxiliariesDutch = require( "../../dutch/passiveVoice/auxiliaries.js" )();
-const stopwordsDutch = require( "../../dutch/passiveVoice/stopwords.js" )();
-
 /*
  * Variables applying to multiple languages
  * This regex applies to Spanish and Italian
@@ -94,12 +89,6 @@ const languageVariables = {
 		stopCharacterRegex: stopCharacterRegexOthers,
 		followingAuxiliaryExceptionRegex: arrayToRegex( followingAuxiliaryExceptionWordsItalian ),
 		directPrecedenceExceptionRegex: directPrecedenceExceptionRegexItalian,
-	},
-	nl: {
-		stopwords: stopwordsDutch,
-		auxiliaryRegex: arrayToRegex( auxiliariesDutch ),
-		SentencePart: SentencePartDutch,
-		auxiliaries: auxiliariesDutch,
 	},
 };
 
@@ -225,14 +214,9 @@ let getSentenceBreakers = function( sentence, language ) {
 	const stopwords = languageVariables[ language ].stopwords;
 	const auxiliaries = languageVariables[ language ].auxiliaries;
 	let auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
-	let stopwordIndices = getIndicesOfList( stopwords, sentence );
+	const stopwordIndices = getIndicesOfList( stopwords, sentence );
+	const stopCharacterIndices = getStopCharacters( sentence, language );
 	let indices;
-	let stopCharacterIndices;
-
-	// For Dutch we don't use stop characters.
-	if ( language !== "nl" ) {
-		stopCharacterIndices = getStopCharacters( sentence, language );
-	}
 
 	// Concat all indices arrays, filter them and sort them.
 	switch( language ) {
@@ -251,9 +235,6 @@ let getSentenceBreakers = function( sentence, language ) {
 			// Filters auxiliaries matched in the sentence based on a precedence exception filter.
 			auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices, "it" );
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
-			break;
-		case "nl":
-			indices = [].concat( auxiliaryIndices, stopwordIndices );
 			break;
 		case "en":
 		default:
@@ -302,7 +283,6 @@ let getAuxiliaryMatches = function( sentencePart, language ) {
 				return stripSpaces( auxiliaryMatch );
 			} );
 		case "en":
-		case "nl":
 		default:
 			return map( auxiliaryMatches, function( auxiliaryMatch ) {
 				return stripSpaces( auxiliaryMatch );

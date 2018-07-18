@@ -1,8 +1,9 @@
+const includes = require( "lodash/includes" );
+
 const Participle = require( "../../../values/Participle.js" );
 const checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
 const nonParticiples = require( "./nonParticiples" );
 const directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
-const includes = require ( "lodash/includes" );
 
 /**
  * Creates an Participle object for the Dutch language.
