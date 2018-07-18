@@ -88,6 +88,11 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 			$link_suggestions_enabled = false;
 		}
 
+		// Don't initialize the internal linking meta box in the Gutenberg pages.
+		if ( ! $this->link_suggestions->show_internal_linking_in_gutenberg_sidebar() ) {
+			$link_suggestions_enabled = false;
+		}
+
 		$post = $this->get_post();
 
 		$post_type_support = new WPSEO_Premium_Prominent_Words_Support();
