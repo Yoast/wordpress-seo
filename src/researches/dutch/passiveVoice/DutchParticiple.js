@@ -50,6 +50,11 @@ DutchParticiple.prototype.isOnNonParticiplesList = function() {
 	return includes( nonParticiples(), this.getParticiple() );
 };
 
+/**
+ * Checks whether a found participle has a non-participle ending and is therefore not really a participle.
+ *
+ * @returns {boolean} Returns true if the participle has a non-participle ending, otherwise returns false.
+ */
 DutchParticiple.prototype.hasNonParticipleEnding = function() {
 	return ( /\S+(heid|teit|tijd)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig ).test( this.getParticiple() );
 };

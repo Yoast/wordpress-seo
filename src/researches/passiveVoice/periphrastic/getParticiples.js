@@ -1,4 +1,4 @@
-let forEach = require( "lodash/forEach" );
+const forEach = require( "lodash/forEach" );
 
 const getWords = require( "../../../stringProcessing/getWords.js" );
 const matchParticiples = require( "./matchParticiples" )();

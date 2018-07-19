@@ -82,7 +82,7 @@ function createSentenceParts( sentences, language ) {
 	const SentencePart = languageVariables[ language ].SentencePart;
 	const sentenceParts = [];
 	forEach( sentences, function( part ) {
-		var foundAuxiliaries = sanitizeMatches( part.match( auxiliaryRegex || [] ) );
+		const foundAuxiliaries = sanitizeMatches( part.match( auxiliaryRegex || [] ) );
 		sentenceParts.push( new SentencePart( part, foundAuxiliaries, languageVariables[ language ].locale ) );
 	} );
 	return sentenceParts;
