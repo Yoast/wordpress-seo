@@ -43,12 +43,12 @@ class KeywordInput extends React.Component {
 	/**
 	 * Constructs a KeywordInput component
 	 *
-	 * @param {Object}      props           The props for this input field component.
-	 * @param {string}      props.id        The id of the KeywordInput.
-	 * @param {string}      props.label     The label of the KeywordInput.
-	 * @param {boolean}     props.showLabel Toggle between an actual label or an aria-label on the input.
-	 * @param {string}      props.keyword   The initial keyword passed to the state.
-	 * @param {function}    props.onChange  The function that is triggered when the keyword input field is changed.
+	 * @param {Object}   props           The props for this input field component.
+	 * @param {string}   props.id        The id of the KeywordInput.
+	 * @param {string}   props.label     The label of the KeywordInput.
+	 * @param {boolean}  props.showLabel Toggle between an actual label or an aria-label on the input.
+	 * @param {string}   props.keyword   The initial keyword passed to the state.
+	 * @param {function} props.onChange  The function that is triggered when the keyword input field is changed.
 	 *
 	 * @returns {void}
 	 */
