@@ -41,10 +41,6 @@ const YoastSidebarContainer = Styled.div`
 	padding: 16px;
 `;
 
-function cornerstoneOnChange() {
-	console.log("Clicked");
-}
-
 /**
  * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
  * and creates that sidebar's content.
@@ -71,7 +67,9 @@ function registerPlugin() {
 				>
 					<YoastSidebarContainer>
 						<p> Contents of the sidebar </p>
-						<CornerstoneToggle onChange={ cornerstoneOnChange } checked={ true } />
+						<CornerstoneToggle onChange={ () => {
+							console.log( "clicked" );
+						} } checked={ true } />
 						</YoastSidebarContainer>
 				</PluginSidebar>
 			</Fragment>
