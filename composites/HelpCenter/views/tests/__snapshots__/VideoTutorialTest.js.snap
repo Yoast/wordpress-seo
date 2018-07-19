@@ -179,7 +179,7 @@ exports[`the VideoTutorial component without paragraphs matches the snapshot 1`]
 }
 
 .c1 {
-  margin: auto;
+  margin: 0 auto;
   width: 560px;
 }
 

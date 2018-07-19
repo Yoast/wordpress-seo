@@ -15,7 +15,7 @@ const VideoTutorialContainer = styled.div`
 `;
 
 const VideoContainer = styled.div`
-	${ props => props.hasParagraphs ? "float: left;" : "margin: auto;" }
+	${ props => props.hasParagraphs ? "float: left;" : "margin: 0 auto;" }
 	width: ${ VIDEO_WIDTH };
 
 	@media screen and ( max-width: ${ breakpoints.tablet } ) {
