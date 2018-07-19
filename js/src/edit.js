@@ -13,7 +13,7 @@ import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
 import { ThemeProvider } from "styled-components";
-import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/CornerstoneToggle";
+import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 import Styled from "styled-components";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
@@ -67,9 +67,7 @@ function registerPlugin() {
 				>
 					<YoastSidebarContainer>
 						<p> Contents of the sidebar </p>
-						<CornerstoneToggle onChange={ () => {
-							console.log( "clicked" );
-						} } checked={ true } />
+						<CornerstoneToggle onChange={ () => {} } checked={ true } />
 						</YoastSidebarContainer>
 				</PluginSidebar>
 			</Fragment>
