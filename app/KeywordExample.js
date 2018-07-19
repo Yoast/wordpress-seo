@@ -5,7 +5,7 @@ import styled from "styled-components";
 // Internal dependencies.
 import KeywordInput from "../composites/Plugin/Shared/components/KeywordInput";
 import SynonymsSection from "../composites/Plugin/Synonyms/components/SynonymsSection";
-import CornerstoneToggle from "../composites/Plugin/CornerstoneContent/CornerstoneToggle";
+import CornerstoneToggle from "../composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 
 const Container = styled.div`
 	background-color: white;

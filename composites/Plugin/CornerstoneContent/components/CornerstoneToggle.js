@@ -18,7 +18,6 @@ const Cornerstone = Styled.div`
 `;
 
 class CornerstoneToggle extends React.Component {
-
 	/**
 	 * The constructor.
 	 *
