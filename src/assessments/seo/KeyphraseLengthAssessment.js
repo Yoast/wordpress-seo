@@ -1,8 +1,8 @@
-import * as isUndefined from "lodash/isUndefined";
-import * as merge from "lodash/merge";
+const isUndefined = require( "lodash/isUndefined" );
+const merge = require( "lodash/merge" );
 
-import * as AssessmentResult from "../../values/AssessmentResult";
-import * as Assessment from "../../assessment";
+const Assessment = require( "../../assessment" );
+const AssessmentResult = require( "../../values/AssessmentResult" );
 
 /**
  * Assessment to check whether the keyphrase has a good length.

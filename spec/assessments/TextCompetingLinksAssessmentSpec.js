@@ -1,7 +1,7 @@
 import TextCompetingLinksAssessment from "../../js/assessments/seo/TextCompetingLinksAssessment";
-import Mark from "../../js/values/Mark";
-import Paper from "../../js/values/Paper";
-import Factory from "../helpers/factory";
+const Mark = require ( "../../js/values/Mark" );
+const Paper = require( "../../js/values/Paper" );
+const Factory = require( "../helpers/factory" );
 
 const i18n = Factory.buildJed();
 

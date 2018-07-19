@@ -1,12 +1,12 @@
-import IntroductionHasKeywordAssessment from "../../js/assessments/seo/IntroductionHasKeywordAssessment";
-import Paper from "../../js/values/Paper";
-import Factory from "../helpers/factory";
+import IntroductionKeywordAssessment from "../../js/assessments/seo/IntroductionKeywordAssessment";
+const Paper = require( "../../js/values/Paper" );
+const Factory = require( "../helpers/factory" );
 
 const i18n = Factory.buildJed();
 
 describe( "An assessment for finding the keyword in the first paragraph", function() {
 	it( "returns a keyword found in the first paragraph", function() {
-		const assessment = new IntroductionHasKeywordAssessment().getResult(
+		const assessment = new IntroductionKeywordAssessment().getResult(
 			new Paper( "some text with some keyword", { keyword: "some keyword" } ),
 			Factory.buildMockResearcher( 1 ),
 			i18n
@@ -16,7 +16,7 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 	} );
 
 	it( "returns multiple keywords found in the first paragraph", function() {
-		const assessment = new IntroductionHasKeywordAssessment().getResult(
+		const assessment = new IntroductionKeywordAssessment().getResult(
 			new Paper( "some text, more text, even more text", { keyword: "text" } ),
 			Factory.buildMockResearcher( 3 ),
 			i18n
@@ -26,7 +26,7 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 	} );
 
 	it( "returns no keyword found in the first paragraph", function() {
-		const assessment = new IntroductionHasKeywordAssessment().getResult(
+		const assessment = new IntroductionKeywordAssessment().getResult(
 			new Paper( "some text", { keyword: "some keyword" } ),
 			Factory.buildMockResearcher( 0 ),
 			i18n
@@ -37,12 +37,12 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 	} );
 
 	it( "returns no score if no keyword is defined", function() {
-		const isApplicableResult = new IntroductionHasKeywordAssessment().isApplicable( new Paper( "some text" ) );
+		const isApplicableResult = new IntroductionKeywordAssessment().isApplicable( new Paper( "some text" ) );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "returns no score if no text is defined", function() {
-		const isApplicableResult = new IntroductionHasKeywordAssessment().isApplicable( new Paper( "" ), { keyword: "some keyword" } );
+		const isApplicableResult = new IntroductionKeywordAssessment().isApplicable( new Paper( "" ), { keyword: "some keyword" } );
 		expect( isApplicableResult ).toBe( false );
 	} );
 } );

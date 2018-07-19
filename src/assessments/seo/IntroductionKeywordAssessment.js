@@ -1,16 +1,16 @@
-import * as merge from "lodash/merge";
+const merge = require( "lodash/merge" );
 
-import * as Assessment from "../../assessment";
-import * as AssessmentResult from "../../values/AssessmentResult";
+const Assessment = require( "../../assessment" );
+const AssessmentResult = require( "../../values/AssessmentResult" );
 
 /**
  * Assessment to check whether the keyphrase is encountered in the first paragraph of the article.
  */
-class IntroductionHasKeywordAssessment extends Assessment {
+class IntroductionKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum of keyword occurrences in the first paragraph.
 	 * @param {number} [config.scores.good] The score to return if there are enough keyword occurrences in the first paragraph.
 	 * @param {number} [config.scores.bad] The score to return if there aren't enough keyword occurrences in the first paragraph.
@@ -101,4 +101,4 @@ class IntroductionHasKeywordAssessment extends Assessment {
 	}
 }
 
-export default IntroductionHasKeywordAssessment;
+export default IntroductionKeywordAssessment;

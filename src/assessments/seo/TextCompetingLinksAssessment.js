@@ -1,11 +1,11 @@
-import * as map from "lodash/map";
-import * as merge from "lodash/merge";
-import * as isUndefined from "lodash/isUndefined";
+const map = require( "lodash/map" );
+const merge = require( "lodash/merge" );
+const isUndefined = require( "lodash/isUndefined" );
 
-import * as Assessment from "../../assessment";
-import * as AssessmentResult from "../../values/AssessmentResult";
-import * as Mark from "../../values/Mark";
-import * as addMark from "../../markers/addMark";
+const Assessment = require( "../../assessment" );
+const AssessmentResult = require( "../../values/AssessmentResult" );
+const Mark = require( "../../values/Mark" );
+const addMark = require( "../../markers/addMark" );
 
 /**
  * Assessment to check whether you're linking to a different page with the focus keyword from this page.
@@ -14,7 +14,7 @@ class TextCompetingLinksAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 * @param {number} [config.parameters.recommendedMaximum] The recommended maximum number of links using the same keyword as this paper.
 	 * @param {string} [config.scores.bad] The score to return if there are more links with the same keyword than the recommended maximum.
 	 * @param {string} [config.url] The URL to the relevant article on Yoast.com.

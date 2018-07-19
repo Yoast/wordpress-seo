@@ -1,6 +1,6 @@
 import MetaDescriptionKeywordAssessment from "../../js/assessments/seo/MetaDescriptionKeywordAssessment";
-import Paper from "../../js/values/Paper";
-import Factory from "../helpers/factory";
+const Paper = require( "../../js/values/Paper" );
+const Factory = require( "../helpers/factory" );
 
 const i18n = Factory.buildJed();
 

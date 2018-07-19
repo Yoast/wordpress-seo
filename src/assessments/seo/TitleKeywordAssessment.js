@@ -1,8 +1,8 @@
-import * as merge from "lodash/merge";
-import * as escape from "lodash/escape";
+const merge = require( "lodash/merge" );
+const escape = require( "lodash/escape" );
 
-import * as Assessment from "../../assessment";
-import * as AssessmentResult from "../../values/AssessmentResult";
+const Assessment = require( "../../assessment" );
+const AssessmentResult = require( "../../values/AssessmentResult" );
 
 /**
  * Assessment to check whether the keyword is included in (the beginning of) the SEO title.
@@ -11,7 +11,7 @@ class TitleKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum of keyword occurrences in the title.
 	 * @param {number} [config.parameters.recommendedPosition] The recommended position of the keyword within the title.
 	 * @param {number} [config.scores.good] The score to return if the keyword is found at the recommended position.

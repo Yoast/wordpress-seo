@@ -1,7 +1,7 @@
-import * as merge from "lodash/merge";
+const merge = require( "lodash/merge" );
 
-import * as Assessment from "../../assessment";
-import * as AssessmentResult from "../../values/AssessmentResult";
+const Assessment = require( "../../assessment" );
+const AssessmentResult = require( "../../values/AssessmentResult" );
 
 /**
  * Represents the URL keyword assessments. This assessments will check if the keyword is present in the url.
