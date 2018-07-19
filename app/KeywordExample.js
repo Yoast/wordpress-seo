@@ -22,7 +22,7 @@ const Container = styled.div`
 export default class KeywordExample extends Component {
 
 	/**
-	 * Constructs a keywordInput example
+	 * Constructs a keywordInput example.
 	 *
 	 * @param {Object} props The props for the snippet preview example.
 	 *

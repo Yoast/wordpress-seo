@@ -41,7 +41,7 @@ const ErrorText = styled.p`
 
 class KeywordInput extends React.Component {
 	/**
-	 * Constructs a KeywordInput component
+	 * Constructs a KeywordInput component.
 	 *
 	 * @param {Object}   props           The props for this input field component.
 	 * @param {string}   props.id        The id of the KeywordInput.
@@ -60,9 +60,9 @@ class KeywordInput extends React.Component {
 	}
 
 	/**
-	 * Checks the keyword input for comma-separated words
+	 * Checks the keyword input for comma-separated words.
 	 *
-	 * @param {string} keywordText The text of the input
+	 * @param {string} keywordText The text of the input.
 	 *
 	 * @returns {boolean} Returns true if a comma was found.
 	 */
@@ -75,7 +75,7 @@ class KeywordInput extends React.Component {
 	 *
 	 * @param {boolean} showErrorMessage Whether or not the error message has to be shown.
 	 *
-	 * @returns {ReactElement} ErrorText The error message element
+	 * @returns {ReactElement} ErrorText The error message element.
 	 */
 	displayErrorMessage( showErrorMessage ) {
 		if ( showErrorMessage && this.props.keyword !== "" ) {
