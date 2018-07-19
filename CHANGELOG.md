@@ -5,6 +5,37 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.35.5 July 16th, 2018
+
+## 1.35.4 July 16th, 2018
+### Changed
+* Changes feedback in the keyword density assessment to make it more explicit that synonyms are not taken into consideration when calculating the score.
+
+## 1.35.3 July 9th, 2018
+### Changed
+* Makes keyword distribution boundaries the same regardless of whether or not synonyms are set, enables markings also when the bullet is green, and shows a gray bullet when there are not enough keyword occurrences to calculate distribution.
+
+## 1.35.2 July 5th, 2018
+### Changed
+* Removes the topic density assessment and uses the keyword density assessment also when synonyms are set.
+
+## 1.35.1 July 4th, 2018
+### Fixed
+* Fixes a bug where a custom callback would not work correctly.
+
+## 1.35.0 July 3rd, 2018
+### Added
+* Adds an assessment the checks the distribution of the focus keyword in the text.
+* Adds a topic distribution and topic density assessment to use with synonyms.
+* Adds links to relevant articles to all SEO assessments.
+* Adds Flesch Reading Ease assessment for French.
+* Adds Flesch Reading Ease assessment for Spanish.
+* Add passive voice assessment for Italian.
+
+### Fixed
+* Instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) are now recognized as the same in the following assessments: keyword in meta description, keyword in subheading, keyword in first paragraph, keyword in title, keyword in URL.
+* Filters out prominent word combinations ending in 's in English. Props to [swekkiekekkie](https://github.com/swekkiekekkie).
+
 ## 1.34.0 June 12th, 2018
 ### Fixed
 * Fixes title width measurements by adding font styles to the hidden input field.

@@ -22,7 +22,7 @@ module.exports = function( paper ) {
 	const keyword = escapeRegExp( normalizeQuotes( paper.getKeyword() ).toLocaleLowerCase() );
 	const locale = paper.getLocale();
 	const result = { matches: 0, position: -1 };
-	result.matches = wordMatch( title, keyword, locale );
+	result.matches = wordMatch( title, keyword, locale ).count;
 	result.position = title.toLocaleLowerCase().indexOf( keyword );
 	return result;
 };
