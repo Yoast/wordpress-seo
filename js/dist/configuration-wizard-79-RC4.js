@@ -88123,7 +88123,6 @@ var MailchimpSignup = function (_React$Component) {
 			isLoading: false
 		};
 
-		_this.setNameInputRef = _this.setNameInputRef.bind(_this);
 		_this.setEmailInputRef = _this.setEmailInputRef.bind(_this);
 		return _this;
 	}
@@ -88171,14 +88170,11 @@ var MailchimpSignup = function (_React$Component) {
 		value: function signup() {
 			var email = this._emailInput.value;
 			var data = "EMAIL=" + email;
-			var name = this._nameInput.value.trim();
 
-			if (name !== "") {
-				data = data + ("&NAME=" + encodeURIComponent(name));
-			}
 			this.setState({
 				isLoading: true
 			});
+
 			var result = (0, _ajaxHelper2.default)(this.props.properties.mailchimpActionUrl, {
 				data: data,
 				headers: {},
@@ -88292,20 +88288,6 @@ var MailchimpSignup = function (_React$Component) {
 				{ className: "yoast-wizard-overlay" },
 				yoast._wp.element.createElement(_LoadingIndicator2.default, null)
 			);
-		}
-
-		/**
-   * Set the name input reference.
-   *
-   * @param {Object} ref The name input element.
-   *
-   * @returns {void}
-   */
-
-	}, {
-		key: "setNameInputRef",
-		value: function setNameInputRef(ref) {
-			this._nameInput = ref;
 		}
 
 		/**

@@ -275,12 +275,8 @@ class WPSEO_Upgrade {
 	 * Removes the about notice when its still in the database.
 	 */
 	private function upgrade_40() {
-		$center       = Yoast_Notification_Center::get();
-		$notification = $center->get_notification_by_id( 'wpseo-dismiss-about' );
-
-		if ( $notification ) {
-			$center->remove_notification( $notification );
-		}
+		$center = Yoast_Notification_Center::get();
+		$center->remove_notification_by_id( 'wpseo-dismiss-about' );
 	}
 
 	/**
