@@ -8,8 +8,8 @@ const superlativeRegex = require( "./regexAdjective.js" ).superlative;
 const comparativeToBaseRegex = require( "./regexAdjective.js" ).comparativeToBase;
 const superlativeToBaseRegex = require( "./regexAdjective.js" ).superlativeToBase;
 const adverbRegex = require( "./regexAdjective.js" ).adverb;
-const adverbToAdjectiveRegex = require( "./regexAdjective.js" ).adverbToAdjective;
-
+const adverbToBaseRegex = require( "./regexAdjective.js" ).adverbToBase;
+const icallyAdverbsRegex = require( "./regexAdjective.js" ).icallyAdverbs;
 
 const isUndefined = require( "lodash/isUndefined.js" );
 const unique = require( "lodash/uniq" );
@@ -33,6 +33,24 @@ const checkIrregulars = function( word ) {
 		} );
 	} );
 	return irregulars;
+};
+
+/**
+ * Checks if the input word ends in -ically, in which case return two possible base forms
+ *
+ * @param {string} word The word for which to determine its forms.
+ *
+ * @returns {Array} Array of word forms.
+ */
+const checkIcally = function( word ) {
+	for ( let i = 0; i < icallyAdverbsRegex.length; i++ ) {
+		if ( icallyAdverbsRegex[ i ].reg.test( word ) === true ) {
+			return [
+				word.replace( icallyAdverbsRegex[ i ].reg, icallyAdverbsRegex[ i ].repl1 ),
+				word.replace( icallyAdverbsRegex[ i ].reg, icallyAdverbsRegex[ i ].repl2 ),
+			];
+		}
+	}
 };
 
 /**
@@ -163,9 +181,10 @@ const superlativeToBase = function( word ) {
  *
  * @returns {string} The base form from the input word.
  */
-const adverbToAdjective = function( word ) {
-	return buildAdjectiveFormFromRegex( word, adverbToAdjectiveRegex );
+const adverbToBase = function( word ) {
+	return buildAdjectiveFormFromRegex( word, adverbToBaseRegex );
 };
+
 
 /**
  * Forms the base form from an input word.
@@ -191,7 +210,7 @@ const getBase = function( word ) {
 
 	if ( endsWithLy( word ) ) {
 		return {
-			base: adverbToAdjective( word ),
+			base: adverbToBase( word ),
 			guessedForm: "ly",
 		};
 	}
@@ -203,7 +222,8 @@ const getBase = function( word ) {
 };
 
 /**
- * Collects all possible verb forms for a given word through checking if it is irregular, base, adverb, comparative, or superlative.
+ * Collects all possible verb forms for a given word through checking if it is irregular, base, adverb,
+ * adverb ending in -ically, comparative, or superlative.
  *
  * @param {string} word The word for which to determine its forms.
  *
@@ -216,6 +236,12 @@ const getAdjectiveForms = function( word ) {
 	}
 
 	let forms = [];
+
+	const ically = checkIcally( word );
+	if ( ! isUndefined( ically ) ) {
+		return ically.concat( word );
+	}
+
 	const base = getBase( word ).base;
 	// Const guessedForm = getBase( word ).guessedForm; //Meant to be used to check if the newly built forms are built correctly.
 	forms = forms.concat( word );
@@ -238,4 +264,6 @@ module.exports = {
 	getBase: getBase,
 	comparative: comparative,
 	superlative: superlative,
+	checkIcally: checkIcally,
+
 };

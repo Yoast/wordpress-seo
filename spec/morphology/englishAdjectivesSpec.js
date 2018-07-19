@@ -3,6 +3,7 @@ const getBase = require( "../../src/morphology/english/getAdjectiveForms.js" ).g
 const irregularAdjectivesToTest = require( "../../src/morphology/english/irregularAdjectives.js" );
 const comparative = require( "../../src/morphology/english/getAdjectiveForms.js" ).comparative;
 const superlative = require( "../../src/morphology/english/getAdjectiveForms.js" ).superlative;
+const checkIcally = require( "../../src/morphology/english/getAdjectiveForms.js" ).checkIcally;
 
 const includes = require( "lodash/includes" );
 
@@ -132,6 +133,23 @@ const icAtTheEnd = [
 	[ "galactic", "galactically" ],
 ];
 
+const icallyBase = [
+	[ "academic", "academical", "academically" ],
+	[ "systematic", "systematical", "systematically" ],
+	[ "democratic", "democratical", "democratically" ],
+	[ "basic", "basical", "basically" ],
+	[ "scientific", "scientifical", "scientifically" ],
+	[ "realistic", "realistical", "realistically" ],
+	[ "organic", "organical", "organically" ],
+	[ "magic", "magical", "magically" ],
+	[ "politic", "political", "politically" ],
+	[ "typic", "typical", "typically" ],
+	[ "logic", "logical", "logically" ],
+	[ "optic", "optical", "optically" ],
+	[ "mathematic", "mathematical", "mathematically" ],
+	[ "geographic", "geographical", "geographically" ],
+];
+
 const bleAtTheEnd = [
 	[ "noble", "nobly" ],
 	[ "stable", "stably" ],
@@ -196,7 +214,9 @@ const OnlyBaseAdjective = [
 
 const allFormsToTestForBase = regularAdjectivesToTest.concat( yAtTheEnd, eAtTheEnd, needsDoublingLastConsonant );
 
-const onlyBaseAndAdverbToTestForBase = icAtTheEnd.concat( bleAtTheEnd );
+const onlyBaseAndAdverbToTestForBase = bleAtTheEnd;
+
+const icallyAdverbs = icallyBase;
 
 const onlyBaseAndAdverb = longAdjectives.concat( OnlyBaseAdjective );
 
@@ -323,6 +343,16 @@ describe( "Test for getting the base from all types of regular adjectives", func
 			returnedGetBaseResult = getBase( testAdverb );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "ly" );
+		} );
+	} );
+} );
+
+describe( "Test for getting two types of base forms for -ically adverbs", function() {
+	icallyAdverbs.forEach( function( paradigm ) {
+		it( "returns two possible base forms for a -ically adverb", function() {
+			receivedForms = checkIcally( paradigm[ 2 ] );
+			expect( receivedForms ).toContain( paradigm[ 1 ] );
+			expect( receivedForms ).toContain( paradigm[ 0 ] );
 		} );
 	} );
 } );

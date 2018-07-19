@@ -22,10 +22,22 @@ const superlative = [
 	[ /([^aeiouy])([aeiouy])([bdfglmnpt])$/i, "$1$2$3$3est" ],
 	[ /(.*)/i, "$1est" ],
 
-].map( function(	 a ) {
+].map( function( a ) {
 	return {
 		reg: a[ 0 ],
 		repl: a[ 1 ],
+	};
+} );
+
+const icallyAdverbs = [
+
+	[ /(.)ically$/i, "$1ic", "$1ical" ],
+
+].map( function( a ) {
+	return {
+		reg: a[ 0 ],
+		repl1: a[ 1 ],
+		repl2: a[ 2 ],
 	};
 } );
 
@@ -33,27 +45,26 @@ const superlative = [
 const adverb = [
 
 	[ /([^aeioul])y$/i, "$1ily" ],
-	[ /(ly)$/i, "$1" ],
 	[ /(ic)$/i, "$1ally" ],
+	[ /(ly)$/i, "$1" ],
 	[ /(l)e$/i, "$1y" ],
 	[ /(.*)/i, "$1ly" ],
 
-].map( function(	 a ) {
+].map( function( a ) {
 	return {
 		reg: a[ 0 ],
 		repl: a[ 1 ],
 	};
 } );
 
-const adverbToAdjective = [
+const adverbToBase = [
 
 	[ /(bl)y$/i, "$1e" ],
-	[ /(ic)ally$/i, "$1" ],
 	[ /(.)ily$/i, "$1y" ],
 	[ /(.)([^l])([^y])$/i, "$1$2$3" ],
 	[ /(.)ly$/i, "$1" ],
 
-].map( function(	 a ) {
+].map( function( a ) {
 	return {
 		reg: a[ 0 ],
 		repl: a[ 1 ],
@@ -73,6 +84,7 @@ const comparativeToBase = [
 	[ /(um?pt?)er$/i, "$1" ],
 	[ /([plgmrv]id)er$/i, "$1" ],
 	[ /pper$/i, "p" ],
+	[ /bber$/i, "b" ],
 	[ /tter$/i, "t" ],
 	[ /nner$/i, "n" ],
 	[ /gger$/i, "g" ],
@@ -112,6 +124,7 @@ const superlativeToBase = [
 	[ /(um?pt?)est$/i, "$1" ],
 	[ /([plgmrv]id)est$/i, "$1" ],
 	[ /ppest$/i, "p" ],
+	[ /bber$/i, "b" ],
 	[ /ttest$/i, "t" ],
 	[ /nnest$/i, "n" ],
 	[ /ggest$/i, "g" ],
@@ -138,6 +151,7 @@ const superlativeToBase = [
 	};
 } );
 
+
 module.exports = {
 	noComparativeOrSuperlative: noComparativeOrSuperlative,
 	comparative: comparative,
@@ -145,5 +159,6 @@ module.exports = {
 	comparativeToBase: comparativeToBase,
 	superlativeToBase: superlativeToBase,
 	adverb: adverb,
-	adverbToAdjective: adverbToAdjective,
+	adverbToBase: adverbToBase,
+	icallyAdverbs: icallyAdverbs,
 };
