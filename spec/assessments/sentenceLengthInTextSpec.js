@@ -161,3 +161,9 @@ describe( "A test for marking too long sentences", function() {
 		expect( sentenceLengthInTextAssessment.getMarks( paper, sentenceLengthInText ) ).toEqual( expected );
 	} );
 } );
+
+describe( "A test for marking too long sentences", function() {
+	it( "calculatePercentage returns nothing if there are no sentences", function() {
+		expect( sentenceLengthInTextAssessment.calculatePercentage( [] ) ).toEqual( 0 );
+	} );
+} );
