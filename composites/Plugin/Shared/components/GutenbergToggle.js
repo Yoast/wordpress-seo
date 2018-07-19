@@ -3,9 +3,9 @@
  */
 import React from "react";
 import classnames from "classnames";
-//import noop from "lodash/noop";
+import noop from "lodash/noop";
 
-function GutenbergToggle( { className, checked, id, onChange = null, ...props } ) {
+function GutenbergToggle( { className, checked, id, onChange = noop, ...props } ) {
 	const wrapperClasses = classnames(
 		'components-form-toggle',
 		className,
