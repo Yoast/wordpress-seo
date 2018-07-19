@@ -68,7 +68,7 @@ export default class KeywordExample extends Component {
 				<KeywordInput
 					id="focus-keyword"
 					label={ "Focus keyword"}
-				    onChange={ this.updateKeyword }
+					onChange={ this.updateKeyword }
 					keyword={ this.state.keyword }
 				/>
 
