@@ -46,7 +46,7 @@ class TitleKeywordAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The Paper object to assess.
 	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment with text and score.
 	 */
@@ -77,7 +77,7 @@ class TitleKeywordAssessment extends Assessment {
 	/**
 	 * Calculates the result based on the keyphraseLength research.
 	 *
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} Object with score and text.
 	 */

@@ -11,7 +11,7 @@ class KeyphraseLengthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum length of the keyphrase (in words).
 	 * @param {number} [config.parameters.acceptableMaximum] The acceptable maximum length of the keyphrase (in words).
 	 * @param {number} [config.scores.veryBad] The score to return if the length of the keyphrase is below recommended minimum.

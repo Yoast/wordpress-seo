@@ -39,9 +39,9 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	/**
 	 * Runs the metaDescriptionKeyword researcher and based on this, returns an assessment result with score.
 	 *
-	 * @param {Paper} paper             The paper to use for the assessment.
-	 * @param {Researcher} researcher   The researcher used for calling research.
-	 * @param {Object} i18n             The object used for translations.
+	 * @param {Paper}      paper      The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
+	 * @param {Jed}        i18n       The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -59,7 +59,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	/**
 	 * Returns the result object based on the number of keyword matches in the meta description.
 	 *
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} Result object with score and text.
 	 */

@@ -41,9 +41,9 @@ class TextCompetingLinksAssessment extends Assessment {
 	/**
 	 * Runs the linkCount module, based on this returns an assessment result with score.
 	 *
-	 * @param {Object} paper The paper to use for the assessment.
-	 * @param {Object} researcher The researcher used for calling research.
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} The AssessmentResult.
 	 */
@@ -80,7 +80,7 @@ class TextCompetingLinksAssessment extends Assessment {
 	/**
 	 * Returns a result based on the number of links.
 	 *
-	 * @param {Object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} ResultObject with score and text.
 	 */

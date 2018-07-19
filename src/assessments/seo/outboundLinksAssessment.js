@@ -1,7 +1,8 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let isEmpty = require( "lodash/isEmpty" );
-let merge = require( "lodash/merge" );
+const isEmpty = require( "lodash/isEmpty" );
+const merge = require( "lodash/merge" );
+
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
 
 /**
  * Assessment for calculating the outbound links in the text.
@@ -10,7 +11,7 @@ class OutboundLinksAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -35,7 +36,7 @@ class OutboundLinksAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations
+	 * @param {Jed} i18n The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -90,8 +91,8 @@ class OutboundLinksAssessment extends Assessment {
 	/**
 	 * Translates the score to a message the user can understand.
 	 *
-	 * @param {object} linkStatistics The object with all link statistics.
-	 * @param {object} i18n The object used for translations.
+	 * @param {Object} linkStatistics The object with all link statistics.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */

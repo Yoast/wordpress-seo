@@ -1,7 +1,8 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let inRange = require( "lodash/inRange" );
-let merge = require( "lodash/merge" );
+const inRange = require( "lodash/inRange" );
+const merge = require( "lodash/merge" );
+
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
 
 /**
  * Assessment that will test if the text is long enough.
@@ -10,7 +11,7 @@ class TextLengthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -41,7 +42,7 @@ class TextLengthAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The Paper object to assess.
 	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {object} i18n The locale object.
+	 * @param {Jed} i18n The locale object.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
@@ -92,7 +93,7 @@ class TextLengthAssessment extends Assessment {
 	 *
 	 * @param {number} score The amount of words to be checked against.
 	 * @param {number} wordCount The amount of words.
-	 * @param {object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */

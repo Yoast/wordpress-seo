@@ -18,7 +18,7 @@ class KeywordDensityAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 * @param {number} [config.parameters.overMaximum] The percentage of keyword instances in the text that is way over the maximum.
 	 * @param {number} [config.parameters.maximum] The maximum percentage of keyword instances in the text.
 	 * @param {number} [config.parameters.minimum] The minimum percentage of keyword instances in the text.
