@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Styled from "styled-components";
 import noop from "lodash/noop";
 
-import GutenbergToggle from "../Shared/components/GutenbergToggle";
+import GutenbergToggle from "../../Shared/components/GutenbergToggle";
 
 const Cornerstone = Styled.div`
     display: flex;
