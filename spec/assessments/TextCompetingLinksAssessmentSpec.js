@@ -1,5 +1,5 @@
 import TextCompetingLinksAssessment from "../../js/assessments/seo/TextCompetingLinksAssessment";
-const Mark = require ( "../../js/values/Mark" );
+const Mark = require( "../../js/values/Mark" );
 const Paper = require( "../../js/values/Paper" );
 const Factory = require( "../helpers/factory" );
 
