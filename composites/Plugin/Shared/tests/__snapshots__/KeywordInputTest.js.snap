@@ -19,11 +19,9 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
 }
 
 .c2 {
-  border-color: #f1f1f1;
-  border-style: solid;
-  border-width: 3px;
+  border: 3px solid initial;
   padding: 0.75em;
-  font-size: 1.1em;
+  font-size: 1em;
 }
 
 .c2.hasError {

@@ -7,13 +7,13 @@ import { BaseButton, Button, IconButton, IconsButton } from "../composites/Plugi
 import IconButtonToggle from "../composites/Plugin/Shared/components/IconButtonToggle";
 import { BaseLinkButton, LinkButton } from "../composites/Plugin/Shared/components/LinkButton";
 import FormButton from "../forms/Button";
+import IconLabelledButton from "../composites/Plugin/Shared/components/IconLabelledButton";
 
 const ButtonsContainer = styled.div`
 	max-width: 800px;
 	margin: 0 auto;
 	padding: 24px;
 	box-sizing: border-box;
-	background-color: #fff;
 
 	.with-max-width {
 		max-width: 120px;
@@ -87,6 +87,33 @@ export default class ButtonsList extends React.Component {
 				/> (IconButtonToggle: needs a tooltip to make its aria-label visible)
 				<Separator />
 				<YoastButton>YoastButton</YoastButton>
+				<Separator />
+				<IconLabelledButton icon="question-circle">Need help?</IconLabelledButton>
+				<IconLabelledButton	icon="gear">Settings</IconLabelledButton>
+				<IconLabelledButton
+					hoverBackgroundColor="#a4286a"
+					hoverColor="white"
+					icon="eye"
+				>
+					Custom Hover
+				</IconLabelledButton>
+				<IconLabelledButton
+					focusBackgroundColor="#e1bee7"
+					focusBorderColor="#a4286a"
+					focusColor="#a4286a"
+					icon="key"
+				>
+					Custom Focus
+				</IconLabelledButton>
+				<IconLabelledButton
+					activeBackgroundColor="yellow"
+					activeBorderColor="black"
+					activeColor="black"
+					icon="list"
+				>
+					Custom Active
+				</IconLabelledButton>
+				<IconLabelledButton	icon="plus" textFontSize="13px">Custom Font Size</IconLabelledButton>
 				<Separator />
 				<FormButton text="FormButton" onClick={ () => {
 					console.log( "hello FormButton clicked" );
