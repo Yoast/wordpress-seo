@@ -1,24 +1,24 @@
 import { inherits } from "util";
 
-import * as Assessor from "../assessor";
-import * as SEOAssessor from "../seoAssessor";
-import * as introductionKeyword from "../assessments/seo/introductionKeywordAssessment";
+import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
-import * as keywordStopWords from "../assessments/seo/keywordStopWordsAssessment";
-import * as metaDescriptionKeyword from "../assessments/seo/metaDescriptionKeywordAssessment";
-import * as MetaDescriptionLength from "../assessments/seo/metaDescriptionLengthAssessment";
-import * as SubheadingsKeyword from "../assessments/seo/subheadingsKeywordAssessment";
-import * as textCompetingLinks from "../assessments/seo/textCompetingLinksAssessment";
-import * as TextImages from "../assessments/seo/textImagesAssessment";
-import * as TextLength from "../assessments/seo/textLengthAssessment";
-import * as OutboundLinks from "../assessments/seo/outboundLinksAssessment";
+import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
+import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksAssessment";
 import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment";
-import * as titleKeyword from "../assessments/seo/titleKeywordAssessment";
-import * as TitleWidth from "../assessments/seo/pageTitleWidthAssessment";
+import TitleKeywordAssessment from "../assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
-import * as UrlLength from "../assessments/seo/urlLengthAssessment";
-import * as urlStopWords from "../assessments/seo/urlStopWordsAssessment";
+const Assessor = require( "../assessor" );
+const SEOAssessor = require( "../seoAssessor" );
+const keywordStopWords = require( "../assessments/seo/keywordStopWordsAssessment" );
+const MetaDescriptionLength = require( "../assessments/seo/metaDescriptionLengthAssessment" );
+const SubheadingsKeyword = require( "../assessments/seo/subheadingsKeywordAssessment" );
+const TextImages = require( "../assessments/seo/textImagesAssessment" );
+const TextLength = require( "../assessments/seo/textLengthAssessment" );
+const OutboundLinks = require( "../assessments/seo/outboundLinksAssessment" );
+const TitleWidth = require( "../assessments/seo/pageTitleWidthAssessment" );
+const UrlLength = require( "../assessments/seo/urlLengthAssessment" );
+const urlStopWords = require( "../assessments/seo/urlStopWordsAssessment" );
 
 /**
  * Creates the Assessor
@@ -33,11 +33,11 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
-		introductionKeyword,
+		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
 		new KeywordDensityAssessment(),
 		keywordStopWords,
-		metaDescriptionKeyword,
+		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLength( {
 			scores:	{
 				tooLong: 3,
@@ -53,7 +53,7 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 				},
 			}
 		),
-		textCompetingLinks,
+		new TextCompetingLinksAssessment(),
 		new TextImages( {
 			scores: {
 				noImages: 3,
@@ -78,8 +78,8 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 				noLinks: 3,
 			},
 		} ),
+		new TitleKeywordAssessment(),
 		new InternalLinksAssessment(),
-		titleKeyword,
 		new TitleWidth(
 			{
 				scores: {

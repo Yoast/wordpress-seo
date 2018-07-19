@@ -1,6 +1,7 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let merge = require( "lodash/merge" );
+const merge = require( "lodash/merge" );
+
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
 
 /**
  * Represents the assessment that checks if the keyword is present in one of the subheadings.
@@ -9,7 +10,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -33,7 +34,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -62,7 +63,7 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Returns the score for the subheadings.
 	 *
-	 * @param {object} subHeadings The object with all subHeadings matches.
+	 * @param {Object} subHeadings The object with all subHeadings matches.
 	 *
 	 * @returns {number|null} The calculated score.
 	 */
@@ -85,8 +86,8 @@ class SubHeadingsKeywordAssessment extends Assessment {
 	 * Translates the score to a message the user can understand.
 	 *
 	 * @param {number} score The score for this assessment.
-	 * @param {object} subHeadings The object with all subHeadings matches.
-	 * @param {object} i18n The object used for translations.
+	 * @param {Object} subHeadings The object with all subHeadings matches.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
