@@ -14,7 +14,7 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
 import { ThemeProvider } from "styled-components";
 import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
-import Styled from "styled-components";
+import styled from "styled-components";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -37,7 +37,7 @@ function registerStoreInGutenberg() {
 	} );
 }
 
-const YoastSidebarContainer = Styled.div`
+const YoastSidebarContainer = styled.div`
 	padding: 16px;
 `;
 
@@ -68,7 +68,7 @@ function registerPlugin() {
 					<YoastSidebarContainer>
 						<p> Contents of the sidebar </p>
 						<CornerstoneToggle onChange={ () => {} } checked={ true } />
-						</YoastSidebarContainer>
+					</YoastSidebarContainer>
 				</PluginSidebar>
 			</Fragment>
 		);
