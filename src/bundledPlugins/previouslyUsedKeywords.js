@@ -66,7 +66,14 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	var id = previouslyUsedKeywords.id;
 	if( count === 0 ) {
 		return {
-			text: i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ),
+			text: i18n.sprintf(
+				/* Translators:
+				%1$s expands to a link to an article on yoast.com about why you should not use a keyword more than once,
+				%2$s expands to an anchor tag. */
+				i18n.dgettext( "js-text-analysis", "You've %1$snever used this focus keyword before%2$s, very good." ),
+				"<a href='https://yoa.st/20x' target='_blank' rel='noopener noreferrer'>",
+				"</a>"
+			),
 			score: 9,
 		};
 	}

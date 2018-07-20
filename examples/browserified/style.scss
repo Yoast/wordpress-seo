@@ -4,18 +4,49 @@ html {
 	font-family: sans-serif;
 }
 
+body, html {
+	margin: 0;
+	padding: 0;
+}
+
 h2{
 	color: #777;
 }
 
-.output-container,
-.form-container{
-	padding: 20px;
-	width: 512px;
+* {
+	box-sizing: border-box;
+}
+
+.wrap {
+	display: flex;
+	align-content: space-between;
+}
+
+.content-sidebar-wrap {
+	flex: 1;
+	padding: 20px 10px 20px 20px;
+}
+
+.overallScore-container {
+	flex: 1;
+	padding: 20px 20px 20px 10px;
+}
+
+#snippet_preview {
+	min-width: 600px;
+}
+
+.inputForm {
+	margin-bottom: 16px;
+
+	#refresh-analysis {
+		padding: 8px;
+		margin-top: 8px;
+	}
 }
 
 .inputForm label {
-	width: 250px;
+	width: 100%;
 	color: #777;
 	line-height: 20px;
 	text-transform: capitalize;
@@ -34,7 +65,7 @@ h2{
 
 .inputForm input,
 .inputForm textarea {
-	width: 540px;
+	width: 100%;
 	padding: 5px;
 	margin: 5px 5px 5px 0;
 	font-size: 14px;
@@ -43,17 +74,10 @@ h2{
 
 .inputForm label {
 	display: block;
-	width: 200px;
 	font-size: 14px;
 	padding-top: 10px;
 	font-weight: bold;
 	vertical-align: text-bottom
-}
-
-.overallScore-container{
-	position: absolute;
-	left: 640px;
-	top: 20px;
 }
 
 pre {

@@ -1,6 +1,7 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let merge = require( "lodash/merge" );
+const merge = require( "lodash/merge" );
+
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
 
 /**
  * Represents the assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
@@ -16,7 +17,7 @@ class TextImagesAssessment extends Assessment {
 	constructor( config = {} ) {
 		super();
 
-		let defaultConfig = {
+		const defaultConfig = {
 			scores: {
 				noImages: 3,
 				withAltKeyword: 9,
@@ -35,14 +36,14 @@ class TextImagesAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The Paper object to assess.
 	 * @param {Researcher} researcher The Researcher object containing all available researches.
-	 * @param {object} i18n The locale object.
+	 * @param {Jed} i18n The locale object.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		let assessmentResult = new AssessmentResult();
-		let imageCount = researcher.getResearch( "imageCount" );
-		let altProperties = researcher.getResearch( "altTagCount" );
+		const assessmentResult = new AssessmentResult();
+		const imageCount = researcher.getResearch( "imageCount" );
+		const altProperties = researcher.getResearch( "altTagCount" );
 
 		assessmentResult.setScore( this.calculateScore( imageCount, altProperties ) );
 		assessmentResult.setText( this.translateScore( imageCount, altProperties, i18n ) );
@@ -65,7 +66,7 @@ class TextImagesAssessment extends Assessment {
 	 * Calculate the score based on the current image count and current image alt-tag count.
 	 *
 	 * @param {number} imageCount The amount of images to be checked against.
-	 * @param {object} altProperties An object containing the various alt-tags.
+	 * @param {Object} altProperties An object containing the various alt-tags.
 	 *
 	 * @returns {number} The calculated score.
 	 */
@@ -101,8 +102,8 @@ class TextImagesAssessment extends Assessment {
 	 * Translates the score to a message the user can understand.
 	 *
 	 * @param {number} imageCount The amount of images to be checked against.
-	 * @param {object} altProperties An object containing the various alt-tags.
-	 * @param {object} i18n The object used for translations.
+	 * @param {Object} altProperties An object containing the various alt-tags.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */

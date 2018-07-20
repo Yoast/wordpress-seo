@@ -19,6 +19,16 @@ var setLocale = function() {
 };
 
 /**
+ * Set the Premium flag.
+ *
+ * @returns {void}
+ */
+var setPremium = function() {
+	this.changeAssessorOptions( { useKeywordDistribution: document.getElementById( "premium" ).checked } );
+	this.refresh();
+};
+
+/**
  * Binds the renewData function on the change of input elements.
  *
  * @param {YoastSEO.App} app The YoastSEO.js app.
@@ -26,11 +36,12 @@ var setLocale = function() {
  * @returns {void}
  */
 var bindEvents = function( app ) {
-	var elems = [ "content", "focusKeyword", "locale" ];
+	var elems = [ "content", "focusKeyword", "synonyms" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
 	}
 	document.getElementById( "locale" ).addEventListener( "input", setLocale.bind( app ) );
+	document.getElementById( "premium" ).addEventListener( "input", setPremium.bind( app ) );
 };
 
 window.onload = function() {
@@ -49,6 +60,7 @@ window.onload = function() {
 				return {
 					keyword: document.getElementById( "focusKeyword" ).value,
 					text: document.getElementById( "content" ).value,
+					synonyms: document.getElementById( "synonyms" ).value,
 				};
 			},
 		},
