@@ -1,18 +1,18 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let inRange = require( "../../helpers/inRange" ).inRangeEndInclusive;
-let merge = require( "lodash/merge" );
+const merge = require( "lodash/merge" );
 
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
+const inRange = require( "../../helpers/inRange" ).inRangeEndInclusive;
 
 const maximumLength = 600;
 /**
- * Represents the assessmenth that will calculate if the width of the page title is correct.
+ * Represents the assessment that will calculate if the width of the page title is correct.
  */
 class PageTitleWidthAssesment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -48,7 +48,7 @@ class PageTitleWidthAssesment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations
+	 * @param {Jed} i18n The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -92,7 +92,7 @@ class PageTitleWidthAssesment extends Assessment {
 	 * Translates the pageTitleWidth score to a message the user can understand.
 	 *
 	 * @param {number} pageTitleWidth The width of the pageTitle.
-	 * @param {object} i18n The object used for translations.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */

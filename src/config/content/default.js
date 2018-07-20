@@ -1,4 +1,3 @@
-
 module.exports = {
 	sentenceLength: {
 		recommendedWordCount: 20,
@@ -15,7 +14,7 @@ module.exports = {
 			difficult: 30,
 			veryDifficult: 0,
 		},
-		scores:{
+		scores: {
 			veryEasy: 9,
 			easy: 9,
 			fairlyEasy: 9,

@@ -1,14 +1,14 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const inRange = require( "lodash/inRange" );
 
-var recommendedMinimum = 150;
+const recommendedMinimum = 150;
 /**
  * Calculate the score based on the current word count.
  * @param {number} wordCount The amount of words to be checked against.
  * @param {object} i18n The locale object.
  * @returns {object} The resulting score object.
  */
-var calculateWordCountResult = function( wordCount, i18n ) {
+const calculateWordCountResult = function( wordCount, i18n ) {
 	const url = "<a href='https://yoa.st/2pk' target='_blank'>";
 
 	if ( wordCount >= 150 ) {
@@ -144,15 +144,17 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 
 /**
  * Execute the Assessment and return a result.
+ *
  * @param {Paper} paper The Paper object to assess.
  * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
+ * @param {Jed} i18n The locale object.
+ *
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var taxonomyTextLengthAssessment = function( paper, researcher, i18n ) {
-	var wordCount = researcher.getResearch( "wordCountInText" );
-	var wordCountResult = calculateWordCountResult( wordCount, i18n );
-	var assessmentResult = new AssessmentResult();
+const taxonomyTextLengthAssessment = function( paper, researcher, i18n ) {
+	const wordCount = researcher.getResearch( "wordCountInText" );
+	const wordCountResult = calculateWordCountResult( wordCount, i18n );
+	const assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( wordCountResult.score );
 	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, recommendedMinimum ) );

@@ -1,16 +1,18 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
 
-var getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
+const getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 
-var availableLanguages = [ "en" ];
+const availableLanguages = [ "en" ];
 
 /**
  * Calculate the score based on the amount of stop words in the url.
+ *
  * @param {number} stopWordCount The amount of stop words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
+ * @param {Jed} i18n The locale object.
+ *
+ * @returns {Object} The resulting score object.
  */
-var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
+const calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
 	if ( stopWordCount > 0 ) {
 		return {
 			score: 5,
@@ -29,16 +31,18 @@ var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
 
 /**
  * Execute the Assessment and return a result.
+ *
  * @param {Paper} paper The Paper object to assess.
  * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
+ * @param {Jed} i18n The locale object.
+ *
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
-	var stopWords = researcher.getResearch( "stopWordsInUrl" );
-	var stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
+const urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
+	const stopWords = researcher.getResearch( "stopWordsInUrl" );
+	const stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
 
-	var assessmentResult = new AssessmentResult();
+	const assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( stopWordsResult.score );
 	assessmentResult.setText( i18n.sprintf(
 		stopWordsResult.text,
