@@ -65,15 +65,15 @@ describe( "a test for removing special characters from text using the WP standar
 		expect( transliteration( "çÇñÑèÈêÊéÉëËôÔöÖïÏüÜäÄ", "nl_NL" ) ).toBe( "cCnNeEeEeEeEoOoOiIuUaA" );
 	} );
 
-	it( "returns an unchanged string for a non-existing locale.", function() {
-		expect( transliteration( "abc", "qxz" ) ).toBe( "abc" );
+	it( "returns a string processed by generic rules for a non-existing locale.", function() {
+		expect( transliteration( "åbc", "qxz" ) ).toBe( "abc" );
 	} );
 
-	it( "returns an unchanged string for an empty locale.", function() {
-		expect( transliteration( "abc", "" ) ).toBe( "abc" );
+	it( "returns a string processed by generic rules for an empty locale.", function() {
+		expect( transliteration( "åbc", "" ) ).toBe( "abc" );
 	} );
 
 	it( "returns an unchanged string for no locale.", function() {
-		expect( transliteration( "abc" ) ).toBe( "abc" );
+		expect( transliteration( "åbc" ) ).toBe( "åbc" );
 	} );
 } );
