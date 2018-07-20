@@ -1,14 +1,16 @@
-var AssessmentResult = require( "../../values/AssessmentResult.js" );
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
 
-var getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
+const getLanguageAvailability = require( "../../helpers/getLanguageAvailability.js" );
 
-var availableLanguages = [ "en" ];
+const availableLanguages = [ "en" ];
 
 /**
  * Calculate the score based on the amount of stop words in the keyword.
+ *
  * @param {number} stopWordCount The amount of stop words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
+ * @param {Jed} i18n The locale object.
+ *
+ * @returns {Object} The resulting score object.
  */
 var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
 	if ( stopWordCount > 0 ) {
@@ -31,12 +33,14 @@ var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
 
 /**
  * Execute the Assessment and return a result.
+ *
  * @param {Paper} paper The Paper object to assess.
  * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
+ * @param {Jed} i18n The locale object.
+ *
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
+const keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
 	var stopWords = researcher.getResearch( "stopWordsInKeyword" );
 	var stopWordsResult = calculateStopWordsCountResult( stopWords.length, i18n );
 

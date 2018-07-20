@@ -17,18 +17,18 @@ describe( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that only require a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
-		expect( assessor.getValidResults().length ).toBe( 8 );
+		expect( assessor.getValidResults().length ).toBe( 7 );
 	} );
 
 	it( "additionally runs assessments that require a long enough text and a keyword and a synonym", function() {
 		const text = "a ".repeat( 200 );
 		assessor.assess( new Paper( text, { keyword: "keyword", synonyms: "synonym" } ) );
-		expect( assessor.getValidResults().length ).toBe( 9 );
+		expect( assessor.getValidResults().length ).toBe( 8 );
 	} );
 
 	it( "additionally runs assessments that require text and a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
-		expect( assessor.getValidResults().length ).toBe( 8 );
+		expect( assessor.getValidResults().length ).toBe( 7 );
 	} );
 
 	it( "additionally runs assessments that require an url", function() {
@@ -51,7 +51,7 @@ describe( "running assessments in the assessor", function() {
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } ) );
-		expect( assessor.getValidResults().length ).toBe( 9 );
+		expect( assessor.getValidResults().length ).toBe( 8 );
 	} );
 
 	it( "additionally runs assessments that require a long enough text and one keyword occurrence and one synonym occurrence", function() {
@@ -68,6 +68,6 @@ describe( "running assessments in the assessor", function() {
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas synonym." +
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword", synonyms: "synonym" } ) );
-		expect( assessor.getValidResults().length ).toBe( 9 );
+		expect( assessor.getValidResults().length ).toBe( 8 );
 	} );
 } );

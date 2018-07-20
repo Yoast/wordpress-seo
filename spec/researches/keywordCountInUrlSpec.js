@@ -26,5 +26,37 @@ describe( "test to check url for keyword", function() {
 		expect( urlKeyword(
 			new Paper( "", { url: "yoasts-analyzer", keyword: "Yoast's analyzer" } )
 		) ).toBe( 1 );
+
+		expect( urlKeyword(
+			new Paper( "", { url: "http://local.wordpress.test/acción/ ‎", keyword: "acción" } )
+		) ).toBe( 1 );
+
+		expect( urlKeyword(
+			new Paper( "", { url: "http://local.wordpress.test/accion/ ‎", keyword: "acción" } )
+		) ).toBe( 1 );
+
+		expect( urlKeyword(
+			new Paper( "", { url: "http://local.wordpress.test/natürlich/ ‎", keyword: "natürlich", locale: "de_DE" } )
+		) ).toBe( 1 );
+
+		expect( urlKeyword(
+			new Paper( "", { url: "http://local.wordpress.test/natuerlich/ ‎", keyword: "natürlich", locale: "de_DE" } )
+		) ).toBe( 1 );
+
+		expect( urlKeyword(
+			new Paper( "", { url: "http://local.wordpress.test/naturlich/ ‎", keyword: "natürlich", locale: "de_DE" } )
+		) ).toBe( 0 );
+
+		expect( urlKeyword(
+			new Paper( "", { url: "http://local.wordpress.test/acción/ ‎", keyword: "acción", locale: "es_ES" } )
+		) ).toBe( 1 );
+
+		expect( urlKeyword(
+			new Paper( "", { url: "bla-bla-oeverlaatelsebesiktning", keyword: "överlåtelsebesiktning", locale: "sv_SE" } )
+		) ).toBe( 1 );
+
+		expect( urlKeyword(
+			new Paper( "", { url: "bla-bla-overlatelsebesiktning", keyword: "överlåtelsebesiktning", locale: "sv_SE" } )
+		) ).toBe( 1 );
 	} );
 } );
