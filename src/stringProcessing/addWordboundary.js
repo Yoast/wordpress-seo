@@ -12,7 +12,7 @@
 module.exports = function( matchString, positiveLookAhead = false, extraWordBoundary = "" ) {
 	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
 
-	wordBoundary = "[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„\"+\\-;!?:\/»«‹›" + extraWordBoundary + "<>";
+	wordBoundary = "[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„\"+\\-;!¡?¿:\/»«‹›" + extraWordBoundary + "<>";
 	wordBoundaryStart = "(^|" + wordBoundary + "'‘’‛`])";
 	if( positiveLookAhead ) {
 		wordBoundaryEnd = "($|((?=" + wordBoundary + "]))|((['‘’‛`])(" + wordBoundary + "])))";
