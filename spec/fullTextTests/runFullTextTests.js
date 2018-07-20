@@ -3,19 +3,19 @@ const factory = require( "../helpers/factory.js" );
 const i18n = factory.buildJed();
 
 // Import SEO assessments
-const introductionKeywordAssessment = require( "../../js/assessments/seo/introductionKeywordAssessment" );
+import IntroductionKeywordAssessment from "../../js/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../js/assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from  "../../js/assessments/seo/KeywordDensityAssessment";
 const keywordStopWordsAssessment = require( "../../js/assessments/seo/keywordStopWordsAssessment" );
-const metaDescriptionKeywordAssessment = require( "../../js/assessments/seo/metaDescriptionKeywordAssessment" );
+import MetaDescriptionKeywordAssessment from "../../js/assessments/seo/MetaDescriptionKeywordAssessment";
 const MetaDescriptionLengthAssessment = require( "../../js/assessments/seo/metaDescriptionLengthAssessment" );
 const SubheadingsKeywordAssessment = require( "../../js/assessments/seo/subheadingsKeywordAssessment" );
-const textCompetingLinksAssessment = require( "../../js/assessments/seo/textCompetingLinksAssessment" );
+import TextCompetingLinksAssessment from "../../js/assessments/seo/TextCompetingLinksAssessment";
 const TextImagesAssessment = require( "../../js/assessments/seo/textImagesAssessment" );
 const TextLengthAssessment = require( "../../js/assessments/seo/textLengthAssessment" );
 const OutboundLinksAssessment = require( "../../js/assessments/seo/outboundLinksAssessment" );
 import InternalLinksAssessment from "../../js/assessments/seo/InternalLinksAssessment";
-const titleKeywordAssessment = require( "../../js/assessments/seo/titleKeywordAssessment" );
+import TitleKeywordAssessment from "../../js/assessments/seo/TitleKeywordAssessment";
 const TitleWidthAssessment = require( "../../js/assessments/seo/pageTitleWidthAssessment" );
 import UrlKeywordAssessment from "../../js/assessments/seo/UrlKeywordAssessment";
 const UrlLengthAssessment = require( "../../js/assessments/seo/urlLengthAssessment" );
@@ -78,7 +78,7 @@ testPapers.forEach( function( testPaper ) {
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
-			result.introductionKeyword = introductionKeywordAssessment.getResult(
+			result.introductionKeyword = new IntroductionKeywordAssessment().getResult(
 				paper,
 				factory.buildMockResearcher( findKeywordInFirstParagraph( paper ) ),
 				i18n
@@ -127,7 +127,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the metaDescriptionKeyword assessment", function() {
-			result.metaDescriptionKeyword = metaDescriptionKeywordAssessment.getResult(
+			result.metaDescriptionKeyword = new MetaDescriptionKeywordAssessment().getResult(
 				paper,
 				factory.buildMockResearcher( metaDescriptionKeyword( paper ) ),
 				i18n
@@ -157,7 +157,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the textCompetingLinks assessment", function() {
-			result.textCompetingLinks = textCompetingLinksAssessment.getResult(
+			result.textCompetingLinks = new TextCompetingLinksAssessment().getResult(
 				paper,
 				factory.buildMockResearcher( getLinkStatistics( paper ) ),
 				i18n
@@ -213,7 +213,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
-			result.titleKeyword = titleKeywordAssessment.getResult(
+			result.titleKeyword = new TitleKeywordAssessment().getResult(
 				paper,
 				factory.buildMockResearcher( findKeywordInPageTitle( paper ) ),
 				i18n
@@ -336,7 +336,7 @@ testPapers.forEach( function( testPaper ) {
 		it( "returns a score and the associated feedback text for the textPresence assessment", function() {
 			result.textPresence = textPresenceAssessment.getResult(
 				paper,
-				undefined,
+				null,
 				i18n
 			);
 			expect( result.textPresence.getScore() ).toBe( expectedResults.textPresence.score );
@@ -348,8 +348,8 @@ testPapers.forEach( function( testPaper ) {
 				paper,
 				factory.buildMockResearcher(
 					getSentenceBeginnings(
-							paper,
-							factory.buildMockResearcher( sentences( paper ) )
+						paper,
+						factory.buildMockResearcher( sentences( paper ) )
 					)
 				),
 				i18n
@@ -357,7 +357,5 @@ testPapers.forEach( function( testPaper ) {
 			expect( result.sentenceBeginnings.getScore() ).toBe( expectedResults.sentenceBeginnings.score );
 			expect( result.sentenceBeginnings.getText() ).toBe( expectedResults.sentenceBeginnings.resultText );
 		} );
-
-
 	} );
 } );

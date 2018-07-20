@@ -2,7 +2,7 @@ const Paper = require( "../../../js/values/Paper.js" );
 
 const name = "englishPaper1";
 
-const paper = new Paper( "<p>My husband &#8211; <a href=\'https://yoast.com/about-us/team/joost-de-valk/\'>Joost de Valk</a> &#8211;" +
+const paper = new Paper( "<p>My husband &#8211; <a href='https://yoast.com/about-us/team/joost-de-valk/'>Joost de Valk</a> &#8211;" +
 	"and I often have discussions on how technology will change our day-to-day life. Joost is an early adopter, while I am much slower" +
 	"and more reluctant to technological change. Our discussions are pretty heated. So, what&#8217;s Joost&#8217;s opinion on the future" +
 	"of voice search? How dominant will voice search be? And how will search be affected by it?" +
