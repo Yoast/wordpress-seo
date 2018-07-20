@@ -1,8 +1,12 @@
-// SEO assessments
-const introductionKeyword = require( "../../js/assessments/seo/introductionKeywordAssessment" );
+const contentConfiguration = require( "../../js/config/content/combinedConfig" );
+const factory = require( "../helpers/factory.js" );
+const i18n = factory.buildJed();
+
+// Import SEO assessments
+const introductionKeywordAssessment = require( "../../js/assessments/seo/introductionKeywordAssessment" );
 import KeyphraseLengthAssessment from "../../js/assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from  "../../js/assessments/seo/KeywordDensityAssessment";
-const keywordStopWords = require( "../../js/assessments/seo/keywordStopWordsAssessment" );
+const keywordStopWordsAssessment = require( "../../js/assessments/seo/keywordStopWordsAssessment" );
 const metaDescriptionKeywordAssessment = require( "../../js/assessments/seo/metaDescriptionKeywordAssessment" );
 const MetaDescriptionLengthAssessment = require( "../../js/assessments/seo/metaDescriptionLengthAssessment" );
 const SubheadingsKeywordAssessment = require( "../../js/assessments/seo/subheadingsKeywordAssessment" );
@@ -18,19 +22,18 @@ const UrlLengthAssessment = require( "../../js/assessments/seo/urlLengthAssessme
 const urlStopWordsAssessment = require( "../../js/assessments/seo/urlStopWordsAssessment" );
 import LargestKeywordDistanceAssessment from "../../js/assessments/seo/LargestKeywordDistanceAssessment";
 
-// Content assessments
+// Import content assessments
 const FleschReadingAssessment = require( "../../js/assessments/readability/fleschReadingEaseAssessment" );
-/*
-const paragraphTooLong = require( "../../js/assessments/readability/paragraphTooLongAssessment" );
-const SentenceLengthInText = require( "../../js/assessments/readability/sentenceLengthInTextAssessment" );
-const SubheadingDistributionTooLong = require( "../../js/assessments/readability/subheadingDistributionTooLongAssessment" );
-const transitionWords = require( "../../js/assessments/readability/transitionWordsAssessment" );
-const passiveVoice = require( "../../js/assessments/readability/passiveVoiceAssessment" );
-const sentenceBeginnings = require( "../../js/assessments/readability/sentenceBeginningsAssessment" );
-const textPresence = require( "../../js/assessments/readability/textPresenceAssessment" );
- */
+const SubheadingDistributionTooLongAssessment = require( "../../js/assessments/readability/subheadingDistributionTooLongAssessment" );
+const paragraphTooLongAssessment = require( "../../js/assessments/readability/paragraphTooLongAssessment" );
+const SentenceLengthInTextAssessment = require( "../../js/assessments/readability/sentenceLengthInTextAssessment" );
+const transitionWordsAssessment = require( "../../js/assessments/readability/transitionWordsAssessment" );
+const passiveVoiceAssessment = require( "../../js/assessments/readability/passiveVoiceAssessment" );
+const textPresenceAssessment = require( "../../js/assessments/readability/textPresenceAssessment" );
+const sentenceBeginningsAssessment = require( "../../js/assessments/readability/sentenceBeginningsAssessment" );
 
-// Researches
+
+// Import researches
 const findKeywordInFirstParagraph = require( "../../js/researches/findKeywordInFirstParagraph.js" );
 const keyphraseLength = require( "../../js/researches/keyphraseLength" );
 const keywordCount = require( "../../js/researches/keywordCount" );
@@ -49,32 +52,17 @@ const keywordCountInUrl = require( "../../js/researches/keywordCountInUrl" );
 const urlLength = require( "../../js/researches/urlIsTooLong.js" );
 const stopWordsInUrl = require( "../../js/researches/stopWordsInUrl" );
 const largestKeywordDistance = require( "../../js/researches/largestKeywordDistance" );
-
 const calculateFleschReading = require( "../../js/researches/calculateFleschReading.js" );
-
-
-const linkCount = require( "../../js/researches/countLinks.js" );
-const getLinks = require( "../../js/researches/getLinks.js" );
-const wordComplexity = require( "../../js/researches/getWordComplexity.js" );
+const getSubheadingTextLengths = require( "../../js/researches/getSubheadingTextLengths.js" );
 const getParagraphLength = require( "../../js/researches/getParagraphLength.js" );
 const countSentencesFromText = require( "../../js/researches/countSentencesFromText.js" );
-const countSentencesFromDescription = require( "../../js/researches/countSentencesFromDescription.js" );
-const getSubheadingTextLengths = require( "../../js/researches/getSubheadingTextLengths.js" );
 const findTransitionWords = require( "../../js/researches/findTransitionWords.js" );
 const passiveVoice = require( "../../js/researches/getPassiveVoice.js" );
 const getSentenceBeginnings = require( "../../js/researches/getSentenceBeginnings.js" );
-const relevantWords = require( "../../js/researches/relevantWords" );
-const readingTime = require( "../../js/researches/readingTime" );
-const getTopicDensity = require( "../../js/researches/getTopicDensity" );
-const topicCount = require( "../../js/researches/topicCount" );
+import sentences from "../../js/researches/sentences";
 
-const contentConfiguration = require( "../../src/config/content/combinedConfig" );
-const researcher = require( "../../src/researcher" );
-const factory = require( "../helpers/factory.js" );
-const i18n = factory.buildJed();
-
-// Collection of test papers
-const englishPaper1 = require( "./englishPaper1" );
+// Import test papers
+const englishPaper1 = require( "./testTexts/englishPaper1" );
 
 // Create a list of all test papers
 const testPapers = [
@@ -88,20 +76,9 @@ testPapers.forEach( function( testPaper ) {
 		const expectedResults = testPaper.expectedResults;
 		let result = {};
 
-		/* Create a list of all assessments to be run
-		 const assessments = [
-			new FleschReadingEase( contentConfiguration( locale ).fleschReading ),
-			new SubheadingDistributionTooLong(),
-			paragraphTooLong,
-			new SentenceLengthInText( contentConfiguration( locale ).sentenceLength ),
-			transitionWords,
-			passiveVoice,
-			textPresence,
-			sentenceBeginnings,
-		];*/
-
+		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
-			result.introductionKeyword = introductionKeyword.getResult(
+			result.introductionKeyword = introductionKeywordAssessment.getResult(
 				paper,
 				factory.buildMockResearcher( findKeywordInFirstParagraph( paper ) ),
 				i18n
@@ -140,7 +117,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the keywordStopWords assessment", function() {
-			result.keywordStopWords = keywordStopWords.getResult(
+			result.keywordStopWords = keywordStopWordsAssessment.getResult(
 				paper,
 				factory.buildMockResearcher( stopWordsInKeyword( paper ) ),
 				i18n
@@ -295,7 +272,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( result.largestKeywordDistance.getText() ).toBe( expectedResults.largestKeywordDistance.resultText );
 		} );
 
-
+		// Readability assessments.
 		it( "returns a score and the associated feedback text for the fleschReadingEase assessment", function() {
 			result.fleschReadingEase = new FleschReadingAssessment( contentConfiguration( locale ).fleschReading ).getResult(
 				paper,
@@ -305,5 +282,82 @@ testPapers.forEach( function( testPaper ) {
 			expect( result.fleschReadingEase.getScore() ).toBe( expectedResults.fleschReadingEase.score );
 			expect( result.fleschReadingEase.getText() ).toBe( expectedResults.fleschReadingEase.resultText );
 		} );
+
+		it( "returns a score and the associated feedback text for the subheadingsTooLong assessment", function() {
+			result.subheadingsTooLong = new SubheadingDistributionTooLongAssessment().getResult(
+				paper,
+				factory.buildMockResearcher( getSubheadingTextLengths( paper ) ),
+				i18n
+			);
+			expect( result.subheadingsTooLong.getScore() ).toBe( expectedResults.subheadingsTooLong.score );
+			expect( result.subheadingsTooLong.getText() ).toBe( expectedResults.subheadingsTooLong.resultText );
+		} );
+
+		it( "returns a score and the associated feedback text for the textParagraphTooLong assessment", function() {
+			result.textParagraphTooLong = paragraphTooLongAssessment.getResult(
+				paper,
+				factory.buildMockResearcher( getParagraphLength( paper ) ),
+				i18n
+			);
+			expect( result.textParagraphTooLong.getScore() ).toBe( expectedResults.textParagraphTooLong.score );
+			expect( result.textParagraphTooLong.getText() ).toBe( expectedResults.textParagraphTooLong.resultText );
+		} );
+
+		it( "returns a score and the associated feedback text for the textSentenceLength assessment", function() {
+			result.textSentenceLength = new SentenceLengthInTextAssessment().getResult(
+				paper,
+				factory.buildMockResearcher( countSentencesFromText( paper ) ),
+				i18n
+			);
+			expect( result.textSentenceLength.getScore() ).toBe( expectedResults.textSentenceLength.score );
+			expect( result.textSentenceLength.getText() ).toBe( expectedResults.textSentenceLength.resultText );
+		} );
+
+		it( "returns a score and the associated feedback text for the textTransitionWords assessment", function() {
+			result.textTransitionWords = transitionWordsAssessment.getResult(
+				paper,
+				factory.buildMockResearcher( findTransitionWords( paper ) ),
+				i18n
+			);
+			expect( result.textTransitionWords.getScore() ).toBe( expectedResults.textTransitionWords.score );
+			expect( result.textTransitionWords.getText() ).toBe( expectedResults.textTransitionWords.resultText );
+		} );
+
+		it( "returns a score and the associated feedback text for the passiveVoice assessment", function() {
+			result.passiveVoice = passiveVoiceAssessment.getResult(
+				paper,
+				factory.buildMockResearcher( passiveVoice( paper ) ),
+				i18n
+			);
+			expect( result.passiveVoice.getScore() ).toBe( expectedResults.passiveVoice.score );
+			expect( result.passiveVoice.getText() ).toBe( expectedResults.passiveVoice.resultText );
+		} );
+
+		it( "returns a score and the associated feedback text for the textPresence assessment", function() {
+			result.textPresence = textPresenceAssessment.getResult(
+				paper,
+				undefined,
+				i18n
+			);
+			expect( result.textPresence.getScore() ).toBe( expectedResults.textPresence.score );
+			expect( result.textPresence.getText() ).toBe( expectedResults.textPresence.resultText );
+		} );
+
+		it( "returns a score and the associated feedback text for the sentenceBeginnings assessment", function() {
+			result.sentenceBeginnings = sentenceBeginningsAssessment.getResult(
+				paper,
+				factory.buildMockResearcher(
+					getSentenceBeginnings(
+							paper,
+							factory.buildMockResearcher( sentences( paper ) )
+					)
+				),
+				i18n
+			);
+			expect( result.sentenceBeginnings.getScore() ).toBe( expectedResults.sentenceBeginnings.score );
+			expect( result.sentenceBeginnings.getText() ).toBe( expectedResults.sentenceBeginnings.resultText );
+		} );
+
+
 	} );
 } );
