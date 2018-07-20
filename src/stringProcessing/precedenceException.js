@@ -5,6 +5,7 @@ var cannotBeBetweenAuxiliaryAndParticipleFrench = require( "../researches/french
 var cannotBeBetweenAuxiliaryAndParticipleEnglish = require( "../researches/english/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 var cannotBeBetweenAuxiliaryAndParticipleSpanish = require( "../researches/spanish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 var cannotBeBetweenAuxiliaryAndParticipleItalian = require( "../researches/italian/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+var cannotBeBetweenAuxiliaryAndParticiplePolish = require( "../researches/polish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 
 
 /**
@@ -29,6 +30,9 @@ module.exports = function( sentencePart, participleIndex, language ) {
 			break;
 		case "it":
 			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleItalian );
+			break;
+		case "pl":
+			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticiplePolish );
 			break;
 		case "en":
 		default:

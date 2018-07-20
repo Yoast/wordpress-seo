@@ -149,14 +149,11 @@ let quantifiers = [ "ciut", "część", "części", "częścią", "częściach",
 
 let adverbialGenitives = [ "czasem", "często", "nigdy", "rzadko", "zawsze" ];
 
-let auxiliaries = [ "bądź", "bądźcie", "bądźmy", "będą", "będąc", "będę", "będzie", "będziecie", "będziemy", "będziesz",
-	"by", "był", "była", "byłaby", "byłabym", "byłabyś", "byłam", "byłaś", "byłby", "byłbym", "byłbyś", "byłem",
-	"byłeś", "byli", "byliby", "bylibyście", "bylibyśmy", "byliście", "byliśmy", "było", "byłoby", "były", "byłyby",
-	"byłybyście", "byłybyśmy", "byłyście", "byłyśmy", "bym", "byś", "byście", "byśmy", "byto", "bywało", "chcą", "chcąc",
+let otherAuxiliaries = [ "chcą", "chcąc",
 	"chcąca", "chcące", "chcący", "chce", "chcę", "chcecie", "chcemy", "chcesz", "chciał", "chciała", "chciałaby",
 	"chciałabym", "chciałabyś", "chciałam", "chciałaś", "chciałby", "chciałbym", "chciałbyś", "chciałem", "chciałeś",
 	"chciały", "chciałyby", "chciałybyście", "chciałybyśmy", "chciałyście", "chciałyśmy", "chcieli", "chcieliby",
-	"chcielibyście", "chcieliście", "chcieliśmy", "chcono", "jest", "jestem", "jesteś", "jesteście", "jesteśmy", "ma",
+	"chcielibyście", "chcieliście", "chcieliśmy", "chcono", "ma",
 	"macie", "mają", "mając", "mam", "mamy", "masz", "miał", "miała", "miałaby", "miałabym", "miałabyś", "miałam",
 	"miałaś", "miałby", "miałbym", "miałbyś", "miałem", "miałeś", "miało", "miałoby", "miały", "miałyby", "miałybyście",
 	"miałybyśmy", "miałyście", "miałyśmy", "miano", "miej", "miejąca", "miejące", "miejący", "miejcie", "miejmy",
@@ -174,22 +171,30 @@ let auxiliaries = [ "bądź", "bądźcie", "bądźmy", "będą", "będąc", "bę
 	"potrafiliście", "potrafiliśmy", "potrafiło", "potrafiłoby", "potrafiłyby", "potrafiłybyście", "potrafiłybyśmy",
 	"potrafiłyście", "potrafiłyśmy", "potrafimy", "potrafiono", "potrafisz", "powinien", "powinienem", "powinieneś",
 	"powinna", "powinnam", "powinnaś", "powinne", "powinni", "powinniście", "powinniśmy", "powinnyście", "powinnyśmy",
-	"pozostaje", "są", "stają", "stając", "stająca", "stające", "stający", "staje", "staję", "stajecie",
+	"pozostaje", "stają", "stając", "stająca", "stające", "stający", "staje", "staję", "stajecie",
 	"stajemy", "stajesz", "stał", "stała", "stałaby", "stałabym", "stałabyś", "stałam", "stałaś", "stałby", "stałbym",
 	"stałbyś", "stałem", "stałeś", "stali", "staliby", "stalibyście", "stalibyśmy", "staliście", "staliśmy", "stało",
 	"stały", "stałyby", "stałybyście", "stałybyśmy", "stałyście", "stałyśmy", "stanie", "stano", "stawać", "stawając",
 	"stawająca", "stawające", "stawający", "stawał", "stawała", "stawałaby", "stawałabym", "stawałabyś", "stawałabyście",
 	"stawałam", "stawałaś", "stawałby", "stawałbym", "stawałbyś", "stawałem", "stawałeś", "stawali", "stawaliby",
 	"stawalibyście", "stawalibyśmy", "stawaliście", "stawaliśmy", "stawały", "stawałyby", "stawałybyśmy", "stawałyście",
-	"stawałyśmy", "stawano", "stawawszy", "stawszy", "trzeba", "warto", "wystarczy", "zostają", "zostając", "zostająca",
+	"stawałyśmy", "stawano", "stawawszy", "stawszy", "trzeba", "warto", "wystarczy" ];
+
+let passiveAuxiliaries = [ "bądź", "bądźcie", "bądźmy", "będą", "będąc", "będę", "będzie", "będziecie", "będziemy", "będziesz",
+	"by", "był", "była", "byłaby", "byłabym", "byłabyś", "byłam", "byłaś", "byłby", "byłbym", "byłbyś", "byłem",
+	"byłeś", "byli", "byliby", "bylibyście", "bylibyśmy", "byliście", "byliśmy", "było", "byłoby", "były", "byłyby",
+	"byłybyście", "byłybyśmy", "byłyście", "byłyśmy", "bym", "byś", "byście", "byśmy", "byto", "bywało", "jest", "jestem",
+	"jesteś", "jesteście", "jesteśmy", "są", "zostają", "zostając", "zostająca",
 	"zostające", "zostający", "zostaje", "zostaję", "zostajecie", "zostajemy", "zostajesz", "został", "została",
 	"zostałaby", "zostałabym", "zostałabyś", "zostałam", "zostałaś", "zostałby", "zostałbym", "zostałbyś", "zostałem",
 	"zostałeś", "zostali", "zostaliby", "zostalibyście", "zostalibyśmy", "zostaliście", "zostaliśmy", "zostało",
 	"zostaloby", "zostały", "zostałyby", "zostałybyście", "zostałybyśmy", "zostałyście", "zostałyśmy", "zostań", "zostaną",
 	"zostańcie", "zostanę", "zostanie", "zostaniecie", "zostaniemy", "zostaniesz", "zostańmy", "zostawało", "zostawano",
-	"zostawszy" ];
+	"zostawszy" ]
 
-let auxiliariesInfinitive = [ "być", "chcieć", "mieć", "móc", "musieć", "potrafić", "stać", "zostać" ];
+let passiveAuxiliariesInfinitive = [ "być", "zostać" ];
+
+let otherAuxiliariesInfinitive = [ "chcieć", "mieć", "móc", "musieć", "potrafić", "stać", ];
 
 
 let prepositions = [ "bez", "beze", "blisko", "daleko", "dla", "do", "dole", "dookoła", "górze", "jako", "koło", "ku",
@@ -355,7 +360,7 @@ module.exports = function() {
 
 		// These word categories are filtered at the ending of word combinations.
 		filteredAtEnding: [].concat( ordinalNumerals, generalAdjectives, generalAdverbs, delexicalisedVerbsInfinitive,
-			auxiliariesInfinitive ),
+			otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive ),
 
 		// These word categories are filtered at the beginning and ending of word combinations.
 		filteredAtBeginningAndEnding: [].concat( prepositions, coordinatingConjunctions, demonstrativePronouns,
@@ -365,18 +370,27 @@ module.exports = function() {
 		filteredAnywhere: [].concat( transitionWords, additionalTransitionWords, cardinalNumerals, personalPronounsNominative,
 			personalPronounsAccusative, personalPronounsGenitive, personalPronounsDative, personalPronounsInstrumental,
 			personalPronounsPast, personalPronounsPrepositional, interrogativePronouns, interrogativeProAdverbs,
-			interrogativeDeterminers, indefinitePronouns, adverbialGenitives, auxiliaries, prepositionalAdverbs,
+			interrogativeDeterminers, indefinitePronouns, adverbialGenitives, prepositionalAdverbs,
 			subordinatingConjunctions, delexicalizedVerbs, interviewVerbs, timeWords, vagueNouns, titles,
-			interjections, measurementUnits, miscellaneous ),
+			interjections, measurementUnits, miscellaneous, otherAuxiliaries ),
+
+
+		// These word categories cannot directly precede a passive participle.
+		cannotDirectlyPrecedePassiveParticiple: [].concat( prepositions, personalPronounsPast, possessivePronouns,
+			cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalisedVerbsInfinitive, interviewVerbs,
+			interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs ),
+
+		// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
+		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, otherAuxiliariesInfinitive, ),
 
 		// This export contains all of the above words.
 		all: [].concat( transitionWords, additionalTransitionWords, cardinalNumerals, personalPronounsNominative,
 			personalPronounsAccusative, personalPronounsGenitive, personalPronounsDative, personalPronounsInstrumental,
 			personalPronounsPast, personalPronounsPrepositional, interrogativePronouns, interrogativeProAdverbs,
-			interrogativeDeterminers, indefinitePronouns, adverbialGenitives, auxiliaries, prepositionalAdverbs,
+			interrogativeDeterminers, indefinitePronouns, adverbialGenitives, otherAuxiliaries, prepositionalAdverbs,
 			subordinatingConjunctions, delexicalizedVerbs, interviewVerbs, timeWords, vagueNouns, titles,
-			interjections, measurementUnits, miscellaneous, prepositions, coordinatingConjunctions, demonstrativePronouns,
+			interjections, measurementUnits, miscellaneous, passiveAuxiliaries, prepositions, coordinatingConjunctions, demonstrativePronouns,
 			quantifiers, intensifiers, possessivePronouns, reflexivePronouns, ordinalNumerals, generalAdjectives,
-			generalAdverbs, delexicalisedVerbsInfinitive, auxiliariesInfinitive ),
+			generalAdverbs, delexicalisedVerbsInfinitive, otherAuxiliariesInfinitive, passiveAuxiliariesInfinitive ),
 	};
 };
