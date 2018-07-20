@@ -41,7 +41,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a keyword", function() {
+	it( "additionally runs assessments that require a text and a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
@@ -54,7 +54,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a keyword and a title", function() {
+	it( "additionally runs assessments that require a text, a keyword and a title", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword", title: "title" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
@@ -68,7 +68,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a url", function() {
+	it( "additionally runs assessments that require a text and a url", function() {
 		assessor.assess( new Paper( "text", { url: "www.website.com" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
@@ -81,7 +81,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a url and a keyword", function() {
+	it( "additionally runs assessments that require a text, a url and a keyword", function() {
 		assessor.assess( new Paper( "text", { url: "sample url", keyword: "keyword" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
@@ -109,7 +109,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a keyword and a meta description", function() {
+	it( "additionally runs assessments that require a text, a keyword and a meta description", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword", description: "description" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
