@@ -1,7 +1,7 @@
-import * as merge from "lodash/merge";
+const merge = require( "lodash/merge" );
 
-import * as Assessment from "../../assessment";
-import * as AssessmentResult from "../../values/AssessmentResult";
+const Assessment = require( "../../assessment" );
+const AssessmentResult = require( "../../values/AssessmentResult" );
 
 /**
  * Assessment to check whether the text has internal links and whether they are followed or no-followed.
@@ -10,7 +10,7 @@ class InternalLinksAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum number of internal links in the text.
 	 * @param {number} [config.scores.allInternalFollow] The score to return if all internal links are do-follow.
 	 * @param {number} [config.scores.someInternalFollow] The score to return if some but not all internal links are do-follow.

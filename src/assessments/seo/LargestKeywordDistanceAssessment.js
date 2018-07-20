@@ -1,10 +1,10 @@
-import * as merge from "lodash/merge";
+const merge = require( "lodash/merge" );
 
-import * as AssessmentResult from "../../values/AssessmentResult";
-import * as Assessment from "../../assessment";
-import * as countWords from "../../stringProcessing/countWords";
-import * as topicCount from "../../researches/topicCount";
-import { inRangeStartEndInclusive } from "../../helpers/inRange";
+const Assessment = require( "../../assessment" );
+const AssessmentResult = require( "../../values/AssessmentResult" );
+const countWords = require( "../../stringProcessing/countWords" );
+const topicCount = require( "../../researches/topicCount" );
+const inRangeStartEndInclusive = require( "../../helpers/inRange" ).inRangeStartEndInclusive;
 
 /**
  * Returns a score based on the largest percentage of text in
@@ -14,7 +14,7 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 * @param {number} [config.parameters.overRecommendedMaximumKeywordDistance]
 	 *      The percentage of the text that is already way too high to be allowed to be in between two keyword occurrences.
 	 * @param {number} [config.parameters.recommendedMaximumKeywordDistance]
@@ -50,9 +50,9 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	/**
 	 * Runs the largestKeywordDistance research and based on this returns an assessment result.
 	 *
-	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The researcher used for calling research.
-	 * @param {Jed}      i18n        The object used for translations.
+	 * @param {Paper}      paper      The paper to use for the assessment.
+	 * @param {Researcher} researcher The researcher used for calling research.
+	 * @param {Jed}        i18n       The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
@@ -74,7 +74,7 @@ class LargestKeywordDistanceAssessment extends Assessment {
 	}
 
 	/**
-	 *  Calculates the result based on the largestKeywordDistance research.
+	 * Calculates the result based on the largestKeywordDistance research.
 	 *
 	 * @param {Jed} i18n The object used for translations.
 	 *

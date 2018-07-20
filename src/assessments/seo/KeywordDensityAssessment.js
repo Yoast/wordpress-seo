@@ -1,11 +1,11 @@
-import * as merge from "lodash/merge";
+const merge = require( "lodash/merge" );
 
-import * as Assessment from "../../assessment";
-import * as AssessmentResult from "../../values/AssessmentResult";
-import * as countWords from "../../stringProcessing/countWords";
-import * as inRange from "../../helpers/inRange";
-import * as formatNumber from "../../helpers/formatNumber";
-import * as topicCount from "../../researches/topicCount";
+const Assessment = require( "../../assessment" );
+const AssessmentResult = require( "../../values/AssessmentResult" );
+const countWords = require( "../../stringProcessing/countWords" );
+const inRange = require( "../../helpers/inRange" );
+const formatNumber = require( "../../helpers/formatNumber" );
+const topicCount = require( "../../researches/topicCount" );
 
 const inRangeEndInclusive = inRange.inRangeEndInclusive;
 const inRangeStartInclusive = inRange.inRangeStartInclusive;
@@ -18,7 +18,7 @@ class KeywordDensityAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 * @param {number} [config.parameters.overMaximum] The percentage of keyword instances in the text that is way over the maximum.
 	 * @param {number} [config.parameters.maximum] The maximum percentage of keyword instances in the text.
 	 * @param {number} [config.parameters.minimum] The minimum percentage of keyword instances in the text.
