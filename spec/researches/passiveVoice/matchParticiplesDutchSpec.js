@@ -9,6 +9,10 @@ describe( "a test for matching regular participles", function() {
 		expect( matchParticiples.regularParticiples( "neergedaald", "nl" ) ).toEqual( [ "neergedaald" ] );
 	} );
 
+	it( "matches an irregular participle", function() {
+		expect( matchParticiples.irregularParticiples( "aaneengedraaid", "nl" ) ).toEqual( [ "aaneengedraaid" ] );
+	} );
+
 	it( "does not match a word that is not a regular participle", function() {
 		expect( matchParticiples.regularParticiples( "banaan", "nl" ) ).toEqual( [] );
 	} );
