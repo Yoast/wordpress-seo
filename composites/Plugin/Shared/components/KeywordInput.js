@@ -23,7 +23,7 @@ const KeywordFieldLabel = styled.label`
 `;
 
 const KeywordField = styled.input`
-	border: 3px solid initial;
+	border: 3px solid ${ colors.$color_input_border };
 	padding: 0.75em;
 	font-size: 1em;
 

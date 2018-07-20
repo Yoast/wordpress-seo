@@ -61,7 +61,7 @@ export default class KeywordExample extends Component {
 			<Container>
 				<HelpText text={ [
 					"Enter the search term you'd like this post to be found with and see how it would rank. ",
-					<HelpTextLink key="1" href="https://yoa.st/" target="_blank" rel="noopener">
+					<HelpTextLink key="1" href="https://yoa.st/">
 						Learn more about the Content Analysis Tool.
 					</HelpTextLink>,
 				] }/>
