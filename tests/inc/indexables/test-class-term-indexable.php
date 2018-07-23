@@ -10,7 +10,7 @@
  *
  * @group indexable
  */
-class WPSEO_Term_Indexable_gb extends WPSEO_UnitTestCase {
+class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @var WPSEO_Indexable_Service_Term_Provider_Double
