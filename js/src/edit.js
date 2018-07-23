@@ -1,10 +1,12 @@
 /* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp yoast */
-
+/* External dependencies */
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import _flatten from "lodash/flatten";
+import flatten from "lodash/flatten";
+import { ThemeProvider } from "styled-components";
 
+/* Internal dependencies */
 import IntlProvider from "./components/IntlProvider";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
@@ -13,7 +15,7 @@ import PluginIcon from "../../images/Yoast_icon_kader.svg";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
-import { ThemeProvider } from "styled-components";
+import SidebarItem from "./components/SidebarItem";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -34,6 +36,29 @@ function registerStoreInGutenberg() {
 	return registerStore( "yoast-seo/editor", {
 		reducer: combineReducers( reducers ),
 	} );
+}
+
+/**
+ * Sorts components by a prop `position`.
+ *
+ * The array is flattened before sorting to make sure that components inside of
+ * a collection are also included. This is to allow sorting multiple fills of
+ * which at least one includes an array of components.
+ *
+ * @param {ReactElement|array} components The component(s) to be sorted.
+ *
+ * @returns {ReactElement|array} The sorted component(s).
+ */
+function sortComponentsByPosition( components ) {
+	if ( typeof components.length !== "undefined" ) {
+		return flatten( components ).sort( ( a, b ) => {
+			if ( typeof a.props.sequence === "undefined" ) {
+				return 1;
+			}
+			return a.props.sequence - b.props.sequence;
+		} );
+	}
+	return components;
 }
 
 /**
@@ -63,17 +88,13 @@ function registerPlugin() {
 				>
 					<Slot name="YoastSidebar">
 						{ ( fills ) => {
-							return SortComponentsByPosition( fills );
+							return sortComponentsByPosition( fills );
 						} }
 					</Slot>
 				</PluginSidebar>
-				<Fill name="YoastSidebar"> // Free fill
-					<div position={10}>Readability analysis</div>
-					<div position={20}>SEO analysis</div>
-					<div position={30}>Cornerstone content</div>
-					<div position={40}>Snippet editor</div>
-					<div position={50}>Social</div>
-					<div position={60}>Robots</div>
+				<Fill name="YoastSidebar">
+					<SidebarItem sequence={ 10 }>Readability analysis</SidebarItem>
+					<SidebarItem sequence={ 20 }>SEO analysis</SidebarItem>
 				</Fill>
 			</Fragment>
 		);
@@ -82,26 +103,6 @@ function registerPlugin() {
 			render: YoastSidebar,
 		} );
 	}
-}
-
-/**
- * Sorts components by a prop `position`.
- *
- * The array is flattened before sorting to make sure that components inside of
- * a collection are also included. This is to allow sorting multiple fills of
- * which at least one includes an array of components.
- *
- * @param {Object|array} components The component(s) to be sorted.
- *
- * @returns {Object|array} The sorted component(s).
- */
-const SortComponentsByPosition = function( components ) {
-	if ( typeof components.length  !== "undefined" ) {
-		return _flatten( components ).sort( ( a, b ) => {
-			return a.props.position - b.props.position;
-		} );
-	}
-	return components;
 }
 
 /**
