@@ -27,6 +27,34 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Creates the table to make sure the tests for this class can be executed.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		$installer = new WPSEO_Link_Installer();
+		$installer->install();
+	}
+
+	/**
+	 * Drops the table when all tests for this class are executed.
+	 */
+	public static function tearDownAfterClass() {
+		parent::tearDownAfterClass();
+
+		global $wpdb;
+
+		$storage      = new WPSEO_Link_Storage();
+		$meta_storage = new WPSEO_Meta_Storage();
+
+		$wpdb->query( 'DROP TABLE ' . $storage->get_table_name() );
+		$wpdb->query( 'DROP TABLE ' . $meta_storage->get_table_name() );
+
+		delete_transient( 'wpseo_link_table_inaccessible' );
+		delete_transient( 'wpseo_meta_table_inaccessible' );
+	}
+
+	/**
 	 * Tests if the post is indexable with having invalid object_ids.
 	 *
 	 * @dataProvider invalid_object_id_provider
@@ -88,8 +116,6 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * Tests the getting of an indexable post.
 	 *
 	 * @covers WPSEO_Indexable_Service_Post_Provider::get()
-	 * @covers WPSEO_Indexable_Service_Post_Provider::get_meta_value()
-	 * @covers WPSEO_Indexable_Service_Post_Provider::get_robots_noindex_value()
 	 */
 	public function test_get() {
 		$post = self::factory()->post->create_and_get();
@@ -112,7 +138,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 		WPSEO_Meta::set_value( 'content_score', '35', $post->ID );
 		WPSEO_Meta::set_value( 'is_cornerstone', '1', $post->ID );
 
-		$expected = array(
+		$expected_array = array(
 			'object_id'                   => (int) $post->ID,
 			'object_type'                 => 'post',
 			'object_subtype'              => $post->post_type,
@@ -144,7 +170,8 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 
 		$provider = new WPSEO_Indexable_Service_Post_Provider();
 
-		$this->assertEquals( $expected, $provider->get( $post->ID ) );
+		$this->assertEquals( $expected_array, $provider->get( $post->ID ) );
+		$this->assertInstanceOf( 'WPSEO_Post_Indexable', $provider->get( $post->ID, true ) );
 	}
 
 	/**
@@ -180,6 +207,57 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	public function test_convert_advanced( $robot_value, $supplied_value, $expected, $description ) {
 		$indexable 	= array( $robot_value => $supplied_value );
 		$data 		= $this->provider->convert_advanced( $indexable );
+
+		$this->assertEquals( $expected, $data, $description );
+	}
+
+	/**
+	 * Tests the conversion of the cornerstone value.
+	 *
+	 * @param string    $cornerstone_value The value to test with.
+	 * @param bool|null $expected          The expected conversion.
+	 * @param string    $description       Description of the test.
+	 *
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_cornerstone()
+	 *
+	 * @dataProvider cornerstone_conversion_provider
+	 */
+	public function test_convert_cornerstone( $cornerstone_value, $expected, $description ) {
+		$data = $this->provider->convert_cornerstone( $cornerstone_value );
+
+		$this->assertEquals( $expected, $data, $description );
+	}
+
+	/**
+	 * Tests the conversion of the nofollow value.
+	 *
+	 * @param string    $nofollow    The value to test with.
+	 * @param bool|null $expected    The expected conversion.
+	 * @param string    $description Description of the test.
+	 *
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_cornerstone()
+	 *
+	 * @dataProvider nofollow_conversion_provider
+	 */
+	public function test_convert_nofollow( $nofollow, $expected, $description ) {
+		$data = $this->provider->convert_nofollow( $nofollow );
+
+		$this->assertEquals( $expected, $data, $description );
+	}
+
+	/**
+	 * Tests the conversion of the noindex value.
+	 *
+	 * @param string    $nofollow    The value to test with.
+	 * @param bool|null $expected    The expected conversion.
+	 * @param string    $description Description of the test.
+	 *
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_noindex()
+	 *
+	 * @dataProvider noindex_conversion_provider
+	 */
+	public function test_convert_noindex( $nofollow, $expected, $description ) {
+		$data = $this->provider->convert_noindex( $nofollow );
 
 		$this->assertEquals( $expected, $data, $description );
 	}
@@ -237,6 +315,55 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 			array( $this->get_revision(), 'With a revision as object id' ),
 			array( $this->get_auto_save(), 'With a revision as object id' ),
 
+		);
+	}
+
+	/**
+	 * Returns an array with test data.
+	 *
+	 * @return array The test data.
+	 */
+	public function cornerstone_conversion_provider() {
+		return array(
+			array( 'true', '1', 'With cornerstone set to string value of true' ),
+			array( 'false', null, 'With cornerstone set to string value of false' ),
+			array( true, null, 'With cornerstone set to boolean value of true' ),
+			array( false, null, 'With cornerstone set to boolean value of false' ),
+			array( '1', null, 'With cornerstone set to string value of 1' ),
+		);
+	}
+
+	/**
+	 * Returns an array with test data.
+	 *
+	 * @return array The test data.
+	 */
+	public function nofollow_conversion_provider() {
+		return array(
+			array( 'true', '1', 'With nofollow set to string value of true' ),
+			array( 'false', '0', 'With nofollow set to string value of false' ),
+			array( true, '0', 'With nofollow set to boolean value of true' ),
+			array( false, '0', 'With nofollow set to boolean value of false' ),
+			array( '2', '0', 'With nofollow set to string value of 2' ),
+			array( '1', '0', 'With nofollow set to string value of 1' ),
+			array( '0', '0', 'With nofollow set to string value of 0' ),
+		);
+	}
+
+	/**
+	 * Returns an array with test data.
+	 *
+	 * @return array The test data.
+	 */
+	public function noindex_conversion_provider() {
+		return array(
+			array( 'true', '1', 'With noindex set to string value of true' ),
+			array( 'false', '2', 'With noindex set to string value of false' ),
+			array( true, null, 'With noindex set to boolean value of true' ),
+			array( false, null, 'With noindex set to boolean value of false' ),
+			array( '2', null, 'With noindex set to string value of 2' ),
+			array( '1', null, 'With noindex set to string value of 1' ),
+			array( '0', null, 'With noindex set to string value of 0' ),
 		);
 	}
 

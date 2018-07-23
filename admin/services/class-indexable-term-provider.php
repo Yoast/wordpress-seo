@@ -105,7 +105,7 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 */
 	protected function store_indexable( WPSEO_Indexable $indexable ) {
 		$values 			= $indexable->to_array();
-		$prepared_indexable = $this->prepare_indexable_data( $values );
+		$prepared_indexable = $this->convert_indexable_data( $values );
 
 		WPSEO_Taxonomy_Meta::set_values( $values['object_id'], $values['object_subtype'], $prepared_indexable );
 
@@ -113,23 +113,27 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	}
 
 	/**
-	 * Prepares the indexable data to make it compatible with the database.
+	 * Converts the indexable data to make it compatible with the database.
 	 *
 	 * @param array $indexable_data The indexable data to prepare.
 	 *
-	 * @return array The prepared indexable data.
+	 * @return array The converted indexable data.
 	 */
-	protected function prepare_indexable_data( $indexable_data ) {
-		$prepared_values = array();
+	protected function convert_indexable_data( $indexable_data ) {
+		$converted_values  = array();
+
+		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noindex' ) ) {
+			$indexable_data['is_robots_noindex'] = $this->convert_noindex( $indexable_data['is_robots_noindex'] );
+		}
 
 		$translated_values = $this->rename_indexable_data( $indexable_data );
 		$updateable_values = $this->filter_updateable_values( $translated_values );
 
 		foreach ( $updateable_values as $key => $updateable_value ) {
-			$prepared_values[ 'wpseo_' . $key ] = $updateable_value;
+			$converted_values[ 'wpseo_' . $key ] = $updateable_value;
 		}
 
-		return $prepared_values;
+		return $converted_values;
 	}
 
 	/**
@@ -164,10 +168,6 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 	 * @return array The renamed and converted indexable data.
 	 */
 	protected function rename_indexable_data( &$indexable_data ) {
-		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_noindex' ) ) {
-			$indexable_data['is_robots_noindex'] = $this->convert_noindex( $indexable_data['is_robots_noindex'] );
-		}
-
 		foreach ( $this->renameable_fields as $old_key => $new_key ) {
 			if ( WPSEO_Validator::key_exists( $indexable_data, $old_key ) ) {
 				$indexable_data[ $new_key ] = $indexable_data[ $old_key ];

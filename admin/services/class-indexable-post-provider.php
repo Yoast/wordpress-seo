@@ -206,7 +206,7 @@ class WPSEO_Indexable_Service_Post_Provider implements WPSEO_Indexable_Service_P
 	/**
 	 * Converts the noindex value to a database compatible one.
 	 *
-	 * @param bool $noindex The current noindex value.
+	 * @param string $noindex The current noindex value.
 	 *
 	 * @return string|null The converted value.
 	 */

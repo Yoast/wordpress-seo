@@ -26,9 +26,6 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 			throw WPSEO_Invalid_Argument_Exception::invalid_type( 'object id' );
 		}
 
-		$link_count = new WPSEO_Link_Column_Count();
-		$link_count->set( array( $object_id ) );
-
 		return new self(
 			array(
 				'object_id'                   => (int) $object_id,
