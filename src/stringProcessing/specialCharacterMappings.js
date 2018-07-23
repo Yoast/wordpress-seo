@@ -80,7 +80,7 @@ function replaceCharactersByIndex( text, indices, substitute ) {
  *
  * @param {string} text The text to build possible upper and lower case alternatives.
  *
- * @returns {string} A regex-ready string that contains all possible upper and lower case alternatives of the original string
+ * @returns {Array} An array of strings that contains all possible upper and lower case alternatives of the original string
  */
 module.exports = function( text ) {
 	// Get indices of all occurrences of letters "İ", "I", "i" or "ı".
@@ -129,5 +129,5 @@ module.exports = function( text ) {
 	const allDottedIToDotless = replaceCharactersByIndex( text, indicesDottedI, "I" );
 	results.push( replaceCharactersByIndex( allDottedIToDotless, indicesDotlessi, "i" ) );
 
-	return unique( results ).join( "|" );
+	return unique( results );
 };
