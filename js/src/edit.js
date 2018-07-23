@@ -39,7 +39,7 @@ function registerStoreInGutenberg() {
 }
 
 /**
- * Sorts components by a prop `sequence`.
+ * Sorts components by a prop `renderPriority`.
  *
  * The array is flattened before sorting to make sure that components inside of
  * a collection are also included. This is to allow sorting multiple fills of
@@ -55,10 +55,10 @@ function sortComponentsByPosition( components ) {
 	}
 
 	return flatten( components ).sort( ( a, b ) => {
-		if ( typeof a.props.sequence === "undefined" ) {
+		if ( typeof a.props.renderPriority === "undefined" ) {
 			return 1;
 		}
-		return a.props.sequence - b.props.sequence;
+		return a.props.renderPriority - b.props.renderPriority;
 	} );
 }
 
@@ -94,8 +94,8 @@ function registerPlugin() {
 					</Slot>
 				</PluginSidebar>
 				<Fill name="YoastSidebar">
-					<SidebarItem sequence={ 10 }>Readability analysis</SidebarItem>
-					<SidebarItem sequence={ 20 }>SEO analysis</SidebarItem>
+					<SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem>
+					<SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem>
 				</Fill>
 			</Fragment>
 		);
