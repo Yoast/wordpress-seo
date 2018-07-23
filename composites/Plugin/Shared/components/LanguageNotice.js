@@ -7,7 +7,6 @@ import interpolateComponents from "interpolate-components";
 
 /* Internal dependencies */
 import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
-import colors from "../../../../style-guide/colors";
 
 const YoastLanguageNotice = styled.p`
 	margin: 1em 0;
