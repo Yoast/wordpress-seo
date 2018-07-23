@@ -37,6 +37,26 @@ function registerStoreInGutenberg() {
 }
 
 /**
+ * Sorts components by a prop `position`.
+ *
+ * The array is flattened before sorting to make sure that components inside of
+ * a collection are also included. This is to allow sorting multiple fills of
+ * which at least one includes an array of components.
+ *
+ * @param {Object|array} components The component(s) to be sorted.
+ *
+ * @returns {Object|array} The sorted component(s).
+ */
+const sortComponentsByPosition = function( components ) {
+	if ( typeof components.length  !== "undefined" ) {
+		return _flatten( components ).sort( ( a, b ) => {
+			return a.props.position - b.props.position;
+		} );
+	}
+	return components;
+};
+
+/**
  * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
  * and creates that sidebar's content.
  *
@@ -63,7 +83,7 @@ function registerPlugin() {
 				>
 					<Slot name="YoastSidebar">
 						{ ( fills ) => {
-							return SortComponentsByPosition( fills );
+							return sortComponentsByPosition( fills );
 						} }
 					</Slot>
 				</PluginSidebar>
@@ -82,26 +102,6 @@ function registerPlugin() {
 			render: YoastSidebar,
 		} );
 	}
-}
-
-/**
- * Sorts components by a prop `position`.
- *
- * The array is flattened before sorting to make sure that components inside of
- * a collection are also included. This is to allow sorting multiple fills of
- * which at least one includes an array of components.
- *
- * @param {Object|array} components The component(s) to be sorted.
- *
- * @returns {Object|array} The sorted component(s).
- */
-const SortComponentsByPosition = function( components ) {
-	if ( typeof components.length  !== "undefined" ) {
-		return _flatten( components ).sort( ( a, b ) => {
-			return a.props.position - b.props.position;
-		} );
-	}
-	return components;
 }
 
 /**
