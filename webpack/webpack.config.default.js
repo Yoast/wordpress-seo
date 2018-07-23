@@ -90,6 +90,13 @@ const defaultWebpackConfig = {
 				test: /\.json$/,
 				use: [ "json-loader" ],
 			},
+			{
+				test: /\.scss$/,
+				use: [
+					"css-loader",
+					"sass-loader",
+				],
+			},
 		],
 	},
 	externals,
