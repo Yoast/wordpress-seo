@@ -9,7 +9,7 @@ const withYoastSidebarPriority = ( WrappedComponent ) => {
 			renderPriority,
 			...otherProps
 		} = props;
-		return <WrappedComponent { ...otherProps } />
+		return <WrappedComponent { ...otherProps } />;
 	};
 	YoastSidebarPriority.propTypes = {
 		renderPriority: PropTypes.number,
