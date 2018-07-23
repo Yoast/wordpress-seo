@@ -10,7 +10,7 @@ import { addButtonStyles, addFontSizeStyles } from "./Button";
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled button.
+ * @returns {ReactElement} styled button.
  */
 export const BaseLinkButton = addButtonStyles(
 	styled.a`
@@ -41,6 +41,6 @@ BaseLinkButton.defaultProps = {
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled link.
+ * @returns {ReactElement} styled link.
  */
 export const LinkButton = addFontSizeStyles( BaseLinkButton );

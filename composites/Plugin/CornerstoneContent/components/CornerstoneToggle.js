@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Styled from "styled-components";
+import styled from "styled-components";
 import noop from "lodash/noop";
+//import FormToggle from "@wordpress/components";
+//import { speak as a11ySpeak } from "@wordpress/a11y";
 
 import GutenbergToggle from "../../Shared/components/GutenbergToggle";
 
-const Cornerstone = Styled.div`
+const Cornerstone = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;

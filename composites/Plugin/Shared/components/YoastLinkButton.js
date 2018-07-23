@@ -8,7 +8,7 @@ import { addButtonStyles } from "./YoastButton";
  *
  * @param {object} props Component props.
  *
- * @returns {ReactElement} Styled link.
+ * @returns {ReactElement} styled link.
  */
 export const YoastLinkButton = addButtonStyles(
 	styled.a`
