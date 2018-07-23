@@ -3,6 +3,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import _flatten from "lodash/flatten";
 
 import IntlProvider from "./components/IntlProvider";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
@@ -46,6 +47,7 @@ function registerPlugin() {
 		const { Fragment } = yoast._wp.element;
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
+		const { Slot, Fill } = wp.components;
 
 		const YoastSidebar = () => (
 			<Fragment>
@@ -59,8 +61,20 @@ function registerPlugin() {
 					name="seo-sidebar"
 					title="Yoast SEO"
 				>
-					<p> Contents of the sidebar </p>
+					<Slot name="YoastSidebar">
+						{ ( fills ) => {
+							return SortComponentsByPosition( fills );
+						} }
+					</Slot>
 				</PluginSidebar>
+				<Fill name="YoastSidebar"> // Free fill
+					<div position={10}>Readability analysis</div>
+					<div position={20}>SEO analysis</div>
+					<div position={30}>Cornerstone content</div>
+					<div position={40}>Snippet editor</div>
+					<div position={50}>Social</div>
+					<div position={60}>Robots</div>
+				</Fill>
 			</Fragment>
 		);
 
@@ -68,6 +82,26 @@ function registerPlugin() {
 			render: YoastSidebar,
 		} );
 	}
+}
+
+/**
+ * Sorts components by a prop `position`.
+ *
+ * The array is flattened before sorting to make sure that components inside of
+ * a collection are also included. This is to allow sorting multiple fills of
+ * which at least one includes an array of components.
+ *
+ * @param {Object|array} components The component(s) to be sorted.
+ *
+ * @returns {Object|array} The sorted component(s).
+ */
+const SortComponentsByPosition = function( components ) {
+	if ( typeof components.length  !== "undefined" ) {
+		return _flatten( components ).sort( ( a, b ) => {
+			return a.props.position - b.props.position;
+		} );
+	}
+	return components;
 }
 
 /**
