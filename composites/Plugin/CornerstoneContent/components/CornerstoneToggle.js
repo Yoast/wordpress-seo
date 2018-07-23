@@ -2,21 +2,20 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import noop from "lodash/noop";
-//import FormToggle from "@wordpress/components";
-//import { speak as a11ySpeak } from "@wordpress/a11y";
+// import FormToggle from "@wordpress/components";
 
 import GutenbergToggle from "../../Shared/components/GutenbergToggle";
 
 const Cornerstone = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    label { 
-        margin-right: 10px;
-        flex-shrink: 0;
-        max-width: 75%;
-    }
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	label { 
+		margin-right: 10px;
+		flex-shrink: 0;
+		max-width: 75%;
+	}
 `;
 
 class CornerstoneToggle extends React.Component {
@@ -55,12 +54,12 @@ class CornerstoneToggle extends React.Component {
 	render() {
 		return (
 			<Cornerstone>
-				<label htmlFor={this.props.key}>Cornerstone</label>
+				<label htmlFor={ this.props.key }>Cornerstone</label>
 				<GutenbergToggle
-					key={this.props.key}
-					checked={this.state.cornerstoneToggleState}
-					onChange={this.handleChange}
-					id={this.props.toggleId}
+					key={ this.props.key }
+					checked={ this.state.cornerstoneToggleState }
+					onChange={ this.handleChange }
+					id={ this.props.toggleId }
 				/>
 			</Cornerstone>
 		);
