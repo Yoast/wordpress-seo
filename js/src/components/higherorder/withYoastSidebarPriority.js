@@ -7,7 +7,7 @@ const withYoastSidebarPriority = ( WrappedComponent ) => {
 		const {
 			// eslint-disable-next-line
 			sequence,
-			...otherProps,
+			...otherProps
 		} = props;
 		return <WrappedComponent { ...otherProps } />
 	};
