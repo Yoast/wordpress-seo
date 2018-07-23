@@ -39,7 +39,7 @@ function registerStoreInGutenberg() {
 }
 
 /**
- * Sorts components by a prop `position`.
+ * Sorts components by a prop `sequence`.
  *
  * The array is flattened before sorting to make sure that components inside of
  * a collection are also included. This is to allow sorting multiple fills of
@@ -50,15 +50,16 @@ function registerStoreInGutenberg() {
  * @returns {ReactElement|array} The sorted component(s).
  */
 function sortComponentsByPosition( components ) {
-	if ( typeof components.length !== "undefined" ) {
-		return flatten( components ).sort( ( a, b ) => {
-			if ( typeof a.props.sequence === "undefined" ) {
-				return 1;
-			}
-			return a.props.sequence - b.props.sequence;
-		} );
+	if ( typeof components.length === "undefined" ) {
+		return components;
 	}
-	return components;
+
+	return flatten( components ).sort( ( a, b ) => {
+		if ( typeof a.props.sequence === "undefined" ) {
+			return 1;
+		}
+		return a.props.sequence - b.props.sequence;
+	} );
 }
 
 /**
