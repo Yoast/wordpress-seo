@@ -5,7 +5,6 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import flatten from "lodash/flatten";
 import { ThemeProvider } from "styled-components";
-import styled from "styled-components";
 
 /* Internal dependencies */
 import IntlProvider from "./components/IntlProvider";
