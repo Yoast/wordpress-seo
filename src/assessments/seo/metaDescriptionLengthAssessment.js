@@ -1,6 +1,7 @@
-let AssessmentResult = require( "../../values/AssessmentResult.js" );
-let Assessment = require( "../../assessment.js" );
-let merge = require( "lodash/merge" );
+const merge = require( "lodash/merge" );
+
+const AssessmentResult = require( "../../values/AssessmentResult.js" );
+const Assessment = require( "../../assessment.js" );
 
 import Config from "../../config/config";
 
@@ -13,7 +14,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {Object} [config] The configuration to use.
 	 *
 	 * @returns {void}
 	 */
@@ -49,7 +50,7 @@ class MetaDescriptionLengthAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations
+	 * @param {Jed} i18n The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
