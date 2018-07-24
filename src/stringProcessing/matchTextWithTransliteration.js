@@ -2,6 +2,7 @@ var map = require( "lodash/map" );
 var addWordBoundary = require( "./addWordboundary.js" );
 var stripSpaces = require( "./stripSpaces.js" );
 var transliterate = require( "./transliterate.js" );
+var transliterateWP = require( "./transliterateWPstyle.js" );
 
 /**
  * Creates a regex from the keyword with included wordboundaries.
@@ -29,8 +30,18 @@ module.exports = function( text, keyword, locale ) {
 	var transliterateKeyword = transliterate( keyword, locale );
 	var transliterateKeywordRegex = toRegex( transliterateKeyword );
 	var transliterateMatches = text.match( transliterateKeywordRegex ) || [];
-
 	var combinedArray = matches.concat( transliterateMatches );
+
+	var transliterateWPKeyword = transliterateWP( keyword, locale );
+
+	if ( ! ( transliterateWPKeyword === transliterateKeyword ) ) {
+		var transliterateWPKeywordRegex = toRegex( transliterateWPKeyword );
+		var transliterateWPMatches = text.match( transliterateWPKeywordRegex ) || [];
+
+		combinedArray = combinedArray.concat( transliterateWPMatches );
+	}
+
+
 	return map( combinedArray, function( keyword ) {
 		return stripSpaces( keyword );
 	} );

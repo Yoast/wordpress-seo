@@ -1,10 +1,10 @@
-const largestKeyWordDistanceAssessment = require( "../../js/assessments/seo/largestKeywordDistanceAssessment.js" );
+import LargestKeyWordDistanceAssessment from "../../js/assessments/seo/LargestKeywordDistanceAssessment.js";
 const Paper = require( "../../js/values/Paper.js" );
 const Factory = require( "../helpers/factory.js" );
 const i18n = Factory.buildJed();
 const Mark = require( "../../js/values/Mark.js" );
 
-let keywordDistanceAssessment = new largestKeyWordDistanceAssessment();
+let keywordDistanceAssessment = new LargestKeyWordDistanceAssessment();
 
 describe( "An assessment to check the largest percentage of text in your text in which no keyword occurs", function() {
 	it( "returns a gray score when there are too few keyword occurrences to calculate the keyword distribution", function() {

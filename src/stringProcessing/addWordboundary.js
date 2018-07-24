@@ -12,11 +12,13 @@
 module.exports = function( matchString, positiveLookAhead = false, extraWordBoundary = "" ) {
 	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
 
-	wordBoundary = "[ \\u00a0 \\n\\r\\t\.,'\(\)\"\+\-;!?:\/»«‹›" + extraWordBoundary + "<>]";
-	wordBoundaryStart = "(^|" + wordBoundary + ")";
+	wordBoundary = "[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„\"+\\-;!¡?¿:\/»«‹›" + extraWordBoundary + "<>";
+	wordBoundaryStart = "(^|" + wordBoundary + "'‘’‛`])";
 	if( positiveLookAhead ) {
-		wordBoundary = "(?=" + wordBoundary + ")";
+		wordBoundaryEnd = "($|((?=" + wordBoundary + "]))|((['‘’‛`])(" + wordBoundary + "])))";
+	} else{
+		wordBoundaryEnd = "($|(" + wordBoundary + "])|((['‘’‛`])(" + wordBoundary + "])))";
 	}
-	wordBoundaryEnd = "($|" + wordBoundary + ")";
+
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
 };

@@ -18,7 +18,7 @@ const merge = require( "lodash/merge" );
 var Jed = require( "jed" );
 
 var SEOAssessor = require( "./seoAssessor.js" );
-const LargestKeywordDistanceAssessment = require( "./assessments/seo/largestKeywordDistanceAssessment.js" );
+import LargestKeywordDistanceAssessment from "./assessments/seo/LargestKeywordDistanceAssessment.js";
 var ContentAssessor = require( "./contentAssessor.js" );
 var CornerstoneSEOAssessor = require( "./cornerstone/seoAssessor.js" );
 var CornerstoneContentAssessor = require( "./cornerstone/contentAssessor.js" );

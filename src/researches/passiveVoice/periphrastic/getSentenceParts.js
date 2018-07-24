@@ -214,8 +214,8 @@ let getSentenceBreakers = function( sentence, language ) {
 	const stopwords = languageVariables[ language ].stopwords;
 	const auxiliaries = languageVariables[ language ].auxiliaries;
 	let auxiliaryIndices = getIndicesOfList( auxiliaries, sentence );
-	let stopwordIndices = getIndicesOfList( stopwords, sentence );
-	let stopCharacterIndices = getStopCharacters( sentence, language );
+	const stopwordIndices = getIndicesOfList( stopwords, sentence );
+	const stopCharacterIndices = getStopCharacters( sentence, language );
 	let indices;
 
 	// Concat all indices arrays, filter them and sort them.
