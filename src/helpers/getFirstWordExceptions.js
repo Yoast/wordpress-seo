@@ -5,6 +5,7 @@ let firstWordExceptionsFrench = require( "../researches/french/firstWordExceptio
 let firstWordExceptionsDutch = require( "../researches/dutch/firstWordExceptions.js" );
 let firstWordExceptionsItalian = require( "../researches/italian/firstWordExceptions.js" );
 let firstWordExceptionsRussian = require( "../researches/russian/firstWordExceptions.js" );
+let firstWordExceptionsPolish = require( "../researches/polish/firstWordExceptions.js" );
 
 let getLanguage = require( "./getLanguage.js" );
 
@@ -22,6 +23,8 @@ module.exports = function( locale ) {
 			return firstWordExceptionsItalian;
 		case "ru":
 		    return firstWordExceptionsRussian;
+		case "pl":
+			return firstWordExceptionsPolish;
 		default:
 		case "en":
 			return firstWordExceptionsEnglish;
