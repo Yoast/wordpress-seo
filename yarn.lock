@@ -9346,13 +9346,13 @@ sass-graph@^2.1.1, sass-graph@^2.2.4:
     scss-tokenizer "^0.2.3"
     yargs "^7.0.0"
 
+sassdash@0.9.0, sassdash@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/sassdash/-/sassdash-0.9.0.tgz#e2114e80af0c01639d1c6b88a3eb350740cb1169"
+
 sassdash@^0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/sassdash/-/sassdash-0.8.2.tgz#42d59b4932f13034695604bd8437e2b598afd368"
-
-sassdash@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/sassdash/-/sassdash-0.9.0.tgz#e2114e80af0c01639d1c6b88a3eb350740cb1169"
 
 sax@>=0.6.0, sax@^1.2.4, sax@~1.2.1:
   version "1.2.4"
@@ -11160,9 +11160,9 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
 
-yoast-components@^4.7:
+"yoast-components@git+https://github.com/Yoast/yoast-components.git#develop":
   version "4.7.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.7.0.tgz#58ab1df09d72a53330d9bfeae2b9878279978079"
+  resolved "git+https://github.com/Yoast/yoast-components.git#0a7177a75a7d206675f6df522c2905cf446e9707"
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -11200,16 +11200,16 @@ yoastseo@^1.35.0:
     sassdash "^0.9.0"
     tokenizer2 "^2.0.0"
 
-yoastseo@^1.35.2:
-  version "1.35.2"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.2.tgz#e512b47f5cddf895b190f58376e37bca5cc3a5ec"
+yoastseo@^1.35.3:
+  version "1.36.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.36.0.tgz#8abc9d8f1b8ecc01a2848bef73be6fdbbd61eb99"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
     jest "^23.0.0"
     lodash "^4.14.1"
     node-sass "^4.7.2"
-    sassdash "^0.9.0"
+    sassdash "0.9.0"
     tokenizer2 "^2.0.0"
 
 zip-stream@^1.1.0:

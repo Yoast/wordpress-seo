@@ -4,7 +4,6 @@ import omit from "lodash/omit";
 
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
-import decodeHTML from "yoast-components/composites/OnboardingWizard/helpers/htmlDecoder";
 import { firstToUpperCase } from "./stringHelpers";
 
 
@@ -102,21 +101,6 @@ export function pushNewReplaceVar( replacementVariables, action ) {
 		label: action.label || createLabelFromName( action.name ),
 		value: action.value,
 	} );
-	return replacementVariables;
-}
-
-/**
- * Decodes the separator replacement variable to a displayable symbol.
- *
- * @param   {Object} replacementVariables   The object with replacement variables.
- *
- * @returns {Object} The object with replacement variables with a decoded separator.
- */
-export function decodeSeparatorVariable( replacementVariables ) {
-	if( replacementVariables[ "sep" ] ) {
-		replacementVariables[ "sep" ] = decodeHTML( replacementVariables[ "sep" ] );
-	}
-
 	return replacementVariables;
 }
 

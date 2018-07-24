@@ -1,9 +1,13 @@
 /* global window wpseoPostScraperL10n wpseoTermScraperL10n process wp yoast */
-
+/* External dependencies */
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import flatten from "lodash/flatten";
+import { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 
+/* Internal dependencies */
 import IntlProvider from "./components/IntlProvider";
 import AnalysisSection from "./components/contentAnalysis/AnalysisSection";
 import Data from "./analysis/data.js";
@@ -12,7 +16,7 @@ import PluginIcon from "../../images/Yoast_icon_kader.svg";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
-import { ThemeProvider } from "styled-components";
+import SidebarItem from "./components/SidebarItem";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
 let localizedData = { intl: {}, isRtl: false };
@@ -21,6 +25,11 @@ if( window.wpseoPostScraperL10n ) {
 } else if ( window.wpseoTermScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
+
+const PinnedPluginIcon = styled( PluginIcon )`
+	width: 20px;
+	height: 20px;
+`;
 
 /**
  * Registers a redux store in Gutenberg.
@@ -36,6 +45,30 @@ function registerStoreInGutenberg() {
 }
 
 /**
+ * Sorts components by a prop `renderPriority`.
+ *
+ * The array is flattened before sorting to make sure that components inside of
+ * a collection are also included. This is to allow sorting multiple fills of
+ * which at least one includes an array of components.
+ *
+ * @param {ReactElement|array} components The component(s) to be sorted.
+ *
+ * @returns {ReactElement|array} The sorted component(s).
+ */
+function sortComponentsByPosition( components ) {
+	if ( typeof components.length === "undefined" ) {
+		return components;
+	}
+
+	return flatten( components ).sort( ( a, b ) => {
+		if ( typeof a.props.renderPriority === "undefined" ) {
+			return 1;
+		}
+		return a.props.renderPriority - b.props.renderPriority;
+	} );
+}
+
+/**
  * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
  * and creates that sidebar's content.
  *
@@ -46,6 +79,7 @@ function registerPlugin( store ) {
 		const { Fragment } = yoast._wp.element;
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
+		const { Slot, Fill } = wp.components;
 
 		const analysis = wrapInTopLevelComponents( AnalysisSection, store, {
 			title: localizedData.analysisHeadingTitle,
@@ -64,14 +98,23 @@ function registerPlugin( store ) {
 					name="seo-sidebar"
 					title="Yoast SEO"
 				>
-					<p> Contents of the sidebar </p>
-					{ analysis }
+					<Slot name="YoastSidebar">
+						{ ( fills ) => {
+							return sortComponentsByPosition( fills );
+						} }
+					</Slot>
 				</PluginSidebar>
+				<Fill name="YoastSidebar">
+					<SidebarItem renderPriority={ 5 }>{ analysis }</SidebarItem>
+					<SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem>
+					<SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem>
+				</Fill>
 			</Fragment>
 		);
 
 		registerPlugin( "yoast-seo", {
 			render: YoastSidebar,
+			icon: <PinnedPluginIcon />,
 		} );
 	}
 }

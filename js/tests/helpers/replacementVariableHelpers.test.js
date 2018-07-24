@@ -1,57 +1,9 @@
 import {
-	pushNewReplaceVar, decodeSeparatorVariable, mapCustomFields, mapCustomTaxonomies, prepareCustomFieldForDispatch,
+	pushNewReplaceVar, mapCustomFields, mapCustomTaxonomies, prepareCustomFieldForDispatch,
 	prepareCustomTaxonomyForDispatch,
 	replaceSpaces,
 } from "../../src/helpers/replacementVariableHelpers";
 import { UPDATE_REPLACEMENT_VARIABLE } from "../../src/redux/actions/snippetEditor";
-
-describe( "decodeSeparatorVariable", () => {
-	it( "decodes &ndashes from the replacementvariables object from a code to a symbol.", () => {
-		const replacementVariables = {
-			date: "May 15, 2018",
-			sep: "&ndash;",
-		};
-
-		const expected = {
-			date: "May 15, 2018",
-			sep: "–",
-		};
-
-		const actual = decodeSeparatorVariable( replacementVariables );
-
-		expect( actual ).toEqual( expected );
-	} );
-
-	it( "decodes the seperator from the replacementvariables object from a code to a symbol.", () => {
-		const replacementVariables = {
-			date: "May 15, 2018",
-			sep: "&#8902;",
-		};
-
-		const expected = {
-			date: "May 15, 2018",
-			sep: "⋆",
-		};
-
-		const actual = decodeSeparatorVariable( replacementVariables );
-
-		expect( actual ).toEqual( expected );
-	} );
-
-	it( "returns the passed object when no sep variable was present in the replacement variables object", () => {
-		const replacementVariables = {
-			date: "May 15, 2018",
-		};
-
-		const expected = {
-			date: "May 15, 2018",
-		};
-
-		const actual = decodeSeparatorVariable( replacementVariables );
-
-		expect( actual ).toEqual( expected );
-	} );
-} );
 
 describe( "replaceSpaces", () => {
 	it( "replaces single spaces in a string with underscores", () => {

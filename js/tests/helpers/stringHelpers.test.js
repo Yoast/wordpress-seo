@@ -1,24 +1,14 @@
 import {
-	unescapeString,
+	firstToUpperCase,
 } from "../../src/helpers/stringHelpers";
 
-describe( "unescapeString", () => {
-	it( "decodes &#39; from the string to an apostrophe.", () => {
-		const escapedString = "I have apostrophe&#39;s!";
+describe( "firstToUpperCase", () => {
+	it( "sets the first character of a string to uppercase", () => {
+		const uncapitalizedString = "i should know better and be capitalized";
 
-		const expected = "I have apostrophe's!";
+		const expected = "I should know better and be capitalized";
 
-		const actual = unescapeString( escapedString );
-
-		expect( actual ).toEqual( expected );
-	} );
-
-	it( "decodes &#039; (with a zero) from the string to an apostrophe.", () => {
-		const escapedString = "I have apostrophe&#039;s!";
-
-		const expected = "I have apostrophe's!";
-
-		const actual = unescapeString( escapedString );
+		const actual = firstToUpperCase( uncapitalizedString );
 
 		expect( actual ).toEqual( expected );
 	} );

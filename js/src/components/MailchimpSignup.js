@@ -27,7 +27,6 @@ class MailchimpSignup extends React.Component {
 			isLoading: false,
 		};
 
-		this.setNameInputRef = this.setNameInputRef.bind( this );
 		this.setEmailInputRef = this.setEmailInputRef.bind( this );
 	}
 
@@ -64,14 +63,11 @@ class MailchimpSignup extends React.Component {
 	signup() {
 		let email = this._emailInput.value;
 		let data = `EMAIL=${email}`;
-		let name = this._nameInput.value.trim();
 
-		if ( name !== "" ) {
-			data = data + `&NAME=${encodeURIComponent( name )}`;
-		}
 		this.setState( {
 			isLoading: true,
 		} );
+
 		let result = sendRequest(
 			this.props.properties.mailchimpActionUrl,
 			{
@@ -172,17 +168,6 @@ class MailchimpSignup extends React.Component {
 		return (
 			<div className="yoast-wizard-overlay"><LoadingIndicator/></div>
 		);
-	}
-
-	/**
-	 * Set the name input reference.
-	 *
-	 * @param {Object} ref The name input element.
-	 *
-	 * @returns {void}
-	 */
-	setNameInputRef( ref ) {
-		this._nameInput = ref;
 	}
 
 	/**

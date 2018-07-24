@@ -15,7 +15,7 @@ class WPSEO_Content_Images_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test getting the image from post content.
 	 *
-	 * @covers WPSEO_OpenGraph_Image::get_images_from_content()
+	 * @covers WPSEO_Content_Images::get_images_from_content()
 	 */
 	public function test_get_only_valid_images_from_content() {
 		$class_instance = new WPSEO_Content_Images_Double();

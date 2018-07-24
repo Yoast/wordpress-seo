@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.8
-Tested up to: 4.9.6
-Stable tag: 7.7.3
+Tested up to: 4.9.7
+Stable tag: 7.9
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,16 +106,35 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
-= 7.8.0 =
-Release Date: July 10th, 2018
+= 7.9.0 =
+Release Date: July 24th, 2018
+
+Enhancements:
+* Introduces the collapsible sections to all the tabs in Search Appearance.
+* Improves accessibility of the collapsible sections in Search Appearance.
 
 Bugfixes:
-* Fixes a bug where images from password protected posts could potentially end up in OpenGraph image tags.
-* Fixes a bug where very old notifications could not be be dismissed or restored.
-* Fixes a bug where the `Insert snippet variable` button alignment was incorrect.
-* Fixes a bug where the snippet variables had a different label in the Search Appearance settings compared to the snippet variables when writing a post, pages and taxonomies.
-* Instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) are now recognized as the same in the following assessments: keyword in meta description, keyword in subheading, keyword in first paragraph, keyword in title and keyword in URL.
-* Fixes a bug where the custom set breadcrumb title for the WooCommerce Shop page wouldn't be used.
+* Fixes a bug where archive settings for post types aren't shown on the search appearance page when the `has_archive` for that post type contains an archive slug. Props to [nesinervink](https://github.com/nesinervink), [schurig](https://github.com/schurig).
+* Fixes a bug where a notice ("Notice: Trying to get property of non-object") is given when the `$term->taxonomy` isn't set before it is used. Props to [bainternet](https://github.com/bainternet).
+* Fixes a bug where an uppercased encode URI isn't redirected to the category. Props to [dawnbirth](https://github.com/dawnbirth).
+* Fixes a bug where HTML entities were not always decoded in the Snippet Variables.
+* Fixes a bug where custom field labels would be separated by spaces in the classic editor, but in Gutenberg they would be separated by underscores instead.
+* Fixes a bug where the conversion of `&#039;`, which is PHP's HTML entity for the apostrophy, did not happen.
+* Fixes a bug where the same notification is shown multiple times when trashing multiple posts.
+* Fixes a bug where a possibly non-existent key would be retrieved when generating the `article:section` OpenGraph tag. Props to [mikeschinkel](https://github.com/mikeschinkel).
+* Fixes a bug in the UI that happend when `do_shortcode` was run on category descriptions in the admin list. Additionally, fixes rendering of shortcodes in category descriptions on the frontend.
+* Fixes a bug where saved templates in Search Appearance would be saved incorrectly into the database, resulting in them never being loaded when editing a post, page, etc. This meant that the default template would always be used.
+* Fixes a bug where the "Tagline" / `%%sitedesc%%` snippet editor variable was not selectable in the Search Appearance settings.
+* Fixes a bug where the newsletter signup in the configuration wizard would not work.
+
+Other:
+* Moves some snippet variables to only appear within specific editors. Adds a filter `wpseo_editor_specific_replace_vars` to make this pluggable.
+* Adds the white background to the template of media on the Search Appearance page.
+* Changes feedback in the keyword density assessment to make it more explicit that synonyms are not taken into consideration when calculating the score.
+* Shows a notification with the message that you should check your post type archive settings when these are possibly reset to their defaults in 7.7 or 7.8.
+
+= 7.8.0 =
+Release Date: July 10th, 2018
 
 Enhancements:
 * Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
@@ -124,74 +143,18 @@ Enhancements:
 * Adds Flesch Reading Ease assessment for Spanish.
 * Adds passive voice assessment for Italian.
 
+Bugfixes:
+* Fixes a bug where images from password protected posts could potentially end up in OpenGraph image tags.
+* Fixes a bug where very old notifications could not be dismissed or restored.
+* Fixes a bug where the `Insert snippet variable` button alignment was incorrect.
+* Fixes a bug where the snippet variables had a different label in the Search Appearance settings compared to the snippet variables when writing a post, page and taxonomy term.
+* Instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) are now recognized as the same in the following assessments: meta description, subheading, first paragraph, title and in URL.
+* Filters out prominent word combinations ending in 's in English. Props to [swekkiekekkie](https://github.com/swekkiekekkie).
+* Fixes a bug where the custom set breadcrumb title for the WooCommerce Shop page wouldn't be used.
+
 Other:
 * Adds a reminder message to create a redirect if a user deletes a category or tag.
 * Removes a banner spot in the admin.
-
-= 7.7.3 =
-Release Date: July 2nd, 2018
-
-Bugfixes:
-* Disables WordPress' automatic conversion of emoji to images on every page where the snippet editor is present. This conversion is not compatible with React or content editable fields and broke the snippet editor.
-* Fixes text directionality for the title and description fields in the snippet editor for right-to-left languages.
-* Fixes a bug where the snippet title and description values were saved to the database if they did match the post-type template.
-
-= 7.7.2 =
-Release Date: June 29th, 2018
-
-Bugfixes:
-* Fixes a bug where the snippet variables selection is hidden behind the WordPress menu when using a right-to-left language.
-* Fixes styling in the snippet preview when using a right-to-left language.
-* Fixes a bug where the 'insert snippet variable' button placement was inconsistent.
-* Migrates WooCommerce Product archive settings to the Shop page, if present and not already set on the Shop page.
-
-= 7.7.1 =
-Release Date: June 27th, 2018
-
-Bugfixes:
-* Fixes a bug where disabling the `post_format` archive would result in it actually being enabled and vice versa.
-* Fixes an issue where all replacement variables were being displayed instead of the recommended ones.
-
-Other:
-* Restores `currentyear` as a snippet variable.
-
-= 7.7.0 =
-Release Date: June 26th, 2018
-
-Enhancements:
-* Implements the snippet preview in React. This brings an improved user experience regarding the snippet variables, making it easier to use and discover them.
-* Implements the improved snippet variables on the search appearance settings pages.
-* Adds an inserter to the title and metadescription fields to make it easier to insert a snippet variable.
-* Improves the mobile snippet preview to match the Google mobile search results more closely.
-* Changes the behavior of the meta description preview when there is no handwritten meta description. We no longer mimic Google by showing a part of your content, but explain what Google does instead.
-* Sends the user to the proper control in the customizer when clicking the link in the "You still have the default WordPress tagline [...]" warning message.
-* Adds a `wpseo_attachment_redirect_url` filter to allow changing of the target redirection URL for attachments. This may be necessary to restore the redirect to the parent post. Props to [cawa-93](https://github.com/cawa-93).
-* Adds recommended snippet variables for templates depending on the context.
-* Adds a `wpseo_recommended_replace_vars` filter to allow adding or altering the recommended snippet variables.
-* Adds support for JSON-LD breadcrumbs. Props to [teolaz](https://github.com/teolaz)
-* Improves the lists of French transition words, stopwords, and function words, props to [Laurent-1971](https://github.com/Laurent-1971).
-* Improves the assessment that checks the use of subheadings so that it always returns relevant feedback to the user.
-* Adds a notification when a post is removed.
-* Overhauls the Content Types section under SEO -> Search Appearance by sectioning the post types and allowing users to collapse them. This is especially handy when you have a lot of custom post types.
-* Updates the 'snippet variables tab' of the Help Center to have the new names.
-
-Bugfixes:
-* Fixes a bug where a PHP notice would be triggered when the `opcache.restrict_api` directive was enabled.
-* Fixes a bug where restricting SEO setting access to network admins only on a multisite, would still allow regular admins to have access to SEO settings.
-* Fixes a bug where dismissing notifications on a single site in a multisite environment, would result in the notification being dismissed on all sites.
-* Fixes a bug where the attachment URL would redirect to `wp-admin` if the attachment was located on a different Site URL domain.
-* Fixes a bug where MySQL would throw a "Duplicate entry 'X'" error into the error log when attempting to upsert a record in the database.
-* Fixes a performance problem where the selecting a fallback Open Graph image would collect the filename for all the images in the content. This has been changed to detecting if an image is usable per image and stopping when a usable image is found.
-* Fixes a bug where the term title snippet variable would be replaced by 'undefined' instead of an empty string on posts and pages.
-* Fixes a bug where PHP notices got triggered on archive pages when `%%pt_single%%` and/or `%%pt_plural%%` are used in a template.
-* Fixes a bug where the configured separator wasn't used in the title template fallback that's being used when no title template has been set.
-
-Deprecated:
-* Deprecates the following snippet variables: %%userid%%, %%currenttime%%, %%currentdate%%, %%currentday%%, %%currentmonth%%, %%currentyear%%.
-
-Other:
-* Changes the timing on which the capability filter is run to better time when notifications should be initialized.
-* Adds X-Redirect-By header to all redirects, making the origin of redirects much easier to debug.
 
 = Earlier versions =
 
