@@ -25,7 +25,7 @@ if ( $wpseo_post_type->name === 'product' && WPSEO_Utils::is_woocommerce_active(
 	return;
 }
 
-if ( $wpseo_post_type->has_archive === true ) {
+if ( $wpseo_post_type->has_archive ) {
 	$plural_label = $wpseo_post_type->labels->name;
 
 	// translators: %s is the plural version of the post type's name.

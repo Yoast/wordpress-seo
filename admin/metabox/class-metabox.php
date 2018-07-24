@@ -347,7 +347,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
-		$content_sections = array( $this->get_content_meta_section() );
+		$content_sections = array();
+
+		if ( defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' ) && YOAST_FEATURE_GUTENBERG_SIDEBAR ) {
+			$content_sections[] = $this->get_content_meta_section_react();
+		}
+		else {
+			$content_sections[] = $this->get_content_meta_section();
+		}
 
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
@@ -367,6 +374,34 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $content_sections;
+	}
+
+	/**
+	 * Returns the metabox content for React to hook into.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
+	private function get_content_meta_section_react() {
+		$fields = $this->get_hidden_tab_fields( 'general' );
+
+		// Add fields that weren't hidden, as hidden fields.
+		$fields .= $this->do_meta_box(
+			array(
+				'type'  => 'hidden',
+				'title' => '',
+			),
+			'is_cornerstone'
+		);
+
+		return new WPSEO_Metabox_Section_React(
+			'content',
+			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
+			$fields,
+			array(
+				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
+			)
+		);
 	}
 
 	/**
@@ -526,7 +561,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Gets the contents for the metabox tab.
+	 * Retrieves the contents for the metabox tab.
 	 *
 	 * @param string $tab_name Tab for which to retrieve the field definitions.
 	 *
@@ -537,9 +572,28 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
-		unset( $key, $meta_field );
 
 		return $content;
+	}
+
+	/**
+	 * Retrieves the hidden fields for the metabox tab.
+	 *
+	 * @param string $tab_name Tab for which to retrieve the field definitions.
+	 *
+	 * @return string
+	 */
+	private function get_hidden_tab_fields( $tab_name ) {
+		$hidden_fields = '';
+		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
+			if ( $meta_field['type'] !== 'hidden' ) {
+				continue;
+			}
+
+			$hidden_fields .= $this->do_meta_box( $meta_field, $key );
+		}
+
+		return $hidden_fields;
 	}
 
 	/**
