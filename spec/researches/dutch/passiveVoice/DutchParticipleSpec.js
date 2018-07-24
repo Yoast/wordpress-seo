@@ -21,7 +21,7 @@ describe( "A test for checking the Dutch participle", function() {
 	} );
 
 	it( "checks the properties of the Dutch participle object with a word from the list of non-participles", function() {
-		const mockParticiple = new DutchParticiple( "beschrijvend", "wordt beschrijvend.", { auxiliaries: [ "werd" ], type: "regular", language: "nl" } );
+		const mockParticiple = new DutchParticiple( "beschrijvend", "wordt beschrijvend.", { auxiliaries: [ "wordt" ], type: "regular", language: "nl" } );
 		expect( mockParticiple.getParticiple() ).toBe( "beschrijvend" );
 		expect( mockParticiple.isOnNonParticiplesList() ).toBe( true );
 		expect( mockParticiple.hasNonParticipleEnding() ).toBe( false );
@@ -48,7 +48,7 @@ describe( "A test for checking the Dutch participle", function() {
 	} );
 
 	it( "ensures that the sentence part is not set to passive if the participle is empty.", function() {
-		let mockParticiple = new DutchParticiple( "gekookt", "Het werdt door hem gekookt.", { auxiliaries: [ "gekookt" ], type: "regular", language: "nl" } );
+		let mockParticiple = new DutchParticiple( "gekookt", "Het werd door hem gekookt.", { auxiliaries: [ "werd" ], type: "regular", language: "nl" } );
 		mockParticiple._participle = null;
 		checkException.call( mockParticiple );
 		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );

@@ -103,14 +103,4 @@ function splitSentence( sentence, language ) {
 	return createSentenceParts( splitSentences, language );
 }
 
-/**
- * Splits up the sentence in parts based on stopwords.
- *
- * @param {string} sentence The sentence to split up in parts.
- * @param {string} language The language for which to split sentences into parts.
- * @returns {Array} The array with the sentence parts.
- */
-module.exports = function( sentence, language ) {
-	return splitSentence( sentence, language );
-};
-
+module.exports = splitSentence;
