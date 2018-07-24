@@ -13,34 +13,28 @@
 class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Indexable_Service_Term_Provider_Double
-	 */
-	protected $provider;
-
-	/**
-	 * Sets an instance of the provider.
+	 * Tests the conversion of the robots noindex value.
 	 *
-	 * @return void
+	 * @param string    $noindex_value	The value to test with.
+	 * @param bool|null $expected		The expected converted value.
+	 * @param string    $description	Description of the test.
+	 *
+	 * @covers WPSEO_Term_Indexable::get_robots_noindex_value()
+	 *
+	 * @dataProvider robots_noindex_provider
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function test_get_robots_noindex_value( $noindex_value, $expected, $description ) {
+		$data = WPSEO_Term_Indexable_Double::get_robots_noindex_value( $noindex_value );
 
-		$this->provider = new WPSEO_Indexable_Service_Term_Provider_Double();
+		$this->assertEquals( $expected, $data, $description );
 	}
 
 	/**
-	 * Tests the conversion of the robots noindex value.
+	 * Tests the creation of a new Term Indexable object.
 	 *
-	 * @param string    $robot_value The value to test with.
-	 * @param bool|null $expected    The expected converted value.
-	 * @param string    $description Description of the test.
-	 *
-	 * @covers       WPSEO_Term_Indexable::get_robots_noindex_value()
-	 *
-	 * @dataProvider robots_noindex_provider
-	 * @throws Exception
+	 * @covers WPSEO_Term_Indexable::from_object()
 	 */
-	public function test_get_robots_noindex_value( $robot_value, $expected, $description ) {
+	public function test_from_object() {
 		$term = $this
 			->factory()
 			->term
@@ -51,11 +45,46 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 				)
 			);
 
-		WPSEO_Taxonomy_Meta::set_value( $term->term_id, $term->taxonomy, 'wpseo_noindex', $robot_value );
+		$instance = WPSEO_Term_Indexable_Double::from_object( $term->term_id );
+		$this->assertInstanceOf( 'WPSEO_Term_Indexable', $instance );
+	}
 
-		$data = $this->provider->get( $term->term_id );
+	/**
+	 * Tests the creation of an invalid Term Indexable object.
+	 *
+	 * @covers WPSEO_Term_Indexable::from_object()
+	 * @expectedException WPSEO_Invalid_Argument_Exception
+	 */
+	public function test_from_object_invalid_term() {
+		$invalid_instance = WPSEO_Term_Indexable_Double::from_object( -1 );
+	}
 
-		$this->assertEquals( $expected, $data['is_robots_noindex'], $description );
+	/**
+	 * Tests the updating of an existing Term Indexable object.
+	 *
+	 * @covers WPSEO_Term_Indexable::update()
+	 */
+	public function test_update() {
+		$term = $this
+			->factory()
+			->term
+			->create_and_get(
+				array(
+					'name'     => 'robot',
+					'taxonomy' => 'category',
+				)
+			);
+
+		$instance = WPSEO_Term_Indexable_Double::from_object( $term->term_id );
+		$new_instance = $instance->update(
+			array( 'is_robots_noindex' => true )
+		);
+
+		$this->assertInstanceOf( 'WPSEO_Term_Indexable', $new_instance );
+
+		$new_instance_array = $new_instance->to_array();
+
+		$this->assertEquals( true, $new_instance_array['is_robots_noindex'] );
 	}
 
 	/**

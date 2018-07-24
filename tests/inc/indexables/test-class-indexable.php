@@ -31,7 +31,7 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the handling of an unknown object type.
 	 *
-	 * @covers       WPSEO_Indexable::handle_unknown_object_type()
+	 * @covers WPSEO_Indexable_Service::handle_unknown_object_type()
 	 */
 	public function test_handle_unknown_object_type() {
 		$this->assertInstanceOf( 'WP_REST_Response', $this->provider->handle_unknown_object_type( 'unknown' ) );
