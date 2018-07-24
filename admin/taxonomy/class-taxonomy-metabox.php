@@ -108,12 +108,7 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_content_sections() {
 		$content_sections = array();
 
-		if ( defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' ) && YOAST_FEATURE_GUTENBERG_SIDEBAR ) {
-			$content_sections[] = $this->get_content_meta_section_react();
-		}
-		else {
-			$content_sections[] = $this->get_content_meta_section();
-		}
+		$content_sections[] = $this->get_content_meta_section();
 
 		$content_sections[] = $this->get_social_meta_section();
 		$content_sections[] = $this->get_settings_meta_section();

@@ -349,12 +349,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_content_sections() {
 		$content_sections = array();
 
-		if ( defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' ) && YOAST_FEATURE_GUTENBERG_SIDEBAR ) {
-			$content_sections[] = $this->get_content_meta_section_react();
-		}
-		else {
-			$content_sections[] = $this->get_content_meta_section();
-		}
+		$content_sections[] = $this->get_content_meta_section();
 
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
