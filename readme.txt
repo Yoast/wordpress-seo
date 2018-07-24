@@ -154,29 +154,6 @@ Other:
 * Changes feedback in the keyword density assessment to make it more explicit that synonyms are not taken into consideration when calculating the score.
 * Shows a notification with the message that you should check your post type archive settings when these are possibly reset to their defaults in 7.7 or 7.8.
 
-= 7.8.0 =
-Release Date: July 10th, 2018
-
-Enhancements:
-* Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
-* Adds links to relevant articles to all SEO assessments.
-* Adds Flesch Reading Ease assessment for French.
-* Adds Flesch Reading Ease assessment for Spanish.
-* Adds passive voice assessment for Italian.
-
-Bugfixes:
-* Fixes a bug where images from password protected posts could potentially end up in OpenGraph image tags.
-* Fixes a bug where very old notifications could not be dismissed or restored.
-* Fixes a bug where the `Insert snippet variable` button alignment was incorrect.
-* Fixes a bug where the snippet variables had a different label in the Search Appearance settings compared to the snippet variables when writing a post, page and taxonomy term.
-* Instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) are now recognized as the same in the following assessments: meta description, subheading, first paragraph, title and in URL.
-* Filters out prominent word combinations ending in 's in English. Props to [swekkiekekkie](https://github.com/swekkiekekkie).
-* Fixes a bug where the custom set breadcrumb title for the WooCommerce Shop page wouldn't be used.
-
-Other:
-* Adds a reminder message to create a redirect if a user deletes a category or tag.
-* Removes a banner spot in the admin.
-
 = Earlier versions =
 
 For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog
