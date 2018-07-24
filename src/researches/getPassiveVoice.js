@@ -9,7 +9,7 @@ const isPassiveSentencePart = require( "./passiveVoice/periphrastic/determinePas
 const isPassiveSentence = require( "./passiveVoice/morphological/determinePassiveSentence.js" );
 
 const getPeriphrasticSentencePartsDefault = require( "./passiveVoice/periphrastic/getSentenceParts.js" );
-const getPeriphrasticSentencePartsGerman = require( "./german/passiveVoice/getSentenceParts.js" );
+const getPeriphrasticSentencePartsSplitOnStopwords = require( "./passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js" );
 
 const morphologicalLanguages = [ "ru", "tr" ];
 const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn" ];
@@ -58,8 +58,8 @@ const getPeriphrasticPassives = function( sentences, language ) {
 		// The functionality based on sentencePart objects should be rewritten using array indices of stopwords and auxiliaries.
 		let sentenceParts = [];
 
-		if ( language === "de" ) {
-			sentenceParts = getPeriphrasticSentencePartsGerman( strippedSentence );
+		if ( language === "de" || language === "nl" ) {
+			sentenceParts = getPeriphrasticSentencePartsSplitOnStopwords( strippedSentence, language );
 		} else {
 			sentenceParts = getPeriphrasticSentencePartsDefault( strippedSentence, language );
 		}
