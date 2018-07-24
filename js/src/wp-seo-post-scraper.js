@@ -9,7 +9,6 @@ import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
 
 // Internal dependencies.
 import initializeEdit from "./edit";
-import { tmceId, setStore } from "./wp-seo-tinymce";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import { tinyMCEDecorator } from "./decorator/tinyMCE";
@@ -19,6 +18,7 @@ import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 
 import PostDataCollector from "./analysis/PostDataCollector";
+import CompatabilityHelper from "./compatability/compatability";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import TabManager from "./analysis/tabManager";
 import getTranslations from "./analysis/getTranslations";
@@ -118,9 +118,9 @@ setWordPressSeoL10n();
 		}
 
 		return function( paper, marks ) {
-			if ( tinyMCEHelper.isTinyMCEAvailable( tmceId ) ) {
+			if ( tinyMCEHelper.isTinyMCEAvailable( tinyMCEHelper.tmceId ) ) {
 				if ( null === decorator ) {
-					decorator = tinyMCEDecorator( tinyMCE.get( tmceId ) );
+					decorator = tinyMCEDecorator( tinyMCE.get( tinyMCEHelper.tmceId ) );
 				}
 
 				decorator( paper, marks );
@@ -275,7 +275,7 @@ setWordPressSeoL10n();
 		const args = {
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [
-				tmceId,
+				tinyMCEHelper.tmceId,
 				"yoast_wpseo_focuskw_text_input",
 				"yoast_wpseo_metadesc",
 				"excerpt",
@@ -432,6 +432,25 @@ setWordPressSeoL10n();
 		editStore = store;
 
 		snippetContainer = $( "#wpseosnippet" );
+		tinyMCEHelper.setStore( editStore );
+
+		const compatabilityHelper = new CompatabilityHelper( {
+			classicEditorHidden: () => {
+				tinyMCEHelper.disableMarkerButtons();
+			}, classicEditorShown: () => {
+				if( ! tinyMCEHelper.isTextViewActive() ) {
+					tinyMCEHelper.enableMarkerButtons();
+				}
+			},
+		} );
+
+		tinyMCEHelper.wpTextViewOnInitCheck();
+
+		if ( compatabilityHelper.isClassicEditorHidden() ) {
+			tinyMCEHelper.disableMarkerButtons();
+		}
+
+		compatabilityHelper.init();
 
 		// Avoid error when snippet metabox is not rendered.
 		if ( snippetContainer.length === 0 ) {
@@ -459,8 +478,7 @@ setWordPressSeoL10n();
 
 		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
 
-		setStore( store );
-		tinyMCEHelper.wpTextViewOnInitCheck();
+
 
 		activateEnabledAnalysis( tabManager );
 
