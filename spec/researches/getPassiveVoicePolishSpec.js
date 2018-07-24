@@ -1,5 +1,5 @@
-var passiveVoice = require( "../../js/researches/getPassiveVoice.js" );
-var Paper = require( "../../js/values/Paper.js" );
+const passiveVoice = require( "../../js/researches/getPassiveVoice.js" );
+const Paper = require( "../../js/values/Paper.js" );
 
 describe( "detecting passive voice in sentences", function() {
 	it( "returns active voice (present)", function() {
@@ -61,6 +61,12 @@ describe( "detecting passive voice in sentences", function() {
 	it( "doesn't return passive voice if a participle is marked as non-passive by a precedence exception (directly preceding).", function() {
 		// Exception word: "moja" before "kochana".
 		const paper = new Paper( "To jest moja kochana mama.", { locale: "pl_PL" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
+
+	it( "doesn't return passive voice if a participle is marked as non-passive by a precedence exception.", function() {
+		// Exception words: może & mieć
+		const paper = new Paper( "Jak komuś jest gorąco to może mieć szeroko otwarte okna.", { locale: "pl_PL" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 } );

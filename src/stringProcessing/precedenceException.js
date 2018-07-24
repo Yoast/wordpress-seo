@@ -1,12 +1,16 @@
-var getWordIndices = require( "../researches/passiveVoice/periphrastic/getIndicesWithRegex.js" );
-var precedesIndex = require( "./precedesIndex" );
-var arrayToRegex = require( "./createRegexFromArray.js" );
-var cannotBeBetweenAuxiliaryAndParticipleFrench = require( "../researches/french/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-var cannotBeBetweenAuxiliaryAndParticipleEnglish = require( "../researches/english/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-var cannotBeBetweenAuxiliaryAndParticipleSpanish = require( "../researches/spanish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-var cannotBeBetweenAuxiliaryAndParticipleItalian = require( "../researches/italian/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-var cannotBeBetweenAuxiliaryAndParticiplePolish = require( "../researches/polish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-
+const getWordIndices = require( "../researches/passiveVoice/periphrastic/getIndicesWithRegex.js" );
+const precedesIndex = require( "./precedesIndex" );
+const arrayToRegex = require( "./createRegexFromArray.js" );
+const cannotBeBetweenAuxiliaryAndParticipleFrench =
+	require( "../researches/french/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+const cannotBeBetweenAuxiliaryAndParticipleEnglish =
+	require( "../researches/english/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+const cannotBeBetweenAuxiliaryAndParticipleSpanish =
+	require( "../researches/spanish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+const cannotBeBetweenAuxiliaryAndParticipleItalian =
+	require( "../researches/italian/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
+const cannotBeBetweenAuxiliaryAndParticiplePolish =
+	require( "../researches/polish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 
 /**
  * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
@@ -20,7 +24,7 @@ var cannotBeBetweenAuxiliaryAndParticiplePolish = require( "../researches/polish
  * sentence part before the participle, otherwise returns false.
  */
 module.exports = function( sentencePart, participleIndex, language ) {
-	var precedenceExceptionRegex;
+	let precedenceExceptionRegex;
 	switch ( language ) {
 		case "fr":
 			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleFrench );
@@ -40,6 +44,6 @@ module.exports = function( sentencePart, participleIndex, language ) {
 			break;
 	}
 
-	var precedenceExceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
+	const precedenceExceptionMatch = getWordIndices( sentencePart, precedenceExceptionRegex );
 	return precedesIndex( precedenceExceptionMatch, participleIndex );
 };

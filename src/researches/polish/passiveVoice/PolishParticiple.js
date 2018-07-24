@@ -1,8 +1,7 @@
-var Participle = require( "../../../values/Participle.js" );
-var checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
-var directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
-var precedenceException = require( "../../../stringProcessing/precedenceException" );
-
+const Participle = require( "../../../values/Participle.js" );
+const checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
+const directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
+const precedenceException = require( "../../../stringProcessing/precedenceException" );
 
 /**
  * Creates an Participle object for the Polish language.
@@ -13,7 +12,7 @@ var precedenceException = require( "../../../stringProcessing/precedenceExceptio
  *
  * @constructor
  */
-var PolishParticiple = function( participle, sentencePart, attributes ) {
+const PolishParticiple = function( participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
 	checkException.call( this );
 };
