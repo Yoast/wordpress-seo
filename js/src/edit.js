@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import flatten from "lodash/flatten";
 import { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import IntlProvider from "./components/IntlProvider";
@@ -24,6 +25,11 @@ if( window.wpseoPostScraperL10n ) {
 } else if ( window.wpseoTermScraperL10n ) {
 	localizedData = wpseoTermScraperL10n;
 }
+
+const PinnedPluginIcon = styled( PluginIcon )`
+	width: 20px;
+	height: 20px;
+`;
 
 /**
  * Registers a redux store in Gutenberg.
@@ -102,6 +108,7 @@ function registerPlugin() {
 
 		registerPlugin( "yoast-seo", {
 			render: YoastSidebar,
+			icon: <PinnedPluginIcon />,
 		} );
 	}
 }
