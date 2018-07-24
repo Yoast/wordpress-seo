@@ -7584,13 +7584,13 @@ sass-graph@^2.1.1, sass-graph@^2.2.4:
     scss-tokenizer "^0.2.3"
     yargs "^7.0.0"
 
+sassdash@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/sassdash/-/sassdash-0.9.0.tgz#e2114e80af0c01639d1c6b88a3eb350740cb1169"
+
 sassdash@^0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/sassdash/-/sassdash-0.8.2.tgz#42d59b4932f13034695604bd8437e2b598afd368"
-
-sassdash@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/sassdash/-/sassdash-0.9.0.tgz#e2114e80af0c01639d1c6b88a3eb350740cb1169"
 
 sax@^1.2.4:
   version "1.2.4"
@@ -9112,14 +9112,14 @@ yeoman-generator@^2.0.4:
     through2 "^2.0.0"
     yeoman-environment "^2.0.5"
 
-yoastseo@^1.35.0:
-  version "1.35.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.35.0.tgz#f5e25b821fcc636d5be5f68f864acbf9837a9f5b"
+yoastseo@^1.36.0:
+  version "1.36.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.36.0.tgz#8abc9d8f1b8ecc01a2848bef73be6fdbbd61eb99"
   dependencies:
     htmlparser2 "^3.9.2"
     jed "^1.1.0"
     jest "^23.0.0"
     lodash "^4.14.1"
     node-sass "^4.7.2"
-    sassdash "^0.9.0"
+    sassdash "0.9.0"
     tokenizer2 "^2.0.0"
