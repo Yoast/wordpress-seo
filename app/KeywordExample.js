@@ -33,9 +33,11 @@ export default class KeywordExample extends Component {
 
 		this.state = {
 			keyword: "special",
+			synonyms: "",
 		};
 
 		this.updateKeyword = this.updateKeyword.bind( this );
+		this.updateSynonyms = this.updateSynonyms.bind( this );
 	}
 
 	/**
@@ -48,6 +50,19 @@ export default class KeywordExample extends Component {
 	updateKeyword( newKeyword ) {
 		this.setState( {
 			keyword: newKeyword,
+		} );
+	}
+
+	/**
+	 * Updates the synonyms.
+	 *
+	 * @param {string} newSynonyms The new synonyms.
+	 *
+	 * @returns {void}
+	 */
+	updateSynonyms( newSynonyms ) {
+		this.setState( {
+			synonyms: newSynonyms,
 		} );
 	}
 
@@ -74,8 +89,8 @@ export default class KeywordExample extends Component {
 
 				<SynonymsSection
 					label={ "Keyword synonyms" }
-					onChange={ synonyms => console.log( "SynonymsField change event", synonyms ) }
-					synonyms=""
+					onChange={ this.updateSynonyms }
+					synonyms={ this.state.synonyms }
 				/>
 			</Container>
 		);
