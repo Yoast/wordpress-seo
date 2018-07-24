@@ -65,16 +65,17 @@ class WPSEO_Admin_Media_Purge_Notification implements WPSEO_WordPress_Integratio
 	 */
 	private function get_notification() {
 		$content = sprintf(
-		/* translators: %1$s expands to the link to the article, %2$s closes the link tag. */
+			/* translators: %1$s expands to the link to the article, %2$s closes the link tag. */
 			__( 'Your site\'s settings currently allow attachment URLs on your site to exist. Please read %1$sthis post about a potential issue%2$s with attachment URLs and check whether you have the correct setting for your site.', 'wordpress-seo' ),
-			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2r8' ) ) . '" rel="nofollow noreferer" target="_blank">',
+			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2r8' ) ) . '" rel="noopener noreferrer" target="_blank">',
 			'</a>'
 		);
 
 		$content .= '<br><br>';
 		$content .= sprintf(
+			/* translators: %1$s dismiss link open tag, %2$s closes the link tag. */
 			__( 'If you know what this means and you do not want to see this message anymore, you can %1$sdismiss this message%2$s.', 'wordpress-seo' ),
-			'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&dismiss=' . $this->notification_id ) . '">',
+			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&dismiss=' . $this->notification_id ) ) . '">',
 			'</a>'
 		);
 

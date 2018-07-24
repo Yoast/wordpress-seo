@@ -62,34 +62,18 @@ class Yoast_View_Utils {
 	/**
 	 * Shows the search appearance settings for a post type.
 	 *
-	 * @param string|object $post_type The post type to show the search appearance settings for.
+	 * @param string|object $post_type   The post type to show the search appearance settings for.
+	 * @param bool          $paper_style Whether or not the paper style should be shown.
 	 *
 	 * @return void
 	 */
-	public function show_post_type_settings( $post_type ) {
+	public function show_post_type_settings( $post_type, $paper_style = false ) {
 		if ( ! is_object( $post_type ) ) {
 			$post_type = get_post_type_object( $post_type );
 		}
 
 		$show_post_type_help = $this->search_results_setting_help( $post_type );
 		$noindex_option_name = 'noindex-' . $post_type->name;
-
-		if ( WPSEO_Options::get( 'is-media-purge-relevant' ) ) {
-			if ( $post_type->name === 'attachment' && WPSEO_Options::get( $noindex_option_name ) === false ) {
-				$description = sprintf(
-					/* translators: %1$s expands to the link to the article, %2$s closes the link to the article */
-					esc_html( __( 'By enabling this option, attachment URLs become visible to both your visitors and Google.
-To add value to your website, they should contain useful information, or they might have a
-negative impact on your ranking. Please carefully consider this and %1$sread this post%2$s if
-you want more information about the impact of showing media in search results.', 'wordpress-seo'
-					) ),
-					'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/2r8' ) ) . '" rel="noopener nofollow" target="_blank">',
-					'</a>'
-				);
-
-				echo '<div style="clear:both; background-color: #ffeb3b; color: #000000; padding: 16px; max-width: 450px; margin-bottom: 32px;">' . $description . '</div>';
-			}
-		}
 
 		$this->form->index_switch(
 			$noindex_option_name,
@@ -108,10 +92,19 @@ you want more information about the impact of showing media in search results.',
 			sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' )
 		);
 
-		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
-		$page_type                = $recommended_replace_vars->determine_for_post_type( $post_type->name );
+		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
-		$editor = new WPSEO_Replacevar_Editor( $this->form, 'title-' . $post_type->name, 'metadesc-' . $post_type->name, $page_type, false );
+		$editor = new WPSEO_Replacevar_Editor(
+			$this->form,
+			array(
+				'title'                 => 'title-' . $post_type->name,
+				'description'           => 'metadesc-' . $post_type->name,
+				'page_type_recommended' => $recommended_replace_vars->determine_for_post_type( $post_type->name ),
+				'page_type_specific'    => $editor_specific_replace_vars->determine_for_post_type( $post_type->name ),
+				'paper_style'           => $paper_style,
+			)
+		);
 		$editor->render();
 	}
 }

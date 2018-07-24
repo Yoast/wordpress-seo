@@ -88,7 +88,7 @@
     "grunt-wp-deploy": "^1.2.1",
     "grunt-wp-i18n": "^1.0.0",
     "i18n-calypso": "^1.8.4",
-    "jest": "^18.0.0",
+    "jest": "^23.3.0",
     "load-grunt-config": "^0.19.2",
     "raf": "^3.4.0",
     "react": "^16.2.0",
@@ -128,9 +128,9 @@
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
     "yoast-components": "^4.7",
-    "yoastseo": "^1.35.3"
+    "yoastseo": "^1.35.5"
   },
   "yoast": {
-    "pluginVersion": "7.8"
+    "pluginVersion": "7.9-RC4"
   }
 }

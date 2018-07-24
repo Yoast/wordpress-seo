@@ -60,6 +60,20 @@ describe( "snippet editor reducers", () => {
 			expect( result ).toEqual( expected );
 		} );
 
+		it( "unescapes/decodes strings in replacement variable values, including variants of the apostrophe", () => {
+			// Value parameter contains all the necessary html entities for the separator. Separators such as |, *, ~ etc. don't need to be escaped in the first place.
+			const action = updateReplacementVariable(
+				"title",
+				"&ndash;&mdash;&middot;&bull;&Star;&laquo;&raquo;&lt;&gt;&quot;&grave;&apos;&#039;&#39;",
+				"New label"
+			);
+			const expected = { replacementVariables: [ { name: "title", value: "–—·•⋆«»<>\"`'''", label: "New label" } ] };
+
+			const result = snippetEditorReducer( { replacementVariables: [ { name: "title", value: "Old title", label: "Old label" } ] }, action );
+
+			expect( result ).toEqual( expected );
+		} );
+
 		it( "updates replacement variables without a new label, keeps the old label", () => {
 			const action = updateReplacementVariable( "title", "New title" );
 			const expected = { replacementVariables: [ { name: "title", value: "New title", label: "Old label" } ] };

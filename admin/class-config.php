@@ -93,7 +93,7 @@ class WPSEO_Admin_Pages {
 			 */
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_l10n();
+			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 			$yoast_components_l10n->localize_script( 'search-appearance' );
 		}
 
@@ -131,12 +131,16 @@ class WPSEO_Admin_Pages {
 	 * @return array The replacement and recommended replacement variables.
 	 */
 	public function localize_replace_vars_script() {
-		$replace_vars             = new WPSEO_Replace_Vars();
-		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$replace_vars                 = new WPSEO_Replace_Vars();
+		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+		$replace_vars_list            = $replace_vars->get_replacement_variables_list();
 
 		return array(
-			'replace_vars'             => $replace_vars->get_replacement_variables_list(),
-			'recommended_replace_vars' => $recommended_replace_vars->get_recommended_replacevars(),
+			'replace_vars'                 => $replace_vars_list,
+			'recommended_replace_vars'     => $recommended_replace_vars->get_recommended_replacevars(),
+			'editor_specific_replace_vars' => $editor_specific_replace_vars->get(),
+			'shared_replace_vars'          => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
 		);
 	}
 

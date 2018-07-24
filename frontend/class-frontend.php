@@ -92,6 +92,9 @@ class WPSEO_Frontend {
 		add_filter( 'loginout', array( $this, 'nofollow_link' ) );
 		add_filter( 'register', array( $this, 'nofollow_link' ) );
 
+		// Add support for shortcodes to category descriptions.
+		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
+
 		// Fix the WooThemes woo_title() output.
 		add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
 
@@ -1803,6 +1806,21 @@ class WPSEO_Frontend {
 		$replacer = new WPSEO_Replace_Vars();
 
 		return $replacer->replace( $string, $args, $omit );
+	}
+
+	/**
+	 * Adds shortcode support to category descriptions.
+	 *
+	 * @param string $desc String to add shortcodes in.
+	 *
+	 * @return string Content with shortcodes filtered out.
+	 */
+	public function custom_category_descriptions_add_shortcode_support( $desc ) {
+		// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
+		ob_start();
+		$desc = do_shortcode( $desc );
+		ob_end_clean();
+		return $desc;
 	}
 
 	/** Deprecated functions */

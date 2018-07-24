@@ -209,13 +209,41 @@ tr.yst_row.even {
 	}
 
 	.toggleable-container-trigger {
-		float: right;
 		border: 0;
 		background: none;
 		cursor: pointer;
 		height: 20px;
-		width: 20px;
+		width: 100%;
 		padding: 0;
+		text-align: left;
+		overflow: visible; // IE11 clips the icon focus style
+	}
+
+	.toggleable-container-icon {
+		float: right;
+		width: 20px;
+		height: 20px;
+		position: relative;
+	}
+
+
+	.toggleable-container-trigger .toggleable-container-icon::after {
+		content: "";
+		display: block;
+		padding: 14px; // will make the total width 28px
+		position: absolute;
+		top: -4px; // total width - toggleable-container-icon width / 2
+		left: -4px;
+	}
+
+	.toggleable-container-trigger:focus {
+		outline: none;
+
+		.toggleable-container-icon::after {
+			border-radius: 100%;
+			box-shadow: 0 0 0 1px #5b9dd9,
+			0 0 2px 1px rgba(30, 140, 190, 0.8);
+		}
 	}
 
 	.toggleable-container-hidden {
