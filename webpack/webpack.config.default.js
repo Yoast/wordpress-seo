@@ -8,6 +8,8 @@ const pkg = require( "../package.json" );
 
 const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
 const outputFilename = "[name]-" + pluginVersionSlug + ".min.js";
+const ExtractTextPlugin = require( "extract-text-webpack-plugin" );
+const postCSSPlugin = require( "./dependencies/post-css-config" );
 
 const externals = {
 	// This is necessary for Gutenberg to work.
@@ -44,6 +46,47 @@ wpDependencies.forEach( wpDependency => {
 	);
 } );
 
+// CSS loader for styles specific to blocks in general.
+const blocksCSSPlugin = new ExtractTextPlugin( {
+	filename: "./build/core-blocks/style.css",
+} );
+
+// Main CSS loader for everything but blocks..
+const mainCSSExtractTextPlugin = new ExtractTextPlugin( {
+	filename: './build/[basename]/style.css',
+} );
+
+// CSS loader for styles specific to block editing.
+const editBlocksCSSPlugin = new ExtractTextPlugin( {
+	filename: './build/core-blocks/edit-blocks.css',
+} );
+
+// CSS loader for default visual block styles.
+const themeBlocksCSSPlugin = new ExtractTextPlugin( {
+	filename: './build/core-blocks/theme.css',
+} );
+
+// Configuration for the ExtractTextPlugin.
+const extractConfig = {
+	use: [
+		{ loader: "raw-loader" },
+		{
+			loader: "postcss-loader",
+			options: {
+				plugins: postCSSPlugin,
+			},
+		},
+		{
+			loader: "sass-loader",
+			query: {
+				includePaths: [ "edit-post/assets/stylesheets" ],
+				data: '@import "colors"; @import "breakpoints"; @import "variables"; @import "mixins"; @import "animations";@import "z-index";',
+				outputStyle: "production" === process.env.NODE_ENV
+					? "compressed" : "nested",
+			},
+		},
+	],
+};
 
 const defaultWebpackConfig = {
 	devtool: "cheap-module-eval-source-map",
@@ -88,15 +131,43 @@ const defaultWebpackConfig = {
 				],
 			},
 			{
+				test: /style\.s?css$/,
+				include: [
+					/core-blocks/,
+				],
+				use: blocksCSSPlugin.extract( extractConfig ),
+			},
+			{
+				test: /editor\.s?css$/,
+				include: [
+					/core-blocks/,
+				],
+				use: editBlocksCSSPlugin.extract( extractConfig ),
+			},
+			{
+				test: /theme\.s?css$/,
+				include: [
+					/core-blocks/,
+				],
+				use: themeBlocksCSSPlugin.extract( extractConfig ),
+			},
+			{
+				test: /\.s?css$/,
+				exclude: [
+					/core-blocks/,
+				],
+				use: mainCSSExtractTextPlugin.extract( extractConfig ),
+			},
+			{
 				test: /\.json$/,
 				use: [ "json-loader" ],
 			},
 			{
 				test: /\.scss$/,
-				use: [
-					"css-loader",
-					"sass-loader",
+				include: [
+					/node_modules\/gutenberg/,
 				],
+				use: blocksCSSPlugin.extract( extractConfig ),
 			},
 		],
 	},
@@ -107,6 +178,7 @@ const defaultWebpackConfig = {
 				NODE_ENV: JSON.stringify( "production" ),
 			},
 		} ),
+		blocksCSSPlugin,
 		new UnminifiedWebpackPlugin(),
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.optimize.AggressiveMergingPlugin(),
