@@ -16,6 +16,7 @@ import PluginIcon from "../../images/Yoast_icon_kader.svg";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SnippetEditor from "./containers/SnippetEditor";
+import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 import SidebarItem from "./components/SidebarItem";
 
 // This should be the entry point for all the edit screens. Because of backwards compatibility we can't change this at once.
@@ -102,6 +103,7 @@ function registerPlugin() {
 				<Fill name="YoastSidebar">
 					<SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem>
 					<SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem>
+					<SidebarItem renderPriority={ 30 }><CornerstoneToggle onChange={ () => {} } checked={ true } /></SidebarItem>
 				</Fill>
 			</Fragment>
 		);
