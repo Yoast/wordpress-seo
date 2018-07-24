@@ -1,10 +1,8 @@
-var plugins = {
-	usedKeywords: require( "./js/bundledPlugins/previouslyUsedKeywords" )
-};
-
-var helpers = {
-	scoreToRating: require( "./js/interpreters/scoreToRating" )
-};
+import * as assessments from "./js/assessments";
+import * as bundledPlugins from "./js/bundledPlugins";
+import * as helpers from "./js/helpers";
+import * as markers from "./js/markers";
+import * as string from "./js/stringProcessing";
 
 module.exports = {
 	Assessor: require( "./js/assessor" ),
@@ -13,11 +11,14 @@ module.exports = {
 	App: require( "./js/app" ),
 	Pluggable: require( "./js/pluggable" ),
 	Researcher: require( "./js/researcher" ),
-	SnippetPreview: require( "./js/snippetPreview.js" ),
+	SnippetPreview: require( "./js/snippetPreview" ),
 
 	Paper: require( "./js/values/Paper" ),
 	AssessmentResult: require( "./js/values/AssessmentResult" ),
 
-	bundledPlugins: plugins,
-	helpers: helpers
+	assessments,
+	bundledPlugins,
+	helpers,
+	markers,
+	string,
 };
