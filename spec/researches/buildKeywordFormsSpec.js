@@ -1,89 +1,204 @@
 const buildKeywordForms = require( "../../js/researches/buildKeywordForms.js" );
-const includes = require( "lodash/includes" );
-const Paper = require( "../../js/values/Paper.js" );
-let result;
-let mockPaper;
+const filterFunctionWords = buildKeywordForms.filterFunctionWords;
+const buildForms = buildKeywordForms.buildForms;
+const collectForms = buildKeywordForms.collectForms;
 
-describe( "Return the received keyword for a language that is not added to the morphology module", function() {
-	it( "returns the keyword and possible alternations with respect to normalized/non-normalized apostrophe", function() {
-		mockPaper = new Paper( "", { keyword: "слово", locale: "ru_RU" } );
-		result = buildKeywordForms( mockPaper );
-		expect( result ).toEqual( [].concat( "слово" ) );
 
-		mockPaper = new Paper( "", { keyword: "слово'слово", locale: "ru_RU" } );
-		result = buildKeywordForms( mockPaper );
+describe( "A test for filtering out function words from an array of words for a given language", function() {
+	it( "returns the array of content words for absent locale", function() {
+		const filteredArray = filterFunctionWords( [ "I", "am", "going", "for", "a", "walk" ] );
+		expect( filteredArray ).toEqual( [].concat( "walk" ) );
+	} );
 
-		expect( result ).toEqual( [].concat( "слово'слово", "слово‘слово", "слово’слово", "слово‛слово", "слово`слово" ) );
+	it( "returns the array of content words for an empty language as if it was English", function() {
+		const filteredArray = filterFunctionWords( [ "I", "am", "going", "for", "a", "walk" ], "" );
+		expect( filteredArray ).toEqual( [].concat( "walk" ) );
+	} );
+
+	it( "returns the original array of words for a non-existing language", function() {
+		const filteredArray = filterFunctionWords( [ "I", "am", "going", "for", "a", "walk" ], "yep" );
+		expect( filteredArray ).toEqual( [ "I", "am", "going", "for", "a", "walk" ] );
+	} );
+
+	it( "returns the array of content words for English", function() {
+		const filteredArray = filterFunctionWords( [ "I", "am", "going", "for", "a", "walk" ], "en" );
+		expect( filteredArray ).toEqual( [].concat( "walk" ) );
+	} );
+
+	it( "returns the array of content words for French", function() {
+		const filteredArray = filterFunctionWords( [ "Je", "ne", "vais", "pas", "rire" ], "fr" );
+		expect( filteredArray ).toEqual( [].concat( "rire" ) );
+	} );
+
+	it( "returns the array of content words for Spanish", function() {
+		const filteredArray = filterFunctionWords( [ "Como", "hacer", "guacamole", "como", "los", "mexicanos" ], "es" );
+		expect( filteredArray ).toEqual( [].concat( "guacamole", "mexicanos" ) );
 	} );
 } );
 
-describe( "Build keyword forms based on the received keyword for English", function() {
-	it( "returns the forms", function() {
-		mockPaper = new Paper( "", { keyword: "keyword", locale: "en_EN" } );
-		result = buildKeywordForms( mockPaper );
-		expect( result ).toContain( "keyword" );
-		expect( result ).toContain( "keywords" );
-		expect( result ).toContain( "keyword's" );
-		expect( result ).toContain( "keywords'" );
-		expect( result ).toContain( "keywords's" );
-		expect( result ).toContain( "keyword’s" );
-		expect( result ).toContain( "keyword‘s" );
-		expect( result ).toContain( "keyword‛s" );
-		expect( result ).toContain( "keyword`s" );
-		expect( result ).toContain( "keywords’" );
-		expect( result ).toContain( "keywords'" );
-		expect( result ).toContain( "keywords`" );
-		expect( result ).toContain( "keywords‘" );
-		expect( result ).toContain( "keywords‛" );
-		expect( result ).toContain( "keywords’s" );
-		expect( result ).toContain( "keywords's" );
-		expect( result ).toContain( "keywords`s" );
-		expect( result ).toContain( "keywords‘s" );
-		expect( result ).toContain( "keywords‛s" );
+const movieForms = [ "movie", "movies", "movie's", "movies's", "movies'", "moviing", "movied", "moviely",
+	"movier", "moviest", "movie‘s", "movie’s", "movie‛s", "movie`s", "movies‘s", "movies’s", "movies‛s",
+	"movies`s", "movies‘", "movies’", "movies‛", "movies`" ];
 
-		mockPaper = new Paper( "", { keyword: "Keyword", locale: "en_EN" } );
-		result = buildKeywordForms( mockPaper );
-		expect( result ).toContain( "keyword" );
-		expect( result ).toContain( "keywords" );
+const workForms = [ "work", "works", "work's", "works's", "works'", "working", "worked", "workly", "worker",
+	"workest", "work‘s", "work’s", "work‛s", "work`s", "works‘s", "works’s", "works‛s", "works`s", "works‘",
+	"works’", "works‛", "works`" ];
+
+const diligentlyForms = [ "diligently", "diligentlies", "diligently's", "diligentlies's", "diligentlies'",
+	"diligentlying", "diligentlied", "diligent", "diligently‘s", "diligently’s", "diligently‛s", "diligently`s",
+	"diligentlies‘s", "diligentlies’s", "diligentlies‛s", "diligentlies`s", "diligentlies‘", "diligentlies’",
+	"diligentlies‛", "diligentlies`" ];
+
+const oneForms = [ "one", "ones", "one's", "ones's", "ones'", "oning", "oned", "onely", "oner", "onest", "one‘s",
+	"one’s", "one‛s", "one`s", "ones‘s", "ones’s", "ones‛s", "ones`s", "ones‘", "ones’", "ones‛", "ones`" ];
+
+const andForms = [ "and", "ands", "and's", "ands's", "ands'", "anding", "anded", "andly", "ander", "andest",
+	"and‘s", "and’s", "and‛s", "and`s", "ands‘s", "ands’s", "ands‛s", "ands`s", "ands‘", "ands’", "ands‛", "ands`" ];
+
+const twoForms = [ "two", "twos", "two's", "twos's", "twos'", "twoes", "twoing", "twoed", "twoly", "twoer", "twoest",
+	"two‘s", "two’s", "two‛s", "two`s", "twos‘s", "twos’s", "twos‛s", "twos`s", "twos‘", "twos’", "twos‛", "twos`" ];
+
+describe( "A test for building forms of words for an array of words", function() {
+	it( "returns an empty array if the input keyphrase is undefined", function() {
+		let keyphrase;
+		const forms = buildForms( keyphrase );
+		expect( forms ).toEqual( [] );
+	} );
 
 
-		mockPaper = new Paper( "", { keyword: "\"keyword\"", locale: "en_EN" } );
-		result = buildKeywordForms( mockPaper );
-		expect( result ).toEqual( [].concat( "keyword" ) );
+	it( "returns the exact match if the input string is embedded in quotation marks (the language and morphAnalyzer do not matter)", function() {
+		const forms = buildForms( "\"I am going for a walk\"" );
+		expect( forms ).toEqual( [ [ "I am going for a walk" ] ] );
+	} );
 
-		mockPaper = new Paper( "", { keyword: "“keyword”", locale: "en_EN" } );
-		result = buildKeywordForms( mockPaper );
-		expect( result ).toEqual( [].concat( "keyword" ) );
+	it( "returns the single-word arrays for all words if there is no morphological analyzer for this language yet", function() {
+		const forms = buildForms( "Je ne vais pas rire", "fr", true );
+		expect( forms ).toEqual( [ [ "rire" ] ] );
+	} );
 
-		mockPaper = new Paper( "", { keyword: "\"keyword", locale: "en_EN" } );
-		result = buildKeywordForms( mockPaper );
-		expect( result ).toContain( "\"keyword" );
-		expect( result ).toContain( "\"keywords" );
+	it( "returns the single-word arrays for all words if there is no morphological analyzer for this language yet", function() {
+		const forms = buildForms( "Como hacer guacamole como los mexicanos", "es", true );
+		expect( forms ).toEqual( [ [ "guacamole" ], [ "mexicanos" ] ] );
+	} );
 
-		mockPaper = new Paper( "", { keyword: "\"Keyword\"", locale: "en_EN" } );
-		result = buildKeywordForms( mockPaper );
-		expect( result ).toEqual( [].concat( "Keyword" ) );
+	it( "returns the single-word arrays for all words if there is no morphological analyzer for this language yet and takes care of apostrophe variations", function() {
+		const forms = buildForms( "слово'слово", "ru", true );
+		expect( forms ).toEqual( [ [ "слово'слово", "слово‘слово", "слово’слово", "слово‛слово", "слово`слово" ] ] );
+	} );
 
-		mockPaper = new Paper( "", { keyword: "\"keyword and keyphrases\"", locale: "en_EN" } );
-		result = buildKeywordForms( mockPaper );
-		expect( result ).toEqual( [].concat( "keyword and keyphrases" ) );
+	it( "returns the single word arrays for all content words for English if Free", function() {
+		const forms = buildForms( "I am going for a walk", "en", false );
+		expect( forms ).toEqual( [ [ "walk" ] ] );
+	} );
 
-		mockPaper = new Paper( "", { keyword: "keyword and keyphrases", locale: "en_EN" } );
-		result = buildKeywordForms( mockPaper );
-		expect( result ).toContain( "keyword" );
-		expect( result ).toContain( "keywords" );
-		expect( result ).toContain( "keyphrase" );
-		expect( result ).toContain( "keyphrases" );
-		const whetherResultContainsWord = includes( result, "and" );
-		expect( whetherResultContainsWord ).toBe( false );
+	it( "returns the arrays for all forms for English if Premium if only function words are supplied", function() {
+		const forms = buildForms( "One and two", "en", true );
+		expect( forms ).toEqual( [ oneForms, andForms, twoForms ] );
+	} );
+} );
 
-		mockPaper = new Paper( "", { keyword: "One and two", locale: "en_EN" } );
-		result = buildKeywordForms( mockPaper );
-		expect( result ).toContain( "one" );
-		expect( result ).toContain( "ones" );
-		expect( result ).toContain( "and" );
-		expect( result ).toContain( "ands" );
-		expect( result ).toContain( "two" );
-		expect( result ).toContain( "twos" );
+describe( "A test for building keyword and synonyms forms for a paper", function() {
+	it( "returns the exact matches if the input strings are embedded in quotation marks and word forms if not; for empty locale", function() {
+		const keyword = "\"I am going for a walk\"";
+		const synonyms = "\"You are not going for a walk\", You are going for a movie, And he is going to work diligently.";
+		let locale;
+
+		const expectedResult = {
+			keyphraseForms: [ [ "I am going for a walk" ] ],
+			synonymsForms: [
+				[ [ "You are not going for a walk" ] ],
+				[ movieForms ],
+				[ workForms, diligentlyForms ],
+			],
+		};
+		expect( collectForms( keyword, synonyms, locale, true ) ).toEqual( expectedResult );
+	} );
+
+	it( "returns the exact matches if the input strings are embedded in quotation marks and word forms if not; for English", function() {
+		const keyword = "\"I am going for a walk\"";
+		const synonyms = "\"You are not going for a walk\", You are going for a movie, And he is going to work diligently.";
+		const locale = "en_EN";
+
+		const expectedResult = {
+			keyphraseForms: [ [ "I am going for a walk" ] ],
+			synonymsForms: [
+				[ [ "You are not going for a walk" ] ],
+				[ movieForms ],
+				[ workForms, diligentlyForms ],
+			],
+		};
+		expect( collectForms( keyword, synonyms, locale, true ) ).toEqual( expectedResult );
+	} );
+
+	it( "returns the exact matches if the input strings are embedded in quotation marks and single-word arrays if not; for French (no morphology yet)", function() {
+		const keyword = "Je vais me promener";
+		const synonyms = "\"Tu ne vas pas te promener\", Tu vas voir un film, Et lui il va travailler dur.";
+		const locale = "fr_FR";
+
+		const expectedResult = {
+			keyphraseForms: [ [ "promener" ] ],
+			synonymsForms: [
+				[ [ "Tu ne vas pas te promener" ] ],
+				[ [ "voir" ], [ "film" ] ],
+				[ [ "travailler" ], [ "dur" ] ],
+			],
+		};
+		expect( collectForms( keyword, synonyms, locale, true ) ).toEqual( expectedResult );
+	} );
+
+	it( "returns the exact matches if the input strings are embedded in quotation marks and single-word arrays if not; for an unexisting locale (no morphology and function words)", function() {
+		const keyword = "\"I am going for a walk\"";
+		const synonyms = "\"You are not going for a walk\", You are going for a movie, And he is going to work diligently.";
+		const locale = "yep_YEP";
+
+		const expectedResult = {
+			keyphraseForms: [ [ "I am going for a walk" ] ],
+			synonymsForms: [
+				[ [ "You are not going for a walk" ] ],
+				[ [ "you" ], [ "are" ], [ "going" ], [ "for" ], [ "a" ], [ "movie" ] ],
+				[ [ "and" ], [ "he" ], [ "is" ], [ "going" ], [ "to" ], [ "work" ], [ "diligently" ] ],
+			],
+		};
+		expect( collectForms( keyword, synonyms, locale, true ) ).toEqual( expectedResult );
+	} );
+
+	it( "returns empty structure if no keyword or synonyms are supplied", function() {
+		const keyword = "";
+		const synonyms = "";
+		const locale = "en_EN";
+
+		const expectedResult = {
+			keyphraseForms: [],
+			synonymsForms: [],
+		};
+		expect( collectForms( keyword, synonyms, locale, true ) ).toEqual( expectedResult );
+	} );
+
+	it( "returns an empty field if no keyword was supplied ", function() {
+		const keyword = "";
+		const synonyms = "\"You are not going for a walk\", You are going for a movie, And he is going to work diligently.";
+		const locale = "en_EN";
+
+		const expectedResult = {
+			keyphraseForms: [],
+			synonymsForms: [
+				[ [ "You are not going for a walk" ] ],
+				[ movieForms ],
+				[ workForms, diligentlyForms ],
+			],
+		};
+		expect( collectForms( keyword, synonyms, locale, true ) ).toEqual( expectedResult );
+	} );
+
+	it( "returns an empty field if no synonyms were supplied ", function() {
+		const keyword = "\"I am going for a walk\"";
+		const synonyms = "";
+		const locale = "en_EN";
+
+		const expectedResult = {
+			keyphraseForms: [ [ "I am going for a walk" ] ],
+			synonymsForms: [],
+		};
+		expect( collectForms( keyword, synonyms, locale, true ) ).toEqual( expectedResult );
 	} );
 } );

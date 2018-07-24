@@ -1,4 +1,4 @@
-const getForms = require( "../../src/morphology/english/getForms.js" );
+const getForms = require( "../../js/morphology/english/getForms.js" );
 const includes = require( "lodash/includes" );
 
 const simpleWordsToTest = [

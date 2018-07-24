@@ -5,7 +5,7 @@ const comparative = [
 	[ /(..)e$/i, "$1er" ],
 	[ /([plgmrv]id)$/i, "$1er" ],
 	[ /([^aeiouy])([aeiouy])([bdfglmnpt])$/i, "$1$2$3$3er" ],
-	[ /(.*)/i, "$1er" ],
+	[ /(.+)/i, "$1er" ],
 
 ].map( function( a ) {
 	return {
@@ -20,7 +20,7 @@ const superlative = [
 	[ /(..)e$/i, "$1est" ],
 	[ /([plgmrv]id)$/i, "$1est" ],
 	[ /([^aeiouy])([aeiouy])([bdfglmnpt])$/i, "$1$2$3$3est" ],
-	[ /(.*)/i, "$1est" ],
+	[ /(.+)/i, "$1est" ],
 
 ].map( function( a ) {
 	return {
@@ -48,7 +48,7 @@ const adverb = [
 	[ /(ic)$/i, "$1ally" ],
 	[ /(ly)$/i, "$1" ],
 	[ /(l)e$/i, "$1y" ],
-	[ /(.*)/i, "$1ly" ],
+	[ /(.+)/i, "$1ly" ],
 
 ].map( function( a ) {
 	return {

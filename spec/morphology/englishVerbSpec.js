@@ -1,6 +1,6 @@
-const getVerbForms = require( "../../src/morphology/english/getVerbForms.js" ).getVerbForms;
-const normalizePrefixed = require( "../../src/morphology/english/getVerbForms.js" ).normalizePrefixed;
-const irregularVerbsToTest = require( "../../src/morphology/english/irregularVerbs.js" );
+const getVerbForms = require( "../../js/morphology/english/getVerbForms.js" ).getVerbForms;
+const normalizePrefixed = require( "../../js/morphology/english/getVerbForms.js" ).normalizePrefixed;
+const irregularVerbsToTest = require( "../../js/morphology/english/irregularVerbs.js" );
 
 const regularVerbsToTest = [
 	[ "bill", "bills", "billing", "billed" ],

@@ -1,9 +1,9 @@
-const getAdjectiveForms = require( "../../src/morphology/english/getAdjectiveForms.js" ).getAdjectiveForms;
-const getBase = require( "../../src/morphology/english/getAdjectiveForms.js" ).getBase;
-const irregularAdjectivesToTest = require( "../../src/morphology/english/irregularAdjectives.js" );
-const comparative = require( "../../src/morphology/english/getAdjectiveForms.js" ).comparative;
-const superlative = require( "../../src/morphology/english/getAdjectiveForms.js" ).superlative;
-const checkIcally = require( "../../src/morphology/english/getAdjectiveForms.js" ).checkIcally;
+const getAdjectiveForms = require( "../../js/morphology/english/getAdjectiveForms.js" ).getAdjectiveForms;
+const getBase = require( "../../js/morphology/english/getAdjectiveForms.js" ).getBase;
+const irregularAdjectivesToTest = require( "../../js/morphology/english/irregularAdjectives.js" );
+const comparative = require( "../../js/morphology/english/getAdjectiveForms.js" ).comparative;
+const superlative = require( "../../js/morphology/english/getAdjectiveForms.js" ).superlative;
+const checkIcally = require( "../../js/morphology/english/getAdjectiveForms.js" ).checkIcally;
 
 const includes = require( "lodash/includes" );
 
@@ -53,6 +53,7 @@ const regularAdjectivesToTest = [
 	[ "kind", "kinder", "kindest", "kindly" ],
 	[ "narrow", "narrower", "narrowest", "narrowly" ],
 	[ "faint", "fainter", "faintest", "faintly" ],
+	[ "test", "tester", "testest", "testly" ],
 ];
 
 const yAtTheEnd = [
