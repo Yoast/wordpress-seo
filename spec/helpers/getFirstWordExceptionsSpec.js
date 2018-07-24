@@ -30,7 +30,7 @@ describe( "a test for getting the correct first word exception array", function(
 	} );
 
 	it( "returns the Polish first word exception array in case of pl_PL locale", function() {
-		expect( firstWordExceptions( "pl_PL" )() ).toEqual( [ "jeden", "jedna", "jedno", "dwa", "trzy", "cztery", "pięć", "sześć", "siedem", "osiem", "dziewięć", "dziesięć", "ta", "to", "ten", "te", "ci", "taki", "tacy", "taka", "taką", "takich", "takie", "takiego", "takiej", "takiemu", "takim", "takimi", "tamten", "tamta", "tamto", "tamci", "tamte", "tamtą", "tamtego", "tamtej", "tamtemu", "tamtych", "tamtym", "tamtymi", "tą", "tę", "tego", "tej", "temu", "tych", "tymi", "tym", "tak" ] );
+		expect( firstWordExceptions( "pl_PL" )() ).toEqual( [ "jeden", "jedna", "jedno", "dwa", "dwie", "trzy", "cztery", "pięć", "sześć", "siedem", "osiem", "dziewięć", "dziesięć", "ta", "to", "ten", "te", "ci", "taki", "tacy", "taka", "taką", "takich", "takie", "takiego", "takiej", "takiemu", "takim", "takimi", "tamten", "tamta", "tamto", "tamci", "tamte", "tamtą", "tamtego", "tamtej", "tamtemu", "tamtych", "tamtym", "tamtymi", "tą", "tę", "tego", "tej", "temu", "tych", "tymi", "tym", "tak" ] );
 	} );
 
 	it( "returns the English first word exception array in case of empty locale", function() {
