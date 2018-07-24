@@ -2,6 +2,7 @@ const find = require( "lodash/find" );
 const forEach = require( "lodash/forEach" );
 const memoize = require( "lodash/memoize" );
 const includes = require( "lodash/includes" );
+const flattenDeep = require( "lodash/flattenDeep" );
 
 const irregularsEnglish = require( "../../english/passiveVoice/irregulars" )();
 const irregularsRegularFrench = require( "../../french/passiveVoice/irregulars" )().irregularsRegular;
@@ -9,7 +10,11 @@ const irregularsIrregularFrench = require( "../../french/passiveVoice/irregulars
 const irregularsEndingInSFrench = require( "../../french/passiveVoice/irregulars" )().irregularsEndingInS;
 const spanishParticiples = require( "../../spanish/passiveVoice/participles" )();
 const italianParticiples = require( "../../italian/passiveVoice/participles" )();
+const irregularsDutch = require( "../../dutch/passiveVoice/irregulars" )();
+const nlRegex1 = /^(ge|be|ont|ver|her|er)\S+(d|t)$/ig;
+const nlRegex2 = /^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)$/ig;
 const polishParticiples = require( "../../polish/passiveVoice/participles" )();
+
 
 // The language-specific participle regexes.
 const languageVariables = {
@@ -18,6 +23,10 @@ const languageVariables = {
 	},
 	fr: {
 		regularParticiplesRegex: /\S+(é|ée|és|ées)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
+	},
+	nl: {
+		regularParticipleRegexPattern1: nlRegex1,
+		regularParticipleRegexPattern2: nlRegex2,
 	},
 };
 
@@ -35,10 +44,19 @@ let regularParticiples = function( word, language ) {
 		return [];
 	}
 
-	// Matches all words with a language-specific participle suffix.
-	const regularParticiplesRegex = languageVariables[ language ].regularParticiplesRegex;
+	// Matches word with language-specific participle regexes.
+	let matches = [];
 
-	return word.match( regularParticiplesRegex ) || [];
+	Object.keys( languageVariables[ language ] ).forEach( function( regex ) {
+		const match = word.match( languageVariables[ language ][ regex ] );
+		if( match !== null ) {
+			matches.push( match );
+		}
+	} );
+
+	matches = flattenDeep( matches );
+
+	return matches;
 };
 
 /**
@@ -95,6 +113,11 @@ let irregularParticiples = function( word, language ) {
 		case "it":
 			// In Italian, we only match passives from a word list.
 			if ( includes( italianParticiples, word ) ) {
+				matches.push( word );
+			}
+			break;
+		case "nl":
+			if ( includes( irregularsDutch, word ) ) {
 				matches.push( word );
 			}
 			break;

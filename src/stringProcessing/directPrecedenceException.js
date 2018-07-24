@@ -1,11 +1,13 @@
-var getWordIndices = require( "../researches/passiveVoice/periphrastic/getIndicesWithRegex.js" );
-var includesIndex = require( "./includesIndex" );
-var arrayToRegex = require( "./createRegexFromArray.js" );
-var cannotDirectlyPrecedePassiveParticipleFrench = require( "../researches/french/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
-var cannotDirectlyPrecedePassiveParticipleEnglish = require( "../researches/english/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
-var cannotDirectlyPrecedePassiveParticipleSpanish = require( "../researches/spanish/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
-var cannotDirectlyPrecedePassiveParticipleItalian = require( "../researches/italian/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
-var cannotDirectlyPrecedePassiveParticiplePolish = require( "../researches/polish/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+const getWordIndices = require( "../researches/passiveVoice/periphrastic/getIndicesWithRegex.js" );
+const includesIndex = require( "./includesIndex" );
+const arrayToRegex = require( "./createRegexFromArray.js" );
+const cannotDirectlyPrecedePassiveParticipleFrench = require( "../researches/french/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+const cannotDirectlyPrecedePassiveParticipleEnglish = require( "../researches/english/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+const cannotDirectlyPrecedePassiveParticipleSpanish = require( "../researches/spanish/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+const cannotDirectlyPrecedePassiveParticipleItalian = require( "../researches/italian/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+const cannotDirectlyPrecedePassiveParticipleDutch = require( "../researches/dutch/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+const cannotDirectlyPrecedePassiveParticiplePolish = require( "../researches/polish/functionWords.js" )().cannotDirectlyPrecedePassiveParticiple;
+
 
 /**
  * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
@@ -19,7 +21,7 @@ var cannotDirectlyPrecedePassiveParticiplePolish = require( "../researches/polis
  * the participle, otherwise returns false.
  */
 module.exports = function( sentencePart, participleIndex, language ) {
-	var directPrecedenceExceptionRegex;
+	let directPrecedenceExceptionRegex;
 	switch ( language ) {
 		case "fr":
 			directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticipleFrench );
@@ -30,6 +32,9 @@ module.exports = function( sentencePart, participleIndex, language ) {
 		case "it":
 			directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticipleItalian );
 			break;
+		case "nl":
+			directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticipleDutch );
+			break;
 		case "pl":
 			directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticiplePolish );
 			break;
@@ -38,6 +43,6 @@ module.exports = function( sentencePart, participleIndex, language ) {
 			directPrecedenceExceptionRegex = arrayToRegex( cannotDirectlyPrecedePassiveParticipleEnglish );
 			break;
 	}
-	var directPrecedenceExceptionMatch = getWordIndices( sentencePart, directPrecedenceExceptionRegex );
+	const directPrecedenceExceptionMatch = getWordIndices( sentencePart, directPrecedenceExceptionRegex );
 	return includesIndex( directPrecedenceExceptionMatch, participleIndex );
 };

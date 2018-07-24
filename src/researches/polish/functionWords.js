@@ -190,11 +190,11 @@ let passiveAuxiliaries = [ "bądź", "bądźcie", "bądźmy", "będą", "będąc
 	"zostałeś", "zostali", "zostaliby", "zostalibyście", "zostalibyśmy", "zostaliście", "zostaliśmy", "zostało",
 	"zostaloby", "zostały", "zostałyby", "zostałybyście", "zostałybyśmy", "zostałyście", "zostałyśmy", "zostań", "zostaną",
 	"zostańcie", "zostanę", "zostanie", "zostaniecie", "zostaniemy", "zostaniesz", "zostańmy", "zostawało", "zostawano",
-	"zostawszy" ]
+	"zostawszy" ];
 
 let passiveAuxiliariesInfinitive = [ "być", "zostać" ];
 
-let otherAuxiliariesInfinitive = [ "chcieć", "mieć", "móc", "musieć", "potrafić", "stać", ];
+let otherAuxiliariesInfinitive = [ "chcieć", "mieć", "móc", "musieć", "potrafić", "stać" ];
 
 
 let prepositions = [ "bez", "beze", "blisko", "daleko", "dla", "do", "dole", "dookoła", "górze", "jako", "koło", "ku",
@@ -381,7 +381,7 @@ module.exports = function() {
 			interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs ),
 
 		// These word categories cannot intervene between an auxiliary and a corresponding passive participle.
-		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, otherAuxiliariesInfinitive, ),
+		cannotBeBetweenPassiveAuxiliaryAndParticiple: [].concat( otherAuxiliaries, otherAuxiliariesInfinitive ),
 
 		// This export contains all of the above words.
 		all: [].concat( transitionWords, additionalTransitionWords, cardinalNumerals, personalPronounsNominative,
