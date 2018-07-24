@@ -63,10 +63,12 @@ import sentences from "../../js/researches/sentences";
 
 // Import test papers
 const englishPaper1 = require( "./testTexts/englishPaper1" );
+const englishPaper2 = require( "./testTexts/englishPaper2" );
 
 // Create a list of all test papers
 const testPapers = [
 	englishPaper1,
+	englishPaper2,
 ];
 
 testPapers.forEach( function( testPaper ) {
