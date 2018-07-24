@@ -115,7 +115,7 @@ Enhancements:
 
 Bugfixes:
 * Fixes a bug where archive settings for post types aren't shown on the search appearance page when the `has_archive` for that post type contains an archive slug. Props to [schurig](https://github.com/schurig).
-* Fixes a bug where a notice ("Notice: Trying to get property of non-object") is given when the `$term->taxonomy` isn't set before it is used.` Props to [bainternet](https://github.com/bainternet).
+* Fixes a bug where a notice ("Notice: Trying to get property of non-object") is given when the `$term->taxonomy` isn't set before it is used.` Props to [nesinervink](https://github.com/nesinervink), [bainternet](https://github.com/bainternet).
 * Fixes a bug where an uppercased encode URI isn't redirected to the category. Props to [dawnbirth](https://github.com/dawnbirth).
 * Fixes a bug where HTML entities were not always decoded in the Snippet Variables.
 * Fixes a bug where custom field labels would be separated by spaces in the classic editor, but in Gutenberg they would be separated by underscores instead.
