@@ -140,10 +140,6 @@
     lodash "^4.17.5"
     memize "^1.0.5"
 
-"a11y-speak@git+https://github.com/Yoast/a11y-speak.git#master":
-  version "0.0.1"
-  resolved "git+https://github.com/Yoast/a11y-speak.git#4e772809a2fed1a54ba29176ada175b15436e977"
-
 abab@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"

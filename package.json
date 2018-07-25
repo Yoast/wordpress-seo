@@ -43,7 +43,6 @@
   "author": "Yoast",
   "license": "GPL-3.0",
   "dependencies": {
-    "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
     "algoliasearch": "^3.22.3",
