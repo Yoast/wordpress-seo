@@ -6,7 +6,7 @@ branches:
   only:
     - master
     - trunk
-    - /^release\/\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^release\/*/
     - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
     - /^feature\/*/
 

@@ -315,6 +315,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
 					self::PREFIX . 'wp-globals-backport',
+					self::PREFIX . 'analysis',
 				),
 			),
 			array(
@@ -323,6 +324,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'wp-globals-backport',
+					self::PREFIX . 'analysis',
 				),
 			),
 			array(
@@ -330,6 +332,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-replacevar-plugin-' . $flat_version,
 				'deps' => array(
 					self::PREFIX . 'babel-polyfill',
+					self::PREFIX . 'analysis',
 				),
 			),
 			array(
@@ -337,6 +340,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-shortcode-plugin-' . $flat_version,
 				'deps' => array(
 					self::PREFIX . 'babel-polyfill',
+					self::PREFIX . 'analysis',
 				),
 			),
 			array(
@@ -347,6 +351,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
 					self::PREFIX . 'babel-polyfill',
+					self::PREFIX . 'analysis',
 				),
 			),
 			array(
@@ -435,6 +440,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'filter-explanation',
 				'src'  => 'wp-seo-filter-explanation-' . $flat_version,
 				'deps' => array( 'jquery' ),
+			),
+			array(
+				'name' => 'analysis',
+				'src'  => 'analysis-' . $flat_version,
 			),
 		);
 	}
