@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import mapResults from "./mapResults";
 import ContentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/components/ContentAnalysis";
+import LanguageNotice from "yoast-components/composites/Plugin/Shared/components/LanguageNotice.js";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -71,20 +72,24 @@ class Results extends React.Component {
 			problemsResults,
 		} = mappedResults;
 		return (
-			<ContentAnalysis
-				errorsResults={ errorsResults }
-				problemsResults={ problemsResults }
-				improvementsResults={ improvementsResults }
-				considerationsResults={ considerationsResults }
-				goodResults={ goodResults }
-				changeLanguageLink={ this.props.changeLanguageLink }
-				language={ this.props.language }
-				showLanguageNotice={ this.props.showLanguageNotice }
-				canChangeLanguage={ this.props.canChangeLanguage }
-				onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
-				marksButtonClassName={ this.props.marksButtonClassName }
-				marksButtonStatus={ this.props.marksButtonStatus }
-			/>
+			<React.Fragment>
+				<LanguageNotice
+					changeLanguageLink={ this.props.changeLanguageLink }
+					language={ this.props.language }
+					showLanguageNotice={ this.props.showLanguageNotice }
+					canChangeLanguage={ this.props.canChangeLanguage }
+				/>
+				<ContentAnalysis
+					errorsResults={ errorsResults }
+					problemsResults={ problemsResults }
+					improvementsResults={ improvementsResults }
+					considerationsResults={ considerationsResults }
+					goodResults={ goodResults }
+					onMarkButtonClick={ this.handleMarkButtonClick.bind( this ) }
+					marksButtonClassName={ this.props.marksButtonClassName }
+					marksButtonStatus={ this.props.marksButtonStatus }
+				/>
+			</React.Fragment>
 		);
 	}
 }
