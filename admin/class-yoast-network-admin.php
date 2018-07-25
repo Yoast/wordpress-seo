@@ -133,7 +133,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 		$site = get_site( $site_id );
 		if ( ! $site ) {
 			/* translators: %s expands to the ID of a site within a multisite network. */
-			add_settings_error( $option_group, 'settings_updated', sprintf( __( 'Site %d not found.', 'wordpress-seo' ), $site_id ), 'error' );
+			add_settings_error( $option_group, 'settings_updated', sprintf( __( 'Site with ID %d not found.', 'wordpress-seo' ), $site_id ), 'error' );
 		}
 		else {
 			WPSEO_Options::reset_ms_blog( $site_id );
