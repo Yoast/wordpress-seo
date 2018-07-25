@@ -1,12 +1,15 @@
 /* global jQuery, wpseoPremiumMetaboxData, YoastSEO */
 
+import React from "react";
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import ProminentWordNoStorage from "./keywordSuggestions/ProminentWordNoStorage";
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
 import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 import Synonyms from "./metabox/synonyms";
+import isGutenbergDataAvailable from "../../../../js/src/helpers/isGutenbergDataAvailable";
 import { setTextdomainL10n, setYoastComponentsL10n } from "../../../../js/src/helpers/i18n";
+import SidebarItem from "../../../../js/src/components/SidebarItem";
 
 setTextdomainL10n( "wordpress-seo-premium" );
 
@@ -102,6 +105,34 @@ function initializeMetabox() {
 	}
 
 	registerStoreInGutenberg();
+	registerPlugin();
+}
+
+/**
+ * Registers the plugin into the gutenberg editor.
+ *
+ * @returns {void}
+ **/
+function registerPlugin() {
+	if ( isGutenbergDataAvailable() ) {
+		const { Fragment } = yoast._wp.element;
+		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
+		const { registerPlugin } = wp.plugins;
+		const { Slot, Fill } = wp.components;
+
+		const YoastSidebar = () => (
+			<Fragment>
+				<Fill name="YoastSidebar">
+					<SidebarItem renderPriority={ 21 }>Multiple keywords</SidebarItem>
+					<SidebarItem renderPriority={ 31 }>LinkSuggestions</SidebarItem>
+				</Fill>
+			</Fragment>
+		);
+
+		registerPlugin( "yoast-seo-premium", {
+			render: YoastSidebar,
+		} );
+	}
 }
 
 /**
@@ -194,6 +225,5 @@ function getProminentWordsLimit() {
 
 	return 20;
 }
-
 
 window.jQuery( initializeDOM );
