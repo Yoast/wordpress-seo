@@ -4,7 +4,6 @@ import styled from "styled-components";
 import noop from "lodash/noop";
 import GutenbergToggle from "../../Shared/components/GutenbergToggle";
 import { __ } from "@wordpress/i18n";
-import HelpText from "../../Shared/components/HelpText";
 
 const Cornerstone = styled.div`
 	display: flex;
@@ -53,6 +52,13 @@ class CornerstoneToggle extends React.Component {
 		this.props.onChange();
 	}
 
+	/**
+	 * Outputs a helper text describing the position of the toggle.
+	 *
+	 * @param {bool} checked Whether or not the toggle is checked.
+	 *
+	 * @returns {string} The text to be displayed.
+	 */
 	getHelpTextWithToggle( checked ) {
 		return checked ? __( "On" ) : __( "Off" );
 	}
@@ -66,12 +72,12 @@ class CornerstoneToggle extends React.Component {
 		return (
 			<div>
 				<Cornerstone>
-						<label htmlFor={ this.props.toggleId }>{ __("Mark this as cornerstone content.") }</label>
-						<GutenbergToggle
-							checked={ this.state.cornerstoneToggleState }
-							onChange={ this.handleChange }
-							id={ this.props.toggleId }
-						/>
+					<label htmlFor={ this.props.toggleId }>{ __( "Mark this as cornerstone content." ) }</label>
+					<GutenbergToggle
+						checked={ this.state.cornerstoneToggleState }
+						onChange={ this.handleChange }
+						id={ this.props.toggleId }
+					/>
 				</Cornerstone>
 				<HelpTextDiv>
 					<p>{ this.getHelpTextWithToggle( this.state.cornerstoneToggleState ) }</p>
