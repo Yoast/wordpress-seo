@@ -46,18 +46,18 @@ import a11ySpeak from "a11y-speak";
 		var $form    = $( this );
 		var $submit  = $form.find( "[type='submit']:focus" );
 		var formData = $form.serialize();
-		var action;
 
 		event.preventDefault();
 
 		$( ".wrap > .notice" ).remove();
 
-		action = $form.find( "input[name='action']" ).val();
-		if ( $submit.attr( "name" ) === "action" ) {
-			action = $submit.val();
+		if ( ! $submit.length ) {
+			$submit = $( ".wpseotab.active [type='submit']" );
 		}
 
-		formData = formData.replace( /action=([a-zA-Z0-9_]+)/, "action=" + action );
+		if ( $submit.attr( "name" ) === "action" ) {
+			formData = formData.replace( /action=([a-zA-Z0-9_]+)/, "action=" + $submit.val() );
+		}
 
 		$.ajax( {
 			type: "POST",
@@ -73,7 +73,7 @@ import a11ySpeak from "a11y-speak";
 			error: function( xhr ) {
 				var response = xhr.responseJSON;
 
-				if ( ! response.data ) {
+				if ( ! response || ! response.data ) {
 					return;
 				}
 
