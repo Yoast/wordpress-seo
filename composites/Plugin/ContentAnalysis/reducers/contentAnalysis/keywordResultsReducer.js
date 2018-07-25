@@ -1,4 +1,5 @@
-import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD } from "../../actions/contentAnalysis";
+import { UPDATE_SEO_RESULT, SET_SEO_RESULTS, REMOVE_KEYWORD, SET_SEO_RESULTS_FOR_KEYWORD,
+	SET_OVERALL_SEO_SCORE } from "../../actions/contentAnalysis";
 import findIndex from "lodash/findIndex";
 import omit from "lodash/omit";
 
@@ -20,14 +21,14 @@ const initialState = {};
  * @returns {Object} The new results.
  */
 function replaceResult( state, action ) {
-	const newResults = Array.from( state[ action.keyword ], ( result ) => {
+	const newResults = Array.from( state[ action.keyword ].results, ( result ) => {
 		if( result.id === action.result.id ) {
 			return action.result;
 		}
 		return result;
 	} );
 	return Object.assign( {}, state, {
-		[ action.keyword ]: newResults,
+		[ action.keyword ]: { results: newResults },
 	} );
 }
 
@@ -42,7 +43,7 @@ function replaceResult( state, action ) {
  */
 function setResultsForNewKeyword( state, keyword, results ) {
 	return Object.assign( {}, state, {
-		[ keyword ]: results,
+		[ keyword ]: { results: results },
 	} );
 }
 
@@ -59,13 +60,13 @@ function updateSeoResult( state, action ) {
 		return setResultsForNewKeyword( state, action.keyword, [ action.result ] );
 	}
 
-	let resultIndex = findIndex( state[ action.keyword ], { id: action.result.id } );
+	let resultIndex = findIndex( state[ action.keyword ].results, { id: action.result.id } );
 	if( resultIndex !== -1 ) {
 		return replaceResult( state, action );
 	}
 
 	return Object.assign( {}, state, {
-		[ action.keyword ]: [ ...state[ action.keyword ], action.result ],
+		[ action.keyword ]: { results: [ ...state[ action.keyword ].results, action.result ] },
 	} );
 }
 
@@ -83,7 +84,7 @@ function updateSeoResultsForKeyword( state, action ) {
 	}
 
 	return Object.assign( {}, state, {
-		[ action.keyword ]: action.results,
+		[ action.keyword ]: { results: action.results },
 	} );
 }
 
@@ -96,9 +97,22 @@ function updateSeoResultsForKeyword( state, action ) {
 function setSeoResults( action ) {
 	let resultsPerKeyword = {};
 	action.resultsPerKeyword.forEach( function( keywordResultsPair ) {
-		resultsPerKeyword[ keywordResultsPair.keyword ] = keywordResultsPair.results;
+		resultsPerKeyword[ keywordResultsPair.keyword ] = { results: keywordResultsPair.results };
 	} );
 	return resultsPerKeyword;
+}
+
+/**
+ * Sets the overall score for SEO results for a keyword.
+ *
+ * @param {Object} state  The state.
+ * @param {Object} action The action.
+ * @returns {Object} The overall score for the keyword.
+ */
+export function setOverallSeoScore( state, action ) {
+	return Object.assign( {}, state, {
+		[ action.keyword ]: { ...state[ action.keyword ], overallScore: action.overallScore },
+	} );
 }
 
 /**
@@ -122,6 +136,8 @@ export function keywordResultsReducer( state = initialState, action ) {
 			return omit( state, action.keyword );
 		case SET_SEO_RESULTS_FOR_KEYWORD:
 			return updateSeoResultsForKeyword( state, action );
+		case SET_OVERALL_SEO_SCORE:
+			return setOverallSeoScore( state, action );
 		default:
 			return state;
 	}

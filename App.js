@@ -9,9 +9,11 @@ import DashboardWidget from "./app/DashboardWidgetWrapper";
 import Loader from "./composites/basic/Loader";
 import HelpCenterWrapper from "./app/HelpCenterWrapper";
 import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
+import KeywordSuggestionsWrapper from "./app/KeywordSuggestionWrapper";
 import SnippetEditor from "./app/SnippetEditorExample";
 import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
 import KeywordExample from "./app/KeywordExample";
+import ButtonsWrapper from "./app/ButtonsWrapper";
 
 const components = [
 	{
@@ -71,6 +73,16 @@ const components = [
 		id: "sidebar-collapsible",
 		name: "Sidebar Collapsible",
 		component: <SidebarCollapsibleWrapper />,
+	},
+	{
+		id: "keyword-suggestions",
+		name: "Keyword suggestions",
+		component: <KeywordSuggestionsWrapper />,
+  },
+  {
+		id: "buttons",
+		name: "Buttons",
+		component: <ButtonsWrapper />,
 	},
 ];
 

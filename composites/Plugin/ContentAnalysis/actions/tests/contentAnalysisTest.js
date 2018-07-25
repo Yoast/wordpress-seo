@@ -5,12 +5,16 @@ import {
 	SET_SEO_RESULTS,
 	SET_READABILITY_RESULTS,
 	SET_SEO_RESULTS_FOR_KEYWORD,
+	SET_OVERALL_READABILITY_SCORE,
+	SET_OVERALL_SEO_SCORE,
 	updateSeoResult,
 	updateReadabilityResult,
 	setSeoResults,
 	removeKeyword,
 	setReadabilityResults,
 	setSeoResultsForKeyword,
+	setOverallReadabilityScore,
+	setOverallSeoScore,
 } from "../contentAnalysis";
 
 describe( "setSeoResultsForKeyword action creator", function() {
@@ -98,6 +102,38 @@ describe( "removeKeyword function", function() {
 			keyword: keyword,
 		};
 		const actual = removeKeyword( keyword );
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "setOverallScore readability function", function() {
+	it( "creates the setOverallScore for readability results action", function() {
+		let overallScore = [
+			{ id: "overallScore", score: 3 },
+		];
+
+		const expected = {
+			type: SET_OVERALL_READABILITY_SCORE,
+			overallScore: overallScore,
+		};
+		const actual = setOverallReadabilityScore( overallScore );
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "setOverallScore seo function", function() {
+	it( "creates the setOverallScore for seo results action", function() {
+		let keyword = "keyword1";
+		let overallScore = [
+			{ id: "overallScore", score: "3" },
+		];
+
+		const expected = {
+			type: SET_OVERALL_SEO_SCORE,
+			keyword: keyword,
+			overallScore: overallScore,
+		};
+		const actual = setOverallSeoScore( overallScore, keyword );
 		expect( actual ).toEqual( expected );
 	} );
 } );

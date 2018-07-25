@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KeywordSuggestions renders correctly without items 1`] = `
+<div
+  className="yoast-keyword-suggestions"
+>
+  <p>
+    <strong>
+      Prominent words
+    </strong>
+  </p>
+  <p>
+    Once you add a bit more copy, we'll give you a list of words and word combination that occur the most in the content. These give an indication of what your content focuses on.
+  </p>
+  <ol
+    className="yoast-keyword-suggestions__list"
+  />
+  Read our 
+  <a
+    href="https://yoa.st/keyword-research-metabox"
+  >
+    ultimate guide to keyword research
+  </a>
+   to learn more about keyword research and keyword strategy.
+</div>
+`;
+
+exports[`KeywordSuggestions renders keyword suggestions as list items 1`] = `
+<div
+  className="yoast-keyword-suggestions"
+>
+  <p>
+    <strong>
+      Prominent words
+    </strong>
+  </p>
+  <p>
+    Once you add a bit more copy, we'll give you a list of words and word combination that occur the most in the content. These give an indication of what your content focuses on.
+  </p>
+  <ol
+    className="yoast-keyword-suggestions__list"
+  />
+  Read our 
+  <a
+    href="https://yoa.st/keyword-research-metabox"
+  >
+    ultimate guide to keyword research
+  </a>
+   to learn more about keyword research and keyword strategy.
+</div>
+`;
+
+exports[`KeywordSuggestions renders keyword suggestions as list items 2`] = `
+<div
+  className="yoast-keyword-suggestions"
+>
+  <p>
+    <strong>
+      Prominent words
+    </strong>
+  </p>
+  <p>
+    The following words and word combinations occur the most in the content. These give an indication of what your content focuses on. If the words differ a lot from your topic, you might want to rewrite your content accordingly. 
+  </p>
+  <ol
+    className="yoast-keyword-suggestions__list"
+  >
+    <li
+      className="yoast-keyword-suggestions__item"
+    >
+      word1
+    </li>
+    <li
+      className="yoast-keyword-suggestions__item"
+    >
+      word2
+    </li>
+    <li
+      className="yoast-keyword-suggestions__item"
+    >
+      word3
+    </li>
+  </ol>
+  Read our 
+  <a
+    href="https://yoa.st/keyword-research-metabox"
+  >
+    ultimate guide to keyword research
+  </a>
+   to learn more about keyword research and keyword strategy.
+</div>
+`;

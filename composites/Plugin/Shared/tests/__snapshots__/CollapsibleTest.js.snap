@@ -12,25 +12,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   font-size: 0.8rem;
 }
 
-.c4:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c5:hover {
-  color: #000;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -59,10 +41,35 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   min-height: 32px;
 }
 
-.c7 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -118,7 +125,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c7::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -173,25 +180,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   font-size: 0.8rem;
 }
 
-.c4:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c5:hover {
-  color: #000;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -220,10 +209,35 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   min-height: 32px;
 }
 
-.c7 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -283,7 +297,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c7::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -354,25 +368,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   font-size: 0.8rem;
 }
 
-.c4:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c5:hover {
-  color: #000;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -401,10 +397,35 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   min-height: 32px;
 }
 
-.c7 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -460,7 +481,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c7::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -515,25 +536,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   font-size: 0.8rem;
 }
 
-.c4:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c5:hover {
-  color: #000;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -562,10 +565,35 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   min-height: 32px;
 }
 
-.c7 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -625,7 +653,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c7::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -696,25 +724,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   font-size: 0.8rem;
 }
 
-.c4:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c5:hover {
-  color: #000;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -743,10 +753,35 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   min-height: 32px;
 }
 
-.c7 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -806,7 +841,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c7::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -877,25 +912,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   font-size: 0.8rem;
 }
 
-.c4:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c5:hover {
-  color: #000;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -924,10 +941,35 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   min-height: 32px;
 }
 
-.c7 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -983,7 +1025,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c7::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1038,25 +1080,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   font-size: 0.8rem;
 }
 
-.c4:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c5:hover {
-  color: #000;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1085,10 +1109,35 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   min-height: 32px;
 }
 
-.c7 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -1136,7 +1185,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c7::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1189,25 +1238,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   font-size: 0.8rem;
 }
 
-.c4:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c5:hover {
-  color: #000;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1236,10 +1267,35 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   min-height: 32px;
 }
 
-.c7 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -1287,7 +1343,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c7::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1340,25 +1396,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   font-size: 0.8rem;
 }
 
-.c4:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c5:hover {
-  color: #000;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1387,10 +1425,35 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   min-height: 32px;
 }
 
-.c7 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -1438,7 +1501,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c7::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1491,25 +1554,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   font-size: 0.8rem;
 }
 
-.c4:active {
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c5:hover {
-  color: #000;
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c7 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1538,10 +1583,35 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   min-height: 32px;
 }
 
-.c7 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
 .c0 {
@@ -1597,7 +1667,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c7::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;

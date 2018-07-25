@@ -5,6 +5,15 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.8.0 July 25th, 2018
+### Added
+* Add setOverallSeoScore and setOverallReadabilityScore reducer.
+* Add help text to the content analysis in the standalone.
+* Add a IconLabelledButton component to render a button with visible textual label
+
+### Fixed
+* Fix alignment of video in help center when no ads are present.
+
 ## 4.7.0 July 3rd, 2018
 ### Added
 * Adds synonyms components.

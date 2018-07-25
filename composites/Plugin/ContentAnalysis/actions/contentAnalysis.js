@@ -11,6 +11,9 @@ export const REMOVE_KEYWORD = `${ prefix }REMOVE_KEYWORD`;
 export const SET_READABILITY_RESULTS = `${ prefix }SET_READABILITY_RESULTS`;
 export const UPDATE_READABILITY_RESULT = `${ prefix }UPDATE_READABILITY_RESULT`;
 
+export const SET_OVERALL_READABILITY_SCORE = `${ prefix }SET_OVERALL_READABILITY_SCORE`;
+export const SET_OVERALL_SEO_SCORE = `${ prefix }SET_OVERALL_SEO_SCORE`;
+
 /*
  * Action creators
  */
@@ -100,5 +103,35 @@ export function updateReadabilityResult( result ) {
 	return {
 		type: UPDATE_READABILITY_RESULT,
 		result: result,
+	};
+}
+
+/**
+ * An action creator for setting the overall score for a readability result.
+ *
+ * @param {Object} overallScore The overall score.
+ *
+ * @returns {Object} A set overall score action.
+ */
+export function setOverallReadabilityScore( overallScore ) {
+	return {
+		type: SET_OVERALL_READABILITY_SCORE,
+		overallScore: overallScore,
+	};
+}
+
+/**
+* An action creator for setting the overall score result.
+*
+* @param {Object} overallScore The overall score.
+* @param {Object} keyword The keyword the overall score is for.
+*
+* @returns {Object} A set overall score action.
+*/
+export function setOverallSeoScore( overallScore, keyword ) {
+	return {
+		type: SET_OVERALL_SEO_SCORE,
+		keyword: keyword,
+		overallScore: overallScore,
 	};
 }
