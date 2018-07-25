@@ -13,6 +13,22 @@
 class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * @var WPSEO_Indexable_Service_Double
+	 */
+	protected $service;
+
+	/**
+	 * Sets an instance of the provider.
+	 *
+	 * @return void
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		$this->service = new WPSEO_Indexable_Service_Double();
+	}
+
+	/**
 	 * Tests the get_indexable for an invalid post type.
 	 *
 	 * @covers WPSEO_Indexable_Service::get_indexable()
@@ -28,8 +44,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 			->method( 'get_param' )
 			->will( $this->onConsecutiveCalls( 'foo', 100 ) );
 
-		$service  = new WPSEO_Indexable_Service();
-		$response = $service->get_indexable( $request );
+		$response = $this->service->get_indexable( $request );
 
 		$this->assertEquals( new WP_REST_Response( 'Invalid type for `provider` passed. Expected `callable`, but got `string`', 500 ), $response );
 	}
@@ -133,10 +148,17 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Indexable_Service::get_provider()
 	 */
 	public function test_get_provider() {
-		$service = new WPSEO_Indexable_Service_Double();
+		$this->assertInstanceOf( 'WPSEO_Indexable_Service_Post_Provider', $this->service->get_provider( 'post' ) );
+		$this->assertInstanceOf( 'WPSEO_Indexable_Service_Term_Provider', $this->service->get_provider( 'term' ) );
+		$this->service->get_provider( 'foo' );
+	}
 
-		$this->assertInstanceOf( 'WPSEO_Indexable_Service_Post_Provider', $service->get_provider( 'post' ) );
-		$this->assertInstanceOf( 'WPSEO_Indexable_Service_Term_Provider', $service->get_provider( 'term' ) );
-		$service->get_provider( 'foo' );
+	/**
+	 * Tests the handling of an unknown object type.
+	 *
+	 * @covers WPSEO_Indexable_Service::handle_unknown_object_type()
+	 */
+	public function test_handle_unknown_object_type() {
+		$this->assertInstanceOf( 'WP_REST_Response', $this->service->handle_unknown_object_type( 'unknown' ) );
 	}
 }
