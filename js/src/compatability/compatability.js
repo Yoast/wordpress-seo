@@ -1,14 +1,14 @@
 /* External dependencies */
-import forEach from "lodash/forEach";
 import defaults from "lodash/defaults";
 import noop from "lodash/noop";
+
+/* Internal dependencies */
+import DiviHelper from "./divi";
 
 const DEFAULTS = {
 	classicEditorHidden: noop,
 	classicEditorShown: noop,
 };
-
-const DIVI_EDITOR_WRAPPER_ID = "et_pb_main_editor_wrap";
 
 class CompatabilityHelper {
 	constructor( callbacks ) {
@@ -17,50 +17,23 @@ class CompatabilityHelper {
 	}
 
 	determinePageBuilder() {
-		if ( this.isDivi() ) {
+		if ( DiviHelper.isActive() ) {
 			return "divi";
 		}
 		return "";
 	}
 
-	isDivi() {
-		return !! document.getElementById( DIVI_EDITOR_WRAPPER_ID );
-	}
-
 	init() {
-		switch( this.pageBuilder ) {
-			case "divi":
-				this.initDivi();
+		if ( this.pageBuilder === "divi" ) {
+			const diviHelper = new DiviHelper();
+			diviHelper.listen( this.callbacks );
 		}
 	}
 
 	isClassicEditorHidden() {
 		if ( this.pageBuilder === "divi" ) {
-			const classicEditorContainer = document.getElementById( DIVI_EDITOR_WRAPPER_ID );
-			if( ! classicEditorContainer ) {
-				return false;
-			}
-			return classicEditorContainer.classList.contains( "et_pb_hidden" );
+			return DiviHelper.isTinyMCEHidden();
 		}
-	}
-
-	initDivi() {
-		const classicEditorContainer = document.getElementById( DIVI_EDITOR_WRAPPER_ID );
-		if( ! classicEditorContainer ) {
-			return;
-		}
-		const observer = new MutationObserver( mutationsList => {
-			forEach( mutationsList, mutation => {
-				if( mutation.type === "attributes" && mutation.attributeName === "class" ) {
-					if( mutation.target.classList.contains( "et_pb_hidden" ) ) {
-						this.callbacks.classicEditorHidden();
-					} else {
-						this.callbacks.classicEditorShown();
-					}
-				}
-			} );
-		} );
-		observer.observe( classicEditorContainer, { attributes: true } );
 	}
 }
 
