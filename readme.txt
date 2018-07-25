@@ -106,7 +106,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
-= 7.9.x =
+= 7.9.1 =
 Release Date: August 7th, 2018
 
 Enhancements:
