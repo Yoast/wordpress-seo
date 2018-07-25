@@ -478,8 +478,6 @@ setWordPressSeoL10n();
 
 		exposeGlobals( app, tabManager, replaceVarsPlugin, shortcodePlugin );
 
-
-
 		activateEnabledAnalysis( tabManager );
 
 		jQuery( window ).trigger( "YoastSEO:ready" );
