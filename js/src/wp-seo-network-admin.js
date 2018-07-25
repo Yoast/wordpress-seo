@@ -63,14 +63,15 @@ import a11ySpeak from "a11y-speak";
 			type: "POST",
 			url: ajaxurl,
 			data: formData,
-			success: function( response ) {
+		} )
+			.done( function( response ) {
 				if ( ! response.data ) {
 					return;
 				}
 
 				displaySettingsErrors( response.data );
-			},
-			error: function( xhr ) {
+			} )
+			.fail( function( xhr ) {
 				var response = xhr.responseJSON;
 
 				if ( ! response || ! response.data ) {
@@ -78,8 +79,7 @@ import a11ySpeak from "a11y-speak";
 				}
 
 				displaySettingsErrors( response.data );
-			},
-		} );
+			} );
 
 		return false;
 	}
