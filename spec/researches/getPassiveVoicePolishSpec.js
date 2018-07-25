@@ -64,9 +64,21 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 
-	it( "doesn't return passive voice if a participle is marked as non-passive by a precedence exception.", function() {
-		// Exception words: może & mieć
-		const paper = new Paper( "Jak komuś jest gorąco to może mieć szeroko otwarte okna.", { locale: "pl_PL" } );
+	it( "doesn't return passive voice if a participle is marked as non-passive by a precedence exception (indirect).", function() {
+		// Exception words: 'może' before 'otwarte'
+		const paper = new Paper( "Jak komuś jest gorąco to może doceniać szeroko otwarte okna.", { locale: "pl_PL" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
+
+	it( "returns passive voice if an indirect precedence exception word appears after the first auxiliary, but before the second auxiliary.", function() {
+		// Exception word: musi; Auxiliaries: jest & być; Participle: zjedzone
+		const paper = new Paper( "Jabłko jest pyszne więc musi być zjedzone.", { locale: "pl_PL" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
+	} );
+
+	it( "returns passive voice if there is an indirect precedence exception word in between the participle and the auxiliary.", function() {
+		// Exception word: ma; Auxiliary: być; Participle: zjedzone
+		const paper = new Paper( "Jabłko zjedzone ma być.", { locale: "pl_PL" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 } );

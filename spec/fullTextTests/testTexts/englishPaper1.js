@@ -42,13 +42,13 @@ const paper = new Paper( "<p>My husband &#8211; <a href='https://yoast.com/about
 	"&#8216;Siri, for example, would then be connected to your Apple TV. " +
 	"Search results and information would appear on the screen closest to you that Apple controls. " +
 	"I think voice will become the dominant search query, but I think screens will continue to be important in presenting search results.&#8217;</p>", {
-	keyword: "voice search",
-	description: "Voice search is gaining popularity. But what will the future bring? Joost and Marieke discuss the pros and cons of voice and describe a possible future scenario.",
-	title: "Voice search: what will the future bring?",
-	titleWidth: 450,
-	locale: "en_EN",
-	url: "https://yoast.com/future-of-voice-search/",
-} );
+		keyword: "voice search",
+		description: "Voice search is gaining popularity. But what will the future bring? Joost and Marieke discuss the pros and cons of voice and describe a possible future scenario.",
+		title: "Voice search: what will the future bring?",
+		titleWidth: 450,
+		locale: "en_EN",
+		url: "https://yoast.com/future-of-voice-search/",
+	} );
 
 const expectedResults = {
 	introductionKeyword: {

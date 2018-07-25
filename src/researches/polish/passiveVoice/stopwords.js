@@ -1,10 +1,12 @@
 /**
- * Returns a list with stopwords for the Italian passive voice assessment.
+ * Returns a list with stopwords for the Polish passive voice assessment.
  * @returns {Array} The list with stopwords.
  */
 module.exports = function() {
 	return [
+		"a",
 		"aby",
+		"albo",
 		"albowiem",
 		"bo",
 		"bowiem",
@@ -15,6 +17,7 @@ module.exports = function() {
 		"iż",
 		"jeśli",
 		"jeżeli",
+		"lub",
 		"ponieważ",
 		"zanim",
 		"żeby",
@@ -29,5 +32,6 @@ module.exports = function() {
 		"którym",
 		"którą",
 		"którymi",
+		"że",
 	];
 };

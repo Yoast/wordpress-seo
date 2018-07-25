@@ -31,13 +31,13 @@ const paper = new Paper( "<div class=\"content\"><p></p>\n" +
 	"<h2>Be critical about the data you’re seeing</h2>\n" +
 	"<p>Please think about the time frame you’re using when comparing dates. Sometimes it doesn’t make any sense to compare June 2018 to June 2017. Perhaps it makes more sense to compare June 2018 with May 2018. You know your website best, you know when you started optimizing for a certain keyword for instance. Think about what questions you want answered before diving into this bunch of&nbsp;Google Search Console data. Those questions will be the answer to what to look at when you open the Performance dashboard.</p>\n" +
 	"<p>At the beginning of this post, we noticed&nbsp;Google Search Console is showing notifications about things that occurred that can affect data:</p></div>", {
-	keyword: "Google Search Console data",
-	description: "Google Search Console has a totally new interface! And new features: e.g. 16 months of data. Annelieke explains what you can do with it!",
-	title: "Annelieke's Analytics: 16 months of Google Search Console data",
-	titleWidth: 450,
-	locale: "en_EN",
-	url: "https://yoast.com/16-months-of-google-search-console-data/",
-} );
+		keyword: "Google Search Console data",
+		description: "Google Search Console has a totally new interface! And new features: e.g. 16 months of data. Annelieke explains what you can do with it!",
+		title: "Annelieke's Analytics: 16 months of Google Search Console data",
+		titleWidth: 450,
+		locale: "en_EN",
+		url: "https://yoast.com/16-months-of-google-search-console-data/",
+	} );
 
 const expectedResults = {
 	introductionKeyword: {

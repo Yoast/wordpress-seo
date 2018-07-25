@@ -1,7 +1,7 @@
 const Participle = require( "../../../values/Participle.js" );
 const checkException = require( "../../passiveVoice/periphrastic/checkException.js" );
 const directPrecedenceException = require( "../../../stringProcessing/directPrecedenceException" );
-const precedenceException = require( "../../../stringProcessing/precedenceException" );
+const nonDirectPrecedenceException = require( "../../passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/nonDirectParticiplePrecedenceException" );
 
 /**
  * Creates an Participle object for the Polish language.
@@ -26,16 +26,21 @@ require( "util" ).inherits( PolishParticiple, Participle );
  * @returns {boolean} Returns true if no exception is found.
  */
 PolishParticiple.prototype.isPassive = function() {
-	let sentencePart = this.getSentencePart();
+	const sentencePart = this.getSentencePart();
+	const participle = this.getParticiple();
+	const auxiliaries = this.getAuxiliaries();
+
+	console.log( "auxiliaries", auxiliaries );
+	console.log( "participle", participle );
 	let participleIndex = sentencePart.indexOf( this.getParticiple() );
 	let language = this.getLanguage();
 
 	return ! this.directPrecedenceException( sentencePart, participleIndex, language ) &&
-		! this.precedenceException( sentencePart, participleIndex, language );
+		! this.nonDirectPrecedenceException( sentencePart, participle, auxiliaries, language );
 };
 
 PolishParticiple.prototype.directPrecedenceException = directPrecedenceException;
 
-PolishParticiple.prototype.precedenceException = precedenceException;
+PolishParticiple.prototype.nonDirectPrecedenceException = nonDirectPrecedenceException;
 
 module.exports = PolishParticiple;

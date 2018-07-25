@@ -9,8 +9,6 @@ const cannotBeBetweenAuxiliaryAndParticipleSpanish =
 	require( "../researches/spanish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 const cannotBeBetweenAuxiliaryAndParticipleItalian =
 	require( "../researches/italian/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-const cannotBeBetweenAuxiliaryAndParticiplePolish =
-	require( "../researches/polish/functionWords.js" )().cannotBeBetweenPassiveAuxiliaryAndParticiple;
 
 /**
  * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
@@ -34,9 +32,6 @@ module.exports = function( sentencePart, participleIndex, language ) {
 			break;
 		case "it":
 			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticipleItalian );
-			break;
-		case "pl":
-			precedenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticiplePolish );
 			break;
 		case "en":
 		default:
