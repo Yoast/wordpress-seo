@@ -43,9 +43,7 @@
   "author": "Yoast",
   "license": "GPL-3.0",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.54",
     "@wordpress/a11y": "^1.0.7",
-    "@wordpress/components": "^1.0.0",
     "@wordpress/i18n": "^1.1.0",
     "algoliasearch": "^3.22.3",
     "classnames": "^2.2.6",
@@ -57,7 +55,7 @@
     "grunt-scss-to-json": "^1.0.1",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
     "react-modal": "^3.1.10",
     "react-redux": "^5.0.6",
