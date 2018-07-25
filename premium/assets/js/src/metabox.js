@@ -116,9 +116,8 @@ function initializeMetabox() {
 function registerPlugin() {
 	if ( isGutenbergDataAvailable() ) {
 		const { Fragment } = yoast._wp.element;
-		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
-		const { Slot, Fill } = wp.components;
+		const { Fill } = wp.components;
 
 		const YoastSidebar = () => (
 			<Fragment>
