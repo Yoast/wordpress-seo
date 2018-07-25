@@ -294,7 +294,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 			'post_tag'                 => array( 'term_title', 'term_description', 'tag_description' ),
 			'post_format'              => array(),
 			'term-in-custom-taxonomy'  => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
-			'custom-post-type_archive' => array(),
+			'custom-post-type_archive' => array( 'pt_single', 'pt_plural' ),
 			'search'                   => array( 'searchphrase' ),
 		);
 
@@ -323,7 +323,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 			'post_tag'                  => array( 'term_title', 'term_description', 'tag_description' ),
 			'post_format'               => array(),
 			'term-in-custom-taxonomy'   => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
-			'custom-post-type_archive'  => array(),
+			'custom-post-type_archive' => array( 'pt_single', 'pt_plural' ),
 			'search'                    => array( 'searchphrase' ),
 		);
 
