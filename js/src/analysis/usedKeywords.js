@@ -1,9 +1,11 @@
 /* global jQuery, ajaxurl */
 
-var UsedKeywordsPlugin = require( "yoastseo" ).bundledPlugins.usedKeywords;
-var _has = require( "lodash/has" );
-var _debounce = require( "lodash/debounce" );
-var _isArray = require( "lodash/isArray" );
+import has from "lodash/has";
+import debounce from "lodash/debounce";
+import isArray from "lodash/isArray";
+import { bundledPlugins } from "yoastseo";
+const UsedKeywordsPlugin = bundledPlugins.usedKeywords;
+
 var $ = jQuery;
 
 /**
@@ -42,7 +44,7 @@ function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
  * @returns {void}
  */
 UsedKeywords.prototype.init = function() {
-	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
+	var eventHandler = debounce( this.keywordChangeHandler.bind( this ), 500 );
 
 	this._plugin.registerPlugin();
 	this._focusKeywordElement.on( "input", eventHandler );
@@ -56,7 +58,7 @@ UsedKeywords.prototype.init = function() {
 UsedKeywords.prototype.keywordChangeHandler = function() {
 	var keyword = this._focusKeywordElement.val();
 
-	if ( ! _has( this._keywordUsage, keyword ) ) {
+	if ( ! has( this._keywordUsage, keyword ) ) {
 		this.requestKeywordUsage( keyword );
 	}
 };
@@ -86,7 +88,7 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
  * @returns {void}
  */
 UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
-	if ( response && _isArray( response ) ) {
+	if ( response && isArray( response ) ) {
 		this._keywordUsage[ keyword ] = response;
 		this._plugin.updateKeywordUsage( this._keywordUsage );
 		this._app.analyzeTimer();
