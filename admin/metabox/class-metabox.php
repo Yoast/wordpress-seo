@@ -336,9 +336,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		foreach ( $content_sections as $content_section ) {
 			$content_section->display_content();
+
+			if ( $this->should_load_react_section( $content_section->get_name() ) ) {
+				echo '<div id="wpseo-meta-section-react" class="wpseo-meta-section-react"></div>';
+			}
 		}
 
 		echo '</div>';
+	}
+
+	/**
+	 * Determines whether the React section should be rendered.
+	 *
+	 * @param string $section_name The name of the section.
+	 *
+	 * @return bool Whether the React section should be rendered.
+	 */
+	private function should_load_react_section( $section_name ) {
+		return $section_name === 'content' && ( defined( 'YOAST_FEATURE_GUTENBERG_SIDEBAR' ) && YOAST_FEATURE_GUTENBERG_SIDEBAR );
 	}
 
 	/**
@@ -369,6 +384,34 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $content_sections;
+	}
+
+	/**
+	* Returns the metabox content for React to hook into.
+	*
+	* @return WPSEO_Metabox_Section
+	*/
+	private function get_content_meta_section_react() {
+		$fields = $this->get_hidden_tab_fields( 'general' );
+
+		// Add fields that weren't hidden, as hidden fields.
+		$fields .= $this->do_meta_box(
+			array(
+				'type'  => 'hidden',
+				'title' => '',
+			),
+			'is_cornerstone'
+		);
+
+		return new WPSEO_Metabox_Section_React(
+			'content',
+			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
+			$fields,
+			array(
+				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
+				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
+			)
+		);
 	}
 
 	/**
