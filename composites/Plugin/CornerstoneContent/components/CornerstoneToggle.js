@@ -52,9 +52,8 @@ class CornerstoneToggle extends React.Component {
 	render() {
 		return (
 			<Cornerstone>
-				<label htmlFor={ this.props.toggleId }>Cornerstone</label>
+				<label htmlFor={ this.props.toggleId }>Mark this as cornerstone content</label>
 				<GutenbergToggle
-					key={ this.props.key }
 					checked={ this.state.cornerstoneToggleState }
 					onChange={ this.handleChange }
 					id={ this.props.toggleId }
@@ -65,7 +64,6 @@ class CornerstoneToggle extends React.Component {
 }
 
 CornerstoneToggle.propTypes = {
-	key: PropTypes.string,
 	checked: PropTypes.bool,
 	onChange: PropTypes.func.isRequired,
 	toggleId: PropTypes.string,
@@ -74,6 +72,7 @@ CornerstoneToggle.propTypes = {
 CornerstoneToggle.defaultProps = {
 	checked: false,
 	onChange: noop,
+	toggleId: "Cornerstone Toggle",
 };
 
 export default CornerstoneToggle;
