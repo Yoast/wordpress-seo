@@ -28,15 +28,15 @@ const canNotChangeLanguageText = __( "Your site language is set to %s. If this i
  * @param {Object} props                    The props for this language notice wrapper.
  * @param {string} props.changeLanguageLink The URL where the language can be changed.
  * @param {bool}   props.canChangeLanguage  Whether or not the language can be changed.
- * @param {string} props.language           The current set language.
+ * @param {string} props.language           The currently set language.
  * @param {bool}   props.showLanguageNotice Whether or not the language notice is shown.
  *
  * @returns {ReactElement} The LanguageNotice component.
  */
 export default class LanguageNotice extends PureComponent {
 	/**
-	 * Renders the language notice. Provides a link to a setting page in case of
-	 * administrator, a notice to contact an administrator otherwise.
+	 * Renders the language notice. Provides a link to a setting page if the currently set language can be changed.
+	 * Provides a message to contact an administrator otherwise.
 	 *
 	 * @returns {ReactElement} The rendered language notice.
 	 */
@@ -54,8 +54,10 @@ export default class LanguageNotice extends PureComponent {
 
 		// Determine the correct text.
 		let text = canChangeLanguage ? canChangeLanguageText : canNotChangeLanguageText;
+
 		// Replace the %s with a strong marked language.
 		text = sprintf( text, `{{strong}}${ language }{{/strong}}` );
+
 		// Replace the strong marking with an actual ReactComponent.
 		text = interpolateComponents( {
 			mixedString: text,

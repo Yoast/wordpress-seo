@@ -43,7 +43,7 @@ class KeywordInput extends React.Component {
 	/**
 	 * Constructs a KeywordInput component.
 	 *
-	 * @param {Object}   props           The props for this input field component.
+	 * @param {Object}   props           The props for the KeywordInput.
 	 * @param {string}   props.id        The id of the KeywordInput.
 	 * @param {string}   props.label     The label of the KeywordInput.
 	 * @param {boolean}  props.showLabel Toggle between an actual label or an aria-label on the input.
@@ -88,11 +88,11 @@ class KeywordInput extends React.Component {
 	}
 
 	/**
-	 * Handles changes in the KeywordInput.
+	 * Handles changes in the KeywordInput, sets the state if a change has been made.
 	 *
 	 * @param {SyntheticEvent} event The onChange event.
 	 *
-	 * @returns {void} Sets the state if a change has been made.
+	 * @returns {void}
 	 */
 	handleChange( event ) {
 		this.props.onChange( event.target.value );
