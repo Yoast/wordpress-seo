@@ -17,4 +17,5 @@ export {
 export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";
 export * from "./forms";
+export { default as utils } from "./utils";
 export { getRtlStyle } from "./utils/helpers/styled-components";
