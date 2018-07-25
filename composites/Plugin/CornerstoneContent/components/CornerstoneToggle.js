@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import noop from "lodash/noop";
-// import FormToggle from "@wordpress/components";
-
 import GutenbergToggle from "../../Shared/components/GutenbergToggle";
 
 const Cornerstone = styled.div`
@@ -54,7 +52,7 @@ class CornerstoneToggle extends React.Component {
 	render() {
 		return (
 			<Cornerstone>
-				<label htmlFor={ this.props.key }>Cornerstone</label>
+				<label htmlFor={ this.props.toggleId }>Cornerstone</label>
 				<GutenbergToggle
 					key={ this.props.key }
 					checked={ this.state.cornerstoneToggleState }

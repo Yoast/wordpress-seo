@@ -5,7 +5,6 @@ import styled from "styled-components";
 // Internal dependencies.
 import KeywordInput from "../composites/Plugin/Shared/components/KeywordInput";
 import SynonymsSection from "../composites/Plugin/Synonyms/components/SynonymsSection";
-import CornerstoneToggle from "../composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 
 const Container = styled.div`
 	background-color: white;
@@ -33,7 +32,6 @@ export default class KeywordExample extends Component {
 					label={ "Keyword synonyms" }
 					onChange={ synonyms => console.log( 'SynonymsField change event', synonyms ) }
 				/>
-				<CornerstoneToggle />
 			</Container>
 		);
 	}
