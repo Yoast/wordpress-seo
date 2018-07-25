@@ -15,7 +15,7 @@ export const LanguageNoticeContainer = styled.div`
  * @param {Object} props                    The props for this language notice wrapper.
  * @param {string} props.changeLanguageLink The URL where the language can be changed.
  * @param {bool}   props.canChangeLanguage  Whether or not the language can be changed.
- * @param {string} props.language           The current set language.
+ * @param {string} props.language           The currently set language.
  * @param {bool}   props.showLanguageNotice Whether or not the language notice is shown.
  *
  * @returns {ReactElement} The LanguageNoticeWrapper component.
