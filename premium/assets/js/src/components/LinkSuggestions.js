@@ -1,0 +1,85 @@
+import React from "react";
+import { LinkSuggestions as LinkSuggestionsElement } from "yoast-premium-components";
+import Loader from "yoast-components/composites/basic/Loader";
+import interpolateComponents from "interpolate-components";
+import { localize } from "yoast-components/utils/i18n";
+
+/**
+ * Link suggestions metabox component.
+ *
+ * @param {Object} props The properties for this components.
+ * @param {boolean} props.isLoading Whether this component should start of showing a loader.
+ * @param {Array} props.suggestions The suggestions to render initially.
+ *
+ * @returns {React.Element} The rendered element.
+ */
+const Metabox = ( props ) => {
+	if ( props.isLoading ) {
+		return <div className="yoast-link-suggestions yoast-link-suggestions--loading"><Loader /></div>;
+	}
+
+	let unindexedWarning = null;
+	if ( props.showUnindexedWarning ) {
+		unindexedWarning = getUnindexedWarning( props.translate );
+	}
+
+	return <div className="yoast-link-suggestions">
+		{unindexedWarning}
+		<LinkSuggestionsElement suggestions={props.suggestions} />
+	</div>;
+}
+
+/**
+ * Starts prominent word analysis in a new tab.
+ *
+ * @returns {void}
+ */
+const startAnalyzing = () => {
+	window.open( "admin.php?page=wpseo_dashboard#open-internal-links-calculation", "yoastSeoAnalyzeProminentWords" );
+}
+
+/**
+ * Generates a warning about the site not having been properly indexed.
+ *
+ * @returns {React.Element} The message or no element.
+ */
+const getUnindexedWarning = ( translate ) => {
+	/* translators: 1: link to yoast.com post about internal linking suggestion. 2: is anchor closing.
+	3: button to the recalculation option. 4: closing button */
+	let message = translate( "You need to analyze your posts and/or pages in order to receive the best %1$slink suggestions%2$s." +
+								"\n\n" +
+								"%3$sAnalyze the content%4$s to generate the missing link suggestions." );
+
+	message = message.replace( "%1$s", "{{a}}" );
+	message = message.replace( "%2$s", "{{/a}}" );
+
+	// These are here to keep the string the same as in the PHP
+	message = message.replace( "%3$s", "{{startAnalysis}}" );
+	message = message.replace( "%4$s", "{{/startAnalysis}}" );
+
+	message = message.replace( "\n\n", "{{br /}}{{br /}}" );
+
+	message = interpolateComponents( {
+		mixedString: message,
+		components: {
+			a: <a href="https://yoa.st/notification-internal-link" />,
+			startAnalysis: <button type="button" className="button" onClick={startAnalyzing} />,
+			br: <br />,
+		},
+	} );
+
+	return <div className="notice notice-error notice-alt wpseo-notice-breakout-inside"><p>{message}</p></div>;
+}
+
+Metabox.propTypes = {
+	suggestions: React.PropTypes.array.isRequired,
+	isLoading: React.PropTypes.bool.isRequired,
+	showUnindexedWarning: React.PropTypes.bool,
+	translate: React.PropTypes.func,
+};
+
+Metabox.defaultProps = {
+	showUnindexedWarning: false,
+};
+
+export default localize( Metabox );

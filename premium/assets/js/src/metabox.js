@@ -1,10 +1,20 @@
 /* global jQuery, wpseoPremiumMetaboxData, YoastSEO */
 
 import React from "react";
+import { Provider } from "react-redux";
+import Collapsible from "yoast-components/composites/Plugin/shared/components/Collapsible";
+
+import {
+	loadLinkSuggestions,
+	setLinkSuggestions,
+	setLinkSuggestionsError,
+} from "./redux/actions/LinkSuggestions";
+import createStore from "./redux/store";
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import ProminentWordNoStorage from "./keywordSuggestions/ProminentWordNoStorage";
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
-import LinkSuggestions from "./linkSuggestions/LinkSuggestions";
+import linkSuggester from "./services/linkSuggester";
+import LinkSuggestionsContainer from "./redux/containers/LinkSuggestions";
 import MultiKeyword from "./metabox/multiKeyword";
 import Synonyms from "./metabox/synonyms";
 import isGutenbergDataAvailable from "../../../../js/src/helpers/isGutenbergDataAvailable";
@@ -27,6 +37,8 @@ let focusKeywordSuggestions;
 let linkSuggestions;
 
 let cornerstoneElementID = "yst_is_cornerstone";
+
+let store = createStore();
 
 setYoastComponentsL10n();
 
@@ -123,7 +135,13 @@ function registerPlugin() {
 			<Fragment>
 				<Fill name="YoastSidebar">
 					<SidebarItem renderPriority={ 21 }>Multiple keywords</SidebarItem>
-					<SidebarItem renderPriority={ 31 }>LinkSuggestions</SidebarItem>
+					<SidebarItem renderPriority={ 31 }>
+						<Collapsible title="Internal linking suggestions">
+							<Provider store={ store }>
+								<LinkSuggestionsContainer />
+							</Provider>
+						</Collapsible>
+					</SidebarItem>
 				</Fill>
 			</Fragment>
 		);
@@ -181,20 +199,29 @@ function initializeKeywordSuggestionsMetabox() {
  * @returns {void}
  */
 function initializeLinkSuggestionsMetabox() {
-	linkSuggestions = new LinkSuggestions( {
-		target: document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
+	let dispatch = store.dispatch.bind( store );
+
+	dispatch( loadLinkSuggestions() );
+
+	let storeConnector = {
+		setLinkSuggestions: () => { dispatch( setLinkSuggestions() ) },
+		setLinkSuggestionsError: () => { dispatch( setLinkSuggestionsError() ) },
+	}
+
+	let suggester = new linkSuggester( {
 		rootUrl: settings.restApi.root,
 		nonce: settings.restApi.nonce,
 		currentPostId: settings.postID,
 		showUnindexedWarning: settings.linkSuggestionsUnindexed,
+		store: storeConnector,
 	} );
 
 	let usedLinks = [];
 	if ( typeof YoastSEO.app.researcher !== "undefined" ) {
 		usedLinks = YoastSEO.app.researcher.getResearch( "getLinks" );
 	}
-	linkSuggestions.initializeDOM( settings.linkSuggestions, usedLinks );
-	prominentWordStorage.on( "savedProminentWords", linkSuggestions.updatedProminentWords.bind( linkSuggestions ) );
+	suggester.setCurrentLinkSuggestions( settings.linkSuggestions, usedLinks );
+	prominentWordStorage.on( "savedProminentWords", suggester.updatedProminentWords.bind( suggester ) );
 }
 
 /**

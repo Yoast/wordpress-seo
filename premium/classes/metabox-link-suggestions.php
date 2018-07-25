@@ -124,10 +124,10 @@ class WPSEO_Metabox_Link_Suggestions implements WPSEO_WordPress_Integration {
 			&& function_exists( 'is_gutenberg_page' )
 			&& is_gutenberg_page()
 		) {
-			return false;
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
