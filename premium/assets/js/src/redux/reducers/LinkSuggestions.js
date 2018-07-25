@@ -25,9 +25,10 @@ function linkSuggestionsReducer( state = INITIAL_STATE, action ) {
 					return Object.assign( {}, state, {
 						isLoading: true,
 					} );
-		case LOAD_LINK_SUGGESTIONS:
+		case SET_LINK_SUGGESTIONS:
 					return Object.assign( {}, state, {
-						suggestions: action.linkSuggestions,
+						suggestions: action.linkSuggestions || [],
+						isLoading: false,
 						showUnindexedWarning: action.showUnindexedWarning,
 					} );
 		default:
