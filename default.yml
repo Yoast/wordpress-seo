@@ -3,7 +3,7 @@ extends:
   - "plugin:react/recommended"
 
 parserOptions:
-  ecmaVersion: 6
+  ecmaVersion: 2017
   ecmaFeatures:
     jsx: true
   sourceType: "module"
