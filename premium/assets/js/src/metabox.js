@@ -48,7 +48,7 @@ setYoastComponentsL10n();
  *
  * @returns {boolean} Whether or not Insights is enabled.
  */
-function insightsEnabled() {
+const insightsEnabled = function() {
 	return settings.insightsEnabled === "enabled";
 }
 
@@ -57,7 +57,7 @@ function insightsEnabled() {
  *
  * @returns {boolean} Whether or not link suggestions are enabled.
  */
-function linkSuggestionsEnabled() {
+const linkSuggestionsEnabled = function() {
 	return settings.linkSuggestionsEnabled === "enabled" && settings.linkSuggestionsAvailable;
 }
 
@@ -66,7 +66,7 @@ function linkSuggestionsEnabled() {
  *
  * @returns {boolean} Whether or not the SEO Analysis is enabled.
  */
-function seoAnalysisEnabled() {
+const seoAnalysisEnabled = function() {
 	return settings.seoAnalysisEnabled;
 }
 
@@ -75,7 +75,7 @@ function seoAnalysisEnabled() {
  *
  * @returns {boolean} Whether or not link suggestions is supported.
  */
-let linkSuggestionsIsSupported = function() {
+const linkSuggestionsIsSupported = function() {
 	return contentEndpointsAvailable && linkSuggestionsEnabled();
 };
 
@@ -84,7 +84,7 @@ let linkSuggestionsIsSupported = function() {
  *
  * @returns {Object} The store.
  */
-function registerStoreInGutenberg() {
+const registerStoreInGutenberg = function() {
 	const { registerStore } = yoast._wp.data;
 
 	return registerStore( "yoast-seo-premium/editor", {
@@ -97,7 +97,7 @@ function registerStoreInGutenberg() {
  *
  * @returns {void}
  */
-function initializeMetabox() {
+const initializeMetabox = function() {
 	window.YoastSEO.multiKeyword = true;
 	multiKeyword.initDOM();
 
@@ -127,7 +127,7 @@ function initializeMetabox() {
  *
  * @returns {void}
  **/
-let registerPlugin = function() {
+const registerPlugin = function() {
 	if ( isGutenbergDataAvailable() ) {
 		const { Fragment } = yoast._wp.element;
 		const { registerPlugin } = wp.plugins;
@@ -161,7 +161,7 @@ let registerPlugin = function() {
 	}
 }
 
-let renderLinkSuggestionsMetabox = () => {
+const renderLinkSuggestionsMetabox = () => {
 
 
 	renderReactApp(
@@ -176,7 +176,7 @@ let renderLinkSuggestionsMetabox = () => {
  *
  * @returns {void}
  */
-let initializeProminentWordStorage = function() {
+const initializeProminentWordStorage = function() {
 	prominentWordStorage = new ProminentWordStorage( {
 		postID: settings.postID,
 		rootUrl: settings.restApi.root,
@@ -199,7 +199,7 @@ let initializeProminentWordStorage = function() {
  *
  * @returns {void}
  */
-function initializeKeywordSuggestionsMetabox() {
+const initializeKeywordSuggestionsMetabox = function() {
 	initializeProminentWordStorage();
 
 	focusKeywordSuggestions = new FocusKeywordSuggestions( {
@@ -217,7 +217,7 @@ function initializeKeywordSuggestionsMetabox() {
  *
  * @returns {void}
  */
-function initializeLinkSuggester() {
+const initializeLinkSuggester = function() {
 	let dispatch = store.dispatch.bind( store );
 
 	dispatch( loadLinkSuggestions() );
@@ -254,7 +254,7 @@ function initializeLinkSuggester() {
  *
  * @returns {void}
  */
-function initializeDOM() {
+const initializeDOM = function() {
 	window.jQuery( window ).on( "YoastSEO:ready", () => {
 		try {
 			initializeMetabox();
@@ -269,7 +269,7 @@ function initializeDOM() {
  *
  * @returns {number} The prominent words limit.
  */
-function getProminentWordsLimit() {
+const getProminentWordsLimit = function() {
 	if ( document.getElementById( cornerstoneElementID ) && document.getElementById( cornerstoneElementID ).checked ) {
 		return 50;
 	}
