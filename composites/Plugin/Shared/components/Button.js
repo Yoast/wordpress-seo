@@ -268,15 +268,15 @@ IconButton.defaultProps = {
  * @returns {ReactElement} Styled icon button.
  */
 export const IconsButton = ( props ) => {
-	const { children: text, prefixIcon, prefixIconColor, suffixIcon, suffixIconColor } = props;
+	const { children: text, prefixIcon, prefixIconColor, suffixIcon, suffixIconColor, iconViewBox, suffixIconViewBox } = props;
 
 	const newProps = omit( props, [ "prefixIcon", "prefixIconColor", "suffixIcon", "suffixIconColor" ] );
 
 	return (
 		<Button { ...newProps }>
-			{ prefixIcon ? <SvgIcon icon={ prefixIcon } color={ prefixIconColor } /> : null }
+			{ prefixIcon ? <SvgIcon icon={ prefixIcon } iconViewBox={ iconViewBox } color={ prefixIconColor } /> : null }
 			{ text }
-			{ suffixIcon ? <SvgIcon icon={ suffixIcon } color={ suffixIconColor } /> : null }
+			{ suffixIcon ? <SvgIcon icon={ suffixIcon } iconViewBox={ suffixIconViewBox } color={ suffixIconColor } /> : null }
 		</Button>
 	);
 };
@@ -286,6 +286,8 @@ IconsButton.propTypes = {
 	prefixIconColor: PropTypes.string,
 	suffixIcon: PropTypes.string,
 	suffixIconColor: PropTypes.string,
+	iconViewBox: PropTypes.string,
+	suffixIconViewBox: PropTypes.string,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,

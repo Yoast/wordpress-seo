@@ -124,6 +124,9 @@ exports[`ContentAnalysis the ContentAnalysis component with HelpText matches the
 
 .c2 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c12 {
@@ -135,8 +138,7 @@ exports[`ContentAnalysis the ContentAnalysis component with HelpText matches the
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c3 {
@@ -774,6 +776,9 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 
 .c2 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c12 {
@@ -785,8 +790,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c3 {
@@ -1400,6 +1404,9 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 
 .c2 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c12 {
@@ -1411,8 +1418,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c3 {
@@ -2012,6 +2018,9 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
 
 .c4 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c14 {
@@ -2023,8 +2032,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c5 {
@@ -2680,6 +2688,9 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
 
 .c2 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c12 {
@@ -2691,8 +2702,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice for 
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c3 {
@@ -3330,6 +3340,9 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice matc
 
 .c2 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c12 {
@@ -3341,8 +3354,7 @@ exports[`ContentAnalysis the ContentAnalysis component with language notice matc
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c3 {
@@ -3980,6 +3992,9 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 
 .c1 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c11 {
@@ -3991,8 +4006,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c2 {
@@ -4615,6 +4629,9 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 
 .c1 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c11 {
@@ -4626,8 +4643,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c2 {
@@ -5250,6 +5266,9 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 
 .c1 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c11 {
@@ -5261,8 +5280,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c2 {
@@ -5731,6 +5749,9 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 
 .c1 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c11 {
@@ -5742,8 +5763,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c2 {
@@ -6212,6 +6232,9 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 
 .c1 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c11 {
@@ -6223,8 +6246,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c2 {
@@ -6758,6 +6780,9 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 
 .c1 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c11 {
@@ -6769,8 +6794,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c2 {

@@ -74,6 +74,9 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
 
 .c0 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c10 {
@@ -85,8 +88,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 1`] = `
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c1 {
@@ -284,6 +286,9 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
 
 .c0 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c10 {
@@ -295,8 +300,7 @@ exports[`AnalysisCollapsible matches the snapshot by default 2`] = `
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c1 {
@@ -471,6 +475,9 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
 
 .c0 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c10 {
@@ -482,8 +489,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 1`] = `
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c1 {
@@ -658,6 +664,9 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
 
 .c0 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c10 {
@@ -669,8 +678,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is closed 2`] = `
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c1 {
@@ -868,6 +876,9 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
 
 .c0 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c10 {
@@ -879,8 +890,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 1`] = `
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c1 {
@@ -1078,6 +1088,9 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
 
 .c0 {
   background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-top: -1px;
 }
 
 .c10 {
@@ -1089,8 +1102,7 @@ exports[`AnalysisCollapsible matches the snapshot when it is open 2`] = `
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  font-size: 1.03em;
-  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .c1 {

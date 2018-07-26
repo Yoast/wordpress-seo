@@ -9,10 +9,17 @@ import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 
 const StyledContainer = styled.div`
 	background-color: ${ colors.$color_white };
+	border-top: 1px solid ${ colors.$color_grey };
+	border-bottom: 1px solid ${ colors.$color_grey };
+	margin-top: -1px;
 `;
 
 const StyledContent = styled.div`
-	padding: 0 15px;
+	padding: 0 15px 15px;
+
+	& p:last-child {
+		margin-bottom: 0;
+	}
 `;
 
 const StyledIconsButton = styled( IconsButton )`
@@ -24,7 +31,7 @@ const StyledIconsButton = styled( IconsButton )`
 	border-radius: 0;
 	box-shadow: none;
 	color: ${ colors.$color_button_border_active };
-	
+
 	svg {
 		&:first-child {
 			margin-right: 8px;
@@ -41,8 +48,7 @@ const StyledTitle = styled.span`
 	overflow-x: hidden;
 	-ms-flex-positive: 1;
 	flex-grow: 1;
-	font-size: 1.03em;
-	font-weight: 600;
+	font-size: 1.25rem;
 `;
 
 /**
@@ -85,6 +91,7 @@ const StyledHeading = wrapInHeading( StyledIconsButton, 2 );
  * @param {string}      props.suffixIcon            Heading icon after the title.
  * @param {string}      props.suffixIconColor       CSS color of the suffix icon.
  * @param {string}      props.suffixIconCollapsed   Suffix icon when in collapsed state.
+ * @param {string}      props.iconViewBox           The viewBox for the SVG icon element.
  * @param {string}      props.title                 Title for in the Heading.
  * @param {string}      props.titleScreenReaderText Chance for an extra text to feed to a screenreader.
  *
@@ -100,9 +107,10 @@ export const CollapsibleStateless = ( props ) => {
 				prefixIconColor={ props.prefixIconColor }
 				suffixIcon={ props.isOpen ? props.suffixIcon : props.suffixIconCollapsed }
 				suffixIconColor={ props.suffixIconColor }
+				iconViewBox={ props.iconViewBox }
 			>
 				<StyledTitle>{ props.title }</StyledTitle>
-				{ props.titleScreenReaderText ? <ScreenReaderText>{ props.titleScreenReaderText }</ScreenReaderText> : null }
+				{ props.titleScreenReaderText ? <ScreenReaderText>{ " " + props.titleScreenReaderText }</ScreenReaderText> : null }
 			</props.Heading>
 			{ props.isOpen && props.children }
 		</StyledContainer>
@@ -123,8 +131,9 @@ CollapsibleStateless.propTypes = {
 	suffixIcon: PropTypes.string,
 	suffixIconCollapsed: PropTypes.string,
 	suffixIconColor: PropTypes.string,
-	title: PropTypes.string,
+	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
+	iconViewBox: PropTypes.string,
 };
 
 CollapsibleStateless.defaultProps = {
@@ -216,7 +225,7 @@ export class Collapsible extends React.Component {
 	 */
 	render() {
 		const { isOpen } = this.state;
-		const { children } = this.props;
+		const { children, iconViewBox } = this.props;
 
 		const newProps = omit( this.props, [ "children" ] );
 
@@ -226,6 +235,7 @@ export class Collapsible extends React.Component {
 				isOpen={ isOpen }
 				onToggle={ this.toggleCollapse }
 				{ ...newProps }
+				iconViewBox={ iconViewBox }
 			>
 				{ isOpen && <StyledContent>{ children }</StyledContent> }
 			</CollapsibleStateless>
@@ -246,8 +256,9 @@ Collapsible.propTypes = {
 	suffixIcon: PropTypes.string,
 	suffixIconCollapsed: PropTypes.string,
 	suffixIconColor: PropTypes.string,
-	title: PropTypes.string,
+	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
+	iconViewBox: PropTypes.string,
 };
 
 Collapsible.defaultProps = {
