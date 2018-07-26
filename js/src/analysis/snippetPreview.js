@@ -1,11 +1,10 @@
 /* global jQuery */
 
-var getL10nObject = require( "./getL10nObject" );
-var getI18n = require( "./getI18n" );
-var getTitlePlaceholder = require( "./getTitlePlaceholder" );
-var getDescriptionPlaceholder = require( "./getDescriptionPlaceholder" );
-
-var SnippetPreview = require( "yoastseo" ).SnippetPreview;
+import getL10nObject from "./getL10nObject";
+import getI18n from "./getI18n";
+import getTitlePlaceholder from "./getTitlePlaceholder";
+import getDescriptionPlaceholder from "./getDescriptionPlaceholder";
+import { SnippetPreview } from "yoastseo";
 
 /**
  * Removes all analysis objects from the DOM except the snippet preview
