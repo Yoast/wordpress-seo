@@ -7,6 +7,7 @@ import keywords from "./keywords";
 import marksButtonStatus from "./markerButtons";
 import snippetEditor from "./snippetEditor";
 import analysisDataReducer from "./analysisData";
+import preferences from "./preferences";
 
 export default {
 	analysis,
@@ -17,4 +18,5 @@ export default {
 	marksButtonStatus,
 	snippetEditor,
 	analysisData: analysisDataReducer,
+	preferences,
 };
