@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import mapResults from "./mapResults";
-import ContentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/components/ContentAnalysis";
-import { LanguageNotice } from "yoast-components";
+import { LanguageNotice, ContentAnalysis } from "yoast-components";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
