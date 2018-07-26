@@ -126,15 +126,13 @@ class KeywordInput extends React.Component {
 	}
 }
 
-export const keywordInputPropType = {
+KeywordInput.propTypes = {
 	id: PropTypes.string,
 	label: PropTypes.string.isRequired,
 	showLabel: PropTypes.bool,
 	keyword: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 };
-
-KeywordInput.propTypes = keywordInputPropType;
 
 KeywordInput.defaultProps = {
 	id: uniqueId( "yoast-keyword-input-" ),
