@@ -10,7 +10,6 @@ const INITIAL_STATE = {
 	showUnindexedWarning: false,
 };
 
-/* eslint-disable complexity */
 /**
  * A reducer for the link suggestions.
  *
@@ -22,15 +21,15 @@ const INITIAL_STATE = {
 function linkSuggestionsReducer( state = INITIAL_STATE, action ) {
 	switch( action.type ) {
 		case LOAD_LINK_SUGGESTIONS:
-					return Object.assign( {}, state, {
-						isLoading: true,
-					} );
+			return Object.assign( {}, state, {
+				isLoading: true,
+			} );
 		case SET_LINK_SUGGESTIONS:
-					return Object.assign( {}, state, {
-						suggestions: action.linkSuggestions || [],
-						isLoading: false,
-						showUnindexedWarning: action.showUnindexedWarning,
-					} );
+			return Object.assign( {}, state, {
+				suggestions: action.linkSuggestions || [],
+				isLoading: false,
+				showUnindexedWarning: action.showUnindexedWarning,
+			} );
 		default:
 			return state;
 	}

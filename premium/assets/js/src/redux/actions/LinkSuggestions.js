@@ -23,7 +23,9 @@ export function loadLinkSuggestions() {
 
 /**
  * An action creator for the get link suggestions success action.
+ *
  * @param {Object} linkSuggestions The linkSuggestions json object
+ *
  * @returns {Object} A get link suggestions success action.
  */
 export function setLinkSuggestions( linkSuggestions, showUnindexedWarning ) {
@@ -37,7 +39,7 @@ export function setLinkSuggestions( linkSuggestions, showUnindexedWarning ) {
 /**
  * An action creator for the get link suggestions failure action.
  *
- * @param {string} errorMessage The error message that was returned.
+ * @param {string} message The error message that was returned.
  *
  * @returns {Object} A get link suggestions failure action.
  */
