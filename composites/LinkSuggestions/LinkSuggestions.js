@@ -4,7 +4,7 @@ import LinkSuggestion from "./composites/LinkSuggestion";
 import Clipboard from "clipboard";
 import { localize } from "../../utils/i18n";
 import interpolateComponents from "interpolate-components";
-import a11ySpeak from "a11y-speak";
+import { speak } from "@wordpress/a11y";
 
 /**
  * Represents the Suggestions component.
@@ -43,7 +43,7 @@ class LinkSuggestions extends React.Component {
 		// Update the button `data-label` attribute.
 		evt.trigger.setAttribute( "data-label", message );
 		// Send audible message to the ARIA live region.
-		a11ySpeak( message, "assertive" );
+		speak( message, "assertive" );
 	}
 
 	/**
@@ -60,7 +60,7 @@ class LinkSuggestions extends React.Component {
 		// Update the button `data-label` attribute.
 		evt.trigger.setAttribute( "data-label", message );
 		// Send audible message to the ARIA live region.
-		a11ySpeak( message, "assertive" );
+		speak( message, "assertive" );
 	}
 
 	/**
