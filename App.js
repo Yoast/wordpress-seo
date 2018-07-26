@@ -33,7 +33,7 @@ const components = [
 	},
 	{
 		id: "content-analysis",
-		name: "Content analysis",
+		name: "Content Analysis",
 		component: <ContentAnalysis />,
 	},
 	{
@@ -78,8 +78,8 @@ const components = [
 		id: "keyword-suggestions",
 		name: "Keyword suggestions",
 		component: <KeywordSuggestionsWrapper />,
-  },
-  {
+	},
+	{
 		id: "buttons",
 		name: "Buttons",
 		component: <ButtonsWrapper />,
@@ -87,7 +87,6 @@ const components = [
 ];
 
 class App extends React.Component {
-
 	constructor() {
 		super();
 
