@@ -387,10 +387,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	* Returns the metabox content for React to hook into.
-	*
-	* @return WPSEO_Metabox_Section
-	*/
+	 * Returns the metabox content for React to hook into.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
 	private function get_content_meta_section_react() {
 		$fields = $this->get_hidden_tab_fields( 'general' );
 

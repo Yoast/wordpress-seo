@@ -4,6 +4,7 @@
  *
  * @package WPSEO\Admin
  */
+
 /**
  * Generates and displays the React root element for a metabox section.
  */
