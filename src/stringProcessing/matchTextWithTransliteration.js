@@ -3,7 +3,7 @@ var addWordBoundary = require( "./addWordboundary.js" );
 var stripSpaces = require( "./stripSpaces.js" );
 var transliterate = require( "./transliterate.js" );
 var transliterateWP = require( "./transliterateWPstyle.js" );
-const specialCharacterMappings = require( "./specialCharacterMappings" );
+import specialCharacterMappings from "./specialCharacterMappings";
 
 /**
  * Creates a regex from the keyword with included wordboundaries.
