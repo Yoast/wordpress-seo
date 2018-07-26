@@ -114,12 +114,12 @@ function initializeMetabox() {
 	}
 
 	if ( linkSuggestionsIsSupported() ) {
-		initializeLinkSuggestionsMetabox();
+		initializeLinkSuggester();
+		renderLinkSuggestionsMetabox();
 	}
 
 	registerStoreInGutenberg();
 	registerPlugin();
-	renderLinkSuggestionsMetabox();
 }
 
 /**
@@ -133,17 +133,23 @@ let registerPlugin = function() {
 		const { registerPlugin } = wp.plugins;
 		const { Fill } = wp.components;
 
+		let LinkSuggestionsSection;
+
+		if ( linkSuggestionsIsSupported() ) {
+			LinkSuggestionsSection = <SidebarItem renderPriority={ 31 }>
+				<Collapsible title="Internal linking suggestions">
+					<Provider store={ store }>
+						<LinkSuggestionsContainer />
+					</Provider>
+				</Collapsible>
+			</SidebarItem>
+		}
+
 		const YoastSidebar = () => (
 			<Fragment>
 				<Fill name="YoastSidebar">
 					<SidebarItem renderPriority={ 21 }>Multiple keywords</SidebarItem>
-					<SidebarItem renderPriority={ 31 }>
-						<Collapsible title="Internal linking suggestions">
-							<Provider store={ store }>
-								<LinkSuggestionsContainer />
-							</Provider>
-						</Collapsible>
-					</SidebarItem>
+					{ LinkSuggestionsSection }
 					<SidebarItem renderPriority={ 32 }>Prominent words</SidebarItem>
 				</Fill>
 			</Fragment>
@@ -211,7 +217,7 @@ function initializeKeywordSuggestionsMetabox() {
  *
  * @returns {void}
  */
-function initializeLinkSuggestionsMetabox() {
+function initializeLinkSuggester() {
 	let dispatch = store.dispatch.bind( store );
 
 	dispatch( loadLinkSuggestions() );
