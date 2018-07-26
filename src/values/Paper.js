@@ -189,8 +189,8 @@ Paper.prototype.getPermalink = function() {
 };
 
 /**
- * Check whether keywordForms are available.
- * @returns {boolean} Returns true if the Paper has keyword forms.
+ * Check whether keyphraseForms are available.
+ * @returns {boolean} Returns true if the Paper has keyphrase forms.
  */
 Paper.prototype.hasKeyphraseForms = function() {
 	return ! ( isEmpty( this._attributes.topicForms.keyphraseForms ) );
