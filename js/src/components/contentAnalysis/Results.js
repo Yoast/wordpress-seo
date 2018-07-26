@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import mapResults from "./mapResults";
 import ContentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/components/ContentAnalysis";
-import LanguageNotice from "yoast-components/composites/Plugin/Shared/components/LanguageNotice";
+import { LanguageNotice } from "yoast-components";
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
