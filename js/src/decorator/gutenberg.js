@@ -1,4 +1,6 @@
 // Assumes one mark element per mark object.
+import isString from "lodash/isString";
+
 function getOffsets( mark ) {
 	const marked = mark.getMarked();
 
@@ -35,8 +37,11 @@ export function decorate( paper, marks ) {
 
 		// For each mark see if it applies to this block.
 		marks.forEach( ( mark ) => {
+			// Keeps track of how many text nodes have become before the current content piece.
+			let textNodes = 0;
+
 			// Content is an array so we need to loop over it.
-			content.forEach( ( contentPiece, index ) => {
+			content.forEach( ( contentPiece ) => {
 				if ( ! contentPiece.indexOf ) {
 					return;
 				}
@@ -48,8 +53,8 @@ export function decorate( paper, marks ) {
 
 					const startOffset = found + offsets.startOffset;
 					const endOffset = found + offsets.endOffset;
-					const startXPath = `text()[${ index + 1 }]`;
-					const endXPath = `text()[${ index + 1 }]`;
+					const startXPath = `text()[${ textNodes + 1 }]`;
+					const endXPath = `text()[${ textNodes + 1 }]`;
 
 					const annotation = {
 						block: block.uid,
@@ -61,19 +66,28 @@ export function decorate( paper, marks ) {
 
 					annotations.push( annotation );
 				}
+
+				if ( isString( contentPiece ) ) {
+					textNodes += 1;
+				}
 			} );
 		} );
 	} );
 
-	setTimeout( function() {
-		annotations.forEach( ( annotation ) => {
-			wp.data.dispatch( "core/editor" ).addAnnotation(
-				annotation.block,
-				annotation.startXPath,
-				annotation.startOffset,
-				annotation.endXPath,
-				annotation.endOffset,
-			);
-		} );
-	}, 100 );
+	if ( marks.length === 0 ) {
+		wp.data.dispatch( "core/editor" ).removeAnnotationsBySource( "yoast" );
+	} else {
+		setTimeout( function() {
+			annotations.forEach( ( annotation ) => {
+				wp.data.dispatch( "core/editor" ).addAnnotation( {
+					block: annotation.block,
+					source: "yoast",
+					startXPath: annotation.startXPath,
+					startOffset: annotation.startOffset,
+					endXPath: annotation.endXPath,
+					endOffset: annotation.endOffset,
+				} );
+			} );
+		}, 100 );
+	}
 }
