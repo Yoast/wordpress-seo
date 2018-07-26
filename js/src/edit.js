@@ -81,7 +81,7 @@ function registerPlugin( store ) {
 		const { Fragment } = yoast._wp.element;
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
-		const { Slot, Fill } = wp.components;
+		const { Slot } = wp.components;
 
 		const YoastSidebar = () => (
 			<Fragment>

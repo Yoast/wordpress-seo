@@ -6,13 +6,13 @@ import { connect } from "react-redux";
  *
  * @param {Object} state The state.
  *
- * @return {Object} The props for the Sidebar component.
+ * @returns {Object} The props for the Sidebar component.
  */
 function mapStateToProps( state ) {
 	return {
 		isContentAnalysisActive: state.preferences.isContentAnalysisActive,
 		isKeywordAnalysisActive: state.preferences.isKeywordAnalysisActive,
-	}
+	};
 }
 
 export default connect( mapStateToProps )( Sidebar );

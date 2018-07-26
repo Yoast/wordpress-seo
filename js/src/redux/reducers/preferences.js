@@ -4,7 +4,7 @@ import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 /**
  * Gets the default state.
  *
- * @return {Object} The default state.
+ * @returns {Object} The default state.
  */
 function getDefaultState() {
 	return {
@@ -17,11 +17,10 @@ function getDefaultState() {
  * A reducer for the preferences.
  *
  * @param {Object} state  The current state of the object.
- * @param {Object} action The current action received.
  *
  * @returns {Object} The state.
  */
-function preferencesReducer( state = getDefaultState(), action ) {
+function preferencesReducer( state = getDefaultState() ) {
 	return state;
 }
 
