@@ -1,10 +1,17 @@
 import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 
-const defaultState = {
-	isContentAnalysisActive: isContentAnalysisActive(),
-	isKeywordAnalysisActive: isKeywordAnalysisActive(),
-};
+/**
+ * Gets the default state.
+ *
+ * @return {Object} The default state.
+ */
+function getDefaultState() {
+	return {
+		isContentAnalysisActive: isContentAnalysisActive(),
+		isKeywordAnalysisActive: isKeywordAnalysisActive(),
+	};
+}
 
 /**
  * A reducer for the preferences.
@@ -14,7 +21,7 @@ const defaultState = {
  *
  * @returns {Object} The state.
  */
-function preferencesReducer( state = defaultState, action ) {
+function preferencesReducer( state = getDefaultState(), action ) {
 	return state;
 }
 
