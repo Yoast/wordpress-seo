@@ -137,7 +137,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -166,7 +166,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
         />
       </svg>
     </button>
-  </h3>
+  </h2>
 </div>
 `;
 
@@ -315,7 +315,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -344,7 +344,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
         />
       </svg>
     </button>
-  </h3>
+  </h2>
   <div
     className="c11"
   >
@@ -501,7 +501,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -530,7 +530,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
         />
       </svg>
     </button>
-  </h3>
+  </h2>
 </div>
 `;
 
@@ -679,7 +679,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -708,7 +708,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
         />
       </svg>
     </button>
-  </h3>
+  </h2>
   <div
     className="c11"
   >
@@ -873,7 +873,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -902,7 +902,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
         />
       </svg>
     </button>
-  </h3>
+  </h2>
   <div
     className="c11"
   >
@@ -1059,7 +1059,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 <div
   className="c0"
 >
-  <h3
+  <h2
     className="c1"
   >
     <button
@@ -1088,7 +1088,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
         />
       </svg>
     </button>
-  </h3>
+  </h2>
 </div>
 `;
 
