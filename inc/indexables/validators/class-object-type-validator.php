@@ -20,12 +20,12 @@ class WPSEO_Object_Type_Validator implements WPSEO_Endpoint_Validator {
 	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
 	private static function validate_type( $object_type ) {
-		if ( ! in_array( $object_type, array( 'post', 'term' ), true ) ) {
-			throw WPSEO_Invalid_Argument_Exception::invalid_type( 'object type' );
-		}
-
 		if ( ! WPSEO_Validator::is_string( $object_type ) ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $object_type, 'object_type' );
+		}
+
+		if ( ! in_array( $object_type, array( 'post', 'term' ), true ) ) {
+			throw WPSEO_Invalid_Argument_Exception::invalid_type( 'object type' );
 		}
 	}
 

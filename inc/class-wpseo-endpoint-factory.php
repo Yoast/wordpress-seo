@@ -62,7 +62,7 @@ class WPSEO_Endpoint_Factory {
 	 *
 	 * @throws WPSEO_Invalid_Argument_Exception The invalid argument exception.
 	 */
-	public function __construct( $namespace, $endpoint, $callback, $permission_callback, $method = 'GET' ) {
+	public function __construct( $namespace, $endpoint, $callback, $permission_callback, $method = WP_REST_Server::READABLE ) {
 		if ( ! WPSEO_Validator::is_string( $namespace ) ) {
 			throw WPSEO_Invalid_Argument_Exception::invalid_string_parameter( $namespace, 'namespace' );
 		}
@@ -115,9 +115,9 @@ class WPSEO_Endpoint_Factory {
 	 */
 	public function register() {
 		$config = array(
-			'methods'			  => $this->method,
-			'callback'			  => $this->callback,
-			'permission_callback' => $this->permission_callback,
+			'methods'				=> $this->method,
+			'callback'				=> $this->callback,
+			'permission_callback'	=> $this->permission_callback,
 		);
 
 		if ( $this->has_arguments() ) {
@@ -165,9 +165,9 @@ class WPSEO_Endpoint_Factory {
 		}
 
 		$this->args[ $name ] = array(
-			'description' => $description,
-			'type' 		  => $type,
-			'required' 	  => $required,
+			'description'	=> $description,
+			'type'			=> $type,
+			'required'		=> $required,
 		);
 	}
 }
