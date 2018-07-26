@@ -14,6 +14,7 @@ import SnippetEditor from "./app/SnippetEditorExample";
 import Checkbox from "./composites/Plugin/Shared/components/Checkbox";
 import KeywordExample from "./app/KeywordExample";
 import ButtonsWrapper from "./app/ButtonsWrapper";
+import SvgIconsWrapper from "./app/SvgIconsWrapper";
 
 const components = [
 	{
@@ -78,11 +79,16 @@ const components = [
 		id: "keyword-suggestions",
 		name: "Keyword suggestions",
 		component: <KeywordSuggestionsWrapper />,
-  },
-  {
+	},
+	{
 		id: "buttons",
 		name: "Buttons",
 		component: <ButtonsWrapper />,
+	},
+	{
+		id: "svg-icons",
+		name: "SVG Icons",
+		component: <SvgIconsWrapper />,
 	},
 ];
 
@@ -100,7 +106,7 @@ class App extends React.Component {
 
 	getContent() {
 		const activeComponent = this.state.activeComponent;
-		for( var i = 0; i < components.length; i++ )  {
+		for( var i = 0; i < components.length; i++ ) {
 			if( activeComponent === components[ i ].id ) {
 				return components[ i ].component;
 			}
