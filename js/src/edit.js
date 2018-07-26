@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import flatten from "lodash/flatten";
 import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
+import { Slot, Fill } from "@wordpress/components/slot-fill";
 
 /* Internal dependencies */
 import IntlProvider from "./components/IntlProvider";
@@ -69,6 +70,27 @@ function sortComponentsByPosition( components ) {
 }
 
 /**
+ * Render the metabox portal.
+ *
+ * @returns {null|ReactElement} The element.
+ */
+function renderMetaboxPortal() {
+	const metaboxElement = document.getElementById( "wpseo-meta-section-react" );
+
+	if ( metaboxElement ) {
+		return yoast._wp.element.createPortal(
+			<Slot name="YoastSidebar">
+				{ ( fills ) => {
+					return sortComponentsByPosition( fills );
+				} }
+			</Slot>,
+			metaboxElement
+		);
+	}
+	return null;
+}
+
+/**
  * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
  * and creates that sidebar's content.
  *
@@ -79,7 +101,6 @@ function registerPlugin() {
 		const { Fragment } = yoast._wp.element;
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
-		const { Slot, Fill } = wp.components;
 
 		const YoastSidebar = () => (
 			<Fragment>
@@ -103,6 +124,7 @@ function registerPlugin() {
 					<SidebarItem renderPriority={ 10 }>Readability analysis</SidebarItem>
 					<SidebarItem renderPriority={ 20 }>SEO analysis</SidebarItem>
 				</Fill>
+				{ renderMetaboxPortal() }
 			</Fragment>
 		);
 
