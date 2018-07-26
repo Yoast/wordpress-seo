@@ -12,9 +12,10 @@ class Scheduler {
 	/**
 	 * Initializes a Scheduler.
 	 *
-	 * @param worker                      The worker to use.
-	 * @param [configuration]             The configuration.
-	 * @param [configuration.queueSystem] FIFO or LIFO, defaults to the latter.
+	 * @param {Worker} worker                      The worker to use.
+	 * @param {Object} [configuration]             The configuration.
+	 * @param {string} [configuration.queueSystem] FIFO or LIFO, defaults to the
+	 *                                             latter.
 	 */
 	constructor( worker, configuration = {} ) {
 		this._worker = worker;

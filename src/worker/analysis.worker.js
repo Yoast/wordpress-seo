@@ -10,7 +10,7 @@ import * as ContentAssessor from "yoastseo/contentAssessor";
 import * as CornerstoneContentAssessor from "yoastseo/cornerstone/contentAssessor";
 
 // Internal dependencies.
-import { Scheduler, Task } from "./scheduler";
+import { Scheduler } from "./scheduler";
 import { encodePayload, decodePayload } from "./utils";
 
 /**
@@ -69,7 +69,6 @@ class AnalysisWebWorker {
 					data: decodePayload( payload ),
 				} );
 				this._scheduler.processQueue();
-				//this.analyze( decodePayload( payload ) );
 				break;
 			default:
 				console.warn( "Unrecognized command", type );
@@ -186,9 +185,16 @@ class AnalysisWebWorker {
 			category: "readability",
 			results,
 			score,
-		}
+		};
 	}
 
+	/**
+	 * Sends the result back.
+	 *
+	 * @param {Object} result The result to be send.
+	 *
+	 * @returns {void}
+	 */
 	analyzeDone( result ) {
 		this.send( "analyze:done", result );
 	}
