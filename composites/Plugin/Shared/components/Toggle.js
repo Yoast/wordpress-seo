@@ -73,18 +73,32 @@ class Toggle extends React.Component {
 	 * @returns {ReactElement} The rendered html.
 	 */
 	render() {
-		return <div>
+		return(
 			<ToggleDiv>
-				<label htmlFor={this.props.id} onClick={this.onClick}>{this.props.labelText}</label>
-				<ToggleBar isEnabled={ this.isEnabled()} onClick={this.onClick} onKeyDown={this.setEnabled} tabIndex="0"
-				           role="checkbox" aria-label={this.props.ariaLabel} aria-checked={this.isEnabled()} id={this.props.id} >
+				{ /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */ }
+				<label
+					htmlFor={this.props.id}
+					onClick={this.onClick}
+				>
+					{this.props.labelText}
+				</label>
+				<ToggleBar
+					isEnabled={ this.isEnabled()}
+					onClick={this.onClick}
+					onKeyDown={this.setEnabled}
+					tabIndex="0"
+					role="checkbox"
+					aria-label={this.props.ariaLabel}
+					aria-checked={this.isEnabled()}
+					id={this.props.id}
+				>
 					<ToggleBullet isEnabled={this.isEnabled()} />
 				</ToggleBar>
 				<ToggleVisualLabel aria-hidden="true">
 					{ this.isEnabled() ? __( "On", "yoast-components" ) : __( "Off", "yoast-components" ) }
 				</ToggleVisualLabel>
 			</ToggleDiv>
-		</div>;
+		);
 	}
 
 	/**
