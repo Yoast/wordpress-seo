@@ -138,13 +138,14 @@ Toggle.propTypes = {
 	onSetEnabled: PropTypes.func,
 	disable: PropTypes.bool,
 	onToggleDisabled: PropTypes.func,
-	id: PropTypes.string,
+	id: PropTypes.string.isRequired,
 	labelText: PropTypes.string,
 };
 
 Toggle.defaultProps = {
 	isEnabled: false,
 	onSetEnabled: () => {},
+	disable: false,
 	labelText: "",
 };
 

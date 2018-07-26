@@ -79,37 +79,35 @@ exports[`The CornerstoneToggle matches the snapshot 1`] = `
 <div
   className="c0"
 >
-  <div>
-    <div
-      className="c1"
+  <div
+    className="c1"
+  >
+    <label
+      htmlFor="Cornerstone Toggle"
+      onClick={[Function]}
     >
-      <label
-        htmlFor="Cornerstone Toggle"
-        onClick={[Function]}
-      >
-        Mark this as cornerstone content.
-      </label>
-      <div
-        aria-checked={false}
-        aria-label="Mark this post as cornerstone content"
-        className="c2"
-        id="Cornerstone Toggle"
-        onClick={[Function]}
-        onKeyDown={[Function]}
-        role="checkbox"
-        tabIndex="0"
-      >
-        <span
-          className="c3"
-        />
-      </div>
+      Mark this as cornerstone content.
+    </label>
+    <div
+      aria-checked={false}
+      aria-label="Mark this post as cornerstone content"
+      className="c2"
+      id="Cornerstone Toggle"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      role="checkbox"
+      tabIndex="0"
+    >
       <span
-        aria-hidden="true"
-        className="c4"
-      >
-        Off
-      </span>
+        className="c3"
+      />
     </div>
+    <span
+      aria-hidden="true"
+      className="c4"
+    >
+      Off
+    </span>
   </div>
 </div>
 `;

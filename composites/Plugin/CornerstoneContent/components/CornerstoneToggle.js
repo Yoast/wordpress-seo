@@ -35,12 +35,9 @@ class CornerstoneToggle extends React.Component {
 
 CornerstoneToggle.propTypes = {
 	isEnabled: PropTypes.bool,
-	ariaLabel: PropTypes.string.isRequired,
 	onSetEnable: PropTypes.func,
 	disable: PropTypes.bool,
 	onToggleDisabled: PropTypes.func,
-	id: PropTypes.string,
-	labelText: PropTypes.string,
 };
 
 export default CornerstoneToggle;

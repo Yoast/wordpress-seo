@@ -74,20 +74,13 @@ export function addFocusStyle( component ) {
 
 		&:focus {
 			outline: none;
-			border-color: ${ colors.$color_blue };
+			border-color: ${ props => props.focusBorderColor };
+			color: ${ props => props.focusColor };
 			background-color: ${ props => props.focusBackgroundColor };
 			box-shadow: 0 0 3px ${ rgba( colors.$color_blue_dark, .8 ) };
 		}
 	`;
 }
-
-addFocusStyle.propTypes = {
-	focusBackgroundColor: PropTypes.string,
-};
-
-addFocusStyle.defaultProps = {
-	focusBackgroundColor: colors.$color_white,
-};
 
 /**
  * Returns a component with applied hover styles.
@@ -99,22 +92,12 @@ addFocusStyle.defaultProps = {
 export function addHoverStyle( component ) {
 	return styled( component )`
 		&:hover {
+			color: ${ props => props.hoverColor };
 			background-color: ${ props => props.hoverBackgroundColor };
 			border-color: ${ props => props.hoverBorderColor };
-			color: ${ colors.$color_button_text_hover };
 		}
 	`;
 }
-
-addHoverStyle.propTypes = {
-	hoverBackgroundColor: PropTypes.string,
-	hoverBorderColor: PropTypes.string,
-};
-
-addHoverStyle.defaultProps = {
-	hoverBackgroundColor: colors.$color_button_hover,
-	hoverBorderColor: colors.$color_button_border_hover,
-};
 
 /**
  * Returns a component with applied active styles.
@@ -126,22 +109,13 @@ addHoverStyle.defaultProps = {
 export function addActiveStyle( component ) {
 	return styled( component )`
 		&:active {
+			color: ${ props => props.activeColor };
 			background-color: ${ props => props.activeBackgroundColor };
 			border-color: ${ props => props.activeBorderColor };
 			box-shadow: inset 0 2px 5px -3px ${ rgba( colors.$color_button_border_active, 0.5 ) };
 		}
 	`;
 }
-
-addActiveStyle.propTypes = {
-	activeBackgroundColor: PropTypes.string,
-	activeBorderColor: PropTypes.string,
-};
-
-addActiveStyle.defaultProps = {
-	activeBackgroundColor: colors.$color_button,
-	activeBorderColor: colors.$color_button_border_hover,
-};
 
 /**
  * Returns a component with applied font size style.
@@ -163,7 +137,16 @@ export function addFontSizeStyles( component ) {
  *
  * @returns {ReactElement} Component with applied styles.
  */
-export const addButtonStyles = flow( [ addBaseStyle, addFocusStyle, addHoverStyle, addActiveStyle ] );
+export const addButtonStyles = flow( [
+	/*
+	 * Styled-components applies the generated CSS classes in a reversed order,
+	 * but we want them in the order: base - hover - focus - active.
+	 */
+	addActiveStyle,
+	addFocusStyle,
+	addHoverStyle,
+	addBaseStyle,
+] );
 
 /**
  * Returns a basic styled button.
@@ -182,18 +165,37 @@ export const BaseButton = addButtonStyles(
 );
 
 BaseButton.propTypes = {
+	type: PropTypes.string,
 	backgroundColor: PropTypes.string,
 	textColor: PropTypes.string,
 	borderColor: PropTypes.string,
 	boxShadowColor: PropTypes.string,
+	hoverColor: PropTypes.string,
+	hoverBackgroundColor: PropTypes.string,
+	hoverBorderColor: PropTypes.string,
+	activeColor: PropTypes.string,
+	activeBackgroundColor: PropTypes.string,
+	activeBorderColor: PropTypes.string,
+	focusColor: PropTypes.string,
+	focusBackgroundColor: PropTypes.string,
+	focusBorderColor: PropTypes.string,
 };
 
 BaseButton.defaultProps = {
+	type: "button",
 	backgroundColor: colors.$color_button,
 	textColor: colors.$color_button_text,
 	borderColor: colors.$color_button_border,
 	boxShadowColor: colors.$color_button_border,
-	type: "button",
+	hoverColor: colors.$color_button_text_hover,
+	hoverBackgroundColor: colors.$color_button_hover,
+	hoverBorderColor: colors.$color_button_border_hover,
+	activeColor: colors.$color_button_text_hover,
+	activeBackgroundColor: colors.$color_button,
+	activeBorderColor: colors.$color_button_border_hover,
+	focusColor: colors.$color_button_text_hover,
+	focusBackgroundColor: colors.$color_white,
+	focusBorderColor: colors.$color_blue,
 };
 
 /**
