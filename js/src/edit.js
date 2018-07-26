@@ -69,7 +69,7 @@ function sortComponentsByPosition( components ) {
 }
 
 /**
- * Render the metabox portal.
+ * Renders the metabox portal.
  *
  * @returns {null|ReactElement} The element.
  */
