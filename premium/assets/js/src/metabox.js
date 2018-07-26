@@ -10,6 +10,7 @@ import {
 	setLinkSuggestionsError,
 } from "./redux/actions/LinkSuggestions";
 import createStore from "./redux/store";
+import { renderReactApp } from "./redux/utils/render";
 import ProminentWordStorage from "./keywordSuggestions/ProminentWordStorage";
 import ProminentWordNoStorage from "./keywordSuggestions/ProminentWordNoStorage";
 import FocusKeywordSuggestions from "./keywordSuggestions/KeywordSuggestions";
@@ -118,6 +119,7 @@ function initializeMetabox() {
 
 	registerStoreInGutenberg();
 	registerPlugin();
+	renderLinkSuggestionsMetabox();
 }
 
 /**
@@ -125,7 +127,7 @@ function initializeMetabox() {
  *
  * @returns {void}
  **/
-function registerPlugin() {
+let registerPlugin = function() {
 	if ( isGutenbergDataAvailable() ) {
 		const { Fragment } = yoast._wp.element;
 		const { registerPlugin } = wp.plugins;
@@ -142,6 +144,7 @@ function registerPlugin() {
 							</Provider>
 						</Collapsible>
 					</SidebarItem>
+					<SidebarItem renderPriority={ 32 }>Prominent words</SidebarItem>
 				</Fill>
 			</Fragment>
 		);
@@ -150,6 +153,16 @@ function registerPlugin() {
 			render: YoastSidebar,
 		} );
 	}
+}
+
+let renderLinkSuggestionsMetabox = () => {
+
+
+	renderReactApp(
+		document.getElementById( "yoast_internal_linking" ).getElementsByClassName( "inside" )[ 0 ],
+		LinkSuggestionsContainer,
+		store
+	);
 }
 
 /**
@@ -204,8 +217,12 @@ function initializeLinkSuggestionsMetabox() {
 	dispatch( loadLinkSuggestions() );
 
 	let storeConnector = {
-		setLinkSuggestions: () => { dispatch( setLinkSuggestions() ) },
-		setLinkSuggestionsError: () => { dispatch( setLinkSuggestionsError() ) },
+		setLinkSuggestions: ( linkSuggestions, showUnindexedWarning ) => {
+			dispatch( setLinkSuggestions( linkSuggestions, showUnindexedWarning ) )
+		},
+		setLinkSuggestionsError: ( message ) => {
+			dispatch( setLinkSuggestionsError( message ) )
+		},
 	}
 
 	let suggester = new linkSuggester( {
@@ -221,6 +238,8 @@ function initializeLinkSuggestionsMetabox() {
 		usedLinks = YoastSEO.app.researcher.getResearch( "getLinks" );
 	}
 	suggester.setCurrentLinkSuggestions( settings.linkSuggestions, usedLinks );
+
+	jQuery( window ).on( "YoastSEO:numericScore", suggester.updateUsedLinks.bind( suggester ) );
 	prominentWordStorage.on( "savedProminentWords", suggester.updatedProminentWords.bind( suggester ) );
 }
 

@@ -23,8 +23,6 @@ class linkSuggester {
 		this.linkSuggestions = [];
 		this._previousProminentWords = false;
 		this.filterCurrentPost = this.filterCurrentPost.bind( this );
-
-		jQuery( window ).on( "YoastSEO:numericScore", this.updateUsedLinks.bind( this ) );
 	}
 
 	/**
@@ -151,8 +149,9 @@ class linkSuggester {
 	 */
 	updateStore( linkSuggestions ) {
 		this.linkSuggestions = linkSuggestions;
-		linkSuggestions = this.filterCurrentPost( this.linkSuggestions );
-		linkSuggestions = this.markUsedLinks( this.linkSuggestions );
+
+		linkSuggestions = this.filterCurrentPost( linkSuggestions );
+		linkSuggestions = this.markUsedLinks( linkSuggestions );
 		linkSuggestions = this.constructor.mapSuggestionsForStore( linkSuggestions );
 
 		this.store.setLinkSuggestions( linkSuggestions, this.showUnindexedWarning );
