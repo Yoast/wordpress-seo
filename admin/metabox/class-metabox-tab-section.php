@@ -165,4 +165,13 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 		}
 		return $content;
 	}
+
+	/**
+	 * Gets the name of the tab section.
+	 *
+	 * @return string The name of the tab section.
+	 */
+	public function get_name() {
+		return $this->name;
+	}
 }

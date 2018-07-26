@@ -36,7 +36,8 @@
 		}
 
 		if ( jQuery( ".wpseo-meta-section" ).length > 0 ) {
-			jQuery( "#wpseo-meta-section-content" ).addClass( "active" );
+			jQuery( "#wpseo-meta-section-content, .wpseo-meta-section-react" ).addClass( "active" );
+
 			jQuery( ".wpseo-metabox-sidebar li" ).filter( function() {
 				return jQuery( this ).find( ".wpseo-meta-section-link" ).attr( "href" ) === "#wpseo-meta-section-content";
 			} ).addClass( "active" );
@@ -51,9 +52,13 @@
 
 					jQuery( ".wpseo-metabox-sidebar li" ).removeClass( "active" );
 					jQuery( ".wpseo-meta-section" ).removeClass( "active" );
+					jQuery( ".wpseo-meta-section-react.active" ).removeClass( "active" );
 
 					// Hide the Yoast tooltip when the element gets clicked.
 					jQuery( this ).addClass( "yoast-tooltip-hidden" );
+					if ( targetTab === "#wpseo-meta-section-content" ) {
+						jQuery( ".wpseo-meta-section-react" ).addClass( "active" );
+					}
 
 					targetTabElement.addClass( "active" );
 

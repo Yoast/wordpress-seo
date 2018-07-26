@@ -65,7 +65,7 @@ ul.wpseo-metabox-tabs li.active {
 	background-color: #fdfdfd;
 }
 
-.wpseo-meta-section {
+.wpseo-meta-section, .wpseo-meta-section-react {
 	display: none;
 	width: 100%;
 	max-width: calc( 100% - 50px );
@@ -74,6 +74,11 @@ ul.wpseo-metabox-tabs li.active {
 
 .wpseo-meta-section.active {
 	display: inline-block;
+}
+
+.wpseo-meta-section-react.active {
+	display: block;
+	margin-left: 50px;
 }
 
 .wpseo-metabox-sidebar {
