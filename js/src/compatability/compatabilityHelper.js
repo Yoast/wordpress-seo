@@ -3,7 +3,7 @@ import defaults from "lodash/defaults";
 import noop from "lodash/noop";
 
 /* Internal dependencies */
-import DiviHelper from "./divi";
+import DiviHelper from "./diviHelper";
 
 const DEFAULTS = {
 	classicEditorHidden: noop,
