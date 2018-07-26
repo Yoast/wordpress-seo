@@ -18,7 +18,6 @@ export function setTextdomainL10n( textdomain, l10nNamespace = "wpseoYoastJSL10n
 
 	if ( currentTranslations === false ) {
 		const translations = get( window, [ l10nNamespace, textdomain, "locale_data", textdomain ], false );
-		console.log( textdomain, l10nNamespace, translations );
 
 		if ( translations === false ) {
 			// Jed needs to have meta information in the object keyed by an empty string.
