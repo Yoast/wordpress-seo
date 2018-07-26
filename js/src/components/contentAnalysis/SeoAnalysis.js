@@ -1,12 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import styled from "styled-components";
 
 import Results from "./Results";
 import UpsellBox from "../UpsellBox";
 import { Collapsible } from "yoast-components/composites/Plugin/Shared/components/Collapsible";
 import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
 import { setActiveKeyword } from "../../redux/actions/activeKeyword";
+
+const AnalysisHeader = styled.span`
+	font-size: 1em;
+	font-weight: bold;
+	margin: 1.5em 0 1em;
+	display: block;
+`;
+
+const ExplanationText = styled.p`
+`;
+
+const AddSynonyms = styled.a`
+`;
 
 /**
  * Redux container for the seo analysis.
@@ -18,12 +32,23 @@ class SeoAnalysis extends React.Component {
 				<Collapsible
 					title="Focus keyword analysis"
 				>
+					<ExplanationText>
+						A focus keyword is the term (or phrase) you'd like to be found with in search engines.
+						Enter it below to see how you can improve your text for this term. <a href="#">Learn more about the Keyword Analysis</a>
+					</ExplanationText>
 					<KeywordInput
 						id="focus-keyword-input"
-						label="Focus keyword"
 						keyword={ this.props.keyword }
 						onChange={ this.props.onKeywordChange }
 					/>
+					<AddSynonyms
+						href="#"
+					>
+						+ Add synonyms
+					</AddSynonyms>
+					<AnalysisHeader>
+						Analysis results:
+					</AnalysisHeader>
 					<Results
 						showLanguageNotice={ false }
 						results={ this.props.results }
@@ -84,7 +109,7 @@ function mapStateToProps( state, ownProps ) {
 	return {
 		results,
 		keyword,
-		marksButtonStatus: marksButtonStatus,
+		marksButtonStatus,
 	};
 }
 

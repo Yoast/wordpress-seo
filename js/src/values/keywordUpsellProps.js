@@ -12,7 +12,7 @@ if ( window.yoastPremiumBenefitsL10n ) {
 	benefits = yoastPremiumBenefitsL10n.intl;
 }
 
-let upsellIntro = null;
+let upsellIntro = { intro: "" };
 if ( window.yoastAddKeywordModalL10n ) {
 	upsellIntro = yoastAddKeywordModalL10n.intl;
 }
