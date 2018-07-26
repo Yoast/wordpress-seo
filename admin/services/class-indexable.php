@@ -26,7 +26,8 @@ class WPSEO_Indexable_Service {
 			$indexable = $provider->get( $object_id );
 
 			return new WP_REST_Response( $indexable );
-		} catch ( Exception $exception ) {
+		}
+		catch ( Exception $exception ) {
 			return new WP_REST_Response( $exception->getMessage(), 500 );
 		}
 	}
@@ -46,8 +47,16 @@ class WPSEO_Indexable_Service {
 			$provider = $this->get_provider( $object_type );
 			$provider->patch( $object_id, $request->get_params() );
 
-			return new WP_REST_Response( 'Patch successful' );
-		} catch ( Exception $exception ) {
+			return new WP_REST_Response(
+				sprintf(
+					/* translators: %1$s expands to the requested object type. %2$s resolved to the object ID. */
+					__( '%1$s with ID %2$s was successfully patched', 'wordpress-seo' ),
+					ucfirst( $object_type ),
+					$object_id
+				)
+			);
+		}
+		catch ( Exception $exception ) {
 			return new WP_REST_Response( $exception->getMessage(), 500 );
 		}
 	}

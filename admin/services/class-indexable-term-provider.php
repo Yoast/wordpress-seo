@@ -93,7 +93,14 @@ class WPSEO_Indexable_Service_Term_Provider implements WPSEO_Indexable_Service_P
 			return;
 		}
 
-		throw new Exception( 'Patch failed' );
+		throw new Exception(
+			sprintf(
+				/* translators: %1$s expands to 'Term'. %2$s resolved to the object ID. */
+				__( '%1$s with ID %2$s couldn\'t be patched', 'wordpress-seo' ),
+				'Term',
+				$object_id
+			)
+		);
 	}
 
 	/**
