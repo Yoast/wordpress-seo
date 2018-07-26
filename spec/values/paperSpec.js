@@ -113,4 +113,26 @@ describe( "Paper", function() {
 			expect( paper.getKeyword() ).toBe( "$keyword" );
 		} );
 	} );
+
+	describe( "Returns keyword and synonyms forms", function() {
+		it( "only keyword forms", function() {
+			const paper = new Paper( "", { keyword: "\"keyword\"" } );
+
+			expect( paper.hasKeyphraseForms() ).toBe( true );
+			expect( paper.hasSynonymsForms() ).toBe( false );
+
+			expect( paper.getKeyphraseForms() ).toEqual( [ [ "keyword" ] ] );
+			expect( paper.getSynonymsForms() ).toEqual( [] );
+		} );
+
+		it( "only synonyms forms", function() {
+			const paper = new Paper( "", { synonyms: "\"synonyms\"" } );
+
+			expect( paper.hasSynonymsForms() ).toBe( true );
+			expect( paper.hasKeyphraseForms() ).toBe( false );
+
+			expect( paper.getKeyphraseForms() ).toEqual( [] );
+			expect( paper.getSynonymsForms() ).toEqual( [ [ [ "synonyms" ] ] ] );
+		} );
+	} );
 } );

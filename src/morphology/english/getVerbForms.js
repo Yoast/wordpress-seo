@@ -144,7 +144,12 @@ const checkIrregulars = function( word ) {
  * @returns {boolean} True if the word ends with "s".
  */
 const endsWithS = function( word ) {
-	return word[ word.length - 1 ] === "s";
+	const wordLength = word.length;
+	// Consider only words of four letters or more to be s-forms (otherwise, words like "its" are being treated as verb forms).
+	if ( wordLength > 3 ) {
+		return word[ word.length - 1 ] === "s";
+	}
+	return false;
 };
 
 /**
@@ -155,7 +160,12 @@ const endsWithS = function( word ) {
  * @returns {boolean} True if the word ends with "ing".
  */
 const endsWithIng = function( word ) {
-	return word.substring( word.length - 3, word.length ) === "ing";
+	const wordLength = word.length;
+	// Consider only words of five letters or more to be ing forms (otherwise, words like "ping" are being treated as verb forms).
+	if ( wordLength > 4 ) {
+		return word.substring( word.length - 3, word.length ) === "ing";
+	}
+	return false;
 };
 
 /**
@@ -166,7 +176,12 @@ const endsWithIng = function( word ) {
  * @returns {boolean} True if the word ends with "ed".
  */
 const endsWithEd = function( word ) {
-	return word.substring( word.length - 2, word.length ) === "ed";
+	const wordLength = word.length;
+	// Consider only words of four letters or more to be past forms (otherwise, words like "red" are being treated as verb forms).
+	if ( wordLength > 3 ) {
+		return word.substring( word.length - 2, word.length ) === "ed";
+	}
+	return false;
 };
 
 /**
@@ -300,7 +315,12 @@ const getVerbForms = function( word ) {
 	}
 
 	let forms = [];
-	const infinitive = getInfinitive( word ).infinitive;
+	let infinitive = getInfinitive( word ).infinitive;
+
+	if ( isUndefined( infinitive ) ) {
+		infinitive = word;
+	}
+
 	// const guessedForm = getInfinitive( word ).guessedForm; //Meant to be used to check if the newly built forms are built correctly.
 	forms = forms.concat( word );
 

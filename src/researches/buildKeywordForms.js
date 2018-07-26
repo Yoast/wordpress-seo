@@ -2,6 +2,9 @@ const getFormsForLanguage = require( "../helpers/getFormsForLanguage.js" )();
 const getWords = require( "../stringProcessing/getWords.js" );
 const getLanguage = require( "../helpers/getLanguage.js" );
 const getFunctionWords = require( "../helpers/getFunctionWords.js" )();
+const parseSynonyms = require( "../stringProcessing/parseSynonyms" );
+import { getVariationsApostrophe } from "../stringProcessing/getVariationsApostrophe";
+import { getVariationsApostropheInArray } from "../stringProcessing/getVariationsApostrophe";
 
 const includes = require( "lodash/includes" );
 const filter = require( "lodash/filter" );
@@ -11,97 +14,122 @@ const unique = require( "lodash/uniq" );
 const flatten = require( "lodash/flatten" );
 
 /**
- * Checks if the input word contains a normalized or a non-normalized apostrophe.
- * If so generates a complementary form (e.g., "il'y a" > "il’a")
+ * Filters function words from an array of words based on the language.
  *
- * @param {string} word The word to check.
+ * @param {Array} array The words to check.
+ * @param {string} language The language to take function words for.
  *
- * @returns {Array} All possible variations of the input word.
+ * @returns {Array} The original array with the function words filtered out.
  */
-const getVariationsApostrophe = function( word ) {
-	const apostrophes = [ "'", "‘", "’", "‛", "`" ];
+const filterFunctionWords = function( array, language ) {
+	if ( isUndefined( language ) || language === "" ) {
+		language = "en";
+	}
 
-	return unique( flatten( [].concat( apostrophes.map( function( apostropheOuter ) {
-		return [].concat( apostrophes.map( function( apostropheInner ) {
-			return word.replace( apostropheOuter, apostropheInner );
-		} ) );
-	} ) ) ) );
-};
+	const functionWords = getFunctionWords[ language ];
 
-/**
- * Applies getVariationsApostrophe to an array of strings
- *
- * @param {Array} forms The word to check.
- *
- * @returns {Array} Original array with normalized and non-normalized apostrophes switched.
- */
-const getVariationsApostropheInArray = function( forms ) {
-	return [].concat( forms.map( function( form ) {
-		return ( getVariationsApostrophe( form ) );
-	} ) ).filter( Boolean );
+	if ( array.length > 1 && ! ( isUndefined( functionWords ) ) ) {
+		const arrayFiltered = filter( array, function( word ) {
+			return ( ! includes( functionWords.all, word.trim().toLocaleLowerCase() ) );
+		} );
+
+		if ( arrayFiltered.length > 0 ) {
+			return arrayFiltered;
+		}
+	}
+
+	return array;
 };
 
 /**
  * Analyzes the focus keyword string. Checks if morphology is requested or if the user wants to match exact string.
- * If morphology is required the module builds all word forms for all content words (prepositions, articles, conjunctions).
+ * If morphology is required the module builds all word forms for all words (if no function words list available) or
+ * for all content words (i.e., excluding prepositions, articles, conjunctions, if the function words list is available).
  *
- * @param {Object} paper The paper to analyze keyword forms for.
+ * @param {string} keyphrase The keyphrase of the paper (or a synonym phrase) to get forms for.
+ * @param {string} language The language to use for morphological analyzer and for function words.
+ * @param {boolean} morphologyRequired Whether the morphological analysis is required (i.e, Premium vs. Free).
  *
  * @returns {Array} Array of all forms to be searched for keyword-based assessments.
  */
-module.exports = function( paper ) {
-	let keyword = paper.getKeyword();
-	const language = getLanguage( paper.getLocale() );
-	const getForms = getFormsForLanguage[ language ];
+const buildForms = function( keyphrase, language, morphologyRequired = false ) {
+	if ( isUndefined( keyphrase ) || keyphrase === "" ) {
+		return [];
+	}
 
 	/*
-	 * If the language is not yet supported with respect to morphological analysis, return keyword itself,
-	 * including variations of the apostrophe in case it is present.
+	 * If the keyphrase is embedded in double quotation marks, return keyword itself, without outer-most quotation marks.
+	 * Additionally, provide apostrophe variations.
 	 */
-	if ( isUndefined( getForms ) ) {
-		return unique( [].concat( keyword, getVariationsApostrophe( keyword ) ) );
-	}
 
 	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
-	// If the keyword is embedded in double quotation marks, return keyword itself, without outer-most quotation marks.
-	if ( includes( doubleQuotes, keyword[ 0 ] ) && includes( doubleQuotes, keyword[ keyword.length - 1 ] ) ) {
-		keyword = keyword.substring( 1, keyword.length - 1 );
-		return unique( [].concat( keyword, getVariationsApostrophe( keyword ) ) );
+	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
+		keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
+		return [ unique( [].concat( keyphrase, getVariationsApostrophe( keyphrase ) ) ) ];
 	}
 
+	const words = filterFunctionWords( getWords( keyphrase ), language );
+
+	const getForms = getFormsForLanguage[ language ];
 	let forms = [];
 
-	// If the keyword is a single word return all its possible forms.
-	if ( keyword.indexOf( " " ) === -1 ) {
-		const wordToLowerCase = escapeRegExp( keyword.toLocaleLowerCase() );
-		forms = flatten( forms.concat( getForms( wordToLowerCase ) ) );
-		forms = unique( flatten( forms.concat( getVariationsApostropheInArray( forms ) ) ) );
-		return forms;
-	}
-
-	// If the keyword contains multiple words first filter all function words out, then build all possible forms for remaining contents words.
-	const keyWords = getWords( keyword );
-	const functionWords = getFunctionWords[ language ].all;
-
-	const keyWordsFiltered = filter( keyWords, function( word ) {
-		return ( ! includes( functionWords, word.trim().toLocaleLowerCase() ) );
-	} );
-
-	// If after filtering there is nothing left, return all forms of all words, because apparently we were too harsh with filtering.
-	if ( keyWordsFiltered.length === 0 ) {
-		keyWords.forEach( function( word ) {
+	// Only returns the keyword and the keyword with apostrophe variations if morphological forms should not be built.
+	if ( morphologyRequired === false ) {
+		words.forEach( function( word ) {
 			const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase() );
-			forms = flatten( forms.concat( getForms( wordToLowerCase ) ) );
-			forms = unique( flatten( forms.concat( getVariationsApostropheInArray( forms ) ) ) );
+			forms.push( unique( [].concat( wordToLowerCase, getVariationsApostrophe( wordToLowerCase ) ) ) );
 		} );
 		return forms;
 	}
 
-	// If after filtering function words out there are still words remaining, build all forms for each of them and return in one array.
-	keyWordsFiltered.forEach( function( word ) {
-		const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase() );
-		forms = flatten( forms.concat( getForms( wordToLowerCase ) ) );
-		forms = unique( flatten( forms.concat( getVariationsApostropheInArray( forms ) ) ) );
-	} );
+	/*
+	 * Only returns the keyword and the keyword with apostrophe variations if morphological forms cannot be built.
+	 * Otherwise additionally returns the morphological forms.
+	 */
+	if ( isUndefined( getForms ) ) {
+		words.forEach( function( word ) {
+			const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase() );
+
+			forms.push( unique( [].concat( wordToLowerCase, getVariationsApostrophe( wordToLowerCase ) ) ) );
+		} );
+	} else {
+		words.forEach( function( word ) {
+			const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase() );
+			const formsOfThisWord = unique( getForms( wordToLowerCase ) );
+			const variationsApostrophes = getVariationsApostropheInArray( formsOfThisWord );
+			forms.push( unique( flatten( formsOfThisWord.concat( variationsApostrophes ) ) ).filter( Boolean ) );
+		} );
+	}
+
 	return forms;
+};
+
+/**
+ * Builds morphological forms of words of the keyphrase and of each synonym phrase.
+ *
+ * @param {string} keyphrase The paper's keyphrase.
+ * @param {string} synonyms The paper's synonyms.
+ * @param {string} locale The paper's locale.
+ * @param {boolean} morphologyRequired Whether the morphological analysis is required (i.e, Premium vs. Free).
+ *
+ * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms.
+ */
+const collectForms = function( keyphrase, synonyms, locale = "en_EN", morphologyRequired ) {
+	const synonymsSplit = parseSynonyms( synonyms );
+	const language = getLanguage( locale );
+	let keyphraseForms = buildForms( keyphrase, language, morphologyRequired );
+
+	let synonymsForms = synonymsSplit.map( synonym => buildForms( synonym, language, morphologyRequired ) );
+
+	return {
+		keyphraseForms: keyphraseForms,
+		synonymsForms: synonymsForms,
+	};
+};
+
+
+module.exports = {
+	filterFunctionWords: filterFunctionWords,
+	buildForms: buildForms,
+	collectForms: collectForms,
 };

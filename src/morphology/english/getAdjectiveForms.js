@@ -75,7 +75,12 @@ const checkWordTooLong = function( word ) {
  * @returns {boolean} True if the word ends with "er".
  */
 const endsWithEr = function( word ) {
-	return word.substring( word.length - 2, word.length ) === "er";
+	const wordLength = word.length;
+	// Consider only words of four letters or more to be comparatives (otherwise, words like "per" are being treated as comparatives).
+	if ( wordLength > 3 ) {
+		return word.substring( word.length - 2, word.length ) === "er";
+	}
+	return false;
 };
 
 /**
@@ -86,7 +91,12 @@ const endsWithEr = function( word ) {
  * @returns {boolean} True if the word ends with "est".
  */
 const endsWithEst = function( word ) {
-	return word.substring( word.length - 3, word.length ) === "est";
+	const wordLength = word.length;
+	// Consider only words of five letters or more to be superlatives (otherwise, words like "test" are being treated as superlatives).
+	if ( wordLength > 4 ) {
+		return word.substring( word.length - 3, word.length ) === "est";
+	}
+	return false;
 };
 
 /**
@@ -97,7 +107,12 @@ const endsWithEst = function( word ) {
  * @returns {boolean} True if the word ends with "ly".
  */
 const endsWithLy = function( word ) {
-	return word.substring( word.length - 2, word.length ) === "ly";
+	const wordLength = word.length;
+	// Consider only words of four letters or more to be adjectives (otherwise, words like "lily" are being treated as adjectives).
+	if ( wordLength > 3 ) {
+		return word.substring( word.length - 2, word.length ) === "ly";
+	}
+	return false;
 };
 
 
@@ -242,7 +257,12 @@ const getAdjectiveForms = function( word ) {
 		return ically.concat( word );
 	}
 
-	const base = getBase( word ).base;
+	let base = getBase( word ).base;
+
+	if ( isUndefined( base ) ) {
+		base = word;
+	}
+
 	// Const guessedForm = getBase( word ).guessedForm; //Meant to be used to check if the newly built forms are built correctly.
 	forms = forms.concat( word );
 
