@@ -96,7 +96,6 @@ before_script:
 - |
   if [[ "$WP_VERSION" == "latest" ]]; then
     curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
-    grep '[0-9]+\.[0-9]+(\.[0-9]+)?' /tmp/wp-latest.json
     WP_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
   fi
 - PLUGIN_SLUG=$(basename $(pwd))
